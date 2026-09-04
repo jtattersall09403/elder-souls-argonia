@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-naga-kur-deeps",
+  "seed": "quests-local-naga-kur-deeps-v1",
+  "quests": [
+    {
+      "id": "quest.local.ln01",
+      "code": "LN01",
+      "title": "The Borrowed Name",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.bereaved-hist-less-since",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.bereaved-hist-less-since",
+        "place.naga-kur-deeps.wild-hist-rogue-deeps"
+      ],
+      "premise": "A neighbouring tribe offers to hatch the Hist-less young on condition that the village gives up its own name",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln02",
+      "code": "LN02",
+      "title": "The Count of Nights",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.bereaved-hist-less-since",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.bereaved-hist-less-since",
+        "place.naga-kur-deeps.umbriel-stripped-undead"
+      ],
+      "premise": "The tally of nights since the tree died has been continued in a second hand that no living elder recognises",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln03",
+      "code": "LN03",
+      "title": "Matched and Buried",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "FRAUD"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.bereaved-hist-less-since",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.bereaved-hist-less-since",
+        "place.naga-kur-deeps.bone-carriers-camp-deeps"
+      ],
+      "premise": "The marriage-broker who promised the village three matches is found wrapped on a carriers' rack with none of them arranged",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln04",
+      "code": "LN04",
+      "title": "Blue Goes Out",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.dead-water-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
+        "place.naga-kur-deeps.dead-water-village"
+      ],
+      "premise": "The blue-flowering Hist has begun putting out red, which the tribe reads as poison in the water the stake fields drain into",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln05",
+      "code": "LN05",
+      "title": "What Waits at the Gate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.dead-water-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.dead-water-village",
+        "place.naga-kur-deeps.drowning-narrows-tidal-gate",
+        "place.naga-kur-deeps.wamasu-pond-adult"
+      ],
+      "premise": "Something has taken the drawdown window at the narrows for its own hunting hour, closing the village's single approach",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln06",
+      "code": "LN06",
+      "title": "Lintels Downriver",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "THEFT"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.dead-water-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.dead-water-village",
+        "place.naga-kur-deeps.naga-village-raiding",
+        "place.naga-kur-deeps.wreck-submerged-barge"
+      ],
+      "premise": "Bone lintels cut from the tribe's own dead are being sold to coastal collectors through a raiding camp that keeps receipts",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln07",
+      "code": "LN07",
+      "title": "Ledgered as Hire",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.naga-village-settled",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.naga-highway-camp-active-north",
+        "place.naga-kur-deeps.naga-village-settled"
+      ],
+      "premise": "The hold's accounts record a boat hire every season for craft it does not own, because the money buys quiet from the north camp",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln08",
+      "code": "LN08",
+      "title": "Who Drags the Drag",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "RECKONING"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.naga-village-settled",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.ferry-stage-guide-hire",
+        "place.naga-kur-deeps.naga-village-settled",
+        "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+      ],
+      "premise": "The portage crews and the hire stage both claim the right to move laden craft past the shallows, with a season's trade riding on it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln09",
+      "code": "LN09",
+      "title": "The Field Nobody Bid For",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "BONDAGE"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.necropolis-nightbound",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.bog-blight-ground-old-cordon",
+        "place.naga-kur-deeps.necropolis-nightbound"
+      ],
+      "premise": "A field went unstaked because its village could not outbid the others, so the setters must answer for what walked out of it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln10",
+      "code": "LN10",
+      "title": "Green Wood",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "CONTAMINATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.necropolis-nightbound",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.drifting-village-wet-mooring",
+        "place.naga-kur-deeps.necropolis-nightbound"
+      ],
+      "premise": "Seasoned pole-wood has been lifted from the stake store then replaced with unseasoned stock that snaps at the third driving",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln11",
+      "code": "LN11",
+      "title": "The Ninth Crew",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.necropolis-nightbound",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.necropolis-nightbound",
+        "place.naga-kur-deeps.raft-village-lashed"
+      ],
+      "premise": "A night crew signed out for the far fields, marked the ledger at midnight, then failed to come back for the day sleep",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln12",
+      "code": "LN12",
+      "title": "A Word With No Tribe",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.root-whisper-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.miregaunt-ward-open",
+        "place.naga-kur-deeps.root-whisper-village"
+      ],
+      "premise": "In its two speaking hours the Dreaming Tree has begun repeating a word nobody at the village can place, on the bearing the open ward faces",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln13",
+      "code": "LN13",
+      "title": "One Trip Only",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.root-whisper-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.root-whisper-village",
+        "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps"
+      ],
+      "premise": "The tribe will permit a single survey inside the shut xanmeer beside the village, with a scholar who intends to take more than notes",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln14",
+      "code": "LN14",
+      "title": "Recorded, Not Spoken",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "FRAUD"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.root-whisper-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.root-whisper-village"
+      ],
+      "premise": "A naming rite is being run off a scholar's recording of the tree rather than the tree itself, which half the village has yet to be told",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ln15",
+      "code": "LN15",
+      "title": "Sixty Metres of Black Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "NEGOTIATION"
+      ],
+      "region": "naga-kur-deeps",
+      "settlement": "place.naga-kur-deeps.dead-water-village",
+      "anchorPlaces": [
+        "place.naga-kur-deeps.dead-water-village",
+        "place.naga-kur-deeps.harmed-hist-enslaved"
+      ],
+      "premise": "A sap crew holds a tribe's Hist with two of its people inside the fence, tending the tree better than the tribe managed",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    }
+  ]
+}

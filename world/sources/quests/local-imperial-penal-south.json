@@ -1,0 +1,1735 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-imperial-penal-south",
+  "seed": "quests-local-imperial-penal-south-v1",
+  "quests": [
+    {
+      "id": "quest.local.lr01",
+      "code": "LR01",
+      "title": "The Matched Socket",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lilmothiit-quarry"
+      ],
+      "premise": "A carved block in a merchant's new frontage matches a lifting socket at the Robbed City, so the whole street is evidence",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr02",
+      "code": "LR02",
+      "title": "Weighed at the Gate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.manned-toll-tower"
+      ],
+      "premise": "A toll clerk is found dead on the causeway with two versions of the same day's takings in his coat",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr03",
+      "code": "LR03",
+      "title": "The Tag Not Returned",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.rose-bone-waystation"
+      ],
+      "premise": "A bone-tag comes back to the Tag House for a woman whose family were told she walked out years ago",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr04",
+      "code": "LR04",
+      "title": "Two Claims on Cordon Two",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.cordon-cellars"
+      ],
+      "premise": "A cellar guild and a freed household both hold written title to the same under-store",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr05",
+      "code": "LR05",
+      "title": "The Ledger Copies",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.ledgered-blackguards"
+      ],
+      "premise": "Three copies of the Blackguards' ledger disagree in exactly the entries that would convict somebody",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr06",
+      "code": "LR06",
+      "title": "What Comes Up the Slip",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lake-ferry-stage"
+      ],
+      "premise": "Something is taking ferry passengers off the north stage after dark",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr07",
+      "code": "LR07",
+      "title": "Sour Ground, Sweet Well",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.flu-mass-grave"
+      ],
+      "premise": "The city's eastern wells turn foul whenever anybody digs on the Counting Ground",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr08",
+      "code": "LR08",
+      "title": "Under the Reckoning",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.manned-toll-tower"
+      ],
+      "premise": "Cargo passes the Water Reckoning uncounted by a channel the toll-keepers helped cut",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr09",
+      "code": "LR09",
+      "title": "The Under-Counting",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "MISSING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.scandal-holding-pit"
+      ],
+      "premise": "Names are read aloud each night in a holding pit that has held nobody for a century",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr10",
+      "code": "LR10",
+      "title": "Speaking Below the Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.blackrose-drowned-hist"
+      ],
+      "premise": "The drowned Hist's speakers cannot agree who may go down to it now the city wants a landing there",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr11",
+      "code": "LR11",
+      "title": "The Founding Page",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose"
+      ],
+      "premise": "A founding house's claim to its seat rests on a page nobody outside the family has read",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr12",
+      "code": "LR12",
+      "title": "Bought Out of Cordon One",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.rose-outworks"
+      ],
+      "premise": "A family is raising the price of one man's release faster than they can earn it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr13",
+      "code": "LR13",
+      "title": "Given Field",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.vampiric-cloud-ground"
+      ],
+      "premise": "A veteran wants the field where his company died reopened, though the city entered it as a victory",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr14",
+      "code": "LR14",
+      "title": "The Blue Hole",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "WONDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.basin-sinkhole",
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.natural-dive-shaft"
+      ],
+      "premise": "A diver's chart claims the Blue Hole reaches the western feeder country; somebody will pay to have it proved",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr15",
+      "code": "LR15",
+      "title": "The Price of the Causeway",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.blackrose-prison"
+      ],
+      "premise": "The Rose and the city both want the causeway toll; neither will repair the causeway",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr16",
+      "code": "LR16",
+      "title": "Sockets for Nothing Living",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.akaviri-works",
+        "place.imperial-penal-south.blackrose"
+      ],
+      "premise": "Lifting gear at the Potentate's Works was sized for something that was never alive",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr17",
+      "code": "LR17",
+      "title": "The Yard's Missing Keel",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "SMUGGLING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lake-divers-yard"
+      ],
+      "premise": "A finished hull walks out of the Barge Yard overnight with its papers still on the bench",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr18",
+      "code": "LR18",
+      "title": "The Bricked Corner",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "HAUNTING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.blackrose-prison",
+        "place.imperial-penal-south.rose-flooded-passage"
+      ],
+      "premise": "A prison-born child is found dead at the foot of a stair sealed two generations ago",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr19",
+      "code": "LR19",
+      "title": "The Gallery Crew",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.drowned-gallery"
+      ],
+      "premise": "A dive crew hired to survey the drowned gallery has not come back up",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr20",
+      "code": "LR20",
+      "title": "Whose Fox",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lilmothiit-quarry"
+      ],
+      "premise": "Two households claim the same Lilmothiit fox carving; neither will say how they came by it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr21",
+      "code": "LR21",
+      "title": "Clean Water, Signed For",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose"
+      ],
+      "premise": "A water contractor is certifying cisterns he has not opened",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr22",
+      "code": "LR22",
+      "title": "Lights Off the Track",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.wisp-lure-basin"
+      ],
+      "premise": "Lights on the eastern fen are drawing the city's night carters off the causeway",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr23",
+      "code": "LR23",
+      "title": "The Ration Store",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.flu-quarantine-village"
+      ],
+      "premise": "Grain from a sealed cordon store has reached the city's market",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr24",
+      "code": "LR24",
+      "title": "Bodies Out, Names In",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.blackrose-prison",
+        "place.imperial-penal-south.rose-bone-waystation"
+      ],
+      "premise": "Somebody is moving living people out of the Rose on the paperwork of the dead",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr25",
+      "code": "LR25",
+      "title": "The Refused Vault",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RITE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.blasphemer-urn-vault"
+      ],
+      "premise": "Urns turned away from every burial ground in the south have started answering each other",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr26",
+      "code": "LR26",
+      "title": "A Death Held Properly",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.flu-mass-grave"
+      ],
+      "premise": "A Nisswo asks a city that buries by ledger to hold one death in the old order",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr27",
+      "code": "LR27",
+      "title": "The Arbiter's Seat",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose"
+      ],
+      "premise": "The basin's retired arbiter will not name a successor while both candidates are her creditors",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr28",
+      "code": "LR28",
+      "title": "Third Generation",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.prison-born-refuge"
+      ],
+      "premise": "Prison-born households petition for city citizenship, which would make Blackrose admit what it has been running",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr29",
+      "code": "LR29",
+      "title": "Welloc's Lines",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.rebellion-earthworks"
+      ],
+      "premise": "Earthworks the city calls a rebel position were dug by its own garrison",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr30",
+      "code": "LR30",
+      "title": "Fort Cordon",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.intact-fort"
+      ],
+      "premise": "Whatever has moved into the abandoned fort is pushing the city's patrol route further round it each month",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr31",
+      "code": "LR31",
+      "title": "A Charter With One Clause",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.chainbreaker-shelter"
+      ],
+      "premise": "The city offers the Chainbreakers a lawful charter with a single clause they cannot sign",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr32",
+      "code": "LR32",
+      "title": "The Tally That Rises",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "HAUNTING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.flu-mass-grave"
+      ],
+      "premise": "The mass grave's tally stones show a number that keeps going up",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr33",
+      "code": "LR33",
+      "title": "A Week in the Ground",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "MURDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.necromantic-dig"
+      ],
+      "premise": "Grave-goods are on sale in the city that were still buried last week",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr34",
+      "code": "LR34",
+      "title": "What Under-Longmont Sends Back",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "HAUNTING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.lake-drowned-village"
+      ],
+      "premise": "A drowned village is returning objects its neighbours lost this year",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr35",
+      "code": "LR35",
+      "title": "Bare Lake",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.blackrose",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.drawdown-flat"
+      ],
+      "premise": "The lake's yearly drawdown has stranded something the city would rather was drowned again",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr36",
+      "code": "LR36",
+      "title": "The Rose's Account",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose-prison",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "Vaunting's carters want paying by the Rose directly rather than through the city's clerks",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr37",
+      "code": "LR37",
+      "title": "Cart Three Is Light",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "THEFT"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-outworks",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "Every third cart up the causeway arrives short by the same weight",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr38",
+      "code": "LR38",
+      "title": "Two Sets of Scales",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-outworks",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "The town and the outworks weigh one load differently, each by its own lawful charter",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr39",
+      "code": "LR39",
+      "title": "Tags for the Living",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "MISSING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-bone-waystation",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "Bone-tags are being hung on the Tag House wall for people who are still alive",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr40",
+      "code": "LR40",
+      "title": "Debt in Kind",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "BONDAGE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.cordon-cellars",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "An Owing is being settled in labour at rates nobody wrote down",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr41",
+      "code": "LR41",
+      "title": "The Cordon Hearth",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "Vaunting keeps a fire for the cordon dead that the Rose's families want put out",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr42",
+      "code": "LR42",
+      "title": "The Carter's Widow",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose-prison",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "A carter dies on the causeway; his widow says the Rose's gate log has been rewritten",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr43",
+      "code": "LR43",
+      "title": "The Windlass Reckoning",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rose-supply-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.feeder-portage",
+        "place.imperial-penal-south.rose-supply-town"
+      ],
+      "premise": "A portage windlass upriver has counted every load it ever lifted, with nobody left to read the count",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr44",
+      "code": "LR44",
+      "title": "Three Waters, One Price",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "Threewater's price board quotes three rivers the town stopped trading on",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr45",
+      "code": "LR45",
+      "title": "Off the Blackwood Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "SMUGGLING"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.three-gate-toll",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "Cargo booked for Gideon leaves Threewater by a different road every week",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr46",
+      "code": "LR46",
+      "title": "Rockspring's Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rockspring",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "A Threewater buyer is drawing down Rockspring's spring under a lease that is entirely lawful",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr47",
+      "code": "LR47",
+      "title": "Wide-Furrow",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "PREDATOR"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.saltrice-village",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "Saltrice lifted from the drowned fields is sold as sound; the buyers are falling ill",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr48",
+      "code": "LR48",
+      "title": "Bramman's Head",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.bramman-head",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "A landing's whole crew has taken other work at a week's notice, leaving the trading season unmanned",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr49",
+      "code": "LR49",
+      "title": "Ash-Hand",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.kothringi-ruin-basin",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "A Kothringi ruin the town quarries for hardcore holds the town's own founders",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr50",
+      "code": "LR50",
+      "title": "The Trodden Ground",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.marsh-giant-ground-basin",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "A marsh giant has settled across the dry line Threewater's drovers use to reach the north",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr51",
+      "code": "LR51",
+      "title": "A Dead Licence",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "Threewater's market charter names a family that died out, so the whole market trades on a dead name",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr52",
+      "code": "LR52",
+      "title": "The Sealed Vault",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.west-market-town",
+      "anchorPlaces": [
+        "place.imperial-penal-south.voriplasm-vault",
+        "place.imperial-penal-south.west-market-town"
+      ],
+      "premise": "Something in a sealed western vault eats whatever is put in front of it, then goes quiet",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr53",
+      "code": "LR53",
+      "title": "Under the Boards",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-boardwalk-village"
+      ],
+      "premise": "Something is taking Spine's dogs from beneath the walkways",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr54",
+      "code": "LR54",
+      "title": "The Night Poles",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-boardwalk-village",
+        "place.imperial-penal-south.manned-toll-tower"
+      ],
+      "premise": "Spine's polers run unlit cargo across the lake for the toll tower's own clerks",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr55",
+      "code": "LR55",
+      "title": "Lake Meer",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "WONDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.lake-boardwalk-village",
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-boardwalk-village",
+        "place.imperial-penal-south.lake-submerged-xanmeer"
+      ],
+      "premise": "A xanmeer under the lake lights up on the nights Spine's oldest boardwalk works in its piles",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr56",
+      "code": "LR56",
+      "title": "The Register Below",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.longmont",
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-drowned-village",
+        "place.imperial-penal-south.longmont"
+      ],
+      "premise": "Longmont hires a dive to bring up its parish register from the village drowned beneath it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr57",
+      "code": "LR57",
+      "title": "The Second Stage",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.longmont",
+      "anchorPlaces": [
+        "place.imperial-penal-south.lake-ferry-stage",
+        "place.imperial-penal-south.longmont"
+      ],
+      "premise": "Longmont wants its own ferry stage; the concession holds that one crossing is enough",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr58",
+      "code": "LR58",
+      "title": "Who Reads the Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.longmont",
+      "anchorPlaces": [
+        "place.imperial-penal-south.longmont"
+      ],
+      "premise": "Longmont's water-reader is dying; her two apprentices were taught different readings",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr59",
+      "code": "LR59",
+      "title": "Three Gates, One Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "anchorPlaces": [
+        "place.imperial-penal-south.three-gate-toll"
+      ],
+      "premise": "All three gates keep the same book, so two of them are copying it after the fact",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr60",
+      "code": "LR60",
+      "title": "Tolled in Person",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "THEFT"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.three-gate-toll",
+      "anchorPlaces": [
+        "place.imperial-penal-south.three-gate-toll"
+      ],
+      "premise": "Travellers who cannot pay at Three Gates are held to work the gate itself",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr61",
+      "code": "LR61",
+      "title": "Provocation",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.chainbreaker-shelter",
+      "anchorPlaces": [
+        "place.imperial-penal-south.blackrose",
+        "place.imperial-penal-south.chainbreaker-shelter"
+      ],
+      "premise": "Somebody wants a killing at Open House so the city can close it lawfully",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lr62",
+      "code": "LR62",
+      "title": "The Spring Runs Red",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "RITE"
+      ],
+      "region": "imperial-penal-south",
+      "settlement": "place.imperial-penal-south.rockspring",
+      "anchorPlaces": [
+        "place.imperial-penal-south.rockspring"
+      ],
+      "premise": "Rockspring's spring runs red for three days each year; this year it has not stopped",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "world/sources/catalogue/places-imperial-penal-south.json",
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    }
+  ]
+}

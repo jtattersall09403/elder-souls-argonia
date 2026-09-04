@@ -1,0 +1,4001 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-dunmer-north",
+  "seed": "quests-local-dunmer-north-v1",
+  "quests": [
+    {
+      "id": "quest.local.ld01",
+      "code": "LD01",
+      "title": "The Weighbridge Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-standing-bid"
+      ],
+      "premise": "A ledger of everything weighed into the city goes missing the week before the audit",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld02",
+      "code": "LD02",
+      "title": "Face Down in the Leat",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.silyanorn-diggings",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "A crystal cutter is found in the diggings' water channel with graded stones sewn into his coat",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld03",
+      "code": "LD03",
+      "title": "Only the Ladder Came Back",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-diggings-ladder"
+      ],
+      "premise": "A licensed party went down at dusk to a face that was signed off as worked out",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld04",
+      "code": "LD04",
+      "title": "Names in Fresh Cutting",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-first-count"
+      ],
+      "premise": "Somebody is adding names to the Flu memorial's count, in new stone, at night",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld05",
+      "code": "LD05",
+      "title": "Graded by Somebody",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.nine-stone-bench",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "Ungraded rim stones reach the city under a grading mark no cutter in the guild will own",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld06",
+      "code": "LD06",
+      "title": "Under the Deck",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-standing-bid"
+      ],
+      "premise": "The floating auction's under-deck mooring lands cargo the weighbridge never sees",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld07",
+      "code": "LD07",
+      "title": "The Room With No Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-stormhold-falls-chamber"
+      ],
+      "premise": "The Conclave wants the chamber behind the city's falls opened before the vicecanons hear of it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld08",
+      "code": "LD08",
+      "title": "The Tablet Reads Back",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.gandranen-library",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "The Conclave's reading tablet answers a question nobody in the room asked",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld09",
+      "code": "LD09",
+      "title": "A Tenant in the Family Vault",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-borrowed-tomb"
+      ],
+      "premise": "A household returns to bury its dead in a tomb somebody has been living in for years",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld10",
+      "code": "LD10",
+      "title": "Rent Paid by a Dead Man",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.let-upper-floor",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "An upper floor above the terraces is leased in the name of a Dunmer who died before the lease was signed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld11",
+      "code": "LD11",
+      "title": "Nobody's Ledges",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.cut-in-the-wall",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "The gorge-wall district pays no ground rent because the city cannot decide it owns the rock",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld12",
+      "code": "LD12",
+      "title": "Four Claims, One Seam",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.seam-chasers",
+        "place.dunmer-north.silyanorn-diggings",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "Four unlicensed prospectors on the rim, one of whom has actually found the seam",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld13",
+      "code": "LD13",
+      "title": "Behind the Spoil Ridge",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-permit-dig",
+        "place.dunmer-north.the-whispers-dig"
+      ],
+      "premise": "An unpermitted cut is being paid for by somebody who has never come north",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld14",
+      "code": "LD14",
+      "title": "The City That Only Digs Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-outer-silyanorn"
+      ],
+      "premise": "Ayleid surface work stands in daylight while the city quarries beneath it, then somebody starts taking the surface",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld15",
+      "code": "LD15",
+      "title": "The View They Sold",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-silyanorn-crown"
+      ],
+      "premise": "A guide sells the climb to the crown, then a client does not come down",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld16",
+      "code": "LD16",
+      "title": "The Ferry on the Wrong Bank",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.stormhold-causeway",
+        "place.dunmer-north.the-black-stage"
+      ],
+      "premise": "The causeway ferry is late every dusk, always in the same direction",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld17",
+      "code": "LD17",
+      "title": "What the Causeway Was For",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.bogmother",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "The tended xanmeer at the causeway's end refuses the city's offering for the first time in memory",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld18",
+      "code": "LD18",
+      "title": "The Safest Floor for an Hour",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-flu-cordon"
+      ],
+      "premise": "A cordon cellar people will not go near is the driest shelter on the rim, so somebody has moved in",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld19",
+      "code": "LD19",
+      "title": "Whose Roofs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-two-hundred-roofs"
+      ],
+      "premise": "A newcomer claims two hundred empty roof frames that the north says no living name can claim",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld20",
+      "code": "LD20",
+      "title": "On No Charge Sheet",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-north-holding-pit"
+      ],
+      "premise": "A field-owner's roofed pit holds people the city has no record of",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld21",
+      "code": "LD21",
+      "title": "The Spring That Ate Its Village",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-slumped-hamlet"
+      ],
+      "premise": "Good ground with a spring on it went into the void that fed the spring, houses first",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld22",
+      "code": "LD22",
+      "title": "One Cellar Under All of It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-ash-holding"
+      ],
+      "premise": "A Dunmer holding's cellars joined into a single warren when the ground gave way, then something moved in",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld23",
+      "code": "LD23",
+      "title": "The Water Bites First",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "CONTAMINATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-charge-pond"
+      ],
+      "premise": "A wamasu pond kills two carriers before anyone sees the animal",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld24",
+      "code": "LD24",
+      "title": "Two Yards, One Set of Hunters",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-charge-works",
+        "place.dunmer-north.the-lightning-yard"
+      ],
+      "premise": "Two charged-goods works bid for the same wamasu stock until the hunters stop coming in",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld25",
+      "code": "LD25",
+      "title": "Paper in a Marsh House",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-quiet-landing"
+      ],
+      "premise": "A cult house keeps its accounts, which is the first mistake anyone can prove",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld26",
+      "code": "LD26",
+      "title": "The Fittings Are Still Bolted On",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.murkwater-shadowscale-ground",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "A tempering ground with its equipment intact draws somebody who wants to start it again",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld27",
+      "code": "LD27",
+      "title": "Sings Under Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.loriasel-caverns",
+        "place.dunmer-north.stormhold"
+      ],
+      "premise": "A flooded Ayleid system under a citadel has an inscription only a diver can read",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld28",
+      "code": "LD28",
+      "title": "Which Chambers Are Permissible",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-divers-landing",
+        "place.dunmer-north.the-drowned-terrace"
+      ],
+      "premise": "The divers argue in public about which drowned rooms may be stripped, then one is stripped",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld29",
+      "code": "LD29",
+      "title": "Good Ground Nobody Takes",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.zuuk"
+      ],
+      "premise": "Kothringi work stands on the best ground on the road; every villager gives a different reason for leaving it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld30",
+      "code": "LD30",
+      "title": "They Will Talk Through the Gate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-shut-village"
+      ],
+      "premise": "A village shut behind its causeway for a decade wants one errand run, on its terms",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld31",
+      "code": "LD31",
+      "title": "The Key Is a Person",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-empty-socket"
+      ],
+      "premise": "A keystone chamber's missing key was carried off by a thief the city knows by name",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld32",
+      "code": "LD32",
+      "title": "Cold Under the Rock",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-north-root-gallery"
+      ],
+      "premise": "Root galleries over bare stone are being mapped by people who will not say who wants the map",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld33",
+      "code": "LD33",
+      "title": "The Feast Outgrew Its Field",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stormhold",
+      "anchorPlaces": [
+        "place.dunmer-north.stormhold",
+        "place.dunmer-north.the-fish-boon-ground"
+      ],
+      "premise": "The Fish Boon crowd no longer fits the ground the rite requires, so the rite must move or shrink",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld34",
+      "code": "LD34",
+      "title": "A Boundary Nobody Has Walked",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.thorn",
+        "place.dunmer-north.thorn-paddy-terraces"
+      ],
+      "premise": "Two houses hold the same saltrice ground under titles that have not been compared in forty years",
+      "costTier": "M",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld35",
+      "code": "LD35",
+      "title": "One Hand Off the Roll",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-thorn-bond",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Thorn's bonded warehouse has a night watchman who is not on the watch roll",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld36",
+      "code": "LD36",
+      "title": "Below the Licensed Face",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.thorn",
+        "place.dunmer-north.tunnel-rat-gallery"
+      ],
+      "premise": "The undercity's lowest gallery is worked by people the city does not count, then it floods",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld37",
+      "code": "LD37",
+      "title": "The House Nobody Enters",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.andalen-plantation",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A Dunmer great house stands unlooted after two centuries because somebody maintains an arrangement",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld38",
+      "code": "LD38",
+      "title": "The Counting Room",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-dres-rows",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A plantation's counting room holds the record of who was owned; two families want different pages",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld39",
+      "code": "LD39",
+      "title": "Still Holding Somebody",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-freed-rows",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "The Chainbreakers' shelter knows which northern house is still working people it says it freed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld40",
+      "code": "LD40",
+      "title": "A Promise With Witnesses",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.thorn",
+        "place.dunmer-north.waits-for-the-promise"
+      ],
+      "premise": "A vigil camp holds a land claim the An-Xileel made aloud and never wrote down",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld41",
+      "code": "LD41",
+      "title": "The Manifests Are Still Nailed Up",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-pen-yard",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A slaver's holding yard was abandoned with its paperwork intact; somebody wants it burned",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld42",
+      "code": "LD42",
+      "title": "The Standing Half",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-cold-holding",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A blackguard band works out of a burned holding close enough to hit the Tear road twice a season",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld43",
+      "code": "LD43",
+      "title": "They Still Write Each One Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-sump-hamlet",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A crew with no house left takes people off the old road, then keeps a book about it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld44",
+      "code": "LD44",
+      "title": "A Cellar the Toll Never Saw",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-salt-and-shell",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A crossroads tradehouse moves goods under a floor the toll-holder has never asked about",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld45",
+      "code": "LD45",
+      "title": "The Head-Count Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-north-border-post",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Everyone crossing is written down, so the book can prove who did not come back",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld46",
+      "code": "LD46",
+      "title": "Salt One Way",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-salt-ledge",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "An uncounted ledge past the border post carries salt out and people in, for a fee",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld47",
+      "code": "LD47",
+      "title": "Two Gates, One Span",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-two-gate-bridge",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Two toll-holders on one bridge have not spoken in nine years; the receipts have started matching",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld48",
+      "code": "LD48",
+      "title": "Neither Side Pays for the Roof",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-pass-station",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A cross-border station will fail this winter unless one province admits it wants it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld49",
+      "code": "LD49",
+      "title": "Last Level Ground",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.tear-road-stage",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A caravan waits at the road stage for a guarantee that has not arrived and will not",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld50",
+      "code": "LD50",
+      "title": "The Road Cannot Leave the Channels",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-drover-camp",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Naga camp where the road has no way round the channels; the levy finds an empty camp twice a year",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld51",
+      "code": "LD51",
+      "title": "When the Boom Comes Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-monsoon-boom",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A depth gauge says the delta section has gone, so the town must choose who crosses first",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld52",
+      "code": "LD52",
+      "title": "Checked Twice a Year",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-bound-urns",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A sealed urn shelter is inspected by an officeholder who will not say what is in it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld53",
+      "code": "LD53",
+      "title": "Eight Before This One",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-ninth-chapel",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A ruined chapel's carved number implies eight earlier missions nobody has looked for",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld54",
+      "code": "LD54",
+      "title": "Who Renews the Posts",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.ten-maur-wolk",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "The white marker ring around a Daedric ruin is maintained by somebody the district will not name",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld55",
+      "code": "LD55",
+      "title": "The Rotation Nobody Owns",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-guar-ground",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A dry-season grazing rotation holds until one party's herd grows past it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld56",
+      "code": "LD56",
+      "title": "One Guar for the Right Favour",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-delta-byre",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A herder will part with a glowgill guar for a service rather than coin",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld57",
+      "code": "LD57",
+      "title": "The Family on the Rock Bar",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-white-pans",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Salt is the north's second currency; one family controls where it comes ashore",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld58",
+      "code": "LD58",
+      "title": "Six Hours of Market",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-tide-fair",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A fair on a sand flat has six hours before two metres of water; a seller who will not close",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld59",
+      "code": "LD59",
+      "title": "Her Cargo Still Stowed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-tear-wreck",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A hull aground upright keeps her hold underwater, which is why she has not been emptied",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld60",
+      "code": "LD60",
+      "title": "A Window in the Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-shell-ground",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "Shell-beast armour material can be taken for a fortnight; the reason for the window is still down there",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld61",
+      "code": "LD61",
+      "title": "The Lower Terraces Still Work",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-xanmeer-hold",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A xanmeer held as a fort keeps its old mechanisms working for whoever holds it this year",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld62",
+      "code": "LD62",
+      "title": "The Tree Is Dying",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-high-wrappings",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A crown terrace holding a village's dead is failing; nobody will plan for it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld63",
+      "code": "LD63",
+      "title": "Sold Across the Line",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.dreams-by-the-ash",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A dream-wallow rite is sold to Dunmer buyers, which two communities object to for opposite reasons",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld64",
+      "code": "LD64",
+      "title": "The Bed Kept Made",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-northern-rest",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "A Sithis rest house is kept ready for a Nisswo who has not come in three years",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld65",
+      "code": "LD65",
+      "title": "Offerings Against the Flood",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.thorn",
+      "anchorPlaces": [
+        "place.dunmer-north.the-wamasu-shrine",
+        "place.dunmer-north.thorn"
+      ],
+      "premise": "People still leave offerings above a pond they say holds a leviathan; this year the flooding got worse",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld66",
+      "code": "LD66",
+      "title": "The Bench That Asks Nothing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.nine-stone-bench"
+      ],
+      "premise": "A cutter outside the guild will work any stone brought to him, which the town would like stopped",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld67",
+      "code": "LD67",
+      "title": "Past the Licensed Face",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.silyanorn-diggings"
+      ],
+      "premise": "Crystal lies beyond the boundary the licence draws; the boundary is a chalk line on rock",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld68",
+      "code": "LD68",
+      "title": "The Guild Has No Heir",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate"
+      ],
+      "premise": "A hereditary cutting guild's last master will not name a successor while three candidates wait",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld69",
+      "code": "LD69",
+      "title": "They Ran the Licensed Party Off",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-crystal-prospectors"
+      ],
+      "premise": "Claim-jumpers on the scree hold ground they cannot legally sell from",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld70",
+      "code": "LD70",
+      "title": "A Socket Cut to Fit",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-empty-socket"
+      ],
+      "premise": "A keystone chamber was built around an object the town's records decline to describe",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld71",
+      "code": "LD71",
+      "title": "Nobody Uses the Ladder Sober",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-diggings-ladder"
+      ],
+      "premise": "A fast way out of the diggings kills more cutters than the faces do; the town keeps it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld72",
+      "code": "LD72",
+      "title": "Daylight Ayleid Work",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-outer-silyanorn"
+      ],
+      "premise": "Surface stone is being lifted from a compound the town has ignored for centuries",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld73",
+      "code": "LD73",
+      "title": "Held by a Pair of Birds",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-north-vista"
+      ],
+      "premise": "The one ledge that shows the whole channel network is defended by hackwings that will not share it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld74",
+      "code": "LD74",
+      "title": "An Urn Short",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.the-bound-urns"
+      ],
+      "premise": "The officeholder's twice-yearly count comes back one urn light; the count is all the record there is",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld75",
+      "code": "LD75",
+      "title": "Buying the Fourth Claim",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.crystalgate",
+      "anchorPlaces": [
+        "place.dunmer-north.crystalgate",
+        "place.dunmer-north.seam-chasers"
+      ],
+      "premise": "The town will pay for a rim claim quietly, which means one of four prospectors must be got out of the way",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld76",
+      "code": "LD76",
+      "title": "The Order of Arrival",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir",
+        "place.dunmer-north.waits-for-the-trial"
+      ],
+      "premise": "A waiting camp's queue is its only law, enforced by people with nothing left to lose",
+      "costTier": "M",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld77",
+      "code": "LD77",
+      "title": "A Certificate the Registry Refuses",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir"
+      ],
+      "premise": "A pilgrim passes the Trials, then finds the paper worth nothing downriver",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld78",
+      "code": "LD78",
+      "title": "Set Down and Counted",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir",
+        "place.dunmer-north.the-bone-stage-north"
+      ],
+      "premise": "Bone-carriers put down what they carry at the first rest; this season the count is wrong",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld79",
+      "code": "LD79",
+      "title": "He Will Only Talk Up There",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir",
+        "place.dunmer-north.the-rim-hermitage"
+      ],
+      "premise": "A Nisswo speaks about death to anyone who climbs to him, which somebody wants stopped",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld80",
+      "code": "LD80",
+      "title": "Hist-Less and Waiting",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir"
+      ],
+      "premise": "Pilgrims with no tree to return to have built a grievance with nowhere to take it",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld81",
+      "code": "LD81",
+      "title": "Three Years of a Laid Fire",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir",
+        "place.dunmer-north.the-northern-rest"
+      ],
+      "premise": "The rest house on the pilgrim road is kept for a Nisswo whose route ended somewhere between two stages",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld82",
+      "code": "LD82",
+      "title": "A Place in the Queue, Sold",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir"
+      ],
+      "premise": "Places in the Trials queue are being traded for coin the Stewards refuse to notice",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld83",
+      "code": "LD83",
+      "title": "What the Trial Is For",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir"
+      ],
+      "premise": "A Trial goes wrong in a way the Stewards have no procedure for",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld84",
+      "code": "LD84",
+      "title": "The Village Moved Overnight",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hissmir",
+      "anchorPlaces": [
+        "place.dunmer-north.hissmir",
+        "place.dunmer-north.hixinoag"
+      ],
+      "premise": "A drifting village that was moored off Hissmir yesterday is somewhere else this morning",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld85",
+      "code": "LD85",
+      "title": "Two Clerks Who Cannot Agree",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth"
+      ],
+      "premise": "A customs house on an island is staffed by two people whose rulings contradict each other daily",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld86",
+      "code": "LD86",
+      "title": "Above the Sill, Below the Sill",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.the-last-landing"
+      ],
+      "premise": "Boats stop at the head of navigation, so the porters above it can hold the whole route to ransom",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld87",
+      "code": "LD87",
+      "title": "Prices Set by the Last Trip",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.the-pilots-rest"
+      ],
+      "premise": "The pilots price the channels by rumour; one bad rumour is being planted deliberately",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld88",
+      "code": "LD88",
+      "title": "The Rota Nobody Wrote Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.feeds-the-north",
+        "place.dunmer-north.tearmouth"
+      ],
+      "premise": "A fishing bank runs on an unwritten rota until a buyer offers enough to break it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld89",
+      "code": "LD89",
+      "title": "Eggs Out of Season",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.ten-thousand-nests",
+        "place.dunmer-north.the-thousand-birds"
+      ],
+      "premise": "Somebody is taking eggs against a quota that four villages enforce absolutely",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld90",
+      "code": "LD90",
+      "title": "Seized, Then Sunk",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.the-tear-wreck"
+      ],
+      "premise": "A hull the customs house condemned went aground before it could be unloaded",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld91",
+      "code": "LD91",
+      "title": "The Second Currency",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.the-white-pans"
+      ],
+      "premise": "Salt from the pans is being paid out as wages, which suits everyone except the people paid in it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld92",
+      "code": "LD92",
+      "title": "Buy Now or Wait a Fortnight",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth",
+        "place.dunmer-north.the-tide-fair"
+      ],
+      "premise": "A seizure lands at the fair with four hours of dry ground left",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld93",
+      "code": "LD93",
+      "title": "Two Owners, One Market",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.branchmont",
+        "place.dunmer-north.tearmouth"
+      ],
+      "premise": "A contested estate village sends two sets of goods to the port under one seal",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld94",
+      "code": "LD94",
+      "title": "The Cargo That Was Never Aboard",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.tearmouth",
+      "anchorPlaces": [
+        "place.dunmer-north.tearmouth"
+      ],
+      "premise": "A manifest lists a consignment that no crew on the river remembers loading",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld95",
+      "code": "LD95",
+      "title": "Passes and Permits",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison"
+      ],
+      "premise": "The garrison's crossing regime can be used, forged or made unworkable; all three are being tried",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld96",
+      "code": "LD96",
+      "title": "Nothing Left Alive to Bury",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.the-stripped-village"
+      ],
+      "premise": "A garrison still holds records for a village Umbriel emptied; the buildings stand, the pole field is bare",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld97",
+      "code": "LD97",
+      "title": "Still Drawing on a Dead Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.the-north-cut"
+      ],
+      "premise": "An abandoned roadworks floods ground nobody has connected to it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld98",
+      "code": "LD98",
+      "title": "A District's Weapons, Buried",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.buried-blades",
+        "place.dunmer-north.the-field-gate-garrison"
+      ],
+      "premise": "Four villages buried their arms together; one of the four is having second thoughts",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.ld99",
+      "code": "LD99",
+      "title": "The Only Winter Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-ash-causeway",
+        "place.dunmer-north.the-field-gate-garrison"
+      ],
+      "premise": "A hard causeway across impassable ground is being tolled by people with no right to toll it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv01",
+      "code": "LV01",
+      "title": "Who Is Coming",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.the-terrace-watch"
+      ],
+      "premise": "The watch knoll reports a column that the garrison's own books say cannot exist",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv02",
+      "code": "LV02",
+      "title": "The Saltrice Line",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison"
+      ],
+      "premise": "The border runs through a field, so the crop is harvested twice by two claimants",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv03",
+      "code": "LV03",
+      "title": "Stopped Mid-Course on Purpose",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.the-last-stone-course"
+      ],
+      "premise": "A xanmeer kept unfinished since the Duskfall attracts somebody who wants to finish it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv04",
+      "code": "LV04",
+      "title": "Everything Portable Is Gone",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison",
+        "place.dunmer-north.the-opened-terrace"
+      ],
+      "premise": "A broken-open xanmeer keeps what could not be carried, which is what the diggers actually came for",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv05",
+      "code": "LV05",
+      "title": "The Levy's Own Man",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-field-gate-garrison",
+      "anchorPlaces": [
+        "place.dunmer-north.the-field-gate-garrison"
+      ],
+      "premise": "A garrison soldier is on two payrolls; the second one is across the border",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv06",
+      "code": "LV06",
+      "title": "Weights and the Factor",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "The Marsh Charter factor's authority over weights is worth more than anything weighed",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv07",
+      "code": "LV07",
+      "title": "The Naming and the Registry",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.names-the-year",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "An Imperial registry wants to record a naming rite that the villages hold is not recordable",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv08",
+      "code": "LV08",
+      "title": "The Allocation Fails",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "PREDATOR"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.draws-the-herds",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A dry year concentrates every animal on three pools; the hunting allocation stops holding",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv09",
+      "code": "LV09",
+      "title": "Four Villages Say Leave It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.the-turning-stone",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A stone that turns without being turned is studied by an outsider four communities have asked to stop",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv10",
+      "code": "LV10",
+      "title": "The Ninth Mark",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.nine-marks",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "Eight marks are findable, the ninth completes something the district would rather stayed incomplete",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv11",
+      "code": "LV11",
+      "title": "Fire in the Peat",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.cut-and-stack",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "Three villages' winter fuel is one dropped lamp from being nobody's",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv12",
+      "code": "LV12",
+      "title": "The Pipes Have Gone Quiet",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.sings-for-the-pipes",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A frog-pond farm supplying a craft chain loses its stock in a week",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv13",
+      "code": "LV13",
+      "title": "A Night Booked in Advance",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.the-moon-court",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A calcinator court can be worked on one phase of the moon, so somebody spoils the darkness",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv14",
+      "code": "LV14",
+      "title": "The Herd That Grew",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.the-guar-ground",
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A grazing rotation breaks because one household's herd doubled in a season",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv15",
+      "code": "LV15",
+      "title": "The Courier Line Drops",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.wolk-market",
+      "anchorPlaces": [
+        "place.dunmer-north.wolk-market"
+      ],
+      "premise": "A courier route through the market hinge loses two runs in a row, in the same direction",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv16",
+      "code": "LV16",
+      "title": "Both Sides Are Hiring",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.branchmont",
+      "anchorPlaces": [
+        "place.dunmer-north.branchmont"
+      ],
+      "premise": "A contested estate village pays two wages for the same day's work, which cannot last the season",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv17",
+      "code": "LV17",
+      "title": "The Estate's Second Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.branchmont",
+      "anchorPlaces": [
+        "place.dunmer-north.branchmont"
+      ],
+      "premise": "One owner's rent book records tenants the other owner's book has never heard of",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv18",
+      "code": "LV18",
+      "title": "The Squatter Knows the Family",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.branchmont",
+      "anchorPlaces": [
+        "place.dunmer-north.branchmont",
+        "place.dunmer-north.the-borrowed-tomb"
+      ],
+      "premise": "Somebody living in a Dunmer tomb can name the household it belongs to, which is why he is left alone",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv19",
+      "code": "LV19",
+      "title": "Every Rumour on the Walkway",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.channel-cross-village",
+      "anchorPlaces": [
+        "place.dunmer-north.channel-cross-village"
+      ],
+      "premise": "A tie-up village hears everything, so a lie planted here reaches four districts by morning",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv20",
+      "code": "LV20",
+      "title": "The Ferry Family's Terms",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.channel-cross-village",
+      "anchorPlaces": [
+        "place.dunmer-north.channel-cross-village",
+        "place.dunmer-north.the-black-stage"
+      ],
+      "premise": "A ferry family will cross for anyone except one household, without giving a reason",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv21",
+      "code": "LV21",
+      "title": "Neutral Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.channel-cross-village",
+      "anchorPlaces": [
+        "place.dunmer-north.channel-cross-village",
+        "place.dunmer-north.ties-four-ways"
+      ],
+      "premise": "Four communities meet on water nobody owns; one of them has brought more people than agreed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv22",
+      "code": "LV22",
+      "title": "A Stranger's Question",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.greylight-village",
+      "anchorPlaces": [
+        "place.dunmer-north.greylight-village"
+      ],
+      "premise": "The Hist here will answer an outsider, so people are queuing to buy an outsider's mouth",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv23",
+      "code": "LV23",
+      "title": "Declared Off Limits",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.greylight-village",
+      "anchorPlaces": [
+        "place.dunmer-north.greylight-village",
+        "place.dunmer-north.the-divers-landing"
+      ],
+      "premise": "The village minders forbid a stretch of drowned ruin they cannot actually patrol",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv24",
+      "code": "LV24",
+      "title": "Keepers of the Shell",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hatching-pools",
+      "anchorPlaces": [
+        "place.dunmer-north.hatching-pools"
+      ],
+      "premise": "The regional hatchery is asked to take a clutch that no village will admit to sending",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv25",
+      "code": "LV25",
+      "title": "Rune Totems Punish the Rude",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "CONTAMINATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hutan-tzel",
+      "anchorPlaces": [
+        "place.dunmer-north.hutan-tzel"
+      ],
+      "premise": "A visitor breaks a courtesy the totems enforce, then asks the village to undo it",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv26",
+      "code": "LV26",
+      "title": "It Knows What Was Done",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hutan-tzel",
+      "anchorPlaces": [
+        "place.dunmer-north.hutan-tzel",
+        "place.dunmer-north.mazzatun-hist"
+      ],
+      "premise": "A harmed Hist will describe its own injury to anyone who can bear to listen",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv27",
+      "code": "LV27",
+      "title": "The Flood Warning",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hutan-tzel",
+      "anchorPlaces": [
+        "place.dunmer-north.climbs-to-see",
+        "place.dunmer-north.hutan-tzel"
+      ],
+      "premise": "A lookout platform shows a flood coming; the district disagrees about who should be told first",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv28",
+      "code": "LV28",
+      "title": "The Building Has Resumed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.mazzatun",
+      "anchorPlaces": [
+        "place.dunmer-north.mazzatun"
+      ],
+      "premise": "Work on a stone city has started again, which requires the tree to be held harder",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv29",
+      "code": "LV29",
+      "title": "The Stone Heresy",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.mazzatun",
+      "anchorPlaces": [
+        "place.dunmer-north.mazzatun"
+      ],
+      "premise": "A carver argues that stone remembers better than sap; the village is beginning to agree",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv30",
+      "code": "LV30",
+      "title": "All of It in His Head",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.mazzatun",
+      "anchorPlaces": [
+        "place.dunmer-north.mazzatun",
+        "place.dunmer-north.three-ways-over-water"
+      ],
+      "premise": "A walkway keeper's route knowledge exists nowhere else; he has started forgetting",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv31",
+      "code": "LV31",
+      "title": "The Executioner Kept Her Tools",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.murkwater",
+      "anchorPlaces": [
+        "place.dunmer-north.murkwater"
+      ],
+      "premise": "A retired executioner is asked for one more piece of work by people who know what she was",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv32",
+      "code": "LV32",
+      "title": "Far Enough to Deny It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "HAUNTING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.murkwater",
+      "anchorPlaces": [
+        "place.dunmer-north.murkwater",
+        "place.dunmer-north.murkwater-shadowscale-ground"
+      ],
+      "premise": "The village can see the tempering ground from its own water, then insists it cannot",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv33",
+      "code": "LV33",
+      "title": "Water on Every Side",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.murkwater",
+      "anchorPlaces": [
+        "place.dunmer-north.murkwater"
+      ],
+      "premise": "A hummock village floods from a direction it has no defence against",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv34",
+      "code": "LV34",
+      "title": "Eight Ways Around",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.nine-fords",
+      "anchorPlaces": [
+        "place.dunmer-north.nine-fords"
+      ],
+      "premise": "A toll town survives because the alternatives are worse, until somebody improves one",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv35",
+      "code": "LV35",
+      "title": "The Bridge They Keep Buying Off",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.nine-fords",
+      "anchorPlaces": [
+        "place.dunmer-north.nine-fords"
+      ],
+      "premise": "A bridge proposal is bought off every few years; this time the buyer has run out of money",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv36",
+      "code": "LV36",
+      "title": "The Bell That Rings for Nothing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "WONDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.reedmoor-stilts",
+      "anchorPlaces": [
+        "place.dunmer-north.reedmoor-stilts"
+      ],
+      "premise": "A warning bell sounds nightly with nothing in the water to warrant it",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv37",
+      "code": "LV37",
+      "title": "A Bed on Legs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "MISSING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.reedmoor-stilts",
+      "anchorPlaces": [
+        "place.dunmer-north.reedmoor-stilts"
+      ],
+      "premise": "A stilt house is let to two households at once by a landlord who has left the district",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv38",
+      "code": "LV38",
+      "title": "Two Cities Claim the Halt",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.riverwalk",
+      "anchorPlaces": [
+        "place.dunmer-north.riverwalk"
+      ],
+      "premise": "A channel village is taxed by two authorities; paying either one is treated as a choice",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv39",
+      "code": "LV39",
+      "title": "Argued Nightly",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.riverwalk",
+      "anchorPlaces": [
+        "place.dunmer-north.riverwalk",
+        "place.dunmer-north.the-pilots-rest"
+      ],
+      "premise": "The nightly toll argument turns into an accusation somebody can prove",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv40",
+      "code": "LV40",
+      "title": "The Channel Silted Overnight",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.riverwalk",
+      "anchorPlaces": [
+        "place.dunmer-north.riverwalk"
+      ],
+      "premise": "The main street stops being navigable, which nobody believes was natural",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv41",
+      "code": "LV41",
+      "title": "Four Banks' Worth of Gossip",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "FRAUD"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.saltmarch-village",
+      "anchorPlaces": [
+        "place.dunmer-north.saltmarch-village"
+      ],
+      "premise": "The one rise that never floods hears every account of the same night; none of them agree",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv42",
+      "code": "LV42",
+      "title": "The Spear in the Dry Bed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.saltmarch-village",
+      "anchorPlaces": [
+        "place.dunmer-north.saltmarch-village",
+        "place.dunmer-north.the-first-count"
+      ],
+      "premise": "A grassland field turns up a weapon that settles an inheritance nobody wanted settled",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv43",
+      "code": "LV43",
+      "title": "Buried in the Ground or Above It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stands-on-the-island",
+      "anchorPlaces": [
+        "place.dunmer-north.stands-on-the-island",
+        "place.dunmer-north.the-crown-terrace"
+      ],
+      "premise": "A village splits over whether its dead may go into rented earth",
+      "costTier": "M",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv44",
+      "code": "LV44",
+      "title": "Priced Off the Dry Ground",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stands-on-the-island",
+      "anchorPlaces": [
+        "place.dunmer-north.stands-on-the-island"
+      ],
+      "premise": "The only firm ground for two kilometres is rented; this season the rent doubles",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv45",
+      "code": "LV45",
+      "title": "The Wrappings Come Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RITE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.stands-on-the-island",
+      "anchorPlaces": [
+        "place.dunmer-north.stands-on-the-island",
+        "place.dunmer-north.the-high-wrappings"
+      ],
+      "premise": "A dying crown tree will drop a village's dead within a year; no site has been chosen",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv46",
+      "code": "LV46",
+      "title": "Still Expecting Somebody",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-veterans-ridge",
+      "anchorPlaces": [
+        "place.dunmer-north.the-veterans-ridge"
+      ],
+      "premise": "Morrowind veterans hold a ridge against an order that was countermanded generations ago",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv47",
+      "code": "LV47",
+      "title": "The Physician's Second Book",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "BONDAGE"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.the-veterans-ridge",
+      "anchorPlaces": [
+        "place.dunmer-north.the-veterans-ridge"
+      ],
+      "premise": "A physician's treatment notes double as a record of who descends from whom",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv48",
+      "code": "LV48",
+      "title": "Ledge and Ladder",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "EXPEDITION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.cut-in-the-wall",
+      "anchorPlaces": [
+        "place.dunmer-north.cut-in-the-wall"
+      ],
+      "premise": "A vertical district's only access is cut by a rockfall that somebody arranged",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv49",
+      "code": "LV49",
+      "title": "Two or Three Fixed Moorings",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "SMUGGLING"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.hixinoag",
+      "anchorPlaces": [
+        "place.dunmer-north.hixinoag"
+      ],
+      "premise": "A drifting village keeps a few permanent ties; one of them is holding something down",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lv50",
+      "code": "LV50",
+      "title": "Losing Its Young",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "dunmer-north",
+      "settlement": "place.dunmer-north.rimfield",
+      "anchorPlaces": [
+        "place.dunmer-north.rimfield"
+      ],
+      "premise": "A terrace village's last resupply trade fails as its young leave for the city",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    }
+  ]
+}

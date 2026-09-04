@@ -1,0 +1,2473 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-mercantile-coast",
+  "seed": "quests-local-mercantile-coast-v1",
+  "quests": [
+    {
+      "id": "quest.local.lm01",
+      "code": "LM01",
+      "title": "The Licensed Lot",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.lilmoth-divers-yard"
+      ],
+      "premise": "A salvage lot on the bench is recognised by the family it was lifted from, though the diving licence behind it is genuine",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm02",
+      "code": "LM02",
+      "title": "The Second Room",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.villa-cellars"
+      ],
+      "premise": "A diver's lamp came back up the shaft on its line; she did not",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm03",
+      "code": "LM03",
+      "title": "Reading the Stones",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.slaughter-memorial"
+      ],
+      "premise": "A council clerk is paid by the season to keep the memorial's names weathered past reading",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm04",
+      "code": "LM04",
+      "title": "Tolls on the Swept Circle",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.hist-less-fringe",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "A Blackguards cell charges the hist-less households to walk the street they built",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm05",
+      "code": "LM05",
+      "title": "The Record Room",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.sacked-customs-suburb"
+      ],
+      "premise": "Two centuries of unread customs books would settle a dozen living property claims, so somebody is inserting pages before anyone reads them",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm06",
+      "code": "LM06",
+      "title": "Offerings in the Mouth",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.xhon-mehl-shrine"
+      ],
+      "premise": "The fishers' offering season is blocked by a council order to bring the drowned god ashore",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm07",
+      "code": "LM07",
+      "title": "The Barge Debt",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.pusbottom-barge"
+      ],
+      "premise": "A councillor's losses at the dice tables are being called in as a civic matter",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm08",
+      "code": "LM08",
+      "title": "Licensing the Lighters",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lighter-flotilla",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "The council wants the lighter crews licensed, the crews want the tariff opened, each side wants you to carry the offer",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm09",
+      "code": "LM09",
+      "title": "Escort and Tribute",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.naga-village-oliis"
+      ],
+      "premise": "The road escorts Lilmoth pays for have started splitting the Naga toll rather than breaking it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm10",
+      "code": "LM10",
+      "title": "Short of Divers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.oliis-reef-harvest"
+      ],
+      "premise": "The lime cutters have lost three free-divers in a season to something living in the worked steps",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm11",
+      "code": "LM11",
+      "title": "The Retired Rota",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.tempering-ground"
+      ],
+      "premise": "Cheydinhal has sent a claimant to an intake the retired Shadowscales cannot agree how to hand on",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm12",
+      "code": "LM12",
+      "title": "Rice and Rust",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.hereguard-plantation",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "Lilmoth's rice is landing tainted from somewhere along the estate's flood channel",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm13",
+      "code": "LM13",
+      "title": "Down to the Hold",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.alessian-hull",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "Four families have agreed to fund a single cut into the Alessian hull's shut hold, on condition somebody watches the others",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm14",
+      "code": "LM14",
+      "title": "What the Reef Is Saying",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.whitebone-reef"
+      ],
+      "premise": "The dying reef head has begun sounding at the turn of the tide, so the bay pilots have started steering by it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm15",
+      "code": "LM15",
+      "title": "Fish in the House Floors",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.sunkfoot"
+      ],
+      "premise": "At each spring tide the drowned hamlet's dead come up through the roofs and go back to their own doors",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm16",
+      "code": "LM16",
+      "title": "A Body in the Lot",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.lilmoth-divers-yard"
+      ],
+      "premise": "A corpse surfaces inside a sorted salvage lot, weighted with the yard's own licence tags",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm17",
+      "code": "LM17",
+      "title": "The Half-Day Detour",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "HAUNTING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.stripped-village-north"
+      ],
+      "premise": "The last carter to cut through Ganthil's Rest rather than take the half-day detour has not come out",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm18",
+      "code": "LM18",
+      "title": "The Keeper's Weather",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.xinchei-konu"
+      ],
+      "premise": "The council wants a dry harvest fortnight from a calendar keeper who has refused emperors' agents",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm19",
+      "code": "LM19",
+      "title": "Three Failing Spans",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.high-junction",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "The junction deck carries more traffic than its timbers were cut for, with its households split over who pays to cut new ones",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm20",
+      "code": "LM20",
+      "title": "Whoever Relights It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.cold-light",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "Relighting the dead Topal lantern would decide who profits from the bar, so three parties are each proving the stair unsafe",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm21",
+      "code": "LM21",
+      "title": "The Untouched House",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "HAUNTING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.rockpark"
+      ],
+      "premise": "A Lilmoth broker is selling deeds to plague-emptied Rockpark houses that no buyer has yet dared enter",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm22",
+      "code": "LM22",
+      "title": "The Silt Room",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.ixtaxh-xanmeer",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "A survey party has gone into the xanmeer the An-Xileel pumped dry, to see how far the returning silt has taken it",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm23",
+      "code": "LM23",
+      "title": "Cargo Nobody Claims",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lighter-flotilla",
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.pusbottom-barge"
+      ],
+      "premise": "Cargo lightered ashore at night is being settled at the dice tables instead of the quay",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm24",
+      "code": "LM24",
+      "title": "The Sixth Recitation",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.bereaved-village-murkmire",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "The six-day recitation needs six speakers, of whom two now work Lilmoth's quay",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm25",
+      "code": "LM25",
+      "title": "Grave-Poles for the City",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.necropolis-village-murkmire"
+      ],
+      "premise": "Lilmoth wants its own burial register kept in the city; Xul-Vaat's grave-wrights hold that the register is the trade",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm26",
+      "code": "LM26",
+      "title": "What Came Up Belongs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.lilmoth-divers-yard",
+        "place.mercantile-coast.villa-cellars"
+      ],
+      "premise": "A drowned villa is stripped clean before its living heirs can lodge a claim, on a route the yard had not licensed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm27",
+      "code": "LM27",
+      "title": "The Beast Ground Ledger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.naga-village-oliis"
+      ],
+      "premise": "Escort contracts are being written for journeys nobody made, over the Naga camp's own signatures",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm28",
+      "code": "LM28",
+      "title": "Air on the Slate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.oliis-air-station"
+      ],
+      "premise": "The slate at Breathing-Stone lists a diver who went below eleven days ago, with the entry in a hand nobody recognises",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm29",
+      "code": "LM29",
+      "title": "The Ball and the Ledger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.teeba-enoo-court"
+      ],
+      "premise": "Lilmoth wants a side in the Teeba-Enoo court to prove its writ reaches Meerhleel's quay",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm30",
+      "code": "LM30",
+      "title": "The Hollow Under the Wall",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.lilmoth",
+        "place.mercantile-coast.root-gallery-murkmire"
+      ],
+      "premise": "The root gallery floods to chest height on a week's notice, with somebody living in it who will not come out",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm31",
+      "code": "LM31",
+      "title": "Sees-No-Root's Egg",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.lilmoth",
+      "anchorPlaces": [
+        "place.mercantile-coast.bereaved-village-murkmire",
+        "place.mercantile-coast.hist-village-keel-sakka",
+        "place.mercantile-coast.lilmoth"
+      ],
+      "premise": "A mnemic egg lost with a village's tree is rumoured to be in a root gallery two rivers away",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm32",
+      "code": "LM32",
+      "title": "The Offices Administer Nothing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Soulrest's surviving provincial offices are still issuing licences for a hinterland that burned two centuries ago",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm33",
+      "code": "LM33",
+      "title": "Three Claims on a Harbour",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-quay-tradehouse"
+      ],
+      "premise": "Three parties hold defensible title to the same deep-water landfall, with the tariff argument now out of the Long Table and into the street",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm34",
+      "code": "LM34",
+      "title": "Books of the Bench",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-divers-yard"
+      ],
+      "premise": "The harbour office wants the salvage yard's books, in which every lot is somebody's lost cargo",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm35",
+      "code": "LM35",
+      "title": "The Last Imperial Hull",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-breaking-yard"
+      ],
+      "premise": "The supply of Legion transports is finished, so the breaking yard must decide what it is for next",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm36",
+      "code": "LM36",
+      "title": "The False Light",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.cold-light",
+        "place.mercantile-coast.long-bar-wreckers",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "A century of wrecks on the Long Bar could be proved deliberate, which would force the harbour office to act",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm37",
+      "code": "LM37",
+      "title": "Licensed and Disowned",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.quinrawl-anchorage",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Soulrest licenses the anchorage in one ledger while denying it in another, which a Khajiit master wants settled in writing",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm38",
+      "code": "LM38",
+      "title": "Whatever the Sea Lost",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.chasepoint",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Goods from a wreck are on sale at Chasepoint before their owners know the ship is down",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm39",
+      "code": "LM39",
+      "title": "The Price the Legion Set",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.coast-road-stage",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "The Fourth Stage still charges an Imperial rate for its well, which the road's carters have stopped paying",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm40",
+      "code": "LM40",
+      "title": "Hired to Go Upriver",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.bramman-river-ferry",
+        "place.mercantile-coast.bramman-screen",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "The ferry family are hired upriver far more often than the traffic explains, though their last party has not returned",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm41",
+      "code": "LM41",
+      "title": "Four Parties, One Sill",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.head-of-tide",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "One of the four parties contesting the gravel sill has begun moving stone in the channel at night",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm42",
+      "code": "LM42",
+      "title": "Sell Early and Low",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.mudfoot",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Mudfoot has found a way to prove that Soulrest's cockle price is set before the boats land",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm43",
+      "code": "LM43",
+      "title": "Owed Labour on the Sea Wall",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.topal-salt-pans"
+      ],
+      "premise": "The salt walls are rebuilt each spring by people working off an Owing that never falls",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm44",
+      "code": "LM44",
+      "title": "A Pack Under the Threshing Floor",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.ashfield",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "The abandoned plantation is still roofed and still worth salvaging, with something denned beneath its floor",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm45",
+      "code": "LM45",
+      "title": "The Gate Warning",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.ashroot-village",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Ashroot warns at its gate that the burn-country jungle kills people who walk it alone, which is where a Soulrest survey went",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm46",
+      "code": "LM46",
+      "title": "Five Centuries of Stock",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.rockpark",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "The first crew into the plague town's five centuries of untouched stock came back changed",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm47",
+      "code": "LM47",
+      "title": "Four Miles Away",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.mirtis-plantation",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "A Colovian heir has arrived with the deed to a great house the neighbouring families burned",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm48",
+      "code": "LM48",
+      "title": "The Cordon Cellars",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.white-rose-prison"
+      ],
+      "premise": "The prison's cordon cellars were sealed with their occupants still on the roll",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm49",
+      "code": "LM49",
+      "title": "Ninety Minutes of Tide",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.bramman-screen",
+        "place.mercantile-coast.screen-watch",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Somebody has begun marking the one channel mouth that is navigable for ninety minutes at the top of the tide",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm50",
+      "code": "LM50",
+      "title": "Pilots or Customs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.screen-watch",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Blackguards want Bramman's river opened as a road, Soulrest wants it declared a customs matter, the pilots want it forgotten",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm51",
+      "code": "LM51",
+      "title": "The Taking Rules",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.wraxu-stacks"
+      ],
+      "premise": "A licensed buyer has offered to break the egg-takers' rules at a scale no Soulrest law covers",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm52",
+      "code": "LM52",
+      "title": "Buying the Unmaking",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.wraxu-frieze"
+      ],
+      "premise": "A collector has paid for this year's clay wraxu before the Clutch can destroy it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm53",
+      "code": "LM53",
+      "title": "Whose Lot Is Whose",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-breaking-yard",
+        "place.mercantile-coast.soulrest-divers-yard"
+      ],
+      "premise": "The breaking yard has started buying Long Bar wrecks without asking, in ironwork the divers' yard recognises",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm54",
+      "code": "LM54",
+      "title": "Contracted at the Long Table",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-quay-tradehouse"
+      ],
+      "premise": "A crew hired in the least private room in the port sails and does not arrive, with every witness remembering a different master",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm55",
+      "code": "LM55",
+      "title": "The Salt Year",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.mudfoot",
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.topal-salt-pans"
+      ],
+      "premise": "A wet-season overtop has spoiled the salt pans and the cockle flat together, each side blaming the other's works",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm56",
+      "code": "LM56",
+      "title": "The Sunken Causeway Survey",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.chasepoint",
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.white-rose-prison"
+      ],
+      "premise": "A road survey east of Soulrest went out to price a causeway repair and stopped sending its stages back",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm57",
+      "code": "LM57",
+      "title": "The Stage That Was Never Paid",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.chasepoint",
+        "place.mercantile-coast.coast-road-stage",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Two families each claim to be the Legion's unpaid stage-keeper, with two centuries of arrears behind the claim",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm58",
+      "code": "LM58",
+      "title": "Silt from the Burn Country",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.whitebone-reef"
+      ],
+      "premise": "River silt is turning the living reef head to rubble, which makes the bar deadlier every season",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm59",
+      "code": "LM59",
+      "title": "The Anchorage Ledger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.quinrawl-anchorage",
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.soulrest-quay-tradehouse"
+      ],
+      "premise": "Cargo landed at Quin'rawl is entered at the Long Table as having come by road",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm60",
+      "code": "LM60",
+      "title": "A Grave for a Foreigner",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.necropolis-village-murkmire",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "A Soulrest merchant's will asks for a Xul-Vaat pole, over the objections of both the register and his heirs",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm61",
+      "code": "LM61",
+      "title": "Nobody Enjoys the Argument",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.glowfen-murkmire",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "The villages ration the glowing harvest by an argument that has finally broken down",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm62",
+      "code": "LM62",
+      "title": "What the Salvage Coast Owes",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.chasepoint",
+        "place.mercantile-coast.long-bar-wreckers",
+        "place.mercantile-coast.soulrest"
+      ],
+      "premise": "Survivors pulled off the bar have been kept as salvage crew to work their own rescue off",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm63",
+      "code": "LM63",
+      "title": "The Weather Petition",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.soulrest",
+      "anchorPlaces": [
+        "place.mercantile-coast.soulrest",
+        "place.mercantile-coast.xinchei-konu"
+      ],
+      "premise": "Soulrest's council has begun buying the keeper's succession rather than asking her for weather",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm64",
+      "code": "LM64",
+      "title": "A Side in the Court",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.teeba-enoo-court"
+      ],
+      "premise": "The port's Teeba-Enoo side is short two players, though a convincing win would be a diplomatic problem",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm65",
+      "code": "LM65",
+      "title": "Asks Nothing, Secures Less",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "FRAUD"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel"
+      ],
+      "premise": "Meerhleel's whole advantage is that it asks no questions, so a merchant robbed on its quay has nowhere to complain",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm66",
+      "code": "LM66",
+      "title": "The Raft Quarter Rent",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel"
+      ],
+      "premise": "The warehouse row has begun charging the Argonian raft quarter for the water it floats on",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm67",
+      "code": "LM67",
+      "title": "Sugar Moved North",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.moonmarch"
+      ],
+      "premise": "Moon-sugar that used to land untaxed at Moonmarch now arrives here, where Lilmoth's council has noticed it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm68",
+      "code": "LM68",
+      "title": "The Gazetteer's One Name",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.moonmarch"
+      ],
+      "premise": "An Imperial gazetteer clerk is being paid to strike the province's single Khajiiti place-name from the next edition",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm69",
+      "code": "LM69",
+      "title": "Poling Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.keel-sakka-stilts"
+      ],
+      "premise": "A cargo must go above the last supplied bed on the Keel-Sakka, on a reach the polers have refused",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm70",
+      "code": "LM70",
+      "title": "Lights Under the Pilgrim Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.glowfen-murkmire"
+      ],
+      "premise": "The fen has begun lighting in a pattern the night pilgrims can read, which each village reads differently",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm71",
+      "code": "LM71",
+      "title": "Digging at the Far End",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.hammock-crown-murkmire"
+      ],
+      "premise": "Something has been working at the far terrace of the dry crown four villages bury on",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm72",
+      "code": "LM72",
+      "title": "No Village Will Yield an Inch",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.hammock-crown-murkmire"
+      ],
+      "premise": "The burial crown is out of terrace, with each of its four sectors preferring to bury badly rather than give ground",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm73",
+      "code": "LM73",
+      "title": "Who Stocked the Bench",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.alten-meerhleel",
+      "anchorPlaces": [
+        "place.mercantile-coast.alten-meerhleel",
+        "place.mercantile-coast.oliis-air-station"
+      ],
+      "premise": "The air chamber's bench was stocked by somebody for thirty years, until this season",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm74",
+      "code": "LM74",
+      "title": "The Last Hist Between",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.ashroot-village",
+      "anchorPlaces": [
+        "place.mercantile-coast.ashroot-village"
+      ],
+      "premise": "Ashroot shelters anyone who reaches it, though its sheltering rite has begun to fail on the burn-country side",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm75",
+      "code": "LM75",
+      "title": "Walked It Alone",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.ashroot-village",
+      "anchorPlaces": [
+        "place.mercantile-coast.ashfield",
+        "place.mercantile-coast.ashroot-village"
+      ],
+      "premise": "Three people from the plantation ignored Ashroot's gate warning in one season",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm76",
+      "code": "LM76",
+      "title": "Tapped Past Bearing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.ashroot-village",
+      "anchorPlaces": [
+        "place.mercantile-coast.ashroot-village"
+      ],
+      "premise": "Ashroot's tree is being drawn on harder each year to shelter refugees from the burn country",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm77",
+      "code": "LM77",
+      "title": "Six Days, Four Speakers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.bereaved-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.bereaved-village-murkmire"
+      ],
+      "premise": "Sees-No-Root's recitation needs six speakers and the village can field four",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm78",
+      "code": "LM78",
+      "title": "The Pulled Field",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.bereaved-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.bereaved-village-murkmire",
+        "place.mercantile-coast.bog-blight-ground-murkmire"
+      ],
+      "premise": "Somebody pulled the grave-poles out of the burial field, leaving no way to match a pole to its grave",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm79",
+      "code": "LM79",
+      "title": "Rice, Coin and Tenancy",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.hereguard-plantation",
+      "anchorPlaces": [
+        "place.mercantile-coast.hereguard-plantation"
+      ],
+      "premise": "Lilmoth depends on Hereguard rice, which gives the tenants a hold the Breton family has begun to feel",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm80",
+      "code": "LM80",
+      "title": "Hired From Outside",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.hereguard-plantation",
+      "anchorPlaces": [
+        "place.mercantile-coast.hereguard-plantation"
+      ],
+      "premise": "The estate pays outsiders in coin and its tenants in credit, in books that do not add up",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm81",
+      "code": "LM81",
+      "title": "Letting the Flood In",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.hereguard-plantation",
+      "anchorPlaces": [
+        "place.mercantile-coast.hereguard-plantation"
+      ],
+      "premise": "The estate's oldest flood channel fills a fortnight before the river does, for reasons nobody can name",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm82",
+      "code": "LM82",
+      "title": "Where the Writ Stops",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "anchorPlaces": [
+        "place.mercantile-coast.keel-sakka-stilts"
+      ],
+      "premise": "Bright-Throat's chime-relay reaches the landing where Lilmoth's writ does not, which a cargo is using",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm83",
+      "code": "LM83",
+      "title": "The Poler's Rate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "anchorPlaces": [
+        "place.mercantile-coast.bright-throat-village",
+        "place.mercantile-coast.keel-sakka-stilts"
+      ],
+      "premise": "The polers have set one rate for the whole river, which the landing's boat-owners will not honour",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm84",
+      "code": "LM84",
+      "title": "Above the Supplied Bed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.keel-sakka-stilts",
+      "anchorPlaces": [
+        "place.mercantile-coast.hist-village-keel-sakka",
+        "place.mercantile-coast.keel-sakka-stilts"
+      ],
+      "premise": "Something denned in the outer root galleries upriver has started coming down to the landing",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm85",
+      "code": "LM85",
+      "title": "Cockles Before Dawn",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.mudfoot",
+      "anchorPlaces": [
+        "place.mercantile-coast.mudfoot"
+      ],
+      "premise": "The village's early boats are being emptied on the flat before they reach the Soulrest buyers",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm86",
+      "code": "LM86",
+      "title": "A Dry Floor for Anyone",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.mudfoot",
+      "anchorPlaces": [
+        "place.mercantile-coast.mudfoot"
+      ],
+      "premise": "The cheapest bed on Topal Bay takes anyone, including whoever left a body under its boards",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm87",
+      "code": "LM87",
+      "title": "The Register in Duplicate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.necropolis-village-murkmire",
+      "anchorPlaces": [
+        "place.mercantile-coast.necropolis-village-murkmire"
+      ],
+      "premise": "Xul-Vaat keeps its burial register twice over, in two copies that have begun to disagree about who is buried",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm88",
+      "code": "LM88",
+      "title": "Branching Round the Gaps",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.oliis-boardwalk",
+      "anchorPlaces": [
+        "place.mercantile-coast.oliis-boardwalk"
+      ],
+      "premise": "Walks-The-Mangrove is branching new walkway around its failing spans, while the households left behind want their sections rebuilt",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm89",
+      "code": "LM89",
+      "title": "Two Miles of Deck",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.oliis-boardwalk",
+      "anchorPlaces": [
+        "place.mercantile-coast.oliis-boardwalk"
+      ],
+      "premise": "Something uses the dry way through the mangrove after dark, so the village walks it in daylight only",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    },
+    {
+      "id": "quest.local.lm90",
+      "code": "LM90",
+      "title": "The Broker's Price",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "NEGOTIATION"
+      ],
+      "region": "mercantile-coast",
+      "settlement": "place.mercantile-coast.oliis-boardwalk",
+      "anchorPlaces": [
+        "place.mercantile-coast.bright-throat-village",
+        "place.mercantile-coast.oliis-boardwalk"
+      ],
+      "premise": "The price of Bright-Throat's last endorsement was a household's labour, owed to a creditor outside the village",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/quests/25-quest-place-map.md",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ]
+    }
+  ]
+}

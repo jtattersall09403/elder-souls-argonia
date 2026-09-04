@@ -2562,8 +2562,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
     },
@@ -2703,8 +2703,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        4
+        2,
+        5
       ],
       "lore": "Lore:Knahaten Flu; fauna-hazards dossier (swamp rot, blood rot, greenspore)",
       "countBandNote": "Band widened 1->3 (2026-09-02 reconciliation): the Knahaten Flu emptied the province, so quarantine residue is plural by canon. The three are signature-distinct — a village that shut itself and never reopened (north), an abandoned holding pen whose burial ground dwarfs it (south), and a cordon never formally lifted, repainted yearly by the people inside it (coast)."
@@ -4333,8 +4333,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Guar (Glowgill breathes underwater); Lore:Archon"
     },
@@ -4405,8 +4405,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "acceptance rule: Argonian physiology materially changes underwater play — the economy must reflect it"
     },
@@ -5179,8 +5179,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Sea Transportation; Lore:All Flags Navy; foreign-powers dossier (the coast's hulls are foreign-built)"
     },
@@ -7972,8 +7972,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "guilds-and-orders dossier (the EEC is gone; its wharves and bonded stores are not)"
     },
@@ -16899,8 +16899,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Sea Transportation; wrecker tradition (foreign-powers dossier)"
     },
@@ -17470,8 +17470,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Stormhold (crystals); Lore:Jasper"
     },
@@ -17599,8 +17599,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        4
+        2,
+        5
       ],
       "lore": "labour-and-bondage dossier (owings extendable, transferable, heritable in fact)"
     },
@@ -19143,8 +19143,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        4,
-        7
+        5,
+        8
       ],
       "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions"
     },
@@ -19832,8 +19832,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Accession War; foreign-powers dossier"
     },
@@ -20887,8 +20887,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Argonian (pulling a grave-stake raises a bog blight); fauna-hazards dossier (pahnjees)"
     },
@@ -22974,8 +22974,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        11,
-        14
+        12,
+        15
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
     },

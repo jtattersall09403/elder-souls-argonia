@@ -6,11 +6,11 @@ Places only (roaming creatures and encounter sockets are Phase 13 and add to eve
 
 | band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|
-| D1 | 0.25 | 14 | 56.1 | 1 | **4.0** | 6 | 7 | 3.3/0.5/0.8/0.4 | 102 | 50 | 3 |
-| D2 | 3.28 | 110 | 33.5 | 46 | **14.0** | 10 | 20 | 10.3/2.9/9.3/5.4 | 341 | 82 | 4 |
-| D3 | 16.43 | 281 | 17.1 | 159 | **9.7** | 9 | 58 | 7.6/3.5/34.9/12.9 | 601 | 98 | 88 |
-| D4 | 6.45 | 75 | 11.6 | 48 | **7.4** | 9 | 9 | 7.5/1.9/9.6/10.6 | 208 | 142 | 49 |
-| D5 | 4.7 | 72 | 15.3 | 55 | **11.7** | 2 | 5 | 5.7/1.5/3.5/13.6 | 198 | 122 | 16 |
+| D1 | 0.25 | 14 | 56.1 | 3 | **12.0** | 6 | 6 | 3.3/0.5/0.7/0.6 | 115 | 45 | 1 |
+| D2 | 3.28 | 117 | 35.6 | 52 | **15.8** | 11 | 22 | 10.3/2.9/10.9/6.4 | 422 | 72 | 0 |
+| D3 | 16.43 | 282 | 17.2 | 165 | **10.0** | 6 | 52 | 7.6/3.5/38.8/14.9 | 643 | 101 | 82 |
+| D4 | 6.45 | 81 | 12.6 | 54 | **8.4** | 8 | 11 | 7.5/1.9/8.5/9.1 | 211 | 128 | 43 |
+| D5 | 4.7 | 65 | 13.8 | 46 | **9.8** | 4 | 7 | 5.7/1.5/4.1/15.0 | 190 | 138 | 25 |
 
 ## Sparse ground (D3–D5)
 
@@ -22,41 +22,39 @@ Share of sampled land cells with no hostile place within 450 m, and the gap poin
 
 | band | x m | z m | nearest fight m |
 |---|---:|---:|---:|
-| D3 | 801 | 1245 | 484 |
-| D3 | 1053 | 2309 | 465 |
-| D3 | 345 | 345 | 465 |
-| D3 | 4365 | 6059 | 456 |
-| D4 | 4091 | 2265 | 489 |
-| D4 | 4200 | 4277 | 460 |
-| D4 | 3246 | 1733 | 453 |
-| D5 | 4091 | 2215 | 486 |
+| D3 | 5429 | 504 | 532 |
+| D3 | 411 | 4606 | 482 |
+| D3 | 356 | 702 | 479 |
+| D3 | 1870 | 707 | 477 |
+| D5 | 3246 | 3433 | 472 |
+| D5 | 2550 | 2594 | 465 |
 
 ## Routes with the longest gaps
 
 | route | kind | km | fights met | m between fights |
 |---|---|---:|---:|---:|
-| `route.boat.soulrest-lilmoth` | boat | 4.3 | 11 | 391 |
-| `waterway.mercantile-coast.bramman-river-ferry` | channel | 1.15 | 3 | 383 |
+| `waterway.dunmer-north.riverwalk` | channel | 1.55 | 3 | 517 |
+| `track.imperial-fringe.the-stone-talkers-watch` | track | 1.85 | 5 | 370 |
+| `waterway.mercantile-coast.bright-throat-village` | channel | 1.1 | 3 | 367 |
 | `track.imperial-fringe.marcians-terrace` | track | 1.45 | 4 | 362 |
-| `track.imperial-fringe.lowmere-raft-town` | track | 2.45 | 7 | 350 |
+| `track.dunmer-north.the-divers-landing` | track | 1.75 | 5 | 350 |
+| `route.boat.lilmoth-archon` | boat | 3.25 | 10 | 325 |
+| `route.boat.soulrest-lilmoth` | boat | 4.3 | 14 | 307 |
+| `track.imperial-fringe.lowmere-raft-town` | track | 2.15 | 7 | 307 |
 | `route.boat.archon-thorn` | boat | 4.9 | 16 | 306 |
-| `route.boat.lilmoth-archon` | boat | 3.25 | 11 | 295 |
-| `waterway.mercantile-coast.bright-throat-village` | channel | 1.1 | 4 | 275 |
-| `route.boat.alten-corimont-helstrom` | boat | 3.45 | 13 | 265 |
-| `track.pirate-freeholds.dunmer-frontier-holding` | track | 1.05 | 4 | 262 |
-| `waterway.mercantile-coast.quinrawl-anchorage` | channel | 1.55 | 6 | 258 |
-| `track.dunmer-north.the-field-gate-garrison` | track | 1.8 | 8 | 225 |
-| `track.imperial-fringe.the-stone-talkers-watch` | track | 1.85 | 9 | 206 |
-| `waterway.naga-kur-deeps.sinkhole-mouth-deeps` | channel | 1.0 | 5 | 200 |
-| `route.road.archon-gideon` | road | 5.45 | 28 | 195 |
-| `track.dunmer-north.the-veterans-ridge` | track | 1.35 | 7 | 193 |
-| `track.pirate-freeholds.veterans-holding` | track | 1.45 | 8 | 181 |
-| `route.road.gideon-blackwood-road` | road | 1.75 | 10 | 175 |
-| `route.road.gideon-soulrest` | road | 5.4 | 32 | 169 |
-| `waterway.saxhleel-coast.portdun-mont` | channel | 1.0 | 6 | 167 |
-| `track.dunmer-north.rimfield` | track | 1.0 | 6 | 167 |
-| `route.road.stormhold-thorn` | road | 5.75 | 38 | 151 |
-| `route.road.helstrom-blackrose` | road | 5.1 | 35 | 146 |
-| `track.dunmer-north.the-flu-cordon` | track | 1.0 | 7 | 143 |
-| `route.road.alten-corimont-stormhold` | road | 2.75 | 20 | 138 |
-| `route.road.gideon-stormhold` | road | 3.55 | 26 | 137 |
+| `waterway.naga-kur-deeps.naga-village-settled` | channel | 1.4 | 5 | 280 |
+| `waterway.mercantile-coast.oliis-ferry-stage` | channel | 1.3 | 5 | 260 |
+| `track.imperial-fringe.westfield-village` | track | 1.8 | 7 | 257 |
+| `route.road.gideon-blackwood-road` | road | 1.75 | 7 | 250 |
+| `track.dunmer-north.crystalgate` | track | 1.75 | 7 | 250 |
+| `track.dunmer-north.the-veterans-ridge` | track | 1.4 | 6 | 233 |
+| `track.dunmer-north.rimfield` | track | 1.15 | 5 | 230 |
+| `waterway.hist-heartland.stilt-channel-edge-two-poles` | channel | 1.05 | 5 | 210 |
+| `track.pirate-freeholds.corimont-hist-less-camp` | track | 1.05 | 5 | 210 |
+| `route.boat.alten-corimont-helstrom` | boat | 3.45 | 18 | 192 |
+| `route.road.archon-gideon` | road | 5.45 | 30 | 182 |
+| `route.road.helstrom-blackrose` | road | 5.1 | 29 | 176 |
+| `route.road.gideon-soulrest` | road | 5.4 | 31 | 174 |
+| `track.dunmer-north.the-field-gate-garrison` | track | 1.8 | 11 | 164 |
+| `track.pirate-freeholds.veterans-holding` | track | 1.25 | 8 | 156 |
+| `route.road.stormhold-thorn` | road | 5.75 | 37 | 155 |

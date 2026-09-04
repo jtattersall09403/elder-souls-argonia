@@ -100,7 +100,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP09 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -122,14 +122,14 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.64142,
-        "v": 0.32089
+        "u": 0.64663,
+        "v": 0.36999
       },
       "positionM": [
-        4729.5,
-        2366.1
+        4767.9,
+        2728.1
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-003",
+      "scourSiteId": "site.scour.deep-river-corridor.confluence-003",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-003",
@@ -147,14 +147,14 @@
           "whyLost": "too close to place.hist-heartland.stone-calendar-hist-tsoko"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 4), 450 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; site exchanged in the swap pass with place.hist-heartland.voriplasm-chamber-sealed (+0.53).",
+      "whySiteWon": "confluence in deep river corridor (danger band 3), 695 m from the nearest route; at the water's edge; won on region, remote, submerged.",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 449.8,
+        "landform": "confluence",
+        "regionClass": "deep river corridor",
+        "dangerBand": 3,
+        "distanceToRouteM": 694.9,
         "distanceToWaterM": 0.0,
-        "score": 4.263
+        "score": 2.253
       },
       "hostility": {
         "baseline": "hostile",
@@ -308,8 +308,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Three parties hold paper on stock nobody has moved for a century, so a quest can decide whose paper the marsh honours.",
+        "tierOwnership": "LH60 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -459,7 +459,7 @@
           "culture zone: hist-heartland"
         ],
         "preferences": [
-          "water relation: landing plus access to its raw material",
+          "water relation: within poling reach of a trade channel, though the tuning tree sets the site",
           "neighbours: on a trade water; brokers between neighbours"
         ],
         "landformClasses": [
@@ -532,8 +532,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "A tuning qualification is a livelihood, so a quest can pull one, restore one or prove a chime false.",
+        "tierOwnership": "LH05 · tier-3; LH23 · tier-3; LH26 · tier-3; LH27 · tier-3; LH28 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -986,12 +986,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.66894,
-        "v": 0.28297
+        "u": 0.6496,
+        "v": 0.3209
       },
       "positionM": [
-        4932.4,
-        2086.5
+        4789.9,
+        2366.1
       ],
       "candidatesConsidered": [
         {
@@ -1010,14 +1010,14 @@
           "whyLost": "too close to place.dunmer-north.the-quiet-landing"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 151 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in fringe marsh (danger band 4), 444 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.hist-heartland.marsh-giant-ground-basin (+2.16).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
         "dangerBand": 4,
-        "distanceToRouteM": 150.6,
-        "distanceToWaterM": 38.8,
-        "score": 2.794
+        "distanceToRouteM": 444.3,
+        "distanceToWaterM": 5.5,
+        "score": 2.999
       },
       "hostility": {
         "baseline": "hostile",
@@ -1191,8 +1191,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Four villages share the ledges by turn, so a quest can find out which one has stopped keeping its turn.",
+        "tierOwnership": "LH10 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -1223,11 +1223,6 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0786",
-          "score": 4.216,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.free.roadside-0122",
           "score": 4.154,
           "whyLost": "lost on score"
@@ -1235,6 +1230,11 @@
         {
           "siteId": "site.free.roadside-0121",
           "score": 4.153,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0128",
+          "score": 4.121,
           "whyLost": "lost on score"
         }
       ],
@@ -1332,7 +1332,11 @@
           "flood-high",
           "any-firm-ground",
           "oxbow"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.hist-heartland.walkway-junction-high-crossroads",
+          "maxM": 2000
+        }
       },
       "relations": {
         "dependsOn": [
@@ -1359,7 +1363,7 @@
         "the egg-tender who kept the log",
         "the naheesh who will not have the clutch spoken of"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat"
@@ -1395,8 +1399,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The Egg is claimed by three tribes at once, so a quest can open the reliquary, arbitrate the claim or read what is inside.",
+        "tierOwnership": "LH29 · tier-3; LH30 · tier-3; LH31 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -1434,39 +1438,38 @@
         }
       ],
       "position": {
-        "u": 0.11044,
-        "v": 0.76784
+        "u": 0.50384,
+        "v": 0.23761
       },
       "positionM": [
-        814.3,
-        5661.7
+        3715.1,
+        1752.0
       ],
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-039",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-036",
-          "score": 2.833,
+          "siteId": "site.free.any-firm-ground-0478",
+          "score": 4.144,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0534",
+          "score": 3.797,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0324",
-          "score": 2.546,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0297",
-          "score": 2.544,
+          "siteId": "site.free.any-firm-ground-0624",
+          "score": 3.796,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in fringe marsh (danger band 3), 128 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 454 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, region.",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 127.9,
-        "distanceToWaterM": 21.9,
-        "score": 2.852
+        "landform": "any-firm-ground",
+        "regionClass": "seasonal floodplain",
+        "dangerBand": 4,
+        "distanceToRouteM": 454.3,
+        "distanceToWaterM": 5.5,
+        "score": 4.094
       },
       "hostility": {
         "baseline": "wary",
@@ -1867,12 +1870,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.58267,
-        "v": 0.2324
+        "u": 0.48971,
+        "v": 0.40791
       },
       "positionM": [
-        4296.3,
-        1713.6
+        3610.9,
+        3007.7
       ],
       "candidatesConsidered": [
         {
@@ -1886,21 +1889,21 @@
           "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.scour.interior-swamp.cove-058",
-          "score": 3.215,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-0409",
+          "score": 3.372,
+          "whyLost": "too close to place.dunmer-north.the-ash-holding"
         }
       ],
-      "whySiteWon": "ravine in rootland deep marsh (danger band 5), 228 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "island in rootland deep marsh (danger band 5), 113 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "ravine",
+        "landform": "island",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 228.3,
-        "distanceToWaterM": 7.8,
-        "score": 3.275
+        "distanceToRouteM": 112.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.933
       },
-      "scourSiteId": "site.scour.rootland-deep-marsh.ravine-082",
+      "scourSiteId": "site.scour.rootland-deep-marsh.island-033",
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.blackguards",
@@ -2032,7 +2035,7 @@
         "the deck-keeper",
         "the poler who knows the lanes"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat",
@@ -2071,8 +2074,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The junction is the village's whole capital, so a quest can audit its repair ledger or lose it an arm.",
+        "tierOwnership": "LH32 · tier-3; LH33 · tier-3; LH34 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -2103,29 +2106,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0122",
-          "score": 4.817,
-          "whyLost": "too close to place.dunmer-north.stormhold"
+          "siteId": "site.free.roadside-0362",
+          "score": 4.249,
+          "whyLost": "too close to place.imperial-fringe.gideon"
         },
         {
-          "siteId": "site.free.roadside-0073",
-          "score": 4.799,
-          "whyLost": "too close to place.dunmer-north.stormhold"
+          "siteId": "site.free.roadside-0160",
+          "score": 4.247,
+          "whyLost": "too close to place.imperial-fringe.gideon"
         },
         {
-          "siteId": "site.free.roadside-0549",
-          "score": 4.797,
-          "whyLost": "too close to place.dunmer-north.stormhold"
+          "siteId": "site.free.any-shallow-marsh-0543",
+          "score": 4.246,
+          "whyLost": "too close to place.imperial-fringe.gideon"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 143 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 143 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 142.7,
         "distanceToWaterM": 21.9,
-        "score": 4.078
+        "score": 3.999
       },
       "hostility": {
         "baseline": "wary",
@@ -2293,7 +2296,7 @@
         ],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": "province system · tier-1"
+        "tierOwnership": "PP12 · tier-3; province system · tier-1"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [
@@ -2319,12 +2322,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.68604,
-        "v": 0.4622
+        "u": 0.6377,
+        "v": 0.45922
       },
       "positionM": [
-        5058.5,
-        3408.0
+        4702.1,
+        3386.1
       ],
       "candidatesConsidered": [
         {
@@ -2343,14 +2346,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 461 m from the nearest route; its choice #3 landform; won on landform, region, remote; site exchanged in the swap pass with place.hist-heartland.standing-curiosity-unexplained (+1.19).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 268 m from the nearest route; its first-choice landform; won on landform, region, danger.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 461.4,
-        "distanceToWaterM": 45.2,
-        "score": 3.222
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 268.0,
+        "distanceToWaterM": 32.0,
+        "score": 3.697
       },
       "hostility": {
         "baseline": "hostile",
@@ -2517,7 +2520,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP11 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -2756,12 +2759,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.27405,
-        "v": 0.27925
+        "u": 0.36615,
+        "v": 0.51975
       },
       "positionM": [
-        2020.7,
-        2059.1
+        2699.8,
+        3832.4
       ],
       "candidatesConsidered": [
         {
@@ -2775,19 +2778,19 @@
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0902",
-          "score": 2.595,
-          "whyLost": "too close to place.imperial-fringe.the-silent-halls"
+          "siteId": "site.free.roadside-0319",
+          "score": 2.572,
+          "whyLost": "too close to place.hist-heartland.nine-trunks"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 38 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.sap-touched-miredancer (+0.63).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.mist-locked-hollow-basin (+0.26).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 7.8,
-        "score": 3.275
+        "distanceToRouteM": 93.2,
+        "distanceToWaterM": 15.5,
+        "score": 3.315
       },
       "hostility": {
         "baseline": "hostile",
@@ -2947,7 +2950,7 @@
         ],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": "RW-line · tier-2; RW03 · tier-2"
+        "tierOwnership": "RW03 · tier-2; RW-line · tier-2"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -3018,12 +3021,12 @@
         ]
       },
       "position": {
-        "u": 0.45847,
-        "v": 0.35658
+        "u": 0.63845,
+        "v": 0.53433
       },
       "positionM": [
-        3380.5,
-        2629.3
+        4707.6,
+        3939.9
       ],
       "candidatesConsidered": [
         {
@@ -3034,22 +3037,22 @@
         {
           "siteId": "site.free.any-firm-ground-0749",
           "score": 3.275,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
         },
         {
-          "siteId": "site.free.any-firm-ground-0841",
-          "score": 2.919,
-          "whyLost": "too close to place.hist-heartland.sap-collection-facility-daedric"
+          "siteId": "site.free.any-firm-ground-0750",
+          "score": 2.696,
+          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 35 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, parent.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 145 m from the nearest route; its first-choice landform; won on landform, region, route; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 12.3,
-        "score": 2.369
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 144.8,
+        "distanceToWaterM": 34.7,
+        "score": 2.13
       },
       "assetGaps": [
         "Telvanni pod/tower statics retextured to root for the root-tower silhouette (BM&V mushroomtower/telvanni, retexture only, no new mesh)"
@@ -3155,7 +3158,7 @@
         ],
         "tags": [],
         "opportunity": "FAST root.east_line",
-        "tierOwnership": "MQ05 · tier-0; RW-line · tier-2"
+        "tierOwnership": "MQ05 · tier-0; LH21 · tier-3; RW-line · tier-2"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -3400,12 +3403,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.48153,
-        "v": 0.47707
+        "u": 0.59494,
+        "v": 0.25106
       },
       "positionM": [
-        3550.6,
-        3517.7
+        4386.8,
+        1851.2
       ],
       "candidatesConsidered": [
         {
@@ -3424,14 +3427,14 @@
           "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 5), 260 m from the nearest route; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 82 m from the nearest route; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 5,
-        "distanceToRouteM": 260.1,
-        "distanceToWaterM": 139.8,
-        "score": 2.439
+        "dangerBand": 4,
+        "distanceToRouteM": 82.3,
+        "distanceToWaterM": 38.8,
+        "score": 2.562
       },
       "hostility": {
         "baseline": "hostile",
@@ -3620,16 +3623,16 @@
         {
           "siteId": "site.scour.rootland-deep-marsh.ravine-070",
           "score": 3.356,
-          "whyLost": "too close to place.pirate-freeholds.freehold-market"
+          "whyLost": "too close to place.pirate-freeholds.half-chartered-anchorage"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.gorge-049",
+          "score": 3.242,
+          "whyLost": "too close to place.hist-heartland.root-gallery-helstrom-underway"
         },
         {
           "siteId": "site.scour.interior-swamp.gorge-018",
           "score": 3.232,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.rootland-deep-marsh.gorge-042",
-          "score": 3.23,
           "whyLost": "lost on score"
         }
       ],
@@ -3796,38 +3799,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.4465,
-        "v": 0.38047
+        "u": 0.44844,
+        "v": 0.40202
       },
       "positionM": [
-        3292.3,
-        2805.4
+        3306.6,
+        2964.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0749",
-          "score": 2.753,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "siteId": "site.free.any-shallow-marsh-0556",
+          "score": 2.594,
+          "whyLost": "too close to place.hist-heartland.hist-first-rain-trunk"
         },
         {
-          "siteId": "site.free.roadside-0319",
-          "score": 2.611,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "siteId": "site.free.any-shallow-marsh-0528",
+          "score": 2.528,
+          "whyLost": "too close to place.hist-heartland.helstrom"
         },
         {
-          "siteId": "site.free.any-firm-ground-0780",
-          "score": 2.604,
+          "siteId": "site.free.any-firm-ground-0978",
+          "score": 2.508,
           "whyLost": "taken by place.hist-heartland.serpent-ground-giant-snake"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 86 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on route, region, parent; site exchanged in the swap pass with place.hist-heartland.maturity-trial-chukka-sei (+0.26).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 70 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on route, region, parent; site exchanged in the swap pass with place.hist-heartland.maturity-trial-chukka-sei (+0.74).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 85.7,
-        "distanceToWaterM": 67.8,
-        "score": 2.97
+        "distanceToRouteM": 70.2,
+        "distanceToWaterM": 5.5,
+        "score": 2.935
       },
       "hostility": {
         "baseline": "hostile",
@@ -4004,12 +4007,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.6377,
-        "v": 0.45922
+        "u": 0.66225,
+        "v": 0.46369
       },
       "positionM": [
-        4702.1,
-        3386.1
+        4883.1,
+        3419.0
       ],
       "candidatesConsidered": [
         {
@@ -4028,14 +4031,14 @@
           "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 268 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.hist-heartland.standing-curiosity-unexplained (+0.28).",
+      "whySiteWon": "flood high in firm lowland (danger band 3), 343 m from the nearest route; its choice #2 landform; won on landform, route, parent.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 268.0,
-        "distanceToWaterM": 32.0,
-        "score": 3.896
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 3,
+        "distanceToRouteM": 343.4,
+        "distanceToWaterM": 41.8,
+        "score": 2.09
       },
       "hostility": {
         "baseline": "hostile",
@@ -4093,7 +4096,8 @@
             "provenance": "one household, one lifetime"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-009"
     },
     {
       "aliases": [],
@@ -4149,7 +4153,7 @@
       "confidence": "high",
       "why": {
         "founding": "Middle Argonia's pinnacled mountains come apart at a ripple. This is the one close enough to a route that people have repeatedly tried to climb it.",
-        "siteAdvantages": "A xanmeer stub bound in root, standing clear of the canopy on a ridge end. In a region with almost no long sightlines, it is one of the few things that reads at distance.",
+        "siteAdvantages": "A xanmeer stub bound in root, standing clear of the canopy on its own debris mound. In a region with almost no long sightlines, it is one of the few things that reads at distance.",
         "occupantsMotive": "Nobody lives here. Two climbers' caches and a great deal of abandoned gear say who has tried.",
         "pressures": "The debris fan at the base has old falls in it and one from this season. The route was marked, then deliberately unmarked by someone.",
         "wouldChangeIf": "It will fall. Whether anyone is on it when it does is the open question."
@@ -4172,7 +4176,8 @@
         "landformClasses": [
           "ridge-end",
           "summit",
-          "saddle"
+          "saddle",
+          "any-firm-ground"
         ]
       },
       "culture": "argonian",
@@ -4221,12 +4226,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.38937,
-        "v": 0.56162
+        "u": 0.57375,
+        "v": 0.51723
       },
       "positionM": [
-        2871.0,
-        4141.1
+        4230.5,
+        3813.8
       ],
       "candidatesConsidered": [
         {
@@ -4236,23 +4241,23 @@
         },
         {
           "siteId": "site.free.any-firm-ground-0881",
-          "score": 3.049,
+          "score": 3.539,
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
           "siteId": "site.free.any-firm-ground-0807",
-          "score": 3.046,
+          "score": 3.536,
           "whyLost": "too close to place.hist-heartland.sap-collection-facility-daedric"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 82 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, danger, parent.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 344 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, danger.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 82.3,
-        "distanceToWaterM": 66.0,
-        "score": 2.33
+        "distanceToRouteM": 343.7,
+        "distanceToWaterM": 21.9,
+        "score": 3.344
       },
       "hostility": {
         "baseline": "hostile",
@@ -4640,8 +4645,8 @@
           "quest.provision.identity-case"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ19 · tier-2"
+        "opportunity": "The carried sapling is young enough to fail, so a quest can trace what is killing it back along the walk.",
+        "tierOwnership": "LH35 · tier-3; LH36 · tier-3; MQ19 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [
@@ -4881,12 +4886,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.50905,
-        "v": 0.35511
+        "u": 0.41534,
+        "v": 0.63027
       },
       "positionM": [
-        3753.5,
-        2618.4
+        3062.5,
+        4647.3
       ],
       "candidatesConsidered": [
         {
@@ -4895,24 +4900,24 @@
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-firm-ground-0914",
-          "score": 3.313,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
-        },
-        {
           "siteId": "site.free.any-firm-ground-0809",
           "score": 3.31,
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0881",
+          "score": 3.309,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 101 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, parent, route.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 119 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, danger, parent.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 101.1,
-        "distanceToWaterM": 12.3,
-        "score": 2.708
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 118.6,
+        "distanceToWaterM": 15.5,
+        "score": 2.865
       },
       "hostility": {
         "baseline": "hostile",
@@ -5103,38 +5108,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.35808,
-        "v": 0.31792
+        "u": 0.38337,
+        "v": 0.2666
       },
       "positionM": [
-        2640.3,
-        2344.2
+        2826.8,
+        1965.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0444",
-          "score": 3.034,
-          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
+          "siteId": "site.scour.lake-standing-water.cove-003",
+          "score": 3.925,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.islet-040",
+          "score": 3.723,
+          "whyLost": "too close to place.hist-heartland.the-cut-circle"
         },
         {
           "siteId": "site.scour.rootland-deep-marsh.islet-001",
-          "score": 3.03,
+          "score": 3.5,
           "whyLost": "too close to place.hist-heartland.refuge-station-interior"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 2.956,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 495 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on region, submerged, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.wild-hist-mad-one (+0.39).",
+      "whySiteWon": "water narrows in lake & standing water (danger band 5), 587 m from the nearest route; at the water's edge; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
+        "landform": "water-narrows",
+        "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 494.9,
-        "distanceToWaterM": 19.8,
-        "score": 2.993
+        "distanceToRouteM": 586.6,
+        "distanceToWaterM": 0.0,
+        "score": 2.071
       },
       "hostility": {
         "baseline": "hostile",
@@ -5183,7 +5188,8 @@
             "provenance": "left for the next traveller, by the custom that says so"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.lake-standing-water.water-narrows-051"
     },
     {
       "id": "place.hist-heartland.drawdown-flat-exposed",
@@ -5216,7 +5222,8 @@
           "lake & standing water",
           "seasonal floodplain",
           "interior swamp",
-          "fringe marsh"
+          "fringe marsh",
+          "firm lowland"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -5283,7 +5290,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP10 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -5305,38 +5312,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.71208,
-        "v": 0.29933
+        "u": 0.64812,
+        "v": 0.25768
       },
       "positionM": [
-        5250.5,
-        2207.1
+        4778.9,
+        1900.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.water-narrows-003",
-          "score": 3.286,
-          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
+          "siteId": "site.free.any-firm-ground-0404",
+          "score": 3.42,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-021",
-          "score": 3.18,
-          "whyLost": "too close to place.hist-heartland.the-cut-circle"
+          "siteId": "site.free.roadside-0178",
+          "score": 3.418,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0683",
-          "score": 3.117,
-          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
+          "siteId": "site.free.any-firm-ground-0368",
+          "score": 3.411,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in firm lowland (danger band 3), 279 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, danger; site exchanged in the swap pass with place.hist-heartland.stilt-channel-edge-two-poles (+2.14).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 5 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 279.4,
-        "distanceToWaterM": 5.5,
-        "score": 3.039
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 21.9,
+        "score": 3.495
       },
       "hostility": {
         "baseline": "hostile",
@@ -5385,8 +5392,7 @@
             "provenance": "off whatever came here before you"
           }
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.cove-048"
+      }
     },
     {
       "id": "place.hist-heartland.dream-wallow-sap-pool",
@@ -5453,7 +5459,7 @@
       "notableNpcSlots": [
         "the sap-speaker who watches the sleepers"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat"
@@ -5521,29 +5527,29 @@
       "scourSiteId": "site.scour.rootland-deep-marsh.oxbow-006",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.oxbow-004",
-          "score": 3.021,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
-        },
-        {
           "siteId": "site.scour.tropical-jungle.spring-head-039",
-          "score": 2.909,
+          "score": 3.256,
           "whyLost": "too close to place.hist-heartland.duskfall-unmade-site"
         },
         {
-          "siteId": "site.scour.rootland-deep-marsh.sinkhole-001",
-          "score": 2.86,
-          "whyLost": "too close to place.hist-heartland.nightbound-lightless"
+          "siteId": "site.scour.tropical-jungle.spring-head-040",
+          "score": 3.24,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+        },
+        {
+          "siteId": "site.scour.tropical-jungle.oxbow-004",
+          "score": 3.205,
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
         }
       ],
-      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 165 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 165 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent.",
       "plotFacts": {
         "landform": "oxbow",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
         "distanceToRouteM": 164.9,
         "distanceToWaterM": 0.0,
-        "score": 2.667
+        "score": 2.615
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -5559,7 +5565,7 @@
         ],
         "clearable": false,
         "respawn": "none",
-        "environmentalDanger": false
+        "environmentalDanger": true
       },
       "playerPurpose": {
         "primary": "lore-reveal",
@@ -5660,7 +5666,7 @@
       "notableNpcSlots": [
         "the sap-speaker who watches the sleepers"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat"
@@ -5718,66 +5724,95 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.55962,
-        "v": 0.2614
+        "u": 0.48748,
+        "v": 0.37295
       },
       "positionM": [
-        4126.3,
-        1927.5
+        3594.4,
+        2750.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0252",
-          "score": 3.462,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.any-firm-ground-0779",
+          "score": 2.862,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0253",
-          "score": 3.454,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.any-shallow-marsh-0390",
+          "score": 2.814,
+          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         },
         {
-          "siteId": "site.free.roadside-0054",
-          "score": 3.454,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.any-shallow-marsh-0799",
+          "score": 2.807,
+          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 179 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 138 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.pilgrim-camp-sap-road (+1.00).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 178.6,
-        "distanceToWaterM": 17.3,
-        "score": 2.917
+        "distanceToRouteM": 137.5,
+        "distanceToWaterM": 27.4,
+        "score": 3.016
       },
       "hostility": {
-        "baseline": "sanctuary",
+        "baseline": "hostile",
         "owner": null,
-        "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "flips": [
+          {
+            "to": "wary",
+            "when": {
+              "flag": "flag.hist-heartland.starblossom-hollow-named"
+            },
+            "scope": "place"
+          }
+        ],
+        "clearable": true,
+        "respawn": "seasonal"
       },
       "playerPurpose": {
         "primary": "lore-reveal",
-        "secondary": [],
+        "secondary": [
+          "combat-challenge"
+        ],
         "impact": "mild",
-        "hook": "Starblossom farmed in constellation beds by people who insist they are not farmers and will sell to you anyway.",
+        "hook": "Starblossom farmed in constellation beds by people who insist they are not farmers. They will sell to you. They will not let you leave having counted the beds.",
         "reviewed": true
       },
       "interior": {
         "kind": "none"
       },
       "contents": {
-        "creatures": [],
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "swarm",
+            "registerRef": null,
+            "count": "swarm",
+            "danger": "D3",
+            "trigger": "on-approach"
+          }
+        ],
         "npcs": [
           {
             "slotId": "n1",
-            "role": "priest",
+            "role": "merchant",
             "registerRef": null,
             "faction": null,
             "named": false,
-            "count": "single"
+            "count": "single",
+            "danger": "D3"
+          },
+          {
+            "slotId": "n2",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "faction": null,
+            "named": false,
+            "count": "few",
+            "danger": "D4"
           }
         ],
         "loot": [
@@ -5836,7 +5871,8 @@
           "water-narrows",
           "river-mouth",
           "isthmus",
-          "waterfall"
+          "waterfall",
+          "any-shallow-marsh"
         ]
       },
       "relations": {
@@ -5912,12 +5948,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.76562,
-        "v": 0.28
+        "u": 0.71877,
+        "v": 0.34023
       },
       "positionM": [
-        5645.3,
-        2064.5
+        5299.8,
+        2508.7
       ],
       "candidatesConsidered": [
         {
@@ -5932,18 +5968,18 @@
         },
         {
           "siteId": "site.free.any-shallow-marsh-0688",
-          "score": 2.429,
+          "score": 2.549,
           "whyLost": "too close to place.saxhleel-coast.cantemir-headland"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 315 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, landform.",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 422 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on remote, parent, landform; site exchanged in the swap pass with place.hist-heartland.umbriel-stripped-quiet (+1.13).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 315.2,
-        "distanceToWaterM": 27.4,
-        "score": 2.885
+        "distanceToRouteM": 422.2,
+        "distanceToWaterM": 54.0,
+        "score": 1.603
       },
       "hostility": {
         "baseline": "hostile",
@@ -5990,7 +6026,14 @@
             "provenance": "off whatever came here before you"
           }
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "narrows",
+          "radiusM": 50,
+          "note": "the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.duskfall-unmade-site",
@@ -6094,8 +6137,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The full-size floor plan can be read, so a quest can work out what the builders were unmaking and why.",
+        "tierOwnership": "LH44 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -6301,7 +6344,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP03 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -6323,11 +6366,11 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "wonder-oddity",
@@ -6354,9 +6397,10 @@
             "slotId": "c1",
             "role": "scavenger",
             "registerRef": null,
-            "danger": "D3",
-            "count": "few",
-            "trigger": "on-approach"
+            "danger": "D4",
+            "count": "band",
+            "trigger": "on-approach",
+            "provenance": "a hackwing flock that has held the body since the week he came down"
           }
         ],
         "npcs": [],
@@ -6380,12 +6424,12 @@
         ]
       },
       "position": {
-        "u": 0.46963,
-        "v": 0.25471
+        "u": 0.51946,
+        "v": 0.59755
       },
       "positionM": [
-        3462.8,
-        1878.1
+        3830.2,
+        4406.0
       ],
       "candidatesConsidered": [
         {
@@ -6404,14 +6448,14 @@
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 652 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, parent.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 861 m from the nearest route; its choice #2 landform; won on remote, landform, region; site exchanged in the swap pass with place.hist-heartland.mist-locked-hollow-basin (+2.43).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 651.8,
-        "distanceToWaterM": 0.0,
-        "score": 2.379
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 861.1,
+        "distanceToWaterM": 49.0,
+        "score": 3.644
       }
     },
     {
@@ -6924,8 +6968,8 @@
           "quest.provision.mr01-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MR01 · tier-2"
+        "opportunity": "Water drinkable without ceremony is worth a fight, so a quest can settle its use in writing or foul it.",
+        "tierOwnership": "MR01 · tier-2; LH07 · tier-3; LH37 · tier-3; LH38 · tier-3; LH51 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -6951,18 +6995,18 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.63324,
-        "v": 0.21752
+        "u": 0.65778,
+        "v": 0.23091
       },
       "positionM": [
-        4669.2,
-        1603.9
+        4850.2,
+        1702.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0352",
-          "score": 3.067,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.confluence-019",
+          "score": 3.716,
+          "whyLost": "too close to place.hist-heartland.submerged-xanmeer-topmost"
         },
         {
           "siteId": "site.free.any-firm-ground-0316",
@@ -6970,19 +7014,19 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0112",
-          "score": 2.351,
+          "siteId": "site.free.any-firm-ground-0284",
+          "score": 2.202,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "confluence in firm lowland (danger band 3), 43 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region; placed from the homeless batch at stage 'spacing-3/4'.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 154 m from the nearest route; no free 'confluence' site was left in the zone, so plain ground; won on bound, region, danger; placed from the homeless batch at stage 'spacing-1/2'.",
       "plotFacts": {
-        "landform": "confluence",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 42.8,
-        "distanceToWaterM": 0.0,
-        "score": 3.716
+        "distanceToRouteM": 153.5,
+        "distanceToWaterM": 100.7,
+        "score": 3.067
       },
       "hostility": {
         "baseline": "wary",
@@ -7039,8 +7083,7 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.confluence-019"
+      }
     },
     {
       "id": "place.hist-heartland.guide-camp-far-shelter",
@@ -7142,8 +7185,8 @@
           "quest.provision.mq27-expedition-staging"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ27 · tier-0"
+        "opportunity": "The shelter is stocked by the guides themselves, so a quest can audit the stores or arrive to find them gone.",
+        "tierOwnership": "MQ27 · tier-0; LH14 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.guides",
       "deedCounterKeys": [],
@@ -7359,7 +7402,7 @@
         ],
         "tags": [],
         "opportunity": "MQ27 expedition guide hire",
-        "tierOwnership": "MQ23 · tier-0; MQ27 · tier-0; LQ05 · tier-3"
+        "tierOwnership": "MQ23 · tier-0; MQ27 · tier-0; LH06 · tier-3; LQ05 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.guides",
       "deedCounterKeys": [],
@@ -7578,8 +7621,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The dawn line is predictable, so a quest can move a roost that has begun taking from the road.",
+        "tierOwnership": "LH20 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -7615,13 +7658,13 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0367",
-          "score": 3.697,
+          "siteId": "site.free.any-firm-ground-0767",
+          "score": 3.722,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0179",
-          "score": 3.672,
+          "siteId": "site.free.any-firm-ground-0367",
+          "score": 3.697,
           "whyLost": "lost on score"
         }
       ],
@@ -7749,7 +7792,7 @@
       "notableNpcSlots": [
         "the grave-singer of the line"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "climb",
@@ -7821,19 +7864,19 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0611",
-          "score": 3.917,
-          "whyLost": "too close to place.pirate-freeholds.freehold-market"
+          "siteId": "site.free.any-firm-ground-0399",
+          "score": 3.611,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0682",
-          "score": 3.906,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "siteId": "site.free.any-firm-ground-0719",
+          "score": 3.598,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0612",
-          "score": 3.905,
-          "whyLost": "taken by place.hist-heartland.mass-grave-flu-memorial"
+          "siteId": "site.free.any-firm-ground-0680",
+          "score": 3.586,
+          "whyLost": "lost on score"
         }
       ],
       "whySiteWon": "summit in firm lowland (danger band 5), 177 m from the nearest route; its first-choice landform; won on landform, route, region.",
@@ -7843,7 +7886,7 @@
         "dangerBand": 5,
         "distanceToRouteM": 176.6,
         "distanceToWaterM": 50.6,
-        "score": 3.813
+        "score": 3.775
       },
       "scourSiteId": "site.scour.firm-lowland.summit-034",
       "hostility": {
@@ -8011,8 +8054,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The village holds other villages' grain, so a quest can turn on a double receipt or a pledged household.",
+        "tierOwnership": "LH39 · tier-3; LH40 · tier-3; LH41 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -8043,6 +8086,11 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.fringe-marsh.flood-high-039",
+          "score": 4.307,
+          "whyLost": "too close to place.mercantile-coast.xhon-mehl-shrine"
+        },
+        {
           "siteId": "site.free.any-firm-ground-0355",
           "score": 3.662,
           "whyLost": "lost on score"
@@ -8050,11 +8098,6 @@
         {
           "siteId": "site.free.roadside-0120",
           "score": 3.652,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0407",
-          "score": 3.644,
           "whyLost": "lost on score"
         }
       ],
@@ -8233,8 +8276,8 @@
           "quest.provision.mr04-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MR04 · tier-2"
+        "opportunity": "The crew works under a concession from a dead authority, so a quest can end the tapping or make it legal.",
+        "tierOwnership": "MR04 · tier-2; LH36 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [
@@ -8295,7 +8338,7 @@
       },
       "hostility": {
         "baseline": "guarded",
-        "owner": "faction.helstrom-assembly",
+        "owner": null,
         "flips": [
           {
             "to": "hostile",
@@ -8305,7 +8348,7 @@
             "scope": "place"
           }
         ],
-        "clearable": false,
+        "clearable": true,
         "respawn": "none"
       },
       "playerPurpose": {
@@ -8328,6 +8371,24 @@
             "faction": null,
             "named": false,
             "count": "single"
+          },
+          {
+            "slotId": "n2",
+            "role": "crew",
+            "registerRef": null,
+            "faction": null,
+            "named": false,
+            "count": "few",
+            "danger": "D4"
+          },
+          {
+            "slotId": "n3",
+            "role": "lieutenant",
+            "registerRef": null,
+            "faction": null,
+            "named": false,
+            "count": "single",
+            "danger": "D4"
           }
         ],
         "loot": [
@@ -8427,7 +8488,7 @@
         "the grove's senior tree-minder",
         "the dock factor who prices every foreign hull"
       ],
-      "dangerTier": "D0",
+      "dangerTier": "D1",
       "traversalModes": [
         "walk",
         "boat",
@@ -8481,7 +8542,7 @@
         ],
         "tags": [],
         "opportunity": "LOC helstrom.inner_city · LOC helstrom.scalded_throne · LOC helstrom.archive · LOC helstrom.root_archive · LOC helstrom.closed_council · FAST boat.corimont_helstrom",
-        "tierOwnership": "MQ05 · tier-0; MQ06 · tier-0; MQ15 · tier-0; MQ18 · tier-0; MQ25 · tier-0; MQ26 · tier-0; MQ32 · tier-0; MR08 · tier-2; LQ06 · tier-3"
+        "tierOwnership": "MQ05 · tier-0; MQ06 · tier-0; MQ15 · tier-0; MQ18 · tier-0; MQ22 · tier-0; MQ25 · tier-0; MQ26 · tier-0; MQ32 · tier-0; MR08 · tier-2; LH01 · tier-3; LH02 · tier-3; LH03 · tier-3; LH04 · tier-3; LH05 · tier-3; LH06 · tier-3; LH07 · tier-3; LH08 · tier-3; LH09 · tier-3; LH10 · tier-3; LH11 · tier-3; LH12 · tier-3; LH13 · tier-3; LH14 · tier-3; LH15 · tier-3; LH16 · tier-3; LH17 · tier-3; LH18 · tier-3; LH19 · tier-3; LH20 · tier-3; LH21 · tier-3; LH22 · tier-3; LH23 · tier-3; LH24 · tier-3; LH25 · tier-3; LQ06 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [
@@ -8642,7 +8703,8 @@
           "place.hist-heartland.porter-relay-poling",
           "place.hist-heartland.boardwalk-branching-many-ways"
         ]
-      }
+      },
+      "sitingNote": "The danger raster reads band 5 at the anchor because the rootland outside the gates is the worst ground in the province; the grove itself is the safest place in the region, so the record carries D1 rather than the band."
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
@@ -8752,8 +8814,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "New courses on Merethic stone are a public offence, so a quest can defend the masons or unmake the work.",
+        "tierOwnership": "LH42 · tier-3; LH43 · tier-3; LH44 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -9001,12 +9063,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.56259,
-        "v": 0.35808
+        "u": 0.4094,
+        "v": 0.45327
       },
       "positionM": [
-        4148.3,
-        2640.3
+        3018.7,
+        3342.2
       ],
       "candidatesConsidered": [
         {
@@ -9025,14 +9087,14 @@
           "whyLost": "too close to place.hist-heartland.sleeping-in-the-ring"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 365 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on region, route, remote.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 189 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, parent.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 364.6,
-        "distanceToWaterM": 73.8,
-        "score": 2.861
+        "distanceToRouteM": 189.1,
+        "distanceToWaterM": 27.4,
+        "score": 2.976
       },
       "hostility": {
         "baseline": "wary",
@@ -9837,7 +9899,7 @@
         ],
         "tags": [],
         "opportunity": "LW01 League of Open Water hook",
-        "tierOwnership": "MQ19 · tier-2"
+        "tierOwnership": "LH61 · tier-3; MQ19 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.guides",
       "deedCounterKeys": [],
@@ -10501,8 +10563,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The roster is the village's whole history, so a quest can get someone off it or get past it.",
+        "tierOwnership": "LH45 · tier-3; LH46 · tier-3; PP07 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -10741,12 +10803,12 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.59532,
-        "v": 0.3737
+        "u": 0.58565,
+        "v": 0.35362
       },
       "positionM": [
-        4389.6,
-        2755.5
+        4318.3,
+        2607.4
       ],
       "candidatesConsidered": [
         {
@@ -10765,14 +10827,14 @@
           "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         }
       ],
-      "whySiteWon": "water narrows in interior swamp (danger band 5), 456 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, remote, region; site exchanged in the swap pass with place.hist-heartland.stilt-channel-edge-two-poles (+2.13).",
+      "whySiteWon": "cove in interior swamp (danger band 5), 373 m from the nearest route; its first-choice landform; won on landform, remote, region; site exchanged in the swap pass with place.hist-heartland.stilt-channel-edge-two-poles (+0.74).",
       "plotFacts": {
-        "landform": "water-narrows",
+        "landform": "cove",
         "regionClass": "interior swamp",
         "dangerBand": 5,
-        "distanceToRouteM": 456.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.298
+        "distanceToRouteM": 373.0,
+        "distanceToWaterM": 27.4,
+        "score": 3.247
       },
       "hostility": {
         "baseline": "hostile",
@@ -10830,7 +10892,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.interior-swamp.water-narrows-018"
+      "scourSiteId": "site.scour.interior-swamp.cove-058"
     },
     {
       "id": "place.hist-heartland.lost-city",
@@ -11202,12 +11264,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.47112,
-        "v": 0.64217
+        "u": 0.66894,
+        "v": 0.28297
       },
       "positionM": [
-        3473.8,
-        4735.0
+        4932.4,
+        2086.5
       ],
       "candidatesConsidered": [
         {
@@ -11226,14 +11288,14 @@
           "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 376 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, route, danger.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 151 m from the nearest route; its choice #3 landform; won on route, landform, region; site exchanged in the swap pass with place.hist-heartland.beast-keeper-lizard-steed (+2.16).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 376.1,
-        "distanceToWaterM": 34.7,
-        "score": 3.262
+        "distanceToRouteM": 150.6,
+        "distanceToWaterM": 38.8,
+        "score": 3.519
       },
       "hostility": {
         "baseline": "hostile",
@@ -11618,12 +11680,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.48167,
-        "v": 0.37605
+        "u": 0.50905,
+        "v": 0.35511
       },
       "positionM": [
-        3551.6,
-        2772.8
+        3753.5,
+        2618.4
       ],
       "candidatesConsidered": [
         {
@@ -11642,14 +11704,14 @@
           "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 89 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.hist-heartland.canopy-crossing-rope-basin (+0.26).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 101 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.hist-heartland.canopy-crossing-rope-basin (+0.74).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 88.6,
-        "distanceToWaterM": 22.6,
-        "score": 2.359
+        "distanceToRouteM": 101.1,
+        "distanceToWaterM": 12.3,
+        "score": 2.387
       },
       "hostility": {
         "baseline": "hostile",
@@ -11721,9 +11783,9 @@
       "confidence": "medium",
       "why": {
         "founding": "A guide who died bringing a party out of the basin; her clients paid for the stone.",
-        "siteAdvantages": "Where she stopped, on the route she was walking.",
+        "siteAdvantages": "Where she stopped, on ground the guides walked that year.",
         "occupantsMotive": "None. Passing guides touch it, and the gate camp reads its roster against her name each season to count the year's losses.",
-        "pressures": "The route has moved and the stone is off it. Touching it is now a detour that fewer guides make each year.",
+        "pressures": "The walking line has shifted east and fewer guides make the detour to touch the stone each season.",
         "wouldChangeIf": "Nothing; it will be swallowed. The guides have discussed moving it and rejected that as the second death."
       },
       "sitingPrefs": {
@@ -11842,8 +11904,8 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-042",
-          "score": 3.824,
+          "siteId": "site.scour.firm-lowland.headland-006",
+          "score": 3.687,
           "whyLost": "lost on score"
         }
       ],
@@ -11946,7 +12008,11 @@
           "ridge-end",
           "land-bridge",
           "isthmus"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.hist-heartland.sealed-xanmeer-living",
+          "maxM": 300
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -12000,8 +12066,8 @@
           "quest.provision.canon.miregaunt-guardians"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "province system · tier-1"
+        "opportunity": "It returns when killed, so a quest can use it as a door, a hazard or a renewable prize.",
+        "tierOwnership": "LH46 · tier-3; province system · tier-1"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -12033,17 +12099,17 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-0454",
-          "score": 3.56,
+          "score": 3.16,
           "whyLost": "too close to place.hist-heartland.memorial-stone-personal-guide"
         },
         {
           "siteId": "site.scour.interior-swamp.ford-040",
-          "score": 2.974,
+          "score": 2.574,
           "whyLost": "too close to place.hist-heartland.memorial-stone-personal-guide"
         },
         {
-          "siteId": "site.free.any-firm-ground-0432",
-          "score": 1.572,
+          "siteId": "site.scour.firm-lowland.summit-035",
+          "score": 2.244,
           "whyLost": "lost on score"
         }
       ],
@@ -12054,7 +12120,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 301.1,
         "distanceToWaterM": 39.9,
-        "score": 2.908
+        "score": 2.408
       },
       "hostility": {
         "baseline": "hostile",
@@ -12227,18 +12293,18 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.01041,
-        "v": 0.41528
+        "u": 0.42873,
+        "v": 0.58639
       },
       "positionM": [
-        76.8,
-        3062.1
+        3161.2,
+        4323.8
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0749",
           "score": 2.76,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
         },
         {
           "siteId": "site.free.roadside-0319",
@@ -12246,19 +12312,19 @@
           "whyLost": "too close to place.hist-heartland.nine-trunks"
         },
         {
-          "siteId": "site.free.any-firm-ground-0780",
-          "score": 2.591,
-          "whyLost": "taken by place.hist-heartland.serpent-ground-giant-snake"
+          "siteId": "site.free.any-shallow-marsh-0683",
+          "score": 2.576,
+          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 49 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, landform; site exchanged in the swap pass with place.hist-heartland.root-gallery-collapsed-nine (+0.30).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 395 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, danger, route; site exchanged in the swap pass with place.hist-heartland.broken-xanmeer-subsumed (+0.26).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 49.0,
-        "distanceToWaterM": 12.3,
-        "score": 2.216
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 395.5,
+        "distanceToWaterM": 15.5,
+        "score": 2.91
       },
       "hostility": {
         "baseline": "hostile",
@@ -12437,8 +12503,8 @@
           "quest.provision.canon.grave-stakes"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "province system · tier-1"
+        "opportunity": "Every house front is a rack of finished poles, so a quest can chase a pole nobody has collected.",
+        "tierOwnership": "LH09 · tier-3; LH47 · tier-3; LH48 · tier-3; PP12 · tier-3; province system · tier-1"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -12672,8 +12738,8 @@
           "quest.provision.dq05-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "DQ05 · tier-3"
+        "opportunity": "The village finds its way by chime-line alone, so a quest can foul the lines, cut them or follow them somewhere unlit.",
+        "tierOwnership": "DQ05 · tier-3; LH49 · tier-3; LH50 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -12823,7 +12889,7 @@
           "culture zone: hist-heartland"
         ],
         "preferences": [
-          "water relation: channel bank or spring, always with a landing",
+          "water relation: channel bank or spring, within poling reach",
           "neighbours: one to two hours from its neighbours by water; clusters along a drainage",
           "water relation: within a hundred metres of poleable water"
         ],
@@ -12900,8 +12966,8 @@
           "quest.provision.identity-case"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ19 · tier-2"
+        "opportunity": "The convocation overflow is the village's income, so a quest can turn on pitch-rights or on what the delegations carry.",
+        "tierOwnership": "LH37 · tier-3; LH51 · tier-3; LH52 · tier-3; LH53 · tier-3; MQ19 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -13109,8 +13175,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The sermon is painted round the inside, so a quest can commission one, erase one or dispute one.",
+        "tierOwnership": "LH22 · tier-3; LH43 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -13325,8 +13391,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "One finished pole has waited eleven years, so a quest can find the family it names.",
+        "tierOwnership": "LH09 · tier-3; LH47 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -13348,38 +13414,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.64291,
-        "v": 0.24207
+        "u": 0.58929,
+        "v": 0.19901
       },
       "positionM": [
-        4740.5,
-        1784.9
+        4345.1,
+        1467.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0611",
-          "score": 4.218,
-          "whyLost": "too close to place.pirate-freeholds.freehold-market"
-        },
-        {
           "siteId": "site.free.any-firm-ground-0682",
           "score": 4.217,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0321",
           "score": 4.214,
-          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0351",
+          "score": 4.211,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 35 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 23 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 19.8,
-        "score": 4.211
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 27.4,
+        "score": 4.218
       },
       "hostility": {
         "baseline": "wary",
@@ -13527,14 +13593,14 @@
         "totems-ritual",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [
           "quest.provision.mr07-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MR07 · tier-2"
+        "opportunity": "The two-tender rule can be broken quietly, so a quest can catch a solitary communion or defend one.",
+        "tierOwnership": "MR07 · tier-2; LH27 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -13741,8 +13807,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The pitch markers stand empty eleven months a year, so a quest can read who did not come this season.",
+        "tierOwnership": "LH25 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.guides",
       "deedCounterKeys": [],
@@ -13764,12 +13830,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.67861,
-        "v": 0.22124
+        "u": 0.67117,
+        "v": 0.34544
       },
       "positionM": [
-        5003.7,
-        1631.3
+        4948.9,
+        2547.1
       ],
       "candidatesConsidered": [
         {
@@ -13788,14 +13854,14 @@
           "whyLost": "too close to place.hist-heartland.the-cut-circle"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 268 m from the nearest route; its choice #4 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.hist-heartland.sinkhole-mouth-basin (+0.49).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 586 m from the nearest route; its choice #4 landform; won on landform, region, danger.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "upland hills",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 267.8,
-        "distanceToWaterM": 187.2,
-        "score": 3.334
+        "distanceToRouteM": 586.3,
+        "distanceToWaterM": 49.0,
+        "score": 3.255
       },
       "hostility": {
         "baseline": "hostile",
@@ -13967,12 +14033,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.44844,
-        "v": 0.40202
+        "u": 0.57673,
+        "v": 0.38783
       },
       "positionM": [
-        3306.6,
-        2964.3
+        4252.5,
+        2859.7
       ],
       "candidatesConsidered": [
         {
@@ -13991,14 +14057,14 @@
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 70 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.canopy-crossing-rope-basin (+0.52).",
+      "whySiteWon": "enclosed clearing in firm lowland (danger band 4), 324 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, danger; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.dream-wallow-starblossom (+1.00).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 70.2,
-        "distanceToWaterM": 5.5,
-        "score": 2.019
+        "landform": "enclosed-clearing",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 324.3,
+        "distanceToWaterM": 7.8,
+        "score": 1.842
       },
       "hostility": {
         "baseline": "hostile",
@@ -14041,7 +14107,8 @@
             "provenance": "camp stores"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.enclosed-clearing-004"
     },
     {
       "id": "place.hist-heartland.platform-ladder-tower-watch",
@@ -14161,12 +14228,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.41905,
-        "v": 0.06655
+        "u": 0.37667,
+        "v": 0.11787
       },
       "positionM": [
-        3089.9,
-        490.7
+        2777.4,
+        869.1
       ],
       "candidatesConsidered": [
         {
@@ -14182,17 +14249,17 @@
         {
           "siteId": "site.free.any-shallow-marsh-0122",
           "score": 3.125,
-          "whyLost": "too close to place.hist-heartland.bubble-spire-open-helstrom"
+          "whyLost": "too close to place.dunmer-north.the-standing-bid"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 3), 35 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 2), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 87.9,
-        "score": 3.094
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 5.5,
+        "score": 3.045
       },
       "hostility": {
         "baseline": "neutral",
@@ -14356,38 +14423,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.4793,
-        "v": 0.41832
+        "u": 0.48823,
+        "v": 0.31272
       },
       "positionM": [
-        3534.1,
-        3084.5
+        3599.9,
+        2305.8
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0902",
+          "score": 3.083,
+          "whyLost": "too close to place.imperial-fringe.the-silent-halls"
+        },
         {
           "siteId": "site.free.any-shallow-marsh-0799",
           "score": 3.083,
           "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0867",
-          "score": 3.066,
-          "whyLost": "too close to place.imperial-fringe.the-kept-terrace"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0903",
-          "score": 2.984,
-          "whyLost": "too close to place.naga-kur-deeps.air-pocket-station-deeps"
+          "siteId": "site.free.any-shallow-marsh-0444",
+          "score": 2.793,
+          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         }
       ],
-      "whySiteWon": "islet in rootland deep marsh (danger band 5), 11 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 231 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "islet",
+        "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 11.0,
-        "distanceToWaterM": 12.3,
-        "score": 2.461
+        "distanceToRouteM": 230.6,
+        "distanceToWaterM": 0.0,
+        "score": 2.32
       },
       "hostility": {
         "baseline": "hostile",
@@ -14449,8 +14516,7 @@
             "provenance": "barrels stencilled for a named city buyer"
           }
         ]
-      },
-      "scourSiteId": "site.scour.rootland-deep-marsh.islet-047"
+      }
     },
     {
       "id": "place.hist-heartland.porter-relay-poling",
@@ -14567,8 +14633,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The tariff is cut into the timber, so a quest can turn on a weighing, an Owing or a hire that went wrong.",
+        "tierOwnership": "LH01 · tier-3; LH12 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -14788,8 +14854,8 @@
           "quest.provision.mq27-expedition-staging"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ27 · tier-0"
+        "opportunity": "The stores are counted against a forty-year-old survey, so a quest can recount them before anyone needs them.",
+        "tierOwnership": "MQ27 · tier-0; LH14 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.guides",
       "deedCounterKeys": [],
@@ -15028,38 +15094,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.27552,
-        "v": 0.5626
+        "u": 0.50882,
+        "v": 0.44589
       },
       "positionM": [
-        2031.6,
-        4148.4
+        3751.8,
+        3287.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0902",
-          "score": 2.417,
+          "siteId": "site.free.roadside-0231",
+          "score": 2.628,
           "whyLost": "too close to place.hist-heartland.root-gallery-deep-throat"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0903",
           "score": 2.383,
-          "whyLost": "too close to place.hist-heartland.root-gallery-deep-throat"
+          "whyLost": "too close to place.naga-kur-deeps.air-pocket-station-deeps"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0721",
-          "score": 2.267,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "siteId": "site.free.any-shallow-marsh-0802",
+          "score": 2.35,
+          "whyLost": "too close to place.hist-heartland.duskfall-unmade-site"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 30 m from the nearest route; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; site exchanged in the swap pass with place.hist-heartland.mist-locked-hollow-basin (+0.30).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 84 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 29.5,
-        "distanceToWaterM": 28.0,
-        "score": 3.028
+        "distanceToRouteM": 83.7,
+        "distanceToWaterM": 7.8,
+        "score": 2.121
       },
       "hostility": {
         "baseline": "hostile",
@@ -15255,12 +15321,12 @@
         }
       ],
       "position": {
-        "u": 0.49194,
-        "v": 0.60424
+        "u": 0.50979,
+        "v": 0.56036
       },
       "positionM": [
-        3627.3,
-        4455.4
+        3759.0,
+        4131.8
       ],
       "candidatesConsidered": [
         {
@@ -15279,14 +15345,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 684 m from the nearest route; at the water's edge; its choice #5 landform; won on region, remote, landform.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 873 m from the nearest route; its choice #5 landform; won on region, remote, landform; site exchanged in the swap pass with place.hist-heartland.sap-collection-facility-daedric (+1.21).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 684.4,
-        "distanceToWaterM": 17.3,
-        "score": 2.769
+        "distanceToRouteM": 872.7,
+        "distanceToWaterM": 93.2,
+        "score": 3.251
       },
       "hostility": {
         "baseline": "hostile",
@@ -15375,10 +15441,10 @@
       "confidence": "medium",
       "why": {
         "founding": "A single enormous trunk root running toward the basin.",
-        "siteAdvantages": "It is the only dry route toward the deep basin.",
+        "siteAdvantages": "It is the only dry way toward the deep basin.",
         "occupantsMotive": "Nobody. A guide camp sits at each end, and the two camps keep a tally of who went in so the far end knows who to expect.",
         "pressures": "Anything that enters behind you cannot be passed. The guides move parties through in one direction only and wait out the day if the tally is wrong.",
-        "wouldChangeIf": "A branch collapse would make it a trap rather than a route, and would cut the only dry approach to the basin's deep ground."
+        "wouldChangeIf": "A branch collapse would make it a trap rather than a passage, and would cut the only dry approach to the basin's deep ground."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -15439,7 +15505,7 @@
         "silhouette": "a stair-throat of worn root steps going down a ravine wall, the first verse cut beside it",
         "palette": "no colour until your lamp reaches it, grey silt drying in plates, sap black where it has been burned, one red flower and nothing else red for a mile",
         "materials": "nothing made: a floor of root, a ceiling of root, water doing the rest; a stake-cairn left by someone who got out",
-        "signatureFeature": "Three kilometres without a junction or a side chamber. Travellers count paces aloud and the count is a known song.",
+        "signatureFeature": "Three kilometres without a side chamber or a branch. Travellers count paces aloud and the count is a known song.",
         "condition": "unworked and unchanged, but for the count cut at the mouth",
         "mood": "monotonous and quietly frightening; you finish it or you do not",
         "approach": "A mouth in a ravine wall with the first verse of the counting song cut beside it.",
@@ -15500,9 +15566,9 @@
           "whyLost": "too close to place.hist-heartland.vista-ledge-canopy-break"
         },
         {
-          "siteId": "site.free.any-firm-ground-0914",
-          "score": 3.548,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.any-firm-ground-0778",
+          "score": 3.545,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         }
       ],
       "whySiteWon": "firm ground in firm lowland (danger band 5), 219 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
@@ -15705,19 +15771,19 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.lake-standing-water.cove-003",
+          "score": 4.264,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
           "siteId": "site.free.any-firm-ground-0749",
           "score": 4.197,
           "whyLost": "too close to place.hist-heartland.nine-trunks"
         },
         {
-          "siteId": "site.scour.fringe-marsh.cove-053",
-          "score": 4.091,
-          "whyLost": "too close to place.hist-heartland.officeholder-tree-minder-house"
-        },
-        {
           "siteId": "site.scour.lake-standing-water.cove-019",
           "score": 3.85,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
         }
       ],
       "whySiteWon": "water narrows in lake & standing water (danger band 5), 416 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
@@ -15892,7 +15958,7 @@
         ],
         "tags": [],
         "opportunity": "FAST root.helstrom_hub",
-        "tierOwnership": "MQ23 · tier-0"
+        "tierOwnership": "MQ23 · tier-0; LH19 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -16117,8 +16183,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The growers sell light by the jar, so a quest can move that trade past the assembly's licences.",
+        "tierOwnership": "LH08 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -16140,19 +16206,14 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.50882,
-        "v": 0.44589
+        "u": 0.6206,
+        "v": 0.2971
       },
       "positionM": [
-        3751.8,
-        3287.8
+        4576.0,
+        2190.7
       ],
       "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-0902",
-          "score": 3.295,
-          "whyLost": "too close to place.imperial-fringe.the-silent-halls"
-        },
         {
           "siteId": "site.free.any-shallow-marsh-0390",
           "score": 3.194,
@@ -16162,16 +16223,21 @@
           "siteId": "site.free.any-shallow-marsh-0799",
           "score": 3.186,
           "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
+        },
+        {
+          "siteId": "site.free.roadside-0231",
+          "score": 2.965,
+          "whyLost": "too close to place.hist-heartland.root-gallery-deep-throat"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 84 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 286 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.sealed-xanmeer-living (+0.52).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
+        "regionClass": "interior swamp",
         "dangerBand": 5,
-        "distanceToRouteM": 83.7,
-        "distanceToWaterM": 7.8,
-        "score": 2.532
+        "distanceToRouteM": 286.0,
+        "distanceToWaterM": 23.3,
+        "score": 3.57
       },
       "hostility": {
         "baseline": "hostile",
@@ -16359,7 +16425,7 @@
         ],
         "tags": [],
         "opportunity": "SCENE root_talk.convocation · LOC many_root.council_grove · LOC many_root.finale_venue",
-        "tierOwnership": "MR08 · tier-2"
+        "tierOwnership": "MR08 · tier-2; LH02 · tier-3; LH04 · tier-3; LH10 · tier-3; LH24 · tier-3; LH53 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -16399,12 +16465,12 @@
         }
       ],
       "position": {
-        "u": 0.42873,
-        "v": 0.58639
+        "u": 0.46116,
+        "v": 0.46083
       },
       "positionM": [
-        3161.2,
-        4323.8
+        3400.4,
+        3397.9
       ],
       "candidatesConsidered": [
         {
@@ -16423,14 +16489,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 395 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 89 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.hist-heartland.broken-xanmeer-subsumed (+0.58).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 395.5,
-        "distanceToWaterM": 15.5,
-        "score": 2.279
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 88.6,
+        "distanceToWaterM": 17.3,
+        "score": 1.559
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -16577,7 +16643,7 @@
         "hist-tree",
         "bones-scatter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tags": [],
@@ -16618,14 +16684,14 @@
           "whyLost": "too close to place.hist-heartland.necropolis-dead-tenders"
         },
         {
-          "siteId": "site.free.any-firm-ground-0685",
-          "score": 3.414,
-          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
+          "siteId": "site.free.any-firm-ground-0871",
+          "score": 3.542,
+          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
         },
         {
-          "siteId": "site.free.any-firm-ground-0707",
-          "score": 3.256,
-          "whyLost": "too close to place.hist-heartland.vista-ledge-canopy-break"
+          "siteId": "site.scour.firm-lowland.flood-high-034",
+          "score": 3.535,
+          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
         }
       ],
       "whySiteWon": "firm ground in firm lowland (danger band 5), 687 m from the nearest route; its first-choice landform; won on landform, region, remote.",
@@ -16970,7 +17036,7 @@
       "notableNpcSlots": [
         "the Waykeeper who prices the line"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "fastTransit",
@@ -17013,7 +17079,7 @@
         ],
         "tags": [],
         "opportunity": "FAST rootworm.helstrom",
-        "tierOwnership": "MQ23 · tier-0; RW-line · tier-2; TG06 · tier-2; LQ07 · tier-3"
+        "tierOwnership": "MQ23 · tier-0; TG06 · tier-2; LH03 · tier-3; LH12 · tier-3; LH15 · tier-3; LQ07 · tier-3; RW-line · tier-2"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -17041,38 +17107,38 @@
       "ownerFaction": "faction.rootworm-waykeepers",
       "localStateVariants": [],
       "position": {
-        "u": 0.41014,
-        "v": 0.38337
+        "u": 0.44063,
+        "v": 0.36775
       },
       "positionM": [
-        3024.2,
-        2826.8
+        3249.0,
+        2711.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-013",
-          "score": 2.685,
-          "whyLost": "too close to place.hist-heartland.maturity-trial-chukka-sei"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0500",
-          "score": 2.596,
+          "siteId": "site.scour.firm-lowland.flood-high-024",
+          "score": 3.606,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0471",
-          "score": 2.596,
+          "siteId": "site.scour.rootland-deep-marsh.enclosed-clearing-000",
+          "score": 3.438,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0529",
+          "score": 3.253,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 5), 115 m from the nearest route; at the water's edge; its choice #4 landform; won on bound, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "flood high in firm lowland (danger band 5), 99 m from the nearest route; its first-choice landform; won on landform, bound, region.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "flood-high",
         "regionClass": "firm lowland",
         "dangerBand": 5,
-        "distanceToRouteM": 115.3,
-        "distanceToWaterM": 23.3,
-        "score": 2.603
+        "distanceToRouteM": 98.9,
+        "distanceToWaterM": 61.3,
+        "score": 3.654
       },
       "hostility": {
         "baseline": "guarded",
@@ -17131,7 +17197,8 @@
         "destinations": [
           "place.hist-heartland.bubble-spire-open-helstrom"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-013"
     },
     {
       "id": "place.hist-heartland.sap-collection-facility-daedric",
@@ -17269,12 +17336,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.52467,
-        "v": 0.63101
+        "u": 0.49194,
+        "v": 0.60424
       },
       "positionM": [
-        3868.6,
-        4652.8
+        3627.3,
+        4455.4
       ],
       "candidatesConsidered": [
         {
@@ -17293,14 +17360,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 748 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, parent; site exchanged in the swap pass with place.hist-heartland.umpholo-mission (+1.20).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 684 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, parent; site exchanged in the swap pass with place.hist-heartland.root-gallery-cult-warren (+1.21).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 748.1,
-        "distanceToWaterM": 42.8,
-        "score": 2.773
+        "distanceToRouteM": 684.4,
+        "distanceToWaterM": 17.3,
+        "score": 2.795
       },
       "hostility": {
         "baseline": "hostile",
@@ -17410,7 +17477,12 @@
           "enclosed-clearing",
           "flood-high",
           "any-firm-ground"
-        ]
+        ],
+        "nearPoint": {
+          "x": 4150.0,
+          "z": 4230.0,
+          "maxM": 300
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -17468,7 +17540,7 @@
         "passerelles-walkway",
         "settlement-root"
       ],
-      "discovery": "road",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [
           "quest.provision.mr04-anchor"
@@ -17497,38 +17569,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.61837,
-        "v": 0.59383
+        "u": 0.59531,
+        "v": 0.58267
       },
       "positionM": [
-        4559.5,
-        4378.6
+        4389.6,
+        4296.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0720",
+          "siteId": "site.free.any-firm-ground-0882",
           "score": 4.628,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-firm-ground-0781",
-          "score": 4.597,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
+          "siteId": "site.free.any-firm-ground-0845",
+          "score": 4.62,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-firm-ground-0782",
-          "score": 4.587,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
+          "siteId": "site.free.any-firm-ground-0918",
+          "score": 4.606,
+          "whyLost": "too close to place.hist-heartland.umpholo-mission"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 340 m from the nearest route; its choice #3 landform; won on landform, route, sightline; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 471 m from the nearest route; its choice #3 landform; won on nearPoint, landform, sightline; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 339.9,
-        "distanceToWaterM": 39.9,
-        "score": 3.758
+        "distanceToRouteM": 471.1,
+        "distanceToWaterM": 34.7,
+        "score": 4.265
       },
       "hostility": {
         "baseline": "guarded",
@@ -17714,12 +17786,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.37295,
-        "v": 0.38262
+        "u": 0.01041,
+        "v": 0.41528
       },
       "positionM": [
-        2750.0,
-        2821.3
+        76.8,
+        3062.1
       ],
       "candidatesConsidered": [
         {
@@ -17738,14 +17810,14 @@
           "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 79 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.hist-heartland.root-gallery-collapsed-nine (+0.41).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 49 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, landform, route; site exchanged in the swap pass with place.hist-heartland.waiting-vigil-village (+0.68).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 79.1,
-        "distanceToWaterM": 19.8,
-        "score": 1.536
+        "distanceToRouteM": 49.0,
+        "distanceToWaterM": 12.3,
+        "score": 1.939
       },
       "hostility": {
         "baseline": "hostile",
@@ -17921,8 +17993,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "A living Hist is sealed in stone, so a quest can reach it, keep it sealed or answer to the watch for trying.",
+        "tierOwnership": "LH46 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -17968,12 +18040,12 @@
         }
       ],
       "position": {
-        "u": 0.6206,
-        "v": 0.2971
+        "u": 0.53656,
+        "v": 0.26884
       },
       "positionM": [
-        4576.0,
-        2190.7
+        3956.4,
+        1982.3
       ],
       "candidatesConsidered": [
         {
@@ -17992,14 +18064,14 @@
           "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 286 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, danger, remote.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 280 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, danger, parent; site exchanged in the swap pass with place.hist-heartland.root-gallery-lantern-hollow (+0.52).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 286.0,
-        "distanceToWaterM": 23.3,
-        "score": 1.845
+        "distanceToRouteM": 279.6,
+        "distanceToWaterM": 7.8,
+        "score": 1.689
       },
       "hostility": {
         "baseline": "hostile",
@@ -18176,19 +18248,14 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.57375,
-        "v": 0.51723
+        "u": 0.47112,
+        "v": 0.64217
       },
       "positionM": [
-        4230.5,
-        3813.8
+        3473.8,
+        4735.0
       ],
       "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0978",
-          "score": 3.868,
-          "whyLost": "lost on score"
-        },
         {
           "siteId": "site.free.any-firm-ground-0779",
           "score": 3.754,
@@ -18198,16 +18265,21 @@
           "siteId": "site.free.any-firm-ground-0979",
           "score": 3.532,
           "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0879",
+          "score": 3.499,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 344 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 376 m from the nearest route; its first-choice landform; won on landform, region, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 343.7,
-        "distanceToWaterM": 21.9,
-        "score": 3.972
+        "distanceToRouteM": 376.1,
+        "distanceToWaterM": 34.7,
+        "score": 3.868
       },
       "hostility": {
         "baseline": "hostile",
@@ -18322,7 +18394,7 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
-      "dangerTier": "D5",
+      "dangerTier": "D4",
       "traversalModes": [
         "climb",
         "dive",
@@ -18354,7 +18426,7 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tags": [],
@@ -18381,38 +18453,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.67117,
-        "v": 0.34544
+        "u": 0.67861,
+        "v": 0.22124
       },
       "positionM": [
-        4948.9,
-        2547.1
+        5003.7,
+        1631.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0840",
-          "score": 3.244,
-          "whyLost": "too close to place.hist-heartland.sap-collection-facility-daedric"
+          "siteId": "site.free.any-firm-ground-0478",
+          "score": 3.205,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         },
         {
-          "siteId": "site.free.any-firm-ground-0707",
-          "score": 3.155,
-          "whyLost": "too close to place.hist-heartland.vista-ledge-canopy-break"
+          "siteId": "site.free.any-firm-ground-0455",
+          "score": 3.119,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         },
         {
-          "siteId": "site.free.any-firm-ground-0737",
-          "score": 3.089,
-          "whyLost": "too close to place.hist-heartland.hist-sarpa-highflower"
+          "siteId": "site.free.any-firm-ground-0621",
+          "score": 3.093,
+          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 586 m from the nearest route; its choice #4 landform; won on landform, region, remote; site exchanged in the swap pass with place.hist-heartland.pilgrim-camp-hist-tsoko (+0.49).",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 268 m from the nearest route; its choice #4 landform; won on landform, region, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 586.3,
-        "distanceToWaterM": 49.0,
-        "score": 2.469
+        "distanceToRouteM": 267.8,
+        "distanceToWaterM": 187.2,
+        "score": 2.412
       },
       "hostility": {
         "baseline": "hostile",
@@ -18446,7 +18518,7 @@
             "role": "apex-ambusher",
             "registerRef": null,
             "count": "single",
-            "danger": "D5"
+            "danger": "D4"
           }
         ],
         "npcs": [
@@ -18827,12 +18899,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.61027,
-        "v": 0.46435
+        "u": 0.54036,
+        "v": 0.43773
       },
       "positionM": [
-        4499.8,
-        3423.9
+        3984.4,
+        3227.6
       ],
       "candidatesConsidered": [
         {
@@ -18841,24 +18913,24 @@
           "whyLost": "too close to place.hist-heartland.hist-paatru-lowcrown"
         },
         {
-          "siteId": "site.free.roadside-0176",
-          "score": 3.513,
-          "whyLost": "too close to place.hist-heartland.hist-paatru-lowcrown"
+          "siteId": "site.free.roadside-0115",
+          "score": 3.863,
+          "whyLost": "too close to place.hist-heartland.beast-keeper-lizard-steed"
         },
         {
-          "siteId": "site.free.roadside-0179",
-          "score": 3.51,
-          "whyLost": "too close to place.hist-heartland.hist-paatru-lowcrown"
+          "siteId": "site.free.any-firm-ground-0382",
+          "score": 3.829,
+          "whyLost": "too close to place.hist-heartland.beast-keeper-lizard-steed"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 91 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.hist-heartland.waterfall-chamber-root-fall (+0.43).",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 79 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 91.3,
-        "distanceToWaterM": 24.5,
-        "score": 3.87
+        "dangerBand": 4,
+        "distanceToRouteM": 79.1,
+        "distanceToWaterM": 42.8,
+        "score": 2.665
       },
       "hostility": {
         "baseline": "hostile",
@@ -18947,7 +19019,9 @@
       "sitingPrefs": {
         "regionClasses": [
           "rootland deep marsh",
-          "interior swamp"
+          "interior swamp",
+          "firm lowland",
+          "fringe marsh"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -19016,8 +19090,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Four incompatible stories are being pushed for gain, so a quest can settle one or leave all four standing.",
+        "tierOwnership": "LH16 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -19040,38 +19114,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.66225,
-        "v": 0.46369
+        "u": 0.55598,
+        "v": 0.41601
       },
       "positionM": [
-        4883.1,
-        3419.0
+        4099.5,
+        3067.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0683",
-          "score": 3.09,
-          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
+          "siteId": "site.free.any-firm-ground-0621",
+          "score": 3.608,
+          "whyLost": "too close to place.hist-heartland.necropolis-dead-tenders"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0444",
-          "score": 2.909,
-          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
+          "siteId": "site.free.any-firm-ground-0871",
+          "score": 3.431,
+          "whyLost": "too close to place.naga-kur-deeps.wamasu-pond-adult"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0390",
-          "score": 2.801,
-          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
+          "siteId": "site.free.any-firm-ground-0404",
+          "score": 3.393,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         }
       ],
-      "whySiteWon": "flood high in firm lowland (danger band 3), 343 m from the nearest route; its choice #3 landform; won on landform, route, parent; site exchanged in the swap pass with place.hist-heartland.climbable-ruin-roof-terrace (+0.28).",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 85 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.hist-heartland.waterfall-chamber-root-fall (+1.19).",
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 343.4,
-        "distanceToWaterM": 41.8,
-        "score": 1.759
+        "dangerBand": 4,
+        "distanceToRouteM": 85.3,
+        "distanceToWaterM": 32.0,
+        "score": 2.817
       },
       "hostility": {
         "baseline": "hostile",
@@ -19127,8 +19201,7 @@
             "provenance": "one household, one lifetime"
           }
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-009"
+      }
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-two-poles",
@@ -19237,8 +19310,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Four earlier villages stand around this one as stumps, so a quest can go down into what each left.",
+        "tierOwnership": "LH54 · tier-3; LH55 · tier-3; LH56 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -19260,12 +19333,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.77305,
-        "v": 0.42501
+        "u": 0.71208,
+        "v": 0.29933
       },
       "positionM": [
-        5700.1,
-        3133.8
+        5250.5,
+        2207.1
       ],
       "candidatesConsidered": [
         {
@@ -19279,19 +19352,19 @@
           "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0453",
-          "score": 4.102,
-          "whyLost": "too close to place.hist-heartland.xal-meeruth-station"
+          "siteId": "site.free.any-shallow-marsh-0409",
+          "score": 4.145,
+          "whyLost": "too close to place.dunmer-north.the-ash-holding"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 23 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.drawdown-flat-exposed (+2.14).",
+      "whySiteWon": "cove in firm lowland (danger band 3), 279 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, danger; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.legendary-deep-medusa-wood (+0.74).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "landform": "cove",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 16.5,
-        "score": 4.362
+        "distanceToRouteM": 279.4,
+        "distanceToWaterM": 5.5,
+        "score": 2.524
       },
       "hostility": {
         "baseline": "wary",
@@ -19356,7 +19429,8 @@
         "rivals": [
           "place.hist-heartland.flood-high-single-rise"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.cove-048"
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
@@ -19475,8 +19549,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Every house keeps its own toll board, so a quest can turn on a carrier charged four ways.",
+        "tierOwnership": "LH57 · tier-3; LH58 · tier-3; LH59 · tier-3"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -19498,14 +19572,19 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.59828,
-        "v": 0.47634
+        "u": 0.56259,
+        "v": 0.35808
       },
       "positionM": [
-        4411.4,
-        3512.3
+        4148.3,
+        2640.3
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0409",
+          "score": 4.142,
+          "whyLost": "too close to place.dunmer-north.the-ash-holding"
+        },
         {
           "siteId": "site.free.any-shallow-marsh-0453",
           "score": 4.1,
@@ -19515,21 +19594,16 @@
           "siteId": "site.free.roadside-0619",
           "score": 4.094,
           "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0476",
-          "score": 4.067,
-          "whyLost": "too close to place.hist-heartland.xal-meeruth-station"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 31 m from the nearest route; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 365 m from the nearest route; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 31.0,
-        "distanceToWaterM": 38.8,
-        "score": 2.901
+        "dangerBand": 5,
+        "distanceToRouteM": 364.6,
+        "distanceToWaterM": 73.8,
+        "score": 3.641
       },
       "hostility": {
         "baseline": "wary",
@@ -19694,8 +19768,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The stones set the convocation date, so a quest can turn on a reading that no longer matches the season.",
+        "tierOwnership": "LH25 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -19921,39 +19995,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.38337,
-        "v": 0.2666
+        "u": 0.64208,
+        "v": 0.23575
       },
       "positionM": [
-        2826.8,
-        1965.8
+        4734.4,
+        1738.3
       ],
-      "scourSiteId": "site.scour.lake-standing-water.water-narrows-051",
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.lake-standing-water.cove-003",
+          "score": 4.279,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.islet-040",
+          "score": 4.078,
+          "whyLost": "too close to place.hist-heartland.the-cut-circle"
+        },
+        {
           "siteId": "site.scour.lake-standing-water.cove-019",
-          "score": 2.678,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
-        },
-        {
-          "siteId": "site.scour.tropical-jungle.islet-003",
-          "score": 2.543,
-          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
-        },
-        {
-          "siteId": "site.scour.interior-swamp.cove-046",
-          "score": 2.541,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "score": 3.004,
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
         }
       ],
-      "whySiteWon": "water narrows in lake & standing water (danger band 5), 587 m from the nearest route; at the water's edge; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 38 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on region, submerged, danger; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.walkway-junction-high-crossroads (+1.30).",
       "plotFacts": {
-        "landform": "water-narrows",
-        "regionClass": "lake & standing water",
-        "dangerBand": 5,
-        "distanceToRouteM": 586.6,
-        "distanceToWaterM": 0.0,
-        "score": 1.31
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 7.8,
+        "score": 2.445
       },
       "hostility": {
         "baseline": "hostile",
@@ -20330,8 +20403,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The tending rota is carved down the jamb, so a quest can restore a stage cut out of it.",
+        "tierOwnership": "LH17 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -20467,7 +20540,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A stilt hall built for a village that never grew, taken over by people who wanted a room where two hundred could sit and nobody outside could count them.",
-        "siteAdvantages": "Deep still water under the floor, one causeway in, and a hall wide enough to seat a congregation without a single door onto a street.",
+        "siteAdvantages": "Deep still water under the floor, one pile-walk in from the land, a hall wide enough to seat a congregation without a single door onto a street.",
         "occupantsMotive": "The Unbound Root preach here, openly, to people who arrive believing something milder than what they will be asked for.",
         "pressures": "Preaching in public is how the cult recruits and how it will eventually be found. The congregation is not the cell and mostly does not know it.",
         "wouldChangeIf": "One arrest in the middle of a sermon empties the hall for good and turns two hundred sympathisers into two hundred witnesses."
@@ -20575,7 +20648,7 @@
           "COMBAT"
         ],
         "opportunity": "two hundred people who half-agree with the cult, and the man who runs it in the room with them",
-        "tierOwnership": "MQ18, MQ22 · tier-0"
+        "tierOwnership": "MQ18 · tier-0; MQ22 · tier-0"
       },
       "rumourPoolKey": "rumour.helstrom",
       "deedCounterKeys": [],
@@ -20695,12 +20768,12 @@
         ]
       },
       "position": {
-        "u": 0.69571,
-        "v": 0.43989
+        "u": 0.77305,
+        "v": 0.42501
       },
       "positionM": [
-        5129.8,
-        3243.5
+        5700.1,
+        3133.8
       ],
       "candidatesConsidered": [
         {
@@ -20719,14 +20792,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 573 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 23 m from the nearest route; at the water's edge; its first-choice landform; won on landform, danger, route; site exchanged in the swap pass with place.hist-heartland.voriplasm-chamber-sealed (+0.86).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
+        "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 573.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.084
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 16.5,
+        "score": 1.803
       }
     },
     {
@@ -21066,12 +21139,12 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.42947,
-        "v": 0.34916
+        "u": 0.40716,
+        "v": 0.36998
       },
       "positionM": [
-        3166.7,
-        2574.5
+        3002.2,
+        2728.1
       ],
       "candidatesConsidered": [
         {
@@ -21090,14 +21163,14 @@
           "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 230 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 194 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 230.4,
-        "distanceToWaterM": 11.0,
-        "score": 2.316
+        "distanceToRouteM": 193.9,
+        "distanceToWaterM": 12.3,
+        "score": 2.272
       },
       "hostility": {
         "baseline": "hostile",
@@ -21264,7 +21337,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP08 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -21289,12 +21362,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.71877,
-        "v": 0.34023
+        "u": 0.68604,
+        "v": 0.4622
       },
       "positionM": [
-        5299.8,
-        2508.7
+        5058.5,
+        3408.0
       ],
       "candidatesConsidered": [
         {
@@ -21313,14 +21386,14 @@
           "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 422 m from the nearest route; its choice #2 landform; won on landform, region, remote.",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 461 m from the nearest route; its choice #2 landform; won on landform, region, remote; site exchanged in the swap pass with place.hist-heartland.drowning-narrows-current (+1.13).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 422.2,
-        "distanceToWaterM": 54.0,
-        "score": 2.788
+        "distanceToRouteM": 461.4,
+        "distanceToWaterM": 45.2,
+        "score": 3.318
       },
       "hostility": {
         "baseline": "hostile",
@@ -21498,12 +21571,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.50979,
-        "v": 0.56036
+        "u": 0.52467,
+        "v": 0.63101
       },
       "positionM": [
-        3759.0,
-        4131.8
+        3868.6,
+        4652.8
       ],
       "candidatesConsidered": [
         {
@@ -21522,14 +21595,14 @@
           "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 873 m from the nearest route; its choice #3 landform; won on landform, region, remote; site exchanged in the swap pass with place.hist-heartland.sap-collection-facility-daedric (+1.20).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 748 m from the nearest route; its choice #3 landform; won on landform, region, remote.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 872.7,
-        "distanceToWaterM": 93.2,
-        "score": 3.222
+        "distanceToRouteM": 748.1,
+        "distanceToWaterM": 42.8,
+        "score": 2.723
       },
       "hostility": {
         "baseline": "hostile",
@@ -21685,8 +21758,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Offences are written on the urns, so a quest can overturn one shelving or add another.",
+        "tierOwnership": "LH13 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.hist-talk",
       "deedCounterKeys": [],
@@ -21897,7 +21970,7 @@
         ],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": "LQ30 · tier-3"
+        "tierOwnership": "LQ30 · tier-3; PP03 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -22121,12 +22194,12 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.64663,
-        "v": 0.36999
+        "u": 0.69571,
+        "v": 0.43989
       },
       "positionM": [
-        4767.9,
-        2728.1
+        5129.8,
+        3243.5
       ],
       "candidatesConsidered": [
         {
@@ -22145,14 +22218,14 @@
           "whyLost": "too close to place.hist-heartland.officeholder-tree-minder-house"
         }
       ],
-      "whySiteWon": "confluence in deep river corridor (danger band 3), 695 m from the nearest route; at the water's edge; won on remote, submerged, parent; site exchanged in the swap pass with place.hist-heartland.air-pocket-station-basin (+0.53).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 573 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, remote, submerged; site exchanged in the swap pass with place.hist-heartland.the-cut-circle (+0.86).",
       "plotFacts": {
-        "landform": "confluence",
-        "regionClass": "deep river corridor",
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 694.9,
+        "distanceToRouteM": 573.3,
         "distanceToWaterM": 0.0,
-        "score": 1.794
+        "score": 3.555
       },
       "hostility": {
         "baseline": "hostile",
@@ -22202,8 +22275,7 @@
             "provenance": "sealed in with it and never taken out"
           }
         ]
-      },
-      "scourSiteId": "site.scour.deep-river-corridor.confluence-003"
+      }
     },
     {
       "aliases": [],
@@ -22291,7 +22363,7 @@
         ]
       },
       "culture": "argonian",
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat",
@@ -22338,38 +22410,38 @@
       "ownerFaction": null,
       "localStateVariants": [],
       "position": {
-        "u": 0.4094,
-        "v": 0.45327
+        "u": 0.27405,
+        "v": 0.27925
       },
       "positionM": [
-        3018.7,
-        3342.2
+        2020.7,
+        2059.1
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-0478",
+          "score": 2.87,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0455",
+          "score": 2.81,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
+        },
+        {
           "siteId": "site.scour.fringe-marsh.enclosed-clearing-003",
-          "score": 3.05,
+          "score": 2.706,
           "whyLost": "too close to place.hist-heartland.the-cut-circle"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0686",
-          "score": 2.873,
-          "whyLost": "too close to place.hist-heartland.the-cut-circle"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0320",
-          "score": 2.869,
-          "whyLost": "too close to place.dunmer-north.the-quiet-landing"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 189 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.hist-heartland.broken-xanmeer-subsumed (+1.00).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 38 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, landform, route; site exchanged in the swap pass with place.hist-heartland.sap-touched-miredancer (+0.68).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 189.1,
-        "distanceToWaterM": 27.4,
-        "score": 1.406
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 7.8,
+        "score": 1.878
       },
       "hostility": {
         "baseline": "hostile",
@@ -22510,7 +22582,7 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "climb",
@@ -22549,8 +22621,8 @@
           "quest.provision.mr06-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MR06 · tier-2"
+        "opportunity": "The keeper alone knows the true state of all four arms, so a quest can buy that knowledge or test it.",
+        "tierOwnership": "MR06 · tier-2; LH32 · tier-3; LH34 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -22572,38 +22644,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.53211,
-        "v": 0.32463
+        "u": 0.64076,
+        "v": 0.22265
       },
       "positionM": [
-        3923.5,
-        2393.6
+        4724.6,
+        1641.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0059",
-          "score": 3.862,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.any-shallow-marsh-0722",
+          "score": 3.572,
+          "whyLost": "too close to place.hist-heartland.bog-blight-ground-stakes"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0253",
-          "score": 3.862,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0102",
+          "score": 3.501,
+          "whyLost": "too close to place.pirate-freeholds.corimont-hiring-yard"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0252",
-          "score": 3.856,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0560",
+          "score": 3.49,
+          "whyLost": "too close to place.pirate-freeholds.corimont-hiring-yard"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 32 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 54 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.hist-heartland.submerged-xanmeer-topmost (+1.30).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
+        "regionClass": "interior swamp",
         "dangerBand": 5,
-        "distanceToRouteM": 32.0,
-        "distanceToWaterM": 7.8,
-        "score": 3.307
+        "distanceToRouteM": 54.3,
+        "distanceToWaterM": 11.0,
+        "score": 3.605
       },
       "hostility": {
         "baseline": "neutral",
@@ -22880,10 +22952,10 @@
       },
       "sitingPrefs": {
         "regionClasses": [
-          "upland hills",
-          "border mountains",
-          "tropical jungle",
-          "deep river corridor"
+          "firm lowland",
+          "interior swamp",
+          "rootland deep marsh",
+          "tropical jungle"
         ],
         "hardConstraints": [
           "culture zone: hist-heartland"
@@ -22975,38 +23047,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.54036,
-        "v": 0.43773
+        "u": 0.61027,
+        "v": 0.46435
       },
       "positionM": [
-        3984.4,
-        3227.6
+        4499.8,
+        3423.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.waterfall-052",
-          "score": 3.327,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "siteId": "site.free.roadside-0321",
+          "score": 3.113,
+          "whyLost": "taken by place.hist-heartland.standing-curiosity-unexplained"
         },
         {
-          "siteId": "site.free.roadside-0319",
-          "score": 3.051,
-          "whyLost": "too close to place.hist-heartland.nine-trunks"
+          "siteId": "site.free.any-firm-ground-0368",
+          "score": 3.109,
+          "whyLost": "taken by place.hist-heartland.hackwing-roost-wild"
         },
         {
-          "siteId": "site.free.any-firm-ground-0749",
-          "score": 3.046,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "siteId": "site.free.any-firm-ground-0404",
+          "score": 3.104,
+          "whyLost": "too close to place.hist-heartland.sealed-xanmeer-living"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 79 m from the nearest route; no free 'waterfall' site was left in the zone, so plain ground; won on route, hinterland, parent; site exchanged in the swap pass with place.hist-heartland.squatted-ruin-home-hollow (+0.43).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 91 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; site exchanged in the swap pass with place.hist-heartland.standing-curiosity-unexplained (+1.19).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 79.1,
-        "distanceToWaterM": 42.8,
-        "score": 1.311
+        "dangerBand": 3,
+        "distanceToRouteM": 91.3,
+        "distanceToWaterM": 24.5,
+        "score": 3.613
       },
       "hostility": {
         "baseline": "hostile",
@@ -23063,7 +23135,14 @@
             "provenance": "one household, one lifetime"
           }
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "gorge",
+          "radiusM": 40,
+          "note": "the root-layer spring needs a drop to fall down and a chamber behind the curtain; the region has no natural relief"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.whitewater-reach-panther",
@@ -23198,19 +23277,19 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.waterfall-052",
-          "score": 3.658,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
-        },
-        {
           "siteId": "site.free.any-firm-ground-0318",
           "score": 3.312,
           "whyLost": "too close to place.hist-heartland.sinkhole-mouth-basin"
         },
         {
-          "siteId": "site.free.any-firm-ground-0749",
-          "score": 3.309,
-          "whyLost": "too close to place.hist-heartland.serpent-ground-giant-snake"
+          "siteId": "site.scour.tropical-jungle.waterfall-052",
+          "score": 3.158,
+          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
+        },
+        {
+          "siteId": "site.scour.upland-hills.waterfall-002",
+          "score": 2.87,
+          "whyLost": "taken by place.hist-heartland.porter-relay-poling"
         }
       ],
       "whySiteWon": "firm ground in upland hills (danger band 3), 272 m from the nearest route; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland.",
@@ -23386,12 +23465,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.48823,
-        "v": 0.31272
+        "u": 0.46963,
+        "v": 0.25471
       },
       "positionM": [
-        3599.9,
-        2305.8
+        3462.8,
+        1878.1
       ],
       "candidatesConsidered": [
         {
@@ -23405,19 +23484,19 @@
           "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0444",
-          "score": 2.749,
-          "whyLost": "too close to place.hist-heartland.rootworm-burrow-live"
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 2.625,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 231 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.dive-shaft-xanmeer-well (+0.39).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 652 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, danger; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.hist-heartland.wild-hist-sleeper (+0.26).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 230.6,
+        "distanceToRouteM": 651.8,
         "distanceToWaterM": 0.0,
-        "score": 1.891
+        "score": 2.399
       },
       "hostility": {
         "baseline": "hostile",
@@ -23589,12 +23668,12 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.54549,
-        "v": 0.50533
+        "u": 0.35808,
+        "v": 0.31792
       },
       "positionM": [
-        4022.2,
-        3726.1
+        2640.3,
+        2344.2
       ],
       "candidatesConsidered": [
         {
@@ -23613,14 +23692,14 @@
           "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 450 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, danger.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 495 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, region, parent; site exchanged in the swap pass with place.hist-heartland.wild-hist-mad-one (+0.26).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 449.8,
-        "distanceToWaterM": 33.4,
-        "score": 2.886
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 494.9,
+        "distanceToWaterM": 19.8,
+        "score": 2.865
       },
       "hostility": {
         "baseline": "neutral",
@@ -23764,8 +23843,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "The lights copy the guides' signal, so a quest can prove the imitation before it takes another party.",
+        "tierOwnership": "LH06 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.deep-basin",
       "deedCounterKeys": [],
@@ -23787,12 +23866,12 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.38025,
-        "v": 0.52916
+        "u": 0.38262,
+        "v": 0.55887
       },
       "positionM": [
-        2803.8,
-        3901.7
+        2821.3,
+        4120.9
       ],
       "candidatesConsidered": [
         {
@@ -23808,17 +23887,17 @@
         {
           "siteId": "site.free.any-shallow-marsh-0802",
           "score": 3.767,
-          "whyLost": "too close to place.hist-heartland.collapsing-pinnacle-interior"
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 23 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 33 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 36.8,
-        "score": 3.644
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 32.0,
+        "score": 3.856
       },
       "hostility": {
         "baseline": "hostile",
@@ -23909,14 +23988,18 @@
         "preferences": [
           "water relation: enclosed basin",
           "neighbours: within reach of the Lost City approach",
-          "at the deep end of the Lost City approach, reached through place.hist-heartland.lost-city and not before it"
+          "reached only through the Lost City: its deepest terrace, never a separate approach"
         ],
         "landformClasses": [
           "box-canyon",
           "sinkhole",
           "enclosed-clearing",
           "ravine"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.hist-heartland.lost-city",
+          "maxM": 220
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -24021,38 +24104,33 @@
       "importanceTier": 0,
       "workflow": "plotted",
       "position": {
-        "u": 0.36924,
-        "v": 0.17142
+        "u": 0.40716,
+        "v": 0.32759
       },
       "positionM": [
-        2722.6,
-        1264.0
+        3002.2,
+        2415.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.rootland-deep-marsh.box-canyon-007",
-          "score": 2.776,
+          "siteId": "site.free.any-firm-ground-0469",
+          "score": 1.641,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.rootland-deep-marsh.ravine-082",
-          "score": 2.651,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.rootland-deep-marsh.sinkhole-001",
-          "score": 2.606,
+          "siteId": "site.free.any-firm-ground-0495",
+          "score": 1.519,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "box canyon in rootland deep marsh (danger band 5), 358 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 451 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on bound, region, remote.",
       "plotFacts": {
-        "landform": "box-canyon",
+        "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 357.6,
-        "distanceToWaterM": 5.5,
-        "score": 3.162
+        "distanceToRouteM": 451.2,
+        "distanceToWaterM": 17.3,
+        "score": 3.122
       },
       "hostility": {
         "baseline": "hostile",
@@ -24111,8 +24189,7 @@
             "provenance": "the Last Warden was made here; what is left in the sap is the working, not the work"
           }
         ]
-      },
-      "scourSiteId": "site.scour.rootland-deep-marsh.box-canyon-012"
+      }
     },
     {
       "id": "place.hist-heartland.xal-meeruth-station",
@@ -24223,7 +24300,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": "LOC stronghold.site (reserve; primary is pirate-freeholds.rockpoint — 0041 §12b)",
-        "tierOwnership": null
+        "tierOwnership": "LH62 · tier-3"
       },
       "rumourPoolKey": "rumour.interior.root-lines",
       "deedCounterKeys": [],
@@ -24459,7 +24536,7 @@
         "clutter",
         "settlement-root"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tags": [],

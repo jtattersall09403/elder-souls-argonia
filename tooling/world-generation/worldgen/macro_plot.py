@@ -95,6 +95,8 @@ ROADSIDE_OFFSETS_M = (35.0, 90.0)
 DANGER_TIER = {"D0": 1, "D1": 1, "D2": 2, "D3": 3, "D4": 4, "D5": 5}
 SIGHTLINE_MAX_M = 1500.0         # a "within sight of X" claim further than this is not a sightline
 BOUND_MAX_M = 250.0              # "inside / part of / off the bank of X"
+ON_ROUTE_MAX_M = 220.0           # "on the road" further than this is a false claim (strict stages)
+ON_ROUTE_RELAXED_M = 380.0       # ...and even the homeless batch may not put it further than this
 SATELLITE_MAX_M = 450.0          # a record NAMED after a settlement (mazzatun-hist, archon-harbour-hist) sits at it
 D5_MIN_ROUTE_M = 200.0           # deep peril never sits on the road
 ROUTE_REPEAT_MIN_M = 900.0       # same type twice along the same road
@@ -566,6 +568,11 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
         if math.hypot(c.x - bx, c.z - bz) > d.bound_max:
             return -9.0, {"bound": -9.0}
         parts["bound"] = 0.8
+    # "on the road" is a claim, not a wish: strictly, further than ON_ROUTE_MAX_M
+    # from any route is a contradiction (owner case 2026-09-04: a gate "on the
+    # one stretch of road" 400 m from the road). Relaxed stages may still take it.
+    if d.hints.get("on_route") and c.route_m > (ON_ROUTE_RELAXED_M if relaxed else ON_ROUTE_MAX_M):
+        return -9.0, {"on-route": -9.0}
     if d.near_point is not None:
         px_, pz_, pmax = d.near_point
         if math.hypot(c.x - px_, c.z - pz_) > pmax:
@@ -758,7 +765,7 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         return (list(o.sightline_to) + ([o.bound_to] if o.bound_to else [])) if o else []
 
     def run_tier(pool: list[Demand], relaxed: bool, sep_factor: float, min_score: float,
-                 relax_region: bool = False) -> list[Demand]:
+                 relax_region: bool = False, final: bool = False) -> list[Demand]:
         """Best pair first. A record that names another (sightline / bound)
         waits until the named record is on the map, so its gate can be judged:
         rounds repeat until nothing more can be placed."""
@@ -774,7 +781,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 # wait for the named record — unless it names us back (a mutual
                 # sightline pair): then the first by id goes first and the second
                 # is gated against it
-                if any(r in pool_ids and r not in done and not (d.id in _refs_of(r) and d.id < r) for r in refs):
+                # ...and a named record that fell into the homeless batch is
+                # waited for too (2026-09-04: the Vellum Estate went homeless and
+                # its survey was plotted 2 km away before it existed); only the
+                # final stage places without the reference.
+                if not final and any(r in by_did and r not in plotted_xy
+                                     and not (d.id in _refs_of(r) and d.id < r) for r in refs):
                     continue
                 meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
                 for c in cands:
@@ -842,11 +854,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
               ("spacing-3/4", True, 0.75, RELAXED_SCORE, False),
               ("spacing-1/2", True, 0.5, RELAXED_SCORE, False),
               ("region-relaxed", True, 0.75, RELAXED_SCORE, True)]
-    for name, relaxed, factor, min_score, relax_region in stages:
+    for si, (name, relaxed, factor, min_score, relax_region) in enumerate(stages):
         pool = [d for d in demands if d.id not in result]
         if not pool:
             break
-        left = run_tier(pool, relaxed=relaxed, sep_factor=factor, min_score=min_score, relax_region=relax_region)
+        left = run_tier(pool, relaxed=relaxed, sep_factor=factor, min_score=min_score, relax_region=relax_region,
+                        final=(si == len(stages) - 1))
         placed = {d.id for d in pool} - {d.id for d in left}
         for h in homeless:
             if h["id"] in placed:

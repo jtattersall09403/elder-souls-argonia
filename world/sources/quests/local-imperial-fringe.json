@@ -1,0 +1,2384 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-imperial-fringe",
+  "seed": "quests-local-imperial-fringe-v1",
+  "quests": [
+    {
+      "id": "quest.local.lf01",
+      "code": "LF01",
+      "title": "The Court's Own Copy",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "The certified copy of a land grant goes missing from the Records Court the week its hearing is listed",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf02",
+      "code": "LF02",
+      "title": "Weights of the Fourth Kind",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.watch-of-the-weighed-cart"
+      ],
+      "premise": "Argonian carts weigh heavy at the toll tower while Nibenese carts of the same load do not",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf03",
+      "code": "LF03",
+      "title": "Waiting, They Call It",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-quiet-pit"
+      ],
+      "premise": "A debtor is held in a grated pit behind a broker's yard while his Owing is renegotiated without him",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf04",
+      "code": "LF04",
+      "title": "What the Ditch Kept",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.fort-greenditch",
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "The pay chest of an abandoned road fort is still under the flooded ground floor, with the garrison's last muster beside it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf05",
+      "code": "LF05",
+      "title": "The Licence and the Lid",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.collections-dig",
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.twyllbek-ruins"
+      ],
+      "premise": "Cyrodilic Collections holds a licence to dig ground the nearest village holds a burial claim on",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf06",
+      "code": "LF06",
+      "title": "Jars Out of Order",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "THEFT"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.bonded-shed-of-the-onkobra",
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.onkobra-field-station"
+      ],
+      "premise": "Specimen jars leaving the field station arrive at the city short by exactly one crate a month",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf07",
+      "code": "LF07",
+      "title": "The Duke's Standing Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.castle-giovesse",
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "Something in the ducal ruin repeats the last week of a siege, in order, for anyone who sleeps within the lines",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf08",
+      "code": "LF08",
+      "title": "Nine Wells, Eight Answers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-ring-of-nine-wells"
+      ],
+      "premise": "Eight of the ring's nine wells give plain water; the ninth gives back what was said over it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf09",
+      "code": "LF09",
+      "title": "The Hand-Read Hall",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "WONDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.orma-tactile-ruin"
+      ],
+      "premise": "A ruin whose inscriptions are cut to be read by touch will answer only a reader who cannot see",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf10",
+      "code": "LF10",
+      "title": "Carrying for the Cartwright",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.mile-house-of-the-eagle",
+        "place.imperial-fringe.red-cart-yard"
+      ],
+      "premise": "A porter relay's whole nine-man string fails to arrive, with the carts found parked and loaded",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf11",
+      "code": "LF11",
+      "title": "The Cold Forge Bargain",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "WONDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-cold-forge"
+      ],
+      "premise": "A smithy whose fire gives no heat will work for a customer who can say what the metal is for",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf12",
+      "code": "LF12",
+      "title": "Two Empires, One Cellar",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-old-office-house"
+      ],
+      "premise": "An officeholder's house passes to two claimants under two bodies of law that both apply here",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf13",
+      "code": "LF13",
+      "title": "The Marble Field Sale",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-marble-field"
+      ],
+      "premise": "A foreign graveyard's plots are being resold to families who paid for them a century ago",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf14",
+      "code": "LF14",
+      "title": "Bones on the Wrong Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.bone-road-waystation",
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-counted-dead"
+      ],
+      "premise": "A bundle booked for the western repatriation road turns up counted into a mass grave instead",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf15",
+      "code": "LF15",
+      "title": "Rootworm, Out of Season",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.gideon-rootworm-terminus"
+      ],
+      "premise": "The seasonal rootworm terminus must be opened out of season for a cargo that cannot wait for winter",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf16",
+      "code": "LF16",
+      "title": "The Synod's Second Question",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.gideon-synod-outstation",
+        "place.imperial-fringe.the-glass-scar"
+      ],
+      "premise": "The Reckoning House wants a survey of the gate scar the villages have refused for two hundred years",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf17",
+      "code": "LF17",
+      "title": "Clay for the Court",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.moonrack-calcinator",
+        "place.imperial-fringe.onkobra-clay-pits"
+      ],
+      "premise": "The city's kiln contract is up, with two yards bidding and one river landing between them",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf18",
+      "code": "LF18",
+      "title": "The Fair Outside the Gate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.low-water-fair",
+        "place.imperial-fringe.saddle-fair"
+      ],
+      "premise": "Goods taxed at the gate are appearing untaxed on the fair ground a kilometre outside it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf19",
+      "code": "LF19",
+      "title": "Kwama and Consequence",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.lower-onkobra-paddies",
+        "place.imperial-fringe.onkobra-kwama-mine"
+      ],
+      "premise": "Mine water is reaching the paddies below, with the crop failing in a widening wedge",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf20",
+      "code": "LF20",
+      "title": "The Ferryman's Count",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.hollow-arch-toll",
+        "place.imperial-fringe.onkobra-ferry"
+      ],
+      "premise": "The ferry family's tally of crossings is three higher than the toll house's tally of arrivals",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf21",
+      "code": "LF21",
+      "title": "Levy in Correct Phrasing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-broke-column",
+        "place.imperial-fringe.the-last-post"
+      ],
+      "premise": "Someone must decide whether a pardon can be offered to men who still keep a Legion duty roster",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf22",
+      "code": "LF22",
+      "title": "The Turned-Out Verge",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-borrowed-house",
+        "place.imperial-fringe.the-turned-out"
+      ],
+      "premise": "An evicted household camped in sight of its old fields has a title deed nobody will read",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf23",
+      "code": "LF23",
+      "title": "Withdrawal House Rules",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.comes-back-slowly",
+        "place.imperial-fringe.gideon"
+      ],
+      "premise": "A house that dries out skooma users is being blamed for a sickness that started elsewhere",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf24",
+      "code": "LF24",
+      "title": "The Buried Spears",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "EXPEDITION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-buried-spears"
+      ],
+      "premise": "A weapon cache buried against a war that ended is being dug up by people who expect another",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf25",
+      "code": "LF25",
+      "title": "Silver Mouth, Silver Tongue",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "EXPEDITION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.silver-mouth",
+        "place.imperial-fringe.silverhand-cairns"
+      ],
+      "premise": "A dealer selling Kothringi grave silver in Gideon has provenance papers for a site he has not entered",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf26",
+      "code": "LF26",
+      "title": "The Chapel of Two Months",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-month-chapel"
+      ],
+      "premise": "Two calendars set the same festival eleven days apart, with one chapel and one priest to serve both",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf27",
+      "code": "LF27",
+      "title": "Still Cordoned",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-cordon-stones",
+        "place.imperial-fringe.the-old-quarters"
+      ],
+      "premise": "A plague cordon nobody has lifted still turns travellers back, though the stones are the ones speaking",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf28",
+      "code": "LF28",
+      "title": "Under the Crown",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.twyllbek-crown",
+        "place.imperial-fringe.twyllbek-ruins"
+      ],
+      "premise": "A climb to a Barsaebic roof is the way into a compound whose ground doors were sealed by the dig licence",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf29",
+      "code": "LF29",
+      "title": "The Black Tarn Wager",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-black-tarn"
+      ],
+      "premise": "Gideon's hunting trade will pay for proof of what takes boats off the tarn, or for its head",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf30",
+      "code": "LF30",
+      "title": "The Records Court Flood",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-second-empire-locks"
+      ],
+      "premise": "The archive floods every wet season, so an agent must find which lock failed before the next one",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf31",
+      "code": "LF31",
+      "title": "Makes-And-Burns",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "WONDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-art-and-ash-place"
+      ],
+      "premise": "A season's work is made to be destroyed at its close, with one piece this year that somebody wants kept",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf32",
+      "code": "LF32",
+      "title": "The Empty Steading Claim",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.gideon",
+      "anchorPlaces": [
+        "place.imperial-fringe.gideon",
+        "place.imperial-fringe.the-empty-steading"
+      ],
+      "premise": "A river steading whose family left for Leyawiin can be claimed by anyone who satisfies three separate offices",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf33",
+      "code": "LF33",
+      "title": "Figs, Counted Twice",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market"
+      ],
+      "premise": "The market's own weighing clerk keeps two tally boards for the same stalls",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf34",
+      "code": "LF34",
+      "title": "The Hollow Under the Figs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-hollow-under-the-figs"
+      ],
+      "premise": "A root gallery under the fig mats has opened into the market's storage pits",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf35",
+      "code": "LF35",
+      "title": "Poachers at the Fig Camp",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "SMUGGLING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-fig-poachers"
+      ],
+      "premise": "A camp working the fig country takes more than fruit, with the market buying whatever comes in",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf36",
+      "code": "LF36",
+      "title": "The Guar That Was Owed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.guar-holding-of-the-nine-bells"
+      ],
+      "premise": "A herd pledged against a debt is being grazed by neither the lender nor the borrower",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf37",
+      "code": "LF37",
+      "title": "Nine Bells, No Ringer",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "HAUNTING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.guar-holding-of-the-nine-bells"
+      ],
+      "premise": "The holding's bells are rung on time every night by a herdsman who died in the spring",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf38",
+      "code": "LF38",
+      "title": "A Buyer for the Back Kiln",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-back-kiln"
+      ],
+      "premise": "A fermentary off the books needs a market stall, with the market wanting a cut it cannot record",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf39",
+      "code": "LF39",
+      "title": "The Standing Mist",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-standing-mist"
+      ],
+      "premise": "A hollow west of the market holds mist that does not move with the wind",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf40",
+      "code": "LF40",
+      "title": "Ledge of Tallies",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-ledge-of-tallies"
+      ],
+      "premise": "Smugglers' tally marks on a cliff ledge name Fig Market traders who deny the debts",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf41",
+      "code": "LF41",
+      "title": "The Fig and the Fever",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.the-hollow-under-the-figs"
+      ],
+      "premise": "Fruit from one quarter of the fig country is making buyers shake, with the sellers refusing to say which trees",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf42",
+      "code": "LF42",
+      "title": "Market Rights, Market Wrongs",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "SUCCESSION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fig-market",
+      "anchorPlaces": [
+        "place.imperial-fringe.fig-market",
+        "place.imperial-fringe.nine-arch-stage"
+      ],
+      "premise": "The market charter falls due for renewal, with the road stage's owner claiming the right to hold it instead",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf43",
+      "code": "LF43",
+      "title": "The Sermon Overflow",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.the-sermon-road-camp"
+      ],
+      "premise": "The pilgrim camp a mile short of the shrine has become a village the shrine will not feed",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf44",
+      "code": "LF44",
+      "title": "Rests-The-Walkers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.the-road-nisswo-house"
+      ],
+      "premise": "A death-speaker's rest house has stopped receiving the walkers it exists to receive",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf45",
+      "code": "LF45",
+      "title": "Under the Sermon Xanmeer",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "HAUNTING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.glenbridge-sermon-xanmeer"
+      ],
+      "premise": "The sermon is preached over a sealed chamber whose occupant answers on certain nights",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf46",
+      "code": "LF46",
+      "title": "Dreams In Mud",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.dreams-in-mud",
+        "place.imperial-fringe.glenbridge"
+      ],
+      "premise": "Two Gideon visitors came out of the wallow different, with the keeper still taking bookings",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf47",
+      "code": "LF47",
+      "title": "The Bridge Toll of Reeds",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.reedcutters-toll"
+      ],
+      "premise": "The reed bridge's toll is paid in bundles, with the new tollkeeper wanting coin",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf48",
+      "code": "LF48",
+      "title": "A Priest for the Second Shrine",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "RITE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge"
+      ],
+      "premise": "The shrine's succession is contested between a trained Nisswo and the woman who has done the work for ten years",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf49",
+      "code": "LF49",
+      "title": "Whose Water Is Blessed",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.the-drowning-gate"
+      ],
+      "premise": "Shrine water sold to pilgrims is drawn from below the monsoon barrier, not above it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf50",
+      "code": "LF50",
+      "title": "The Pilgrim Who Did Not Arrive",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.nine-arch-stage",
+        "place.imperial-fringe.the-sermon-road-camp"
+      ],
+      "premise": "A pilgrim's pack reaches the shrine on the stage cart while the pilgrim does not",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf51",
+      "code": "LF51",
+      "title": "Counting the Sermon Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.the-hackwing-scarp"
+      ],
+      "premise": "Hackwings have learned the sermon road's timetable better than the pilgrims have",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf52",
+      "code": "LF52",
+      "title": "The Gate That Closes the Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.glenbridge",
+      "anchorPlaces": [
+        "place.imperial-fringe.glenbridge",
+        "place.imperial-fringe.long-causeway",
+        "place.imperial-fringe.the-drowning-gate"
+      ],
+      "premise": "The monsoon barrier must be opened early for a shrine convoy the flood will otherwise strand",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf53",
+      "code": "LF53",
+      "title": "Four Winds, One Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes"
+      ],
+      "premise": "An insular village admits outsiders through one household, whose head charges for the privilege",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf54",
+      "code": "LF54",
+      "title": "The Knapping Floor",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-knapping-floor-of-the-high-scree"
+      ],
+      "premise": "Worked stone from the village floor is being sold in Gideon as Ayleid work",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf55",
+      "code": "LF55",
+      "title": "The Leaning Watch",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "EXPEDITION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-leaning-watch"
+      ],
+      "premise": "An abandoned watchtower lights its basket on the nights the village has a death",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf56",
+      "code": "LF56",
+      "title": "Silence for the Stone-Talkers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "RITE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "premise": "Two stone-speaking villages will not talk to one another, though both need the same pass kept open",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf57",
+      "code": "LF57",
+      "title": "The Ridge Runners' Bag",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "SMUGGLING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.ridge-runners-post",
+        "place.imperial-fringe.stonewastes"
+      ],
+      "premise": "A courier post's sealed bag is opened between stages, with the seal replaced by a better one",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf58",
+      "code": "LF58",
+      "title": "Scree and Consequence",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-hackwing-scarp",
+        "place.imperial-fringe.the-stone-drop"
+      ],
+      "premise": "Something has driven the roost down onto the village's upper terraces",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf59",
+      "code": "LF59",
+      "title": "What the Company Stacked",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "THEFT"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-stone-drop"
+      ],
+      "premise": "A stack of seized goods above the fort road still carries the cart marks of Stonewastes households",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf60",
+      "code": "LF60",
+      "title": "The Pass Shelter Ledger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes",
+        "place.imperial-fringe.the-hollow-pass-station",
+        "place.imperial-fringe.the-pass-shelter"
+      ],
+      "premise": "The shelter's arrivals book records a party of four leaving, though three walked in",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf61",
+      "code": "LF61",
+      "title": "The Village That Counts Strangers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "SUCCESSION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonewastes",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonewastes"
+      ],
+      "premise": "Stonewastes keeps a tally of every outsider since its founding, with the count now one short",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf62",
+      "code": "LF62",
+      "title": "Held, But Not By the Empire",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.fort-swampmoth",
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "The fort above the town answers to a toll company that has no writ to hold it",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf63",
+      "code": "LF63",
+      "title": "The Shadow Line",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "A body is found on the street at the hour the fort's shadow crosses it, for the third month running",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf64",
+      "code": "LF64",
+      "title": "Signals for Legions Gone",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.ashen-tower",
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "The signal tower's fire code is being answered from a station the code does not list",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf65",
+      "code": "LF65",
+      "title": "Billeted Without Orders",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "Company hands are billeting themselves in town houses under a right they cannot produce",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf66",
+      "code": "LF66",
+      "title": "The Smithy's Quiet Contract",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "SMUGGLING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "The town smith's forge books show more iron worked than the bog workings ever delivered",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf67",
+      "code": "LF67",
+      "title": "Bog Iron, Deeper Pools",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.bog-iron-workings",
+        "place.imperial-fringe.swampmoth-town"
+      ],
+      "premise": "The diggers have stopped working the deep end of the seep, without saying why",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf68",
+      "code": "LF68",
+      "title": "Takes-The-Field",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town",
+        "place.imperial-fringe.takes-the-field"
+      ],
+      "premise": "A blackguard camp is being supplied from inside the town, on the company's account",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf69",
+      "code": "LF69",
+      "title": "The Quarantine That Never Lifted",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town",
+        "place.imperial-fringe.the-quiet-pit"
+      ],
+      "premise": "A house under town quarantine is being kept shut for a debt rather than a sickness",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf70",
+      "code": "LF70",
+      "title": "Xi-Tsei, Counted",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "HAUNTING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.swampmoth-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.swampmoth-town",
+        "place.imperial-fringe.xi-tsei-massacre-ground"
+      ],
+      "premise": "The massacre ground's yearly count has been read out wrong for a generation; the ground has noticed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf71",
+      "code": "LF71",
+      "title": "Dues at the Crossing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.cartwrights-cross",
+      "anchorPlaces": [
+        "place.imperial-fringe.cartwrights-cross"
+      ],
+      "premise": "The crossing's dues are collected twice, once lawfully and once by men in the same coats",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf72",
+      "code": "LF72",
+      "title": "The Wheelwright's Daughter",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.cartwrights-cross",
+      "anchorPlaces": [
+        "place.imperial-fringe.cartwrights-cross",
+        "place.imperial-fringe.mile-house-of-the-eagle"
+      ],
+      "premise": "A wheelwright's daughter left for the mile house at noon and reached neither end of the road",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf73",
+      "code": "LF73",
+      "title": "The Westernmost Hist",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fenmarch-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.fenmarch-village"
+      ],
+      "premise": "Fenmarch's tree has chosen no speaker for two years, with the village splitting over who may ask it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf74",
+      "code": "LF74",
+      "title": "Sap and Licence",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "DISPUTE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fenmarch-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.fenmarch-village",
+        "place.imperial-fringe.the-kept-terrace"
+      ],
+      "premise": "Someone has been tapping the westernmost Hist at night, in a way the tree's people can taste",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf75",
+      "code": "LF75",
+      "title": "The Village at the Marsh's Limit",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.fenmarch-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.fenmarch-village",
+        "place.imperial-fringe.the-cold-lights"
+      ],
+      "premise": "Whatever lights the lake arm has begun coming up the ditches into the village",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf76",
+      "code": "LF76",
+      "title": "Holds-The-Stone, Holds-The-Grudge",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "premise": "A stone-speaker's judgement from forty years ago is being enforced against a grandchild",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf77",
+      "code": "LF77",
+      "title": "The Terrace That Was Swept",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-kept-terrace",
+        "place.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "premise": "The tended xanmeer's terrace is swept nightly by a village that says it stopped years ago",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf78",
+      "code": "LF78",
+      "title": "Two Ladders, One Wall",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "BONDAGE"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-stone-talkers-watch",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-ravine-doors",
+        "place.imperial-fringe.the-stone-talkers-watch"
+      ],
+      "premise": "A gorge community's upper shelf has cut the ladders to its lower shelf over an unpaid Owing",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf79",
+      "code": "LF79",
+      "title": "Washed Out at the Vellum",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "RECKONING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-vellum-estate",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-vellum-estate"
+      ],
+      "premise": "The estate's washed-out labourers are owed three seasons' wages by a house that keeps immaculate books",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf80",
+      "code": "LF80",
+      "title": "The Survey's Neat Edge",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-vellum-estate",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-abandoned-survey",
+        "place.imperial-fringe.the-vellum-estate"
+      ],
+      "premise": "A second survey camp's chains and notes lie where the first party left them, in ground the maps omit",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf81",
+      "code": "LF81",
+      "title": "Granary on Staddle Stones",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.westfield-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.westfield-village"
+      ],
+      "premise": "Westfield's shared granary is short by a measured amount each week, with the seals intact",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf82",
+      "code": "LF82",
+      "title": "The Burnt Field's Hearth",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "HAUNTING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.westfield-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.burnt-field-village",
+        "place.imperial-fringe.westfield-village"
+      ],
+      "premise": "The burn-scar village's hearth is being kept alight by someone who will not be seen doing it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf83",
+      "code": "LF83",
+      "title": "The Well and the Landing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.claywater-station",
+      "anchorPlaces": [
+        "place.imperial-fringe.claywater-station"
+      ],
+      "premise": "The Imperial well and the Argonian landing serve the same travellers under two sets of charges",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf84",
+      "code": "LF84",
+      "title": "Hangs-Above-The-Water",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.hangs-above-the-water",
+      "anchorPlaces": [
+        "place.imperial-fringe.hangs-above-the-water"
+      ],
+      "premise": "A gorge-wall village's lowest walkway has gone, with three households on the far side of the gap",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf85",
+      "code": "LF85",
+      "title": "Highwater, Low Season",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.highwater-hamlet",
+      "anchorPlaces": [
+        "place.imperial-fringe.highwater-hamlet",
+        "place.imperial-fringe.the-drowned-furrow"
+      ],
+      "premise": "The hamlet's dry-season wells taste of the drowned farmstead upstream",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf86",
+      "code": "LF86",
+      "title": "The Raft That Would Not Moor",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "MISSING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.lowmere-raft-town",
+      "anchorPlaces": [
+        "place.imperial-fringe.lowmere-raft-town",
+        "place.imperial-fringe.rufios-landing"
+      ],
+      "premise": "A Lowmere household's raft keeps drifting to a landing the town abandoned to crocodiles",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf87",
+      "code": "LF87",
+      "title": "Marcian's Terrace, Marcian's Debt",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "FRAUD"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.marcians-terrace",
+      "anchorPlaces": [
+        "place.imperial-fringe.marcians-terrace"
+      ],
+      "premise": "The terrace village's founding family has died out, with three sets of papers naming three heirs",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf88",
+      "code": "LF88",
+      "title": "Stonefoot's Second Path",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.stonefoot-terrace-village",
+      "anchorPlaces": [
+        "place.imperial-fringe.stonefoot-terrace-village",
+        "place.imperial-fringe.the-ledge-of-tallies"
+      ],
+      "premise": "A path off the terrace village carries loads at night that the terrace does not grow",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    },
+    {
+      "id": "quest.local.lf89",
+      "code": "LF89",
+      "title": "The Doors on the Wall",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "EXPEDITION"
+      ],
+      "region": "imperial-fringe",
+      "settlement": "place.imperial-fringe.the-ravine-doors",
+      "anchorPlaces": [
+        "place.imperial-fringe.the-ravine-doors"
+      ],
+      "premise": "A shelf household is found dead behind a barred door sixty metres up a gorge wall",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md"
+      ]
+    }
+  ]
+}

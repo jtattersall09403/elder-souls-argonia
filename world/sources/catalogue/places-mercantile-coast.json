@@ -107,8 +107,8 @@
           "quest.provision.wreck-eye-lens"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ10 · tier-0"
+        "opportunity": "Fund and survive the first cut into the shut hold, with four claimants watching the salvage come up.",
+        "tierOwnership": "MQ10 · tier-0; LM13 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -350,8 +350,8 @@
           "LOC",
           "NPC"
         ],
-        "opportunity": null,
-        "tierOwnership": "RS-line · tier-2"
+        "opportunity": "Test what a port that asks no questions does when its own quay is robbed.",
+        "tierOwnership": "LM29 · tier-3; LM64 · tier-3; LM65 · tier-3; LM66 · tier-3; LM67 · tier-3; LM68 · tier-3; LM69 · tier-3; LM70 · tier-3; LM71 · tier-3; LM72 · tier-3; LM73 · tier-3; RS-line · tier-2"
       },
       "rumourPoolKey": "rumour.meerhleel",
       "deedCounterKeys": [],
@@ -391,12 +391,12 @@
         }
       ],
       "position": {
-        "u": 0.41601,
-        "v": 0.80867
+        "u": 0.39192,
+        "v": 0.85477
       },
       "positionM": [
-        3067.5,
-        5962.7
+        2889.8,
+        6302.7
       ],
       "candidatesConsidered": [
         {
@@ -415,14 +415,14 @@
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 87 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on region, parent, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.mirtis-plantation (+1.10).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 33 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on region, parent, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.oliis-air-station (+0.59).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 86.7,
-        "distanceToWaterM": 11.0,
-        "score": 2.532
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.869
       },
       "hostility": {
         "baseline": "friendly",
@@ -599,8 +599,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Clear the den under the threshing floor before the roof timbers finish failing.",
+        "tierOwnership": "LM44 · tier-3; LM75 · tier-3"
       },
       "rumourPoolKey": "rumour.burn-country",
       "deedCounterKeys": [],
@@ -1000,8 +1000,8 @@
           "quest.provision.hist02"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ15 · tier-0"
+        "opportunity": "Carry the gate warning to people who ignored it, or mend the sheltering rite that is failing.",
+        "tierOwnership": "MQ15 · tier-0; LM45 · tier-3; LM74 · tier-3; LM75 · tier-3; LM76 · tier-3"
       },
       "rumourPoolKey": "rumour.ashroot",
       "deedCounterKeys": [],
@@ -1027,12 +1027,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.ashroot-village",
       "position": {
-        "u": 0.55293,
-        "v": 0.7738
+        "u": 0.41601,
+        "v": 0.80867
       },
       "positionM": [
-        4077.0,
-        5705.6
+        3067.5,
+        5962.7
       ],
       "candidatesConsidered": [
         {
@@ -1051,14 +1051,14 @@
           "whyLost": "too close to place.mercantile-coast.rockpark"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 368 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 87 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.mirtis-plantation (+1.01).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 368.1,
-        "distanceToWaterM": 79.1,
-        "score": 3.162
+        "distanceToRouteM": 86.7,
+        "distanceToWaterM": 11.0,
+        "score": 3.676
       },
       "hostility": {
         "baseline": "wary",
@@ -1237,8 +1237,8 @@
           "NPC",
           "SCENE"
         ],
-        "opportunity": null,
-        "tierOwnership": "MR05 · tier-2"
+        "opportunity": "Find speakers for the recitation, or the mnemic egg the village organised its life around.",
+        "tierOwnership": "MR05 · tier-2; LM24 · tier-3; LM31 · tier-3; LM77 · tier-3; LM78 · tier-3"
       },
       "rumourPoolKey": "rumour.mercantile-coast.bereaved-village-murkmire",
       "deedCounterKeys": [],
@@ -1282,6 +1282,11 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1262",
+          "score": 3.791,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.roadside-0499",
           "score": 3.789,
           "whyLost": "lost on score"
@@ -1289,11 +1294,6 @@
         {
           "siteId": "site.free.any-firm-ground-1193",
           "score": 3.788,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0478",
-          "score": 3.785,
           "whyLost": "lost on score"
         }
       ],
@@ -1375,7 +1375,7 @@
         "variant": null,
         "magnitude": null
       },
-      "status": "deferred",
+      "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/extrapolation/settlement-register.md",
@@ -1386,9 +1386,9 @@
       "why": {
         "founding": "A burial ground where somebody pulled the grave-poles out of the ground. The bog blight came up afterwards, as it always does.",
         "siteAdvantages": "An old village burial ground on soft peat, which is the exact condition the blight needs.",
-        "occupantsMotive": "Nothing living. The blight keeps to the field and the field is fenced by common consent.",
-        "pressures": "The pulled poles lie where they were dropped, and nobody can now say which grave each one came out of.",
-        "wouldChangeIf": "Driving the poles back in the right order would end it, and it needs a grave-singer willing to walk in."
+        "occupantsMotive": "Nothing living holds it. The blight keeps to the field, which is fenced by common consent.",
+        "pressures": "The pulled poles lie where they were dropped. No one can now say which grave each of them came out of.",
+        "wouldChangeIf": "Driving the poles back in the right order would end it. That needs a grave-singer willing to walk in."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1399,7 +1399,8 @@
           "tidal delta"
         ],
         "hardConstraints": [
-          "soft ground, flood-disturbed"
+          "soft ground, flood-disturbed",
+          "on the pole-ground the bereaved village of Sees-No-Root buries in"
         ],
         "preferences": {
           "landformClasses": [
@@ -1409,17 +1410,25 @@
             "oxbow"
           ],
           "neighbourRelation": "at or beside a grave-pole field",
-          "densityGradient": "Lilmoth hinterland, moderate"
+          "densityGradient": "eastern mangrove hinterland, thin"
+        },
+        "nearPoint": {
+          "x": 4365,
+          "z": 6059,
+          "maxM": 400
         }
       },
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.mercantile-coast.bereaved-village-murkmire"
+        ],
         "supplies": [],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
+          "place.mercantile-coast.bereaved-village-murkmire",
           "place.mercantile-coast.chasepoint"
         ],
         "travelServiceEdges": []
@@ -1443,8 +1452,9 @@
       },
       "vibe": {
         "palette": "Peat black, bleached wood, sick green.",
-        "signatureFeature": "A field of plain driven grave-poles with half of them pulled and lying like scattered kindling, and ground that shifts slightly where nothing is walking.",
-        "mood": "Desecrated."
+        "signatureFeature": "A field of plain driven grave-poles with half of them pulled and lying like scattered kindling, over ground that shifts slightly where nothing is walking.",
+        "mood": "Desecrated.",
+        "approach": "A fenced boundary of wattle with pahnjees hung on it, then peat that gives under the boot."
       },
       "assetPlan": [
         "totems-ritual",
@@ -1460,8 +1470,8 @@
           "EVIDENCE",
           "LOC"
         ],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Drive the pulled poles back in the order the register gives, with the field awake around you.",
+        "tierOwnership": "LM78 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -1473,7 +1483,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -1481,8 +1491,6 @@
       "densityLayer": "fine-tempo",
       "entrance": "none",
       "underwaterAccess": "none",
-      "deferredWhy": "Parked in the mercantile-coast over-density rebalance (140 records against a 45-56 budget): tier-3 density fill on the province's most over-dense ground.",
-      "deferredFromStatus": "ruined",
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -1498,14 +1506,31 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "An old village burial ground on soft peat, which is the exact condition the blight needs",
-        "reviewed": false
+        "hook": "A grave-field with half its poles pulled, over ground that shifts where nothing is walking.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
       },
       "contents": {
-        "creatures": [],
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "something-old",
+            "registerRef": null,
+            "danger": "D3",
+            "count": "few",
+            "trigger": "on-approach"
+          },
+          {
+            "slotId": "c2",
+            "role": "hazard-fauna",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "swarm",
+            "trigger": "on-approach"
+          }
+        ],
         "npcs": [],
         "loot": [
           {
@@ -1522,6 +1547,40 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
+      },
+      "position": {
+        "u": 0.54177,
+        "v": 0.81396
+      },
+      "positionM": [
+        3994.7,
+        6001.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0589",
+          "score": 4.175,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0498",
+          "score": 4.113,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1238",
+          "score": 3.932,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 94 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, nearPoint; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 94.3,
+        "distanceToWaterM": 0.0,
+        "score": 4.192
       }
     },
     {
@@ -1730,7 +1789,8 @@
           "fringe marsh"
         ],
         "hardConstraints": [
-          "across water too deep or wide to ford"
+          "across water too deep or wide to ford",
+          "on the coast road, at the crossing itself"
         ],
         "preferences": {
           "landformClasses": [
@@ -1792,8 +1852,8 @@
           "quest.provision.canon.brammans-river"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "RS-line · tier-2"
+        "opportunity": "Hire the ferry family upriver and learn what they take everyone else to see.",
+        "tierOwnership": "LM40 · tier-3; RS-line · tier-2"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -1877,12 +1937,12 @@
         ]
       },
       "position": {
-        "u": 0.04722,
-        "v": 0.80429
+        "u": 0.14836,
+        "v": 0.92848
       },
       "positionM": [
-        348.2,
-        5930.4
+        1094.0,
+        6846.2
       ],
       "candidatesConsidered": [
         {
@@ -1901,15 +1961,22 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 339 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 97 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.stripped-village-north (+0.40).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 339.5,
-        "distanceToWaterM": 11.0,
-        "score": 2.746
-      }
+        "distanceToRouteM": 97.2,
+        "distanceToWaterM": 16.5,
+        "score": 3.047
+      },
+      "terrainRequests": [
+        {
+          "kind": "narrows",
+          "radiusM": 80,
+          "note": "The channel must pinch here, or a rope ferry cannot be strung across it."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.bramman-screen",
@@ -2018,8 +2085,8 @@
           "LOC",
           "WATER"
         ],
-        "opportunity": null,
-        "tierOwnership": "RS-line · tier-2"
+        "opportunity": "Run the navigable mouth inside its ninety minutes, or stop somebody marking it.",
+        "tierOwnership": "LM40 · tier-3; LM49 · tier-3; RS-line · tier-2"
       },
       "rumourPoolKey": "rumour.brammans-river",
       "deedCounterKeys": [],
@@ -2251,8 +2318,8 @@
           "quest.provision.lq31-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ31 · tier-3"
+        "opportunity": "Buy, earn or expose an endorsement the whole bay treats as neutral.",
+        "tierOwnership": "LM83 · tier-3; LM90 · tier-3; LQ31 · tier-3"
       },
       "rumourPoolKey": "rumour.bright-throat",
       "deedCounterKeys": [],
@@ -2810,8 +2877,8 @@
           "quest.provision.lq29-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ29 · tier-3"
+        "opportunity": "Trace a salvage lot back to a ship whose owners have not heard it is down.",
+        "tierOwnership": "LM38 · tier-3; LM56 · tier-3; LM57 · tier-3; LM62 · tier-3; LQ29 · tier-3"
       },
       "rumourPoolKey": "rumour.coast-road",
       "deedCounterKeys": [],
@@ -2838,12 +2905,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.chasepoint-wreck-households",
       "position": {
-        "u": 0.12159,
-        "v": 0.67861
+        "u": 0.18442,
+        "v": 0.90948
       },
       "positionM": [
-        896.6,
-        5003.7
+        1359.8,
+        6706.0
       ],
       "candidatesConsidered": [
         {
@@ -2862,14 +2929,14 @@
           "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 466 m from the nearest route; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hereguard-plantation (+0.30).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 38 m from the nearest route; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 466.2,
-        "distanceToWaterM": 140.6,
-        "score": 2.259
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 46.9,
+        "score": 3.111
       },
       "hostility": {
         "baseline": "guarded",
@@ -3848,8 +3915,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Settle whether an Imperial rate two centuries dead still buys the road's only good water.",
+        "tierOwnership": "LM39 · tier-3; LM57 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -3922,38 +3989,38 @@
         ]
       },
       "position": {
-        "u": 0.45929,
-        "v": 0.89093
+        "u": 0.4703,
+        "v": 0.87337
       },
       "positionM": [
-        3386.6,
-        6569.3
+        3467.7,
+        6439.8
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0467",
           "score": 4.411,
-          "whyLost": "too close to place.mercantile-coast.villa-cellars"
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
         },
         {
           "siteId": "site.free.any-firm-ground-1327",
           "score": 4.41,
-          "whyLost": "too close to place.mercantile-coast.villa-cellars"
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
         },
         {
           "siteId": "site.free.any-firm-ground-1306",
           "score": 4.404,
-          "whyLost": "too close to place.mercantile-coast.soulrest-breaking-yard"
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 82 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 78 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 82.4,
-        "distanceToWaterM": 15.5,
-        "score": 4.29
+        "distanceToRouteM": 77.5,
+        "distanceToWaterM": 19.8,
+        "score": 4.266
       }
     },
     {
@@ -4397,8 +4464,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Relight the lantern, which decides who profits from the bar below it.",
+        "tierOwnership": "LM20 · tier-3; LM36 · tier-3"
       },
       "rumourPoolKey": "rumour.cold-light",
       "deedCounterKeys": [],
@@ -5910,8 +5977,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Arbitrate the harvest ration, or read the new pattern in the water.",
+        "tierOwnership": "LM61 · tier-3; LM70 · tier-3"
       },
       "rumourPoolKey": "rumour.glowfen",
       "deedCounterKeys": [],
@@ -6630,8 +6697,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Find what is working at the far terrace, with four villages refusing to yield ground to look.",
+        "tierOwnership": "LM71 · tier-3; LM72 · tier-3"
       },
       "rumourPoolKey": "rumour.crown-terrace",
       "deedCounterKeys": [],
@@ -6670,18 +6737,18 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.roadside-0464",
+          "score": 2.969,
+          "whyLost": "too close to place.mercantile-coast.soulrest-breaking-yard"
+        },
+        {
           "siteId": "site.free.any-shallow-marsh-1305",
           "score": 2.968,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0596",
-          "score": 2.962,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0586",
-          "score": 2.961,
+          "siteId": "site.free.any-shallow-marsh-1328",
+          "score": 2.963,
           "whyLost": "lost on score"
         }
       ],
@@ -6890,12 +6957,12 @@
       "underwaterAccess": "none",
       "ownerFaction": null,
       "position": {
-        "u": 0.53656,
-        "v": 0.85114
+        "u": 0.50124,
+        "v": 0.82653
       },
       "positionM": [
-        3956.4,
-        6275.9
+        3695.9,
+        6094.5
       ],
       "candidatesConsidered": [
         {
@@ -6914,14 +6981,14 @@
           "whyLost": "too close to place.mercantile-coast.rockpark"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 58 m from the nearest route; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 88 m from the nearest route; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.tempering-ground (+1.07).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 58.3,
-        "distanceToWaterM": 44.2,
-        "score": 2.347
+        "dangerBand": 2,
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 42.8,
+        "score": 3.282
       },
       "hostility": {
         "baseline": "hostile",
@@ -7103,8 +7170,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Take a side, or none, among the four parties contesting the sill.",
+        "tierOwnership": "LM41 · tier-3"
       },
       "rumourPoolKey": "rumour.head-of-tide",
       "deedCounterKeys": [],
@@ -7226,7 +7293,19 @@
         "destinations": [
           "place.mercantile-coast.soulrest"
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "narrows",
+          "radiusM": 70,
+          "note": "The channel narrows at the sill, which is what stops a sea-going hull."
+        },
+        {
+          "kind": "ford",
+          "radiusM": 45,
+          "note": "A gravel sill across the bed: deep water below it, poling water above it."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hereguard-paddies",
@@ -7402,20 +7481,19 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "A rice estate north of Lilmoth, and one of the few places Bretons still live in Argonia. Rice is the one crop that works here because it wants the flood.",
-        "siteAdvantages": "A flooding river terrace that ruins any other crop and suits this one exactly.",
+        "siteAdvantages": "A river terrace that floods every year, which ruins any other crop and suits this one exactly.",
         "occupantsMotive": "A Breton family and Argonian tenant households, bound by a share arrangement that both sides describe differently.",
         "pressures": "Lilmoth depends on Hereguard rice, which gives the tenants more hold over the family every year.",
         "wouldChangeIf": "A tenant refusal at planting would starve the city. Both sides have counted it."
       },
       "sitingPrefs": {
         "regionClasses": [
-          "firm lowland",
           "seasonal floodplain",
-          "fringe marsh",
-          "upland hills"
+          "firm lowland",
+          "fringe marsh"
         ],
         "hardConstraints": [
-          "controls a crossing or a landing"
+          "a river terrace that floods seasonally, with slack water at its foot"
         ],
         "preferences": {
           "landformClasses": [
@@ -7488,8 +7566,8 @@
           "quest.provision.canon.the-owing"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "BC-line · tier-2"
+        "opportunity": "Audit a credit book, trace a taint in the flood channel, or find what fills the old cut early.",
+        "tierOwnership": "LM12 · tier-3; LM79 · tier-3; LM80 · tier-3; LM81 · tier-3; BC-line · tier-2"
       },
       "rumourPoolKey": "rumour.hereguard",
       "deedCounterKeys": [],
@@ -7518,12 +7596,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.hereguard-estate",
       "position": {
-        "u": 0.18442,
-        "v": 0.90948
+        "u": 0.56631,
+        "v": 0.81247
       },
       "positionM": [
-        1359.8,
-        6706.0
+        4175.7,
+        5990.7
       ],
       "candidatesConsidered": [
         {
@@ -7532,24 +7610,24 @@
           "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.scour.fringe-marsh.ford-049",
-          "score": 3.063,
-          "whyLost": "too close to place.mercantile-coast.lighter-flotilla"
+          "siteId": "site.free.any-firm-ground-1225",
+          "score": 3.044,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.any-firm-ground-1195",
-          "score": 3.057,
-          "whyLost": "taken by place.mercantile-coast.moonmarch"
+          "siteId": "site.scour.firm-lowland.flood-high-010",
+          "score": 2.948,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 38 m from the nearest route; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.chasepoint (+0.30).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.tempering-ground (+2.35).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 46.9,
-        "score": 3.423
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 225.0,
+        "distanceToWaterM": 15.5,
+        "score": 3.209
       },
       "hostility": {
         "baseline": "friendly",
@@ -7620,7 +7698,19 @@
         "rivals": [
           "place.mercantile-coast.mirtis-plantation"
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "terrace",
+          "radiusM": 160,
+          "note": "Stepped paddy terraces above the flood line."
+        },
+        {
+          "kind": "levee",
+          "radiusM": 120,
+          "note": "A bank the estate cuts to let the flood in and shut it out again."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
@@ -8035,8 +8125,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Broker who pays for new timbers before the deck decides for everyone.",
+        "tierOwnership": "LM19 · tier-3"
       },
       "rumourPoolKey": "rumour.canopy-walks",
       "deedCounterKeys": [],
@@ -8256,8 +8346,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Break, buy or replace the toll the cell runs on the swept circle.",
+        "tierOwnership": "LM04 · tier-3"
       },
       "rumourPoolKey": "rumour.the-fringe",
       "deedCounterKeys": [
@@ -8671,8 +8761,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Go into the outer galleries after whatever has started coming downriver.",
+        "tierOwnership": "LM31 · tier-3; LM84 · tier-3"
       },
       "rumourPoolKey": "rumour.root-sakka",
       "deedCounterKeys": [],
@@ -9171,7 +9261,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A tribe that never left its xanmeer, and therefore holds the strongest fortification in southern Murkmire without having built anything.",
-        "siteAdvantages": "Stone walls, a single water approach, ancient defences that still work. Everything else in the region is timber.",
+        "siteAdvantages": "Stone walls, one water approach, ancient defences that still work. The Blackrose road passes within sight, which suits a tribe that trades at arm's length.",
         "occupantsMotive": "They are polite, immovable and uninterested in Lilmoth's politics.",
         "pressures": "Every faction in the south has wanted their walls at some point; the working defences are why none has taken them.",
         "wouldChangeIf": "If the vakka mechanisms ever failed, the village would be ordinary overnight."
@@ -9532,7 +9622,7 @@
         "provisions": [],
         "tags": [],
         "opportunity": null,
-        "tierOwnership": null
+        "tierOwnership": "PP07 · tier-3"
       },
       "rumourPoolKey": "rumour.xel-nahkta",
       "deedCounterKeys": [],
@@ -9781,8 +9871,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Follow a survey party into rooms that are silt rather than water.",
+        "tierOwnership": "LM22 · tier-3"
       },
       "rumourPoolKey": "rumour.ixtaxh",
       "deedCounterKeys": [],
@@ -10347,8 +10437,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Take a cargo above the last supplied bed, through the gap in Lilmoth's writ.",
+        "tierOwnership": "LM69 · tier-3; LM82 · tier-3; LM83 · tier-3; LM84 · tier-3"
       },
       "rumourPoolKey": "rumour.keel-sakka",
       "deedCounterKeys": [],
@@ -10617,12 +10707,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.56408,
-        "v": 0.67563
+        "u": 0.544,
+        "v": 0.70612
       },
       "positionM": [
-        4159.2,
-        4981.8
+        4011.2,
+        5206.6
       ],
       "candidatesConsidered": [
         {
@@ -10641,14 +10731,14 @@
           "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 834 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.root-gallery-murkmire (+1.46).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 813 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.root-gallery-murkmire (+0.51).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 834.2,
-        "distanceToWaterM": 38.8,
-        "score": 2.214
+        "distanceToRouteM": 813.1,
+        "distanceToWaterM": 28.0,
+        "score": 2.641
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -10966,8 +11056,8 @@
           "quest.provision.tg04-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "TG04 · tier-2"
+        "opportunity": "Carry the licensing offer between a council and crews who can stop the port.",
+        "tierOwnership": "TG04 · tier-2; LM08 · tier-3; LM23 · tier-3"
       },
       "rumourPoolKey": "rumour.lighter-flotilla",
       "deedCounterKeys": [],
@@ -11253,8 +11343,8 @@
           "STATE",
           "WATER"
         ],
-        "opportunity": null,
-        "tierOwnership": "MQ13 · tier-0; MQ32 · tier-0; TG08 · tier-2; TG10 · tier-2; LQ08 · tier-3"
+        "opportunity": "Work the quay, the register and the drowned city under the floorboards.",
+        "tierOwnership": "MQ13 · tier-0; MQ32 · tier-0; TG08 · tier-2; TG10 · tier-2; LM01 · tier-3; LM02 · tier-3; LM03 · tier-3; LM04 · tier-3; LM05 · tier-3; LM06 · tier-3; LM07 · tier-3; LM08 · tier-3; LM09 · tier-3; LM10 · tier-3; LM11 · tier-3; LM12 · tier-3; LM13 · tier-3; LM14 · tier-3; LM15 · tier-3; LM16 · tier-3; LM17 · tier-3; LM18 · tier-3; LM19 · tier-3; LM20 · tier-3; LM21 · tier-3; LM22 · tier-3; LM23 · tier-3; LM24 · tier-3; LM25 · tier-3; LM26 · tier-3; LM27 · tier-3; LM28 · tier-3; LM29 · tier-3; LM30 · tier-3; LM31 · tier-3; LQ08 · tier-3"
       },
       "rumourPoolKey": "rumour.lilmoth.city",
       "deedCounterKeys": [
@@ -11878,8 +11968,8 @@
           "PORTAL",
           "WATER"
         ],
-        "opportunity": null,
-        "tierOwnership": "MQ13 · tier-0"
+        "opportunity": "Decide, lot by lot, what belongs to the living family that lost it.",
+        "tierOwnership": "MQ13 · tier-0; LM01 · tier-3; LM16 · tier-3; LM26 · tier-3"
       },
       "rumourPoolKey": "rumour.under-yard",
       "deedCounterKeys": [],
@@ -11915,20 +12005,15 @@
         }
       ],
       "position": {
-        "u": 0.17589,
-        "v": 0.86229
+        "u": 0.39452,
+        "v": 0.88014
       },
       "positionM": [
-        1296.9,
-        6358.1
+        2909.0,
+        6489.7
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-008",
+      "scourSiteId": "site.scour.mangrove-forest.cove-030",
       "candidatesConsidered": [
-        {
-          "siteId": "site.scour.lake-standing-water.cove-005",
-          "score": 4.042,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
-        },
         {
           "siteId": "site.scour.mangrove-forest.river-mouth-008",
           "score": 4.007,
@@ -11938,16 +12023,21 @@
           "siteId": "site.scour.lake-standing-water.islet-021",
           "score": 3.627,
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1196",
+          "score": 3.491,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 380 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.oliis-air-station (+1.66).",
+      "whySiteWon": "cove in mangrove forest (danger band 0), 148 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "cove",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 380.2,
-        "distanceToWaterM": 0.0,
-        "score": 4.281
+        "regionClass": "mangrove forest",
+        "dangerBand": 0,
+        "distanceToRouteM": 147.6,
+        "distanceToWaterM": 23.3,
+        "score": 2.527
       },
       "hostility": {
         "baseline": "friendly",
@@ -12286,8 +12376,8 @@
           "quest.provision.lq29-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ29 · tier-3"
+        "opportunity": "Prove a century of wrecks deliberate, which forces the harbour office to move.",
+        "tierOwnership": "LM36 · tier-3; LM62 · tier-3; LQ29 · tier-3"
       },
       "rumourPoolKey": "rumour.long-bar",
       "deedCounterKeys": [],
@@ -12407,7 +12497,14 @@
             "provenance": "the light itself, and the list of ships it took"
           }
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "islet",
+          "radiusM": 140,
+          "note": "A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.mad-hermit-jungle",
@@ -13025,8 +13122,8 @@
           "quest.provision.dq04-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "DQ04 · tier-3"
+        "opportunity": "Stand between a Colovian deed and the families who burned the house.",
+        "tierOwnership": "DQ04 · tier-3; LM47 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -13111,18 +13208,18 @@
         ]
       },
       "position": {
-        "u": 0.42353,
-        "v": 0.9441
+        "u": 0.55293,
+        "v": 0.7738
       },
       "positionM": [
-        3122.9,
-        6961.3
+        4077.0,
+        5705.6
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1098",
           "score": 3.105,
-          "whyLost": "too close to place.hist-heartland.bereaved-mnemic"
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
           "siteId": "site.free.roadside-0418",
@@ -13132,17 +13229,17 @@
         {
           "siteId": "site.free.any-firm-ground-1072",
           "score": 3.093,
-          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 74 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alten-meerhleel (+1.10).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 368 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.ashroot-village (+1.01).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 73.8,
-        "distanceToWaterM": 11.0,
-        "score": 2.352
+        "dangerBand": 3,
+        "distanceToRouteM": 368.1,
+        "distanceToWaterM": 79.1,
+        "score": 2.716
       }
     },
     {
@@ -13253,8 +13350,8 @@
           "quest.provision.lq10-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ10 · tier-3"
+        "opportunity": "Follow the sugar trade north, or save a place-name from an Imperial edition.",
+        "tierOwnership": "LM67 · tier-3; LM68 · tier-3; LQ10 · tier-3"
       },
       "rumourPoolKey": "rumour.moonmarch",
       "deedCounterKeys": [],
@@ -13503,8 +13600,8 @@
           "quest.provision.lq24-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ24 · tier-3"
+        "opportunity": "Prove the buyers' price is set before the boats land, or find who is emptying them first.",
+        "tierOwnership": "LM42 · tier-3; LM55 · tier-3; LM85 · tier-3; LM86 · tier-3; LQ24 · tier-3"
       },
       "rumourPoolKey": "rumour.mudfoot",
       "deedCounterKeys": [],
@@ -14046,8 +14143,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Break the toll, or the escort contract that has joined it without saying so.",
+        "tierOwnership": "LM09 · tier-3; LM27 · tier-3"
       },
       "rumourPoolKey": "rumour.xul-hakka",
       "deedCounterKeys": [],
@@ -14086,11 +14183,6 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.ford-058",
-          "score": 2.61,
-          "whyLost": "too close to place.naga-kur-deeps.naga-highway-camp-active-north"
-        },
-        {
           "siteId": "site.scour.tropical-jungle.ford-025",
           "score": 2.605,
           "whyLost": "too close to place.hist-heartland.umpholo-mission"
@@ -14098,6 +14190,11 @@
         {
           "siteId": "site.scour.fringe-marsh.ford-049",
           "score": 2.185,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1061",
+          "score": 2.177,
           "whyLost": "lost on score"
         }
       ],
@@ -14229,7 +14326,7 @@
         "founding": "A village whose whole trade is the dead: driving the poles, tending them, keeping the register and repatriating for the whole southern coast.",
         "siteAdvantages": "Firm peat that holds a driven pole, central to a dozen villages and far enough from all of them.",
         "occupantsMotive": "Every household here holds a grave-office, and children learn the register before they learn anything else.",
-        "pressures": "The Owing's dead, Umbriel's dead and White Rose's dead all arrive here eventually. The ground is filling.",
+        "pressures": "The village sits where the deep-marsh tribes begin, so its pole-drivers travel armed. The register is kept in duplicate for the same reason.",
         "wouldChangeIf": "A refusal to accept more dead would force a dozen villages to solve the problem themselves."
       },
       "sitingPrefs": {
@@ -14276,7 +14373,7 @@
       "notableNpcSlots": [
         "master grave-wright"
       ],
-      "dangerTier": "D3",
+      "dangerTier": "D4",
       "traversalModes": [
         "walk",
         "boat",
@@ -14322,8 +14419,8 @@
           "LOC",
           "NPC"
         ],
-        "opportunity": null,
-        "tierOwnership": "province system · tier-1; NI01 · tier-2; DQ07 · tier-3"
+        "opportunity": "Reconcile two copies of a register that no longer agree on who is buried.",
+        "tierOwnership": "NI01 · tier-2; DQ07 · tier-3; LM25 · tier-3; LM60 · tier-3; LM87 · tier-3; province system · tier-1"
       },
       "rumourPoolKey": "rumour.xul-vaat",
       "deedCounterKeys": [],
@@ -14353,38 +14450,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.xul-vaat-stake-carvers",
       "position": {
-        "u": 0.43245,
-        "v": 0.65481
+        "u": 0.27033,
+        "v": 0.67117
       },
       "positionM": [
-        3188.7,
-        4828.2
+        1993.3,
+        4948.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1168",
-          "score": 3.917,
-          "whyLost": "too close to place.mercantile-coast.moonmarch"
+          "siteId": "site.free.any-shallow-marsh-1228",
+          "score": 3.779,
+          "whyLost": "too close to place.imperial-penal-south.longmont"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1159",
+          "score": 3.477,
+          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1205",
-          "score": 3.802,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1204",
-          "score": 3.768,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "score": 3.452,
+          "whyLost": "too close to place.imperial-penal-south.longmont"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 113 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 244 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, route; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 113.0,
-        "distanceToWaterM": 5.5,
-        "score": 2.315
+        "distanceToRouteM": 243.5,
+        "distanceToWaterM": 0.0,
+        "score": 2.378
       },
       "hostility": {
         "baseline": "wary",
@@ -14458,7 +14555,8 @@
         "rivals": [
           "place.naga-kur-deeps.necropolis-nightbound"
         ]
-      }
+      },
+      "sitingNote": "Xul-Vaat is filed with the coast because it buries for the coast; the ground under it is rootland deep marsh and its neighbours upriver are Nagas."
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
@@ -14561,8 +14659,8 @@
           "quest.provision.lq23-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "LQ23 · tier-3"
+        "opportunity": "Find who stocked the bench for thirty years, then who wrote the last name on the slate.",
+        "tierOwnership": "LM28 · tier-3; LM73 · tier-3; LQ23 · tier-3; PP09 · tier-3"
       },
       "rumourPoolKey": "rumour.breathing-stone",
       "deedCounterKeys": [],
@@ -14587,12 +14685,12 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "argonian-only-depth",
       "position": {
-        "u": 0.07028,
-        "v": 0.90618
+        "u": 0.43542,
+        "v": 0.89874
       },
       "positionM": [
-        518.2,
-        6681.7
+        3210.6,
+        6626.8
       ],
       "candidatesConsidered": [
         {
@@ -14611,14 +14709,14 @@
           "whyLost": "taken by place.mercantile-coast.alessian-hull"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 2), 55 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.lilmoth-divers-yard (+1.66).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 186 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alten-meerhleel (+0.59).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 55.1,
-        "distanceToWaterM": 0.0,
-        "score": 3.187
+        "distanceToRouteM": 186.3,
+        "distanceToWaterM": 21.9,
+        "score": 2.482
       },
       "hostility": {
         "baseline": "hostile",
@@ -14668,8 +14766,7 @@
             "provenance": "marks cut by everyone who has rested on the bench"
           }
         ]
-      },
-      "scourSiteId": "site.scour.lake-standing-water.cove-069"
+      }
     },
     {
       "id": "place.mercantile-coast.oliis-boardwalk",
@@ -14740,7 +14837,7 @@
       "notableNpcSlots": [
         "deck-warden"
       ],
-      "dangerTier": "D2",
+      "dangerTier": "D1",
       "traversalModes": [
         "walk",
         "boat",
@@ -14778,8 +14875,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Rebuild the failing spans, or walk the deck after dark to see what uses it.",
+        "tierOwnership": "LM88 · tier-3; LM89 · tier-3; LM90 · tier-3"
       },
       "rumourPoolKey": "rumour.oliis-boardwalk",
       "deedCounterKeys": [],
@@ -14805,38 +14902,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.long-walk-households",
       "position": {
-        "u": 0.57524,
-        "v": 0.84593
+        "u": 0.65555,
+        "v": 0.76413
       },
       "positionM": [
-        4241.5,
-        6237.5
+        4833.7,
+        5634.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0472",
-          "score": 3.331,
+          "siteId": "site.free.any-shallow-marsh-1196",
+          "score": 3.359,
           "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.roadside-0035",
-          "score": 3.291,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0473",
+          "score": 3.357,
+          "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.roadside-0588",
-          "score": 3.287,
-          "whyLost": "too close to place.mercantile-coast.lilmoth"
+          "siteId": "site.free.any-shallow-marsh-1219",
+          "score": 3.351,
+          "whyLost": "too close to place.mercantile-coast.moonmarch"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 11 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sunkfoot (+0.40).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 12 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 11.0,
-        "distanceToWaterM": 12.3,
-        "score": 2.988
+        "distanceToRouteM": 12.3,
+        "distanceToWaterM": 5.5,
+        "score": 2.477
       },
       "hostility": {
         "baseline": "wary",
@@ -14935,7 +15032,8 @@
           "lake & standing water"
         ],
         "hardConstraints": [
-          "deep water"
+          "deep standing salt water over a bay floor",
+          "off the Oliis bay, within a morning's paddle of Breathing-Stone"
         ],
         "preferences": {
           "landformClasses": [
@@ -14947,6 +15045,10 @@
           ],
           "neighbourRelation": "on a boat lane, which is the problem",
           "densityGradient": "Oliis Bay corridor, thin"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.oliis-air-station",
+          "maxM": 1200
         }
       },
       "relations": {
@@ -15074,39 +15176,51 @@
         ]
       },
       "position": {
-        "u": 0.54326,
-        "v": 0.6972
+        "u": 0.39229,
+        "v": 0.91658
       },
       "positionM": [
-        4005.7,
-        5140.8
+        2892.6,
+        6758.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.water-narrows-054",
-          "score": 2.892,
-          "whyLost": "too close to place.hist-heartland.marsh-giant-ground-basin"
+          "siteId": "site.free.any-firm-ground-1084",
+          "score": 3.266,
+          "whyLost": "too close to place.mercantile-coast.keshu-grove"
         },
         {
-          "siteId": "site.free.any-firm-ground-1005",
-          "score": 2.667,
-          "whyLost": "too close to place.hist-heartland.marsh-giant-ground-basin"
+          "siteId": "site.free.any-shallow-marsh-1343",
+          "score": 2.731,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1034",
-          "score": 2.569,
-          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
+          "siteId": "site.free.any-firm-ground-1136",
+          "score": 2.726,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 796 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on remote, danger, parent; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; no free 'cove' site was left in the zone, so plain ground; won on route, bound, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 796.5,
-        "distanceToWaterM": 11.0,
-        "score": 2.27
-      }
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 224.9,
+        "distanceToWaterM": 31.0,
+        "score": 2.802
+      },
+      "terrainRequests": [
+        {
+          "kind": "sinkhole",
+          "radiusM": 45,
+          "note": "A drowned bay-floor sinkhole forty metres deep; the hole is the place."
+        },
+        {
+          "kind": "pool",
+          "radiusM": 110,
+          "note": "Standing salt water over the hole, deep enough that the bottom is dark from the surface."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-ferry-stage",
@@ -15246,38 +15360,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.estuary-ferry-holders",
       "position": {
-        "u": 0.07325,
-        "v": 0.84891
+        "u": 0.08879,
+        "v": 0.80644
       },
       "positionM": [
-        540.1,
-        6259.4
+        654.7,
+        5946.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0275",
-          "score": 2.964,
-          "whyLost": "too close to place.mercantile-coast.soulrest-quay-tradehouse"
+          "siteId": "site.free.any-firm-ground-1172",
+          "score": 2.802,
+          "whyLost": "too close to place.mercantile-coast.long-bar-wreckers"
         },
         {
-          "siteId": "site.free.roadside-0006",
-          "score": 2.948,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1221",
+          "score": 2.745,
+          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1268",
-          "score": 2.93,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0274",
+          "score": 2.743,
+          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 28 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 92 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 28.0,
-        "distanceToWaterM": 5.5,
-        "score": 2.959
+        "distanceToRouteM": 91.9,
+        "distanceToWaterM": 83.9,
+        "score": 2.683
       },
       "hostility": {
         "baseline": "neutral",
@@ -15331,7 +15445,14 @@
           "place.mercantile-coast.lilmoth",
           "place.mercantile-coast.oliis-boardwalk"
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "narrows",
+          "radiusM": 90,
+          "note": "The estuary must pinch at the crossing, or the ferry has nothing to aim for."
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-narrows",
@@ -15541,7 +15662,7 @@
       "culture": "argonian",
       "occupants": [],
       "notableNpcSlots": [],
-      "dangerTier": "D2",
+      "dangerTier": "D1",
       "traversalModes": [
         "swim",
         "boat"
@@ -15572,8 +15693,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Dive the worked steps the cutters have stopped going into.",
+        "tierOwnership": "LM10 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -15644,40 +15765,39 @@
         ]
       },
       "position": {
-        "u": 0.39452,
-        "v": 0.88014
+        "u": 0.14948,
+        "v": 0.95309
       },
       "positionM": [
-        2909.0,
-        6489.7
+        1102.2,
+        7027.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0035",
-          "score": 4.208,
-          "whyLost": "too close to place.imperial-penal-south.rose-supply-town"
+          "siteId": "site.free.any-shallow-marsh-1357",
+          "score": 3.85,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0588",
-          "score": 4.187,
-          "whyLost": "too close to place.mercantile-coast.lighter-flotilla"
+          "siteId": "site.free.any-shallow-marsh-1219",
+          "score": 3.849,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0465",
-          "score": 4.089,
-          "whyLost": "too close to place.mercantile-coast.soulrest-breaking-yard"
+          "siteId": "site.free.any-shallow-marsh-1342",
+          "score": 3.845,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in mangrove forest (danger band 0), 148 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 88 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 147.6,
-        "distanceToWaterM": 23.3,
-        "score": 3.731
-      },
-      "scourSiteId": "site.scour.mangrove-forest.cove-030"
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 5.5,
+        "score": 3.859
+      }
     },
     {
       "id": "place.mercantile-coast.oliis-tide-run",
@@ -16643,6 +16763,10 @@
           ],
           "neighbourRelation": "in a port, a market town or a slum quarter",
           "densityGradient": "Lilmoth apron, dense"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.lilmoth",
+          "maxM": 500
         }
       },
       "relations": {
@@ -16696,8 +16820,8 @@
           "quest.provision.lq09-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ13 · tier-0; LQ09 · tier-3"
+        "opportunity": "Collect or bury a councillor's dice debt before it becomes civic business.",
+        "tierOwnership": "MQ13 · tier-0; LM07 · tier-3; LM23 · tier-3; LQ09 · tier-3"
       },
       "rumourPoolKey": "rumour.pusbottom",
       "deedCounterKeys": [],
@@ -16765,38 +16889,38 @@
         ]
       },
       "position": {
-        "u": 0.4027,
-        "v": 0.86006
+        "u": 0.45929,
+        "v": 0.89093
       },
       "positionM": [
-        2969.3,
-        6341.7
+        3386.6,
+        6569.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0475",
-          "score": 4.808,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.free.roadside-0040",
+          "score": 5.209,
+          "whyLost": "too close to place.mercantile-coast.naga-village-oliis"
         },
         {
-          "siteId": "site.free.roadside-0014",
-          "score": 4.804,
-          "whyLost": "too close to place.mercantile-coast.xhon-mehl-shrine"
+          "siteId": "site.free.roadside-0044",
+          "score": 5.141,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1221",
-          "score": 4.783,
+          "siteId": "site.free.roadside-0484",
+          "score": 5.137,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 92 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 82 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, bound; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 91.9,
-        "distanceToWaterM": 5.5,
-        "score": 4.794
+        "distanceToRouteM": 82.4,
+        "distanceToWaterM": 15.5,
+        "score": 5.184
       }
     },
     {
@@ -16821,19 +16945,20 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Southern Sea crews, a large share of them Khajiit, keep out of sight of Altmer and Maormer warships, so they anchor where no state looks.",
-        "siteAdvantages": "A deep cove behind a headland with two exits, sand holding ground and a freshwater run at its head.",
+        "siteAdvantages": "A deep lagoon cove behind a headland with two ways out, sand holding ground and a freshwater run at its head.",
         "occupantsMotive": "Half the hulls here carry a Soulrest charter. All of them carry cargo the charter does not mention.",
         "pressures": "Soulrest's council both licenses and disowns them; the arrangement is stable, but everyone resents it.",
         "wouldChangeIf": "A Dominion sweep of the Southern Sea would scatter it to the mangroves in a week."
       },
       "sitingPrefs": {
         "regionClasses": [
-          "ocean",
           "coastal lagoon & salt marsh",
-          "tidal delta"
+          "ocean",
+          "tidal delta",
+          "lake & standing water"
         ],
         "hardConstraints": [
-          "a deep cove on open salt water behind a headland",
+          "a deep lagoon cove behind a headland, with a second way out to the sea",
           "fresh water at its head"
         ],
         "preferences": {
@@ -16913,8 +17038,8 @@
           "quest.provision.rs05-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "RS05 · tier-2; LQ11 · tier-3"
+        "opportunity": "Get the licence-and-denial arrangement put in writing, for one side or the other.",
+        "tierOwnership": "RS05 · tier-2; LM37 · tier-3; LM59 · tier-3; LQ11 · tier-3"
       },
       "rumourPoolKey": "rumour.quinrawl",
       "deedCounterKeys": [],
@@ -16943,38 +17068,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
       "position": {
-        "u": 0.11936,
-        "v": 0.7262
+        "u": 0.17589,
+        "v": 0.86229
       },
       "positionM": [
-        880.1,
-        5354.7
+        1296.9,
+        6358.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.headland-004",
-          "score": 1.85,
-          "whyLost": "too close to place.mercantile-coast.ixtaxh-xanmeer"
-        },
-        {
           "siteId": "site.scour.lake-standing-water.cove-038",
-          "score": 1.506,
+          "score": 2.806,
           "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.scour.fringe-marsh.cove-064",
-          "score": 1.426,
+          "siteId": "site.scour.lake-standing-water.islet-012",
+          "score": 2.388,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.islet-042",
+          "score": 2.384,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 352 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on hinterland, danger, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.oliis-air-station (+1.83).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 380 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "cove",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 352.4,
-        "distanceToWaterM": 23.3,
-        "score": 2.088
+        "distanceToRouteM": 380.2,
+        "distanceToWaterM": 0.0,
+        "score": 2.79
       },
       "hostility": {
         "baseline": "hostile",
@@ -17066,7 +17191,8 @@
         "destinations": [
           "place.mercantile-coast.moonmarch"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.lake-standing-water.cove-008"
     },
     {
       "id": "place.mercantile-coast.rockpark",
@@ -17169,8 +17295,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Enter a plague town stocked with five centuries of goods, ahead of the deeds already being sold.",
+        "tierOwnership": "LM21 · tier-3; LM46 · tier-3"
       },
       "rumourPoolKey": "rumour.rockpark",
       "deedCounterKeys": [],
@@ -17205,12 +17331,12 @@
         }
       ],
       "position": {
-        "u": 0.39229,
-        "v": 0.91658
+        "u": 0.10374,
+        "v": 0.67861
       },
       "positionM": [
-        2892.6,
-        6758.4
+        765.0,
+        5003.7
       ],
       "candidatesConsidered": [
         {
@@ -17229,14 +17355,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.stripped-village-north (+0.94).",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 594 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sealed-meer-murkmire (+1.68).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 224.9,
-        "distanceToWaterM": 31.0,
-        "score": 1.835
+        "distanceToRouteM": 593.5,
+        "distanceToWaterM": 60.3,
+        "score": 2.328
       },
       "hostility": {
         "baseline": "hostile",
@@ -17566,8 +17692,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Reach whoever is living in the gallery before the wet season fills it.",
+        "tierOwnership": "LM30 · tier-3"
       },
       "rumourPoolKey": "rumour.under-root",
       "deedCounterKeys": [],
@@ -17608,17 +17734,17 @@
           "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1073",
-          "score": 2.795,
-          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+          "siteId": "site.free.any-shallow-marsh-1075",
+          "score": 2.816,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         },
         {
-          "siteId": "site.free.any-firm-ground-1088",
-          "score": 2.612,
-          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
+          "siteId": "site.free.roadside-0255",
+          "score": 2.552,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 319 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.keshu-grove (+1.46).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 319 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, landform; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.keshu-grove (+0.51).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
@@ -17802,8 +17928,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Read the surviving record room before somebody finishes writing pages into it.",
+        "tierOwnership": "LM05 · tier-3"
       },
       "rumourPoolKey": "rumour.customs-suburb",
       "deedCounterKeys": [],
@@ -17832,38 +17958,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.50533,
-        "v": 0.75744
+        "u": 0.21195,
+        "v": 0.95309
       },
       "positionM": [
-        3726.1,
-        5585.0
+        1562.8,
+        7027.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1098",
-          "score": 3.763,
-          "whyLost": "too close to place.hist-heartland.bereaved-mnemic"
+          "siteId": "site.free.any-firm-ground-1194",
+          "score": 3.518,
+          "whyLost": "too close to place.mercantile-coast.moonmarch"
         },
         {
-          "siteId": "site.free.any-firm-ground-1005",
-          "score": 3.594,
-          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
+          "siteId": "site.free.any-firm-ground-1047",
+          "score": 3.473,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1034",
-          "score": 3.542,
-          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
+          "siteId": "site.free.any-firm-ground-1073",
+          "score": 3.406,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 422 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.villa-cellars (+1.01).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 422.3,
-        "distanceToWaterM": 0.0,
-        "score": 2.637
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 11.0,
+        "score": 3.104
       },
       "hostility": {
         "baseline": "hostile",
@@ -18204,8 +18330,8 @@
           "quest.provision.rs06-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "RS-line · tier-2; RS06 · tier-2"
+        "opportunity": "Keep the river a rumour, open it as a road, or hand it to the customs office.",
+        "tierOwnership": "RS06 · tier-2; LM49 · tier-3; LM50 · tier-3; RS-line · tier-2"
       },
       "rumourPoolKey": "rumour.screen-watch",
       "deedCounterKeys": [],
@@ -18341,7 +18467,8 @@
           "place.mercantile-coast.bramman-river-ferry",
           "place.mercantile-coast.soulrest"
         ]
-      }
+      },
+      "sitingNote": "Screen-Watch pilots for Lilmoth and is filed with the coast. It stands on the Saxhleel side of the mangrove, which is where its households marry."
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -18374,7 +18501,9 @@
         "regionClasses": [
           "rootland deep marsh",
           "interior swamp",
-          "tropical jungle"
+          "tropical jungle",
+          "fringe marsh",
+          "firm lowland"
         ],
         "hardConstraints": [
           "raised, often ringed by marsh"
@@ -18479,38 +18608,38 @@
         }
       ],
       "position": {
-        "u": 0.08515,
-        "v": 0.65704
+        "u": 0.43022,
+        "v": 0.71951
       },
       "positionM": [
-        627.9,
-        4844.7
+        3172.2,
+        5305.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1088",
-          "score": 2.615,
-          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
+          "siteId": "site.free.any-firm-ground-1047",
+          "score": 2.528,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1037",
-          "score": 2.589,
+          "siteId": "site.free.any-firm-ground-1061",
+          "score": 2.408,
+          "whyLost": "taken by place.mercantile-coast.insular-jungle-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1036",
+          "score": 2.386,
           "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1055",
-          "score": 2.232,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 754 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on remote, landform, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 4), 71 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.rockpark (+1.68).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
-        "dangerBand": 3,
-        "distanceToRouteM": 754.2,
-        "distanceToWaterM": 83.7,
-        "score": 0.888
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 71.3,
+        "distanceToWaterM": 59.1,
+        "score": 2.788
       },
       "hostility": {
         "baseline": "hostile",
@@ -18573,7 +18702,15 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "knoll",
+          "radiusM": 60,
+          "note": "A low rise the meer stands on, ringed by standing water on every side."
+        }
+      ],
+      "scourSiteId": "site.scour.firm-lowland.flood-high-008"
     },
     {
       "id": "place.mercantile-coast.sealed-meer-west",
@@ -18844,8 +18981,8 @@
           "LOC",
           "SCENE"
         ],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Restore names the council pays to keep weathered.",
+        "tierOwnership": "LM03 · tier-3"
       },
       "rumourPoolKey": "rumour.mercantile-coast.slaughter-memorial",
       "deedCounterKeys": [
@@ -19256,8 +19393,8 @@
           "NPC",
           "STATE"
         ],
-        "opportunity": null,
-        "tierOwnership": "MQ10 · tier-0; ST04 · tier-2; LQ12 · tier-3"
+        "opportunity": "Sort out which of three defensible titles owns the province's best harbour.",
+        "tierOwnership": "MQ10 · tier-0; ST04 · tier-2; LM32 · tier-3; LM33 · tier-3; LM34 · tier-3; LM35 · tier-3; LM36 · tier-3; LM37 · tier-3; LM38 · tier-3; LM39 · tier-3; LM40 · tier-3; LM41 · tier-3; LM42 · tier-3; LM43 · tier-3; LM44 · tier-3; LM45 · tier-3; LM46 · tier-3; LM47 · tier-3; LM48 · tier-3; LM49 · tier-3; LM50 · tier-3; LM51 · tier-3; LM52 · tier-3; LM53 · tier-3; LM54 · tier-3; LM55 · tier-3; LM56 · tier-3; LM57 · tier-3; LM58 · tier-3; LM59 · tier-3; LM60 · tier-3; LM61 · tier-3; LM62 · tier-3; LM63 · tier-3; LQ12 · tier-3"
       },
       "rumourPoolKey": "rumour.soulrest.city",
       "deedCounterKeys": [
@@ -19549,8 +19686,8 @@
           "quest.provision.soulrest-salvage-market"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ10 · tier-0"
+        "opportunity": "Decide what the yard becomes when the last Imperial hull is cut up.",
+        "tierOwnership": "MQ10 · tier-0; LM35 · tier-3; LM53 · tier-3"
       },
       "rumourPoolKey": "rumour.breaking-hard",
       "deedCounterKeys": [],
@@ -20031,7 +20168,8 @@
           "deep river corridor"
         ],
         "hardConstraints": [
-          "beside drowned ground"
+          "beside drowned ground",
+          "on Soulrest's inner harbour, walking distance from the buyers' benches"
         ],
         "preferences": {
           "landformClasses": [
@@ -20042,6 +20180,10 @@
           ],
           "neighbourRelation": "always paired with drowned ground it works",
           "densityGradient": "Soulrest apron, dense"
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.soulrest",
+          "maxM": 500
         }
       },
       "relations": {
@@ -20094,8 +20236,8 @@
           "quest.provision.soulrest-salvage-market"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "MQ10 · tier-0"
+        "opportunity": "Produce, doctor or defend the books the harbour office wants.",
+        "tierOwnership": "MQ10 · tier-0; LM34 · tier-3; LM53 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -20151,40 +20293,35 @@
         ]
       },
       "position": {
-        "u": 0.23389,
-        "v": 0.77604
+        "u": 0.07028,
+        "v": 0.90618
       },
       "positionM": [
-        1724.6,
-        5722.1
+        518.2,
+        6681.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-005",
-          "score": 4.032,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.scour.tidal-delta.river-mouth-011",
+          "score": 4.692,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.mangrove-forest.river-mouth-008",
-          "score": 4.003,
-          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.islet-021",
-          "score": 3.637,
-          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
+          "siteId": "site.scour.lake-standing-water.land-bridge-006",
+          "score": 3.298,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 4), 491 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in lake & standing water (danger band 2), 55 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 491.1,
+        "dangerBand": 2,
+        "distanceToRouteM": 55.1,
         "distanceToWaterM": 0.0,
-        "score": 3.521
+        "score": 4.957
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-066"
+      "scourSiteId": "site.scour.lake-standing-water.cove-069"
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
@@ -20639,8 +20776,8 @@
           "quest.provision.soulrest-night-reed-den"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "TG01 · tier-2"
+        "opportunity": "Track a crew hired here that sailed and did not arrive.",
+        "tierOwnership": "TG01 · tier-2; LM33 · tier-3; LM54 · tier-3; LM59 · tier-3"
       },
       "rumourPoolKey": "rumour.soulrest.quay",
       "deedCounterKeys": [],
@@ -20669,12 +20806,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.league-of-open-water",
       "position": {
-        "u": 0.07103,
-        "v": 0.87644
+        "u": 0.0554,
+        "v": 0.87568
       },
       "positionM": [
-        523.7,
-        6462.4
+        408.5,
+        6456.8
       ],
       "candidatesConsidered": [
         {
@@ -20683,24 +20820,24 @@
           "whyLost": "too close to place.mercantile-coast.soulrest"
         },
         {
-          "siteId": "site.free.roadside-0001",
-          "score": 4.517,
+          "siteId": "site.free.any-firm-ground-1221",
+          "score": 4.495,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1287",
-          "score": 4.506,
+          "siteId": "site.free.any-firm-ground-1241",
+          "score": 4.264,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 1), 25 m from the nearest route; its first-choice landform; won on landform, bound, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 1), 93 m from the nearest route; its first-choice landform; won on landform, bound, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 1,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 39.5,
-        "score": 4.54
+        "distanceToRouteM": 93.4,
+        "distanceToWaterM": 66.0,
+        "score": 4.506
       },
       "hostility": {
         "baseline": "friendly",
@@ -21338,8 +21475,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Cut through the stripped village rather than around it, after the carter who tried.",
+        "tierOwnership": "LM17 · tier-3; PP08 · tier-3"
       },
       "rumourPoolKey": "rumour.umbriel-track",
       "deedCounterKeys": [],
@@ -21373,12 +21510,12 @@
         }
       ],
       "position": {
-        "u": 0.43022,
-        "v": 0.71951
+        "u": 0.04722,
+        "v": 0.80429
       },
       "positionM": [
-        3172.2,
-        5305.3
+        348.2,
+        5930.4
       ],
       "candidatesConsidered": [
         {
@@ -21387,24 +21524,24 @@
           "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1044",
-          "score": 2.987,
-          "whyLost": "too close to place.mercantile-coast.ashfield"
+          "siteId": "site.free.any-firm-ground-1021",
+          "score": 3.036,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1072",
-          "score": 2.941,
-          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+          "siteId": "site.free.any-firm-ground-1044",
+          "score": 2.987,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "flood high in firm lowland (danger band 4), 71 m from the nearest route; its first-choice landform; won on landform, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.rockpark (+0.94).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 339 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.bramman-river-ferry (+0.40).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 71.3,
-        "distanceToWaterM": 59.1,
-        "score": 3.286
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 339.5,
+        "distanceToWaterM": 11.0,
+        "score": 1.916
       },
       "hostility": {
         "baseline": "hostile",
@@ -21460,8 +21597,7 @@
         "rivals": [
           "place.mercantile-coast.stripped-village-quiet"
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-008"
+      }
     },
     {
       "id": "place.mercantile-coast.stripped-village-quiet",
@@ -22354,7 +22490,7 @@
         "founding": "A shore hamlet that subsided when the salt pans changed the drainage behind it; the sea came in over a decade.",
         "siteAdvantages": "It had firm ground once. It does not now.",
         "occupantsMotive": "Empty at low water. The grave-poles were moved, but not all of them.",
-        "pressures": "The pan-holders have never accepted that the pans did it.",
+        "pressures": "The shore end is shallow enough to wade. The danger is inside the roofs, where the water is dark and holds something that did not stay drowned.",
         "wouldChangeIf": "Nothing brings it back; a second subsidence would take the pans too."
       },
       "sitingPrefs": {
@@ -22432,8 +22568,8 @@
           "quest.provision.uw03-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "UW03 · tier-2"
+        "opportunity": "Go in under the roofs at the spring tide, when the drowned come back to their doors.",
+        "tierOwnership": "UW03 · tier-2; LM15 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -22532,12 +22668,12 @@
         ]
       },
       "position": {
-        "u": 0.65555,
-        "v": 0.76413
+        "u": 0.57524,
+        "v": 0.84593
       },
       "positionM": [
-        4833.7,
-        5634.3
+        4241.5,
+        6237.5
       ],
       "candidatesConsidered": [
         {
@@ -22556,16 +22692,17 @@
           "whyLost": "too close to place.mercantile-coast.bramman-screen"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 12 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.oliis-boardwalk (+0.40).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 11 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 12.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.537
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 12.3,
+        "score": 2.996
       },
-      "approachDanger": "D2"
+      "approachDanger": "D2",
+      "sitingNote": "The danger here is the flooded interiors, not the ground around them, which is why the shore reads quiet."
     },
     {
       "id": "place.mercantile-coast.tapped-hist-ashroot",
@@ -22837,8 +22974,8 @@
           "quest.provision.canon.alten-meerhleel"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "RS-line · tier-2"
+        "opportunity": "Play a side in the ball game that buys the port its peace.",
+        "tierOwnership": "LM29 · tier-3; LM64 · tier-3; RS-line · tier-2"
       },
       "rumourPoolKey": "rumour.placation",
       "deedCounterKeys": [],
@@ -23349,8 +23486,8 @@
           "NPC",
           "STEALTH"
         ],
-        "opportunity": null,
-        "tierOwnership": "faction:shadowscales"
+        "opportunity": "Settle who takes the next Shadowscale intake, against a claimant from Cheydinhal.",
+        "tierOwnership": "LM11 · tier-3; faction:shadowscales"
       },
       "rumourPoolKey": "rumour.shadowscales",
       "deedCounterKeys": [],
@@ -23386,12 +23523,12 @@
         }
       ],
       "position": {
-        "u": 0.56631,
-        "v": 0.81247
+        "u": 0.43059,
+        "v": 0.94106
       },
       "positionM": [
-        4175.7,
-        5990.7
+        3175.0,
+        6938.9
       ],
       "candidatesConsidered": [
         {
@@ -23410,14 +23547,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; at the water's edge; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 88 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hammock-village-murkmire (+1.07).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 225.0,
-        "distanceToWaterM": 15.5,
-        "score": 3.029
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 38.4,
+        "score": 3.454
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -24209,8 +24346,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "End, enforce or work off the Owing that rebuilds the sea walls each spring.",
+        "tierOwnership": "LM43 · tier-3; LM55 · tier-3"
       },
       "rumourPoolKey": "rumour.topal-salt",
       "deedCounterKeys": [],
@@ -24242,14 +24379,14 @@
         }
       ],
       "position": {
-        "u": 0.20117,
-        "v": 0.93592
+        "u": 0.40419,
+        "v": 0.90543
       },
       "positionM": [
-        1483.3,
-        6901.0
+        2980.3,
+        6676.2
       ],
-      "scourSiteId": "site.scour.ocean.natural-harbour-006",
+      "scourSiteId": "site.scour.ocean.natural-harbour-001",
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0465",
@@ -24257,24 +24394,24 @@
           "whyLost": "too close to place.mercantile-coast.soulrest-breaking-yard"
         },
         {
-          "siteId": "site.free.roadside-0035",
-          "score": 4.307,
-          "whyLost": "too close to place.imperial-penal-south.rose-supply-town"
-        },
-        {
           "siteId": "site.free.roadside-0588",
           "score": 4.003,
           "whyLost": "too close to place.mercantile-coast.lighter-flotilla"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1274",
+          "score": 3.883,
+          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
         }
       ],
-      "whySiteWon": "natural harbour in ocean (danger band 0), 172 m from the nearest route; at the water's edge; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "natural harbour in ocean (danger band 0), 223 m from the nearest route; at the water's edge; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "natural-harbour",
         "regionClass": "ocean",
         "dangerBand": 0,
-        "distanceToRouteM": 172.2,
+        "distanceToRouteM": 222.7,
         "distanceToWaterM": 0.0,
-        "score": 2.743
+        "score": 2.519
       },
       "hostility": {
         "baseline": "guarded",
@@ -25145,8 +25282,8 @@
           "PORTAL",
           "WATER"
         ],
-        "opportunity": null,
-        "tierOwnership": "TG02 · tier-2; TG08 · tier-2"
+        "opportunity": "Follow a diver's line past the second room, where the light stops.",
+        "tierOwnership": "TG02 · tier-2; TG08 · tier-2; LM02 · tier-3; LM26 · tier-3"
       },
       "rumourPoolKey": "rumour.villa-cellars",
       "deedCounterKeys": [],
@@ -25191,7 +25328,7 @@
         {
           "siteId": "site.scour.lake-standing-water.cove-069",
           "score": 2.395,
-          "whyLost": "too close to place.mercantile-coast.soulrest"
+          "whyLost": "taken by place.mercantile-coast.soulrest-divers-yard"
         },
         {
           "siteId": "site.scour.tidal-delta.river-mouth-011",
@@ -25199,14 +25336,14 @@
           "whyLost": "taken by place.mercantile-coast.soulrest-breaking-yard"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 31 m from the nearest route; at the water's edge; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 31 m from the nearest route; at the water's edge; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sacked-customs-suburb (+1.01).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
         "distanceToRouteM": 31.0,
         "distanceToWaterM": 12.3,
-        "score": 1.889
+        "score": 2.639
       },
       "hostility": {
         "baseline": "hostile",
@@ -25765,7 +25902,7 @@
         ],
         "hardConstraints": [
           "firm ground ringed by marsh water, one causeway in",
-          "within 400 m of the Bogmother causeway"
+          "within 400 m of the Bogmother causeway (route.road.helstrom-blackrose)"
         ],
         "preferences": {
           "landformClasses": [
@@ -25841,8 +25978,8 @@
           "LOOT",
           "STATE"
         ],
-        "opportunity": null,
-        "tierOwnership": "BC05 · tier-2"
+        "opportunity": "Open the cordon cellars that were sealed with names still on the roll.",
+        "tierOwnership": "BC05 · tier-2; LM48 · tier-3; LM56 · tier-3"
       },
       "rumourPoolKey": "rumour.white-rose",
       "deedCounterKeys": [
@@ -26082,8 +26219,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Chart what the dying reef head sounds at the tide, before the pilots trust it.",
+        "tierOwnership": "LM14 · tier-3; LM58 · tier-3"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -26164,7 +26301,6 @@
         3391.6,
         5979.8
       ],
-      "scourSiteId": "site.scour.lake-standing-water.water-narrows-045",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.mangrove-forest.river-mouth-008",
@@ -26190,7 +26326,8 @@
         "distanceToRouteM": 27.4,
         "distanceToWaterM": 0.0,
         "score": 2.922
-      }
+      },
+      "scourSiteId": "site.scour.lake-standing-water.water-narrows-045"
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -26445,8 +26582,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Stop, or complete, a sale of this year's clay work before the Clutch destroys it.",
+        "tierOwnership": "LM52 · tier-3; PP15 · tier-3"
       },
       "rumourPoolKey": "rumour.wraxu",
       "deedCounterKeys": [],
@@ -26607,7 +26744,14 @@
           ],
           "neighbourRelation": "off the islands that screen the Soulrest approach",
           "densityGradient": "offshore, thin"
-        }
+        },
+        "boundTo": {
+          "place": "place.mercantile-coast.wraxu-frieze",
+          "maxM": 1800
+        },
+        "sightlineTo": [
+          "place.mercantile-coast.wraxu-frieze"
+        ]
       },
       "relations": {
         "dependsOn": [],
@@ -26662,8 +26806,8 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Uphold the taking rules against a licensed buyer, or break them.",
+        "tierOwnership": "LM51 · tier-3"
       },
       "rumourPoolKey": "rumour.wraxu",
       "deedCounterKeys": [],
@@ -26699,38 +26843,38 @@
         }
       ],
       "position": {
-        "u": 0.43542,
-        "v": 0.89874
+        "u": 0.08962,
+        "v": 0.93295
       },
       "positionM": [
-        3210.6,
-        6626.8
+        660.8,
+        6879.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0588",
-          "score": 2.558,
-          "whyLost": "too close to place.mercantile-coast.lighter-flotilla"
+          "siteId": "site.scour.fringe-marsh.islet-010",
+          "score": 4.364,
+          "whyLost": "too close to place.mercantile-coast.soulrest-divers-yard"
         },
         {
-          "siteId": "site.free.any-firm-ground-1100",
-          "score": 1.79,
-          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+          "siteId": "site.scour.fringe-marsh.headland-028",
+          "score": 3.963,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0418",
-          "score": 1.769,
-          "whyLost": "too close to place.mercantile-coast.rockpark"
+          "siteId": "site.free.any-shallow-marsh-1266",
+          "score": 3.622,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 186 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alten-meerhleel (+0.51).",
+      "whySiteWon": "headland in fringe marsh (danger band 2), 99 m from the nearest route; at the water's edge; its choice #4 landform; won on route, bound, landform; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
+        "landform": "headland",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 186.3,
-        "distanceToWaterM": 21.9,
-        "score": 2.856
+        "distanceToRouteM": 98.9,
+        "distanceToWaterM": 19.8,
+        "score": 3.976
       },
       "hostility": {
         "baseline": "hostile",
@@ -26788,7 +26932,20 @@
             "provenance": "eggs, down and what the birds have carried in"
           }
         ]
-      }
+      },
+      "terrainRequests": [
+        {
+          "kind": "islet",
+          "radiusM": 90,
+          "note": "Two rock stacks standing out of salt water, sheer on three sides."
+        },
+        {
+          "kind": "cliff-bench",
+          "radiusM": 40,
+          "note": "One ledge low enough to land a boat crew on."
+        }
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.headland-016"
     },
     {
       "id": "place.mercantile-coast.wraxu-xanmeer",
@@ -27223,8 +27380,8 @@
           "quest.provision.sa01-anchor"
         ],
         "tags": [],
-        "opportunity": null,
-        "tierOwnership": "SA01 · tier-2"
+        "opportunity": "Hold the offering season in the water, against a council order to bring the god ashore.",
+        "tierOwnership": "SA01 · tier-2; LM06 · tier-3"
       },
       "rumourPoolKey": "rumour.xhon-mehl",
       "deedCounterKeys": [],
@@ -27292,38 +27449,38 @@
         ]
       },
       "position": {
-        "u": 0.15083,
-        "v": 0.92779
+        "u": 0.1201,
+        "v": 0.74777
       },
       "positionM": [
-        1112.1,
-        6841.1
+        885.6,
+        5513.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1124",
-          "score": 3.298,
-          "whyLost": "too close to place.hist-heartland.bereaved-mnemic"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1220",
           "score": 3.298,
-          "whyLost": "too close to place.mercantile-coast.inhabited-meer-murkmire"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1204",
+          "score": 3.297,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0589",
           "score": 3.295,
-          "whyLost": "too close to place.mercantile-coast.lighter-flotilla"
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 87 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 205 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 86.7,
+        "distanceToRouteM": 204.9,
         "distanceToWaterM": 0.0,
-        "score": 3.291
+        "score": 3.298
       }
     },
     {
@@ -27436,8 +27593,8 @@
           "NPC",
           "STATE"
         ],
-        "opportunity": null,
-        "tierOwnership": null
+        "opportunity": "Ask the keeper for weather, or find who is buying her succession instead.",
+        "tierOwnership": "LM18 · tier-3; LM63 · tier-3; PP15 · tier-3"
       },
       "rumourPoolKey": "rumour.xinchei-konu",
       "deedCounterKeys": [],

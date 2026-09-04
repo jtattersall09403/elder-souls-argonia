@@ -8,22 +8,22 @@ Generated from the quest data and the live place catalogue. The gaps here *are* 
 
 | Shape | Primary | Secondary | Verdict |
 |---|---:|---:|---|
-| `THEFT` | 8 | 6 | covered |
-| `MURDER` | 7 | 1 | covered |
-| `MISSING` | 12 | 7 | covered |
-| `DISPUTE` | 26 | 25 | covered |
-| `FRAUD` | 18 | 17 | covered |
-| `PREDATOR` | 6 | 5 | covered |
-| `CONTAMINATION` | 7 | 5 | covered |
-| `SMUGGLING` | 8 | 3 | covered |
-| `HAUNTING` | 5 | 3 | thin |
-| `RITE` | 8 | 18 | covered |
-| `SUCCESSION` | 18 | 11 | covered |
-| `BONDAGE` | 6 | 11 | covered |
-| `RECKONING` | 19 | 18 | covered |
-| `EXPEDITION` | 11 | 5 | covered |
-| `NEGOTIATION` | 20 | 21 | covered |
-| `WONDER` | 11 | 4 | covered |
+| `THEFT` | 44 | 31 | covered |
+| `MURDER` | 31 | 18 | covered |
+| `MISSING` | 48 | 28 | covered |
+| `DISPUTE` | 72 | 69 | covered |
+| `FRAUD` | 62 | 48 | covered |
+| `PREDATOR` | 37 | 21 | covered |
+| `CONTAMINATION` | 36 | 17 | covered |
+| `SMUGGLING` | 37 | 24 | covered |
+| `HAUNTING` | 32 | 22 | covered |
+| `RITE` | 45 | 35 | covered |
+| `SUCCESSION` | 45 | 33 | covered |
+| `BONDAGE` | 34 | 35 | covered |
+| `RECKONING` | 47 | 57 | covered |
+| `EXPEDITION` | 43 | 42 | covered |
+| `NEGOTIATION` | 62 | 58 | covered |
+| `WONDER` | 40 | 29 | covered |
 
 ## Per-region primary-shape budget
 
@@ -31,141 +31,141 @@ Generated from the quest data and the live place catalogue. The gaps here *are* 
 
 | Region | Quests | Distinct primary shapes | Heaviest shape | Share |
 |---|---:|---:|---|---:|
-| dunmer-north | 31 | 12 | `RECKONING` | 16% |
-| hist-heartland | 39 | 13 | `MISSING` | 15% |
-| imperial-fringe | 22 | 10 | `FRAUD` | 23% |
-| imperial-penal-south | 13 | 11 | `THEFT` | 15% |
-| mercantile-coast | 56 | 15 | `DISPUTE` | 18% |
-| naga-kur-deeps | 7 | 7 | `MISSING` | 14% |
-| pirate-freeholds | 3 | 3 | `RITE` | 33% |
-| saxhleel-coast | 19 | 8 | `SUCCESSION` | 21% |
+| dunmer-north | 180 | 16 | `DISPUTE` | 11% |
+| hist-heartland | 101 | 16 | `MISSING` | 9% |
+| imperial-fringe | 111 | 16 | `FRAUD` | 13% |
+| imperial-penal-south | 75 | 16 | `MISSING` | 8% |
+| mercantile-coast | 146 | 16 | `DISPUTE` | 14% |
+| naga-kur-deeps | 22 | 16 | `FRAUD` | 9% |
+| pirate-freeholds | 23 | 16 | `DISPUTE` | 13% |
+| saxhleel-coast | 57 | 16 | `SUCCESSION` | 11% |
 
 ## The demand ladder (Morrowind density, research §4)
 
 103 live settlements. Target band per magnitude: M5 35–60, M4 10–20, M3 3–8, M2 1–3, M1 0–2.
 
-Summed settlement demand: **589–1230** quests. Province target: **450–550** at maturity, **170–210** at Milestone 1. Written today: **190** rows (168 live).
+Summed settlement demand: **589–1230** quests. Province target: **450–550** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
 
 **Read the bands as ceilings, not quotas.** The province plotted 103 live settlements against Morrowind's 35, so applying every band at its floor would demand 589 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 450–550 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
 
 | Settlement | Region | Mag | Target | Anchored | Short by |
 |---|---|---|---|---:|---:|
-| Stormhold | dunmer-north | M5 | 35–60 | 2 | 33 |
-| Thorn | dunmer-north | M5 | 35–60 | 3 | 32 |
-| Helstrom | hist-heartland | M5 | 35–60 | 10 | 25 |
-| Gideon | imperial-fringe | M5 | 35–60 | 3 | 32 |
-| Blackrose | imperial-penal-south | M5 | 35–60 | 0 | 35 |
-| Lilmoth | mercantile-coast | M5 | 35–60 | 4 | 31 |
-| Soulrest | mercantile-coast | M5 | 35–60 | 3 | 32 |
-| Archon | saxhleel-coast | M5 | 35–60 | 0 | 35 |
-| Crystalgate | dunmer-north | M4 | 10–20 | 0 | 10 |
-| Hissmir | dunmer-north | M4 | 10–20 | 1 | 9 |
-| Tearmouth | dunmer-north | M4 | 10–20 | 0 | 10 |
-| Field Gate | dunmer-north | M4 | 10–20 | 0 | 10 |
-| Wolk Market | dunmer-north | M4 | 10–20 | 0 | 10 |
-| Fig Market | imperial-fringe | M4 | 10–20 | 0 | 10 |
-| Glenbridge | imperial-fringe | M4 | 10–20 | 0 | 10 |
-| Stonewastes | imperial-fringe | M4 | 10–20 | 1 | 9 |
-| Swampmoth Town | imperial-fringe | M4 | 10–20 | 1 | 9 |
-| Vaunting | imperial-penal-south | M4 | 10–20 | 2 | 8 |
-| Threewater | imperial-penal-south | M4 | 10–20 | 1 | 9 |
-| Alten Meerhleel | mercantile-coast | M4 | 10–20 | 0 | 10 |
-| Alten Corimont | pirate-freeholds | M4 | 10–20 | 1 | 9 |
-| Branchmont | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Channel Cross | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Greylight | dunmer-north | M3 | 3–8 | 1 | 2 |
-| Hatching Pools | dunmer-north | M3 | 3–8 | 2 | 1 |
-| Hutan-Tzel | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Mazzatun | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Murkwater | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Nine Fords | dunmer-north | M3 | 3–8 | 1 | 2 |
-| Reedmoor | dunmer-north | M3 | 3–8 | 1 | 2 |
-| Riverwalk | dunmer-north | M3 | 3–8 | 0 | 3 |
-| Saltmarch | dunmer-north | M3 | 3–8 | 1 | 2 |
-| Stands-On-The-Hammock | dunmer-north | M3 | 3–8 | 0 | 3 |
-| The Veterans' Ridge | dunmer-north | M3 | 3–8 | 1 | 2 |
-| Thousand-Chimes | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Keeps-the-Egg | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Many-Ways | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Cut-and-Carried | hist-heartland | M3 | 3–8 | 1 | 2 |
-| Greenspring | hist-heartland | M3 | 3–8 | 1 | 2 |
-| Green-Moss Hammock | hist-heartland | M3 | 3–8 | 0 | 3 |
-| The Restarted Work | hist-heartland | M3 | 3–8 | 0 | 3 |
-| The Kept Line | hist-heartland | M3 | 3–8 | 1 | 2 |
-| The Tenders' Village | hist-heartland | M3 | 3–8 | 1 | 2 |
-| The Lightless Village | hist-heartland | M3 | 3–8 | 1 | 2 |
-| Nine-Trunks | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Two-Poles | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Ux-Aneet | hist-heartland | M3 | 3–8 | 0 | 3 |
-| Cartwright's Cross | imperial-fringe | M3 | 3–8 | 1 | 2 |
-| Fenmarch | imperial-fringe | M3 | 3–8 | 0 | 3 |
-| Holds-The-Stone | imperial-fringe | M3 | 3–8 | 0 | 3 |
-| Vellum Estate | imperial-fringe | M3 | 3–8 | 1 | 2 |
-| Westfield | imperial-fringe | M3 | 3–8 | 1 | 2 |
-| Spine | imperial-penal-south | M3 | 3–8 | 0 | 3 |
-| Longmont | imperial-penal-south | M3 | 3–8 | 0 | 3 |
-| Three Gates | imperial-penal-south | M3 | 3–8 | 1 | 2 |
-| Ashroot | mercantile-coast | M3 | 3–8 | 0 | 3 |
-| Sees-No-Root | mercantile-coast | M3 | 3–8 | 1 | 2 |
-| Hereguard Plantation | mercantile-coast | M3 | 3–8 | 0 | 3 |
-| Keel-Sakka Landing | mercantile-coast | M3 | 3–8 | 0 | 3 |
-| Mudfoot | mercantile-coast | M3 | 3–8 | 1 | 2 |
-| Xul-Vaat | mercantile-coast | M3 | 3–8 | 2 | 1 |
-| Walks-The-Mangrove | mercantile-coast | M3 | 3–8 | 0 | 3 |
-| Since-The-Tree | naga-kur-deeps | M3 | 3–8 | 0 | 3 |
-| Dead-Water Village | naga-kur-deeps | M3 | 3–8 | 0 | 3 |
-| Long-Water Hold | naga-kur-deeps | M3 | 3–8 | 1 | 2 |
-| The Staking Village | naga-kur-deeps | M3 | 3–8 | 0 | 3 |
-| Root-Whisper Village | naga-kur-deeps | M3 | 3–8 | 0 | 3 |
-| Andrano Hold | pirate-freeholds | M3 | 3–8 | 0 | 3 |
-| Nine Bends | pirate-freeholds | M3 | 3–8 | 1 | 2 |
-| Blacklight Holding | pirate-freeholds | M3 | 3–8 | 0 | 3 |
-| Cut-In-The-Wall | dunmer-north | M2 | 1–3 | 0 | 1 |
-| Hixinoag | dunmer-north | M2 | 1–3 | 0 | 1 |
-| Rimfield | dunmer-north | M2 | 1–3 | 0 | 1 |
+| Stormhold | dunmer-north | M5 | 35–60 | 35 | 0 |
+| Thorn | dunmer-north | M5 | 35–60 | 35 | 0 |
+| Helstrom | hist-heartland | M5 | 35–60 | 35 | 0 |
+| Gideon | imperial-fringe | M5 | 35–60 | 35 | 0 |
+| Blackrose | imperial-penal-south | M5 | 35–60 | 35 | 0 |
+| Lilmoth | mercantile-coast | M5 | 35–60 | 35 | 0 |
+| Soulrest | mercantile-coast | M5 | 35–60 | 35 | 0 |
+| Archon | saxhleel-coast | M5 | 35–60 | 35 | 0 |
+| Crystalgate | dunmer-north | M4 | 10–20 | 10 | 0 |
+| Hissmir | dunmer-north | M4 | 10–20 | 10 | 0 |
+| Tearmouth | dunmer-north | M4 | 10–20 | 10 | 0 |
+| Field Gate | dunmer-north | M4 | 10–20 | 10 | 0 |
+| Wolk Market | dunmer-north | M4 | 10–20 | 10 | 0 |
+| Fig Market | imperial-fringe | M4 | 10–20 | 10 | 0 |
+| Glenbridge | imperial-fringe | M4 | 10–20 | 10 | 0 |
+| Stonewastes | imperial-fringe | M4 | 10–20 | 10 | 0 |
+| Swampmoth Town | imperial-fringe | M4 | 10–20 | 10 | 0 |
+| Vaunting | imperial-penal-south | M4 | 10–20 | 10 | 0 |
+| Threewater | imperial-penal-south | M4 | 10–20 | 10 | 0 |
+| Alten Meerhleel | mercantile-coast | M4 | 10–20 | 10 | 0 |
+| Alten Corimont | pirate-freeholds | M4 | 10–20 | 10 | 0 |
+| Branchmont | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Channel Cross | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Greylight | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Hatching Pools | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Hutan-Tzel | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Mazzatun | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Murkwater | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Nine Fords | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Reedmoor | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Riverwalk | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Saltmarch | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Stands-On-The-Hammock | dunmer-north | M3 | 3–8 | 3 | 0 |
+| The Veterans' Ridge | dunmer-north | M3 | 3–8 | 3 | 0 |
+| Thousand-Chimes | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Keeps-the-Egg | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Many-Ways | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Cut-and-Carried | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Greenspring | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Green-Moss Hammock | hist-heartland | M3 | 3–8 | 3 | 0 |
+| The Restarted Work | hist-heartland | M3 | 3–8 | 3 | 0 |
+| The Kept Line | hist-heartland | M3 | 3–8 | 3 | 0 |
+| The Tenders' Village | hist-heartland | M3 | 3–8 | 3 | 0 |
+| The Lightless Village | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Nine-Trunks | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Two-Poles | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Ux-Aneet | hist-heartland | M3 | 3–8 | 3 | 0 |
+| Cartwright's Cross | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Fenmarch | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Holds-The-Stone | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Vellum Estate | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Westfield | imperial-fringe | M3 | 3–8 | 3 | 0 |
+| Spine | imperial-penal-south | M3 | 3–8 | 3 | 0 |
+| Longmont | imperial-penal-south | M3 | 3–8 | 3 | 0 |
+| Three Gates | imperial-penal-south | M3 | 3–8 | 3 | 0 |
+| Ashroot | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Sees-No-Root | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Hereguard Plantation | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Keel-Sakka Landing | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Mudfoot | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Xul-Vaat | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Walks-The-Mangrove | mercantile-coast | M3 | 3–8 | 3 | 0 |
+| Since-The-Tree | naga-kur-deeps | M3 | 3–8 | 3 | 0 |
+| Dead-Water Village | naga-kur-deeps | M3 | 3–8 | 4 | 0 |
+| Long-Water Hold | naga-kur-deeps | M3 | 3–8 | 3 | 0 |
+| The Staking Village | naga-kur-deeps | M3 | 3–8 | 3 | 0 |
+| Root-Whisper Village | naga-kur-deeps | M3 | 3–8 | 3 | 0 |
+| Andrano Hold | pirate-freeholds | M3 | 3–8 | 3 | 0 |
+| Nine Bends | pirate-freeholds | M3 | 3–8 | 3 | 0 |
+| Blacklight Holding | pirate-freeholds | M3 | 3–8 | 3 | 0 |
+| Cut-In-The-Wall | dunmer-north | M2 | 1–3 | 1 | 0 |
+| Hixinoag | dunmer-north | M2 | 1–3 | 1 | 0 |
+| Rimfield | dunmer-north | M2 | 1–3 | 1 | 0 |
 | Dres Rows | dunmer-north | M2 | 1–3 | 1 | 0 |
 | The Freed Rows | dunmer-north | M2 | 1–3 | 1 | 0 |
 | The Shut Village | dunmer-north | M2 | 1–3 | 1 | 0 |
-| Alten Markmont | hist-heartland | M2 | 1–3 | 0 | 1 |
-| No-Tree Camp | hist-heartland | M2 | 1–3 | 0 | 1 |
-| The Meeruth Station | hist-heartland | M2 | 1–3 | 0 | 1 |
-| Claywater Station | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| Hangs-Above-The-Water | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| Highwater | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| Lowmere | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| Marcian's Terrace | imperial-fringe | M2 | 1–3 | 0 | 1 |
+| Alten Markmont | hist-heartland | M2 | 1–3 | 1 | 0 |
+| No-Tree Camp | hist-heartland | M2 | 1–3 | 1 | 0 |
+| The Meeruth Station | hist-heartland | M2 | 1–3 | 1 | 0 |
+| Claywater Station | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| Hangs-Above-The-Water | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| Highwater | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| Lowmere | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| Marcian's Terrace | imperial-fringe | M2 | 1–3 | 1 | 0 |
 | Slough Point | imperial-fringe | M2 | 1–3 | 1 | 0 |
-| Stonefoot | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| The Ravine Doors | imperial-fringe | M2 | 1–3 | 0 | 1 |
-| Open House | imperial-penal-south | M2 | 1–3 | 0 | 1 |
+| Stonefoot | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| The Ravine Doors | imperial-fringe | M2 | 1–3 | 1 | 0 |
+| Open House | imperial-penal-south | M2 | 1–3 | 1 | 0 |
 | Holding Fields, Cordon Three | imperial-penal-south | M2 | 1–3 | 1 | 0 |
 | Third Generation | imperial-penal-south | M2 | 1–3 | 0 | 1 |
-| Rockspring | imperial-penal-south | M2 | 1–3 | 0 | 1 |
+| Rockspring | imperial-penal-south | M2 | 1–3 | 1 | 0 |
 | Bright-Throat Village | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Chasepoint | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Lighter Flotilla | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Moonmarch | mercantile-coast | M2 | 1–3 | 1 | 0 |
 | Screen-Watch | mercantile-coast | M2 | 1–3 | 1 | 0 |
-| Chasecreek | pirate-freeholds | M2 | 1–3 | 0 | 1 |
-| No-Tree | pirate-freeholds | M2 | 1–3 | 0 | 1 |
-| Rockpoint | pirate-freeholds | M2 | 1–3 | 0 | 1 |
-| Nothing-Planted | saxhleel-coast | M2 | 1–3 | 0 | 1 |
-| Portdun Mont | saxhleel-coast | M2 | 1–3 | 1 | 0 |
-| Keeps-Its-Own-Cordon | saxhleel-coast | M2 | 1–3 | 0 | 1 |
+| Chasecreek | pirate-freeholds | M2 | 1–3 | 1 | 0 |
+| No-Tree | pirate-freeholds | M2 | 1–3 | 1 | 0 |
+| Rockpoint | pirate-freeholds | M2 | 1–3 | 1 | 0 |
+| Nothing-Planted | saxhleel-coast | M2 | 1–3 | 1 | 0 |
+| Portdun Mont | saxhleel-coast | M2 | 1–3 | 2 | 0 |
+| Keeps-Its-Own-Cordon | saxhleel-coast | M2 | 1–3 | 1 | 0 |
 | The Empty Steading | imperial-fringe | M1 | 0–2 | 0 | 0 |
 
 ## Per-region totals against the province target
 
 | Region | Settlements | Settlement demand | Quests today | Milestone 1 |
 |---|---:|---|---:|---:|
-| dunmer-north | 26 | 165–342 | 31 | 26 |
-| hist-heartland | 17 | 77–173 | 39 | 34 |
-| imperial-fringe | 19 | 98–206 | 22 | 21 |
-| imperial-penal-south | 10 | 68–136 | 13 | 10 |
-| mercantile-coast | 15 | 106–211 | 56 | 55 |
-| naga-kur-deeps | 5 | 15–40 | 7 | 4 |
-| pirate-freeholds | 7 | 22–53 | 3 | 3 |
-| saxhleel-coast | 4 | 38–69 | 19 | 19 |
+| dunmer-north | 26 | 165–342 | 180 | 52 |
+| hist-heartland | 17 | 77–173 | 101 | 34 |
+| imperial-fringe | 19 | 98–206 | 111 | 21 |
+| imperial-penal-south | 10 | 68–136 | 75 | 10 |
+| mercantile-coast | 15 | 106–211 | 146 | 59 |
+| naga-kur-deeps | 5 | 15–40 | 22 | 4 |
+| pirate-freeholds | 7 | 22–53 | 23 | 7 |
+| saxhleel-coast | 4 | 38–69 | 57 | 19 |
 
 ## Line targets
 
@@ -174,7 +174,7 @@ Summed settlement demand: **589–1230** quests. Province target: **450–550** 
 | Chainbreakers | faction | 6 | 6–10 |
 | Daedric and oddity quests | daedric | 8 | 8–16 |
 | League of Open Water | faction | 10 | 10–16 |
-| Local quests | local | 34 | 280–380 |
+| Local quests | local | 559 | 280–380 |
 | The Eye and the Root | main | 24 | 24–32 |
 | Many-Root | faction | 10 | 10–16 |
 | Marsh Charter | faction | 10 | 10–16 |

@@ -1,0 +1,567 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-pirate-freeholds",
+  "seed": "quests-local-pirate-freeholds-v1",
+  "quests": [
+    {
+      "id": "quest.local.lp01",
+      "code": "LP01",
+      "title": "Read Onto the Roll",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "FRAUD"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.opening-work-barge"
+      ],
+      "premise": "The barge ledger adds months for every meal, so a new hand can buy the entry off, argue it down or burn it",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json",
+        "docs/research/opening-hours-and-start-area.md"
+      ]
+    },
+    {
+      "id": "quest.local.lp02",
+      "code": "LP02",
+      "title": "Three Tenants and a Crate",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "PREDATOR"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.corimont-low-store"
+      ],
+      "premise": "A crate the price list records as paid for is still in the flooded store, along with whatever moved in after the water did",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json",
+        "docs/research/opening-hours-and-start-area.md"
+      ]
+    },
+    {
+      "id": "quest.local.lp03",
+      "code": "LP03",
+      "title": "Bearings for the Asking",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "WONDER"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.corimont-crosstrees"
+      ],
+      "premise": "The lookout at the crosstrees sells the name of everything on the horizon, taking payment in whatever a stranger can see from lower down",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json",
+        "docs/research/opening-hours-and-start-area.md"
+      ]
+    },
+    {
+      "id": "quest.local.lp04",
+      "code": "LP04",
+      "title": "One Name Short",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "RITE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.bone-repatriation-waystation"
+      ],
+      "premise": "The rack's tally is one name short, so no carrier will lift a bundle until a stranger helps count it back",
+      "costTier": "S",
+      "milestone": 1,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json",
+        "docs/research/opening-hours-and-start-area.md"
+      ]
+    },
+    {
+      "id": "quest.local.lp05",
+      "code": "LP05",
+      "title": "A Grade Moved Overnight",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.freehold-market"
+      ],
+      "premise": "One grade on the nailed-up list was altered in the dark, which makes a lawful cargo contraband and a contraband cargo lawful",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp06",
+      "code": "LP06",
+      "title": "Under the Turn of the Hull",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.careening-hard"
+      ],
+      "premise": "A boatwright is found under a careened hull and the yard would rather the tide were blamed",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp07",
+      "code": "LP07",
+      "title": "Sixty Tun Salt",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "THEFT"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.reach-wreck"
+      ],
+      "premise": "The wreck downriver still holds its consignment, so two crews are hiring anyone who will go down for it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp08",
+      "code": "LP08",
+      "title": "Repairs at the Old Pens",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "BONDAGE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.dres-holding-pens"
+      ],
+      "premise": "Somebody has begun repairing the slaver apparatus north of the town, in a port that would rather not be told whose money is doing it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp09",
+      "code": "LP09",
+      "title": "Nobody Ties Up at Slack Bend",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "WONDER"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.alten-corimont",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.kothringi-river-ruin"
+      ],
+      "premise": "Crews will not moor at the empty Kothringi bend, refuse to call it superstition, then one of them is hailed from the landing",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp10",
+      "code": "LP10",
+      "title": "The Room That Will Not Open",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "DISPUTE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.dunmer-frontier-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.dunmer-frontier-holding"
+      ],
+      "premise": "The holding's heir was raised marsh-side, so the ancestor room has stayed shut since the funeral",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp11",
+      "code": "LP11",
+      "title": "The Last Lawful Cellar",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "NEGOTIATION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.dunmer-frontier-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.dunmer-frontier-holding"
+      ],
+      "premise": "The holding's cellar is the final stop before the free port, so the family are being asked to pick a side of the list",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp12",
+      "code": "LP12",
+      "title": "What Comes Down From the Pass",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "EXPEDITION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.dunmer-frontier-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.dunmer-frontier-holding",
+        "place.pirate-freeholds.rim-pass-station"
+      ],
+      "premise": "The holding's water runs off the rim and has turned foul, so somebody has to climb to whatever is sitting in it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp13",
+      "code": "LP13",
+      "title": "Traps on the Ninth Bend",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "NEGOTIATION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.upriver-hist-village",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.upriver-hist-village"
+      ],
+      "premise": "The village's fish traps stand where the free port's boats now load, with both claims old enough to be argued",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp14",
+      "code": "LP14",
+      "title": "The Mark at the Waterline",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "MISSING"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.upriver-hist-village",
+      "anchorPlaces": [
+        "place.pirate-freeholds.upriver-hist-village"
+      ],
+      "premise": "Every bend of the river carries the same cut mark at the waterline, which the village stopped counting a generation ago",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp15",
+      "code": "LP15",
+      "title": "Off the Wall at Night",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.veterans-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.veterans-holding"
+      ],
+      "premise": "Something is coming down off the border wall for the holding's stock, which the veterans will not report to the port",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp16",
+      "code": "LP16",
+      "title": "Recognised on the Road",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "MURDER"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.veterans-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.rim-pass-station",
+        "place.pirate-freeholds.veterans-holding"
+      ],
+      "premise": "A Dunmer trader at the pass names one of the veterans as the man who burned a village on the far side",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp17",
+      "code": "LP17",
+      "title": "Soldiers Again",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "SUCCESSION"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.veterans-holding",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.veterans-holding"
+      ],
+      "premise": "The free port offers the holding a standing contract, which would make the freeholds a power instead of a market",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp18",
+      "code": "LP18",
+      "title": "Four Nights a Month",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "MURDER"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.chasecreek",
+      "anchorPlaces": [
+        "place.pirate-freeholds.chasecreek"
+      ],
+      "premise": "The lay-by fee is being paid by a boat that ties up and never leaves, with nobody in the hamlet asking who is aboard",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp19",
+      "code": "LP19",
+      "title": "A Naming With No Tree",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.corimont-hist-less-camp",
+      "anchorPlaces": [
+        "place.pirate-freeholds.corimont-hist-less-camp",
+        "place.pirate-freeholds.upriver-hist-village"
+      ],
+      "premise": "The refuge has a clutch to name and no Hist to name it under, so an upriver village has offered to do it for them",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    },
+    {
+      "id": "quest.local.lp20",
+      "code": "LP20",
+      "title": "A Claim on the Empty Landing",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "THEFT"
+      ],
+      "region": "pirate-freeholds",
+      "settlement": "place.pirate-freeholds.rockpoint",
+      "anchorPlaces": [
+        "place.pirate-freeholds.alten-corimont",
+        "place.pirate-freeholds.rockpoint"
+      ],
+      "premise": "Two parties are repairing the abandoned landing at once, in a zone where Alten Corimont has always answered a claim on it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-pirate-freeholds.json"
+      ]
+    }
+  ]
+}

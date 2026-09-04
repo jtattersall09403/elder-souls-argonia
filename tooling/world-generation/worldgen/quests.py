@@ -63,7 +63,7 @@ SHAPES = (
     "EXPEDITION", "NEGOTIATION", "WONDER",
 )
 GROUPS = ("main", "faction", "line", "local", "daedric", "proposed")
-STATUSES = ("live", "concept", "skeleton", "proposed")
+STATUSES = ("live", "concept", "skeleton", "proposed", "cut")   # cut: id kept, row struck (standard 2)
 COST_TIERS = (None, "S", "M", "L")
 SHAPE_BUDGET = 0.20          # 55 §47c: no primary shape above ~20% of a packet
 QUEST_ID_RE = re.compile(r"^quest\.[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+(-[a-z0-9]+)*$")

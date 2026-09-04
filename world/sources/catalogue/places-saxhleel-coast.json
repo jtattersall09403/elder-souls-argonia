@@ -170,7 +170,7 @@
         "founding": "A deep, sheltered estuary mouth on the Padomaic was the one place on this coast a foreign hull could lie safely, so the Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
         "siteAdvantages": "Estuary with a landable stone shore, a river road into the interior, and the only stretch of the east coast where the mangrove wall breaks for more than a kilometre.",
         "occupantsMotive": "An Argonian-majority harbour population who work the water as amphibians and run the port authority out of dead Company offices, alongside state customs and a long-settled Dunmer merchant minority from the Morrowind trade.",
-        "pressures": "The lawful port is the province's only functioning customs choke, so everything that wants to avoid it goes round it: half-chartered hulls land on the Oliis shore and wreckers work the Padomaic beaches south of the city. The mangrove and jungle behind the city is D4 within a kilometre of the gate. Nobody in the harbour authority will discuss the sealed Shadowscale sanctuary.",
+        "pressures": "The lawful port is the province's only functioning customs choke, so everything that wants to avoid it goes round it: half-chartered hulls land on the Oliis shore and wreckers work the Padomaic beaches south of the city. The mangrove behind the city is D4 within a kilometre of the gate. Nobody in the harbour authority will discuss the sealed Shadowscale sanctuary.",
         "wouldChangeIf": "If the Archon-Lilmoth-Soulrest-Tear line stopped running, or if the harbour authority lost its claim to the Company buildings, Archon would become a large fishing town in a month."
       },
       "sitingPrefs": {
@@ -202,6 +202,8 @@
       },
       "relations": {
         "dependsOn": [
+          "place.saxhleel-coast.archon-bonded-row",
+          "place.saxhleel-coast.archon-shipyard",
           "place.saxhleel-coast.seafalls"
         ],
         "supplies": [
@@ -288,7 +290,13 @@
           "quest.provision.archon-port-of-entry",
           "quest.provision.shadowscale-facility-approach"
         ],
-        "tierOwnership": "tier-0"
+        "tierOwnership": "SX01 · tier-3; SX02 · tier-3; SX03 · tier-3; SX04 · tier-3; SX05 · tier-3; SX06 · tier-3; SX07 · tier-3; SX08 · tier-3; SX09 · tier-3; SX10 · tier-3; SX11 · tier-3; SX12 · tier-3; SX13 · tier-3; SX14 · tier-3; SX15 · tier-3; SX16 · tier-3; SX17 · tier-3; SX18 · tier-3; SX19 · tier-3; SX20 · tier-3; SX21 · tier-3; SX22 · tier-3; SX23 · tier-3; SX24 · tier-3; SX25 · tier-3; SX26 · tier-3; SX27 · tier-3; SX28 · tier-3; SX29 · tier-3; SX30 · tier-3; SX31 · tier-3; SX32 · tier-3; SX33 · tier-3; SX34 · tier-3; SX35 · tier-3; SX36 · tier-3; SX37 · tier-3; SX38 · tier-3; tier-0",
+        "tags": [
+          "APP",
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": "Every thread on this coast passes the customs desk, so Archon is where a quest can be started by a document rather than a person."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.archon-harbour",
       "deedCounterKeys": [
@@ -489,7 +497,7 @@
         "variant": "company-sealed",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:East Empire Company",
@@ -564,7 +572,12 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX01 · tier-3; SX20 · tier-3; tier-2",
+        "tags": [
+          "APP",
+          "LOC"
+        ],
+        "opportunity": "The sealed bond section can be opened by writ, by forgery or by force; each route makes a different enemy."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.archon-harbour",
       "deedCounterKeys": [
@@ -582,7 +595,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
           "place.saxhleel-coast.archon"
@@ -607,8 +620,6 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'bonded-warehouse' is over its province count band (6 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "guarded",
         "owner": null,
@@ -622,8 +633,8 @@
           "unique-item"
         ],
         "impact": "real",
-        "hook": "On the stone quay, the only ground in the province with cargo-bearing foundations",
-        "reviewed": false
+        "hook": "Two centuries of bonded cargo behind a seal nobody alive has the authority to break.",
+        "reviewed": true
       },
       "interior": {
         "kind": "building",
@@ -682,6 +693,40 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
+      },
+      "position": {
+        "u": 0.65704,
+        "v": 0.67043
+      },
+      "positionM": [
+        4844.7,
+        4943.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0510",
+          "score": 2.795,
+          "whyLost": "too close to place.saxhleel-coast.east-estuary-rootworm-station"
+        },
+        {
+          "siteId": "site.free.roadside-0513",
+          "score": 2.786,
+          "whyLost": "too close to place.saxhleel-coast.archon-lighthouse"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1015",
+          "score": 2.747,
+          "whyLost": "too close to place.saxhleel-coast.east-estuary-rootworm-station"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 275 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 3,
+        "distanceToRouteM": 275.3,
+        "distanceToWaterM": 45.2,
+        "score": 2.408
       }
     },
     {
@@ -694,7 +739,7 @@
         "variant": "underwater",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Guar (Glowgill breathes underwater)",
@@ -777,7 +822,13 @@
         "provisions": [
           "quest.provision.underwater-livelihood"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX10 · tier-3; SX15 · tier-3; tier-2",
+        "tags": [
+          "DIVE",
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": "A farmyard that only exists below the waterline is the gentlest place to teach a player what they can do underwater."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.underwater-work",
       "deedCounterKeys": [],
@@ -793,7 +844,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -811,8 +862,6 @@
       "densityLayer": "destination",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'guar-byre' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -828,8 +877,8 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A sheltered shelf inside the estuary, three to six metres down, with firm bottom for tethers",
-        "reviewed": false
+        "hook": "A working farmyard three metres under the estuary, herded by people who never surface to do it.",
+        "reviewed": true
       },
       "interior": {
         "kind": "dungeon",
@@ -878,6 +927,40 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
+      },
+      "position": {
+        "u": 0.6972,
+        "v": 0.48525
+      },
+      "positionM": [
+        5140.8,
+        3578.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1143",
+          "score": 2.76,
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+        },
+        {
+          "siteId": "site.scour.ocean.cove-006",
+          "score": 2.73,
+          "whyLost": "taken by place.saxhleel-coast.pearl-lots"
+        },
+        {
+          "siteId": "site.free.roadside-0308",
+          "score": 1.403,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 402 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, hinterland, landform; placed from the homeless batch at stage 'spacing-1/2'; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+1.14).",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "tidal delta",
+        "dangerBand": 3,
+        "distanceToRouteM": 401.6,
+        "distanceToWaterM": 24.5,
+        "score": 2.74
       }
     },
     {
@@ -975,7 +1058,7 @@
         "provisions": [
           "quest.provision.hero-hist.archon"
         ],
-        "tierOwnership": "tier-1"
+        "tierOwnership": "SX19 · tier-3; SX29 · tier-3; tier-1"
       },
       "rumourPoolKey": "rumour.saxhleel-coast.harbour-tree",
       "deedCounterKeys": [
@@ -1145,7 +1228,7 @@
         "variant": "lit",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -1154,7 +1237,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A reef-strewn approach to the province's only lawful deep-water port has to be lit or the port is worthless in the wet season.",
-        "siteAdvantages": "The outermost headland with a foundation, commanding the reef gap.",
+        "siteAdvantages": "The outermost hard ground on the approach, raised clear of the mangrove and square on the reef gap.",
         "occupantsMotive": "A keeper family four generations in, paid in fuel by the harbour authority.",
         "pressures": "Fuel is the whole politics of the place. A dark night here is worth money to the wrong people.",
         "wouldChangeIf": "If the fuel account lapsed, this becomes the coast's dark lighthouse and the wrecking starts."
@@ -1180,6 +1263,10 @@
         "scourSiteIds": [
           "site.scour.firm-lowland.headland-027",
           "site.scour.mangrove-forest.islet-031"
+        ],
+        "sightlineTo": [
+          "place.saxhleel-coast.padomaic-wrecker-beach",
+          "place.saxhleel-coast.outer-reef"
         ]
       },
       "relations": {
@@ -1193,7 +1280,9 @@
         "visibleFrom": [
           "place.saxhleel-coast.archon"
         ],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.saxhleel-coast.archon"
+        ],
         "travelServiceEdges": []
       },
       "culture": "imperial",
@@ -1248,7 +1337,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "imperial",
@@ -1257,8 +1346,6 @@
       "densityLayer": "destination",
       "entrance": "door",
       "underwaterAccess": "none",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'lighthouse' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "guarded",
         "owner": null,
@@ -1270,8 +1357,8 @@
         "primary": "vista-landmark",
         "secondary": [],
         "impact": "real",
-        "hook": "The keepers hold a wreck register naming every hull lost on the reef and where it lies.",
-        "reviewed": false
+        "hook": "Climb it and you can see the legal channel and the smugglers' gap in one turn of the head.",
+        "reviewed": true
       },
       "interior": {
         "kind": "building",
@@ -1297,12 +1384,59 @@
         ],
         "loot": []
       },
-      "relationsReserved": {
-        "reachedVia": [
-          "place.saxhleel-coast.estuary-ferry-stage",
-          "place.saxhleel-coast.jungle-ferry-stage"
-        ]
-      }
+      "questHooks": {
+        "provisions": [
+          "quest.provision.archon-lighthouse",
+          "quest.provision.lq17-anchor"
+        ],
+        "tags": [
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": "The keepers' wreck register names every hull lost on the reef, so a quest can send the player to a wreck nobody else can find.",
+        "tierOwnership": "MQ14 · tier-0"
+      },
+      "position": {
+        "u": 0.68894,
+        "v": 0.6363
+      },
+      "positionM": [
+        5079.9,
+        4691.7
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0515",
+          "score": 4.441,
+          "whyLost": "too close to place.saxhleel-coast.oliis-coast-lay-by"
+        },
+        {
+          "siteId": "site.free.roadside-0514",
+          "score": 4.417,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0510",
+          "score": 4.416,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 88 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, sightline, region.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 2,
+        "distanceToRouteM": 88.4,
+        "distanceToWaterM": 17.3,
+        "score": 4.429
+      },
+      "terrainRequests": [
+        {
+          "kind": "islet",
+          "radiusM": 45,
+          "note": "A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower."
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-quarantine-shed",
@@ -1487,7 +1621,7 @@
         "variant": null,
         "magnitude": "M2"
       },
-      "status": "deferred",
+      "status": "ruined",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Accession War",
@@ -1563,7 +1697,11 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX13 · tier-3; SX25 · tier-3; tier-2",
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "The burnt quarter is the best building land in Archon, so a quest can be about who is allowed to want it."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.accession-war",
       "deedCounterKeys": [],
@@ -1579,13 +1717,15 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
           "place.saxhleel-coast.archon"
         ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.saxhleel-coast.coast-hist-less-refuge"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -1602,8 +1742,6 @@
       "densityLayer": "destination",
       "entrance": "cellar-door",
       "underwaterAccess": "none",
-      "deferredFromStatus": "ruined",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sacked-colonial-quarter' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -1617,8 +1755,8 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Firm raised ground immediately inland of the quay — the best building land in Archon, and the emptiest",
-        "reviewed": false
+        "hook": "A burnt colonial street grid inside a living town, with the household goods still where they fell.",
+        "reviewed": true
       },
       "interior": {
         "kind": "dungeon",
@@ -1670,10 +1808,39 @@
           }
         ]
       },
-      "relationsReserved": {
-        "rivals": [
-          "place.saxhleel-coast.coast-hist-less-refuge"
-        ]
+      "position": {
+        "u": 0.69125,
+        "v": 0.57375
+      },
+      "positionM": [
+        5096.9,
+        4230.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0925",
+          "score": 4.067,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0957",
+          "score": 4.062,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0926",
+          "score": 4.056,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 206 m from the nearest route; its first-choice landform; won on landform, bound, hinterland.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 206.5,
+        "distanceToWaterM": 68.7,
+        "score": 3.762
       }
     },
     {
@@ -1699,7 +1866,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "Children born under the Shadow were given up to the Dark Brotherhood here under the old compact; the compact lapsed and the sanctuary was closed by order in 4E 187.",
-        "siteAdvantages": "Deliberately unremarkable ground within an hour of the city, off both boat lanes and out of sight of the river road. It is a walk from the hatchery and nobody passes it by accident.",
+        "siteAdvantages": "Off every lane and every path: thorn and mud the whole way in, with the Lilmoth-Archon boat lane the nearest thing to a road at a third of a kilometre.",
         "occupantsMotive": "Nobody lives here. A watcher is paid to sit where he can see the path, by someone who has not visited in 14 years.",
         "pressures": "The Cheydinhal Listener wants it back, but the harbour authority would rather it stopped existing. The birth-sign roll inside names living adults who do not know what they were promised to.",
         "wouldChangeIf": "If the roll were made public, or if the door were opened, half the Shadowscale line's premise collapses at once."
@@ -1792,7 +1959,11 @@
         "provisions": [
           "quest.provision.archon-shadowscale-facility"
         ],
-        "tierOwnership": "tier-1:SS01"
+        "tierOwnership": "SS01 · tier-2; tier-1:SS01",
+        "tags": [
+          "LOC",
+          "STEALTH"
+        ]
       },
       "rumourPoolKey": "rumour.saxhleel-coast.shadow-born",
       "deedCounterKeys": [
@@ -1954,7 +2125,7 @@
         "variant": "building",
         "magnitude": "M2"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Sea Transportation",
@@ -2049,7 +2220,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
           "place.saxhleel-coast.archon"
@@ -2073,8 +2244,6 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'shipyard' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "friendly",
         "owner": null,
@@ -2086,8 +2255,8 @@
         "primary": "service-hub",
         "secondary": [],
         "impact": "real",
-        "hook": "A deep shelving launch inside the estuary, out of the swell but in reach of deep water",
-        "reviewed": false
+        "hook": "The yard that lays keels for this coast, behind an iron store locked harder than the harbour strongroom.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
@@ -2136,6 +2305,48 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "The build register names every hull on this coast, so the yard is where a quest about a missing boat starts.",
+        "tierOwnership": "SX18 · tier-3; SX21 · tier-3; SX35 · tier-3"
+      },
+      "position": {
+        "u": 0.69273,
+        "v": 0.68008
+      },
+      "positionM": [
+        5107.8,
+        5014.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0957",
+          "score": 2.434,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0515",
+          "score": 2.425,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0510",
+          "score": 2.396,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 35 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 12.3,
+        "score": 2.481
       }
     },
     {
@@ -3803,7 +4014,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "The Cantemiric Velothi, elven dissidents out of Morrowind, built towers on the highest ground they could hold above the eastern shore. The marsh took the lower half back.",
-        "siteAdvantages": "High, drained ground with fresh water and a neck one wall could close, facing east toward Morrowind.",
+        "siteAdvantages": "A bare spur over a narrows, where the jungle cannot take the stone back.",
         "occupantsMotive": "Nobody. The Dunmer families in Archon know the house mark and will not discuss it.",
         "pressures": "Salt has eaten the render for 2,000 years; the ancestor niches are empty, but nobody recorded why.",
         "wouldChangeIf": "If a living House claimed descent, the Archon Dunmer quarter's standing in the city changes overnight."
@@ -3857,7 +4068,7 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "silhouette": "bulbous organic towers on a bare headland; nothing else on this coast is built round",
+        "silhouette": "bulbous organic towers on a bare spur above a water narrows",
         "palette": "ash-grey, salt-white bloom, black interior shadow",
         "materials": "Velothi organic render over stone, all of it salt-rotted",
         "signatureFeature": "ancestor niches with nobody in them, and a house mark from a House that no longer exists",
@@ -3873,10 +4084,14 @@
         "clutter",
         "lights-general"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX34 · tier-3; tier-2",
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "The towers are Cantemiric Velothi and nobody on this coast claims them, so a quest can be about who gets to."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.ashen-towers",
       "deedCounterKeys": [],
@@ -3921,12 +4136,12 @@
         "claimed (somebody has begun filling the niches, and it is not Velothi work)"
       ],
       "position": {
-        "u": 0.70612,
-        "v": 0.56185
+        "u": 0.58639,
+        "v": 0.62283
       },
       "positionM": [
-        5206.6,
-        4142.8
+        4323.8,
+        4592.4
       ],
       "candidatesConsidered": [
         {
@@ -3945,14 +4160,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 318 m from the nearest route; no free 'headland' site was left in the zone, so plain ground; won on region, parent, landform; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+0.60).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 633 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on region, remote, danger; site exchanged in the swap pass with place.saxhleel-coast.jungle-root-hollow (+0.57).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 317.9,
-        "distanceToWaterM": 38.8,
-        "score": 1.656
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 632.8,
+        "distanceToWaterM": 19.8,
+        "score": 2.244
       },
       "hostility": {
         "baseline": "hostile",
@@ -4502,7 +4717,7 @@
         "variant": "urban-fringe",
         "magnitude": "M2"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Hist",
@@ -4516,7 +4731,7 @@
         "founding": "A port produces Hist-less Argonians — sailors' children, Umbriel orphans, people born too far from any tree — and they have made a place of their own outside the city.",
         "siteAdvantages": "Firm ground on the city's landward fringe, deliberately outside its jurisdiction.",
         "occupantsMotive": "Households with no tree to return to, organised around that fact rather than despite it.",
-        "pressures": "The city tolerates them and the tribal villages inland do not visit.",
+        "pressures": "The city tolerates them while the inland villages do not visit. The water narrows they live on is band-three ground that outsiders walk into unprepared.",
         "wouldChangeIf": "If Hissmir's reconnection rite reached this coast, half of them would leave and the other half would refuse."
       },
       "sitingPrefs": {
@@ -4548,7 +4763,7 @@
       "notableNpcSlots": [
         "npc.refuge.speaker"
       ],
-      "dangerTier": "D1",
+      "dangerTier": "D3",
       "traversalModes": [
         "walk",
         "boat",
@@ -4587,7 +4802,12 @@
         "provisions": [
           "quest.provision.hist-less-community"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX28 · tier-3; tier-2",
+        "tags": [
+          "APP",
+          "LOC"
+        ],
+        "opportunity": "A quest can turn on whether a Hist-less household wants reconnection at all, which is a question the region has no settled answer to."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.no-tree",
       "deedCounterKeys": [],
@@ -4603,14 +4823,15 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
-          "place.dunmer-north.hissmir",
           "place.saxhleel-coast.archon"
         ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.saxhleel-coast.owing-hiring-camp"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -4628,8 +4849,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "name": "Nothing-Planted",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'hist-less-refuge' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "wary",
         "owner": null,
@@ -4645,8 +4864,8 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Firm ground on the city's landward fringe, deliberately outside its jurisdiction",
-        "reviewed": false
+        "hook": "Argonians with no Hist to go back to, living a short walk outside a city that will not quite claim them.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
@@ -4675,14 +4894,39 @@
           }
         ]
       },
-      "relationsReserved": {
-        "supplies": [
-          "place.saxhleel-coast.archon-shipyard"
-        ],
-        "rivals": [
-          "place.saxhleel-coast.archon-sacked-quarter",
-          "place.saxhleel-coast.owing-hiring-camp"
-        ]
+      "position": {
+        "u": 0.70687,
+        "v": 0.52913
+      },
+      "positionM": [
+        5212.1,
+        3901.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1117",
+          "score": 4.468,
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+        },
+        {
+          "siteId": "site.free.roadside-0315",
+          "score": 4.4,
+          "whyLost": "too close to place.hist-heartland.cut-and-carried"
+        },
+        {
+          "siteId": "site.free.roadside-0503",
+          "score": 4.391,
+          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+        }
+      ],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 297 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 297.4,
+        "distanceToWaterM": 22.6,
+        "score": 3.339
       }
     },
     {
@@ -5576,38 +5820,38 @@
       "entrance": "none",
       "underwaterAccess": "deep-dive",
       "position": {
-        "u": 0.66522,
-        "v": 0.69571
+        "u": 0.66582,
+        "v": 0.57149
       },
       "positionM": [
-        4905.0,
-        5129.8
+        4909.5,
+        4213.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 3.098,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 3.246,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.cove-061",
+          "score": 3.127,
+          "whyLost": "too close to place.saxhleel-coast.quarantine-village-lagoon"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0690",
           "score": 2.97,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0691",
-          "score": 2.93,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.saxhleel-coast.cantemir-headland"
         }
       ],
-      "whySiteWon": "cove in mangrove forest (danger band 2), 105 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 25 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "mangrove forest",
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 104.8,
-        "distanceToWaterM": 23.3,
-        "score": 3.127
+        "distanceToRouteM": 24.5,
+        "distanceToWaterM": 32.9,
+        "score": 2.541
       },
       "hostility": {
         "baseline": "hostile",
@@ -5696,8 +5940,7 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      },
-      "scourSiteId": "site.scour.mangrove-forest.cove-061"
+      }
     },
     {
       "id": "place.saxhleel-coast.dance-barge-mooring",
@@ -6087,7 +6330,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A deeper bank out on the lane, worked by whoever has the hull to reach it.",
-        "siteAdvantages": "Deep water off the lagoon mouth, no shelter, a long run from any shore. Only Argonian lungs work it.",
+        "siteAdvantages": "A hole in the seabed off the mangrove edge, deep enough that the boats work it by rope and count.",
         "occupantsMotive": "Crews from three settlements who do not meet ashore.",
         "pressures": "It is a day's sail from help and the weather here turns fast.",
         "wouldChangeIf": "If a storm shelter existed on the nearest islet the bank would be worked twice as hard."
@@ -6095,7 +6338,8 @@
       "sitingPrefs": {
         "regionClasses": [
           "ocean",
-          "coastal lagoon & salt marsh"
+          "coastal lagoon & salt marsh",
+          "mangrove forest"
         ],
         "hardConstraints": [
           "deep open water",
@@ -6172,38 +6416,38 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Nine Fathom",
       "position": {
-        "u": 0.66582,
-        "v": 0.57149
+        "u": 0.6972,
+        "v": 0.72695
       },
       "positionM": [
-        4909.5,
-        4213.9
+        5140.8,
+        5360.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 2.268,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 3.595,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         },
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 2.156,
+          "siteId": "site.free.any-shallow-marsh-1145",
+          "score": 2.756,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0518",
-          "score": 1.744,
+          "siteId": "site.free.any-shallow-marsh-0853",
+          "score": 2.673,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 25 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 187 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 32.9,
-        "score": 2.211
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 186.5,
+        "distanceToWaterM": 11.0,
+        "score": 2.86
       },
       "hostility": {
         "baseline": "hostile",
@@ -7000,12 +7244,12 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "position": {
-        "u": 0.6972,
-        "v": 0.48525
+        "u": 0.7567,
+        "v": 0.5559
       },
       "positionM": [
-        5140.8,
-        3578.0
+        5579.5,
+        4098.9
       ],
       "candidatesConsidered": [
         {
@@ -7024,14 +7268,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 402 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on region, hinterland, landform; site exchanged in the swap pass with place.saxhleel-coast.mangrove-reef (+0.54).",
+      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "tidal delta",
-        "dangerBand": 3,
-        "distanceToRouteM": 401.6,
+        "landform": "islet",
+        "regionClass": "mangrove forest",
+        "dangerBand": 2,
+        "distanceToRouteM": 60.3,
         "distanceToWaterM": 24.5,
-        "score": 1.641
+        "score": 2.551
       },
       "hostility": {
         "baseline": "hostile",
@@ -7091,7 +7335,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.mangrove-forest.islet-031"
     },
     {
       "id": "place.saxhleel-coast.east-estuary-rootworm-station",
@@ -7192,7 +7437,7 @@
         "provisions": [
           "quest.provision.root-transit-node.east-estuary"
         ],
-        "tierOwnership": "tier-1"
+        "tierOwnership": "SX31 · tier-3; tier-1"
       },
       "rumourPoolKey": "rumour.saxhleel-coast.root-transit",
       "deedCounterKeys": [
@@ -7722,7 +7967,7 @@
         "founding": "Somebody has to keep the estuary marks lit and the stake lines cut, and that somebody has to sleep near the water.",
         "siteAdvantages": "The only firm hummock on the estuary's north shore, dry at the highest seasonal level and one boat-length from the channel.",
         "occupantsMotive": "Four generations of one family, contractually stuck with it and very good at it.",
-        "pressures": "The fuel account is paid late, every year, and the family has learned to hoard.",
+        "pressures": "The fuel account is paid late, every year, and the family has learned to hoard. The lodge is the last roof before band-three marsh in three directions.",
         "wouldChangeIf": "If the light were automated or abandoned, the family would still be here, keeping nothing."
       },
       "sitingPrefs": {
@@ -7749,7 +7994,7 @@
       "occupants": [
         "1-4 D1 keepers"
       ],
-      "dangerTier": "D1",
+      "dangerTier": "D3",
       "traversalModes": [
         "walk",
         "boat",
@@ -7814,38 +8059,38 @@
       "underwaterAccess": "none",
       "name": "Carves-All-Winter",
       "position": {
-        "u": 0.69505,
-        "v": 0.70323
+        "u": 0.68827,
+        "v": 0.54326
       },
       "positionM": [
-        5124.9,
-        5185.2
+        5075.0,
+        4005.7
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1117",
+          "score": 3.928,
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+        },
+        {
           "siteId": "site.free.roadside-0518",
           "score": 3.819,
-          "whyLost": "too close to place.hist-heartland.voriplasm-chamber-sealed"
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1094",
-          "score": 3.781,
-          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
-        },
-        {
-          "siteId": "site.free.roadside-0503",
-          "score": 3.548,
-          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+          "siteId": "site.free.any-shallow-marsh-0755",
+          "score": 3.154,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 85 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, hinterland.",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 165 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; site exchanged in the swap pass with place.saxhleel-coast.wall-hist-village (+2.09).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 85.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.851
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 165.0,
+        "distanceToWaterM": 22.6,
+        "score": 4.239
       },
       "hostility": {
         "baseline": "wary",
@@ -9392,7 +9637,7 @@
         "variant": "inhabited",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Hist",
@@ -9402,7 +9647,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A void where the root layer has lifted the ground deep in the D4 jungle, and something moved into it.",
+        "founding": "A void opened where the root layer lifted the ground deep in the D4 jungle. Something moved into it.",
         "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
         "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
         "pressures": "Nobody goes near it and the nearest village will tell you why at length.",
@@ -9426,7 +9671,12 @@
         ],
         "scourSiteIds": [
           "site.scour.tropical-jungle.cove-022"
-        ]
+        ],
+        "nearPoint": {
+          "x": 4200,
+          "z": 4277,
+          "maxM": 400
+        }
       },
       "culture": "argonian",
       "dangerTier": "D4",
@@ -9453,7 +9703,7 @@
         "materials": "root-walled rock, bone, dragged belongings",
         "signatureFeature": "the bone scatter outside contains three generations of other people's tools",
         "condition": "occupied",
-        "mood": "genuinely unwelcoming",
+        "mood": "unwelcoming",
         "approach": "the smell reaches you first",
         "senses": "something breathing in a hollow space"
       },
@@ -9475,7 +9725,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 4,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -9484,7 +9734,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.saxhleel-coast.portdun-mont"
+          "place.saxhleel-coast.owing-hiring-camp"
         ],
         "travelServiceEdges": []
       },
@@ -9496,8 +9746,6 @@
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
       "name": "Takes-The-Tools",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'root-hollow-gallery' is over its province count band (13 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -9512,8 +9760,8 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "A dry root-walled void with one defensible mouth, and three generations of other people's tools in the bone scatter outside.",
-        "reviewed": false
+        "hook": "A dry root-walled void with one defensible mouth. The bone scatter outside holds three generations of other people's tools.",
+        "reviewed": true
       },
       "interior": {
         "kind": "delve",
@@ -9525,7 +9773,24 @@
         "programRef": null
       },
       "contents": {
-        "creatures": [],
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "apex-ambusher",
+            "registerRef": "creature.wamasu",
+            "danger": "D4",
+            "count": "single",
+            "note": "the thing that has been taking the tools"
+          },
+          {
+            "slotId": "c2",
+            "role": "scavenger",
+            "registerRef": "creature.hoarvor",
+            "danger": "D2",
+            "count": "few",
+            "note": "ticks in the bone scatter at the mouth"
+          }
+        ],
         "npcs": [],
         "loot": [
           {
@@ -9550,6 +9815,48 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "Clearing it doubles a hiring camp's foraging range, which is the kind of payment people with no money can offer.",
+        "tierOwnership": "SX08 · tier-3"
+      },
+      "position": {
+        "u": 0.6035,
+        "v": 0.55664
+      },
+      "positionM": [
+        4449.9,
+        4104.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0922",
+          "score": 3.87,
+          "whyLost": "too close to place.hist-heartland.sap-tapping-licensed"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0881",
+          "score": 3.839,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0844",
+          "score": 3.746,
+          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 367 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+0.57).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 367.4,
+        "distanceToWaterM": 11.0,
+        "score": 3.81
       }
     },
     {
@@ -10253,7 +10560,7 @@
         "provisions": [
           "quest.provision.underwater-xanmeer"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "MQ16 · tier-0; tier-2"
       },
       "rumourPoolKey": "rumour.saxhleel-coast.standing-corner",
       "deedCounterKeys": [],
@@ -10296,14 +10603,14 @@
         "air lost (a settle has vented the chambers; the dive is one breath now)"
       ],
       "position": {
-        "u": 0.62803,
-        "v": 0.6734
+        "u": 0.56036,
+        "v": 0.66597
       },
       "positionM": [
-        4630.8,
-        4965.3
+        4131.8,
+        4910.5
       ],
-      "scourSiteId": "site.scour.tropical-jungle.island-041",
+      "scourSiteId": "site.scour.tropical-jungle.cove-043",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tropical-jungle.islet-003",
@@ -10311,24 +10618,24 @@
           "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         },
         {
-          "siteId": "site.free.any-firm-ground-0949",
-          "score": 2.811,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.tropical-jungle.island-041",
+          "score": 2.873,
+          "whyLost": "too close to place.saxhleel-coast.padomaic-wrecker-beach"
         },
         {
-          "siteId": "site.scour.tropical-jungle.cove-029",
-          "score": 2.749,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.islet-040",
+          "score": 2.869,
+          "whyLost": "too close to place.hist-heartland.the-cut-circle"
         }
       ],
-      "whySiteWon": "island in tropical jungle (danger band 4), 418 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "cove in tropical jungle (danger band 4), 884 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "island",
+        "landform": "cove",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 417.9,
-        "distanceToWaterM": 7.8,
-        "score": 2.873
+        "distanceToRouteM": 883.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.727
       },
       "hostility": {
         "baseline": "hostile",
@@ -10431,6 +10738,7 @@
       },
       "sitingPrefs": {
         "regionClasses": [
+          "tropical jungle",
           "coastal lagoon & salt marsh",
           "interior swamp",
           "lake & standing water"
@@ -10511,38 +10819,38 @@
       "name": "One-Chest",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy to swim out with, no surface expression - is the grotto recipe, not the staffed way-station one.",
       "position": {
-        "u": 0.6206,
-        "v": 0.56036
+        "u": 0.62283,
+        "v": 0.71728
       },
       "positionM": [
-        4576.0,
-        4131.8
+        4592.4,
+        5288.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-015",
-          "score": 3.7,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.free.roadside-0506",
+          "score": 3.103,
+          "whyLost": "taken by place.saxhleel-coast.terrace-village-ridge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-040",
-          "score": 3.666,
-          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
+          "siteId": "site.free.any-firm-ground-0847",
+          "score": 2.335,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.water-narrows-036",
-          "score": 2.277,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.scour.tropical-jungle.cove-022",
+          "score": 2.307,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in lake & standing water (danger band 4), 244 m from the nearest route; at the water's edge; won on route, region, submerged.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 362 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, region, submerged.",
       "plotFacts": {
-        "landform": "ford",
-        "regionClass": "lake & standing water",
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 243.5,
+        "distanceToRouteM": 361.9,
         "distanceToWaterM": 0.0,
-        "score": 1.889
+        "score": 2.358
       },
       "hostility": {
         "baseline": "hostile",
@@ -10614,8 +10922,7 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      },
-      "scourSiteId": "site.scour.lake-standing-water.ford-056"
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -10894,38 +11201,38 @@
       "underwaterAccess": "deep-dive",
       "name": "Black-Cut Teeth",
       "position": {
-        "u": 0.7567,
-        "v": 0.5559
+        "u": 0.72918,
+        "v": 0.46368
       },
       "positionM": [
-        5579.5,
-        4098.9
+        5376.6,
+        3419.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0853",
-          "score": 2.182,
-          "whyLost": "taken by place.saxhleel-coast.shell-beast-shallows"
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 3.233,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1170",
-          "score": 2.089,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0725",
-          "score": 1.894,
+          "siteId": "site.free.any-shallow-marsh-0690",
+          "score": 2.976,
           "whyLost": "too close to place.saxhleel-coast.cantemir-headland"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0691",
+          "score": 2.944,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         }
       ],
-      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.dusk-bird-colony (+0.54).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 307 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'relaxed-score'; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+2.87).",
       "plotFacts": {
-        "landform": "islet",
-        "regionClass": "mangrove forest",
-        "dangerBand": 2,
-        "distanceToRouteM": 60.3,
-        "distanceToWaterM": 24.5,
-        "score": 3.146
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 307.1,
+        "distanceToWaterM": 15.5,
+        "score": 2.962
       },
       "hostility": {
         "baseline": "hostile",
@@ -10982,8 +11289,7 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      },
-      "scourSiteId": "site.scour.mangrove-forest.islet-031"
+      }
     },
     {
       "id": "place.saxhleel-coast.mangrove-wall-village",
@@ -11555,8 +11861,8 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 3.351,
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 3.489,
           "whyLost": "lost on score"
         },
         {
@@ -11686,38 +11992,38 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Lost-The-Ospreye",
       "position": {
-        "u": 0.7657,
-        "v": 0.47224
+        "u": 0.70612,
+        "v": 0.56185
       },
       "positionM": [
-        5645.9,
-        3482.0
+        5206.6,
+        4142.8
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 3.955,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+        },
+        {
           "siteId": "site.free.any-shallow-marsh-1120",
           "score": 3.247,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1145",
           "score": 3.069,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0853",
-          "score": 3.023,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 38 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 318 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 17.3,
-        "score": 3.827
+        "distanceToRouteM": 317.9,
+        "distanceToWaterM": 38.8,
+        "score": 3.023
       },
       "hostility": {
         "baseline": "hostile",
@@ -11785,7 +12091,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/labour-and-bondage.md",
@@ -11796,13 +12102,14 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Households whose owing was called in are put off their ground and camp at the edge of it, because they have nowhere else and the work is here.",
-        "siteAdvantages": "The margin of an estate, on ground nobody will contest.",
+        "siteAdvantages": "The margin of a licensed sap concession, on jungle ground nobody will contest.",
         "occupantsMotive": "Families waiting for a hiring day, and a broker's clerk who comes twice a week.",
-        "pressures": "Their ground is a hundred metres away and someone else is working it.",
+        "pressures": "Their ground is a hundred metres away with someone else working it. The jungle at their backs is worse than the work.",
         "wouldChangeIf": "If a Chainbreaker cell reached them the camp becomes a flashpoint rather than a queue."
       },
       "sitingPrefs": {
         "regionClasses": [
+          "tropical jungle",
           "firm lowland",
           "fringe marsh",
           "coastal lagoon & salt marsh",
@@ -11825,7 +12132,7 @@
         "D1 evicted households",
         "D2 broker's clerk"
       ],
-      "dangerTier": "D2",
+      "dangerTier": "D3",
       "traversalModes": [
         "walk",
         "boat",
@@ -11861,7 +12168,12 @@
         "provisions": [
           "quest.provision.owing-eviction"
         ],
-        "tierOwnership": "tier-3"
+        "tierOwnership": "SX08 · tier-3; SX09 · tier-3; SX27 · tier-3; tier-3",
+        "tags": [
+          "APP",
+          "LOC"
+        ],
+        "opportunity": "The broker's hiring list is a document, so a quest can be won by altering who is on it rather than by fighting anyone."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.the-owing",
       "deedCounterKeys": [
@@ -11878,13 +12190,15 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [
-          "place.imperial-fringe.the-turned-out"
+          "place.hist-heartland.sap-tapping-licensed"
         ],
         "supplies": [],
-        "rivals": [],
+        "rivals": [
+          "place.saxhleel-coast.coast-hist-less-refuge"
+        ],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
@@ -11901,8 +12215,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "name": "Sells-Their-Hours",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'owing-eviction-camp' is over its province count band (2 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "wary",
         "owner": null,
@@ -11916,8 +12228,8 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "The margin of an estate, on ground nobody will contest",
-        "reviewed": false
+        "hook": "Families camped in sight of the ground their owing cost them, waiting on a broker who comes twice a week.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
@@ -11946,18 +12258,41 @@
         ],
         "loot": []
       },
-      "relationsReserved": {
-        "supplies": [
-          "place.saxhleel-coast.archon-shipyard",
-          "place.saxhleel-coast.estuary-salt-pans"
-        ],
-        "rivals": [
-          "place.saxhleel-coast.coast-hist-less-refuge"
-        ],
-        "reachedVia": [
-          "place.saxhleel-coast.coast-road-tradehouse"
-        ]
-      }
+      "position": {
+        "u": 0.61763,
+        "v": 0.58118
+      },
+      "positionM": [
+        4554.1,
+        4285.4
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1117",
+          "score": 4.562,
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0988",
+          "score": 4.525,
+          "whyLost": "too close to place.saxhleel-coast.archon-shadowscale-sanctuary"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0922",
+          "score": 4.396,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 320 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 319.7,
+        "distanceToWaterM": 46.5,
+        "score": 4.47
+      },
+      "sitingNote": "Held at D3 although the danger raster reads band 4 here: the camp sits on cleared concession margin and the band-4 reading belongs to the jungle around it, not to the queue."
     },
     {
       "id": "place.saxhleel-coast.padomaic-wrecker-beach",
@@ -12003,7 +12338,14 @@
           "cove",
           "any-shallow-marsh",
           "islet"
-        ]
+        ],
+        "sightlineTo": [
+          "place.saxhleel-coast.archon-lighthouse"
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon-lighthouse",
+          "maxM": 1400
+        }
       },
       "culture": "argonian",
       "ownerFaction": "faction.padomaic-wreckers",
@@ -12183,39 +12525,40 @@
         ]
       },
       "position": {
-        "u": 0.6972,
-        "v": 0.72695
+        "u": 0.61093,
+        "v": 0.68084
       },
       "positionM": [
-        5140.8,
-        5360.1
+        4504.7,
+        5020.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0853",
-          "score": 3.489,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1145",
-          "score": 3.42,
-          "whyLost": "lost on score"
+          "score": 5.72,
+          "whyLost": "too close to place.saxhleel-coast.umbriel-shore-memorial"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0755",
-          "score": 3.412,
-          "whyLost": "lost on score"
+          "score": 5.712,
+          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+        },
+        {
+          "siteId": "site.free.roadside-0508",
+          "score": 5.62,
+          "whyLost": "too close to place.saxhleel-coast.terrace-village-ridge"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 187 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "cove in tropical jungle (danger band 4), 498 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, sightline.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 186.5,
-        "distanceToWaterM": 11.0,
-        "score": 3.546
-      }
+        "landform": "cove",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 497.9,
+        "distanceToWaterM": 5.5,
+        "score": 4.338
+      },
+      "scourSiteId": "site.scour.tropical-jungle.cove-014"
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -12227,7 +12570,7 @@
         "variant": "pearl",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -12306,7 +12649,13 @@
         "provisions": [
           "quest.provision.underwater-livelihood"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX05 · tier-3; SX06 · tier-3; tier-2",
+        "tags": [
+          "DIVE",
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": "A lot with no living heir is the coast's cleanest succession fight, settled underwater rather than in a hall."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.underwater-work",
       "deedCounterKeys": [],
@@ -12322,15 +12671,19 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
-        "dependsOn": [],
+        "dependsOn": [
+          "place.saxhleel-coast.archon"
+        ],
         "supplies": [],
         "rivals": [],
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [],
+        "reachedVia": [
+          "place.saxhleel-coast.portdun-mont"
+        ],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -12340,8 +12693,6 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "deep-dive",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'pearl-and-shell-bed' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -12357,8 +12708,8 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Clear water over a firm bed inside the reef, six to twelve metres — deeper than an outsider can casually work",
-        "reviewed": false
+        "hook": "Numbered pearl lots held by inheritance, with a tally book that records the drownings as well as the takings.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
@@ -12404,12 +12755,41 @@
           }
         ]
       },
-      "relationsReserved": {
-        "reachedVia": [
-          "place.saxhleel-coast.estuary-ferry-stage",
-          "place.saxhleel-coast.jungle-ferry-stage"
-        ]
-      }
+      "position": {
+        "u": 0.70836,
+        "v": 0.48004
+      },
+      "positionM": [
+        5223.1,
+        3539.6
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1143",
+          "score": 3.261,
+          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+        },
+        {
+          "siteId": "site.scour.ocean.natural-harbour-012",
+          "score": 2.902,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0688",
+          "score": 2.551,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "cove in ocean (danger band 0), 434 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-1/2'.",
+      "plotFacts": {
+        "landform": "cove",
+        "regionClass": "ocean",
+        "dangerBand": 0,
+        "distanceToRouteM": 433.5,
+        "distanceToWaterM": 0.0,
+        "score": 3.119
+      },
+      "scourSiteId": "site.scour.ocean.cove-006"
     },
     {
       "id": "place.saxhleel-coast.portdun-mont",
@@ -12660,7 +13040,22 @@
           "place.saxhleel-coast.seafalls"
         ]
       },
-      "scourSiteId": "site.scour.mangrove-forest.flood-high-030"
+      "scourSiteId": "site.scour.mangrove-forest.flood-high-030",
+      "terrainRequests": [
+        {
+          "kind": "cliff-bench",
+          "radiusM": 60,
+          "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
+        }
+      ],
+      "questHooks": {
+        "provisions": [],
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "Everything arrives here by ladder and rope, so a quest can be about what happens when the rope is the thing in dispute.",
+        "tierOwnership": "MQ14 · tier-0; SX32 · tier-3"
+      }
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
@@ -12888,7 +13283,7 @@
         "variant": "lapsed",
         "magnitude": "M2"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -12923,7 +13318,11 @@
         ],
         "scourSiteIds": [
           "site.scour.mangrove-forest.island-037"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 1800
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -12969,7 +13368,11 @@
         "provisions": [
           "quest.provision.lapsed-cordon"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX11 · tier-3; tier-2",
+        "tags": [
+          "LOC"
+        ],
+        "opportunity": "The release order was never written, so a quest can offer to find it, forge it, or persuade the village it does not need one."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.the-kept",
       "deedCounterKeys": [],
@@ -12987,7 +13390,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -13005,8 +13408,6 @@
       "densityLayer": "destination",
       "entrance": "gate",
       "underwaterAccess": "surface-swim",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'quarantine-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "wary",
         "owner": null,
@@ -13022,8 +13423,8 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "An island in the lagoon with one landing, which made it the obvious place to put people",
-        "reviewed": false
+        "hook": "A cordon nobody has enforced for a century, kept by the people inside it.",
+        "reviewed": true
       },
       "interior": {
         "kind": "none"
@@ -13052,17 +13453,48 @@
           }
         ]
       },
-      "relationsReserved": {
-        "dependsOn": [
-          "place.saxhleel-coast.archon-quarantine-shed"
-        ],
-        "rivals": [
-          "place.saxhleel-coast.stilt-village-lagoon"
-        ],
-        "reachedVia": [
-          "place.saxhleel-coast.estuary-ferry-stage"
-        ]
-      }
+      "position": {
+        "u": 0.66001,
+        "v": 0.68977
+      },
+      "positionM": [
+        4866.6,
+        5086.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-0851",
+          "score": 3.361,
+          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
+        },
+        {
+          "siteId": "site.free.roadside-0307",
+          "score": 3.358,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0850",
+          "score": 3.352,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        }
+      ],
+      "whySiteWon": "land bridge in coastal lagoon & salt marsh (danger band 2), 163 m from the nearest route; at the water's edge; won on bound, region, hinterland.",
+      "plotFacts": {
+        "landform": "land-bridge",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 162.9,
+        "distanceToWaterM": 12.3,
+        "score": 2.823
+      },
+      "terrainRequests": [
+        {
+          "kind": "islet",
+          "radiusM": 70,
+          "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
+        }
+      ],
+      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033"
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
@@ -14791,14 +15223,19 @@
       "name": "Seven-Terrace",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): sealed-xanmeer was over band (7/4-4) and climbable-ruin-roof under (2/4-4). The record was already about a meer sealed from the INSIDE, i.e. a ruin with no door: under the entrance-decoupling ruling its way in is the terrace climb and a roof hatch, which is the climbable-ruin-roof recipe exactly.",
       "position": {
-        "u": 0.60126,
-        "v": 0.69794
+        "u": 0.59531,
+        "v": 0.71356
       },
       "positionM": [
-        4433.4,
-        5146.3
+        4389.6,
+        5261.4
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1007",
+          "score": 3.611,
+          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+        },
         {
           "siteId": "site.free.any-firm-ground-1037",
           "score": 3.282,
@@ -14808,21 +15245,16 @@
           "siteId": "site.free.any-firm-ground-0949",
           "score": 3.2,
           "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0881",
-          "score": 3.159,
-          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 528 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 565 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 528.3,
+        "distanceToRouteM": 564.8,
         "distanceToWaterM": 0.0,
-        "score": 2.717
+        "score": 2.716
       },
       "hostility": {
         "baseline": "hostile",
@@ -15001,38 +15433,38 @@
       "underwaterAccess": "shallow-dive",
       "name": "Haj-Mota Wallow",
       "position": {
-        "u": 0.72918,
-        "v": 0.46368
+        "u": 0.71356,
+        "v": 0.45922
       },
       "positionM": [
-        5376.6,
-        3419.0
+        5261.4,
+        3386.1
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1145",
+          "score": 3.327,
+          "whyLost": "too close to place.saxhleel-coast.umbriel-shore-memorial"
+        },
         {
           "siteId": "site.free.any-shallow-marsh-0755",
           "score": 3.317,
           "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1143",
-          "score": 3.146,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 2.858,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0508",
+          "score": 3.177,
+          "whyLost": "too close to place.saxhleel-coast.terrace-village-ridge"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 307 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+0.60).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 422 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.archon-glowgill-byre (+1.14).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 307.1,
-        "distanceToWaterM": 15.5,
-        "score": 3.907
+        "distanceToRouteM": 422.3,
+        "distanceToWaterM": 17.3,
+        "score": 3.091
       },
       "hostility": {
         "baseline": "hostile",
@@ -16151,7 +16583,14 @@
         ]
       },
       "ownerFaction": null,
-      "occupants": []
+      "occupants": [],
+      "terrainRequests": [
+        {
+          "kind": "terrace",
+          "radiusM": 50,
+          "note": "A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground."
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.tide-run-channel",
@@ -16378,7 +16817,7 @@
         "provisions": [
           "quest.provision.tide-gated-route"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX38 · tier-3; tier-2"
       },
       "rumourPoolKey": "rumour.saxhleel-coast.tide-runs",
       "deedCounterKeys": [],
@@ -16667,7 +17106,7 @@
         "variant": "tidal",
         "magnitude": "M2"
       },
-      "status": "deferred",
+      "status": "drowned",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Lilmoth (the drowned quarter)",
@@ -16748,7 +17187,13 @@
         "provisions": [
           "quest.provision.drowned-street-dive"
         ],
-        "tierOwnership": "tier-2"
+        "tierOwnership": "SX12 · tier-3; tier-2",
+        "tags": [
+          "DIVE",
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": "Salvage law here is whoever reaches it first, so a quest can put the player and a rival crew on the same drowned street."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.drowned-streets",
       "deedCounterKeys": [],
@@ -16764,7 +17209,7 @@
       },
       "complexityBudget": "standard",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -16782,8 +17227,6 @@
       "densityLayer": "destination",
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
-      "deferredFromStatus": "drowned",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'drowned-village' is over its province count band (3 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -16798,8 +17241,8 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Shallow clear water over an intact street plan, readable from a boat at low tide",
-        "reviewed": false
+        "hook": "A whole street plan under clear shallow water, with the deep end of it still unworked.",
+        "reviewed": true
       },
       "interior": {
         "kind": "dungeon",
@@ -16842,16 +17285,34 @@
           }
         ]
       },
-      "relationsReserved": {
-        "dependsOn": [
-          "place.saxhleel-coast.tide-street-salvage-yard"
-        ],
-        "rivals": [
-          "place.saxhleel-coast.stilt-village-drowned-rise"
-        ],
-        "reachedVia": [
-          "place.saxhleel-coast.estuary-ferry-stage"
-        ]
+      "position": {
+        "u": 0.7657,
+        "v": 0.47224
+      },
+      "positionM": [
+        5645.9,
+        3482.0
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1120",
+          "score": 3.093,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.river-mouth-015",
+          "score": 2.937,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 38 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged.",
+      "plotFacts": {
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 17.3,
+        "score": 3.967
       }
     },
     {
@@ -16939,7 +17400,7 @@
         "provisions": [
           "quest.provision.umbriel-witness-site"
         ],
-        "tierOwnership": "tier-3"
+        "tierOwnership": "SX14 · tier-3; tier-3"
       },
       "rumourPoolKey": "rumour.saxhleel-coast.umbriel-leavings",
       "deedCounterKeys": [],
@@ -17001,9 +17462,9 @@
           "whyLost": "too close to place.saxhleel-coast.gap-reef"
         },
         {
-          "siteId": "site.free.roadside-0518",
-          "score": 3.809,
-          "whyLost": "too close to place.saxhleel-coast.outer-reef"
+          "siteId": "site.free.roadside-0315",
+          "score": 3.553,
+          "whyLost": "too close to place.hist-heartland.cut-and-carried"
         }
       ],
       "whySiteWon": "firm ground in fringe marsh (danger band 3), 154 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, hinterland.",
@@ -17671,12 +18132,12 @@
       "name": "Still-Water Sleeping-Tree",
       "ownerFaction": null,
       "position": {
-        "u": 0.69199,
-        "v": 0.55293
+        "u": 0.63473,
+        "v": 0.65481
       },
       "positionM": [
-        5102.4,
-        4077.0
+        4680.2,
+        4828.2
       ],
       "candidatesConsidered": [
         {
@@ -17695,14 +18156,14 @@
           "whyLost": "too close to place.saxhleel-coast.gap-reef"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 214 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 472 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.estuary-keepers-lodge (+2.09).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "tropical jungle",
         "dangerBand": 3,
-        "distanceToRouteM": 213.9,
-        "distanceToWaterM": 44.2,
-        "score": 2.397
+        "distanceToRouteM": 471.6,
+        "distanceToWaterM": 27.4,
+        "score": 2.381
       },
       "hostility": {
         "baseline": "hostile",

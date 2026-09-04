@@ -351,7 +351,7 @@
       "line": "quest.line.proposed",
       "group": "proposed",
       "tier": 3,
-      "status": "proposed",
+      "status": "cut",
       "shapes": [
         "FRAUD",
         "DISPUTE"
@@ -369,7 +369,8 @@
       "sources": [
         "docs/quests/55-quest-index.md §47e",
         "docs/decisions/0041-phase11-settlement-decisions.md"
-      ]
+      ],
+      "notes": " Struck 2026-09-04: absorbed by LD47 (same bridge, same FRAUD reversal)."
     },
     {
       "id": "quest.proposed.pp14",
@@ -500,7 +501,7 @@
         "place.imperial-penal-south.flu-quarantine-village",
         "place.imperial-penal-south.plague-cordon"
       ],
-      "premise": "The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not; Blackrose has left them undiscussed",
+      "premise": "The Flu cordon's ration ledgers are still in the store. They show who was fed and who was not. Blackrose has left them unread",
       "costTier": null,
       "milestone": 2,
       "touches": [],

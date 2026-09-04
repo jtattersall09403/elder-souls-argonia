@@ -1,0 +1,1698 @@
+{
+  "schemaVersion": 1,
+  "packet": "local-hist-heartland",
+  "seed": "quests-local-hist-heartland-v1",
+  "quests": [
+    {
+      "id": "quest.local.lh01",
+      "code": "LH01",
+      "title": "The Weighed Tribute",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.porter-relay-poling"
+      ],
+      "premise": "Redistributed grain is short by the same fraction at every stage, so the loss is in the weighing rather than in the carrying",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh02",
+      "code": "LH02",
+      "title": "A Death Inside the Grove",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "A delegate is dead inside a grove where no blade may be carried, so the question is what was carried instead",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh03",
+      "code": "LH03",
+      "title": "The Blank Line in the Register",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING",
+        "SMUGGLING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "One stage of the passenger register carries a paid fare against a name nobody boarded under",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh04",
+      "code": "LH04",
+      "title": "Seats Cut and Recut",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "Two tribes claim the same worn seat because one of them has cut its mark deeper than the other",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh05",
+      "code": "LH05",
+      "title": "Cast, Not Tuned",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.artisan-chime-makers",
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "Cast chimes are sold in the Helstrom market under a forged tuning mark, which makes half the district's prayers wrong",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh06",
+      "code": "LH06",
+      "title": "Three Short and One Long",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR",
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.guide-camp-gate-side",
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.wisp-lure-basin"
+      ],
+      "premise": "Something on the gate approach has learnt the lantern rhythm the basin guides answer to",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh07",
+      "code": "LH07",
+      "title": "The Sweet Water Turns",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.greenspring",
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "The city spring runs sour on a cycle the assembly declines to time where anyone can hear it",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh08",
+      "code": "LH08",
+      "title": "Light Sold by the Jar",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-gallery-lantern-hollow"
+      ],
+      "premise": "Farmed gallery fungus enters the city untaxed under the assembly's own carrying licences",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh09",
+      "code": "LH09",
+      "title": "The Poles by the Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "MURDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.necropolis-dead-tenders",
+        "place.hist-heartland.officeholder-grave-singer-house"
+      ],
+      "premise": "Finished grave-poles arrive at Helstrom houses that ordered none, cut with the names of the living",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh10",
+      "code": "LH10",
+      "title": "The Turn Nobody Took",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.beast-offering-flood-staying",
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "A rite needs a tribe that has missed three convocations, so the assembly must decide who may stand in its place",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh11",
+      "code": "LH11",
+      "title": "Two Names on One Chair",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "A naheesh dies with the office promised to a child of eleven and claimed by a sister who has done the work for years",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh12",
+      "code": "LH12",
+      "title": "The Owing Paid in Passage",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.porter-relay-poling",
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "A porter works an Owing off in rootworm fares that the ledger keeps re-entering at the start",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh13",
+      "code": "LH13",
+      "title": "Written on the Urn",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.urn-vault-blasphemers"
+      ],
+      "premise": "A Helstrom family's name is shelved in the vault under an offence that was pardoned two generations ago",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh14",
+      "code": "LH14",
+      "title": "Four Hundred and Eleven",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "RECKONING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.guide-camp-far-shelter",
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.refuge-station-interior"
+      ],
+      "premise": "The refuge stores are counted for a population last surveyed forty years ago, so somebody must walk out and count them again",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh15",
+      "code": "LH15",
+      "title": "The Fare or the Favour",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.rootworm-station-helstrom"
+      ],
+      "premise": "The Waykeepers will carry the assembly's grain at a price the assembly cannot pay in coin",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh16",
+      "code": "LH16",
+      "title": "It Keeps Its Circle",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.standing-curiosity-unexplained"
+      ],
+      "premise": "Nothing grows within two metres of the standing thing, which two of the four stories about it turn to profit",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh17",
+      "code": "LH17",
+      "title": "The Lifted Rota",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.tended-xanmeer-pilgrim-way"
+      ],
+      "premise": "A stage has been cut out of the tending rota carved down the door jamb, taking three hundred years of turns with it",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh18",
+      "code": "LH18",
+      "title": "The Grove's Own Shade",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "A market row's roofing is killing a grove limb, so the traders and the tree-minders each hold a case the assembly must hear",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh19",
+      "code": "LH19",
+      "title": "The Line That Ends Early",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-gallery-helstrom-underway"
+      ],
+      "premise": "The lamp-keeper's round on the semi-public underway now stops at the first junction rather than the second",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh20",
+      "code": "LH20",
+      "title": "The Roost Moves",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.hackwing-roost-wild",
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "Two hundred birds have shifted their dawn line onto the grove approach and take whatever the market carries",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh21",
+      "code": "LH21",
+      "title": "A Second Timetable",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.bubble-spire-open-helstrom",
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "The working rootworm exit runs an hour that its honest posted timetable leaves out",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh22",
+      "code": "LH22",
+      "title": "The Sermon a Day Short",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.nisswo-rest-house-interior"
+      ],
+      "premise": "A Nisswo has painted a sermon inside the last rest house that the assembly wants gone before the convocation",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh23",
+      "code": "LH23",
+      "title": "The Chime That Names the Heir",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.artisan-chime-makers",
+        "place.hist-heartland.helstrom"
+      ],
+      "premise": "A household's inheritance turns on a chime tuned to a tree that has since been felled",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh24",
+      "code": "LH24",
+      "title": "Held for the Season",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "A debtor is held under a custom that lapses when the convocation closes, which is why the convocation keeps being postponed",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh25",
+      "code": "LH25",
+      "title": "The Sky Cut Open",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.helstrom",
+      "anchorPlaces": [
+        "place.hist-heartland.helstrom",
+        "place.hist-heartland.pilgrim-camp-hist-tsoko",
+        "place.hist-heartland.stone-calendar-hist-tsoko"
+      ],
+      "premise": "The stones that keep a sky-view for the convocation have begun disagreeing with the season they are cut to read",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh26",
+      "code": "LH26",
+      "title": "Tuned Against a Dead Tree",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.artisan-chime-makers",
+      "anchorPlaces": [
+        "place.hist-heartland.artisan-chime-makers"
+      ],
+      "premise": "A chime was commissioned for a tree that died between the order and the tuning, leaving both parties out of pocket",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh27",
+      "code": "LH27",
+      "title": "The Withdrawn Qualification",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.artisan-chime-makers",
+      "anchorPlaces": [
+        "place.hist-heartland.artisan-chime-makers",
+        "place.hist-heartland.officeholder-tree-minder-house"
+      ],
+      "premise": "A maker's tuning qualification was pulled six years ago on a ruling that was never issued in writing",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh28",
+      "code": "LH28",
+      "title": "The Frame That Answers",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.artisan-chime-makers",
+      "anchorPlaces": [
+        "place.hist-heartland.artisan-chime-makers"
+      ],
+      "premise": "One frame in the field of two hundred rings without wind, on a pattern somebody has begun writing down",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh29",
+      "code": "LH29",
+      "title": "Three Claims on One Egg",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SUCCESSION",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.bereaved-mnemic",
+      "anchorPlaces": [
+        "place.hist-heartland.bereaved-mnemic"
+      ],
+      "premise": "Three tribes claim a share of the Mnemic Egg, one of them publicly, so refusal now looks like hoarding",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh30",
+      "code": "LH30",
+      "title": "The Egg Room Opened",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.bereaved-mnemic",
+      "anchorPlaces": [
+        "place.hist-heartland.bereaved-mnemic"
+      ],
+      "premise": "The reliquary inside the dead trunk was opened from within the village, by somebody who knew the order of the wrappings",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh31",
+      "code": "LH31",
+      "title": "What the Dead Trunk Holds",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING",
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.bereaved-mnemic",
+      "anchorPlaces": [
+        "place.hist-heartland.bereaved-mnemic"
+      ],
+      "premise": "The trunk the village refuses to leave has begun answering at night, in a voice the custodians will not describe",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh32",
+      "code": "LH32",
+      "title": "The Maintenance Ledger",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.boardwalk-branching-many-ways",
+      "anchorPlaces": [
+        "place.hist-heartland.boardwalk-branching-many-ways",
+        "place.hist-heartland.walkway-junction-high-crossroads"
+      ],
+      "premise": "The keepers' repair ledger bills four tribes for spans that were never rebuilt",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh33",
+      "code": "LH33",
+      "title": "Under the Fourth Arm",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.boardwalk-branching-many-ways",
+      "anchorPlaces": [
+        "place.hist-heartland.boardwalk-branching-many-ways"
+      ],
+      "premise": "Something has taken up residence beneath the deck that carries the shrine, at the arm the village uses least",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh34",
+      "code": "LH34",
+      "title": "A Rate the Tribes Will Wear",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.boardwalk-branching-many-ways",
+      "anchorPlaces": [
+        "place.hist-heartland.boardwalk-branching-many-ways",
+        "place.hist-heartland.walkway-junction-high-crossroads"
+      ],
+      "premise": "Two junctions have begun coordinating their tolls, so the tribes that use both want one rate or none at all",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh35",
+      "code": "LH35",
+      "title": "The Sapling's First Naming",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.cut-and-carried",
+      "anchorPlaces": [
+        "place.hist-heartland.cut-and-carried"
+      ],
+      "premise": "The carried cutting is old enough to name children by, with no agreement on who may stand for a tree that young",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh36",
+      "code": "LH36",
+      "title": "Two Days of Root",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.cut-and-carried",
+      "anchorPlaces": [
+        "place.hist-heartland.cut-and-carried",
+        "place.hist-heartland.harmed-hist-tapped"
+      ],
+      "premise": "The replanted sapling is failing, which puts the soil it was carried in under suspicion two days back along the walk",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh37",
+      "code": "LH37",
+      "title": "Water Without Ceremony",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.greenspring",
+      "anchorPlaces": [
+        "place.hist-heartland.greenspring",
+        "place.hist-heartland.nine-trunks"
+      ],
+      "premise": "Two tribes camped here on principle want the spring's use written down before the next convocation",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh38",
+      "code": "LH38",
+      "title": "The Drinker at the Spring",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER",
+        "CONTAMINATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.greenspring",
+      "anchorPlaces": [
+        "place.hist-heartland.greenspring"
+      ],
+      "premise": "A body is in the water that the interior drinks without ceremony, which nobody wants found for the obvious reason",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh39",
+      "code": "LH39",
+      "title": "Grain Counted Twice",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.hammock-tree-island-greenmoss",
+      "anchorPlaces": [
+        "place.hist-heartland.hammock-tree-island-greenmoss"
+      ],
+      "premise": "Two villages hold receipts against the same stored grain, both stamped by the same storekeeper",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh40",
+      "code": "LH40",
+      "title": "The Staddle Post Cut",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.hammock-tree-island-greenmoss",
+      "anchorPlaces": [
+        "place.hist-heartland.hammock-tree-island-greenmoss"
+      ],
+      "premise": "A granary is emptied with its lock untouched, which narrows the field to whoever knew the post's weak side",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh41",
+      "code": "LH41",
+      "title": "Stored Against a Person",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.hammock-tree-island-greenmoss",
+      "anchorPlaces": [
+        "place.hist-heartland.hammock-tree-island-greenmoss"
+      ],
+      "premise": "A village has pledged a household's labour against its grain deposit, without telling the household",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh42",
+      "code": "LH42",
+      "title": "New Courses on Old Stone",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.heretic-stone-restarted",
+      "anchorPlaces": [
+        "place.hist-heartland.heretic-stone-restarted"
+      ],
+      "premise": "The tribe laying fresh courses on Merethic stone is called to answer for it in front of the convocation",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh43",
+      "code": "LH43",
+      "title": "Consecrating Bad Work",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.heretic-stone-restarted",
+      "anchorPlaces": [
+        "place.hist-heartland.heretic-stone-restarted",
+        "place.hist-heartland.nisswo-rest-house-interior"
+      ],
+      "premise": "A Nisswo is asked to bless courses the masons themselves admit are worse than what they sit on",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh44",
+      "code": "LH44",
+      "title": "What the Stone Was For",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "WONDER",
+        "EXPEDITION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.heretic-stone-restarted",
+      "anchorPlaces": [
+        "place.hist-heartland.duskfall-unmade-site",
+        "place.hist-heartland.heretic-stone-restarted"
+      ],
+      "premise": "The new courses have begun completing a plan that nobody living drew",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh45",
+      "code": "LH45",
+      "title": "Born Onto the Roster",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "BONDAGE",
+        "SUCCESSION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.insular-hereditary-watch",
+      "anchorPlaces": [
+        "place.hist-heartland.insular-hereditary-watch"
+      ],
+      "premise": "A child entered on the watch roster at birth wants off it, which the village treats as desertion",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh46",
+      "code": "LH46",
+      "title": "Behind the Sealed Door",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.insular-hereditary-watch",
+      "anchorPlaces": [
+        "place.hist-heartland.insular-hereditary-watch",
+        "place.hist-heartland.miregaunt-ward-approach",
+        "place.hist-heartland.sealed-xanmeer-living"
+      ],
+      "premise": "What the village guards can be reached without its leave, past the ward that holds the dry approach",
+      "costTier": "L",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh47",
+      "code": "LH47",
+      "title": "The Pole Not Collected",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MISSING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.necropolis-dead-tenders",
+      "anchorPlaces": [
+        "place.hist-heartland.necropolis-dead-tenders",
+        "place.hist-heartland.officeholder-grave-singer-house"
+      ],
+      "premise": "A finished grave-pole has stood by the door for eleven years because the family it names cannot be found",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh48",
+      "code": "LH48",
+      "title": "Cord and Paint",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "FRAUD",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.necropolis-dead-tenders",
+      "anchorPlaces": [
+        "place.hist-heartland.necropolis-dead-tenders"
+      ],
+      "premise": "Grave-pole cord is being rebound with the wrong tribal marks, which enters the dead in the wrong ledger",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh49",
+      "code": "LH49",
+      "title": "Led by the Wrist",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "THEFT"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nightbound-lightless",
+      "anchorPlaces": [
+        "place.hist-heartland.nightbound-lightless"
+      ],
+      "premise": "A visitor walked through the village on the chime-lines arrives lighter, unable to describe what left",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh50",
+      "code": "LH50",
+      "title": "The Chime-Lines Sicken",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "CONTAMINATION",
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nightbound-lightless",
+      "anchorPlaces": [
+        "place.hist-heartland.nightbound-lightless"
+      ],
+      "premise": "Somebody is fouling the chime-lines with a paste that dulls them, in a village that has nothing else to steer by",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh51",
+      "code": "LH51",
+      "title": "Pitch-Rights",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "NEGOTIATION",
+        "DISPUTE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nine-trunks",
+      "anchorPlaces": [
+        "place.hist-heartland.greenspring",
+        "place.hist-heartland.nine-trunks"
+      ],
+      "premise": "The village rents convocation pitch at a rate that has sent two delegations to camp elsewhere",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh52",
+      "code": "LH52",
+      "title": "One Tree or Nine",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "RITE"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nine-trunks",
+      "anchorPlaces": [
+        "place.hist-heartland.nine-trunks"
+      ],
+      "premise": "A felling claim turns on whether the ring is one tree by the Hist's reckoning or nine by anyone else's",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh53",
+      "code": "LH53",
+      "title": "Under the Overflow",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.nine-trunks",
+      "anchorPlaces": [
+        "place.hist-heartland.nine-trunks",
+        "place.hist-heartland.root-talk-ground"
+      ],
+      "premise": "Goods move into the convocation inside delegation baggage the village is paid not to open",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh54",
+      "code": "LH54",
+      "title": "Four Villages Down",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "EXPEDITION",
+        "WONDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-two-poles",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-two-poles"
+      ],
+      "premise": "The pile stumps of four earlier villages still hold what each left behind, with the water dropping far enough to reach them",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh55",
+      "code": "LH55",
+      "title": "The Fifth Set of Piles",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "HAUNTING"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-two-poles",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-two-poles"
+      ],
+      "premise": "Piles are being driven at night in the old field, for a village that no one is building",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh56",
+      "code": "LH56",
+      "title": "Under the Stumps",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "PREDATOR"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-two-poles",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-two-poles"
+      ],
+      "premise": "Something dens in the drowned pile fields and takes from the village standing above them",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh57",
+      "code": "LH57",
+      "title": "Boards That Disagree",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "DISPUTE",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-uxaneet"
+      ],
+      "premise": "Every house keeps its own toll board, so a carrier who used four landings has been charged four different ways",
+      "costTier": "S",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh58",
+      "code": "LH58",
+      "title": "Off the Landing Ladder",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "MURDER"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-uxaneet"
+      ],
+      "premise": "A toll collector drowns at his own ladder in water a metre deep, with his board freshly repainted",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh59",
+      "code": "LH59",
+      "title": "The House With No Board",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "THEFT"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.stilt-channel-edge-uxaneet",
+      "anchorPlaces": [
+        "place.hist-heartland.stilt-channel-edge-uxaneet"
+      ],
+      "premise": "One house charges nothing at its landing and is busier after dark than any other in the village",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh60",
+      "code": "LH60",
+      "title": "The Concession Runs Out",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RECKONING",
+        "NEGOTIATION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.alten-markmont",
+      "anchorPlaces": [
+        "place.hist-heartland.alten-markmont"
+      ],
+      "premise": "A lapsed Imperial concession is being enforced over the warehouse stock by people with no authority to enforce anything",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh61",
+      "code": "LH61",
+      "title": "Named by Register",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "RITE",
+        "SUCCESSION"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.hist-less-refuge-wild",
+      "anchorPlaces": [
+        "place.hist-heartland.hist-less-refuge-wild"
+      ],
+      "premise": "A naming that a Hist would witness must be done by register and witness, with one of the witnesses refusing to sign",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    },
+    {
+      "id": "quest.local.lh62",
+      "code": "LH62",
+      "title": "The Dry Magazine",
+      "line": "quest.line.local",
+      "group": "local",
+      "tier": 3,
+      "status": "skeleton",
+      "shapes": [
+        "SMUGGLING",
+        "FRAUD"
+      ],
+      "region": "hist-heartland",
+      "settlement": "place.hist-heartland.xal-meeruth-station",
+      "anchorPlaces": [
+        "place.hist-heartland.xal-meeruth-station"
+      ],
+      "premise": "The interior's dry magazine is storing cargo that the station's own register declines to list",
+      "costTier": "M",
+      "milestone": 2,
+      "touches": [],
+      "sources": [
+        "docs/quests/index/coverage.md",
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ]
+    }
+  ]
+}

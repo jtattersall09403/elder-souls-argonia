@@ -355,7 +355,9 @@ def _routes_named(ctx: Ctx, text: str) -> list[RouteLine]:
     for r in ctx.routes:
         if not r.major or len(r.names) != 2:
             continue
-        if all(n in low for n in r.names):
+        # word-boundary match: "Lilmothiit" must not name the Lilmoth road
+        # (imperial-penal-south agent, 2026-09-04)
+        if all(re.search(r"\b" + re.escape(n) + r"\b", low) for n in r.names):
             hits.append(r)
     return sorted(hits, key=lambda r: r.key)
 
@@ -740,9 +742,14 @@ def check_danger(ctx: Ctx, rec: dict) -> list[Finding]:
     band = facts.get("dangerBand")
     if tier is not None and band is not None and abs(tier - int(band)) > 1:
         sev = "high" if abs(tier - int(band)) >= 3 else "med"
+        res = "rewrite"
+        if facts.get("landform") == "anchor" or rec.get("importanceTier") == 0:
+            # owner-pinned settlements: a safe capital inside a band-5 marsh is
+            # design, not error — the raster owes the city its ring (Part 6)
+            sev, res = "low", "ok-explain"
         out.append(Finding(rid, region, "danger", sev,
                            f"dangerTier {rec.get('dangerTier')}",
-                           f"danger raster reads band {band} here", "rewrite"))
+                           f"danger raster reads band {band} here", res))
     levels = [int(m) for occ in (rec.get("occupants") or []) if isinstance(occ, str)
               for m in OCCUPANT_D.findall(occ)]
     if tier is not None and levels and max(levels) > tier + 1:
