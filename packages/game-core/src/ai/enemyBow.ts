@@ -1,4 +1,4 @@
-import { integrateTrajectory, type ArrowPhysics } from "../combat/ballistics";
+import { GRAVITY, type ArrowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 import type { RangedStats } from "../equipment/types";
 
@@ -54,59 +54,23 @@ export function advanceEnemyBow(
  * The elevation an arrow has to leave at to arrive where it is aimed.
  *
  * An archer that fires flat at a target thirty metres away misses low by
- * several metres and looks broken. Solved rather than approximated, and solved
- * against the *same drag model the arrow will actually fly under*
- * (`integrateTrajectory`), because a vacuum solution is wrong by enough to miss
- * at any range worth shooting at: a bisection on launch angle, converging on
- * the one whose trajectory passes through the target's height at the target's
- * distance.
- *
- * Returns null when the shot is out of reach at this speed, which the caller
- * should treat as "do not take it".
+ * several metres and looks broken. Arrows fly a plain gravity arc (no drag —
+ * `combat/arrowFlight`), so this is the closed-form vacuum solution: of the
+ * two launch angles that reach a point, the flatter one, which is the one an
+ * archer takes. Returns null when the shot is out of reach at this speed, which
+ * the caller should treat as "do not take it".
  */
 export function aimElevation(
   speed: number,
-  arrow: ArrowPhysics,
+  _arrow: ArrowPhysics,
   horizontalRange: number,
   heightDifference: number,
 ): number | null {
   if (!(speed > 0) || !(horizontalRange > 0)) return null;
-  // A flat shot always undershoots, and the optimal-range angle always
-  // overshoots anything inside its own maximum — so the answer is between them
-  // whenever the shot is possible at all.
-  let low = 0;
-  let high = Math.PI / 4;
-  if (dropAt(speed, arrow, horizontalRange, high) < heightDifference) return null;
-  for (let step = 0; step < AIM_BISECTION_STEPS; step += 1) {
-    const middle = (low + high) / 2;
-    if (dropAt(speed, arrow, horizontalRange, middle) < heightDifference) low = middle;
-    else high = middle;
-  }
-  return (low + high) / 2;
-}
-
-/** Bisection depth. Twelve halvings of 45 degrees is under a hundredth of one. */
-const AIM_BISECTION_STEPS = 12;
-
-/** Height of the shot when it has travelled `range` horizontally. */
-function dropAt(speed: number, arrow: ArrowPhysics, range: number, angle: number) {
-  // Long enough for any shot an archer would take; the walk below stops at the
-  // range asked for. Sampled finely, because the answer is read off the samples.
-  const flight = integrateTrajectory(speed, angle, arrow, {
-    maxSeconds: 6,
-    sampleEvery: 0.01,
-  });
-  let previous = flight.samples[0];
-  for (const sample of flight.samples) {
-    if (sample.x >= range) {
-      const span = sample.x - previous.x;
-      const alpha = span > 1e-9 ? (range - previous.x) / span : 0;
-      return previous.y + (sample.y - previous.y) * alpha;
-    }
-    previous = sample;
-  }
-  // Never got there: report a miss low by however far short it fell.
-  return -Infinity;
+  const v2 = speed * speed;
+  const discriminant = v2 * v2 - GRAVITY * (GRAVITY * horizontalRange * horizontalRange + 2 * heightDifference * v2);
+  if (discriminant < 0) return null;
+  return Math.atan2(v2 - Math.sqrt(discriminant), GRAVITY * horizontalRange);
 }
 
 /**

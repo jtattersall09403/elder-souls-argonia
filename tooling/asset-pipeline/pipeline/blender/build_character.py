@@ -347,6 +347,45 @@ SKYRIM_VERTICAL_LOCAL_AXIS = 2
 DEFAULT_KEEP_AXES = (SKYRIM_VERTICAL_LOCAL_AXIS,)
 
 
+def recentre_planar_root_motion(action):
+    """Subtract each root-chain planar location curve's mean, keeping its sway.
+
+    A stationary loop (an idle, a guard) is authored around an arbitrary
+    planar origin: the greatsword and battleaxe idles sit 7.6 x 14.9 cm from
+    the attack clips' origin, the one-handed guard 7.5 x 18 cm, the crouch
+    idle 5 cm. Every attack clip has its planar root motion consumed to zero,
+    so on entering one the mesh slid across that offset and slid back on the
+    way out - the owner's "feet sliding diagonally 10 cm at the start of every
+    two-handed swing". The sway itself is kept (it is what keeps the feet
+    planted); only the constant is removed. Returns the removed planar mean.
+    """
+    removed = {}
+    for fc in action.fcurves:
+        path = fc.data_path
+        if not path.endswith(".location"):
+            continue
+        try:
+            bone_name = path.split('"')[1]
+        except IndexError:
+            continue
+        if bone_name not in root_motion_bones:
+            continue
+        if fc.array_index == SKYRIM_VERTICAL_LOCAL_AXIS:
+            continue
+        points = fc.keyframe_points
+        if len(points) == 0:
+            continue
+        mean = sum(kp.co[1] for kp in points) / len(points)
+        if abs(mean) < 1e-9:
+            continue
+        for kp in points:
+            kp.co[1] -= mean
+            kp.handle_left[1] -= mean
+            kp.handle_right[1] -= mean
+        removed.setdefault(bone_name, [0.0, 0.0, 0.0])[fc.array_index] = mean
+    return removed
+
+
 def strip_root_motion(action, primary, keep_axes=()):
     """Remove location f-curves for the root chain (except `keep_axes` local
     array indices); return net translation delta for the removed axes."""
@@ -428,6 +467,7 @@ def merge_auxiliary_animation(semantic, action):
 
 durations = {}
 root_deltas = {}
+recentred_root_motion = {}
 auxiliary_merges = {}
 primary_root = PLAN["root_bone"] if PLAN["root_bone"] in {b.name for b in arm.data.bones} else (root_bones[0] if root_bones else None)
 
@@ -618,6 +658,10 @@ for spec in PLAN["animations"]:
     # strip clips that need the controller to own 100% of the translation.
     if spec.get("preserve_root_motion"):
         delta = None
+        if spec.get("recentre_root_motion"):
+            recentred = recentre_planar_root_motion(action)
+            if recentred:
+                recentred_root_motion[semantic] = recentred
     elif spec.get("preserve_root_motion_axes"):
         delta = strip_root_motion(
             action,
@@ -643,6 +687,7 @@ for spec in PLAN["animations"]:
 
 SUMMARY["durations"] = durations
 SUMMARY["rootMotionDeltas"] = root_deltas
+SUMMARY["recentredRootMotion"] = recentred_root_motion
 SUMMARY["animationNames"] = [s["semantic"] for s in PLAN["animations"]]
 SUMMARY["curveConditioning"] = curve_conditioning
 SUMMARY["auxiliaryMerges"] = auxiliary_merges

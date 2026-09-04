@@ -30,6 +30,8 @@ export const initialSnapshot: GameSnapshot = {
   showWeaponHitboxes: false,
   showBackstabZones: false,
   footDrivenMotion: true,
+  lockedSpeedFollowsClip: true,
+  stabRiposte: true,
   enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,
   aiming: false,
@@ -58,6 +60,8 @@ export const useGameStore = create<GameStore>((set) => ({
     showWeaponHitboxes: state.showWeaponHitboxes,
     showBackstabZones: state.showBackstabZones,
     footDrivenMotion: state.footDrivenMotion,
+    lockedSpeedFollowsClip: state.lockedSpeedFollowsClip,
+    stabRiposte: state.stabRiposte,
     enemyArchetypeId: state.enemyArchetypeId,
     poiseEnabled: state.poiseEnabled,
     // Debug overrides survive a restart, or testing a rule that needs a raised

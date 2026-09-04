@@ -60,6 +60,7 @@ export type AnimationState =
   | "PARRY"
   | "PARRY_FOLLOW_THROUGH"
   | "RIPOSTE"
+  | "RIPOSTE_STAB"
   | "RIPOSTED_HIT1"
   | "CRITICAL_KNOCKDOWN"
   | "CRITICAL_DEATH"
@@ -197,6 +198,19 @@ export type GameSnapshot = {
    * rebuild. Off restores the constant-velocity lunge exactly.
    */
   footDrivenMotion: boolean;
+  /**
+   * Locked-on strafing and back-walking move at the speed their clips were
+   * authored for, so the planted foot is the anchor and the rest of the body
+   * moves relative to it (owner, 2026-09-04). Off restores the fixed locked-on
+   * walk speed with the clip's cadence scaled to follow it.
+   */
+  lockedSpeedFollowsClip: boolean;
+  /**
+   * One-handed swords and daggers riposte with a *stab* (Rim's dagger
+   * execution, `RIPOSTE_STAB`) rather than the CQC02 lunge. A switch so the
+   * two can be compared in the same session; sandbox debug only.
+   */
+  stabRiposte: boolean;
   /** Which enemy archetype the sandbox spawns. See `actors/enemyArchetypes`. */
   enemyArchetypeId: string;
   resetToken: number;

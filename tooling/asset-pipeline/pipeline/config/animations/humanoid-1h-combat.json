@@ -15,6 +15,7 @@
     "rim_parry_intro_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SK1hMBO/9900433bb/1hm_blockbashintro.HKX",
     "rim_parry_follow_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/SK1hMBO/9900433bb/1hm_blockbash.HKX",
     "rim_riposte_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000018)1hmzl/1.hkx",
+    "rim_riposte_dagger": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/1Execution/(2130000019)dagger/1.HKX",
     "rim_riposted_hit1_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6141037)sword hit1/modernstaggerlock/1.hkx",
     "rim_critical_knockdown_1hm": "skyrim-source/mod-sources/extracted/rim-parry-1.1/meshes/actors/character/animations/OpenAnimationReplacer/0LtStaggerREP/(6254014)Knockdown/modernstaggerlock/1.HKX",
     "backstab_paired_1hm": "skyrim-source/mod-sources/extracted/backstab-1/Backstab animation for sneak killmove/meshes/actors/character/animations/paired_1hmsneakkillbacka.hkx",
@@ -83,6 +84,7 @@
       "source": "mt_idle_a_base",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla mt_idle_a_base (neutral unarmed standing idle, not a combat stance)",
       "tailSource": "mt_idle"
     },
@@ -91,6 +93,7 @@
       "source": "1hm_idle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla 1hm_idle (sword-drawn idle); separate action so IDLE/SWORD_IDLE swap independently"
     },
     "WALK": {
@@ -261,6 +264,7 @@
       "source": "1hm_blockidle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla one-handed sword block idle",
       "tailSource": "2hm_idle"
     },
@@ -303,6 +307,17 @@
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
       "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667–1.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
+      "tailSource": null
+    },
+    "RIPOSTE_STAB": {
+      "pack": "criticals",
+      "source": "rim_riposte_dagger",
+      "rootMotion": "consume",
+      "playbackStartTime": 2.165,
+      "playbackEndTime": 3.298,
+      "crossFadeDuration": 0.24,
+      "crossFadeOutDuration": 0.36,
+      "provenance": "Rim Parry and Execution 1.1, dagger execution attacker (2130000019)/1.HKX, the single forward thrust selected from source 2.165-3.298s (strike at 2.432s) by the round-5 audition (all six executions classified by tip-travel direction, MEASURE_SHAPE=1); the stabbing riposte the owner asked for on one-handed swords and daggers, shipped behind a sandbox debug switch for comparison with the CQC02 lunge",
       "tailSource": null
     },
     "RIPOSTED_HIT1": {
@@ -443,6 +458,7 @@
       "source": "bow_idleheld",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla bow_idleheld (standing with a bow in hand, string at rest)",
       "tailSource": "mt_idle"
     },
@@ -517,6 +533,7 @@
       "source": "sneakmtidle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "Crouched movement is authored as its own locomotion set in Skyrim rather than a scaled walk, which is why crouching is a stance and not a speed multiplier on the standing clips. vanilla sneakmtidle, the neutral crouched hold."
     },
     "CROUCH_WALK": {
@@ -548,6 +565,7 @@
       "source": "sneak1hm_idle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla sneak1hm_idle: crouched with a one-handed weapon drawn, so a drawn blade is still held on guard while sneaking. Separate from CROUCH_IDLE for the same reason SWORD_IDLE is separate from IDLE.",
       "tailSource": "sneakmtidle"
     },
@@ -563,6 +581,7 @@
       "source": "shd_blockidle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla shd_blockidle: held behind the shield face.",
       "tailSource": "2hm_idle"
     },
@@ -601,6 +620,7 @@
       "source": "2hm_idle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla two-handed blade set (Skyrim 2hm): drawn idle."
     },
     "GREATSWORD_WALK": {
@@ -686,6 +706,7 @@
       "source": "2hm_blockidle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla two-handed blade set (Skyrim 2hm): block idle.",
       "tailSource": "2hm_idle"
     },
@@ -733,6 +754,7 @@
       "source": "2hw_idle",
       "looping": true,
       "preserveRootMotion": true,
+      "recentreRootMotion": true,
       "provenance": "vanilla two-handed haft set (Skyrim 2hw): drawn idle; a haft weapon is carried differently from a blade even though its footwork is the same.",
       "tailSource": "2hm_idle"
     },

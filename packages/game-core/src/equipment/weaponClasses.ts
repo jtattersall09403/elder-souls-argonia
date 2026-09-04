@@ -96,6 +96,23 @@ export type WeaponClassProfile = {
 export const OFF_HAND_NODE_HALF_TURN: readonly [number, number, number, number] = [0, 0, 1, 0];
 
 /**
+ * The `Weapon` node has the same problem the other way up: everything on it
+ * was held **back to front**, the leading edge of a war axe being the poll and
+ * a scimitar's edge facing the wielder (owner, 2026-09-04: "one handed axes
+ * are held back to front... same for two handed hammers... the scimitar... I
+ * think it is the same for all melee weapons"). Confirmed on the rig rather
+ * than by eye: with the socket convention alone, the war axe's bit (+X in the
+ * built mesh, the wider side of the head) points at -0.96 against the hand's
+ * wrist-to-knuckle direction, i.e. into the wrist, where a blow leads with the
+ * knuckles. A half turn about the long axis Z puts the edge with the knuckles
+ * on every weapon at once; symmetrical ones (a straight sword, a battleaxe)
+ * are unaffected, which is why it went unnoticed for so long. The default for
+ * every main-hand item; bows and shields hang on the other node and keep
+ * their own half turn above.
+ */
+export const MAIN_HAND_NODE_HALF_TURN: readonly [number, number, number, number] = [0, 0, 1, 0];
+
+/**
  * A short, light class is quick and weak; a long, heavy one is slow and strong.
  * Guard values follow the same logic: you can put a greatsword between you and
  * a blow, but a dagger barely.

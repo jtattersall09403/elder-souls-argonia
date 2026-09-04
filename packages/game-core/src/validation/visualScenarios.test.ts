@@ -174,7 +174,11 @@ describe("visual scenario input driver", () => {
         scenario.player.position[0] - scenario.enemy.position[0],
         scenario.player.position[2] - scenario.enemy.position[2],
       );
-      expect(initialDistance, id).toBeGreaterThan(1.7);
+      // 1.1 rather than the 1.7 of the lunge era: the guard clips' planar
+      // origin was recentred (round 6) and the sword's light attack registers
+      // on the honestly placed guard at 1.2 m (measured; not at 1.54 or 1.74),
+      // so the guard scenes start there. Both torsos are still fully readable.
+      expect(initialDistance, id).toBeGreaterThan(1.1);
       // Never accept a threshold below what the navigation capsules physically
       // allow: at hard contact the two actors are as close as the simulation
       // can put them, and anything under that would stop rejecting anything.

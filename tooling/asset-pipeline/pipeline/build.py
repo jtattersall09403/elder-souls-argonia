@@ -262,6 +262,7 @@ def write_blender_plan(
                 "playback_rate": s.playback_rate,
                 "playback_start_time": s.playback_start_time,
                 "preserve_root_motion": s.preserve_root_motion,
+                "recentre_root_motion": s.recentre_root_motion,
                 "strip_vertical_root_motion": s.strip_vertical_root_motion,
                 "preserve_root_motion_axes": list(s.preserve_root_motion_axes),
                 "support_sample_rate": s.support_sample_rate,

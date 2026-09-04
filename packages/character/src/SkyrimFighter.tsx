@@ -297,8 +297,12 @@ function PosedActor({
   nockedArrow?: {
     asset: string;
     visible: boolean;
+    /** Per-frame visibility for simulation-driven actors (an enemy's draw). */
+    visibleRef?: MutableRefObject<boolean>;
     /** Unit world direction of the shot, so the shaft lies along it. */
     aimDirection: MutableRefObject<THREE.Vector3>;
+    /** Receives the nock's world position each frame; the shot leaves from it. */
+    nockWorld?: MutableRefObject<THREE.Vector3>;
   } | null;
   /**
    * The aim camera is looking down this actor's own shot axis.
@@ -1112,7 +1116,9 @@ function PosedActor({
             parent={model}
             asset={nockedArrow.asset}
             visible={nockedArrow.visible}
+            visibleRef={nockedArrow.visibleRef}
             aimDirection={nockedArrow.aimDirection}
+            nockWorld={nockedArrow.nockWorld}
           />
         </Suspense>
       )}

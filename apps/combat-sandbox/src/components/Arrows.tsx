@@ -12,11 +12,8 @@ import * as THREE from "three";
 
 import {
   ARROW_LIFETIME_SECONDS,
-  ARROW_SHAFT_LENGTH_METERS,
-  aerodynamicDrag,
-  aerodynamicPitchDamping,
-  aerodynamicRestoringTorque,
   arrowMassSplit,
+  flightAttitude,
   impactObliquity,
 } from "@elder-souls/game-core/combat/arrowFlight";
 import { useArrowStore, type LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
@@ -26,13 +23,11 @@ import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
 /**
  * Arrows in flight.
  *
- * Rapier owns the flight. Each arrow is an ordinary dynamic body under gravity
- * with its mass carried by a collider set *forward* of the body origin, which
- * is the forward centre of mass a real arrow has. The component adds three
- * things per tick, all from `combat/arrowFlight`: drag, the torque that turns a
- * yawed shaft back onto its path, and the torque that damps that turn so it
- * settles rather than rings. Everything else — collision, CCD, interpolation —
- * is the solver's job.
+ * Rapier owns the flight: each arrow is an ordinary dynamic body under gravity
+ * and nothing else. Its rotation is locked, and every physics step the shaft
+ * is pointed along its own velocity (`flightAttitude`), so it flies head-first
+ * round a smooth arc with the tail tracing the path behind it. Collision, CCD
+ * and interpolation are the solver's job.
  */
 
 export type ArrowHit = {
@@ -75,15 +70,15 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) object.castShadow = true;
     });
-    // The body's origin is its centre of mass, and its +Z is the direction of
-    // flight. Measure where the built shaft actually lies and move it to match,
-    // rather than assuming: the pipeline lays items out along one axis but does
-    // not promise which end of it the point is on.
+    // The built shaft lies along Z with its *head* at the high-Z end and the
+    // fletching at the low-Z end — measured on every arrow in the set (the
+    // flat broadhead vertices cluster near z = 0, the three vanes at
+    // z = -0.75). The body flies along +Z, so the model needs no turn, only
+    // centring on the body origin.
     const bounds = new THREE.Box3().setFromObject(instance);
     const group = new THREE.Group();
     group.add(instance);
-    group.rotation.y = Math.PI;
-    group.position.z = (bounds.min.z + bounds.max.z) / 2;
+    instance.position.z = -(bounds.min.z + bounds.max.z) / 2;
     return group;
   }, [gltf.scene]);
 
@@ -102,10 +97,8 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
    * expires, and costs the solver nothing.
    */
   const landed = useRef(false);
-  const forceTmp = useRef(new THREE.Vector3());
   const forwardTmp = useRef(new THREE.Vector3());
   const quaternionTmp = useRef(new THREE.Quaternion());
-  const velocityTmp = useRef(new THREE.Vector3());
 
   // Point the shaft along its launch direction and give it its speed. Done on
   // mount rather than through props so the body starts its first physics step
@@ -131,53 +124,20 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
   });
 
   /**
-   * Air, applied once per *physics* step rather than once per rendered frame.
+   * Point the shaft along its path, once per *physics* step.
    *
-   * Rapier accumulates applied forces and clears them when it steps, so a force
-   * added from the render loop is applied as many times as frames happened to
-   * fall between two steps. On a 144 Hz display against a 60 Hz solver that is
-   * roughly two and a half times the intended drag *and* two and a half times
-   * the stabilising torque, and on a slow frame it is none — which is why a
-   * shot's trajectory and its point-first flight both varied with frame rate
-   * instead of with the bow. Stepping the force with the solver makes the
-   * flight the ballistics model's flight on every machine.
+   * Done with the solver rather than per rendered frame so the attitude and
+   * the velocity it follows are always from the same step. Rotation is locked
+   * on the body, so this is the only thing that ever turns an arrow.
    */
   useBeforePhysicsStep(() => {
     const rigid = body.current;
     if (!rigid || spent.current || landed.current) return;
-
-    const velocity = rigid.linvel();
-    velocityTmp.current.set(velocity.x, velocity.y, velocity.z);
-    const drag = aerodynamicDrag(velocity, live.arrow.physics);
-    forceTmp.current.set(drag.x, drag.y, drag.z);
-
-    // Drag is a pure force on the centre of mass. Attitude is handled by two
-    // explicit torques below rather than by applying this one off-centre: that
-    // shortcut is what made the shaft's stabilisation an order of magnitude too
-    // weak to follow its own arc. Each term is now separately meaningful.
-    rigid.addForce(forceTmp.current, true);
-
-    const rotation = rigid.rotation();
-    quaternionTmp.current.set(rotation.x, rotation.y, rotation.z, rotation.w);
-    forwardTmp.current.set(0, 0, 1).applyQuaternion(quaternionTmp.current);
-
-    // Weathercocking: the air turning a yawed shaft back onto its path.
-    rigid.addTorque(
-      aerodynamicRestoringTorque(velocity, forwardTmp.current, live.arrow.physics, ARROW_SHAFT_LENGTH_METERS),
-      true,
-    );
-    // And the air resisting that rotation. Without it the term above is an
-    // undamped spring and the arrow rings about its path instead of settling.
-    rigid.addTorque(
-      aerodynamicPitchDamping(
-        rigid.angvel(),
-        velocity,
-        forwardTmp.current,
-        live.arrow.physics,
-        ARROW_SHAFT_LENGTH_METERS,
-      ),
-      true,
-    );
+    const attitude = flightAttitude(rigid.linvel());
+    if (!attitude) return;
+    forwardTmp.current.set(attitude.x, attitude.y, attitude.z);
+    quaternionTmp.current.setFromUnitVectors(FORWARD, forwardTmp.current);
+    rigid.setRotation(quaternionTmp.current, true);
   });
 
   /**
@@ -240,6 +200,9 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
       // as the shot simply not working.
       ccd
       canSleep={false}
+      // Attitude is set from the velocity each step; the solver must not add
+      // its own spin on top of it.
+      lockRotations
       name="arrow"
       onIntersectionEnter={({ other }) => {
         // Only a body's hurtbox takes an arrow out of the air. Weapon hitboxes
@@ -271,10 +234,8 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
       }}
     >
       {/*
-        Two colliders, because an arrow is a light shaft with a heavy point on
-        the end of it. Together they give the body both the forward centre of
-        mass that makes it fly point-first and the spread-out inertia that stops
-        the aerodynamic torque from tumbling it.
+        Two colliders: the shaft, and the point it strikes with. The mass
+        split keeps the arrow's real weight with a head-heavy centre.
       */}
       <CuboidCollider
         args={[0.005, 0.005, mass.shaftHalfLengthMeters]}
@@ -287,9 +248,10 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
         mass={mass.headMassKg}
         activeCollisionTypes={rapier.ActiveCollisionTypes.ALL}
       />
-      {/* The pipeline builds every item along +Z, so the shaft already lies
-          down the body's forward axis. */}
+      {/* The shaft lies down the body's +Z, head forward — see `model`. */}
       <primitive object={model} dispose={null} />
     </RigidBody>
   );
 }
+
+const FORWARD = new THREE.Vector3(0, 0, 1);

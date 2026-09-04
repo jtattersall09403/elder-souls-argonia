@@ -51,63 +51,62 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   HEAVY_2 re-measure improved it — so it wants its own look rather than being
   folded into an unrelated pass. Done when the gate passes without raising the
   threshold.
-- **Arrows fired steeply upward are still slightly tumbly.** The flight model
-  weathercocks and damps, and the owner judged round 4's behaviour "a bit tumbly
-  but fine for now" and explicitly asked to revisit it in polish. Done when a
-  shaft fired near-vertical arcs over point-first and settles without visible
-  wobble on the way down.
-- **Per-weapon riposte clips: which family plays which execution.** The owner
-  wants a *stab* for the one-handed sword and dagger and a *swing* for the
-  battleaxe. Round 5 fixed the audition tool and did the whole measurement pass;
-  the answers are known and recorded here so the next attempt starts from
-  evidence rather than repeating it. **The change itself was built and then
-  reverted**, because it could not be made green — see below.
-
-  What the clips actually contain (all six executions auditioned and every
-  contact phase classified by tip-travel direction, `MEASURE_SHAPE=1`):
-  - **The only reaching stab in the one-handed executions is Rim's dagger
-    clip**, `1Execution/(2130000019)dagger`, strike at source 2.432 s. It works
-    at sword blade length as well as dagger, reaching a torso out to 1.00 m.
-    The spear and dual-wield executions contain no reaching thrust at all.
-  - **The 2HW execution contains no chop that lands.** Its only two phases that
-    bring the head within reach of a torso are forward drives (52% and 47% of
-    travel along the attacker's facing); its one genuine overhead never comes
-    closer than 0.72 m at any separation, because it is the wind-up.
-
-  **The battleaxe half is now shipped.** The owner accepted a swing-specific
-  contact rule, so `riposteWeaponContact` takes a `contactStyle` and a battleaxe
-  ripostes with its own opening swing. The victim of a paired critical is also
-  pinned in place now, which was a real bug: the arriving attacker's capsule
-  shoved it, so every paired critical landed further out than its measured
-  separation.
-
-  **The sword and dagger stab is not shipped, and one thing blocks it.** It was
-  built twice and reached green on all three of its own scenarios both times
-  (`riposte`, `riposte-lethal`, `riposte-queued`). Every number it needs is in
-  the commit history: Rim's dagger execution, trim source 2.165–3.298, strike at
-  2.432, separation 0.8 m, entry blend 0.24 s (the blade sweeps while the pair
-  is still closing), exit cross-fade 0.36 s. What stops it is that swapping the
-  one-handed execution regresses **`greatsword-riposte`** to 0.48 m against a
-  0.25 m limit, and the cause is genuinely not understood:
-  - the greatsword's profile and attack-spec numbers were verified numerically
-    identical to the passing state, after decoupling the two-handed timing so it
-    inherits nothing from the one-handed execution;
-  - its own animation pack is **byte-identical**, and so are the victim clips,
-    the hurtbox fit and the rig data in the manifest. Only the `criticals` pack
-    file differs, and only because one clip was swapped inside it;
-  - the runtime pair measures ~0.25 m further apart than `executionAnchor` asks
-    for, and stepping the separation in moves the result by roughly half the
-    step — as if something still pushes the actors apart even with the victim
-    pinned;
-  - it is not the victim's pose: measuring the execution against `GUARD_BREAK`
-    and against `RIPOSTED_HIT1` both give 0.234 m at 0.9 m.
-
-  **Next step**: record the actual centre-to-centre distance at the damage frame
-  in the scenario telemetry and compare it to `startingSeparation`. That one
-  number says whether the anchor is being reached, and it is the only thing
-  still missing. Done when the sword and dagger riposte read as thrusts with
-  every criticals scenario green.
-
+- **Bow string and limbs do not move when drawn** (2026-09-04, round 6,
+  0040 §25). The built bow GLBs are flattened static meshes; vanilla bows are
+  *skinned* to a seven-bone skeleton (`Bow_MidBone`, `Bow_UpBone1/2`,
+  `Bow_LoBone1/2`, `Bow_StringBone1/2` — verified in `meshes/weapons/iron/
+  ironbow.nif`) with authored draw clips in `Skyrim - Animations.bsa`:
+  `meshes/weapons/bow/animations/bow_drawlight.hkx`, `bow_drawheavy.hkx`,
+  `bow_idledrawn.hkx`, `bow_release.hkx` on `meshes/weapons/bow/character
+  assets/skeleton.hkx`. Sourcing job, no new art: a `build_bow_rig` pipeline
+  target that imports the skeleton HKX and skinned NIF (as `build_character`
+  does) and exports one GLB per bow with the four clips; at runtime the draw
+  fraction drives the clip time (`bowShot` already exposes it) for the player
+  and the archer alike. Done when the string sits on the drawing hand through
+  a draw in both views.
+- **First-person bow rig** (2026-09-04, round 6, 0040 §32; owner: bows only,
+  not every weapon). Vanilla has everything: `meshes/actors/character/
+  _1stperson/skeleton.nif`, 702 `_1stperson/animations/*.hkx` including
+  `bow_drawlight`, `bow_drawheavy`, `bow_idledrawn`, `bow_release`,
+  `bow_idleheld`, `bow_equip/unequip`, `bow_zoom` and the full `bow_*` /
+  `bowdrawn_*` locomotion set, plus `character assets/1stpersonmalebody_*.nif`
+  / `1stpersonmalehands*.nif` per race (Argonian hands included) and
+  first-person armour bodies per set. Build outline: a second character rig
+  (`build_character` with the 1st-person skeleton and its bow clips), rendered
+  as a camera-attached arms layer while aiming, with the third-person body
+  hidden below the neck; the world camera stays on the eye as now. Roughly a
+  day of pipeline plus runtime. The hybrid view (§21, §31) stays until then.
+- **Per-weapon riposte clips — the stab is shipped, behind a switch** (round
+  6, 0040 §30). `RIPOSTE_STAB` (Rim dagger execution, 2.165–3.298 s, strike
+  2.432 s) replaces the CQC02 lunge on sword and dagger while the sandbox's
+  "Stabbing riposte" switch is on (default on); `riposte-stab` is a criticals
+  scene. The round-5 greatsword-riposte regression did not reproduce against
+  the rebuilt pack. Left to do: the owner's verdict, then either make it the
+  only riposte (drop the switch and `RIPOSTE`) or revert; and the battleaxe
+  keeps its swing.
+- **Light-attack reach against a guard moved with the guard clip's origin**
+  (round 6). Before the guard clips were recentred, the player's LIGHT_1
+  registered on a guarding enemy at 1.74 m; after, only at 1.2 m (not at 1.54
+  or 1.74). The recentring moved the guard mesh 18 cm *toward* the attacker,
+  so by geometry it should have got easier. Something else in the hit
+  registration — the measured contact window being a time window rather than
+  a swept volume is the suspect — depends on where the target stands. Worth
+  one focused look with the weapon-volume overlay before any reach tuning.
+- **`enemy-parry` fails: the parry catches by geometry and the honest swing
+  misses the catch volume** (round 6, 0040 §28). With the player's 8 cm
+  lateral step during LIGHT_1, the blade reaches a parrying enemy's torso but
+  not its raised blade-plus-margin catch volume at 1.0, 1.2, 1.54 or 1.74 m
+  (all measured); the one-outcome grace then defers the hit for the catch
+  that never comes, so neither resolves. Two fixes, owner's call: (a) a parry
+  catches by *timing* — a blade that reaches the body while the catch is
+  active is parried (the Souls rule, and what the grace already wants); or
+  (b) keep geometry and widen the catch volume. Until then the scene is a
+  known failure, not a gate.
+- **A swing critical's anchor release steps the weapon tip** (round 6). At
+  the end of `greataxe-riposte` the world weapon tip moves 0.37 m in one frame
+  while every pose-relative bone step is a centimetre: the capsule is released
+  from the critical's anchor, not the pose. The scene's limit is 0.4 for now;
+  the fix is in the release, not the limit.
 - **The remaining ten per-weapon executions.** The greatsword and battleaxe now
   have their own; Rim Parry ships thirteen (dagger, mace, spear, four shield
   variants, unarmed, dual and the one-handed one we already had). The blocker is
@@ -137,16 +136,16 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 - **Poise numbers are provisional** (module 76 §121.3 says so explicitly).
   `poisePerArmourRating` is the one most likely to move; the debug panel's
   Poise switch and the HUD bar exist to make the comparison cheap.
-- **Pivoting attack clips slide their feet, and only new clips fix it**
-  (2026-09-03, round 5, 0040 §23). Foot-anchored motion can only apply travel
-  the capsule can follow; a clip whose swing *spins the body* (one-handed
-  HEAVY, greatsword HEAVY_2) carries metres of measured lateral displacement,
-  and applying it slides the attacker off its target (proved by
-  offense-outcomes / enemy-heavy-attack whiffing). The cure is sourcing
-  non-pivoting variants of those specific swings — a mod-scene sourcing job,
-  never a runtime rule or new art.
-- **Locked-on strafe/back-walk still scrub slightly at full stick** (round 5).
-  Cadence now follows real speed but the strafe clips are authored ~0.8 m/s
-  against a 3.0 m/s locked walk and the band caps at 1.8×. Options: widen
-  `CADENCE_MULTIPLIER_BAND` for locked locomotion, slow the locked walk (feel
-  change — owner call), or source faster strafe clips.
+- **Enemy AI does not plan for honest feet** (2026-09-04, round 6, 0040 §28).
+  Swings now carry the body along the clip's whole sole track — the
+  one-handed HEAVY_2 steps back 0.58 m in its wind-up, the HEAVY pivots 1.8 m
+  to the right — and `weaponTactics` still decides attack range from the
+  authored `range` alone, so an enemy inside its lunge threshold can commit a
+  swing whose feet walk it out of reach. Fix in the AI, not the feet: fold the
+  track's displacement at contact into the effective range per attack.
+- **Locked-on speed now follows the strafe clips** (round 6, 0040 §29; was
+  "still scrub slightly at full stick"). Locked-on WALK / WALK_BACK / strafes
+  move at their authored ~0.7–0.9 m/s behind the "Locked-on speed follows the
+  strafe clips" switch (default on); off restores the 3.0 m/s locked walk with
+  scaled cadence. Owner to judge which stays; if the slow one, sourcing faster
+  strafe clips is the way to a quicker locked pace, not a speed number.

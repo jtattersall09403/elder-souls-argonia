@@ -2,7 +2,7 @@ import manifest from "./generated/arsenal.items.json";
 import { defineWeapon } from "./defineWeapon";
 import { MATERIAL_PROFILES, scaleGuardValue, type MaterialId, type MaterialProfile } from "./materials";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND, clampToBand } from "./guard";
-import { OFF_HAND_NODE_HALF_TURN, WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
+import { MAIN_HAND_NODE_HALF_TURN, OFF_HAND_NODE_HALF_TURN, WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
 import { SHIELD_ANIMATIONS } from "./movesets/shield";
 import type {
   Absorption,
@@ -166,11 +166,12 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
     },
     visual: {
       asset: built.asset,
-      // Identity: the rig's socket convention is applied once by the actor.
+      // The rig's socket convention is applied once by the actor; the item
+      // adds only the half turn its node needs (`MAIN_HAND_NODE_HALF_TURN`).
       held: {
         socket: profile.heldSocket ?? "Weapon",
         localPosition: [0, 0, 0],
-        localRotation: profile.heldRotation ?? [0, 0, 0, 1],
+        localRotation: profile.heldRotation ?? MAIN_HAND_NODE_HALF_TURN,
         localScale: 1,
       },
       sheathed: { socket: built.sheathSocket, localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },

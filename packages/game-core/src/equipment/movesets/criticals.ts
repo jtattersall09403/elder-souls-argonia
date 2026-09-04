@@ -1,5 +1,5 @@
-import { clipConfig } from "../../anim/animationManifest";
-import type { AttackSpec, PairedCriticalProfile, WeaponAnimationProfile } from "../types";
+import { clipConfig, clipPlaybackDuration } from "../../anim/animationManifest";
+import type { AttackSpec, PairedCriticalProfile, WeaponAnimationProfile, WeaponDefinition } from "../types";
 import { ONE_HANDED_ANIMATIONS } from "./oneHanded";
 
 /**
@@ -197,6 +197,81 @@ export function applyCriticalStyle(
     ...animations,
     riposte: swingRiposte(attacks.light1),
     backstab: swingBackstab(attacks.light1),
+  };
+}
+
+/**
+ * The stabbing riposte for one-handed swords and daggers.
+ *
+ * The owner wants a *stab*. The authored one-handed execution (`RIPOSTE`,
+ * Rim's CQC02) is a lunge; Rim's dagger execution contains one clean forward
+ * thrust, isolated by the round-5 audition at source 2.165-3.298 s with the
+ * strike at 2.432 s (polish backlog, "per-weapon riposte clips"). It ships as
+ * `RIPOSTE_STAB` behind the sandbox's "Stabbing riposte" switch so the two can
+ * be compared in one session; the victim's half is unchanged, because being
+ * run through does not depend on the clip that did it.
+ *
+ * Every number here is from that measurement: separation 0.8 m, entry blend
+ * 0.24 s (the blade sweeps while the pair is still closing), and the exit
+ * cross-fade of 0.36 s lives on the clip config.
+ */
+const RIPOSTE_STAB_SOURCE_STRIKE_TIME = 2.432;
+const RIPOSTE_STAB_SEPARATION = 0.8;
+const RIPOSTE_STAB_ENTRY_BLEND = 0.24;
+/** The point is withdrawn this long after it lands. */
+const RIPOSTE_STAB_RELEASE_AFTER_STRIKE = 0.15;
+
+function stabRiposteTiming() {
+  const config = clipConfig("RIPOSTE_STAB");
+  const start = config.playbackStartTime ?? 0;
+  const rate = config.playbackRate || 1;
+  const duration = clipPlaybackDuration("RIPOSTE_STAB") ?? 1.133;
+  const contact = (RIPOSTE_STAB_SOURCE_STRIKE_TIME - start) / rate;
+  return {
+    duration,
+    contact,
+    release: Math.min(duration, contact + RIPOSTE_STAB_RELEASE_AFTER_STRIKE),
+  };
+}
+
+export function stabRiposte(base: PairedCriticalProfile): PairedCriticalProfile {
+  const { duration, contact, release } = stabRiposteTiming();
+  return {
+    ...base,
+    attackerAction: "RIPOSTE_STAB",
+    entryBlendDuration: RIPOSTE_STAB_ENTRY_BLEND,
+    startingSeparation: RIPOSTE_STAB_SEPARATION,
+    victimActionStartProgress: contact / duration,
+    victimOutcomeProgress: contact / duration,
+    damageProgress: contact / duration,
+    releaseProgress: release / duration,
+  };
+}
+
+export function stabRiposteAttack<A extends AttackSpec>(base: A): A {
+  const { duration, contact } = stabRiposteTiming();
+  const active = 0.28;
+  return {
+    ...base,
+    animation: "RIPOSTE_STAB",
+    windup: contact,
+    active,
+    recovery: Math.max(0, duration - contact - active),
+  };
+}
+
+/**
+ * A weapon with the stabbing riposte in place of the authored lunge, for the
+ * weapons that riposte with `RIPOSTE` (the thrust classes: swords, daggers).
+ * Anything else — a swing-class axe, a greatsword with its own execution — is
+ * returned as is.
+ */
+export function withStabRiposte(weapon: WeaponDefinition): WeaponDefinition {
+  if (weapon.animations.riposte.attackerAction !== "RIPOSTE") return weapon;
+  return {
+    ...weapon,
+    attacks: { ...weapon.attacks, riposte: stabRiposteAttack(weapon.attacks.riposte) },
+    animations: { ...weapon.animations, riposte: stabRiposte(weapon.animations.riposte) },
   };
 }
 

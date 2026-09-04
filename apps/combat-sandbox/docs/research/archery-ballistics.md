@@ -10,6 +10,13 @@ Implementation: [`src/game/combat/ballistics.ts`](../../src/game/combat/ballisti
 tests pin the model to the real-world numbers below, so read them before changing
 any of this.
 
+> **In-flight drag is off (owner ruling 2026-09-04, decision 0040 §24).** The
+> launch chain below still holds and still decides damage; but an arrow in the
+> world is a rigid body under gravity alone, pointed along its velocity each
+> step (`combat/arrowFlight`). The offline `integrateTrajectory` keeps its drag
+> term for calibration and tests; the archer's elevation solver uses the vacuum
+> solution so it aims under the physics the arrow flies.
+
 ## The chain
 
 ```

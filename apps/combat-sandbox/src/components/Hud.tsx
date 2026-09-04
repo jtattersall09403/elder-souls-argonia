@@ -353,6 +353,22 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <label>
           <input
             type="checkbox"
+            checked={state.lockedSpeedFollowsClip}
+            onChange={(event) => state.patch({ lockedSpeedFollowsClip: event.target.checked })}
+          />
+          Locked-on speed follows the strafe clips
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={state.stabRiposte}
+            onChange={(event) => state.patch({ stabRiposte: event.target.checked })}
+          />
+          Stabbing riposte (sword &amp; dagger)
+        </label>
+        <label>
+          <input
+            type="checkbox"
             checked={state.showHitboxes}
             onChange={(event) => state.patch({ showHitboxes: event.target.checked })}
           />

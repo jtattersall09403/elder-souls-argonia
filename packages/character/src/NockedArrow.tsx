@@ -25,7 +25,9 @@ export function NockedArrow({
   parent,
   asset,
   visible,
+  visibleRef,
   aimDirection,
+  nockWorld,
 }: {
   /** The drawing hand's attach node; the nock sits here. */
   socket: THREE.Object3D | null;
@@ -34,20 +36,32 @@ export function NockedArrow({
   /** Arrow GLB, relative to the deployment base URL. */
   asset: string;
   visible: boolean;
+  /**
+   * Frame-rate visibility for actors driven from the simulation loop rather
+   * than from React state (an enemy archer's draw). Read every frame when
+   * given; `visible` still gates the whole thing.
+   */
+  visibleRef?: MutableRefObject<boolean>;
   /** Unit world-space direction of the shot. */
   aimDirection: MutableRefObject<THREE.Vector3>;
+  /**
+   * Written every frame with the nock's world position — where the shaft
+   * actually is, so the loosed arrow can leave from the string rather than
+   * from a point invented near the eye.
+   */
+  nockWorld?: MutableRefObject<THREE.Vector3>;
 }) {
   const gltf = useGLTF(assetUrl(asset));
   const model = useMemo(() => {
     const instance = gltf.scene.clone(true);
     const group = new THREE.Group();
     group.add(instance);
-    // Same normalisation the projectile uses: the built shaft lies along one
-    // axis with an arbitrary end at the origin, and this puts its point on +Z
-    // with the nock at the group's origin, which is what rides the hand.
+    // Same layout the projectile relies on: the built shaft lies along Z with
+    // the head at the high-Z end and the fletching at the low-Z end (measured
+    // on every arrow in the set). Put the nock on the group's origin, which is
+    // what rides the hand, and the point out along +Z.
     const bounds = new THREE.Box3().setFromObject(instance);
-    group.rotation.y = Math.PI;
-    instance.position.z = -bounds.max.z;
+    instance.position.z = -bounds.min.z;
     return group;
   }, [gltf.scene]);
 
@@ -68,9 +82,11 @@ export function NockedArrow({
   }, [model, visible]);
 
   useFrame(() => {
-    if (!visible || !socket || !model.parent) return;
+    if (visibleRef) model.visible = visible && visibleRef.current;
+    if (!model.visible || !socket || !model.parent) return;
     socket.updateWorldMatrix(true, false);
     socket.getWorldPosition(tmp.current.worldPosition);
+    if (nockWorld) nockWorld.current.copy(tmp.current.worldPosition);
     model.parent.worldToLocal(model.position.copy(tmp.current.worldPosition));
     model.parent.getWorldQuaternion(tmp.current.parentQuaternion);
     tmp.current.desired.setFromUnitVectors(FORWARD, aimDirection.current);

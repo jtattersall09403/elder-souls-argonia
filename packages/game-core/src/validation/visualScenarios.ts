@@ -17,6 +17,7 @@ export const VISUAL_SCENARIO_IDS = [
   "death",
   "backstab",
   "riposte",
+  "riposte-stab",
   "riposte-lethal",
   "backstab-lethal",
   "guard-break",
@@ -105,6 +106,8 @@ export type VisualScenario = {
     weaponId?: string;
     /** Ammunition to nock, for the same reason. */
     ammoId?: string;
+    /** Riposte with the stabbing clip (`RIPOSTE_STAB`) rather than the lunge. */
+    stabRiposte?: boolean;
     /** Off-hand item, for the scenes about guarding behind a shield. */
     offHandId?: string;
     /**
@@ -190,6 +193,20 @@ const FOCUSED_CONTACT_ENEMY = {
   ...FACING_ENEMY,
   position: [0.72, Y, 0] as const,
   yaw: Math.atan2(-0.72, 1.58),
+};
+// The three scenes in which the PLAYER's light attack has to reach a guarding
+// or parrying enemy. Round 6 recentred the guard clips' planar origin
+// (decision 0040 section 26); against the honestly placed guard the sword's
+// light attack registers at 1.2 m and not at the 1.54 or 1.74 m spacings
+// (both measured), so these scenes start at 1.2 m.
+const GUARD_CONTACT_PLAYER = {
+  position: [0, Y, 1.05] as const,
+  yaw: Math.atan2(0.58, -1.05),
+};
+const GUARD_CONTACT_ENEMY = {
+  ...FACING_ENEMY,
+  position: [0.58, Y, 0] as const,
+  yaw: Math.atan2(-0.58, 1.05),
 };
 const FOCUSED_REVIEW_PLAYER = {
   position: [0, Y, 2.45] as const,
@@ -391,6 +408,19 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     ],
     enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
   },
+  "riposte-stab": {
+    id: "riposte-stab",
+    label: "Riposte with the stabbing clip (RIPOSTE_STAB) — the sword and dagger thrust",
+    warmup: 0.5,
+    duration: 8.8,
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, stabRiposte: true },
+    enemy: RIPOSTE_REVIEW_ENEMY,
+    cues: [
+      { from: 0.6, to: 0.69, actions: ["parry"] },
+      { from: 2.3, to: 2.39, actions: ["light"] },
+    ],
+    enemyCues: [{ at: 0.25, intent: "lightCombo", attack: "light1", comboRemaining: 0 }],
+  },
   "riposte-lethal": {
     id: "riposte-lethal",
     label: "Lethal riposte → immediate hit reaction and held prone outcome",
@@ -436,33 +466,39 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Light input against depleted guard → posture break",
     warmup: 0.5,
     duration: 4.1,
-    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
-    enemy: { ...FOCUSED_CONTACT_ENEMY, state: "guard", animation: "GUARD", stamina: 1, holdInitialState: true },
+    player: { ...GUARD_CONTACT_PLAYER, emptyOffHand: true },
+    enemy: { ...GUARD_CONTACT_ENEMY, state: "guard", animation: "GUARD", stamina: 1, holdInitialState: true },
     cues: [{ from: 0.12, to: 0.21, actions: ["light"] }],
   },
   "offense-outcomes": {
     id: "offense-outcomes",
-    label: "Real player hits → enemy light/heavy reactions and ordinary death",
+    label: "Real player hits → enemy heavy/light reactions and ordinary death",
     warmup: 0.5,
-    // The final hit lands around 5.37 s; retain the full 1.9 s authored fall
+    // The final hit lands around 4.4 s; retain the full 1.9 s authored fall
     // plus at least one second of the clamped prone outcome.
     duration: 8.4,
-    player: { ...REVIEW_PLAYER, poise: false },
-    // Staged at melee distance rather than at the review spacing.
-    //
-    // That spacing was chosen when an attack's authored lunge closed about
-    // 0.6 m of it on its own. Movement now comes from the clip's feet
-    // (`footAnchoredMotion`) and a sword's light attack steps 0.13 m, so an
-    // attacker who wants to be in range has to already be in range. This scene
-    // reviews *hit reactions*, so it is staged where they happen; whether the
-    // new spacing is the right thing to ask of a player is a feel question for
-    // playtest, and the switch that turns it off is in the debug panel.
-    enemy: { ...REVIEW_ENEMY, position: [0.5, Y, 0.5] as const, health: 62 },
+    // Staged for honest feet. The one-handed HEAVY pivots round its planted
+    // foot and carries the body 1.2 m to its RIGHT and 0.35 m back by the
+    // time the blade lands (measured from the clip's own sole track,
+    // `footAnchoredMotion`), and the blade itself sweeps 1.1-2.1 m to the
+    // right of where the swing started, at head height. An attack does not
+    // track its target (owner ruling 2026-09-04): the player commits from a
+    // position the moveset will carry them through. So the heavy is thrown
+    // first, UNLOCKED, at an enemy standing off the player's right shoulder —
+    // a locked-on heavy faces its target and can never land this swing — and
+    // the two lights follow locked on, from where the pivot leaves the body.
+    player: { position: [0, Y, 1.2] as const, yaw: Math.PI, poise: false },
+    enemy: {
+      ...FACING_ENEMY,
+      position: [1.6, Y, 1.1] as const,
+      yaw: Math.atan2(-1.6, 0.1),
+      health: 62,
+    },
     cues: [
-      { from: 0.05, to: 0.14, actions: ["lockOn"] },
-      { from: 0.25, to: 0.34, actions: ["light"] },
-      { from: 2.2, to: 2.29, actions: ["heavy"] },
-      { from: 4.3, to: 4.39, actions: ["light"] },
+      { from: 0.25, to: 0.34, actions: ["heavy"] },
+      { from: 1.9, to: 1.99, actions: ["lockOn"] },
+      { from: 2.2, to: 2.29, actions: ["light"] },
+      { from: 3.9, to: 3.99, actions: ["light"] },
     ],
   },
   "enemy-block": {
@@ -470,8 +506,8 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy guard → one real blade block and player recoil",
     warmup: 0.5,
     duration: 3.35,
-    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
-    enemy: FOCUSED_CONTACT_ENEMY,
+    player: { ...GUARD_CONTACT_PLAYER, emptyOffHand: true },
+    enemy: GUARD_CONTACT_ENEMY,
     cues: [
       // Swing late enough that the blade arrives after GUARD is established
       // and before the tactical hold expires. The light attack's contact was
@@ -489,8 +525,14 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // compressed 1.75s, so the recording has to stay open long enough to show
     // the player recover from it.
     duration: 4.5,
-    player: { ...FOCUSED_CONTACT_PLAYER, emptyOffHand: true },
-    enemy: FOCUSED_CONTACT_ENEMY,
+    // KNOWN FAILING since round 6 (0040 section 28): with the player's honest
+    // 8 cm lateral step during LIGHT_1 the blade reaches the parrying enemy's
+    // torso but not its raised catch volume at 1.0, 1.2, 1.54 or 1.74 m (all
+    // measured), and the one-outcome grace then lets neither the parry nor the
+    // hit resolve. Owner steer requested: a parry catches by timing (a blade
+    // reaching the body during the active catch counts) or by geometry.
+    player: { ...GUARD_CONTACT_PLAYER, emptyOffHand: true },
+    enemy: GUARD_CONTACT_ENEMY,
     cues: [{ from: 0.35, to: 0.44, actions: ["light"] }],
     enemyCues: [
       {
@@ -517,6 +559,10 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     label: "Enemy heavy intent → HEAVY_2 contact and recovery",
     warmup: 0.5,
     duration: 3.2,
+    // Starts beyond the lunge threshold, so the swing keeps its authored
+    // lunge for the whole wind-up (an attack decides feet-or-lunge once, when
+    // it starts); an enemy that starts in range would step back 0.58 m on
+    // HEAVY_2's own feet first.
     player: { ...FOCUSED_CONTACT_PLAYER, health: 150, poise: false },
     enemy: FOCUSED_CONTACT_ENEMY,
     cues: [],

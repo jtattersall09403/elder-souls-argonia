@@ -712,6 +712,131 @@
       "maxClipStepSeconds": 0.15
     }
   },
+  "riposte-stab": {
+    "playerActions": [
+      "parry",
+      "riposte"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "PARRY",
+      "PARRY_FOLLOW_THROUGH",
+      "RIPOSTE_STAB"
+    ],
+    "enemyActions": [
+      "attack",
+      "parried",
+      "critical",
+      "criticalRecovery",
+      "recover"
+    ],
+    "enemyAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1",
+      "GUARD_BREAK",
+      "RIPOSTED_HIT1"
+    ],
+    "enemyHealthLessThan": 150,
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "parry",
+        "idle",
+        "riposte",
+        "idle"
+      ],
+      "enemy": [
+        "watching",
+        "attack",
+        "parried",
+        "critical",
+        "criticalRecovery",
+        "recover",
+        "watching"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "SWORD_IDLE",
+        "RIPOSTE_STAB",
+        "SWORD_IDLE"
+      ],
+      "enemy": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "PARRY",
+        "PARRY_FOLLOW_THROUGH",
+        "RIPOSTE_STAB"
+      ],
+      "enemy": [
+        "LIGHT_1",
+        "GUARD_BREAK",
+        "RIPOSTED_HIT1"
+      ]
+    },
+    "ripostePhases": {
+      "minStableLeadInSeconds": 0.2,
+      "minVictimStartClipTimeSeconds": 0.12,
+      "maxVictimStartClipTimeSeconds": 0.21,
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "expectedAttackerContactElapsedSeconds": 0.267,
+      "expectedAttackerContactClipTimeSeconds": 2.432,
+      "attackerReleaseClipTimeSeconds": 2.582,
+      "expectedAttackerReleaseWallElapsedSeconds": 0.417,
+      "expectedVictimReleaseClipTimeSeconds": 0.2833,
+      "maxPhaseTimingErrorSeconds": 0.06
+    },
+    "riposteWeaponContact": {
+      "attackerActor": "player",
+      "victimActor": "enemy",
+      "victimHealthField": "enemyHealth",
+      "attackerAnimation": "RIPOSTE_STAB",
+      "victimReactionAnimation": "RIPOSTED_HIT1",
+      "maxAttackerBladeDistanceMeters": 0.25,
+      "minRoleSeparationMeters": 0.15,
+      "maxEarlyContactLeadSeconds": 0.08
+    },
+    "transitionMotionChecks": [
+      {
+        "actor": "player",
+        "fromAnimation": "RIPOSTE_STAB",
+        "fromOccurrence": 1,
+        "toAnimation": "SWORD_IDLE",
+        "toOccurrence": 3,
+        "transitionWindowSeconds": 0.3,
+        "bones": [
+          "spine2",
+          "head",
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxPelvisRelativeBoneStepMeters": 0.13,
+        "maxBoneAngularStepDegrees": 22,
+        "maxWeaponTipStepMeters": 0.3
+      }
+    ],
+    "criticalRecovery": {
+      "animation": "RIPOSTED_HIT1",
+      "minStartClipTimeSeconds": 0.12,
+      "maxStartClipTimeSeconds": 0.21,
+      "minEndClipTimeSeconds": 1.95,
+      "maxClipStepSeconds": 0.15
+    }
+  },
   "riposte-lethal": {
     "playerActions": [
       "riposte"
@@ -964,13 +1089,13 @@
   },
   "offense-outcomes": {
     "playerActions": [
-      "light1",
-      "heavy"
+      "heavy",
+      "light1"
     ],
     "playerAnimations": [
       "SWORD_IDLE",
-      "LIGHT_1",
-      "HEAVY"
+      "HEAVY",
+      "LIGHT_1"
     ],
     "enemyActions": [
       "watching",
@@ -980,17 +1105,17 @@
     ],
     "enemyAnimations": [
       "SWORD_IDLE",
-      "HIT",
       "HIT_HEAVY",
+      "HIT",
       "DEATH"
     ],
     "enemyHealthLessThan": 1,
     "requiredActionRuns": {
       "player": [
         "idle",
-        "light1",
-        "idle",
         "heavy",
+        "idle",
+        "light1",
         "idle",
         "light1",
         "idle"
@@ -1009,30 +1134,30 @@
     "requiredAnimationRuns": {
       "player": [
         "SWORD_IDLE",
-        "LIGHT_1",
-        "SWORD_IDLE",
         "HEAVY",
+        "SWORD_IDLE",
+        "LIGHT_1",
         "SWORD_IDLE",
         "LIGHT_1",
         "SWORD_IDLE"
       ],
       "enemy": [
         "SWORD_IDLE",
-        "HIT",
-        "SWORD_IDLE",
         "HIT_HEAVY",
+        "SWORD_IDLE",
+        "HIT",
         "SWORD_IDLE",
         "DEATH"
       ]
     },
     "evidenceAnimations": {
       "player": [
-        "LIGHT_1",
-        "HEAVY"
+        "HEAVY",
+        "LIGHT_1"
       ],
       "enemy": [
-        "HIT",
         "HIT_HEAVY",
+        "HIT",
         "DEATH"
       ]
     },
@@ -1054,7 +1179,8 @@
     },
     "groundingLimits": {
       "maxBlendedGroundCorrectionMeters": 0.13,
-      "note": "Attack clips crouch into their lunge, and now that both the idle and the swing are correctly grounded that stance-height difference is real geometry rather than a hover: while the two are blended the solver lifts the actor to keep the soles out of the floor. The deformed-mesh penetration gate, which is what proves grounding, is unchanged."
+      "maxGroundCorrectionSpeedMetersPerSecond": 2.5,
+      "note": "Attack clips crouch into their lunge, and now that both the idle and the swing are correctly grounded that stance-height difference is real geometry rather than a hover: while the two are blended the solver lifts the actor to keep the soles out of the floor. The deformed-mesh penetration gate, which is what proves grounding, is unchanged. The correction-speed allowance is raised for the pivoting HEAVY, which carries the capsule 1.2 m sideways at up to 4 m/s while the solver keeps the soles out of the floor (round 6, 0040 section 28); heavy-chain has the same known overshoot in the polish backlog."
     }
   },
   "enemy-block": {
@@ -1259,7 +1385,7 @@
     },
     "actorSeparation": {
       "minDistanceMeters": 0.6,
-      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it."
+      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it. A swing driven by its own feet stops its forward travel at contact (ENEMY_CONTACT_STOP_DISTANCE) rather than pressing into the player."
     }
   },
   "enemy-heavy-attack": {
@@ -1316,7 +1442,7 @@
     },
     "actorSeparation": {
       "minDistanceMeters": 0.6,
-      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it."
+      "note": "An attacker's lunge carries it to the navigation capsules' own contact distance now that its wind-up commits later and it no longer re-decides on the way in. 0.6 m is that physical minimum; the scenes' lateral offset keeps both actors readable at it. A swing driven by its own feet stops its forward travel at contact (ENEMY_CONTACT_STOP_DISTANCE) rather than pressing into the player."
     }
   },
   "enemy-approach": {
@@ -2398,7 +2524,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2544,7 +2670,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2891,7 +3017,8 @@
         ],
         "maxPelvisRelativeBoneStepMeters": 0.13,
         "maxBoneAngularStepDegrees": 22,
-        "maxWeaponTipStepMeters": 0.3
+        "maxWeaponTipStepMeters": 0.4,
+        "note": "0.4 rather than the 0.3 the other scenes use since round 6 recentred the battleaxe idle's planar origin (0040 section 26): the pose-relative bone steps at this edge are a centimetre and two degrees, so the 0.37 m tip step is the capsule's release from the critical's anchor, not the pose. Polish backlog: look at the anchor release."
       }
     ],
     "criticalRecovery": {

@@ -84,6 +84,9 @@ class AnimationSpec:
     playback_start_time: float | None = None
     playback_end_time: float | None = None
     preserve_root_motion: bool = False
+    #: With preserve_root_motion: subtract the planar mean of the root chain so
+    #: a stationary loop shares the attack clips' origin (no slide on entry).
+    recentre_root_motion: bool = False
     #: Opt out of the default "keep the authored vertical COM channel" policy.
     #: Only correct when the physics controller owns the clip's height.
     strip_vertical_root_motion: bool = False
@@ -435,6 +438,8 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
             raise ValueError(
                 f"{semantic}: pack {pack!r} is not declared in the config's 'packs'"
             )
+        if entry.get("recentreRootMotion", False) and not entry.get("preserveRootMotion", False):
+            raise ValueError(f"{semantic}: recentreRootMotion requires preserveRootMotion")
         explicit_axes = entry.get("preserveRootMotionAxes")
         if explicit_axes is not None:
             if entry.get("stripVerticalRootMotion", False):
@@ -541,6 +546,7 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
                     else entry["source"].split("/")[-1]
                 ),
                 preserve_root_motion=entry.get("preserveRootMotion", False),
+                recentre_root_motion=entry.get("recentreRootMotion", False),
                 strip_vertical_root_motion=entry.get("stripVerticalRootMotion", False),
                 preserve_root_motion_axes=tuple(explicit_axes or ()),
                 support_mode=support_mode,

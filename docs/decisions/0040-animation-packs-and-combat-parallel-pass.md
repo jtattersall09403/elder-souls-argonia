@@ -525,3 +525,119 @@ job in the polish backlog, not a runtime rule.
 Also recorded this round: the inventory UI is a working draft, not a finalised
 exemplar (owner 2026-09-03) — noted on the HUD & UI row of
 [game-buildout-register.md](../game-buildout-register.md).
+
+# Round 6 (2026-09-04) — the owner's round-5 playtest list
+
+## 24. Every arrow flew tail first, and an arrow now flies a plain arc
+
+The arrow meshes were measured rather than assumed: on every shaft in the set
+the flat broadhead vertices cluster at the high-Z end and the three vanes at
+z = −0.75, and both the projectile and the nocked shaft turned the model a
+half turn on the assumption that the point was at the *other* end. So every
+arrow — the player's as well as the archer's — left the string feathers
+first, which under the aerodynamic model of §20 also meant the restoring
+torque was fighting the shaft round through 180° on every shot: the "tumble".
+Owner ruling: no drag, no torque, no damping — an arrow is a rigid body under
+gravity whose rotation is locked and whose attitude is set from its velocity
+every physics step (`flightAttitude`), head leading, tail tracing the arc. The
+archer's elevation solver is now the closed-form vacuum solution, so it aims
+under the same physics the arrow flies.
+
+## 25. An archer shoots where its bow points, from the string
+
+Arrows left the archer from a point near its eye along the *bearing to the
+player*, whatever the body was facing. Now an enemy archer carries a nocked
+shaft on the string through its draw (the same `NockedArrow` the player has),
+the upper body leans to the solved elevation (`aimPitchRef`, previously player
+only), the loose waits at full draw — up to 1.2 s — for the turn to bring the
+facing within 3.4° of the target, and the shot leaves from the nock along the
+facing. The player's shot leaves from the nock too, not from the eye. The bow
+*string* still does not move: see the sourcing job in the polish backlog —
+vanilla bows are skinned to their own seven-bone skeleton with authored draw
+clips, and the pipeline flattens them.
+
+## 26. The two-handed 10 cm slide was the idle's own origin
+
+The greatsword and battleaxe *idle* clips carry a constant planar root
+offset of 7.6 × 14.9 cm (the one-handed guard 7.5 × 18 cm, the crouch idle
+5 cm); every attack clip has its planar root motion consumed to zero. So on
+entering a swing the mesh slid across the offset and slid back on the way out
+— the reported diagonal foot slide, seen on the two-handers because their idle
+offset is fifty times the sword idle's 0.3 cm. The pipeline now recentres the
+planar root chain of every stationary loop that preserves its root motion
+(`recentreRootMotion`; sway kept, constant removed; all ten preserved clips).
+All seven packs change bytes for it, deliberately. The guard clips carried an
+18 × 8 cm offset of their own; against the honestly placed guard the sword's
+light attack registers at 1.2 m and not at 1.54 or 1.74 m (all three
+measured), so the three scenes in which the player's light attack reaches a
+guarding or parrying enemy now start at 1.2 m (`GUARD_CONTACT_*`). Why the
+old offset let the same swing register at 1.74 m is not understood and is
+noted in the polish backlog.
+
+## 27. Every main-hand weapon was held back to front
+
+Owner report: the war axe leads with its poll, the scimitar's edge faces the
+wielder. Confirmed on the rig rather than by eye: the war axe's bit (+X in the
+built mesh, the wider side of the head) points at −0.96 against the hand's
+wrist-to-knuckle direction, i.e. into the wrist; a blow leads with the
+knuckles. A half turn about the long axis (`MAIN_HAND_NODE_HALF_TURN`) is now
+the default held rotation on the `Weapon` node, the same fact §14 recorded
+about the `Shield` node. Symmetrical weapons are unaffected, which is why it
+went unnoticed; hit and parry capsules are Z-symmetric in the object's frame
+and unaffected.
+
+## 28. Honest feet, all of it: the pivot is applied and the scenes restaged
+
+Owner ruling on §23: the body pivots round its planted foot even where that
+carries it metres — the player positions for the swing they committed to; an
+attack does not track its target. The whole measured track (forward and
+lateral, uncapped) now drives both player and enemy swings. The lateral sign
+was verified by reproducing the pipeline's track from the shipped GLB:
+STRAFE_LEFT integrates to +0.98 m in the GLB's +X, so +X is the actor's left,
+and the one-handed HEAVY carries the body 1.79 m to its right and 0.35 m back
+(manifest: −1.815, +0.320). Its blade sweeps 1.1–2.1 m to the right of the
+start, at head height, so a *locked-on* one-handed heavy can never land: the
+`offense-outcomes` scene now throws it unlocked at an enemy off the right
+shoulder and follows with the lights locked on. An enemy decides feet-or-
+lunge **once, when the swing starts**: switching to the feet as the lunge
+closed the range let HEAVY_2's authored 0.58 m back-step walk the enemy out
+of the reach it had just bought, and the lunge now stops at the threshold
+instead of driving the capsules into contact. Enemy AI does not yet plan for
+the track's displacement (backlog).
+
+## 29. Locked-on speed follows the clip
+
+Round 5 scaled the strafe clips' cadence to a fixed 3.0 m/s locked walk. The
+owner wants it the other way round, as the crouch already is: the speed is
+the clip's authored ground speed (WALK 0.89, WALK_BACK 0.69, strafes ~0.8 m/s),
+so the planted foot is the anchor by construction. Behind the "Locked-on
+speed follows the strafe clips" switch (default on) because it is a large feel
+change the owner should be able to compare in one session.
+
+## 30. The stabbing riposte ships behind a switch
+
+`RIPOSTE_STAB` (Rim's dagger execution, source 2.165–3.298 s, strike 2.432 s,
+the round-5 audition's numbers) is in the criticals pack and swapped in for
+every weapon whose riposte is the authored `RIPOSTE` thrust (sword, dagger)
+by `withStabRiposte` when the "Stabbing riposte" switch is on (default on).
+The round-5 mystery — `greatsword-riposte` regressing to 0.48 m when the
+criticals pack changed — did **not** reproduce: `greatsword-riposte` passes
+against the new pack, and `riposte-stab` passes its own scene.
+
+## 31. The body turns with the camera while aiming
+
+With `lockForward` off the controller only turns the body when there is
+movement input, so an archer standing still could swing the crosshair round
+while the bow kept pointing where it was — the reported "bow arm does not
+follow the camera". Aiming now locks the facing to the camera yaw every step
+and movement becomes strafing about the aim.
+
+## 32. A first-person bow rig is a sourcing job, and a bounded one
+
+§21 rejected a Skyrim first-person rig as "a second animation set for every
+weapon". The owner is right that it would be for bows only. What vanilla
+ships (listed from the BSAs this round): 702 first-person clips including the
+complete bow set (`_1stperson/animations/bow_*.hkx`, `bowdrawn_*.hkx`), the
+first-person skeleton (`_1stperson/skeleton.nif`), and first-person body and
+hand meshes per race. Recorded in the polish backlog with paths and a build
+outline; not attempted this round.
