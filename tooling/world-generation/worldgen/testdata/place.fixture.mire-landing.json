@@ -11,88 +11,490 @@
       "pressures": "Wet season lifts the water 1.4 m; the Imperial factor and the local clan both claim the tolls.",
       "wouldChangeIf": "The channel silts, or the road is pushed a mile downstream."
     },
-    "boundary": [[0.4700, 0.6100], [0.4760, 0.6100], [0.4770, 0.6160], [0.4700, 0.6165]],
+    "boundary": [
+      [
+        0.47,
+        0.61
+      ],
+      [
+        0.476,
+        0.61
+      ],
+      [
+        0.477,
+        0.616
+      ],
+      [
+        0.47,
+        0.6165
+      ]
+    ],
     "districts": [
       {
-        "id": "d.landing",
+        "id": "district.mire-landing.landing",
         "kind": "waterfront",
         "cultureKit": "argonian",
         "wealth": "poor",
-        "boundary": [[0.4705, 0.6105], [0.4738, 0.6105], [0.4738, 0.6138], [0.4705, 0.6138]],
+        "boundary": [
+          [
+            0.4705,
+            0.6105
+          ],
+          [
+            0.4738,
+            0.6105
+          ],
+          [
+            0.4738,
+            0.6138
+          ],
+          [
+            0.4705,
+            0.6138
+          ]
+        ],
         "notes": "Stilt row over the shallows, boardwalk spine along the bank."
       },
       {
-        "id": "d.factor",
+        "id": "district.mire-landing.factor",
         "kind": "trade",
         "cultureKit": "imperial",
         "wealth": "middling",
-        "boundary": [[0.4742, 0.6108], [0.4766, 0.6108], [0.4766, 0.6140], [0.4742, 0.6140]],
+        "boundary": [
+          [
+            0.4742,
+            0.6108
+          ],
+          [
+            0.4766,
+            0.6108
+          ],
+          [
+            0.4766,
+            0.614
+          ],
+          [
+            0.4742,
+            0.614
+          ]
+        ],
         "notes": "Factor's yard and warehouse — stone sills, never blended with the stilt kit."
       }
     ],
     "routes": [
-      { "id": "r.approach", "kind": "road", "points": [[0.4770, 0.6155], [0.4752, 0.6142], [0.4744, 0.6124]], "widthM": 3.5 }
+      {
+        "id": "route.mire-landing.approach",
+        "kind": "road",
+        "points": [
+          [
+            0.477,
+            0.6155
+          ],
+          [
+            0.4752,
+            0.6142
+          ],
+          [
+            0.4744,
+            0.6124
+          ]
+        ],
+        "widthM": 3.5
+      }
     ],
     "canals": [
-      { "id": "c.channel", "kind": "canal", "points": [[0.4698, 0.6152], [0.4716, 0.6136], [0.4734, 0.6114]], "widthM": 9.0 }
+      {
+        "id": "canal.mire-landing.channel",
+        "kind": "canal",
+        "points": [
+          [
+            0.4698,
+            0.6152
+          ],
+          [
+            0.4716,
+            0.6136
+          ],
+          [
+            0.4734,
+            0.6114
+          ]
+        ],
+        "widthM": 9.0
+      }
     ],
     "boardwalks": [
-      { "id": "b.spine", "kind": "boardwalk", "points": [[0.4708, 0.6134], [0.4724, 0.6122], [0.4740, 0.6114]], "widthM": 2.0 }
+      {
+        "id": "boardwalk.mire-landing.spine",
+        "kind": "boardwalk",
+        "points": [
+          [
+            0.4708,
+            0.6134
+          ],
+          [
+            0.4724,
+            0.6122
+          ],
+          [
+            0.474,
+            0.6114
+          ]
+        ],
+        "widthM": 2.0
+      }
     ],
     "parcels": [
-      { "id": "p.hut-1", "districtId": "d.landing", "use": "dwelling", "buildingFamily": "argonian-stilt-hut",
-        "groundFit": "stilt", "footprint": [[0.4710, 0.6128], [0.4716, 0.6128], [0.4716, 0.6133], [0.4710, 0.6133]] },
-      { "id": "p.hut-2", "districtId": "d.landing", "use": "dwelling", "buildingFamily": "argonian-stilt-hut",
-        "groundFit": "stilt", "footprint": [[0.4718, 0.6124], [0.4724, 0.6124], [0.4724, 0.6129], [0.4718, 0.6129]] },
-      { "id": "p.drying-rack", "districtId": "d.landing", "use": "work", "buildingFamily": "argonian-rack",
-        "groundFit": "pad", "footprint": [[0.4712, 0.6118], [0.4718, 0.6118], [0.4718, 0.6121], [0.4712, 0.6121]] },
-      { "id": "p.warehouse", "districtId": "d.factor", "use": "storage", "buildingFamily": "imperial-warehouse",
-        "groundFit": "plinth", "footprint": [[0.4746, 0.6116], [0.4757, 0.6116], [0.4757, 0.6124], [0.4746, 0.6124]] },
-      { "id": "p.factor-house", "districtId": "d.factor", "use": "dwelling", "buildingFamily": "imperial-townhouse",
-        "groundFit": "direct", "footprint": [[0.4748, 0.6128], [0.4756, 0.6128], [0.4756, 0.6134], [0.4748, 0.6134]] }
+      {
+        "id": "parcel.mire-landing.hut-1",
+        "districtId": "district.mire-landing.landing",
+        "use": "dwelling",
+        "buildingFamily": "argonian-stilt-hut",
+        "groundFit": "stilt",
+        "footprint": [
+          [
+            0.471,
+            0.6128
+          ],
+          [
+            0.4716,
+            0.6128
+          ],
+          [
+            0.4716,
+            0.6133
+          ],
+          [
+            0.471,
+            0.6133
+          ]
+        ]
+      },
+      {
+        "id": "parcel.mire-landing.hut-2",
+        "districtId": "district.mire-landing.landing",
+        "use": "dwelling",
+        "buildingFamily": "argonian-stilt-hut",
+        "groundFit": "stilt",
+        "footprint": [
+          [
+            0.4718,
+            0.6124
+          ],
+          [
+            0.4724,
+            0.6124
+          ],
+          [
+            0.4724,
+            0.6129
+          ],
+          [
+            0.4718,
+            0.6129
+          ]
+        ]
+      },
+      {
+        "id": "parcel.mire-landing.drying-rack",
+        "districtId": "district.mire-landing.landing",
+        "use": "work",
+        "buildingFamily": "argonian-rack",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.4712,
+            0.6118
+          ],
+          [
+            0.4718,
+            0.6118
+          ],
+          [
+            0.4718,
+            0.6121
+          ],
+          [
+            0.4712,
+            0.6121
+          ]
+        ]
+      },
+      {
+        "id": "parcel.mire-landing.warehouse",
+        "districtId": "district.mire-landing.factor",
+        "use": "storage",
+        "buildingFamily": "imperial-warehouse",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.4746,
+            0.6116
+          ],
+          [
+            0.4757,
+            0.6116
+          ],
+          [
+            0.4757,
+            0.6124
+          ],
+          [
+            0.4746,
+            0.6124
+          ]
+        ]
+      },
+      {
+        "id": "parcel.mire-landing.factor-house",
+        "districtId": "district.mire-landing.factor",
+        "use": "dwelling",
+        "buildingFamily": "imperial-townhouse",
+        "groundFit": "direct",
+        "footprint": [
+          [
+            0.4748,
+            0.6128
+          ],
+          [
+            0.4756,
+            0.6128
+          ],
+          [
+            0.4756,
+            0.6134
+          ],
+          [
+            0.4748,
+            0.6134
+          ]
+        ]
+      }
     ],
     "landmarks": [
-      { "id": "l.hist-shoot", "kind": "hist-tree", "position": [0.4731, 0.6141], "assetRef": "flora.hist.shoot", "notes": "Kept, never cleared — the settlement bends around it." }
+      {
+        "id": "landmark.mire-landing.hist-shoot",
+        "kind": "hist-tree",
+        "position": [
+          0.4731,
+          0.6141
+        ],
+        "assetRef": "flora.hist.shoot",
+        "notes": "Kept, never cleared — the settlement bends around it."
+      }
     ],
     "docks": [
-      { "id": "dk.main", "position": [0.4719, 0.6135], "waterBodyId": "water.channel.mire", "piledToBed": true }
+      {
+        "id": "dock.mire-landing.main",
+        "position": [
+          0.4719,
+          0.6135
+        ],
+        "waterBodyId": "water.channel.mire",
+        "piledToBed": true
+      }
     ],
     "combatSpaces": [
-      { "id": "cs.yard", "boundary": [[0.4744, 0.6126], [0.4760, 0.6126], [0.4760, 0.6138], [0.4744, 0.6138]], "clearanceClass": "open" }
+      {
+        "id": "combat.mire-landing.yard",
+        "boundary": [
+          [
+            0.4744,
+            0.6126
+          ],
+          [
+            0.476,
+            0.6126
+          ],
+          [
+            0.476,
+            0.6138
+          ],
+          [
+            0.4744,
+            0.6138
+          ]
+        ],
+        "clearanceClass": "open"
+      }
     ],
     "questSockets": [
-      { "id": "qs.ledger", "kind": "evidence", "position": [0.4751, 0.6120], "parcelId": "p.warehouse", "ownerQuestTier": 2 },
-      { "id": "qs.poler", "kind": "npc", "position": [0.4721, 0.6133], "ownerQuestTier": 3 }
+      {
+        "id": "socket.mire-landing.ledger",
+        "kind": "evidence",
+        "position": [
+          0.4751,
+          0.612
+        ],
+        "parcelId": "parcel.mire-landing.warehouse",
+        "ownerQuestTier": 2
+      },
+      {
+        "id": "socket.mire-landing.poler",
+        "kind": "npc",
+        "position": [
+          0.4721,
+          0.6133
+        ],
+        "ownerQuestTier": 3
+      }
     ],
     "doors": [
-      { "id": "door.fixture.mire-landing.1", "parcelId": "p.hut-1", "facingDeg": 200, "thresholdUV": [0.4713, 0.6133],
-        "interiorClaim": { "sizeClass": "small", "culture": "argonian", "owner": "poler family" } },
-      { "id": "door.fixture.mire-landing.2", "parcelId": "p.warehouse", "facingDeg": 20, "thresholdUV": [0.4751, 0.6116],
-        "interiorClaim": { "sizeClass": "large", "culture": "imperial", "owner": "the factor" } },
-      { "id": "door.fixture.mire-landing.3", "parcelId": "p.factor-house", "facingDeg": 270, "thresholdUV": [0.4748, 0.6131],
-        "interiorClaim": { "sizeClass": "medium", "culture": "imperial" } }
+      {
+        "id": "door.fixture.mire-landing.1",
+        "parcelId": "parcel.mire-landing.hut-1",
+        "facingDeg": 200,
+        "thresholdUV": [
+          0.4713,
+          0.6133
+        ],
+        "interiorClaim": {
+          "sizeClass": "small",
+          "culture": "argonian",
+          "owner": "poler family"
+        }
+      },
+      {
+        "id": "door.fixture.mire-landing.2",
+        "parcelId": "parcel.mire-landing.warehouse",
+        "facingDeg": 20,
+        "thresholdUV": [
+          0.4751,
+          0.6116
+        ],
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "imperial",
+          "owner": "the factor"
+        }
+      },
+      {
+        "id": "door.fixture.mire-landing.3",
+        "parcelId": "parcel.mire-landing.factor-house",
+        "facingDeg": 270,
+        "thresholdUV": [
+          0.4748,
+          0.6131
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "imperial"
+        }
+      }
     ],
     "clearance": {
-      "hardClear": [[[0.4744, 0.6112], [0.4760, 0.6112], [0.4760, 0.6140], [0.4744, 0.6140]]],
-      "thinned": [[[0.4702, 0.6104], [0.4744, 0.6104], [0.4744, 0.6144], [0.4702, 0.6144]]],
+      "hardClear": [
+        [
+          [
+            0.4744,
+            0.6112
+          ],
+          [
+            0.476,
+            0.6112
+          ],
+          [
+            0.476,
+            0.614
+          ],
+          [
+            0.4744,
+            0.614
+          ]
+        ]
+      ],
+      "thinned": [
+        [
+          [
+            0.4702,
+            0.6104
+          ],
+          [
+            0.4744,
+            0.6104
+          ],
+          [
+            0.4744,
+            0.6144
+          ],
+          [
+            0.4702,
+            0.6144
+          ]
+        ]
+      ],
       "kept": [
-        { "id": "k.hist", "kind": "hist-tree", "position": [0.4731, 0.6141] },
-        { "id": "k.reeds", "kind": "reed-bed", "position": [0.4706, 0.6146] }
+        {
+          "id": "kept.mire-landing.hist",
+          "kind": "hist-tree",
+          "position": [
+            0.4731,
+            0.6141
+          ]
+        },
+        {
+          "id": "kept.mire-landing.reeds",
+          "kind": "reed-bed",
+          "position": [
+            0.4706,
+            0.6146
+          ]
+        }
       ]
     },
     "variants": [
-      { "id": "v.flooded", "changedRefs": ["p.drying-rack"], "serviceOverrides": { "dk.main": "closed" }, "ambience": "wet-season" }
+      {
+        "id": "variant.mire-landing.flooded",
+        "changedRefs": [
+          "parcel.mire-landing.drying-rack"
+        ],
+        "serviceOverrides": {
+          "dock.mire-landing.main": "closed"
+        },
+        "ambience": "wet-season"
+      }
     ],
     "travelServices": [
-      { "id": "ts.ferry-downstream", "kind": "ferry", "toPlaceId": "place.fixture.other-bank", "timetable": "dawn and dusk" }
+      {
+        "id": "travel.mire-landing.ferry-downstream",
+        "kind": "ferry",
+        "toPlaceId": "place.fixture.other-bank",
+        "timetable": "dawn and dusk"
+      }
     ],
     "occupants": [
-      { "slotId": "o.factor", "ladderRef": "capable-d2 merchant", "cultureRole": "imperial factor", "ownerFaction": "faction.fixture.east-empire" },
-      { "slotId": "o.poler-1", "ladderRef": "modest-d2 boatman", "cultureRole": "poler" },
-      { "slotId": "o.poler-2", "ladderRef": "modest-d2 boatman", "cultureRole": "poler" }
+      {
+        "slotId": "o.factor",
+        "ladderRef": "capable-d2 merchant",
+        "cultureRole": "imperial factor",
+        "ownerFaction": "faction.fixture.east-empire"
+      },
+      {
+        "slotId": "o.poler-1",
+        "ladderRef": "modest-d2 boatman",
+        "cultureRole": "poler"
+      },
+      {
+        "slotId": "o.poler-2",
+        "ladderRef": "modest-d2 boatman",
+        "cultureRole": "poler"
+      }
     ],
-    "assetConstraints": ["argonian stilt kit only in d.landing", "imperial stone-timber only in d.factor"],
-    "ownership": { "qs.ledger": { "owner": "the factor", "valueTier": "modest" } },
-    "budget": { "maxInstances": 900, "maxUniqueMaterials": 24, "maxTextureMB": 48, "maxColliders": 260 }
+    "assetConstraints": [
+      "argonian stilt kit only in d.landing",
+      "imperial stone-timber only in d.factor"
+    ],
+    "ownership": {
+      "socket.mire-landing.ledger": {
+        "owner": "the factor",
+        "valueTier": "modest"
+      }
+    },
+    "budget": {
+      "maxInstances": 900,
+      "maxUniqueMaterials": 24,
+      "maxTextureMB": 48,
+      "maxColliders": 260
+    }
   }
 }

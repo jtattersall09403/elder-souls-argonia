@@ -25,12 +25,12 @@ The Owing, audited then burned.
 
 | ID | Title | Region | Shapes | Premise | Anchor places | Status |
 |---|---|---|---|---|---|---|
-| BC01 | Four Months for a Boat | dunmer-north | `BONDAGE` | An Owing assessed at four nushmeekos has run eleven years; the arithmetic is correct at every step | `dunmer-north.the-dres-rows`<br>`pirate-freeholds.corimont-hiring-yard` | live |
-| BC02 | Names Scratched Out | imperial-penal-south | `MISSING`, `FRAUD` | Burnt registers and estate ledgers are the same class of document; reading them finds people still held | — | live |
-| BC03 | The Broker's Mercy | dunmer-north | `RECKONING`, `BONDAGE` | A man who forgave debts for thirty years built the brokerage that now indentures two dock crews | `dunmer-north.the-freed-rows`<br>`imperial-penal-south.chainbreaker-shelter` | live |
+| BC01 | Four Months for a Boat | dunmer-north | `BONDAGE` | An Owing assessed at four nushmeekos has run eleven years without an error in the arithmetic | `dunmer-north.the-dres-rows`<br>`pirate-freeholds.corimont-hiring-yard` | live |
+| BC02 | Names Scratched Out | imperial-penal-south | `MISSING`, `FRAUD` | Burnt registers and estate ledgers are the same class of document. Read together they name people still held | — | live |
+| BC03 | The Broker's Mercy | dunmer-north | `RECKONING`, `BONDAGE` | A man forgave debts for thirty years. The brokerage he built now indentures two dock crews | `dunmer-north.the-freed-rows`<br>`imperial-penal-south.chainbreaker-shelter` | live |
 | BC04 | Riot Without a Banner | imperial-penal-south | `DISPUTE`, `BONDAGE` | An uprising inside the Rose is being prepared by factions with incompatible aims | `imperial-penal-south.rose-outworks` | live |
-| BC05 | Bones to the Dirt | imperial-penal-south | `RITE`, `RECKONING` | White Rose Prison is full of Argonian dead who died mid-Owing, far from their Hist | `imperial-penal-south.rose-bone-waystation`<br>`mercantile-coast.white-rose-prison` | live |
-| BC06 | What the Rose Becomes | imperial-penal-south | `NEGOTIATION`, `SUCCESSION` | Four ends for the Rose, of which the interesting ones are about assessment itself | — | live |
+| BC05 | Bones to the Dirt | imperial-penal-south | `RITE`, `RECKONING` | White Rose Prison holds the graves of Argonians who died mid-Owing, far from their Hist | `imperial-penal-south.rose-bone-waystation`<br>`mercantile-coast.white-rose-prison` | live |
+| BC06 | What the Rose Becomes | imperial-penal-south | `NEGOTIATION`, `SUCCESSION` | Four ends for the Rose, several of them turning on how assessment itself is done | — | live |
 
 ## League of Open Water (LW)
 
@@ -43,9 +43,9 @@ Citizenship and property in the mixed cities.
 | LW03 | Bread and Salt | saxhleel-coast | `FRAUD`, `DISPUTE` | Shortages are blamed on outsiders while merchants warehouse the supply | — | live |
 | LW04 | The Murdered Delegate | saxhleel-coast | `MURDER`, `FRAUD` | A delegate's killing looks ethnic; the victim was exposing League financiers | — | live |
 | LW05 | Trial by Water | saxhleel-coast | `RITE`, `DISPUTE` | A traditional ordeal is demanded in a mixed city court | — | live |
-| LW06 | The Empty Ward | saxhleel-coast | `DISPUTE`, `SUCCESSION` | A district evacuated for disease stays legally occupied by absent owners while refugees move in | — | live |
+| LW06 | The Empty Ward | saxhleel-coast | `DISPUTE`, `SUCCESSION` | A district evacuated for disease stays legally occupied by absent owners while refugees settle in its houses | — | live |
 | LW07 | A Vote Bought Twice | saxhleel-coast | `FRAUD`, `NEGOTIATION` | Two blocs bribe the same electors using different definitions of corruption | — | live |
-| LW08 | The Public Canal | saxhleel-coast | `NEGOTIATION`, `RITE` | A canal improves sanitation and trade, cuts a sacred route; displaces households | — | live |
+| LW08 | The Public Canal | saxhleel-coast | `NEGOTIATION`, `RITE` | A canal improves sanitation and trade. It also cuts a sacred route and displaces households | — | live |
 | LW09 | The Open Water Charter | saxhleel-coast | `NEGOTIATION`, `DISPUTE` | Reformers, merchants and civic officers negotiate a new charter against prior cases | — | live |
 | LW10 | Who Counts as Argonian? | saxhleel-coast | `SUCCESSION`, `RECKONING` | A plural civic movement, a merchant oligarchy, a municipal service, or collapse | — | live |
 
@@ -55,7 +55,7 @@ Consent, ecology and stewardship: discovered in danger, decided in council.
 
 | ID | Title | Region | Shapes | Premise | Anchor places | Status |
 |---|---|---|---|---|---|---|
-| MR01 | The Sick Root | hist-heartland | `CONTAMINATION`, `EXPEDITION` | A Hist is dying and the village blames upstream salt, so the diagnosis is a dive | `hist-heartland.greenspring`<br>`hist-heartland.root-gallery-drowned-stair` | live |
+| MR01 | The Sick Root | hist-heartland | `CONTAMINATION`, `EXPEDITION` | A Hist is dying and the village blames upstream salt, so the diagnosis has to be made underwater | `hist-heartland.greenspring`<br>`hist-heartland.root-gallery-drowned-stair` | live |
 | MR02 | Eggs Above the Flood | dunmer-north | `EXPEDITION`, `RITE` | The nursery floods tonight, so a threatened clutch goes out by boat in the dark | `dunmer-north.hatching-pools` | live |
 | MR03 | The Borrowed Tree | imperial-fringe | `SUCCESSION`, `DISPUTE` | Gideon's Hist is a planted cutting of disputed provenance, claimed by a Gloommire tribe | `imperial-fringe.gideon`<br>`imperial-fringe.twyllbek-ruins` | live |
 | MR04 | Sap for Sale | hist-heartland | `BONDAGE`, `FRAUD` | A legal medicinal sap trade hides coercive night harvesting by Owing-held crews | `hist-heartland.harmed-hist-tapped`<br>`hist-heartland.poacher-camp-sap`<br>`hist-heartland.sap-tapping-licensed` | live |
@@ -63,7 +63,7 @@ Consent, ecology and stewardship: discovered in danger, decided in council.
 | MR06 | Root Against Road | hist-heartland | `DISPUTE`, `RITE` | A causeway cuts living roots and burial ground, then a span fails while the parties argue | `hist-heartland.walkway-junction-high-crossroads` | live |
 | MR07 | The Tree That Chose Another | hist-heartland | `SUCCESSION`, `WONDER` | A Hist speaks more clearly to a channel-digger than to its appointed Tree-Minder | `hist-heartland.officeholder-tree-minder-house` | live |
 | MR08 | Council of Many Roots | hist-heartland | `NEGOTIATION`, `PREDATOR` | The Conclave's great council cannot convene, because each delegation is stuck for a different reason | `hist-heartland.helstrom`<br>`hist-heartland.root-talk-ground` | live |
-| MR09 | The Price of Guidance | imperial-penal-south | `RECKONING`, `CONTAMINATION` | A Tree-Minder hid a flood warning, saved some people; moved the boundary stakes first | `imperial-penal-south.lake-drowned-village` | live |
+| MR09 | The Price of Guidance | imperial-penal-south | `RECKONING`, `CONTAMINATION` | A Tree-Minder hid a flood warning and saved some people. He had moved the boundary stakes beforehand | `imperial-penal-south.lake-drowned-village` | live |
 | MR10 | No Tree Owns the Marsh | hist-heartland | `DISPUTE`, `NEGOTIATION` | Mid-ratification, a chartered crew is taking a cutting under paper the mid-game reform issued | — | live |
 
 ## Marsh Charter (FG)
@@ -77,9 +77,9 @@ Native tradition against a foreign chartered defence.
 | FG03 | Wamasu Season | imperial-fringe | `PREDATOR`, `DISPUTE` | A juvenile Wamasu threatens farms because hunters killed its prey then took its eggs | — | live |
 | FG04 | The Beast in the Ledger | imperial-fringe | `FRAUD`, `PREDATOR` | Several villages were billed for the same slain creature | — | live |
 | FG05 | A Fort Paid Twice | imperial-fringe | `DISPUTE`, `NEGOTIATION` | Two communities financed one fort restoration, so the commander plans to abandon the poorer | `imperial-fringe.fort-swampmoth`<br>`imperial-fringe.swampmoth-town` | live |
-| FG06 | Mercy for a Monster | imperial-fringe | `CONTAMINATION`, `DISPUTE` | An Argonian transformed by disease keeps reason intermittently, so cure, containment and execution are all argued | — | live |
+| FG06 | Mercy for a Monster | imperial-fringe | `CONTAMINATION`, `DISPUTE` | An Argonian transformed by disease keeps reason intermittently, so the village argues cure, containment and execution | — | live |
 | FG07 | The Price of Protection | imperial-fringe | `PREDATOR`, `FRAUD` | Local officers encourage bandits to keep villages dependent on charter contracts | `imperial-fringe.the-broke-column` | live |
-| FG08 | Charter War | imperial-fringe | `NEGOTIATION`, `DISPUTE` | Reformers, mercenary captains and the Four Winds compete over what the Charter is for | `imperial-fringe.stonewastes` | live |
+| FG08 | Charter War | imperial-fringe | `NEGOTIATION`, `DISPUTE` | Reformers, mercenary captains and the Four Winds compete over the Charter's purpose | `imperial-fringe.stonewastes` | live |
 | FG09 | Signed Elsewhere, Served Here | imperial-fringe | `DISPUTE`, `FRAUD` | An extermination order targets a marsh community for sitting on water the client wants; Halvar the Damp reads the order aloud before he signs it | — | live |
 | FG10 | No Master of Arms | imperial-fringe | `SUCCESSION`, `NEGOTIATION` | The charter resolves as public service, mercenary company, auxiliary or broken cartel | — | live |
 
@@ -92,10 +92,10 @@ Thieving, fencing and route work that escalates to the Tidal Palace heist.
 | TG01 | A Dry Hand in a Wet City | mercantile-coast | `THEFT`, `NEGOTIATION` | Recover stolen property without harming the thief who took it from another thief | `mercantile-coast.soulrest-quay-tradehouse` | live |
 | TG02 | The Drowned Lockbox | mercantile-coast | `DISPUTE`, `THEFT` | Three clients claim a lockbox in a sunken counting house, so the contents expose all three | `mercantile-coast.villa-cellars` | live |
 | TG03 | Honest Customs | imperial-fringe | `SMUGGLING`, `FRAUD`, `BONDAGE` | Customs officers run an illegal tariff while a smuggler uses the scandal to move captives | `imperial-fringe.bonded-shed-of-the-onkobra`<br>`imperial-fringe.slough-point` | live |
-| TG04 | The House That Floats | mercantile-coast | `EXPEDITION`, `THEFT` | A wealthy home moves between moorings, so the burglary becomes navigation and timing | `mercantile-coast.lighter-flotilla` | live |
+| TG04 | The House That Floats | mercantile-coast | `EXPEDITION`, `THEFT` | A wealthy home moves between moorings, so the burglary depends on navigation and timing | `mercantile-coast.lighter-flotilla` | live |
 | TG05 | A Fence in Every Port | mercantile-coast | `NEGOTIATION`, `FRAUD` | Three candidate fences compete; reliability matters more than any quota | — | live |
 | TG06 | The Rootworm Robbery | hist-heartland | `SMUGGLING`, `THEFT` | A sealed state packet is intercepted somewhere along a rootworm transit | `hist-heartland.rootworm-station-helstrom` | live |
-| TG07 | The Informer's Cut | mercantile-coast | `FRAUD`, `RECKONING` | Someone is selling guild routes; every beat points at a climber who is innocent | — | live |
+| TG07 | The Informer's Cut | mercantile-coast | `FRAUD`, `RECKONING` | Someone is selling guild routes; every piece of evidence points at a climber who is innocent | — | live |
 | TG08 | The Vault Beneath Pusbottom | mercantile-coast | `EXPEDITION`, `THEFT` | A flooded municipal vault teaches route planning before the grand heist | `mercantile-coast.lilmoth`<br>`mercantile-coast.villa-cellars` | live |
 | TG09 | Tools of the Grand Heist | mercantile-coast | `NEGOTIATION`, `EXPEDITION` | Two preparations of four are chosen, each opening an optional route | — | live |
 | TG10 | The Palace Below the Tide | mercantile-coast | `THEFT`, `EXPEDITION` | The Crown Ledger heist crosses reception rooms, roofs, service canals and a guarded archive | `mercantile-coast.lilmoth` | live |
@@ -108,7 +108,7 @@ Plural belief set against dogma.
 | ID | Title | Region | Shapes | Premise | Anchor places | Status |
 |---|---|---|---|---|---|---|
 | NI01 | Ashes in Water | mercantile-coast | `DISPUTE`, `RITE` | Two families dispute the correct funeral for someone who lived outside their birth community | `mercantile-coast.necropolis-village-murkmire` | live |
-| NI02 | A Sermon with No Words | mercantile-coast | `WONDER`, `RITE` | A Nisswo keeping silence answers in gesture, so the day must be copied movement by movement before it is understood | — | live |
+| NI02 | A Sermon with No Words | mercantile-coast | `WONDER`, `RITE` | A Nisswo keeping silence answers in gesture, so his answers must be copied gesture by gesture before they can be read | — | live |
 | NI03 | The Name Returned | mercantile-coast | `FRAUD`, `SUCCESSION` | A dead person's name is claiming property, so the spiritual dispute hides a practical fraud | — | live |
 | NI04 | The Sleepless Mourner | mercantile-coast | `HAUNTING`, `RITE` | A mourner's dreams read as grief, as haunting, or as a healer's manipulation | — | live |
 | NI05 | Teeth of Sithis | mercantile-coast | `RITE`, `RECKONING` | A splinter sect wants the province's largest Sithis temple returned to blood | `mercantile-coast.teeth-of-sithis` | live |
@@ -135,7 +135,7 @@ Routes, labour and monopoly; the Salt-Teeth pirate branch (ST) sits inside this 
 | RS09 | Compact or Cartel | mercantile-coast | `RECKONING`, `SUCCESSION` | Violence forces an internal election, so method decides which votes stay legitimate | — | live |
 | RS10 | Open Channels | mercantile-coast | `SUCCESSION`, `NEGOTIATION` | Worker compact, merchant cartel, pirate confederation or regulated public ferry | — | live |
 | ST01 | A Flag with No Ship | mercantile-coast | `THEFT`, `FRAUD` | The crew whose flag was stolen is the crew already crossed at Topal | — | concept |
-| ST02 | The Honest Prize | mercantile-coast | `DISPUTE`, `THEFT` | A prize taken cleanly still carries passengers home; the hold holds cargo its owner declines to claim | — | concept |
+| ST02 | The Honest Prize | mercantile-coast | `DISPUTE`, `THEFT` | A prize taken cleanly still carries passengers home. Its cargo has an owner who declines to claim it | — | concept |
 | ST03 | Mutiny at Low Tide | mercantile-coast | `SUCCESSION`, `RECKONING` | Who leads the crew into the Compact's election is settled on a mud bank at low tide | — | concept |
 | ST04 | Black Sails at Soulrest | mercantile-coast | `NEGOTIATION`, `SMUGGLING` | A pirate confederation opens talks with Soulrest; needs somebody neither side trusts | `mercantile-coast.soulrest` | concept |
 
@@ -158,12 +158,12 @@ An order with three bidders and no issuing authority.
 | ID | Title | Region | Shapes | Premise | Anchor places | Status |
 |---|---|---|---|---|---|---|
 | SS01 | Last of the Scale | saxhleel-coast | `SUCCESSION`, `MISSING` | A dying contract-killer claims to be the last trained Shadowscale, then asks for the list of surviving initiates | `saxhleel-coast.archon-shadowscale-sanctuary` | live |
-| SS02 | Writ Without a King | saxhleel-coast | `RECKONING`, `NEGOTIATION` | The first test is a writ whose issuing authority no longer exists, if it ever did | — | live |
+| SS02 | Writ Without a King | saxhleel-coast | `RECKONING`, `NEGOTIATION` | The first test is a writ whose issuing authority no longer exists | — | live |
 | SS03 | The Empty Cradle | dunmer-north | `BONDAGE`, `MISSING` | A ruined hatchery's records show children redirected into state service; one survivor denies consenting | `dunmer-north.murkwater-shadowscale-ground` | live |
-| SS04 | Born Under Shadow | saxhleel-coast | `DISPUTE`, `SUCCESSION` | Three revivalist claimants want Iiran-Vekh for his birth sign; he wants to build boats | — | live |
+| SS04 | Born Under Shadow | saxhleel-coast | `DISPUTE`, `SUCCESSION` | Three revivalist claimants want Iiran-Vekh for his birth sign. He intends to go on building boats | — | live |
 | SS05 | A Brother from Falkreath | saxhleel-coast | `NEGOTIATION`, `FRAUD` | A Dark Brotherhood emissary offers legitimacy in exchange for absorption | — | live |
 | SS06 | The Honest Target | imperial-fringe | `FRAUD`, `MURDER` | A contract names a corrupt magistrate, but the patron is erasing a conviction | `imperial-fringe.gideon` | live |
-| SS07 | Two Knives, One Name | saxhleel-coast | `MURDER`, `RECKONING` | Two assassins share one Shadowscale title, so authenticity and innocence come apart | — | live |
+| SS07 | Two Knives, One Name | saxhleel-coast | `MURDER`, `RECKONING` | Two assassins share one Shadowscale title, so proving which is genuine does not prove which is guilty | — | live |
 | SS08 | The State's Hand | saxhleel-coast | `NEGOTIATION`, `DISPUTE` | The Veiled Reed offers a charter: protection and resources for state-directed contracts | — | live |
 | SS09 | No Listener in Black Marsh | saxhleel-coast | `RITE`, `FRAUD` | A rite meant to reach the Night Mother yields ambiguous evidence over a staged deception | — | live |
 | SS10 | Shadow at Dawn | saxhleel-coast | `SUCCESSION`, `NEGOTIATION` | The surviving claimants force a final choice about what the order becomes | — | live |
@@ -176,7 +176,7 @@ Ownership of knowledge, argued over by foreign institutions.
 |---|---|---|---|---|---|---|
 | SA01 | A Book That Breathes Water | mercantile-coast | `EXPEDITION`, `DISPUTE` | Recover a waterproofed text from an inhabited submerged ruin whose owners are present | `mercantile-coast.xhon-mehl-shrine` | live |
 | SA02 | Borrowed Memory | mercantile-coast | `DISPUTE`, `BONDAGE` | A scholar uses volunteered Hist-memory fragments, then cannot prove consent survived translation | — | live |
-| SA03 | The Weight of a Name | dunmer-north | `SUCCESSION`, `DISPUTE` | An untranslated tablet makes a modern family the heirs of an ancient office | `dunmer-north.stormhold`<br>`imperial-penal-south.murkwood-verge` | live |
+| SA03 | The Weight of a Name | dunmer-north | `SUCCESSION`, `DISPUTE` | An untranslated tablet makes a modern family the heirs of a long-dormant office | `dunmer-north.stormhold`<br>`imperial-penal-south.murkwood-verge` | live |
 | SA04 | The College at the Door | mercantile-coast | `NEGOTIATION`, `FRAUD` | College envoys offer independence from Imperial bureaucracy while hiding a binding experiment | — | live |
 | SA05 | Synod in the Cellar | imperial-fringe | `NEGOTIATION`, `THEFT` | The Synod offers funding and instruments; demands exclusive custody of every discovery | `imperial-fringe.gideon-synod-outstation` | live |
 | SA06 | A Dead Scholar's Method | mercantile-coast | `MURDER`, `RECKONING` | A murdered researcher's notes rebuild from field sites; the killer was shielding a community | — | live |
@@ -206,5 +206,5 @@ Inherited catastrophe, argued over.
 | UW01 | A Voice Recorded Twice | naga-kur-deeps | `FRAUD`, `RECKONING` | Two witness texts contradict because one was edited after its author died | — | live |
 | UW02 | The Sleeping Hist Fragment | naga-kur-deeps | `DISPUTE`, `CONTAMINATION` | A recovered sap sample is treated as evidence, as relic and as hazard at once | — | live |
 | UW03 | Pusbottom's Missing House | mercantile-coast | `MISSING`, `RECKONING` | A vanished household was left off every official casualty list | `mercantile-coast.sunkfoot` | live |
-| UW04 | The Refuge | naga-kur-deeps | `EXPEDITION`, `HAUNTING` | The province's real Umbriel memorial is a cursed plateau the locals avoid | `naga-kur-deeps.deepmire-refuge` | live |
+| UW04 | The Refuge | naga-kur-deeps | `EXPEDITION`, `HAUNTING` | The province's Umbriel memorial is a cursed plateau that locals avoid | `naga-kur-deeps.deepmire-refuge` | live |
 | UW05 | The Public Record | naga-kur-deeps | `RECKONING`, `NEGOTIATION` | Full archive, protected testimony, official narrative or sealed evidence | — | live |

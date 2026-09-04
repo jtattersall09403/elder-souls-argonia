@@ -18,9 +18,9 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
     id: "text.system.essential-npc-killed",
     surface: "system",
     text:
-      "With this death, a root is severed. Restore an earlier save to keep this story.",
+      "You have killed a character the story needs. Restore an earlier save to continue it.",
     note:
-      "Shown when the player kills a tier-protected character. All NPCs are killable and none are flagged invincible (quests 40 §30b), so this message is the whole protection — it must be plain and instantly actionable. The first draft read 'a root the story grew along is severed': the owner's example of AI voice reaching for gravitas (quests 60 §45e).",
+      "Shown when the player kills a tier-protected character. All NPCs are killable and none are flagged invincible (quests 40 §30b), so this message is the whole protection — it must be plain and instantly actionable. Earlier drafts reached for gravitas ('a root the story grew along is severed', then 'a root is severed'); system text carries no imagery, so it states the cause and the remedy (style guide §3). Owner 2026-09-04: the wording is open to reviewer improvement, not pinned.",
   },
   {
     id: "text.system.player-died",

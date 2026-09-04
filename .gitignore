@@ -7,3 +7,4 @@ __pycache__/
 .pytest_cache/
 tmp/
 tooling/world-generation/output/
+.claude/settings.local.json

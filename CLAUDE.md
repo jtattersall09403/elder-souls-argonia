@@ -98,6 +98,13 @@ The overall goal at this point is to build the province-scale world, in a way th
   typed fields cannot deliver (standard 12).
   Four are checked mechanically by `npm test` — they are cheap now and brutal
   to retrofit, which is the whole reason they exist.
+- **All prose is reviewed by a separate agent before commit.** Any text a
+  player reads or a world record carries (catalogue prose, quest rows,
+  text-catalogue strings, dialogue) is written against
+  [docs/text/style-guide.md](docs/text/style-guide.md) and then reviewed by a
+  fresh agent running the `text-review` skill (`.claude/skills/text-review/`).
+  The prose linter is an `npm test` gate; the skill is the part a regex
+  cannot do. Text that skipped review is a defect, not a shortcut.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
   gates. If you touched animation/movement/physics/camera code, also run
   `npm run visual:check -- <group>` (fast, no video). Nothing else is required

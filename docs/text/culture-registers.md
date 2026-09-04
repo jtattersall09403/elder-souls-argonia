@@ -134,20 +134,19 @@ Same region, different composition — these must be sortable in a blind read.
 
 | Speaker | Race layer | Upbringing | Region (`imperial-penal-south`) | Faction | Resulting line |
 |---|---|---|---|---|---|
-| **Khajiit legionary** | illeism, suppressed on duty | Elsweyr-born, 12 years in post | cordon procedure nouns | Legion: *citizen*, regulation numbers | "Citizen, the transfer list closed at dusk. [Pause.] This one will look again. It closed at dusk." |
-| **Khajiit outlaw** | illeism at full strength | port-raised, no Legion | same ledger words, used as a threat to *avoid* | smuggler: euphemism, omission | "This one has passengers, not cargo. Khajiit does not ask what the ledger says. Does the ledger ask about Khajiit?" |
-| **Imperial legionary** | officialese, legalism | Cyrodiil-born newcomer | cordon procedure nouns | Legion: same forms of address | "Citizen. The list closed at dusk. The prefect reopens it at eight, if he reopens it." |
+| **Khajiit legionary** | illeism, suppressed on duty | Elsweyr-born, 12 years in post | cordon procedure nouns | Legion: *citizen*, regulation numbers | "Citizen, the transfer list closed at dusk. [Pause.] This one will look again, though the entry will not have changed." |
+| **Khajiit outlaw** | illeism at full strength | port-raised, no Legion | same ledger words, used as a threat to *avoid* | smuggler: euphemism, omission | "This one carries passengers. The ledger has its own word for them. Does the ledger ask about Khajiit?" |
+| **Imperial legionary** | officialese, legalism | Cyrodiil-born newcomer | cordon procedure nouns | Legion: same forms of address | "Citizen. The list closed at dusk. The prefect reopens it at eight most mornings." |
 
 Same market in Thorn, different races:
 
 | Speaker | Resulting line |
 |---|---|
 | **Argonian stallholder** (marsh-raised, no faction) | "I extend the claw of welcome. The eels came up short this tide. Two of them are yours for the price of one. Stay moist." |
-| **Dunmer counting-house clerk** (Thorn-born, third generation, EEC) | "Sera. Short tide, short ledger. The Company will want it written that way regardless. That name lives in Company ledgers; the stalls use the old one." |
+| **Dunmer counting-house clerk** (Thorn-born, third generation, EEC) | "Sera. The tide was poor. The Company will want the ledger written up regardless. That name lives in Company ledgers; the stalls use the old one." |
 
 Note what the second speaker does *not* do: she has no Morrowind nostalgia; her
-Jel is better than her Dunmeris (36-cast, Dravyna Andalen). *Sera* is what remains of
-Dunmer in the line.
+Jel is better than her Dunmeris (36-cast, Dravyna Andalen). Her Dunmer layer amounts to the word *sera*.
 
 ---
 

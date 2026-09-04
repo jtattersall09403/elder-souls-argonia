@@ -54,7 +54,7 @@
       "anchorPlaces": [
         "place.imperial-penal-south.lake-submerged-xanmeer"
       ],
-      "premise": "A drowned library offers any answer at all in exchange for a memory worth keeping",
+      "premise": "A drowned library offers an answer to any question in exchange for a memory worth keeping",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -158,7 +158,7 @@
       "anchorPlaces": [
         "place.imperial-fringe.the-drowned-mule"
       ],
-      "premise": "A hospitable route inn keeps meat that the route cannot account for",
+      "premise": "A hospitable route inn keeps meat whose origin the route cannot explain",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -494,7 +494,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.quinrawl-anchorage"
       ],
-      "premise": "A pirate returns stolen goods, then refuses to return captives who asked to leave",
+      "premise": "A pirate returns stolen goods but keeps captives who asked to leave",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -825,7 +825,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.mudfoot"
       ],
-      "premise": "A healer sells protection from an insect disease she is spreading herself; her medicine works",
+      "premise": "A healer sells protection from an insect disease she is spreading herself. Her medicine works",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -1139,7 +1139,7 @@
       "region": "mercantile-coast",
       "settlement": null,
       "anchorPlaces": [],
-      "premise": "A prize taken cleanly still carries passengers home; the hold holds cargo its owner declines to claim",
+      "premise": "A prize taken cleanly still carries passengers home. Its cargo has an owner who declines to claim it",
       "costTier": null,
       "milestone": 1,
       "touches": [],

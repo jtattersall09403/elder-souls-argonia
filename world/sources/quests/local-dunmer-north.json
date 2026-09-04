@@ -441,7 +441,7 @@
     {
       "id": "quest.local.ld17",
       "code": "LD17",
-      "title": "What the Causeway Was For",
+      "title": "The Causeway's Purpose",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -483,7 +483,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-flu-cordon"
       ],
-      "premise": "A cordon cellar people will not go near is the driest shelter on the rim, so somebody has moved in",
+      "premise": "A cordon cellar people will not go near is the driest shelter on the rim, so somebody has taken it over",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -537,7 +537,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-north-holding-pit"
       ],
-      "premise": "A field-owner's roofed pit holds people the city has no record of",
+      "premise": "A field-owner's roofed pit holds people who appear on no city record",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -591,7 +591,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-ash-holding"
       ],
-      "premise": "A Dunmer holding's cellars joined into a single warren when the ground gave way, then something moved in",
+      "premise": "A Dunmer holding's cellars joined into a single warren when the ground gave way, then something moved into them",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -646,7 +646,7 @@
         "place.dunmer-north.the-charge-works",
         "place.dunmer-north.the-lightning-yard"
       ],
-      "premise": "Two charged-goods works bid for the same wamasu stock until the hunters stop coming in",
+      "premise": "Two charged-goods works bid for the same wamasu stock until the hunters stop selling to either",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -685,7 +685,7 @@
     {
       "id": "quest.local.ld26",
       "code": "LD26",
-      "title": "The Fittings Are Still Bolted On",
+      "title": "The Fittings Are Still Bolted to the Trees",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -863,7 +863,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-north-root-gallery"
       ],
-      "premise": "Root galleries over bare stone are being mapped by people who will not say who wants the map",
+      "premise": "Root galleries over bare stone are being mapped by a surveyor paid from Stormhold",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1187,7 +1187,7 @@
         "place.dunmer-north.the-salt-and-shell",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A crossroads tradehouse moves goods under a floor the toll-holder has not asked about",
+      "premise": "A crossroads tradehouse moves goods under the floor where the toll-holder drinks",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -1241,7 +1241,7 @@
         "place.dunmer-north.the-salt-ledge",
         "place.dunmer-north.thorn"
       ],
-      "premise": "An uncounted ledge past the border post carries salt out and people in, for a fee",
+      "premise": "An uncounted ledge past the border post carries salt one way and people the other, for a fee",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1322,7 +1322,7 @@
         "place.dunmer-north.tear-road-stage",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A caravan waits at the road stage for a guarantee that has not arrived and will not",
+      "premise": "A caravan waits at the road stage for a guarantee that Tear refused a week ago",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -1403,7 +1403,7 @@
         "place.dunmer-north.the-bound-urns",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A sealed urn shelter is inspected by an officeholder who will not say what is in it",
+      "premise": "A sealed urn shelter is inspected by an officeholder who keeps the tally in her head",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1430,7 +1430,7 @@
         "place.dunmer-north.the-ninth-chapel",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A ruined chapel is carved with the number nine; the eight missions before it are unaccounted for",
+      "premise": "A ruined chapel is carved with the number nine; no record survives of the eight missions before it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1457,7 +1457,7 @@
         "place.dunmer-north.ten-maur-wolk",
         "place.dunmer-north.thorn"
       ],
-      "premise": "The white marker ring around a Daedric ruin is maintained by somebody the district will not name",
+      "premise": "The white marker ring around a Daedric ruin is paid for out of a market fund, under an entry the clerk does not itemise",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1861,7 +1861,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.the-crystal-prospectors"
       ],
-      "premise": "Claim-jumpers on the scree hold ground they cannot legally sell from",
+      "premise": "Claim-jumpers on the scree hold ground from which they cannot legally sell",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1900,7 +1900,7 @@
     {
       "id": "quest.local.ld71",
       "code": "LD71",
-      "title": "Nobody Uses the Ladder Sober",
+      "title": "The Fast Way Out of the Diggings",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2221,7 +2221,7 @@
     {
       "id": "quest.local.ld83",
       "code": "LD83",
-      "title": "What the Trial Is For",
+      "title": "The Trial Goes Wrong",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2235,7 +2235,7 @@
       "anchorPlaces": [
         "place.dunmer-north.hissmir"
       ],
-      "premise": "A Trial goes wrong in a way the Stewards have no procedure for",
+      "premise": "A Trial goes wrong in a way the Stewards have no procedure to cover",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2517,7 +2517,7 @@
     {
       "id": "quest.local.ld94",
       "code": "LD94",
-      "title": "The Cargo That Was Never Aboard",
+      "title": "The Cargo That Was Not Aboard",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2772,7 +2772,7 @@
         "place.dunmer-north.the-field-gate-garrison",
         "place.dunmer-north.the-opened-terrace"
       ],
-      "premise": "A broken-open xanmeer holds what the first diggers could not carry, which is what the second lot came for",
+      "premise": "A broken-open xanmeer holds what the first diggers could not carry, which is what the second party came to take",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2824,7 +2824,7 @@
       "anchorPlaces": [
         "place.dunmer-north.wolk-market"
       ],
-      "premise": "The Marsh Charter factor's authority over weights is worth more than anything weighed",
+      "premise": "The Marsh Charter factor's authority over weights is worth more than the goods on the scale",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3145,7 +3145,7 @@
         "place.dunmer-north.branchmont",
         "place.dunmer-north.the-borrowed-tomb"
       ],
-      "premise": "Somebody living in a Dunmer tomb can name the household it belongs to, which is why he is left alone",
+      "premise": "Somebody living in a Dunmer tomb can name the household whose tomb it is, which is why he is left alone",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -3542,7 +3542,7 @@
       "anchorPlaces": [
         "place.dunmer-north.murkwater"
       ],
-      "premise": "A hummock village floods from a direction it has no defence against",
+      "premise": "A hummock village floods from a direction against which it has no defence",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -3554,7 +3554,7 @@
     {
       "id": "quest.local.lv34",
       "code": "LV34",
-      "title": "Eight Ways Around",
+      "title": "Eight Other Fords",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3751,7 +3751,7 @@
       "anchorPlaces": [
         "place.dunmer-north.saltmarch-village"
       ],
-      "premise": "The rise that stays dry hears four accounts of the same night; none of them agree",
+      "premise": "The rise that stays dry hears four accounts of the same night; the four disagree",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3831,7 +3831,7 @@
       "anchorPlaces": [
         "place.dunmer-north.stands-on-the-island"
       ],
-      "premise": "The only firm ground for two kilometres is rented; this season the rent doubles",
+      "premise": "The firm ground for two kilometres around is rented; this season the rent doubles",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

@@ -161,7 +161,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.wisp-lure-basin"
       ],
-      "premise": "Something on the gate approach has learnt the lantern rhythm the basin guides answer to",
+      "premise": "Something on the gate approach has learnt the lantern rhythm by which the basin guides answer each other",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -955,7 +955,7 @@
       "anchorPlaces": [
         "place.hist-heartland.cut-and-carried"
       ],
-      "premise": "The carried cutting is old enough to name children by, with no agreement on who may stand for a tree that young",
+      "premise": "The carried cutting is old enough for children to be named at it, with no agreement on who may stand for a tree that young",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1037,7 +1037,7 @@
       "anchorPlaces": [
         "place.hist-heartland.greenspring"
       ],
-      "premise": "A body is in the water that the interior drinks without ceremony, which two households at the spring would rather stayed under",
+      "premise": "A body is in the water that the interior drinks without ceremony, which two households at the spring would rather nobody raised",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1171,7 +1171,7 @@
         "place.hist-heartland.heretic-stone-restarted",
         "place.hist-heartland.nisswo-rest-house-interior"
       ],
-      "premise": "A Nisswo is asked to bless courses the masons themselves admit are worse than what they sit on",
+      "premise": "A Nisswo is asked to bless courses the masons themselves admit are worse than the Merethic stone beneath them",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1184,7 +1184,7 @@
     {
       "id": "quest.local.lh44",
       "code": "LH44",
-      "title": "What the Stone Was For",
+      "title": "The Plan Behind the Stone",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1471,7 +1471,7 @@
       "anchorPlaces": [
         "place.hist-heartland.stilt-channel-edge-two-poles"
       ],
-      "premise": "The pile stumps of four earlier villages still hold what each left behind, with the water dropping far enough to reach them",
+      "premise": "The pile stumps of four earlier villages still hold what each left. The water has dropped far enough to reach them",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1603,7 +1603,7 @@
       "anchorPlaces": [
         "place.hist-heartland.stilt-channel-edge-uxaneet"
       ],
-      "premise": "One house takes no landing fee and is busier after dark than the poling quay",
+      "premise": "One house takes no landing fee. After dark it is busier than the poling quay",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

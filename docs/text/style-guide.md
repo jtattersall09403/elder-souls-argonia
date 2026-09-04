@@ -294,6 +294,75 @@ Frequency rule: at most **one** flat and-pair per record, and never in the
 `hook`. The linter counts them as `and-closer` (a heuristic, so it over-reports;
 that is deliberate — read every hit).
 
+### 2.8 Trying too hard — the punchiness class (owner ruling 2026-09-04)
+
+The owner's third list named one fault under many guises, and it is the
+general class the rows in §2.4–2.6 are instances of: **the writing tries to
+land a line.** It reaches for a zinger, a portentous closer, a deadpan turn,
+a clever repetition, a pithy compound. One of these in a whole region might
+be wit. At the density model prose produces them, every place sounds like a
+trailer, and a player who reads hundreds of these panels in an evening
+recognises the machine in the first ten. The owner's examples, all live at
+the time:
+
+| Written | Fault | Plain rewrite |
+|---|---|---|
+| "Goods off the road are weighed, counted and written down here. So are you." | the tag-line turn on the reader | "Goods off the road are weighed, counted and written down here. Travellers are entered in the same book." |
+| "Four villages downstream have set their year by a machine no living engineer can read." | the portentous closer; a fact dressed as a verdict | "Four villages downstream set their planting by the machine's cycle. The engineers who built it left no account of how it works." |
+| "The pace-count is a song people learn before they go in." | the epigram; the record ends on an image instead of a fact | "Guides count paces through the throat aloud. The count is taught as a chant so it is not lost in the dark." |
+| "Porters, transfer clerks and hauliers whose entire livelihood is that the falls exist." | the pithy predicate ("is that the falls exist") | "Porters, transfer clerks and hauliers, who depend on the falls for their livelihoods." |
+| "Rectavius is still sealed below and the seal is two centuries older than the Nisswo tending it." | the clumsy and-pair; two facts squeezed into one clever sentence | "Rectavius is still sealed below. The seal is two centuries older than the Nisswo who tends it." |
+| "The tree named in interior recitation as the tree that stood at the first rain after the Duskfall." | deliberate repetition for effect | "Named in interior recitation as the tree that stood at the first rain after the Duskfall." |
+| "The north-eastern river is navigable to exactly one point." | *exactly one*: precision as emphasis | "The north-eastern river is navigable to this point." |
+| "Four channel mouths open off the same bay; only one carries water at the top of the tide." | *only one*: uniqueness as emphasis | "Four channel mouths open off the same bay. This one carries water at the top of the tide." |
+| "The pilots who know the run sell the knowledge; none of it is written down." | *none of it*: the absolute-negative tag | "The pilots who know the run sell the knowledge." |
+
+The diagnosis in one line: **the sentence is doing more than stating its
+fact.** The rules that follow from it:
+
+1. **Let the text breathe.** Two plain sentences beat one clever one. Do not
+   compress two facts into a single pithy line for effect; write the second
+   sentence. Length is not the problem, compression for impact is.
+2. **No sentence turns on the reader** ("So are you." "You will be next.").
+   No sentence is written to be quoted.
+3. **A record ends on a fact**, ideally a dull one. If the last sentence
+   could be a film tag-line, delete it or replace it with the next fact.
+4. **Precision-as-emphasis is banned as a beat**: *exactly one, exactly four,
+   only one, one and only, none of it, none of them, not one*. State the
+   number plainly if the number matters ("four expeditions"; "this channel")
+   and otherwise leave it out. The linter counts these with the generaliser
+   class and fails on *exactly N* and *only one* outright.
+5. **No repetition for effect.** A noun repeated inside one sentence
+   ("the tree named … as the tree that …"), anaphora across sentences, or the
+   same word closing consecutive sentences, is a device. Say it once.
+6. **No sentence or clause ends on a preposition.** "the river Red Bramman
+   escaped through" becomes "the river through which Red Bramman escaped";
+   "dry enough to stack on" becomes "dry enough for stacking". This is a
+   house grammar rule applied to every surface including dialogue (an
+   Argonian and a Nord both manage it). The linter fails on it. Phrasal-verb
+   particles (*came down, went out, set off*) are not prepositions and are
+   not caught.
+7. **Metaphor budget: one per record, and it must be a marsh thing** someone
+   in the place could have said. No abstract metaphors (a machine "setting the
+   year", a count that "is a song").
+
+**Register for place records (owner steer 2026-09-04, adopted).** The
+catalogue's prose fields (`why.*`, `vibe.*`, `playerPurpose.hook`, quest-row
+premises, siting notes) are written in **reference register**: the voice of a
+UESP place page. Third person, present tense for the current state and past
+for history, concrete nouns, numbers where they are known, no rhetorical
+device, no address to the reader, no closer. The test is whether the
+paragraph could be pasted into a wiki article about the place without an
+editor flagging tone. This is deliberately flatter than the dialogue voice in
+§2.1–2.2, which keeps its wit and its speakers; the two must not bleed into
+each other. `vibe.mood` and `vibe.condition` are labels, not lines: one or
+two plain words, or a plain fact.
+
+The **reviewer's test for the class** is in [review-process.md
+§3](review-process.md): read the record's last sentence alone, and read every
+sentence asking "what is this sentence doing besides stating its fact?" Any
+answer other than "nothing" is a finding.
+
 ### 2.7 Seed from real Morrowind text (owner proposal 2026-09-04)
 
 Before writing or rewriting a place, find the nearest Morrowind analogue and read
@@ -386,4 +455,5 @@ voice rules deliberately stop.
    ([culture-registers.md](culture-registers.md) §0 — voice = race +
    upbringing + region + faction).
 3. Run the review pass ([review-process.md](review-process.md)) — a *different*
-   agent. A writer will not catch its own register.
+   agent, via the `text-review` skill (`.claude/skills/text-review/SKILL.md`).
+   A writer will not catch its own register.

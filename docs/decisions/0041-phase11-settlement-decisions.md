@@ -1605,6 +1605,98 @@ Ships and Boats of Tamriel (SSE 41653, flat-bottomed hulls) and Skyfall's
 Sleeping Hist Tree Overhaul (SSE 116792, mesh variants for the ten hero
 Hist + cairns-as-grave-markers).
 
+### Part 5 decision + round 5 — touchpoint ③ third list, exemplars from the vegetated areas (2026-09-04)
+
+**Text rulings (owner's third list).** The faults named (a tag-line turn on
+the reader, a portentous closer, a pithy compressed predicate, a clumsy
+"X and Y" pair, repetition for effect, *exactly one / only one / none of
+it*, a sentence ending on a preposition) are one class: **the sentence is
+doing more than stating its fact.** Recorded as style guide §2.8 with the
+owner's nine examples and seven rules; five rows added to the banned table
+(quests 60 §45e.1); the reviewer's two new tests (the trying-too-hard test,
+the wiki test) in review-process §3. **Place records are now written in
+reference register** (the voice of a UESP place page; the owner's steer,
+adopted): third person, concrete, no address to the reader, no closer.
+Dialogue keeps its speaker voice under the same bans. **No sentence or
+clause ends on a preposition**, on any surface. The linter gained four hard
+rules (`exactly-n`, `only-one`, `final-preposition`, `turn-on-reader`) and
+three soft counts (`none-of`, `zinger-tail`, `repeat-noun`) with province
+ceilings; 425 hard hits appeared province-wide and were cleared by nine
+reviewer agents (one per region + quests/text catalogue), who read every
+live record in full, not only the hits. **A reusable `text-review` skill**
+(`.claude/skills/text-review/SKILL.md`) is now how any agent reviews new
+text, and CLAUDE.md makes a separate-agent review mandatory before commit.
+
+**Part 5 decision — the exemplar set, re-picked from the vegetated
+chunks (owner ruling: exemplars must sit where Phase 10 already placed
+vegetation, so one area carries every system; five places, agent picks).**
+Only Lilmoth and Blackrose lie inside the 49 vegetated chunks, so the
+round-4 recommendation (Alten Corimont) was withdrawn. Chosen:
+
+| # | place | why it is in the set | vegetation exemplar area |
+|---|---|---|---|
+| city | **Lilmoth** `place.mercantile-coast.lilmoth` | M5 rebuilt stilt city over drowned Imperial villas; stilt + docks + boats, the most mature kits; the mangrove wall on its approach (chunk 7,14) | coastal lagoon / mangrove |
+| 1 | **Nine-Trunks** `place.hist-heartland.nine-trunks` | Hist village M3, the commonest family (27); the ring of nine trunks is a composition problem to solve on geometry | fringe marsh (Blackrose-basin side) |
+| 2 | **Mazzatun** `place.dunmer-north.mazzatun` | canon stone village on a ridge end in upland hills: the slope ladder and terracing on a stone kit, plus a bound Hist sibling | upland hills (the dry proof) |
+| 3 | **The Standing Charge** `place.naga-kur-deeps.wamasu-pond-adult` | D5 beast lair in rootland deep marsh, the largest family (38); a creature-owned outdoor place with a delve | rootland deep marsh |
+| 4 | **The Licensed Stage** `place.hist-heartland.sap-tapping-licensed` | the smallest type (M1 works) in tropical jungle, where clearance and the performance budget are decided | tropical jungle |
+
+Held back: Keel-Sakka Landing (same chunk as Lilmoth and the same kit;
+folds into the city's Round C walk), Blackrose (the alternative city; the
+interior-swamp area is therefore not in the set, which Part 8's first
+rollout packet should cover), the underwater exemplar (Phase 9 builds its
+own on the swim slice, world 95 Phase 9).
+
+**Part 6 schema changes (kept in one pair of hands).** District
+`cultureKit` is now a **kit set** (`blueprint.KIT_SETS`: argonian-stilt /
+-mud / -root / -stone, imperial, dunmer-hlaalu, neutral-works,
+neutral-underwater; the legacy two ids stay valid) — one packaged kit set
+per district, so "kits only combine pieces designed to combine" is a
+validator rule, and the set's culture carries the two-culture rule. Parcels
+may name an exact `assetRef`, chosen on the kit manifest's measured
+`sizeM`, and the compiler honours it over the family pick (geometry, never
+labels). A `siting` block records the dossier and the 2–3 exact candidates
+with one chosen. Conventions for what sits next to a blueprint:
+`world/sources/blueprints/README.md`.
+
+**Round 5 delivery record.** Text: 677 hard hits appeared under the new
+rules (425 phrase-level + 252 second-person once place records were held to
+the reference register) and were cleared by twelve reviewer agents reading
+every live record in full; province-wide the linter now holds 0 hard hits
+over 11.6k texts / 166k words, all density ceilings met. Reviewers added
+eleven rows to the banned table (design voice in premises and opportunity
+fields, the verbless epigram, accidental verb repetition, the wry comma
+label, the field-to-field echo, the one-word label with a full stop, the
+"total absence of" closer, the concealed-arrival formula, the quest-shape
+tail) and the linter gained the matching soft counts. The owner's example
+system line (`essential-npc-killed`) is now the reviewer's plain version by
+the owner's own note; the test that pinned the old wording is gone.
+Fact-level doubts the reviewers raised (a gendered keeper at
+Three-Ways-Over-Water, Rockpark's "sixteen" vs "five" centuries, Soulrest's
+three vs four powers, a plague-village hook on The Old Quarters, LF23
+"skooma" vs sap) are queued for the next region pass, not resolved here.
+
+**Part 6 delivery record.** Five dossiers, fifteen candidate sitings, five
+designs, five blueprints validating and compiling with 0 errors (Lilmoth 42
+placements, Mazzatun 29, Nine-Trunks 14, Licensed Stage 7, Standing Charge
+3), five maps. Four of the five plotted points could not carry the place
+as recorded (no standing water for the pond; a 47° hillside under
+Mazzatun; 4.3 m of relief across the Nine-Trunks ring; no navigable water
+for the licence stage) and were re-sited 69–149 m on measurement — the
+macro plot places by landform class, the meso pass by geometry, which is
+what Part 6 is for. Compiler fixes on the way: door reachability indexed
+the terrain grid transposed (every door on dry ground failed) and read the
+5.5 m slope raster (a terrace lip read as 40°; now a 2 m local gradient);
+parcels carry `yawDeg`; a district is one kit set; every placed object has
+a `<kind>.<slug>.<name>` id and the id registry accepts a source that
+*references* a catalogue id (`references: ["place"]`). Sourcing gaps shown,
+not faked: a stand-alone Hist trunk column; an Argonian underwater shrine
+focal object. Catalogue changes the designs need (positions, plot facts, a
+`pool` and a `rock-shelf` terrain request, asset plans naming kits that
+cannot serve the place, empty socket lists) are queued at the end of each
+design record for after the owner confirms the sitings. Round A packet:
+[research/phase11-part6-round-a.md](../research/phase11-part6-round-a.md).
+
 ### Part 4 step 2, round 4 — touchpoint ③ feedback, second list (2026-09-04)
 
 **Rulings.** (1) Over-use is a *body-of-text* problem: *the only / the one /

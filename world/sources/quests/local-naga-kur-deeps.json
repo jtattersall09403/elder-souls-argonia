@@ -77,7 +77,7 @@
         "place.naga-kur-deeps.bereaved-hist-less-since",
         "place.naga-kur-deeps.necropolis-nightbound"
       ],
-      "premise": "The marriage-broker who promised the village three matches is found wrapped on a carriers' rack with none of them arranged",
+      "premise": "The marriage-broker who promised the village three matches is found wrapped on a carriers' rack before any match was arranged",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -106,7 +106,7 @@
         "place.naga-kur-deeps.bog-blight-ground-nine-stakes",
         "place.naga-kur-deeps.dead-water-village"
       ],
-      "premise": "The blue-flowering Hist has begun putting out red, which the tribe reads as poison in the water the stake fields drain into",
+      "premise": "The blue-flowering Hist has begun putting out red, which the tribe reads as poison in the water into which the stake fields drain",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -221,7 +221,7 @@
         "place.naga-kur-deeps.naga-village-settled",
         "place.naga-kur-deeps.portage-slipway-narrows-deeps"
       ],
-      "premise": "The portage crews and the hire stage both claim the right to move laden craft past the shallows, with a season's trade riding on it",
+      "premise": "The portage crews and the hire stage both claim the right to move laden craft past the shallows, with a season's trade riding on the outcome",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -249,7 +249,7 @@
         "place.naga-kur-deeps.bog-blight-ground-old-cordon",
         "place.naga-kur-deeps.necropolis-nightbound"
       ],
-      "premise": "A field went unstaked because its village could not outbid the others, so the setters must answer for what walked out of it",
+      "premise": "A field went unstaked because its village could not outbid the others, so the setters must answer for what walked out of the field",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

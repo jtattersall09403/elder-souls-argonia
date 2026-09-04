@@ -50,7 +50,14 @@ from .site_fields import PROVINCE, REPO_ROOT               # noqa: E402
 DEFAULT_OUT = REPO_ROOT / "tooling" / "world-generation" / "output" / "blueprint-maps"
 
 # District fill by culture kit (the two-culture rule reads at a glance).
-CULTURE_FILL = {"argonian": "#3f7a5a", "imperial": "#8a6a45"}
+# One fill per kit SET (blueprint.KIT_SETS): the Argonian sets share a green
+# family so the two-culture rule still reads at a glance.
+CULTURE_FILL = {
+    "argonian": "#3f7a5a", "argonian-stilt": "#2f8a7a", "argonian-mud": "#5a8a3f",
+    "argonian-root": "#2e6b45", "argonian-stone": "#4f7f6a",
+    "imperial": "#8a6a45", "dunmer-hlaalu": "#8a4f5a",
+    "neutral-works": "#7a7a5a", "neutral-underwater": "#4a6a8a",
+}
 # Parcel fill by ground fit — the slope ladder, cheapest first.
 GROUND_FIT_FILL = {
     "direct": "#d9d2c4", "plinth": "#c9b98f", "pad": "#c2a978",
@@ -83,8 +90,21 @@ def _points(obj, *keys) -> list[list[float]]:
 
 
 def collect_uv(bp: dict) -> list[list[float]]:
-    """Every authored coordinate in the blueprint, for the crop bounding box."""
+    """Every authored coordinate in the blueprint, for the crop bounding box.
+    When the blueprint has a boundary, the crop follows the boundary and the
+    built things inside it; approach routes are drawn but do not widen the
+    crop (a 300 m approach line was turning village maps into landscape)."""
     uv = _points(bp, "boundary")
+    if uv:
+        for p in bp.get("parcels", []):
+            uv += _points(p, "footprint", "position")
+        for lm in bp.get("landmarks", []):
+            uv += _points(lm, "position")
+        for dk in bp.get("docks", []):
+            uv += _points(dk, "position")
+        for cs in bp.get("combatSpaces", []):
+            uv += _points(cs, "boundary")
+        return uv
     for d in bp.get("districts", []):
         uv += _points(d, "boundary")
     for group in ("routes", "canals", "boardwalks"):
@@ -331,8 +351,9 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
            if budget else "no declared budget")
     ax.set_title(f"{title}\n{sub}", fontsize=10, color="#e6ecf5", pad=10)
 
+    used_sets = {d.get("cultureKit") for d in bp.get("districts", [])}
     handles = [Patch(facecolor=c, alpha=0.35, edgecolor=c, label=f"district: {k}")
-               for k, c in CULTURE_FILL.items()]
+               for k, c in CULTURE_FILL.items() if k in used_sets]
     handles += [Patch(facecolor=c, edgecolor="#20262e", label=f"parcel: {k}")
                 for k, c in GROUND_FIT_FILL.items()]
     handles += [Line2D([], [], color=c, linestyle=s, label=k)

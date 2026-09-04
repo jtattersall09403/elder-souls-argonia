@@ -9,6 +9,10 @@ register.** Model-written prose reaches for gravitas and produces constructions
 nobody writes, and the writing agent is the last agent that will notice. So
 review is a *separate agent*, always.
 
+**How to run one:** invoke the `text-review` skill
+(`.claude/skills/text-review/SKILL.md`) in a fresh agent and point it at the
+files or region. It runs the linter, applies §3 and writes the edits.
+
 ## 1. Where text lives — the precondition
 
 Every player-visible string is registered in **`packages/text-catalogue`** with
@@ -47,7 +51,7 @@ In order — stop-the-line failures first.
 0. **The linter first.** `python3 -m worldgen.lint_prose` (catalogue) or
    `--no-catalogue --md <file>`; fix every hard hit before reading anything,
    and use the soft-candidate list (`and-closer`, `and-for-but`, `the-only`,
-   `will-not-say`) as the reading order for step 2. A review that starts with
+   `will-not-say`, `none-of`, `zinger-tail`) as the reading order for step 2. A review that starts with
    the eye repeats what the regex already knows.
 1. **AI voice — phrases.** The banned-constructions table (style guide §2 and
    quests 60 §45e.1). Tricolons in system text, "the very", stranded
@@ -72,6 +76,15 @@ In order — stop-the-line failures first.
    - **Delete-the-last-clause.** Cut the paragraph's final clause. If it reads
      better, it was a flourish. Fastest of the five; catches antithesis pairs,
      colon reveals and self-gloss at once.
+
+   - **The trying-too-hard test** (style guide §2.8, owner 2026-09-04). For
+     every sentence ask "what is this sentence doing besides stating its
+     fact?" Landing a line, turning on the reader, repeating a word for
+     effect, compressing two facts into one clever one: each is a finding
+     with a plain two-sentence rewrite. Then read the record's **last
+     sentence alone**: if it could be a tag-line, replace it with a fact.
+   - **The wiki test** (place records only). Could the paragraph be pasted
+     into a UESP page about the place without an editor flagging tone?
 
    Also check for uniform sentence length, no flat sentences anywhere, every
    record built to the same fact-image-closer shape, and grandeur with no

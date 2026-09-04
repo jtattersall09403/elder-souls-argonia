@@ -101,7 +101,7 @@
         "place.hist-heartland.helstrom",
         "place.pirate-freeholds.alten-corimont"
       ],
-      "premise": "Arrival at the safe interior capital, past an empty throne",
+      "premise": "Arrival at Helstrom, the interior capital, where the throne stands empty",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -440,7 +440,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.the-cut-circle"
       ],
-      "premise": "Two incompatible reports, one of them acted on while you watch",
+      "premise": "Two incompatible reports, one of them acted on before the other is read",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -624,7 +624,7 @@
         "place.mercantile-coast.lilmoth",
         "place.pirate-freeholds.opening-work-camp"
       ],
-      "premise": "A modular epilogue read back through the places that changed",
+      "premise": "An epilogue read back through the places that changed",
       "costTier": null,
       "milestone": 1,
       "touches": [],

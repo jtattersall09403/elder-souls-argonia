@@ -55,7 +55,7 @@
         "place.naga-kur-deeps.naga-village-raiding",
         "place.pirate-freeholds.freehold-naga-camp"
       ],
-      "premise": "A raiding camp will sell a season's safe passage; the price is a person",
+      "premise": "A raiding camp will sell a season's safe passage in exchange for a person",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -82,7 +82,7 @@
         "place.hist-heartland.falling-mage-impact",
         "place.hist-heartland.vista-ledge-canopy-break"
       ],
-      "premise": "A man fell out of the sky and his scrolls outlived him; the itinerary among them stops at the canopy break",
+      "premise": "A man fell out of the sky. His scrolls survived him. The itinerary among them stops at the canopy break",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -137,7 +137,7 @@
         "place.imperial-penal-south.cordon-cellars",
         "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "What the Owing seized in the south sits racked and dated in one cellar; most of the owners are dead",
+      "premise": "What the Owing seized in the south sits racked and dated in one cellar. Most of the owners are dead",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -165,7 +165,7 @@
         "place.dunmer-north.the-pen-yard",
         "place.dunmer-north.waits-for-the-promise"
       ],
-      "premise": "A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong; no grave-singer will go out to it",
+      "premise": "A camp has sat on a Dres boundary for forty years, waiting for someone who came back changed. No grave-singer will travel out to it",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -192,7 +192,7 @@
         "place.hist-heartland.insular-hereditary-watch",
         "place.mercantile-coast.insular-jungle-village"
       ],
-      "premise": "A village whose entire history is a guard roster is down to two names on it; it declines to say what it guards",
+      "premise": "A village keeps its whole history as a guard roster. The roster is down to two names. The villagers do not say what the watch protects",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -221,7 +221,7 @@
         "place.mercantile-coast.stripped-village-north",
         "place.naga-kur-deeps.umbriel-stripped-undead"
       ],
-      "premise": "Umbriel emptied four villages in a night, one of them has begun refilling; somebody is maintaining the containment ring",
+      "premise": "Umbriel emptied four villages in a night. One of them has begun to refill. Somebody is maintaining the containment ring",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -250,7 +250,7 @@
         "place.naga-kur-deeps.air-pocket-station-deeps",
         "place.saxhleel-coast.mangrove-air-pocket"
       ],
-      "premise": "Five air-pocket stations on five dives were stocked by one person for thirty years; this season they were not",
+      "premise": "Five air-pocket stations on five dives were stocked by one person for thirty years. This season the stations are empty",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -278,7 +278,7 @@
         "place.hist-heartland.drawdown-flat-exposed",
         "place.imperial-penal-south.drawdown-flat"
       ],
-      "premise": "The lake pulls back for six weeks a year; this year the bed has a body on it the grave-stake recorded as a drowning",
+      "premise": "The lake pulls back for six weeks a year. This year the bed holds a body that the grave-stake records as a drowning",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -335,7 +335,7 @@
         "place.hist-heartland.necropolis-dead-tenders",
         "place.naga-kur-deeps.bog-blight-ground-nine-stakes"
       ],
-      "premise": "Somebody is pulling grave-stakes on purpose, in a pattern; the pattern is the point",
+      "premise": "Somebody is pulling grave-stakes on purpose. The stakes taken so far form a pattern",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -390,7 +390,7 @@
         "place.dunmer-north.the-moon-court",
         "place.imperial-fringe.moonrack-calcinator"
       ],
-      "premise": "Two calcinator courts are laid out to a sky with no moons in it; the work done in them fails under any other light",
+      "premise": "Two calcinator courts are laid out to a moonless sky. The work done in them fails under any other light",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -417,7 +417,7 @@
         "place.mercantile-coast.wraxu-frieze",
         "place.mercantile-coast.xinchei-konu"
       ],
-      "premise": "The province's working sky-calendar has one hereditary keeper, no successor, plus a recorded power over the weather",
+      "premise": "The province's working sky-calendar has one hereditary keeper and no successor. The office carries a recorded power over the weather",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -444,7 +444,7 @@
         "place.naga-kur-deeps.horwalli-waterworks-deeps",
         "place.naga-kur-deeps.naga-village-settled"
       ],
-      "premise": "Unattended sluices still open and close on the season; four villages have built their year on a machine with no owner",
+      "premise": "Unattended sluices still open and close on the season. Four villages set their planting by them. No owner of the machine is recorded",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -501,7 +501,7 @@
         "place.imperial-penal-south.flu-quarantine-village",
         "place.imperial-penal-south.plague-cordon"
       ],
-      "premise": "The Flu cordon's ration ledgers are still in the store. They show who was fed and who was not. Blackrose has left them unread",
+      "premise": "The Flu cordon's ration ledgers are still in the store. They record which households received rations. Blackrose has not opened them since",
       "costTier": null,
       "milestone": 2,
       "touches": [],

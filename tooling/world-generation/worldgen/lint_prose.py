@@ -18,6 +18,12 @@ shape tests (read aloud, the Morrowind test, delete-the-last-clause) stay
 with the reviewer. Rules and their rationale: docs/quests/60 §45e.1 and
 docs/text/style-guide.md §2.4–2.6.
 
+Round 5 (owner 2026-09-04, style guide §2.8 "trying too hard"): hard rules
+for *exactly N*, *only one*, the turn-on-the-reader tag and a sentence or
+clause ending on a preposition; soft counts for *none of it*, the short
+tag-line closer and the repeated noun. The class itself (a sentence doing
+more than stating its fact) is the reviewer's, via the `text-review` skill.
+
 Two severities:
 * HARD — zero tolerance; `--strict` fails on any hit and the pytest gate
   keeps the catalogue clean.
@@ -63,6 +69,7 @@ class Rule:
     severity: str            # "hard" | "soft"
     pattern: re.Pattern
     why: str
+    fields: tuple = ()       # empty = every prose field; else only these field names
 
 
 def _r(p: str) -> re.Pattern:
@@ -98,9 +105,31 @@ RULES: list[Rule] = [
          "hedged-adverb mood formula"),
     Rule("ask-anyone", "hard", _r(r"\bask (?:anyone|anybody|everyone|around)\b"),
          "'ask anyone' — name who (a role, a person, a house); owner 2026-09-04"),
+    Rule("exactly-n", "hard", _r(r"\bexactly (?:one|two|three|four|five|six|seven|eight|nine|ten|once|twice|\d+)\b"),
+         "'exactly N' — precision as emphasis; state the number plainly or drop it (owner 2026-09-04; style guide §2.8)"),
+    Rule("only-one", "hard", _r(r"\bonly (?:one|once)\b(?! (?:of|in|or) )|\bone and only\b|\bnot one of\b"),
+         "'only one' — uniqueness as emphasis; 'this one', or the plain fact (owner 2026-09-04)"),
+    Rule("final-preposition", "hard", _r(r"(?<![-\w])(?:through|with|for|of|to|at|from|by|about|under|into|onto|against|between|behind|beside|without|within|near|around|across|along|until|upon|towards?|among|amongst|in|on)(?=[.,;:!?](?:\s|$|\"|')|\s*$)"),
+         "sentence or clause ends on a preposition — house grammar rule, all surfaces (owner 2026-09-04)"),
+    Rule("second-person", "hard", _r(r"\b(?:you|your|yours|yourself)\b"),
+         "place records are reference register: no address to the reader (style guide §2.8); recast in the third person",
+         fields=tuple(".".join(p) for p in PROSE_PATHS)),
+    Rule("turn-on-reader", "hard", _r(r"\bSo (?:is|are|was|were|do|does|did|will|can|would|have|has) (?:you|the player|anyone|whoever)\b|\byou will be next\b"),
+         "the tag-line turn on the reader ('So are you.'); style guide §2.8 rule 2"),
     # ---- SOFT: density and candidates for the reviewer --------------------
     Rule("generaliser", "soft", _r(r"\b(?:anyone|anybody|everyone|everybody|nobody|no one|no-one|nothing|everything|anything|always|all of them|none of them|the only|the one|whole province|in the province)\b"),
          "lazy generalisation (owner 2026-09-04): tie it to the place — a role, a name, a number, a direction"),
+    Rule("none-of", "soft", _r(r"\bnone of (?:it|them|which|this|that|these|those|us)\b|\bnone (?:is|are|was|were|has|have|do|does|did|will)\b"),
+         "'none of it / none of them' — the absolute-negative tag; usually deletable (owner 2026-09-04)"),
+    Rule("zinger-tail", "soft", _r(r"[.!?]\s+(?:[A-Z][^.!?]{0,17})[.!?]$"),
+         "a record ending on a sentence of a few words after a longer one — the tag-line closer; end on a fact (style guide §2.8 rule 3)"),
+    Rule("design-voice", "soft", _r(r"\bis a quest\b|\ba quest and a\b|\b(?:the|every|each|first|last) beat\b|\bthe pattern is the point\b|\bplayer-facing\b|\bthe opening'?s\b|\bwhich is (?:a|an) (?:delve|oddity|quest|fight|heist|whodunit|escort|fetch|dungeon|evidence)\b|\bworth a (?:whole )?quest\b|\bso a quest can\b"),
+         "design or session voice inside a premise / opportunity / prose field (round-5 reviewers, 2026-09-04)"),
+    Rule("wry-label", "soft", _r(r"^[A-Za-z][^,.;:]{2,40}, (?:priced|paid|measured|kept|used|sold|charged|counted|timed|on a scale|at a rate|by the|with cause|for a fee|whether|as long as|until|if you|once you)\b[^,.;:]{0,50}\.?$"),
+         "label field as 'abstract noun, wry qualifier' (\"cheerful extortion, priced by the hull\"); one plain word or a plain fact",
+         fields=("vibe.mood", "vibe.condition")),
+    Rule("repeat-noun", "soft", _r(r"\b(?:the|a|an) (\w{4,}) (?:named|called|known)[^.]{0,40}\bas (?:the|a|an) \1\b"),
+         "a noun repeated inside one sentence for effect (style guide §2.8 rule 5)"),
     Rule("the-only", "soft", _r(r"\bthe only\b"),
          "'the only' — allowed rarely; >1 per record or >4 per 1,000 words is convergence"),
     Rule("never", "soft", _r(r"\bnever\b"),
@@ -129,13 +158,13 @@ HARD = [r for r in RULES if r.severity == "hard"] + RECORD_RULES
 SOFT = [r for r in RULES if r.severity == "soft"]
 # Density thresholds per 1,000 words for the soft rules that are tics at scale.
 SOFT_DENSITY_MAX = {"the-only": 1.5, "never": 3.0, "and-closer": 6.0, "will-not-say": 2.0, "ancient": 2.0,
-                    "generaliser": 5.0}
+                    "generaliser": 5.0, "none-of": 0.6, "zinger-tail": 1.5}
 # Per-record cap for the generaliser class (a record with three "everyone /
 # nobody / the only" beats is the tell whatever the province average says).
 GENERALISER_RECORD_MAX = 2
 # Province-wide ceilings (owner 2026-09-04: overuse is a body-of-text problem,
 # not a per-record one). Checked over the whole run, all scopes together.
-GLOBAL_DENSITY_MAX = {"generaliser": 4.0, "the-only": 0.8, "never": 2.5}
+GLOBAL_DENSITY_MAX = {"generaliser": 4.0, "the-only": 0.8, "never": 2.5, "none-of": 0.3, "zinger-tail": 0.8}
 # Design-voice fields: not player-visible, so the provenance/session-voice rule does not apply.
 DESIGN_FIELDS = {"questHooks.opportunity"}
 DESIGN_EXEMPT_RULES = {"canon-marker"}
@@ -168,6 +197,8 @@ class LintResult:
         self.by_scope_words[scope] += n
         for rule in RULES:
             if fld in DESIGN_FIELDS and rule.id in DESIGN_EXEMPT_RULES:
+                continue
+            if rule.fields and fld not in rule.fields:
                 continue
             for m in rule.pattern.finditer(text):
                 s = max(0, m.start() - 30)
@@ -233,6 +264,22 @@ def lint_record(res: LintResult, rec: dict, scope: str) -> None:
     if only > 1:
         res.hits.append(Hit(rid, "record", "the-only-repeat", "hard", f"'the only' {only}× in one record"))
         res.by_scope_rule[scope]["the-only-repeat"] += 1
+    # field-echo (soft): the same 6-word run in two different prose fields of
+    # one record — the same image told twice (saxhleel reviewer, 2026-09-04)
+    grams: dict[str, str] = {}
+    for path in PROSE_PATHS:
+        t = _get(rec, path)
+        if not t or path in (("sitingNote",), ("questHooks", "opportunity")):
+            continue
+        words = re.findall(r"[a-z']+", t.lower())
+        fname = ".".join(path)
+        for i in range(len(words) - 5):
+            g = " ".join(words[i:i + 6])
+            if g in grams and grams[g] != fname:
+                res.hits.append(Hit(rid, fname, "field-echo", "soft", f"'{g}' also in {grams[g]}"))
+                res.by_scope_rule[scope]["field-echo"] += 1
+                break
+            grams.setdefault(g, fname)
     for path in PROSE_PATHS:
         t = _get(rec, path)
         if t:
@@ -395,7 +442,7 @@ def render_report(res: LintResult, title: str) -> str:
     if len(hard) > 2000:
         lines.append(f"- … {len(hard) - 2000} more")
     lines += ["", "## Soft candidates (for the reviewer's eye)", ""]
-    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("stock-phrase", "and-closer", "and-for-but", "the-only", "will-not-say", "generaliser")]
+    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("stock-phrase", "and-closer", "and-for-but", "the-only", "will-not-say", "generaliser", "none-of", "zinger-tail", "repeat-noun", "design-voice", "wry-label", "field-echo")]
     for h in soft[:1500]:
         lines.append(f"- `{h.where}` · {h.fld} · {h.rule} — …{h.excerpt}…")
     if len(soft) > 1500:
@@ -449,7 +496,7 @@ def main(argv: list[str] | None = None) -> int:
               + (f"({', '.join(f'{k} {v}' for k, v in hc.most_common())})" if hc else "")
               + f"; {len(res.hits) - len(hard)} soft candidates; density breaches: {len(fails)}")
         for s, r, d in fails:
-            print(f"  density {s} {r} = {d}/1k words (max {SOFT_DENSITY_MAX[r]})")
+            print(f"  density {s} {r} = {d}/1k words (max {GLOBAL_DENSITY_MAX[r] if s == 'WHOLE RUN' else SOFT_DENSITY_MAX[r]})")
         if str(a.report) != "-":
             print(f"report: {a.report}")
     if a.strict and (hard or fails):

@@ -29,9 +29,9 @@
       "why": {
         "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from either customs regime that both of them use it.",
         "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
-        "occupantsMotive": "A captain of the port whose only law is a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
-        "pressures": "There is no Hist here. What holds a crew to the town is the price list and the depth of water. Stormhold's vicecanons would like the trade but cannot reach it. Rockpoint downriver still resents losing.",
-        "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, its whole reason to exist is gone; if the river silted below the oxbow, the town is a village in five years."
+        "occupantsMotive": "A captain of the port who governs by a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
+        "pressures": "There is no Hist here. What holds a crew to the town is the price list and the depth of water. Stormhold's vicecanons would like the trade but cannot reach it. Rockpoint downriver failed trying to undercut the list.",
+        "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, the trade would move elsewhere. If the river silted below the oxbow, the town would be a village in five years."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -127,8 +127,8 @@
         "materials": "the town is built out of other people's cargo: crate timber, ship planking, salvaged spars, with mud render where the crate timber ran out",
         "signatureFeature": "a price list nailed up in public that names contraband by grade, with a separate rate for each grade",
         "condition": "prosperous and ramshackle",
-        "mood": "transactional; dangerous only if you are slow",
-        "approach": "the hull's shape resolves out of the roofline from upriver, long before you can read the town",
+        "mood": "transactional; quick with strangers",
+        "approach": "the hull's shape resolves out of the roofline from upriver, long before the town itself is legible",
         "senses": "hulls working against the bank, four languages, tar, wet rope, cooking from three cuisines at once"
       },
       "assetPlan": [
@@ -485,8 +485,8 @@
       "why": {
         "founding": "Argonians who die away from a Hist can still go back if their bones are carried to the dirt. This zone has no Hist at all, so every death here starts a journey south.",
         "siteAdvantages": "On the trunk route at the point where the southbound road and the river both leave the freeholds.",
-        "occupantsMotive": "Bone-carriers who take the dead of a town that cannot bury them, for a fee they are ashamed of.",
-        "pressures": "The racks are full from the wet season through to the dry, because a town with no Hist buries none of its own.",
+        "occupantsMotive": "Bone-carriers who take the dead of a town that cannot bury them. They charge a fee and are ashamed of it.",
+        "pressures": "The racks are full from the wet season through to the dry, because a town with no Hist buries its dead elsewhere.",
         "wouldChangeIf": "If a Hist were ever planted at the free port, this house closes and the carriers lose a trade."
       },
       "sitingPrefs": {
@@ -538,7 +538,7 @@
         "signatureFeature": "racks of wrapped bundles labelled with destinations two weeks' travel south",
         "condition": "orderly, full, quiet",
         "mood": "careful; voices drop at the door",
-        "approach": "you smell the resin used for wrapping before you reach it",
+        "approach": "the resin used for wrapping smells out well short of the buildings",
         "senses": "cloth, cut cord and no talking"
       },
       "assetPlan": [
@@ -649,7 +649,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Bundled bones wait on racks for someone travelling the right way upriver. The keeper will pay you to be that someone.",
+        "hook": "Bundled bones wait on racks for someone travelling the right way upriver. The keeper pays carriers by the bundle.",
         "reviewed": true
       },
       "interior": {
@@ -710,8 +710,8 @@
       "why": {
         "founding": "Foreign keeled hulls come this far up the river and have to be laid over and scraped somewhere the owner is not watching.",
         "siteAdvantages": "A firm shelving bank inside the basin, with a hard bottom that will take a hull's weight at low water.",
-        "occupantsMotive": "Boatwrights who build canoes beautifully but repair Nord hulls badly, on purpose, for money.",
-        "pressures": "Hull identities change here. A name is planed off and another painted on for forty drakes, quoted at the bench without haggling.",
+        "occupantsMotive": "Boatwrights who build canoes well. Their repairs to Nord hulls are deliberately poor. The owners pay for them anyway.",
+        "pressures": "Hull identities change here. A name is planed off the board and a new one painted in its place. The bench rate for the work is forty drakes.",
         "wouldChangeIf": "If the free port were ever inspected, the hard is the first thing that would have to disappear."
       },
       "sitingPrefs": {
@@ -761,7 +761,7 @@
         "materials": "hull timber, steaming pit, paint pots",
         "signatureFeature": "a stack of planed-off nameboards under a bench, kept because someone thinks they might be needed again",
         "condition": "working, filthy",
-        "mood": "cheerful; the question of whose hull it is does not come up",
+        "mood": "cheerful; incurious about owners",
         "approach": "the laid-over hull reads as a building until it moves",
         "senses": "scraping; hot pitch; hammering that stops when strangers arrive"
       },
@@ -915,10 +915,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a reach away and take what the list would have charged them for.",
+        "founding": "The free port sells to whoever pays the list and guards no hull once it leaves the basin. The crews that will not keep to the price list anchor a reach away and take what they would otherwise have bought.",
         "siteAdvantages": "A blind reach with a cut bank, out of sight of the port and above the last mooring the chartered hulls use.",
         "occupantsMotive": "A Salt-Teeth crew working the reach between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
-        "pressures": "The port halls will tolerate them exactly as long as the price list is not undercut in public.",
+        "pressures": "The port halls tolerate them while the price list is not undercut in public.",
         "wouldChangeIf": "If the port ever set a rate for salvage, the crew would come in and pay it."
       },
       "sitingPrefs": {
@@ -981,9 +981,9 @@
         "palette": "tar, wet root, cargo colours stacked where they do not belong",
         "materials": "beached hulls, a plank stage, an undercut in the bank shored with cargo timber",
         "signatureFeature": "a stack of bonded crates with four different ports' seals on them, all cut",
-        "condition": "temporary by design, used for years",
+        "condition": "makeshift, in use for years",
         "mood": "businesslike; work first, drink after",
-        "approach": "you hear the stage working against the hulls before the hulls come out of the bank shadow",
+        "approach": "the stage is heard working against the hulls before the hulls come out of the bank shadow",
         "senses": "rope, tar, somebody counting out loud"
       },
       "assetPlan": [
@@ -1080,7 +1080,7 @@
           "unique-item"
         ],
         "impact": "real",
-        "hook": "A crew that will not pay the port's prices keeps its prizes in a hole in the bank. They kill people for looking at it.",
+        "hook": "A crew that will not pay the port's prices keeps its prizes in a hole in the bank. The crew has killed visitors who went near it.",
         "reviewed": true
       },
       "interior": {
@@ -1121,7 +1121,7 @@
             "danger": "D1",
             "count": "pair",
             "named": false,
-            "note": "pressed hands who down tools the moment the boss is dead"
+            "note": "pressed hands with no stake in the fight"
           }
         ],
         "loot": [
@@ -1200,11 +1200,11 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A fishing hamlet on the rise the creek floods around. A boat can wait out of the channel here while the free port is being watched. The hamlet has lived off that ever since.",
+        "founding": "A fishing hamlet on a rise the creek surrounds in flood. Boats wait out of the channel here when the free port is being watched. The hamlet has charged for that ever since.",
         "siteAdvantages": "A rise of firm ground well above the water, with a creek behind it deep enough to lie a hull in and shallow enough to turn back a keeled hull.",
-        "occupantsMotive": "Fisher households who are also, on about four nights a month, a lay-by with a fee.",
-        "pressures": "The lay-by trade is worth more than the fish and every child in the hamlet knows it. The port road runs close enough that discretion is work.",
-        "wouldChangeIf": "If the free port's list ever covered waiting time, Chasecreek loses its niche and becomes a fishing hamlet again."
+        "occupantsMotive": "Fisher households. On about four nights a month they run the rise as a lay-by and charge for it.",
+        "pressures": "The lay-by trade is worth more than the fish. The port road runs close enough that a waiting boat has to be kept out of sight.",
+        "wouldChangeIf": "If the free port's list ever covered waiting time, Chasecreek would be a fishing hamlet again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1286,7 +1286,7 @@
         "signatureFeature": "every household has one expensive object out of keeping with the rest of the room",
         "condition": "modest outside, well found inside",
         "mood": "friendly; counting",
-        "approach": "the rise shows first, then the road below it, then the creek behind",
+        "approach": "the rise shows first, then the road below it, then the creek beyond the houses",
         "senses": "reed, frogs, a boat arriving at the wrong hour"
       },
       "assetPlan": [
@@ -1408,7 +1408,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "the lay-by is worth more than the fish; the keeper sets the fee and the households split it",
+        "opportunity": "the keeper sets the lay-by fee and the households split it",
         "tierOwnership": "LP18 · tier-3"
       },
       "terrainRequests": [
@@ -1776,7 +1776,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port is built around a hull that was dragged up the bank sixty years ago. Its masts were left standing because they were useful. From the crosstrees you can see over the roofs and the canopy at once, which no gable in the port will give you.",
+        "founding": "The free port is built around a hull that was dragged up the bank sixty years ago. Its masts were left standing because they were useful. From the crosstrees both the roofs and the canopy are in sight. No gable in the port stands high enough for that.",
         "siteAdvantages": "The beached hull sits on the highest firm ground in the basin, with the canopy cut back around it so the lookout can work.",
         "occupantsMotive": "The port's lookout watches for hulls coming up the reach and takes no fee; the halls below pay her in beer for the early word.",
         "pressures": "The rigging is sixty years past its rope. The ladder gets rebuilt every wet season by whoever is free that week.",
@@ -1838,11 +1838,11 @@
         "silhouette": "two masts standing over a roofline, with a plank stage lashed across them",
         "palette": "grey timber, tarred rope, one strip of faded flag left up since the hull came ashore",
         "materials": "ship spars, lashed plank, a ladder of salvaged batten",
-        "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each thing worth watching",
-        "condition": "sound enough, rebuilt badly",
+        "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each reach the lookout watches",
+        "condition": "old rigging, patched stage",
         "mood": "quiet, with the port's noise under it",
         "approach": "the ladder starts behind the hull-hall, out of the weather",
-        "senses": "wind in slack rigging; the ladder complaining under you"
+        "senses": "wind in slack rigging; the ladder complaining under a climber"
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -1857,7 +1857,7 @@
           "quest.provision.opening-vantage"
         ],
         "tags": [],
-        "opportunity": "the lookout sells bearings, so the first climb can be paid for with what the player can already see",
+        "opportunity": "the lookout sells bearings and takes payment in news from downriver",
         "tierOwnership": "LP03 · tier-3; tier-1"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
@@ -1912,7 +1912,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Climb the old hull's masts and the lookout will name the reaches, the rim notch and the boat that leaves for the capital.",
+        "hook": "The old hull's masts are climbable. The lookout at the top names the reaches, the rim notch and the boat for the capital.",
         "reviewed": true
       },
       "interior": {
@@ -2367,9 +2367,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Debts bought at the gambling house become owings. Owings become gangs. The yard is where the people who lost their ground wait to be told where they are working.",
+        "founding": "Debts bought at the gambling house become owings. An owing is worked off in a gang. The yard is where the people who lost their ground wait to be told where they are working.",
         "siteAdvantages": "A hard standing beside the porter yard, on the road out of the free port.",
-        "occupantsMotive": "Households whose owing was called in, plus a broker's clerk with a ledger.",
+        "occupantsMotive": "Households whose owings the broker has called, plus his clerk and his ledger.",
         "pressures": "There are no chains in the yard. Leaving costs the balance on the ledger, read out in months.",
         "wouldChangeIf": "If a Chainbreaker cell reached the yard, the free port's labour supply stops on the same day."
       },
@@ -2520,7 +2520,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "The yard where an owing turns into a work gang. The ledger is read aloud at the office door, so the yard hears the months go on.",
+        "hook": "The yard where an owing turns into a work gang. The ledger is read aloud at the office door and the balance is counted in months.",
         "reviewed": true
       },
       "interior": {
@@ -2632,9 +2632,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port has no Hist. That is the reason the freeholds exist. The camp on the town's edge is where the Hist-less say so out loud, whether they chose it or were left it.",
+        "founding": "The free port has no Hist. The camp on the town's edge is where its Hist-less households live, some by choice and some because they were left with nothing else.",
         "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
-        "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
+        "occupantsMotive": "Argonians with no tree awaiting their return, plus outsiders who prefer that company.",
         "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
         "wouldChangeIf": "If a Hist cutting were successfully planted here, the free port stops being a freehold and starts being a town."
       },
@@ -2692,7 +2692,7 @@
         "condition": "solid and plain",
         "mood": "stubborn; the subject comes up every day",
         "approach": "the gap in the middle shows before the houses do",
-        "senses": "no chimes; a visitor from upriver hears the absence inside a minute"
+        "senses": "no chimes; a visitor from upriver notices within a minute"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -2803,7 +2803,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A village with an empty planting circle, swept every day for sixty years. Ask the circle's keeper why.",
+        "hook": "A village with an empty planting circle, swept every day for sixty years. The circle's keeper will explain why it is kept.",
         "reviewed": true
       },
       "interior": {
@@ -2912,8 +2912,8 @@
         "materials": "cut bank shored with ship planking, a brick floor under the silt",
         "signatureFeature": "a bond seal still nailed to the door frame, cut through with a knife",
         "condition": "flooded, occupied, not defended",
-        "mood": "damp; no kind of fight",
-        "approach": "the bank steps down to it; you can look in before you go in",
+        "mood": "damp; the tenants are not fighters",
+        "approach": "the bank steps down to it; the doorway is visible from outside",
         "senses": "water slapping brick; three people arguing about a share"
       },
       "assetPlan": [
@@ -2929,7 +2929,7 @@
           "quest.provision.opening-first-delve"
         ],
         "tags": [],
-        "opportunity": "the flooded store is the first door a new character can open, with three weak tenants and one crate behind them",
+        "opportunity": "a flooded store with three weak tenants and one bonded crate behind them",
         "tierOwnership": "LP02 · tier-3; tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
@@ -3019,7 +3019,7 @@
             "danger": "D2",
             "count": "few",
             "named": false,
-            "note": "three store-breakers, poorly armed, who come down the flooded passage one at a time"
+            "note": "three store-breakers, poorly armed, sleeping in the dry end"
           }
         ],
         "loot": [
@@ -3096,9 +3096,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A port whose social hall is a beached hull still needs somewhere you can pay for a bed and a locked door.",
+        "founding": "A port whose social hall is a beached hull still needs a house that sells beds and locked doors.",
         "siteAdvantages": "On the basin front, one door from the hull hall and two from the gambling house.",
-        "occupantsMotive": "A keeper who sells beds and rents silence.",
+        "occupantsMotive": "A keeper who sells beds, stabling and discretion.",
         "pressures": "Four languages in one room. The guest book is worth more than the takings.",
         "wouldChangeIf": "If the free port were made lawful, the guest book becomes evidence and the keeper burns it."
       },
@@ -3150,12 +3150,12 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a lit doorway with a mooring outside and a stable behind",
+        "silhouette": "a lit doorway between a mooring and a stable yard",
         "palette": "lamp yellow, tar black, cargo-crate walls",
         "materials": "crate timber and ship plank, one bought Imperial door",
         "signatureFeature": "a guest book kept in four scripts, Jel not among them, with a private stair that avoids the main room",
         "condition": "prosperous, scuffed",
-        "mood": "loud; the beds and the silence both have a rate",
+        "mood": "loud; four crews' worth of talk",
         "approach": "the noise reaches the basin",
         "senses": "four languages; cooking; a lock being turned upstairs"
       },
@@ -3277,7 +3277,7 @@
             "danger": "D2",
             "count": "single",
             "named": true,
-            "note": "the keeper, who sells beds and rents silence"
+            "note": "the keeper, who lets rooms and asks nothing"
           },
           {
             "slotId": "n2",
@@ -3335,10 +3335,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "House Dres took Argonians out of this river country for centuries. The pens they used to hold and count them are still standing on the bank they loaded from.",
+        "founding": "House Dres took Argonians out of this river country for centuries. The pens they used to hold and count them still stand on the bank from which the barges loaded.",
         "siteAdvantages": "A river landing with hard standing, sited for loading rather than living.",
-        "occupantsMotive": "Empty above ground. Something has been getting into the flooded cells below. The free port keeps its business off this bank; the Dunmer factors in town avoid it hardest of all.",
-        "pressures": "The pens are not joked about, at the market or on the barge.",
+        "occupantsMotive": "Empty above ground. Something has been getting into the flooded cells below. The free port keeps its business off this bank. The Dunmer factors in town avoid it altogether.",
+        "pressures": "The pens are not a subject for jokes at the market or on the barges.",
         "wouldChangeIf": "If the Dunmer factors in town were ever formally associated with it, the freehold's trade with Morrowind ends overnight."
       },
       "sitingPrefs": {
@@ -3386,10 +3386,10 @@
         "palette": "grey stone, rust, bare hard standing",
         "materials": "Dunmer-cut stone, iron rings, a ramp graded for people",
         "signatureFeature": "a loading ramp graded and railed for people rather than cargo, with the count-marks still cut into the gatepost and a stair at the bottom of it going down into the holding cells",
-        "condition": "sound; deliberately not repaired and deliberately not demolished",
+        "condition": "sound; neither repaired nor demolished",
         "mood": "voices stop at the ramp",
         "approach": "the trunk road passes within thirty paces of the ramp",
-        "senses": "no birds and no frogs, on a bank that should have both"
+        "senses": "no birds and no frogs"
       },
       "assetPlan": [
         "bmv-fort",
@@ -3404,7 +3404,7 @@
           "quest.provision.dres-pens"
         ],
         "tags": [],
-        "opportunity": "somebody is repairing the apparatus, which the port would rather went unproven",
+        "opportunity": "somebody is repairing the apparatus, using money the port cannot trace",
         "tierOwnership": "LP08 · tier-3; tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.old-pens",
@@ -3590,10 +3590,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A House holding left over from the Dres trade, now a Dunmer village on the wrong side of the border that stayed because going home was worse.",
+        "founding": "A House holding left over from the Dres trade, now a Dunmer village on the wrong side of the border. Returning to Morrowind was the worse choice and the families stayed.",
         "siteAdvantages": "A defensible upland shelf on the pass road, with its own water and a walled core.",
         "occupantsMotive": "Dunmer families three centuries settled, factoring for the free port. The river villages downriver hold it against them.",
-        "pressures": "They are the largest concentration of the zone's 22% Dunmer minority and they live beside the pens their ancestors filled.",
+        "pressures": "They are the largest concentration of the zone's 22% Dunmer minority. The Dres pens stand on the river below them.",
         "wouldChangeIf": "If Morrowind reasserted a claim here, the free port's northern trade becomes a diplomatic asset instead of a crime."
       },
       "sitingPrefs": {
@@ -3652,7 +3652,7 @@
         "materials": "Velothi render and stone, imported roof tile, a wall",
         "signatureFeature": "an ancestor hall maintained for three hundred years by people born on this side of the border",
         "condition": "solid and wealthy",
-        "mood": "closed; aware of what stands on the riverbank",
+        "mood": "closed; watchful of the river below",
         "approach": "the roof shapes read wrong from a long way off",
         "senses": "a different language; a bell rather than a chime"
       },
@@ -3984,7 +3984,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The people who died in the Flu here were not Argonian and had no Hist to go to, so they were cairned where they fell, by whoever was left.",
+        "founding": "The people who died in the Flu here were not Argonian and had no Hist awaiting them, so they were cairned where they fell by whoever was still alive.",
         "siteAdvantages": "Firm dry ground above the village, with loose stone to hand.",
         "occupantsMotive": "Unoccupied. Passing travellers re-stack the cairns, as they have since the road was cut.",
         "pressures": "It is the largest visible evidence in the zone that a whole people used to live here.",
@@ -4030,11 +4030,11 @@
         "silhouette": "hundreds of small stone piles across an open slope",
         "palette": "grey stone, brown grass, wide sky",
         "materials": "field stone, unworked, no markers",
-        "signatureFeature": "hundreds of cairns and exactly one with a date cut into it",
+        "signatureFeature": "hundreds of cairns, one of which has a date cut into it",
         "condition": "re-stacked by strangers for six hundred years",
         "mood": "quiet; larger than it looked from below",
         "approach": "the slope reads as scree until the pattern resolves",
-        "senses": "wind; stones being replaced by someone ahead of you"
+        "senses": "wind; stones being replaced by someone further up the line"
       },
       "assetPlan": [
         "landmark-civic",
@@ -4547,11 +4547,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The price list has to be applied somewhere. The stall row under the board is where it happens.",
+        "founding": "The price list has to be applied somewhere. It is applied at the stall row under the board.",
         "siteAdvantages": "Level ground below the list board, one street up from the basin and clear of the wharf traffic.",
-        "occupantsMotive": "Traders working in septims and Dunmer coin, with barter at the next stall along.",
-        "pressures": "The board is a public document that names contraband by grade. It is written down, which is more than Stormhold's customs house will do.",
-        "wouldChangeIf": "If the list were withdrawn, the row would still meet, with every price back to argument."
+        "occupantsMotive": "Traders working in septims and Dunmer coin, with barter accepted at the next stall.",
+        "pressures": "The board is a public document that names contraband by grade. Stormhold's customs house publishes no such list.",
+        "wouldChangeIf": "If the list were withdrawn, the row would still meet and every price would be argued again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4599,9 +4599,9 @@
         "palette": "frame grey, board white, awnings from four provinces",
         "materials": "timber frames, bought canvas, four provinces' goods",
         "signatureFeature": "a weights post carrying four sets of weights, three of which disagree",
-        "condition": "structure permanent, contents wildly variable",
+        "condition": "permanent frames, changing stock",
         "mood": "loud; sharp about prices",
-        "approach": "the board is the first thing you can read from the water",
+        "approach": "the board is the first thing legible from the water",
         "senses": "four languages haggling in three currencies"
       },
       "assetPlan": [
@@ -4729,7 +4729,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "the board prices contraband by grade, so a forged grade is a quest and a bad one is a war",
+        "opportunity": "a forged grade on the board would move a cargo between lawful and contraband before anyone checked",
         "tierOwnership": "LP05 · tier-3"
       }
     },
@@ -4755,7 +4755,7 @@
         "founding": "A Naga band works the rim track up to the pass, because the freeholds' cargo climbs it unescorted. The nearest keeper sits four hours further up, at the pass station.",
         "siteAdvantages": "Cover within a spear's throw of the track at a point where it cannot be left.",
         "occupantsMotive": "Eight or so, who strike camp after every taking.",
-        "pressures": "The free port pays escorts rather than fight them, because eight raiders cost less in coin than in hands.",
+        "pressures": "The free port pays escorts rather than fight them. Hiring escorts is cheaper than losing hands.",
         "wouldChangeIf": "If the pass station kept a watch, the band moves down to the river and takes boats instead."
       },
       "sitingPrefs": {
@@ -4814,10 +4814,10 @@
         "silhouette": "hidden from the road; from the trees uphill, a cleared circle with no fire in it",
         "palette": "dull hide, wet bone, dark green; no smoke",
         "materials": "hide shelters struck and re-pitched daily, bone-and-flint gear, taken cargo still in other people's crates",
-        "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
+        "signatureFeature": "taken cargo in labelled heaps, sorted by the place on the road where each was taken",
         "condition": "recently made, ready to move",
-        "mood": "patient; they take and they move",
-        "approach": "you are watched from cover for some minutes before the first spear shows",
+        "mood": "patient; quick to strike camp",
+        "approach": "arrivals are watched from cover for some minutes before the first spear shows",
         "senses": "no dogs, no smoke; then the whole band at once"
       },
       "assetPlan": [
@@ -4875,7 +4875,7 @@
           "stealth-challenge"
         ],
         "impact": "real",
-        "hook": "A Naga band camped a spear's throw off the rim track, at the point on the climb where you cannot leave it.",
+        "hook": "A Naga band camped a spear's throw off the rim track, where the climb is too steep to leave the path.",
         "reviewed": true
       },
       "interior": {
@@ -5221,8 +5221,8 @@
         "materials": "stone forge, ship iron, charcoal",
         "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, each hull named",
         "condition": "hot and sound",
-        "mood": "resented; used by the yard daily",
-        "approach": "one chimney standing straight up over reed roofs that have none",
+        "mood": "busy; the yard is in and out all day",
+        "approach": "one stone chimney over reed roofs",
         "senses": "hammer on iron, charcoal, hot scale"
       },
       "assetPlan": [
@@ -5709,10 +5709,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Half the crews on this water hold a charter from somebody. Ask a captain whose and he gives you a port's name rather than a man's. Long Water is where they lie up between charters. The port treats it as a berth rather than a problem.",
+        "founding": "Half the crews on this water hold a charter from somebody. Asked whose, a captain names a port rather than a man. Long Water is where they lie up between charters. The port halls count it as a berth.",
         "siteAdvantages": "A long straight reach with deep water on one bank, room for four hulls and a clear run out in either direction.",
         "occupantsMotive": "Crews resting and refitting between charters. A broker sells passage to a traveller who does not ask what else the hull is carrying.",
-        "pressures": "One bad prize and the port halls withdraw the berth. Then it is Short Rope.",
+        "pressures": "One bad prize and the port halls withdraw the berth. The crews that lose it end up at Short Rope.",
         "wouldChangeIf": "If the League of Open Water ever chartered these crews properly, the freehold would have a navy."
       },
       "sitingPrefs": {
@@ -5768,11 +5768,11 @@
         "silhouette": "four hulls on a long reach, two of them careened over, no building on the bank",
         "palette": "tar, bare timber and every crew's own paint on its own bow",
         "materials": "hulls, stages between hulls and one plank walk to the bank",
-        "signatureFeature": "no building on the bank; the hiring is done on a deck like the rest of it",
-        "condition": "busy; packs up in a morning if it has to",
-        "mood": "civil, on terms you have to learn quickly",
-        "approach": "the reach opens and there they are. They saw you first.",
-        "senses": "hammering, careening tar, four conversations that stop when you get close"
+        "signatureFeature": "no building on the bank; hiring is done on deck",
+        "condition": "busy; strikes and moves in a morning",
+        "mood": "civil, by the crews' own rules",
+        "approach": "the reach opens on four hulls, with the watch on deck already looking at the bank",
+        "senses": "hammering, careening tar, four conversations that stop at the approach of a stranger"
       },
       "assetPlan": [
         "boats-keeled",
@@ -5890,7 +5890,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Four crews lying up between charters. The broker on the middle hull will sell you a berth out.",
+        "hook": "Four crews lying up between charters. The broker on the middle hull sells berths out.",
         "reviewed": true
       },
       "interior": {
@@ -6049,8 +6049,8 @@
         "materials": "stone footings and post holes, from a people who built differently from Argonians",
         "signatureFeature": "a village-shaped clearing on the best ground for kilometres, with a two-hundred-year-old tree growing in the middle of the square",
         "condition": "reduced to footings, undisturbed",
-        "mood": "empty, on ground that should not be",
-        "approach": "you notice the good ground before you notice why it is empty",
+        "mood": "empty; the ground is good",
+        "approach": "the good ground shows from the water before the footings do",
         "senses": "river noise; crews going quiet as they pass"
       },
       "assetPlan": [
@@ -6111,7 +6111,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "The best empty river frontage in the zone. Six hundred years of crews have refused to tie up at it.",
+        "hook": "The best empty river frontage in the zone. No crew has tied up there in six hundred years.",
         "reviewed": true
       },
       "interior": {
@@ -6442,9 +6442,9 @@
         "palette": "tar black, wet timber, the grey of dredged silt",
         "materials": "barge deck and plank partitions; chain-and-basket dredging gear at the bow",
         "signatureFeature": "the roll itself, a board of names in a locked case, read out at the top of every shift",
-        "condition": "crowded, kept just short of unsafe",
+        "condition": "crowded and heavily worked",
         "mood": "orderly; every hour of it is counted",
-        "approach": "you arrive by boat; there is no other way off",
+        "approach": "reached by boat only",
         "senses": "chain over a drum; a name read out, then a number"
       },
       "assetPlan": [
@@ -6464,7 +6464,7 @@
           "quest.provision.opening-work-barge"
         ],
         "tags": [],
-        "opportunity": "a new hand can buy their way off the ledger, argue it down or burn it, with the port pricing all three",
+        "opportunity": "a new hand can buy their way off the ledger, argue it down or burn it",
         "tierOwnership": "MQ01 · tier-0; LP01 · tier-3"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
@@ -6563,7 +6563,7 @@
           "stealth-challenge"
         ],
         "impact": "province-changing",
-        "hook": "A dredging barge moored off the port, with your months written on a board in a locked case and read out at the top of every shift.",
+        "hook": "A dredging barge moored off the port. Names and the months each hand owes are kept on a board in a locked case, read out at the top of every shift.",
         "reviewed": true
       },
       "interior": {
@@ -6595,7 +6595,7 @@
             "danger": "D1",
             "count": "few",
             "named": false,
-            "note": "gang overseers, armed with what a work gang can be trusted around"
+            "note": "gang overseers, armed lightly as overseers of a work gang are"
           },
           {
             "slotId": "n3",
@@ -6613,7 +6613,7 @@
             "danger": "D1",
             "count": "single",
             "named": true,
-            "note": "the An-Xileel courier whose satchel the raid comes for"
+            "note": "the An-Xileel courier, whose satchel is the object of the raid"
           }
         ],
         "loot": [
@@ -6683,10 +6683,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and its name is still the ground the gang is on.",
+        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground the gang works.",
         "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
-        "pressures": "The camp has a Hist a day upriver but no claim on it. The clutch in the shed is the argument for staying.",
+        "pressures": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
         "wouldChangeIf": "If the clutch is lost, the families go somewhere the ledger cannot follow."
       },
       "sitingPrefs": {
@@ -6746,10 +6746,10 @@
         "palette": "mud, undyed cloth, the warm amber of the hatching shed's lamps at night",
         "materials": "mud render, cut reed, plank walkways over the wet ground",
         "signatureFeature": "the hatching shed, kept warmer and cleaner than the sleeping sheds",
-        "condition": "poor and cared for",
+        "condition": "poor, well kept",
         "mood": "domestic; the ledger is a walk away",
         "approach": "the walkway from the water runs straight past the shed door",
-        "senses": "cooking, wet reed; from the long shed a low sound you cannot place until it stops"
+        "senses": "cooking, wet reed; from the long shed a low continuous sound"
       },
       "assetPlan": [
         "bamboo-hut",
@@ -6896,7 +6896,7 @@
             "danger": "D1",
             "count": "pair",
             "named": false,
-            "note": "the camp's two overseers, who leave for the barge when it burns"
+            "note": "the camp's two overseers"
           }
         ],
         "loot": [
@@ -7346,8 +7346,8 @@
         "materials": "hull timber, silt, trapped cargo",
         "signatureFeature": "cargo still lashed in the hold under a metre of silt, in water too dark to work",
         "condition": "silted, intact",
-        "mood": "dark; worth the dive",
-        "approach": "found by diving where the salvagers will not",
+        "mood": "dark; deep water",
+        "approach": "found by diving the confluence hole below the salvage line",
         "senses": "current noise above; silence at the bottom"
       },
       "assetPlan": [
@@ -7511,7 +7511,7 @@
       "why": {
         "founding": "An intact Imperial fort above the gorge stretch of the trunk, abandoned two hundred years ago, into which somebody moved and started charging.",
         "siteAdvantages": "It stands on the bluff over the reach where road and river lane run together in one gorge and neither can go around it, which is why the Legion built there.",
-        "occupantsMotive": "A toll-taking outfit with a claim, a garrison of thirty and no legal standing whatsoever.",
+        "occupantsMotive": "A toll-taking outfit with a bought claim, thirty hired men and no legal standing.",
         "pressures": "They are the free port's only rival for the road trade. The port would still rather have them than the state.",
         "wouldChangeIf": "If the state ever garrisoned it properly, the whole zone's economy is enclosed in a season."
       },
@@ -7571,9 +7571,9 @@
         "silhouette": "a square Imperial curtain wall with the wrong banners on it",
         "palette": "grey ashlar, faded eagle red, new banner colours",
         "materials": "Imperial ashlar with freehold timber additions bolted through the parapets",
-        "signatureFeature": "an Imperial eagle still over the gate, left uncut, under a banner the toll-takers cannot name a house for",
+        "signatureFeature": "an Imperial eagle still over the gate, left uncut, under a banner belonging to no house the toll-takers can name",
         "condition": "sound, crudely extended",
-        "mood": "borrowed authority; it works",
+        "mood": "borrowed authority; the tolls are paid",
         "approach": "square walls, legible a long way down the road",
         "senses": "a gate being worked; drilling that is not quite drill"
       },
@@ -8454,8 +8454,8 @@
         "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country. One of them is cut into the rim rock above the river.",
         "siteAdvantages": "A dry chamber in the ravine wall, above the flood and below the snow.",
         "occupantsMotive": "Unoccupied; the mechanism is what is left.",
-        "pressures": "The sockets are empty. The keystones are somewhere else.",
-        "wouldChangeIf": "If the keystones were returned, whatever the chamber does would start doing it again."
+        "pressures": "The sockets are empty and the keystones have not been found.",
+        "wouldChangeIf": "If the keystones were returned, the mechanism would run again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8506,9 +8506,9 @@
         "materials": "Ayleid ashlar, crystal sockets, cut channels",
         "signatureFeature": "empty keystone sockets cut so precisely that dust does not settle in them",
         "condition": "intact, inert",
-        "mood": "cold; switched off",
+        "mood": "cold; nothing moving",
         "approach": "reached by scrambling a ravine wall off any track",
-        "senses": "a low resonance you feel rather than hear"
+        "senses": "a low resonance felt rather than heard"
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -8896,10 +8896,10 @@
         "silhouette": "a stone hut at the low point of a skyline notch",
         "palette": "grey stone, white above it half the year, brown below",
         "materials": "dry stone, a heavy timber roof weighted with rocks",
-        "signatureFeature": "a season board that closes the pass; the keeper who turns it is paid by the people who profit when it does",
+        "signatureFeature": "a season board at the door that shows whether the pass is open",
         "condition": "cold and permanently smoky",
-        "mood": "dutiful, paid twice",
-        "approach": "the notch is what you steer for on the rim skyline",
+        "mood": "dutiful; bored when the pass is open",
+        "approach": "the notch is visible on the rim skyline from a long way off",
         "senses": "wind; a fire that warms one end of the room"
       },
       "assetPlan": [
@@ -8952,7 +8952,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "pass open (the season board green, the keeper bored)",
-        "pass shut (the board closed, a queue of people who will pay to be wrong about that)"
+        "pass shut (the board closed, with a queue waiting to be let through)"
       ],
       "position": {
         "u": 0.49714,
@@ -8999,7 +8999,7 @@
         "primary": "navigation-aid",
         "secondary": [],
         "impact": "real",
-        "hook": "The last roofed room before the pass into Morrowind. Ask the keeper what the road is like today.",
+        "hook": "The last roofed room before the pass into Morrowind. The keeper holds the day's report on the road.",
         "reviewed": true
       },
       "interior": {
@@ -9041,7 +9041,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "the lawful trade to Morrowind stops here, so what hunts it waits on the ground above",
+        "opportunity": "the lawful trade to Morrowind stops here; the raiding happens on the ground above the station",
         "tierOwnership": "LP12 · tier-3; LP16 · tier-3"
       }
     },
@@ -9655,10 +9655,10 @@
         "silhouette": "invisible from below; from above, a worn traverse line across a face",
         "palette": "rock grey and rope brown",
         "materials": "rock, rope, rock-coloured canvas",
-        "signatureFeature": "consignments stacked under covers dyed to the exact colour of the rock, with chalk marks saying which way each is going",
-        "condition": "in constant use, invisible",
+        "signatureFeature": "consignments stacked under covers dyed the colour of the rock, with chalk marks saying which way each is going",
+        "condition": "in constant use; not visible from below",
         "mood": "workmanlike; loads go past without a word",
-        "approach": "you are on the traverse before you know there is one",
+        "approach": "the line crosses the face with no marked start",
         "senses": "wind; rope on rock; no voices"
       },
       "assetPlan": [
@@ -9751,7 +9751,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A staffed ledge where goods cross the border without passing a post, held by people who would rather you had not seen it.",
+        "hook": "A staffed ledge where goods cross the border without passing a post. The carriers do not welcome company.",
         "reviewed": true
       },
       "interior": {
@@ -9871,10 +9871,10 @@
         "silhouette": "a stone cell against a rock face, with snow on its roof",
         "palette": "white, rock grey, one dark doorway",
         "materials": "dry stone, a turf roof, a single ritual fitting",
-        "signatureFeature": "snow lying on an inhabited roof, in Argonia",
+        "signatureFeature": "snow lying on an occupied roof",
         "condition": "spare and perfectly maintained",
         "mood": "unbothered by company",
-        "approach": "a full day's climb with no encouragement",
+        "approach": "a full day's climb with no track",
         "senses": "wind, then a long quiet"
       },
       "assetPlan": [
@@ -9967,7 +9967,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Snow on an inhabited roof, in Argonia. A day's climb up to one exile keeping an observance the order below dropped.",
+        "hook": "A day's climb above the snowline to a cell where one exile keeps an observance the order below abandoned.",
         "reviewed": true
       },
       "interior": {
@@ -10533,9 +10533,9 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A rival landing founded downriver to undercut Alten Corimont's list. It lost. The bar below it will not take a laden hull. Its last owner sold his cut stone back upriver and went to Stormhold.",
+        "founding": "A rival landing founded downriver to undercut Alten Corimont's list, which failed because the bar below it will not take a laden hull. Its last owner sold his cut stone back upriver and went to Stormhold.",
         "siteAdvantages": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground with no owner on any ledger.",
-        "occupantsMotive": "Unoccupied. The bar that killed it keeps squatters off as well. Alten Corimont sees that the story of the failure is well told.",
+        "occupantsMotive": "Unoccupied. The bar that killed it keeps squatters off as well. Alten Corimont repeats the story of the failure whenever a claim is mentioned.",
         "pressures": "It is intact, empty freehold ground with a river frontage. It has stood unclaimed for eighty years.",
         "wouldChangeIf": "If a claimant repaired the landing and dredged the bar, Alten Corimont would act."
       },
@@ -10595,8 +10595,8 @@
         "materials": "cut stone footings, bought in and shipped up the river",
         "signatureFeature": "a landing built for hulls that cannot get to it, with the mooring rings still bright, eighty years after the last rope came off them",
         "condition": "structurally sound, roofless, empty",
-        "mood": "empty; worth having",
-        "approach": "you see the landing from the water and assume there is a town behind it. There is not.",
+        "mood": "empty; the stonework sound",
+        "approach": "the landing shows from the water before the roofless shell behind it does",
         "senses": "river; wind through an unroofed shell; no voices at all"
       },
       "assetPlan": [
@@ -10714,7 +10714,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A derelict steading with its own landing, empty since the port outgrew it. Yours, if you can make the roof hold.",
+        "hook": "A derelict steading with its own landing, empty since the port outgrew it. The shell is claimable by anyone who can roof it.",
         "reviewed": true
       },
       "interior": {
@@ -11168,7 +11168,7 @@
         "signatureFeature": "three price columns chalked at the door, the third headed 'owed'",
         "condition": "commercially maintained",
         "mood": "brisk, incurious",
-        "approach": "lamps at the bend, in a landscape with none",
+        "approach": "lamps at the bend, the only ones on this stretch of road",
         "senses": "beasts in the yard; a kitchen; travellers comparing routes and prices out loud"
       },
       "assetPlan": [
@@ -11230,7 +11230,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A paid bed out on the trunk, the last one before the rim. The keeper at the door takes coin without a question.",
+        "hook": "A paid bed out on the trunk, the last one before the rim. The keeper takes coin, barter or an entry in the 'owed' column.",
         "reviewed": false
       },
       "interior": {
@@ -11310,7 +11310,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The road from the free port to Stormhold has to cross the channel. The crossing has an owner, as every crossing here does.",
+        "founding": "The road from the free port to Stormhold has to cross the channel. The span at this reach is privately owned.",
         "siteAdvantages": "A steep-cut bank on both sides, at the reach of the Corimont-to-Stormhold road where the channel can be spanned rather than waded.",
         "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
         "pressures": "The Owing operates at this crossing, as it does at every tolled crossing on the road. The ledger is kept in the open.",
@@ -11373,7 +11373,7 @@
         "materials": "planked timber on driven piles, a rope barrier",
         "signatureFeature": "a tariff board with a column for goods and a column for people",
         "condition": "repaired continuously, on its original piles",
-        "mood": "routine; the rate is quoted before you ask",
+        "mood": "routine; the rate is quoted on sight",
         "approach": "the barrier is visible from a long way along a straight road",
         "senses": "planks under feet; a bored voice quoting a rate"
       },
@@ -11434,7 +11434,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "tariffed (the board priced in coin, goods and obligation, the span kept)",
-        "free (the board painted out and the span deliberately unrepaired, which is its own toll)"
+        "free (the board painted out and the span left unrepaired)"
       ],
       "position": {
         "u": 0.53472,
@@ -11484,7 +11484,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "The span the road has to cross, owned outright, with a board that prices people in a column of their own.",
+        "hook": "The span the road has to cross, owned outright, with a tariff board listing goods in one column and people in another.",
         "reviewed": true
       },
       "interior": {
@@ -11861,7 +11861,7 @@
       "why": {
         "founding": "The gangs that work the lower channel are hired out of Alten Corimont, but the tree the gang families answer to stands nine bends upriver, where the water is still fresh enough to drink. The village grew where the tree is. The work has been a day downriver for sixty years.",
         "siteAdvantages": "Fresh water above the salt wedge, a bank firm enough to build on and nine bends of river between here and the port.",
-        "occupantsMotive": "A tribe keeping a tree, hiring its own people out downriver because there is no other coin, counting the days until each of them comes home.",
+        "occupantsMotive": "A tribe keeping a tree and hiring its own people out downriver, because there is no other coin here.",
         "pressures": "Every year more of the village's adults are on somebody's roll downriver. The tree has begun to notice how few of them it sees.",
         "wouldChangeIf": "If the tree withdraws, there is no reason left to keep the village nine bends from the work. The lower channel is left without a Hist that will speak to it."
       },
@@ -11932,9 +11932,9 @@
         "palette": "wet green, pale sap-white on the trunk, the dull red of fired clay hatchery lids",
         "materials": "cut reed, mud render, split cane walkways, one carved landing stage",
         "signatureFeature": "the hatchery pool cut into the bank so the tree's roots run down into it",
-        "condition": "kept, but with too few hands keeping it",
+        "condition": "kept up by too few hands",
         "mood": "quiet; too few people for the size of it",
-        "approach": "you hear the tree's chimes a bend before you see the village",
+        "approach": "the tree's chimes carry a bend downstream of the village",
         "senses": "sap, wet reed, the low sound of a tree still talking"
       },
       "assetPlan": [
@@ -11960,7 +11960,7 @@
           "SCENE",
           "STATE"
         ],
-        "opportunity": "the tree the opening's stakes hang on, a day upriver from the gang that will lose its clutch",
+        "opportunity": "the tree to which the gang families answer, a day upriver from the camp where their clutch is kept",
         "tierOwnership": "MQ01 · tier-0; LP13 · tier-3; LP14 · tier-3; LP19 · tier-3"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
@@ -12193,10 +12193,10 @@
         "silhouette": "a stockaded compound on a steep flank of the border wall, facing north",
         "palette": "stockade timber, trophy colours, grey sky",
         "materials": "heavy timber stockade, mud render, taken Dunmer gear used as fittings",
-        "signatureFeature": "Dunmer armour pieces reused as door furniture, throughout, without comment",
+        "signatureFeature": "Dunmer armour pieces reused as door furniture throughout the compound",
         "condition": "hard, well maintained",
         "mood": "watchful; short with strangers",
-        "approach": "the stockade breaks the slope above the road long before you reach it",
+        "approach": "the stockade breaks the slope above the road long before the gate is reached",
         "senses": "drill in the mornings; long silences otherwise"
       },
       "assetPlan": [

@@ -27,3 +27,5 @@ Two habits this exists to enforce:
 The remaining standards (3, 5, 9, 11 and the condition vocabulary) are phase
 hooks and conventions, not greppable properties — they are verified at the
 kickoffs named in the standards doc.
+
+**Standard 2 registry options.** `idShape: "flat"` for vocabulary registries (`<domain>.<slug>`); `references: ["place"]` for a source whose top-level id names an object another source declares (a blueprint details a catalogue place) — those domains are shape-checked but exempt from uniqueness in that source.

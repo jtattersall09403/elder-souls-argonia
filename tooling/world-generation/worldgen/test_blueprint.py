@@ -10,16 +10,16 @@ def _bp(**over):
         "causalModel": {"founding": "f", "siteAdvantages": "s", "occupantsMotive": "m",
                         "pressures": "p", "wouldChangeIf": "w"},
         "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]],
-        "districts": [{"id": "d1", "kind": "core", "cultureKit": "argonian",
+        "districts": [{"id": "district.reed-cut-camp.core", "kind": "core", "cultureKit": "argonian",
                        "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]]}],
-        "parcels": [{"id": "p1", "districtId": "d1", "use": "dwelling",
+        "parcels": [{"id": "parcel.reed-cut-camp.hut", "districtId": "district.reed-cut-camp.core", "use": "dwelling",
                      "buildingFamily": "shackkit", "groundFit": "stilt",
                      "footprint": [[0.12, 0.12], [0.14, 0.12], [0.14, 0.14]]}],
-        "doors": [{"id": "door.testreg.reed-cut-camp.1", "parcelId": "p1",
+        "doors": [{"id": "door.testreg.reed-cut-camp.1", "parcelId": "parcel.reed-cut-camp.hut",
                    "facingDeg": 90, "thresholdUV": [0.15, 0.15],
                    "interiorClaim": {"sizeClass": "small", "culture": "argonian"}}],
         "clearance": {"hardClear": [], "thinned": [], "kept": []},
-        "variants": [{"id": "v-raided", "changedRefs": ["p1"]}],
+        "variants": [{"id": "variant.reed-cut-camp.raided", "changedRefs": ["parcel.reed-cut-camp.hut"]}],
         "occupants": [{"slotId": "o1", "ladderRef": "modest-d2 hunter", "cultureRole": "hunter"}],
         "budget": {"maxInstances": 500, "maxUniqueMaterials": 20,
                    "maxTextureMB": 32, "maxColliders": 120},
@@ -78,4 +78,25 @@ def test_budget_shape():
 
 
 def test_live_dir_validates():
-    assert blueprint.validate_all(known_place_ids=set()) == []
+    # the live dir holds real places from Part 6 on; validate against the catalogue
+    assert blueprint.validate_all(known_place_ids=blueprint.catalogue_ids()) == []
+
+
+def test_part6_asset_ref_and_siting_block():
+    bad = _bp(parcels=[{"id": "parcel.reed-cut-camp.hut", "districtId": "district.reed-cut-camp.core", "use": "x", "buildingFamily": "hut",
+                        "groundFit": "stilt", "footprint": [[0, 0], [0, 1], [1, 1]], "assetRef": 7}],
+              districts=[{"id": "district.reed-cut-camp.core", "kind": "core", "cultureKit": "argonian-stilt",
+                          "boundary": [[0, 0], [0, 1], [1, 1]]}],
+              siting={"candidates": [{"id": "a", "positionM": [1, 2], "why": "flat"}]})
+    errs = blueprint.validate_blueprint(bad, KNOWN)
+    assert any("assetRef" in e for e in errs)
+    assert any("siting.dossier" in e for e in errs)
+    assert any(">=2 candidate" in e for e in errs)
+    assert any("candidate id 'a'" in e for e in errs)
+    good = _bp(siting={"dossier": "world/sources/sites/dossiers/x.json",
+                       "candidates": [{"id": "candidate.reed-cut-camp.a", "positionM": [1, 2], "why": "flat", "chosen": True},
+                                      {"id": "candidate.reed-cut-camp.b", "positionM": [3, 4], "why": "wet", "rejectedBecause": "floods"}]})
+    assert not [e for e in blueprint.validate_blueprint(good, KNOWN) if "siting" in e or "candidate" in e]
+    bad_ids = _bp(districts=[{"id": "d1", "kind": "core", "cultureKit": "argonian", "boundary": [[0, 0], [0, 1], [1, 1]]}])
+    assert any("standard 2" in e for e in blueprint.validate_blueprint(bad_ids, KNOWN))
+    assert "argonian-stone" in blueprint.KIT_SETS and "neutral-works" in blueprint.KIT_SETS

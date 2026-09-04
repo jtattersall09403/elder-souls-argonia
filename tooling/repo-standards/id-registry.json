@@ -180,6 +180,41 @@
       "what": "quest data — local-saxhleel-coast packet (worldgen.quests)",
       "idKey": "id",
       "collectionKey": "quests"
+    },
+    {
+      "path": "world/sources/blueprints/place.mercantile-coast.lilmoth.json",
+      "what": "settlement blueprint — Lilmoth, the exemplar city (worldgen.blueprint)",
+      "references": [
+        "place"
+      ]
+    },
+    {
+      "path": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
+      "what": "settlement blueprint — Nine-Trunks, Hist village exemplar (worldgen.blueprint)",
+      "references": [
+        "place"
+      ]
+    },
+    {
+      "path": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
+      "what": "settlement blueprint — Mazzatun, stone village on sloping ground exemplar (worldgen.blueprint)",
+      "references": [
+        "place"
+      ]
+    },
+    {
+      "path": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
+      "what": "settlement blueprint — The Standing Charge, wamasu pond lair exemplar (worldgen.blueprint)",
+      "references": [
+        "place"
+      ]
+    },
+    {
+      "path": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
+      "what": "settlement blueprint — The Licensed Stage, sap-tapping camp exemplar (worldgen.blueprint)",
+      "references": [
+        "place"
+      ]
     }
   ],
   "retired": []

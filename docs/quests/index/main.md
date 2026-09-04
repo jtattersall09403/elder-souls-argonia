@@ -9,7 +9,7 @@
 | MQ01 | No Name on the Work Roll | pirate-freeholds | `BONDAGE`, `RITE` | An Owing-gang processing runs into the cult's attack while a Hist withdraws over a dead egg clutch | `pirate-freeholds.opening-work-barge`<br>`pirate-freeholds.opening-work-camp`<br>`pirate-freeholds.upriver-hist-village` | live |
 | MQ03 | A Dead Prisoner's Use | dunmer-north | `RECKONING` | Survivors reconstruct the attack, so the destroyed work roll buys a stranger a place among them | `dunmer-north.stormhold`<br>`dunmer-north.the-last-landing` | live |
 | MQ04 | The Tree That Turned Its Face | dunmer-north | `CONTAMINATION` | A Hist withdraws from its village while disease, sabotage and grief overlap | `dunmer-north.hatching-pools`<br>`dunmer-north.hutan-tzel` | live |
-| MQ05 | Helstrom Behind the Thorns | hist-heartland | `NEGOTIATION` | Arrival at the safe interior capital, past an empty throne | `hist-heartland.bubble-spire-open-helstrom`<br>`hist-heartland.helstrom`<br>`pirate-freeholds.alten-corimont` | live |
+| MQ05 | Helstrom Behind the Thorns | hist-heartland | `NEGOTIATION` | Arrival at Helstrom, the interior capital, where the throne stands empty | `hist-heartland.bubble-spire-open-helstrom`<br>`hist-heartland.helstrom`<br>`pirate-freeholds.alten-corimont` | live |
 | MQ06 | The Jewel Described Six Ways | hist-heartland | `MISSING` | Six incompatible accounts of the Eye, held by unwilling custodians | `hist-heartland.helstrom` | live |
 | MQ07 | The First False Eye | dunmer-north | `FRAUD` | A counterfeit Eye at auction hides a real cipher | `dunmer-north.the-standing-bid` | live |
 | MQ08 | The Unbound Root | dunmer-north | `MISSING` | The counterfeit's trail reaches a cult safehouse | `dunmer-north.the-quiet-landing` | live |
@@ -22,11 +22,11 @@
 | MQ18 | A Sermon Against Roots | hist-heartland | `RITE` | Infiltration of a sermon house under cover; the Collector unmasked | `hist-heartland.helstrom`<br>`hist-heartland.the-cut-circle` | live |
 | MQ20 | Dreams for Sale | imperial-fringe | `RECKONING` | Sap-dream testimony used to classify dissenters, until the handler falls | `imperial-fringe.gideon` | live |
 | MQ21 | The Black Sap House | hist-heartland | `CONTAMINATION` | A cult lab forcing a Mnemic Egg out of volunteers | `hist-heartland.sap-collection-facility-daedric` | live |
-| MQ22 | The Second Report | hist-heartland | `FRAUD` | Two incompatible reports, one of them acted on while you watch | `dunmer-north.the-quiet-landing`<br>`hist-heartland.helstrom`<br>`hist-heartland.the-cut-circle` | live |
+| MQ22 | The Second Report | hist-heartland | `FRAUD` | Two incompatible reports, one of them acted on before the other is read | `dunmer-north.the-quiet-landing`<br>`hist-heartland.helstrom`<br>`hist-heartland.the-cut-circle` | live |
 | MQ23 | Marks Only the Eye Can See | hist-heartland | `EXPEDITION`, `MISSING` | An Eye-revealed route walked under a Shadowscale manhunt | `hist-heartland.guide-camp-gate-side`<br>`hist-heartland.root-gallery-helstrom-underway`<br>`hist-heartland.rootworm-station-helstrom` | live |
 | MQ25 | Council Behind Closed Gates | hist-heartland | `NEGOTIATION` | The council hearing, attacked mid-session | `hist-heartland.helstrom` | live |
 | MQ26 | The Root of Accord | hist-heartland | `RECKONING` | The hidden archive; the Accord's conversion | `hist-heartland.helstrom` | live |
 | MQ27 | The Road No Map Keeps | hist-heartland | `EXPEDITION` | Bargain for an expedition, then cross D5 country | `hist-heartland.guide-camp-far-shelter`<br>`hist-heartland.guide-camp-gate-side`<br>`hist-heartland.refuge-station-interior` | live |
 | MQ29 | The City Beneath the First Rain | hist-heartland | `EXPEDITION` | The Lost City; the Last Warden who holds it | `hist-heartland.lost-city`<br>`hist-heartland.xal-krona-making-ground` | live |
 | MQ31 | The Door That Was Promised | hist-heartland | `RITE` | The confrontation at the sanctuary door; the choice | `hist-heartland.lost-city` | live |
-| MQ32 | Names Written in Sap | hist-heartland | `RECKONING` | A modular epilogue read back through the places that changed | `hist-heartland.helstrom`<br>`imperial-fringe.gideon`<br>`mercantile-coast.lilmoth`<br>`pirate-freeholds.opening-work-camp` | live |
+| MQ32 | Names Written in Sap | hist-heartland | `RECKONING` | An epilogue read back through the places that changed | `hist-heartland.helstrom`<br>`imperial-fringe.gideon`<br>`mercantile-coast.lilmoth`<br>`pirate-freeholds.opening-work-camp` | live |

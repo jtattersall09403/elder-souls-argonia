@@ -1,0 +1,1434 @@
+{
+  "schemaVersion": 1,
+  "blueprint": {
+    "id": "place.hist-heartland.nine-trunks",
+    "seed": "place.hist-heartland.nine-trunks",
+    "causalModel": {
+      "founding": "A village grown where nine root-joined trunks stand in one ring; one tree by the Hist's reckoning, nine by the tribes' reckoning.",
+      "siteAdvantages": "The ring encloses firm ground and makes its own stockade. The knoll stands 4.8 m above the water table on firm lowland, with poleable water 32 m west and the Archon-Gideon road 160 m south-west.",
+      "occupantsMotive": "A tribe that hosts the convocation's overflow and has grown rich on it, renting pitch-rights to delegations that cannot fit at the Tsoko camp.",
+      "pressures": "Hosting a province's delegations one month a year has made them arrogant the other eleven. Two neighbouring tribes now camp at Greenspring instead, on principle.",
+      "wouldChangeIf": "A convocation held elsewhere would halve the village. The falling attendance the Root Talk ground counts publicly is already showing in their rents."
+    },
+    "boundary": [
+      [
+        0.6744281,
+        0.491747
+      ],
+      [
+        0.6805523,
+        0.4929652
+      ],
+      [
+        0.6857441,
+        0.4964343
+      ],
+      [
+        0.6892132,
+        0.5016261
+      ],
+      [
+        0.6904313,
+        0.5077503
+      ],
+      [
+        0.6892132,
+        0.5138745
+      ],
+      [
+        0.6857441,
+        0.5190663
+      ],
+      [
+        0.6805523,
+        0.5225353
+      ],
+      [
+        0.6744281,
+        0.5237535
+      ],
+      [
+        0.6683039,
+        0.5225353
+      ],
+      [
+        0.6631121,
+        0.5190663
+      ],
+      [
+        0.659643,
+        0.5138745
+      ],
+      [
+        0.6584249,
+        0.5077503
+      ],
+      [
+        0.659643,
+        0.5016261
+      ],
+      [
+        0.6631121,
+        0.4964343
+      ],
+      [
+        0.6683039,
+        0.4929652
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.nine-trunks.ring",
+        "kind": "residential",
+        "cultureKit": "argonian-root",
+        "wealth": "middling",
+        "boundary": [
+          [
+            0.6744281,
+            0.5023254
+          ],
+          [
+            0.6771269,
+            0.5028623
+          ],
+          [
+            0.6794148,
+            0.504391
+          ],
+          [
+            0.6809436,
+            0.5066789
+          ],
+          [
+            0.6814804,
+            0.5093777
+          ],
+          [
+            0.6809436,
+            0.5120765
+          ],
+          [
+            0.6794148,
+            0.5143644
+          ],
+          [
+            0.6771269,
+            0.5158932
+          ],
+          [
+            0.6744281,
+            0.51643
+          ],
+          [
+            0.6717293,
+            0.5158932
+          ],
+          [
+            0.6694414,
+            0.5143644
+          ],
+          [
+            0.6679126,
+            0.5120765
+          ],
+          [
+            0.6673758,
+            0.5093777
+          ],
+          [
+            0.6679126,
+            0.5066789
+          ],
+          [
+            0.6694414,
+            0.504391
+          ],
+          [
+            0.6717293,
+            0.5028623
+          ]
+        ],
+        "notes": "The ring itself and the clearing it encloses. Grown-root kit only: nine trunk-houses, their own balcony and walkway families, the tree-minder's deck."
+      },
+      {
+        "id": "district.nine-trunks.pitch",
+        "kind": "trade",
+        "cultureKit": "argonian-mud",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.6746269,
+            0.5150703
+          ],
+          [
+            0.6748067,
+            0.5202208
+          ],
+          [
+            0.6643685,
+            0.5134421
+          ],
+          [
+            0.6691468,
+            0.5115115
+          ]
+        ],
+        "notes": "The rented pitch ground outside the ring on the road side. Its shelters are the delegations' own coastal canvas, brought and struck each convocation, which is why a mud-kit district stands outside an interior settlement."
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.nine-trunks.approach",
+        "kind": "road",
+        "widthM": 3.0,
+        "points": [
+          [
+            0.6632521,
+            0.5279777
+          ],
+          [
+            0.6684829,
+            0.5215672
+          ],
+          [
+            0.6715522,
+            0.5172791
+          ],
+          [
+            0.6728974,
+            0.5135833
+          ]
+        ]
+      }
+    ],
+    "canals": [],
+    "boardwalks": [
+      {
+        "id": "boardwalk.nine-trunks.ring-walk",
+        "kind": "boardwalk",
+        "widthM": 2.2,
+        "points": [
+          [
+            0.6744281,
+            0.5049022
+          ],
+          [
+            0.6773049,
+            0.5059493
+          ],
+          [
+            0.6788356,
+            0.5086006
+          ],
+          [
+            0.678304,
+            0.5116155
+          ],
+          [
+            0.6759588,
+            0.5135833
+          ],
+          [
+            0.6728974,
+            0.5135833
+          ],
+          [
+            0.6705522,
+            0.5116155
+          ],
+          [
+            0.6700206,
+            0.5086006
+          ],
+          [
+            0.6715513,
+            0.5059493
+          ],
+          [
+            0.6744281,
+            0.5049022
+          ]
+        ]
+      },
+      {
+        "id": "boardwalk.nine-trunks.landing-path",
+        "kind": "boardwalk",
+        "widthM": 1.8,
+        "points": [
+          [
+            0.6718208,
+            0.5101254
+          ],
+          [
+            0.670126,
+            0.5106113
+          ],
+          [
+            0.6692134,
+            0.510873
+          ]
+        ]
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.nine-trunks.trunk-1",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housetronc001",
+        "groundFit": "dug-in",
+        "footprint": [
+          [
+            0.6727578,
+            0.5032319
+          ],
+          [
+            0.6760984,
+            0.5032319
+          ],
+          [
+            0.6760984,
+            0.5065725
+          ],
+          [
+            0.6727578,
+            0.5065725
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-2",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6763029,
+            0.5049757
+          ],
+          [
+            0.6783068,
+            0.5049757
+          ],
+          [
+            0.6783068,
+            0.5069229
+          ],
+          [
+            0.6763029,
+            0.5069229
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-3",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6778336,
+            0.5076269
+          ],
+          [
+            0.6798376,
+            0.5076269
+          ],
+          [
+            0.6798376,
+            0.5095742
+          ],
+          [
+            0.6778336,
+            0.5095742
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-4",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.677302,
+            0.5106418
+          ],
+          [
+            0.6793059,
+            0.5106418
+          ],
+          [
+            0.6793059,
+            0.5125891
+          ],
+          [
+            0.677302,
+            0.5125891
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-5",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.6749568,
+            0.5126097
+          ],
+          [
+            0.6769608,
+            0.5126097
+          ],
+          [
+            0.6769608,
+            0.5145569
+          ],
+          [
+            0.6749568,
+            0.5145569
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-6",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6718954,
+            0.5126097
+          ],
+          [
+            0.6738994,
+            0.5126097
+          ],
+          [
+            0.6738994,
+            0.5145569
+          ],
+          [
+            0.6718954,
+            0.5145569
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-7",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6695503,
+            0.5106418
+          ],
+          [
+            0.6715542,
+            0.5106418
+          ],
+          [
+            0.6715542,
+            0.5125891
+          ],
+          [
+            0.6695503,
+            0.5125891
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-8",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6690186,
+            0.5076269
+          ],
+          [
+            0.6710226,
+            0.5076269
+          ],
+          [
+            0.6710226,
+            0.5095742
+          ],
+          [
+            0.6690186,
+            0.5095742
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.trunk-9",
+        "districtId": "district.nine-trunks.ring",
+        "use": "dwelling",
+        "buildingFamily": "argonian-trunk-house",
+        "assetRef": "bmv:architecture/citebosmer/houses/housechamp001",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6705493,
+            0.5049757
+          ],
+          [
+            0.6725533,
+            0.5049757
+          ],
+          [
+            0.6725533,
+            0.5069229
+          ],
+          [
+            0.6705493,
+            0.5069229
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.minder-deck",
+        "districtId": "district.nine-trunks.ring",
+        "use": "civic",
+        "buildingFamily": "argonian-platform",
+        "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.6744964,
+            0.5070125
+          ],
+          [
+            0.6756586,
+            0.5070125
+          ],
+          [
+            0.6756586,
+            0.5081746
+          ],
+          [
+            0.6744964,
+            0.5081746
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.pitch-1",
+        "districtId": "district.nine-trunks.pitch",
+        "use": "shelter",
+        "buildingFamily": "argonian-tent",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent01",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.6712742,
+            0.5160396
+          ],
+          [
+            0.6723869,
+            0.5160396
+          ],
+          [
+            0.6723869,
+            0.5169893
+          ],
+          [
+            0.6712742,
+            0.5169893
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.pitch-2",
+        "districtId": "district.nine-trunks.pitch",
+        "use": "shelter",
+        "buildingFamily": "argonian-tent",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent02",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.6688331,
+            0.514196
+          ],
+          [
+            0.6696661,
+            0.514196
+          ],
+          [
+            0.6696661,
+            0.5149164
+          ],
+          [
+            0.6688331,
+            0.5149164
+          ]
+        ]
+      },
+      {
+        "id": "parcel.nine-trunks.pitch-rack",
+        "districtId": "district.nine-trunks.pitch",
+        "use": "work",
+        "buildingFamily": "argonian-rack",
+        "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.6695164,
+            0.5167891
+          ],
+          [
+            0.6698532,
+            0.5167891
+          ],
+          [
+            0.6698532,
+            0.5171481
+          ],
+          [
+            0.6695164,
+            0.5171481
+          ]
+        ]
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "landmark.nine-trunks.root-join-1",
+        "kind": "hist-root",
+        "position": [
+          0.6758665,
+          0.5054258
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-2",
+        "kind": "hist-root",
+        "position": [
+          0.6780702,
+          0.5072749
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-3",
+        "kind": "hist-root",
+        "position": [
+          0.6785698,
+          0.510108
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-4",
+        "kind": "hist-root",
+        "position": [
+          0.6771314,
+          0.5125994
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-5",
+        "kind": "hist-root",
+        "position": [
+          0.6744281,
+          0.5135833
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-6",
+        "kind": "hist-root",
+        "position": [
+          0.6717248,
+          0.5125994
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-7",
+        "kind": "hist-root",
+        "position": [
+          0.6702864,
+          0.510108
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-8",
+        "kind": "hist-root",
+        "position": [
+          0.670786,
+          0.5072749
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.root-join-9",
+        "kind": "hist-root",
+        "position": [
+          0.6729897,
+          0.5054258
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots02",
+        "notes": "Root swell joining two trunks at ground level; the reading the tribe disputes."
+      },
+      {
+        "id": "landmark.nine-trunks.gate",
+        "kind": "gate",
+        "position": [
+          0.6728974,
+          0.5135833
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/archwaysticks",
+        "notes": "The one gap kept open, on the road side; the ring reads closed from every other angle."
+      },
+      {
+        "id": "landmark.nine-trunks.uxith",
+        "kind": "uxith",
+        "position": [
+          0.676598,
+          0.5093777
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+        "notes": "The nest, inside the ring, on the eastern side of the clearing."
+      },
+      {
+        "id": "landmark.nine-trunks.chime-frame",
+        "kind": "chime-frame",
+        "position": [
+          0.6735004,
+          0.5068289
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+        "notes": "Chimes stacked down eleven months of the year and raised for the convocation."
+      }
+    ],
+    "docks": [
+      {
+        "id": "dock.nine-trunks.landing",
+        "position": [
+          0.6704273,
+          0.5105305
+        ],
+        "waterBodyId": "water.channel.nine-trunks",
+        "piledToBed": true
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.nine-trunks.clearing",
+        "boundary": [
+          [
+            0.6744281,
+            0.5066653
+          ],
+          [
+            0.6757843,
+            0.5070287
+          ],
+          [
+            0.6767771,
+            0.5080215
+          ],
+          [
+            0.6771405,
+            0.5093777
+          ],
+          [
+            0.6767771,
+            0.5107339
+          ],
+          [
+            0.6757843,
+            0.5117267
+          ],
+          [
+            0.6744281,
+            0.5120901
+          ],
+          [
+            0.6730719,
+            0.5117267
+          ],
+          [
+            0.6720791,
+            0.5107339
+          ],
+          [
+            0.6717157,
+            0.5093777
+          ],
+          [
+            0.6720791,
+            0.5080215
+          ],
+          [
+            0.6730719,
+            0.5070287
+          ]
+        ],
+        "clearanceClass": "open"
+      },
+      {
+        "id": "combat.nine-trunks.gate",
+        "boundary": [
+          [
+            0.6728974,
+            0.5119559
+          ],
+          [
+            0.6740482,
+            0.5124325
+          ],
+          [
+            0.6745248,
+            0.5135833
+          ],
+          [
+            0.6740482,
+            0.5147341
+          ],
+          [
+            0.6728974,
+            0.5152108
+          ],
+          [
+            0.6717466,
+            0.5147341
+          ],
+          [
+            0.6712699,
+            0.5135833
+          ],
+          [
+            0.6717466,
+            0.5124325
+          ]
+        ],
+        "clearanceClass": "pinched"
+      }
+    ],
+    "questSockets": [
+      {
+        "id": "socket.nine-trunks.pitch-ledger",
+        "kind": "station",
+        "position": [
+          0.6727833,
+          0.5151139
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.pitch-taker",
+        "kind": "npc",
+        "position": [
+          0.6725727,
+          0.5144754
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.empty-pitches",
+        "kind": "mark",
+        "position": [
+          0.6678021,
+          0.5145545
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.delegation-baggage",
+        "kind": "container",
+        "parcelId": "parcel.nine-trunks.pitch-1",
+        "position": [
+          0.6718305,
+          0.5165145
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.root-join",
+        "kind": "evidence",
+        "position": [
+          0.6758665,
+          0.5054258
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.felling-claim",
+        "kind": "scene",
+        "position": [
+          0.6753094,
+          0.5069563
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.tree-minder",
+        "kind": "npc",
+        "parcelId": "parcel.nine-trunks.minder-deck",
+        "position": [
+          0.6750775,
+          0.5075935
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.identity-case",
+        "kind": "evidence",
+        "parcelId": "parcel.nine-trunks.trunk-1",
+        "position": [
+          0.6744281,
+          0.5069366
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.nine-trunks.guest-cache",
+        "kind": "container",
+        "position": [
+          0.6765422,
+          0.5105983
+        ],
+        "ownerQuestTier": 3
+      }
+    ],
+    "doors": [
+      {
+        "id": "door.hist-heartland.nine-trunks.1",
+        "parcelId": "parcel.nine-trunks.trunk-1",
+        "facingDeg": 180.0,
+        "thresholdUV": [
+          0.6744281,
+          0.506776
+        ],
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "argonian",
+          "owner": "the naheesh who carries the Root Talk"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.2",
+        "parcelId": "parcel.nine-trunks.trunk-2",
+        "facingDeg": 220.0,
+        "thresholdUV": [
+          0.6765301,
+          0.506851
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.3",
+        "parcelId": "parcel.nine-trunks.trunk-3",
+        "facingDeg": 260.0,
+        "thresholdUV": [
+          0.6776485,
+          0.508805
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.4",
+        "parcelId": "parcel.nine-trunks.trunk-4",
+        "facingDeg": 300.0,
+        "thresholdUV": [
+          0.6772601,
+          0.5110269
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.5",
+        "parcelId": "parcel.nine-trunks.trunk-5",
+        "facingDeg": 340.0,
+        "thresholdUV": [
+          0.6755465,
+          0.5124772
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.6",
+        "parcelId": "parcel.nine-trunks.trunk-6",
+        "facingDeg": 20.0,
+        "thresholdUV": [
+          0.6733097,
+          0.5124772
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.7",
+        "parcelId": "parcel.nine-trunks.trunk-7",
+        "facingDeg": 60.0,
+        "thresholdUV": [
+          0.6715961,
+          0.5110269
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.8",
+        "parcelId": "parcel.nine-trunks.trunk-8",
+        "facingDeg": 100.0,
+        "thresholdUV": [
+          0.6712077,
+          0.508805
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      },
+      {
+        "id": "door.hist-heartland.nine-trunks.9",
+        "parcelId": "parcel.nine-trunks.trunk-9",
+        "facingDeg": 140.0,
+        "thresholdUV": [
+          0.6723261,
+          0.506851
+        ],
+        "interiorClaim": {
+          "sizeClass": "medium",
+          "culture": "argonian"
+        }
+      }
+    ],
+    "clearance": {
+      "hardClear": [
+        [
+          [
+            0.6744281,
+            0.505716
+          ],
+          [
+            0.6758294,
+            0.5059947
+          ],
+          [
+            0.6770174,
+            0.5067885
+          ],
+          [
+            0.6778111,
+            0.5079764
+          ],
+          [
+            0.6780899,
+            0.5093777
+          ],
+          [
+            0.6778111,
+            0.510779
+          ],
+          [
+            0.6770174,
+            0.511967
+          ],
+          [
+            0.6758294,
+            0.5127607
+          ],
+          [
+            0.6744281,
+            0.5130395
+          ],
+          [
+            0.6730268,
+            0.5127607
+          ],
+          [
+            0.6718388,
+            0.511967
+          ],
+          [
+            0.6710451,
+            0.510779
+          ],
+          [
+            0.6707663,
+            0.5093777
+          ],
+          [
+            0.6710451,
+            0.5079764
+          ],
+          [
+            0.6718388,
+            0.5067885
+          ],
+          [
+            0.6730268,
+            0.5059947
+          ]
+        ],
+        [
+          [
+            0.6744281,
+            0.5148026
+          ],
+          [
+            0.6744281,
+            0.5194137
+          ],
+          [
+            0.6654079,
+            0.5137772
+          ],
+          [
+            0.6695523,
+            0.5117558
+          ]
+        ],
+        [
+          [
+            0.673024,
+            0.5146177
+          ],
+          [
+            0.6686364,
+            0.5309926
+          ],
+          [
+            0.6615929,
+            0.5277082
+          ],
+          [
+            0.6713165,
+            0.5138215
+          ]
+        ]
+      ],
+      "thinned": [
+        [
+          [
+            0.6744281,
+            0.4964938
+          ],
+          [
+            0.6793586,
+            0.4974745
+          ],
+          [
+            0.6835384,
+            0.5002674
+          ],
+          [
+            0.6863313,
+            0.5044472
+          ],
+          [
+            0.6873121,
+            0.5093777
+          ],
+          [
+            0.6863313,
+            0.5143082
+          ],
+          [
+            0.6835384,
+            0.5184881
+          ],
+          [
+            0.6793586,
+            0.521281
+          ],
+          [
+            0.6744281,
+            0.5222617
+          ],
+          [
+            0.6694976,
+            0.521281
+          ],
+          [
+            0.6653178,
+            0.5184881
+          ],
+          [
+            0.6625249,
+            0.5143082
+          ],
+          [
+            0.6615441,
+            0.5093777
+          ],
+          [
+            0.6625249,
+            0.5044472
+          ],
+          [
+            0.6653178,
+            0.5002674
+          ],
+          [
+            0.6694976,
+            0.4974745
+          ]
+        ]
+      ],
+      "kept": [
+        {
+          "id": "kept.nine-trunks.trunk-1",
+          "kind": "hist-tree",
+          "position": [
+            0.6744281,
+            0.5049022
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-2",
+          "kind": "hist-tree",
+          "position": [
+            0.6773049,
+            0.5059493
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-3",
+          "kind": "hist-tree",
+          "position": [
+            0.6788356,
+            0.5086006
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-4",
+          "kind": "hist-tree",
+          "position": [
+            0.678304,
+            0.5116155
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-5",
+          "kind": "hist-tree",
+          "position": [
+            0.6759588,
+            0.5135833
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-6",
+          "kind": "hist-tree",
+          "position": [
+            0.6728974,
+            0.5135833
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-7",
+          "kind": "hist-tree",
+          "position": [
+            0.6705522,
+            0.5116155
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-8",
+          "kind": "hist-tree",
+          "position": [
+            0.6700206,
+            0.5086006
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.trunk-9",
+          "kind": "hist-tree",
+          "position": [
+            0.6715513,
+            0.5059493
+          ]
+        },
+        {
+          "id": "kept.nine-trunks.reeds-landing",
+          "kind": "reed-bed",
+          "position": [
+            0.6692134,
+            0.510873
+          ]
+        }
+      ]
+    },
+    "variants": [
+      {
+        "id": "variant.nine-trunks.convocation",
+        "changedRefs": [
+          "parcel.nine-trunks.pitch-1",
+          "parcel.nine-trunks.pitch-2",
+          "parcel.nine-trunks.pitch-rack",
+          "socket.nine-trunks.pitch-taker",
+          "landmark.nine-trunks.chime-frame"
+        ],
+        "serviceOverrides": {
+          "travel.nine-trunks.uxaneet-boat": "hourly"
+        },
+        "ambience": "convocation-month"
+      },
+      {
+        "id": "variant.nine-trunks.off-season",
+        "changedRefs": [
+          "parcel.nine-trunks.pitch-1",
+          "parcel.nine-trunks.pitch-2",
+          "socket.nine-trunks.empty-pitches"
+        ],
+        "serviceOverrides": {
+          "travel.nine-trunks.uxaneet-boat": "on-request"
+        },
+        "ambience": "off-season"
+      }
+    ],
+    "travelServices": [
+      {
+        "id": "travel.nine-trunks.uxaneet-boat",
+        "kind": "boat",
+        "toPlaceId": "place.hist-heartland.stilt-channel-edge-uxaneet",
+        "timetable": "on request; hourly during the convocation"
+      }
+    ],
+    "occupants": [
+      {
+        "slotId": "o.tree-minder",
+        "ladderRef": "capable-d3 elder",
+        "cultureRole": "tree-minder"
+      },
+      {
+        "slotId": "o.naheesh",
+        "ladderRef": "capable-d3 speaker",
+        "cultureRole": "naheesh who carries the Root Talk"
+      },
+      {
+        "slotId": "o.pitch-taker",
+        "ladderRef": "modest-d2 merchant",
+        "cultureRole": "pitch-rights taker"
+      },
+      {
+        "slotId": "o.family-1",
+        "ladderRef": "modest-d2 villager",
+        "cultureRole": "tribe family"
+      },
+      {
+        "slotId": "o.family-2",
+        "ladderRef": "modest-d2 villager",
+        "cultureRole": "tribe family"
+      },
+      {
+        "slotId": "o.watcher",
+        "ladderRef": "capable-d3 watcher",
+        "cultureRole": "watcher on the tree-minder's deck"
+      }
+    ],
+    "assetConstraints": [
+      "grown-root kit only inside d.ring: no wattle-and-daub panel and no reed weave stands within the ring (material-culture.md, interior kit rule)",
+      "the delegation canvas in d.pitch is the visitors' coastal kit, pitched outside the ring and struck each year",
+      "house forms never cross accessory families: housechamp001 takes only the 45v balcony, acceslat, finl/finr and housechampwindow set; housetronc001 takes only the tronc balcony, door and window set (settlement-root-v1 snapLogic)"
+    ],
+    "ownership": {
+      "socket.nine-trunks.pitch-ledger": {
+        "owner": "the pitch-rights taker",
+        "valueTier": "modest"
+      },
+      "socket.nine-trunks.guest-cache": {
+        "owner": "the tribe",
+        "valueTier": "poor"
+      }
+    },
+    "budget": {
+      "maxInstances": 700,
+      "maxUniqueMaterials": 36,
+      "maxTextureMB": 40,
+      "maxColliders": 300
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/nine-trunks.json",
+      "candidates": [
+        {
+          "id": "candidate.nine-trunks.knoll",
+          "positionM": [
+            4972.9,
+            3755.9
+          ],
+          "chosen": true,
+          "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg, and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and only the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation."
+        },
+        {
+          "id": "candidate.nine-trunks.bank",
+          "positionM": [
+            4912.9,
+            3785.9
+          ],
+          "why": "The flattest ring in the neighbourhood, 1.66 m of relief, and closest to the road at 105 m.",
+          "rejectedBecause": "The shoreline is 10 m from the centre, so the western third of a 33 m ring would stand in water. The record's site advantage is that the ring encloses firm ground, and this candidate cannot deliver it."
+        },
+        {
+          "id": "candidate.nine-trunks.plot",
+          "positionM": [
+            4937.9,
+            3610.9
+          ],
+          "why": "The plotted position: firm lowland, 3.04 m above the water table, flood band 0.",
+          "rejectedBecause": "4.33 m of relief across the 66 m ring, which puts several trunks past the 2 m no-grading limit, and the water is 66 m off with the road 241 m off. The macro plot could not see the local relief; the meso pass can."
+        }
+      ]
+    },
+    "provision": {
+      "quests": [
+        "quest.local.lh37",
+        "quest.local.lh51",
+        "quest.local.lh52",
+        "quest.local.lh53",
+        "quest.local.mq19"
+      ],
+      "notes": "LH51 takes the pitch ground, its ledger station and the rent-taker; LH52 takes the root joins and the felling scene inside the ring; LH53 takes the delegation baggage on the pitch ground; LH37 takes the empty pitches the two absent tribes left; MQ19 takes the tree-minder's deck."
+    }
+  }
+}

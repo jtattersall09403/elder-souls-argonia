@@ -20,7 +20,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.lilmoth-divers-yard"
       ],
-      "premise": "A salvage lot on the bench is recognised by the family it was lifted from, though the diving licence behind it is genuine",
+      "premise": "A salvage lot on the bench is recognised by the family from whom it was lifted, though the diving licence behind it is genuine",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -48,7 +48,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.villa-cellars"
       ],
-      "premise": "A diver's lamp came back up the shaft on its line; she did not",
+      "premise": "A diver's lamp came back up the shaft on its line without her",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -292,7 +292,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.tempering-ground"
       ],
-      "premise": "Cheydinhal has sent a claimant to an intake the retired Shadowscales cannot agree how to hand on",
+      "premise": "Cheydinhal has sent a claimant for an intake that the retired Shadowscales cannot agree how to award",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -511,7 +511,7 @@
         "place.mercantile-coast.high-junction",
         "place.mercantile-coast.lilmoth"
       ],
-      "premise": "The junction deck carries more traffic than its timbers were cut for, with its households split over who pays to cut new ones",
+      "premise": "The junction deck carries more traffic than its timbers can bear, with its households split over who pays to cut new ones",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1480,7 +1480,7 @@
         "place.mercantile-coast.soulrest",
         "place.mercantile-coast.soulrest-quay-tradehouse"
       ],
-      "premise": "A crew hired in the least private room in the port sails and does not arrive, with every witness remembering a different master",
+      "premise": "A crew hired in the least private room in the port sails and is not seen again, with every witness remembering a different master",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1774,7 +1774,7 @@
     {
       "id": "quest.local.lm65",
       "code": "LM65",
-      "title": "Asks No Questions, Secures Less",
+      "title": "Robbed on Meerhleel's Quay",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1815,7 +1815,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.alten-meerhleel"
       ],
-      "premise": "The warehouse row has begun charging the Argonian raft quarter for the water it floats on",
+      "premise": "The warehouse row has begun charging the Argonian raft quarter for the water beneath its rafts",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1950,7 +1950,7 @@
         "place.mercantile-coast.alten-meerhleel",
         "place.mercantile-coast.hammock-crown-murkmire"
       ],
-      "premise": "Something has been working at the far terrace of the dry crown four villages bury on",
+      "premise": "Something has been working at the far terrace of the dry crown on which four villages bury",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2018,7 +2018,7 @@
     {
       "id": "quest.local.lm74",
       "code": "LM74",
-      "title": "The Last Hist Between",
+      "title": "The Last Hist Before the Burn",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2152,7 +2152,7 @@
     {
       "id": "quest.local.lm79",
       "code": "LM79",
-      "title": "Rice, Coin and Tenancy",
+      "title": "Rice and Tenancy",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2205,7 +2205,7 @@
     {
       "id": "quest.local.lm81",
       "code": "LM81",
-      "title": "Letting the Flood In",
+      "title": "The Early Flood Channel",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,

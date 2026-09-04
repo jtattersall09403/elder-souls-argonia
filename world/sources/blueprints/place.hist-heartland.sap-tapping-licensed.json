@@ -1,0 +1,634 @@
+{
+  "schemaVersion": 1,
+  "blueprint": {
+    "id": "place.hist-heartland.sap-tapping-licensed",
+    "seed": "place.hist-heartland.sap-tapping-licensed",
+    "causalModel": {
+      "founding": "The assembly designated this Hist for tapping and issued one licence against it: one stage, one season, one tree. The stage stands where the crew could raise it without cutting into the root flare.",
+      "siteAdvantages": "A firm terrace 3.1 m above the water table, 16 m from a channel deep enough (0.9 m) to pole a loaded canoe, under closed canopy that hides the camp from the land side until the last thirty metres.",
+      "occupantsMotive": "A tapper and two crew whose licence is their livelihood. They keep the stage correct and police poachers themselves, because a district that cannot police itself loses its licences.",
+      "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work and are not stopped by them either.",
+      "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
+    },
+    "boundary": [
+      [
+        0.470333,
+        0.592391
+      ],
+      [
+        0.476571,
+        0.592391
+      ],
+      [
+        0.476571,
+        0.598358
+      ],
+      [
+        0.470333,
+        0.598358
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.sap-tapping-licensed.stage",
+        "kind": "works",
+        "cultureKit": "neutral-works",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.47196,
+            0.593476
+          ],
+          [
+            0.474401,
+            0.593476
+          ],
+          [
+            0.474401,
+            0.595646
+          ],
+          [
+            0.47196,
+            0.595646
+          ]
+        ],
+        "notes": "The tapping stage on the Hist's channel face, the mule line and the season's stock. Stockade-scaffold family only, at matched side counts."
+      },
+      {
+        "id": "district.sap-tapping-licensed.camp",
+        "kind": "residential",
+        "cultureKit": "argonian-mud",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.47413,
+            0.594561
+          ],
+          [
+            0.476571,
+            0.594561
+          ],
+          [
+            0.476571,
+            0.597003
+          ],
+          [
+            0.47413,
+            0.597003
+          ]
+        ],
+        "notes": "One tent dwelling behind the trunk, the crew's hearth clutter and the plank walk down to the landing. Mud-culture set only; never blended with the works props on the stage."
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.sap-tapping-licensed.track",
+        "kind": "track",
+        "points": [
+          [
+            0.474537,
+            0.598358
+          ],
+          [
+            0.47413,
+            0.597003
+          ],
+          [
+            0.473723,
+            0.595917
+          ],
+          [
+            0.473384,
+            0.594832
+          ]
+        ],
+        "widthM": 1.2
+      }
+    ],
+    "canals": [
+      {
+        "id": "canal.sap-tapping-licensed.channel",
+        "kind": "channel",
+        "points": [
+          [
+            0.46979,
+            0.59212
+          ],
+          [
+            0.471147,
+            0.592663
+          ],
+          [
+            0.471824,
+            0.59334
+          ]
+        ],
+        "widthM": 6.0
+      }
+    ],
+    "boardwalks": [
+      {
+        "id": "boardwalk.sap-tapping-licensed.landing-walk",
+        "kind": "boardwalk",
+        "points": [
+          [
+            0.472774,
+            0.59429
+          ],
+          [
+            0.472096,
+            0.593544
+          ]
+        ],
+        "widthM": 1.6
+      }
+    ],
+    "parcels": [
+      {
+        "id": "parcel.sap-tapping-licensed.stage",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "work",
+        "buildingFamily": "works-tapping-stage",
+        "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.473037,
+            0.594164
+          ],
+          [
+            0.473541,
+            0.594164
+          ],
+          [
+            0.473541,
+            0.594687
+          ],
+          [
+            0.473037,
+            0.594687
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.stage-stair",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "work",
+        "buildingFamily": "works-scaffold-stair",
+        "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.473425,
+            0.594408
+          ],
+          [
+            0.473913,
+            0.594408
+          ],
+          [
+            0.473913,
+            0.594877
+          ],
+          [
+            0.473425,
+            0.594877
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.mule-line",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "work",
+        "buildingFamily": "works-stock-line",
+        "assetRef": "vanilla:clutter/horsetrough/horsetrough01",
+        "groundFit": "pad",
+        "footprint": [
+          [
+            0.473316,
+            0.595239
+          ],
+          [
+            0.473859,
+            0.595239
+          ],
+          [
+            0.473859,
+            0.595511
+          ],
+          [
+            0.473316,
+            0.595511
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.stock",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "storage",
+        "buildingFamily": "works-graded-stock",
+        "assetRef": "vanilla:clutter/carts/handcart01",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.472869,
+            0.595266
+          ],
+          [
+            0.473221,
+            0.595266
+          ],
+          [
+            0.473221,
+            0.595619
+          ],
+          [
+            0.472869,
+            0.595619
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.dwelling",
+        "districtId": "district.sap-tapping-licensed.camp",
+        "use": "dwelling",
+        "buildingFamily": "argonian-mud-tent",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent01",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.474659,
+            0.595443
+          ],
+          [
+            0.475771,
+            0.595443
+          ],
+          [
+            0.475771,
+            0.596392
+          ],
+          [
+            0.474659,
+            0.596392
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.landing-walk",
+        "districtId": "district.sap-tapping-licensed.camp",
+        "use": "infrastructure",
+        "buildingFamily": "argonian-plank-walk",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianbridge",
+        "groundFit": "stilt",
+        "footprint": [
+          [
+            0.472666,
+            0.594209
+          ],
+          [
+            0.472882,
+            0.594371
+          ],
+          [
+            0.472204,
+            0.593693
+          ],
+          [
+            0.471987,
+            0.59353
+          ]
+        ]
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "landmark.sap-tapping-licensed.hist",
+        "kind": "hist-tree",
+        "position": [
+          0.474211,
+          0.595375
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histtree",
+        "notes": "The licensed tree. Measured bounds 64.0 x 45.3 m across the crown, 53.6 m tall, 17073 tris. The stage stands 9.8 m off the trunk centre on the channel face; trunk clearance is verified against the geometry at Round B before the stage is fixed."
+      },
+      {
+        "id": "landmark.sap-tapping-licensed.root-flare",
+        "kind": "hist-tree",
+        "position": [
+          0.473642,
+          0.594913
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
+        "notes": "Root flare from the same author's set, laid between the trunk and the stage footing; 9.56 x 2.54 m, 4.71 m high."
+      }
+    ],
+    "docks": [
+      {
+        "id": "dock.sap-tapping-licensed.landing",
+        "position": [
+          0.47196,
+          0.593476
+        ],
+        "waterBodyId": "water.channel.licensed-stage",
+        "piledToBed": true
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.sap-tapping-licensed.stage-foot",
+        "boundary": [
+          [
+            0.472774,
+            0.594018
+          ],
+          [
+            0.47413,
+            0.594018
+          ],
+          [
+            0.47413,
+            0.595646
+          ],
+          [
+            0.472774,
+            0.595646
+          ]
+        ],
+        "clearanceClass": "tight"
+      }
+    ],
+    "questSockets": [
+      {
+        "id": "socket.sap-tapping-licensed.licence",
+        "kind": "evidence",
+        "position": [
+          0.473181,
+          0.594209
+        ],
+        "parcelId": "parcel.sap-tapping-licensed.stage",
+        "ownerQuestTier": 2
+      },
+      {
+        "id": "socket.sap-tapping-licensed.tapper",
+        "kind": "npc",
+        "position": [
+          0.473533,
+          0.594751
+        ],
+        "ownerQuestTier": 2
+      },
+      {
+        "id": "socket.sap-tapping-licensed.graded-stock",
+        "kind": "container",
+        "position": [
+          0.473044,
+          0.595443
+        ],
+        "parcelId": "parcel.sap-tapping-licensed.stock",
+        "ownerQuestTier": 2
+      },
+      {
+        "id": "socket.sap-tapping-licensed.night-landing",
+        "kind": "scene",
+        "position": [
+          0.472041,
+          0.593585
+        ],
+        "ownerQuestTier": 2
+      }
+    ],
+    "doors": [
+      {
+        "id": "door.hist-heartland.sap-tapping-licensed.1",
+        "parcelId": "parcel.sap-tapping-licensed.dwelling",
+        "facingDeg": 250,
+        "thresholdUV": [
+          0.4747,
+          0.595917
+        ],
+        "interiorClaim": {
+          "sizeClass": "small",
+          "culture": "argonian",
+          "owner": "the licensed tapper"
+        }
+      }
+    ],
+    "clearance": {
+      "hardClear": [
+        [
+          [
+            0.472808,
+            0.593971
+          ],
+          [
+            0.473824,
+            0.593971
+          ],
+          [
+            0.473824,
+            0.594989
+          ],
+          [
+            0.472808,
+            0.594989
+          ]
+        ],
+        [
+          [
+            0.474577,
+            0.595361
+          ],
+          [
+            0.475852,
+            0.595361
+          ],
+          [
+            0.475852,
+            0.596473
+          ],
+          [
+            0.474577,
+            0.596473
+          ]
+        ],
+        [
+          [
+            0.472842,
+            0.595144
+          ],
+          [
+            0.473791,
+            0.595144
+          ],
+          [
+            0.473791,
+            0.595686
+          ],
+          [
+            0.472842,
+            0.595686
+          ]
+        ]
+      ],
+      "thinned": [
+        [
+          [
+            0.471689,
+            0.593476
+          ],
+          [
+            0.475757,
+            0.593747
+          ],
+          [
+            0.476029,
+            0.596731
+          ],
+          [
+            0.472774,
+            0.597003
+          ]
+        ]
+      ],
+      "kept": [
+        {
+          "id": "kept.sap-tapping-licensed.hist",
+          "kind": "hist-tree",
+          "position": [
+            0.474211,
+            0.595375
+          ]
+        },
+        {
+          "id": "kept.sap-tapping-licensed.reed-margin",
+          "kind": "reed-bed",
+          "position": [
+            0.471824,
+            0.59334
+          ]
+        },
+        {
+          "id": "kept.sap-tapping-licensed.shade-n",
+          "kind": "shade",
+          "position": [
+            0.472638,
+            0.593883
+          ]
+        },
+        {
+          "id": "kept.sap-tapping-licensed.shade-e",
+          "kind": "shade",
+          "position": [
+            0.475893,
+            0.596189
+          ]
+        }
+      ]
+    },
+    "variants": [
+      {
+        "id": "variant.sap-tapping-licensed.licence-revoked",
+        "changedRefs": [
+          "parcel.sap-tapping-licensed.stage",
+          "parcel.sap-tapping-licensed.stock",
+          "socket.sap-tapping-licensed.licence",
+          "socket.sap-tapping-licensed.tapper"
+        ],
+        "serviceOverrides": {
+          "dock.sap-tapping-licensed.landing": "unwatched"
+        },
+        "ambience": "abandoned-stage"
+      }
+    ],
+    "occupants": [
+      {
+        "slotId": "o.tapper",
+        "ladderRef": "capable-d3 tapper",
+        "cultureRole": "licensed tapper",
+        "ownerFaction": "faction.helstrom-assembly"
+      },
+      {
+        "slotId": "o.crew-1",
+        "ladderRef": "modest-d3 labourer",
+        "cultureRole": "tapping crew"
+      },
+      {
+        "slotId": "o.crew-2",
+        "ladderRef": "modest-d3 labourer",
+        "cultureRole": "tapping crew"
+      }
+    ],
+    "assetConstraints": [
+      "stockade-scaffold pieces only at matched side counts (base3sided + top3sided), per works-v1 snapLogic",
+      "no settlement-root dwelling pieces here: the smallest root house measures 24.6 x 24.6 m and 55.6 m tall",
+      "the stage carries no metal fixings; hardwood pegs and withy only"
+    ],
+    "ownership": {
+      "socket.sap-tapping-licensed.licence": {
+        "owner": "the licensed tapper",
+        "ownerFaction": "faction.helstrom-assembly",
+        "valueTier": "modest"
+      },
+      "socket.sap-tapping-licensed.graded-stock": {
+        "owner": "the licensed tapper",
+        "valueTier": "modest"
+      }
+    },
+    "budget": {
+      "maxInstances": 150,
+      "maxUniqueMaterials": 26,
+      "maxTextureMB": 40,
+      "maxColliders": 60
+    },
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/licensed-stage.json",
+      "candidates": [
+        {
+          "id": "candidate.sap-tapping-licensed.a-north-bank",
+          "positionM": [
+            3490.6,
+            4391.8
+          ],
+          "chosen": true,
+          "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330) — the only water within 250 m that a loaded canoe can be poled along. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
+        },
+        {
+          "id": "candidate.sap-tapping-licensed.c-east-shelf",
+          "positionM": [
+            3580.6,
+            4361.8
+          ],
+          "why": "Slope 2.75 deg, 10.3 m to shore, 3.98 m above the water table, canopy closure 0.99 — the most concealed of the three and the closest to the plotted point (67 m).",
+          "rejectedBecause": "The water at 10 m measures 0.4 m deep: a wading margin, not a channel. A licence hung to be read from the water reads to nobody, and the extraction route fails."
+        },
+        {
+          "id": "candidate.sap-tapping-licensed.d-west-flat",
+          "positionM": [
+            3460.6,
+            4376.8
+          ],
+          "why": "The flattest ground in the neighbourhood (slope 0.90 deg, delta 1.9 m across 20 m) and 10.3 m from water on the far bank of the same channel system.",
+          "rejectedBecause": "Only 0.32 m above the water table, and canopy closure drops to 0.77. The season's stock would stand in a wet-season hazard, and the camp would be visible on the open bank from both directions rather than from one track."
+        }
+      ]
+    },
+    "provision": {
+      "questId": "quest.mr.mr04",
+      "provisionId": "quest.provision.mr04-anchor",
+      "needs": [
+        "the licence itself, legible in the world and carrying a counter-signature the player can match elsewhere",
+        "a stage a player can climb and search without combat",
+        "a channel bank where a night landing can be watched from cover"
+      ],
+      "satisfiedBy": [
+        "socket.sap-tapping-licensed.licence",
+        "socket.sap-tapping-licensed.tapper",
+        "socket.sap-tapping-licensed.graded-stock",
+        "socket.sap-tapping-licensed.night-landing",
+        "parcel.sap-tapping-licensed.stage",
+        "dock.sap-tapping-licensed.landing"
+      ]
+    }
+  }
+}

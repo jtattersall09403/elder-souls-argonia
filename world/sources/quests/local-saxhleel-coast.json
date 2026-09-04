@@ -35,7 +35,7 @@
     {
       "id": "quest.local.sx02",
       "code": "SX02",
-      "title": "Three Tongues, Three Manifests",
+      "title": "One Cargo, Three Manifests",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -50,7 +50,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.quay-tradehouse"
       ],
-      "premise": "One cargo is declared as three different things in the three languages the customs desk works in.",
+      "premise": "One cargo is declared as three different things, in the three languages of the customs desk.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -79,7 +79,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.oliis-coast-lay-by"
       ],
-      "premise": "Half-chartered hulls are landing on the Oliis shore, which suits the Archon factors buying from them and embarrasses the customs desk that must say so.",
+      "premise": "Half-chartered hulls are landing on the Oliis shore. The Archon factors buying from them are content; the customs desk has to report it.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -253,7 +253,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.owing-hiring-camp"
       ],
-      "premise": "The broker's hiring list decides who eats; a clerk's pen can rewrite it between two hiring days.",
+      "premise": "The broker's hiring list decides who works. A clerk can rewrite it between two hiring days.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -396,7 +396,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.umbriel-shore-memorial"
       ],
-      "premise": "The count on the shore memorial is wrong by two, which the dead appear to mind.",
+      "premise": "The count on the shore memorial is wrong by two. The dead have made that known.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -537,7 +537,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.archon-harbour-hist"
       ],
-      "premise": "A child did not surface after a game the whole harbour plays without worrying.",
+      "premise": "A child did not surface after a diving game the whole harbour plays.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -650,7 +650,7 @@
       "anchorPlaces": [
         "place.saxhleel-coast.archon"
       ],
-      "premise": "A customs enforcer was found drowned in water shallow enough to stand in.",
+      "premise": "A customs enforcer was found drowned in water shallow enough for standing.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -763,7 +763,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.owing-hiring-camp"
       ],
-      "premise": "Indenture papers were signed by people who could not read the language they were written in.",
+      "premise": "Indenture papers were signed by people who could not read the language of the text.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -989,7 +989,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.archon-shipyard"
       ],
-      "premise": "The yard master is dying, three shipwrights can lay a keel, so the build register will decide which of them counts.",
+      "premise": "The yard master is dying and three shipwrights can lay a keel. The build register will decide which of them succeeds him.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1018,7 +1018,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.dusk-bird-colony"
       ],
-      "premise": "Eggs from the colony are reaching the market rotten, while the eggers will not say what they saw out there.",
+      "premise": "Eggs from the colony are reaching the market rotten. The eggers have given no account of their last visit.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1075,7 +1075,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.tide-run-delta"
       ],
-      "premise": "People are being walked across the delta flat on a tide that gives them two hours to be somewhere else.",
+      "premise": "People are being walked across the delta flat with two hours of tide in hand.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

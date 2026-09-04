@@ -1,0 +1,646 @@
+{
+  "schemaVersion": 1,
+  "blueprint": {
+    "id": "place.naga-kur-deeps.wamasu-pond-adult",
+    "seed": "place.naga-kur-deeps.wamasu-pond-adult",
+    "causalModel": {
+      "founding": "An adult wamasu grew into a small isolated pan of standing water beside the zone's poling line and has held it for years.",
+      "siteAdvantages": "The only still, closed water within 300 m: fed by the water table, cut off from the tidal channels, and shallow enough that the animal can stand in all of it. A low bank ring, one knoll above it, and a cave mouth at the west waterline that floods to the roof.",
+      "occupantsMotive": "The animal holds ground it can charge; the villages have stopped trying to take it back and now leave offerings on the south bank in the old Shadowfen manner.",
+      "pressures": "The poling detour costs two hours and runs within 30 m of the pond for its whole length; the pole line needs patching every season.",
+      "wouldChangeIf": "Killing the animal reopens the direct line and ends the offerings; the tribes disagree about whether that is a gain."
+    },
+    "boundary": [
+      [
+        0.326032,
+        0.590221
+      ],
+      [
+        0.343392,
+        0.590221
+      ],
+      [
+        0.343392,
+        0.6206
+      ],
+      [
+        0.336068,
+        0.6206
+      ],
+      [
+        0.336068,
+        0.603783
+      ],
+      [
+        0.326032,
+        0.603783
+      ]
+    ],
+    "districts": [
+      {
+        "id": "district.wamasu-pond-adult.bank",
+        "kind": "lair-bank",
+        "cultureKit": "argonian-mud",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.330643,
+            0.593205
+          ],
+          [
+            0.339594,
+            0.593205
+          ],
+          [
+            0.339594,
+            0.602156
+          ],
+          [
+            0.330643,
+            0.602156
+          ]
+        ],
+        "notes": "The bank ring: offerings and grave-cairns on the south and south-east shelf, totems and lanterns stepped up it, drift bone along the high line. No dwelling, no door."
+      },
+      {
+        "id": "district.wamasu-pond-adult.stand",
+        "kind": "works",
+        "cultureKit": "neutral-works",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.328745,
+            0.590764
+          ],
+          [
+            0.332542,
+            0.590764
+          ],
+          [
+            0.332542,
+            0.593205
+          ],
+          [
+            0.328745,
+            0.593205
+          ]
+        ],
+        "notes": "The knoll north-west of the pond, 2.4 m above the water: a hunter's stand abandoned on it."
+      },
+      {
+        "id": "district.wamasu-pond-adult.detour",
+        "kind": "route",
+        "cultureKit": "argonian-stilt",
+        "wealth": "poor",
+        "boundary": [
+          [
+            0.336611,
+            0.599986
+          ],
+          [
+            0.341493,
+            0.599986
+          ],
+          [
+            0.341493,
+            0.620058
+          ],
+          [
+            0.336611,
+            0.620058
+          ]
+        ],
+        "notes": "The pole-marked detour from the pond's east landing to the poling lane head. Poles only; the roots at their feet are the signature."
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.wamasu-pond-adult.detour",
+        "kind": "poling-detour",
+        "points": [
+          [
+            0.337696,
+            0.6008
+          ],
+          [
+            0.33878,
+            0.605139
+          ],
+          [
+            0.339052,
+            0.609479
+          ],
+          [
+            0.339323,
+            0.61409
+          ],
+          [
+            0.339052,
+            0.617888
+          ]
+        ],
+        "widthM": 6.0
+      }
+    ],
+    "canals": [
+      {
+        "id": "canal.wamasu-pond-adult.lane-head",
+        "kind": "channel",
+        "points": [
+          [
+            0.339052,
+            0.617888
+          ],
+          [
+            0.344477,
+            0.62277
+          ],
+          [
+            0.350173,
+            0.627924
+          ]
+        ],
+        "widthM": 8.0
+      }
+    ],
+    "boardwalks": [],
+    "parcels": [
+      {
+        "id": "parcel.wamasu-pond-adult.hunters-stand",
+        "districtId": "district.wamasu-pond-adult.stand",
+        "use": "work",
+        "buildingFamily": "arch.neutral.scaffold-platform",
+        "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
+        "groundFit": "plinth",
+        "footprint": [
+          [
+            0.331213,
+            0.592947
+          ],
+          [
+            0.331715,
+            0.592947
+          ],
+          [
+            0.331715,
+            0.593463
+          ],
+          [
+            0.331213,
+            0.593463
+          ]
+        ]
+      },
+      {
+        "id": "parcel.wamasu-pond-adult.offering-platform",
+        "districtId": "district.wamasu-pond-adult.bank",
+        "use": "ritual",
+        "buildingFamily": "prop.argonian.ritual-totem",
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
+        "groundFit": "direct",
+        "footprint": [
+          [
+            0.335064,
+            0.600081
+          ],
+          [
+            0.335444,
+            0.600081
+          ],
+          [
+            0.335444,
+            0.600433
+          ],
+          [
+            0.335064,
+            0.600433
+          ]
+        ]
+      }
+    ],
+    "siting": {
+      "dossier": "world/sources/sites/dossiers/standing-charge.json",
+      "candidates": [
+        {
+          "id": "candidate.wamasu-pond-adult.pan",
+          "positionM": [
+            2466.0,
+            4403.0
+          ],
+          "chosen": true,
+          "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held."
+        },
+        {
+          "id": "candidate.wamasu-pond-adult.plot",
+          "positionM": [
+            2404.5,
+            4433.4
+          ],
+          "rejectedBecause": "No standing water at all: 3.0 m above the water table, shore 33 m off, depth 0.00 m. A pond there would be carved from nothing, and canopy 0.82 closes the sky the lightning-scarred trees need.",
+          "why": "The plotted position itself, kept for the record: rootland deep marsh, elevation 10.15 m, slope 3.4 deg, 335 m from the nearest road, 155 m from the poling lane."
+        },
+        {
+          "id": "candidate.wamasu-pond-adult.lane-head",
+          "positionM": [
+            2602.0,
+            4652.0
+          ],
+          "rejectedBecause": "Real water 1.60 m deep and 8 m from the lane, but it flood-fills to the ocean: an estuary arm at level 0.00 m, flood band 3, not a held pond. Sitting on the lane also makes the place a blockage rather than a hazard the detour is drawn around.",
+          "why": "The head of the place's own poling lane, where the water is genuinely deep: elevation -1.55 m, depth 1.60 m, slope 0.3 deg, 8 m from the lane, 198 m from the nearest road."
+        }
+      ]
+    },
+    "landmarks": [
+      {
+        "id": "landmark.wamasu-pond-adult.cave-mouth",
+        "kind": "cave-mouth",
+        "position": [
+          0.331728,
+          0.597002
+        ],
+        "assetRef": "terrain.cave-mouth.flooded",
+        "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.dead-tree-n",
+        "kind": "dead-tree",
+        "position": [
+          0.333898,
+          0.594832
+        ],
+        "assetRef": "bmv:landscape/trees/cypress1",
+        "notes": "Standing dead, lightning-scarred, stripped of foliage by the material pass. 20.2 x 22.7 m crown, 32.0 m tall - kept, never cleared."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.dead-tree-ne",
+        "kind": "dead-tree",
+        "position": [
+          0.336068,
+          0.595375
+        ],
+        "assetRef": "bmv:landscape/trees/cypress3",
+        "notes": "Standing dead, 24.8 x 22.2 m, 26.5 m tall, at the waterline."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.dead-tree-w",
+        "kind": "dead-tree",
+        "position": [
+          0.332271,
+          0.59863
+        ],
+        "assetRef": "bmv:landscape/trees/treewillow03a",
+        "notes": "Standing dead, 11.6 x 10.2 m, 17.2 m tall, leaning over the west shallows."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.totem-bank",
+        "kind": "totem",
+        "position": [
+          0.335526,
+          0.599715
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+        "notes": "0.75 x 0.49 m, 1.95 m tall. Faces the water, behind the offering platform."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.bone-chime",
+        "kind": "chime",
+        "position": [
+          0.336339,
+          0.599172
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+        "notes": "2.18 x 0.38 m, 1.41 m tall. The drum frame with no drum in it reads from here."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.cairn-1",
+        "kind": "cairn",
+        "position": [
+          0.336882,
+          0.598358
+        ],
+        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
+        "notes": "2.49 x 2.51 m, 2.65 m tall; the lowest of the stepped grave-cairns."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.cairn-2",
+        "kind": "cairn",
+        "position": [
+          0.33756,
+          0.597545
+        ],
+        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+        "notes": "1.75 x 2.60 m, 2.56 m tall."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.cairn-3",
+        "kind": "cairn",
+        "position": [
+          0.338102,
+          0.596595
+        ],
+        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
+        "notes": "1.39 x 1.88 m, 2.56 m tall; the highest, on the 10 m line."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.lantern-bank",
+        "kind": "light",
+        "position": [
+          0.335932,
+          0.600122
+        ],
+        "assetRef": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+        "notes": "0.66 x 0.64 m, 2.71 m tall. The only maintained light on the bank."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.pole-head",
+        "kind": "marker-pole",
+        "position": [
+          0.337696,
+          0.6008
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+        "notes": "0.23 x 0.22 m, 1.92 m tall. First of the rooted detour poles; the compiler repeats it along r.detour at 12 m, each with a kept root skirt."
+      },
+      {
+        "id": "landmark.wamasu-pond-adult.pole-tail",
+        "kind": "marker-pole",
+        "position": [
+          0.339052,
+          0.617888
+        ],
+        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+        "notes": "Last pole, at the lane head; the line is unbroken between the two."
+      }
+    ],
+    "docks": [
+      {
+        "id": "dock.wamasu-pond-adult.detour-landing",
+        "position": [
+          0.337967,
+          0.601071
+        ],
+        "waterBodyId": "water.pond.standing-charge",
+        "piledToBed": true
+      }
+    ],
+    "combatSpaces": [
+      {
+        "id": "combat.wamasu-pond-adult.pond",
+        "boundary": [
+          [
+            0.331457,
+            0.59429
+          ],
+          [
+            0.337696,
+            0.59429
+          ],
+          [
+            0.337696,
+            0.600257
+          ],
+          [
+            0.331457,
+            0.600257
+          ]
+        ],
+        "clearanceClass": "open",
+        "notes": "46 x 44 m over the pan and its rim. The adult wamasu build is the armoured daedroth on the werewolfbeast rig at lair scale; the ground must hold a body roughly 5 m long with room to turn, charge and be circled, so nothing but the kept dead trees stands inside this polygon."
+      },
+      {
+        "id": "combat.wamasu-pond-adult.bank-shelf",
+        "boundary": [
+          [
+            0.334441,
+            0.599172
+          ],
+          [
+            0.338509,
+            0.599172
+          ],
+          [
+            0.338509,
+            0.601613
+          ],
+          [
+            0.334441,
+            0.601613
+          ]
+        ],
+        "clearanceClass": "broken",
+        "notes": "The offering shelf and cairn steps: the retreat ground, deliberately cluttered so it is worse to fight on and better to run through."
+      }
+    ],
+    "questSockets": [
+      {
+        "id": "socket.wamasu-pond-adult.boss",
+        "kind": "boss",
+        "position": [
+          0.334441,
+          0.597138
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.wamasu-pond-adult.offerings",
+        "kind": "scene",
+        "position": [
+          0.335254,
+          0.600257
+        ],
+        "parcelId": "parcel.wamasu-pond-adult.offering-platform",
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.wamasu-pond-adult.stand-evidence",
+        "kind": "evidence",
+        "position": [
+          0.331457,
+          0.593205
+        ],
+        "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.wamasu-pond-adult.pond-floor",
+        "kind": "container",
+        "position": [
+          0.333627,
+          0.597816
+        ],
+        "ownerQuestTier": 3
+      },
+      {
+        "id": "socket.wamasu-pond-adult.cave-mouth",
+        "kind": "encounter",
+        "position": [
+          0.331728,
+          0.597002
+        ],
+        "ownerQuestTier": 3
+      }
+    ],
+    "doors": [],
+    "clearance": {
+      "hardClear": [
+        [
+          [
+            0.331457,
+            0.59429
+          ],
+          [
+            0.337696,
+            0.59429
+          ],
+          [
+            0.337696,
+            0.600257
+          ],
+          [
+            0.331457,
+            0.600257
+          ]
+        ]
+      ],
+      "thinned": [
+        [
+          [
+            0.32983,
+            0.592391
+          ],
+          [
+            0.339865,
+            0.592391
+          ],
+          [
+            0.339865,
+            0.602698
+          ],
+          [
+            0.32983,
+            0.602698
+          ]
+        ],
+        [
+          [
+            0.336882,
+            0.599986
+          ],
+          [
+            0.341222,
+            0.599986
+          ],
+          [
+            0.341222,
+            0.619787
+          ],
+          [
+            0.336882,
+            0.619787
+          ]
+        ]
+      ],
+      "kept": [
+        {
+          "id": "kept.wamasu-pond-adult.dead-tree-n",
+          "kind": "dead-tree",
+          "position": [
+            0.333898,
+            0.594832
+          ]
+        },
+        {
+          "id": "kept.wamasu-pond-adult.dead-tree-ne",
+          "kind": "dead-tree",
+          "position": [
+            0.336068,
+            0.595375
+          ]
+        },
+        {
+          "id": "kept.wamasu-pond-adult.dead-tree-w",
+          "kind": "dead-tree",
+          "position": [
+            0.332271,
+            0.59863
+          ]
+        },
+        {
+          "id": "kept.wamasu-pond-adult.pond",
+          "kind": "open-water",
+          "position": [
+            0.334441,
+            0.597138
+          ]
+        },
+        {
+          "id": "kept.wamasu-pond-adult.reed-margin",
+          "kind": "reed-bed",
+          "position": [
+            0.333084,
+            0.599443
+          ]
+        },
+        {
+          "id": "kept.wamasu-pond-adult.pole-roots",
+          "kind": "root-mat",
+          "position": [
+            0.33878,
+            0.606224
+          ]
+        }
+      ]
+    },
+    "variants": [
+      {
+        "id": "variant.wamasu-pond-adult.cleared",
+        "changedRefs": [
+          "socket.wamasu-pond-adult.boss",
+          "combat.wamasu-pond-adult.pond",
+          "landmark.wamasu-pond-adult.lantern-bank"
+        ],
+        "serviceOverrides": {
+          "route.wamasu-pond-adult.detour": "abandoned"
+        },
+        "ambience": "quiet-water"
+      }
+    ],
+    "travelServices": [],
+    "occupants": [
+      {
+        "slotId": "o.wamasu",
+        "ladderRef": "formidable-d5 beast",
+        "cultureRole": "resident adult wamasu"
+      }
+    ],
+    "assetConstraints": [
+      "d.bank uses settlement-mud-v1 pieces only; d.stand uses works-v1 only; d.detour uses docks-v1 poles only. No set is blended.",
+      "The hunter's stand is the vanilla stockade-scaffold snap chain and nothing else: base3sided01 footing, top3sided01 deck of the matching side count, ramp01 to climb it, basesupport01 under the overhang. Side counts stay consistent around the platform.",
+      "The pond's electrified water is a Phase 9 water-volume hazard, not a mesh and not a particle prop.",
+      "The wamasu actor is the armoured daedroth build on the vanilla werewolfbeast rig (creature-asset-availability.md); no new rig is requested."
+    ],
+    "ownership": {
+      "socket.wamasu-pond-adult.offerings": {
+        "owner": "the offering-makers of the deeps",
+        "valueTier": "modest"
+      }
+    },
+    "provision": {
+      "questIds": [
+        "quest.local.ln05"
+      ],
+      "needs": [
+        "a boss space that reads as owned before it is entered",
+        "evidence on the abandoned stand that someone tried this before",
+        "a container on the pond floor reachable only by swimming"
+      ],
+      "notes": "LN05 anchors here alongside the tidal gate and the village; the tier-1 province system also draws on the cleared/uncleared state."
+    },
+    "budget": {
+      "maxInstances": 420,
+      "maxUniqueMaterials": 14,
+      "maxTextureMB": 24,
+      "maxColliders": 120
+    }
+  }
+}

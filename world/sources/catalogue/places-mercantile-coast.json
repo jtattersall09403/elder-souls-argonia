@@ -24,7 +24,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A First-Era warship from the fleet that chased Red Bramman, lost on the reef and settled upright in eleven metres.",
-        "siteAdvantages": "Deep enough to be intact, shallow enough to dive on one breath at the stern.",
+        "siteAdvantages": "Deep enough that the hull is intact. The stern is shallow enough for a single-breath dive.",
         "occupantsMotive": "Four Soulrest families dispute an ownership no court has settled.",
         "pressures": "Two centuries of salvage have stripped the deck. The hold is silted to the coamings.",
         "wouldChangeIf": "One good season of settled water would let a diving team open the hold properly."
@@ -91,7 +91,7 @@
       "vibe": {
         "palette": "Green water, black timber, white sand.",
         "signatureFeature": "A ram-bowed hull standing upright on the bottom with its ribs open like a lantern, visible from the surface on a calm day.",
-        "mood": "Still. Quiet as a shut hold."
+        "mood": "Still. Very quiet."
       },
       "assetPlan": [
         "boats-keeled",
@@ -251,7 +251,7 @@
       "why": {
         "founding": "An outsider-facing port north-west of Lilmoth, below city scale, where an Argonian raft-quarter and an outsiders' warehouse row front the same water. With Lilmoth destroyed for a century and a half the bay's outside trade came here. Enough of it stayed that the quay outgrew the village.",
         "siteAdvantages": "Slow deep water inside the bar, deep enough for a laden hull to lie off and be worked by lighters, with firm ground behind it for a warehouse row. The 'alten-' in the name means outsiders.",
-        "occupantsMotive": "Lightermen, Argonian raft-quarter families and factors from four ports. The customs presence is one clerk and an unstaffed tariff shed. That shed is what the port sells.",
+        "occupantsMotive": "Lightermen, Argonian raft-quarter families and factors from four ports. The customs presence is one clerk and an unstaffed tariff shed. The absence of inspection is what the port sells.",
         "pressures": "Now that Lilmoth is rebuilt the two ports are direct rivals. Meerhleel's advantage is that it asks no questions, but Corimont, the province's real free port, does the same behind a harbour wall.",
         "wouldChangeIf": "If Lilmoth's council dropped its tariffs, a Soulrest factor would have no reason to sail past a real harbour to reach Meerhleel."
       },
@@ -320,12 +320,12 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A straight warehouse gable-line and two masts on one side of the landing, a low uneven raft-quarter with no roofline at all on the other. Between them, the stage.",
+        "silhouette": "A straight warehouse gable-line and two masts on one side of the landing, a low uneven raft-quarter with no roofline at all on the other. The landing stage lies between them.",
         "palette": "Sun-bleached deck timber, painted price boards, brown estuary water.",
         "materials": "Two kits sharing a stage: sawn plank, ridge-tile and iron strap in the warehouse row; lashed plank platforms on piles, reed and cane in the quarter. No frame, post or tile crosses the stage in either direction.",
         "signatureFeature": "Two building grammars on one waterfront: a lashed Argonian plank quarter moored to its piles beside a straight-gabled outsiders' warehouse row. The landing stage joins them.",
         "condition": "Prospering and patched: the warehouse row is maintained to the day, the raft-quarter is rebuilt continuously, but it looks worse for it.",
-        "mood": "Mercenary, polite about it.",
+        "mood": "Mercenary. Outwardly polite.",
         "approach": "From the water, masts and a warehouse gable read together before any of the plank quarter does.",
         "senses": "Cargo hooks and tallying, two argument-registers in two languages, tar and bilge and unswept spice, brown estuary smell at slack water."
       },
@@ -438,7 +438,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "You can buy and sell here as a foreigner without asking Lilmoth's permission.",
+        "hook": "Foreigners can buy and sell here without asking Lilmoth's permission.",
         "reviewed": true
       },
       "interior": {
@@ -681,7 +681,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "An abandoned Colovian plantation on good soil, still roofed in places, worth a look if you can deal with the pack in the yard.",
+        "hook": "An abandoned Colovian plantation on good soil, still roofed in places, worth a look. A pack holds the yard.",
         "reviewed": true
       },
       "interior": {
@@ -764,7 +764,7 @@
       "why": {
         "founding": "A village-kept fire and dry floor on the road, maintained by rota because the coast road kills people who are caught out.",
         "siteAdvantages": "At the point where the road leaves firm ground for the salt marsh.",
-        "occupantsMotive": "Ashfield's households keep it in turn; using it obliges you to leave fuel.",
+        "occupantsMotive": "Ashfield's households keep it in turn; use obliges the guest to leave fuel.",
         "pressures": "Travellers routinely take fuel without leaving any, and the rota is quietly failing.",
         "wouldChangeIf": "A season of unkept fires would end a two-hundred-year custom."
       },
@@ -914,9 +914,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The nearest Hist village to Soulrest. It is why the burn country still has Argonians in it.",
-        "siteAdvantages": "A rise that the peat fire went around, with its tree's roots reaching water the burn never reached.",
-        "occupantsMotive": "They kept the tree alive through the Burn and consider that the defining fact of their village.",
+        "founding": "The nearest Hist village to Soulrest. Argonian households remain in the burn country because it is here.",
+        "siteAdvantages": "A rise the peat fire did not cross. The tree's roots draw on water lying below the depth of the burn.",
+        "occupantsMotive": "They kept the tree alive through the Burn. The village dates its own history from that season.",
         "pressures": "The jungle edge here kills people who walk it alone. The village says so at the gate.",
         "wouldChangeIf": "Losing the tree would disperse the village into the city within a generation."
       },
@@ -982,7 +982,7 @@
         "signatureFeature": "A red-flowering Hist standing alone in a district of dead white stumps, ringed by a low water channel dug to keep fire out.",
         "condition": "Deliberately new. Every structure rebuilt since the burn, kept clear of the dead stumps the village will not remove.",
         "mood": "Defiant, courteous.",
-        "approach": "The dead stumps read first as a white field; the living crown only when you are inside them.",
+        "approach": "The dead stumps read first as a white field; the living crown shows only from inside them.",
         "senses": "Water running in the fire channel day and night, chime-frames, blossom scent that does not belong over ash, charcoal underfoot everywhere."
       },
       "assetPlan": [
@@ -1086,7 +1086,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "The last Hist between Soulrest and the burn country. They will shelter you.",
+        "hook": "The last Hist between Soulrest and the burn country. The village shelters travellers.",
         "reviewed": true
       },
       "interior": {
@@ -1150,11 +1150,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A village whose Hist died with its mnemic egg unrecovered. Its whole remaining life is organised around that.",
-        "siteAdvantages": "Unchanged good ground. Staying was the unusual part.",
-        "occupantsMotive": "They keep the empty enclosure, keep the offices, keep telling the memories aloud because the crown that held them is gone.",
+        "founding": "A village whose Hist died with its mnemic egg unrecovered. Its offices and rites are now organised around the loss.",
+        "siteAdvantages": "Unchanged good ground. Villages that lose a Hist usually disperse, but this one remained.",
+        "occupantsMotive": "They maintain the empty enclosure and the grave offices. The memories the crown held are recited aloud instead.",
         "pressures": "The children are leaving for Lilmoth; the recitation takes six days and fewer people can do it each year.",
-        "wouldChangeIf": "A recovered egg would restore the village at a stroke. Every treasure-hunter in Murkmire knows it."
+        "wouldChangeIf": "A recovered egg would restore the village at a stroke. Treasure-hunters across Murkmire know the reward stands."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1217,8 +1217,8 @@
         "materials": "Mud-mother plaster and reed, with one enclosure wall of carefully laid stakes and a single recitation bench of hardwood worn to a shine.",
         "signatureFeature": "An empty walled tree-enclosure with a recitation bench facing it, worn smooth. The whole village's memory is spoken to a stump-socket every evening.",
         "condition": "Well kept. The empty enclosure is maintained more carefully than any house.",
-        "mood": "Grieving to a timetable.",
-        "approach": "Ordinary from every direction until you are inside the ring of houses and see what they are facing.",
+        "mood": "Grieving. Orderly.",
+        "approach": "Ordinary from every direction. Inside the ring of houses, what they face becomes visible.",
         "senses": "One voice reciting at the same hour each evening, the rest of the village quiet for it; wet moss on the enclosure wall; no root-hum anywhere in the village."
       },
       "assetPlan": [
@@ -1238,7 +1238,7 @@
           "NPC",
           "SCENE"
         ],
-        "opportunity": "Find speakers for the recitation, or the mnemic egg the village organised its life around.",
+        "opportunity": "Find speakers for the recitation, or the mnemic egg around which the village organised its life.",
         "tierOwnership": "MR05 · tier-2; LM24 · tier-3; LM31 · tier-3; LM77 · tier-3; LM78 · tier-3"
       },
       "rumourPoolKey": "rumour.mercantile-coast.bereaved-village-murkmire",
@@ -1385,11 +1385,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A burial ground where somebody pulled the grave-poles out of the ground. The bog blight came up afterwards, as it does.",
+        "founding": "A burial ground where somebody pulled the grave-poles out of the ground. The bog blight came up afterwards.",
         "siteAdvantages": "An old village burial ground on soft peat, which is the exact condition the blight needs.",
         "occupantsMotive": "No household holds it. The blight keeps to the field, which is fenced by common consent.",
-        "pressures": "The pulled poles lie where they were dropped. The grave-warden cannot say which grave each of them came out of.",
-        "wouldChangeIf": "Driving the poles back in the right order would end it. That needs a grave-singer willing to walk in."
+        "pressures": "The pulled poles lie where they were dropped. The grave-warden cannot say from which grave each of them came.",
+        "wouldChangeIf": "Driving the poles back in the right order would end it. A grave-singer must enter the field to do it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1471,7 +1471,7 @@
           "EVIDENCE",
           "LOC"
         ],
-        "opportunity": "Drive the pulled poles back in the order the register gives, with the field awake around you.",
+        "opportunity": "Drive the pulled poles back in the order the register gives, with the field awake on every side.",
         "tierOwnership": "LM78 · tier-3"
       },
       "rumourPoolKey": null,
@@ -1897,7 +1897,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "The ferry family will take you across for coin, or upriver for rather more.",
+        "hook": "The ferry family crosses passengers for coin, or goes upriver for rather more.",
         "reviewed": true
       },
       "interior": {
@@ -1928,7 +1928,7 @@
             "registerRef": null,
             "payoff": "rumour",
             "valueTier": "tier-1",
-            "provenance": "the guide book of upriver hires, kept in a hand nobody else reads"
+            "provenance": "the guide book of upriver hires, kept in the family's own shorthand"
           }
         ]
       },
@@ -2010,9 +2010,9 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "The seaward mouth of the narrow winding river Red Bramman escaped the Alessian navy through, encased in dense mangrove.",
-        "siteAdvantages": "Four channel mouths open off the same bay; only one carries water at the top of the tide, for about ninety minutes.",
-        "occupantsMotive": "The pilots who know the run sell the knowledge; none of it is written down. A wrong channel strands a hull until the next tide.",
+        "founding": "The seaward mouth, in dense mangrove, of the narrow winding river by which Red Bramman escaped the Alessian navy.",
+        "siteAdvantages": "Four channel mouths open off the same bay. This one carries water at the top of the tide, for about ninety minutes.",
+        "occupantsMotive": "The pilots who know the run sell the knowledge. A wrong channel strands a hull until the next tide.",
         "pressures": "The route is worth something only while it stays unmarked; a scheduled ferry service on it would end that.",
         "wouldChangeIf": "A silt pulse could close it, or open a second. Either would end the pilots' monopoly."
       },
@@ -2077,7 +2077,7 @@
         "condition": "Untouched by design. A built marker here would advertise the channel.",
         "mood": "Close green dark.",
         "approach": "From the bay it looks like solid mangrove until the tide is exactly right. Then one mouth is darker than the others.",
-        "senses": "Water sucking through roots at the turn of the tide, insects, no human sound at all; the channel smell changes from salt to tannin the moment you are in the right mouth."
+        "senses": "Water sucking through roots at the turn of the tide, insects, no human sound at all; the channel smell changes from salt to tannin at the mouth of the right channel."
       },
       "assetPlan": [
         "signage-blank",
@@ -2235,11 +2235,11 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "The Bright-Throat tribe brokers alliances and works fine crafts, on the mangrove wall above Oliis Bay. It knits the region back together after each catastrophe.",
+        "founding": "The Bright-Throat tribe brokers alliances and works fine crafts, on the mangrove wall above Oliis Bay. It has brokered the settlements that followed each of the region's catastrophes.",
         "siteAdvantages": "A platform village standing clear of the tide on the mangrove wall, with one stair down to a beach landing. It is dry and defensible, with the whole approach to Lilmoth in view.",
         "occupantsMotive": "Diplomacy and craft. Their Listening-Tree and its chimes are why other tribes come to them rather than the reverse.",
         "pressures": "Every trading party on the bay wants Bright-Throat's endorsement, which makes neutrality expensive to maintain.",
-        "wouldChangeIf": "Taking a side in the Lilmoth–An-Xileel quarrel would cost them the role they are famous for."
+        "wouldChangeIf": "Taking a side in the Lilmoth–An-Xileel quarrel would cost them the broker's role for which they are known."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2309,10 +2309,10 @@
         "silhouette": "Long lashed platforms carried on mangrove trunks, stepped up the wall in three levels, with dyed cloth on every rail and one stair going down to the sand.",
         "palette": "Warm rock ochre, painted chime frames, blue bay below.",
         "materials": "Shack-kit plank and cane on a dry rock bench (no stilts and no mud here; the shelf is the floor), lashed walkways, painted hardwood chime frames, bone and tin.",
-        "signatureFeature": "Houses on a cliff bench hung with tuned bone and tin chimes, so that the wind announces the village before you see it.",
+        "signatureFeature": "Houses on a cliff bench hung with tuned bone and tin chimes. The chimes carry over the water well before the houses are visible.",
         "condition": "Dry, sound and comfortable. Little rots up here; the carpentry is the best work in Murkmire.",
         "mood": "Welcoming and shrewd.",
-        "approach": "From the water you see the stair first, then the platforms above it; from inland you are on the top deck before you know the village is there.",
+        "approach": "From the water the stair shows first, then the platforms above it; from inland the top deck comes underfoot before the village announces itself.",
         "senses": "Tuned chimes carrying half a mile over water, wind off the bay, dry rock warmth, cooking smoke going straight up."
       },
       "assetPlan": [
@@ -2712,7 +2712,7 @@
       "vibe": {
         "palette": "Green canopy, pale lashing, dark water below.",
         "signatureFeature": "A living root-and-branch bridge with lashed handlines, forty feet above water that is visibly occupied.",
-        "mood": "Exhilarating. Also routine, if you live here."
+        "mood": "Exhilarating. Also routine for the people who live here."
       },
       "assetPlan": [
         "bridges",
@@ -2868,10 +2868,10 @@
         "silhouette": "An Imperial way-station's straight ridge and square yard wall, wearing a reed roof that overhangs it wrongly on all four sides.",
         "palette": "Grey plaster, red pantile fragments, bleached driftwood.",
         "materials": "Imperial grey plaster and rubble core under Argonian reed thatch. The families here call it a bodge. The yard stacks are ships' timber, foreign in every grain.",
-        "signatureFeature": "An Imperial way-station wearing a reed roof, its yard stacked with ships' timber that never came from any local tree.",
+        "signatureFeature": "An Imperial way-station wearing a reed roof, its yard stacked with ships' timber cut in other provinces.",
         "condition": "Sound but scavenged. Pantiles gone, roof replaced with what grows here, the rest Imperial and holding.",
         "mood": "Thrifty, proprietorial.",
-        "approach": "The square yard wall reads through scrub from the road bend; the reed roof over it is what tells you who lives there now.",
+        "approach": "The square yard wall reads through scrub from the road bend; the reed roof over it names the current occupants.",
         "senses": "Road traffic, the sea two fields away, out of sight, wet plaster, tar from the timber stacks."
       },
       "assetPlan": [
@@ -3322,7 +3322,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Somebody lives under the ash crust and knows which ground will hold you. Food buys the knowing.",
+        "hook": "Somebody lives under the ash crust and knows which ground will hold. Food buys the knowing.",
         "reviewed": false
       },
       "interior": {
@@ -3748,8 +3748,8 @@
       },
       "vibe": {
         "palette": "Reed brown, lamp yellow, black doorway.",
-        "signatureFeature": "A single long room with the road running past its open front and the preaching bench set where you cannot avoid it.",
-        "mood": "Warmth you cannot decline."
+        "signatureFeature": "A single long room with the road running past its open front and the preaching bench set where no visitor can avoid it.",
+        "mood": "Warmth that cannot be declined."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -3800,7 +3800,7 @@
           "service-hub"
         ],
         "impact": "mild",
-        "hook": "A bed, a meal and a sermon you cannot get out of, halfway along an empty road.",
+        "hook": "A bed, a meal and an unavoidable sermon, halfway along an empty road.",
         "reviewed": false
       },
       "interior": {
@@ -4343,7 +4343,7 @@
           "social-drama"
         ],
         "impact": "mild",
-        "hook": "Pay the family on the arch, or wade a tidal creek four miles out of your way.",
+        "hook": "Pay the family on the arch, or wade a tidal creek four miles off the route.",
         "reviewed": true
       },
       "interior": {
@@ -4398,7 +4398,7 @@
         "siteAdvantages": "The highest headland on the bay approach. Few structures in the province break the canopy line; this is one.",
         "occupantsMotive": "Unmanned. A Soulrest chandler still bills the council for lamp oil he does not deliver.",
         "pressures": "The lantern glass is gone; the stair is sound; whoever relights it decides who profits from the bar.",
-        "wouldChangeIf": "Relighting it kills the Long Bar and makes Soulrest's harbour honest."
+        "wouldChangeIf": "Relighting it would end the false light on the Long Bar and make the Soulrest approach safe."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4461,7 +4461,7 @@
         "signatureFeature": "A squat Imperial tower with a dead lantern room, holding the longest sightline on the south-west coast.",
         "condition": "Structurally sound and dead. Glazing half gone, lamp gear looted, stair intact all the way up.",
         "mood": "Unclaimed.",
-        "approach": "Visible from the sea approach for four miles as a pale mark on a green headland; from the land, not until you are on it.",
+        "approach": "Visible from the sea approach for four miles as a pale mark on a green headland; from the land, not until it is underfoot.",
         "senses": "Wind, which is rare here; sea on rock below; rust smell in the lantern room; the click of loose glazing."
       },
       "assetPlan": [
@@ -4560,7 +4560,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Climb the dead lighthouse and you can see the whole bay approach, including what the wreckers use.",
+        "hook": "The dead lighthouse gives a view of the whole bay approach, including what the wreckers use.",
         "reviewed": true
       },
       "interior": {
@@ -5904,7 +5904,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A still fen where the water plants light from below all year, which is why the pilgrim route runs through it at night.",
-        "siteAdvantages": "A shallow, warm, flow-free basin. The glow needs those conditions and they are rare. A drowned channel runs out of the basin under the weed, which is where the glow comes from and where the gatherers will not go.",
+        "siteAdvantages": "A shallow, warm, flow-free basin. The glow needs those conditions and they are rare. A drowned channel runs out of the basin under the weed. The strongest glow comes from its mouth. The gatherers do not enter the channel.",
         "occupantsMotive": "Gatherers take the plants for lamp-jelly; pilgrims cross at night because the fen lights the way.",
         "pressures": "Harvesting dims it; the villages ration the take by an argument they restage each season.",
         "wouldChangeIf": "Over-harvest would end both the trade and the route in the same season."
@@ -5972,9 +5972,9 @@
         "materials": "Water and little else: a few pole-stages, Argonian lamp-cages kept deliberately unlit, stake markers for the safe lanes.",
         "signatureFeature": "Standing water lit green-blue from beneath, so that poling canoes throw shadows upward onto the canopy.",
         "condition": "Unbuilt and heavily used. The lanes are worn into the weed.",
-        "mood": "Strange to look at. Busy.",
+        "mood": "Strange in appearance. Busy.",
         "approach": "The glow reads through the trees from about two hundred metres, after dark.",
-        "senses": "Bright as day underfoot and almost silent. Pole drips, frogs, harvesters talking lower than they need to."
+        "senses": "Bright as day underfoot and almost silent. Pole drips, frogs, harvesters keeping their voices low."
       },
       "assetPlan": [
         "argonian-lights",
@@ -6434,7 +6434,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Hire the crossing here, or make a two-day jungle route on your own account.",
+        "hook": "The crossing is hired here. The alternative is a two-day jungle route made privately.",
         "reviewed": false
       },
       "interior": {
@@ -6693,7 +6693,7 @@
         "materials": "Low dry-laid stone kerbs, plain driven hardwood poles, cairns, ritual totems and cut turf; no dwelling material at all.",
         "signatureFeature": "A tree-crowned rise terraced into four quarters by low stone kerbs, with each quarter's poles driven and dressed to a different village's rule.",
         "condition": "Crowded, maintained by four villages to four standards; the change shows along every kerb line.",
-        "mood": "Formal. Also crowded.",
+        "mood": "Formal and crowded.",
         "approach": "The rise reads as a green crown in a brown floodplain from about a kilometre out in the wet season.",
         "senses": "Poles being trimmed and driven at the working shelter, wind in the crown trees, cut earth, offerings going sour in the heat."
       },
@@ -6838,7 +6838,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-3",
-            "provenance": "four villages' worth of grave goods, none of it theirs to give"
+            "provenance": "four villages' worth of grave goods, buried by four different rules"
           }
         ]
       }
@@ -7042,7 +7042,7 @@
             "registerRef": null,
             "count": "swarm",
             "danger": "D2",
-            "note": "roof crawlers the village puts up with"
+            "note": "roof crawlers in the fallen thatch"
           }
         ],
         "npcs": [],
@@ -7098,7 +7098,7 @@
         "founding": "A river rises just south of Soulrest and runs north-east into the interior. This is the last point a sea-going hull can reach on it.",
         "siteAdvantages": "A gravel sill across the channel: deep water below it, poling water above it and firm banks for transhipment.",
         "occupantsMotive": "Goods going inland are broken down into canoe loads here, by porters who charge by the bale.",
-        "pressures": "Whoever controls this sill controls the whole interior trade of the south-west. Four parties know it.",
+        "pressures": "Whoever controls this sill controls the interior trade of the south-west. Four parties are contesting it.",
         "wouldChangeIf": "Dredging the sill would destroy the transhipment trade, but enrich the city."
       },
       "sitingPrefs": {
@@ -7165,10 +7165,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A hard line across the river: masts and hull-tops on one side of a gravel bar, a hundred canoe bows on the other, with the portage yard's cranes between.",
+        "silhouette": "A hard line across the river: masts and hull-tops on one side of a gravel bar, a hundred canoe bows on the other, with the portage yard's cranes on the bar between them.",
         "palette": "Gravel grey, hull tar, cane green.",
         "materials": "Gravel, sawn transhipment staging and market tents on the seaward bank; lashed cane racks and pole-stages on the upstream bank; the bar itself outlasts both banks.",
-        "signatureFeature": "Sea hulls tied nose-to-tail below a gravel bar and a hundred canoes drawn up above it, with a portage yard between.",
+        "signatureFeature": "Sea hulls tied nose-to-tail below a gravel bar and a hundred canoes drawn up above it, with a portage yard on the bar between them.",
         "condition": "Worn hard. The bar's banks are stripped to bare stone.",
         "mood": "Congested, purposeful.",
         "approach": "Round the last bend and both fleets are there at once, nose to nose across the bar.",
@@ -7276,7 +7276,7 @@
             "registerRef": null,
             "payoff": "materials",
             "valueTier": "tier-2",
-            "provenance": "goods waiting on a carry that has not been paid for"
+            "provenance": "goods waiting on an unpaid carry"
           }
         ]
       },
@@ -7489,7 +7489,7 @@
         "siteAdvantages": "A river terrace that floods every year, which ruins any other crop and suits this one exactly.",
         "occupantsMotive": "A Breton family and Argonian tenant households, bound by a share arrangement that both sides describe differently.",
         "pressures": "Lilmoth depends on Hereguard rice, which gives the tenants more hold over the family every year.",
-        "wouldChangeIf": "A tenant refusal at planting would starve the city. Both sides have counted it."
+        "wouldChangeIf": "A tenant refusal at planting would starve the city. Both sides have made that calculation."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7649,7 +7649,7 @@
           "resource-source"
         ],
         "impact": "real",
-        "hook": "Breton rice farmers who pay in coin and hire outsiders, which no other estate on this coast does.",
+        "hook": "Breton rice farmers who pay in coin and hire outsiders, unlike any other estate on this coast.",
         "reviewed": true
       },
       "interior": {
@@ -8050,9 +8050,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Where four elevated walkways meet above the mangrove, a platform grew that is now a place in its own right.",
+        "founding": "Four elevated walkways meet above the mangrove. The platform at the crossing has become a place in its own right.",
         "siteAdvantages": "Every walkway in the upper district meets here, twelve metres above the water.",
-        "occupantsMotive": "A tea-seller, a chime-relay peg board and a toll the deck-keepers collect without any right to.",
+        "occupantsMotive": "A tea-seller, a chime-relay peg board and a toll the deck-keepers have no right to collect.",
         "pressures": "The junction's timbers carry more traffic than they were built for and the decks flex under a loaded porter.",
         "wouldChangeIf": "A collapse would sever the district's upper network into four dead ends."
       },
@@ -8118,7 +8118,7 @@
         "condition": "Overloaded and visibly so: doubled props, sistered beams, one deck closed with a rope across it.",
         "mood": "Airy. Loud from four directions.",
         "approach": "From beneath, a knot of shadow and hanging rope; from any of the four decks, where the canopy opens.",
-        "senses": "The whole structure working audibly under load: creak, rope-run, the lift block; a tea brazier; voices from four directions, all of them above you."
+        "senses": "The whole structure working audibly under load: creak, rope-run, the lift block; a tea brazier; voices from four directions, always overhead."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -8211,7 +8211,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Four walkways meet twelve metres up; whoever runs the deck decides which of them you may use.",
+        "hook": "Four walkways meet twelve metres up; whoever runs the deck decides which of them a traveller may use.",
         "reviewed": true
       },
       "interior": {
@@ -8269,7 +8269,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Lilmoth's hist-less households built and rebuilt this quarter for two generations, then a faction with better organisation than the city bothered to bring simply took it.",
+        "founding": "Lilmoth's hist-less households built and rebuilt this quarter for two generations, until a Blackguards cell took it. The city did not contest the loss.",
         "siteAdvantages": "Just outside the wall on ground the city does not tax or garrison.",
         "occupantsMotive": "A Blackguards cell holds the shells the households left and runs a toll on porters crossing the swept circle.",
         "pressures": "Lilmoth knows the gang is there. Clearing it would cost more guardsmen than the council keeps.",
@@ -8337,10 +8337,10 @@
         "palette": "Dun mud-plaster gone patchy, torn cloth, a bare green circle kept clear by habit rather than choice.",
         "materials": "Mud-mother plaster over scavenged frames, market canvas cut for barricades, wattle propped as a checkpoint.",
         "signatureFeature": "The old swept circle still raked at the centre, now the gang's muster ground.",
-        "condition": "Improvised shelter reused as a stronghold; none of it was built to last, but the gang has patched what it needs.",
+        "condition": "Improvised shelter reused as a stronghold; little of it was built to last, but the gang has patched what it needs.",
         "mood": "Watchful.",
         "approach": "Reached by walking out of the gate and finding the buildings continue, until someone on a rooftop calls out.",
-        "senses": "Low talk cut off at your approach, cooking smoke from too few fires, boots on packed mud."
+        "senses": "Low talk cut off at a stranger's approach, cooking smoke from too few fires, boots on packed mud."
       },
       "assetPlan": [
         "vanilla-shackkit",
@@ -8681,7 +8681,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A Murkmire village whose tree spoke clearly and often, until the tree fell silent and the village went with it.",
+        "founding": "A Murkmire village whose tree spoke clearly and often. The tree fell silent and the village emptied.",
         "siteAdvantages": "A river terrace on the Keel-Sakka with deep root-water and a defensible bend, now grown over.",
         "occupantsMotive": "No household stays. The root system beneath the old ring kept growing after the village left and the galleries under it are open.",
         "pressures": "A pack has denned in the outer galleries; something larger holds the deep chamber near where the speaking-floor was.",
@@ -8750,10 +8750,10 @@
         "silhouette": "A closed ring of collapsed roofs facing inward at a dead tree, with root-mouths opening in the ground around it.",
         "palette": "Deep green canopy gone unchecked, pale plank rotted grey, black root-mouths.",
         "materials": "Mud-mother plaster crumbling off a hardwood frame, the speaking-floor's white-worn planks split and sunk into root growth.",
-        "signatureFeature": "Three root-mouths opening into galleries under the old ring, wide enough to walk into.",
+        "signatureFeature": "Three root-mouths opening into galleries under the old ring, each wide enough to enter on foot.",
         "condition": "The huts are gone to timber and root; the galleries below are intact and growing.",
-        "mood": "Quiet in a way that is not restful.",
-        "approach": "From the river you get the outward-facing backs of the ring, overgrown, with the gap that was once the way in.",
+        "mood": "Quiet and unwelcoming.",
+        "approach": "From the river the ring shows its outward-facing backs, overgrown, with the gap that was once the entrance.",
         "senses": "Root-hum through packed earth, dripping water, a smell of wet timber and animal den."
       },
       "assetPlan": [
@@ -9267,7 +9267,7 @@
         "founding": "A tribe that never left its xanmeer. It holds the strongest fortification in southern Murkmire without having laid a stone.",
         "siteAdvantages": "Stone walls, one water approach, old defences that still work. The Soulrest–Blackrose road passes within sight, which suits a tribe that trades at arm’s length.",
         "occupantsMotive": "They are polite and immovable. Lilmoth's politics do not interest them.",
-        "pressures": "Every faction in the south has wanted their walls at some point; the working defences are why none has taken them.",
+        "pressures": "Every faction in the south has wanted their walls at some point. The defences still work and no attempt has succeeded.",
         "wouldChangeIf": "If the vakka mechanisms ever failed, the village would be ordinary overnight."
       },
       "sitingPrefs": {
@@ -9713,7 +9713,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A burned-out village that refused every visitor for a century, now held by a gang that will shoot you on the same path.",
+        "hook": "A burned-out village that refused every visitor for a century, now held by a gang that shoots arrivals on the same path.",
         "reviewed": true
       },
       "interior": {
@@ -9796,7 +9796,7 @@
         "founding": "The xanmeer the An-Xileel pumped out room by room and held dry with magicks; with them gone the magicks lapsed and the silt returned.",
         "siteAdvantages": "Sits in standing water west of Lilmoth; only the topmost chamber stands above the silt, as it did when it was first found.",
         "occupantsMotive": "Untended. Divers go in for what the An-Xileel left behind when the water came back fast.",
-        "pressures": "The lower rooms are silt rather than water. A diver can enter them and not find the way out.",
+        "pressures": "The lower rooms are silt rather than water. A diver who enters them may not find the way back.",
         "wouldChangeIf": "Another pumping effort would reopen it, but no faction is left with the will or the singing."
       },
       "sitingPrefs": {
@@ -10426,7 +10426,7 @@
         "signatureFeature": "A single line of stilt houses along one bank with a continuous loading deck under them and canoes racked overhead.",
         "condition": "Working and rough-repaired. The deck is replaced constantly, the houses only when they fail.",
         "mood": "Unbothered.",
-        "approach": "From the river road you walk out onto the deck and are in the village before you have entered a building.",
+        "approach": "From the river road the deck carries walkers into the village before a building has been entered.",
         "senses": "Continuous unloading, pole and hull knock, river running under the floor, fish drying, wet cordage."
       },
       "assetPlan": [
@@ -10594,7 +10594,7 @@
       "why": {
         "founding": "A grove kept for Keshu the Black Fin, Murkmire's national hero.",
         "siteAdvantages": "A stand of old Hist-kin trees on the ground where the story says she mustered, with a spring at the centre.",
-        "occupantsMotive": "Kept by rota from four villages, none of which will concede that the grove is any one of theirs.",
+        "occupantsMotive": "Kept by rota from four villages. Each of the four claims the grove as its own.",
         "pressures": "The story has four incompatible versions. The rota is how the villages avoid resolving it.",
         "wouldChangeIf": "A definitive account would give the grove to one village and start a feud."
       },
@@ -10660,8 +10660,8 @@
         "materials": "Living trees and moss; one dressed muster-stone; four racks of four different woods and four different cloths, none touching, no shared structure at all.",
         "signatureFeature": "A grove of old trees with a muster-stone at its centre. Four separate offering-racks stand around it, none within reach of another.",
         "condition": "Reverently maintained by four parties who will not share a rota. Four immaculate racks and one neglected path.",
-        "mood": "Reverence, four ways.",
-        "approach": "Off the path with no marker; you find it because the light drops and the ground clears.",
+        "mood": "Reverent. Divided four ways.",
+        "approach": "Off the path with no marker; it is found because the light drops and the ground clears.",
         "senses": "Deep shade cool, spring water, four different incenses on separate air; voices lowered."
       },
       "assetPlan": [
@@ -11042,9 +11042,9 @@
         "palette": "Tarred hulls, bright laundry, brown estuary.",
         "materials": "Tarred working hulls moored abreast with their cargo rigs still stepped, lashed plank platforms and gangways between them, canvas roofing, Argonian lamps hung in the shrouds. No fixed structure whatsoever.",
         "signatureFeature": "Forty working boats moored abreast as houses, with lashed plank platforms between them, every cargo rig still stepped and the washing strung between the shrouds.",
-        "condition": "Every hull working, not one seaworthy, kept to the standard that keeps the water out and no further. These moorings have not shifted in years.",
-        "mood": "Independent and organised to the last hull.",
-        "approach": "From the quay it reads as a moored fleet until you see the washing and realise the fleet is a street.",
+        "condition": "Every hull afloat and in use; few would pass a sea survey. They are kept to the standard that keeps the water out and no further. These moorings have not shifted in years.",
+        "mood": "Independent and well organised.",
+        "approach": "From the quay it reads as a moored fleet. The washing between the hulls shows the fleet to be a street.",
         "senses": "Gangplanks and gear knocking all night, laundry snapping, cooking on deck, tar and bilge and estuary."
       },
       "assetPlan": [
@@ -11187,7 +11187,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-2",
-            "provenance": "cargo that came off a hull and did not reach the quay"
+            "provenance": "cargo landed off a hull that never reached the quay"
           }
         ]
       },
@@ -11232,8 +11232,8 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
-        "siteAdvantages": "The firm shelf at the head of the estuary, with the stilt quarters and the lighter quay stepping down off it into tidal water. Big hulls anchor out in Oliis Bay and lighter in. The lightering is the city's living.",
-        "occupantsMotive": "A reconstituted merchant council governs by tariff; it will not appoint a ruler. The last party that had one killed the city.",
+        "siteAdvantages": "The firm shelf at the head of the estuary, with the stilt quarters and the lighter quay stepping down off it into tidal water. Big hulls anchor out in Oliis Bay and their cargo is lightered ashore. The lightering is the city's living.",
+        "occupantsMotive": "A reconstituted merchant council governs by tariff; it will not appoint a ruler. The last faction to hold sole power destroyed the city.",
         "pressures": "Hostile to the An-Xileel successor state and indispensable to a bay that must trade somewhere. It is also built over its own mass grave.",
         "wouldChangeIf": "If the third Hist ever spoke to one faction alone, every institution here would break at once. The rules forbid it."
       },
@@ -11315,9 +11315,9 @@
         "palette": "Wet grey timber, mould green, gold lamp-light in the upper walkways; below, still black water.",
         "materials": "Argonian throughout above the waterline: lashed stilt timber, split-cane decking, mud-and-reed infill, thatch and hide awnings, Argonian lamp-cages. The Imperial ashlar is only what the water left standing. No new work is built into it.",
         "signatureFeature": "Ninety per cent Argonian stilt-and-platform work climbing high over drowned Imperial villas, inside a wall that is Imperial on three sides and Argonian facing the estuary.",
-        "condition": "Rebuilt. Newer everywhere than the ground it stands on. Bright deck timber over black Imperial masonry, the joins left honest.",
+        "condition": "Rebuilt. Every structure is newer than the ground beneath it. Bright deck timber over black Imperial masonry, with the joins left visible.",
         "mood": "Commercial and wary.",
-        "approach": "From the bay the lamp-tiers read first, stacked above the quay; from the north road you come down off the rise and the drowned quarter is under you before you notice the water.",
+        "approach": "From the bay the lamp-tiers read first, stacked above the quay; from the north road the way comes down off the rise and the drowned quarter is underfoot before the water registers.",
         "senses": "Pole-thump and hull-knock under every walkway, the tariff bell over the quay, tar and fish-oil and drying mould; at night, wet stone rising off the drowned quarter under the floor."
       },
       "assetPlan": [
@@ -11835,7 +11835,7 @@
         "primary": "service-hub",
         "secondary": [],
         "impact": "real",
-        "hook": "Hulls at every stage from bent frame to lacquer, and three families competing for your order.",
+        "hook": "Hulls at every stage from bent frame to lacquer, and three families competing for the order.",
         "reviewed": false
       },
       "interior": {
@@ -11886,7 +11886,7 @@
         "founding": "Lilmoth stands on a drowned city and salvage from underneath it is a licensed, taxed, entirely respectable trade.",
         "siteAdvantages": "On the quay directly above the deepest of the sunken villas, with a stair down to a landing at water level.",
         "occupantsMotive": "Crews work the drowned quarter by permit and in pairs, handing each lot to the yard for valuation.",
-        "pressures": "Some of what comes up belongs to families still living. The yard decides that daily.",
+        "pressures": "Some of what comes up belongs to families still living. The yard rules on those claims daily.",
         "wouldChangeIf": "A find of An-Xileel material would turn a trade into a political incident."
       },
       "sitingPrefs": {
@@ -11953,7 +11953,7 @@
         "signatureFeature": "A valuation floor of mould-blackened Imperial household goods laid out in lots, dripping, with a diving stair going straight down into the city.",
         "condition": "Busy and grim, stained black to the same height by the same water.",
         "mood": "Ghoulish routine.",
-        "approach": "From the quay lane it is one more open shed until you see what is laid out on the tables.",
+        "approach": "From the quay lane it is one more open shed until the tables inside come into view.",
         "senses": "Dripping, constant; the mould smell of drowned houses brought up into daylight; scrubbing brushes; a bell rung for each diver surfacing."
       },
       "assetPlan": [
@@ -12300,7 +12300,7 @@
       "why": {
         "founding": "A shoal bar off the salvage coast where a false light has been shown for longer than the Soulrest register admits.",
         "siteAdvantages": "Two miles of breaking bar on the Southern Sea approach, with a beach behind it that no road overlooks and no village can see.",
-        "occupantsMotive": "Salvage families who decided that waiting for wrecks was slow work; they take the quiet Southern Sea traders no port reports missing.",
+        "occupantsMotive": "Salvage families who stopped waiting for wrecks. They take quiet Southern Sea traders that no port reports missing.",
         "pressures": "Khajiit crews keep the same lane and have begun to notice; the Soulrest harbour office would have to act if it were ever proved.",
         "wouldChangeIf": "A working lighthouse on the headland would end it in one season."
       },
@@ -12363,9 +12363,9 @@
         "palette": "Black wet shingle, salt-white bone, tarred rope.",
         "materials": "Driftwood, salvaged spar and cordage, a stone-weighted pyre frame; sorting lots marked out in beach stone, which stay put.",
         "signatureFeature": "A driftwood pyre-frame on stilts above the tide line and a beach of sorted cargo laid out in lots.",
-        "condition": "Built to be rebuilt, out of the last wreck.",
+        "condition": "Rebuilt after each wreck, from the wreck's own timber.",
         "mood": "Businesslike.",
-        "approach": "Only readable at night, and then only as a light in the wrong place.",
+        "approach": "Visible at night as a light in the wrong place; by day nothing marks it.",
         "senses": "Surf on the bar, gulls, tar and salt-rot; sorted cargo that smells of the same sea; no voice above the surf."
       },
       "assetPlan": [
@@ -13165,7 +13165,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A great house burnt in the uprisings and never reoccupied, with its export yard as the fire left it.",
+        "hook": "A great house burnt in the uprisings, never reoccupied, with its export yard as the fire left it.",
         "reviewed": true
       },
       "interior": {
@@ -13337,7 +13337,7 @@
         "palette": "Faded ochre and lapis paint, sun-bleached timber, green rot at the base of every wall.",
         "materials": "Rendered brick and painted timber arcading in the Elsweyr manner, lapis and ochre paint, matting shades; no Argonian carpentry has been allowed into it.",
         "signatureFeature": "A Khajiit-built landing of low arcaded warehouses in the wrong climate, three-quarters empty, with the moon-and-crescent still painted over each door.",
-        "condition": "Elegant and losing. Three-quarters of the doors shut, paint kept up on the front range only, green rot climbing the rear.",
+        "condition": "Elegant and emptying. Three-quarters of the doors shut, paint kept up on the front range only, green rot climbing the rear.",
         "mood": "Courteous and running down.",
         "approach": "The straight arcade line and its painted crescents read from the water as something imported entire.",
         "senses": "Empty arcades that echo, moon-sugar sweetness in the stores, rot at the base of every wall, awning cloth in the sea breeze."
@@ -13443,7 +13443,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "The province's one Khajiit landing. Moon-sugar, Southern Sea rumour, no questions about your cargo.",
+        "hook": "The province's one Khajiit landing. Moon-sugar, Southern Sea rumour, no questions about cargo.",
         "reviewed": true
       },
       "interior": {
@@ -13474,7 +13474,7 @@
             "registerRef": null,
             "payoff": "trade-access",
             "valueTier": "tier-3",
-            "provenance": "sugar in bond, which the council pretends not to know about"
+            "provenance": "sugar in bond, unacknowledged by the council"
           }
         ]
       },
@@ -13580,13 +13580,13 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A village on legs whose silhouette changes twice a day. In water at breakfast; standing absurdly tall on a flat plain of mud at noon.",
+        "silhouette": "A village on legs whose silhouette changes twice a day. At high water it stands in water; at low water it stands tall on a flat plain of mud.",
         "palette": "Grey mud, silver water, reed-brown thatch.",
         "materials": "Long-legged stilt frames of tarred hardwood, cane decking, reed thatch; cockle rakes and drying racks slung under every floor.",
         "signatureFeature": "A whole village standing on legs over a flat that is water at breakfast and mud at noon, with cockle rakes hung under every floor.",
         "condition": "Legs black and shell-crusted to the tide line, dry and sound above it.",
-        "mood": "Busy twice a day, dead between.",
-        "approach": "At high water you row to a door; at low water you walk two hundred metres of flat to the same door.",
+        "mood": "Busy at each tide, quiet between them.",
+        "approach": "At high water the door is reached by boat; at low water two hundred metres of flat lead to the same door.",
         "senses": "Water first, then mud, then flies; the rake-scrape of a whole village working the flat; shellfish and hot mud."
       },
       "assetPlan": [
@@ -13909,7 +13909,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A seasonal camp on the north-gate road, sited where the road is squeezed between a channel and a rock shoulder.",
-        "siteAdvantages": "A hundred metres of road with no way around it and no sightline until you are in it.",
+        "siteAdvantages": "A hundred metres of road with no way around it and no sightline before the road is entered.",
         "occupantsMotive": "They call it a toll. Lilmoth calls it robbery. The rate is consistent and negotiated, which supports the former.",
         "pressures": "Escorted convoys have begun refusing to pay, and the camp has not decided what to do about it.",
         "wouldChangeIf": "A single killed merchant would turn a tolerated arrangement into a campaign."
@@ -14135,7 +14135,7 @@
         "signatureFeature": "The water court, still used to stack whatever the camp takes off the track.",
         "condition": "Kept functional rather than kept well; repairs are quick and rough.",
         "mood": "Frank and dangerous.",
-        "approach": "One poled channel in and you are in the court before you see the rest of the camp.",
+        "approach": "A single poled channel gives access. The court comes before the rest of the camp is visible.",
         "senses": "Talk carrying flat off water in the enclosed court, poles and hulls knocking, the smell of cargo rained on somewhere else."
       },
       "assetPlan": [
@@ -14329,7 +14329,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A village whose whole trade is the dead: driving the poles, tending them, keeping the register and repatriating for the whole southern coast.",
-        "siteAdvantages": "Firm peat that holds a driven pole, central to a dozen villages and far enough from all of them.",
+        "siteAdvantages": "Firm peat that holds a driven pole, central to a dozen villages and set well apart from each.",
         "occupantsMotive": "Every household here holds a grave-office. Children learn the register before they learn to pole.",
         "pressures": "The village sits where the deep-marsh tribes begin, so its pole-drivers travel armed. The register is kept in duplicate for the same reason.",
         "wouldChangeIf": "A refusal to accept more dead would force a dozen villages to solve the problem themselves."
@@ -14406,7 +14406,7 @@
         "signatureFeature": "A village ringed on every side by ranks of driven grave-poles, each numbered to a register a visitor may ask to have read aloud.",
         "condition": "The poles are graded by age from bleached to raw in visible rings out from the village.",
         "mood": "Unsentimental.",
-        "approach": "You are among the poles for ten minutes before the village appears in the middle of them.",
+        "approach": "The poles run for ten minutes before the village appears in the middle of them.",
         "senses": "Poles trimmed and driven from dawn; peat underfoot; ochre and wood-dust; the register read aloud to visitors, over and over."
       },
       "assetPlan": [
@@ -14507,7 +14507,7 @@
           "dungeon-delve"
         ],
         "impact": "real",
-        "hook": "The coast brings its dead here. The grave-wrights will enter yours in the register for a price.",
+        "hook": "The coast brings its dead here. The grave-wrights enter a body in the register for a price.",
         "reviewed": true
       },
       "interior": {
@@ -14650,12 +14650,12 @@
       "vibe": {
         "silhouette": "Invisible from anywhere; the place has no exterior. A lamp-glow in a dome of black water, found by touch along a guide rope.",
         "palette": "Lamp gold on black water, wet grey stone.",
-        "materials": "Natural limestone dome, one cut stone bench, an iron lamp bracket, an oil jar and a slate; the guide rope is kept and the rest is left.",
+        "materials": "Natural limestone dome, one cut stone bench, an iron lamp bracket, an oil jar and a slate; the guide rope is maintained and the fittings are left as they are.",
         "signatureFeature": "A dry stone bench in a domed air pocket underwater, with a lamp bracket, an oil jar and a chalked list of names currently down.",
-        "condition": "Scrupulously kept by no one in particular. The oil jar is full whenever a diver checks it. The reef cutters deny filling it.",
-        "mood": "Courteous. It depends on strangers.",
+        "condition": "Kept up without an owner. The oil jar is full whenever a diver checks it. The reef cutters deny filling it.",
+        "mood": "Courteous. Dependent on strangers.",
         "approach": "Reached only by swimming the flooded passage; the first sign of it is the light coming down through the water ahead.",
-        "senses": "Your own breathing amplified; drips; lamp-oil; the shocking warmth of dry air after cold water."
+        "senses": "Amplified breathing; drips; lamp-oil; the shocking warmth of dry air after cold water."
       },
       "assetPlan": [
         "submerged-ruins",
@@ -14773,7 +14773,7 @@
             "registerRef": null,
             "payoff": "map-knowledge",
             "valueTier": "tier-2",
-            "provenance": "marks cut by everyone who has rested on the bench"
+            "provenance": "marks cut by divers who have rested on the bench"
           }
         ]
       }
@@ -14799,8 +14799,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A mangrove village that grew as a walkway first and a settlement second. The path came, then the houses hung off it.",
-        "siteAdvantages": "A mangrove belt too soft to build on and too dense to boat through, where a raised deck is the form that works.",
+        "founding": "A mangrove village that grew as a walkway first and a settlement second. The houses were hung off the path after it was built.",
+        "siteAdvantages": "A mangrove belt too soft for foundations and too dense for boats. A raised deck is the form that works here.",
         "occupantsMotive": "Every household maintains its own span of deck. The village's shape shows who has been diligent.",
         "pressures": "Three spans are failing and their households have left; the village is branching around the gaps rather than repairing them.",
         "wouldChangeIf": "A concerted repair would reconnect two halves that are drifting into separate villages."
@@ -14872,9 +14872,9 @@
         "palette": "Wet dark timber, mangrove green, tannin water.",
         "materials": "Wet dark decking on driven piles, lashed handrails, shack-kit houses cantilevered off the walk, Argonian lamps at every junction.",
         "signatureFeature": "A branching timber walkway through mangrove with houses hung off its sides. Two dead-end spurs stop at rotten decking.",
-        "condition": "Patched everywhere, in three grades: sound, springy, roped off.",
+        "condition": "Patched everywhere in three grades of repair, from sound decking to spans roped off.",
         "mood": "Still growing.",
-        "approach": "You step from a canoe onto the walk and the village unfolds sideways rather than ahead.",
+        "approach": "The walk is stepped onto from a canoe. The village unfolds sideways rather than ahead.",
         "senses": "Every footfall announced through the whole structure; tannin water below; woodsmoke; the hollow note where the decking has gone soft."
       },
       "assetPlan": [
@@ -15034,7 +15034,7 @@
       "why": {
         "founding": "A drowned sinkhole in the bay floor, forty metres deep, with something living at the bottom of it.",
         "siteAdvantages": "A deep, cold, permanent hole in an otherwise shallow bay.",
-        "occupantsMotive": "The occupant. The fishers work around it in a circle you can see on any chart of their nets.",
+        "occupantsMotive": "The occupant. The fishers work around it in a circle visible on any chart of their nets.",
         "pressures": "The hole is directly on the natural lighterage line and every hull crosses it.",
         "wouldChangeIf": "No bay crew will attempt it."
       },
@@ -15100,7 +15100,7 @@
       },
       "vibe": {
         "palette": "Blue-black, cold green rim, silver bait shoal.",
-        "signatureFeature": "A circle of open water that no net is ever set across, with a visible temperature line at its rim and forty metres of black beneath.",
+        "signatureFeature": "A circle of open water across which no net is set, with a visible temperature line at its rim and forty metres of black beneath.",
         "mood": "Avoided."
       },
       "assetPlan": [
@@ -15187,7 +15187,7 @@
             "registerRef": null,
             "payoff": "unique-item",
             "valueTier": "tier-4",
-            "provenance": "everything the hole has taken off the lane above it"
+            "provenance": "what the hole has taken off the lane above it"
           }
         ]
       },
@@ -15262,7 +15262,7 @@
       "why": {
         "founding": "The estuary is half a mile wide at the road crossing. The ferry is older than the rebuilt city.",
         "siteAdvantages": "A narrows with hard landings on both sides and slack water twice a day.",
-        "occupantsMotive": "A council concession, farmed out annually to the highest bidder, which explains the fare.",
+        "occupantsMotive": "A council concession, farmed out annually to the highest bidder. The bidder sets the fare.",
         "pressures": "The fare rises every year, but the boats do not improve.",
         "wouldChangeIf": "A rival free crossing upstream would break the concession and the council's revenue with it."
       },
@@ -15337,8 +15337,8 @@
         "signatureFeature": "A wide flat ferry with a painted fare board that has been repainted over five times, each time higher.",
         "condition": "Landings maintained, ferry maintained, the rest of the place merely tolerated.",
         "mood": "Grasping.",
-        "approach": "The road ends at water and the board tells you what it will cost before you can see the ferry.",
-        "senses": "Waiting: queue noise, guar, the ferry's sweep-oar, the argument at the board every single crossing."
+        "approach": "The road ends at water and the board gives the cost before the ferry is in sight.",
+        "senses": "Waiting: queue noise, guar, the ferry's sweep-oar, an argument at the fare board on most crossings."
       },
       "assetPlan": [
         "docks-piers",
@@ -15427,7 +15427,7 @@
           "navigation-aid"
         ],
         "impact": "mild",
-        "hook": "The only way across the estuary without a two-day walk.",
+        "hook": "The crossing here saves a two-day walk round the estuary.",
         "reviewed": true
       },
       "interior": {
@@ -15644,7 +15644,7 @@
       "why": {
         "founding": "A reef harvested for lime, lacquer shell and building aggregate rather than for pearl. Lilmoth's stilts need footings.",
         "siteAdvantages": "Shallow enough to work by free-diving, close enough to barge the take straight to the city.",
-        "occupantsMotive": "Cutters take by permit from the council. It is the harvest in the bay Lilmoth licenses.",
+        "occupantsMotive": "Cutters take by permit from the council. Lilmoth licenses no other harvest in the bay.",
         "pressures": "The reef is visibly smaller than it was in living memory, but the permit count has not fallen.",
         "wouldChangeIf": "Closing it would raise the cost of every new platform in Lilmoth."
       },
@@ -15719,7 +15719,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "Dive the worked steps the cutters have stopped going into.",
+        "opportunity": "Dive the worked steps that the cutters have abandoned.",
         "tierOwnership": "LM10 · tier-3"
       },
       "rumourPoolKey": null,
@@ -15913,7 +15913,7 @@
         "signatureFeature": "The flat the tide uncovers, marked with withies leaning the way the flood comes from, and a bell post at each end that stops ringing when the water turns.",
         "condition": "Unbuildable and therefore unbuilt; the withies are replaced after every spring tide.",
         "mood": "Timed.",
-        "approach": "The flat opens out ahead of you with the far bell post at the edge of vision, and the near bell already ringing.",
+        "approach": "The flat opens out with the far bell post at the edge of vision, and the near bell already ringing.",
         "senses": "A bell at each end that stops when the flood starts; oystercatchers; the suck of the flat; unbroken wind."
       },
       "assetPlan": [
@@ -15977,7 +15977,7 @@
           "navigation-aid"
         ],
         "impact": "real",
-        "hook": "Read the tide right and you save half a day; read it wrong and you are two miles out on a flooding flat.",
+        "hook": "Read the tide right and half a day is saved; read it wrong and the crossing strands a traveller two miles out on a flooding flat.",
         "reviewed": true
       },
       "interior": {
@@ -16147,7 +16147,7 @@
           "navigation-aid"
         ],
         "impact": "real",
-        "hook": "A trader still standing upright on the bay flats; you can walk aboard at low water.",
+        "hook": "A trader still standing upright on the bay flats, boardable on foot at low water.",
         "reviewed": true
       },
       "interior": {
@@ -16523,7 +16523,7 @@
       "why": {
         "founding": "A xanmeer with no surviving clan, tended instead by the pilgrims who pass it on the way to the Teeth of Sithis.",
         "siteAdvantages": "On the pilgrim line, with a spring at its foot. The spring is why the route goes this way.",
-        "occupantsMotive": "Maintenance as devotion. Each party clears one terrace and moves on.",
+        "occupantsMotive": "Maintenance as devotion. Each party clears one terrace before continuing along the route.",
         "pressures": "Pilgrim tending is uneven and sentimental; the unloved terraces are being lost.",
         "wouldChangeIf": "A rerouted pilgrimage would leave it to the forest within thirty years."
       },
@@ -16585,7 +16585,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A stepped monument with a hard swept edge and a soft green one, the exact profile of what the path can see.",
+        "silhouette": "A stepped monument with a hard swept edge and a soft green one. The swept side is the side the path overlooks.",
         "palette": "Grey stone, moss green, pilgrim cloth colour.",
         "materials": "Xanmeer stone with ornament courses, moss left standing on three faces, pilgrim cloth tied to the stair rails; no additions bonded to the stone.",
         "signatureFeature": "A stepped monument half swept and half green, with the swept terraces exactly those visible from the path.",
@@ -16762,7 +16762,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Pusbottom's games moved onto the water when the council started raiding buildings. They never moved back.",
+        "founding": "Pusbottom's games moved onto the water when the council started raiding buildings. The tables have stayed afloat since.",
         "siteAdvantages": "Moored outside the wall line, shiftable in an hour, reachable only by boat.",
         "occupantsMotive": "Dice, obligation-broking and the buying of debts.",
         "pressures": "The council knows exactly where it is and moves against it only when a council member loses badly.",
@@ -16829,7 +16829,7 @@
       "vibe": {
         "palette": "Lamp red, black water, painted deck.",
         "signatureFeature": "A lantern-lit barge with a shallow-draught tender kept alongside and a bell to warn the tables.",
-        "mood": "Cheerful. Predatory underneath."
+        "mood": "Cheerful. The terms are predatory."
       },
       "assetPlan": [
         "market-tents",
@@ -17045,9 +17045,9 @@
         "palette": "Sailcloth ochre, wet sand, dark cliff green.",
         "materials": "Sailcloth shore-camp, beached hulls used as stores, scaffold cargo-shears, no permanent building anywhere on the beach.",
         "signatureFeature": "Six low hulls moored bow-and-stern in a cove, a shore camp of sailcloth and a chartered ship anchored respectably among them.",
-        "condition": "A camp. The whole of it can be off the beach in three hours. It regularly is.",
+        "condition": "A camp. The whole of it can be off the beach in three hours.",
         "mood": "Relaxed, armed.",
-        "approach": "Neither entrance shows the anchorage until you are inside the headland; then the whole cove is in front of you at once.",
+        "approach": "Neither entrance shows the anchorage until the headland is passed; then the whole cove is in view at once.",
         "senses": "Rigging in the headland wind, dogs, roasting meat, fresh water running at the head of the cove, tar."
       },
       "assetPlan": [
@@ -17162,7 +17162,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Crews who hide from two navies anchor here. They will trade.",
+        "hook": "Crews who keep clear of two navies anchor here and trade off the beach.",
         "reviewed": true
       },
       "interior": {
@@ -17302,11 +17302,11 @@
       "vibe": {
         "silhouette": "A complete town skyline with no smoke in it. Every roof standing, every chimney cold, one collapsed store jammed diagonally across the palace gate.",
         "palette": "Dust grey, faded shop-paint, black doorways.",
-        "materials": "Mud-mother plaster, bamboo frame, shack-kit and wattle, all sixteen centuries weathered and none of it rebuilt; the shop paint is original.",
+        "materials": "Mud-mother plaster, bamboo frame, shack-kit and wattle, all sixteen centuries weathered, with no rebuilding anywhere; the shop paint is original.",
         "signatureFeature": "A whole town with its shop shutters closed and its stock still on the shelves. A collapsed equipment store is jammed across the palace gate.",
-        "condition": "Intact and refused.",
+        "condition": "Intact and unlooted.",
         "mood": "Stocked and shunned.",
-        "approach": "The road runs straight into it. No mark on the road warns you.",
+        "approach": "The road runs straight into it. No mark on the road gives warning.",
         "senses": "Absolute quiet in a place built for noise; dust; doors that move in wind; no birds in the streets."
       },
       "assetPlan": [
@@ -17443,7 +17443,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-3",
-            "provenance": "households that were locked and not reopened"
+            "provenance": "households locked at the plague and still shut"
           },
           {
             "slotId": "l2",
@@ -17703,7 +17703,7 @@
         "signatureFeature": "A living tunnel of root with hearth-scars and shelf niches cut into it at three different heights by three different tenancies.",
         "condition": "Continuously reoccupied for centuries, with each tenancy's alterations cut across the last one's.",
         "mood": "Sheltered. Somebody else's.",
-        "approach": "You feel warm air on the path before you see the mouth.",
+        "approach": "Warm air is felt on the path before the mouth comes into view.",
         "senses": "A permanent through-draught that is warm at one end and cold at the other; soot; sap; the root-hum under bare feet."
       },
       "assetPlan": [
@@ -17950,7 +17950,7 @@
         "signatureFeature": "A burnt street of Imperial offices with the road still running through it. One vaulted record room still has its roof.",
         "condition": "Burnt and left. Structurally dangerous, unrepaired, with two centuries of green established inside every room.",
         "mood": "Administrative and dead.",
-        "approach": "The north road takes you straight down its middle; only the record room's roof reads as whole.",
+        "approach": "The north road runs straight down its middle; only the record room's roof reads as whole.",
         "senses": "Wind through open windows, regrowth cracking render, wet ash smell still in the render, road noise from beyond it."
       },
       "assetPlan": [
@@ -18041,7 +18041,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "The Empire's customs quarter, looted in a night and never cleared; the cellars are still sealed.",
+        "hook": "The Empire's customs quarter, looted in a night, never cleared; the cellars are still sealed.",
         "reviewed": true
       },
       "interior": {
@@ -18281,7 +18281,7 @@
         "siteAdvantages": "Invisible from the bay; every house sits on the channel it watches; the mangrove is both wall and roof.",
         "occupantsMotive": "Piloting fees. A strict internal rule keeps any two families from teaching the same reach of the river.",
         "pressures": "Blackguards want the river opened as a road and Soulrest wants it declared a customs matter; the village wants it to stay a rumour.",
-        "wouldChangeIf": "If the channel were ever charted publicly the village would have no reason to exist."
+        "wouldChangeIf": "A public chart of the channel would end the piloting trade that keeps the village."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -18351,11 +18351,11 @@
       "vibe": {
         "silhouette": "None. The mangrove wall is unbroken from the bay and the village exists entirely inside it.",
         "palette": "Root black, leaf green, pale lashed cordage.",
-        "materials": "Decking cut between living trunks, lashed and never nailed into the tree; shack-kit walls, cane, hanging canoe slings.",
+        "materials": "Decking cut between living trunks, lashed rather than nailed into the tree; shack-kit walls, cane, hanging canoe slings.",
         "signatureFeature": "Platforms cut into the mangrove wall itself, decked between living trunks, with poled canoes hanging in slings above the tide.",
         "condition": "Kept invisible. No cut lines to the water, no smoke above the canopy, decking stained to match the root.",
         "mood": "Sealed and unhurried.",
-        "approach": "You are inside it before you see it.",
+        "approach": "There is no line of approach; the first houses are overhead by the time they are reached.",
         "senses": "Bay noise heard but not seen; canoes creaking in their slings; leaf and root black-water smell; people who do not raise their voices."
       },
       "assetPlan": [
@@ -18534,8 +18534,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Sealed by its own people when its Hist chamber was emptied, so that whatever remains inside stays inside.",
-        "siteAdvantages": "A low xanmeer on a rise, unremarkable except that its door was closed from within.",
-        "occupantsMotive": "Untended. Its traps are intact and its Hist chamber is not empty in the way the sealers believed.",
+        "siteAdvantages": "A low xanmeer on a rise, unremarkable but for the door, which its own people closed from the inside.",
+        "occupantsMotive": "Untended. Its traps are intact. The Hist chamber is not empty, whatever the sealers believed.",
         "pressures": "Two villages disagree about which of them did the sealing. That makes them disagree about who may open it.",
         "wouldChangeIf": "An agreement between the two villages would open it legitimately for the first time in centuries."
       },
@@ -18600,7 +18600,7 @@
         "signatureFeature": "A stone door closed from the inside, with the sealing crew's hand-marks still in the mortar around it.",
         "condition": "Perfectly sound and completely closed; the hand-marks in the mortar are as sharp as the day they were pressed.",
         "mood": "Deliberate and unresolved.",
-        "approach": "Unremarkable until you are close enough to see that the door was closed from the wrong side.",
+        "approach": "Unremarkable from a distance. At close range the door was plainly closed from the wrong side.",
         "senses": "No draught at the seam, no water sound, no insects on that face of the stone."
       },
       "assetPlan": [
@@ -18938,11 +18938,11 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Where Lilmoth buried the dead of 4E 48. They were its own residents, killed first, by their own city's tree and its party.",
-        "siteAdvantages": "Outside the rebuilt wall on the firm ground large enough for it, because inside the wall is the mass grave the city stands on.",
+        "founding": "Where Lilmoth buried the dead of 4E 48. They were the city's own residents, killed first, by Lilmoth's tree and the party that served it.",
+        "siteAdvantages": "Outside the rebuilt wall, on the firm ground large enough for it. Inside the wall is the mass grave over which the city stands.",
         "occupantsMotive": "A rotating vigil, maintained by the same rule as the tree-minders': no single faction, no single keeper.",
         "pressures": "The An-Xileel successor state denies the causation; Lilmoth's whole civic identity depends on it.",
-        "wouldChangeIf": "A reconciliation with the successor state would require abandoning the inscription. It will not happen."
+        "wouldChangeIf": "A reconciliation with the successor state would require abandoning the inscription."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -19004,7 +19004,7 @@
         "materials": "Cut grey stone, three scripts, one deliberately unfinished blank section; wattle enclosure and one planted tree.",
         "signatureFeature": "A long low wall with names cut into it in three scripts. One section is left blank for the uncounted.",
         "condition": "Immaculate. The blank section is re-cut clean every year rather than filled.",
-        "mood": "Public mourning, still an argument.",
+        "mood": "Public mourning. Still disputed.",
         "approach": "From the gate road the wall reads as a low line with the city behind it.",
         "senses": "Reading aloud; the city audible over the wall, not visible; cut grass; offerings."
       },
@@ -19115,7 +19115,7 @@
           "dungeon-delve"
         ],
         "impact": "real",
-        "hook": "Lilmoth's own dead of 4E 48. The city would rather you did not read the stones.",
+        "hook": "Lilmoth's own dead of 4E 48. The city would rather the stones went unread.",
         "reviewed": true
       },
       "interior": {
@@ -19328,7 +19328,7 @@
         "founding": "Third-Era provincial capital at the sheltered deep-water landfall where Topal Bay meets the Southern Sea.",
         "siteAdvantages": "Peninsula wrapping the bay; a river mouth just south opening a route north-east into the interior; islands screening the approach.",
         "occupantsMotive": "Four powers hold pieces of it: a merchant council, an orphaned Imperial apparatus, interior tribes, the river interests who control Bramman's water.",
-        "pressures": "Its gold-and-timber hinterland was burned by the tribes in 3E 427 and not rebuilt; the capital moved; the offices remain, administering nothing.",
+        "pressures": "Its gold-and-timber hinterland was burned by the tribes in 3E 427 and not rebuilt; the capital moved; the offices remain, with little left to administer.",
         "wouldChangeIf": "If the mines reopened, or if one of the four claimants finally won, the city would be a capital again."
       },
       "sitingPrefs": {
@@ -19406,8 +19406,8 @@
         "palette": "Salt-bleached limestone and grey weathered timber under wet green mould; Khajiit awning colour in the dock lanes.",
         "materials": "Two kits standing side by side with no blending between them: Imperial salt-cut limestone, pantile and iron-strapped door in the administrative shell; lashed timber, reed thatch and painted Khajiit awning cloth in the town that grew through it.",
         "signatureFeature": "An Imperial administrative shell of palace, courthouse and bonded stores, with an Argonian and Khajiit town grown through and over it.",
-        "condition": "Structurally sound and hollow. Every roof kept, half the rooms unused, weeds established in the ceremonial pavement and nowhere else.",
-        "mood": "Grandeur, underemployed.",
+        "condition": "Structurally sound and hollow. Every roof kept, half the rooms unused, weeds established in the ceremonial pavement, which is not swept.",
+        "mood": "Grand and underused.",
         "approach": "From the coast road the palace roof and the campanile read first, together; the harbour is only visible past the mole.",
         "senses": "Sea noise that stops dead at the gate, gulls in the mole, four languages in the dock lanes, mould and old paper in the arcades, spice smoke from the Khajiit quarter."
       },
@@ -19642,7 +19642,7 @@
       "why": {
         "founding": "Where the Expeditionary Force's transports were cut up for their iron when the Empire stopped paying for them.",
         "siteAdvantages": "A hard shingle slope inside the mole, deep water at its foot and enough fall to lay a hull over.",
-        "occupantsMotive": "Breakers who make more from Imperial fastenings than from the timber they cut them out of.",
+        "occupantsMotive": "Breakers who make more from Imperial fastenings than from the timber around them.",
         "pressures": "The supply of Imperial hulls is finite and nearly finished; the yard has started buying wrecks off the Long Bar and asking no questions.",
         "wouldChangeIf": "If Soulrest ever built ships again, the same slope would serve."
       },
@@ -19708,10 +19708,10 @@
         "silhouette": "Half a warship's ribcage standing in the shallows, higher than any hull still afloat in the harbour.",
         "palette": "Iron-orange, tar black, sun-silvered oak.",
         "materials": "Sun-silvered oak frames, iron fastenings stacked by size, tar, scaffold shears and a shingle hard; sorted timber lots run the length of the beach.",
-        "signatureFeature": "Half a warship's ribcage standing in the shallows, being unmade plank by plank into stacked, sorted, sellable pieces.",
+        "signatureFeature": "Half a warship's ribcage standing in the shallows, being unmade plank by plank into sorted, stacked lots.",
         "condition": "Perpetually mid-demolition. A hull has been coming apart here continuously for eighty years.",
         "mood": "Busy, taking things apart.",
-        "approach": "The ribcage reads from inside the mole as a ship until you notice which way the planks are coming off.",
+        "approach": "The ribcage reads from inside the mole as a ship. The planks are coming off in the wrong direction for a repair.",
         "senses": "Adze and maul all day, iron ringing, tar boiling, bilge water, sawdust that smells of somewhere else."
       },
       "assetPlan": [
@@ -20194,7 +20194,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Salvage is one of the three things Soulrest still lives on. It needs a yard to land, sort and sell what comes up.",
+        "founding": "Salvage is one of the three trades that still keep Soulrest. The yard lands, sorts and sells what comes up.",
         "siteAdvantages": "On the inner harbour, with a crane frame, a fresh-water rinse and the buyers' benches thirty paces away.",
         "occupantsMotive": "Diver crews sell by lot; the yard takes a share and asks no provenance.",
         "pressures": "Every lot on the bench is somebody's cargo; the harbour office periodically wants the books.",
@@ -20261,7 +20261,7 @@
       },
       "vibe": {
         "palette": "Rust, salt crust, wet rope.",
-        "signatureFeature": "Sorting tables under an open roof, laid out with corroded ironwork, amphora bases and one very good thing per week.",
+        "signatureFeature": "Sorting tables under an open roof, laid out with corroded ironwork, amphora bases and, in an average week, one item worth real money.",
         "mood": "Appraising."
       },
       "assetPlan": [
@@ -20313,7 +20313,7 @@
         "primary": "service-hub",
         "secondary": [],
         "impact": "real",
-        "hook": "Sell what you bring up by the lot, unasked.",
+        "hook": "Recovered goods are sold here by the lot. The yard asks no provenance.",
         "reviewed": false
       },
       "interior": {
@@ -20726,7 +20726,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The quayside house where cargo is contracted, crews are hired and the council's tariffs are argued about.",
+        "founding": "The quayside house where cargo is contracted, crews are hired and the council's tariffs are disputed.",
         "siteAdvantages": "On the quay, between the harbour office and the divers' yard.",
         "occupantsMotive": "The keeper sells information at the same table as beer and considers both a single trade.",
         "pressures": "The port's factors and captains drink here, which makes it the least private room in the city.",
@@ -20804,7 +20804,7 @@
         "signatureFeature": "One table forty feet long with the day's freight rates chalked on the wall above it in three scripts.",
         "condition": "Hard-used and profitable. Table scarred, floor worn to a channel from door to bar.",
         "mood": "Loud, transactional.",
-        "approach": "You hear the rate being argued before you reach the door; the shutters are open for that.",
+        "approach": "The rate can be heard being argued from outside the door; the shutters are open for that.",
         "senses": "Three languages, chalk on slate, beer, wet boots, the harbour through the open shutters."
       },
       "assetPlan": [
@@ -20822,7 +20822,7 @@
           "quest.provision.soulrest-night-reed-den"
         ],
         "tags": [],
-        "opportunity": "Track a crew hired here that sailed and did not arrive.",
+        "opportunity": "Track a crew hired at this table. Their ship sailed and did not make port.",
         "tierOwnership": "TG01 · tier-2; LM33 · tier-3; LM54 · tier-3; LM59 · tier-3"
       },
       "rumourPoolKey": "rumour.soulrest.quay",
@@ -20899,7 +20899,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "Contracts, crews and the tariff argument. Whatever is happening on this coast is said here first.",
+        "hook": "Contracts, crews and the tariff argument. News off the coast reaches this room before it reaches the harbour office.",
         "reviewed": true
       },
       "interior": {
@@ -21439,7 +21439,7 @@
       "why": {
         "founding": "Umbriel passed over this village on its way from Lilmoth in 4E 48 and took it with them; what stood up afterwards is still standing.",
         "siteAdvantages": "Directly under the recorded track of the shadow, on ground good enough to hold a village. The ground is left alone now.",
-        "occupantsMotive": "The dead here do not leave the village bounds, which is why the district can live beside it.",
+        "occupantsMotive": "The dead here do not leave the village bounds. The district lives alongside it on that basis.",
         "pressures": "It sits between two working villages and forces every journey between them to take an extra half-day.",
         "wouldChangeIf": "Clearing it would restore a road that has been broken for a hundred and fifty years."
       },
@@ -21635,7 +21635,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-3",
-            "provenance": "meals still on the table; everything nobody would take"
+            "provenance": "meals still on the table; goods no salvager will touch"
           }
         ]
       },
@@ -21948,7 +21948,7 @@
           "traversal-puzzle"
         ],
         "impact": "real",
-        "hook": "The forest has pulled this one apart over two centuries; you go in where the roof gave way.",
+        "hook": "The forest has pulled this one apart over two centuries; entry is where the roof gave way.",
         "reviewed": true
       },
       "interior": {
@@ -22070,7 +22070,7 @@
       },
       "vibe": {
         "palette": "Lantern gold on black water, silk red.",
-        "signatureFeature": "A lantern-hung barge with a drum going, moored just far enough out that you have to take a boat to argue with it.",
+        "signatureFeature": "A lantern-hung barge with a drum going, moored just far enough out that a boat is needed to reach it.",
         "mood": "Warm, loud, deniable."
       },
       "assetPlan": [
@@ -22122,7 +22122,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Sugar, drums and cards, moored in the gap between two jurisdictions. You need a boat to argue with it.",
+        "hook": "Sugar, drums and cards, moored in the gap between two jurisdictions. A boat is needed to reach it.",
         "reviewed": false
       },
       "interior": {
@@ -22417,8 +22417,8 @@
         "signatureFeature": "A stone road running straight out into salt marsh, with three drowned gaps in it that dictate the crossing's tide timing.",
         "condition": "Roadbed sound, three spans gone; every attempt to bridge the gaps has been temporary and none has lasted a wet season.",
         "mood": "Purposeful ruin.",
-        "approach": "Reads for a kilometre as a straight line in a landscape without one, and its gaps do not read at all until you reach them.",
-        "senses": "Your own footfall on stone, which is rare here; wind across the marsh; the water at the gaps; salt."
+        "approach": "Reads for a kilometre as a straight line in a landscape without one, and its gaps do not read at all until they are reached.",
+        "senses": "Footfall on stone, which is rare here; wind across the marsh; the water at the gaps; salt."
       },
       "assetPlan": [
         "bridges",
@@ -22534,7 +22534,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A shore hamlet that subsided when the salt pans changed the drainage behind it; the sea came in over a decade.",
-        "siteAdvantages": "It had firm ground once. It does not now.",
+        "siteAdvantages": "The ground was firm before the subsidence. It is under water at every tide now.",
         "occupantsMotive": "Empty at low water. The grave-poles were moved, but some were left.",
         "pressures": "The shore end is shallow enough to wade. The danger is inside the roofs, where the water is dark and holds something that did not stay drowned.",
         "wouldChangeIf": "A second subsidence would take the pans too."
@@ -22925,11 +22925,11 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "The tribes tolerate Alten Meerhleel because of its Teeba-Enoo court. The ball game is the price the port pays for existing.",
+        "founding": "The tribes tolerate Alten Meerhleel because of its Teeba-Enoo court. The port maintains the court and fields a team as the price of that tolerance.",
         "siteAdvantages": "A floored court on the landward margin of the port, where tribal parties can come without entering the trading water.",
         "occupantsMotive": "The port fields a team and loses politely; the tribes take the result seriously and the trade continues.",
-        "pressures": "A port team that won convincingly would create a diplomatic problem the council would have to answer for.",
-        "wouldChangeIf": "Ending the games would end the tolerance. The port knows what that costs."
+        "pressures": "A port team that won convincingly would create a diplomatic problem for which the council would have to answer.",
+        "wouldChangeIf": "Ending the games would end the tolerance."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -22992,7 +22992,7 @@
         "materials": "Reused xanmeer kerb stone, packed red clay floor, painted stone markers, banner cloth; not a scrap of Imperial material despite the port two hundred metres away.",
         "signatureFeature": "A sunken stone-kerbed ball court beside a trading port, better maintained than any building in it.",
         "condition": "The clay is re-laid and rolled after every session.",
-        "mood": "Ceremonious. It is scored like a rite.",
+        "mood": "Ceremonious. Scored to a fixed formal order.",
         "approach": "Approached from the landward side deliberately, so that no party has to enter the trading water to reach it.",
         "senses": "The particular flat crack of the ball on stone kerb, crowd noise, red dust, formal shouting in a set order."
       },
@@ -23125,7 +23125,7 @@
             "registerRef": null,
             "payoff": "faction-access",
             "valueTier": "tier-2",
-            "provenance": "the stakes on the court, which are not always coin"
+            "provenance": "the stakes laid on the court, in coin and in obligation"
           }
         ]
       }
@@ -23153,7 +23153,7 @@
       "why": {
         "founding": "The largest Sithis temple in Murkmire, tended by the Clutch of Nisswo though it no longer serves its original purpose.",
         "siteAdvantages": "Deep in the marsh at the end of a pilgrim route, with a natural rock formation the temple was built to frame.",
-        "occupantsMotive": "The Clutch maintain it precisely and preach that its loss of purpose is the sermon.",
+        "occupantsMotive": "The Clutch maintain it precisely. They preach that the loss of its purpose is itself the teaching.",
         "pressures": "The original purpose is lost, but at least one faction claims to have found it out.",
         "wouldChangeIf": "A rediscovery of the temple's function would split the Clutch."
       },
@@ -23344,7 +23344,7 @@
           "lore-reveal"
         ],
         "impact": "major",
-        "hook": "The largest Sithis temple in Murkmire. The Nisswo will take an outsider in if you bring the right thing.",
+        "hook": "The largest Sithis temple in Murkmire. The Nisswo will take an outsider in for the right offering.",
         "reviewed": true
       },
       "interior": {
@@ -23391,7 +23391,7 @@
             "registerRef": null,
             "payoff": "power-boon",
             "valueTier": "tier-4",
-            "provenance": "four centuries of unmaking offerings, none of them removed"
+            "provenance": "four centuries of unmaking offerings, left where they were laid"
           }
         ]
       },
@@ -23430,9 +23430,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "In Lilmoth people look to their elders, retired Shadowscales among them. They trained somewhere.",
+        "founding": "In Lilmoth people look to their elders, retired Shadowscales among them. This is the ground where those scales were trained.",
         "siteAdvantages": "An enclosed water-and-root ground an hour outside the city, with three approaches and no sightline into it.",
-        "occupantsMotive": "Two retired scales still keep the ground and still take the occasional sign-born child. Both are illegal now.",
+        "occupantsMotive": "Two retired scales keep the ground and take the occasional sign-born child. Both practices are now illegal.",
         "pressures": "The Cheydinhal succession wants the tradition back; Lilmoth's council would rather it did not exist near their walls.",
         "wouldChangeIf": "A single public execution of a trainee here would force the council to act."
       },
@@ -23502,7 +23502,7 @@
         "signatureFeature": "A cleared water-ground with weighted posts, blinded approaches and a rack of blunted practice blades kept dry under a root.",
         "condition": "Hard-used and erased between uses. The ground is raked and the racks are struck.",
         "mood": "Disciplined and illicit.",
-        "approach": "Three approaches, all screened. You are on the ground before you can see it.",
+        "approach": "Three approaches, all screened. The ground is underfoot before it is visible.",
         "senses": "Blunt wood on wood, water disturbed and settling, breathing counted aloud; wet root and dull steel."
       },
       "assetPlan": [
@@ -23636,7 +23636,7 @@
             "registerRef": null,
             "payoff": "gear",
             "valueTier": "tier-3",
-            "provenance": "training gear, with one set the keepers do not account for"
+            "provenance": "training gear, including one unaccounted set"
           }
         ]
       }
@@ -24057,7 +24057,7 @@
       },
       "vibe": {
         "palette": "Mud grey, pitch black, flame orange.",
-        "signatureFeature": "Boats lying over on their sides in the mud with fires under them and a smell of pitch you can find from the water.",
+        "signatureFeature": "Boats lying over on their sides in the mud with fires under them and a smell of pitch that carries to the water.",
         "mood": "Smoke and shouted instruction."
       },
       "assetPlan": [
@@ -24106,7 +24106,7 @@
         "primary": "service-hub",
         "secondary": [],
         "impact": "real",
-        "hook": "Two families will burn the worm off your hull and not ask where it last put in.",
+        "hook": "Two families will burn the worm off a hull and not ask where it last put in.",
         "reviewed": false
       },
       "interior": {
@@ -24252,7 +24252,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Five to nine metres over a shell bottom, marked by withies in a grid you have to be taught.",
+        "hook": "Five to nine metres over a shell bottom, marked by withies in a grid that has to be taught.",
         "reviewed": false
       },
       "interior": {
@@ -25232,7 +25232,7 @@
       "why": {
         "founding": "The Imperial villas outside the rebuilt wall sank with their cellars intact. The cellars are connected.",
         "siteAdvantages": "A continuous flooded undercroft running two hundred metres, entered from three collapsed floors.",
-        "occupantsMotive": "Salvage crews work the near end under permit; the far end is beyond the permit line and not empty.",
+        "occupantsMotive": "Salvage crews work the near end under permit. The far end is beyond the permit line and something lives in it.",
         "pressures": "The passage is head-height, silt-floored and disorients completely; there is no natural light after the second room.",
         "wouldChangeIf": "A collapse at the middle would cut the far cellars off for good."
       },
@@ -25923,7 +25923,7 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "One of the prisons the Empire built after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the Bogmother causeway, the road the Legion already had.",
-        "siteAdvantages": "Firm ground with marsh water on every side and one causeway in, a short haul from the Bogmother road that brought the convicts and took the ore out.",
+        "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Bogmother road that brought the convicts and carried the ore away.",
         "occupantsMotive": "Empty of the living. Full of Argonian dead who died away from their Hist and whose bones were never brought to the dirt.",
         "pressures": "The Blackrose Chainbreakers want the dead repatriated; the structure is sound enough that somebody will eventually want it back.",
         "wouldChangeIf": "Reoccupation by any armed party would make the repatriation impossible and the grievance permanent."
@@ -25986,8 +25986,8 @@
         "silhouette": "A white rectangular block above reed, hard-edged and unweathered, with an intact causeway and an open gate.",
         "palette": "Lime white, marsh brown, black door-shadow.",
         "materials": "Imperial lime render over dressed stone, iron gate furniture, tiled roof complete; no scavenging and no Argonian addition.",
-        "signatureFeature": "A white lime-rendered Imperial block, structurally perfect and utterly silent, standing above marsh with its causeway intact and its gate open.",
-        "condition": "The render is sound and the gate is open. Not a hinge has been taken.",
+        "signatureFeature": "A white lime-rendered Imperial block, structurally perfect and silent, standing above marsh with its causeway intact and its gate open.",
+        "condition": "The render is sound and the gate is open. The iron fittings are all still in place.",
         "mood": "Clean and empty.",
         "approach": "It reads white through the reeds from a long way off.",
         "senses": "Silence with a building in it; reeds; the causeway underfoot; lime dust; no smell of occupation at all."
@@ -26180,9 +26180,9 @@
       "why": {
         "founding": "The bar that made the salvage trade. A coral and shell reef lying a foot under at high water across the bay mouth.",
         "siteAdvantages": "Directly on the natural sailing line into Topal Bay.",
-        "occupantsMotive": "Only the reef lives here; three centuries of hulls lie on it.",
+        "occupantsMotive": "No household holds the reef. Three centuries of hulls lie on it.",
         "pressures": "Silt from the burn-country rivers is killing the living head and turning it to rubble, which makes it more dangerous.",
-        "wouldChangeIf": "A lit mark on the headland would render it merely scenery."
+        "wouldChangeIf": "A lit mark on the headland would make it harmless to shipping."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -26245,7 +26245,7 @@
       "vibe": {
         "palette": "White surf, dead coral grey, deep blue beyond.",
         "signatureFeature": "A white line of breaking water with mast-stumps standing out of it at intervals, like a fence.",
-        "mood": "Pretty at a distance. It takes ships."
+        "mood": "Pretty at a distance. Dangerous to shipping."
       },
       "assetPlan": [
         "submerged-blocks",
@@ -26366,7 +26366,7 @@
         "distanceToWaterM": 11.0,
         "score": 3.284
       },
-      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon its regionClasses ask for."
+      "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
     },
     {
       "id": "place.mercantile-coast.witness-vigil-camp",
@@ -26608,7 +26608,7 @@
         "signatureFeature": "A stone frieze of extinct birds above a clay bank littered with the broken shards of every copy ever made of it.",
         "condition": "Original pristine, every copy destroyed; the shard bank grows every year.",
         "mood": "Devout and destructive.",
-        "approach": "The shard bank crunches under you before you look up and see what is being copied.",
+        "approach": "The shard bank crunches underfoot. Overhead is the carving being copied.",
         "senses": "Shards shifting underfoot with a sound like shell; clay dust; someone working at the bank and breaking the result."
       },
       "assetPlan": [
@@ -26764,7 +26764,7 @@
         "siteAdvantages": "Vertical sea stacks off the islands, unclimbable from three sides, thick with guano and eggs.",
         "occupantsMotive": "Egg-takers come twice a year by rope and take the ledges in a fixed order.",
         "pressures": "The clans here know what happened to the wraxu. The taking rules are stricter than any law Soulrest ever wrote.",
-        "wouldChangeIf": "A single greedy season would be remembered for a century."
+        "wouldChangeIf": "The clans hold that a single greedy season would empty the ledges for a generation."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -26834,7 +26834,7 @@
         "condition": "Untouched rock, with one maintained set of rope anchors.",
         "mood": "Deafening.",
         "approach": "Audible from a mile out; the colony noise arrives long before the stacks resolve out of the haze.",
-        "senses": "The loudest place on this coast; ammonia; sea on rock; the noise stops dead if you climb into the lee."
+        "senses": "The loudest place on this coast; ammonia; sea on rock; the noise stops dead in the lee."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -26969,7 +26969,7 @@
             "registerRef": null,
             "payoff": "materials",
             "valueTier": "tier-2",
-            "provenance": "eggs, down and what the birds have carried in"
+            "provenance": "eggs, down and whatever the birds have carried to the ledges"
           }
         ]
       },
@@ -27071,7 +27071,7 @@
         "palette": "Grey-green stone, cut-line shadow, swept sand.",
         "signatureFeature": "Clean-swept stone terraces with bird figures cut deep into every riser, and a sealed doorway that is dusted daily.",
         "mood": "Maintained, watchful, closed.",
-        "approach": "The stepped mass breaks the canopy line long before you reach it."
+        "approach": "The stepped mass breaks the canopy line long before the site is reached."
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -27348,7 +27348,7 @@
         "siteAdvantages": "In the estuary shallows off the old waterfront, submerged by the same subsidence that took the Imperial quarter.",
         "occupantsMotive": "Fishers dive to it before a long season and leave an offering inside rather than on it.",
         "pressures": "The city's council would rather the shrine were on land and administrable; the fishers prefer it exactly where it is.",
-        "wouldChangeIf": "Raising it would be an act of civic policy and a religious insult in the same gesture."
+        "wouldChangeIf": "Raising it would be civic policy for the council and an insult to the fishers."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -27560,7 +27560,7 @@
       "why": {
         "founding": "A calendar of upright stone counters in the lowlands east of Lilmoth, with a hereditary keeper and a jekka-wass. It is called a catalyst of change and it can alter the weather.",
         "siteAdvantages": "An open lowland with a clean southern horizon, because the instrument needs one.",
-        "occupantsMotive": "The keeper's whole office is to not use it and to explain that to the scholars who arrive wanting it used.",
+        "occupantsMotive": "The keeper's office is to keep the instrument unused and to explain that to the scholars who arrive.",
         "pressures": "Every party with a weather problem eventually comes here; the keeper has refused emperors' agents and antiquarians alike.",
         "wouldChangeIf": "A successful use would be the largest single event in Argonia's recent history."
       },
@@ -27626,8 +27626,8 @@
         "materials": "Pale dressed stone counters with ornament courses, cropped turf, one keeper's shelter of reed at the ring's edge; no other structure permitted inside the ring.",
         "signatureFeature": "A ring of aligned stone counters in open ground, each face carved with a different reckoning, kept clear of vegetation by one person.",
         "condition": "The stones are unrepaired; the sightlines are cut back weekly by one person.",
-        "mood": "Precise. Untouched by rule.",
-        "approach": "A clean southern horizon opens ahead of you before the stones do; that clearing is part of the instrument.",
+        "mood": "Precise. Kept unused by rule.",
+        "approach": "A clean southern horizon opens before the stones do; that clearing is part of the instrument.",
         "senses": "Wind with no leaves in it; cropped grass; one person cutting back growth, endlessly; sun heat off stone."
       },
       "assetPlan": [

@@ -197,6 +197,11 @@ function checkIds() {
     const ids = [];
     collectIds(readJson(source.path), source.idKey ?? "id", ids);
     const shape = source.idShape === "flat" ? ID_SHAPE_FLAT : ID_SHAPE;
+    // A source may REFERENCE ids another source declares (a blueprint's top-
+    // level id is the catalogue place it details): `"references": ["place"]`
+    // lists the id domains (first segment) that are checked for shape but
+    // exempt from the uniqueness test in this source.
+    const references = new Set(source.references ?? []);
     for (const id of ids) {
       if (!shape.test(id))
         fail(
@@ -211,6 +216,7 @@ function checkIds() {
         );
       if (retired.has(id))
         fail(2, source.path, 0, `ID \`${id}\` is retired and may never be reused.`);
+      if (references.has(id.split(".")[0])) continue;
       const prior = seen.get(id);
       if (prior && prior !== source.path)
         fail(2, source.path, 0, `ID \`${id}\` is already used in ${prior}.`);

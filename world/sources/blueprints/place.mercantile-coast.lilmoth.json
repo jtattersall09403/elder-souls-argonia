@@ -1,0 +1,2153 @@
+{
+ "schemaVersion": 1,
+ "blueprint": {
+  "id": "place.mercantile-coast.lilmoth",
+  "seed": "place.mercantile-coast.lilmoth",
+  "causalModel": {
+   "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
+   "siteAdvantages": "The firm shelf at the head of the estuary, with the stilt quarters and the lighter quay stepping down off it into tidal water. Big hulls anchor out in Oliis Bay and lighter in. The lightering is the city's living.",
+   "occupantsMotive": "A reconstituted merchant council governs by tariff; it will not appoint a ruler. The last party that had one killed the city.",
+   "pressures": "Hostile to the An-Xileel successor state and indispensable to a bay that must trade somewhere. It is also built over its own mass grave.",
+   "wouldChangeIf": "If the third Hist ever spoke to one faction alone, every institution here would break at once. The rules forbid it."
+  },
+  "boundary": [
+   [
+    0.482267,
+    0.850613
+   ],
+   [
+    0.501797,
+    0.849257
+   ],
+   [
+    0.521597,
+    0.853868
+   ],
+   [
+    0.538143,
+    0.856851
+   ],
+   [
+    0.538685,
+    0.87177
+   ],
+   [
+    0.520241,
+    0.877466
+   ],
+   [
+    0.502068,
+    0.874482
+   ],
+   [
+    0.484437,
+    0.871227
+   ]
+  ],
+  "siting": {
+   "dossier": "world/sources/sites/dossiers/lilmoth.json",
+   "candidates": [
+    {
+     "id": "candidate.lilmoth.east-face",
+     "positionM": [
+      3660.0,
+      6372.0
+     ],
+     "chosen": true,
+     "why": "The east face of the promontory. Section from the crest out: 21.9 m at 3640/6350, a 22.5° bluff, a 7.4 m bench at 3720/6350 (slope 2.5°), a tidal flat at 1.3–1.5 m from 3800 to 3860 (flood band 1–3, wet-season inundated), then 1.0 m of water at 3880, 3.8 m at 3920 and a 6.6 m roadstead plateau from 3960 to 4040. That is four buildable tiers and a drowned quarter in one 400 m run, and the shallow shelf is 120 m wide — the canon reason large hulls anchor out and lighter in. 55 m from the approved anchor, well inside its 0.04 UV (296 m) tolerance."
+    },
+    {
+     "id": "candidate.lilmoth.se-embayment",
+     "positionM": [
+      3700.0,
+      6470.0
+     ],
+     "rejectedBecause": "The south-east embayment reaches 3.8 m of water 50 m off the shore and 15.5 m at 150 m. Deep water that close means a hull could berth alongside, which contradicts the canon fact the city is built over shallow water and lighters its cargo (Lore:Lilmoth). It also has no bench between the shore and the crest, so the city would be one tier, not three.",
+     "why": "Shore at roughly 3790/6540, water 0.6 m at 3798/6548, 3.8 m at 3826/6576, 9.6 m at 3855/6605, 25.5 m at 3939/6689; the SE ray falls 18.6 m to the waterline over 280 m with no flat step."
+    },
+    {
+     "id": "candidate.lilmoth.south-lagoon",
+     "positionM": [
+      3604.0,
+      6520.0
+     ],
+     "rejectedBecause": "The southern lagoon behind the spit is 0.4–0.6 m deep at 3600/6590–6630 and land again at 3600/6670. Nothing there can be drowned to dive depth, so the drowned quarter — the record's signature — would be a puddle, and no lighter could reach open water.",
+     "why": "Sheltered water and a natural breakwater, which is why it was measured at all: 2.0 m of land at 3600/6510, 1.05 m at 3600/6550, 0.4 m of water at 3600/6590, land at 1.6 m again at 3600/6670."
+    }
+   ]
+  },
+  "districts": [
+   {
+    "id": "district.lilmoth.council-crown",
+    "kind": "civic",
+    "cultureKit": "argonian-stilt",
+    "wealth": "rich",
+    "boundary": [
+     [
+      0.483623,
+      0.86309
+     ],
+     [
+      0.494473,
+      0.86309
+     ],
+     [
+      0.494473,
+      0.870142
+     ],
+     [
+      0.483623,
+      0.870142
+     ]
+    ],
+    "notes": "The top tier on the firm bench: council floor, tariff bell, register, strongroom, upper walkway market. Fully parcelled here for the named buildings; density target 10 buildings/ha, decks outnumbering shells."
+   },
+   {
+    "id": "district.lilmoth.hist-court",
+    "kind": "sacred",
+    "cultureKit": "argonian-stilt",
+    "wealth": "middling",
+    "boundary": [
+     [
+      0.489591,
+      0.857123
+     ],
+     [
+      0.497185,
+      0.857123
+     ],
+     [
+      0.497185,
+      0.864175
+     ],
+     [
+      0.489591,
+      0.864175
+     ]
+    ],
+    "notes": "The crest, 21-22 m: the third Hist walled and open, two minder lodges on opposite sides of it, the memorial ground. Density target 4 buildings/ha — dry ground spent on the tree and the dead, not on housing."
+   },
+   {
+    "id": "district.lilmoth.north-gate",
+    "kind": "gate",
+    "cultureKit": "imperial",
+    "wealth": "middling",
+    "boundary": [
+     [
+      0.488234,
+      0.851698
+     ],
+     [
+      0.500169,
+      0.851698
+     ],
+     [
+      0.500169,
+      0.856038
+     ],
+     [
+      0.488234,
+      0.856038
+     ]
+    ],
+    "notes": "What the water left standing: the surviving Imperial curtain, the gate and its squat tower. No new work is built into it. Density target: no infill at all."
+   },
+   {
+    "id": "district.lilmoth.pusbottom",
+    "kind": "residential",
+    "cultureKit": "argonian-stilt",
+    "wealth": "poor",
+    "boundary": [
+     [
+      0.500169,
+      0.855767
+     ],
+     [
+      0.511561,
+      0.855767
+     ],
+     [
+      0.511561,
+      0.868786
+     ],
+     [
+      0.500169,
+      0.868786
+     ]
+    ],
+    "notes": "THE FULLY PARCELLED SAMPLE DISTRICT. The 3-12 m bench under the bluff, repopulated. 16 parcels over 0.81 ha = 20 buildings/ha, walkway-fed, no cart width anywhere."
+   },
+   {
+    "id": "district.lilmoth.lighter-quay",
+    "kind": "waterfront",
+    "cultureKit": "argonian-stilt",
+    "wealth": "middling",
+    "boundary": [
+     [
+      0.509934,
+      0.857936
+     ],
+     [
+      0.520783,
+      0.857936
+     ],
+     [
+      0.520783,
+      0.869871
+     ],
+     [
+      0.509934,
+      0.869871
+     ]
+    ],
+    "notes": "The tidal flat, 1.2-2.6 m: quay deck, divers' yard, salvage bench, lighter shed. Density target 8 buildings/ha over water, every one piled to the bed."
+   },
+   {
+    "id": "district.lilmoth.drowned-quarter",
+    "kind": "ruin",
+    "cultureKit": "neutral-underwater",
+    "wealth": "poor",
+    "boundary": [
+     [
+      0.52214,
+      0.857123
+     ],
+     [
+      0.537872,
+      0.857123
+     ],
+     [
+      0.537872,
+      0.871227
+     ],
+     [
+      0.52214,
+      0.871227
+     ]
+    ],
+    "notes": "Old Imperial Lilmoth under 1-10 m of water. Density target: sparse, 6-10 structures, read as a street plan from above. Culture-neutral kit, so it meets the Argonian quay at the shore without blending."
+   }
+  ],
+  "routes": [
+   {
+    "id": "route.lilmoth.north-road",
+    "kind": "road",
+    "points": [
+     [
+      0.497999,
+      0.841933
+     ],
+     [
+      0.496372,
+      0.847358
+     ],
+     [
+      0.494744,
+      0.851698
+     ],
+     [
+      0.494202,
+      0.85441
+     ],
+     [
+      0.493659,
+      0.857394
+     ]
+    ],
+    "widthM": 4.0
+   }
+  ],
+  "canals": [
+   {
+    "id": "canal.lilmoth.lighter-channel",
+    "kind": "channel",
+    "points": [
+     [
+      0.541127,
+      0.86743
+     ],
+     [
+      0.532989,
+      0.866074
+     ],
+     [
+      0.525123,
+      0.864989
+     ],
+     [
+      0.518071,
+      0.864175
+     ]
+    ],
+    "widthM": 14.0
+   }
+  ],
+  "boardwalks": [
+   {
+    "id": "boardwalk.lilmoth.tier-spine",
+    "kind": "boardwalk",
+    "points": [
+     [
+      0.493659,
+      0.858479
+     ],
+     [
+      0.492846,
+      0.862548
+     ],
+     [
+      0.490947,
+      0.865802
+     ],
+     [
+      0.496372,
+      0.864717
+     ],
+     [
+      0.501797,
+      0.863361
+     ],
+     [
+      0.507493,
+      0.862819
+     ],
+     [
+      0.512104,
+      0.86309
+     ],
+     [
+      0.515087,
+      0.863361
+     ]
+    ],
+    "widthM": 3.0
+   },
+   {
+    "id": "boardwalk.lilmoth.pusbottom-loop",
+    "kind": "boardwalk",
+    "points": [
+     [
+      0.501797,
+      0.858479
+     ],
+     [
+      0.501797,
+      0.866616
+     ],
+     [
+      0.508035,
+      0.86743
+     ],
+     [
+      0.509934,
+      0.862819
+     ],
+     [
+      0.505865,
+      0.858479
+     ],
+     [
+      0.501797,
+      0.858479
+     ]
+    ],
+    "widthM": 2.0
+   },
+   {
+    "id": "boardwalk.lilmoth.quay-front",
+    "kind": "boardwalk",
+    "points": [
+     [
+      0.512917,
+      0.859564
+     ],
+     [
+      0.514002,
+      0.864175
+     ],
+     [
+      0.514816,
+      0.867701
+     ]
+    ],
+    "widthM": 2.5
+   },
+   {
+    "id": "boardwalk.lilmoth.crown-court",
+    "kind": "boardwalk",
+    "points": [
+     [
+      0.490947,
+      0.865802
+     ],
+     [
+      0.492303,
+      0.862819
+     ],
+     [
+      0.493659,
+      0.860378
+     ],
+     [
+      0.491761,
+      0.85875
+     ]
+    ],
+    "widthM": 2.5
+   }
+  ],
+  "parcels": [
+   {
+    "id": "parcel.lilmoth.council-hall",
+    "districtId": "district.lilmoth.council-crown",
+    "use": "civic",
+    "buildingFamily": "stilt-hall",
+    "assetRef": "composite:stilt/platform-dwelling",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.487149,
+      0.864311
+     ],
+     [
+      0.488777,
+      0.864311
+     ],
+     [
+      0.488777,
+      0.866752
+     ],
+     [
+      0.487149,
+      0.866752
+     ]
+    ],
+    "notes": "The council floor; scale, not imported material, carries the status. measured Δ 3.49 m (12.51–15.99 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.tariff-bell",
+    "districtId": "district.lilmoth.council-crown",
+    "use": "civic",
+    "buildingFamily": "kiosk",
+    "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.490337,
+      0.864107
+     ],
+     [
+      0.491557,
+      0.864107
+     ],
+     [
+      0.491557,
+      0.865328
+     ],
+     [
+      0.490337,
+      0.865328
+     ]
+    ],
+    "notes": "The tariff bell over the quay: a 20.7 m walkway kiosk on the crown edge, the first lamp seen from the bay. measured Δ 4.01 m (15.57–19.57 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.record-room",
+    "districtId": "district.lilmoth.council-crown",
+    "use": "storage",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.485997,
+      0.867362
+     ],
+     [
+      0.487217,
+      0.867362
+     ],
+     [
+      0.487217,
+      0.868583
+     ],
+     [
+      0.485997,
+      0.868583
+     ]
+    ],
+    "notes": "The tariff roll and the pre-rebuild plan. measured Δ 0.53 m (15.40–15.93 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.strongroom",
+    "districtId": "district.lilmoth.council-crown",
+    "use": "storage",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.488438,
+      0.867905
+     ],
+     [
+      0.489658,
+      0.867905
+     ],
+     [
+      0.489658,
+      0.869125
+     ],
+     [
+      0.488438,
+      0.869125
+     ]
+    ],
+    "notes": "Bonded goods held against unpaid duty. measured Δ 1.28 m (14.52–15.79 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.upper-market-deck",
+    "districtId": "district.lilmoth.council-crown",
+    "use": "market",
+    "buildingFamily": "platform",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.491218,
+      0.867023
+     ],
+     [
+      0.492846,
+      0.867023
+     ],
+     [
+      0.492846,
+      0.869464
+     ],
+     [
+      0.491218,
+      0.869464
+     ]
+    ],
+    "notes": "The upper walkway market: an open deck, no shell. measured Δ 6.10 m (13.07–19.17 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.minder-lodge",
+    "districtId": "district.lilmoth.hist-court",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.490337,
+      0.857869
+     ],
+     [
+      0.491557,
+      0.857869
+     ],
+     [
+      0.491557,
+      0.859089
+     ],
+     [
+      0.490337,
+      0.859089
+     ]
+    ],
+    "notes": "The rotating minder's post. measured Δ 1.06 m (20.95–22.01 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.second-tender-lodge",
+    "districtId": "district.lilmoth.hist-court",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.494948,
+      0.857869
+     ],
+     [
+      0.496168,
+      0.857869
+     ],
+     [
+      0.496168,
+      0.859089
+     ],
+     [
+      0.494948,
+      0.859089
+     ]
+    ],
+    "notes": "The second tender, always present when the first listens. measured Δ 2.80 m (17.56–20.36 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.memorial-ground",
+    "districtId": "district.lilmoth.hist-court",
+    "use": "memorial",
+    "buildingFamily": "rune",
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/rune circle",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.492778,
+      0.862141
+     ],
+     [
+      0.493998,
+      0.862141
+     ],
+     [
+      0.493998,
+      0.863497
+     ],
+     [
+      0.492778,
+      0.863497
+     ]
+    ],
+    "notes": "Grave-stakes for the Slaughter, on the one piece of dry ground nobody built on. measured Δ 0.75 m (20.97–21.72 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.gate-tower",
+    "districtId": "district.lilmoth.north-gate",
+    "use": "gate",
+    "buildingFamily": "guardtower",
+    "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.49427,
+      0.853393
+     ],
+     [
+      0.495219,
+      0.853393
+     ],
+     [
+      0.495219,
+      0.854342
+     ],
+     [
+      0.49427,
+      0.854342
+     ]
+    ],
+    "notes": "The squat Imperial tower the rebuilders could not pull down; its base is sunk, not stilted. measured Δ 2.70 m (14.54–17.24 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.gate-arch",
+    "districtId": "district.lilmoth.north-gate",
+    "use": "gate",
+    "buildingFamily": "wallgate",
+    "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.493117,
+      0.853597
+     ],
+     [
+      0.494202,
+      0.853597
+     ],
+     [
+      0.494202,
+      0.854139
+     ],
+     [
+      0.493117,
+      0.854139
+     ]
+    ],
+    "notes": "The north gate itself. measured Δ 1.50 m (16.92–18.42 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.wall-stub-w",
+    "districtId": "district.lilmoth.north-gate",
+    "use": "wall",
+    "buildingFamily": "wall",
+    "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
+    "groundFit": "plinth",
+    "footprint": [
+     [
+      0.491286,
+      0.854139
+     ],
+     [
+      0.492235,
+      0.854139
+     ],
+     [
+      0.492235,
+      0.854682
+     ],
+     [
+      0.491286,
+      0.854682
+     ]
+    ],
+    "notes": "Surviving curtain, west of the gate. measured Δ 0.20 m (20.39–20.59 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.wall-stub-e",
+    "districtId": "district.lilmoth.north-gate",
+    "use": "wall",
+    "buildingFamily": "wall",
+    "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
+    "groundFit": "plinth",
+    "footprint": [
+     [
+      0.497524,
+      0.853597
+     ],
+     [
+      0.498474,
+      0.853597
+     ],
+     [
+      0.498474,
+      0.854139
+     ],
+     [
+      0.497524,
+      0.854139
+     ]
+    ],
+    "notes": "Surviving curtain, east of the gate. measured Δ 0.50 m (10.77–11.26 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.fallen-tower",
+    "districtId": "district.lilmoth.north-gate",
+    "use": "ruin",
+    "buildingFamily": "guardtower",
+    "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.489455,
+      0.852647
+     ],
+     [
+      0.490269,
+      0.852647
+     ],
+     [
+      0.490269,
+      0.853461
+     ],
+     [
+      0.489455,
+      0.853461
+     ]
+    ],
+    "notes": "The tower's fallen twin, left where it dropped. measured Δ 0.76 m (17.01–17.77 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-vault-house",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.501457,
+      0.858954
+     ],
+     [
+      0.502678,
+      0.858954
+     ],
+     [
+      0.502678,
+      0.860174
+     ],
+     [
+      0.501457,
+      0.860174
+     ]
+    ],
+    "notes": "Over the vault the Thieves Guild wants. measured Δ 3.03 m (11.05–14.08 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-hollow",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.501457,
+      0.861395
+     ],
+     [
+      0.502678,
+      0.861395
+     ],
+     [
+      0.502678,
+      0.862615
+     ],
+     [
+      0.501457,
+      0.862615
+     ]
+    ],
+    "notes": "The hollow under the wall. measured Δ 1.83 m (8.75–10.58 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-untouched",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.501457,
+      0.864107
+     ],
+     [
+      0.502678,
+      0.864107
+     ],
+     [
+      0.502678,
+      0.865328
+     ],
+     [
+      0.501457,
+      0.865328
+     ]
+    ],
+    "notes": "The house nobody has entered since the Slaughter. measured Δ 3.14 m (8.13–11.26 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-slaughter-house",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.503899,
+      0.858954
+     ],
+     [
+      0.505119,
+      0.858954
+     ],
+     [
+      0.505119,
+      0.860174
+     ],
+     [
+      0.503899,
+      0.860174
+     ]
+    ],
+    "notes": "Where the slaughter list is kept. measured Δ 2.24 m (8.96–11.20 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-agent-room",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.503899,
+      0.861666
+     ],
+     [
+      0.505119,
+      0.861666
+     ],
+     [
+      0.505119,
+      0.862887
+     ],
+     [
+      0.503899,
+      0.862887
+     ]
+    ],
+    "notes": "The An-Xileel resident agent's rented room. measured Δ 1.08 m (6.64–7.72 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d01",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.503899,
+      0.864378
+     ],
+     [
+      0.505119,
+      0.864378
+     ],
+     [
+      0.505119,
+      0.865599
+     ],
+     [
+      0.503899,
+      0.865599
+     ]
+    ],
+    "notes": "measured Δ 2.88 m (5.23–8.10 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d02",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.50634,
+      0.858954
+     ],
+     [
+      0.50756,
+      0.858954
+     ],
+     [
+      0.50756,
+      0.860174
+     ],
+     [
+      0.50634,
+      0.860174
+     ]
+    ],
+    "notes": "measured Δ 3.07 m (7.05–10.12 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d03",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.50634,
+      0.861666
+     ],
+     [
+      0.50756,
+      0.861666
+     ],
+     [
+      0.50756,
+      0.862887
+     ],
+     [
+      0.50634,
+      0.862887
+     ]
+    ],
+    "notes": "measured Δ 0.56 m (3.83–4.39 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d04",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.50634,
+      0.864378
+     ],
+     [
+      0.50756,
+      0.864378
+     ],
+     [
+      0.50756,
+      0.865599
+     ],
+     [
+      0.50634,
+      0.865599
+     ]
+    ],
+    "notes": "measured Δ 0.73 m (3.43–4.16 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d05",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.508781,
+      0.859225
+     ],
+     [
+      0.510002,
+      0.859225
+     ],
+     [
+      0.510002,
+      0.860445
+     ],
+     [
+      0.508781,
+      0.860445
+     ]
+    ],
+    "notes": "measured Δ 1.90 m (4.60–6.50 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d06",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.508781,
+      0.861937
+     ],
+     [
+      0.510002,
+      0.861937
+     ],
+     [
+      0.510002,
+      0.863158
+     ],
+     [
+      0.508781,
+      0.863158
+     ]
+    ],
+    "notes": "measured Δ 1.03 m (0.98–2.01 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d07",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.508781,
+      0.86465
+     ],
+     [
+      0.510002,
+      0.86465
+     ],
+     [
+      0.510002,
+      0.86587
+     ],
+     [
+      0.508781,
+      0.86587
+     ]
+    ],
+    "notes": "measured Δ 0.71 m (1.92–2.63 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d08",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.502814,
+      0.86682
+     ],
+     [
+      0.504034,
+      0.86682
+     ],
+     [
+      0.504034,
+      0.86804
+     ],
+     [
+      0.502814,
+      0.86804
+     ]
+    ],
+    "notes": "measured Δ 3.28 m (2.14–5.43 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-d09",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.507154,
+      0.86682
+     ],
+     [
+      0.508374,
+      0.86682
+     ],
+     [
+      0.508374,
+      0.86804
+     ],
+     [
+      0.507154,
+      0.86804
+     ]
+    ],
+    "notes": "measured Δ 0.61 m (1.91–2.52 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-deck-north",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "market",
+    "buildingFamily": "platform",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.505051,
+      0.855902
+     ],
+     [
+      0.506679,
+      0.855902
+     ],
+     [
+      0.506679,
+      0.858343
+     ],
+     [
+      0.505051,
+      0.858343
+     ]
+    ],
+    "notes": "The slum's own deck, under the bluff. measured Δ 1.14 m (11.52–12.66 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.pus-tower",
+    "districtId": "district.lilmoth.pusbottom",
+    "use": "dwelling",
+    "buildingFamily": "stilt-hall",
+    "assetRef": "bmv:architecture/stilthouse/stilthouseext",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.500983,
+      0.855631
+     ],
+     [
+      0.50261,
+      0.855631
+     ],
+     [
+      0.50261,
+      0.858072
+     ],
+     [
+      0.500983,
+      0.858072
+     ]
+    ],
+    "notes": "The one tall block in Pusbottom, climbing against the bluff. measured Δ 3.00 m (11.39–14.39 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.quay-deck",
+    "districtId": "district.lilmoth.lighter-quay",
+    "use": "market",
+    "buildingFamily": "platform",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.513189,
+      0.861327
+     ],
+     [
+      0.514816,
+      0.861327
+     ],
+     [
+      0.514816,
+      0.863768
+     ],
+     [
+      0.513189,
+      0.863768
+     ]
+    ],
+    "notes": "The lighter quay deck; cargo lands here and goes up by walkway. measured Δ 0.85 m (1.17–2.02 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.divers-yard",
+    "districtId": "district.lilmoth.lighter-quay",
+    "use": "work",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.513392,
+      0.866277
+     ],
+     [
+      0.514613,
+      0.866277
+     ],
+     [
+      0.514613,
+      0.867498
+     ],
+     [
+      0.513392,
+      0.867498
+     ]
+    ],
+    "notes": "The diving stair's shed. measured Δ 0.42 m (1.69–2.11 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.salvage-bench",
+    "districtId": "district.lilmoth.lighter-quay",
+    "use": "work",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.515833,
+      0.864107
+     ],
+     [
+      0.517054,
+      0.864107
+     ],
+     [
+      0.517054,
+      0.865328
+     ],
+     [
+      0.515833,
+      0.865328
+     ]
+    ],
+    "notes": "The licensed salvage bench. measured Δ 0.44 m (-0.20–0.24 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.lighter-shed",
+    "districtId": "district.lilmoth.lighter-quay",
+    "use": "storage",
+    "buildingFamily": "bamboohut",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.515562,
+      0.860039
+     ],
+     [
+      0.516783,
+      0.860039
+     ],
+     [
+      0.516783,
+      0.861259
+     ],
+     [
+      0.515562,
+      0.861259
+     ]
+    ],
+    "notes": "Lighter gear and poles. measured Δ 0.61 m (1.43–2.04 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.quay-tower",
+    "districtId": "district.lilmoth.lighter-quay",
+    "use": "civic",
+    "buildingFamily": "kiosk",
+    "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+    "groundFit": "stilt",
+    "footprint": [
+     [
+      0.510951,
+      0.863565
+     ],
+     [
+      0.512172,
+      0.863565
+     ],
+     [
+      0.512172,
+      0.864785
+     ],
+     [
+      0.510951,
+      0.864785
+     ]
+    ],
+    "notes": "The quay lamp, the second of the three lamp-tiers. measured Δ 0.19 m (2.40–2.60 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.drowned-villa-hall",
+    "districtId": "district.lilmoth.drowned-quarter",
+    "use": "ruin",
+    "buildingFamily": "hollow",
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.528378,
+      0.863361
+     ],
+     [
+      0.529463,
+      0.863361
+     ],
+     [
+      0.529463,
+      0.864446
+     ],
+     [
+      0.528378,
+      0.864446
+     ]
+    ],
+    "notes": "The tidal palace: a hollow block giving a swimmable, standable interior. measured Δ 0.20 m (-3.97–-3.77 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.drowned-floor-a",
+    "districtId": "district.lilmoth.drowned-quarter",
+    "use": "ruin",
+    "buildingFamily": "rubblefloor",
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.526344,
+      0.86092
+     ],
+     [
+      0.527158,
+      0.86092
+     ],
+     [
+      0.527158,
+      0.862005
+     ],
+     [
+      0.526344,
+      0.862005
+     ]
+    ],
+    "notes": "Walkable rubble floor, the villa's ground storey. measured Δ 2.02 m (-2.89–-0.87 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.drowned-floor-b",
+    "districtId": "district.lilmoth.drowned-quarter",
+    "use": "ruin",
+    "buildingFamily": "rubblefloor",
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl03",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.526954,
+      0.866616
+     ],
+     [
+      0.527632,
+      0.866616
+     ],
+     [
+      0.527632,
+      0.867159
+     ],
+     [
+      0.526954,
+      0.867159
+     ]
+    ],
+    "notes": "measured Δ 1.60 m (-6.59–-4.99 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.xhon-mehl-shrine",
+    "districtId": "district.lilmoth.drowned-quarter",
+    "use": "shrine",
+    "buildingFamily": "hollow",
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.531633,
+      0.865531
+     ],
+     [
+      0.532718,
+      0.865531
+     ],
+     [
+      0.532718,
+      0.866616
+     ],
+     [
+      0.531633,
+      0.866616
+     ]
+    ],
+    "notes": "The sunken shrine to Xhon-Mehl the Fisher. SOURCING GAP: no kit we hold carries an Argonian underwater shrine focal object; this is the ruin cell it would sit in. measured Δ 2.96 m (-9.60–-6.64 m over the footprint)"
+   },
+   {
+    "id": "parcel.lilmoth.drowned-ridge",
+    "districtId": "district.lilmoth.drowned-quarter",
+    "use": "ruin",
+    "buildingFamily": "brokenblock",
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.524581,
+      0.864175
+     ],
+     [
+      0.525666,
+      0.864175
+     ],
+     [
+      0.525666,
+      0.86526
+     ],
+     [
+      0.524581,
+      0.86526
+     ]
+    ],
+    "notes": "The roof ridges breaking the water: the long-range cue from the quay. measured Δ 0.59 m (-3.74–-3.15 m over the footprint)"
+   }
+  ],
+  "landmarks": [
+   {
+    "id": "landmark.lilmoth.third-hist",
+    "kind": "hist-tree",
+    "position": [
+     0.493659,
+     0.860378
+    ],
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree",
+    "notes": "Hero Hist 3/10, 24.9 x 27.1 x 24.4 m, 38k triangles. Stands on the crest at 21.5 m, so it reads over every tier and from the bay. Never cleared, never enclosed by one faction."
+   },
+   {
+    "id": "landmark.lilmoth.memorial-stakes",
+    "kind": "memorial",
+    "position": [
+     0.493388,
+     0.862819
+    ],
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/rune circle",
+    "notes": "8.1 x 9.0 x 3.3 m. The stakes for the mass grave the city stands on."
+   },
+   {
+    "id": "landmark.lilmoth.drowned-ridges",
+    "kind": "ruin-cue",
+    "position": [
+     0.525123,
+     0.864717
+    ],
+    "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena",
+    "notes": "7.3 x 7.3 x 4.6 m broken block, set so its top breaks the 3.7 m water: the long-range cue that there is a city under the floorboards."
+   },
+   {
+    "id": "landmark.lilmoth.roadstead-mark",
+    "kind": "mooring",
+    "position": [
+     0.537872,
+     0.866887
+    ],
+    "assetRef": "bmv:sheogorad/dagon fel/dockspilings",
+    "notes": "0.74 x 0.75 x 8.2 m pile cluster on the 6.6 m plateau: where the big hulls lie and the lighters start."
+   }
+  ],
+  "docks": [
+   {
+    "id": "dock.lilmoth.lighter-quay",
+    "position": [
+     0.516986,
+     0.863361
+    ],
+    "waterBodyId": "water.oliis-estuary",
+    "piledToBed": true
+   },
+   {
+    "id": "dock.lilmoth.diving-stair",
+    "position": [
+     0.515359,
+     0.867701
+    ],
+    "waterBodyId": "water.oliis-estuary",
+    "piledToBed": true
+   },
+   {
+    "id": "dock.lilmoth.roadstead-tender",
+    "position": [
+     0.535159,
+     0.866616
+    ],
+    "waterBodyId": "water.oliis-bay",
+    "piledToBed": true
+   }
+  ],
+  "combatSpaces": [
+   {
+    "id": "combat.lilmoth.quay-deck",
+    "boundary": [
+     [
+      0.512239,
+      0.860784
+     ],
+     [
+      0.515765,
+      0.860784
+     ],
+     [
+      0.515765,
+      0.864853
+     ],
+     [
+      0.512239,
+      0.864853
+     ]
+    ],
+    "clearanceClass": "open"
+   },
+   {
+    "id": "combat.lilmoth.pusbottom-lanes",
+    "boundary": [
+     [
+      0.500169,
+      0.855767
+     ],
+     [
+      0.511561,
+      0.855767
+     ],
+     [
+      0.511561,
+      0.868786
+     ],
+     [
+      0.500169,
+      0.868786
+     ]
+    ],
+    "clearanceClass": "tight"
+   },
+   {
+    "id": "combat.lilmoth.drowned-hall",
+    "boundary": [
+     [
+      0.525937,
+      0.861463
+     ],
+     [
+      0.531362,
+      0.861463
+     ],
+     [
+      0.531362,
+      0.866887
+     ],
+     [
+      0.525937,
+      0.866887
+     ]
+    ],
+    "clearanceClass": "submerged"
+   }
+  ],
+  "questSockets": [
+   {
+    "id": "scene.lilmoth.council-floor",
+    "kind": "scene",
+    "parcelId": "parcel.lilmoth.council-hall",
+    "position": [
+     0.487963,
+     0.865531
+    ],
+    "ownerQuestTier": 0
+   },
+   {
+    "id": "scene.lilmoth.third-hist-court",
+    "kind": "scene",
+    "position": [
+     0.493659,
+     0.861191
+    ],
+    "ownerQuestTier": 0
+   },
+   {
+    "id": "scene.lilmoth.drowned-quarter-dive",
+    "kind": "scene",
+    "parcelId": "parcel.lilmoth.drowned-villa-hall",
+    "position": [
+     0.528921,
+     0.863904
+    ],
+    "ownerQuestTier": 2
+   },
+   {
+    "id": "evidence.lilmoth.tariff-roll",
+    "kind": "evidence",
+    "parcelId": "parcel.lilmoth.record-room",
+    "position": [
+     0.486607,
+     0.867972
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "evidence.lilmoth.slaughter-list",
+    "kind": "evidence",
+    "parcelId": "parcel.lilmoth.pus-slaughter-house",
+    "position": [
+     0.504509,
+     0.859564
+    ],
+    "ownerQuestTier": 0
+   },
+   {
+    "id": "evidence.lilmoth.pre-rebuild-plan",
+    "kind": "evidence",
+    "parcelId": "parcel.lilmoth.record-room",
+    "position": [
+     0.486878,
+     0.868244
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "station.lilmoth.lighter-quay",
+    "kind": "station",
+    "parcelId": "parcel.lilmoth.quay-deck",
+    "position": [
+     0.514002,
+     0.862548
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "station.lilmoth.north-gate",
+    "kind": "station",
+    "parcelId": "parcel.lilmoth.gate-tower",
+    "position": [
+     0.494202,
+     0.85441
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "station.lilmoth.diving-stair",
+    "kind": "station",
+    "parcelId": "parcel.lilmoth.divers-yard",
+    "position": [
+     0.514816,
+     0.86743
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "station.lilmoth.council-hall",
+    "kind": "station",
+    "parcelId": "parcel.lilmoth.council-hall",
+    "position": [
+     0.488234,
+     0.866345
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "station.lilmoth.upper-walkway-market",
+    "kind": "station",
+    "parcelId": "parcel.lilmoth.upper-market-deck",
+    "position": [
+     0.492032,
+     0.868244
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "marks.lilmoth.council-standing",
+    "kind": "mark",
+    "parcelId": "parcel.lilmoth.council-hall",
+    "position": [
+     0.487692,
+     0.86526
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "marks.lilmoth.drowned-quarter-cleared",
+    "kind": "mark",
+    "parcelId": "parcel.lilmoth.drowned-villa-hall",
+    "position": [
+     0.529192,
+     0.864175
+    ],
+    "ownerQuestTier": 2
+   }
+  ],
+  "doors": [
+   {
+    "id": "door.mercantile-coast.lilmoth.1",
+    "parcelId": "parcel.lilmoth.council-hall",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.487963,
+     0.866887
+    ],
+    "interiorClaim": {
+     "sizeClass": "large",
+     "culture": "argonian",
+     "owner": "the merchant council"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.2",
+    "parcelId": "parcel.lilmoth.record-room",
+    "facingDeg": 0,
+    "thresholdUV": [
+     0.486607,
+     0.867294
+    ],
+    "interiorClaim": {
+     "sizeClass": "medium",
+     "culture": "argonian",
+     "owner": "the register keeper"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.3",
+    "parcelId": "parcel.lilmoth.strongroom",
+    "facingDeg": 0,
+    "thresholdUV": [
+     0.489048,
+     0.867837
+    ],
+    "interiorClaim": {
+     "sizeClass": "medium",
+     "culture": "argonian",
+     "owner": "the merchant council"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.4",
+    "parcelId": "parcel.lilmoth.minder-lodge",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.490947,
+     0.859157
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian",
+     "owner": "the rotating minder"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.5",
+    "parcelId": "parcel.lilmoth.second-tender-lodge",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.495558,
+     0.859157
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian",
+     "owner": "the second tender"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.6",
+    "parcelId": "parcel.lilmoth.gate-tower",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.494744,
+     0.854546
+    ],
+    "interiorClaim": {
+     "sizeClass": "medium",
+     "culture": "imperial",
+     "owner": "the council's gate watch"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.7",
+    "parcelId": "parcel.lilmoth.pus-vault-house",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.502068,
+     0.860242
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.8",
+    "parcelId": "parcel.lilmoth.pus-untouched",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.502068,
+     0.865396
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.9",
+    "parcelId": "parcel.lilmoth.pus-slaughter-house",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.504509,
+     0.860242
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.10",
+    "parcelId": "parcel.lilmoth.pus-agent-room",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.504509,
+     0.862954
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian",
+     "owner": "a lodger who pays in advance"
+    }
+   },
+   {
+    "id": "door.mercantile-coast.lilmoth.11",
+    "parcelId": "parcel.lilmoth.divers-yard",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.514002,
+     0.867566
+    ],
+    "interiorClaim": {
+     "sizeClass": "small",
+     "culture": "argonian",
+     "owner": "the dive-master"
+    }
+   }
+  ],
+  "clearance": {
+   "hardClear": [
+    [
+     [
+      0.483081,
+      0.862548
+     ],
+     [
+      0.495015,
+      0.862548
+     ],
+     [
+      0.495015,
+      0.870685
+     ],
+     [
+      0.483081,
+      0.870685
+     ]
+    ],
+    [
+     [
+      0.489048,
+      0.85658
+     ],
+     [
+      0.497728,
+      0.85658
+     ],
+     [
+      0.497728,
+      0.864717
+     ],
+     [
+      0.489048,
+      0.864717
+     ]
+    ],
+    [
+     [
+      0.487692,
+      0.851155
+     ],
+     [
+      0.500712,
+      0.851155
+     ],
+     [
+      0.500712,
+      0.85658
+     ],
+     [
+      0.487692,
+      0.85658
+     ]
+    ],
+    [
+     [
+      0.499627,
+      0.855224
+     ],
+     [
+      0.512104,
+      0.855224
+     ],
+     [
+      0.512104,
+      0.869329
+     ],
+     [
+      0.499627,
+      0.869329
+     ]
+    ],
+    [
+     [
+      0.509391,
+      0.857394
+     ],
+     [
+      0.521326,
+      0.857394
+     ],
+     [
+      0.521326,
+      0.870414
+     ],
+     [
+      0.509391,
+      0.870414
+     ]
+    ]
+   ],
+   "thinned": [
+    [
+     [
+      0.481453,
+      0.846273
+     ],
+     [
+      0.538414,
+      0.846273
+     ],
+     [
+      0.538414,
+      0.878822
+     ],
+     [
+      0.481453,
+      0.878822
+     ]
+    ]
+   ],
+   "kept": [
+    {
+     "id": "kept.lilmoth.third-hist",
+     "kind": "hist-tree",
+     "position": [
+      0.493659,
+      0.860378
+     ]
+    },
+    {
+     "id": "kept.lilmoth.court-shade",
+     "kind": "shade",
+     "position": [
+      0.495829,
+      0.862005
+     ]
+    },
+    {
+     "id": "kept.lilmoth.mangrove-wall",
+     "kind": "mangrove",
+     "position": [
+      0.516986,
+      0.872312
+     ]
+    },
+    {
+     "id": "kept.lilmoth.reed-fringe",
+     "kind": "reed-bed",
+     "position": [
+      0.512375,
+      0.8696
+     ]
+    }
+   ]
+  },
+  "variants": [
+   {
+    "id": "variant.lilmoth.lilmoth-tariff-war",
+    "changedRefs": [
+     "parcel.lilmoth.quay-deck",
+     "parcel.lilmoth.salvage-bench",
+     "parcel.lilmoth.lighter-shed"
+    ],
+    "serviceOverrides": {
+     "travel.lilmoth.boat-meerhleel": "reduced"
+    },
+    "ambience": "half-idle-quay",
+    "stateRef": "variant.lilmoth.lilmoth-tariff-war"
+   },
+   {
+    "id": "variant.lilmoth.lilmoth-hist-silence",
+    "changedRefs": [
+     "parcel.lilmoth.minder-lodge",
+     "parcel.lilmoth.second-tender-lodge",
+     "parcel.lilmoth.council-hall"
+    ],
+    "serviceOverrides": {},
+    "ambience": "tense",
+    "stateRef": "variant.lilmoth.lilmoth-hist-silence"
+   },
+   {
+    "id": "variant.lilmoth.lilmoth-flood-peak",
+    "changedRefs": [
+     "parcel.lilmoth.quay-deck",
+     "parcel.lilmoth.divers-yard",
+     "parcel.lilmoth.salvage-bench",
+     "parcel.lilmoth.pus-d06",
+     "parcel.lilmoth.pus-d07",
+     "parcel.lilmoth.pus-d09"
+    ],
+    "serviceOverrides": {
+     "dock.lilmoth.lighter-quay": "closed"
+    },
+    "ambience": "wet-season",
+    "stateRef": "variant.lilmoth.lilmoth-flood-peak"
+   }
+  ],
+  "travelServices": [
+   {
+    "id": "travel.lilmoth.boat-meerhleel",
+    "kind": "boat",
+    "toPlaceId": "place.mercantile-coast.alten-meerhleel",
+    "timetable": "daily on the ebb"
+   },
+   {
+    "id": "travel.lilmoth.lighter-flotilla",
+    "kind": "ferry",
+    "toPlaceId": "place.mercantile-coast.lighter-flotilla",
+    "timetable": "continuous while a hull lies at the roadstead"
+   },
+   {
+    "id": "travel.lilmoth.water-taxi-keel-sakka",
+    "kind": "water-taxi",
+    "toPlaceId": "place.mercantile-coast.keel-sakka-stilts",
+    "timetable": "on demand"
+   }
+  ],
+  "occupants": [
+   {
+    "slotId": "o.council-factor",
+    "ladderRef": "capable-d2 official",
+    "cultureRole": "council factor, tariff line",
+    "ownerFaction": "faction.lilmoth-merchant-council"
+   },
+   {
+    "slotId": "o.tree-minder",
+    "ladderRef": "capable-d2 priest",
+    "cultureRole": "third-Hist tree-minder, post rotates",
+    "ownerFaction": "faction.hist.mercantile-coast.lilmoth"
+   },
+   {
+    "slotId": "o.second-tender",
+    "ladderRef": "modest-d2 priest",
+    "cultureRole": "second tender, present whenever the first listens",
+    "ownerFaction": "faction.hist.mercantile-coast.lilmoth"
+   },
+   {
+    "slotId": "o.dive-master",
+    "ladderRef": "capable-d2 specialist",
+    "cultureRole": "under-quarter dive-master"
+   },
+   {
+    "slotId": "o.quay-merchants",
+    "ladderRef": "modest-d2 merchant",
+    "cultureRole": "quay traders",
+    "ownerFaction": "faction.lilmoth-merchant-council"
+   },
+   {
+    "slotId": "o.an-xileel-agent",
+    "ladderRef": "capable-d3 agent",
+    "cultureRole": "An-Xileel resident agent, deniable",
+    "ownerFaction": "faction.an-xileel"
+   },
+   {
+    "slotId": "o.council-guard",
+    "ladderRef": "modest-d2 guard",
+    "cultureRole": "council-hired patrol",
+    "ownerFaction": "faction.lilmoth-merchant-council"
+   }
+  ],
+  "assetConstraints": [
+   "settlement-mud-v1 is forbidden here: Lilmoth is Murkmire reed/stilt culture and material-culture.md forbids blending the two Argonian building cultures in one settlement.",
+   "composite:quay/stone-quay-with-stilt-house is forbidden here: it welds an Imperial keep stone dock to an Argonian stilt house, which is both the owner's 2026-09-04 worked example of a composition nobody authored and a two-culture blend inside one mesh.",
+   "Dock systems are never butted mid-run: the BM&V Dagon Fel jetty system builds the lighter quay run, HTBM's tamu_ lashed-plank boardwalk builds the shore boardwalks, and the change of system happens at a shore end.",
+   "No new work is built into the Imperial masonry in d.north-gate."
+  ],
+  "ownership": {
+   "evidence.lilmoth.tariff-roll": {
+    "owner": "the merchant council",
+    "valueTier": "tier-4"
+   },
+   "parcel.lilmoth.strongroom": {
+    "ownerFaction": "faction.lilmoth-merchant-council",
+    "valueTier": "tier-3"
+   }
+  },
+  "budget": {
+   "maxInstances": 2400,
+   "maxUniqueMaterials": 110,
+   "maxTextureMB": 260,
+   "maxColliders": 1800
+  }
+ }
+}

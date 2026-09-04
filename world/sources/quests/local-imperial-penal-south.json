@@ -21,7 +21,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.lilmothiit-quarry"
       ],
-      "premise": "A carved block in a merchant's new frontage matches a lifting socket at the Robbed City, so the whole street is evidence",
+      "premise": "A carved block in a merchant's new frontage matches a lifting socket at the Robbed City; no other frontage on the street has been checked",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -133,7 +133,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.ledgered-blackguards"
       ],
-      "premise": "Three copies of the Blackguards' ledger disagree in exactly the entries that would convict somebody",
+      "premise": "Three copies of the Blackguards' ledger disagree in the entries that would convict somebody",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -567,7 +567,7 @@
     {
       "id": "quest.local.lr21",
       "code": "LR21",
-      "title": "Clean Water, Signed For",
+      "title": "The Unopened Cisterns",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -650,7 +650,7 @@
     {
       "id": "quest.local.lr24",
       "code": "LR24",
-      "title": "Bodies Out, Names In",
+      "title": "Out on Another Name",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -777,7 +777,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.prison-born-refuge"
       ],
-      "premise": "Prison-born households petition for city citizenship, which would make Blackrose admit what it has been running",
+      "premise": "Prison-born households petition for city citizenship, which would oblige Blackrose to state what the Rose is",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1223,7 +1223,7 @@
       "anchorPlaces": [
         "place.imperial-penal-south.west-market-town"
       ],
-      "premise": "Threewater's price board quotes three rivers the town stopped trading on",
+      "premise": "Threewater's price board quotes three rivers on which the town no longer trades",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1279,7 +1279,7 @@
         "place.imperial-penal-south.rockspring",
         "place.imperial-penal-south.west-market-town"
       ],
-      "premise": "A Threewater buyer is drawing down Rockspring's spring under a lease that is entirely lawful",
+      "premise": "A Threewater buyer is drawing down Rockspring's spring under a lawful lease",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1418,7 +1418,7 @@
       "anchorPlaces": [
         "place.imperial-penal-south.west-market-town"
       ],
-      "premise": "Threewater's market charter names a family that died out, so the whole market trades on a dead name",
+      "premise": "Threewater's market charter names a family that died out sixty years ago",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

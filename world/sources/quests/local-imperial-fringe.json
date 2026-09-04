@@ -126,7 +126,7 @@
         "place.imperial-fringe.gideon",
         "place.imperial-fringe.twyllbek-ruins"
       ],
-      "premise": "Cyrodilic Collections holds a licence to dig ground the nearest village holds a burial claim on",
+      "premise": "Cyrodilic Collections holds a licence to dig ground over which the nearest village holds a burial claim",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -154,7 +154,7 @@
         "place.imperial-fringe.gideon",
         "place.imperial-fringe.onkobra-field-station"
       ],
-      "premise": "Specimen jars leaving the field station arrive at the city short by exactly one crate a month",
+      "premise": "Specimen jars leaving the field station arrive at the city short by one crate a month",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -260,7 +260,7 @@
         "place.imperial-fringe.mile-house-of-the-eagle",
         "place.imperial-fringe.red-cart-yard"
       ],
-      "premise": "A porter relay's whole nine-man string fails to arrive, with the carts found parked and loaded",
+      "premise": "A porter relay's whole nine-man string fails to arrive; the carts are found parked and loaded",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -287,7 +287,7 @@
         "place.imperial-fringe.gideon",
         "place.imperial-fringe.the-cold-forge"
       ],
-      "premise": "A smithy whose fire gives no heat will work for a customer who can say what the metal is for",
+      "premise": "A smithy whose fire gives no heat will work for a customer who can name the use of the metal",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -505,7 +505,7 @@
         "place.imperial-fringe.lower-onkobra-paddies",
         "place.imperial-fringe.onkobra-kwama-mine"
       ],
-      "premise": "Mine water is reaching the paddies below, with the crop failing in a widening wedge",
+      "premise": "Mine water is reaching the paddies below and the crop is failing in a widening wedge",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -725,7 +725,7 @@
         "place.imperial-fringe.the-cordon-stones",
         "place.imperial-fringe.the-old-quarters"
       ],
-      "premise": "A plague cordon unlifted in three hundred years still turns travellers back, though the stones are the ones speaking",
+      "premise": "A plague cordon unlifted in three hundred years still turns travellers back; the stones are all that enforce it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -940,7 +940,7 @@
         "place.imperial-fringe.fig-market",
         "place.imperial-fringe.the-fig-poachers"
       ],
-      "premise": "A camp working the fig country takes more than fruit, with the market buying whatever comes in",
+      "premise": "A camp working the fig country takes more than fruit; the market buys whatever it brings",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1179,7 +1179,7 @@
         "place.imperial-fringe.glenbridge",
         "place.imperial-fringe.the-road-nisswo-house"
       ],
-      "premise": "A death-speaker's rest house has stopped receiving the walkers it exists to receive",
+      "premise": "A death-speaker's rest house has stopped receiving walkers",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1528,7 +1528,7 @@
         "place.imperial-fringe.ridge-runners-post",
         "place.imperial-fringe.stonewastes"
       ],
-      "premise": "A courier post's sealed bag is opened between stages, with the seal replaced by a better one",
+      "premise": "A courier post's sealed bag is opened between stages and resealed with a better seal",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1609,7 +1609,7 @@
         "place.imperial-fringe.the-hollow-pass-station",
         "place.imperial-fringe.the-pass-shelter"
       ],
-      "premise": "The shelter's arrivals book records a party of four leaving, though three walked in",
+      "premise": "The shelter's arrivals book records a party of four leaving, though only three arrived",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1635,7 +1635,7 @@
       "anchorPlaces": [
         "place.imperial-fringe.stonewastes"
       ],
-      "premise": "Stonewastes keeps a tally of every outsider since its founding, with the count now one short",
+      "premise": "Stonewastes keeps a tally of every outsider since its founding; the count is now one short",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1874,7 +1874,7 @@
         "place.imperial-fringe.swampmoth-town",
         "place.imperial-fringe.xi-tsei-massacre-ground"
       ],
-      "premise": "The massacre ground's yearly count has been read out wrong for a generation; the ground has noticed",
+      "premise": "The massacre ground's yearly count has been read out wrong for a generation",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2162,7 +2162,7 @@
       "anchorPlaces": [
         "place.imperial-fringe.westfield-village"
       ],
-      "premise": "Westfield's shared granary is short by a measured amount each week, with the seals intact",
+      "premise": "Westfield's shared granary is short by a measured amount each week and the seals are intact",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

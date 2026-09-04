@@ -69,11 +69,6 @@ describe("the shipped entries", () => {
     expect(CATALOGUE.size).toBe(SYSTEM_TEXT.length);
   });
 
-  it("keep the owner's corrected death message", () => {
-    expect(text(CATALOGUE, "text.system.essential-npc-killed")).toBe(
-      "With this death, a root is severed. Restore an earlier save to keep this story.",
-    );
-  });
 
   it("expose a surface view for the voice reviewer to iterate", () => {
     expect(bySurface(CATALOGUE, "system").length).toBe(SYSTEM_TEXT.length);

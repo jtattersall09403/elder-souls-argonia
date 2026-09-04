@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 import sys
 from pathlib import Path
 
@@ -49,16 +50,15 @@ BURY_M = 0.25
 PAD_FALLOFF_RATIO = 2.5
 PAD_RESIDUAL_TILT_DEG = 0.7
 DOOR_MAX_SLOPE_DEG = 30.0
+DOOR_SLOPE_SAMPLE_M = 2.0     # half-width of the threshold gradient sample
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 OUT_DIR = Path(__file__).resolve().parents[1] / "output" / "settlements"
 
 # District cultureKit → kit configs, in preference order. The two-culture rule
 # is enforced by the blueprint validator; here it just picks the shelf.
-CULTURE_KITS = {
-    "argonian": ["settlement-mud-v1", "settlement-stilt-v1"],
-    "imperial": ["settlement-imperial-v1"],
-}
+# Kit sets are the blueprint schema's vocabulary (one source of truth).
+CULTURE_KITS = {k: v["kits"] for k, v in bp_mod.KIT_SETS.items()}
 
 # Legal ground fits per measured Δ band (the ladder; a declared fit may be
 # STRONGER than needed — stilts on flat ground are fine and lore-correct —
@@ -91,10 +91,22 @@ class KitShelf:
             data = json.loads(path.read_text())
             self.assets_by_kit[name] = data["assets"]
 
-    def pick(self, culture: str, family: str, key: str) -> dict | None:
+    def find(self, culture: str, asset_ref: str) -> dict | None:
+        """An exact kit asset id inside the district's kit set (the Part 6
+        geometry-judged pick). None if the set does not contain it."""
+        for kit in CULTURE_KITS.get(culture, []):
+            for asset in self.assets_by_kit.get(kit, []):
+                if asset["id"] == asset_ref:
+                    return {"kit": kit, **asset}
+        return None
+
+    def pick(self, culture: str, family: str, key: str, asset_ref: str | None = None) -> dict | None:
         """Deterministically pick an asset matching `family` from the culture's
-        kits: exact-token match on the asset id first, else any asset tall
-        enough to read as a building. `key` seeds the choice."""
+        kits: an explicit `asset_ref` wins outright; else exact-token match on
+        the asset id first, else any asset tall enough to read as a building.
+        `key` seeds the choice."""
+        if asset_ref:
+            return self.find(culture, asset_ref)
         candidates: list[tuple[str, dict]] = []
         fallback: list[tuple[str, dict]] = []
         for kit in CULTURE_KITS.get(culture, []):
@@ -148,9 +160,11 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
             )
             continue
 
-        asset = shelf.pick(culture, parcel["buildingFamily"], f"{seed}:{pid}")
+        asset = shelf.pick(culture, parcel["buildingFamily"], f"{seed}:{pid}", parcel.get("assetRef"))
         if asset is None:
-            errors.append(f"{pid}: no kit asset for family '{parcel['buildingFamily']}' in culture '{culture}'")
+            errors.append(f"{pid}: no kit asset for family '{parcel['buildingFamily']}'"
+                          + (f" / assetRef '{parcel['assetRef']}'" if parcel.get("assetRef") else "")
+                          + f" in kit set '{culture}'")
             continue
 
         base_y = max(heights) - BURY_M
@@ -162,7 +176,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
                 "falloffRatio": PAD_FALLOFF_RATIO,
                 "residualTiltDeg": PAD_RESIDUAL_TILT_DEG,
             })
-        yaw_quarter = _seed_int(seed, pid, "yaw") % 4
+        # authored orientation wins; otherwise a seeded quarter turn (skeleton)
+        yaw = float(parcel["yawDeg"]) if isinstance(parcel.get("yawDeg"), (int, float)) else (_seed_int(seed, pid, "yaw") % 4) * 90.0
         placements.append({
             "id": f"{bp_id}.{pid}.building",
             "parcelId": pid,
@@ -170,7 +185,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
             "kit": asset["kit"],
             # grid transform, centred pivot — never flora bottom-anchoring
             "positionM": [_snap(cx), round(base_y + (asset["sizeM"][2] / 2 if fit != "dug-in" else 0.0), 3), _snap(cz)],
-            "yawDeg": yaw_quarter * 90.0,
+            "yawDeg": yaw,
             "groundFit": fit,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
         })
@@ -191,9 +206,18 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
     doors_out: list[dict] = []
     for door in sorted(bp["doors"], key=lambda d: d["id"]):
         x, z = survey.uv_to_m(*door["thresholdUV"])
-        px = survey.grid_px(x, z)
-        on_land = bool(survey.land[px[1], px[0]])
-        slope = float(survey.slope_grid[px[1], px[0]])
+        # grid_px returns (row, col) = (z index, x index), and every other caller
+        # in worldgen unpacks it in that order. Indexing [col, row] here sampled a
+        # transposed pixel, so door reachability was measured at the wrong place.
+        row, col = survey.grid_px(x, z)
+        on_land = bool(survey.land[row, col])
+        # local gradient from height samples 2 m either side of the threshold:
+        # the 5.5 m slope raster reads a terrace lip as 40° where the walkable
+        # fall is ~11° (Mazzatun, 2026-09-04)
+        d = DOOR_SLOPE_SAMPLE_M
+        gx = (survey.height_at(x + d, z) - survey.height_at(x - d, z)) / (2 * d)
+        gz = (survey.height_at(x, z + d) - survey.height_at(x, z - d)) / (2 * d)
+        slope = math.degrees(math.atan(math.hypot(gx, gz)))
         graded = any(g["parcelId"] == door["parcelId"] for g in grades)
         ok_slope = graded or slope <= DOOR_MAX_SLOPE_DEG
         cleared = _point_in_any(door["thresholdUV"], bp["clearance"].get("hardClear", []))

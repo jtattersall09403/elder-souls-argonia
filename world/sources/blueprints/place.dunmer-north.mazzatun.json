@@ -1,0 +1,1389 @@
+{
+ "schemaVersion": 1,
+ "blueprint": {
+  "id": "place.dunmer-north.mazzatun",
+  "seed": "place.dunmer-north.mazzatun",
+  "causalModel": {
+   "founding": "The Xit-Xaht went on cutting stone after the Duskfall told every tribe to stop, on the order of a Hist they had bound with sap.",
+   "siteAdvantages": "A firm rock shelf at the end of an upland ridge, 68 m by 42 m of buildable ground with the block face in its own southern lip, a headwater stream along that lip for mortar and slaking, and a 55 m escarpment on the east that no neighbour climbs uninvited.",
+   "occupantsMotive": "Tsono-Xuhil has not woken. The Amber Plasm seep has resumed, the conduits carry it up the escarpment into the works, and the courses have started rising again.",
+   "pressures": "Labour. Every course needs hands the tribe does not have, so the pens fill from the neighbouring villages; the shelf is also too small for what the shaper has drawn.",
+   "wouldChangeIf": "The conduits were cut, or another tribe accepted the invitation to help."
+  },
+  "boundary": [
+   [
+    0.263647,
+    0.177934
+   ],
+   [
+    0.273954,
+    0.177934
+   ],
+   [
+    0.273954,
+    0.184715
+   ],
+   [
+    0.263647,
+    0.184715
+   ]
+  ],
+  "siting": {
+   "dossier": "world/sources/sites/dossiers/mazzatun.json",
+   "candidates": [
+    {
+     "id": "candidate.mazzatun.shelf",
+     "positionM": [
+      1985.0,
+      1341.0
+     ],
+     "chosen": true,
+     "why": "The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m."
+    },
+    {
+     "id": "candidate.mazzatun.plot",
+     "positionM": [
+      1993.3,
+      1455.9
+     ],
+     "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+     "rejectedBecause": "Δ ≥ 2 m over every candidate footprint, and the ladder forbids grading there. Re-sited, not graded."
+    },
+    {
+     "id": "candidate.mazzatun.gorge",
+     "positionM": [
+      2070.0,
+      1341.0
+     ],
+     "why": "The gorge floor at the Hist's own feet, 148 m, on the river. It would put the works around the tree as the lore describes.",
+     "rejectedBecause": "Water depth 0.1 m, height above the water table -0.12 m and river band 1: the floor is the channel. A stone works cannot stand in it, and the flat ground within 170 m is 6.5 m of relief at best."
+    }
+   ]
+  },
+  "districts": [
+   {
+    "id": "district.mazzatun.pens",
+    "kind": "labour",
+    "cultureKit": "argonian-mud",
+    "wealth": "destitute",
+    "boundary": [
+     [
+      0.263918,
+      0.178206
+     ],
+     [
+      0.273411,
+      0.178206
+     ],
+     [
+      0.273411,
+      0.180511
+     ],
+     [
+      0.263918,
+      0.180511
+     ]
+    ],
+    "notes": "The upper step, 205-209 m. Mud shells and a tent for the taken labourers, who are not Xit-Xaht and are not permitted stone. Overlooked from the works below, which is the point."
+   },
+   {
+    "id": "district.mazzatun.works",
+    "kind": "monumental",
+    "cultureKit": "argonian-stone",
+    "wealth": "middling",
+    "boundary": [
+     [
+      0.263918,
+      0.180511
+     ],
+     [
+      0.273683,
+      0.180511
+     ],
+     [
+      0.273683,
+      0.182952
+     ],
+     [
+      0.263918,
+      0.182952
+     ]
+    ],
+    "notes": "The middle step, 198-206 m. The half-built quarter: courses, frontage, the statue court, the tower and the conduit head at the eastern lip. Ayleid-set blocks and stairs carry the terracing; the Here There Be Monsters xanmeer walls and pillars carry the frontage. The two authors' pieces stand in separate parcels and never abut."
+   },
+   {
+    "id": "district.mazzatun.staging",
+    "kind": "works",
+    "cultureKit": "neutral-works",
+    "wealth": "poor",
+    "boundary": [
+     [
+      0.263918,
+      0.182952
+     ],
+     [
+      0.273683,
+      0.182952
+     ],
+     [
+      0.273683,
+      0.18458
+     ],
+     [
+      0.263918,
+      0.18458
+     ]
+    ],
+    "notes": "The lower step and the stream lip, 190-203 m. Block face, kiln, scaffold staging and the haul gate. The stockade scaffold family is placed per its own snap logic: matched base and top side counts, bridges between decks, ramps and stairs to climb."
+   }
+  ],
+  "routes": [
+   {
+    "id": "route.mazzatun.haul",
+    "kind": "haul-road",
+    "points": [
+     [
+      0.284803,
+      0.176578
+     ],
+     [
+      0.27965,
+      0.178748
+     ],
+     [
+      0.275852,
+      0.181189
+     ],
+     [
+      0.273683,
+      0.182817
+     ]
+    ],
+    "widthM": 3.0
+   }
+  ],
+  "canals": [
+   {
+    "id": "canal.mazzatun.conduit",
+    "kind": "sap-conduit",
+    "points": [
+     [
+      0.280735,
+      0.181867
+     ],
+     [
+      0.277751,
+      0.181867
+     ],
+     [
+      0.27531,
+      0.181867
+     ],
+     [
+      0.273683,
+      0.182003
+     ],
+     [
+      0.271784,
+      0.182274
+     ],
+     [
+      0.269885,
+      0.181732
+     ]
+    ],
+    "widthM": 1.2
+   }
+  ],
+  "boardwalks": [
+   {
+    "id": "boardwalk.mazzatun.spine",
+    "kind": "causeway",
+    "points": [
+     [
+      0.264732,
+      0.182274
+     ],
+     [
+      0.267444,
+      0.182139
+     ],
+     [
+      0.270156,
+      0.182139
+     ],
+     [
+      0.272869,
+      0.18241
+     ]
+    ],
+    "widthM": 2.5
+   },
+   {
+    "id": "boardwalk.mazzatun.pen-path",
+    "kind": "path",
+    "points": [
+     [
+      0.267715,
+      0.180511
+     ],
+     [
+      0.268258,
+      0.181189
+     ],
+     [
+      0.269071,
+      0.181867
+     ]
+    ],
+    "widthM": 1.6
+   }
+  ],
+  "parcels": [
+   {
+    "id": "parcel.mazzatun.conduit-column",
+    "districtId": "district.mazzatun.works",
+    "use": "conduit",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.271298,
+      0.18206
+     ],
+     [
+      0.271998,
+      0.18206
+     ],
+     [
+      0.271998,
+      0.18276
+     ],
+     [
+      0.271298,
+      0.18276
+     ]
+    ],
+    "notes": "measured Δ 1.14 m across a 5.2 × 5.2 m footprint at 202.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.conduit-pillar",
+    "districtId": "district.mazzatun.works",
+    "use": "conduit",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.273227,
+      0.181819
+     ],
+     [
+      0.273596,
+      0.181819
+     ],
+     [
+      0.273596,
+      0.182187
+     ],
+     [
+      0.273227,
+      0.182187
+     ]
+    ],
+    "notes": "measured Δ 0.91 m across a 2.7 × 2.7 m footprint at 198.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.course-e1",
+    "districtId": "district.mazzatun.works",
+    "use": "under-construction",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.272036,
+      0.180584
+     ],
+     [
+      0.273159,
+      0.180584
+     ],
+     [
+      0.273159,
+      0.180981
+     ],
+     [
+      0.272036,
+      0.180981
+     ]
+    ],
+    "notes": "measured Δ 3.54 m across a 8.3 × 2.9 m footprint at 202.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.course-n1",
+    "districtId": "district.mazzatun.works",
+    "use": "under-construction",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.267154,
+      0.180584
+     ],
+     [
+      0.268277,
+      0.180584
+     ],
+     [
+      0.268277,
+      0.180981
+     ],
+     [
+      0.267154,
+      0.180981
+     ]
+    ],
+    "notes": "measured Δ 1.64 m across a 8.3 × 2.9 m footprint at 206.0 m"
+   },
+   {
+    "id": "parcel.mazzatun.course-n2",
+    "districtId": "district.mazzatun.works",
+    "use": "under-construction",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.264737,
+      0.181072
+     ],
+     [
+      0.265811,
+      0.181072
+     ],
+     [
+      0.265811,
+      0.18212
+     ],
+     [
+      0.264737,
+      0.18212
+     ]
+    ],
+    "notes": "measured Δ 1.77 m across a 7.9 × 7.7 m footprint at 203.0 m"
+   },
+   {
+    "id": "parcel.mazzatun.course-w1",
+    "districtId": "district.mazzatun.works",
+    "use": "under-construction",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.263628,
+      0.181533
+     ],
+     [
+      0.264751,
+      0.181533
+     ],
+     [
+      0.264751,
+      0.18193
+     ],
+     [
+      0.263628,
+      0.18193
+     ]
+    ],
+    "notes": "measured Δ 2.51 m across a 8.3 × 2.9 m footprint at 203.9 m"
+   },
+   {
+    "id": "parcel.mazzatun.cutting-floor",
+    "districtId": "district.mazzatun.staging",
+    "use": "quarry",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:dungeons/mines/ore/mineoreiron01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.268248,
+      0.183066
+     ],
+     [
+      0.269353,
+      0.183066
+     ],
+     [
+      0.269353,
+      0.184195
+     ],
+     [
+      0.268248,
+      0.184195
+     ]
+    ],
+    "notes": "measured Δ 2.33 m across a 8.2 × 8.3 m footprint at 199.0 m"
+   },
+   {
+    "id": "parcel.mazzatun.gate-frontage",
+    "districtId": "district.mazzatun.works",
+    "use": "frontage",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuewall01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.265951,
+      0.181216
+     ],
+     [
+      0.267852,
+      0.181216
+     ],
+     [
+      0.267852,
+      0.181705
+     ],
+     [
+      0.265951,
+      0.181705
+     ]
+    ],
+    "notes": "measured Δ 1.95 m across a 14.0 × 3.6 m footprint at 203.3 m"
+   },
+   {
+    "id": "parcel.mazzatun.great-stair",
+    "districtId": "district.mazzatun.works",
+    "use": "stair",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairsside01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.268427,
+      0.18052
+     ],
+     [
+      0.269174,
+      0.18052
+     ],
+     [
+      0.269174,
+      0.182401
+     ],
+     [
+      0.268427,
+      0.182401
+     ]
+    ],
+    "notes": "measured Δ 3.22 m across a 5.5 × 13.9 m footprint at 203.6 m"
+   },
+   {
+    "id": "parcel.mazzatun.half-cut-blocks",
+    "districtId": "district.mazzatun.works",
+    "use": "evidence",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.265006,
+      0.182162
+     ],
+     [
+      0.268254,
+      0.182162
+     ],
+     [
+      0.268254,
+      0.182929
+     ],
+     [
+      0.265006,
+      0.182929
+     ]
+    ],
+    "notes": "measured Δ 3.63 m across a 23.9 × 5.7 m footprint at 201.4 m"
+   },
+   {
+    "id": "parcel.mazzatun.haul-cart",
+    "districtId": "district.mazzatun.staging",
+    "use": "haulage",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/carts/handcart01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.271626,
+      0.183955
+     ],
+     [
+      0.271942,
+      0.183955
+     ],
+     [
+      0.271942,
+      0.184391
+     ],
+     [
+      0.271626,
+      0.184391
+     ]
+    ],
+    "notes": "measured Δ 1.06 m across a 2.3 × 3.2 m footprint at 196.6 m"
+   },
+   {
+    "id": "parcel.mazzatun.haul-gate",
+    "districtId": "district.mazzatun.staging",
+    "use": "gate",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.270435,
+      0.183076
+     ],
+     [
+      0.27259,
+      0.183076
+     ],
+     [
+      0.27259,
+      0.183914
+     ],
+     [
+      0.270435,
+      0.183914
+     ]
+    ],
+    "notes": "measured Δ 2.21 m across a 15.9 × 6.2 m footprint at 199.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.hoist",
+    "districtId": "district.mazzatun.staging",
+    "use": "hoist",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.266854,
+      0.18398
+     ],
+     [
+      0.267491,
+      0.18398
+     ],
+     [
+      0.267491,
+      0.184637
+     ],
+     [
+      0.266854,
+      0.184637
+     ]
+    ],
+    "notes": "measured Δ 1.72 m across a 4.7 × 4.8 m footprint at 204.4 m"
+   },
+   {
+    "id": "parcel.mazzatun.kiln",
+    "districtId": "district.mazzatun.staging",
+    "use": "kiln",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/smelter/smelter01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.269525,
+      0.182489
+     ],
+     [
+      0.270245,
+      0.182489
+     ],
+     [
+      0.270245,
+      0.183415
+     ],
+     [
+      0.269525,
+      0.183415
+     ]
+    ],
+    "notes": "measured Δ 1.57 m across a 5.3 × 6.8 m footprint at 200.2 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-a",
+    "districtId": "district.mazzatun.pens",
+    "use": "pen",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.266838,
+      0.179191
+     ],
+     [
+      0.267778,
+      0.179191
+     ],
+     [
+      0.267778,
+      0.180204
+     ],
+     [
+      0.266838,
+      0.180204
+     ]
+    ],
+    "notes": "measured Δ 1.94 m across a 6.9 × 7.5 m footprint at 207.9 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-b",
+    "districtId": "district.mazzatun.pens",
+    "use": "pen",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.26928,
+      0.179598
+     ],
+     [
+      0.270219,
+      0.179598
+     ],
+     [
+      0.270219,
+      0.180611
+     ],
+     [
+      0.26928,
+      0.180611
+     ]
+    ],
+    "notes": "measured Δ 1.78 m across a 6.9 × 7.5 m footprint at 205.9 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-c",
+    "districtId": "district.mazzatun.pens",
+    "use": "pen",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.270229,
+      0.179191
+     ],
+     [
+      0.271169,
+      0.179191
+     ],
+     [
+      0.271169,
+      0.180204
+     ],
+     [
+      0.270229,
+      0.180204
+     ]
+    ],
+    "notes": "measured Δ 4.57 m across a 6.9 × 7.5 m footprint at 206.7 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-fence",
+    "districtId": "district.mazzatun.pens",
+    "use": "fence",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.26971,
+      0.179474
+     ],
+     [
+      0.27006,
+      0.179474
+     ],
+     [
+      0.27006,
+      0.179649
+     ],
+     [
+      0.26971,
+      0.179649
+     ]
+    ],
+    "notes": "measured Δ 1.71 m across a 2.6 × 1.3 m footprint at 207.2 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-oven",
+    "districtId": "district.mazzatun.pens",
+    "use": "work",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/carapaceoven",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.267412,
+      0.180154
+     ],
+     [
+      0.268018,
+      0.180154
+     ],
+     [
+      0.268018,
+      0.180597
+     ],
+     [
+      0.267412,
+      0.180597
+     ]
+    ],
+    "notes": "measured Δ 1.16 m across a 4.5 × 3.3 m footprint at 207.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.pen-rack",
+    "districtId": "district.mazzatun.pens",
+    "use": "work",
+    "buildingFamily": "argonian-mud-shell",
+    "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.265038,
+      0.179721
+     ],
+     [
+      0.26551,
+      0.179721
+     ],
+     [
+      0.26551,
+      0.180216
+     ],
+     [
+      0.265038,
+      0.180216
+     ]
+    ],
+    "notes": "measured Δ 1.31 m across a 3.5 × 3.6 m footprint at 206.8 m"
+   },
+   {
+    "id": "parcel.mazzatun.scaffold-a",
+    "districtId": "district.mazzatun.staging",
+    "use": "scaffold",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.265498,
+      0.183573
+     ],
+     [
+      0.266135,
+      0.183573
+     ],
+     [
+      0.266135,
+      0.18423
+     ],
+     [
+      0.265498,
+      0.18423
+     ]
+    ],
+    "notes": "measured Δ 1.29 m across a 4.7 × 4.8 m footprint at 205.1 m"
+   },
+   {
+    "id": "parcel.mazzatun.scaffold-b",
+    "districtId": "district.mazzatun.staging",
+    "use": "scaffold",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.270923,
+      0.18398
+     ],
+     [
+      0.27156,
+      0.18398
+     ],
+     [
+      0.27156,
+      0.184637
+     ],
+     [
+      0.270923,
+      0.184637
+     ]
+    ],
+    "notes": "measured Δ 1.35 m across a 4.7 × 4.8 m footprint at 197.6 m"
+   },
+   {
+    "id": "parcel.mazzatun.scaffold-c",
+    "districtId": "district.mazzatun.staging",
+    "use": "scaffold",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase2sided01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.267668,
+      0.182895
+     ],
+     [
+      0.268305,
+      0.182895
+     ],
+     [
+      0.268305,
+      0.183552
+     ],
+     [
+      0.267668,
+      0.183552
+     ]
+    ],
+    "notes": "measured Δ 1.87 m across a 4.7 × 4.8 m footprint at 199.4 m"
+   },
+   {
+    "id": "parcel.mazzatun.scaffold-stair",
+    "districtId": "district.mazzatun.staging",
+    "use": "scaffold",
+    "buildingFamily": "works-staging",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.269303,
+      0.183464
+     ],
+     [
+      0.269924,
+      0.183464
+     ],
+     [
+      0.269924,
+      0.184068
+     ],
+     [
+      0.269303,
+      0.184068
+     ]
+    ],
+    "notes": "measured Δ 1.04 m across a 4.6 × 4.5 m footprint at 198.6 m"
+   },
+   {
+    "id": "parcel.mazzatun.stair-throat",
+    "districtId": "district.mazzatun.works",
+    "use": "entrance",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
+    "groundFit": "pad",
+    "footprint": [
+     [
+      0.269299,
+      0.180761
+     ],
+     [
+      0.269929,
+      0.180761
+     ],
+     [
+      0.269929,
+      0.181888
+     ],
+     [
+      0.269299,
+      0.181888
+     ]
+    ],
+    "notes": "measured Δ 1.91 m across a 4.6 × 8.3 m footprint at 204.4 m"
+   },
+   {
+    "id": "parcel.mazzatun.statue-court",
+    "districtId": "district.mazzatun.works",
+    "use": "ritual",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.270236,
+      0.180184
+     ],
+     [
+      0.271976,
+      0.180184
+     ],
+     [
+      0.271976,
+      0.181924
+     ],
+     [
+      0.270236,
+      0.181924
+     ]
+    ],
+    "notes": "measured Δ 2.18 m across a 12.8 × 12.8 m footprint at 204.4 m"
+   },
+   {
+    "id": "parcel.mazzatun.terrace-wall-a",
+    "districtId": "district.mazzatun.works",
+    "use": "retaining",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.265724,
+      0.180011
+     ],
+     [
+      0.266723,
+      0.180011
+     ],
+     [
+      0.266723,
+      0.181011
+     ],
+     [
+      0.265724,
+      0.181011
+     ]
+    ],
+    "notes": "measured Δ 2.39 m across a 7.4 × 7.4 m footprint at 205.0 m"
+   },
+   {
+    "id": "parcel.mazzatun.terrace-wall-c",
+    "districtId": "district.mazzatun.works",
+    "use": "retaining",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.270199,
+      0.18191
+     ],
+     [
+      0.271199,
+      0.18191
+     ],
+     [
+      0.271199,
+      0.18291
+     ],
+     [
+      0.270199,
+      0.18291
+     ]
+    ],
+    "notes": "measured Δ 2.09 m across a 7.4 × 7.4 m footprint at 202.2 m"
+   },
+   {
+    "id": "parcel.mazzatun.tower",
+    "districtId": "district.mazzatun.works",
+    "use": "watch",
+    "buildingFamily": "xanmeer-stone-course",
+    "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/artower01",
+    "groundFit": "dug-in",
+    "footprint": [
+     [
+      0.27195,
+      0.181491
+     ],
+     [
+      0.272974,
+      0.181491
+     ],
+     [
+      0.272974,
+      0.182515
+     ],
+     [
+      0.27195,
+      0.182515
+     ]
+    ],
+    "notes": "measured Δ 2.54 m across a 7.5 × 7.5 m footprint at 202.6 m"
+   }
+  ],
+  "landmarks": [
+   {
+    "id": "landmark.mazzatun.hist",
+    "kind": "hist-tree",
+    "position": [
+     0.280735,
+     0.181827
+    ],
+    "assetRef": "flora.hist.tsono-xuhil",
+    "notes": "Tsono-Xuhil, its own catalogue record (place.dunmer-north.mazzatun-hist), 85 m east and 55 m below the shelf. Never cleared, never built on, referenced here because the conduits start at it."
+   },
+   {
+    "id": "landmark.mazzatun.conduit-head",
+    "kind": "conduit-head",
+    "position": [
+     0.273411,
+     0.182003
+    ],
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
+    "notes": "Where the amber run crests the escarpment lip and turns into the works. The signature feature's readable point."
+   }
+  ],
+  "combatSpaces": [
+   {
+    "id": "combat.mazzatun.plaza",
+    "boundary": [
+     [
+      0.267986,
+      0.18146
+     ],
+     [
+      0.271241,
+      0.18146
+     ],
+     [
+      0.271241,
+      0.182817
+     ],
+     [
+      0.267986,
+      0.182817
+     ]
+    ],
+    "clearanceClass": "open"
+   },
+   {
+    "id": "combat.mazzatun.yard",
+    "boundary": [
+     [
+      0.268258,
+      0.182952
+     ],
+     [
+      0.272598,
+      0.182952
+     ],
+     [
+      0.272598,
+      0.184309
+     ],
+     [
+      0.268258,
+      0.184309
+     ]
+    ],
+    "clearanceClass": "cluttered"
+   },
+   {
+    "id": "combat.mazzatun.pens",
+    "boundary": [
+     [
+      0.265817,
+      0.179019
+     ],
+     [
+      0.271241,
+      0.179019
+     ],
+     [
+      0.271241,
+      0.180376
+     ],
+     [
+      0.265817,
+      0.180376
+     ]
+    ],
+    "clearanceClass": "open"
+   }
+  ],
+  "questSockets": [
+   {
+    "id": "socket.mazzatun.conduit-room",
+    "kind": "scene",
+    "position": [
+     0.269614,
+     0.181325
+    ],
+    "parcelId": "parcel.mazzatun.stair-throat",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.half-cut-blocks",
+    "kind": "evidence",
+    "position": [
+     0.26663,
+     0.182545
+    ],
+    "parcelId": "parcel.mazzatun.half-cut-blocks",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.shaper",
+    "kind": "station",
+    "position": [
+     0.272462,
+     0.182003
+    ],
+    "parcelId": "parcel.mazzatun.tower",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.xit-xaht-mark",
+    "kind": "mark",
+    "position": [
+     0.271106,
+     0.181054
+    ],
+    "parcelId": "parcel.mazzatun.statue-court",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.carver",
+    "kind": "npc",
+    "position": [
+     0.2688,
+     0.18363
+    ],
+    "parcelId": "parcel.mazzatun.cutting-floor",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.walkway-keeper",
+    "kind": "npc",
+    "position": [
+     0.269614,
+     0.183766
+    ],
+    "parcelId": "parcel.mazzatun.scaffold-stair",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.conduit-head",
+    "kind": "encounter",
+    "position": [
+     0.273411,
+     0.182003
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.mazzatun.hist-overlook",
+    "kind": "mark",
+    "position": [
+     0.273411,
+     0.182545
+    ],
+    "ownerQuestTier": 3
+   }
+  ],
+  "doors": [
+   {
+    "id": "door.dunmer-north.mazzatun.1",
+    "parcelId": "parcel.mazzatun.stair-throat",
+    "facingDeg": 180,
+    "thresholdUV": [
+     0.269614,
+     0.181325
+    ],
+    "interiorClaim": {
+     "sizeClass": "large",
+     "culture": "argonian",
+     "owner": "faction.xit-xaht"
+    }
+   }
+  ],
+  "clearance": {
+   "hardClear": [
+    [
+     [
+      0.264189,
+      0.178748
+     ],
+     [
+      0.273683,
+      0.178748
+     ],
+     [
+      0.273683,
+      0.184444
+     ],
+     [
+      0.264189,
+      0.184444
+     ]
+    ]
+   ],
+   "thinned": [
+    [
+     [
+      0.262833,
+      0.177121
+     ],
+     [
+      0.275039,
+      0.177121
+     ],
+     [
+      0.275039,
+      0.1858
+     ],
+     [
+      0.262833,
+      0.1858
+     ]
+    ]
+   ],
+   "kept": [
+    {
+     "id": "kept.mazzatun.hist",
+     "kind": "hist-tree",
+     "position": [
+      0.280735,
+      0.181827
+     ]
+    },
+    {
+     "id": "kept.mazzatun.shade-w",
+     "kind": "shade",
+     "position": [
+      0.26446,
+      0.183359
+     ]
+    },
+    {
+     "id": "kept.mazzatun.reeds-s",
+     "kind": "reed-bed",
+     "position": [
+      0.270699,
+      0.184444
+     ]
+    }
+   ]
+  },
+  "variants": [
+   {
+    "id": "variant.mazzatun.night-shift",
+    "changedRefs": [
+     "parcel.mazzatun.scaffold-a",
+     "parcel.mazzatun.scaffold-b",
+     "parcel.mazzatun.scaffold-c",
+     "parcel.mazzatun.kiln"
+    ],
+    "serviceOverrides": {
+     "socket.mazzatun.shaper": "absent"
+    },
+    "ambience": "night-shift"
+   },
+   {
+    "id": "variant.mazzatun.rite-refused",
+    "changedRefs": [
+     "parcel.mazzatun.statue-court",
+     "parcel.mazzatun.tower",
+     "parcel.mazzatun.haul-gate"
+    ],
+    "serviceOverrides": {
+     "socket.mazzatun.shaper": "hostile"
+    },
+    "ambience": "alarmed"
+   }
+  ],
+  "occupants": [
+   {
+    "slotId": "o.shaper",
+    "ladderRef": "formidable-d4 shaper",
+    "cultureRole": "Xit-Xaht shaper who directs the building",
+    "ownerFaction": "faction.xit-xaht"
+   },
+   {
+    "slotId": "o.builder-1",
+    "ladderRef": "capable-d3 builder",
+    "cultureRole": "Xit-Xaht stone-cutter",
+    "ownerFaction": "faction.xit-xaht"
+   },
+   {
+    "slotId": "o.builder-2",
+    "ladderRef": "capable-d3 builder",
+    "cultureRole": "Xit-Xaht course-setter",
+    "ownerFaction": "faction.xit-xaht"
+   },
+   {
+    "slotId": "o.carver",
+    "ladderRef": "capable-d3 carver",
+    "cultureRole": "the carver who argues that stone remembers better than sap",
+    "ownerFaction": "faction.xit-xaht"
+   },
+   {
+    "slotId": "o.labourer-1",
+    "ladderRef": "modest-d3 sap-driven labourer",
+    "cultureRole": "taken labourer"
+   },
+   {
+    "slotId": "o.labourer-2",
+    "ladderRef": "modest-d3 sap-driven labourer",
+    "cultureRole": "taken labourer"
+   },
+   {
+    "slotId": "o.keeper",
+    "ladderRef": "modest-d3 walkway keeper",
+    "cultureRole": "the keeper whose route knowledge exists nowhere else"
+   }
+  ],
+  "assetConstraints": [
+   "argonian-stone only in d.works; the two authors in ruin-monumental-v1 (IGS Ayleid blocks/stairs, Here There Be Monsters xanmeer walls/pillars) occupy separate parcels and never abut",
+   "neutral-works only in d.staging; the stockade scaffold family follows works-v1 snapLogic (matched base/top side counts, bridge01/02 between decks, ramp01 or stairs01 to climb)",
+   "argonian-mud only in d.pens; no stone piece may be placed there, because the taken labourers are not Xit-Xaht",
+   "no settlement-stilt or docks piece anywhere: the shelf has no navigable water"
+  ],
+  "ownership": {
+   "socket.mazzatun.half-cut-blocks": {
+    "ownerFaction": "faction.xit-xaht",
+    "valueTier": "modest"
+   },
+   "socket.mazzatun.shaper": {
+    "ownerFaction": "faction.xit-xaht",
+    "valueTier": "rich"
+   }
+  },
+  "provision": {
+   "questIds": [
+    "quest.local.lv26",
+    "quest.local.lv28",
+    "quest.local.lv29",
+    "quest.local.lv30"
+   ],
+   "requiredSockets": [
+    "socket.mazzatun.conduit-room",
+    "socket.mazzatun.half-cut-blocks",
+    "socket.mazzatun.shaper",
+    "socket.mazzatun.xit-xaht-mark",
+    "socket.mazzatun.carver",
+    "socket.mazzatun.walkway-keeper"
+   ],
+   "tierOwnership": "LV28 tier-3; LV29 tier-3; LV30 tier-3; LV26 anchored on the sibling Hist record; tier-0 protected"
+  },
+  "budget": {
+   "maxInstances": 80,
+   "maxUniqueMaterials": 60,
+   "maxTextureMB": 128,
+   "maxColliders": 80
+  }
+ }
+}

@@ -1,5 +1,13 @@
 # Phase 11 Part 5 — exemplar proposal (for the owner to pick, 2026-09-04)
 
+> **DECIDED 2026-09-04 (owner ruling + agent pick): superseded.** The owner
+> ruled that exemplars must sit inside the areas Phase 10 already vegetated,
+> so one area carries every system before rollout. Alten Corimont is not in
+> a vegetated chunk. The set chosen is **Lilmoth** (city), **Nine-Trunks**,
+> **Mazzatun**, **The Standing Charge** and **The Licensed Stage** — record
+> and reasons in [decision 0041 § Part 5 decision](../decisions/0041-phase11-settlement-decisions.md).
+> The tables below are kept as the reasoning trail only.
+
 Decision 0041 Part 5: propose **one city plus a few contrasting places**
 spanning scale, culture, region class, danger and kit, including at least one
 small type, because most of the province is small. The owner approves the set;
