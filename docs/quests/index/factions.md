@@ -80,7 +80,7 @@ Native tradition against a foreign chartered defence.
 | FG06 | Mercy for a Monster | imperial-fringe | `CONTAMINATION`, `DISPUTE` | An Argonian transformed by disease keeps reason intermittently, so cure, containment and execution are all argued | — | live |
 | FG07 | The Price of Protection | imperial-fringe | `PREDATOR`, `FRAUD` | Local officers encourage bandits to keep villages dependent on charter contracts | `imperial-fringe.the-broke-column` | live |
 | FG08 | Charter War | imperial-fringe | `NEGOTIATION`, `DISPUTE` | Reformers, mercenary captains and the Four Winds compete over what the Charter is for | `imperial-fringe.stonewastes` | live |
-| FG09 | The Contract No One Signed | imperial-fringe | `DISPUTE`, `FRAUD` | An extermination order targets a marsh community that requested nothing, because the client wants its water | — | live |
+| FG09 | Signed Elsewhere, Served Here | imperial-fringe | `DISPUTE`, `FRAUD` | An extermination order targets a marsh community for sitting on water the client wants; Halvar the Damp reads the order aloud before he signs it | — | live |
 | FG10 | No Master of Arms | imperial-fringe | `SUCCESSION`, `NEGOTIATION` | The charter resolves as public service, mercenary company, auxiliary or broken cartel | — | live |
 
 ## Night-Reed (TG)
@@ -108,7 +108,7 @@ Plural belief set against dogma.
 | ID | Title | Region | Shapes | Premise | Anchor places | Status |
 |---|---|---|---|---|---|---|
 | NI01 | Ashes in Water | mercantile-coast | `DISPUTE`, `RITE` | Two families dispute the correct funeral for someone who lived outside their birth community | `mercantile-coast.necropolis-village-murkmire` | live |
-| NI02 | A Sermon with No Words | mercantile-coast | `WONDER`, `RITE` | A silent Nisswo explains nothing, so the day must be copied before it is understood | — | live |
+| NI02 | A Sermon with No Words | mercantile-coast | `WONDER`, `RITE` | A Nisswo keeping silence answers in gesture, so the day must be copied movement by movement before it is understood | — | live |
 | NI03 | The Name Returned | mercantile-coast | `FRAUD`, `SUCCESSION` | A dead person's name is claiming property, so the spiritual dispute hides a practical fraud | — | live |
 | NI04 | The Sleepless Mourner | mercantile-coast | `HAUNTING`, `RITE` | A mourner's dreams read as grief, as haunting, or as a healer's manipulation | — | live |
 | NI05 | Teeth of Sithis | mercantile-coast | `RITE`, `RECKONING` | A splinter sect wants the province's largest Sithis temple returned to blood | `mercantile-coast.teeth-of-sithis` | live |
@@ -135,7 +135,7 @@ Routes, labour and monopoly; the Salt-Teeth pirate branch (ST) sits inside this 
 | RS09 | Compact or Cartel | mercantile-coast | `RECKONING`, `SUCCESSION` | Violence forces an internal election, so method decides which votes stay legitimate | — | live |
 | RS10 | Open Channels | mercantile-coast | `SUCCESSION`, `NEGOTIATION` | Worker compact, merchant cartel, pirate confederation or regulated public ferry | — | live |
 | ST01 | A Flag with No Ship | mercantile-coast | `THEFT`, `FRAUD` | The crew whose flag was stolen is the crew already crossed at Topal | — | concept |
-| ST02 | The Honest Prize | mercantile-coast | `DISPUTE`, `THEFT` | A prize taken cleanly still has owners, passengers and a cargo nobody will claim | — | concept |
+| ST02 | The Honest Prize | mercantile-coast | `DISPUTE`, `THEFT` | A prize taken cleanly still carries passengers home; the hold holds cargo its owner declines to claim | — | concept |
 | ST03 | Mutiny at Low Tide | mercantile-coast | `SUCCESSION`, `RECKONING` | Who leads the crew into the Compact's election is settled on a mud bank at low tide | — | concept |
 | ST04 | Black Sails at Soulrest | mercantile-coast | `NEGOTIATION`, `SMUGGLING` | A pirate confederation opens talks with Soulrest; needs somebody neither side trusts | `mercantile-coast.soulrest` | concept |
 
@@ -160,7 +160,7 @@ An order with three bidders and no issuing authority.
 | SS01 | Last of the Scale | saxhleel-coast | `SUCCESSION`, `MISSING` | A dying contract-killer claims to be the last trained Shadowscale, then asks for the list of surviving initiates | `saxhleel-coast.archon-shadowscale-sanctuary` | live |
 | SS02 | Writ Without a King | saxhleel-coast | `RECKONING`, `NEGOTIATION` | The first test is a writ whose issuing authority no longer exists, if it ever did | — | live |
 | SS03 | The Empty Cradle | dunmer-north | `BONDAGE`, `MISSING` | A ruined hatchery's records show children redirected into state service; one survivor denies consenting | `dunmer-north.murkwater-shadowscale-ground` | live |
-| SS04 | Born Under Shadow | saxhleel-coast | `DISPUTE`, `SUCCESSION` | Rival revivalists claim an adult born under the Shadow, whose birth sign settles nothing | — | live |
+| SS04 | Born Under Shadow | saxhleel-coast | `DISPUTE`, `SUCCESSION` | Three revivalist claimants want Iiran-Vekh for his birth sign; he wants to build boats | — | live |
 | SS05 | A Brother from Falkreath | saxhleel-coast | `NEGOTIATION`, `FRAUD` | A Dark Brotherhood emissary offers legitimacy in exchange for absorption | — | live |
 | SS06 | The Honest Target | imperial-fringe | `FRAUD`, `MURDER` | A contract names a corrupt magistrate, but the patron is erasing a conviction | `imperial-fringe.gideon` | live |
 | SS07 | Two Knives, One Name | saxhleel-coast | `MURDER`, `RECKONING` | Two assassins share one Shadowscale title, so authenticity and innocence come apart | — | live |

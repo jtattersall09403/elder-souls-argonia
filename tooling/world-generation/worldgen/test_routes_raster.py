@@ -38,7 +38,7 @@ def test_every_route_kind_clears_a_corridor(tmp_path):
     trunk, ground = corridor_masks((200, 200), 3, province=province)
     assert trunk[75, 30] and trunk[75, 90] and trunk[75, 150]
     assert ground[75, 30]                      # track thins groundcover
-    assert not ground[75, 90]                  # footpath does not
+    assert ground[75, 90]                      # footpath too (owner 2026-09-04: paths cut through the growth)
     assert trunk.sum() > ground.sum()
 
 

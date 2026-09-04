@@ -104,8 +104,8 @@ so how a place is *named* and what its people *talk about* stay in agreement.
 | `saxhleel-coast` | Practical advice given imperatively; verb-clause place names used unselfconsciously | Tide, catch, wrecks, passage, safety on water | Grandeur — the coast is competent, not mystical |
 | `mercantile-coast` | Transactional euphemism: difficult things become *business*, an *accommodation*, "a... trivial matter" (**Morrowind:Odral Helvi**). Prices in **drakes**. Two naming systems side by side. The seam is audible | Cargo, licence, who is late paying, whose quarter is whose | Open threats — a mercantile threat is a scheduling problem |
 | `pirate-freeholds` | The shortest thing that can be shouted across water. Elision and contraction; mixed-crew loan-slurs. **Criminality by omission** — what is not said is the characterisation | Weather, shares, the next hull, who is ashore | Ceremony, long sentences, "arr" |
-| `imperial-penal-south` | **The manual page in a mouth**: procedure recited flatly, including when monstrous — *"Outlaws have no rights, and may be killed without scandal or sanction."* (**Morrowind:Dumbuk gro-Bolak**). Deniability as a genre (**Morrowind:Larrius Varro**). Passive voice and nominalisation are permitted **here and nowhere else** | The ledger, the Owing, sentences, transfers, what the paperwork will bear | Everyone being straightforwardly villainous; several must be decent people running a bad instrument |
-| `imperial-fringe` | Modern speech: contractions, sarcasm, rhetorical questions, moral commentary on native custom that **the game does not correct** (**Morrowind:Eldafire**). Chivalric vocabulary for the soldiery, kept plain (**Morrowind:Varus Vantinius**) | Harvest, roads, the border, whether any of this was worth it | Every colonial being a bigot; anyone knowing more about the Hist than the player |
+| `imperial-penal-south` | **The manual page in a mouth**: procedure recited flatly, including when monstrous — *"Outlaws have no rights, and may be killed without scandal or sanction."* (**Morrowind:Dumbuk gro-Bolak**). Deniability as a genre (**Morrowind:Larrius Varro**). Passive voice and nominalisation are permitted **here and nowhere else** | The ledger, the Owing, sentences, transfers, what the paperwork will bear | Officers written as straightforwardly villainous; several must be decent people running a bad instrument |
+| `imperial-fringe` | Modern speech: contractions, sarcasm, rhetorical questions, moral commentary on native custom that **the game does not correct** (**Morrowind:Eldafire**). Chivalric vocabulary for the soldiery, kept plain (**Morrowind:Varus Vantinius**) | Harvest, roads, the border, whether any of this was worth it | Colonials written uniformly as bigots; a settler who knows more about the Hist than the player |
 | `dunmer-north` | Two modes in one zone. **Redoran**: full sentences, abstract nouns, contempt delivered formally (**Morrowind:Bolvyn Venim**). **Telvanni**: fast, elliptical, fragmentary, amoral because power is assumed (**Morrowind:Divayth Fyr**, **Morrowind:Aryon**) | Plantation, ash, lineage, the crystal trade, the war two centuries back | Treating residents as visiting Morrowind Dunmer — two centuries without an Empire happened to them too |
 
 ---
@@ -143,17 +143,17 @@ Same market in Thorn, different races:
 | Speaker | Resulting line |
 |---|---|
 | **Argonian stallholder** (marsh-raised, no faction) | "I extend the claw of welcome. The eels came up short this tide. Two of them are yours for the price of one. Stay moist." |
-| **Dunmer counting-house clerk** (Thorn-born, third generation, EEC) | "Sera. Short tide, short ledger. The Company will want it written that way regardless. You will find nobody here calls it the Accession quarter but the Company." |
+| **Dunmer counting-house clerk** (Thorn-born, third generation, EEC) | "Sera. Short tide, short ledger. The Company will want it written that way regardless. That name lives in Company ledgers; the stalls use the old one." |
 
 Note what the second speaker does *not* do: she has no Morrowind nostalgia; her
-Jel is better than her Dunmeris (36-cast, Dravyna Andalen). *Sera* is the only
-Dunmer thing left in the line.
+Jel is better than her Dunmeris (36-cast, Dravyna Andalen). *Sera* is what remains of
+Dunmer in the line.
 
 ---
 
 ## 6. The convergence test
 
-The failure this document exists to prevent is **everyone growing one
+The failure this document exists to prevent is **the whole province growing one
 voice** — historically, the Argonian one, because the province is
 Argonian-majority and the register file used to assume it. At every phase wrap
 the reviewer reads the phase's dialogue with speaker IDs hidden and sorts it by

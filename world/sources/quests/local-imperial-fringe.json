@@ -180,7 +180,7 @@
         "place.imperial-fringe.castle-giovesse",
         "place.imperial-fringe.gideon"
       ],
-      "premise": "Something in the ducal ruin repeats the last week of a siege, in order, for anyone who sleeps within the lines",
+      "premise": "Something in the ducal ruin repeats the last week of a siege, in order, for a traveller who beds down inside the lines",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -588,7 +588,7 @@
         "place.imperial-fringe.the-borrowed-house",
         "place.imperial-fringe.the-turned-out"
       ],
-      "premise": "An evicted household camped in sight of its old fields has a title deed nobody will read",
+      "premise": "An evicted household camped in sight of its old fields has a title deed the estate steward will not read",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -725,7 +725,7 @@
         "place.imperial-fringe.the-cordon-stones",
         "place.imperial-fringe.the-old-quarters"
       ],
-      "premise": "A plague cordon nobody has lifted still turns travellers back, though the stones are the ones speaking",
+      "premise": "A plague cordon unlifted in three hundred years still turns travellers back, though the stones are the ones speaking",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -861,7 +861,7 @@
         "place.imperial-fringe.gideon",
         "place.imperial-fringe.the-empty-steading"
       ],
-      "premise": "A river steading whose family left for Leyawiin can be claimed by anyone who satisfies three separate offices",
+      "premise": "A river steading whose family left for Leyawiin goes to whoever satisfies three separate offices",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1832,7 +1832,7 @@
     {
       "id": "quest.local.lf69",
       "code": "LF69",
-      "title": "The Quarantine That Never Lifted",
+      "title": "The Quarantine That Stayed Shut",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,

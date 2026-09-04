@@ -379,7 +379,7 @@
     },
     {
       "id": "quest.fg.fg09",
-      "name": "The Contract No One Signed",
+      "name": "Signed Elsewhere, Served Here",
       "kind": "faction-quest",
       "status": "placeholder",
       "sources": [
@@ -801,7 +801,7 @@
     },
     {
       "id": "quest.local.ld11",
-      "name": "Nobody's Ledges",
+      "name": "Ledges Off the Rent Roll",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -988,7 +988,7 @@
     },
     {
       "id": "quest.local.ld22",
-      "name": "One Cellar Under All of It",
+      "name": "One Cellar Under the Holding",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1107,7 +1107,7 @@
     },
     {
       "id": "quest.local.ld29",
-      "name": "Good Ground Nobody Takes",
+      "name": "Good Ground Left Standing",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1192,7 +1192,7 @@
     },
     {
       "id": "quest.local.ld34",
-      "name": "A Boundary Nobody Has Walked",
+      "name": "A Boundary Unwalked in Forty Years",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1243,7 +1243,7 @@
     },
     {
       "id": "quest.local.ld37",
-      "name": "The House Nobody Enters",
+      "name": "The Shuttered House",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1362,7 +1362,7 @@
     },
     {
       "id": "quest.local.ld44",
-      "name": "A Cellar the Toll Never Saw",
+      "name": "A Cellar Under the Toll",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1549,7 +1549,7 @@
     },
     {
       "id": "quest.local.ld55",
-      "name": "The Rotation Nobody Owns",
+      "name": "The Rotation Without a Holder",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -1736,7 +1736,7 @@
     },
     {
       "id": "quest.local.ld66",
-      "name": "The Bench That Asks Nothing",
+      "name": "The Bench Outside the Guild",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -2110,7 +2110,7 @@
     },
     {
       "id": "quest.local.ld88",
-      "name": "The Rota Nobody Wrote Down",
+      "name": "The Unwritten Rota",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -2246,7 +2246,7 @@
     },
     {
       "id": "quest.local.ld96",
-      "name": "Nothing Left Alive to Bury",
+      "name": "The Records Outlive the Village",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -2297,7 +2297,7 @@
     },
     {
       "id": "quest.local.ld99",
-      "name": "The Only Winter Road",
+      "name": "The Winter Causeway",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -3470,7 +3470,7 @@
     },
     {
       "id": "quest.local.lf69",
-      "name": "The Quarantine That Never Lifted",
+      "name": "The Quarantine That Stayed Shut",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -3989,7 +3989,7 @@
     },
     {
       "id": "quest.local.lh10",
-      "name": "The Turn Nobody Took",
+      "name": "The Unstood Turn",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -5339,7 +5339,7 @@
     },
     {
       "id": "quest.local.lm23",
-      "name": "Cargo Nobody Claims",
+      "name": "Cargo Off the Ledger",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -5501,7 +5501,7 @@
     },
     {
       "id": "quest.local.lm32",
-      "name": "The Offices Administer Nothing",
+      "name": "Licences for a Burnt Hinterland",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -5951,7 +5951,7 @@
     },
     {
       "id": "quest.local.lm57",
-      "name": "The Stage That Was Never Paid",
+      "name": "The Stage That Was Not Paid",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -6023,7 +6023,7 @@
     },
     {
       "id": "quest.local.lm61",
-      "name": "Nobody Enjoys the Argument",
+      "name": "The Ration Argument Breaks Down",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -6095,7 +6095,7 @@
     },
     {
       "id": "quest.local.lm65",
-      "name": "Asks Nothing, Secures Less",
+      "name": "Asks No Questions, Secures Less",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -6473,7 +6473,7 @@
     },
     {
       "id": "quest.local.lm86",
-      "name": "A Dry Floor for Anyone",
+      "name": "A Dry Floor, No Questions",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -6707,7 +6707,7 @@
     },
     {
       "id": "quest.local.ln09",
-      "name": "The Field Nobody Bid For",
+      "name": "The Field Left Off the Bidding",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -6981,7 +6981,7 @@
     },
     {
       "id": "quest.local.lp09",
-      "name": "Nobody Ties Up at Slack Bend",
+      "name": "No Rope at Slack Bend",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -7994,7 +7994,7 @@
     },
     {
       "id": "quest.local.lr16",
-      "name": "Sockets for Nothing Living",
+      "name": "Sockets for a Larger Hand",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -8891,7 +8891,7 @@
     },
     {
       "id": "quest.local.lv04",
-      "name": "Everything Portable Is Gone",
+      "name": "What Could Not Be Carried",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -9146,7 +9146,7 @@
     },
     {
       "id": "quest.local.lv19",
-      "name": "Every Rumour on the Walkway",
+      "name": "Four Districts by Morning",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -9333,7 +9333,7 @@
     },
     {
       "id": "quest.local.lv30",
-      "name": "All of It in His Head",
+      "name": "The Route Is in His Head",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -9435,7 +9435,7 @@
     },
     {
       "id": "quest.local.lv36",
-      "name": "The Bell That Rings for Nothing",
+      "name": "The Bell Rings Nightly",
       "kind": "local-quest",
       "status": "placeholder",
       "sources": [
@@ -10698,7 +10698,7 @@
     },
     {
       "id": "quest.main.mq06",
-      "name": "The Jewel Nobody Has Seen",
+      "name": "The Jewel Described Six Ways",
       "kind": "main-quest",
       "status": "derived",
       "sources": [
@@ -11463,7 +11463,7 @@
     },
     {
       "id": "quest.proposed.pp06",
-      "name": "The Line Nobody Walked",
+      "name": "Forty Years on the Dres Line",
       "kind": "proposed-quest",
       "status": "placeholder",
       "sources": [

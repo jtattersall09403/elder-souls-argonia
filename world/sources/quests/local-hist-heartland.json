@@ -77,7 +77,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.rootworm-station-helstrom"
       ],
-      "premise": "One stage of the passenger register carries a paid fare against a name nobody boarded under",
+      "premise": "One stage of the passenger register carries a paid fare against a name the polers cannot place on any hull",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -188,7 +188,7 @@
         "place.hist-heartland.greenspring",
         "place.hist-heartland.helstrom"
       ],
-      "premise": "The city spring runs sour on a cycle the assembly declines to time where anyone can hear it",
+      "premise": "The city spring runs sour on a cycle the assembly declines to time in open session",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -257,7 +257,7 @@
     {
       "id": "quest.local.lh10",
       "code": "LH10",
-      "title": "The Turn Nobody Took",
+      "title": "The Unstood Turn",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -439,7 +439,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.standing-curiosity-unexplained"
       ],
-      "premise": "Nothing grows within two metres of the standing thing, which two of the four stories about it turn to profit",
+      "premise": "The ground stays bare two metres out from the standing thing; two of the four stories about it turn that to profit",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -741,7 +741,7 @@
         "place.hist-heartland.artisan-chime-makers",
         "place.hist-heartland.officeholder-tree-minder-house"
       ],
-      "premise": "A maker's tuning qualification was pulled six years ago on a ruling that was never issued in writing",
+      "premise": "A maker's tuning qualification was pulled six years ago on a ruling issued by word only",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -875,7 +875,7 @@
         "place.hist-heartland.boardwalk-branching-many-ways",
         "place.hist-heartland.walkway-junction-high-crossroads"
       ],
-      "premise": "The keepers' repair ledger bills four tribes for spans that were never rebuilt",
+      "premise": "The keepers' repair ledger bills four tribes for spans left unrebuilt",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1037,7 +1037,7 @@
       "anchorPlaces": [
         "place.hist-heartland.greenspring"
       ],
-      "premise": "A body is in the water that the interior drinks without ceremony, which nobody wants found for the obvious reason",
+      "premise": "A body is in the water that the interior drinks without ceremony, which two households at the spring would rather stayed under",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1199,7 +1199,7 @@
         "place.hist-heartland.duskfall-unmade-site",
         "place.hist-heartland.heretic-stone-restarted"
       ],
-      "premise": "The new courses have begun completing a plan that nobody living drew",
+      "premise": "The new courses have begun completing a plan drawn before the current masons were born",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1362,7 +1362,7 @@
       "anchorPlaces": [
         "place.hist-heartland.nightbound-lightless"
       ],
-      "premise": "Somebody is fouling the chime-lines with a paste that dulls them, in a village that has nothing else to steer by",
+      "premise": "Somebody is fouling the chime-lines with a paste that dulls them, in a village that steers by them after dark",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1417,7 +1417,7 @@
       "anchorPlaces": [
         "place.hist-heartland.nine-trunks"
       ],
-      "premise": "A felling claim turns on whether the ring is one tree by the Hist's reckoning or nine by anyone else's",
+      "premise": "A felling claim turns on whether the ring is one tree by the Hist's reckoning or nine by the tribes' reckoning",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1497,7 +1497,7 @@
       "anchorPlaces": [
         "place.hist-heartland.stilt-channel-edge-two-poles"
       ],
-      "premise": "Piles are being driven at night in the old field, for a village that no one is building",
+      "premise": "Piles are being driven at night in the old field, for a village with no builder behind it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1603,7 +1603,7 @@
       "anchorPlaces": [
         "place.hist-heartland.stilt-channel-edge-uxaneet"
       ],
-      "premise": "One house charges nothing at its landing and is busier after dark than any other in the village",
+      "premise": "One house takes no landing fee and is busier after dark than the poling quay",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1630,7 +1630,7 @@
       "anchorPlaces": [
         "place.hist-heartland.alten-markmont"
       ],
-      "premise": "A lapsed Imperial concession is being enforced over the warehouse stock by people with no authority to enforce anything",
+      "premise": "A lapsed Imperial concession is being enforced over the warehouse stock by factors holding no writ",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

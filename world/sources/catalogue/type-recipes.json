@@ -9269,8 +9269,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        1,
+        4
       ],
       "lore": "scour: a quarter of the interesting ground is on the rim, and it is the only ground with range; region grammar: border mountains"
     },
@@ -17040,8 +17040,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "openworld research §3.2 (watchtower: the reward is the view); scour: only the rim has range"
     },
@@ -17537,7 +17537,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         0,
-        3
+        2
       ],
       "lore": "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)"
     },
@@ -18170,8 +18170,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        5,
-        8
+        6,
+        9
       ],
       "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
     },
@@ -19425,8 +19425,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)"
     },
@@ -21162,8 +21162,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "fauna-hazards dossier (hackwing); ecology-encounters-loot feed"
     },
@@ -21443,8 +21443,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        4
+        2,
+        5
       ],
       "lore": "Lore:Miregaunt; Lore:Miregaunts of the Marsh (Kratius Gray, Black Marsh Exploration Society)"
     },
@@ -21792,8 +21792,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
-        6
+        4,
+        7
       ],
       "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
     },
@@ -22754,8 +22754,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Oliis Bay; Lore:Topal Bay; Lore:Tide-Born"
     },
@@ -22895,7 +22895,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        2
+        3
       ],
       "lore": "region grammar: ocean; acceptance rule: large logical surfaces climbable by default"
     },
@@ -22974,8 +22974,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        12,
-        15
+        13,
+        16
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
     },

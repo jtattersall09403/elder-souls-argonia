@@ -21,7 +21,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-standing-bid"
       ],
-      "premise": "A ledger of everything weighed into the city goes missing the week before the audit",
+      "premise": "The weighbridge ledger for the quarter's inbound cargo goes missing the week before the audit",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -156,7 +156,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-standing-bid"
       ],
-      "premise": "The floating auction's under-deck mooring lands cargo the weighbridge never sees",
+      "premise": "The floating auction's under-deck mooring lands cargo that bypasses the weighbridge",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -210,7 +210,7 @@
         "place.dunmer-north.gandranen-library",
         "place.dunmer-north.stormhold"
       ],
-      "premise": "The Conclave's reading tablet answers a question nobody in the room asked",
+      "premise": "The Conclave's reading tablet answers a question that was not asked aloud",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -276,7 +276,7 @@
     {
       "id": "quest.local.ld11",
       "code": "LD11",
-      "title": "Nobody's Ledges",
+      "title": "Ledges Off the Rent Roll",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -347,7 +347,7 @@
         "place.dunmer-north.the-permit-dig",
         "place.dunmer-north.the-whispers-dig"
       ],
-      "premise": "An unpermitted cut is being paid for by somebody who has never come north",
+      "premise": "An unpermitted cut is being paid for by a buyer who has not come north",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -429,7 +429,7 @@
         "place.dunmer-north.stormhold-causeway",
         "place.dunmer-north.the-black-stage"
       ],
-      "premise": "The causeway ferry is late every dusk, always in the same direction",
+      "premise": "The causeway ferry runs late every dusk on the eastbound crossing",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -576,7 +576,7 @@
     {
       "id": "quest.local.ld22",
       "code": "LD22",
-      "title": "One Cellar Under All of It",
+      "title": "One Cellar Under the Holding",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -618,7 +618,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-charge-pond"
       ],
-      "premise": "A wamasu pond kills two carriers before anyone sees the animal",
+      "premise": "A wamasu pond kills two carriers before a third sees the animal",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -673,7 +673,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-quiet-landing"
       ],
-      "premise": "A cult house keeps its accounts, which is the first mistake anyone can prove",
+      "premise": "A cult house keeps its accounts, which is the first mistake a magistrate can prove",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -767,7 +767,7 @@
     {
       "id": "quest.local.ld29",
       "code": "LD29",
-      "title": "Good Ground Nobody Takes",
+      "title": "Good Ground Left Standing",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -782,7 +782,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.zuuk"
       ],
-      "premise": "Kothringi work stands on the best ground on the road; every villager gives a different reason for leaving it",
+      "premise": "Kothringi work stands on the best ground on the road; the villagers give four different reasons for leaving it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -902,7 +902,7 @@
     {
       "id": "quest.local.ld34",
       "code": "LD34",
-      "title": "A Boundary Nobody Has Walked",
+      "title": "A Boundary Unwalked in Forty Years",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -983,7 +983,7 @@
     {
       "id": "quest.local.ld37",
       "code": "LD37",
-      "title": "The House Nobody Enters",
+      "title": "The Shuttered House",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1079,7 +1079,7 @@
         "place.dunmer-north.thorn",
         "place.dunmer-north.waits-for-the-promise"
       ],
-      "premise": "A vigil camp holds a land claim the An-Xileel made aloud and never wrote down",
+      "premise": "A vigil camp holds a land claim the An-Xileel made aloud but did not write down",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -1172,7 +1172,7 @@
     {
       "id": "quest.local.ld44",
       "code": "LD44",
-      "title": "A Cellar the Toll Never Saw",
+      "title": "A Cellar Under the Toll",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1187,7 +1187,7 @@
         "place.dunmer-north.the-salt-and-shell",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A crossroads tradehouse moves goods under a floor the toll-holder has never asked about",
+      "premise": "A crossroads tradehouse moves goods under a floor the toll-holder has not asked about",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -1214,7 +1214,7 @@
         "place.dunmer-north.the-north-border-post",
         "place.dunmer-north.thorn"
       ],
-      "premise": "Everyone crossing is written down, so the book can prove who did not come back",
+      "premise": "Each crossing is written down, so the book can prove who did not come back",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1292,7 +1292,7 @@
       "region": "dunmer-north",
       "settlement": "place.dunmer-north.thorn",
       "anchorPlaces": [
-        "place.dunmer-north.the-pass-station",
+        "place.dunmer-north.the-two-gate-bridge",
         "place.dunmer-north.thorn"
       ],
       "premise": "A cross-border station will fail this winter unless one province admits it wants it",
@@ -1430,7 +1430,7 @@
         "place.dunmer-north.the-ninth-chapel",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A ruined chapel's carved number implies eight earlier missions nobody has looked for",
+      "premise": "A ruined chapel is carved with the number nine; the eight missions before it are unaccounted for",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1469,7 +1469,7 @@
     {
       "id": "quest.local.ld55",
       "code": "LD55",
-      "title": "The Rotation Nobody Owns",
+      "title": "The Rotation Without a Holder",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1673,7 +1673,7 @@
         "place.dunmer-north.the-high-wrappings",
         "place.dunmer-north.thorn"
       ],
-      "premise": "A crown terrace holding a village's dead is failing; nobody will plan for it",
+      "premise": "A crown terrace holding a village's dead is failing; the burial-keeper will not plan for it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1766,7 +1766,7 @@
     {
       "id": "quest.local.ld66",
       "code": "LD66",
-      "title": "The Bench That Asks Nothing",
+      "title": "The Bench Outside the Guild",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1781,7 +1781,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.nine-stone-bench"
       ],
-      "premise": "A cutter outside the guild will work any stone brought to him, which the town would like stopped",
+      "premise": "A cutter outside the guild will work stone brought to him without asking its source, which the town would like stopped",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -1969,7 +1969,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.the-north-vista"
       ],
-      "premise": "The one ledge that shows the whole channel network is defended by hackwings that will not share it",
+      "premise": "The ledge that shows the channel network is defended by hackwings that will not share it",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2050,7 +2050,7 @@
         "place.dunmer-north.hissmir",
         "place.dunmer-north.waits-for-the-trial"
       ],
-      "premise": "A waiting camp's queue is its only law, enforced by people with nothing left to lose",
+      "premise": "A waiting camp's queue is its law, enforced by the people who have queued longest",
       "costTier": "M",
       "milestone": 1,
       "touches": [],
@@ -2076,7 +2076,7 @@
       "anchorPlaces": [
         "place.dunmer-north.hissmir"
       ],
-      "premise": "A pilgrim passes the Trials, then finds the paper worth nothing downriver",
+      "premise": "A pilgrim passes the Trials, then finds the paper refused downriver",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2130,7 +2130,7 @@
         "place.dunmer-north.hissmir",
         "place.dunmer-north.the-rim-hermitage"
       ],
-      "premise": "A Nisswo speaks about death to anyone who climbs to him, which somebody wants stopped",
+      "premise": "A Nisswo speaks about death from a ledge reached by climbing, which somebody wants stopped",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2354,7 +2354,7 @@
     {
       "id": "quest.local.ld88",
       "code": "LD88",
-      "title": "The Rota Nobody Wrote Down",
+      "title": "The Unwritten Rota",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2451,7 +2451,7 @@
         "place.dunmer-north.tearmouth",
         "place.dunmer-north.the-white-pans"
       ],
-      "premise": "Salt from the pans is being paid out as wages, which suits everyone except the people paid in it",
+      "premise": "Salt from the pans is being paid out as wages, which suits the pan-holders more than the labourers paid in it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2531,7 +2531,7 @@
       "anchorPlaces": [
         "place.dunmer-north.tearmouth"
       ],
-      "premise": "A manifest lists a consignment that no crew on the river remembers loading",
+      "premise": "A manifest lists a consignment the river crews do not remember loading",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2569,7 +2569,7 @@
     {
       "id": "quest.local.ld96",
       "code": "LD96",
-      "title": "Nothing Left Alive to Bury",
+      "title": "The Records Outlive the Village",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2611,7 +2611,7 @@
         "place.dunmer-north.the-field-gate-garrison",
         "place.dunmer-north.the-north-cut"
       ],
-      "premise": "An abandoned roadworks floods ground nobody has connected to it",
+      "premise": "An abandoned roadworks floods ground the district has not connected to it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2650,7 +2650,7 @@
     {
       "id": "quest.local.ld99",
       "code": "LD99",
-      "title": "The Only Winter Road",
+      "title": "The Winter Causeway",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2757,7 +2757,7 @@
     {
       "id": "quest.local.lv04",
       "code": "LV04",
-      "title": "Everything Portable Is Gone",
+      "title": "What Could Not Be Carried",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2772,7 +2772,7 @@
         "place.dunmer-north.the-field-gate-garrison",
         "place.dunmer-north.the-opened-terrace"
       ],
-      "premise": "A broken-open xanmeer keeps what could not be carried, which is what the diggers actually came for",
+      "premise": "A broken-open xanmeer holds what the first diggers could not carry, which is what the second lot came for",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2959,7 +2959,7 @@
         "place.dunmer-north.cut-and-stack",
         "place.dunmer-north.wolk-market"
       ],
-      "premise": "Three villages' winter fuel is one dropped lamp from being nobody's",
+      "premise": "Three villages' winter fuel is one dropped lamp from burning under their feet",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -3118,7 +3118,7 @@
       "anchorPlaces": [
         "place.dunmer-north.branchmont"
       ],
-      "premise": "One owner's rent book records tenants the other owner's book has never heard of",
+      "premise": "One owner's rent book records tenants the other owner's book does not list",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -3157,7 +3157,7 @@
     {
       "id": "quest.local.lv19",
       "code": "LV19",
-      "title": "Every Rumour on the Walkway",
+      "title": "Four Districts by Morning",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3171,7 +3171,7 @@
       "anchorPlaces": [
         "place.dunmer-north.channel-cross-village"
       ],
-      "premise": "A tie-up village hears everything, so a lie planted here reaches four districts by morning",
+      "premise": "A tie-up village hears the river talk, so a lie planted here reaches four districts by morning",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3198,7 +3198,7 @@
         "place.dunmer-north.channel-cross-village",
         "place.dunmer-north.the-black-stage"
       ],
-      "premise": "A ferry family will cross for anyone except one household, without giving a reason",
+      "premise": "A ferry family crosses for the whole village except one household, without giving a reason",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -3225,7 +3225,7 @@
         "place.dunmer-north.channel-cross-village",
         "place.dunmer-north.ties-four-ways"
       ],
-      "premise": "Four communities meet on water nobody owns; one of them has brought more people than agreed",
+      "premise": "Four communities meet on water held in common; one of them has brought more people than agreed",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -3357,7 +3357,7 @@
         "place.dunmer-north.hutan-tzel",
         "place.dunmer-north.mazzatun-hist"
       ],
-      "premise": "A harmed Hist will describe its own injury to anyone who can bear to listen",
+      "premise": "A harmed Hist will describe its own injury to a listener who can bear it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -3448,7 +3448,7 @@
     {
       "id": "quest.local.lv30",
       "code": "LV30",
-      "title": "All of It in His Head",
+      "title": "The Route Is in His Head",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3606,7 +3606,7 @@
     {
       "id": "quest.local.lv36",
       "code": "LV36",
-      "title": "The Bell That Rings for Nothing",
+      "title": "The Bell Rings Nightly",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -3620,7 +3620,7 @@
       "anchorPlaces": [
         "place.dunmer-north.reedmoor-stilts"
       ],
-      "premise": "A warning bell sounds nightly with nothing in the water to warrant it",
+      "premise": "A warning bell sounds every night with no boat or beast in the water to warrant it",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3725,7 +3725,7 @@
       "anchorPlaces": [
         "place.dunmer-north.riverwalk"
       ],
-      "premise": "The main street stops being navigable, which nobody believes was natural",
+      "premise": "The main street stops being navigable, which the boat-holders do not believe was natural",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -3751,7 +3751,7 @@
       "anchorPlaces": [
         "place.dunmer-north.saltmarch-village"
       ],
-      "premise": "The one rise that never floods hears every account of the same night; none of them agree",
+      "premise": "The rise that stays dry hears four accounts of the same night; none of them agree",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -3778,7 +3778,7 @@
         "place.dunmer-north.saltmarch-village",
         "place.dunmer-north.the-first-count"
       ],
-      "premise": "A grassland field turns up a weapon that settles an inheritance nobody wanted settled",
+      "premise": "A grassland field turns up a weapon that settles an inheritance two families had left unsettled",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

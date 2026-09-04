@@ -75,7 +75,7 @@
       "settlement": "place.naga-kur-deeps.bereaved-hist-less-since",
       "anchorPlaces": [
         "place.naga-kur-deeps.bereaved-hist-less-since",
-        "place.naga-kur-deeps.bone-carriers-camp-deeps"
+        "place.naga-kur-deeps.necropolis-nightbound"
       ],
       "premise": "The marriage-broker who promised the village three matches is found wrapped on a carriers' rack with none of them arranged",
       "costTier": "M",
@@ -84,7 +84,8 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11-critique/round3-region-brief.md",
+        "re-anchored 2026-09-04 (round 4): place.naga-kur-deeps.bone-carriers-camp-deeps was cut; the wrapped body now turns up on the racks at the nightbound necropolis, the zone's other bundle-handling site"
       ]
     },
     {
@@ -233,7 +234,7 @@
     {
       "id": "quest.local.ln09",
       "code": "LN09",
-      "title": "The Field Nobody Bid For",
+      "title": "The Field Left Off the Bidding",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -332,7 +333,7 @@
         "place.naga-kur-deeps.miregaunt-ward-open",
         "place.naga-kur-deeps.root-whisper-village"
       ],
-      "premise": "In its two speaking hours the Dreaming Tree has begun repeating a word nobody at the village can place, on the bearing the open ward faces",
+      "premise": "In its two speaking hours the Dreaming Tree has begun repeating a word no elder at the village can place, on the bearing the open ward faces",
       "costTier": "L",
       "milestone": 2,
       "touches": [],

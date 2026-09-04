@@ -50,7 +50,7 @@ REPORT = catalogue.REPO_ROOT / "world" / "sources" / "sites" / "hostility-freque
 SIDECAR = Path(__file__).resolve().parents[1] / "output" / "hostility-frequency.json"
 
 ENCOUNTER_M = 300.0        # a hostile place this close to the route is "on the way"
-SPARSE_M = 450.0           # land further than this from any fight is a gap
+SPARSE_M = 350.0           # land further than this from any fight is a gap (450 → 350, round 4: the province is dense)
 EDGE_M = 350.0             # province border apron ignored for gaps
 CROWD_M = 250.0            # a route-side fight with ≥ CROWD_N others inside this is "crowded"
 CROWD_N = 2
@@ -85,7 +85,7 @@ def load_routes() -> list[tuple[str, str, list[tuple[int, int]]]]:
         for g in d.get(key) or []:
             px = [(int(c), int(r)) for c, r in g.get("px") or []]
             if len(px) >= 2:
-                out.append((kind, g.get("id") or f"{kind}:{g.get('from')}-{g.get('to')}", px))
+                out.append((kind, g.get("id") or f"{kind}:{g.get('from')}-{g.get('to')}", px, g.get("kind") or kind))
     return out
 
 
@@ -144,7 +144,11 @@ def build_report() -> dict:
     # travel measure: per band, route km and distinct hostile places met
     travel = {b: {"routeKm": 0.0, "fightsMet": 0, "byKind": defaultdict(float)} for b in bands}
     per_route = []
-    for kind, rid, px in load_routes():
+    for kind, rid, px, sub in load_routes():
+        # the travel measure walks the NETWORK a player follows — roads, boat
+        # lanes and cart tracks; the footpath spur to a place is the place
+        if not (kind in ("road", "boat") or sub in ("track", "causeway")):
+            continue
         pts = resample(px, m_per_px, STEP_M)
         met: set[str] = set()
         km_by_band = defaultdict(float)
@@ -223,8 +227,12 @@ def build_report() -> dict:
     #    every fight, by band — where those moved (or promoted) records go.
     crowded = []
     route_pts = []
-    for kind, rid, px in load_routes():
-        route_pts += resample(px, m_per_px, STEP_M)
+    for kind, rid, px, sub in load_routes():
+        # "off-route" is measured against roads, lanes and cart tracks only:
+        # footpaths, boardwalks and canoe channels exist BECAUSE of the places
+        # they reach, so every place is trivially "on" one (round-4 agents)
+        if kind in ("road", "boat") or sub in ("track", "causeway"):
+            route_pts += resample(px, m_per_px, STEP_M)
     rx = np.array([p[0] for p in route_pts]); rz = np.array([p[1] for p in route_pts])
     for i, (x, z, pid, b, region) in enumerate(hostile_pts):
         droute = float(np.min(np.hypot(rx - x, rz - z))) if len(rx) else 1e9

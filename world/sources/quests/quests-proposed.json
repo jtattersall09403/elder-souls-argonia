@@ -27,7 +27,7 @@
         "place.naga-kur-deeps.drifting-village-wet-mooring",
         "place.naga-kur-deeps.ferry-stage-guide-hire"
       ],
-      "premise": "A scheduled boat service stopped calling at one landing without notice; the crews will not say who decided it",
+      "premise": "A scheduled boat service stopped calling at one landing without notice; asked who decided it, the crews name three different offices",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -82,7 +82,7 @@
         "place.hist-heartland.falling-mage-impact",
         "place.hist-heartland.vista-ledge-canopy-break"
       ],
-      "premise": "A man fell out of the sky, his scrolls outlived him; none of them says where he was going",
+      "premise": "A man fell out of the sky and his scrolls outlived him; the itinerary among them stops at the canopy break",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -109,7 +109,7 @@
         "place.imperial-penal-south.lake-divers-yard",
         "place.naga-kur-deeps.wreck-submerged-barge"
       ],
-      "premise": "The wreck's cargo seals are intact and legible, so anything lifted off her traces back to whoever holds it",
+      "premise": "The wreck's cargo seals are intact and legible, so a bar lifted off her traces back to whoever holds it",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -137,7 +137,7 @@
         "place.imperial-penal-south.cordon-cellars",
         "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "Everything the Owing seized in the south is racked, tagged and dated in one cellar; most of the owners are dead",
+      "premise": "What the Owing seized in the south sits racked and dated in one cellar; most of the owners are dead",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -149,7 +149,7 @@
     {
       "id": "quest.proposed.pp06",
       "code": "PP06",
-      "title": "The Line Nobody Walked",
+      "title": "Forty Years on the Dres Line",
       "line": "quest.line.proposed",
       "group": "proposed",
       "tier": 3,
@@ -192,7 +192,7 @@
         "place.hist-heartland.insular-hereditary-watch",
         "place.mercantile-coast.insular-jungle-village"
       ],
-      "premise": "A village whose entire history is a guard roster has no one left to put on it; it declines to say what it guards",
+      "premise": "A village whose entire history is a guard roster is down to two names on it; it declines to say what it guards",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -278,7 +278,7 @@
         "place.hist-heartland.drawdown-flat-exposed",
         "place.imperial-penal-south.drawdown-flat"
       ],
-      "premise": "The lake pulls back for six weeks a year; this year the bed has a body on it that everyone had agreed was a drowning",
+      "premise": "The lake pulls back for six weeks a year; this year the bed has a body on it the grave-stake recorded as a drowning",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -304,7 +304,6 @@
       "anchorPlaces": [
         "place.hist-heartland.bone-waystation-interior",
         "place.imperial-fringe.bone-road-waystation",
-        "place.naga-kur-deeps.bone-carriers-camp-deeps",
         "place.pirate-freeholds.bone-repatriation-waystation"
       ],
       "premise": "The bundle at the bottom of the rack has been rewrapped four times; no carrier will take it the last stage home",
@@ -313,7 +312,8 @@
       "touches": [],
       "sources": [
         "docs/quests/55-quest-index.md §47e",
-        "docs/decisions/0041-phase11-settlement-decisions.md"
+        "docs/decisions/0041-phase11-settlement-decisions.md",
+        "naga-kur-deeps anchor dropped 2026-09-04 (round 4): place.naga-kur-deeps.bone-carriers-camp-deeps was cut; three waystation anchors remain"
       ]
     },
     {
@@ -390,7 +390,7 @@
         "place.dunmer-north.the-moon-court",
         "place.imperial-fringe.moonrack-calcinator"
       ],
-      "premise": "Two calcinator courts are laid out to a sky with nothing in it; the work done in them can be done nowhere else",
+      "premise": "Two calcinator courts are laid out to a sky with no moons in it; the work done in them fails under any other light",
       "costTier": null,
       "milestone": 2,
       "touches": [],
@@ -444,7 +444,7 @@
         "place.naga-kur-deeps.horwalli-waterworks-deeps",
         "place.naga-kur-deeps.naga-village-settled"
       ],
-      "premise": "Sluices nobody attends still open and close on the season; four villages have built their year on a machine with no owner",
+      "premise": "Unattended sluices still open and close on the season; four villages have built their year on a machine with no owner",
       "costTier": null,
       "milestone": 2,
       "touches": [],

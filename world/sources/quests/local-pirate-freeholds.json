@@ -79,7 +79,7 @@
         "place.pirate-freeholds.alten-corimont",
         "place.pirate-freeholds.corimont-crosstrees"
       ],
-      "premise": "The lookout at the crosstrees sells the name of everything on the horizon, taking payment in whatever a stranger can see from lower down",
+      "premise": "The lookout at the crosstrees sells the name of each reach on the horizon, taking payment in whatever a stranger can see from lower down",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -193,7 +193,7 @@
         "place.pirate-freeholds.alten-corimont",
         "place.pirate-freeholds.reach-wreck"
       ],
-      "premise": "The wreck downriver still holds its consignment, so two crews are hiring anyone who will go down for it",
+      "premise": "The wreck downriver still holds its consignment, so two crews are hiring divers for it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -234,7 +234,7 @@
     {
       "id": "quest.local.lp09",
       "code": "LP09",
-      "title": "Nobody Ties Up at Slack Bend",
+      "title": "No Rope at Slack Bend",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -387,7 +387,7 @@
       "anchorPlaces": [
         "place.pirate-freeholds.upriver-hist-village"
       ],
-      "premise": "Every bend of the river carries the same cut mark at the waterline, which the village stopped counting a generation ago",
+      "premise": "Nine bends of the river carry the same cut mark at the waterline, which the village stopped counting a generation ago",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -497,7 +497,7 @@
       "anchorPlaces": [
         "place.pirate-freeholds.chasecreek"
       ],
-      "premise": "The lay-by fee is being paid by a boat that ties up and never leaves, with nobody in the hamlet asking who is aboard",
+      "premise": "The lay-by fee is being paid by a boat that has lain at the creek for eleven nights, with the keeper taking the coin without going aboard",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -553,7 +553,7 @@
         "place.pirate-freeholds.alten-corimont",
         "place.pirate-freeholds.rockpoint"
       ],
-      "premise": "Two parties are repairing the abandoned landing at once, in a zone where Alten Corimont has always answered a claim on it",
+      "premise": "Two parties are repairing the abandoned landing at once, in a zone where Alten Corimont answered the last such claim with a boat crew",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

@@ -204,6 +204,16 @@
       "notes": "Deed counter incremented by play at the place(s) that declare it."
     },
     {
+      "id": "deed.brigands.cleared",
+      "name": "Brigands cleared",
+      "kind": "counter",
+      "status": "placeholder",
+      "sources": [
+        "catalogue"
+      ],
+      "notes": "Deed counter named by a place record."
+    },
+    {
       "id": "deed.brokers.contracted",
       "name": "Brokers contracted",
       "kind": "counter",

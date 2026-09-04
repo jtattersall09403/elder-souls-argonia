@@ -79,7 +79,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.oliis-coast-lay-by"
       ],
-      "premise": "Half-chartered hulls are landing on the Oliis shore, which suits everybody in Archon except the people who must say so.",
+      "premise": "Half-chartered hulls are landing on the Oliis shore, which suits the Archon factors buying from them and embarrasses the customs desk that must say so.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -253,7 +253,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.owing-hiring-camp"
       ],
-      "premise": "The broker's hiring list decides who eats; it can be rewritten by anyone who reaches it first.",
+      "premise": "The broker's hiring list decides who eats; a clerk's pen can rewrite it between two hiring days.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -367,7 +367,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.archon-sacked-quarter"
       ],
-      "premise": "Lamps move in a quarter that burnt two centuries ago, which three squatting households would rather nobody investigated.",
+      "premise": "Lamps move in a quarter that burnt two centuries ago. Three squatting households would rather the ward roll stayed wrong.",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -734,7 +734,7 @@
         "place.saxhleel-coast.archon",
         "place.saxhleel-coast.quay-tradehouse"
       ],
-      "premise": "An Imperial writ is circulating in the port, signed by an office that closed before anyone alive was born.",
+      "premise": "An Imperial writ is circulating in the port, signed by an office that closed 200 years ago.",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

@@ -120,6 +120,7 @@ RULES: list[Rule] = [
 ]
 
 RECORD_RULES = [
+    Rule("duplicate-field", "hard", re.compile(r"(?!)"), f"the same prose field verbatim on ≥{4} records (set-level boilerplate)"),
     Rule("generaliser-heavy", "hard", re.compile(r"(?!)"), f"more than {2} everyone/nobody/nothing/the-only beats in one record"),
     Rule("hook-copies-site", "hard", re.compile(r"(?!)"), "hook is a verbatim copy of why.siteAdvantages (60 §45e.1 echo row)"),
     Rule("the-only-repeat", "hard", re.compile(r"(?!)"), "'the only' more than once in one record (style guide §2.6 cap)"),
@@ -256,8 +257,14 @@ def lint_record(res: LintResult, rec: dict, scope: str) -> None:
             res.add_text(scope, rid, f"hostility.flips[{i}].note", f["note"])
 
 
+DUP_FIELD_MIN = 4        # the same whole prose field on ≥ this many records = boilerplate (hard)
+DUP_NGRAM_MIN = 6        # the same 7-word run on ≥ this many records = a stock phrase (soft)
+
+
 def lint_catalogue(regions: set[str] | None = None) -> LintResult:
     res = LintResult()
+    field_owners: dict[str, list[str]] = defaultdict(list)
+    ngram_owners: dict[str, set[str]] = defaultdict(set)
     for rf in catalogue.load_region_files():
         if regions and rf.region not in regions:
             continue
@@ -265,6 +272,34 @@ def lint_catalogue(regions: set[str] | None = None) -> LintResult:
             if rec.get("status") in {"cut", "deferred"}:
                 continue
             lint_record(res, rec, rf.region)
+            # set-level convergence (hist-heartland reviewer, 2026-09-04): the
+            # same sentence on fourteen records is one voice however good it is
+            for path in PROSE_PATHS:
+                if path == ("sitingNote",):      # design rationale, not world prose
+                    continue
+                t = _get(rec, path)
+                if not t:
+                    continue
+                key = re.sub(r"\s+", " ", t.strip().lower())
+                if len(key.split()) >= 4:
+                    field_owners[key].append(f"{rec['id']} {'.'.join(path)}")
+                words = re.findall(r"[a-z']+", key)
+                for i in range(len(words) - 6):
+                    ngram_owners[" ".join(words[i:i + 7])].add(rec["id"])
+    scope = "convergence"
+    for key, owners in sorted(field_owners.items()):
+        if len(owners) >= DUP_FIELD_MIN:
+            res.hits.append(Hit(owners[0], "set", "duplicate-field", "hard", f"×{len(owners)}: {key[:60]}"))
+            res.by_scope_rule[scope]["duplicate-field"] += 1
+    seen_phrase: set[str] = set()
+    for gram, owners in sorted(ngram_owners.items(), key=lambda kv: (-len(kv[1]), kv[0])):
+        if len(owners) < DUP_NGRAM_MIN:
+            break
+        if any(gram in g for g in seen_phrase):
+            continue
+        seen_phrase.add(gram)
+        res.hits.append(Hit(sorted(owners)[0], "set", "stock-phrase", "soft", f"×{len(owners)}: {gram}"))
+        res.by_scope_rule[scope]["stock-phrase"] += 1
     return res
 
 
@@ -360,7 +395,7 @@ def render_report(res: LintResult, title: str) -> str:
     if len(hard) > 2000:
         lines.append(f"- … {len(hard) - 2000} more")
     lines += ["", "## Soft candidates (for the reviewer's eye)", ""]
-    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("and-closer", "and-for-but", "the-only", "will-not-say")]
+    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("stock-phrase", "and-closer", "and-for-but", "the-only", "will-not-say", "generaliser")]
     for h in soft[:1500]:
         lines.append(f"- `{h.where}` · {h.fld} · {h.rule} — …{h.excerpt}…")
     if len(soft) > 1500:

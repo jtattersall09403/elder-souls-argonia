@@ -129,7 +129,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.sacked-customs-suburb"
       ],
-      "premise": "Two centuries of unread customs books would settle a dozen living property claims, so somebody is inserting pages before anyone reads them",
+      "premise": "Two centuries of unread customs books would settle a dozen living property claims, so somebody is inserting pages ahead of the clerk who is finally reading them",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -607,7 +607,7 @@
     {
       "id": "quest.local.lm23",
       "code": "LM23",
-      "title": "Cargo Nobody Claims",
+      "title": "Cargo Off the Ledger",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -734,7 +734,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.naga-village-oliis"
       ],
-      "premise": "Escort contracts are being written for journeys nobody made, over the Naga camp's own signatures",
+      "premise": "Escort contracts are being written for journeys the convoys did not make, over the Naga camp's own signatures",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -762,7 +762,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.oliis-air-station"
       ],
-      "premise": "The slate at Breathing-Stone lists a diver who went below eleven days ago, with the entry in a hand nobody recognises",
+      "premise": "The slate at Breathing-Stone lists a diver who went below eleven days ago, in a hand the reef cutters do not recognise",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -860,7 +860,7 @@
     {
       "id": "quest.local.lm32",
       "code": "LM32",
-      "title": "The Offices Administer Nothing",
+      "title": "Licences for a Burnt Hinterland",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1176,7 +1176,7 @@
         "place.mercantile-coast.soulrest",
         "place.mercantile-coast.topal-salt-pans"
       ],
-      "premise": "The salt walls are rebuilt each spring by people working off an Owing that never falls",
+      "premise": "The salt walls are rebuilt each spring by people working off an Owing that does not fall",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1341,7 +1341,7 @@
         "place.mercantile-coast.screen-watch",
         "place.mercantile-coast.soulrest"
       ],
-      "premise": "Somebody has begun marking the one channel mouth that is navigable for ninety minutes at the top of the tide",
+      "premise": "Somebody has begun marking the channel mouth that is navigable for ninety minutes at the top of the tide",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1550,7 +1550,7 @@
     {
       "id": "quest.local.lm57",
       "code": "LM57",
-      "title": "The Stage That Was Never Paid",
+      "title": "The Stage That Was Not Paid",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1663,7 +1663,7 @@
     {
       "id": "quest.local.lm61",
       "code": "LM61",
-      "title": "Nobody Enjoys the Argument",
+      "title": "The Ration Argument Breaks Down",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -1774,7 +1774,7 @@
     {
       "id": "quest.local.lm65",
       "code": "LM65",
-      "title": "Asks Nothing, Secures Less",
+      "title": "Asks No Questions, Secures Less",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2032,7 +2032,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.ashroot-village"
       ],
-      "premise": "Ashroot shelters anyone who reaches it, though its sheltering rite has begun to fail on the burn-country side",
+      "premise": "Ashroot shelters whoever reaches it, though its sheltering rite has begun to fail on the burn-country side",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2218,7 +2218,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.hereguard-plantation"
       ],
-      "premise": "The estate's oldest flood channel fills a fortnight before the river does, for reasons nobody can name",
+      "premise": "The estate's oldest flood channel fills a fortnight before the river does, for reasons the Breton steward cannot name",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2338,7 +2338,7 @@
     {
       "id": "quest.local.lm86",
       "code": "LM86",
-      "title": "A Dry Floor for Anyone",
+      "title": "A Dry Floor, No Questions",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -2351,7 +2351,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.mudfoot"
       ],
-      "premise": "The cheapest bed on Topal Bay takes anyone, including whoever left a body under its boards",
+      "premise": "The cheapest bed on Topal Bay takes whoever pays, including whoever left a body under its boards",
       "costTier": "S",
       "milestone": 2,
       "touches": [],

@@ -189,7 +189,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.flu-mass-grave"
       ],
-      "premise": "The city's eastern wells turn foul whenever anybody digs on the Counting Ground",
+      "premise": "The city's eastern wells turn foul whenever the road crews dig on the Counting Ground",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -245,7 +245,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.scandal-holding-pit"
       ],
-      "premise": "Names are read aloud each night in a holding pit that has held nobody for a century",
+      "premise": "Names are read aloud each night in a holding pit that has stood empty for a century",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -300,7 +300,7 @@
       "anchorPlaces": [
         "place.imperial-penal-south.blackrose"
       ],
-      "premise": "A founding house's claim to its seat rests on a page nobody outside the family has read",
+      "premise": "A founding house's claim to its seat rests on a page only the family has read",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -426,7 +426,7 @@
     {
       "id": "quest.local.lr16",
       "code": "LR16",
-      "title": "Sockets for Nothing Living",
+      "title": "Sockets for a Larger Hand",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -441,7 +441,7 @@
         "place.imperial-penal-south.akaviri-works",
         "place.imperial-penal-south.blackrose"
       ],
-      "premise": "Lifting gear at the Potentate's Works was sized for something that was never alive",
+      "premise": "Lifting gear at the Potentate's Works is sized for a hand twice the span of a man's",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1113,7 +1113,7 @@
         "place.imperial-penal-south.cordon-cellars",
         "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "An Owing is being settled in labour at rates nobody wrote down",
+      "premise": "An Owing is being settled in labour at rates that appear in no ledger",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1196,7 +1196,7 @@
         "place.imperial-penal-south.feeder-portage",
         "place.imperial-penal-south.rose-supply-town"
       ],
-      "premise": "A portage windlass upriver has counted every load it ever lifted, with nobody left to read the count",
+      "premise": "A portage windlass upriver has kept its own tally of loads; the crew who could read it are gone",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

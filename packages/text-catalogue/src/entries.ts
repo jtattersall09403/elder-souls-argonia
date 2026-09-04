@@ -44,7 +44,7 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
   {
     id: "text.system.rest-saved",
     surface: "system",
-    text: "You rest, and the world holds its place.",
+    text: "You rest. The world holds its place.",
     note:
       "Save-on-rest (decision 0031). One image, and it says what happened. The only line here permitted any colour, because resting is a deliberate, unhurried act.",
   },

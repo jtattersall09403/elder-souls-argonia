@@ -170,7 +170,7 @@
         "founding": "A deep, sheltered estuary mouth on the Padomaic will take a foreign hull's draught. Nowhere else on this coast will, so the Second Empire and then the East Empire Company built a stone quay here. The Saxhleel town grew landward of it.",
         "siteAdvantages": "Estuary with a landable stone shore and a river road into the interior. The mangrove wall breaks here for more than a kilometre, which it does nowhere else on the east coast.",
         "occupantsMotive": "An Argonian-majority harbour population who work the water as amphibians and run the port authority out of dead Company offices, alongside state customs and a long-settled Dunmer merchant minority from the Morrowind trade.",
-        "pressures": "The lawful port is the province's only functioning customs choke, so everything that wants to avoid it goes round it: half-chartered hulls land on the Oliis shore and wreckers work the Padomaic beaches south of the city. The mangrove behind the city is D4 within a kilometre of the gate. The harbour authority's answer about the sealed Shadowscale sanctuary is that it is not harbour ground.",
+        "pressures": "The lawful port holds the working customs desk on this coast, so cargo that wants to avoid duty goes round it: half-chartered hulls land on the Oliis shore and wreckers work the Padomaic beaches south of the city. The mangrove behind the city is D4 within a kilometre of the gate. The harbour authority's answer about the sealed Shadowscale sanctuary is that it is not harbour ground.",
         "wouldChangeIf": "If the Archon-Lilmoth-Soulrest-Tear line stopped running, or if the harbour authority lost its claim to the Company buildings, Archon would become a large fishing town in a month."
       },
       "sitingPrefs": {
@@ -265,9 +265,9 @@
       },
       "vibe": {
         "silhouette": "a low town behind a long stone quay; masts and a line of mooring columns; no walls read at distance",
-        "palette": "wet grey-green stone, bleached reed thatch, tarred timber, dull Company red on doors nobody opens",
+        "palette": "wet grey-green stone, bleached reed thatch, tarred timber, dull Company red on bonded doors",
         "materials": "Imperial ashlar quay below, Saxhleel reed-and-stilt above; the two are stacked, not blended",
-        "signatureFeature": "a stone quay visibly older than everything standing on it, with a mooring-column line marching out into water too deep for the boats now tied to it",
+        "signatureFeature": "a stone quay older than the town stacked on it, with a mooring-column line marching out into water too deep for the boats now tied to it",
         "condition": "working, patched, poorer than its architecture implies",
         "mood": "orderly; watched by clerks rather than guards",
         "approach": "from the sea, masts first; from the river road, the customs barrier before any roof",
@@ -296,7 +296,7 @@
           "LOC",
           "WATER"
         ],
-        "opportunity": "Every thread on this coast passes the customs desk, so Archon is where a quest can be started by a document rather than a person."
+        "opportunity": "Cargo, passengers and writs all pass the customs desk, so Archon is where a quest can be started by a document rather than a person."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.archon-harbour",
       "deedCounterKeys": [
@@ -507,7 +507,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The East Empire Company's charter died; its bonded stores did not, because they were built to outlast a war.",
-        "siteAdvantages": "On the stone quay, the only ground in the province with cargo-bearing foundations.",
+        "siteAdvantages": "On the stone quay, where the Company laid footings that will carry a loaded cart.",
         "occupantsMotive": "The harbour authority uses one corner. It has no lawful way into the rest.",
         "pressures": "Cargo is bonded against a duty no state now collects; the seals are two centuries old and worth more intact.",
         "wouldChangeIf": "An Imperial writ would open it, or a good forgery. Either changes what Archon is worth."
@@ -519,7 +519,8 @@
         ],
         "hardConstraints": [
           "on the quay",
-          "cargo-bearing ground"
+          "cargo-bearing ground",
+          "inside Archon's cleared quay apron"
         ],
         "preferences": [
           "attached to the harbour authority",
@@ -528,7 +529,11 @@
         "landformClasses": [
           "natural-harbour",
           "river-mouth"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 350
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -553,10 +558,10 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a cargo hall far larger and better built than anything around it",
+        "silhouette": "a cargo hall twice the height of the reed roofs along the quay",
         "palette": "Company red gone pink, grey ashlar, black tar",
         "materials": "Imperial stone and iron; the most metal in one place on this coast",
-        "signatureFeature": "a wax seal the size of a plate on a door nobody has the authority to open",
+        "signatureFeature": "a wax seal the size of a plate on a door the harbour authority holds no writ to open",
         "condition": "sound, swept, half-used",
         "mood": "officious and slightly absurd",
         "approach": "the biggest gable on the quay front",
@@ -633,7 +638,7 @@
           "unique-item"
         ],
         "impact": "real",
-        "hook": "Two centuries of bonded cargo behind a seal nobody alive has the authority to break.",
+        "hook": "Two centuries of bonded cargo behind a wax seal; the office that could lift it died with the charter.",
         "reviewed": true
       },
       "interior": {
@@ -695,39 +700,40 @@
         ]
       },
       "position": {
-        "u": 0.65704,
-        "v": 0.67043
+        "u": 0.68827,
+        "v": 0.59829
       },
       "positionM": [
-        4844.7,
-        4943.4
+        5075.0,
+        4411.5
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.roadside-0511",
+          "score": 2.773,
+          "whyLost": "too close to place.saxhleel-coast.archon"
+        },
+        {
+          "siteId": "site.free.roadside-0301",
+          "score": 2.43,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+        },
+        {
           "siteId": "site.free.roadside-0510",
-          "score": 2.795,
-          "whyLost": "too close to place.saxhleel-coast.east-estuary-rootworm-station"
-        },
-        {
-          "siteId": "site.free.roadside-0513",
-          "score": 2.786,
-          "whyLost": "too close to place.saxhleel-coast.archon-lighthouse"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1015",
-          "score": 2.747,
+          "score": 2.395,
           "whyLost": "too close to place.saxhleel-coast.east-estuary-rootworm-station"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 3), 275 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 67 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
-        "dangerBand": 3,
-        "distanceToRouteM": 275.3,
-        "distanceToWaterM": 45.2,
-        "score": 2.408
-      }
+        "dangerBand": 2,
+        "distanceToRouteM": 66.9,
+        "distanceToWaterM": 16.5,
+        "score": 2.017
+      },
+      "sitingNote": "Bound to Archon: the Company's bonded stores ARE the Archon quay; the free-siting pass had put them 275 m inland in jungle. The D1 tier is the city apron's, not the surrounding marsh band the danger raster reads here."
     },
     {
       "id": "place.saxhleel-coast.archon-glowgill-byre",
@@ -938,22 +944,22 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1143",
-          "score": 2.76,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
-          "siteId": "site.scour.ocean.cove-006",
-          "score": 2.73,
-          "whyLost": "taken by place.saxhleel-coast.pearl-lots"
-        },
-        {
           "siteId": "site.free.roadside-0308",
-          "score": 1.403,
-          "whyLost": "lost on score"
+          "score": 2.853,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-0850",
+          "score": 2.851,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.free.roadside-0305",
+          "score": 2.817,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
         }
       ],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 402 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, hinterland, landform; placed from the homeless batch at stage 'spacing-1/2'; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+1.14).",
+      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 402 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, hinterland, landform; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+0.74).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "tidal delta",
@@ -1012,7 +1018,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.flood-high-027"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 400
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -1037,7 +1047,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "one crown breaking a low roofline, taller than anything landward of the masts",
+        "silhouette": "one crown breaking a low roofline, taller than the roofs landward of the masts",
         "palette": "pale bark, dark wet leaf, amber where sap runs",
         "materials": "living Hist, a ring of laid stone the city insists is not stone",
         "signatureFeature": "a Hist small enough that an adult can reach its lowest branch",
@@ -1173,7 +1183,7 @@
           "safe-rest"
         ],
         "impact": "real",
-        "hook": "The city's own Hist stands ten minutes from the quay. Its minders keep the one account of Archon nobody has edited.",
+        "hook": "The city's own Hist stands ten minutes from the quay. Its minders keep an account of Archon that the customs ledgers cannot correct.",
         "reviewed": true
       },
       "interior": {
@@ -1237,7 +1247,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A reef-strewn approach to the province's only lawful deep-water port has to be lit or the port is worthless in the wet season.",
-        "siteAdvantages": "The outermost hard ground on the approach, raised clear of the mangrove and square on the reef gap.",
+        "siteAdvantages": "The outermost hard ground on the approach, built up clear of the mangrove and square on the reef gap.",
         "occupantsMotive": "A keeper family four generations in, paid in fuel by the harbour authority.",
         "pressures": "Fuel is the whole politics of the place. A dark night here is worth money to the wrong people.",
         "wouldChangeIf": "If the fuel account lapsed, this becomes the coast's dark lighthouse and the wrecking starts."
@@ -1250,7 +1260,7 @@
         ],
         "hardConstraints": [
           "commands the reef approach",
-          "tallest thing on its headland"
+          "tallest thing within sight of the reef gap"
         ],
         "preferences": [
           "visible from the shipping lane",
@@ -1258,7 +1268,8 @@
         ],
         "landformClasses": [
           "headland",
-          "islet"
+          "islet",
+          "flood-high"
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.headland-027",
@@ -1308,7 +1319,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a stone drum on a bare headland; at range there is nothing else to see",
+        "silhouette": "a stone drum on raised hard ground above the mangrove, standing alone over the reef gap",
         "palette": "wet black rock, lime-white tower, one warm light",
         "materials": "Imperial ashlar and a salvaged lamp",
         "signatureFeature": "a wreck register kept by the keepers, naming every hull lost on the reef and where it lies",
@@ -1393,7 +1404,7 @@
           "LOC",
           "WATER"
         ],
-        "opportunity": "The keepers' wreck register names every hull lost on the reef, so a quest can send the player to a wreck nobody else can find.",
+        "opportunity": "The keepers' wreck register names every hull lost on the reef, so a quest can send the player to a wreck that is on no Archon chart.",
         "tierOwnership": "MQ14 · tier-0"
       },
       "position": {
@@ -1408,7 +1419,7 @@
         {
           "siteId": "site.free.roadside-0515",
           "score": 4.441,
-          "whyLost": "too close to place.saxhleel-coast.oliis-coast-lay-by"
+          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
         },
         {
           "siteId": "site.free.roadside-0514",
@@ -1630,9 +1641,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The foreign district burnt in the secession. It was not rebuilt. Nobody wanted the ground; fewer wanted the memory.",
-        "siteAdvantages": "The best building land in Archon is this firm raised ground immediately inland of the quay. It stands empty.",
-        "occupantsMotive": "Nobody lives here officially. Three households do. Asked, they deny it.",
+        "founding": "The foreign district burnt in the secession. It was not rebuilt. Two councils have held the ground since; neither wanted its name on the deed.",
+        "siteAdvantages": "The best building land in Archon is this firm raised ground immediately inland of the quay, a few streets back from the water. It stands empty.",
+        "occupantsMotive": "Three households live here. The ward roll says the ground is empty; asked, they agree with the roll.",
         "pressures": "The harbour authority would like to build on it. No councillor has yet put the proposal in writing.",
         "wouldChangeIf": "One decision by the city council turns the province's most eloquent ruin into a warehouse district."
       },
@@ -1643,7 +1654,8 @@
         ],
         "hardConstraints": [
           "adjacent to the living settlement",
-          "legible street grid preserved"
+          "legible street grid preserved",
+          "within 300 m of the quay, inside Archon's clearance apron"
         ],
         "preferences": [
           "upslope of the quay",
@@ -1655,7 +1667,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.flood-high-027"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 300
+        }
       },
       "culture": "imperial",
       "occupants": [
@@ -1809,12 +1825,12 @@
         ]
       },
       "position": {
-        "u": 0.69125,
-        "v": 0.57375
+        "u": 0.71802,
+        "v": 0.59531
       },
       "positionM": [
-        5096.9,
-        4230.5
+        5294.3,
+        4389.6
       ],
       "candidatesConsidered": [
         {
@@ -1833,14 +1849,14 @@
           "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 206 m from the nearest route; its first-choice landform; won on landform, bound, hinterland.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 82 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on bound, hinterland, danger.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 206.5,
-        "distanceToWaterM": 68.7,
-        "score": 3.762
+        "distanceToRouteM": 81.5,
+        "distanceToWaterM": 33.4,
+        "score": 3.16
       }
     },
     {
@@ -1866,8 +1882,8 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "Children born under the Shadow were given up to the Dark Brotherhood here under the old compact; the compact lapsed and the sanctuary was closed by order in 4E 187.",
-        "siteAdvantages": "Off every lane and every path: thorn and mud the whole way in, with the Lilmoth-Archon boat lane the nearest thing to a road at a third of a kilometre.",
-        "occupantsMotive": "Nobody lives here. A watcher is paid to sit where he can see the path, by someone who has not visited in 14 years.",
+        "siteAdvantages": "Off every lane and every path: thorn and mud the whole way in, with the nearest boat lane a third of a kilometre off through thorn deep enough that the watcher hears you coming.",
+        "occupantsMotive": "A watcher sits where he can see the path, paid quarterly by a Cheydinhal factor who has not visited in 14 years.",
         "pressures": "The Cheydinhal Listener wants it back, but the harbour authority would rather it stopped existing. The birth-sign roll inside names living adults who do not know what they were promised to.",
         "wouldChangeIf": "If the roll were made public, or the door opened, the adults named on it would learn what they were promised to."
       },
@@ -1913,7 +1929,7 @@
       "ownerFaction": "faction.shadowscales",
       "occupants": [
         "one D3 watcher, outside",
-        "nothing inside"
+        "unoccupied inside"
       ],
       "notableNpcSlots": [
         "npc.archon.sanctuary-watcher",
@@ -1942,7 +1958,7 @@
         "materials": "xanmeer stone footings reused, mud-and-render walls, a training ground of packed earth",
         "signatureFeature": "a sealed door with a 4E 187 order of closure still nailed to it; outside, a watcher who is not hiding well",
         "condition": "completely disused, but the render is patched and the ground swept",
-        "mood": "held breath; nobody raises their voice within sight of the door",
+        "mood": "held breath; voices drop within sight of the door",
         "approach": "thorn and mud the whole way; the path is made unpleasant on purpose",
         "senses": "no birds; the sound of your own approach; wet stone and cold ash"
       },
@@ -2056,7 +2072,7 @@
           "quest-anchor"
         ],
         "impact": "major",
-        "hook": "The Shadowscale school Archon sealed with everything still inside it. The Brotherhood in Cheydinhal wants it reopened.",
+        "hook": "The Shadowscale school Archon sealed with the birth-sign rolls still inside it. The Brotherhood in Cheydinhal wants it reopened.",
         "reviewed": true
       },
       "interior": {
@@ -2149,7 +2165,8 @@
         ],
         "hardConstraints": [
           "deep shelving launch",
-          "clear boat-nav approach"
+          "clear boat-nav approach",
+          "on the Archon estuary waterfront, inside the city's cleared apron"
         ],
         "preferences": [
           "one per major port",
@@ -2161,7 +2178,11 @@
         ],
         "scourSiteIds": [
           "site.scour.tidal-delta.river-mouth-002"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 450
+        }
       },
       "culture": "imperial",
       "occupants": [
@@ -2315,39 +2336,40 @@
         "tierOwnership": "SX18 · tier-3; SX21 · tier-3; SX35 · tier-3"
       },
       "position": {
-        "u": 0.69273,
-        "v": 0.68008
+        "u": 0.69431,
+        "v": 0.66931
       },
       "positionM": [
-        5107.8,
-        5014.6
+        5119.5,
+        4935.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0957",
-          "score": 2.434,
-          "whyLost": "lost on score"
+          "score": 2.747,
+          "whyLost": "too close to place.saxhleel-coast.archon-lighthouse"
         },
         {
-          "siteId": "site.free.roadside-0515",
-          "score": 2.425,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0512",
+          "score": 2.724,
+          "whyLost": "too close to place.saxhleel-coast.archon"
         },
         {
-          "siteId": "site.free.roadside-0510",
-          "score": 2.396,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0298",
+          "score": 2.723,
+          "whyLost": "too close to place.saxhleel-coast.archon"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 35 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 33 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, parent, hinterland; placed from the homeless batch at stage 'region-relaxed'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 12.3,
-        "score": 2.481
-      }
+        "dangerBand": 0,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 27.4,
+        "score": 2.624
+      },
+      "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it."
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
@@ -2905,7 +2927,7 @@
         "variant": "occupied",
         "magnitude": null
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "geography-derived",
       "sources": [
         "docs/world/00-core.md acceptance rule: underwater POIs throughout appropriate regions",
@@ -2915,7 +2937,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A pillar of rock left standing off the headland, climbed for eggs since before anyone counted, and lately occupied by someone who wanted nobody to reach them.",
+        "founding": "A pillar of rock off the headland, climbed for eggs by the Portdun Mont families for six generations. Someone else is at the top now, up a face that takes 40 metres of rope.",
         "siteAdvantages": "Vertical, isolated, with a mooring ring at the base and a worn climbing line up the seaward face.",
         "occupantsMotive": "One occupant at the top who has hauled up more than one person could need.",
         "pressures": "The egg-takers still claim the route; the occupant has not yet said no.",
@@ -2938,7 +2960,12 @@
         "landformClasses": [
           "islet",
           "headland"
-        ]
+        ],
+        "nearPoint": {
+          "x": 4343,
+          "z": 4184,
+          "maxM": 350
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -2961,10 +2988,10 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a vertical black pillar, the only shape in a flat sea view",
+        "silhouette": "a vertical black pillar standing out of a flat sea view",
         "palette": "black rock, white guano, one flap of dyed cloth",
         "materials": "rock, worn hand-holds, a lashed platform",
-        "signatureFeature": "a banner at the top that nobody on shore can read and everybody has an opinion about",
+        "signatureFeature": "a banner at the top too far off to read from the Portdun Mont stair; the village argues about it anyway",
         "condition": "the climbing route is polished by generations of hands",
         "mood": "dare and rumour",
         "approach": "seen from ten minutes out, reached only by boat",
@@ -2991,7 +3018,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -3009,8 +3036,6 @@
       "densityLayer": "destination",
       "entrance": "none",
       "underwaterAccess": "shallow-dive",
-      "deferredFromStatus": "active",
-      "deferredWhy": "Coverage critique S1/S2/S3: saxhleel-coast carried 99 records on 1.81 km2 against a corrected budget of 18-24, the most over-budget zone in the province. Deferred as surplus - 'sea-stack' is over its province count band (5 max), and the record is neither canon, quest-bearing, tier 0-1, nor an instance of an under-band vertical/underwater type. The record is intact and complete; Part 3 promotes it if the ground turns out to want it.",
       "hostility": {
         "baseline": "hostile",
         "owner": null,
@@ -3063,11 +3088,40 @@
           }
         ]
       },
-      "relationsReserved": {
-        "reachedVia": [
-          "place.saxhleel-coast.estuary-ferry-stage",
-          "place.saxhleel-coast.jungle-ferry-stage"
-        ]
+      "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D4 gap at (4343, 4184): more fights off the road, fewer on it (owner).",
+      "position": {
+        "u": 0.64804,
+        "v": 0.53292
+      },
+      "positionM": [
+        4778.3,
+        3929.5
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0847",
+          "score": 1.075,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0920",
+          "score": 1.073,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0848",
+          "score": 1.07,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 88 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on nearPoint, hinterland, landform; site exchanged in the swap pass with place.saxhleel-coast.sealed-xanmeer-wall (+0.54).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 88.4,
+        "distanceToWaterM": 0.0,
+        "score": 1.13
       }
     },
     {
@@ -4015,8 +4069,8 @@
       "why": {
         "founding": "The Cantemiric Velothi, elven dissidents out of Morrowind, built towers on the highest ground they could hold above the eastern shore. The marsh took the lower half back.",
         "siteAdvantages": "A bare spur over a narrows, where the jungle cannot take the stone back.",
-        "occupantsMotive": "Nobody. The Dunmer families in Archon know the house mark. Ask one and she will talk about her own house instead.",
-        "pressures": "Salt has eaten the render for 2,000 years; the ancestor niches are empty, but nobody recorded why.",
+        "occupantsMotive": "Unoccupied. The Dunmer factor households in Archon know the house mark; ask one and she will talk about her own house instead.",
+        "pressures": "Salt has eaten the render for 2,000 years; the ancestor niches are empty, but no Archon house keeps a record of where the urns went.",
         "wouldChangeIf": "If a living House claimed descent, the Archon Dunmer quarter's standing in the city changes overnight."
       },
       "sitingPrefs": {
@@ -4047,7 +4101,7 @@
       },
       "culture": "lost-peoples",
       "occupants": [
-        "nothing living above water",
+        "unoccupied above water",
         "D4 in the drowned tower"
       ],
       "dangerTier": "D4",
@@ -4071,7 +4125,7 @@
         "silhouette": "bulbous organic towers on a bare spur above a water narrows",
         "palette": "ash-grey, salt-white bloom, black interior shadow",
         "materials": "Velothi organic render over stone, all of it salt-rotted",
-        "signatureFeature": "ancestor niches with nobody in them, under a house mark from a House that no longer exists",
+        "signatureFeature": "ancestor niches swept out and left open, under a house mark from a House that no longer exists",
         "condition": "eroded to the armature; the tower that fell into the sea is divable",
         "mood": "quiet; whatever was mourned here was mourned in Dunmeris",
         "approach": "the shapes read as growths until you are close enough to see doors",
@@ -4091,7 +4145,7 @@
         "tags": [
           "LOC"
         ],
-        "opportunity": "The towers are Cantemiric Velothi. No one on this coast claims them, so a quest can be about who gets to."
+        "opportunity": "The towers are Cantemiric Velothi, unclaimed by any living House, so a quest can be about which Archon Dunmer household claims them first."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.ashen-towers",
       "deedCounterKeys": [],
@@ -4136,23 +4190,23 @@
         "claimed (somebody has begun filling the niches, and it is not Velothi work)"
       ],
       "position": {
-        "u": 0.58639,
-        "v": 0.62283
+        "u": 0.62283,
+        "v": 0.71728
       },
       "positionM": [
-        4323.8,
-        4592.4
+        4592.4,
+        5288.9
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1007",
           "score": 2.384,
-          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
           "siteId": "site.scour.tropical-jungle.water-narrows-040",
           "score": 1.855,
-          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
           "siteId": "site.free.roadside-0517",
@@ -4160,14 +4214,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 633 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on region, remote, danger; site exchanged in the swap pass with place.saxhleel-coast.jungle-root-hollow (+0.57).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 362 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on region, danger, parent; site exchanged in the swap pass with place.saxhleel-coast.mangrove-air-pocket (+1.71).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 632.8,
-        "distanceToWaterM": 19.8,
-        "score": 2.244
+        "distanceToRouteM": 361.9,
+        "distanceToWaterM": 0.0,
+        "score": 2.088
       },
       "hostility": {
         "baseline": "hostile",
@@ -4184,7 +4238,7 @@
           "vista-landmark"
         ],
         "impact": "major",
-        "hook": "Velothi towers standing above the canopy with half their floors under water. Nobody within a day's walk can tell you whose they were.",
+        "hook": "Velothi towers standing above the canopy with half their floors under water. The Dunmer quarter in Archon knows the house mark but not the House.",
         "reviewed": true
       },
       "interior": {
@@ -4742,7 +4796,8 @@
         ],
         "hardConstraints": [
           "outside a settlement's jurisdiction",
-          "firm ground"
+          "firm ground",
+          "inside the Saxhleel coast culture zone"
         ],
         "preferences": [
           "within an hour of a major city",
@@ -4754,7 +4809,11 @@
         ],
         "scourSiteIds": [
           "site.scour.firm-lowland.flood-high-022"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 900
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -4784,7 +4843,7 @@
         "silhouette": "a village with an empty space at its centre where a tree should be",
         "palette": "mud grey, undyed cloth, no amber anywhere",
         "materials": "mud render, thatch, no ritual totems at all",
-        "signatureFeature": "a swept circle at the village centre with nothing planted in it, kept clear on purpose",
+        "signatureFeature": "a swept circle at the village centre where a Hist would stand, kept clear on purpose",
         "condition": "well built, plain",
         "mood": "defiant; not settled about it",
         "approach": "the missing thing is the first thing you notice",
@@ -4904,30 +4963,31 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1117",
-          "score": 4.468,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
-          "siteId": "site.free.roadside-0315",
-          "score": 4.4,
-          "whyLost": "too close to place.hist-heartland.cut-and-carried"
-        },
-        {
           "siteId": "site.free.roadside-0503",
-          "score": 4.391,
+          "score": 4.891,
+          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0816",
+          "score": 4.879,
+          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1119",
+          "score": 4.866,
           "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 297 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'.",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 297 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, bound, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
         "distanceToRouteM": 297.4,
         "distanceToWaterM": 22.6,
-        "score": 3.339
-      }
+        "score": 3.839
+      },
+      "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground."
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
@@ -5741,12 +5801,16 @@
           "open productive water"
         ],
         "preferences": [
-          "equidistant between two settlements"
+          "inside a day's work of two separate landings"
         ],
         "landformClasses": [
           "islet",
           "cove"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.quay-tradehouse",
+          "maxM": 600
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -5777,7 +5841,7 @@
         "condition": "worked hard, argued over",
         "mood": "neighbours sharing one rope",
         "approach": "found by following boats",
-        "senses": "shouted insults across water; nothing else"
+        "senses": "shouted insults across water; hull slap"
       },
       "assetPlan": [
         "boats-raft-canoe",
@@ -5820,38 +5884,38 @@
       "entrance": "none",
       "underwaterAccess": "deep-dive",
       "position": {
-        "u": 0.66582,
-        "v": 0.57149
+        "u": 0.65927,
+        "v": 0.56631
       },
       "positionM": [
-        4909.5,
-        4213.9
+        4861.1,
+        4175.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 3.246,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.roadside-0512",
+          "score": 4.278,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.mangrove-forest.cove-061",
-          "score": 3.127,
-          "whyLost": "too close to place.saxhleel-coast.quarantine-village-lagoon"
+          "siteId": "site.free.roadside-0299",
+          "score": 4.271,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0690",
-          "score": 2.97,
-          "whyLost": "too close to place.saxhleel-coast.cantemir-headland"
+          "siteId": "site.free.roadside-0308",
+          "score": 4.26,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 25 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 23 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, bound, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 24.5,
-        "distanceToWaterM": 32.9,
-        "score": 2.541
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 5.5,
+        "score": 4.317
       },
       "hostility": {
         "baseline": "hostile",
@@ -6329,7 +6393,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A deeper bank out on the lane, worked by whoever has the hull to reach it.",
+        "founding": "A deeper bank a short pull off the lane, worked by whoever has the hull to reach it.",
         "siteAdvantages": "A hole in the seabed off the mangrove edge, deep enough that the boats work it by rope and count.",
         "occupantsMotive": "Crews from three settlements who do not meet ashore.",
         "pressures": "It is a day's sail from help and the weather here turns fast.",
@@ -6343,7 +6407,7 @@
         ],
         "hardConstraints": [
           "deep open water",
-          "on the shipping lane"
+          "off a working boat lane, in deep open water"
         ],
         "preferences": [
           "far from shelter"
@@ -6371,9 +6435,9 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "boats hull-down on the horizon; nothing else",
+        "silhouette": "boats hull-down on the horizon; no land in any direction",
         "palette": "grey swell, grey sky",
-        "materials": "hulls, lines, nothing built",
+        "materials": "hulls, lines, weighted rope",
         "signatureFeature": "no stakes, no marks; the place is water and other crews' boats",
         "condition": "unmarked",
         "mood": "exposed, small",
@@ -6416,12 +6480,12 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Nine Fathom",
       "position": {
-        "u": 0.6972,
-        "v": 0.72695
+        "u": 0.7567,
+        "v": 0.5559
       },
       "positionM": [
-        5140.8,
-        5360.1
+        5579.5,
+        4098.9
       ],
       "candidatesConsidered": [
         {
@@ -6430,24 +6494,24 @@
           "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1145",
-          "score": 2.756,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1120",
+          "score": 2.86,
+          "whyLost": "taken by place.saxhleel-coast.oliis-coast-lay-by"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0853",
           "score": 2.673,
-          "whyLost": "lost on score"
+          "whyLost": "taken by place.saxhleel-coast.outer-reef"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 187 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; site exchanged in the swap pass with place.saxhleel-coast.dusk-bird-colony (+1.14).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "islet",
         "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 186.5,
-        "distanceToWaterM": 11.0,
-        "score": 2.86
+        "dangerBand": 2,
+        "distanceToRouteM": 60.3,
+        "distanceToWaterM": 24.5,
+        "score": 2.702
       },
       "hostility": {
         "baseline": "hostile",
@@ -6497,7 +6561,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.mangrove-forest.islet-031"
     },
     {
       "id": "place.saxhleel-coast.delta-boatwright",
@@ -7152,7 +7217,7 @@
         "founding": "A low island in the lagoon where an enormous number of birds roost, worked for eggs and down under a rota.",
         "siteAdvantages": "An island with no predators, ringed by water too shallow for boats at low tide.",
         "occupantsMotive": "Egg-harvesters from two villages under a rota that limits the take.",
-        "pressures": "The rota exists because they emptied it once; the harvesting frames are older than anyone using them.",
+        "pressures": "The rota exists because they emptied it once; the harvesting frames are older than the harvesters using them.",
         "wouldChangeIf": "If the rota broke, the column stops."
       },
       "sitingPrefs": {
@@ -7244,12 +7309,12 @@
       "entrance": "none",
       "underwaterAccess": "surface-swim",
       "position": {
-        "u": 0.7567,
-        "v": 0.5559
+        "u": 0.69199,
+        "v": 0.70612
       },
       "positionM": [
-        5579.5,
-        4098.9
+        5102.4,
+        5206.6
       ],
       "candidatesConsidered": [
         {
@@ -7268,14 +7333,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
+      "whySiteWon": "island in mangrove forest (danger band 2), 85 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.deep-bank (+1.14).",
       "plotFacts": {
-        "landform": "islet",
+        "landform": "island",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 60.3,
-        "distanceToWaterM": 24.5,
-        "score": 2.551
+        "distanceToRouteM": 85.3,
+        "distanceToWaterM": 12.3,
+        "score": 2.448
       },
       "hostility": {
         "baseline": "hostile",
@@ -7291,7 +7356,7 @@
           "vista-landmark"
         ],
         "impact": "real",
-        "hook": "An islet of nesting birds that will mob anything that lands. Eggs and feathers worth the bruises.",
+        "hook": "An islet of nesting birds that mob a boat as it lands. Eggs and feathers worth the bruises.",
         "reviewed": true
       },
       "interior": {
@@ -7336,7 +7401,7 @@
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
       },
-      "scourSiteId": "site.scour.mangrove-forest.islet-031"
+      "scourSiteId": "site.scour.mangrove-forest.island-040"
     },
     {
       "id": "place.saxhleel-coast.east-estuary-rootworm-station",
@@ -7362,7 +7427,7 @@
         "founding": "A rootland arm surfaces under firm ground beside the estuary landing. The waykeepers shored the mouth and put a terminus on it.",
         "siteAdvantages": "Where a rootland arm runs out under firm ground within a short walk of the estuary landing, so a passenger can step off a boat and into the root.",
         "occupantsMotive": "Waykeepers who read the worms' movement and sell passage they cannot guarantee.",
-        "pressures": "The worms are alive and seasonal. A standing station here is a claim on a departure nobody can promise.",
+        "pressures": "The worms are alive and seasonal. A standing station here is a claim on a departure the waykeepers cannot promise.",
         "wouldChangeIf": "If the root arm died back, the coast loses its only fast transit and Archon becomes a week from the interior."
       },
       "sitingPrefs": {
@@ -7387,7 +7452,11 @@
         ],
         "scourSiteIds": [
           "site.scour.tropical-jungle.land-bridge-007"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 400
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -7416,11 +7485,11 @@
         "silhouette": "a low timber stage over a shored earth mouth in a red clay scar, with no vehicle visible",
         "palette": "red clay, root brown, waykeeper indigo",
         "materials": "packed clay, a timber stage on scaffold legs, shored earth and cut root below",
-        "signatureFeature": "a boarding stage built over a shored hole in the ground, with a departure tally nobody can commit to",
+        "signatureFeature": "a boarding stage built over a shored hole in the ground, with a departure tally chalked in days rather than hours",
         "condition": "in use, unfinished-looking by nature",
         "mood": "strange practicality",
         "approach": "the red scar reads from a distance in a green landscape",
-        "senses": "subsonic movement underground; then nothing"
+        "senses": "subsonic movement underground; then still air"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -7499,28 +7568,28 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0926",
-          "score": 2.708,
+          "score": 3.308,
           "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
         },
         {
           "siteId": "site.free.roadside-0301",
-          "score": 2.705,
+          "score": 3.305,
           "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
         },
         {
           "siteId": "site.free.roadside-0302",
-          "score": 2.704,
+          "score": 3.304,
           "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 2), 143 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 143 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 2,
         "distanceToRouteM": 142.7,
         "distanceToWaterM": 12.3,
-        "score": 2.701
+        "score": 3.301
       },
       "hostility": {
         "baseline": "guarded",
@@ -7588,7 +7657,8 @@
           "place.hist-heartland.rootworm-station-helstrom",
           "place.saxhleel-coast.archon"
         ]
-      }
+      },
+      "sitingNote": "Bound to Archon: the record's identity is 'step off a boat and into the root', so the terminus must sit inside a short walk of the estuary landing."
     },
     {
       "id": "place.saxhleel-coast.estuary-boom-tower",
@@ -7965,7 +8035,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Somebody has to keep the estuary marks lit and the stake lines cut. That somebody has to sleep near the water.",
-        "siteAdvantages": "The only firm hummock on the estuary's north shore, dry at the highest seasonal level and one boat-length from the channel.",
+        "siteAdvantages": "A firm hummock on the estuary's north shore, dry at the highest seasonal level and one boat-length from the channel.",
         "occupantsMotive": "Four generations of one family, contractually stuck with it and very good at it.",
         "pressures": "The fuel account is paid late every year and the family hoards against it. The lodge is the last roof before band-three marsh in three directions.",
         "wouldChangeIf": "If the light were abandoned the family would stay. They have nowhere else to go and the stake lines would still need cutting."
@@ -7982,13 +8052,18 @@
         ],
         "preferences": [
           "sheltered from the prevailing squall",
-          "a fuel store larger than the house"
+          "a fuel store larger than the house",
+          "upshore of the estuary light, on the north bank"
         ],
         "landformClasses": [
           "any-shallow-marsh",
           "flood-high",
           "any-firm-ground"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon-lighthouse",
+          "maxM": 900
+        }
       },
       "culture": "argonian",
       "occupants": [
@@ -8016,7 +8091,7 @@
         "materials": "salvaged ship timber, thatch, a stone fuel store",
         "signatureFeature": "carved whalebone by four generations of keepers, on every surface in the house",
         "condition": "immaculate",
-        "mood": "talkative; short of anyone to talk to",
+        "mood": "talkative; short of company",
         "approach": "you reach the house before the light",
         "senses": "lamp oil, wet rope, one voice talking to itself"
       },
@@ -8059,38 +8134,38 @@
       "underwaterAccess": "none",
       "name": "Carves-All-Winter",
       "position": {
-        "u": 0.68827,
-        "v": 0.54326
+        "u": 0.62878,
+        "v": 0.62357
       },
       "positionM": [
-        5075.0,
-        4005.7
+        4636.3,
+        4597.9
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1117",
-          "score": 3.928,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "score": 4.728,
+          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
         },
         {
-          "siteId": "site.free.roadside-0518",
-          "score": 3.819,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.roadside-0515",
+          "score": 3.649,
+          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0755",
-          "score": 3.154,
-          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+          "siteId": "site.free.roadside-0512",
+          "score": 3.648,
+          "whyLost": "too close to place.saxhleel-coast.archon"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 165 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; site exchanged in the swap pass with place.saxhleel-coast.wall-hist-village (+2.09).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 376 m from the nearest route; its choice #3 landform; won on bound, landform, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 165.0,
-        "distanceToWaterM": 22.6,
-        "score": 4.239
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 376.1,
+        "distanceToWaterM": 70.2,
+        "score": 2.905
       },
       "hostility": {
         "baseline": "wary",
@@ -8149,7 +8224,7 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-2",
-            "provenance": "a tally of night passages nobody asked her to keep"
+            "provenance": "a tally of night passages she keeps unasked"
           }
         ]
       },
@@ -8157,7 +8232,8 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "sitingNote": "Bound to the Estuary Light: the lodge exists to keep that light's marks and stake lines, so it must sit within a boat trip of it."
     },
     {
       "id": "place.saxhleel-coast.estuary-market-row",
@@ -8498,8 +8574,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A shallow bar across otherwise navigable water with one buoyed gap through it; hulls that read the buoys wrong end on the bar. The bar keeps them.",
-        "siteAdvantages": "Broken water over a shallow bar with a single marked gap, close enough to the lane that a pilot's mistake is cheap to reach.",
-        "occupantsMotive": "Divers work the harvest lots; the wrecks on it are worked by everyone.",
+        "siteAdvantages": "Broken water over a shallow bar with a single marked gap, on the southern approach where a pilot who trusts the light rather than the buoys will find it.",
+        "occupantsMotive": "Divers work the harvest lots; the wrecks are worked by whichever crew reaches them on the tide.",
         "pressures": "Whoever moves the buoys decides where the next hull ends up. Somebody has been moving them.",
         "wouldChangeIf": "If the lighthouse went dark, the count would be four within a season."
       },
@@ -8514,8 +8590,8 @@
           "on the port approach"
         ],
         "preferences": [
-          "between the light and the estuary mouth",
-          "harvest lots marked on the reef"
+          "harvest lots marked on the reef",
+          "on the southern approach, inside the light's arc"
         ],
         "landformClasses": [
           "islet",
@@ -8523,7 +8599,14 @@
         ],
         "scourSiteIds": [
           "site.scour.mangrove-forest.islet-031"
-        ]
+        ],
+        "sightlineTo": [
+          "place.saxhleel-coast.archon-lighthouse"
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon-lighthouse",
+          "maxM": 1200
+        }
       },
       "culture": "argonian",
       "dangerTier": "D3",
@@ -8592,38 +8675,38 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "position": {
-        "u": 0.62729,
-        "v": 0.74479
+        "u": 0.58565,
+        "v": 0.69571
       },
       "positionM": [
-        4625.3,
-        5491.7
+        4318.3,
+        5129.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 3.56,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0512",
+          "score": 4.646,
+          "whyLost": "too close to place.saxhleel-coast.archon"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1120",
-          "score": 2.906,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.tropical-jungle.river-mouth-005",
+          "score": 4.279,
+          "whyLost": "too close to place.saxhleel-coast.archon-shadowscale-sanctuary"
         },
         {
-          "siteId": "site.free.roadside-0508",
-          "score": 2.7,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1041",
+          "score": 3.587,
+          "whyLost": "too close to place.saxhleel-coast.owing-hiring-camp"
         }
       ],
-      "whySiteWon": "river mouth in mangrove forest (danger band 3), 257 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 645 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on bound, sightline, submerged.",
       "plotFacts": {
-        "landform": "river-mouth",
-        "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 256.8,
-        "distanceToWaterM": 0.0,
-        "score": 3.564
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 4,
+        "distanceToRouteM": 644.6,
+        "distanceToWaterM": 21.9,
+        "score": 3.545
       },
       "hostility": {
         "baseline": "hostile",
@@ -8706,8 +8789,7 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      },
-      "scourSiteId": "site.scour.mangrove-forest.river-mouth-015"
+      }
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
@@ -9650,7 +9732,7 @@
         "founding": "A void opened where the root layer lifted the ground deep in the D4 jungle. Something moved into it.",
         "siteAdvantages": "A dry void under the root layer, root-walled and rock-floored, with one defensible mouth.",
         "occupantsMotive": "An occupant that has made a lair of it and dragged in what it has taken.",
-        "pressures": "Nobody goes near it. The nearest village will tell you why at length.",
+        "pressures": "The nearest village keeps its hunters a valley clear of it. Ask the headman why and you get the whole story.",
         "wouldChangeIf": "If it were cleared, the village's hunting range doubles."
       },
       "sitingPrefs": {
@@ -9825,38 +9907,38 @@
         "tierOwnership": "SX08 · tier-3"
       },
       "position": {
-        "u": 0.6035,
-        "v": 0.55664
+        "u": 0.63399,
+        "v": 0.59383
       },
       "positionM": [
-        4449.9,
-        4104.4
+        4674.7,
+        4378.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0922",
-          "score": 3.87,
-          "whyLost": "too close to place.hist-heartland.sap-tapping-licensed"
+          "siteId": "site.free.any-firm-ground-0955",
+          "score": 4.171,
+          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
         },
         {
-          "siteId": "site.free.any-firm-ground-0881",
-          "score": 3.839,
-          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+          "siteId": "site.free.any-firm-ground-0812",
+          "score": 4.085,
+          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
         },
         {
-          "siteId": "site.free.any-firm-ground-0844",
-          "score": 3.746,
-          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+          "siteId": "site.free.any-firm-ground-0848",
+          "score": 4.061,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 367 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+0.57).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 227 m from the nearest route; its first-choice landform; won on landform, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 367.4,
-        "distanceToWaterM": 11.0,
-        "score": 3.81
+        "distanceToRouteM": 227.5,
+        "distanceToWaterM": 59.1,
+        "score": 4.059
       }
     },
     {
@@ -10488,10 +10570,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The terraces were built dry. The water came up about two hundred years ago and has stayed.",
+        "founding": "The terraces were built dry. The water came up about two hundred years ago and now stands six metres over the top terrace.",
         "siteAdvantages": "A drowned lagoon deep enough to swallow six terraces and clear enough to read the geometry from a boat above it.",
-        "occupantsMotive": "Nothing lives in it that anybody has come back to describe.",
-        "pressures": "It is a tended monument nobody can tend. The nearest village finds that unbearable.",
+        "occupantsMotive": "No diver has come back from it with a description of what lives there.",
+        "pressures": "It is a tended monument the village cannot reach to tend. They find that unbearable.",
         "wouldChangeIf": "If the water dropped a metre the tribe would reclaim it within a year."
       },
       "sitingPrefs": {
@@ -10545,7 +10627,7 @@
         "condition": "structurally intact, silted",
         "mood": "still water; your lungs set the pace",
         "approach": "the corner reads as a rock until the shadow under it resolves into steps",
-        "senses": "above, nothing; below, your own breath and settling silt"
+        "senses": "above, gulls and hull slap; below, your own breath and settling silt"
       },
       "assetPlan": [
         "xanmeer-tileset",
@@ -10620,12 +10702,12 @@
         {
           "siteId": "site.scour.tropical-jungle.island-041",
           "score": 2.873,
-          "whyLost": "too close to place.saxhleel-coast.padomaic-wrecker-beach"
+          "whyLost": "too close to place.saxhleel-coast.owing-hiring-camp"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-040",
-          "score": 2.869,
-          "whyLost": "too close to place.hist-heartland.the-cut-circle"
+          "siteId": "site.free.any-firm-ground-1063",
+          "score": 2.858,
+          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         }
       ],
       "whySiteWon": "cove in tropical jungle (danger band 4), 884 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
@@ -10733,7 +10815,7 @@
         "founding": "Somebody furnished a trapped air space inside a flooded structure and keeps a lamp burning in it.",
         "siteAdvantages": "Enclosed by water on all sides; the way in is a dive of about 20 metres.",
         "occupantsMotive": "One or two who dive in to it. It may be only their belongings left.",
-        "pressures": "Everything in it is too heavy to swim out with.",
+        "pressures": "The hoard was chosen for being too heavy to swim out with.",
         "wouldChangeIf": "If the water level fell the room becomes an ordinary cellar."
       },
       "sitingPrefs": {
@@ -10745,7 +10827,8 @@
         ],
         "hardConstraints": [
           "fully enclosed by water",
-          "breathable air maintained"
+          "breathable air maintained",
+          "at least 300 m from any road, track or boat lane"
         ],
         "preferences": [
           "inside a drowned or flooded place"
@@ -10772,7 +10855,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "nothing from outside; it is found by diving",
+        "silhouette": "no sign from outside; found by diving",
         "palette": "lamp yellow on wet stone",
         "materials": "dry goods kept dry, a lamp burning",
         "signatureFeature": "a hoard chosen for being too heavy to swim out with",
@@ -10819,38 +10902,38 @@
       "name": "One-Chest",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy to swim out with, no surface expression - is the grotto recipe, not the staffed way-station one.",
       "position": {
-        "u": 0.62283,
-        "v": 0.71728
+        "u": 0.72918,
+        "v": 0.46368
       },
       "positionM": [
-        4592.4,
-        5288.9
+        5376.6,
+        3419.0
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.cove-015",
+          "score": 3.7,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
         {
           "siteId": "site.free.roadside-0506",
           "score": 3.103,
           "whyLost": "taken by place.saxhleel-coast.terrace-village-ridge"
         },
         {
-          "siteId": "site.free.any-firm-ground-0847",
-          "score": 2.335,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.tropical-jungle.cove-022",
-          "score": 2.307,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0306",
+          "score": 3.09,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 362 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, region, submerged.",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 307 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on route, region, submerged; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+1.71).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 361.9,
-        "distanceToWaterM": 0.0,
-        "score": 2.358
+        "landform": "any-shallow-marsh",
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 307.1,
+        "distanceToWaterM": 15.5,
+        "score": 3.807
       },
       "hostility": {
         "baseline": "hostile",
@@ -10922,7 +11005,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "sitingNote": "Held off-route by constraint rather than a nearPoint: the published off-route gap list has no point inside the Saxhleel coast zone."
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -11112,8 +11196,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Where the mangrove wall meets open water a shell bar has built up and been farmed for generations.",
-        "siteAdvantages": "Shallow, sheltered mangrove reef, walkable at the lowest tides and picked over daily by anyone with a basket.",
-        "occupantsMotive": "Two villages work alternate lots by an agreement nobody has written down.",
+        "siteAdvantages": "Shallow, sheltered mangrove reef, walkable at the lowest tides and picked over daily by children with baskets.",
+        "occupantsMotive": "Two villages work alternate lots by an agreement neither has written down.",
         "pressures": "The agreement is one bad season from being a fight.",
         "wouldChangeIf": "If either village lost its boats, the other would take the whole bar in a month."
       },
@@ -11128,8 +11212,8 @@
           "tidal exposure"
         ],
         "preferences": [
-          "between two villages",
-          "lots marked on the reef itself"
+          "lots marked on the reef itself",
+          "worked from the delta villages on the rise behind it"
         ],
         "landformClasses": [
           "islet",
@@ -11137,7 +11221,11 @@
         ],
         "scourSiteIds": [
           "site.scour.mangrove-forest.islet-034"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.tide-street-village",
+          "maxM": 500
+        }
       },
       "culture": "argonian",
       "dangerTier": "D2",
@@ -11201,45 +11289,45 @@
       "underwaterAccess": "deep-dive",
       "name": "Black-Cut Teeth",
       "position": {
-        "u": 0.72918,
-        "v": 0.46368
+        "u": 0.77231,
+        "v": 0.45327
       },
       "positionM": [
-        5376.6,
-        3419.0
+        5694.6,
+        3342.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 3.233,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.any-shallow-marsh-0726",
+          "score": 3.787,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0690",
-          "score": 2.976,
-          "whyLost": "too close to place.saxhleel-coast.cantemir-headland"
+          "score": 3.776,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0691",
-          "score": 2.944,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "score": 3.744,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 307 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'relaxed-score'; site exchanged in the swap pass with place.saxhleel-coast.cantemir-headland (+2.87).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 17 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, bound, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
+        "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 307.1,
-        "distanceToWaterM": 15.5,
-        "score": 2.962
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 29.5,
+        "score": 4.033
       },
       "hostility": {
-        "baseline": "hostile",
+        "baseline": "neutral",
         "owner": null,
         "flips": [],
-        "clearable": true,
-        "respawn": "slow"
+        "clearable": false,
+        "respawn": "none"
       },
       "playerPurpose": {
         "primary": "resource-source",
@@ -11247,7 +11335,7 @@
           "safe-rest"
         ],
         "impact": "mild",
-        "hook": "Shellfish, crab and reef weed, gathered at low tide by anyone who cannot yet swim.",
+        "hook": "Shellfish, crab and reef weed, gathered at low tide by children too small to dive the lots.",
         "reviewed": true
       },
       "interior": {
@@ -11623,10 +11711,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Archon's customs desk is the only one on the coast that works, so the Oliis run grew a last stop short of it: a channel mouth where a hull can lie a night, break a cargo down and send it in by canoe in daylight, declared as something else.",
+        "founding": "Archon's customs desk is the working one on this coast, so the Oliis run grew a last stop short of it: a channel mouth where a hull can lie a night, break a cargo down and send it in by canoe in daylight, declared as something else.",
         "siteAdvantages": "A mangrove channel deep enough for a keeled hull, screened from the lane, within a night's paddle of the Archon quay.",
         "occupantsMotive": "Half-chartered crews out of the Oliis coast whose letters of marque cover the hull but not the hold. Factors in the city prefer their goods undated.",
-        "pressures": "The harbour authority sweeps the channels twice a season, but always finds the wrong one; the League of Open Water tolerates the trade and taxes it privately.",
+        "pressures": "The harbour authority sweeps the channels twice a season, but has yet to sweep this one; the League of Open Water tolerates the trade and taxes it privately.",
         "wouldChangeIf": "If Archon's customs stopped functioning the lay-by would be pointless and the trade would go straight to the quay."
       },
       "sitingPrefs": {
@@ -11648,7 +11736,11 @@
           "water-narrows",
           "cove",
           "any-shallow-marsh"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.saxhleel-coast.archon",
+          "maxM": 900
+        }
       },
       "culture": "argonian",
       "ownerFaction": "faction.salt-teeth",
@@ -11678,7 +11770,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "nothing at all from the lane; a hull's masthead above the mangrove if you know to look",
+        "silhouette": "no sign at all from the lane; a hull's masthead above the mangrove if you know to look",
         "palette": "black water, green shade, hooded lamps",
         "materials": "a plank stack on piles, a walkway, no building worth burning",
         "signatureFeature": "a cargo stack under a mangrove roof, already broken down into canoe loads, with a plank hatch beneath it into a half-flooded cut",
@@ -11811,7 +11903,7 @@
             "danger": "D2",
             "count": "single",
             "named": true,
-            "note": "the broker; keeps the stack, the tally and everyone's silence"
+            "note": "the broker; keeps the stack and the tally, buying silence by the season"
           },
           {
             "slotId": "n2",
@@ -11852,39 +11944,40 @@
         ]
       },
       "position": {
-        "u": 0.71802,
-        "v": 0.59531
+        "u": 0.6972,
+        "v": 0.72695
       },
       "positionM": [
-        5294.3,
-        4389.6
+        5140.8,
+        5360.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 3.489,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 3.162,
-          "whyLost": "lost on score"
+          "score": 4.562,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
         },
         {
           "siteId": "site.free.roadside-0308",
-          "score": 3.12,
-          "whyLost": "lost on score"
+          "score": 4.52,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.free.roadside-0515",
+          "score": 4.517,
+          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 82 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 187 m from the nearest route; at the water's edge; its choice #3 landform; won on bound, landform, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
-        "dangerBand": 2,
-        "distanceToRouteM": 81.5,
-        "distanceToWaterM": 33.4,
-        "score": 4.115
-      }
+        "dangerBand": 3,
+        "distanceToRouteM": 186.5,
+        "distanceToWaterM": 11.0,
+        "score": 4.384
+      },
+      "sitingNote": "The audit's 'names the Lilmoth-Archon lane but sits 281 m off it' is the record working as written: its hard constraint is no sightline from that lane. Bound to Archon instead, because the customs desk is what makes the lay-by the last stop."
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
@@ -11905,9 +11998,9 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The shipping lane keeps clear of the outer bar, so the reef on it is still alive.",
-        "siteAdvantages": "Clear water over a healthy reef in the outer mangrove channels, far enough out that nobody works it daily.",
-        "occupantsMotive": "Nobody. Divers come out for a day and go home.",
-        "pressures": "It is the healthiest reef on the coast, but nobody defends it.",
+        "siteAdvantages": "Clear water over a healthy reef in the outer mangrove channels, far enough out that the lot divers come once a season.",
+        "occupantsMotive": "Unheld. Divers come out for a day and go home.",
+        "pressures": "It is the healthiest reef on the coast, with no crew holding a claim on it.",
         "wouldChangeIf": "If the harvest lots moved out here, it would look like the Gap in 15 years."
       },
       "sitingPrefs": {
@@ -11947,14 +12040,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "nothing above water but a colour change",
+        "silhouette": "no mark above water but a colour change",
         "palette": "turquoise over rust and violet",
         "materials": "living coral, sand, no built thing",
         "signatureFeature": "water clear enough to see 30 metres",
         "condition": "untouched",
         "mood": "clear and quiet",
         "approach": "found by sailing off the lane",
-        "senses": "above, nothing; below, a constant crackle"
+        "senses": "above, wind; below, a constant crackle"
       },
       "assetPlan": [
         "submerged-blocks",
@@ -12008,12 +12101,12 @@
         {
           "siteId": "site.free.any-shallow-marsh-1120",
           "score": 3.247,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "whyLost": "taken by place.saxhleel-coast.oliis-coast-lay-by"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1145",
-          "score": 3.069,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "siteId": "site.free.roadside-0508",
+          "score": 2.967,
+          "whyLost": "lost on score"
         }
       ],
       "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 318 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
@@ -12071,7 +12164,7 @@
             "registerRef": null,
             "payoff": "resource-node",
             "valueTier": "tier-3",
-            "provenance": "a pearl bed nobody has strip-worked because of what guards it"
+            "provenance": "a pearl bed left unstripped because of what guards it"
           }
         ]
       },
@@ -12102,7 +12195,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Households whose owing was called in are put off their ground. They camp at the edge of it because the work is here and there is nowhere else to wait.",
-        "siteAdvantages": "The margin of a licensed sap concession, on jungle ground nobody will contest.",
+        "siteAdvantages": "The margin of a licensed sap concession, on jungle ground the concession does not want.",
         "occupantsMotive": "Families waiting for a hiring day. A broker's clerk comes twice a week.",
         "pressures": "Their ground is a hundred metres away with someone else working it. The jungle at their backs is worse than the work.",
         "wouldChangeIf": "If a Chainbreaker cell reached them the camp becomes a flashpoint rather than a queue."
@@ -12148,13 +12241,13 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "a line of shelters along a boundary, all of them facing inward at the fields",
+        "silhouette": "a line of shelters along a boundary, each facing inward at the fields",
         "palette": "grey canvas, mud, one good cooking pot per family",
         "materials": "salvaged canvas, hurdles, household goods stacked outside",
-        "signatureFeature": "every shelter faces the ground its household used to work; none of them face each other",
+        "signatureFeature": "every shelter faces the ground its household used to work; the doors face away from the camp",
         "condition": "settled far longer than a camp should be",
         "mood": "banked anger",
-        "approach": "you pass it on the road and the whole camp watches you",
+        "approach": "the shelters read from the boardwalk through the trees; the camp watches you go by",
         "senses": "children; adults not talking"
       },
       "assetPlan": [
@@ -12173,7 +12266,7 @@
           "APP",
           "LOC"
         ],
-        "opportunity": "The broker's hiring list is a document, so a quest can be won by altering who is on it rather than by fighting anyone."
+        "opportunity": "The broker's hiring list is a document, so a quest can be won by altering who is on it rather than by fighting the broker's clerk."
       },
       "rumourPoolKey": "rumour.saxhleel-coast.the-owing",
       "deedCounterKeys": [
@@ -12259,18 +12352,18 @@
         "loot": []
       },
       "position": {
-        "u": 0.61763,
-        "v": 0.58118
+        "u": 0.69199,
+        "v": 0.55293
       },
       "positionM": [
-        4554.1,
-        4285.4
+        5102.4,
+        4077.0
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1117",
           "score": 4.562,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
         },
         {
           "siteId": "site.free.any-firm-ground-0988",
@@ -12278,19 +12371,19 @@
           "whyLost": "too close to place.saxhleel-coast.archon-shadowscale-sanctuary"
         },
         {
-          "siteId": "site.free.any-firm-ground-0922",
-          "score": 4.396,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-0885",
+          "score": 4.47,
+          "whyLost": "too close to place.saxhleel-coast.banner-stack"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 320 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 214 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.wall-hist-village (+0.62).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 319.7,
-        "distanceToWaterM": 46.5,
-        "score": 4.47
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 213.9,
+        "distanceToWaterM": 44.2,
+        "score": 4.879
       },
       "sitingNote": "Held at D3 although the danger raster reads band 4 here: the camp sits on cleared concession margin and the band-4 reading belongs to the jungle around it, not to the queue."
     },
@@ -12313,11 +12406,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Archon is the only lawful landing on this coast, so a hull that misses the estuary in weather looks for any light it can see. A shore gang worked out what a light in the wrong place is worth.",
+        "founding": "Archon is the lawful landing on this coast, so a hull that misses the estuary in weather looks for whatever light it can see. A shore gang worked out what a light in the wrong place is worth.",
         "siteAdvantages": "A shelving beach south of the estuary with a bar offshore and no settlement within sight of the fire.",
         "occupantsMotive": "Landless coast households who lost their fishing ground and found that a cargo comes ashore whether or not the crew does.",
         "pressures": "The harbour authority knows the beach exists, but cannot prove which fire is which; the pilots of Portdun Mont lose a hull a season to it and want it burnt out.",
-        "wouldChangeIf": "If the estuary marks were kept properly lit the gang would have nothing to imitate. They would go back to fishing, or go to Alten Corimont."
+        "wouldChangeIf": "If the estuary marks were kept properly lit the gang would have no light to imitate. They would go back to fishing, or go to Alten Corimont."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12327,7 +12420,8 @@
         ],
         "hardConstraints": [
           "a shelving beach a laden hull can ground on",
-          "no settlement in line of sight of the fire"
+          "no settlement in line of sight of the fire",
+          "on the open Padomaic shore, with the sea in front of it"
         ],
         "preferences": [
           "south of the Archon estuary, on the Padomaic beaches",
@@ -12376,9 +12470,9 @@
       "vibe": {
         "silhouette": "a single fire above a beach, with dark shapes between it and the water",
         "palette": "fire orange on wet black sand, salt-bleached timber",
-        "materials": "wreck timber reused for everything, including the shelters",
+        "materials": "wreck timber reused for the shelters and the fire pole",
         "signatureFeature": "a fire basket on a pole, sited exactly where the estuary light should not be",
-        "condition": "temporary by design; nothing here is worth defending except the cargo",
+        "condition": "temporary by design; the shelters can be off the beach in an hour",
         "mood": "unfriendly and quick",
         "approach": "the fire is visible from the water long before the camp is",
         "senses": "smoke, tar, wet cordage, meat"
@@ -12525,40 +12619,39 @@
         ]
       },
       "position": {
-        "u": 0.61093,
-        "v": 0.68084
+        "u": 0.65704,
+        "v": 0.74554
       },
       "positionM": [
-        4504.7,
-        5020.2
+        4844.7,
+        5497.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1145",
-          "score": 5.72,
-          "whyLost": "too close to place.saxhleel-coast.umbriel-shore-memorial"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-0755",
           "score": 5.712,
-          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0508",
           "score": 5.62,
-          "whyLost": "too close to place.saxhleel-coast.terrace-village-ridge"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0502",
+          "score": 5.618,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in tropical jungle (danger band 4), 498 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, sightline.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 66 m from the nearest route; its choice #2 landform; won on landform, bound, sightline.",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 497.9,
-        "distanceToWaterM": 5.5,
-        "score": 4.338
-      },
-      "scourSiteId": "site.scour.tropical-jungle.cove-014"
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
+        "dangerBand": 3,
+        "distanceToRouteM": 66.0,
+        "distanceToWaterM": 66.0,
+        "score": 5.72
+      }
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -12584,7 +12677,7 @@
         "siteAdvantages": "Clear water over a firm bed inside the reef, six to twelve metres down; deeper than an outsider can casually work.",
         "occupantsMotive": "Diver families holding numbered lots by inheritance, with a surface tender each.",
         "pressures": "The deep lots pay best and kill divers; the tally book records both facts on the same page.",
-        "wouldChangeIf": "If foreigners learned to dive here the lot system collapses. Nobody teaches them."
+        "wouldChangeIf": "If foreigners learned to dive here the lot system collapses. The diver families teach their own."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12611,7 +12704,7 @@
         "2-6 D1 divers",
         "one surface tender"
       ],
-      "dangerTier": "D2",
+      "dangerTier": "D1",
       "traversalModes": [
         "dive",
         "swim",
@@ -12628,14 +12721,14 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "marker buoys and a tender boat above nothing visible",
+        "silhouette": "marker buoys and a tender boat over water with no bed in sight",
         "palette": "buoy ochre, green water, silver shell",
         "materials": "buoys, grading baskets, weighted belts",
         "signatureFeature": "a diver's tally of lots worked, the deep lots entered in a second hand",
         "condition": "worked daily",
         "mood": "businesslike about a dangerous trade",
         "approach": "you find it by finding the tender first",
-        "senses": "rope creak; below, breath and the click of shell on basket"
+        "senses": "rope creak above; the click of shell into a basket below"
       },
       "assetPlan": [
         "docks-piers",
@@ -12765,18 +12858,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1143",
-          "score": 3.261,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
           "siteId": "site.scour.ocean.natural-harbour-012",
-          "score": 2.902,
+          "score": 2.352,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0688",
-          "score": 2.551,
+          "score": 2.201,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0308",
+          "score": 1.948,
           "whyLost": "lost on score"
         }
       ],
@@ -12787,7 +12880,7 @@
         "dangerBand": 0,
         "distanceToRouteM": 433.5,
         "distanceToWaterM": 0.0,
-        "score": 3.119
+        "score": 3.469
       },
       "scourSiteId": "site.scour.ocean.cove-006"
     },
@@ -12869,7 +12962,7 @@
         "silhouette": "houses stacked on a shelf against a rock face, lit from the seaward side only",
         "palette": "wet black rock, salt-bleached timber, one red pilot flag",
         "materials": "timber on stone footings, hauling gear, a 200-step stair",
-        "signatureFeature": "everything the village owns came up the stair on somebody's back",
+        "signatureFeature": "hauling gear at the stair head, its beam worn through where two centuries of loads came up",
         "condition": "weathered hard, endlessly repaired",
         "mood": "proud and insular",
         "approach": "seen from the sea long before the land route finds it",
@@ -13053,7 +13146,7 @@
         "tags": [
           "LOC"
         ],
-        "opportunity": "Everything arrives here by ladder and rope, so a quest can turn on who controls the hauling gear.",
+        "opportunity": "Cargo and passengers reach the shelf by ladder and rope, so a quest can turn on who controls the hauling gear.",
         "tierOwnership": "MQ14 · tier-0; SX32 · tier-3"
       }
     },
@@ -13302,12 +13395,11 @@
       "sitingPrefs": {
         "regionClasses": [
           "coastal lagoon & salt marsh",
-          "fringe marsh",
           "lake & standing water"
         ],
         "hardConstraints": [
-          "an island or a single-landing site",
-          "a cordon line still marked"
+          "a cordon line still marked",
+          "an island with open water on every side and a single landing"
         ],
         "preferences": [
           "within sight of the mainland it will not go to"
@@ -13347,13 +13439,13 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a normal village behind a line of stakes nobody is guarding",
+        "silhouette": "a normal village behind an unguarded line of painted stakes",
         "palette": "ordinary village colours, one line of white-painted stakes",
         "materials": "mud render, thatch, the painted cordon stakes",
         "signatureFeature": "a cordon line repainted every year by the people inside it",
         "condition": "well kept, entirely functional",
         "mood": "ordinary and careful about the line",
-        "approach": "you cross the line, nobody stops you, everybody watches",
+        "approach": "you cross the line unstopped; the village watches you do it",
         "senses": "an ordinary village; a silence at the boundary"
       },
       "assetPlan": [
@@ -13423,7 +13515,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A cordon nobody has enforced for a century, kept by the people inside it.",
+        "hook": "A cordon no guard has stood on for a century, kept up by the people inside it.",
         "reviewed": true
       },
       "interior": {
@@ -13463,19 +13555,19 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0851",
-          "score": 3.361,
-          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
-        },
-        {
-          "siteId": "site.free.roadside-0307",
-          "score": 3.358,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-0850",
           "score": 3.352,
           "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.free.roadside-0305",
+          "score": 3.312,
+          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.cove-015",
+          "score": 2.491,
+          "whyLost": "lost on score"
         }
       ],
       "whySiteWon": "land bridge in coastal lagoon & salt marsh (danger band 2), 163 m from the nearest route; at the water's edge; won on bound, region, hinterland.",
@@ -14222,7 +14314,7 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A drop in the river stops laden hulls dead, so everything going inland is unloaded, carried past the fall and loaded again. A town grew on the carry.",
+        "founding": "A drop in the river stops laden hulls dead, so inland cargo is unloaded, carried past the fall and loaded again. A town grew on the carry.",
         "siteAdvantages": "The furthest point upriver a laden boat can reach, with landings above and below the drop and firm ground between them.",
         "occupantsMotive": "Porters, transfer clerks and hauliers whose entire livelihood is that the falls exist.",
         "pressures": "The navigable limit moves with the season and this year's board does not match last year's; the porters price accordingly.",
@@ -14403,7 +14495,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Everything going inland is carried past the fall on somebody's back. The porters know what is in every load.",
+        "hook": "Every load bound inland is carried past the fall on somebody's back. The porters know what is in each one.",
         "reviewed": true
       },
       "interior": {
@@ -15124,10 +15216,10 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Deliberately closed by its own people, with its traps live and its vakka-stone mechanisms intact.",
-        "siteAdvantages": "Seven terraces of dressed stone standing in D4 jungle with no tending path to them, which is why nobody reopened it.",
-        "occupantsMotive": "Nothing living; the traps still work.",
+        "siteAdvantages": "Seven terraces of dressed stone standing in D4 jungle, with no tending path cut to them since the sealing.",
+        "occupantsMotive": "Unoccupied; the traps still work.",
         "pressures": "The tending clan a valley away keeps the door's location in a song. They have not opened it in four generations.",
-        "wouldChangeIf": "If it were opened, whatever it was closed against becomes everyone's problem."
+        "wouldChangeIf": "If it were opened, whatever it was closed against becomes the tending clan's problem, then the coast's."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -15170,7 +15262,7 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "silhouette": "a stepped mass under canopy, one terrace edge worn smooth by hands; nothing else touched",
+        "silhouette": "a stepped mass under canopy, one terrace edge worn smooth by hands; the rest under moss",
         "palette": "black-green moss over grey stone, root white",
         "materials": "xanmeer ashlar, vakka-stone fittings, sealed screens",
         "signatureFeature": "a doorway sealed from the inside; seven terraces up, a roof hatch the sealers did not know about",
@@ -15223,18 +15315,18 @@
       "name": "Seven-Terrace",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): sealed-xanmeer was over band (7/4-4) and climbable-ruin-roof under (2/4-4). The record was already about a meer sealed from the INSIDE, i.e. a ruin with no door: under the entrance-decoupling ruling its way in is the terrace climb and a roof hatch, which is the climbable-ruin-roof recipe exactly.",
       "position": {
-        "u": 0.59531,
-        "v": 0.71356
+        "u": 0.59903,
+        "v": 0.60498
       },
       "positionM": [
-        4389.6,
-        5261.4
+        4417.0,
+        4460.8
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1007",
           "score": 3.611,
-          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
           "siteId": "site.free.any-firm-ground-1037",
@@ -15242,19 +15334,19 @@
           "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
         },
         {
-          "siteId": "site.free.any-firm-ground-0949",
-          "score": 3.2,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.any-firm-ground-1063",
+          "score": 3.192,
+          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 565 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 498 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.saxhleel-coast.banner-stack (+0.54).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 564.8,
-        "distanceToWaterM": 0.0,
-        "score": 2.716
+        "distanceToRouteM": 497.9,
+        "distanceToWaterM": 17.3,
+        "score": 2.71
       },
       "hostility": {
         "baseline": "hostile",
@@ -15348,7 +15440,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The animals that supply the shell trade live where the mud is deep and the water shallow.",
-        "siteAdvantages": "Churned shallow mud at the delta edge, warm and food-rich.",
+        "siteAdvantages": "Churned shallow mud at the delta edge, warm enough to breed in and thick with worm.",
         "occupantsMotive": "A small number of very large animals and one abandoned set of cutter's tools.",
         "pressures": "The yard needs them, but the villages want them cleared.",
         "wouldChangeIf": "If the wallow were worked out the shell yard closes and the district's shields become imports."
@@ -15360,7 +15452,8 @@
           "mangrove forest"
         ],
         "hardConstraints": [
-          "shallow and muddy"
+          "shallow and muddy",
+          "inside the Saxhleel coast culture zone"
         ],
         "preferences": [
           "within 400 m of a shell yard"
@@ -15433,18 +15526,18 @@
       "underwaterAccess": "shallow-dive",
       "name": "Haj-Mota Wallow",
       "position": {
-        "u": 0.71356,
-        "v": 0.45922
+        "u": 0.62432,
+        "v": 0.74479
       },
       "positionM": [
-        5261.4,
-        3386.1
+        4603.4,
+        5491.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1145",
-          "score": 3.327,
-          "whyLost": "too close to place.saxhleel-coast.umbriel-shore-memorial"
+          "siteId": "site.free.any-shallow-marsh-0660",
+          "score": 4.188,
+          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
         },
         {
           "siteId": "site.free.any-shallow-marsh-0755",
@@ -15457,14 +15550,14 @@
           "whyLost": "too close to place.saxhleel-coast.terrace-village-ridge"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 3), 422 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.archon-glowgill-byre (+1.14).",
+      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 275 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.archon-glowgill-byre (+0.74).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
+        "regionClass": "tidal delta",
         "dangerBand": 3,
-        "distanceToRouteM": 422.3,
-        "distanceToWaterM": 17.3,
-        "score": 3.091
+        "distanceToRouteM": 275.3,
+        "distanceToWaterM": 5.5,
+        "score": 3.146
       },
       "hostility": {
         "baseline": "hostile",
@@ -16378,7 +16471,7 @@
       "why": {
         "founding": "A village built along a shelf above the flood line, until the spring above it gave way in a wet season and took the timber retaining walls down the slope with it.",
         "siteAdvantages": "Drained firm ground with a spring head above it and one approach that four people could hold, now unheld.",
-        "occupantsMotive": "Nobody keeps the terraces now. A pack has taken the lower platforms where the households used to trade.",
+        "occupantsMotive": "No household keeps the terraces now. A pack has taken the lower platforms where they used to trade.",
         "pressures": "The retaining walls keep failing and taking more of the slope with each wet season.",
         "wouldChangeIf": "Rebuilding the spring channel could resettle the lower terraces, but the collapse is getting worse each year."
       },
@@ -16430,7 +16523,7 @@
         "condition": "Half slid, half standing; every wet season takes more of it.",
         "mood": "Precarious and abandoned.",
         "approach": "The terrace lines resolve out of the hillside, broken off partway down.",
-        "senses": "Water still running in the cut channels with nobody to maintain them, mud shifting underfoot."
+        "senses": "Water still running in the cut channels that have gone untended, mud shifting underfoot."
       },
       "assetPlan": [
         "vanilla-shackkit",
@@ -16482,6 +16575,11 @@
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1069",
+          "score": 3.492,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.any-firm-ground-1042",
           "score": 3.425,
           "whyLost": "lost on score"
@@ -16489,11 +16587,6 @@
         {
           "siteId": "site.free.any-firm-ground-0812",
           "score": 3.149,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0923",
-          "score": 3.144,
           "whyLost": "lost on score"
         }
       ],
@@ -16750,7 +16843,7 @@
       "why": {
         "founding": "A delta flat that shortens the coast journey and is crossable only while the basin's tidal amplitude leaves it dry. In practice that is a short morning.",
         "siteAdvantages": "Firm sand under shallow water at low tide, marked by a stake line laid generations ago.",
-        "occupantsMotive": "Nobody lives on it; six people are usually waiting at the head.",
+        "occupantsMotive": "It carries no houses; six people are usually waiting at the head.",
         "pressures": "The window is a different length every day. The board is chalked before dawn or not at all.",
         "wouldChangeIf": "If a causeway were ever built here, the whole district's travel times change and the shelter dies."
       },
@@ -16915,7 +17008,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "Two hours of firm sand twice a day. Miss the window and the crossing is a swim in a running channel.",
+        "hook": "Two hours of firm sand twice a day. Miss the window and you swim a running channel.",
         "reviewed": true
       },
       "interior": {
@@ -17118,7 +17211,7 @@
       "why": {
         "founding": "A stilt village on subsiding delta ground that the water took street by street over sixty years, until the last households moved to the rise behind it.",
         "siteAdvantages": "Shallow clear water over an intact street plan, readable from a boat at low tide.",
-        "occupantsMotive": "Salvagers above; nothing below but what the salvagers cannot reach.",
+        "occupantsMotive": "Salvagers above; below, only what they cannot reach.",
         "pressures": "It has been picked over for a century. The deep streets still have not been worked.",
         "wouldChangeIf": "If the delta shifted again, the whole plan silts over and the salvage trade here ends."
       },
@@ -17336,8 +17429,8 @@
       "why": {
         "founding": "Umbriel crossed this coast in 4E 48. The bodies it left were buried here, away from any tree, so that the Hist could not be blamed.",
         "siteAdvantages": "A tidal flat above the village line where the ground could be opened quickly and in quantity.",
-        "occupantsMotive": "Bone-carriers still call here on the way south; nobody else does.",
-        "pressures": "The dead here were stripped, so there is nothing to repatriate.",
+        "occupantsMotive": "Bone-carriers still call here on the way south; the village keeps clear.",
+        "pressures": "The dead here were stripped, so there are no name-goods to carry home.",
         "wouldChangeIf": "If a way were found to return even one of them, the Umbriel Witness Society gains its first real relic."
       },
       "sitingPrefs": {
@@ -17387,7 +17480,7 @@
         "condition": "settling; the mound is visibly sinking in places",
         "mood": "unresolved grief",
         "approach": "the road bends around it without touching it",
-        "senses": "reed hiss; almost nothing else"
+        "senses": "reed hiss; wind in the stakes"
       },
       "assetPlan": [
         "totems-ritual",
@@ -17444,37 +17537,37 @@
       ],
       "position": {
         "u": 0.65109,
-        "v": 0.7329
+        "v": 0.50681
       },
       "positionM": [
         4800.8,
-        5404.0
+        3737.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-022",
-          "score": 4.077,
-          "whyLost": "too close to place.hist-heartland.cut-and-carried"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1143",
-          "score": 3.984,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
-        },
-        {
           "siteId": "site.free.roadside-0315",
           "score": 3.553,
-          "whyLost": "too close to place.hist-heartland.cut-and-carried"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0753",
+          "score": 3.54,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0503",
+          "score": 3.537,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 154 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "flood high in firm lowland (danger band 3), 56 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 153.6,
-        "distanceToWaterM": 38.4,
-        "score": 3.521
+        "distanceToRouteM": 56.5,
+        "distanceToWaterM": 32.0,
+        "score": 4.077
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -17541,7 +17634,8 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-022"
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
@@ -18030,7 +18124,7 @@
       "why": {
         "founding": "The Hist opened a break in the canopy on a firm rise at the marsh edge and the village that answered it stood there for generations.",
         "siteAdvantages": "A firm rise where the fringe marsh met the jungle wall, with fresh water and a canopy break the Hist made itself.",
-        "occupantsMotive": "Nobody lives here now. Still water rose over the sleeping tree and the xanmeer beneath it. It has stayed.",
+        "occupantsMotive": "No household has lived here since the still water rose over the sleeping tree and the xanmeer beneath it.",
         "pressures": "Something old holds the drowned chamber under the tree. A guardian keeps watch over what is left of the village.",
         "wouldChangeIf": "If the water ever drained, the tree and the xanmeer beneath it would be exposed for the first time in living memory."
       },
@@ -18084,8 +18178,8 @@
         "materials": "Mud-and-render huts collapsed and silted over, the raised uxith gone under, worked stone of the xanmeer visible below the surface.",
         "signatureFeature": "The sleeping tree's crown, half submerged, with an underwater entry down through the flooded chambers beneath it.",
         "condition": "Drowned and unchanged since the water rose; the xanmeer stone holds where the timber has not.",
-        "mood": "Still; nothing surfaces.",
-        "approach": "The drowned crown shows first, from a distance across open water, before anything else of the village.",
+        "mood": "Still; the surface does not break.",
+        "approach": "The drowned crown shows first, from a distance across open water, ahead of the hut lines on the bank.",
         "senses": "No chimes now, only water lapping the exposed crown and a cold that comes up from the deep dive."
       },
       "assetPlan": [
@@ -18142,8 +18236,8 @@
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1007",
-          "score": 2.914,
-          "whyLost": "too close to place.hist-heartland.umpholo-mission"
+          "score": 2.414,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
           "siteId": "site.free.roadside-0304",
@@ -18153,10 +18247,10 @@
         {
           "siteId": "site.free.any-firm-ground-1118",
           "score": 2.398,
-          "whyLost": "too close to place.saxhleel-coast.gap-reef"
+          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 3), 472 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.estuary-keepers-lodge (+2.09).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 472 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.owing-hiring-camp (+0.62).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",

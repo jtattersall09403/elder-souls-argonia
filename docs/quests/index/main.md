@@ -10,7 +10,7 @@
 | MQ03 | A Dead Prisoner's Use | dunmer-north | `RECKONING` | Survivors reconstruct the attack, so the destroyed work roll buys a stranger a place among them | `dunmer-north.stormhold`<br>`dunmer-north.the-last-landing` | live |
 | MQ04 | The Tree That Turned Its Face | dunmer-north | `CONTAMINATION` | A Hist withdraws from its village while disease, sabotage and grief overlap | `dunmer-north.hatching-pools`<br>`dunmer-north.hutan-tzel` | live |
 | MQ05 | Helstrom Behind the Thorns | hist-heartland | `NEGOTIATION` | Arrival at the safe interior capital, past an empty throne | `hist-heartland.bubble-spire-open-helstrom`<br>`hist-heartland.helstrom`<br>`pirate-freeholds.alten-corimont` | live |
-| MQ06 | The Jewel Nobody Has Seen | hist-heartland | `MISSING` | Six incompatible accounts of the Eye, held by unwilling custodians | `hist-heartland.helstrom` | live |
+| MQ06 | The Jewel Described Six Ways | hist-heartland | `MISSING` | Six incompatible accounts of the Eye, held by unwilling custodians | `hist-heartland.helstrom` | live |
 | MQ07 | The First False Eye | dunmer-north | `FRAUD` | A counterfeit Eye at auction hides a real cipher | `dunmer-north.the-standing-bid` | live |
 | MQ08 | The Unbound Root | dunmer-north | `MISSING` | The counterfeit's trail reaches a cult safehouse | `dunmer-north.the-quiet-landing` | live |
 | MQ09 | The Map Beneath the Prison | imperial-penal-south | `THEFT` | Confiscation ledgers held by the Rose's prison-born heirs | `imperial-penal-south.blackrose-prison`<br>`imperial-penal-south.drowned-gallery`<br>`imperial-penal-south.rose-flooded-passage` | live |

@@ -96,6 +96,7 @@ DANGER_TIER = {"D0": 1, "D1": 1, "D2": 2, "D3": 3, "D4": 4, "D5": 5}
 SIGHTLINE_MAX_M = 1500.0         # a "within sight of X" claim further than this is not a sightline
 BOUND_MAX_M = 250.0              # "inside / part of / off the bank of X"
 ON_ROUTE_MAX_M = 220.0           # "on the road" further than this is a false claim (strict stages)
+NEAR_POINT_RELAX = 2.0           # homeless-batch multiplier on sitingPrefs.nearPoint.maxM
 ON_ROUTE_RELAXED_M = 380.0       # ...and even the homeless batch may not put it further than this
 SATELLITE_MAX_M = 450.0          # a record NAMED after a settlement (mazzatun-hist, archon-harbour-hist) sits at it
 D5_MIN_ROUTE_M = 200.0           # deep peril never sits on the road
@@ -575,6 +576,10 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
         return -9.0, {"on-route": -9.0}
     if d.near_point is not None:
         px_, pz_, pmax = d.near_point
+        # a typed point never strands a record: the homeless batch widens the
+        # radius (×2), so a too-tight maxM degrades to "near", not "nowhere"
+        if relaxed:
+            pmax *= NEAR_POINT_RELAX
         if math.hypot(c.x - px_, c.z - pz_) > pmax:
             return -9.0, {"nearPoint": -9.0}
         parts["nearPoint"] = 0.8

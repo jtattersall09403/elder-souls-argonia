@@ -106,7 +106,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.mirtis-plantation"
       ],
-      "premise": "A sealed plantation door grants wishes to anyone who feeds it deeds of ownership",
+      "premise": "A sealed plantation door grants a wish to whoever feeds it a deed of ownership",
       "costTier": null,
       "milestone": 1,
       "touches": [],
@@ -1139,7 +1139,7 @@
       "region": "mercantile-coast",
       "settlement": null,
       "anchorPlaces": [],
-      "premise": "A prize taken cleanly still has owners, passengers and a cargo nobody will claim",
+      "premise": "A prize taken cleanly still carries passengers home; the hold holds cargo its owner declines to claim",
       "costTier": null,
       "milestone": 1,
       "touches": [],

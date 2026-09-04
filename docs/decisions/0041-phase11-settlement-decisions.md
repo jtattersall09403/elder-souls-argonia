@@ -1605,6 +1605,48 @@ Ships and Boats of Tamriel (SSE 41653, flat-bottomed hulls) and Skyfall's
 Sleeping Hist Tree Overhaul (SSE 116792, mesh variants for the ten hero
 Hist + cairns-as-grave-markers).
 
+### Part 4 step 2, round 4 — touchpoint ③ feedback, second list (2026-09-04)
+
+**Rulings.** (1) Over-use is a *body-of-text* problem: *the only / the one /
+nobody / no one / anyone / everyone / nothing / everything / anything /
+always* are counted province-wide by the linter (`generaliser` class,
+ceiling 4 per 1,000 words for the whole run and per scope, max 2 per record,
+"ask anyone" banned outright) over places, quest rows and the text catalogue;
+the fix is to tie each beat to the place (a role, a name, a number, a
+direction, the goods) and to vary the fix. Result: 13.5 → ≈1 per 1,000
+words province-wide. Set-level convergence is now mechanical too
+(`duplicate-field` hard, `stock-phrase` soft: the same 7-word run on ≥6
+records). (2) **A place whose identity is a role in the network sits where the
+role exists or is cut** — never moved somewhere it makes no sense (the
+western gate, "The Last Post", now sits on the Blackwood Road's last cut;
+a reserve-grade lair that had taken the road end was sent inland). Two records
+cut this way (`dunmer-north.the-pass-station`,
+`naga-kur-deeps.bone-carriers-camp-deeps`), their quests re-anchored.
+(3) Minor roads are paths: clearance corridors widened (track 10/7 m, footpath
+6/3.5 m) and the herb layer trodden to 8 %. (4) Hostility: fewer fights on
+routes, more off them — the travel measure now walks roads, lanes and cart
+tracks only (a footpath exists because of the place it reaches); crowded
+route-side fights listed and thinned (conversions to neutral/guarded where
+the identity is the road, typed moves off-route otherwise); seven new
+off-route D3/D4 hostile places authored into measured gaps and four promoted
+from the reserve; soft ceilings raised ~8 %. (5) Thorn keeps the Hlaalu kit
+(its `assetPlan` said Telvanni; corrected). (6) The quest total (715) is the
+larger province, not creep: Morrowind's ~20 quests/km² on our 37 km² of land
+is 550–740; the old 450–550 took the bottom of the band. Targets corrected in
+quests 00 and the research doc.
+
+**Tool changes.** `sitingPrefs.nearPoint.maxM` is widened ×2 in the homeless
+batch so a too-tight typed point degrades to "near", never to "nowhere".
+Off-route gaps are measured at 350 m from any fight and 320 m from the main
+network. A text agent ran `git checkout` on a region file mid-round and lost
+an uncommitted structural pass; it was re-applied from the pass's own report,
+and the briefs now forbid checkout/stash/reset outright.
+
+**Part 5 proposal** written: [research/phase11-part5-exemplar-proposal.md]
+(../research/phase11-part5-exemplar-proposal.md) — Alten Corimont
+(recommended) or Helstrom as the city, plus Nine Bends, Keel-Sakka Landing,
+The Charged Pond, The Standing Corner and Fort Swampmoth. Owner picks.
+
 ### Part 4 step 2, round 3 — touchpoint ③ feedback (2026-09-04)
 
 The owner's third feedback list, and what was done. Committed in four parts

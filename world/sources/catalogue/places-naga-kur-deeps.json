@@ -23,7 +23,7 @@
       "why": {
         "founding": "A maintained air pocket on the flooded shortcut under the narrows.",
         "siteAdvantages": "The midpoint of a dive that cannot be made on one breath.",
-        "occupantsMotive": "Nobody lives here. The guides who use it keep it up. The cost is charged into every crossing fee.",
+        "occupantsMotive": "It is uninhabited. Two guiding families keep it up between them; the upkeep is charged into the crossing fee.",
         "pressures": "Silt is filling the pocket from below. Two guiding families have argued for ten years about whose job it is to clear it.",
         "wouldChangeIf": "Its loss would close the shortcut and add two hours to every crossing. The portage crews would have the traffic within a season."
       },
@@ -137,14 +137,14 @@
           "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
         },
         {
-          "siteId": "site.free.roadside-0254",
-          "score": 3.699,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1051",
           "score": 3.635,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+        },
+        {
+          "siteId": "site.free.roadside-0254",
+          "score": 3.601,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 88 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, submerged.",
@@ -154,7 +154,7 @@
         "dangerBand": 5,
         "distanceToRouteM": 88.4,
         "distanceToWaterM": 0.0,
-        "score": 3.406
+        "score": 3.353
       },
       "hostility": {
         "baseline": "hostile",
@@ -188,7 +188,7 @@
         "primary": "traversal-puzzle",
         "secondary": [],
         "impact": "real",
-        "hook": "Halfway through a dive nobody survives on one breath there is a room full of air. The guides charge you for it whether you use it or not.",
+        "hook": "Halfway through a dive too long for one breath there is a room full of air. The guides charge for it whether you use it or not.",
         "reviewed": true
       },
       "interior": {
@@ -324,7 +324,7 @@
       "vibe": {
         "silhouette": "a debris field that is too deliberate to be wreckage",
         "palette": "black above, blue below, no green anywhere; hide stretched grey on the frames",
-        "materials": "nothing raised: worked bone set into the ground and left; gut lashing, which stinks; grave-cairns stepped up the bank, one course a death",
+        "materials": "no structure raised: worked bone set into the ground and left; gut lashing, which stinks; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "A field of plinths holding the residue of destroyed works, each labelled with what it was and how long it lasted.",
         "condition": "clean, ordered, too quiet for its size",
         "mood": "unhurried; the burning is scheduled",
@@ -364,18 +364,18 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.30602,
-        "v": 0.84817
+        "u": 0.36032,
+        "v": 0.77826
       },
       "positionM": [
-        2256.5,
-        6254.0
+        2656.8,
+        5738.5
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cliff-bench-045",
           "score": 2.885,
-          "whyLost": "too close to place.mercantile-coast.wraxu-frieze"
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
           "siteId": "site.scour.rootland-deep-marsh.islet-015",
@@ -385,17 +385,17 @@
         {
           "siteId": "site.free.any-shallow-marsh-1128",
           "score": 2.366,
-          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
+          "whyLost": "taken by place.naga-kur-deeps.drowning-narrows-tidal-gate"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 2), 113 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.ferry-stage-guide-hire (+1.21).",
+      "whySiteWon": "islet in interior swamp (danger band 4), 372 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.flooded-passage-tunnel-deeps (+2.06).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "islet",
         "regionClass": "interior swamp",
-        "dangerBand": 2,
-        "distanceToRouteM": 112.5,
-        "distanceToWaterM": 23.3,
-        "score": 2.855
+        "dangerBand": 4,
+        "distanceToRouteM": 372.3,
+        "distanceToWaterM": 0.0,
+        "score": 2.006
       },
       "hostility": {
         "baseline": "hostile",
@@ -483,7 +483,8 @@
             "provenance": "one commissioned work not yet destroyed"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.interior-swamp.islet-020"
     },
     {
       "id": "place.naga-kur-deeps.beast-keeper-crocodile",
@@ -506,9 +507,9 @@
       "confidence": "medium",
       "why": {
         "founding": "The keepers bred crocodiles here for hide and meat, using the penned ring itself as the cheapest wall in the swamp.",
-        "siteAdvantages": "The gated creek that once made good pens now makes a good trap. Nothing gets in or out without crossing the stock.",
+        "siteAdvantages": "The gated creek that once made good pens now makes a good trap. Traffic in or out crosses the stock.",
         "occupantsMotive": "The crocodiles left in the pens have gone half-wild on whatever wanders close, the keepers long gone.",
-        "pressures": "The bridge over the pens is rotting at the centre span, the only crossing left into what used to be the village.",
+        "pressures": "The bridge over the pens is rotting at the centre span, the last crossing left into what used to be the village.",
         "wouldChangeIf": "Draining or breaching the pens would scatter the stock into the surrounding reaches for good."
       },
       "sitingPrefs": {
@@ -570,7 +571,7 @@
         "condition": "sagging badly on one side, the pens themselves undamaged",
         "mood": "patient",
         "approach": "the smell reaches the water before the pens are in sight",
-        "senses": "cold coming off black water; a heavy splash before anything is seen; dead water, flat and sweetish"
+        "senses": "cold coming off black water; a heavy splash somewhere out past the lamplight; dead water, flat and sweetish"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -605,38 +606,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.2733,
-        "v": 0.81916
+        "u": 0.43877,
+        "v": 0.80958
       },
       "positionM": [
-        2015.2,
-        6040.1
+        3235.3,
+        5969.5
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.water-narrows-005",
-          "score": 3.365,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 3.208,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.water-narrows-057",
+          "score": 2.956,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1127",
-          "score": 2.765,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
-        },
-        {
-          "siteId": "site.free.roadside-0257",
-          "score": 2.723,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "score": 2.672,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 395 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.bereaved-hist-less-since (+0.48).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 38 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.bereaved-hist-less-since (+0.48).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 394.9,
-        "distanceToWaterM": 16.5,
-        "score": 2.497
+        "distanceToRouteM": 38.4,
+        "distanceToWaterM": 7.8,
+        "score": 2.451
       },
       "hostility": {
         "baseline": "hostile",
@@ -982,7 +983,7 @@
         "condition": "new work standing next to work three lifetimes old",
         "mood": "blunt with visitors",
         "approach": "The stump table is the first thing a visitor is sat at, deliberately.",
-        "senses": "mud closing over the foot at every step; smoked hide and wet bone; the dead trunk creaking in wind that moves nothing else"
+        "senses": "mud closing over the foot at every step; smoked hide and wet bone; the dead trunk creaking in wind the reeds do not feel"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -1041,7 +1042,7 @@
         {
           "siteId": "site.scour.interior-swamp.flood-high-017",
           "score": 2.301,
-          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
+          "whyLost": "taken by place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         }
       ],
       "whySiteWon": "firm ground in seasonal floodplain (danger band 4), 449 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.beast-keeper-crocodile (+0.48).",
@@ -1466,7 +1467,7 @@
       "why": {
         "founding": "A burial field of driven poles that rose after a flood disturbed it. No theft was involved.",
         "siteAdvantages": "Low ground beside a channel that changed course.",
-        "occupantsMotive": "Blights that were not raised by anyone's fault. With no wrongdoer, local law makes them the whole village's debt.",
+        "occupantsMotive": "Blights raised by no setter's fault. With no wrongdoer to name, local law makes them the village's debt.",
         "pressures": "The village that owns the field cannot afford to restake it. The stake-setters price by the night and the village pays in rice. The two rates have drifted so far apart that the work stopped mid-field.",
         "wouldChangeIf": "Restaking would settle it. The obstacle is labour, not danger. An outsider who supplies it buys a permanent claim on the village."
       },
@@ -1519,7 +1520,7 @@
       },
       "vibe": {
         "silhouette": "nine cairns in a line and one gap where a tenth should be",
-        "palette": "still black with a slow blue drift in it, blue bioluminescence in the shallows, olive weed matted over everything",
+        "palette": "still black with a slow blue drift in it, blue bioluminescence in the shallows, olive weed matted across the shallows",
         "materials": "no structure: a bottom of cold silt and a rim of fallen block; peeled poles pushed into the bank at a lean as a warning line",
         "signatureFeature": "The poles are still standing, upright and correct, every one of them plain. The water carried the dead out from under them.",
         "condition": "the stakes sound, the ground under them gone",
@@ -1562,38 +1563,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.22124,
-        "v": 0.7671
+        "u": 0.15729,
+        "v": 0.82288
       },
       "positionM": [
-        1631.3,
-        5656.3
+        1159.8,
+        6067.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 3.536,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1053",
           "score": 3.528,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1052",
           "score": 3.464,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1027",
+          "score": 3.441,
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 380 m from the nearest route; its first-choice landform; won on landform, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-village-settled (+2.01).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 399 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-village-raiding (+1.44).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 379.9,
-        "distanceToWaterM": 32.9,
-        "score": 2.665
+        "distanceToRouteM": 399.2,
+        "distanceToWaterM": 11.0,
+        "score": 2.476
       },
       "hostility": {
         "baseline": "hostile",
@@ -1693,7 +1694,7 @@
       ],
       "confidence": "medium",
       "why": {
-        "founding": "A plague cordon's burial line that was never staked at all, because the buriers were foreign.",
+        "founding": "A plague cordon's burial line that was left unstaked, because the buriers were foreign.",
         "siteAdvantages": "The line of an Imperial-era cordon across the zone's neck.",
         "occupantsMotive": "Whatever a century of unstaked burial produces. The Legion dug the line and left. The ground has been ownerless since.",
         "pressures": "The route the cordon guarded is the route people still use. Each generation blames its accidents on the last generation's cowardice.",
@@ -1748,10 +1749,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "a stockade of pikes half-swallowed, marking a cordon nobody enforces now",
+        "silhouette": "a stockade of pikes half-swallowed, marking a cordon the stake-readers stopped walking",
         "palette": "still black with a slow blue drift in it, bone-white stake tops, hide-brown and bone",
-        "materials": "nothing built: black water, bog-oak and bone, sorted by the drawdown; a stripped drum frame at the landing",
-        "signatureFeature": "Imperial burial trenches, dug deep and dead straight, in the way this province buries nobody.",
+        "materials": "unbuilt ground: black water, bog-oak and bone, sorted by the drawdown; a stripped drum frame at the landing",
+        "signatureFeature": "Imperial burial trenches, dug deep and dead straight, cut to a pattern the villages here do not use.",
         "condition": "not kept at all, but the trench line still legible after a century",
         "mood": "Imperial work left where it stopped",
         "approach": "A dead-straight depression running across the swamp for two kilometres.",
@@ -1767,7 +1768,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "The field nobody bid for, plus the reckoning owed by the setters who let it stand",
+        "opportunity": "The field left off the season's bidding, plus the reckoning owed by the setters who let it stand",
         "tierOwnership": "LN09 · tier-3"
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
@@ -1790,38 +1791,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.29412,
-        "v": 0.70538
+        "u": 0.3737,
+        "v": 0.61019
       },
       "positionM": [
-        2168.7,
-        5201.1
+        2755.5,
+        4499.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1075",
-          "score": 3.15,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 3.548,
+          "whyLost": "taken by place.naga-kur-deeps.leviathan-bone-field"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1053",
-          "score": 3.016,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 3.546,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1157",
-          "score": 2.985,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 3.543,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 544 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, remote; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.root-gallery-blight-warren (+0.49).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 17 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 544.5,
-        "distanceToWaterM": 19.8,
-        "score": 3.264
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 0.0,
+        "score": 2.954
       },
       "hostility": {
         "baseline": "hostile",
@@ -1899,8 +1900,7 @@
             "provenance": "legionary effects nobody local would touch"
           }
         ]
-      },
-      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-026"
+      }
     },
     {
       "id": "place.naga-kur-deeps.bone-carriers-camp-deeps",
@@ -1911,7 +1911,7 @@
         "type": "bone-carriers-camp",
         "magnitude": "M1"
       },
-      "status": "seasonal",
+      "status": "cut",
       "provenance": "lore-implied",
       "sources": [
         "Lore:Argonian (bones brought to the dirt); Blackrose Chainbreakers (quest plan)",
@@ -2010,7 +2010,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "varies",
       "eraLayers": [
         "current"
@@ -2019,40 +2019,6 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "localStateVariants": [],
-      "position": {
-        "u": 0.58565,
-        "v": 0.7671
-      },
-      "positionM": [
-        4318.3,
-        5656.3
-      ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.interior-swamp.ford-024",
-          "score": 3.163,
-          "whyLost": "too close to place.naga-kur-deeps.art-and-destroy-site-deeps"
-        },
-        {
-          "siteId": "site.free.roadside-0254",
-          "score": 3.036,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1049",
-          "score": 3.021,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
-        }
-      ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 361 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-highway-camp-active-north (+0.63).",
-      "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 360.8,
-        "distanceToWaterM": 17.3,
-        "score": 2.095
-      },
       "hostility": {
         "baseline": "hostile",
         "owner": "faction.bone-carriers",
@@ -2126,7 +2092,8 @@
         "visibleFrom": [],
         "reachedVia": [],
         "travelServiceEdges": []
-      }
+      },
+      "sitingNote": "Cut 2026-09-04 (round 4 network-role pass). Its identity is a junction — \"where the poling routes converge and the walking route inland begins, the last point a laden carrier can be resupplied by boat\" — and no such convergence exists in the Naga-Kur deeps: the plotted dot sat 361 m from any route and inside the mercantile-coast culture zone. Rewriting a junction camp into an ordinary camp would have thrown away the only reason it existed, so it is cut rather than moved. Bone-carrying survives in the zone through the necropolis and the burial sacred sites."
     },
     {
       "id": "place.naga-kur-deeps.broken-xanmeer-collapsed-deeps",
@@ -2311,7 +2278,7 @@
       "confidence": "high",
       "why": {
         "founding": "The Naga-Kur's seat: the tribe built for surviving the worst thing in the swamp, around the tree that made them.",
-        "siteAdvantages": "A defensible rise in the inner swamps with black water on every side and one poling approach. That single approach is the tribe's toll. Nothing reaches the eastern reaches of the inner swamp without being counted here.",
+        "siteAdvantages": "A defensible rise in the inner swamps with black water on all sides and one poling approach. That approach is the tribe's toll. Cargo bound for the eastern swamp is counted at the stage.",
         "occupantsMotive": "A tribe whose whole discipline of grave rite, watch and blight-craft is organised around the dead not staying down.",
         "pressures": "Umbriel's legacy is exactly their enemy, so they have not stopped preparing. Their kin on the roads are tribeless. The hold's reputation suffers for it.",
         "wouldChangeIf": "If the blight pressure stopped, the tribe would have no reason for the discipline that defines it. The stake-setters, the night necropolis and three subordinate villages would lose their trade with it."
@@ -2397,9 +2364,9 @@
         "palette": "black water taken right up to the pile line; olive shade; a blue-flowering Hist lighting the whole village from above",
         "materials": "cane and bog-oak on a trained-root core that the Hist itself put there; hide walls smoked black; bone lintels cut from the tribe's own dead, an honour they state to visitors; stake-cairns stepped up the bank behind",
         "signatureFeature": "Its Hist flowers blue where every other Hist flowers red. You can name the tree from its light an hour out.",
-        "condition": "everything replaced at least once, exactly as doctrine says it should be",
+        "condition": "each post and roof replaced at least once, exactly as doctrine says",
         "mood": "organised like a garrison, at every hour",
-        "approach": "Blue light on black water, an hour before you reach the landing; the drums answer your approach before anyone is visible.",
+        "approach": "Blue light on black water, an hour before you reach the landing; the drums answer your approach before a watcher shows.",
         "senses": "cold off black water on one side and warmth off the hide walls on the other; the deep drum other villages answer; smoked hide, bone-dust and cold peat"
       },
       "assetPlan": [
@@ -2463,12 +2430,12 @@
         }
       ],
       "position": {
-        "u": 0.4599,
-        "v": 0.76822
+        "u": 0.58565,
+        "v": 0.7671
       },
       "positionM": [
-        3391.1,
-        5664.5
+        4318.3,
+        5656.3
       ],
       "candidatesConsidered": [
         {
@@ -2487,14 +2454,14 @@
           "whyLost": "too close to place.mercantile-coast.lilmoth"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 88 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, nearPoint, region; site exchanged in the swap pass with place.naga-kur-deeps.ferry-stage-guide-hire (+0.52).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 361 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, nearPoint, region; site exchanged in the swap pass with place.naga-kur-deeps.naga-highway-camp-active-north (+1.42).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 87.7,
-        "distanceToWaterM": 5.5,
-        "score": 3.488
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 360.8,
+        "distanceToWaterM": 17.3,
+        "score": 3.51
       },
       "hostility": {
         "baseline": "wary",
@@ -2532,7 +2499,7 @@
           "lore-reveal"
         ],
         "impact": "major",
-        "hook": "The Naga-Kur seat, under a Hist that flowers blue where every other flowers red. Nothing goes east without being counted here first.",
+        "hook": "The Naga-Kur seat, under a Hist that flowers blue where the province's trees flower red. Traffic east is counted at the landing before it passes.",
         "reviewed": true
       },
       "interior": {
@@ -2638,11 +2605,11 @@
       ],
       "confidence": "high",
       "why": {
-        "founding": "The shelter of last resort. An all-but-inaccessible plateau in the north-north-east that even the tribes avoid, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
+        "founding": "The shelter of last resort. An all-but-inaccessible plateau that even the tribes avoid, where the presence of Sithis is strong, holding pre-Duskfall xanmeers and the skeletons of swamp leviathans. People go up only to shelter. A few caretakers tend it.",
         "siteAdvantages": "High, dry, defensible ground in a province that has almost none, with one approach that can be walked and no approach that can be poled.",
-        "occupantsMotive": "The caretakers do not live here so much as keep it fit to be lived in. Stores turned, shelters re-roofed, against a need they hope never comes.",
+        "occupantsMotive": "The caretakers do not live here so much as keep it fit to be lived in. Stores turned, shelters re-roofed, against a need they hope does not come.",
         "pressures": "In 4E 48 the need did come: Murkmire's survivors fled up onto the plateau while Umbriel passed overhead. The caretakers have fed that memory ever since. The Umbriel Witness Society wants the memorial catalogued. The Nisswo want it let go. The caretakers want it left exactly as it is.",
-        "wouldChangeIf": "If the argument over the memorial is settled by anyone but the caretakers, the plateau stops being a refuge and becomes a destination."
+        "wouldChangeIf": "If the argument over the memorial is settled over the caretakers' heads, the plateau stops being a refuge and becomes a destination."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2697,9 +2664,9 @@
       "vibe": {
         "silhouette": "a flat-topped plateau standing clean out of the swamp, its rim broken by two stepped xanmeer crowns and the white arc of a leviathan ribcage lying across the approach",
         "palette": "grey stone and dry pale grass; black swamp far below; bone-white on the approach; no blue light at all up here",
-        "materials": "cane and hide shelters struck and restruck for centuries, never improved; dry-stone store huts, which the caretakers argue about and keep; pre-Duskfall xanmeer stone left entirely alone",
+        "materials": "cane and hide shelters struck and restruck for centuries without improvement; dry-stone store huts, which the caretakers argue about and keep; pre-Duskfall xanmeer stone left entirely alone",
         "signatureFeature": "The Umbriel memorial: a line of shelters kept permanently ready, each with its stores turned and its roof sound, for a night in 4E 48 that has not come again.",
-        "condition": "maintained to a standard nothing else in the deeps is held to, but used for perhaps a week a century",
+        "condition": "maintained to a standard the deeps hold no other place to, but used for perhaps a week a century",
         "mood": "dry ground, kept ready",
         "approach": "A day through leviathan bone country and then a climb. There is no water route.",
         "senses": "dry air and a horizon, both of them shocking after the swamp; wind instead of drums; dust and old thatch; no insect noise, which the caretakers put down to Sithis"
@@ -2910,7 +2877,7 @@
         "founding": "A natural shaft from the swamp floor into the root layer.",
         "siteAdvantages": "Where a root gallery's roof gave way under standing water, deep in the swamp and a long way from anywhere.",
         "occupantsMotive": "Whatever uses a vertical connection uses it in both directions. The villages date their worst years by what came up it.",
-        "pressures": "Divers use it as a shortcut, but it does not always let them back. The guides charge double just to name it.",
+        "pressures": "Divers use it as a shortcut, but it does not reliably let them back. The guides charge double just to name it.",
         "wouldChangeIf": "A collapse would seal the connection and add half a day to every stake-field circuit on this side of the zone."
       },
       "sitingPrefs": {
@@ -3015,39 +2982,38 @@
       "underwaterAccess": "argonian-only-depth",
       "localStateVariants": [],
       "position": {
-        "u": 0.33801,
-        "v": 0.7381
+        "u": 0.30974,
+        "v": 0.80131
       },
       "positionM": [
-        2492.3,
-        5442.4
+        2283.9,
+        5908.5
       ],
-      "scourSiteId": "site.scour.lake-standing-water.land-bridge-029",
       "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-shallow-marsh-1161",
+          "score": 3.812,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1153",
+          "score": 3.596,
+          "whyLost": "lost on score"
+        },
         {
           "siteId": "site.scour.lake-standing-water.ford-039",
           "score": 3.337,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.isthmus-033",
-          "score": 2.622,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.rootland-deep-marsh.water-narrows-041",
-          "score": 2.6,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in lake & standing water (danger band 4), 615 m from the nearest route; at the water's edge; won on nearPoint, region, remote; placed from the homeless batch at stage 'spacing-1/2'.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 398 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'spacing-1/2'.",
       "plotFacts": {
-        "landform": "land-bridge",
-        "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 615.1,
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 3,
+        "distanceToRouteM": 398.5,
         "distanceToWaterM": 0.0,
-        "score": 2.946
+        "score": 3.929
       },
       "hostility": {
         "baseline": "hostile",
@@ -3073,7 +3039,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "A silt plume rises out of the swamp floor for no visible reason. It is the only way down into the root layer from here.",
+        "hook": "A silt plume rises out of the swamp floor for no visible reason. It is the way down into the root layer for a day's poling either side.",
         "reviewed": true
       },
       "interior": {
@@ -3278,11 +3244,11 @@
       ],
       "confidence": "medium",
       "why": {
-        "founding": "The moving village chose this mooring because the water over the bone field was the calmest in the district. Nobody had reason to ask why.",
+        "founding": "The moving village chose this mooring because the water over the bone field was the calmest in the district. The mooring-caller had no reason to ask why.",
         "siteAdvantages": "The same still water that suited a season's mooring now suits whatever feeds on a bone field this large.",
-        "occupantsMotive": "The thing that ended the quiet has held the mooring since. The village never returned to reclaim it.",
+        "occupantsMotive": "The thing that ended the quiet has held the mooring since. The village has not returned to reclaim it.",
         "pressures": "The wrecked rafts and posts are still there, unlashed and drifting loose over the bones.",
-        "wouldChangeIf": "Nothing has forced whatever holds the bone field to leave. The mooring-caller has not gone back to check."
+        "wouldChangeIf": "Whatever holds the bone field has not been driven off. The mooring-caller has not gone back to check."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -3293,13 +3259,18 @@
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
           "at least 12 km inland — this is the deep interior",
-          "sited as a mooring SET (3-4 alternates), not a point — quests 20 fixed-alternative-mooring pattern"
+          "sited as a mooring SET (3-4 alternates), not a point — quests 20 fixed-alternative-mooring pattern",
+          "over or beside the leviathan bone field — the mooring's whole reason is the calm water above it"
         ],
         "preferences": [
           "landforms: oxbow, flood-high, any-shallow-marsh",
           "water relation: moves with the flood cycle",
           "neighbours: its moorings are on a poling route"
-        ]
+        ],
+        "boundTo": {
+          "place": "place.naga-kur-deeps.leviathan-bone-field",
+          "maxM": 400
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -3338,9 +3309,9 @@
       "vibe": {
         "silhouette": "broken piles and drifting posts over a pale field of bone visible through clear water",
         "palette": "black water and a bone-pale bottom, white bone stacked deep below, cold blue under the piles",
-        "materials": "rafts framed on cut bone, broken loose and waterlogged; vine cord trailing and rotted; smoked hide gone to rag; nothing left standing that a body could get inside",
+        "materials": "rafts framed on cut bone, broken loose and waterlogged; vine cord trailing and rotted; smoked hide gone to rag; no shelter left standing that a body could get inside",
         "signatureFeature": "the bone field itself, stacked deep enough to change the colour of the water above it",
-        "condition": "wrecked and scattered, nothing lashed together any more",
+        "condition": "wrecked and scattered, the lashings parted",
         "mood": "still water over a great deal of bone",
         "approach": "the water goes pale before it goes deep, the bone showing through long before the wreck does",
         "senses": "cold water pressing on the dive; a shifting weight somewhere below; wet rag and bone dust"
@@ -3356,7 +3327,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "Stock lifted from a stake store has to be landed somewhere; nobody counts boats here",
+        "opportunity": "Stock lifted from a stake store has to be landed somewhere; no counter works this water",
         "tierOwnership": "LN10 · tier-3; PP01 · tier-3"
       },
       "rumourPoolKey": "rumour.naga-kur",
@@ -3381,38 +3352,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.29561,
-        "v": 0.80131
+        "u": 0.33949,
+        "v": 0.72546
       },
       "positionM": [
-        2179.7,
-        5908.5
+        2503.2,
+        5349.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1232",
-          "score": 2.822,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "siteId": "site.free.any-shallow-marsh-1077",
+          "score": 2.696,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1244",
-          "score": 2.814,
+          "siteId": "site.free.any-shallow-marsh-1078",
+          "score": 2.687,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1223",
-          "score": 2.814,
+          "siteId": "site.free.any-shallow-marsh-1104",
+          "score": 2.682,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 454 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 593 m from the nearest route; its first-choice landform; won on landform, bound, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 454.4,
-        "distanceToWaterM": 0.0,
-        "score": 2.815
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 592.9,
+        "distanceToWaterM": 44.2,
+        "score": 2.688
       },
       "hostility": {
         "baseline": "hostile",
@@ -3519,7 +3490,7 @@
       "why": {
         "founding": "A stilt village drowned when the channel changed and the water rose two metres in a season.",
         "siteAdvantages": "It was correctly sited for the water level of the time. Local people cite it against building on any firm-looking flat.",
-        "occupantsMotive": "Nobody lives here. Fish; salvage divers.",
+        "occupantsMotive": "Uninhabited. Fish; salvage divers.",
         "pressures": "The families who left are three villages away and still claim the goods in it. They have hired divers twice rather than let the dredgers have it.",
         "wouldChangeIf": "A drawdown would expose it and start a legal fight three villages would rather postpone."
       },
@@ -3576,10 +3547,10 @@
         "palette": "still black with a slow blue drift in it, blue light strong enough to read by, white shell grit at the landing",
         "materials": "undressed block slumped where the peat took it; gut lashing gone slack; peat-tar in the seams; a rank of plain poles still driven along the drowned bank, with cairns and totems above the water line",
         "signatureFeature": "The houses are intact underwater with their contents in place. The rise was slow enough to walk away from.",
-        "condition": "submerged to the ridge line, weed on everything above",
-        "mood": "a house interior, underwater, with nothing moved",
-        "approach": "Roof ridges in a line just under still black water. Nothing on the surface moves.",
-        "senses": "air that does not move at all; weed dragging on a pile stump; nothing green in the light"
+        "condition": "submerged to the ridge line, weed on the exposed thatch",
+        "mood": "a house interior, underwater, with the furniture where it stood",
+        "approach": "Roof ridges in a line just under still black water. No current shows on the surface.",
+        "senses": "air standing dead in the pockets; weed dragging on a pile stump; the lamp finding no green"
       },
       "assetPlan": [
         "submerged-ruins",
@@ -3617,45 +3588,45 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.11044,
-        "v": 0.79983
+        "u": 0.43245,
+        "v": 0.65481
       },
       "positionM": [
-        814.3,
-        5897.5
+        3188.7,
+        4828.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1031",
-          "score": 4.301,
-          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1051",
-          "score": 4.272,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
-        },
-        {
           "siteId": "site.free.roadside-0257",
-          "score": 4.114,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 4.514,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1127",
+          "score": 4.513,
+          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
+        },
+        {
+          "siteId": "site.free.roadside-0254",
+          "score": 4.463,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 33 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.wreck-submerged-barge (+1.72).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 113 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 32.9,
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 113.0,
         "distanceToWaterM": 5.5,
-        "score": 3.886
+        "score": 3.471
       },
       "hostility": {
-        "baseline": "hostile",
+        "baseline": "neutral",
         "owner": null,
         "flips": [],
-        "clearable": true,
-        "respawn": "slow",
+        "clearable": false,
+        "respawn": "none",
         "environmentalDanger": true
       },
       "playerPurpose": {
@@ -3665,7 +3636,7 @@
           "dungeon-delve"
         ],
         "impact": "real",
-        "hook": "The houses are still furnished under the water. The rise was slow enough that people walked away and left everything standing.",
+        "hook": "The houses are still furnished under the water. The rise was slow enough that people walked away and left the furniture standing.",
         "reviewed": true
       },
       "interior": {
@@ -3821,7 +3792,7 @@
         "boats-keeled",
         "clutter"
       ],
-      "discovery": "road",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tags": [],
@@ -3848,38 +3819,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.31867,
-        "v": 0.73438
+        "u": 0.19298,
+        "v": 0.74703
       },
       "positionM": [
-        2349.7,
-        5415.0
+        1423.0,
+        5508.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1054",
           "score": 3.716,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1053",
-          "score": 3.661,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1055",
+          "score": 3.713,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1052",
-          "score": 3.622,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1029",
+          "score": 3.703,
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 752 m from the nearest route; its choice #2 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.naga-kur-deeps.necropolis-nightbound (+0.94).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 143 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 751.6,
-        "distanceToWaterM": 47.2,
-        "score": 2.767
+        "dangerBand": 4,
+        "distanceToRouteM": 142.6,
+        "distanceToWaterM": 17.3,
+        "score": 3.561
       },
       "hostility": {
         "baseline": "hostile",
@@ -3946,6 +3917,11 @@
           "kind": "narrows",
           "radiusM": 30,
           "note": "the whole zone's outflow has to squeeze through here, so the channel must pinch between two root walls"
+        },
+        {
+          "kind": "narrows",
+          "radiusM": 60,
+          "note": "the single outlet of the inner swamp, pinched between two root walls — the tidal gate the place is named for"
         }
       ]
     },
@@ -3971,7 +3947,7 @@
       "why": {
         "founding": "The stage where outsiders hire a poler, because the inner swamp cannot be crossed without one.",
         "siteAdvantages": "The last point reachable without local knowledge.",
-        "occupantsMotive": "Polers, a broker and a price list that is not the real price list. The broker has never poled, but he takes a cut of every hire. The polers put up with him because he deals with the foreigners.",
+        "occupantsMotive": "Polers, a broker and a price list that is not the real price list. The broker has not poled in his life, but he takes a cut of each hire. The polers put up with him because he deals with the foreigners.",
         "pressures": "Unguided travellers go in anyway and their craft come back empty. Every loss justifies the next rise in the hire price.",
         "wouldChangeIf": "A published chart would destroy the trade, so none exists. The two surveyors who tried were poled home very slowly."
       },
@@ -4021,7 +3997,7 @@
         "the stage-keeper who sets the fares",
         "the poler nobody else will hire"
       ],
-      "dangerTier": "D2",
+      "dangerTier": "D3",
       "traversalModes": [
         "boat",
         "walk",
@@ -4043,10 +4019,10 @@
         "palette": "still black with a slow blue drift in it, bog-oak black and wet, blue bioluminescence in the shallows",
         "materials": "cane bundles pegged into bog-oak, root only where root will grow; vine cord traded in from the interior, hoarded; peat-tar in the seams; crocodile skulls on the pile heads",
         "signatureFeature": "A wall of recovered boat-nameplates from craft that went in without a poler, hung as an advertisement.",
-        "condition": "serviceable; nothing more",
+        "condition": "serviceable; not kept beyond that",
         "mood": "commercial",
         "approach": "The nameplate wall is the first thing at the landing. It runs the length of the hut.",
-        "senses": "air that does not move at all; paddle knock and nothing else; smoked hide and wet bone; no dry ground within a day"
+        "senses": "still air over the stage; paddle knock and the broker's voice; smoked hide and wet bone; no dry ground within a day"
       },
       "assetPlan": [
         "docks-piers",
@@ -4086,38 +4062,38 @@
       "ownerFaction": "faction.league-of-open-water",
       "localStateVariants": [],
       "position": {
-        "u": 0.40419,
-        "v": 0.77603
+        "u": 0.42872,
+        "v": 0.80875
       },
       "positionM": [
-        2980.3,
-        5722.1
+        3161.2,
+        5963.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1235",
-          "score": 2.479,
-          "whyLost": "too close to place.mercantile-coast.slaughter-memorial"
+          "siteId": "site.scour.interior-swamp.water-narrows-005",
+          "score": 2.589,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-011",
-          "score": 1.999,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "siteId": "site.scour.interior-swamp.confluence-020",
+          "score": 2.465,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1277",
-          "score": 1.992,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 2.31,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 255 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, parent, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.dead-water-village (+0.52).",
+      "whySiteWon": "water narrows in interior swamp (danger band 4), 33 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "water-narrows",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 255.1,
-        "distanceToWaterM": 0.0,
-        "score": 1.863
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 5.5,
+        "score": 2.88
       },
       "hostility": {
         "baseline": "neutral",
@@ -4212,7 +4188,8 @@
           "place.naga-kur-deeps.naga-village-settled"
         ]
       },
-      "sitingNote": "The stage sits outside the Naga-Kur culture raster on purpose. Its whole function is to be the last place an outsider can reach unguided, so it belongs on the boundary rather than inside it."
+      "sitingNote": "The stage sits outside the Naga-Kur culture raster on purpose. Its whole function is to be the last place an outsider can reach unguided, so it belongs on the boundary rather than inside it.",
+      "scourSiteId": "site.scour.interior-swamp.water-narrows-016"
     },
     {
       "id": "place.naga-kur-deeps.flood-high-levee-top",
@@ -4387,8 +4364,8 @@
       "why": {
         "founding": "A xanmeer service corridor now full to the ceiling.",
         "siteAdvantages": "It connects two parts of a ruin that are otherwise a day apart. The far half carries no looters' marks.",
-        "occupantsMotive": "Nothing lives in it. The silt on the floor lies undisturbed.",
-        "pressures": "It is the only connection. It is a hundred metres long.",
+        "occupantsMotive": "No den in it. The silt on the floor lies undisturbed.",
+        "pressures": "It is the sole link between the two basins. It is a hundred metres long.",
         "wouldChangeIf": "A drawdown year makes it walkable. The tending clan means to be first through and says so openly."
       },
       "sitingPrefs": {
@@ -4440,7 +4417,7 @@
       "vibe": {
         "silhouette": "water going into a structure and not coming out",
         "palette": "lamp-yellow on wet bone, black beyond, blue glow only where the water is disturbed",
-        "materials": "bone frame still upright with everything soft gone from it; sinew and hide lashing perished in the water",
+        "materials": "bone frame still upright with the soft work gone from it; sinew and hide lashing perished in the water",
         "signatureFeature": "A hundred metres of dead straight flooded corridor with the far end visible as a coin of light.",
         "condition": "drowned and silted, with the current working at the joints",
         "mood": "a clean swim that kills the unprepared",
@@ -4489,22 +4466,22 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0257",
-          "score": 4.562,
-          "whyLost": "too close to place.mercantile-coast.villa-cellars"
-        },
-        {
           "siteId": "site.free.roadside-0254",
-          "score": 4.548,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "score": 4.05,
+          "whyLost": "too close to place.imperial-penal-south.rose-flooded-passage"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1127",
-          "score": 4.512,
-          "whyLost": "too close to place.mercantile-coast.villa-cellars"
+          "siteId": "site.free.any-shallow-marsh-1190",
+          "score": 3.803,
+          "whyLost": "too close to place.naga-kur-deeps.art-and-destroy-site-deeps"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1201",
+          "score": 3.711,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 340 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.poacher-camp-egg (+1.16).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 340 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.portage-slipway-narrows-deeps (+0.31).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
@@ -4657,11 +4634,11 @@
       "vibe": {
         "silhouette": "a camp in a place a stranger would not have chosen",
         "palette": "black water with blue light under the surface, cairn stones grey and stacked, blue glow only where the water is disturbed",
-        "materials": "bone-handled everything and nothing built at all; gut lashing; hide over the roof, weighted with cairn stone; grave-cairns stepped up the bank, one course a death",
+        "materials": "bone-handled tools and no structure at all; gut lashing; hide over the roof, weighted with cairn stone; grave-cairns stepped up the bank, one course a death",
         "signatureFeature": "A raised deck exactly big enough for four craft and their crews, with a strict arrival-order rule that guides enforce on each other.",
         "condition": "hard-used, with the wear all in the same places",
         "mood": "crowded; run by arrival order",
-        "approach": "Lamps at water level on the only high ground you have seen all day.",
+        "approach": "Lamps at water level on the first high ground since morning.",
         "senses": "the deck lifting under you as the boats pass; bone clacking on bone in the wind; sulphur off disturbed mud; no sap smell at all this deep in"
       },
       "assetPlan": [
@@ -5003,8 +4980,8 @@
       "why": {
         "founding": "A Hist held by a crew who feed it, tend it and keep its tribe on the far bank.",
         "siteAdvantages": "A defensible rise with sixty metres of black water between the tree and the tribe that owns it. One landing, on the crew's side.",
-        "occupantsMotive": "Occupiers who claim they are protecting it and may believe it. They tap it. What they draw is worth more than anything else in the zone.",
-        "pressures": "The tribe camps within sight and has done for eleven years. The surrounding villages have come to depend on the standoff, because while it holds nobody else can claim the tree.",
+        "occupantsMotive": "Occupiers who claim they are protecting it and may believe it. They tap it. What they draw is worth more than the zone's season of bone and hide.",
+        "pressures": "The tribe camps within sight and has done for eleven years. The surrounding villages have come to depend on the standoff, because while it holds no rival tribe can claim the tree.",
         "wouldChangeIf": "Either party breaking the standoff resolves it violently. The tree is the likeliest casualty."
       },
       "sitingPrefs": {
@@ -5061,7 +5038,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a tree inside a cage of scaffold, the scaffold newer than anything else in sight",
+        "silhouette": "a tree inside a cage of scaffold, the scaffold newer than the tribe's camp across the water",
         "palette": "olive gloom with the blue light gone thin and flickering in the roots; black water at the base; new pale timber where the scaffold went up",
         "materials": "scaffold of imported keeled timber bolted into living wood; cane cladding where the crew sleep; hide over the tapping gear",
         "signatureFeature": "A tribe's whole village stands abandoned on one bank while the tribe lives in a camp on the other, in sight of their own tree and their own houses.",
@@ -5121,18 +5098,18 @@
         }
       ],
       "position": {
-        "u": 0.16249,
-        "v": 0.78421
+        "u": 0.544,
+        "v": 0.70612
       },
       "positionM": [
-        1198.1,
-        5782.4
+        4011.2,
+        5206.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.rootland-deep-marsh.flood-high-026",
-          "score": 2.766,
-          "whyLost": "taken by place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.scour.interior-swamp.flood-high-017",
+          "score": 2.704,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.interior-swamp.flood-high-038",
@@ -5145,14 +5122,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in interior swamp (danger band 4), 151 m from the nearest route; its choice #2 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 813 m from the nearest route; its choice #3 landform; won on landform, remote, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.sealed-xanmeer-vakka-deeps (+1.27).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "interior swamp",
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 150.9,
-        "distanceToWaterM": 69.4,
-        "score": 2.704
+        "distanceToRouteM": 813.1,
+        "distanceToWaterM": 28.0,
+        "score": 1.533
       },
       "hostility": {
         "baseline": "hostile",
@@ -5239,7 +5216,13 @@
           "place.mercantile-coast.tapped-hist-ashroot"
         ]
       },
-      "scourSiteId": "site.scour.interior-swamp.flood-high-017"
+      "terrainRequests": [
+        {
+          "kind": "cut",
+          "radiusM": 90,
+          "note": "the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff"
+        }
+      ]
     },
     {
       "id": "place.naga-kur-deeps.hermit-hut-exile-deeps",
@@ -5425,7 +5408,7 @@
       "why": {
         "founding": "Waterworks built by a vanished people who managed this swamp instead of living with it.",
         "siteAdvantages": "The zone's natural drainage pinch, where two channels are close enough that cut stone could join them and pay for itself.",
-        "occupantsMotive": "Nobody; the works run themselves, badly. The villages downstream have built their calendars around its faults.",
+        "occupantsMotive": "Unstaffed; the works run themselves, badly. The four villages downstream have built their calendars around its faults.",
         "pressures": "The half-working sluices still divert water. Two villages flood because of a decision made by a dead civilisation. Each blames the other for not clearing its own channel.",
         "wouldChangeIf": "Repairing or breaking the works would redraw where the water goes, making one village's rice ground and drowning another's. No village will let the other order the repair."
       },
@@ -5450,7 +5433,12 @@
           "any-channel-bank",
           "oxbow",
           "any-firm-ground"
-        ]
+        ],
+        "nearPoint": {
+          "x": 3450,
+          "z": 4350,
+          "maxM": 400
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -5460,8 +5448,7 @@
         "tolls": [],
         "visibleFrom": [],
         "reachedVia": [
-          "place.naga-kur-deeps.ferry-stage-guide-hire",
-          "place.naga-kur-deeps.portage-slipway-narrows-deeps"
+          "place.naga-kur-deeps.ferry-stage-guide-hire"
         ],
         "travelServiceEdges": []
       },
@@ -5488,7 +5475,7 @@
       "vibe": {
         "silhouette": "water behaving too regularly: a straight channel, a level pool, a weir line",
         "palette": "black water in cut channels running straighter than water should, grey lost-peoples stonework, blue light pooling where the flow stalls",
-        "materials": "dressed channel stone laid by hands nobody can name, still watertight; bog-oak baulks dropped in later by dredgers; cane staging over the deep cuts",
+        "materials": "dressed channel stone laid by pre-Duskfall hands, still watertight; bog-oak baulks dropped in later by dredgers; cane staging over the deep cuts",
         "signatureFeature": "Sluices that still open and close with the season, unattended. The villages downstream have set their year by that schedule.",
         "condition": "collapsed inward, with the outline still legible",
         "mood": "work still running long after the workmen",
@@ -5502,7 +5489,7 @@
         "landmark-civic",
         "clutter"
       ],
-      "discovery": "sightline",
+      "discovery": "rumour",
       "questHooks": {
         "provisions": [],
         "tags": [],
@@ -5535,38 +5522,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.46368,
-        "v": 0.52541
+        "u": 0.38025,
+        "v": 0.52916
       },
       "positionM": [
-        3419.0,
-        3874.1
+        2803.8,
+        3901.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 1.757,
+          "siteId": "site.free.any-firm-ground-0842",
+          "score": 2.255,
+          "whyLost": "too close to place.hist-heartland.root-talk-ground"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0775",
+          "score": 2.031,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1055",
-          "score": 1.754,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1079",
-          "score": 1.752,
+          "siteId": "site.free.any-firm-ground-0778",
+          "score": 1.97,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 5), 464 m from the nearest route; its choice #3 landform; won on landform, region, remote; site exchanged in the swap pass with place.naga-kur-deeps.root-whisper-village (+0.51).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 23 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on nearPoint, region, landform; placed from the homeless batch at stage 'spacing-3/4'.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 464.2,
-        "distanceToWaterM": 32.9,
-        "score": 1.288
+        "distanceToRouteM": 22.6,
+        "distanceToWaterM": 36.8,
+        "score": 2.089
       },
       "hostility": {
         "baseline": "hostile",
@@ -5594,7 +5581,7 @@
           "dungeon-delve"
         ],
         "impact": "real",
-        "hook": "Sluices that still open and close on the season, unattended. Four villages downstream have set their year by a machine nobody understands.",
+        "hook": "Sluices that still open and close on the season, unattended. Four villages downstream have set their year by a machine no living engineer can read.",
         "reviewed": true
       },
       "interior": {
@@ -6003,10 +5990,10 @@
       "confidence": "medium",
       "why": {
         "founding": "The deepest hole in the inner swamps, named in the tribes' recitation. Divers turn back at the lip.",
-        "siteAdvantages": "A drowned sinkhole in the swamp floor, far deeper than anything around it. The root layer closes overhead everywhere else in the zone; over the hole it stops.",
+        "siteAdvantages": "A drowned sinkhole in the swamp floor, far deeper than the channels around it. The root layer closes overhead across the zone; over the hole it stops.",
         "occupantsMotive": "Something the recitation names but does not describe. The naming tribes hold that describing it is an invitation.",
         "pressures": "Divers who go for the treasure at the lip do not go past it. The lip is picked over; the good salvage starts below the point where people stop.",
-        "wouldChangeIf": "Nothing."
+        "wouldChangeIf": "No change is in prospect."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6067,7 +6054,7 @@
         "condition": "no work here at all; the warning at the lip is renewed each season",
         "mood": "deep water that every local warns you off",
         "approach": "The colour change is the whole warning.",
-        "senses": "air that does not move at all; sulphur off disturbed mud; nothing green in the light"
+        "senses": "air standing still over the hole; sulphur off disturbed mud; no green in the light"
       },
       "assetPlan": [
         "totems-ritual",
@@ -6103,19 +6090,14 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.40865,
-        "v": 0.75669
+        "u": 0.33428,
+        "v": 0.70612
       },
       "positionM": [
-        3013.2,
-        5579.5
+        2464.8,
+        5206.6
       ],
       "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 4.193,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
-        },
         {
           "siteId": "site.free.any-shallow-marsh-1076",
           "score": 4.011,
@@ -6124,17 +6106,22 @@
         {
           "siteId": "site.free.any-shallow-marsh-1051",
           "score": 3.509,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.ford-039",
+          "score": 3.161,
+          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 206 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, submerged, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 633 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.leviathan-bone-field (+0.40).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 205.5,
-        "distanceToWaterM": 0.0,
-        "score": 2.752
+        "distanceToRouteM": 633.5,
+        "distanceToWaterM": 19.8,
+        "score": 4.178
       },
       "hostility": {
         "baseline": "hostile",
@@ -6343,38 +6330,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.19224,
-        "v": 0.69869
+        "u": 0.40865,
+        "v": 0.75669
       },
       "positionM": [
-        1417.5,
-        5151.8
+        3013.2,
+        5579.5
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1055",
           "score": 3.847,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1054",
           "score": 3.843,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1079",
+          "siteId": "site.free.any-shallow-marsh-1029",
           "score": 3.828,
-          "whyLost": "taken by place.naga-kur-deeps.sinkhole-mouth-deeps"
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 8 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 206 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.legendary-deep-feather-serpent (+0.40).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 4,
-        "distanceToRouteM": 7.8,
-        "distanceToWaterM": 15.5,
-        "score": 3.57
+        "regionClass": "interior swamp",
+        "dangerBand": 5,
+        "distanceToRouteM": 205.5,
+        "distanceToWaterM": 0.0,
+        "score": 2.403
       },
       "hostility": {
         "baseline": "hostile",
@@ -6402,7 +6389,7 @@
           "vista-landmark"
         ],
         "impact": "real",
-        "hook": "A house built under the rib cage with the bone left uncut. Everything else that wanted the shelter has moved in beside it.",
+        "hook": "A house built under the rib cage with the bone left uncut. Other things wanting the shelter have moved in beside it.",
         "reviewed": true
       },
       "interior": {
@@ -6714,7 +6701,7 @@
       "vibe": {
         "silhouette": "a marked course in dangerous ground, with an observation point",
         "palette": "black water and a bone-pale bottom, hide stretched grey on frames, blue bioluminescence in the shallows",
-        "materials": "nothing raised: worked bone set into the ground and left; hide thongs, wet-tied and shrunk on; totems of bone and plumage at every landing",
+        "materials": "no structure raised: worked bone set into the ground and left; hide thongs, wet-tied and shrunk on; totems of bone and plumage at each landing",
         "signatureFeature": "The bank is lined with the skulls of every trial kill, mounted with the taker's name. The recent row is shorter than the old one.",
         "condition": "the skull mounts kept up, the frames re-tied each season",
         "mood": "public, harder every year",
@@ -6766,12 +6753,12 @@
         {
           "siteId": "site.free.any-shallow-marsh-1052",
           "score": 3.859,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1027",
           "score": 3.836,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1076",
@@ -7044,11 +7031,11 @@
       ],
       "confidence": "medium",
       "why": {
-        "founding": "A miregaunt standing in open water with nothing behind it to guard.",
+        "founding": "A miregaunt holding a bearing in open water with no work behind it.",
         "siteAdvantages": "Open shallow water on no route to anywhere. There was a route once.",
-        "occupantsMotive": "One miregaunt, guarding nothing anybody can find.",
-        "pressures": "Nothing has been found under the silt. The standing theory is that the ward outlived a Horwalli work.",
-        "wouldChangeIf": "Nothing. It returns to the same stance on the same bearing every time. Scholars pay for that detail."
+        "occupantsMotive": "One miregaunt, guarding something no surveyor has found.",
+        "pressures": "Probing under the silt has turned up no footing. The standing theory is that the ward outlived a Horwalli work.",
+        "wouldChangeIf": "No change. It returns to the same stance on the same bearing after each disturbance. Scholars pay for that detail."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7064,7 +7051,12 @@
           "landforms: enclosed-clearing, any-shallow-marsh, ravine, box-canyon, flood-high",
           "water relation: saturated ground",
           "neighbours: between a route and something worth reaching"
-        ]
+        ],
+        "nearPoint": {
+          "x": 4200,
+          "z": 5150,
+          "maxM": 400
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -7103,10 +7095,10 @@
         "palette": "black above, blue below, no green anywhere, black mud that holds a print for a week",
         "materials": "raw bog-oak and shell grit, none of it lashed; carved frills pushed into the bank as a warning line",
         "signatureFeature": "No ruin, no cache. It guards a patch of open water. It has done so longer than the villages have existed.",
-        "condition": "nothing built here to wear; the ground packed hard where it walks",
+        "condition": "no structure here to wear; the ground packed hard where it walks",
         "mood": "a guard post with nothing behind it",
-        "approach": "You can see it from a very long way, standing still, in the middle of nothing.",
-        "senses": "air that does not move at all; paddle knock and nothing else; wet bone and cold mud"
+        "approach": "You can see it from two channels away, standing still in open water.",
+        "senses": "air standing still over the flat; paddle knock, then quiet; wet bone and cold mud"
       },
       "assetPlan": [
         "totems-ritual",
@@ -7143,38 +7135,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.61986,
-        "v": 0.6206
+        "u": 0.57598,
+        "v": 0.63548
       },
       "positionM": [
-        4570.5,
-        4576.0
+        4247.0,
+        4685.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 3.774,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1007",
+          "score": 3.418,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1053",
-          "score": 3.746,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 3.386,
+          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1052",
-          "score": 3.686,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-firm-ground-1036",
+          "score": 3.381,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 412 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, remote, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "isthmus in tropical jungle (danger band 4), 744 m from the nearest route; at the water's edge; won on nearPoint, region, remote; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "isthmus",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 412.4,
-        "distanceToWaterM": 32.0,
-        "score": 1.415
+        "distanceToRouteM": 744.1,
+        "distanceToWaterM": 7.8,
+        "score": 1.753
       },
       "hostility": {
         "baseline": "hostile",
@@ -7235,7 +7227,8 @@
             "provenance": "the ward-stone chamber the route it guarded used to reach"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.tropical-jungle.isthmus-021"
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-abandoned",
@@ -7426,12 +7419,17 @@
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
           "at least 12 km inland — this is the deep interior",
-          "on a blind bend of a poling route"
+          "on a blind bend of a poling route",
+          "on the bank of the northern poling channel, water within 15 m — the camp works boat traffic"
         ],
         "preferences": [
-          "landforms: any-channel-bank, oxbow, any-shallow-marsh",
+          "landforms: any-channel-bank, oxbow",
           "water relation: commands traffic and offers an escape",
           "neighbours: on a route with traffic worth robbing"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "oxbow"
         ]
       },
       "relations": {
@@ -7516,38 +7514,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.35436,
-        "v": 0.8028
+        "u": 0.40419,
+        "v": 0.77603
       },
       "positionM": [
-        2612.9,
-        5919.5
+        2980.3,
+        5722.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.water-narrows-005",
-          "score": 2.884,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1057",
+          "score": 2.646,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         },
         {
-          "siteId": "site.scour.interior-swamp.cliff-bench-045",
-          "score": 2.753,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "siteId": "site.free.any-shallow-marsh-0996",
+          "score": 2.643,
+          "whyLost": "too close to place.naga-kur-deeps.maturity-trial-kaju-kill"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1049",
-          "score": 2.374,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "siteId": "site.free.any-shallow-marsh-1056",
+          "score": 2.642,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 214 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on region, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.bone-carriers-camp-deeps (+0.63).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 255 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.naga-kur-deeps.dead-water-village (+1.42).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 213.6,
-        "distanceToWaterM": 7.8,
-        "score": 1.538
+        "distanceToRouteM": 255.1,
+        "distanceToWaterM": 0.0,
+        "score": 1.426
       },
       "hostility": {
         "baseline": "hostile",
@@ -7656,12 +7654,17 @@
           "culture zone: naga-kur-deeps",
           "at least 12 km inland — this is the deep interior",
           "a reed narrows with two exits",
-          "at least 3 km from The North Cut Camp"
+          "at least 3 km from The North Cut Camp",
+          "on the bank of the southern poling channel, water within 15 m — the reed gate is strung across the water"
         ],
         "preferences": [
-          "landforms: any-shallow-marsh, any-channel-bank, oxbow",
+          "landforms: any-channel-bank, oxbow",
           "water relation: two exits from one narrows",
           "neighbours: on the southern poling route"
+        ],
+        "landformClasses": [
+          "any-channel-bank",
+          "oxbow"
         ]
       },
       "relations": {
@@ -7702,7 +7705,7 @@
       "vibe": {
         "silhouette": "a reed-gate strung across the water and a low camp behind it, deliberately hard to see",
         "palette": "still black with a slow blue drift in it, white shell grit at the landing, cold blue on the underside of the piles",
-        "materials": "bone-handled everything and nothing built at all; cane-split cord, replaced constantly; smoked hide, black and stiff; carved frills set as boundary markers",
+        "materials": "bone-handled tools and no permanent build; cane-split cord, replaced constantly; smoked hide, black and stiff; carved frills set as boundary markers",
         "signatureFeature": "They fly a tally-stick pattern copied from the northern camp. The copy is bad enough that northern polers spot it.",
         "condition": "solid where it is used daily, rotten a step off the path",
         "mood": "imitative",
@@ -7816,40 +7819,39 @@
         ]
       },
       "position": {
-        "u": 0.33205,
-        "v": 0.77008
+        "u": 0.19224,
+        "v": 0.69869
       },
       "positionM": [
-        2448.4,
-        5678.2
+        1417.5,
+        5151.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.water-narrows-005",
-          "score": 3.573,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1080",
+          "score": 3.175,
+          "whyLost": "too close to place.mercantile-coast.rockpark"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1128",
-          "score": 3.343,
-          "whyLost": "taken by place.naga-kur-deeps.serpent-ground-moon-adder"
+          "siteId": "site.free.any-shallow-marsh-1081",
+          "score": 3.161,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         },
         {
-          "siteId": "site.scour.interior-swamp.cliff-bench-045",
-          "score": 3.236,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "siteId": "site.free.any-shallow-marsh-1056",
+          "score": 3.138,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         }
       ],
-      "whySiteWon": "ford in interior swamp (danger band 4), 505 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 8 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on route, region, hinterland; site exchanged in the swap pass with place.naga-kur-deeps.necropolis-nightbound (+2.22).",
       "plotFacts": {
-        "landform": "ford",
-        "regionClass": "interior swamp",
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
         "dangerBand": 4,
-        "distanceToRouteM": 505.1,
-        "distanceToWaterM": 0.0,
-        "score": 1.851
-      },
-      "scourSiteId": "site.scour.interior-swamp.ford-053"
+        "distanceToRouteM": 7.8,
+        "distanceToWaterM": 15.5,
+        "score": 3.229
+      }
     },
     {
       "id": "place.naga-kur-deeps.naga-highway-camp-walkway",
@@ -8035,7 +8037,7 @@
       "why": {
         "founding": "The tribeless Naga who once ran raids out along the routes have narrowed to a single camp holding the water road itself.",
         "siteAdvantages": "The creek head still reaches three poling routes and hides the boat sheds from any approach.",
-        "occupantsMotive": "The band takes a cut from anything that uses the road. It answers to the raj-kaal who runs it.",
+        "occupantsMotive": "The band prices the road by hull and cargo. It answers to the raj-kaal who runs it.",
         "pressures": "Every fixed Naga village nearby has cut ties, so the camp trades only with the coastal brokers who buy stolen cargo.",
         "wouldChangeIf": "The raj-kaal's death would scatter the band inside a season. Two attempts have failed."
       },
@@ -8153,23 +8155,23 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.15729,
-        "v": 0.82288
+        "u": 0.13905,
+        "v": 0.76669
       },
       "positionM": [
-        1159.8,
-        6067.5
+        1025.3,
+        5653.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1151",
           "score": 3.404,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         },
         {
           "siteId": "site.free.roadside-0261",
           "score": 3.366,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1180",
@@ -8177,14 +8179,14 @@
           "whyLost": "too close to place.imperial-penal-south.longmont"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 399 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 33 m from the nearest route; its first-choice landform; won on landform, nearPoint, region; site exchanged in the swap pass with place.naga-kur-deeps.naga-village-settled (+0.33).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 4,
-        "distanceToRouteM": 399.2,
-        "distanceToWaterM": 11.0,
-        "score": 3.074
+        "dangerBand": 3,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 51.7,
+        "score": 3.61
       },
       "hostility": {
         "baseline": "hostile",
@@ -8221,7 +8223,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "A camp that sits on the water road and takes a cut from everything that passes.",
+        "hook": "A camp that sits on the water road and takes a cut from the laden craft that pass.",
         "reviewed": true
       },
       "interior": {
@@ -8304,7 +8306,7 @@
         "founding": "A settled Naga tribe with a tended Hist, villages, fields and a quarrel with their own tribeless relatives.",
         "siteAdvantages": "Firm ground on the inner swamp's main poling route, with a landing deep enough for laden craft.",
         "occupantsMotive": "People who want the road trade, but are undermined by kin who rob it.",
-        "pressures": "Every outsider arrives assuming they are brigands. The hold now pays the northern camp for quiet rather than fight a war it would win and could not afford.",
+        "pressures": "Outsiders arrive assuming they are brigands. The hold now pays the northern camp for quiet rather than fight a war it would win and could not afford.",
         "wouldChangeIf": "A settlement with the tribeless would change how the whole southern interior travels. It would also cost the coastal escort trade its best market."
       },
       "sitingPrefs": {
@@ -8381,8 +8383,8 @@
       "vibe": {
         "silhouette": "markedly larger dwellings on a long dry hold, with pens, drying racks and a drum frame at the centre",
         "palette": "still black with a slow blue drift in it, black mud that holds a print for a week, the blue thin here",
-        "materials": "bog-oak posts, cane walls, bone lintels; gut lashing, replaced each season; smoked hide, black and stiff; totems of bone and plumage at every landing",
-        "signatureFeature": "Everything is built to a larger scale: door heights, bench spans, cook pots. A normal-sized visitor is a child here.",
+        "materials": "bog-oak posts, cane walls, bone lintels; gut lashing, replaced each season; smoked hide, black and stiff; totems of bone and plumage at the landings",
+        "signatureFeature": "Door heights, bench spans and cook pots are built to a larger scale. An ordinary-sized visitor is a child here.",
         "condition": "sound; the big timbers are original",
         "mood": "hospitable, on a scale a size too large",
         "approach": "You notice the doorways before you notice the people.",
@@ -8426,12 +8428,12 @@
       "ownerFaction": "faction.naga-kur",
       "localStateVariants": [],
       "position": {
-        "u": 0.0911,
-        "v": 0.77603
+        "u": 0.1268,
+        "v": 0.82437
       },
       "positionM": [
-        671.7,
-        5722.1
+        934.9,
+        6078.5
       ],
       "candidatesConsidered": [
         {
@@ -8450,14 +8452,14 @@
           "whyLost": "too close to place.mercantile-coast.soulrest"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 183 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; site exchanged in the swap pass with place.naga-kur-deeps.bog-blight-ground-nine-stakes (+2.01).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 216 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger; site exchanged in the swap pass with place.naga-kur-deeps.naga-village-raiding (+0.33).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
+        "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 182.6,
-        "distanceToWaterM": 0.0,
-        "score": 2.546
+        "distanceToRouteM": 216.0,
+        "distanceToWaterM": 23.3,
+        "score": 2.865
       },
       "hostility": {
         "baseline": "wary",
@@ -8494,7 +8496,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "Everything is built a size too large, so a normal visitor is a child here. They trade with anyone who can pay the toll.",
+        "hook": "The doors and benches are built a size too large, so an ordinary visitor is a child here. They trade with whoever pays the toll.",
         "reviewed": true
       },
       "interior": {
@@ -8570,7 +8572,8 @@
           "radiusM": 80,
           "note": "firm ground above the flood for a hold that trades, with a bank steep enough for a laden landing"
         }
-      ]
+      ],
+      "sitingNote": "Plotted on the Naga-Kur / mercantile-coast culture boundary rather than in the zone interior. The hold's economy is selling quiet to the coastal escort trade, which needs it within reach of the coast road's market."
     },
     {
       "id": "place.naga-kur-deeps.necropolis-nightbound",
@@ -8684,7 +8687,7 @@
         ],
         "tags": [],
         "opportunity": "Nine fields, a bidding rota that leaves the poorest unstaked, then a night crew that does not come back",
-        "tierOwnership": "LN09 · tier-3; LN10 · tier-3; LN11 · tier-3; province system · tier-1"
+        "tierOwnership": "LN03 · tier-3; LN09 · tier-3; LN10 · tier-3; LN11 · tier-3; province system · tier-1"
       },
       "rumourPoolKey": "rumour.naga-kur",
       "deedCounterKeys": [],
@@ -8708,38 +8711,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.1268,
-        "v": 0.82437
+        "u": 0.33577,
+        "v": 0.76487
       },
       "positionM": [
-        934.9,
-        6078.5
+        2475.8,
+        5639.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1204",
-          "score": 3.604,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.919,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1205",
-          "score": 3.578,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.913,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1156",
-          "score": 3.57,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 3.908,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 216 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.drowning-narrows-tidal-gate (+0.94).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 525 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.naga-highway-camp-active-south (+2.22).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 216.0,
-        "distanceToWaterM": 23.3,
-        "score": 3.66
+        "dangerBand": 4,
+        "distanceToRouteM": 524.8,
+        "distanceToWaterM": 0.0,
+        "score": 3.552
       },
       "hostility": {
         "baseline": "wary",
@@ -8923,7 +8926,7 @@
       },
       "vibe": {
         "silhouette": "a drying line; crates stacked in the open",
-        "palette": "black water with blue light under the surface, drift bone and drift wood in the same line, blue in the roots and nowhere else",
+        "palette": "black water with blue light under the surface, drift bone and drift wood in the same line, blue in the roots, not in the water",
         "materials": "cane cut this week and lashed the same hour; hide thongs, wet-tied and shrunk on; smoked hide, black and stiff; a few plain poles driven at the landing, with a cairn and a totem the poachers did not put there",
         "signatureFeature": "Packed clutches in wet moss crates, labelled by species and by buyer. One crate carries a species the villages forbid to be taken at all.",
         "condition": "cut this season and not meant to last another",
@@ -8965,38 +8968,38 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.43022,
-        "v": 0.77454
+        "u": 0.35436,
+        "v": 0.8028
       },
       "positionM": [
-        3172.2,
-        5711.1
+        2612.9,
+        5919.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1128",
-          "score": 3.349,
-          "whyLost": "taken by place.naga-kur-deeps.serpent-ground-moon-adder"
-        },
-        {
           "siteId": "site.scour.interior-swamp.cliff-bench-045",
           "score": 3.233,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1080",
           "score": 3.168,
           "whyLost": "too close to place.mercantile-coast.rockpark"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1081",
+          "score": 3.166,
+          "whyLost": "too close to place.mercantile-coast.white-rose-prison"
         }
       ],
-      "whySiteWon": "isthmus in interior swamp (danger band 4), 93 m from the nearest route; at the water's edge; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.flooded-passage-tunnel-deeps (+1.16).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 214 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "isthmus",
+        "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 93.1,
-        "distanceToWaterM": 0.0,
-        "score": 1.895
+        "distanceToRouteM": 213.6,
+        "distanceToWaterM": 7.8,
+        "score": 2.468
       },
       "hostility": {
         "baseline": "hostile",
@@ -9076,8 +9079,7 @@
             "provenance": "clutches labelled by species and by buyer, in a coastal hand"
           }
         ]
-      },
-      "scourSiteId": "site.scour.interior-swamp.isthmus-040"
+      }
     },
     {
       "id": "place.naga-kur-deeps.portage-slipway-narrows-deeps",
@@ -9203,38 +9205,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.12241,
-        "v": 0.79693
+        "u": 0.4599,
+        "v": 0.76822
       },
       "positionM": [
-        902.6,
-        5876.2
+        3391.1,
+        5664.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0269",
-          "score": 4.312,
-          "whyLost": "too close to place.mercantile-coast.pilgrim-xanmeer"
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 4.054,
+          "whyLost": "too close to place.naga-kur-deeps.refugee-camp-raid"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1151",
-          "score": 4.31,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1244",
+          "score": 3.812,
+          "whyLost": "too close to place.mercantile-coast.xinchei-konu"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1224",
-          "score": 4.251,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1208",
+          "score": 3.777,
+          "whyLost": "too close to place.naga-kur-deeps.refugee-camp-raid"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 85 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 88 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.flooded-passage-tunnel-deeps (+0.31).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 85.3,
-        "distanceToWaterM": 0.0,
-        "score": 4.309
+        "dangerBand": 4,
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 5.5,
+        "score": 3.945
       },
       "hostility": {
         "baseline": "neutral",
@@ -9338,10 +9340,10 @@
       ],
       "confidence": "medium",
       "why": {
-        "founding": "Households lashed their rafts together for the wet season in a backwater too poor for anyone to claim.",
+        "founding": "Households lashed their rafts together for the wet season in a backwater too poor for a neighbouring hold to claim.",
         "siteAdvantages": "The same sheltered, ownerless water that suited the lashing now suits whatever settled over the wreck once it went down.",
-        "occupantsMotive": "Nothing chose this place. The rafts sank still tied to each other and the wreck draws what feeds on the drowned.",
-        "pressures": "The lashing-master's knotted cord, kept as the only record of the mooring order, went down with everything else.",
+        "occupantsMotive": "The place was not chosen. The rafts sank still tied to each other; the wreck now draws what feeds on the drowned.",
+        "pressures": "The lashing-master's knotted cord, kept as the sole record of the mooring order, went down with the rafts.",
         "wouldChangeIf": "Nothing above the water marks where The Lashing sank. A diver would have to already know to look."
       },
       "sitingPrefs": {
@@ -9394,13 +9396,13 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "nothing above the waterline; a raft-mass shape only visible from below",
+        "silhouette": "no mark above the waterline; a raft-mass shape read from below",
         "palette": "black water with blue light under the surface, bone-pale bottom, cairn stones grey and stacked",
         "materials": "bone plate and vine cord gone slack and drifting; tar-and-ash lap-seams still holding the frames together underwater",
         "signatureFeature": "the rafts are still lashed in order, exactly as the cord recorded it, on the bottom",
-        "condition": "intact below, nothing left above",
-        "mood": "cold; nothing disturbed",
-        "approach": "the surface gives nothing away. The water goes dark fast over the wreck",
+        "condition": "intact below, stripped above the waterline",
+        "mood": "cold; undisturbed",
+        "approach": "the surface reads as open backwater. The water goes dark fast over the wreck",
         "senses": "cold pressing in on the dive; bone plate clacking loose underwater; no light past the first few strokes down"
       },
       "assetPlan": [
@@ -9436,55 +9438,45 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.43877,
-        "v": 0.80958
+        "u": 0.17952,
+        "v": 0.69951
       },
       "positionM": [
-        3235.3,
-        5969.5
+        1323.7,
+        5157.8
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0431",
-          "score": 3.613,
-          "whyLost": "too close to place.mercantile-coast.mirtis-plantation"
+          "score": 3.575,
+          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1213",
-          "score": 3.269,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1232",
+          "score": 3.407,
+          "whyLost": "too close to place.naga-kur-deeps.refugee-camp-raid"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1190",
-          "score": 3.263,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1292",
+          "score": 3.338,
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 38 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 71 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.umbriel-stripped-undead (+0.97).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 7.8,
-        "score": 3.604
+        "dangerBand": 4,
+        "distanceToRouteM": 71.5,
+        "distanceToWaterM": 0.0,
+        "score": 3.922
       },
       "hostility": {
-        "baseline": "hostile",
+        "baseline": "neutral",
         "owner": null,
-        "flips": [
-          {
-            "to": "friendly",
-            "when": {
-              "seasonIs": [
-                "wet"
-              ]
-            },
-            "scope": "place"
-          }
-        ],
-        "clearable": true,
-        "respawn": "slow"
+        "flips": [],
+        "clearable": false,
+        "respawn": "none"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -9589,7 +9581,7 @@
           "culture zone: naga-kur-deeps"
         ],
         "preferences": [
-          "landforms: flood-high, any-firm-ground, island, enclosed-clearing",
+          "landforms: flood-high, any-firm-ground, enclosed-clearing",
           "water relation: wherever they were allowed to stop",
           "neighbours: just outside a settlement that has not taken them in"
         ]
@@ -9631,9 +9623,9 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "shelters pitched too close together on ground nobody would choose, with a lookout on the only rise",
+        "silhouette": "shelters pitched too close together on ground the elder would not have chosen, with a lookout on the single rise",
         "palette": "black water and a bone-pale bottom, hide-brown shelters crowded on the one rise, the blue light thin over the rise",
-        "materials": "bone-handled everything and nothing built at all; hide thongs, wet-tied and shrunk on; tar and ash paid into every lap; crocodile skulls on the pile heads",
+        "materials": "bone-handled tools and no build at all; hide thongs, wet-tied and shrunk on; tar and ash paid into the laps; crocodile skulls on the pile heads",
         "signatureFeature": "The camp is laid out in the exact plan of the village they left, house for house, in tents.",
         "condition": "tents two years old and mended twice",
         "mood": "two years of waiting to hear",
@@ -9673,41 +9665,41 @@
       "underwaterAccess": "none",
       "localStateVariants": [],
       "position": {
-        "u": 0.13721,
-        "v": 0.88609
+        "u": 0.29933,
+        "v": 0.81619
       },
       "positionM": [
-        1011.7,
-        6533.6
+        2207.1,
+        6018.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.interior-swamp.island-010",
-          "score": 2.721,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "siteId": "site.scour.interior-swamp.island-006",
+          "score": 3.62,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.interior-swamp.flood-high-028",
-          "score": 2.545,
-          "whyLost": "too close to place.naga-kur-deeps.dead-water-village"
+          "score": 3.582,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.island-006",
-          "score": 2.42,
-          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
+          "siteId": "site.free.any-shallow-marsh-1207",
+          "score": 3.173,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 176 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "island in interior swamp (danger band 3), 342 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "island",
         "regionClass": "interior swamp",
         "dangerBand": 3,
-        "distanceToRouteM": 175.8,
-        "distanceToWaterM": 94.3,
-        "score": 1.96
+        "distanceToRouteM": 342.1,
+        "distanceToWaterM": 0.0,
+        "score": 3.921
       },
       "hostility": {
-        "baseline": "hostile",
+        "baseline": "wary",
         "owner": null,
         "flips": [
           {
@@ -9720,8 +9712,8 @@
             "scope": "place"
           }
         ],
-        "clearable": true,
-        "respawn": "slow"
+        "clearable": false,
+        "respawn": "none"
       },
       "playerPurpose": {
         "primary": "social-drama",
@@ -9781,7 +9773,8 @@
             "provenance": "what they carried out, laid where it stood in the old house"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.interior-swamp.island-010"
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-blight-warren",
@@ -9823,7 +9816,12 @@
           "landforms: flood-high, sinkhole, ravine, enclosed-clearing, any-firm-ground",
           "water relation: water at the gallery's low points; some branches fully flooded",
           "neighbours: the root layer is continuous — galleries connect, and that connection is the map"
-        ]
+        ],
+        "nearPoint": {
+          "x": 3900,
+          "z": 4900,
+          "maxM": 400
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -9862,10 +9860,10 @@
       },
       "vibe": {
         "silhouette": "a burrow mouth widened by something that was not digging for a door",
-        "palette": "black, with blue only at the waterline; olive weed matted over everything",
+        "palette": "black, with blue only at the waterline; olive weed matted over the sills",
         "materials": "unworked black mud over stone under a roof of matted root, with drift bone laid along the high line; no marker, which the polers say is deliberate",
         "signatureFeature": "A gallery of hollow root under a pulled pole field, walked on ramps the swamp made itself. The risen went down into it and followed the roots back toward the village.",
-        "condition": "nothing maintained below; the stake ring above re-driven every year",
+        "condition": "no maintenance below; the stake ring above re-driven each year",
         "mood": "the blight problem, underground",
         "approach": "A mouth in the middle of a pole field, with fresh plain poles driven in a ring around it.",
         "senses": "the floor giving under the foot where the blight has been through it; bone clacking on bone somewhere ahead; rot held down under cold water"
@@ -9912,38 +9910,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.55739,
-        "v": 0.6325
+        "u": 0.61242,
+        "v": 0.70017
       },
       "positionM": [
-        4109.9,
-        4663.7
+        4515.7,
+        5162.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 2.398,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1088",
+          "score": 3.337,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1079",
-          "score": 2.394,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-0842",
+          "score": 3.275,
+          "whyLost": "too close to place.hist-heartland.root-talk-ground"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1055",
-          "score": 2.392,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 2.856,
+          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 857 m from the nearest route; its choice #5 landform; won on region, remote, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.bog-blight-ground-old-cordon (+0.49).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 444 m from the nearest route; its choice #5 landform; won on nearPoint, region, remote; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 856.9,
-        "distanceToWaterM": 45.2,
-        "score": 1.669
+        "distanceToRouteM": 444.4,
+        "distanceToWaterM": 29.5,
+        "score": 2.333
       },
       "hostility": {
         "baseline": "hostile",
@@ -10460,12 +10458,12 @@
       "vibe": {
         "silhouette": "a low village on cleared ground with a stepped xanmeer standing at each end of it; one tree between them, too small for its own trunk-scar",
         "palette": "olive shade with the blue light unusually even; black water in the cuts; pale new cane against very old grey stone",
-        "materials": "cane and bog-oak raised new within living memory on the footprint of the old village; a trained-root core the tree is still growing; totems of bone and plumage at both xanmeer ends; nothing salvaged from either xanmeer, deliberately",
+        "materials": "cane and bog-oak raised new within living memory on the footprint of the old village; a trained-root core the tree is still growing; totems of bone and plumage at both xanmeer ends; no stone salvaged from either xanmeer, deliberately",
         "signatureFeature": "The Dreaming Tree: a Hist whose voice is that of a hatchling and whose trunk is that of an elder, with the whole village timing its day around the two hours it speaks.",
-        "condition": "new work throughout; nothing here predates the return",
+        "condition": "new work throughout; no timber here predates the return",
         "mood": "careful; ninety years old at most",
-        "approach": "Between the two xanmeers, along a line the tribe keeps clear so that anyone arriving is seen from both.",
-        "senses": "warmth in the ground under the tree and nowhere else; a single small chime, kept for the tree; new-cut cane and wet stone; no drums at any hour"
+        "approach": "Between the two xanmeers, along a line the tribe keeps clear so an arrival is seen from both.",
+        "senses": "warmth in the ground under the tree, not beyond its shade; a single small chime, kept for the tree; new-cut cane and wet stone; no drums at any hour"
       },
       "assetPlan": [
         "bamboo-hut",
@@ -10524,12 +10522,12 @@
       "workflow": "plotted",
       "ownerFaction": "faction.cyrodilic-collections",
       "position": {
-        "u": 0.36254,
-        "v": 0.61168
+        "u": 0.25025,
+        "v": 0.7381
       },
       "positionM": [
-        2673.2,
-        4510.2
+        1845.2,
+        5442.4
       ],
       "candidatesConsidered": [
         {
@@ -10548,14 +10546,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "oxbow in rootland deep marsh (danger band 5), 66 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.horwalli-waterworks-deeps (+0.51).",
+      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 491 m from the nearest route; its first-choice landform; won on landform, region, remote; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "oxbow",
+        "landform": "flood-high",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 65.8,
-        "distanceToWaterM": 0.0,
-        "score": 2.574
+        "distanceToRouteM": 490.6,
+        "distanceToWaterM": 49.4,
+        "score": 3.41
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -10652,7 +10650,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.rootland-deep-marsh.oxbow-015"
+      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-023"
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",
@@ -10676,9 +10674,9 @@
       "why": {
         "founding": "A xanmeer whose vakka mechanisms still work.",
         "siteAdvantages": "A rise in black water with no approach that is not overlooked by the building.",
-        "occupantsMotive": "The defences, nothing else. No squatters and no den.",
+        "occupantsMotive": "The defences hold it. No squatters, no den.",
         "pressures": "Four expeditions in fifty years, no returns. The nearest village keeps the count and charges to recite it.",
-        "wouldChangeIf": "Nothing short of the mechanisms failing. The vakka stones that drive them are worth more to a coastal broker than the contents."
+        "wouldChangeIf": "Short of the mechanisms failing, it stays shut. The vakka stones that drive them are worth more to a coastal broker than the contents."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10871,40 +10869,40 @@
         ]
       },
       "position": {
-        "u": 0.25025,
-        "v": 0.7381
+        "u": 0.29412,
+        "v": 0.70538
       },
       "positionM": [
-        1845.2,
-        5442.4
+        2168.7,
+        5201.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.rootland-deep-marsh.flood-high-037",
-          "score": 2.914,
-          "whyLost": "too close to place.naga-kur-deeps.sinkhole-mouth-deeps"
+          "siteId": "site.free.any-shallow-marsh-1052",
+          "score": 2.931,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1076",
-          "score": 2.839,
-          "whyLost": "taken by place.imperial-penal-south.wisp-lure-basin"
+          "siteId": "site.free.any-shallow-marsh-1027",
+          "score": 2.904,
+          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1054",
-          "score": 2.511,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "siteId": "site.free.any-shallow-marsh-1051",
+          "score": 2.73,
+          "whyLost": "too close to place.imperial-penal-south.wisp-lure-basin"
         }
       ],
-      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 491 m from the nearest route; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.naga-kur-deeps.root-whisper-village (+0.35).",
+      "whySiteWon": "flood high in rootland deep marsh (danger band 5), 544 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'spacing-3/4'; site exchanged in the swap pass with place.naga-kur-deeps.harmed-hist-enslaved (+1.27).",
       "plotFacts": {
         "landform": "flood-high",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 490.6,
-        "distanceToWaterM": 49.4,
-        "score": 2.943
+        "distanceToRouteM": 544.5,
+        "distanceToWaterM": 19.8,
+        "score": 3.835
       },
-      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-023"
+      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-026"
     },
     {
       "id": "place.naga-kur-deeps.serpent-ground-moon-adder",
@@ -11100,18 +11098,18 @@
         ]
       },
       "position": {
-        "u": 0.19298,
-        "v": 0.74703
+        "u": 0.14688,
+        "v": 0.72546
       },
       "positionM": [
-        1423.0,
-        5508.2
+        1083.0,
+        5349.2
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cliff-bench-045",
           "score": 3.515,
-          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1030",
@@ -11124,14 +11122,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 4), 143 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 181 m from the nearest route; at the water's edge; no free 'ravine' site was left in the zone, so plain ground; won on route, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
+        "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 142.6,
-        "distanceToWaterM": 17.3,
-        "score": 3.454
+        "distanceToRouteM": 181.0,
+        "distanceToWaterM": 11.0,
+        "score": 3.244
       }
     },
     {
@@ -11155,7 +11153,7 @@
       "why": {
         "founding": "A collapse in the root layer, drowned, in the middle of a reed flat.",
         "siteAdvantages": "A rare hole the swamp has flooded rather than filled, one of a handful in the province.",
-        "occupantsMotive": "Divers, occasionally; always the same three. They take no passengers.",
+        "occupantsMotive": "Divers, occasionally; the same three each season. They take no passengers.",
         "pressures": "It goes into the root layer. A body put in here has twice surfaced two zones away.",
         "wouldChangeIf": "A dry cycle would expose the rim and make it enterable on foot."
       },
@@ -11221,7 +11219,7 @@
       },
       "vibe": {
         "silhouette": "the rim, with a change in vegetation around it",
-        "palette": "black, with the blue only in the water, olive weed matted over everything",
+        "palette": "black, with the blue only in the water, olive weed matted round the rim",
         "materials": "no structure: a bottom of cold silt and a rim of fallen block; a drum frame at the landing with no drum in it",
         "signatureFeature": "From the surface it is a perfectly round hole in a reed flat. The reeds stop dead at its edge as if cut.",
         "condition": "unchanged; the rim has not moved in living memory",
@@ -11262,38 +11260,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.33428,
-        "v": 0.70612
+        "u": 0.35064,
+        "v": 0.65332
       },
       "positionM": [
-        2464.8,
-        5206.6
+        2585.5,
+        4817.3
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1054",
           "score": 4.417,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1055",
           "score": 4.413,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1029",
-          "score": 4.409,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1079",
+          "score": 4.411,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 633 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region.",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 309 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 633.5,
-        "distanceToWaterM": 19.8,
-        "score": 4.411
+        "distanceToRouteM": 308.7,
+        "distanceToWaterM": 12.3,
+        "score": 4.176
       },
       "hostility": {
         "baseline": "hostile",
@@ -11433,7 +11431,7 @@
       "vibe": {
         "silhouette": "terraced stone standing above the canopy",
         "palette": "black water at the stair foot; bone-white terraces above it; blue glow held in the lower chambers; grey everywhere else",
-        "materials": "dressed pre-Duskfall stone, kept swept and not repaired; bone set into the floor in courses; cane matting laid fresh over stone that is never washed",
+        "materials": "dressed pre-Duskfall stone, kept swept and not repaired; bone set into the floor in courses; cane matting laid fresh over stone left unwashed",
         "signatureFeature": "The sanctuary floor drains to a single hole under the altar stone.",
         "condition": "swept daily, unrepaired",
         "mood": "courteous throughout",
@@ -11480,23 +11478,23 @@
       "ownerFaction": "faction.nisswo",
       "localStateVariants": [],
       "position": {
-        "u": 0.30379,
-        "v": 0.82659
+        "u": 0.16249,
+        "v": 0.78421
       },
       "positionM": [
-        2240.0,
-        6094.9
+        1198.1,
+        5782.4
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.rootland-deep-marsh.flood-high-026",
           "score": 2.648,
-          "whyLost": "taken by place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-017",
-          "score": 2.587,
-          "whyLost": "taken by place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.scour.interior-swamp.flood-high-038",
+          "score": 2.508,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.rootland-deep-marsh.enclosed-clearing-001",
@@ -11504,14 +11502,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in interior swamp (danger band 3), 259 m from the nearest route; its choice #3 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in interior swamp (danger band 4), 151 m from the nearest route; its choice #3 landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "flood-high",
         "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 258.7,
-        "distanceToWaterM": 31.0,
-        "score": 2.508
+        "dangerBand": 4,
+        "distanceToRouteM": 150.9,
+        "distanceToWaterM": 69.4,
+        "score": 2.587
       },
       "hostility": {
         "baseline": "hostile",
@@ -11613,7 +11611,7 @@
           "place.naga-kur-deeps.stilt-shallow-reed-stand"
         ]
       },
-      "scourSiteId": "site.scour.interior-swamp.flood-high-038"
+      "scourSiteId": "site.scour.interior-swamp.flood-high-017"
     },
     {
       "id": "place.naga-kur-deeps.squatted-ruin-home-block",
@@ -12837,8 +12835,8 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a village with everything intact and no bodies at all",
-        "palette": "grey-olive with the blue entirely absent, since nothing luminous grows here now; black water; bone-pale where the village stands",
+        "silhouette": "a village with the roofs intact and no bodies at all",
+        "palette": "grey-olive with the blue gone, since the luminous weed died back here; black water; bone-pale where the village stands",
         "materials": "cane and hide left exactly as it was, perished in place; bog-oak posts sound; the containment ring of pikes newer than the village by a century and a half",
         "signatureFeature": "The Naga-Kur have staked a containment ring around the whole village rather than entering it. The ring is maintained, dated and slowly being pushed inward.",
         "condition": "undisturbed and standing; not a pole has been taken from it in a hundred and fifty years",
@@ -12899,23 +12897,23 @@
         }
       ],
       "position": {
-        "u": 0.14688,
-        "v": 0.72546
+        "u": 0.19745,
+        "v": 0.79016
       },
       "positionM": [
-        1083.0,
-        5349.2
+        1455.9,
+        5826.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0260",
-          "score": 2.342,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1099",
+          "score": 2.467,
+          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
         },
         {
-          "siteId": "site.free.roadside-0251",
-          "score": 2.314,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0260",
+          "score": 2.342,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         },
         {
           "siteId": "site.free.roadside-0253",
@@ -12923,14 +12921,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 181 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger.",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 337 m from the nearest route; its choice #2 landform; won on landform, region, danger; site exchanged in the swap pass with place.naga-kur-deeps.raft-village-lashed (+0.97).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 181.0,
-        "distanceToWaterM": 11.0,
-        "score": 2.467
+        "distanceToRouteM": 337.4,
+        "distanceToWaterM": 51.7,
+        "score": 2.243
       },
       "hostility": {
         "baseline": "hostile",
@@ -13452,8 +13450,8 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "dead standing trees with lightning scarring; a pond with nothing living in it",
-        "palette": "still black with a slow blue drift in it, olive weed matted over everything, white grave-cairns stepped up the bank",
+        "silhouette": "dead standing trees with lightning scarring; a pond the frogs have left",
+        "palette": "still black with a slow blue drift in it, olive weed matted at the margins, white grave-cairns stepped up the bank",
         "materials": "unworked black mud over stone, with drift bone laid along the high line; a drum frame at the landing with no drum in it",
         "signatureFeature": "The detour is marked with poles for its whole length. The poles have been there so long they have grown roots.",
         "condition": "the pole line patched so often the original work is hard to find",
@@ -13496,38 +13494,38 @@
       "underwaterAccess": "surface-swim",
       "localStateVariants": [],
       "position": {
-        "u": 0.31346,
-        "v": 0.60573
+        "u": 0.3261,
+        "v": 0.60126
       },
       "positionM": [
-        2311.3,
-        4466.3
+        2404.5,
+        4433.4
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-shallow-marsh-1055",
           "score": 4.067,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1054",
           "score": 4.063,
-          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         },
         {
           "siteId": "site.free.any-shallow-marsh-1079",
           "score": 4.048,
-          "whyLost": "taken by place.naga-kur-deeps.sinkhole-mouth-deeps"
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 334 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 335 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
         "dangerBand": 5,
-        "distanceToRouteM": 334.5,
-        "distanceToWaterM": 123.7,
-        "score": 3.686
+        "distanceToRouteM": 334.7,
+        "distanceToWaterM": 45.2,
+        "score": 3.796
       },
       "hostility": {
         "baseline": "hostile",
@@ -13765,9 +13763,9 @@
       "why": {
         "founding": "A wild Hist that has cut itself off from the collective. The tribes know of two other cases.",
         "siteAdvantages": "Deep swamp, no tribe and no witnesses, so it has been left alone long enough to be studied.",
-        "occupantsMotive": "Nothing speaks for it and nothing tends it. The nearest tribe sends no one.",
-        "pressures": "Nothing is being done about it. One sap-taster watches from the far bank and writes down what he sees.",
-        "wouldChangeIf": "Reconnection is possible in principle. Nobody has a method for it. The tribes that could try keep their distance."
+        "occupantsMotive": "No tribe speaks for it. The nearest village sends no minder and no offering.",
+        "pressures": "No work has been attempted on it. One sap-taster watches from the far bank and writes down what he sees.",
+        "wouldChangeIf": "Reconnection is possible in principle. No tree-minder has a method for it. The tribes that could try keep their distance."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13819,12 +13817,12 @@
       "vibe": {
         "silhouette": "a tree that has pulled its own crown in tight, small against the sky for its girth",
         "palette": "a tree so dark it is a hole in the canopy, black water beneath, blue light everywhere except within thirty paces of it",
-        "materials": "nothing built and nothing lashed: the ground under it is bare of even a cairn; the nearest stake line is set facing it",
+        "materials": "no build and no lashing: the ground under it is bare of even a cairn; the nearest stake line is set facing it",
         "signatureFeature": "Its flowers are dead white, neither the province's red nor the Naga-Kur's blue. The tribes know at a glance that it is alone.",
         "condition": "untended; the ground under it bare",
         "mood": "a tree with nothing on the other end of it",
         "approach": "White light where there should be blue.",
-        "senses": "no hum inside its shade, a strong one just outside; no drums allowed within earshot; nothing to smell at all"
+        "senses": "no hum inside its shade, a strong one just outside; no drums allowed within earshot; a smell of wet bark and little else"
       },
       "assetPlan": [
         "hist-tree",
@@ -14003,7 +14001,8 @@
         "regionClasses": [
           "deep river corridor",
           "lake & standing water",
-          "interior swamp"
+          "interior swamp",
+          "fringe marsh"
         ],
         "hardConstraints": [
           "culture zone: naga-kur-deeps",
@@ -14014,7 +14013,12 @@
           "landforms: any-channel-bank, oxbow",
           "water relation: fully submerged, hull intact",
           "neighbours: on a poling lane or a hazard"
-        ]
+        ],
+        "nearPoint": {
+          "x": 1100,
+          "z": 6300,
+          "maxM": 400
+        }
       },
       "relations": {
         "dependsOn": [],
@@ -14053,11 +14057,11 @@
         "silhouette": "a broken mast standing out of the bend",
         "palette": "black above, blue below, no green anywhere; white shell grit where the bank shelves",
         "materials": "keeled timber and iron, Imperial work, silted to the gunwale; drift bone laid along the high line of the bank",
-        "signatureFeature": "Her cargo seals are intact and still legible. Every item taken off her carries the mark of a company a century dead.",
-        "condition": "submerged to the ridge line, weed on everything above",
+        "signatureFeature": "Her cargo seals are intact and still legible. Items taken off her carry the mark of a company a century dead.",
+        "condition": "submerged to the deck line, weed on the exposed timbers",
         "mood": "a hundred years sunk and still someone's property",
         "approach": "A dark mass under the bend, visible from a boat in good light.",
-        "senses": "cold water pressing on the dive; paddle knock and nothing else; dead water, flat and sweetish"
+        "senses": "cold water pressing on the dive; paddle knock, then quiet; dead water, flat and sweetish"
       },
       "assetPlan": [
         "boats-keeled",
@@ -14071,7 +14075,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "Intact cargo seals make anything lifted off her traceable to whoever ends up holding it",
+        "opportunity": "Intact cargo seals make cargo lifted off her traceable to whoever ends up holding it",
         "tierOwnership": "LN06 · tier-3; PP04 · tier-3"
       },
       "rumourPoolKey": "rumour.deeps.bone-country",
@@ -14095,38 +14099,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.11415,
-        "v": 0.90765
+        "u": 0.15356,
+        "v": 0.93071
       },
       "positionM": [
-        841.7,
-        6692.6
+        1132.3,
+        6862.6
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.interior-swamp.cove-039",
-          "score": 4.186,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "score": 4.411,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         },
         {
-          "siteId": "site.free.roadside-0254",
-          "score": 4.075,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.scour.interior-swamp.cove-057",
+          "score": 4.37,
+          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
         },
         {
-          "siteId": "site.scour.interior-swamp.cove-046",
-          "score": 4.0,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1202",
+          "score": 4.128,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in fringe marsh (danger band 2), 61 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.drowned-village-lake-deeps (+1.72).",
+      "whySiteWon": "cove in fringe marsh (danger band 3), 104 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 60.6,
-        "distanceToWaterM": 7.8,
-        "score": 2.389
+        "dangerBand": 3,
+        "distanceToRouteM": 104.3,
+        "distanceToWaterM": 0.0,
+        "score": 4.147
       },
       "hostility": {
         "baseline": "hostile",
@@ -14154,7 +14158,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Her cargo seals are intact and legible. Everything you take off her carries the mark of a company a century dead.",
+        "hook": "Her cargo seals are intact and legible. What you take off her carries the mark of a company a century dead.",
         "reviewed": true
       },
       "interior": {
@@ -14198,7 +14202,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.cove-001"
+      "scourSiteId": "site.scour.fringe-marsh.cove-064"
     }
   ]
 }
