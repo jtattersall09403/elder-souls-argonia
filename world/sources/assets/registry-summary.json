@@ -379,6 +379,48 @@
    "withDimensions": 0,
    "observedPlaced": 0
   },
+  "sailboats": {
+   "label": "Sailboats \u2014 Script Free Sailing EXPANDED SSE",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/40057",
+   "credit": "Sailboats - Script Free Sailing EXPANDED SSE (Nexus SSE 40057, Araanim, building on ElstarTomas' Script free ship sailing and DeviantKaled's lore-friendly ship/boat resources)",
+   "meshesSeen": 8,
+   "registered": 8,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 8
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "impships": {
+   "label": "Cyrodiil Ship and boat resource (Beyond Skyrim)",
+   "source": "https://www.nexusmods.com/skyrim/mods/59426",
+   "credit": "Cyrodiil Ship and boat resource (Nexus classic 59426, Markus Liberty / Tellmann for Beyond Skyrim; collision work by Tamira and 1shoedpunk)",
+   "meshesSeen": 5,
+   "registered": 5,
+   "skippedNonContent": {},
+   "categories": {
+    "misc": 5
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
+  "boatsanim": {
+   "label": "Boats \u2014 Operational Animated Travel (Vicn boat-carrier meshes)",
+   "source": "https://www.nexusmods.com/skyrimspecialedition/mods/110882",
+   "credit": "Boats - Operational Animated Travel (Nexus SSE 110882, Enneal; carrier meshes from Vicn's resource, with DeviantKaled's ship assets credited on its page)",
+   "meshesSeen": 4,
+   "registered": 4,
+   "skippedNonContent": {},
+   "categories": {
+    "clutter": 4
+   },
+   "withLodVariant": 0,
+   "withDimensions": 0,
+   "observedPlaced": 0
+  },
   "hlaalu": {
    "label": "Morrowind Hlaalu Architecture",
    "source": "https://www.nexusmods.com/skyrimspecialedition/mods/157997",

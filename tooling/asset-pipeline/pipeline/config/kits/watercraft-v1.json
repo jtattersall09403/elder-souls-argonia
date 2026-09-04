@@ -1,0 +1,153 @@
+{
+ "id": "watercraft-v1",
+ "description": "Every hull in the province, in one kit — the three watercraft families the catalogue reaches through `boats-keeled`, `boats-raft-canoe` and `plank-ferry-swamp`/`rowboats` (`boat.mixed.watercraft`, `boat.argonian.native-craft`, `boat.mixed.vault-boat-mods`). Boats are free-standing props, not a snapping tileset, so combining sources here breaks no author's system; what matters is that the CULTURE bands stay separate when placed. Band 1 NATIVE (keel-less, poled or paddled — the default Argonian craft): the SFSS dugout canoe with its oar/punt-pole props, the poled ferry raft with its plank pieces, and the flat plank ferries. Band 2 FOREIGN KEELED (Imperial, Nord, Breton, Redguard hulls — read as outsiders, so confine to Imperial ports, the Topal coast and pirate anchorages): the Cyrodiilic galleon, navy and trade ships, the Nord and Breton hulls, the sailboat family in intact and furled-sail variants. Band 3 WRECKS AND WORKS: the broken rowboats, the beached Nord trade ship, the ghost ship, and the bare `imperialship01base` hull. NOTE the bare hull is the answer to the shipyard `hull-on-stocks` gap the deliverability audit records as unsourceable: this resource ships the galleon's hull and its mast assembly as SEPARATE meshes, so a hull standing mastless on works-v1 stockade scaffold is authored geometry, not a kitbash of a piece nobody made. Two duplicate sources are deliberate: BM&V bundles the same Cyrodiil resource meshes, and we take the BM&V copies where they carry plugin dimensions, crediting the original (pool `impships`) as well. EXCLUDED, all for the same reason — an editor marker baked into the shipped mesh: `plank_ferry_swamp_02/04/05/06` and `boatmarker` (marker only, no hull at all); `river_ferry_haafingar_01`; and the WHOLE `boatsanim` pool (`boatcarrierdefault/ferry/02`), whose hulls each carry an untextured EditorMarker sub-mesh that vets as a solid slab. Removing it would mean editing another author's mesh, so the pool stays registered and credited and the gap is shown rather than faked. The moored-boat motion reference we wanted from it is served instead by `shiprowboatanim01`, which bobs and is clean. Also excluded: the SFSS skeleton/highlandcow rig files, which are not boats.",
+ "culture": "mixed",
+ "output": "tooling/asset-pipeline/output/kits/watercraft-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "placement": "Hulls are placed, not snapped. Each mesh's origin is at its own waterline-ish base; sit it on the water plane and let the mooring rope/cleat from docks-v1 do the tying. `shiprowboatanim01` (rowboats pool) carries its own NiControllerSequence bobbing motion and is the reference for moored-boat motion — the only clean animated hull we own.",
+  "sailing-variants": "Ships and Boats of Tamriel ships each hull twice, `_docked` and `_sailing` (sails furled vs set); the sailboats pool does the same with plain vs `furled` names. Pick ONE per placement — they are alternative states of the same vessel, never two boats.",
+  "scale": "Bethesda units; 0.0142240 m/unit. The galleon hull is ~29 m and the mast assembly ~33 m; the canoe and plank ferries are 4–6 m. Measured extents in watercraft-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "canoe:actors/sfss/canoe/canoe1"
+  },
+  {
+   "asset": "canoe:weapons/sfss/shipoar01"
+  },
+  {
+   "asset": "canoe:weapons/sfss/shipoar01ground"
+  },
+  {
+   "asset": "canoe:weapons/sfss/shipoar01towhanded"
+  },
+  {
+   "asset": "canoe:weapons/sfss/anchor"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/ferryraft01"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/ferryraft01_no_col"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/norbridgewoodplanks01"
+  },
+  {
+   "asset": "ferryraft:snt/ferry/norbridgewoodplanks02"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_01"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/common_rowboat_inialta_01"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/river_ferry_rift_01"
+  },
+  {
+   "asset": "ferries:yamadori/ferries/volkihar_ferry_01"
+  },
+  {
+   "asset": "rowboats:dungeons/ship/shiprowboat01"
+  },
+  {
+   "asset": "rowboats:dungeons/ship/shiprowboatanim01"
+  },
+  {
+   "asset": "rowboats:dungeons/clutter/shipoar01"
+  },
+  {
+   "asset": "sailboats:sailboats/sailboat"
+  },
+  {
+   "asset": "sailboats:sailboats/sailboatfurled"
+  },
+  {
+   "asset": "sailboats:sailboats/sailboatelf"
+  },
+  {
+   "asset": "sailboats:sailboats/sailboatelffurled"
+  },
+  {
+   "asset": "sailboats:sailboats/longboat"
+  },
+  {
+   "asset": "sailboats:sailboats/longboatfurled"
+  },
+  {
+   "asset": "sailboats:sailboats/rowboat"
+  },
+  {
+   "asset": "sailboats:sailboats/rowboatnord"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiiliccityferry01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicriverferry01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicrowboat01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicgalleon01_docked"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipcyrodiilicnavyshipsmall01_docked"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/cyrodiilicships/shipeectradeship01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/breticships/shipbreticrennenboat01"
+  },
+  {
+   "asset": "sbot:bstamriel/dungeons/ships/breticships/shipbreticgreyteship_hull01"
+  },
+  {
+   "asset": "bmv:architecture/ships/imperialship01base"
+  },
+  {
+   "asset": "bmv:architecture/ships/imperialship01masts"
+  },
+  {
+   "asset": "bmv:architecture/boats/rowboat01"
+  },
+  {
+   "asset": "bmv:architecture/boats/rowboatbrokenback"
+  },
+  {
+   "asset": "bmv:architecture/boats/rowboatbrokenfront"
+  },
+  {
+   "asset": "bmv:nordships/shipnordrowboat"
+  },
+  {
+   "asset": "bmv:nordships/shipnordtradeship"
+  },
+  {
+   "asset": "bmv:nordships/shipnordtradeshipbeached"
+  },
+  {
+   "asset": "bmv:breticships/shipbreticjollyboat"
+  },
+  {
+   "asset": "bmv:transport/ships/ghostship"
+  },
+  {
+   "asset": "bmv:transport/ships/merchant_ship"
+  }
+ ]
+}

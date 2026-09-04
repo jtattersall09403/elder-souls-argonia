@@ -190,6 +190,35 @@ asset registry.
 - **Ships and boats of Tamriel** (Nexus SSE mod 41653, ThatShipGuy/DeviantKaled,
   v1.2) — the Cyrodiilic city ferry, river ferry and rowboat for the Imperial
   fringe and the Topal ports, plus wreck and ship-interior dressing.
+- **Sailboats - Script Free Sailing EXPANDED SSE** (Nexus SSE mod 40057,
+  Araanim, v2.0; extends ElstarTomas' *Script free ship sailing* and uses
+  DeviantKaled's lore-friendly ship/boat resources, both credited on its page)
+  — eight sailing hulls (Nord longboat, Breton sailboat, Elven sailboat, each
+  with a furled-sail variant, plus two rowboats) for the keeled foreign craft
+  in the port and pirate-anchorage families (pool `sailboats`,
+  `watercraft-v1`). Meshes only — its Papyrus scripts are not used. Archive
+  `Sailboats SSE-40057-2-0-1621552064.7z`, sha256
+  `2e2919e5ff6b2d66cc4055efd305db11e5e920f465e95bf09b513e0892642d82`.
+- **Cyrodiil Ship and boat resource** (Nexus classic Skyrim mod 59426, Markus
+  Liberty / Tellmann for Beyond Skyrim, v1; collision work by Tamira and
+  1shoedpunk; released as a modder's resource, use with credit) — the
+  Cyrodiilic galleon shipped as a **bare hull plus a separate mast assembly**
+  (`imperialship01base` / `imperialship01masts`) and a rowboat with two broken
+  variants. The hull-without-masts is our answer to the shipyard
+  `hull-on-stocks` gap (pool `impships`, `watercraft-v1`). Archive
+  `Imperial styled Ship and boats Resource-59426-001.zip`, sha256
+  `aca684ec9ef1a7825e17785f4ff119a7ae16bf1399f829074db78de9d04a3f29`.
+- **Boats - Operational Animated Travel** (Nexus SSE mod 110882, Enneal,
+  v1.6.2; boat-carrier meshes from Vicn's resource, with DeviantKaled's
+  assets credited on its page) — the animated boat-carrier hulls
+  (`boatcarrierdefault`, `boatcarrierferry`, `boatcarrier02`), the only
+  moored/travelling hulls we own that carry their own `NiControllerSequence`
+  motion. Catalogued as pool `boatsanim` but **not packaged into a kit**: each
+  hull ships with an untextured editor marker baked into the mesh, and
+  stripping it would mean editing the author's geometry (kit notes in
+  `watercraft-v1`). Meshes only — none of its Papyrus ferry scripts is used.
+  Archive `Boats - Operational Animated Travel-110882-1-6-2-1740141743.7z`,
+  sha256 `07f7ebace706d0f8f169f5bc1b76435f297aa9631a3962a2781aa93e6ef64583`.
 - **Depths of Skyrim - An Underwater Overhaul** (Nexus SSE mod 26913,
   TheBlackpixel, v1.1.7) — reef and sea-bed flora (coral at three scales,
   seaweed, algae, kelp, driftwood) for the drowned layer, used with the

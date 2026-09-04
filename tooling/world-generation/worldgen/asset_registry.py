@@ -269,6 +269,40 @@ POOLS: tuple[Pool, ...] = (
     # The domestic tier under the same masonry — built ON 133090 and
     # retextured. v2.0 bundles several other credited modder resources
     # (Tamriel Rebuilt-style walls, Oaristys props), like BM&V does.
+    # --- 2026-09-04 orphan sweep: three boat mods that were in the vault with
+    # no Pool row at all, so nothing in the world could reach them and a
+    # sourcing search could not see them (vault-inventory "no registry row").
+    # Meshes only from all three; none of their Papyrus scripts is used.
+    Pool(
+        id="sailboats",
+        label="Sailboats — Script Free Sailing EXPANDED SSE",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/40057",
+        credit="Sailboats - Script Free Sailing EXPANDED SSE (Nexus SSE 40057, Araanim, "
+               "building on ElstarTomas' Script free ship sailing and DeviantKaled's "
+               "lore-friendly ship/boat resources)",
+        directory="{vault}/skyrim-source/mod-sources/sailboats-expanded-40057/extracted",
+        plugins=[
+            "{vault}/skyrim-source/mod-sources/sailboats-expanded-40057/extracted/"
+            "Sailboats.esp",
+        ],
+    ),
+    Pool(
+        id="impships",
+        label="Cyrodiil Ship and boat resource (Beyond Skyrim)",
+        source="https://www.nexusmods.com/skyrim/mods/59426",
+        credit="Cyrodiil Ship and boat resource (Nexus classic 59426, Markus Liberty / "
+               "Tellmann for Beyond Skyrim; collision work by Tamira and 1shoedpunk)",
+        directory="{vault}/skyrim-source/mod-sources/cyrodiil-ship-boat-resource-59426/extracted",
+    ),
+    Pool(
+        id="boatsanim",
+        label="Boats — Operational Animated Travel (Vicn boat-carrier meshes)",
+        source="https://www.nexusmods.com/skyrimspecialedition/mods/110882",
+        credit="Boats - Operational Animated Travel (Nexus SSE 110882, Enneal; carrier "
+               "meshes from Vicn's resource, with DeviantKaled's ship assets credited "
+               "on its page)",
+        directory="{vault}/skyrim-source/mod-sources/boats-operational-animated-110882/extracted",
+    ),
     Pool(
         id="hlaalu",
         label="Morrowind Hlaalu Architecture",

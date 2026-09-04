@@ -169,9 +169,9 @@ next macro plot):
 
 | Id | Why it had to exist |
 |---|---|
-| `place.pirate-freeholds.upriver-hist-village` ("Nine Bends") | MQ01's stakes are a Hist withdrawing and a clutch dying, and the whole start region had no Hist |
+| `place.pirate-freeholds.upriver-hist-village` ("Nine Bends") | MQ01's stakes are a Hist withdrawing and a clutch dying; the start region had no Hist |
 | `place.dunmer-north.the-standing-bid` | MQ07 needs a floating auction with a public floor, a private office and an under-deck mooring; nothing plotted was one |
-| `place.dunmer-north.the-quiet-landing` | MQ08/MQ22's cult safehouse — marsh house, cellar shrine, concealed water exit, and the `raided` state the middle act refers back to |
+| `place.dunmer-north.the-quiet-landing` | MQ08/MQ22's cult safehouse — marsh house, cellar shrine, concealed water exit and the `raided` state the middle act refers back to |
 | `place.hist-heartland.the-cut-circle` | MQ18's sermon house: a room for 12–16 attendees with no street door and a water exit |
 
 **Eight records promoted** out of the deferred reserve:
@@ -186,7 +186,7 @@ restored on promotion.
 
 Live records: **566 → 578**, every region inside its budget, well under the
 596 ceiling. No deferrals were taken to offset: the plot and relation graph are
-about to be re-run anyway, and cutting mild fill is a fullness decision the
+about to be re-run anyway; cutting mild fill is a fullness decision the
 owner is holding open (touchpoint ③ question (a)).
 
 ## 20e. Move-a-dot proposals (applied as `sitingPrefs` edits)
@@ -230,8 +230,8 @@ built. They take effect at the **next** `python3 -m worldgen.macro_plot` run.
 5. **The validator cross-checks, and it is live.**
    `python3 -m worldgen.quests --check` (from `tooling/world-generation`, run in
    `npm test` by `worldgen/test_quests.py`) asserts that every quest row's
-   `anchorPlaces` and `settlement` resolve to **live** catalogue records, that
-   every `registries/quests.json` entry has a data row and the reverse, and that
+   `anchorPlaces` and `settlement` resolve to **live** catalogue records; that
+   every `registries/quests.json` entry has a data row and the reverse; and that
    the §47c shape budget holds. `--sync` then writes `questHooks.tierOwnership`
    back onto those records from the data (`"<CODE> · tier-N"`, lowest tier
    first), keeping and reporting any ownership string it cannot explain —

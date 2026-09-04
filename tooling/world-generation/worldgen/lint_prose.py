@@ -89,7 +89,7 @@ RULES: list[Rule] = [
          "writer explaining its own image"),
     Rule("not-x-but-y", "hard", _r(r"\bnot (?:just|only|merely|simply) [^.;]{1,60}\bbut\b|\bis not a [^.;,]{1,40}, (?:it is|it's|but) a\b"),
          "negative parallelism"),
-    Rule("register-vocab", "hard", _r(r"\b(?:tapestry|testament to|nestled|timeless|intricate|interplay|underscores?|pivotal|showcases?|meticulous(?:ly)?|foster(?:s|ed|ing)?|harness(?:es|ed|ing)?|navigat(?:e|es|ed|ing)|leverage|infrastructure|unioni[sz]ed|brute-forced|whispers of|echoes of)\b"),
+    Rule("register-vocab", "hard", _r(r"\b(?:tapestry|testament to|nestled|timeless|intricate|interplay|underscore\b|pivotal|showcases?|meticulous(?:ly)?|foster(?:s|ed|ing)?|harness(?:es|ed|ing)?|navigat(?:e|es|ed|ing)|leverage|infrastructure|unioni[sz]ed|brute-forced|whispers of|echoes of)\b"),
          "AI register vocabulary / modern idiom"),
     Rule("ellipsis", "hard", _r(r"…|\.\.\."), "trailing ellipsis for mood"),
     Rule("canon-marker", "hard", _r(r"\bcanon(?:ically|-named)?\b|\bper the \w+ rule\b|\bthe player\b|\bthe game\b"),

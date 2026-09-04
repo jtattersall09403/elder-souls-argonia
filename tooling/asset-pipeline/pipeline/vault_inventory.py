@@ -373,8 +373,14 @@ def build_sets(sources: list[ModSource], known: set[str],
                 seg = folder.split("/")
                 if "actors" in seg:
                     i = seg.index("actors")
-                    if len(seg) > i + 1:
-                        actor_roots.add("/".join(seg[:i + 2]))
+                    # ...but not every author gives each creature its own
+                    # sub-folder. HTBM drops thirty-odd `<name>Skeleton.nif`
+                    # straight into `actors/`, which used to leave the richest
+                    # rigged-creature set in the vault reading as unrigged
+                    # clutter. When the skeleton sits directly in `actors/`,
+                    # that folder IS the actor root.
+                    actor_roots.add("/".join(seg[:i + 2]) if len(seg) > i + 1
+                                    else "/".join(seg[:i + 1]))
         for raw in src.paths:
             key = mesh_key(raw)
             if key is None:

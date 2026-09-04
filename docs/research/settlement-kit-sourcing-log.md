@@ -331,3 +331,39 @@ Registered as inventory families `arch.argonian-root.dungeon-interior`,
 alias slugs `dungeon-root`, `settlement-root`, `works-props` now point at them,
 and `worldgen.catalogue` gained a check that every alias **target** exists in the
 inventory (slug presence alone was checked before, so dangling targets survived).
+
+
+## 2026-09-04 — orphan pools and the boat/dock/xanmeer-interior round
+
+Three mods sat in the vault with no `Pool` row, so nothing in the world could
+reach them and a sourcing sweep could not see them. All three registered,
+credited in the root README with archive sha256s, and their extracted trees
+normalised to Bethesda data roots (`meshes/` at the root of `extracted/`; the
+FOMOD and resource wrappers moved to `fomod-source/` / `resource-source/`
+siblings, which is why `build_kit`'s `dir_pools` needs no special case):
+
+| Pool | Mod | Meshes | Outcome |
+|---|---|---:|---|
+| `sailboats` | Sailboats — Script Free Sailing EXPANDED SSE (SSE 40057, Araanim) | 8 | eight keeled sailing hulls incl. furled-sail variants → `watercraft-v1` |
+| `impships` | Cyrodiil Ship and boat resource (classic 59426, Markus Liberty/Tellmann, Beyond Skyrim) | 5 | galleon hull + separate masts + rowboat with two broken variants; **closes the shipyard hull-on-stocks gap** |
+| `boatsanim` | Boats — Operational Animated Travel (SSE 110882, Enneal; Vicn meshes) | 4 | registered and credited, **not kitted**: an editor marker is baked into each hull |
+
+`impships` duplicates meshes BM&V already bundles from the same resource; the
+kit takes BM&V's copies because those carry plugin dimensions, and both sources
+are credited.
+
+Kits built this round: `docks-v1` (47), `watercraft-v1` (45),
+`xanmeer-interior-v1` (68). Full set-by-set reasoning, including what was
+deliberately skipped, is the "Packaging decisions 2026-09-04" table in
+[world/sources/assets/README.md](../../world/sources/assets/README.md).
+
+Tooling fix in the same pass: `pipeline/vault_inventory.py` only recognised a
+rigged actor when its skeleton sat in a creature *sub*-folder, so HTBM's 91-mesh
+`actors/` set — the richest rigged-creature pool we own, with 30+ skeletons —
+reported as unrigged clutter. Fixed; four `creatures.json` entries moved onto
+authored HTBM rigs (frog/toad for `death-hopper`, `Wamasu` for wamasu and
+haynekhtnamet, `SeaDrake` for sea-drake).
+
+No House **Dres** architecture exists in the vault: BM&V's `trdata` tree is
+landscape only, and the Dunmer sets present are Telvanni, Redoran, Velothi and
+stronghold. Thorn's Dunmer quarter keeps `hlaalu-domestic`.

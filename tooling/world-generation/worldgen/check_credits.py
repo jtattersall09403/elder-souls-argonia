@@ -53,6 +53,9 @@ POOL_CREDIT_MARKERS = {
     "htbm": "Here There Be Monsters",
     "mwkeep": "Morrowind Imperial Keep Set",
     "hlaalu": "Morrowind Hlaalu Architecture",
+    "sailboats": "Sailboats - Script Free Sailing EXPANDED",
+    "impships": "Cyrodiil Ship and boat resource",
+    "boatsanim": "Boats - Operational Animated Travel",
 }
 
 

@@ -268,6 +268,9 @@ def pool_sources(pool: str, vault: Path) -> PoolSources:
         "htbm": "here-there-be-monsters-cipactli-35933",
         "mwkeep": "morrowind-imperial-keep-133090",
         "hlaalu": "morrowind-hlaalu-157997",
+        "sailboats": "sailboats-expanded-40057",
+        "impships": "cyrodiil-ship-boat-resource-59426",
+        "boatsanim": "boats-operational-animated-110882",
     }
     if pool in dir_pools:
         root = vault / "skyrim-source/mod-sources" / dir_pools[pool] / "extracted"

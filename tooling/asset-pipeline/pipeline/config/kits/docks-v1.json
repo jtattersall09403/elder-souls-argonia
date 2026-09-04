@@ -1,0 +1,164 @@
+{
+ "id": "docks-v1",
+ "description": "The waterway network's landing infrastructure — the `arch.neutral.dock` family every port, ferry stage, fishery, toll crossing and waterside settlement in the catalogue assumes (`docks-piers` assetPlan slug). FOUR SEPARATE AUTHORED DOCK SYSTEMS are packaged here, not one: they are shipped together because a place record needs to pick one, NOT because their pieces interlock. Judged by geometry, not by label: the vanilla dock system is a heavy tarred-piling harbour kit on Bethesda's 512-unit grid; BM&V's Dagon Fel set is a lighter Morrowind fishing-jetty system with its own post spacing; BM&V's `jets` dock pieces are ramps/steps meant to extend an existing quay, not to start a run; and HTBM's `tamu_` family is a thin lashed-plank boardwalk with broken variants, the only one that reads Argonian. Never butt a piece of one system against a piece of another mid-run — change system only at a shore end or under a building.",
+ "culture": "neutral",
+ "output": "tooling/asset-pipeline/output/kits/docks-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "textureOverlayPools": [
+  "tropical"
+ ],
+ "snapLogic": {
+  "vanilla": "Bethesda harbour grid. `dockstrsol01` is the plain straight, `dockstrsol02` the wide straight, `dockstrent01-04` the four shore-entry variants, `dockstr4way01` the crossing and `dockcorsol01` the corner. `dockstepsdown01/02` (+`dockstepsdownend01`) drop to the waterline — these are the boat-boarding pieces. `dockcolstr01/02` are 10–11.5 m mooring columns (`dockcolstrsign01` is the signed one, with `dockcolstrsignrope01` its hanging rope); `dockropestr01/02` are 6.9 m slack mooring ropes strung between columns. Origins are at the deck plane, so a run is laid at one height and the columns are placed against it.",
+  "dagonfel": "BM&V's Morrowind jetty system: `dockscentre` is the straight, `dockscentrealt` its variant, `dockscentresmall` the narrow straight and `dockscentrenopost` the post-free straight for running under a building; `docks3way`/`docks4way` are the junctions, `dockscorner` the turn, `docksend`/`docksendnopost` the terminations, `dockssteps` the water stair. `dockspilings` and `dockspilingsdamage` are the free-standing pile clusters (the damaged one is our ruined-jetty piece) and `cleat` the mooring cleat.",
+  "jets": "Extension pieces only, authored against BM&V's own quays: `dockextension`, `dockpostextension`, `dockramp`, `dockwsteps`, `dockstepsfree` (free-standing steps) and `dockracked02` (a racked/sagging deck section). They have no start piece; use them to finish or damage a run begun in another system.",
+  "tamu": "HTBM's lashed-plank boardwalk, the Argonian-reading system: `tamu_wooddock01/02` the deck sections, `tamu_wooddockshort01` the short section, `tamu_woodplank01-04` the loose walkway planks with `tamu_woodplankbroken01-03` as their broken twins, `tamu_woodpole01` the driven pole. Deliberately irregular — these are laid, not gridded.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in docks-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "vanilla:architecture/docks/dockstrsol01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrsol02"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrent01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrent02"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrent03"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrent04"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstr4way01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcorsol01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstepsdown01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstepsdown02"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstepsdownend01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcolstr01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcolstr02"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcolstrsign01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockcolstrsignrope01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockropestr01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockropestr02"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockscentre"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockscentrealt"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockscentrenopost"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockscentresmall"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/docks3way"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/docks4way"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockscorner"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/docksend"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/docksendnopost"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockspilings"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockspilingsdamage"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/dockssteps"
+  },
+  {
+   "asset": "bmv:sheogorad/dagon fel/cleat"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockextension"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockpostextension"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockramp"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockstepsfree"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockwsteps"
+  },
+  {
+   "asset": "bmv:architecture/jets/miscstuff/dockracked02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank04"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
+  }
+ ]
+}

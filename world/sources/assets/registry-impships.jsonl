@@ -1,0 +1,5 @@
+{"id":"impships:boats/rowboat01","pool":"impships","path":"meshes/boats/rowboat01.nif","category":"misc","confidence":0.2}
+{"id":"impships:boats/rowboatbrokenback","pool":"impships","path":"meshes/boats/rowboatbrokenback.nif","category":"misc","confidence":0.2}
+{"id":"impships:boats/rowboatbrokenfront","pool":"impships","path":"meshes/boats/rowboatbrokenfront.nif","category":"misc","confidence":0.2}
+{"id":"impships:ships/imperialship01base","pool":"impships","path":"meshes/ships/imperialship01base.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}
+{"id":"impships:ships/imperialship01masts","pool":"impships","path":"meshes/ships/imperialship01masts.nif","category":"misc","confidence":0.2,"cultures":["imperial"]}

@@ -39,12 +39,12 @@
     },
     {
       "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
-      "line": 556,
+      "line": 562,
       "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
     },
     {
       "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
-      "line": 560,
+      "line": 566,
       "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
     }
   ]

@@ -1,0 +1,224 @@
+{
+ "id": "xanmeer-interior-v1",
+ "description": "The xanmeer INTERIOR tileset — `arch.xanmeer.ayleid-interior-extension`, reached by the `cc-ayleid-interior` assetPlan slug. The xanmeer-tileset and ruin-monumental kits give a xanmeer its outside and its monumental massing; nothing gave the deep interior a hall grid with mechanisms. This is SarthesArai's Creation-Club-derived Ayleid interior set, packaged as its author built it: the narrow and wide hall modules with their 3-way, 4-way, fancy-corner, dead-end, secret-wall and narrow-transition pieces, the raised-floor and wall-platform system with its wall-hugging stairs, the interior bridge family (straight, curved, the two ramp handednesses, the retractable bridge and the retractable pit stairs), the stepped dais, the puzzle pillar with its six school magicstones, the swinging-blade trap and evil welkynd cluster, the constellation stele, window and ledge screens, the Ayleid furniture (beds, chairs, benches, four tables, pedestal, trough, hitchpost) and the rubble piles including a ceiling collapse. Serves the canon Argonian ruin-mechanism brief directly — the retractable bridge and pit stairs ARE the pulley/door-release mechanisms the quest world provisions ask for, so they are authored geometry rather than described machinery. Judged by geometry: this is a DIFFERENT grid from the ayleidkit (IGS) Ayleid set already in ruin-monumental-v1 — same culture, different author, different module. Do not interleave their pieces; use IGS outside, SarthesArai inside, and change set at a door.",
+ "culture": "xanmeer-ancient",
+ "output": "tooling/asset-pipeline/output/kits/xanmeer-interior-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "halls": "Two hall widths that do NOT mix except through the declared transition. `arnhall*` are the narrow halls (4way01/02, deadend01/02, deadendwall, bladeslots for the swinging trap, 01mine for the dirt-floored mine variant); `arwhall*` are the wide halls (3way01/02, 4way01fancy, corner01fancy, secret01fancy, 01dirt). `arwhalltransnarrowflat` is the ONE authored piece that joins the two widths; `arrmcornerexitrightnarrow01` exits a room into a narrow hall. Module ≈3.64 m (256 units), origins at the floor plane on the hall centreline.",
+  "platforms": "`arplatmid01` is the platform deck, `arplatcorin01/02` and `arplatcorout01` its inside/outside corners, `arplatwall01` the parapet, and `arplatwallstair01/02` the wall-hugging stairs that climb to it. `arfloorraised01a/02a/03a` are three raised-floor heights for the same grid. These are room fittings, not a second hall system.",
+  "bridges": "`arfacadebridge01` straight, `arfacadebridgecurve01` curve, `arfacadebridgerampccw01`/`cw01` the two handednesses of climbing ramp — chain only within this family. `arbridge1way02x256` is the plain 256-unit span with `arbridge1wayendcap02` as its cap. `arretractablebridge01` and `arpitretractablestairs02` (+`base02`) are the mechanism pieces: they ship in their extended state and are moved by the runtime, not by the kit.",
+  "puzzle": "`arpuzzlepillar` takes the six `magicstone<school>01` faces; they are set dressing for a rotate-the-pillar mechanism, one stone per face.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in xanmeer-interior-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arconstellationstele"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised01a"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised02a"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfloorraised03a"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02left"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arledgescreen02right"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhallbladeslots"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadend02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhalldeadendwall"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairs02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitretractablestairsbase02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arpitwalltallsecret01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arretractablebridge01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepile03"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrubblepileceiling01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artable01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablesquare01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablethin01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall01dirt"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall3way02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhall4way01fancy"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallcorner01fancy"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhallsecret01fancy"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwhalltransnarrowflat"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbench03"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1way02x256"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arbridge1wayendcap02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arclutterpedestal01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arcluttertrough01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridge01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgecurve01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampccw01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfacadebridgerampcw01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturebedsingle02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arfurniturechair02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arhitchpost01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorin02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatcorout01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatmid01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwall01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arplatwallstair02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arsteppeddias01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench2seater"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/artablebench4seater"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arwindow01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall01mine"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arnhall4way02"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/arrmcornerexitrightnarrow01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/arpuzzlepillar"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonealteration01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneconjuration01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonedestruction01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneenchanting01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstoneillusion01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/puzzle/magicstonerestoration01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/artrapswingingblade01"
+  },
+  {
+   "asset": "ayleidcc:sarthesarai/dungeons/ayleidruins/interior/traps/arwelkyndclusterevil01"
+  }
+ ]
+}

@@ -1,489 +1,489 @@
 {
-  "schemaVersion": 1,
-  "domain": "creature",
-  "_": "PLACEHOLDER register. Seeded from the canon bestiary so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/creature-asset-availability.md).",
-  "entries": [
-    {
-      "id": "creature.bog-blight",
-      "name": "Bog Blight",
-      "kind": "undead",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Argonian dead whose grave-stake came loose; warded off with pahnjees.",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla draugr (meshes/actors/draugr) + BM&V troll/ghoul.nif re-material",
-        "notes": "Risen Argonian dead read as marsh-rotted draugr; draugr animation set covers walk, wade and attacks."
-      }
-    },
-    {
-      "id": "creature.crocodile",
-      "name": "Crocodile",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Two men long and fast; attacks inside town limits at Bogmother.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/character assets/mihailcrocodile.nif (+ mihailcrocodileSALT)",
-        "notes": "Crocodile body already built on the slaughterfish skeleton, so swim and lunge animations are solved. Extraction from Data*.rar still to do."
-      }
-    },
-    {
-      "id": "creature.death-hopper",
-      "name": "Death Hopper",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Death Hopper",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Large frog; a notably large population around Gideon.",
-      "assetAvailability": {
-        "status": "sourceable",
-        "via": "Mihail Monsters and Animals frog/amphibian pack (Nexus SSE, Mihail author page); fallback in vault: chaurus rig (meshes/actors/chaurus) rescaled",
-        "notes": "No frog rig in the vault. Fallback build is a squat chaurus variant with a hopping-read attack; check licence before download."
-      }
-    },
-    {
-      "id": "creature.feather-serpent",
-      "name": "Feather-serpent",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Said to inhabit the depths of Black Marsh; unelaborated in canon.",
-      "assetAvailability": {
-        "status": "none",
-        "via": "no rig; deliver instead as the kaj-thux great-serpent build, BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snakes/character assets/oldsnake.nif",
-        "notes": "A feathered flying serpent would need a new rig and new flight clips. The catalogue slot is re-pointed to a great serpent."
-      }
-    },
-    {
-      "id": "creature.fellrunner",
-      "name": "Fellrunner",
-      "kind": "fauna",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Its down, worked into an armband, hides a hunter in Murkwood.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) raven/raven2.nif and chicken/owl.nif family",
-        "notes": "Marsh bird on an existing small-bird rig; down and plumage come from the existing textures."
-      }
-    },
-    {
-      "id": "creature.fleshfly",
-      "name": "Fleshfly",
-      "kind": "swarm",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Sand-grain flesh-eating clouds; the Slough Point garrison are missing ears and noses.",
-      "assetAvailability": {
-        "status": "none",
-        "via": "no rig; stage as a particle cloud plus damage volume",
-        "notes": "Sand-grain flesh-eating flies cannot be a rigged actor at any useful count. Environmental hazard, like weather."
-      }
-    },
-    {
-      "id": "creature.giant-leech",
-      "name": "Giant Leech",
-      "kind": "hazard",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Water hazard fauna.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/character assets/bloodsuckerfish.nif and slaughterfish/morayeel.nif",
-        "notes": "Both sit on the vanilla slaughterfish skeleton; rescale for the leech read."
-      }
-    },
-    {
-      "id": "creature.giant-wasp",
-      "name": "Giant Wasp",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Wasps the size of ponies.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) Chaurus Hunter/Giant Wasp/mihailgiantwasp.nif (+ skeletongiantwasp.nif)",
-        "notes": "Ships its own skeleton and flight set."
-      }
-    },
-    {
-      "id": "creature.guar",
-      "name": "Guar",
-      "kind": "mount",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Beast of burden; the Archon Glowgill and Gideon Ambergill are the local variants.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) guars/guar.nif, histguar.nif, ponyguar.nif, guarcharger.nif, skeleton_guarmount.nif",
-        "notes": "Full guar family with mount skeleton; covers the Archon Glowgill and Gideon Ambergill variants by re-material."
-      }
-    },
-    {
-      "id": "creature.hackwing",
-      "name": "Hackwing",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Hackwing",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Giant saw-beaked bird; strikes and returns when the traveller is failing.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) cliffracer/cliffracer.nif",
-        "notes": "Cliff racer is a large hostile flyer with a swoop-and-return attack, which is exactly the hackwing behaviour. Re-material for the saw beak read."
-      }
-    },
-    {
-      "id": "creature.haj-mota",
-      "name": "Haj Mota",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Haj Mota",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Large armoured swamp turtle-beast.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) cow/Glyptodon and mudcrab/character assets/stonecrab.nif",
-        "notes": "Armoured shell-backed grazer body on the cow rig for the walking form; stone crab as the smaller shallows variant."
-      }
-    },
-    {
-      "id": "creature.haynekhtnamet",
-      "name": "Haynekhtnamet",
-      "kind": "named-foe",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Haynekhtnamet",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "The legendary Shadowfen wamasu locals made offerings to.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "same build as creature.wamasu, uniquely scaled and re-materialled",
-        "notes": "A named wamasu; no separate asset needed."
-      }
-    },
-    {
-      "id": "creature.hoarvor",
-      "name": "Hoarvor",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Hoarvor",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Blood-drinking marsh tick.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) mudcrab/character assets/parasite.nif",
-        "notes": "Tick body on the mudcrab skeleton."
-      }
-    },
-    {
-      "id": "creature.jassa-red-slug",
-      "name": "Jassa Red Slug",
-      "kind": "fauna",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Acid-secreting slug used in slug shaping.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snail/slug.nif (+ slugskeleton.nif)",
-        "notes": "Ships its own crawl skeleton."
-      }
-    },
-    {
-      "id": "creature.kaj-thux",
-      "name": "Giant Snake (kaj-thux)",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Giant Snake",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Ample Serpents; colossal constrictors of the interior.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snakes/character assets/oldsnake.nif, snake.nif, snakechaurus.nif",
-        "notes": "Snake bodies on the chaurus skeleton; rescale hard for the colossal constrictor."
-      }
-    },
-    {
-      "id": "creature.kotu-gava",
-      "name": "Kotu Gava",
-      "kind": "swarm",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Kotu Gava",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Swarming marsh insect.",
-      "assetAvailability": {
-        "status": "none",
-        "via": "no rig; stage as a particle swarm plus damage volume",
-        "notes": "Same as the fleshfly: an insect cloud is a hazard volume, not an actor."
-      }
-    },
-    {
-      "id": "creature.lamia",
-      "name": "Lamia",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Lamia",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Infest the caverns beneath Loriasel.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/rivnaga.nif",
-        "notes": "Serpent-bodied humanoid; the Loriasel caverns use this build."
-      }
-    },
-    {
-      "id": "creature.lizard-steed",
-      "name": "Lizard-steed",
-      "kind": "mount",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Hist-shaped lizards in the forms of other races' mounts (wolf, senche, bear, horse, pony).",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) guars/ variants (albinoguar, tesselatedguar, striatedponyguar, palevelothiguar)",
-        "notes": "Hist-shaped mounts are guar variants re-materialled and rescaled to the shape they imitate."
-      }
-    },
-    {
-      "id": "creature.marsh-giant",
-      "name": "Marsh Giant",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Giant (Black Marsh)",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Giant woodland spirit, cousin to spriggans; the Hist urge Argonians to avoid them.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "vanilla giant (meshes/actors/giant) + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) giant/character assets/treant.nif and AncientSpriggan/",
-        "notes": "Spriggan-cousin giant: treant body on the giant skeleton, ancient-spriggan materials for the plant read."
-      }
-    },
-    {
-      "id": "creature.medusa",
-      "name": "Medusa",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Reported in Murkwood.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/rivnaga.nif",
-        "notes": "Same serpent-humanoid build as the lamia, differently materialled."
-      }
-    },
-    {
-      "id": "creature.miregaunt",
-      "name": "Miregaunt",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Miregaunt",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Tree-like Murkmire guardian built of plant matter and ancient architecture; comes back when struck down.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) giant/character assets/treant.nif and treantskeleton.nif",
-        "notes": "A walking tree of plant matter and old masonry: the treant ships its own skeleton. Xanmeer stone pieces are re-material work, not new models."
-      }
-    },
-    {
-      "id": "creature.mouth-plover",
-      "name": "Corimont Mouth-Plover",
-      "kind": "fauna",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Fang-cleaning bird kept by high-status Argonians.",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla chicken (meshes/actors/chicken) + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) chicken/ bird variants",
-        "notes": "Small perching bird; ambient only."
-      }
-    },
-    {
-      "id": "creature.osheeja-gar",
-      "name": "Osheeja Gar",
-      "kind": "fauna",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Fish the Naka-Desh use to catch other fish.",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla fish (meshes/actors/ambient) and slaughterfish family",
-        "notes": "Ordinary fish; no combat set needed."
-      }
-    },
-    {
-      "id": "creature.rootworm",
-      "name": "Rootworm",
-      "kind": "mount",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md",
-        "world/sources/lore/regions/middle-argonia.md"
-      ],
-      "notes": "The Underground Express; sacred transit, never shown on screen.",
-      "assetAvailability": {
-        "status": "none",
-        "via": "no asset by owner rule (module 90 section 78)",
-        "notes": "Never seen on screen. Staged from animated roots, water displacement and audio."
-      }
-    },
-    {
-      "id": "creature.sea-drake",
-      "name": "Sea-drake",
-      "kind": "predator",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Sea Drake",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Crocodilian with paddle legs, in deep water off Lilmoth.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/character assets/mihailcrocodileSALT.nif and dreugh/dreughvan.nif",
-        "notes": "Paddle-legged crocodilian on the slaughterfish swim rig; dreugh as the deeper-water variant."
-      }
-    },
-    {
-      "id": "creature.swamp-leviathan",
-      "name": "Swamp Leviathan",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Swamp Leviathan",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "A mountain of spines on nine-foot claws; skeletons litter Deepmire.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) gehenoth/gehenoth.nif (+ character_assets/skeleton.nif)",
-        "notes": "Ships its own skeleton; a mountain of a beast at the scale the lore wants."
-      }
-    },
-    {
-      "id": "creature.voriplasm",
-      "name": "Voriplasm",
-      "kind": "hazard",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Voriplasm",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "A moving pool of green slime that strips a body to the bone.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snail/slug.nif (+ slugskeleton.nif), re-materialled to green slime",
-        "notes": "A limbless crawler is the closest honest read of a moving slime pool. Its own skeleton, so no new clips."
-      }
-    },
-    {
-      "id": "creature.wamasu",
-      "name": "Wamasu",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Wamasu",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Lightning-powered swamp dragon; electrifies the water around it. Bones hold a charge for years.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) daedroth/daedrothfinal.nif and daedra/daedroth.nif on the vanilla werewolfbeast rig (decision 0030)",
-        "notes": "The Xal-Krona boss build already proves this path. Mihail's Wamasu (Nexus SSE 158860) stays deferred: custom skeleton conversion plus a CDPR audio problem."
-      }
-    },
-    {
-      "id": "creature.wisp",
-      "name": "Wisp",
-      "kind": "hazard",
-      "status": "canon",
-      "sources": [
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Drowning-lure lights; 'shines' are the harmless cousin around Lilmoth's Imperial ruins.",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla wisp and witchlight (meshes/actors/wisp, meshes/actors/witchlight)",
-        "notes": "Lure lights and the harmless shines are the same asset, differently tinted."
-      }
-    },
-    {
-      "id": "creature.wispmother",
-      "name": "Wispmother",
-      "kind": "named-foe",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Wispmother",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Something intelligent behind the wisps that lure travellers to drown.",
-      "assetAvailability": {
-        "status": "vanilla",
-        "via": "vanilla wispmother (meshes/actors/wisp)",
-        "notes": "Full vanilla actor with its own set."
-      }
-    },
-    {
-      "id": "creature.xal-krona",
-      "name": "Xal-Krona (Argonian Behemoth)",
-      "kind": "apex",
-      "status": "canon",
-      "sources": [
-        "UESP:Lore:Argonian Behemoth",
-        "world/sources/lore/topics/fauna-hazards.md"
-      ],
-      "notes": "Hulking Argonian made by a Hist through sap; strong, corrosive, capable of speech.",
-      "assetAvailability": {
-        "status": "sourced",
-        "via": "vanilla werewolfbeast rig + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) armoured daedroth re-material (decision 0030)",
-        "notes": "The Last Warden final boss build; already the chosen path."
-      }
-    }
-  ]
+ "schemaVersion": 1,
+ "domain": "creature",
+ "_": "PLACEHOLDER register. Seeded from the canon bestiary so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/creature-asset-availability.md).",
+ "entries": [
+  {
+   "id": "creature.bog-blight",
+   "name": "Bog Blight",
+   "kind": "undead",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Argonian dead whose grave-stake came loose; warded off with pahnjees.",
+   "assetAvailability": {
+    "status": "vanilla",
+    "via": "vanilla draugr (meshes/actors/draugr) + BM&V troll/ghoul.nif re-material",
+    "notes": "Risen Argonian dead read as marsh-rotted draugr; draugr animation set covers walk, wade and attacks."
+   }
+  },
+  {
+   "id": "creature.crocodile",
+   "name": "Crocodile",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Two men long and fast; attacks inside town limits at Bogmother.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/character assets/mihailcrocodile.nif (+ mihailcrocodileSALT)",
+    "notes": "Crocodile body already built on the slaughterfish skeleton, so swim and lunge animations are solved. Extraction from Data*.rar still to do."
+   }
+  },
+  {
+   "id": "creature.death-hopper",
+   "name": "Death Hopper",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Death Hopper",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Large frog; a notably large population around Gideon.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "HTBM vault pool `htbm` (meshes/here there be monsters - curse of cipactli/actors) FrogSkeleton.nif with PoisonFrogBlue/Green/Red.nif, plus Toad.nif + ToadSkeleton.nif",
+    "notes": "No download needed after all: the frog and toad rigs were already in the vault, hidden because the vault-inventory rigged-actor detector only looked for creature sub-folders and HTBM keeps its skeletons directly in actors/ (fixed 2026-09-04). Three colour variants give the poison/marsh reads."
+   }
+  },
+  {
+   "id": "creature.feather-serpent",
+   "name": "Feather-serpent",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Said to inhabit the depths of Black Marsh; unelaborated in canon.",
+   "assetAvailability": {
+    "status": "none",
+    "via": "no rig; deliver instead as the kaj-thux great-serpent build, BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snakes/character assets/oldsnake.nif",
+    "notes": "A feathered flying serpent would need a new rig and new flight clips. The catalogue slot is re-pointed to a great serpent."
+   }
+  },
+  {
+   "id": "creature.fellrunner",
+   "name": "Fellrunner",
+   "kind": "fauna",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Its down, worked into an armband, hides a hunter in Murkwood.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) raven/raven2.nif and chicken/owl.nif family",
+    "notes": "Marsh bird on an existing small-bird rig; down and plumage come from the existing textures."
+   }
+  },
+  {
+   "id": "creature.fleshfly",
+   "name": "Fleshfly",
+   "kind": "swarm",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Sand-grain flesh-eating clouds; the Slough Point garrison are missing ears and noses.",
+   "assetAvailability": {
+    "status": "none",
+    "via": "no rig; stage as a particle cloud plus damage volume",
+    "notes": "Sand-grain flesh-eating flies cannot be a rigged actor at any useful count. Environmental hazard, like weather."
+   }
+  },
+  {
+   "id": "creature.giant-leech",
+   "name": "Giant Leech",
+   "kind": "hazard",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Water hazard fauna.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/character assets/bloodsuckerfish.nif and slaughterfish/morayeel.nif",
+    "notes": "Both sit on the vanilla slaughterfish skeleton; rescale for the leech read."
+   }
+  },
+  {
+   "id": "creature.giant-wasp",
+   "name": "Giant Wasp",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Wasps the size of ponies.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) Chaurus Hunter/Giant Wasp/mihailgiantwasp.nif (+ skeletongiantwasp.nif)",
+    "notes": "Ships its own skeleton and flight set."
+   }
+  },
+  {
+   "id": "creature.guar",
+   "name": "Guar",
+   "kind": "mount",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Beast of burden; the Archon Glowgill and Gideon Ambergill are the local variants.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) guars/guar.nif, histguar.nif, ponyguar.nif, guarcharger.nif, skeleton_guarmount.nif",
+    "notes": "Full guar family with mount skeleton; covers the Archon Glowgill and Gideon Ambergill variants by re-material."
+   }
+  },
+  {
+   "id": "creature.hackwing",
+   "name": "Hackwing",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Hackwing",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Giant saw-beaked bird; strikes and returns when the traveller is failing.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) cliffracer/cliffracer.nif",
+    "notes": "Cliff racer is a large hostile flyer with a swoop-and-return attack, which is exactly the hackwing behaviour. Re-material for the saw beak read."
+   }
+  },
+  {
+   "id": "creature.haj-mota",
+   "name": "Haj Mota",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Haj Mota",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Large armoured swamp turtle-beast.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) cow/Glyptodon and mudcrab/character assets/stonecrab.nif",
+    "notes": "Armoured shell-backed grazer body on the cow rig for the walking form; stone crab as the smaller shallows variant."
+   }
+  },
+  {
+   "id": "creature.haynekhtnamet",
+   "name": "Haynekhtnamet",
+   "kind": "named-foe",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Haynekhtnamet",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "The legendary Shadowfen wamasu locals made offerings to.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "same build as creature.wamasu (HTBM Wamasu.nif/WamasuALT.nif), uniquely scaled and re-materialled",
+    "notes": "Follows whatever creature.wamasu resolves to."
+   }
+  },
+  {
+   "id": "creature.hoarvor",
+   "name": "Hoarvor",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Hoarvor",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Blood-drinking marsh tick.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) mudcrab/character assets/parasite.nif",
+    "notes": "Tick body on the mudcrab skeleton."
+   }
+  },
+  {
+   "id": "creature.jassa-red-slug",
+   "name": "Jassa Red Slug",
+   "kind": "fauna",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Acid-secreting slug used in slug shaping.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snail/slug.nif (+ slugskeleton.nif)",
+    "notes": "Ships its own crawl skeleton."
+   }
+  },
+  {
+   "id": "creature.kaj-thux",
+   "name": "Giant Snake (kaj-thux)",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Giant Snake",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Ample Serpents; colossal constrictors of the interior.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snakes/character assets/oldsnake.nif, snake.nif, snakechaurus.nif",
+    "notes": "Snake bodies on the chaurus skeleton; rescale hard for the colossal constrictor."
+   }
+  },
+  {
+   "id": "creature.kotu-gava",
+   "name": "Kotu Gava",
+   "kind": "swarm",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Kotu Gava",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Swarming marsh insect.",
+   "assetAvailability": {
+    "status": "none",
+    "via": "no rig; stage as a particle swarm plus damage volume",
+    "notes": "Same as the fleshfly: an insect cloud is a hazard volume, not an actor."
+   }
+  },
+  {
+   "id": "creature.lamia",
+   "name": "Lamia",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Lamia",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Infest the caverns beneath Loriasel.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/rivnaga.nif",
+    "notes": "Serpent-bodied humanoid; the Loriasel caverns use this build."
+   }
+  },
+  {
+   "id": "creature.lizard-steed",
+   "name": "Lizard-steed",
+   "kind": "mount",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Hist-shaped lizards in the forms of other races' mounts (wolf, senche, bear, horse, pony).",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) guars/ variants (albinoguar, tesselatedguar, striatedponyguar, palevelothiguar)",
+    "notes": "Hist-shaped mounts are guar variants re-materialled and rescaled to the shape they imitate."
+   }
+  },
+  {
+   "id": "creature.marsh-giant",
+   "name": "Marsh Giant",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Giant (Black Marsh)",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Giant woodland spirit, cousin to spriggans; the Hist urge Argonians to avoid them.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "vanilla giant (meshes/actors/giant) + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) giant/character assets/treant.nif and AncientSpriggan/",
+    "notes": "Spriggan-cousin giant: treant body on the giant skeleton, ancient-spriggan materials for the plant read."
+   }
+  },
+  {
+   "id": "creature.medusa",
+   "name": "Medusa",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Reported in Murkwood.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) slaughterfish/rivnaga.nif",
+    "notes": "Same serpent-humanoid build as the lamia, differently materialled."
+   }
+  },
+  {
+   "id": "creature.miregaunt",
+   "name": "Miregaunt",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Miregaunt",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Tree-like Murkmire guardian built of plant matter and ancient architecture; comes back when struck down.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) giant/character assets/treant.nif and treantskeleton.nif",
+    "notes": "A walking tree of plant matter and old masonry: the treant ships its own skeleton. Xanmeer stone pieces are re-material work, not new models."
+   }
+  },
+  {
+   "id": "creature.mouth-plover",
+   "name": "Corimont Mouth-Plover",
+   "kind": "fauna",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Fang-cleaning bird kept by high-status Argonians.",
+   "assetAvailability": {
+    "status": "vanilla",
+    "via": "vanilla chicken (meshes/actors/chicken) + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) chicken/ bird variants",
+    "notes": "Small perching bird; ambient only."
+   }
+  },
+  {
+   "id": "creature.osheeja-gar",
+   "name": "Osheeja Gar",
+   "kind": "fauna",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Fish the Naka-Desh use to catch other fish.",
+   "assetAvailability": {
+    "status": "vanilla",
+    "via": "vanilla fish (meshes/actors/ambient) and slaughterfish family",
+    "notes": "Ordinary fish; no combat set needed."
+   }
+  },
+  {
+   "id": "creature.rootworm",
+   "name": "Rootworm",
+   "kind": "mount",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md",
+    "world/sources/lore/regions/middle-argonia.md"
+   ],
+   "notes": "The Underground Express; sacred transit, never shown on screen.",
+   "assetAvailability": {
+    "status": "none",
+    "via": "no asset by owner rule (module 90 section 78)",
+    "notes": "Never seen on screen. Staged from animated roots, water displacement and audio."
+   }
+  },
+  {
+   "id": "creature.sea-drake",
+   "name": "Sea-drake",
+   "kind": "predator",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Sea Drake",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Crocodilian with paddle legs, in deep water off Lilmoth.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "HTBM vault pool `htbm` (meshes/here there be monsters - curse of cipactli/actors) SeaDrake.nif — an authored sea drake, replacing the salt-crocodile re-material",
+    "notes": "BM&V mihailcrocodileSALT.nif remains the fallback."
+   }
+  },
+  {
+   "id": "creature.swamp-leviathan",
+   "name": "Swamp Leviathan",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Swamp Leviathan",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "A mountain of spines on nine-foot claws; skeletons litter Deepmire.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) gehenoth/gehenoth.nif (+ character_assets/skeleton.nif)",
+    "notes": "Ships its own skeleton; a mountain of a beast at the scale the lore wants."
+   }
+  },
+  {
+   "id": "creature.voriplasm",
+   "name": "Voriplasm",
+   "kind": "hazard",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Voriplasm",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "A moving pool of green slime that strips a body to the bone.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) snail/slug.nif (+ slugskeleton.nif), re-materialled to green slime",
+    "notes": "A limbless crawler is the closest honest read of a moving slime pool. Its own skeleton, so no new clips."
+   }
+  },
+  {
+   "id": "creature.wamasu",
+   "name": "Wamasu",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Wamasu",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Lightning-powered swamp dragon; electrifies the water around it. Bones hold a charge for years.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "HTBM vault pool `htbm` (meshes/here there be monsters - curse of cipactli/actors) Wamasu.nif and WamasuALT.nif — a purpose-authored Wamasu, replacing the earlier daedroth re-material",
+    "notes": "Prefer the authored model over the daedroth stand-in; the daedroth build (BM&V daedroth/daedrothfinal.nif) remains the fallback if the HTBM rig proves unusable."
+   }
+  },
+  {
+   "id": "creature.wisp",
+   "name": "Wisp",
+   "kind": "hazard",
+   "status": "canon",
+   "sources": [
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Drowning-lure lights; 'shines' are the harmless cousin around Lilmoth's Imperial ruins.",
+   "assetAvailability": {
+    "status": "vanilla",
+    "via": "vanilla wisp and witchlight (meshes/actors/wisp, meshes/actors/witchlight)",
+    "notes": "Lure lights and the harmless shines are the same asset, differently tinted."
+   }
+  },
+  {
+   "id": "creature.wispmother",
+   "name": "Wispmother",
+   "kind": "named-foe",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Wispmother",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Something intelligent behind the wisps that lure travellers to drown.",
+   "assetAvailability": {
+    "status": "vanilla",
+    "via": "vanilla wispmother (meshes/actors/wisp)",
+    "notes": "Full vanilla actor with its own set."
+   }
+  },
+  {
+   "id": "creature.xal-krona",
+   "name": "Xal-Krona (Argonian Behemoth)",
+   "kind": "apex",
+   "status": "canon",
+   "sources": [
+    "UESP:Lore:Argonian Behemoth",
+    "world/sources/lore/topics/fauna-hazards.md"
+   ],
+   "notes": "Hulking Argonian made by a Hist through sap; strong, corrosive, capable of speech.",
+   "assetAvailability": {
+    "status": "sourced",
+    "via": "vanilla werewolfbeast rig + BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) armoured daedroth re-material (decision 0030)",
+    "notes": "The Last Warden final boss build; already the chosen path."
+   }
+  }
+ ]
 }
