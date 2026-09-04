@@ -44,9 +44,9 @@ Generated from the quest data and the live place catalogue. The gaps here *are* 
 
 103 live settlements. Target band per magnitude: M5 35–60, M4 10–20, M3 3–8, M2 1–3, M1 0–2.
 
-Summed settlement demand: **589–1230** quests. Province target: **450–550** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
+Summed settlement demand: **589–1230** quests. Province target: **550–740** at maturity, **170–210** at Milestone 1. Written today: **715** rows (168 live).
 
-**Read the bands as ceilings, not quotas.** The province plotted 103 live settlements against Morrowind's 35, so applying every band at its floor would demand 589 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 450–550 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
+**Read the bands as ceilings, not quotas.** The province plotted 103 live settlements against Morrowind's 35, so applying every band at its floor would demand 589 quests — above the province target. The ladder sizes each settlement RELATIVE to its neighbours; the 550–740 total is the binding number, so the M5/M4 rows should reach their bands and the long M3/M2 tail should sit at the low end, many of them on one quest or none.
 
 | Settlement | Region | Mag | Target | Anchored | Short by |
 |---|---|---|---|---:|---:|

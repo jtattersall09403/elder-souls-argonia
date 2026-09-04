@@ -122,13 +122,13 @@ REGION_BUDGETS = {
     # hours) and deferred repetitive fill elsewhere. Floors are lowered because
     # the owner leans toward an EMPTIER province and plotting is not set in
     # stone; ceilings keep the province inside the 467–596 envelope's spirit.
-    "dunmer-north": (115, 169),
-    "hist-heartland": (94, 130),
-    "imperial-fringe": (105, 147),
-    "imperial-penal-south": (17, 48),
-    "mercantile-coast": (45, 70),
-    "naga-kur-deeps": (22, 45),
-    "pirate-freeholds": (14, 34),
+    "dunmer-north": (115, 182),
+    "hist-heartland": (94, 140),
+    "imperial-fringe": (105, 158),
+    "imperial-penal-south": (17, 52),
+    "mercantile-coast": (45, 76),
+    "naga-kur-deeps": (22, 49),
+    "pirate-freeholds": (14, 37),
     "saxhleel-coast": (18, 38),   # raised 2026-09-04: six quest-required records promoted back (soft ceiling, owner touchpoint ①)
 }
 # Owner ruling (touchpoint ①, 2026-09-03): ceilings are SOFT, floors are HARD.

@@ -96,7 +96,11 @@ RULES: list[Rule] = [
          "provenance / design / session voice inside world prose"),
     Rule("feelings-formula", "hard", _r(r"\b(?:faintly|quietly|slightly|genuinely|oddly|strangely|vaguely) (?:\w+ing|\w+ed|\w+ful|\w+less|\w+ous|\w+ive|\w+al|\w+ish|\w+y)\b"),
          "hedged-adverb mood formula"),
+    Rule("ask-anyone", "hard", _r(r"\bask (?:anyone|anybody|everyone|around)\b"),
+         "'ask anyone' — name who (a role, a person, a house); owner 2026-09-04"),
     # ---- SOFT: density and candidates for the reviewer --------------------
+    Rule("generaliser", "soft", _r(r"\b(?:anyone|anybody|everyone|everybody|nobody|no one|no-one|nothing|everything|anything|always|all of them|none of them|the only|the one|whole province|in the province)\b"),
+         "lazy generalisation (owner 2026-09-04): tie it to the place — a role, a name, a number, a direction"),
     Rule("the-only", "soft", _r(r"\bthe only\b"),
          "'the only' — allowed rarely; >1 per record or >4 per 1,000 words is convergence"),
     Rule("never", "soft", _r(r"\bnever\b"),
@@ -116,13 +120,21 @@ RULES: list[Rule] = [
 ]
 
 RECORD_RULES = [
+    Rule("generaliser-heavy", "hard", re.compile(r"(?!)"), f"more than {2} everyone/nobody/nothing/the-only beats in one record"),
     Rule("hook-copies-site", "hard", re.compile(r"(?!)"), "hook is a verbatim copy of why.siteAdvantages (60 §45e.1 echo row)"),
     Rule("the-only-repeat", "hard", re.compile(r"(?!)"), "'the only' more than once in one record (style guide §2.6 cap)"),
 ]
 HARD = [r for r in RULES if r.severity == "hard"] + RECORD_RULES
 SOFT = [r for r in RULES if r.severity == "soft"]
 # Density thresholds per 1,000 words for the soft rules that are tics at scale.
-SOFT_DENSITY_MAX = {"the-only": 4.0, "never": 6.0, "and-closer": 8.0, "will-not-say": 3.0, "ancient": 2.0}
+SOFT_DENSITY_MAX = {"the-only": 1.5, "never": 3.0, "and-closer": 6.0, "will-not-say": 2.0, "ancient": 2.0,
+                    "generaliser": 5.0}
+# Per-record cap for the generaliser class (a record with three "everyone /
+# nobody / the only" beats is the tell whatever the province average says).
+GENERALISER_RECORD_MAX = 2
+# Province-wide ceilings (owner 2026-09-04: overuse is a body-of-text problem,
+# not a per-record one). Checked over the whole run, all scopes together.
+GLOBAL_DENSITY_MAX = {"generaliser": 4.0, "the-only": 0.8, "never": 2.5}
 # Design-voice fields: not player-visible, so the provenance/session-voice rule does not apply.
 DESIGN_FIELDS = {"questHooks.opportunity"}
 DESIGN_EXEMPT_RULES = {"canon-marker"}
@@ -169,6 +181,10 @@ class LintResult:
         w = self.by_scope_words.get(scope, 0)
         return (self.by_scope_rule[scope][rule] / w * 1000.0) if w else 0.0
 
+    def global_density(self, rule: str) -> float:
+        n = sum(c[rule] for c in self.by_scope_rule.values())
+        return (n / self.words * 1000.0) if self.words else 0.0
+
     def density_failures(self) -> list[tuple[str, str, float]]:
         out = []
         for scope in sorted(self.by_scope_words):
@@ -176,6 +192,10 @@ class LintResult:
                 d = self.density(scope, rule)
                 if d > mx:
                     out.append((scope, rule, round(d, 1)))
+        for rule, mx in GLOBAL_DENSITY_MAX.items():
+            d = self.global_density(rule)
+            if d > mx:
+                out.append(("WHOLE RUN", rule, round(d, 1)))
         return out
 
 
@@ -199,10 +219,16 @@ def lint_record(res: LintResult, rec: dict, scope: str) -> None:
         res.hits.append(Hit(rid, "playerPurpose.hook", "hook-copies-site", "hard", hook[:70]))
         res.by_scope_rule[scope]["hook-copies-site"] += 1
     only = 0
+    gen = 0
+    gen_pat = next(r.pattern for r in RULES if r.id == "generaliser")
     for path in PROSE_PATHS:
         t = _get(rec, path)
         if t:
             only += len(re.findall(r"\bthe only\b", t, re.I))
+            gen += len(gen_pat.findall(t))
+    if gen > GENERALISER_RECORD_MAX:
+        res.hits.append(Hit(rid, "record", "generaliser-heavy", "hard", f"{gen} generalisers in one record (max {GENERALISER_RECORD_MAX})"))
+        res.by_scope_rule[scope]["generaliser-heavy"] += 1
     if only > 1:
         res.hits.append(Hit(rid, "record", "the-only-repeat", "hard", f"'the only' {only}× in one record"))
         res.by_scope_rule[scope]["the-only-repeat"] += 1
@@ -240,6 +266,35 @@ def lint_catalogue(regions: set[str] | None = None) -> LintResult:
                 continue
             lint_record(res, rec, rf.region)
     return res
+
+
+QUESTS_DIR = catalogue.REPO_ROOT / "world" / "sources" / "quests"
+TEXT_CATALOGUE = catalogue.REPO_ROOT / "packages" / "text-catalogue" / "src" / "entries.ts"
+
+
+def lint_quests(res: LintResult) -> None:
+    """Every quest row's title and premise (world/sources/quests/*.json) — the
+    owner's 'same across our quest index text' (2026-09-04)."""
+    for p in sorted(QUESTS_DIR.glob("*.json")):
+        if p.name == "lines.json":
+            continue
+        data = json.loads(p.read_text(encoding="utf-8"))
+        for q in data.get("quests") or []:
+            if q.get("status") == "cut":
+                continue
+            scope = f"quests/{p.stem}"
+            for fld in ("title", "premise"):
+                if isinstance(q.get(fld), str):
+                    res.add_text(scope, q.get("id") or q.get("code"), fld, q[fld])
+
+
+def lint_text_catalogue(res: LintResult) -> None:
+    """Player-visible strings in packages/text-catalogue (the `text:` values)."""
+    if not TEXT_CATALOGUE.exists():
+        return
+    src = TEXT_CATALOGUE.read_text(encoding="utf-8")
+    for m in re.finditer(r'id:\s*"([^"]+)"[\s\S]*?text:\s*"((?:[^"\\]|\\.)*)"', src):
+        res.add_text("text-catalogue", m.group(1), "text", m.group(2).replace('\\"', '"'))
 
 
 _MD_SKIP = re.compile(r"^\s*(?:#|\||>|```|-\s*\[|\d+\.\s)|^\s*$")
@@ -295,6 +350,7 @@ def render_report(res: LintResult, title: str) -> str:
             mx = SOFT_DENSITY_MAX.get(r.id)
             cells.append(f"**{d:.1f}**" if mx and d > mx else f"{d:.1f}")
         lines.append(f"| {s} | {res.by_scope_words[s]:,} | " + " | ".join(cells) + " |")
+    lines += ["", "Whole run: " + ", ".join(f"`{r}` {res.global_density(r):.2f}/1k (max {mx})" for r, mx in GLOBAL_DENSITY_MAX.items())]
     fails = res.density_failures()
     if fails:
         lines += ["", "Density over the ceiling (bold above): " + "; ".join(f"{s} `{r}` {d}" for s, r, d in fails)]
@@ -317,6 +373,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--region", action="append", help="limit to a region (repeatable)")
     ap.add_argument("--md", nargs="*", default=[], help="markdown files to lint as well (globs ok)")
     ap.add_argument("--no-catalogue", action="store_true", help="skip the place catalogue")
+    ap.add_argument("--quests", action="store_true", help="lint the quest data rows (title/premise) — included automatically in a whole-catalogue run")
     ap.add_argument("--strict", action="store_true", help="exit 1 on any hard hit or density ceiling breach")
     ap.add_argument("--json", type=Path, help="write hits as JSON here")
     ap.add_argument("--report", type=Path, default=None, help="markdown report path ('-' for none; default: the shared report for a whole-catalogue run, none for --region runs so concurrent reviewers do not overwrite it)")
@@ -326,6 +383,13 @@ def main(argv: list[str] | None = None) -> int:
         a.report = Path("-") if (a.region or a.no_catalogue) else REPORT_PATH
 
     res = LintResult() if a.no_catalogue else lint_catalogue(set(a.region) if a.region else None)
+    if not a.region and not a.no_catalogue:
+        # a whole-catalogue run is the body-of-text run: quest rows and the
+        # text catalogue count toward the same province-wide ceilings
+        lint_quests(res)
+        lint_text_catalogue(res)
+    if a.quests:
+        lint_quests(res)
     md_paths: list[Path] = []
     for pat in a.md:
         p = Path(pat)

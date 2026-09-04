@@ -404,7 +404,7 @@ HECTARE_M2 = 10_000.0
 # live in routes_raster.CLEARANCE_M).
 ROUTE_CLEAR = 1                 # woody layers (T1/T2) removed
 ROUTE_THIN = 2                  # groundcover (T3) survives at this share
-ROUTE_THIN_KEEP = 0.25
+ROUTE_THIN_KEEP = 0.08          # owner 2026-09-04: trodden, not carpeted (was 0.25)
 
 
 def route_allows(layer: "Layer", corridor: int, roll: float) -> bool:

@@ -54,13 +54,16 @@ PAINT_CLASS = {
 }
 # Vegetation clearance corridors, metres (full width). `trunk` clears T1/T2
 # woody layers; `ground` additionally thins the T3 groundcover.
+# Owner 2026-09-04: minor roads had "too much vegetation growing on them" —
+# they are paths and should cut through the growth (a few overgrown stretches
+# are fine, the default is not). Widened, and footpaths now thin the herb layer.
 CLEARANCE_M = {
-    "road": dict(trunk=14.0, ground=9.0),
-    "trunk_road": dict(trunk=14.0, ground=9.0),
-    "track": dict(trunk=8.0, ground=5.0),
-    "causeway": dict(trunk=8.0, ground=5.0),
-    "footpath": dict(trunk=4.0, ground=0.0),
-    "boardwalk": dict(trunk=3.0, ground=3.0),
+    "road": dict(trunk=14.0, ground=10.0),
+    "trunk_road": dict(trunk=14.0, ground=10.0),
+    "track": dict(trunk=10.0, ground=7.0),
+    "causeway": dict(trunk=10.0, ground=7.0),
+    "footpath": dict(trunk=6.0, ground=3.5),
+    "boardwalk": dict(trunk=4.0, ground=4.0),
 }
 
 

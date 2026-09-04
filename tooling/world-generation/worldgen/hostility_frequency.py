@@ -52,6 +52,9 @@ SIDECAR = Path(__file__).resolve().parents[1] / "output" / "hostility-frequency.
 ENCOUNTER_M = 300.0        # a hostile place this close to the route is "on the way"
 SPARSE_M = 450.0           # land further than this from any fight is a gap
 EDGE_M = 350.0             # province border apron ignored for gaps
+CROWD_M = 250.0            # a route-side fight with ≥ CROWD_N others inside this is "crowded"
+CROWD_N = 2
+OFF_ROUTE_M = 320.0        # further than this from every route counts as off-route
 STEP_M = 50.0              # route sampling step
 MORROWIND_PER_KM2 = 15.0   # ≈ 300 hostile places / 20 km²
 MORROWIND_SPACING_M = 350.0
@@ -211,7 +214,51 @@ def build_report() -> dict:
                     gaps.append({"band": b, "x": round(x), "z": round(z), "nearestFightM": round(dmin)})
                 if len(chosen) >= 12:
                     break
+    # Owner 2026-09-04: rebalance — slightly fewer fights ON routes, more OFF
+    # them, so the travel and area numbers meet. Two lists for the region agents:
+    #  * crowded: hostile places within ENCOUNTER_M of a route with ≥ CROWD_N
+    #    other hostile places inside CROWD_M — candidates to move off-route
+    #    (typed `nearPoint` on an off-route gap) or to swap for a friendly place.
+    #  * offRouteGaps: land ≥ OFF_ROUTE_M from every route AND ≥ SPARSE_M from
+    #    every fight, by band — where those moved (or promoted) records go.
+    crowded = []
+    route_pts = []
+    for kind, rid, px in load_routes():
+        route_pts += resample(px, m_per_px, STEP_M)
+    rx = np.array([p[0] for p in route_pts]); rz = np.array([p[1] for p in route_pts])
+    for i, (x, z, pid, b, region) in enumerate(hostile_pts):
+        droute = float(np.min(np.hypot(rx - x, rz - z))) if len(rx) else 1e9
+        if droute > ENCOUNTER_M:
+            continue
+        near = int(np.sum(np.hypot(hx - x, hz - z) <= CROWD_M)) - 1
+        if near >= CROWD_N:
+            crowded.append({"id": pid, "band": b, "region": region, "routeM": round(droute), "hostileWithinCrowdM": near})
+    crowded.sort(key=lambda c: (-c["hostileWithinCrowdM"], c["id"]))
+    off_gaps = []
+    if len(hx) and len(rx):
+        for b in (3, 4, 5):
+            mask = (s.danger == b) & land
+            edge = int(EDGE_M / m_per_px)
+            mask[:edge, :] = mask[-edge:, :] = mask[:, :edge] = mask[:, -edge:] = False
+            rr, cc = np.nonzero(mask)
+            rr, cc = rr[::5], cc[::5]
+            chosen: list[tuple[float, float]] = []
+            far_pts = []
+            for r_, c_ in zip(rr, cc):
+                x, z = c_ * m_per_px, r_ * m_per_px
+                if float(np.min(np.hypot(rx - x, rz - z))) < OFF_ROUTE_M:
+                    continue
+                dmin = float(np.min(np.hypot(hx - x, hz - z)))
+                if dmin > SPARSE_M:
+                    far_pts.append((dmin, x, z))
+            for dmin, x, z in sorted(far_pts, reverse=True):
+                if all(math.hypot(x - cx, z - cz) >= 2 * SPARSE_M for cx, cz in chosen):
+                    chosen.append((x, z))
+                    off_gaps.append({"band": b, "x": round(x), "z": round(z), "nearestFightM": round(dmin)})
+                if len(chosen) >= 14:
+                    break
     return {"morrowind": {"hostilePerKm2": MORROWIND_PER_KM2, "spacingM": MORROWIND_SPACING_M},
+            "crowded": crowded, "offRouteGaps": off_gaps,
             "encounterM": ENCOUNTER_M, "sparseM": SPARSE_M, "bands": rows, "sparse": sparse, "gaps": gaps,
             "routes": sorted(per_route, key=lambda r: (r["kind"], r["id"]))}
 
@@ -238,6 +285,15 @@ def render(rep: dict) -> str:
         L.append(f"- D{sp['band']}: {sp['shareFar']:.0%} of {sp['sampledCells']} sampled cells")
     L += ["", "| band | x m | z m | nearest fight m |", "|---|---:|---:|---:|"]
     for g in rep["gaps"]:
+        L.append(f"| D{g['band']} | {g['x']} | {g['z']} | {g['nearestFightM']} |")
+    L += ["", "## Rebalance lists (owner 2026-09-04: fewer fights on routes, more off them)", "",
+          f"**Crowded route-side fights** — hostile places within {rep['encounterM']:.0f} m of a route with at least {CROWD_N} other hostile places inside {CROWD_M:.0f} m. Candidates to move off-route (`sitingPrefs.nearPoint` on an off-route gap below) or to swap for a friendly/neutral place from the reserve. Never add to these neighbourhoods.", "",
+          "| record | band | region | route m | other fights within 250 m |", "|---|---|---|---:|---:|"]
+    for c in rep["crowded"][:60]:
+        L.append(f"| `{c['id']}` | D{c['band']} | {c['region']} | {c['routeM']} | {c['hostileWithinCrowdM']} |")
+    L += ["", f"**Off-route gaps** — land at least {OFF_ROUTE_M:.0f} m from every route and {rep['sparseM']:.0f} m from every fight. The only places new or moved hostile records may go.", "",
+          "| band | x m | z m | nearest fight m |", "|---|---:|---:|---:|"]
+    for g in rep["offRouteGaps"]:
         L.append(f"| D{g['band']} | {g['x']} | {g['z']} | {g['nearestFightM']} |")
     L += ["", "## Routes with the longest gaps", "", "| route | kind | km | fights met | m between fights |", "|---|---|---:|---:|---:|"]
     worst = sorted([r for r in rep["routes"] if r["km"] >= 1.0], key=lambda r: -(r["spacingM"] or 1e9))[:25]

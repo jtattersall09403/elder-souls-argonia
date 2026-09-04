@@ -42,7 +42,7 @@ Two targets are defined. **Milestone 1** is the smallest version of the game tha
 | Regional, city and standalone authored quests | 60–80 | 250–330 (raised 2026-08-26 to match Morrowind density on our larger land area — research/morrowind-content-density.md) | highly variable |
 | Mythic/artifact/Daedric-scale quests | 4–6 | 10–14 | 1–3 hours each |
 | Unmarked and micro chains | 15–25 | 40–60 | 10–45 minutes each |
-| **Finite journaled total** | **approximately 170–210** | **approximately 450–550** (Morrowind-density target: ~15–20 quests/km² over ~37 km² of land; per-settlement ladder in research/morrowind-content-density.md §4) | **roughly 130–180 hours for a broad first run at maturity; more across incompatible paths** |
+| **Finite journaled total** | **approximately 170–210** | **approximately 550–740** (Morrowind-density target: ~20 quests/km² over ~37 km² of land — the earlier 450–550 figure used the low end of the band and undercounted our settlements; corrected 2026-09-04 when the skeleton was authored as data; per-settlement ladder in research/morrowind-content-density.md §4) | **roughly 130–180 hours for a broad first run at maturity; more across incompatible paths** |
 
 The Milestone 1 core already exceeds Oblivion's base journal count and approaches Skyrim's, while the mature target now matches Morrowind GOTY's *density* — our land is 1.5–2× Vvardenfell's, so matching quests-per-km² and POIs-per-km² (owner directive 2026-08-26) means exceeding its raw count; the world build carries the matching POI budget (world 95 Phase 11). Playtime estimates should be treated as ceilings, not marketing: Morrowind's base main quest is commonly completed in 25–30 hours; the 24-quest main line targets the same band.
 

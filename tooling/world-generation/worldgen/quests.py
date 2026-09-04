@@ -72,7 +72,7 @@ CODE_RE = re.compile(r"^[A-Z]{2}\d{2}$")
 # The magnitude ladder from docs/research/morrowind-content-density.md §4:
 # quests a settlement of each size should originate at maturity.
 DEMAND_BAND = {"M5": (35, 60), "M4": (10, 20), "M3": (3, 8), "M2": (1, 3), "M1": (0, 2)}
-PROVINCE_TARGET = (450, 550)          # mature finite quests
+PROVINCE_TARGET = (550, 740)   # Morrowind's ~20 quests/km² over our ~37 km² of land (research/morrowind-content-density §3–4; owner 2026-09-04: the larger province, not creep, is why the count exceeds the old 450–550)          # mature finite quests
 MILESTONE_1_TARGET = (170, 210)
 
 # group -> the registry's `tier` string and `kind`, so registries/quests.json
