@@ -176,6 +176,11 @@ tell, not any single instance** — these are checks, not a lint.
 | "nobody ever …", "no one will say / explain …", "will not explain it", "has not been discussed" as a beat | a fact, or a person who does say | the withheld-secret beat; fine once, a tic at scale |
 | **The flat and-pair**: a clause, *and*, then a second clause that turns the first into a wry shrug ("Trial-keepers set the route each year and will not explain it"; "The trial kills someone every few years and the tribes have decided that is correct") | split into two sentences, or drop the second clause, or make the second clause a plain fact that does not comment on the first | the second clause is the writer's *judgement* delivered deadpan; one per region is wit, one per record is a voice (owner 2026-09-04; style guide §2.6 has the diagnosis) |
 
+| Encounter scripting inside a `note` field ("fought one at a time if the player is quiet") | describe the people; staging belongs in typed fields | the session-reference row dodged via notes (wave-2 review 2026-09-04) |
+| `vibe.mood` as "adjective and undercutting-adjective" ("businesslike, with an undertow") | one word, or a plain fact | the antithesis pair in miniature; 46 of 140 in one region |
+| A label that negates its own noun ("undressed stone, never dressed"), a trailing "…either", a simile-as-inheritance flourish | cut | reviewer finds, 2026-09-04 |
+| Oxford comma before the last list item ("reed, rope, and tar") | drop it: "reed, rope and tar" | British house style; half of the comma-and hits were this, not rhetoric |
+
 **Mechanical floor (2026-09-04):** `python3 -m worldgen.lint_prose` (from
 `tooling/world-generation`) catches every phrase-level row above it can express
 as a pattern — comma-and, never-once, the-one-thing, nobody-ever, the-very,

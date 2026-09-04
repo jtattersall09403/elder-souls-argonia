@@ -115,7 +115,11 @@ RULES: list[Rule] = [
          "'will not say / has not been discussed' — the withheld-secret beat; fine once, a tic at scale"),
 ]
 
-HARD = [r for r in RULES if r.severity == "hard"]
+RECORD_RULES = [
+    Rule("hook-copies-site", "hard", re.compile(r"(?!)"), "hook is a verbatim copy of why.siteAdvantages (60 §45e.1 echo row)"),
+    Rule("the-only-repeat", "hard", re.compile(r"(?!)"), "'the only' more than once in one record (style guide §2.6 cap)"),
+]
+HARD = [r for r in RULES if r.severity == "hard"] + RECORD_RULES
 SOFT = [r for r in RULES if r.severity == "soft"]
 # Density thresholds per 1,000 words for the soft rules that are tics at scale.
 SOFT_DENSITY_MAX = {"the-only": 4.0, "never": 6.0, "and-closer": 8.0, "will-not-say": 3.0, "ancient": 2.0}
@@ -186,6 +190,22 @@ def _get(rec: dict, path: tuple) -> str | None:
 
 def lint_record(res: LintResult, rec: dict, scope: str) -> None:
     rid = rec["id"]
+    # Record-level checks the wave-2 reviewers asked for (2026-09-04): a hook
+    # that copies siteAdvantages (64 of 140 in one region), and "the only"
+    # used more than once in one record (the per-record cap in the style guide).
+    hook = ((rec.get("playerPurpose") or {}).get("hook") or "").strip().lower()
+    adv = ((rec.get("why") or {}).get("siteAdvantages") or "").strip().lower()
+    if hook and adv and hook == adv:
+        res.hits.append(Hit(rid, "playerPurpose.hook", "hook-copies-site", "hard", hook[:70]))
+        res.by_scope_rule[scope]["hook-copies-site"] += 1
+    only = 0
+    for path in PROSE_PATHS:
+        t = _get(rec, path)
+        if t:
+            only += len(re.findall(r"\bthe only\b", t, re.I))
+    if only > 1:
+        res.hits.append(Hit(rid, "record", "the-only-repeat", "hard", f"'the only' {only}× in one record"))
+        res.by_scope_rule[scope]["the-only-repeat"] += 1
     for path in PROSE_PATHS:
         t = _get(rec, path)
         if t:
@@ -299,9 +319,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--no-catalogue", action="store_true", help="skip the place catalogue")
     ap.add_argument("--strict", action="store_true", help="exit 1 on any hard hit or density ceiling breach")
     ap.add_argument("--json", type=Path, help="write hits as JSON here")
-    ap.add_argument("--report", type=Path, default=REPORT_PATH, help="markdown report path ('-' for none)")
+    ap.add_argument("--report", type=Path, default=None, help="markdown report path ('-' for none; default: the shared report for a whole-catalogue run, none for --region runs so concurrent reviewers do not overwrite it)")
     ap.add_argument("--quiet", action="store_true")
     a = ap.parse_args(argv)
+    if a.report is None:
+        a.report = Path("-") if (a.region or a.no_catalogue) else REPORT_PATH
 
     res = LintResult() if a.no_catalogue else lint_catalogue(set(a.region) if a.region else None)
     md_paths: list[Path] = []

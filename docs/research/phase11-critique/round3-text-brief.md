@@ -25,7 +25,7 @@ register in `world/sources/catalogue/README.md`.
 2. **Seed from Morrowind** (style guide §2.7): for each place TYPE you rewrite
    (cave, tomb-analogue, stronghold, camp, fort, ruin, mine, wreck, village,
    shrine…), pull one short Morrowind text for the nearest analogue from the
-   vault extract (`mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`
+   vault extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`, a sibling of this repo
    — `xzcat | grep -i` on the page title is fine here, it is a text corpus)
    or the UESP API (`en.uesp.net/w/api.php`, project user-agent). Read it,
    then write ours. Keep a seed table in your report (type → page → two

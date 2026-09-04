@@ -194,7 +194,7 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [
         "neutral (the price list up, both halls open, nobody's flag flying)",
-        "leaned-on (one flag flying, the price list painted out, and the halls shut)"
+        "leaned-on (one flag flying, the price list painted out, the halls shut)"
       ],
       "position": {
         "u": 0.52,
@@ -1097,7 +1097,7 @@
             "danger": "D3",
             "count": "single",
             "named": true,
-            "note": "the reach boss, who talks first if the player is Salt-Teeth"
+            "note": "the reach boss, who talks first to anyone wearing Salt-Teeth marks"
           },
           {
             "slotId": "n2",
@@ -2405,7 +2405,7 @@
         "silhouette": "a line of shelters along a fence with a single roofed office at one end",
         "palette": "grey canvas, mud, one painted door on the office",
         "materials": "salvaged canvas and crate timber; one proper building",
-        "signatureFeature": "an office with a ledger in it that is the only writing anybody in this zone treats as binding",
+        "signatureFeature": "an office with a ledger in it that everybody in this zone treats as binding",
         "condition": "twenty years old, built out of canvas",
         "mood": "quiet; nobody looks up",
         "approach": "the road out of town runs straight through it",
@@ -2613,7 +2613,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port has no Hist. That is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and in the camp on the town's edge it is said out loud.",
+        "founding": "The free port has no Hist. That is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident. In the camp on the town's edge they say so out loud.",
         "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
         "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
         "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
@@ -2733,7 +2733,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "waiting (the planting circle swept, the argument unresolved)",
-        "planted (something is in the circle, and half the camp will not look at it)"
+        "planted (something is in the circle; half the camp will not look at it)"
       ],
       "position": {
         "u": 0.46963,
@@ -2784,7 +2784,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A village with a planting circle kept swept for sixty years and nothing in it. Ask anyone why.",
+        "hook": "A village with an empty planting circle, swept every day for sixty years. Ask anyone why.",
         "reviewed": true
       },
       "interior": {
@@ -2839,7 +2839,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A bonded store was cut into the channel bank when the water sat two feet lower. The water came back. The owner stopped paying the port, and the doors were left to whoever wanted them.",
+        "founding": "A bonded store was cut into the channel bank when the water sat two feet lower. The water came back. The owner stopped paying the port. The doors were left to whoever wanted them.",
         "siteAdvantages": "A dry-ish cellar under a wet bank, on the water but out of sight of the quay.",
         "occupantsMotive": "Three of the port's less useful hands sleep here between jobs and take what floats past.",
         "pressures": "It floods to the knee on a high river and to the chest twice a year.",
@@ -3000,7 +3000,7 @@
             "danger": "D2",
             "count": "few",
             "named": false,
-            "note": "three store-breakers, poorly armed, fought one at a time if the player is quiet"
+            "note": "three store-breakers, poorly armed, who come down the flooded passage one at a time"
           }
         ],
         "loot": [
@@ -3277,7 +3277,7 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-3",
-            "provenance": "the guest book, kept in four scripts and none of them Jel"
+            "provenance": "the guest book, four scripts, sixty years of names"
           }
         ]
       },
@@ -3318,8 +3318,8 @@
       "why": {
         "founding": "House Dres took Argonians out of this river country for centuries. The pens they used to hold and count them are still standing on the bank they loaded from.",
         "siteAdvantages": "A river landing with hard standing, sited for loading rather than living.",
-        "occupantsMotive": "Nobody above ground. Something has been getting into the flooded cells below. The free port will not use the ground and will not say why to outsiders.",
-        "pressures": "It is the one thing in this zone nobody makes a joke about.",
+        "occupantsMotive": "Nobody above ground. Something has been getting into the flooded cells below. The free port keeps its business off this bank; the Dunmer factors in town avoid it hardest of all.",
+        "pressures": "Nobody in this zone jokes about the pens.",
         "wouldChangeIf": "If the Dunmer factors in town were ever formally associated with it, the freehold's trade with Morrowind ends overnight."
       },
       "sitingPrefs": {
@@ -3369,7 +3369,7 @@
         "signatureFeature": "a loading ramp graded and railed for people rather than cargo, with the count-marks still cut into the gatepost and a stair at the bottom of it going down into the holding cells",
         "condition": "sound; deliberately not repaired and deliberately not demolished",
         "mood": "nobody talks on this ground",
-        "approach": "the trunk road passes it and nobody looks",
+        "approach": "the trunk road passes within thirty paces of the ramp",
         "senses": "no birds and no frogs, on a bank that should have both"
       },
       "assetPlan": [
@@ -3430,7 +3430,7 @@
       "ownerFaction": "faction.dres-remnant",
       "localStateVariants": [
         "derelict (the ramp rotting, the rails robbed for timber)",
-        "in use again (the ramp regraded, the rails sound, and nobody in Corimont saying so)"
+        "in use again (the ramp regraded, the rails sound, nobody in Corimont saying so)"
       ],
       "position": {
         "u": 0.50905,
@@ -3573,7 +3573,7 @@
       "why": {
         "founding": "A House holding left over from the Dres trade, now a Dunmer village on the wrong side of the border that stayed because going home was worse.",
         "siteAdvantages": "A defensible upland shelf on the pass road, with its own water and a walled core.",
-        "occupantsMotive": "Dunmer families three centuries settled, who factor for the free port and are not liked for it.",
+        "occupantsMotive": "Dunmer families three centuries settled, factoring for the free port. Nobody downriver likes them for it.",
         "pressures": "They are the largest concentration of the zone's 22% Dunmer minority and they live beside the pens their ancestors filled.",
         "wouldChangeIf": "If Morrowind reasserted a claim here, the free port's northern trade becomes a diplomatic asset instead of a crime."
       },
@@ -3968,7 +3968,7 @@
       "why": {
         "founding": "The people who died in the Flu here were not Argonian and had no Hist to go to, so they were cairned where they fell, by whoever was left.",
         "siteAdvantages": "Firm dry ground above the village, with loose stone to hand.",
-        "occupantsMotive": "Nobody. Passing travellers re-stack the cairns. No one can say when that started.",
+        "occupantsMotive": "Nobody. Passing travellers re-stack the cairns, as they have since the road was cut.",
         "pressures": "It is the largest visible evidence in the zone that a whole people used to live here.",
         "wouldChangeIf": "If a scholar counted them properly, the district's population history changes."
       },
@@ -4530,7 +4530,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The price list has to be applied somewhere. The stall row under the board is where it happens.",
-        "siteAdvantages": "Level ground below the list board, one street up from the basin and not on the water itself.",
+        "siteAdvantages": "Level ground below the list board, one street up from the basin and clear of the wharf traffic.",
         "occupantsMotive": "Traders working in septims, Dunmer coin, barter and obligation at adjacent stalls.",
         "pressures": "The board is a public document that names contraband by grade. Nothing else in the province prices the trade so plainly.",
         "wouldChangeIf": "If the list were withdrawn, the row would still meet but nobody would know what anything was worth."
@@ -4734,7 +4734,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A Naga band works the rim track up to the pass, because the freeholds' cargo climbs it unescorted and nobody polices the crossing.",
+        "founding": "A Naga band works the rim track up to the pass, because the freeholds' cargo climbs it unescorted. The nearest keeper sits four hours further up, at the pass station.",
         "siteAdvantages": "Cover within a spear's throw of the track at a point where it cannot be left.",
         "occupantsMotive": "Eight or so, who strike camp after every taking.",
         "pressures": "The free port pays escorts rather than fight them. It is cheaper and everybody says so.",
@@ -4789,7 +4789,7 @@
       },
       "vibe": {
         "silhouette": "nothing at all from the road; from the trees uphill, a cleared circle with no fire in it",
-        "palette": "dull hide, wet bone, dark green; no smoke and nothing that carries",
+        "palette": "dull hide, wet bone, dark green; no smoke",
         "materials": "hide shelters struck and re-pitched daily, bone-and-flint gear, taken cargo still in other people's crates",
         "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
         "condition": "recently made, ready to move",
@@ -5138,8 +5138,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A province with almost no metalworking has one here, because a free port that steals fastenings needs somewhere to reuse them.",
-        "siteAdvantages": "Beside the careening hard inside the port, on the only ground in the zone with a permanent forge on it.",
-        "occupantsMotive": "A Nord smith who came off a hull twenty years ago and never re-embarked.",
+        "siteAdvantages": "Beside the careening hard inside the port, on ground dry and firm enough to stand a permanent forge.",
+        "occupantsMotive": "A Nord smith who came off a hull twenty years ago and stayed.",
         "pressures": "His stock is entirely other people's ship iron, but nobody says so.",
         "wouldChangeIf": "If the fastening supply were cut, the forge goes cold and the boatwrights lose their hulls."
       },
@@ -5200,7 +5200,7 @@
         "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, each hull named",
         "condition": "hot and sound",
         "mood": "resented; used by everybody",
-        "approach": "the chimney smoke is the only vertical smoke in the town",
+        "approach": "one chimney standing straight up over reed roofs that have none",
         "senses": "hammer on iron, charcoal, hot scale"
       },
       "assetPlan": [
@@ -5687,7 +5687,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Half the crews on this water hold a charter from somebody and none of them will say from whom. Long Water is where they lie up between charters. The port treats it as a berth rather than a problem.",
+        "founding": "Half the crews on this water hold a charter from somebody. Ask a captain whose and he gives you a port's name rather than a man's. Long Water is where they lie up between charters. The port treats it as a berth rather than a problem.",
         "siteAdvantages": "A long straight reach with deep water on one bank, room for four hulls and a clear run out in either direction.",
         "occupantsMotive": "Crews resting, refitting and hiring. A broker sells passage to anyone who does not ask what else the hull is carrying.",
         "pressures": "One bad prize and the port halls withdraw the berth. Then it is Short Rope.",
@@ -5868,7 +5868,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Four crews lying up between charters. The broker on the middle hull sells passage and does not ask why.",
+        "hook": "Four crews lying up between charters. The broker on the middle hull will sell you a berth out.",
         "reviewed": true
       },
       "interior": {
@@ -5893,7 +5893,7 @@
             "danger": "D2",
             "count": "band",
             "named": false,
-            "note": "crews refitting; they hire, and they remember"
+            "note": "crews refitting, who hire and who remember"
           },
           {
             "slotId": "n3",
@@ -5973,7 +5973,7 @@
       "why": {
         "founding": "The Kothringi held river country like this and the Knahaten Flu ended them in 2E 560; their village on the bend was never reoccupied because nobody would.",
         "siteAdvantages": "A firm bend site with a landing, for the same reasons a village would be built there today.",
-        "occupantsMotive": "Nobody. The free port's crews will not tie up here and will not say it is superstition.",
+        "occupantsMotive": "Nobody. The free port's crews pass the bend without tying up; the older hands make a sign as they go.",
         "pressures": "It is the best unoccupied river frontage in the zone, but it has been empty for six hundred years.",
         "wouldChangeIf": "If somebody built here and did not die, the taboo would collapse in a season."
       },
@@ -6661,7 +6661,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and has never been called anything but the ground the gang is on.",
+        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and its name is still the ground the gang is on.",
         "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
         "pressures": "The camp has a Hist a day upriver but no claim on it. The clutch in the shed is the argument for staying.",
@@ -7276,7 +7276,7 @@
         "founding": "A laden river hull that failed to hold the line above the bar and went down in the deep of the confluence.",
         "siteAdvantages": "It lies in the confluence hole at -6.5 m, out of the current but under a lot of water.",
         "occupantsMotive": "Nothing; the salvage yard has stripped everything above the silt line.",
-        "pressures": "The hold is under silt and the yard has decided it is not worth the drowning.",
+        "pressures": "The hold is under silt. The yard lost two hands working it and has left it alone since.",
         "wouldChangeIf": "If the river dropped in a hard dry season, the hold would be reachable and the yard would work it in a week."
       },
       "sitingPrefs": {
@@ -8820,7 +8820,7 @@
       "why": {
         "founding": "The one legal crossing of the northern rim needs a staged shelter, because the pass is above the snowline for part of the year and people die on it.",
         "siteAdvantages": "The saddle at 226 m, the lowest crossing of the wall for many kilometres.",
-        "occupantsMotive": "A keeper who is nominally the state's and is paid by the free port, which he does not advertise.",
+        "occupantsMotive": "A keeper on the state's roll who takes a second wage from the free port.",
         "pressures": "The pass closes seasonally. When it closes, the ledge trade doubles.",
         "wouldChangeIf": "If the state funded it properly the rim would be policed and this zone's economy would change entirely."
       },
@@ -8924,7 +8924,7 @@
       "underwaterAccess": "none",
       "localStateVariants": [
         "pass open (the season board green, the keeper bored)",
-        "pass shut (the board closed, and a queue of people who will pay to be wrong about that)"
+        "pass shut (the board closed, a queue of people who will pay to be wrong about that)"
       ],
       "position": {
         "u": 0.59978,
@@ -10504,7 +10504,7 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A rival landing founded downriver to undercut Alten Corimont's list. It lost. The bar below it will not take a laden hull, and nobody undercuts the list twice.",
+        "founding": "A rival landing founded downriver to undercut Alten Corimont's list. It lost. The bar below it will not take a laden hull. Its last owner sold his cut stone back upriver and went to Stormhold.",
         "siteAdvantages": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground nobody now claims.",
         "occupantsMotive": "Nobody. The bar that killed it keeps squatters away too. Alten Corimont sees that the story of the failure is well told.",
         "pressures": "It is intact, empty freehold ground with a river frontage. Nobody has claimed it in eighty years.",
@@ -11825,7 +11825,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The gangs that work the lower channel are hired out of Alten Corimont, but the tree the gang families answer to stands nine bends upriver, where the water is still fresh enough to drink. The village grew where the tree is. The work has been a day downriver for sixty years.",
-        "siteAdvantages": "Fresh water above the salt wedge, a bank firm enough to build on, and bends enough between here and the port that its ledgers have never come up.",
+        "siteAdvantages": "Fresh water above the salt wedge, a bank firm enough to build on and nine bends of river between here and the port.",
         "occupantsMotive": "A tribe keeping a tree, hiring its own people out downriver because there is no other coin, counting the days until each of them comes home.",
         "pressures": "Every year more of the village's adults are on somebody's roll downriver. The tree has begun to notice how few of them it sees.",
         "wouldChangeIf": "If the tree withdraws, nothing keeps the village nine bends from the work. The lower channel loses the only Hist that will speak to it."
@@ -12092,7 +12092,7 @@
       "why": {
         "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border they had crossed.",
         "siteAdvantages": "High firm ground on the flank above the pass, chosen for the sightline rather than the soil.",
-        "occupantsMotive": "Veterans and their children, armed and not answerable to the free port.",
+        "occupantsMotive": "Veterans and their children, armed, keeping their own council.",
         "pressures": "They are the only armed force in the zone, so everyone is careful what they ask of them.",
         "wouldChangeIf": "If they were ever hired by the port, the freeholds become a power rather than a market."
       },

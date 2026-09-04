@@ -555,7 +555,7 @@
         "signatureFeature": "Every seal ever applied is left on the door, which is scaled with wax.",
         "condition": "Sound and deliberately unlovely.",
         "mood": "Suspicious and procedural.",
-        "approach": "You come at it along the wharf; it is the only building on the river with no windows.",
+        "approach": "You come at it along the wharf. It has no windows at all.",
         "senses": "Wax; river damp; a padlock the size of a fist."
       },
       "assetPlan": [
@@ -1736,7 +1736,7 @@
       "why": {
         "founding": "A Cyrodiilic ducal seat raised in arm's reach of Gideon's north gate, later used to hold an Empress.",
         "siteAdvantages": "A dry knoll above the flood line with a clear line to the city gate.",
-        "occupantsMotive": "Nobody occupies it. The caretaker families left when the well went bad, and Gideon tells its children not to go.",
+        "occupantsMotive": "Nobody occupies it. The caretaker families left when the well went bad. Gideon tells its children not to go.",
         "pressures": "Roots in the vaulting. The north range has already gone; treasure-hunters chip at the cell doors.",
         "wouldChangeIf": "Would be reoccupied the moment anyone in Gideon wanted a stone house badly enough. Since Duskfall, nobody does."
       },
@@ -2010,7 +2010,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A mixed village at the road's water point, where the Imperial well and the Argonian landing serve the same travellers.",
-        "siteAdvantages": "A perennial spring beside a boat channel, the one place the road and the water touch on level terms.",
+        "siteAdvantages": "A perennial spring beside a boat channel. Here the road and the water meet on level terms.",
         "occupantsMotive": "Two communities share it because neither can hold the other's half.",
         "pressures": "The well is Imperial-built and failing. Repairing it in stone is work the Argonian half will not help with.",
         "wouldChangeIf": "Would become one community or two villages within a generation; nobody knows which."
@@ -2457,7 +2457,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A licensed dig where the Cyrodilic Collections foremen pay for finds and do not ask which trench they came out of.",
+        "hook": "A licensed dig. The Cyrodilic Collections foremen pay cash for finds and settle up the same day.",
         "reviewed": true
       },
       "interior": {
@@ -2881,7 +2881,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A hollow you look down into: one hut, a fenced oval of grey clay, and a ring of fig trunks so close-set they read as a wall.",
+        "silhouette": "A hollow you look down into: one hut, a fenced oval of grey clay and a ring of fig trunks so close-set they read as a wall.",
         "palette": "Warm grey clay, fig-bark brown. After dark there is no colour at all.",
         "materials": "One reed hut and a withy fence around the wallow; the wallow itself is worked ground and nothing else.",
         "signatureFeature": "The hollow's shape kills the marsh noise. The sound drops away within six paces of the lip.",
@@ -3064,7 +3064,7 @@
         "siteAdvantages": "A firm hummock at the marsh's western limit, with the tree already ancient when the village came.",
         "occupantsMotive": "They stay because the tree is here. Being westernmost makes them the province's edge.",
         "pressures": "Gideon's disputed cutting came from this tree. Fenmarch's opinion of that is unprintable.",
-        "wouldChangeIf": "Would not move. A Hist village is the one Argonian settlement that does not relocate."
+        "wouldChangeIf": "Would not move. Hist villages do not relocate."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4065,7 +4065,7 @@
           "service-hub"
         ],
         "impact": "major",
-        "hook": "A toll company in Legion colours holds the Empire's last fort on the only land road in. They decide whether you pass.",
+        "hook": "A toll company in Legion colours holds the Empire's last fort on the land road in. They decide whether you pass.",
         "reviewed": true
       },
       "interior": {
@@ -4349,7 +4349,7 @@
           "social-drama"
         ],
         "impact": "province-changing",
-        "hook": "The frontier city. There are courts, markets, and a magistracy that will hire you.",
+        "hook": "The frontier city. There are courts, markets and a magistracy that will hire you.",
         "reviewed": true
       },
       "interior": {
@@ -4519,7 +4519,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "Out of season: a red-daubed post in a clay bank, a flattened waiting circle, and a low root-hung mouth in the bank behind it.",
+        "silhouette": "Out of season: a red-daubed post in a clay bank, a flattened waiting circle and a low root-hung mouth in the bank behind it.",
         "palette": "Wet red clay, worm-translucent pink, wintertide grey sky.",
         "materials": "Daubed marks, mats and a rope rail against a bank of packed clay and old root. Nothing here could not be abandoned in an hour.",
         "signatureFeature": "The tally post, red-daubed once per arrival for as long as anyone has counted.",
@@ -4963,7 +4963,7 @@
         "siteAdvantages": "The only firm ground within bowshot of the castle's landward face. Whoever cut the lines had no choice about where.",
         "occupantsMotive": "Nothing occupies the lines but scrub and, in the dry months, a herd that shelters in the ditches.",
         "pressures": "The fringe's farmers have quarried the banks for road metal for two centuries and the profile is going. Gideon's records court has an opinion about this, but no means of enforcing it.",
-        "wouldChangeIf": "Would be a field within a lifetime at the current rate of quarrying, leaving the archive as the only evidence of the siege."
+        "wouldChangeIf": "Would be a field within a lifetime at the current rate of quarrying, leaving nothing but the archive to say there was a siege."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5303,10 +5303,10 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A single stone-arched bridge, a market square, and a half-eaten pyramid on the skyline above the roofs.",
+        "silhouette": "A single stone-arched bridge, a market square and a half-eaten pyramid on the skyline above the roofs.",
         "palette": "Warm ochre thatch, pale ruin stone, black Nisswo cloth.",
         "materials": "Local mud-and-wattle houses and one honest Imperial-built bridge. Stone only where the dead built it.",
-        "signatureFeature": "The wager board in the square takes bets on which block falls next, and by when.",
+        "signatureFeature": "The wager board in the square takes bets on which block falls next and by when.",
         "condition": "Prosperous and well-swept, all of it dependent on a building falling down.",
         "mood": "Devout and cheerful. Visitors take a day to notice the morbid part.",
         "approach": "The road drops into the glen; you hear the market before you see the ruin above it.",
@@ -5989,7 +5989,7 @@
         "siteAdvantages": "Dry rock at a constant temperature, on a face nothing can approach without climbing.",
         "occupantsMotive": "They net the fish the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
         "pressures": "The galleries are reached by ladder and rope. Every year somebody falls. The village argues about cutting a stair, which would also let others up.",
-        "wouldChangeIf": "Would become an ordinary river village the day the stair was cut. So it is never cut."
+        "wouldChangeIf": "Would become an ordinary river village the day the stair was cut."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6422,7 +6422,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A dry rise in the flood plain will always be built on, because for four months a year it is the only ground there is.",
+        "founding": "A dry rise in the flood plain will always be built on, because for four months a year there is no other ground.",
         "siteAdvantages": "A flood-high knoll that has never gone under in recorded memory, with landing on three sides in the wet.",
         "occupantsMotive": "In the wet season these households are the flood plain's landlords. In the dry they are its equals.",
         "pressures": "The rise is small and there is no room to grow. The third generation is having to leave.",
@@ -6661,7 +6661,7 @@
       "why": {
         "founding": "The Onkobra's narrowest reach near the city was bridged in stone. Whoever holds a bridge in this province holds an income.",
         "siteAdvantages": "A rock nose on each bank, the only place a stone arch could land without piling.",
-        "occupantsMotive": "Gideon's council farms the toll out annually to the highest bidder. The rate moves every year and the bidders are unpopular.",
+        "occupantsMotive": "Gideon's council farms the toll out annually to the highest bidder. The rate moves every year.",
         "pressures": "The arch is hollow. The last farmer never filled the repair void. The current one knows it.",
         "wouldChangeIf": "Would be bypassed by the ford upstream if the toll ever rose above the price of wet feet."
       },
@@ -6741,7 +6741,7 @@
         "silhouette": "One high stone arch over green water with a toll house built into the parapet.",
         "palette": "Wet grey stone, black water, the toll board's flaking white.",
         "materials": "Imperial voussoirs and a bridge house of the same stone with a reed roof.",
-        "signatureFeature": "The rate board, rewritten every year in a different hand and never fully erased.",
+        "signatureFeature": "The rate board, rewritten every year in a different hand over the last one.",
         "condition": "Sound above, visibly failing at the springing on the east side.",
         "mood": "Petty and unbothered.",
         "approach": "The road runs at it straight; the toll house is under the parapet so you see the board before the man.",
@@ -6992,7 +6992,7 @@
         "signatureFeature": "One culled predator's skull per year along the eaves, oldest at the far end.",
         "condition": "Well kept, heavily used. It smells of dogs.",
         "mood": "Territorial. The keeper finds most visitors funny.",
-        "approach": "The skull line reads from the water at fifty metres and is meant to.",
+        "approach": "The skull line reads from the water at fifty metres.",
         "senses": "Dogs; the river; a hide being scraped."
       },
       "assetPlan": [
@@ -7236,10 +7236,10 @@
         "silhouette": "A great fig with a spiral of eight timber platforms up it and a crow's nest above the leaf line. From a distance it is a tree wearing a staircase.",
         "palette": "Green-black canopy, pale new lashings on old grey timber, one lamp at the top after dark.",
         "materials": "Lashed timber and withy, no nails, every platform tied rather than fixed so the tree can move.",
-        "signatureFeature": "The top platform breaks the canopy. It is the one place in twenty kilometres where you can see the province rather than a wall of leaves.",
+        "signatureFeature": "The top platform breaks the canopy. From it you see the province rather than a wall of leaves.",
         "condition": "Continuously repaired from the top down; the lower ladders are the ones to worry about.",
         "mood": "Practical below. Nothing but sky above.",
-        "approach": "Invisible from any distance, then suddenly directly above you; the lamp is what people navigate to at night.",
+        "approach": "Invisible from any distance, then suddenly directly above you; the lamp is what people steer for at night.",
         "senses": "Creak and sway; canopy insects loud below and wind alone above; a bell the lookout rings for open lanes."
       },
       "assetPlan": [
@@ -7473,7 +7473,7 @@
         "materials": "Lashed logs and plank decking on driven piles, reed matting, hand ropes on the disputed segment only.",
         "signatureFeature": "Each village sets its totem at its own boundary, six carvings in all.",
         "condition": "Sound for most of its length. One stretch has lost piles and drops you to the knee.",
-        "mood": "Slow going, and wet from the ankle down for a kilometre.",
+        "mood": "Slow going. Wet from the ankle down for a kilometre.",
         "approach": "It goes flat to the horizon; you cannot see the end from either end.",
         "senses": "Water an inch below the planks; a bird colony half a kilometre off; nothing else."
       },
@@ -8139,7 +8139,7 @@
         "materials": "Lashed timber platforms moored to driven piles, reed houses, plank walkways that are untied and relaid whenever a household falls out with its neighbour.",
         "signatureFeature": "The platforms are moored in a spiral. The order is social, with the oldest household at the centre.",
         "condition": "Rebuilt continuously; no platform is more than fifteen years old.",
-        "mood": "Gossipy, and closer to its neighbours than any of them would choose.",
+        "mood": "Gossipy. Closer to its neighbours than any of them would choose.",
         "approach": "From the shore it is a low line of roofs on water with no land under it.",
         "senses": "Water under everything; timber knocking against piles; conversation that carries across the whole village."
       },
@@ -8301,7 +8301,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A Nibenese surveyor called Marcian took a grant of upland shelf nobody wanted, because it was the only ground in the fringe where an Imperial crop would grow. Two centuries later the village is Argonian and still called after him.",
+        "founding": "A Nibenese surveyor called Marcian took a grant of upland shelf nobody wanted, because it was the only ground in the fringe where an Imperial crop would grow. Two centuries later the village is Argonian, but it is still called after him.",
         "siteAdvantages": "Above the fever line and above the flood. The water is clean and the nights are cold enough to keep grain.",
         "occupantsMotive": "Terrace farmers who can sell dry grain into a province that mostly cannot grow any, at a price that justifies carrying it down a mountain.",
         "pressures": "Everything has to be carried up. In the dry months the shelf has only the water it stores. Gideon's assessors tax upland grain as a luxury.",
@@ -8552,7 +8552,7 @@
       "why": {
         "founding": "A Legion road-house built one march west of Gideon, kept open because the road still needs a place to stop before the gate closes at dusk.",
         "siteAdvantages": "The last firm, drained ground before the road drops to the flood plain; a walled yard big enough for six carts.",
-        "occupantsMotive": "The keeper holds an inherited road-warrant nobody has renewed since the Legions left, and produces it unprompted.",
+        "occupantsMotive": "The keeper holds an inherited road-warrant nobody has renewed since the Legions left. He produces it unprompted.",
         "pressures": "Fort Swampmoth's toll-takers stop here too. The keeper cannot refuse them.",
         "wouldChangeIf": "Would close the first year the road did not carry carts."
       },
@@ -8630,7 +8630,7 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A long low tiled range with a walled yard, the only straight lines on the ridge.",
+        "silhouette": "A long low tiled range with a walled yard. Nothing else on the ridge is square.",
         "palette": "Legion red on a repainted door, lichen grey, cart-track ochre.",
         "materials": "Imperial farmhouse masonry with a reed-thatched cart shelter added.",
         "signatureFeature": "The milestone in the yard is still legible. It counts to a city in another province.",
@@ -8869,7 +8869,7 @@
         "condition": "Empty, worn only where the lanes run.",
         "mood": "Off-season, eerie and expectant. In season, the loudest place in the fringe.",
         "approach": "You come over a low rise and the flat opens out in front of you.",
-        "senses": "Off-season: wind and nothing. In season: three kinds of drum, frying oil, and a bell rung at moonrise."
+        "senses": "Off-season: wind and nothing. In season: three kinds of drum, frying oil and a bell rung at moonrise."
       },
       "assetPlan": [
         "market-tents",
@@ -8882,7 +8882,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a festival the player can arrive at, be late for, or ruin · a seasonal town that exists twice in the game's calendar and not otherwise",
+        "opportunity": "a festival to arrive at, be late for, or ruin · a seasonal town that stands for one month a year and not otherwise",
         "tierOwnership": "tier-3 dressing"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -9255,7 +9255,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A stage grew where the road crosses the flood plain on a nine-arched viaduct, because the crossing takes longer than the daylight left.",
-        "siteAdvantages": "The viaduct's dry undercroft is the only rain-proof shelter for two hours in either direction.",
+        "siteAdvantages": "The viaduct's dry undercroft keeps the rain off. There is no other cover for two hours in either direction.",
         "occupantsMotive": "The family here sells fuel and fodder and charges for the undercroft, which they do not own.",
         "pressures": "Four arches have silted solid, so the flood now goes over the road rather than under it twice a decade.",
         "wouldChangeIf": "Would be abandoned if the viaduct failed. It will."
@@ -9416,7 +9416,7 @@
           "navigation-aid"
         ],
         "impact": "mild",
-        "hook": "The only rain-proof stop for two hours either way. A fire under the arches, and a cart out at dawn.",
+        "hook": "The only rain-proof stop for two hours either way. A fire under the arches and a cart out at dawn.",
         "reviewed": true
       },
       "interior": {
@@ -9472,7 +9472,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Nine families of wheelwrights settled here to rebuild carts broken by the road's stone surface. The road stopped being paved before it was finished.",
-        "siteAdvantages": "Halfway between fort and marsh edge, the one stretch of road wide enough for a gate to actually stop traffic.",
+        "siteAdvantages": "Halfway between fort and marsh edge, on a widened length of the Gideon–Soulrest road where a gate can stop a cart without blocking the ditch.",
         "occupantsMotive": "A toll gang holds the workshops now and charges for a road that was never finished.",
         "pressures": "Fewer carts come through each season, so the toll on each one climbs.",
         "wouldChangeIf": "Would empty the day the road trade dried up entirely."
@@ -9971,7 +9971,7 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A red gash in a green bank, a field of pots drying in ranks, and a squat stone furnace under a soot-blacked hood.",
+        "silhouette": "A red gash in a green bank, a field of pots drying in ranks and a squat stone furnace under a soot-blacked hood.",
         "palette": "Signal red, dust pink, furnace-soot black, river brown.",
         "materials": "Raw clay, fired clay, reed drying racks, stacked fuel and a stone furnace the Imperials paid for.",
         "signatureFeature": "The seconds wall, two centuries of failed pots pressed into the flood bank as revetment.",
@@ -10458,7 +10458,7 @@
       },
       "vibe": {
         "silhouette": "One long shuttered building on stilts with a jetty. From the water the rack of drying frames reads as a fence made of paper.",
-        "palette": "Whitewash going green at the base, brown river, and the yellow of lamp-light through a hundred glass jars after dark.",
+        "palette": "Whitewash going green at the base, brown river and the yellow of lamp-light through a hundred glass jars after dark.",
         "materials": "Imperial plank-and-shutter construction, standing on Argonian stilts.",
         "signatureFeature": "An entire interior wall of specimens in river-water, labelled in two hands. One of the hands stopped four years ago.",
         "condition": "Sound but shabby; the repairs are all local work on an Imperial frame.",
@@ -11085,7 +11085,7 @@
           "quest.provision.dq08-anchor"
         ],
         "tags": [],
-        "opportunity": "a ruin that must be navigated by touch and sound rather than sight — the province's one blind-architecture dungeon · an Orma script only reachable by rubbing, not reading",
+        "opportunity": "a ruin read by touch and sound rather than sight — the province's one blind-architecture dungeon · an Orma script only reachable by rubbing, not reading",
         "tierOwnership": "DQ08 · tier-3; LF09 · tier-3"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -11125,9 +11125,9 @@
       ],
       "confidence": "high",
       "why": {
-        "founding": "The Orma were native to Black Marsh and gone by the end of the Third Era. They built for people with no eyes, and this is the only Orma work in the province substantial enough to still be read by hand.",
+        "founding": "The Orma were native to Black Marsh and gone by the end of the Third Era. They built for people with no eyes. No other Orma work in the province is substantial enough to still be read by hand.",
         "siteAdvantages": "A dry box canyon in the western hills, enclosed and acoustically legible. For its builders that was the whole specification.",
-        "occupantsMotive": "Nobody. A scholars' camp outside has been at it for two seasons and is measuring the wrong things.",
+        "occupantsMotive": "Nobody. A scholars' camp outside has been at it for two seasons.",
         "pressures": "Every visitor brings a lamp. The lamp is what stops the building working.",
         "wouldChangeIf": "Would give up its inner chamber to anyone who put the light out and followed the ridges by hand."
       },
@@ -11169,7 +11169,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A doorway in a canyon wall with no lintel carving, no window anywhere above it, and two ridges running away into the dark.",
+        "silhouette": "A doorway in a canyon wall with no lintel carving, no window anywhere above it and two ridges running away into the dark.",
         "palette": "Unrelieved dark; dry pale stone at the mouth and nothing after it.",
         "materials": "Dressed stone with continuous guide-ridges at hand height, texture where a ruin would have ornament.",
         "signatureFeature": "A navigation system that still works in total darkness.",
@@ -11792,7 +11792,7 @@
       "why": {
         "founding": "A village-built timber bridge on the reed road, decked low on driven piles and tolled in reed bundles rather than coin.",
         "siteAdvantages": "A slow, shallow reach where the bottom will take a pile and the crossing can be built by hand.",
-        "occupantsMotive": "The cutters maintain it themselves and take their toll in the one thing they need and cannot carry far.",
+        "occupantsMotive": "The cutters maintain it themselves. The toll is paid in cut reed, which they need and cannot carry far.",
         "pressures": "Coin-payers are charged more. Foreigners think this is a joke.",
         "wouldChangeIf": "Would be pulled apart and carried off in a night if a tax-taker ever tried to farm it."
       },
@@ -12091,7 +12091,7 @@
         "valueTier": "tier-1"
       },
       "vibe": {
-        "silhouette": "A drystone wind shelter the height of a crouching person, and a cairn with cloth tied to it.",
+        "silhouette": "A drystone wind shelter the height of a crouching person, with a cairn beside it and cloth tied to the cairn.",
         "palette": "Rock grey, cloth faded to no colour, sky.",
         "materials": "Dry stone and knotted cloth. Nothing else is carried up here.",
         "signatureFeature": "Each runner ties one knot passing through, so the cairn cloth reads as a tally.",
@@ -12255,9 +12255,9 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "A Sul-Xan holding in the Blackwood, staging raids that take souls rather than goods.",
-        "siteAdvantages": "Screened by jungle on three sides, one ravine path in, and a stream that hides the noise of a camp.",
+        "siteAdvantages": "Screened by jungle on three sides, one ravine path in and a stream that hides the noise of a camp.",
         "occupantsMotive": "The Sul-Xan raid to feed soul-snares; the site persists because it has never been found twice by the same people.",
-        "pressures": "Stonewastes' Four Winds hunt them. The Empire's old bounty on jade masks is still quoted in Gideon. The Ca-Uxith are charged by their Hist with watching the xanmeer, and their stone-talkers hold the ruins against the geyser field beneath it.",
+        "pressures": "Stonewastes' Four Winds hunt them. The Empire's old bounty on jade masks is still quoted in Gideon. The Ca-Uxith are charged by their Hist with watching the xanmeer; their stone-talkers hold the ruins against the geyser field beneath it.",
         "wouldChangeIf": "Would move within a season of a serious defeat. The camp is its people."
       },
       "sitingPrefs": {
@@ -12740,9 +12740,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Niben crystal workings made two men rich a generation ago, and every year since, someone Nibenese has arrived on the fringe convinced the seam runs east; this is the current one, with a claim mark, a sample pile and about eleven weeks of food.",
+        "founding": "The Niben crystal workings made two men rich a generation ago. Every year since, someone Nibenese has arrived on the fringe convinced the seam runs east. This is the current one, with a claim mark, a sample pile and about eleven weeks of food.",
         "siteAdvantages": "A scree slope where the country rock is exposed without digging, close enough to the road that a mule can reach it.",
-        "occupantsMotive": "Sabinus believes the seam is here. His two hired locals believe he will pay them and are correct for about another month.",
+        "occupantsMotive": "Sabinus believes the seam is here. His two hired locals believe he will pay them. He has four weeks' coin left.",
         "pressures": "The sample pile is getting bigger, the food smaller. Both are visible from the path.",
         "wouldChangeIf": "Will be an abandoned camp within a season. Either he was wrong, or being right brings a hundred people and a licence."
       },
@@ -12815,13 +12815,13 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "Two tents, a spoil heap taller than either of them, and a peeled stake with a claim mark cut into it.",
-        "palette": "Scree grey-white, canvas gone brown, and the surprisingly bright fresh-cut wood of the claim stake.",
+        "silhouette": "Two tents, a spoil heap taller than either of them and a peeled stake with a claim mark cut into it.",
+        "palette": "Scree grey-white, canvas gone brown and the surprisingly bright fresh-cut wood of the claim stake.",
         "materials": "Imperial canvas and imported tools among local scree. Nothing here is built, everything is deposited.",
         "signatureFeature": "The sample pile, sorted into rows by day. You can walk along the last eleven weeks.",
         "condition": "Getting worse in a way that is measurable from outside.",
         "mood": "Obstinate. One bad week from over.",
-        "approach": "The spoil heap reads first, and it reads as far more work than two men should have done.",
+        "approach": "The spoil heap reads first. It is far more work than two men should have done.",
         "senses": "A hammer on rock at a stubborn unvarying rhythm; cold wind; nothing cooking."
       },
       "assetPlan": [
@@ -13514,7 +13514,7 @@
       },
       "vibe": {
         "silhouette": "Two hundred stone mounds on an open hillside, a third of them opened and spilled downhill.",
-        "palette": "Grey stone, pale grass, and glints of blue-green glass in the spoil.",
+        "palette": "Grey stone, pale grass and glints of blue-green glass in the spoil.",
         "materials": "Dry-stacked local stone; the glass beads are the only worked thing here.",
         "signatureFeature": "The opened cairns have spilled their stones downslope in fans. From a distance the hillside reads as damage.",
         "condition": "Two thirds intact, one third robbed and never reclosed.",
@@ -14660,7 +14660,7 @@
       "why": {
         "founding": "A garrison feeds, drinks and buys, so a town grows below its gate whether or not the garrison is legitimate.",
         "siteAdvantages": "The apron of firm ground below the fort's wall, inside the arc it can protect.",
-        "occupantsMotive": "The town lives off the toll company and is embarrassed about it in public.",
+        "occupantsMotive": "The town lives off the toll company. In public it says otherwise.",
         "pressures": "If the tolls fail, the town starves. It has chosen the tolls.",
         "wouldChangeIf": "Would survive as a road village at a third the size, which is what it was before."
       },
@@ -14766,7 +14766,7 @@
           "quest.provision.canon.fort-swampmoth"
         ],
         "tags": [],
-        "opportunity": "the garrison town: Imperial military process at arm's length from Gideon's courts · a supply contract worth corrupting, and the quartermaster who lets it be · billeting: somewhere a fugitive can be legally, uncomfortably, safe",
+        "opportunity": "the garrison town: Imperial military process at arm's length from Gideon's courts · a supply contract worth corrupting and the quartermaster who lets it be · billeting: somewhere a fugitive can be legally, uncomfortably, safe",
         "tierOwnership": "FG05 · tier-2; LF62 · tier-3; LF63 · tier-3; LF64 · tier-3; LF65 · tier-3; LF66 · tier-3; LF67 · tier-3; LF68 · tier-3; LF69 · tier-3; LF70 · tier-3"
       },
       "rumourPoolKey": "rumour.blackwood-road",
@@ -14987,9 +14987,9 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A rope line across a field gate, a fire behind it, and a table with a writ weighted down on it.",
+        "silhouette": "A rope line across a field gate, a fire behind it and a table with a writ weighted down on it.",
         "palette": "Rice green, rope hemp, one red seal.",
-        "materials": "Borrowed canvas, a borrowed table, and one very good lock.",
+        "materials": "Borrowed canvas, a borrowed table and one very good lock.",
         "signatureFeature": "The writ on the table in a case, produced to anyone who asks.",
         "condition": "Temporary and in no hurry to end.",
         "mood": "Legal and patient. Hated from three directions.",
@@ -15067,7 +15067,7 @@
         ],
         "impact": "real",
         "reviewed": true,
-        "hook": "A rope across a field gate, a writ on a table, and men paid by the day to keep a family off their own rice."
+        "hook": "A rope across a field gate, a writ on a table and men paid by the day to keep a family off their own rice."
       },
       "interior": {
         "kind": "none"
@@ -15101,7 +15101,7 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-3",
-            "provenance": "the writ, and the second writ underneath it"
+            "provenance": "the writ and the second writ underneath it"
           }
         ]
       },
@@ -15399,7 +15399,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "Nisswo doctrine holds that a made thing must be unmade, and pilgrims on the sermon road need somewhere to do it.",
+        "founding": "Nisswo doctrine holds that a made thing must be unmade. Pilgrims on the sermon road need somewhere to do it.",
         "siteAdvantages": "A gravel spit in a river bend, a flat working floor that the flood clears entirely every year.",
         "occupantsMotive": "Pilgrims make something here and destroy it; the site's whole content is what has not been destroyed yet.",
         "pressures": "Collectors have started stealing pieces before they can be unmade.",
@@ -15718,7 +15718,7 @@
       "vibe": {
         "silhouette": "A low stone shed in a nettle field, light leaking under one door, no smoke.",
         "palette": "Soot black, ember orange, nettle green.",
-        "materials": "Stone walls, a cold furnace and its hood, reed baffles over the flue, and vats set out on the old firing floor.",
+        "materials": "Stone walls, a cold furnace and its hood, reed baffles over the flue and vats set out on the old firing floor.",
         "signatureFeature": "The firing floor is now a ring of covered vats, each one somebody's job to stir.",
         "condition": "Structurally fine. Left looking derelict from outside on purpose.",
         "mood": "Close, hot and sour with daril.",
@@ -15983,7 +15983,7 @@
       },
       "vibe": {
         "silhouette": "Black water in a stone bowl, absolutely still, with a pale drinking step at the one outlet.",
-        "palette": "Black, stone grey, and one white line of outflow.",
+        "palette": "Black, stone grey and one white line of outflow.",
         "materials": "Nothing built but the drinking step, worn hollow, at a careful distance from the water.",
         "signatureFeature": "The drinking step is cut at the outlet, well back from the tarn itself.",
         "condition": "Nothing here has changed.",
@@ -16393,7 +16393,7 @@
       "why": {
         "founding": "When the Legion was recalled, not every man on the border road went with it. This lot were never paid off.",
         "siteAdvantages": "A blind bend on the road with cover on the uphill side and a ravine to fall back into.",
-        "occupantsMotive": "They still keep watches, still wear the colours, and still call what they take a levy.",
+        "occupantsMotive": "They still keep watches and still wear the colours. What they take, they call a levy.",
         "pressures": "Gideon's council will not pay to clear them. The toll company would rather use them.",
         "wouldChangeIf": "Would disband inside a season if anyone offered them a pardon and a wage."
       },
@@ -16463,7 +16463,7 @@
       "vibe": {
         "silhouette": "Four Legion tents pitched in a line, dressed, on ground nobody would choose for a camp.",
         "palette": "Faded Imperial red gone brown, dull steel, churned mud.",
-        "materials": "Issue canvas, issue tools, and a palisade of cut fig poles.",
+        "materials": "Issue canvas, issue tools and a palisade of cut fig poles.",
         "signatureFeature": "The duty roster nailed to a tree, kept up to date in a clerk's hand.",
         "condition": "Militarily tidy, but starving.",
         "mood": "Disciplined and humiliated.",
@@ -16706,7 +16706,7 @@
       "vibe": {
         "silhouette": "A sand bank under three trees, with one tree carved at head height in a mark that means nothing to foreigners.",
         "palette": "Sand pale, bark grey, leaf shadow.",
-        "materials": "Nothing built. The cache is bundled hide and pitch, and the marker is a carving.",
+        "materials": "Nothing built. The cache is bundled hide and pitch. The marker is a carving.",
         "signatureFeature": "The carving is a Jel word for 'enough'.",
         "condition": "Undisturbed; the pitch has held.",
         "mood": "Ordinary. It is a sand bank under three trees until somebody tells you.",
@@ -16856,7 +16856,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Somebody in the west still works iron, because the road runs on iron tyres and nobody else will touch it.",
+        "founding": "Somebody in the west still works iron. The road runs on iron tyres. His neighbours count metalwork a moral error.",
         "siteAdvantages": "Beside the bog-iron workings and downwind of everything, because the neighbours insisted.",
         "occupantsMotive": "The smith is Imperial-trained and Argonian-born. Neither account of him is welcome.",
         "pressures": "Working metal is a moral error to most of his neighbours, but they still bring him their tyres.",
@@ -17019,7 +17019,7 @@
           "resource-source"
         ],
         "impact": "mild",
-        "hook": "The only smith in the west who will touch bog iron. He will mend a tyre or a blade, and tell you what he thinks of your gear.",
+        "hook": "The only smith in the west who will touch bog iron. He will mend a tyre or a blade and tell you what he thinks of your gear.",
         "reviewed": true
       },
       "interior": {
@@ -17090,7 +17090,7 @@
       "why": {
         "founding": "A cold spring feeds one arm of the lake. Whatever lives in it lights when it is disturbed.",
         "siteAdvantages": "A dead-end arm with no current, where the bloom is never flushed out.",
-        "occupantsMotive": "Nobody owns it. The raft village navigates by the bloom but will not put a hand in the water after dark.",
+        "occupantsMotive": "Nobody owns it. The raft village steers by the bloom but will not put a hand in the water after dark.",
         "pressures": "It is dimmer than it was. The village argues about whether that is the spring or the lake.",
         "wouldChangeIf": "Would cost the raft village its night navigation if it failed."
       },
@@ -17165,7 +17165,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "Black water that lights blue-green where a paddle touches it, and stays lit for a few seconds behind you.",
+        "silhouette": "Black water that lights blue-green where a paddle touches it. The glow stays behind you for a few seconds.",
         "palette": "Black and one blue-green. Nothing else after dark.",
         "materials": "Nothing built; there is a single pole at the arm's mouth to find it by.",
         "signatureFeature": "Your own wake, glowing, marking exactly where you have been.",
@@ -17393,11 +17393,11 @@
       "vibe": {
         "silhouette": "Waist-high stones every hundred paces along a contour, running out of sight in both directions.",
         "palette": "Lichen orange on grey, grass, nothing else.",
-        "materials": "Undressed local stone, set upright and never dressed.",
+        "materials": "Local stone, undressed, set upright.",
         "signatureFeature": "Two stones set closer together where a path crosses, with a rubbed hollow between them.",
         "condition": "Weathered, several fallen, one recently re-erected by somebody.",
         "mood": "Sober. It goes on for as long as you walk it.",
-        "approach": "You cross it without noticing and then see the next stone, and the next.",
+        "approach": "You cross it without noticing and then see the next stone. Then the next.",
         "senses": "Wind; grass; your own footsteps for a long time."
       },
       "assetPlan": [
@@ -17537,7 +17537,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The Flu killed faster than the dead could be carried home, so the western road villages made one ground and counted into it.",
-        "siteAdvantages": "Beside the road, so that anyone carrying bones west has somewhere to stop before the last stage. The ground was cut, not dug, and the earliest counts are kept in a chamber under it that nobody has swept in a century.",
+        "siteAdvantages": "A day's carry from the marsh edge, beside the road, so that anyone carrying bones west has somewhere to stop before the last stage. The ground was cut rather than dug. The earliest counts are kept in a chamber under it that nobody has swept in a century.",
         "occupantsMotive": "A bone-carrier's office is hereditary here; the current holder keeps the count in her head, in her ledger and in the number of poles driven.",
         "pressures": "The count is still rising, because Owing deaths and burn-country deaths are added to it.",
         "wouldChangeIf": "Would close if a court ever ruled that the road's dead had somewhere else to go."
@@ -17806,7 +17806,7 @@
         "founding": "A second grant, worked by a family who ploughed the way they had at home and drained nothing.",
         "siteAdvantages": "The site was superb for eight months a year and under half a metre of water for four, until a season the water never went back down.",
         "occupantsMotive": "Nothing human lives here now. What moved into the flooded rooms took over a house with sills, doorframes and no drainage of its own.",
-        "pressures": "The roof is the only dry surface left and even that is losing its grip.",
+        "pressures": "The roof is the last dry surface left and even that is losing its grip.",
         "wouldChangeIf": "Would be walkable again only if the channel that flooded it silted shut."
       },
       "sitingPrefs": {
@@ -18120,7 +18120,7 @@
         "condition": "Sturdy and damp.",
         "mood": "Crowded and idle, in the way of people who cannot leave.",
         "approach": "The road runs out into water. The house stands on the last dry metre with its lamps lit.",
-        "senses": "Rain; cards; wet harness steaming by the fire."
+        "senses": "Rain; cards; wet tack steaming by the fire."
       },
       "assetPlan": [
         "vanilla-farmhouse",
@@ -18506,7 +18506,7 @@
         "siteAdvantages": "A confined reach with rock ledges. The drop is what stops the boats.",
         "occupantsMotive": "Nobody lives in it; the portage families live above and below it and both claim the whole.",
         "pressures": "Someone runs it every year on a bet and roughly every third one dies.",
-        "wouldChangeIf": "Would be passable if anyone cut a proper portage path. That is a season's work and nobody funds it."
+        "wouldChangeIf": "Would be passable if anyone cut a proper portage path. That is a season's work. Nobody has funded it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -18574,8 +18574,8 @@
       },
       "vibe": {
         "silhouette": "Eight white steps in a green-black river between rock walls, with a worn path scrambling beside them.",
-        "palette": "White, black rock, and a green so dark it reads as black in shade.",
-        "materials": "Nothing built but the portage path, and driven poles and a cairn at the worst step.",
+        "palette": "White, black rock and a green so dark it reads as black in shade.",
+        "materials": "Nothing built but the portage path, driven poles and a cairn at the worst step.",
         "signatureFeature": "The fourth step, which is the one that kills, marked by driven poles on both banks and a cairn above the eddy.",
         "condition": "The path is eroding; the poles are renewed.",
         "mood": "Loud and cold.",
@@ -18668,7 +18668,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Eight rock ledges in a kilometre of river. Boats stop, cargo walks, and the portage crews price your hurry.",
+        "hook": "Eight rock ledges in a kilometre of river. Boats stop, cargo walks and the portage crews price your hurry.",
         "reviewed": true
       },
       "interior": {
@@ -18826,7 +18826,7 @@
         "signatureFeature": "Deep water on the upstream face and dry cracked mud on the downstream, along its whole length.",
         "condition": "Abandoned mid-build; the last two hundred metres are only staked out.",
         "mood": "Bleak. The villages downstream still tell it as a joke.",
-        "approach": "It reads as a horizon line from anywhere on the plain and never resolves into anything.",
+        "approach": "It reads as a horizon line from anywhere on the plain, but it never resolves into anything.",
         "senses": "Wind over grass; the flat slap of water on one side only."
       },
       "assetPlan": [
@@ -19058,7 +19058,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A walled yard with a sound roof, a landing with two rotted piles, and a door standing open.",
+        "silhouette": "A walled yard with a sound roof, a landing with two rotted piles and a door standing open.",
         "palette": "Weathered timber, yard-weed green, the clean stone of a well head that still works.",
         "materials": "Argonian stilt-and-mud on a stone footing, well founded and empty.",
         "signatureFeature": "Nobody has closed the door in four years, because closing it would be a claim.",
@@ -19423,7 +19423,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Gideon buys hide and meat and does not ask which side of the village boundaries it came from.",
+        "founding": "Gideon buys hide and meat without asking which side of a village boundary it came from.",
         "siteAdvantages": "A dense fig thicket in a ravine head. No sightlines in, water to hand, three ways out.",
         "occupantsMotive": "The poachers are village men working a second season's income. They would be recognised in daylight.",
         "pressures": "The village whose ground they work has begun setting its own watch. There will be a confrontation.",
@@ -19822,7 +19822,7 @@
           "unique-item"
         ],
         "impact": "major",
-        "hook": "The Argonians went through the gate rather than away from it, and what came back out is still on this flat.",
+        "hook": "The Argonians went through the gate rather than away from it. What came back out is still on this flat.",
         "reviewed": true
       },
       "interior": {
@@ -19965,7 +19965,7 @@
       },
       "vibe": {
         "silhouette": "A cliff face streaked white for eighty metres, with birds turning above it all day.",
-        "palette": "Guano white on red-grey rock, and a constantly moving mass of dark wings.",
+        "palette": "Guano white on red-grey rock. Above it, a constantly moving mass of dark wings.",
         "materials": "Nothing built; there is one old rope anchor from someone who once took eggs.",
         "signatureFeature": "The white streaking, renewed every season.",
         "condition": "Unchanging.",
@@ -20201,7 +20201,7 @@
       },
       "vibe": {
         "silhouette": "A low turf-roofed building in a hollow, with a horn on a post at the saddle's crest above it.",
-        "palette": "Turf green on the roof, stone grey, and above the crest, cloud most days.",
+        "palette": "Turf green on the roof, stone grey. Above the crest, cloud most days.",
         "materials": "Dry stone with a turf roof, so from above it is invisible and from below it is a green lump.",
         "signatureFeature": "The horn on the post at the crest, sounded when weather comes over.",
         "condition": "Thick-walled, sound, buried in its own hollow.",
@@ -20365,7 +20365,7 @@
       "why": {
         "founding": "The province has almost no rock, so its caves are root galleries. The fringe's fig-root mats make the westernmost of them.",
         "siteAdvantages": "Where the root layer runs over a drained hollow, the roots hold a roof and the ground beneath has gone.",
-        "occupantsMotive": "Nothing keeps it; the poachers below use its mouth and will not go past the second chamber.",
+        "occupantsMotive": "Nothing keeps it. The poachers below use its mouth and stop at the second chamber.",
         "pressures": "The roots are alive and moving, on a timescale of years, so the gallery's shape changes.",
         "wouldChangeIf": "Would close on itself in a decade if the figs above it were felled."
       },
@@ -21530,7 +21530,7 @@
       "why": {
         "founding": "Somebody has to stand where the province ends. After the Empire left, the Argonians kept doing it.",
         "siteAdvantages": "The narrowest point of the road cut, with rock either side. A gate that needs almost no wall.",
-        "occupantsMotive": "The keepers are villagers under a rota, and they check for disease and for slavers, in that order.",
+        "occupantsMotive": "The keepers are villagers under a rota. They check for disease and for slavers, in that order.",
         "pressures": "Cyrodiil's side is unmanned. The keepers find that insulting.",
         "wouldChangeIf": "Would become a real frontier if anything on the other side ever came back."
       },
@@ -22008,7 +22008,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "There is exactly one legal crossing into Cyrodiil, so every other crossing is on the rim. None of them are level.",
-        "siteAdvantages": "A cliff bench with a ravine below and a saddle above, and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other the same way.",
+        "siteAdvantages": "A cliff bench with a ravine below, a saddle above and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other the same way.",
         "occupantsMotive": "The carriers here are village men from both sides who have worked the same ledge for generations.",
         "pressures": "Fort Swampmoth's company has begun pricing the legal road so high that the ledge is now busier than it is.",
         "wouldChangeIf": "Would be abandoned if the tolls ever dropped."
@@ -22083,7 +22083,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A ledge with a rope bollard pegged into the rock, a hide-covered cache against the face, and a dark mouth behind it.",
+        "silhouette": "A ledge with a rope bollard pegged into the rock, a hide-covered cache against the face and a dark mouth behind it.",
         "palette": "Rock grey, rope brown, deep ravine shadow, one strip of sky.",
         "materials": "Pegged bollards, rope, hide covers and a plank stage over the drop. Every fixing is driven into a crack, because nothing else survives here.",
         "signatureFeature": "A tally of scratched marks beside the bollard, one per load, generations deep. The oldest are nearly worn away.",
@@ -22188,7 +22188,7 @@
           "traversal-puzzle"
         ],
         "impact": "real",
-        "hook": "The illegal crossing: goods are lowered to a cliff bench above a ravine, tallied into the cave behind it, and lifted out on the other side.",
+        "hook": "The illegal crossing: goods are lowered to a cliff bench above a ravine, tallied into the cave behind it and lifted out on the other side.",
         "reviewed": true
       },
       "interior": {
@@ -22714,7 +22714,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "Niben-crystal comes out of the Blackwood's hills, and the enchanters' benches of two provinces will buy it.",
+        "founding": "Niben-crystal comes out of the Blackwood's hills. The enchanters' benches of two provinces will buy it.",
         "siteAdvantages": "A ravine wall where the seam is exposed by the water that cut it.",
         "occupantsMotive": "A family works the seam and sells to whichever side pays; they have no politics and say so.",
         "pressures": "The seam runs under the ravine floor, so they work in water. It is killing them.",
@@ -22957,9 +22957,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Some village offices are held by a household rather than a village, and that household lives apart from both.",
+        "founding": "Some village offices are held by a household rather than a village. That household lives apart from both.",
         "siteAdvantages": "Midway between four villages on the only ground none of them claims.",
-        "occupantsMotive": "The holder settles boundary and water disputes for all four, and lives apart so that she can.",
+        "occupantsMotive": "The holder settles boundary and water disputes for all four. She lives apart so that she can.",
         "pressures": "Her heir does not want the office, but no other household will take it.",
         "wouldChangeIf": "Would leave four villages arguing directly with each other, which none of them wants."
       },
@@ -23331,7 +23331,7 @@
           "lore-reveal"
         ],
         "impact": "mild",
-        "hook": "Sap-poachers have taken the old plantation row and the only dry path through the swamp now runs straight past their door.",
+        "hook": "Sap-poachers have taken the old plantation row. The one dry path through the swamp runs straight past their door.",
         "reviewed": true
       },
       "interior": {
@@ -23416,7 +23416,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The upland pass out of the fringe kills people in the wrong month. It is wind-driven rain that does it, with no cover for two hours in either direction. The road authority built a hard shelter at the worst point and then stopped maintaining it.",
-        "siteAdvantages": "The one place on the pass with a rock back and no run-off channel above it; every alternative is a stream bed in a storm.",
+        "siteAdvantages": "It has a rock back and no run-off channel above it. Every alternative on the pass is a stream bed in a storm.",
         "occupantsMotive": "Nobody lives here. It is occupied by whoever is caught out, which in the bad months is several parties at once who would not otherwise share a fire.",
         "pressures": "The door is gone and the fire-store is whatever the last party left. The tradition of leaving fuel holds, but only just.",
         "wouldChangeIf": "Would become a death trap the first winter the fuel tradition broke."
@@ -23492,7 +23492,7 @@
         "palette": "Wet slate, black stone, the orange of a fire in a doorway with no door.",
         "materials": "Imperial road-authority masonry, the only cut-stone building for ten kilometres.",
         "signatureFeature": "The name-book is a slate slab inside where every party scratches its name and hour, going back longer than the shelter has been maintained.",
-        "condition": "Structurally sound, entirely unmaintained; the roof is the only thing anyone repairs.",
+        "condition": "Structurally sound, entirely unmaintained apart from the roof.",
         "mood": "Grim and functional. Companionable when it is full.",
         "approach": "Invisible until the last bend. People still die short of it.",
         "senses": "Wind changing note as you get behind the rock; wet wool; a scratched slate."
@@ -23656,7 +23656,7 @@
         "founding": "Argonians build no prisons, so where the Owing needs to hold someone it uses a pit and calls it waiting.",
         "siteAdvantages": "A dry storage pit at the back of a broker's yard, roofed and grated, invisible from the road.",
         "occupantsMotive": "The brokers hold debtors here for a day or two until the Owing is transferred. It is legal.",
-        "pressures": "Somebody was held for eleven days last year and the village has not stopped talking about it.",
+        "pressures": "Somebody was held for eleven days last year. The village still talks about it.",
         "wouldChangeIf": "Would be filled in the week a court ruled that waiting is imprisonment."
       },
       "sitingPrefs": {
@@ -24461,7 +24461,7 @@
       "vibe": {
         "silhouette": "A small house with a black-painted door and a bench outside it facing the road, nothing else.",
         "palette": "Black door, ochre wall, road dust.",
-        "materials": "Mud and reed, kept plain deliberately; the only paint in the building is on the door.",
+        "materials": "Mud and reed, kept plain deliberately; nothing in the building is painted except the door.",
         "signatureFeature": "The bench, worn into two hollows, one for the Nisswo and one for whoever sits down.",
         "condition": "Plain and swept daily.",
         "mood": "Unhurried and unshockable.",
@@ -24633,7 +24633,7 @@
         "founding": "The Second Empire tried to make the Onkobra navigable to the uplands with a staircase of stone locks.",
         "siteAdvantages": "At the reach where the river drops fastest.",
         "occupantsMotive": "Nobody occupies it; the villages downstream fish the pools the ruined chambers make.",
-        "pressures": "The masonry is a millennium older than the Imperial work below and visibly better.",
+        "pressures": "The masonry is a millennium older than the Imperial work below, but it is visibly better. Nobody downstream will say so in front of a Gideon clerk.",
         "wouldChangeIf": "Would be worth rebuilding if anyone wanted freight in the uplands. Nobody does."
       },
       "sitingPrefs": {
@@ -25258,7 +25258,7 @@
           "social-drama"
         ],
         "impact": "mild",
-        "hook": "The overflow camp a mile short of Glenbridge: water, firewood, no landlord, and every pilgrim rumour in the province.",
+        "hook": "The overflow camp a mile short of Glenbridge: water, firewood, no landlord and every pilgrim rumour in the province.",
         "reviewed": true
       },
       "interior": {
@@ -25768,7 +25768,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "A Merethic xanmeer opened long ago and taken over by the Sul-Xan, who use its chambers to keep what their snares catch.",
-        "siteAdvantages": "Deep stone below the water table: cool, dark, and quiet enough that the name is literal.",
+        "siteAdvantages": "Deep stone below the water table. Cool, dark and quiet enough that the name is literal.",
         "occupantsMotive": "They keep it because a soul-store needs walls; nobody contests it because the tribes will not enter a xanmeer that has been broken.",
         "pressures": "The mechanism floor still works, but the Sul-Xan do not understand it. The Four Winds want the place burned.",
         "wouldChangeIf": "Would become a tended xanmeer again if a tribe with a claim ever took it back and closed it."
@@ -26024,7 +26024,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Above the marsh's ceiling the air is cold and dry and carries no disease. One order of ascetics winters in it.",
-        "siteAdvantages": "The highest saddle on the western rim, where snow lies for a few weeks a year. The cells are cut back into the saddle rock, and the older ones behind the occupied row have been sealed rather than cleared.",
+        "siteAdvantages": "The highest saddle on the western rim, where snow lies for a few weeks a year. The cells are cut back into the saddle rock. The older ones behind the occupied row have been sealed rather than cleared.",
         "occupantsMotive": "Two ascetics winter here to prove that an Argonian can. They mean it as theology.",
         "pressures": "One of them is dying of the cold, but both treat that as evidence.",
         "wouldChangeIf": "Would be empty in a decade unless the practice attracts a third."
@@ -26832,8 +26832,8 @@
       },
       "vibe": {
         "silhouette": "A low village on a shelf with drying racks of grey clay along its edge. Behind it, steam stands in columns that do not move with the wind.",
-        "palette": "Steam white, packing-clay grey, hot-spring rust-orange on the rock, and a red Hist flower well back from all of it.",
-        "materials": "Reed and mud, with a great deal of worked clay. The tribe packs stone it did not cut and will not quarry.",
+        "palette": "Steam white, packing-clay grey, hot-spring rust-orange on the rock and a red Hist flower well back from all of it.",
+        "materials": "Reed and mud, with a great deal of worked clay. The tribe packs stone it did not cut. It quarries none of its own.",
         "signatureFeature": "Every visible crack in the xanmeer opposite has a grey clay seam in it. Each seam is dated by a notch.",
         "condition": "Modest and worn. The clay work is kept up.",
         "mood": "Dutiful and tired. Nobody thanks them for the work.",
@@ -27315,7 +27315,7 @@
       "ownerFaction": null,
       "occupants": [
         "D1 evicted families",
-        "no guards, which is the point"
+        "no guards"
       ],
       "notableNpcSlots": [
         "the eldest, who will not move the camp"
@@ -27591,7 +27591,7 @@
         "signatureFeature": "The unlit second lamp, cleaned and filled, waiting.",
         "condition": "Improbably sound. Every fixing is doubled because nothing can be replaced.",
         "mood": "Solitary, not unfriendly.",
-        "approach": "One lamp, forty metres up a black wall, and nothing else to see.",
+        "approach": "One lamp, forty metres up a black wall. Nothing else to see.",
         "senses": "Wind past the ledge; water dripping; a very quiet voice."
       },
       "assetPlan": [
@@ -27763,7 +27763,7 @@
       "why": {
         "founding": "An Archein-era estate that survived the end of slavery by converting its slaves into Owing debtors on paper.",
         "siteAdvantages": "Good drained land on the river terrace, held in one block because it was never divided.",
-        "occupantsMotive": "The estate house holds the ledgers, which are the only reason anyone still works the land.",
+        "occupantsMotive": "The estate house holds the ledgers. Without them nobody would still work the land.",
         "pressures": "The Chainbreakers know the estate exists. So does the courthouse, but the ledgers are lawful.",
         "wouldChangeIf": "Would dissolve overnight if a court ever voided inherited Owings."
       },
@@ -28099,7 +28099,7 @@
         "signatureFeature": "Everything inside is lit green through moving water.",
         "condition": "Scoured clean annually; whatever is left has been left recently.",
         "mood": "Loud and cold.",
-        "approach": "The fall is audible for four hundred metres and the chamber is invisible until the last three.",
+        "approach": "The fall is audible for four hundred metres, but the chamber is invisible until the last three.",
         "senses": "Water at a volume that removes speech; dripping; your own breathing amplified."
       },
       "assetPlan": [
@@ -28246,7 +28246,7 @@
       "why": {
         "founding": "Gideon buys antiquities, so there is a camp above the graves that supply them.",
         "siteAdvantages": "Just over the ridge from the cairn field, out of sight of the valley track and upwind of the smell of their own camp.",
-        "occupantsMotive": "They are here for glass beads, which are small, light, and worth a season's wages in Leyawiin.",
+        "occupantsMotive": "They are here for glass beads: small, light and worth a season's wages in Leyawiin.",
         "pressures": "The Collections dig pays better and asks questions; two of this camp have already crossed over.",
         "wouldChangeIf": "Would move to the next dead people the month the beads ran out."
       },
@@ -28319,7 +28319,7 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "Four hide tents behind a ridge, a sorting mat, and a great deal of broken stone nobody wanted.",
+        "silhouette": "Four hide tents behind a ridge, a sorting mat and a great deal of broken stone nobody wanted.",
         "palette": "Hide brown, bead blue-green, ridge grey.",
         "materials": "Hide, poles and one stolen conservation tarpaulin they have not bothered to hide.",
         "signatureFeature": "The sorting mat, with beads laid out by colour. The bone is pushed aside with a boot.",
@@ -28804,7 +28804,7 @@
       },
       "vibe": {
         "silhouette": "A white arcade fragment on a green terrace, too geometric to be anything but Ayleid.",
-        "palette": "Bone white, moss, and the cold blue of a live well stone.",
+        "palette": "Bone white, moss and the cold blue of a live well stone.",
         "materials": "Barsaebic Ayleid masonry and welkynd fittings; canvas and rope where the diggers work.",
         "signatureFeature": "String lines and numbered pegs laid over a floor that already had a grid.",
         "condition": "Half-excavated, weather-damaged where excavation exposed it.",
@@ -29073,7 +29073,7 @@
         "condition": "Untouched, unweathered underneath, sinking slowly.",
         "mood": "Orderly and unfinished.",
         "approach": "You walk into it before you see it. The grass is as tall as the rings.",
-        "senses": "Grass, and cut stone under it."
+        "senses": "Grass. Cut stone under it."
       },
       "assetPlan": [
         "bridges",
@@ -29947,7 +29947,7 @@
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
-        "founding": "The ground where a whole community was killed in 1E 2820, and where the Sul-Xan trace their grievance from.",
+        "founding": "The ground where a whole community was killed in 1E 2820. The Sul-Xan trace their grievance from it.",
         "siteAdvantages": "An open flat between two ridges. It is the only place in the Blackwood where an army could be made to stand and fight.",
         "occupantsMotive": "Nobody lives here; the Sul-Xan come annually and leave marks; the Four Winds come annually and remove them.",
         "pressures": "Two peoples curate the same field in opposite directions. Both editions are visible.",
@@ -30169,7 +30169,7 @@
           }
         ]
       },
-      "sitingNote": "Lore:Xi-Tsei puts the site on the southern strip of Blackwood, administered as Cyrodiil. Sited inside the province here: the border there has moved more than once and the massacre is Argonian history wherever the line currently runs."
+      "sitingNote": "Lore:Xi-Tsei puts the site on the southern strip of Blackwood, administered as Cyrodiil. Sited inside the province here: the border there has moved more than once. The massacre is Argonian history wherever the line currently runs."
     }
   ]
 }

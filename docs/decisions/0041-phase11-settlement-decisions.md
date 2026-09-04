@@ -1605,6 +1605,75 @@ Ships and Boats of Tamriel (SSE 41653, flat-bottomed hulls) and Skyfall's
 Sleeping Hist Tree Overhaul (SSE 116792, mesh variants for the ten hero
 Hist + cairns-as-grave-markers).
 
+### Part 4 step 2, round 3 — touchpoint ③ feedback (2026-09-04)
+
+The owner's third feedback list, and what was done. Committed in four parts
+(0e7f0cc studio/tooling/docs; ef7dc99 vault; 4042d95 wave 1; the wave-2 text
+commit). Detail for future agents:
+
+**Rulings recorded this round.** (1) *Frequency, not share*: the player should
+meet hostility at least as often as in Morrowind everywhere, with the danger
+band setting the difficulty of what is met, and the frequency varying by place
+(less near cities, more on the road and in the wilds). Measured by
+`worldgen.hostility_frequency`: by travel we already exceed Morrowind (a fight
+every ~100–140 m of route in D3–D5 against ~350 m); by area D3–D4 sit under
+Morrowind's ~15 hostile places/km² (10.0 and 8.4). The fix was targeted at the
+report's gap points (land > 450 m from any fight) — six records — not padding;
+roaming creatures and encounter sockets (Phase 13) add to every band on top of
+this floor. The remaining area shortfall is a Phase 13 question, and the place
+ceiling (596) is the reason not to close it with places. (2) *Geometry, never
+labels* for placement (Parts 6–8 rule above; CLAUDE.md). (3) Underwater set
+dressing is **built** in Phase 9's swim slice (world 95 / 65). (4) Text bans
+extended (quests 60 §45e.1) and the flat and-pair diagnosed (style guide
+§2.6); rewrites are seeded from real Morrowind text (§2.7); a mechanical
+linter is now the floor under review and an `npm test` gate.
+
+**Studio.** Quest grouping chips (main / each faction / other lines / minor /
+any / none) from `questLinks` resolved against the quest registry; a plain
+"quests" section replaces the opaque tier-ownership line; travel destinations
+click through; an `interiorScope` line says how many interiors a settlement
+really has; road/lane/track/channel clicks work (the places SVG had been
+swallowing them); the painted route rasters are hidden under the places layer
+(the "duplicated roads"); the minor waterways bundle's `channels` key is read;
+the walk-mode minimap carries places, roads, lanes, tracks and channels and the
+same minimap now sits in fly mode. Minor roads paint two texels wide and are
+exempt from the control-map blur that had erased them.
+
+**Plot.** Typed siting: `sitingPrefs.boundTo {place, maxM}`, `sightlineTo`,
+`nearPoint {x, z, maxM}` — the fifteen move-a-dot asks of the co-design pass
+had been prose the plotter never read (the boss ground sat 1.1 km from the
+Lost City; now 61 m, reached through it). "On the road" is enforced
+(220 m strict / 380 m relaxed). References that fell into the homeless batch
+are waited for. `terrainRequests` lets a record ask Part 6 for the ground its
+identity needs (a sinkhole for the Black Eye) instead of rewriting the place.
+
+**Found.** The round-2 rebalance had re-deferred six quest-required records,
+including the Archon lighthouse (MQ14, tier 0), which had in fact never been
+promoted; all promoted, and `worldgen.quests --check` now fails on any
+provision held only by deferred records.
+
+**Quests as data.** `world/sources/quests/` (lines + per-packet files, one
+`local-<region>.json` per region) is the source; `registries/quests.json` and
+`docs/quests/index/*.md` are generated; `--sync` writes `tierOwnership` back
+onto places. Wave 1 authored **525 skeleton rows** (715 total) so every live
+settlement sits at the floor of its Morrowind band (M5 35, M4 10, M3 3, M2 1);
+PP13 struck (absorbed by LD47), the rest kept as concepts. The demand ladder
+sums to 587–1224 against the 450–550 province target: read the bands as
+ceilings and the total as the floor.
+
+**Vault.** Three orphan boat mods registered and credited; `docks-v1`,
+`watercraft-v1`, `xanmeer-interior-v1` packaged from vault pieces; the
+still-unsourceable `hull-on-stocks` closed; the rigged-actor scan bug fixed
+(HTBM's 30+ skeletons were invisible). No House Dres set exists in the vault
+(Tamriel Rebuilt's is Morrowind-format and needs their permission) — Thorn
+keeps `hlaalu-domestic` and the lore gap is recorded for an owner steer.
+
+**Open for the owner.** The opening-hours ring (The Roll, Gang Ground at D1 on
+band-3 ground) needs the danger raster carved at Part 6, not a retier; the
+naga-kur-deeps culture raster covers ~3 km² for 67 records; the Thorn Dres
+question above; `harmed-hist-tapped` made clearable but kept `guarded` (MR04
+ground).
+
 ### Part 4 step 2, round 2 — the hostile/settlement mix rebalance (2026-09-04)
 
 The owner's corrected target (research doc § Target, § 8b) is that at least

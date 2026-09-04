@@ -299,7 +299,7 @@ that is deliberate — read every hit).
 Before writing or rewriting a place, find the nearest Morrowind analogue and read
 its actual text first — a cave, tomb, stronghold, Ashlander camp, Velothi tower,
 Imperial fort, Dwemer ruin, egg mine, shipwreck, a town's local rumours. Use the
-vault extract (`mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`)
+vault extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`, next to this repo)
 or the UESP API; the page's own "Description" paragraph and one or two dialogue
 topics are enough. Then write ours. The point is not to copy a sentence; it is
 that the model's register drifts toward its own defaults over a long file, and
