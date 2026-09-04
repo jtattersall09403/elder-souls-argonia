@@ -21,7 +21,8 @@ from scipy import ndimage
 
 from .compile_chunks import DEFAULT_HEIGHTS
 from .landcover import compile_ground_control
-from .refine_province import REPO_ROOT, SEED, rasterize_roads
+from .refine_province import REPO_ROOT, SEED, STEP, rasterize_roads
+from .routes_raster import rasterize_minor_paint
 from .scale import RAW_M
 
 STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
@@ -43,13 +44,14 @@ def main() -> None:
     v_frac = np.broadcast_to(
         (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
     roads = rasterize_roads(h.shape, (0, 0))
+    minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
     w4 = up(water["w2"])
 
     landcover_mat, control = compile_ground_control(
         h, up(npz["regions"]).round().astype(np.uint8),
         up(npz["rivers"]).round().astype(np.uint8), slope_f, RAW_M, rng,
         salinity=up(npz["salinity"]), twi=up(npz["twi"]),
-        wetlands=up(npz["wetlands"]) > 0.5, roads=roads, v_frac=v_frac,
+        wetlands=up(npz["wetlands"]) > 0.5, roads=roads, minor_routes=minor, v_frac=v_frac,
         water_level=w4)
     Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
     np.save(vault_dir / "landcover-i16.npy", landcover_mat)

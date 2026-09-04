@@ -6,8 +6,10 @@
 > kit and the validation checks. The rosters themselves — principal cast,
 > per-faction desks, shared places, oddities — live in
 > [36-cast-roster.md](36-cast-roster.md), **lookup-only**: consult the
-> lines/places your brief touches. Dialogue *style* (Jel register, topics,
-> staged scenes) lives in [60-writing-and-lore.md](60-writing-and-lore.md);
+> lines/places your brief touches. Dialogue *style* lives in
+> [text/culture-registers.md](../text/culture-registers.md) (the layered race +
+> upbringing + region + faction model) and
+> [60-writing-and-lore.md](60-writing-and-lore.md) (topics, staged scenes);
 > this module is about *who*.
 
 ---
@@ -263,9 +265,14 @@ topics/material-culture.md), and no more:
   teenagers' multi-spiked crests;
 - a month — twelve canon months each with a social character, so *when* the
   player meets them changes what they are doing;
-- one **Jel register** habit per [60-writing-and-lore.md](60-writing-and-lore.md)
-  §45b: the emotional qualifier ("I erect the spine of…"), "Stay moist.",
+- one race marker per [text/culture-registers.md](../text/culture-registers.md)
+  §1 — for the ~72% who are Argonian that is the **Jel register** habit
+  ([60-writing-and-lore.md](60-writing-and-lore.md) §45b): the emotional qualifier ("I erect the spine of…"), "Stay moist.",
   "Hist piss!", "Host of Stormhold."
+  A C4 of another race takes their own row instead — the non-Argonian share of
+  a settlement's texture tier should match its demographic mix
+  ([world/92 §82](../world/92-demographics.md)), which is how a Gideon crowd
+  and a Helstrom crowd sound different before anyone says anything;
 
 **Forbidden in C4**: opinions about the main quest, exposition about the Hist or
 the An-Xileel, and any history the player cannot verify. A C4 who explains the

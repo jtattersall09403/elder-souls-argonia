@@ -73,6 +73,12 @@ default).
   depth and turbidity rather than the land region raster. Wrecks and sunken
   structures are catalogue *places*, never scatter. Phase 15 deliverable,
   after Phase 13's ecology output; assets from module 90 §76.
+- **Every route is a corridor** (Phase 11): `worldgen/routes_raster.py` is the
+  one source for both the ground paint and the clearance — major roads,
+  tracks, footpaths and boardwalks stamp a trunk-clear mask (14/8/4/3 m) and a
+  groundcover-thinning mask, and `scatter.route_allows` drops woody layers and
+  keeps 25% of the herb layer inside it. Boardwalks paint no ground (placed
+  asset over water) but still clear.
 - **Collision is tiered**: T1 hero assets get compiled colliders; T2 trees get
   trunk capsules only; T3 groundcover is visual-only. Scatter placements land
   in the same bundle files the streaming contract already reserves

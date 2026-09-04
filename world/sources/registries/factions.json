@@ -1,0 +1,1138 @@
+{
+  "schemaVersion": 1,
+  "domain": "faction",
+  "_": "Every group the world can name. Canonical lines and powers carry briefs (docs/quests/40-factions.md); local groups are catalogue-sourced placeholders that the Phase 12/13 faction pass promotes. hostility.owner, ownerFaction and contents.npcs[].faction must resolve here.",
+  "entries": [
+    {
+      "id": "faction.an-xileel",
+      "name": "The An-Xileel",
+      "kind": "state",
+      "status": "canon",
+      "sources": [
+        "docs/quests/10-political-frame.md",
+        "UESP:Lore:An-Xileel"
+      ],
+      "notes": "The nativist successor administration that governs Argonia in 4E 201 — offices and name inherited from the movement of 4E 6, mandate not."
+    },
+    {
+      "id": "faction.archon-harbour-authority",
+      "name": "Archon Harbour Authority",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.ashfield-holders",
+      "name": "Ashfield Holders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.ashroot-village",
+      "name": "Ashroot Village",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.blackguard",
+      "name": "Blackguard",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local spelling; merge candidate with faction.blackguards when the faction briefs are written.",
+      "mergeCandidate": "faction.blackguards"
+    },
+    {
+      "id": "faction.blackguards",
+      "name": "The Blackguards",
+      "kind": "criminal",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Blackguards"
+      ],
+      "notes": "Argonian pirate-brigand company operating out of the southern coast."
+    },
+    {
+      "id": "faction.blackguards-raw",
+      "name": "Blackguards Raw",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local spelling; merge candidate with faction.blackguards when the faction briefs are written.",
+      "mergeCandidate": "faction.blackguards"
+    },
+    {
+      "id": "faction.blackrose-city-government",
+      "name": "Blackrose City Government",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.blackrose-island-council",
+      "name": "Blackrose Island Council",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.blackrose-tenders",
+      "name": "Blackrose Tenders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.blackrose-tree-speakers",
+      "name": "Blackrose Tree Speakers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.bone-and-hide-works",
+      "name": "Bone And Hide Works",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.bone-carriers",
+      "name": "Bone Carriers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.brammans-pilots",
+      "name": "Brammans Pilots",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.bright-throat-tribe",
+      "name": "Bright-Throat tribe",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Bright-Throat"
+      ],
+      "notes": "Murkmire tribe; horse-lizard breeders, welcoming to outsiders by local standards."
+    },
+    {
+      "id": "faction.broken-boom-gang",
+      "name": "Broken Boom Gang",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.ca-uxith-tribe",
+      "name": "Ca Uxith Tribe",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.chainbreakers",
+      "name": "Blackrose Chainbreakers",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "world/sources/lore/topics/labour-and-bondage.md"
+      ],
+      "notes": "Abolitionists auditing and burning the Owing; quest line BC01-BC06."
+    },
+    {
+      "id": "faction.charge-works-houses",
+      "name": "Charge Works Houses",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.chasepoint-wreck-households",
+      "name": "Chasepoint Wreck Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.chuxeth-clan",
+      "name": "Chuxeth Clan",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.college-of-whispers",
+      "name": "College of Whispers",
+      "kind": "foreign",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:College of Whispers",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "Fourth-Era successor to the Mages Guild; discreet, interested in Hist and Umbriel leavings."
+    },
+    {
+      "id": "faction.corimont-free-port-halls",
+      "name": "Corimont Free Port Halls",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.crystalgate-cutting-houses",
+      "name": "Crystalgate Cutting Houses",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.cyrodilic-collections",
+      "name": "Cyrodilic Collections",
+      "kind": "foreign",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Cyrodilic Collections",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "Antiquities society working Murkmire; licences, digs and repatriation arguments."
+    },
+    {
+      "id": "faction.deepmire-caretakers",
+      "name": "Deepmire Caretakers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.deeps-polers",
+      "name": "Deeps Polers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.drag-windlass-crew",
+      "name": "Drag Windlass Crew",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.dres-remnant",
+      "name": "House Dres remnant",
+      "kind": "foreign",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:House Dres",
+        "world/sources/lore/topics/labour-and-bondage.md"
+      ],
+      "notes": "The slaving house's surviving northern interests and claimants after abolition."
+    },
+    {
+      "id": "faction.egg-buyers",
+      "name": "Egg Buyers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.estuary-ferry-holders",
+      "name": "Estuary Ferry Holders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.four-village-crown-compact",
+      "name": "Four Village Crown Compact",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.gideon-civic-council",
+      "name": "Gideon Civic Council",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.gideon-magistracy",
+      "name": "Gideon Magistracy",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.helstrom-assembly",
+      "name": "Helstrom Assembly",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.hereguard-estate",
+      "name": "Hereguard Estate",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.high-junction-deck-crew",
+      "name": "High Junction Deck Crew",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.hist.mercantile-coast.lilmoth",
+      "name": "Hist mercantile Coast lilmoth",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.hutan-tzel-tribe",
+      "name": "Hutan Tzel Tribe",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.imperial-legion-remnant",
+      "name": "Imperial Legion remnant",
+      "kind": "foreign",
+      "status": "derived",
+      "sources": [
+        "docs/quests/10-political-frame.md",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "Left-behind Legion garrisons and their descendants on the Blackwood and Gideon frontier; no longer paid by Cyrodiil."
+    },
+    {
+      "id": "faction.jumped-claim-gang",
+      "name": "Jumped Claim Gang",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.keel-sakka-landing",
+      "name": "Keel Sakka Landing",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.keepers-of-the-shell",
+      "name": "Keepers Of The Shell",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.lake-divers",
+      "name": "Lake Divers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.league-of-open-water",
+      "name": "The League of Open Water",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Citizenship and property argued on the water; quest line LW01-LW10."
+    },
+    {
+      "id": "faction.ledgered-blackguards",
+      "name": "Ledgered Blackguards",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local spelling; merge candidate with faction.blackguards when the faction briefs are written.",
+      "mergeCandidate": "faction.blackguards"
+    },
+    {
+      "id": "faction.lighter-crews",
+      "name": "Lighter Crews",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.lilmoth-merchant-council",
+      "name": "Lilmoth Merchant Council",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.long-bar-wreckers",
+      "name": "Long Bar Wreckers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.long-walk-households",
+      "name": "Long Walk Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.longmont-freight-households",
+      "name": "Longmont Freight Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.longmont-polers",
+      "name": "Longmont Polers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.many-root-conclave",
+      "name": "The Many-Root Conclave",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Hist stewardship, consent and ecology; quest line MR01-MR10."
+    },
+    {
+      "id": "faction.marsh-charter",
+      "name": "The Marsh Charter",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "Fighters'-guild tradition set against a foreign charter; quest line FG01-FG10."
+    },
+    {
+      "id": "faction.moonmarch-caravan-house",
+      "name": "Moonmarch Caravan House",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.morrowind-veterans",
+      "name": "Morrowind veterans",
+      "kind": "foreign",
+      "status": "derived",
+      "sources": [
+        "docs/quests/10-political-frame.md"
+      ],
+      "notes": "Dunmer soldiers of the accession fighting who never went home."
+    },
+    {
+      "id": "faction.mudfoot-cockle-households",
+      "name": "Mudfoot Cockle Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.murkwater-tribe",
+      "name": "Murkwater tribe",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Murkwater"
+      ],
+      "notes": "Murkmire tribe; hunters and trainers."
+    },
+    {
+      "id": "faction.naga-kur",
+      "name": "The Naga-Kur",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Naga",
+        "world/sources/lore/regions"
+      ],
+      "notes": "The deep-marsh Naga polity of the southern basin."
+    },
+    {
+      "id": "faction.naga-raiders",
+      "name": "Naga Raiders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.night-reed-chapter",
+      "name": "Night-Reed Chapter",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "The province's thieves' guild; quest line TG01-TG11, escalating to the Tidal Palace heist."
+    },
+    {
+      "id": "faction.nisswo",
+      "name": "Nisswo of the Turning Path",
+      "kind": "faction-line",
+      "status": "canon",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "world/sources/lore/topics/sithis-nisswo-shadowscales.md",
+        "UESP:Lore:Nisswo"
+      ],
+      "notes": "Priests of Sithis; plural belief against dogma. Quest line NI01-NI10."
+    },
+    {
+      "id": "faction.nisswo-north",
+      "name": "Nisswo North",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local spelling; merge candidate with faction.nisswo when the faction briefs are written.",
+      "mergeCandidate": "faction.nisswo"
+    },
+    {
+      "id": "faction.padomaic-wreckers",
+      "name": "Padomaic Wreckers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.paid-arch-keepers",
+      "name": "Paid Arch Keepers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.placation-court-holders",
+      "name": "Placation Court Holders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.reed-sail-compact",
+      "name": "The Reed-Sail Compact",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Boat crews, routes, labour and monopoly; quest line RS01-RS10, with the Salt-Teeth pirate branch inside it."
+    },
+    {
+      "id": "faction.refused-vault-keeper",
+      "name": "Refused Vault Keeper",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.rockspring-levee-households",
+      "name": "Rockspring Levee Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.root-sakka-village",
+      "name": "Root Sakka Village",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.root-stewards",
+      "name": "Root Stewards",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.root-whisper",
+      "name": "Root-Whisper tribe",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Root-Whisper"
+      ],
+      "notes": "Tribe whose Hist withdrew after the Knahaten Flu; the village and the dreaming tree."
+    },
+    {
+      "id": "faction.rootworm-waykeepers",
+      "name": "Rootworm Waykeepers",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Keepers of the sacred rootworm transit routes; quest line RW01-RW05. The worm is never on screen."
+    },
+    {
+      "id": "faction.rose-born-families",
+      "name": "Rose Born Families",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.salt-carriers",
+      "name": "Salt Carriers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.salt-teeth",
+      "name": "The Salt-Teeth",
+      "kind": "pirate-power",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "Pirate confederation; the Reed-Sail line's pirate branch (ST01-ST04) rather than a separate line."
+    },
+    {
+      "id": "faction.sap-crew",
+      "name": "Sap Crew",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.sap-poachers",
+      "name": "Sap Poachers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.sees-no-root",
+      "name": "Sees No Root",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.shadowscales",
+      "name": "The Empty Cradle — Shadowscales",
+      "kind": "faction-line",
+      "status": "canon",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "UESP:Lore:Shadowscale"
+      ],
+      "notes": "Sithis-dedicated assassin order with three bidders and no issuing authority; quest line SS01-SS10."
+    },
+    {
+      "id": "faction.shut-village-elders",
+      "name": "Shut Village Elders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.soulrest-breaking-hard",
+      "name": "Soulrest Breaking Hard",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.spine-households",
+      "name": "Spine Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.stillrise",
+      "name": "Stillrise Village",
+      "kind": "settlement",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Stillrise Village"
+      ],
+      "notes": "The undead village of Shadowfen, kept standing by its array."
+    },
+    {
+      "id": "faction.stormhold-vicecanons",
+      "name": "Stormhold Vicecanons",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.sul-xan",
+      "name": "The Sul-Xan",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Sul-Xan"
+      ],
+      "notes": "Soul-taking Argonian tribe; hostile presence in the deep interior."
+    },
+    {
+      "id": "faction.sunken-archive",
+      "name": "The Sunken Archive",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "Mages'-guild-shaped scholarly order contesting the ownership of knowledge; quest line SA01-SA10."
+    },
+    {
+      "id": "faction.swampmoth-toll-company",
+      "name": "Swampmoth Toll Company",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.synod",
+      "name": "The Synod",
+      "kind": "foreign",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Synod",
+        "world/sources/lore/topics/guilds-and-orders.md"
+      ],
+      "notes": "The College of Whispers' rival successor order; publicly chartered, politically ambitious."
+    },
+    {
+      "id": "faction.the-fringe",
+      "name": "The Fringe",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.the-owing-brokers",
+      "name": "The Owing Brokers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.third-generation",
+      "name": "Third Generation",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.thorn-ash-reed-accord",
+      "name": "Thorn Ash-Reed Accord",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Border memory and saltrice title on the Morrowind frontier; quest line TA01-TA05."
+    },
+    {
+      "id": "faction.thorn-field-owners",
+      "name": "Thorn Field Owners",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.three-gate-compact",
+      "name": "Three Gate Compact",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.threewater-scale-holders",
+      "name": "Threewater Scale Holders",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.tribeless-naga",
+      "name": "Tribeless Naga",
+      "kind": "tribal-power",
+      "status": "derived",
+      "sources": [
+        "world/sources/lore/topics/lost-peoples.md"
+      ],
+      "notes": "Naga outside the Naga-Kur's protection or discipline; the deeps' unaligned danger."
+    },
+    {
+      "id": "faction.tzelvei-village",
+      "name": "Tzelvei Village",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.umbriel-dead",
+      "name": "Umbriel Dead",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.umbriel-witness-society",
+      "name": "Umbriel Witness Society",
+      "kind": "faction-line",
+      "status": "derived",
+      "sources": [
+        "docs/quests/40-factions.md",
+        "world/sources/lore/topics/umbriel.md"
+      ],
+      "notes": "Inherited catastrophe, argued over; quest line UW01-UW05."
+    },
+    {
+      "id": "faction.unbound-root",
+      "name": "The Unbound Root",
+      "kind": "cult",
+      "status": "derived",
+      "sources": [
+        "docs/quests/10-political-frame.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Hist-supremacist antagonist movement of the main quest; genuine victims of state abuse alongside fanatics and infiltrators."
+    },
+    {
+      "id": "faction.unclaimed",
+      "name": "Unclaimed",
+      "kind": "sentinel",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue/README.md"
+      ],
+      "notes": "Sentinel value: the place is held by nobody. Not a group; never used as a quest gate."
+    },
+    {
+      "id": "faction.veiled-reed",
+      "name": "The Veiled Reed",
+      "kind": "state",
+      "status": "derived",
+      "sources": [
+        "docs/quests/10-political-frame.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Project-original covert intelligence and internal-security office of the An-Xileel state; the main quest's handler structure."
+    },
+    {
+      "id": "faction.white-fields-salters",
+      "name": "White Fields Salters",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.wide-furrow-households",
+      "name": "Wide Furrow Households",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.windlass-crew",
+      "name": "Windlass Crew",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.wraxu-egg-takers",
+      "name": "Wraxu Egg Takers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.xel-nahkta-tribe",
+      "name": "Xel Nahkta Tribe",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.xinchei-keeper",
+      "name": "Xinchei Keeper",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    },
+    {
+      "id": "faction.xit-xaht",
+      "name": "Xit-Xaht",
+      "kind": "tribal-power",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Xit-Xaht"
+      ],
+      "notes": "Murkmire tribe of Vakka-Bur; Hist-driven and feared."
+    },
+    {
+      "id": "faction.xul-vaat-stake-carvers",
+      "name": "Xul Vaat Stake Carvers",
+      "kind": "local-group",
+      "status": "placeholder",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Local group named by the place catalogue; brief not yet written."
+    }
+  ]
+}

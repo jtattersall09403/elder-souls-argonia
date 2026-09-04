@@ -7,7 +7,9 @@ Data: ``world/sources/routes/registry.json`` (authored; see its `_` note).
 Geometry: ``apps/world-studio/public/province/routes.json`` (roads) and
 ``waterways.json`` (boat lanes), written by ``worldgen.compile_society`` and
 matched here by (from, to) in either direction. A registry entry with
-``solved: false`` has no geometry yet (a canon corridor the lane solver did
+``solved: false`` has no geometry yet (an entry solved by the derived minor
+network instead carries ``geometryId``, a path id in ``routes-minor.json`` or
+``waterways-minor.json``) (a canon corridor the lane solver did
 not keep, or a named minor route awaiting ``compile_minor_routes``).
 
 Why a registry: the catalogue's relations named routes eighteen different
@@ -28,6 +30,10 @@ REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 ROADS_PATH = PROVINCE / "routes.json"
 LANES_PATH = PROVINCE / "waterways.json"
+# Minor geometry (Part 3b/3c): a registry entry may instead be solved by a
+# single derived minor path, named by `geometryId`.
+MINOR_PATHS = ((PROVINCE / "routes-minor.json", "tracks"),
+               (PROVINCE / "waterways-minor.json", "channels"))
 
 SCHEMA_VERSION = 1
 MODES = {"road", "boat", "track"}   # track = named minor land route (geometry from compile_minor_routes)
@@ -84,12 +90,21 @@ def _geometry_pairs() -> dict[str, set[tuple[str, str]]]:
     return {"road": {(r["from"], r["to"]) for r in roads}, "boat": {(l["from"], l["to"]) for l in lanes}, "track": set()}
 
 
+def minor_geometry_ids() -> set[str]:
+    ids: set[str] = set()
+    for path, key in MINOR_PATHS:
+        if path.exists():
+            ids |= {p["id"] for p in json.loads(path.read_text())[key]}
+    return ids
+
+
 def validate(routes: list[dict] | None = None) -> list[str]:
     routes = routes if routes is not None else load()
     errors: list[str] = []
     seen: set[str] = set()
     all_refs: set[str] = set()
     geom = _geometry_pairs()
+    minor_ids = minor_geometry_ids()
     for r in routes:
         rid = r.get("id", "<missing>")
         if rid in seen:
@@ -104,8 +119,12 @@ def validate(routes: list[dict] | None = None) -> list[str]:
         allowed = (PREFIX[mode], "route.track.")
         if not rid.startswith(allowed):
             errors.append(f"{rid}: id must start with one of {list(allowed)}")
-        if rid.startswith("route.track.") and r.get("solved", True):
-            errors.append(f"{rid}: a route.track.* entry has no geometry yet — set solved:false")
+        gid = r.get("geometryId")
+        if gid and gid not in minor_ids:
+            errors.append(f"{rid}: geometryId {gid!r} is not in routes-minor.json / waterways-minor.json")
+        if rid.startswith("route.track.") and r.get("solved", True) and not gid:
+            errors.append(f"{rid}: a route.track.* entry has no geometry yet — set solved:false "
+                          f"(or give it a geometryId from the minor network)")
         if r.get("class") not in CLASSES:
             errors.append(f"{rid}: class must be one of {sorted(CLASSES)}")
         if r.get("confidence") not in CONFIDENCES:
@@ -119,10 +138,10 @@ def validate(routes: list[dict] | None = None) -> list[str]:
                 errors.append(f"{rid}: alias {a!r} claimed twice")
             all_refs.add(a)
         pair = (r.get("from"), r.get("to"))
-        has_geom = pair in geom[mode] or pair[::-1] in geom[mode]
+        has_geom = pair in geom[mode] or pair[::-1] in geom[mode] or bool(gid)
         if r.get("solved", True) and not has_geom:
             errors.append(f"{rid}: no geometry for {pair} in {'routes' if mode == 'road' else 'waterways'}.json (set solved:false or fix from/to)")
-        if not r.get("solved", True) and has_geom:
+        if not r.get("solved", True) and has_geom and not gid:
             errors.append(f"{rid}: marked solved:false but geometry exists")
     ids = [r["id"] for r in routes]
     if ids != sorted(ids):

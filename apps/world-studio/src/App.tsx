@@ -4,6 +4,8 @@ import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json"
 import { Fly3D } from "./Fly3D";
 import { PlacesLayer } from "./places/PlacesLayer";
 import { encodePlacesUrl, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
+import { RoutesLayer } from "./routes/RoutesLayer";
+import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
 import { TimePanel } from "./sky/TimePanel";
@@ -120,6 +122,19 @@ export function App() {
   // The layer's own filters/selection (pr, pt, pc, pd, pl, pq, place, tracks, sites)
   // — the layer owns the state, App owns the query string.
   const [placesUrl, setPlacesUrl] = useState<PlacesUrlState>(() => parsePlacesUrl(urlParams));
+  // Clickable road/lane/track lines and the waterways toggle (?water=1, ?route=)
+  // — drawn under the places dots by RoutesLayer.
+  const [routesUrl, setRoutesUrl] = useState<RoutesUrlState>(() => parseRoutesUrl(urlParams));
+  const [placeNames, setPlaceNames] = useState<Record<string, string>>({});
+  const placeName = useCallback((id: string) => placeNames[id] ?? id.split(".").pop() ?? id, [placeNames]);
+  useEffect(() => {
+    if (!showCatalogue || Object.keys(placeNames).length) return;
+    fetch(`${import.meta.env.BASE_URL}province/places.json`)
+      .then((r) => r.json())
+      .then((b: { places?: { id: string; name: string }[] }) =>
+        setPlaceNames(Object.fromEntries((b.places ?? []).map((p) => [p.id, p.name]))))
+      .catch(() => {});
+  }, [showCatalogue, placeNames]);
   // World-time changes (scrub/date/rate/preset) bump this so the URL effect
   // reserialises; the clock itself lives in sky/timeState.
   const [timeVersion, setTimeVersion] = useState(0);
@@ -184,10 +199,11 @@ export function App() {
     if (showCatalogue) {
       q.set("cat", "1");
       for (const [k, v] of Object.entries(encodePlacesUrl(placesUrl))) q.set(k, v);
+      for (const [k, v] of Object.entries(encodeRoutesUrl(routesUrl))) q.set(k, v);
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -669,8 +685,20 @@ export function App() {
           </div>
         )}
         {showCatalogue && (
-          <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
-            onUrlState={setPlacesUrl} onFly={flyToFraction} />
+          <>
+            <RoutesLayer baseUrl={import.meta.env.BASE_URL} showWater={routesUrl.showWater}
+              showTracks={placesUrl.showTracks} selectedKey={routesUrl.selectedKey}
+              onSelectedKey={(selectedKey) => setRoutesUrl((r) => ({ ...r, selectedKey }))}
+              placeName={placeName} />
+            <PlacesLayer baseUrl={import.meta.env.BASE_URL} initial={placesUrl}
+              onUrlState={setPlacesUrl} onFly={flyToFraction}
+              controls={(
+                <label style={{ cursor: "pointer" }}>
+                  <input type="checkbox" checked={routesUrl.showWater}
+                    onChange={(e) => setRoutesUrl((r) => ({ ...r, showWater: e.target.checked }))} /> waterways
+                </label>
+              )} />
+          </>
         )}
       </div>
       <p style={{ maxWidth: 720, opacity: 0.8, margin: 0 }}>

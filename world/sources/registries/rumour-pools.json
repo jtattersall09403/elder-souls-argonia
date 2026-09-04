@@ -1,0 +1,1647 @@
+{
+  "schemaVersion": 1,
+  "domain": "rumour",
+  "_": "Every rumourPoolKey in the catalogue. Pools group the ambient talk a region's NPCs draw on; the lines themselves live in packages/text-catalogue, keyed by these ids.",
+  "entries": [
+    {
+      "id": "rumour.ashroot",
+      "name": "Ashroot",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.blackguards",
+      "name": "Blackguards",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.blackrose.city",
+      "name": "Blackrose city",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.blackwood-bog",
+      "name": "Blackwood Bog",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.blackwood-road",
+      "name": "Blackwood Road",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.bone-road",
+      "name": "Bone Road",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.brammans-river",
+      "name": "Brammans River",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.breaking-hard",
+      "name": "Breaking Hard",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.breathing-stone",
+      "name": "Breathing Stone",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.bright-throat",
+      "name": "Bright Throat",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.burn-country",
+      "name": "Burn Country",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.canopy-walks",
+      "name": "Canopy Walks",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.chainbreakers",
+      "name": "Chainbreakers",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.chuxeth",
+      "name": "Chuxeth",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.coast-road",
+      "name": "Coast Road",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.cold-light",
+      "name": "Cold Light",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.couriers",
+      "name": "Couriers",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.crown-terrace",
+      "name": "Crown Terrace",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.customs-suburb",
+      "name": "Customs Suburb",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.daril",
+      "name": "Daril",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.deeps.bone-country",
+      "name": "Deeps bone Country",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.deeps.nisswo",
+      "name": "Deeps nisswo",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.deeps.polers",
+      "name": "Deeps polers",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.deeps.raiders",
+      "name": "Deeps raiders",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.deeps.refuge",
+      "name": "Deeps refuge",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.drawdown",
+      "name": "Drawdown",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.drowned-tree",
+      "name": "Drowned Tree",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.dunmer-north.hissmir-trials",
+      "name": "Dunmer North hissmir Trials",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.gideon",
+      "name": "Gideon",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.given-field",
+      "name": "Given Field",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.glenbridge",
+      "name": "Glenbridge",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.glowfen",
+      "name": "Glowfen",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.half-day-flat",
+      "name": "Half Day Flat",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.head-of-tide",
+      "name": "Head Of Tide",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.helstrom",
+      "name": "Helstrom",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.hereguard",
+      "name": "Hereguard",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.hist-heartland.still-waiting",
+      "name": "Hist Heartland still Waiting",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.holding-fields",
+      "name": "Holding Fields",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.imperial-penal-south.three-gate-toll",
+      "name": "Imperial Penal South three Gate Toll",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.interior.deep-basin",
+      "name": "Interior deep Basin",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.interior.guides",
+      "name": "Interior guides",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.interior.hist-talk",
+      "name": "Interior hist Talk",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.interior.root-lines",
+      "name": "Interior root Lines",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.ixtaxh",
+      "name": "Ixtaxh",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.keel-sakka",
+      "name": "Keel Sakka",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.kept-chamber",
+      "name": "Kept Chamber",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.keshu",
+      "name": "Keshu",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.knahaten",
+      "name": "Knahaten",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.lake-meer",
+      "name": "Lake Meer",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.lakeside",
+      "name": "Lakeside",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.lighter-flotilla",
+      "name": "Lighter Flotilla",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.lilmoth.city",
+      "name": "Lilmoth city",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.lilmothiit",
+      "name": "Lilmothiit",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.long-bar",
+      "name": "Long Bar",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.longmont",
+      "name": "Longmont",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.marsh-charter",
+      "name": "Marsh Charter",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.marsh-edge",
+      "name": "Marsh Edge",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.meerhleel",
+      "name": "Meerhleel",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.mercantile-coast.bereaved-village-murkmire",
+      "name": "Mercantile Coast bereaved Village Murkmire",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.mercantile-coast.slaughter-memorial",
+      "name": "Mercantile Coast slaughter Memorial",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.moonmarch",
+      "name": "Moonmarch",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.mudfoot",
+      "name": "Mudfoot",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.murkwood",
+      "name": "Murkwood",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.naga-kur",
+      "name": "Naga Kur",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.northern-caravan",
+      "name": "Northern Caravan",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.northern-hinge",
+      "name": "Northern Hinge",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.northern-trunk",
+      "name": "Northern Trunk",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.oliis-boardwalk",
+      "name": "Oliis Boardwalk",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.oliis-ferry",
+      "name": "Oliis Ferry",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.panther-basin",
+      "name": "Panther Basin",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pilgrim-line",
+      "name": "Pilgrim Line",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pilgrim-way",
+      "name": "Pilgrim Way",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.lay-by",
+      "name": "Pirate Freeholds lay By",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.no-tree",
+      "name": "Pirate Freeholds no Tree",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.old-pens",
+      "name": "Pirate Freeholds old Pens",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.road-fires",
+      "name": "Pirate Freeholds road Fires",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.rockpoint",
+      "name": "Pirate Freeholds rockpoint",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-drawdown",
+      "name": "Pirate Freeholds the Drawdown",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-flu",
+      "name": "Pirate Freeholds the Flu",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-fort",
+      "name": "Pirate Freeholds the Fort",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-list",
+      "name": "Pirate Freeholds the List",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-owing",
+      "name": "Pirate Freeholds the Owing",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-reach",
+      "name": "Pirate Freeholds the Reach",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-rim",
+      "name": "Pirate Freeholds the Rim",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-road",
+      "name": "Pirate Freeholds the Road",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-slate",
+      "name": "Pirate Freeholds the Slate",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.the-white-stone",
+      "name": "Pirate Freeholds the White Stone",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pirate-freeholds.veterans",
+      "name": "Pirate Freeholds veterans",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.placation",
+      "name": "Placation",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.pusbottom",
+      "name": "Pusbottom",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.quinrawl",
+      "name": "Quinrawl",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.rim-path",
+      "name": "Rim Path",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.rockpark",
+      "name": "Rockpark",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.rockspring",
+      "name": "Rockspring",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.root-sakka",
+      "name": "Root Sakka",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.rose-lower-levels",
+      "name": "Rose Lower Levels",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.accession-war",
+      "name": "Saxhleel Coast accession War",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.archon-harbour",
+      "name": "Saxhleel Coast archon Harbour",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.ashen-towers",
+      "name": "Saxhleel Coast ashen Towers",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.banner-stack",
+      "name": "Saxhleel Coast banner Stack",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.bird-cliffs",
+      "name": "Saxhleel Coast bird Cliffs",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.courier-line",
+      "name": "Saxhleel Coast courier Line",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.drowned-streets",
+      "name": "Saxhleel Coast drowned Streets",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.estuary-pilots",
+      "name": "Saxhleel Coast estuary Pilots",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.ferrymen",
+      "name": "Saxhleel Coast ferrymen",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.foreign-eyes",
+      "name": "Saxhleel Coast foreign Eyes",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.green-wall",
+      "name": "Saxhleel Coast green Wall",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.harbour-tree",
+      "name": "Saxhleel Coast harbour Tree",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.lit-water",
+      "name": "Saxhleel Coast lit Water",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.marked-water",
+      "name": "Saxhleel Coast marked Water",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.marque-crews",
+      "name": "Saxhleel Coast marque Crews",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.no-tree",
+      "name": "Saxhleel Coast no Tree",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.old-fleets",
+      "name": "Saxhleel Coast old Fleets",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.road-fires",
+      "name": "Saxhleel Coast road Fires",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.root-transit",
+      "name": "Saxhleel Coast root Transit",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.salt-trade",
+      "name": "Saxhleel Coast salt Trade",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.seafalls",
+      "name": "Saxhleel Coast seafalls",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.shadow-born",
+      "name": "Saxhleel Coast shadow Born",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.shell-trade",
+      "name": "Saxhleel Coast shell Trade",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.standing-corner",
+      "name": "Saxhleel Coast standing Corner",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.the-fair",
+      "name": "Saxhleel Coast the Fair",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.the-kept",
+      "name": "Saxhleel Coast the Kept",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.the-meers",
+      "name": "Saxhleel Coast the Meers",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.the-owing",
+      "name": "Saxhleel Coast the Owing",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.the-wall",
+      "name": "Saxhleel Coast the Wall",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.tide-runs",
+      "name": "Saxhleel Coast tide Runs",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.two-villages",
+      "name": "Saxhleel Coast two Villages",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.umbriel-leavings",
+      "name": "Saxhleel Coast umbriel Leavings",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.underwater-work",
+      "name": "Saxhleel Coast underwater Work",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.saxhleel-coast.wrecks",
+      "name": "Saxhleel Coast wrecks",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.screen-watch",
+      "name": "Screen Watch",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.shadowfen",
+      "name": "Shadowfen",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.shadowscales",
+      "name": "Shadowscales",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.soulrest.city",
+      "name": "Soulrest city",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.soulrest.quay",
+      "name": "Soulrest quay",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.stormhold",
+      "name": "Stormhold",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.sunken-causeway",
+      "name": "Sunken Causeway",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.tear-road",
+      "name": "Tear Road",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.teeth-of-sithis",
+      "name": "Teeth Of Sithis",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.the-bell",
+      "name": "The Bell",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.the-drag",
+      "name": "The Drag",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.the-fringe",
+      "name": "The Fringe",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.the-owing",
+      "name": "The Owing",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.the-rose",
+      "name": "The Rose",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.third-generation",
+      "name": "Third Generation",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.thorn",
+      "name": "Thorn",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.threewater",
+      "name": "Threewater",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.topal-salt",
+      "name": "Topal Salt",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.tzelvei",
+      "name": "Tzelvei",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.umbriel-track",
+      "name": "Umbriel Track",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.under-longmont",
+      "name": "Under Longmont",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.under-root",
+      "name": "Under Root",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.under-yard",
+      "name": "Under Yard",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.upland-track",
+      "name": "Upland Track",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.vaunting",
+      "name": "Vaunting",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.villa-cellars",
+      "name": "Villa Cellars",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.wellocs-lines",
+      "name": "Wellocs Lines",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.white-rose",
+      "name": "White Rose",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.wraxu",
+      "name": "Wraxu",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.xel-nahkta",
+      "name": "Xel Nahkta",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.xhon-mehl",
+      "name": "Xhon Mehl",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.xinchei-konu",
+      "name": "Xinchei Konu",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.xul-hakka",
+      "name": "Xul Hakka",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    },
+    {
+      "id": "rumour.xul-vaat",
+      "name": "Xul Vaat",
+      "kind": "pool",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Rumour pool drawn on by NPCs near the places that declare it."
+    }
+  ]
+}

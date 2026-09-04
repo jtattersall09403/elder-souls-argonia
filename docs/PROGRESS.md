@@ -61,40 +61,53 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-- **Phase 11 touchpoint ③ — FEEDBACK RECEIVED 2026-09-04; round 2 in progress** (minor-route painting, studio filters/popup/waterways, Part 3c boat channels, hostility rebalance, quest co-design pass, AI-tell text rules + second text pass, world registries). Nothing blocked on the owner until this hands off. Previous ask kept:
-- **Phase 11 touchpoint ③ — the province after your feedback** (2026-09-03).
-  Everything from your touchpoint-② list is in (decision 0041 § Part 4
-  step 2 has the item-by-item table). What to look at, in order:
-  1. **The map**: World Studio with `?cat=1&tracks=1`. Click any dot — the
-     panel now shows *purpose* (what the place is for you as a player, and
-     how big a deal it is), a one-line *hook*, its *stance* (who starts a
-     fight) and its *interior* (what kind of dungeon, how big, how wet).
-     Places you named: The Trunk Span and Chasecreek now say true things
-     about where they sit. Soulrest and Lilmoth moved a little onto dry
-     ground (the old Soulrest pin was half in the sea); roads and terrain
-     were rebuilt to match.
-  2. **The start**: around Alten Corimont you will now find the work barge
-     ("The Roll"), the gang ground, a small first dungeon within a few
-     minutes' walk, a lookout, and the two deadliest places pushed a
-     kilometre out. One hostile direction is left on purpose.
-  3. **Dungeons and fights**: 223 of 566 places now have an enterable
-     interior (was 197 of 527); 85 places start hostile (was 68), most with
-     an owner and a written reason. Say if that feels like too many or too
-     few — it is easy to shift either way.
-  4. **Boats**: 93 places sell passage on a connected water network; the
-     named lanes and channels are in the route registry. Nothing moves yet.
-  5. **Vibe sheets** in `output/sheets/vibe/` (untracked) were re-rendered:
-     Gideon in the Morrowind Imperial keep set, the lowland kits in the
-     tropical textures, Archon without the farmhouse.
-  6. **Islands** — advice only, no decision needed yet: use the offshore
-     ground we already have (three canon-named islands); a few authored
-     lagoon islets are cheap later; no big offshore island (no seabed for
-     it, and the world edge is 3 km out).
-  Decisions for you: (a) is 566 places the right fullness, or cut further
-  (the deferred reserve is 247 places; nothing is set in stone until the
-  ground-level stages); (b) dungeon/hostile balance as above; (c) the
-  prose review is done by separate reviewer agents — read a dozen hooks and
-  say whether the voice is right. Feedback in plain English is fine.
+- **Phase 11 touchpoint ③ (round 2) — the province after your second
+  feedback** (2026-09-04; decision 0041 § Part 4 step 2 has the item table).
+  The deployed studio now carries all of it (the earlier round was never
+  pushed — my mistake, fixed). What to check, in order:
+  1. **Map, `?cat=1&tracks=1&water=1`.** Click a dot: the panel shows purpose
+     and hook, stance (who starts a fight, and what flips it), interior
+     (kind, size, how wet), what is inside (creature, people and loot slots),
+     travel station destinations, and quest linkage. New filters: stance,
+     purpose, impact, dungeon-like (`pdg=1`), underwater entrances (`puw=1`,
+     dashed cyan ring). All waterways draw, minor channels included; click a
+     road, lane or track for its details.
+  2. **Fullness and danger.** Now 557 live places (247 in reserve). By your
+     ruling, clearable-or-hostile places are 56 % of the province and
+     settlements plus civic places 22 % — Morrowind's balance or wilder.
+     Every dangerous place names what bites. Tell me if the map now feels
+     dangerous enough, or too thin on friendly ground.
+  3. **Minor roads** are painted into the ground and cleared of trees; fly to
+     any track (tracks=1) and check the worn strip is there.
+  4. **Text.** Two review passes by separate reviewers against the new
+     AI-tell rules (docs/text/style-guide.md §2.4–2.5, the enlarged banned
+     table, your punctuation rules). Read a dozen hooks and a few `why`
+     blocks in the panel and say whether the voice is right now.
+  5. **Speech registers** are rebuilt as race + upbringing + region + faction
+     (docs/text/culture-registers.md) — read the worked examples and say if
+     that is the model you want.
+  6. **Quest map**: docs/quests/25-quest-place-map.md — every provision now
+     has a place; 18 proposed quests the province offers are in
+     55-quest-index §47e for you to accept or strike.
+  7. **Vibe sheets** (`output/sheets/vibe/`, untracked): composites removed;
+     Archon's stone quay is real Imperial masonry; Lilmoth leads with an
+     authored house-on-stilts.
+  8. **Registries** (`world/sources/registries/`): factions, quests, deeds,
+     rumour pools, plus placeholder creatures/items/NPCs with an
+     asset-availability status per creature.
+  9. **Deliverability.** Every place type and every record's prose was
+     checked against the kits we can build (engineering standard 12 is the
+     rule that stops this recurring). 96 places promised something
+     unbuildable (root galleries, carved grave-stakes, floating villages,
+     kilns); all rewritten to real pieces, and three new kits were packaged
+     from pieces already in the vault (root interiors, root settlements,
+     works props). `world/sources/assets/vault-inventory.md` now lists
+     everything we own but have not packaged (733 authored sets, 43 rigged
+     creatures) — worth a skim.
+  Decisions for you: (a) keep 557 or cut further; (b) accept/strike the 18
+  proposed quests; (c) the "house on the Imperial quay" needs a sourced set
+  or stays a gap; (d) which unpackaged vault sets to package next (the
+  inventory's "worth a look" list). Plain-English feedback is fine.
 
 - **Phase 10 trunk solidity — NOT yet passing** (owner, 2026-09-02): a
   separate parallel agent is finalising the tree-collider fixes; Phase 11

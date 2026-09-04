@@ -44,25 +44,53 @@ passes.
 
 In order — stop-the-line failures first.
 
-1. **AI voice.** The banned-constructions table (style guide §2 and quests 60
-   §45e.1). Tricolons in system text, "the very", stranded prepositions
-   reaching for weight, trailing ellipses for mood, "It is said that…",
-   telling the player their feelings. **The reviewer adds new rows on sight** —
-   the table is meant to grow.
-2. **House rules.** British spelling, punctuation, capitalisation of in-world
+1. **AI voice — phrases.** The banned-constructions table (style guide §2 and
+   quests 60 §45e.1). Tricolons in system text, "the very", stranded
+   prepositions reaching for weight, trailing ellipses for mood, "It is said
+   that…", telling the player their feelings, negative parallelism, colon
+   reveals, register vocabulary (*delve, tapestry, testament*). **The reviewer
+   adds new rows on sight** — the table is meant to grow.
+2. **AI voice — shape (qualitative).** Style guide §2.5. These are judged by
+   eye, on a sample, with five tests (research:
+   [ai-writing-tells.md](../research/ai-writing-tells.md) §5):
+   - **Read the paragraph aloud.** Trailer voiceover = fail.
+   - **The Morrowind test.** Would a Morrowind book or NPC end on that line?
+     Morrowind ends on facts and shrugs, not epigrams.
+   - **The flourish count.** Per 10 records, count paragraph-final flourishes
+     (a closer that is a judgement, not a fact). More than ~2 in 10 is a
+     phase-level convergence finding, not a line edit.
+   - **The and/but test** (style guide §2.4, owner 2026-09-04). For every *and*
+     joining two clauses, ask whether the second contradicts, undercuts or
+     surprises the first. If so it should be **but** — or be cut. Report which,
+     per instance; "would read more naturally with *but*" is a finding, not a
+     preference.
+   - **Delete-the-last-clause.** Cut the paragraph's final clause. If it reads
+     better, it was a flourish. Fastest of the five; catches antithesis pairs,
+     colon reveals and self-gloss at once.
+
+   Also check for uniform sentence length, no flat sentences anywhere, every
+   record built to the same fact-image-closer shape, and grandeur with no
+   number, name or object in it.
+3. **House rules.** British spelling, punctuation, capitalisation of in-world
    terms, honorifics, numbers, name forms (style guide §1).
-3. **Register match.** Does the line sound like *this culture and this
-   character*, per style guide §4 and the character's voice sheet (quests 60
-   §46b)? A line that would work equally well in another mouth has failed.
-4. **Convergence** (batch pass). Read the phase's dialogue with the speaker IDs
-   hidden. If you cannot sort the lines by culture, the phase has one voice.
-5. **Newcomer comprehension.** No line assumes Elder Scrolls knowledge the
+4. **Register match — four layers.** Does the line sound like *this race, this
+   upbringing, this region and this faction*, and like this character
+   ([culture-registers.md](culture-registers.md) §0 and the voice sheet, quests
+   60 §46b)? Check the layers separately: a common failure is a line that gets
+   the region right and the race wrong — an Imperial or Khajiit resident given
+   Argonian Jel qualifiers because the region is in the marsh. A line that
+   would work equally well in another mouth has failed.
+5. **Convergence** (batch pass). Read the phase's dialogue with the speaker IDs
+   hidden and sort it **twice**: once by race, once by region. If either sort
+   fails, the phase has one voice — and the usual one voice is the
+   province-majority Argonian one.
+6. **Newcomer comprehension.** No line assumes Elder Scrolls knowledge the
    quest has not taught (quests 60 §45d). Every load-bearing proper noun the
    line uses has a topic.
-6. **Duplication of substance.** Two NPCs delivering the same exposition — the
+7. **Duplication of substance.** Two NPCs delivering the same exposition — the
    catalogue's duplicate-text test catches identical strings, not the same
    paragraph rewritten twice. That is a human-judgement check.
-7. **Catalogue hygiene.** ID shape and area sensible, `surface` correct
+8. **Catalogue hygiene.** ID shape and area sensible, `surface` correct
    (`system` text is the one most often mis-filed as `ui` and thereby escapes
    the strictest register), speaker set, note written.
 
@@ -82,9 +110,10 @@ absorb what review learns; otherwise every phase re-finds the same faults.
 
 ## 5. Escalation
 
-- **A whole culture's register is wrong** → not a review fix. Raise it to the
-  owner with two or three sample lines; the culture rows in style guide §4 are
-  load-bearing and changing one retunes everything written in it.
+- **A whole layer is wrong** (a race row, a region row, a faction row) → not a
+  review fix. Raise it to the owner with two or three sample lines; the rows in
+  [culture-registers.md](culture-registers.md) are load-bearing and changing one
+  retunes everything written against it.
 - **A rule and a good line conflict** → the line probably wins; record the
   exception in the style guide as an explicit carve-out rather than quietly
   breaking the rule. Silent exceptions are how a rulebook dies.

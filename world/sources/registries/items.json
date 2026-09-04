@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "domain": "item",
+  "_": "PLACEHOLDER register. rewardProfile is typed (kinds + valueTier), not named, so the catalogue names no item ids yet: seeded from the canon material culture and the named main-quest objects so contents.loot[].registerRef and quest rewards have somewhere to point. Phase 13's item register grows it.",
+  "entries": [
+    {
+      "id": "item.bog-iron",
+      "name": "Bog iron",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "The marsh's working metal.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla iron ore/ingot clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.depth-stick",
+      "name": "Depth stick",
+      "kind": "tool",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Carried to sound a pond before wading.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla staff/pole clutter, re-materialled",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.eye-of-the-root",
+      "name": "The Eye",
+      "kind": "unique",
+      "status": "derived",
+      "sources": [
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "The main quest's artefact; the object every MQ faction is bidding for.",
+      "assetAvailability": {
+        "status": "sourced",
+        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) Xanmeer and Ayleid gem/relic props",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.flint-vine",
+      "name": "Flint vine",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Xanmeer creeper strong enough to serve as a rope-ladder.",
+      "assetAvailability": {
+        "status": "sourced",
+        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) vine and rope-ladder statics",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.grave-stake",
+      "name": "Grave stake",
+      "kind": "ritual",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md",
+        "world/sources/lore/topics/sithis-nisswo-shadowscales.md"
+      ],
+      "notes": "Argonian burial stake; loose ones make bog blights.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla wooden stake/pole clutter with bound-cloth statics",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.hist-sap",
+      "name": "Hist sap",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/hist-and-sap.md"
+      ],
+      "notes": "The province's defining substance; sacrament, drug, evidence and weapon.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla potion bottle clutter, re-tinted",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.jadeflint",
+      "name": "Jadeflint",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Argonian cutting and tool stone.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla gem/ore clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.leviathan-bone",
+      "name": "Swamp leviathan bone",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Deepmire's structural and trade material.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla and Dragonborn bone-pile clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.mnemic-egg",
+      "name": "Mnemic Egg",
+      "kind": "unique",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Mnemic Egg"
+      ],
+      "notes": "Hist memory-object forced out of volunteers in the cult's sap house (MQ21).",
+      "assetAvailability": {
+        "status": "sourced",
+        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) egg statics (Xanmeer/nest props)",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.neesak-of-scrying",
+      "name": "Neesak of Scrying",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Divinatory green swamp crystal, common in Murkmire.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla soul gem / focus-crystal clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.obverdian",
+      "name": "Obverdian",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Argonian worked stone.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla gem clutter, re-materialled",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.pahnjee",
+      "name": "Pahnjee",
+      "kind": "tool",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Rack of oily spoiled meat that masks a living scent against bog blights.",
+      "assetAvailability": {
+        "status": "sourced",
+        "via": "BM&V vault (tooling/asset-pipeline/black-marsh-mod-source) Argonian charm and fetish clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.storm-crystal",
+      "name": "The Storm Crystal",
+      "kind": "unique",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Stormhold Crystals",
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "The great Stormhold crystal.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla soul gem with storm shader",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.stormhold-crystal",
+      "name": "Stormhold Crystal",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Stormhold Crystals",
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Volatile Shadowfen crystal; filled kinds enchant, hollow kinds store corruption.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla soul gem clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.vakka-stone",
+      "name": "Vakka Stone",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "UESP:Lore:Vakka Stone",
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Powers pre-Duskfall relics and defences.",
+      "assetAvailability": {
+        "status": "sourced",
+        "via": "Argonian Xanmeer Tileset (vault xanmeer-tileset-181193) vakka-stone fittings",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.vossa-satl",
+      "name": "Vossa-satl",
+      "kind": "instrument",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/material-culture.md"
+      ],
+      "notes": "Argonian frog-organ, tuned by selective breeding.",
+      "assetAvailability": {
+        "status": "sourceable",
+        "via": "Argonian equipment candidates in module 90 section 75.1; fallback is vanilla lute/drum clutter re-materialled",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.wamasu-bone",
+      "name": "Wamasu bone",
+      "kind": "material",
+      "status": "canon",
+      "sources": [
+        "world/sources/lore/topics/fauna-hazards.md"
+      ],
+      "notes": "Black, holds a charge for years.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla bone clutter with a charge shader",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    },
+    {
+      "id": "item.work-roll",
+      "name": "The Work Roll",
+      "kind": "unique",
+      "status": "derived",
+      "sources": [
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "The Owing labour roll destroyed in MQ01 — the reason the player is officially dead.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla scroll/book clutter",
+        "notes": "Prop or material; no rig needed. Vanilla or in-vault clutter carries it."
+      }
+    }
+  ]
+}

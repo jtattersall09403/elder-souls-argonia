@@ -75,8 +75,9 @@
       "sources": [
         "world/sources/lore/blackrose.md"
       ],
-      "solved": false,
-      "notes": "The city ferry concession across the eleven-kilometre lake, calling at Longmont and the Spine rather than going round."
+      "solved": true,
+      "notes": "The city ferry concession across the eleven-kilometre lake, calling at Longmont and the Spine rather than going round.",
+      "geometryId": "waterway.imperial-penal-south.lake-ferry-stage"
     },
     {
       "id": "route.boat.blackrose-lilmoth",
@@ -131,8 +132,9 @@
       "sources": [
         "uesp:Lore:Onkobra River"
       ],
-      "solved": false,
-      "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane."
+      "solved": true,
+      "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane.",
+      "geometryId": "waterway.imperial-fringe.gideon"
     },
     {
       "id": "route.boat.lilmoth-anchorage",
@@ -198,11 +200,12 @@
         "ferry:oliis-crossing"
       ],
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "sources": [
         "world/sources/catalogue/places-mercantile-coast.json"
       ],
-      "notes": "The half-mile ferry across the Oliis estuary on the coast road; older than the rebuilt city."
+      "notes": "The half-mile ferry across the Oliis estuary on the coast road; older than the rebuilt city.",
+      "geometryId": "waterway.mercantile-coast.oliis-ferry-stage"
     },
     {
       "id": "route.boat.soulrest-blackrose",
@@ -605,11 +608,12 @@
         "boat:hissmir-pilgrim-water"
       ],
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "sources": [
         "world/sources/catalogue/places-dunmer-north.json"
       ],
-      "notes": "The poled water route pilgrims take to the trial village; deliberately easy to find."
+      "notes": "The poled water route pilgrims take to the trial village; deliberately easy to find.",
+      "geometryId": "waterway.dunmer-north.hissmir"
     },
     {
       "id": "route.track.hist-heartland.basin-guide-crossing",
@@ -685,11 +689,12 @@
         "guide:hutan-tzel-totem-line"
       ],
       "confidence": "LORE_IMPLIED",
-      "solved": false,
+      "solved": true,
       "sources": [
         "world/sources/catalogue/places-dunmer-north.json"
       ],
-      "notes": "Totem-marked channel line downstream; needs a village guide to read."
+      "notes": "Totem-marked channel line downstream; needs a village guide to read.",
+      "geometryId": "waterway.dunmer-north.hutan-tzel"
     },
     {
       "id": "route.track.last-landing-carry",

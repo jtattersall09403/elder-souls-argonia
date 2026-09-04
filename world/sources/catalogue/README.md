@@ -115,6 +115,13 @@ A record that sells passage carries `travelStation {modes[], destinations[]}` �
 the Morrowind-style pay-and-go network; destinations must be live records that
 are stations themselves.
 
+**Siting rationale never goes in the prose.** When the sources put a canon
+subject somewhere else, or say nothing, the reason we placed it where we did
+goes in `sitingNote` (or in `sources`), not in `why.founding`. Provenance voice
+("Canon:", "canon says", "we place it here deliberately") is banned inside world
+text by [quests 60 §45e.1](../../../docs/quests/60-writing-and-lore.md); state the
+fact in the record and put the citation in `sources`.
+
 **Reserved edges.** Any relation whose target is deferred or cut lives in
 `relationsReserved` (same shape as `relations`), never in `relations` — the
 validator fails on a live edge to a non-live record. Promote the target and
@@ -127,7 +134,10 @@ records from another's by name or by kit — every region reached for the same
 few families, and "The …" did the work of a register. Each region now has a
 **naming register** (the grammar its names obey) and a **signature pool** (the
 two or three asset families that are *disproportionately* its own, on top of
-the province-common base). Both are descriptive of what the eight files now
+the province-common base). Names follow the **region's dominant naming culture** while *speech* follows the
+layered speaker model in [docs/text/culture-registers.md](../../../docs/text/culture-registers.md)
+(race + upbringing + region + faction), so a Khajiit in a verb-clause-named town
+still speaks as a Khajiit. Both are descriptive of what the eight files now
 contain — check against this table before adding a record, and if a new record
 needs a name or a kit outside its region's row, say why in `why.founding`.
 
@@ -145,3 +155,26 @@ needs a name or a kit outside its region's row, say why in `why.founding`.
 | `imperial-penal-south` | administrative register — the name a *long-dead* cordon or ledger gave a place (the prison bureaucracy is history, not live; its names survive it): "Holding Fields, Cordon Three", "The Windlass Reckoning", "Open House" | `bmv-fort`, `docks-piers`, `submerged-ruins`, `vanilla-farmhouse` | Argonian verb-names outside the Argonian records (2 of 21, correctly) |
 | `imperial-fringe` | two registers side by side, and the seam is the point: Colovian possessives and plain descriptors ("Cartwright's Cross", "Cassian's Holding", "Burnt Field") against Argonian verb-names ("Carries-Them-Home") | `imperial-keep` (civic/military), `hlaalu-domestic` (Imperial domestic), `landmark-civic`, `signage-blank`, `bridges`; `vanilla-farmhouse` now only on mixed/Argonian records | mixing the two registers *within* one name |
 | `dunmer-north` | Velothi/House names on the Morrowind side ("Andalen Plantation", "Gandranen Ruins", "Greylight"), Argonian verb-names on the marsh side, and English-compound road names on the road itself ("Channel Cross", "Nine Fords") | `dunmer-telvanni`, `vanilla-farmhouse`, `landmark-civic`, `guar-pens` | Imperial civic kit; anything coastal |
+
+## `questHooks` — the join with the quest plan (co-design pass, 2026-09-04)
+
+`questHooks` is `{ provisions, tags, opportunity, tierOwnership }`:
+
+- **`provisions`** — `quest.provision.<slug>` ids. Each one answers a *World-generation
+  provision* declared in [docs/quests/30](../../../docs/quests/30-main-quest.md),
+  [40](../../../docs/quests/40-factions.md) or [50](../../../docs/quests/50-side-quests.md):
+  the §11 tag is dropped and dots/underscores become dashes, so
+  `LOC helstrom.archive` → `quest.provision.helstrom-archive`. Canon-supplied
+  places from quests 20 §12b use `quest.provision.canon.<slug>`; a line or local
+  quest with no named `LOC` uses `quest.provision.<qid>-anchor`.
+- **`tags`** — the quests-20 §11 vocabulary (`LOC`, `APP`, `WATER`, `STEALTH`…).
+- **`opportunity`** — one line of prose from the region agent: what a quest
+  *could* do here. This is the places → quests direction and nothing else
+  records it; keep it when you edit a record.
+- **`tierOwnership`** — `"<quest or line id> · tier-N"`, semicolon-joined,
+  lowest tier first. A place owned by tier 0 or 1 may not be written by a lower
+  tier (quests 40 §30b).
+
+**The full map, the gaps and the standing rules are
+[docs/quests/25-quest-place-map.md](../../../docs/quests/25-quest-place-map.md)** —
+read it before adding, moving or cutting a record.

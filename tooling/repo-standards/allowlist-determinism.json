@@ -1,10 +1,30 @@
 {
-  "_": "Engineering standard 6. Scopes are the code that generates, compiles or places WORLD DATA — runtime gameplay jitter (an enemy's decision timer) is not world building and is out of scope by construction. Every allowlist entry needs a reason; an entry with no reason is a bug.",
+  "_": "Engineering standard 6. Scopes are the code that generates, compiles or places WORLD DATA \u2014 runtime gameplay jitter (an enemy's decision timer) is not world building and is out of scope by construction. Every allowlist entry needs a reason; an entry with no reason is a bug.",
   "scopes": [
-    { "dir": "tooling/world-generation/worldgen", "exts": [".py"] },
-    { "dir": "tooling/asset-pipeline/pipeline", "exts": [".py"] },
-    { "dir": "packages/world-time/src", "exts": [".ts"] },
-    { "dir": "packages/world-weather/src", "exts": [".ts"] }
+    {
+      "dir": "tooling/world-generation/worldgen",
+      "exts": [
+        ".py"
+      ]
+    },
+    {
+      "dir": "tooling/asset-pipeline/pipeline",
+      "exts": [
+        ".py"
+      ]
+    },
+    {
+      "dir": "packages/world-time/src",
+      "exts": [
+        ".ts"
+      ]
+    },
+    {
+      "dir": "packages/world-weather/src",
+      "exts": [
+        ".ts"
+      ]
+    }
   ],
   "allowed": [
     {
@@ -16,6 +36,16 @@
       "file": "tooling/world-generation/worldgen/sculpt_province.py",
       "line": 34,
       "reason": "matching elapsed-time read for the same report field"
+    },
+    {
+      "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
+      "line": 556,
+      "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
+    },
+    {
+      "file": "tooling/asset-pipeline/pipeline/vault_inventory.py",
+      "line": 560,
+      "reason": "wall-clock start/elapsed for the run-duration line in the vault inventory REPORT; the inventory itself is derived from file contents and is unaffected"
     }
   ]
 }

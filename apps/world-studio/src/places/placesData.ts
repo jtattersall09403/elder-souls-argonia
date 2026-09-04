@@ -19,7 +19,11 @@ import type {
   PlottedPlacesBundle,
 } from "@elder-souls/contracts";
 
-export type { PlottedPlace, PlottedPlacesBundle, MinorTrack, MinorTracksBundle } from "@elder-souls/contracts";
+export type {
+  PlottedPlace, PlottedPlacesBundle, MinorTrack, MinorTracksBundle,
+  PlottedPlaceContents, PlottedPlaceInterior, PlottedPlacePurpose, PlottedPlaceStance,
+  PlottedPlaceTravelStation,
+} from "@elder-souls/contracts";
 
 /** Pixel side of the hydrology grid that routes.json / routes-minor.json index. */
 export const HYDRO_GRID_PX = 1345;
@@ -28,7 +32,7 @@ export async function loadPlaces(baseUrl: string): Promise<PlottedPlacesBundle> 
   const r = await fetch(`${baseUrl}province/places.json`);
   if (!r.ok) throw new Error(`places.json: HTTP ${r.status}`);
   const data = (await r.json()) as PlottedPlacesBundle;
-  if (data.schemaVersion !== 1) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported`);
+  if (data.schemaVersion !== 2) throw new Error(`places.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_places`);
   return data;
 }
 
@@ -101,12 +105,32 @@ export const TRACK_DASH: Record<string, string | undefined> = {
 // Filters and their URL round-trip (reproducible URLs, module 85 §67)
 // ---------------------------------------------------------------------------
 
+/** Interior kinds the owner calls "dungeon-like" (as opposed to `building`). */
+export const DUNGEON_KINDS = new Set(["delve", "dungeon", "complex", "warren"]);
+
+/** An underwater way in: the entrance itself, or an Argonian dive route. */
+export function isUnderwaterEntry(p: PlottedPlace): boolean {
+  return p.entrance === "underwater-entry" || (p.underwaterAccess !== null && p.underwaterAccess !== "none");
+}
+
 export interface PlacesFilter {
   regions: Set<string>;
   tiers: Set<string>;
   classes: Set<string>;
   dangers: Set<string>;
   densities: Set<string>;
+  /** Hostility baseline (the six schema-v2 stances). */
+  stances: Set<string>;
+  /** Interior kind and family. */
+  interiorKinds: Set<string>;
+  interiorFamilies: Set<string>;
+  /** playerPurpose.primary / .impact. */
+  purposes: Set<string>;
+  impacts: Set<string>;
+  /** Shortcut over interiorKinds: any of DUNGEON_KINDS. */
+  dungeonLike: boolean;
+  /** Only places with an underwater entrance or dive access. */
+  underwater: boolean;
   search: string;
 }
 
@@ -118,11 +142,16 @@ export interface PlacesUrlState {
 }
 
 export const EMPTY_FILTER: PlacesFilter = {
-  regions: new Set(), tiers: new Set(), classes: new Set(), dangers: new Set(), densities: new Set(), search: "",
+  regions: new Set(), tiers: new Set(), classes: new Set(), dangers: new Set(), densities: new Set(),
+  stances: new Set(), interiorKinds: new Set(), interiorFamilies: new Set(),
+  purposes: new Set(), impacts: new Set(), dungeonLike: false, underwater: false, search: "",
 };
 
 /** Query keys owned by this layer (the `cat=1` toggle itself is App's). */
-export const PLACES_URL_KEYS = ["pr", "pt", "pc", "pd", "pl", "pq", "place", "tracks", "sites"] as const;
+export const PLACES_URL_KEYS = [
+  "pr", "pt", "pc", "pd", "pl", "pq", "place", "tracks", "sites",
+  "ps", "pk", "pf", "pp", "pi", "pdg", "puw",
+] as const;
 
 function setOf(v: string | null): Set<string> {
   return new Set((v ?? "").split(",").map((s) => s.trim()).filter(Boolean));
@@ -136,6 +165,13 @@ export function parsePlacesUrl(q: URLSearchParams): PlacesUrlState {
       classes: setOf(q.get("pc")),
       dangers: setOf(q.get("pd")),
       densities: setOf(q.get("pl")),
+      stances: setOf(q.get("ps")),
+      interiorKinds: setOf(q.get("pk")),
+      interiorFamilies: setOf(q.get("pf")),
+      purposes: setOf(q.get("pp")),
+      impacts: setOf(q.get("pi")),
+      dungeonLike: q.get("pdg") === "1",
+      underwater: q.get("puw") === "1",
       search: q.get("pq") ?? "",
     },
     selectedId: q.get("place"),
@@ -155,6 +191,13 @@ export function encodePlacesUrl(s: PlacesUrlState): Record<string, string> {
   list("pc", s.filter.classes);
   list("pd", s.filter.dangers);
   list("pl", s.filter.densities);
+  list("ps", s.filter.stances);
+  list("pk", s.filter.interiorKinds);
+  list("pf", s.filter.interiorFamilies);
+  list("pp", s.filter.purposes);
+  list("pi", s.filter.impacts);
+  if (s.filter.dungeonLike) out.pdg = "1";
+  if (s.filter.underwater) out.puw = "1";
   if (s.filter.search) out.pq = s.filter.search;
   if (s.selectedId) out.place = s.selectedId;
   if (s.showTracks) out.tracks = "1";
@@ -169,6 +212,13 @@ export function matchesFilter(p: PlottedPlace, f: PlacesFilter): boolean {
   if (f.classes.size && !f.classes.has(p.class ?? "?")) return false;
   if (f.dangers.size && !f.dangers.has(p.dangerTier ?? "?")) return false;
   if (f.densities.size && !f.densities.has(p.densityLayer ?? "?")) return false;
+  if (f.stances.size && !f.stances.has(p.stance ?? "?")) return false;
+  if (f.interiorKinds.size && !f.interiorKinds.has(p.interiorDetail?.kind ?? "?")) return false;
+  if (f.interiorFamilies.size && !f.interiorFamilies.has(p.interiorDetail?.family ?? "?")) return false;
+  if (f.purposes.size && !f.purposes.has(p.purposeDetail?.primary ?? "?")) return false;
+  if (f.impacts.size && !f.impacts.has(p.purposeDetail?.impact ?? "?")) return false;
+  if (f.dungeonLike && !DUNGEON_KINDS.has(p.interiorDetail?.kind ?? "")) return false;
+  if (f.underwater && !isUnderwaterEntry(p)) return false;
   if (f.search) {
     const q = f.search.toLowerCase();
     if (!p.name.toLowerCase().includes(q) && !p.id.toLowerCase().includes(q)) return false;

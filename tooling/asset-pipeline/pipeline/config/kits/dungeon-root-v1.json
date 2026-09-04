@@ -1,0 +1,427 @@
+{
+ "id": "dungeon-root-v1",
+ "description": "Walkable ROOT INTERIOR kit \u2014 the missing tileset behind the province's signature dungeon family (catalogue.py INTERIOR_FAMILIES `root-cavern` and `hist-sanctum`, plus the `root-hollow-gallery` and `wild-rootworm-burrow` place types, whose assetPlans previously pointed at TREE meshes that cannot make a walkable interior \u2014 see docs/research/place-asset-deliverability-audit.md \u00a73/\u00a75.2). Pure packaging: every piece already existed in the vault, unkitted. Three authored modular sets are packaged SEPARATELY, each in its own snap logic (see snapLogic) \u2014 they are never interpenetrated piece-for-piece: (1) BM&V `philscaves`, a complete Morrowind-style modular cave tileset (small corridors/halls/ramp/exits plus the larger `srooms` room-and-corridor family and two cave shells) \u2014 the walkable SHELL, read as root-wall via its own texture set; (2) BM&V `citebosmer` trunk-house INTERIOR modules \u2014 the inside-a-trunk storeys, walls, windows, doors and trapdoor stairs that make a hollow living root; (3) BM&V `telvanni` root/interior pieces (`tel_ext_root_01/02`, `tel_root_03`, connector, ramp, stairs, gourd-house shell) \u2014 organic connective tissue between the two. Dressed with HTBM Cipactli's Hist root masses (`histroots01-06`, `histramp`, `treeroots`, `treeroottrap`, corrupted taproots) and Mud Mother Grove's Argonian ritual lights, shell floor, Sithis shrine and Hist mist for the hist-sanctum centre. NOT tropicalised: nothing here is vanilla-backed, so the overlay would be a no-op. TEXTURE NOTE: the BM&V Telvanni pieces UV Dragonborn's `textures/dlc02/architecture/telvannitower/*` paths and the vault holds NO Skyrim DLC, so they exported grey. `textureAliases` redirects all twelve DLC paths (plus two Earrindo and two Stroti wood paths BM&V also fails to ship) to BM&V's OWN Bosmer bark `eressea/architecture/citesylvestrepactevert/bark0143` \u2014 which is exactly the 'retexture the Telvanni silhouette to root' the audit asks for, done as a build-config alias rather than a new texture. Same mechanism as settlement-stilt-v1's stockade redirect.",
+ "culture": "argonian-root",
+ "output": "tooling/asset-pipeline/output/kits/dungeon-root-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "textureAliases": {
+  "textures/dlc02/architecture/telvannitower/telbigroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telbigroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telcap01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telcap01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telgroundinterior01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telgroundinterior01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls02.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telinsidewalls02_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroombot01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroombot01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomtop01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telmushroomtop01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telstairs01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telstairs01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodendoor01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodendoor01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodsmallroots01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodsmallroots01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodtile01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/dlc02/architecture/telvannitower/telwoodtile01_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/earrindo/telvanni/telinsidewalls03b.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telinsidewalls03b_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/earrindo/telvanni/telvanni_bracket01.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telvanni_bracket02_trans.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/earrindo/telvanni/telvanni_bracket02_trans_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/st/woodweathered01dirtyrings.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/st/woodweathered01dirtyrings_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds",
+  "textures/st/woodweathered03.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143.dds",
+  "textures/st/woodweathered03_n.dds": "textures/eressea/architecture/citesylvestrepactevert/bark0143_n.dds"
+ },
+ "snapLogic": {
+  "philscaves": "Its own Morrowind-derived modular cave grid. Pieces are authored around a shared corridor cross-section and butt END-TO-END at their open faces with no offset; the origin sits at the piece's entry face. `small/cor01-04` are the turn set, `small/hall01-05` the straights, `small/ram01` the vertical change, `small/exit01-02` and `small/doorcaveb` the terminators, `small/cap` seals a stub. The `srooms` family is a second, larger tier with the same convention: `connect` is the adapter between a `room0x` chamber and a `cor0x` run, `corc0x` are its corners, `mid0x` the extensions, `wall0x` the blanking faces. Mix tiers only through `srooms/connect`. `cave2`/`cave3` are one-piece shells used as a terminal chamber, not as modules.",
+  "citebosmer-interiors": "The Bosmer tree-city set's own storey grid. Names encode the storey: `rc` = ground storey, `et` = upper storey, `ss` = basement. A dwelling is one `...int<storey>001` floor shell with `intwall<storey>00x` panels and `intwindow<storey>00x` inserts substituted around its perimeter, `intdoor<storey>01` at the entry, and storeys stacked vertically and joined by the `gland` trapdoor family (`inttraprcup001`/`inttraprcdn001`/`inttrapetdn001`/`inttrapssup001` \u2014 up/down at ground, down from upper, up from basement). `90v` suffixes are the 90-degree rotated variants authored to close a corner; `15v`/`45v` on the champ walls are the wall's authored tilt for the tapering trunk, so a champ shell must use one tilt family consistently.",
+  "telvanni": "Free-form organic connectors, not a grid. `tel_int_connector_01` is the authored joint between two pod/root volumes; `tel_ext_root_01/02` and `tel_root_03` are placed by hand against a shell mouth. Use them to hide the seam where philscaves meets a citebosmer trunk interior.",
+  "htbm-roots": "Dressing statics with no connectors \u2014 `histroots01-06` are hand-placed root masses, `histramp` is the one traversable piece and is authored to lie on the ground plane as a walk-up.",
+  "unitScale": "Bethesda units; the pipeline converts at 0.0142240 m/unit. Measured extents per piece are in the built manifest tooling/asset-pipeline/output/kits/dungeon-root-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "bmv:architecture/philscaves/srooms/connect"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/cor01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/cor02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/cor03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/corc"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/corc01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/corc02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/corc03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/corc04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid03a"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid03b"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid03c"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/mid05"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/room01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/room02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/room03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/room04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/room05"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall05"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/srooms/wall06"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/cap"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/cor01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/cor02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/cor03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/cor04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/doorcaveb"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/exit01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/exit02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall02"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall03"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall04"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall05"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall05_a"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hall05_b"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/hallh01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/small/ram01"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/cave2"
+  },
+  {
+   "asset": "bmv:architecture/philscaves/cave3"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintdooret01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintdoorrc01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintet90v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintrc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintrc90v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintss001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallet002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallet003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallrc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallrc002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwallrc003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowet002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowet003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowrc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowrc002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncintwindowrc003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampint001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintdoor01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla45v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla45v002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwalla45v003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwindow001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwindow002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampintwindow003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandint001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandintdoor001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandinttrapetdn001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandinttraprcdn001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandinttraprcup001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandinttrapssup001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandintwindowet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandintwindowet002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandintwindowet003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandintwindowrc001"
+  },
+  {
+   "asset": "bmv:telvanni/tel_ext_root_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_ext_root_02"
+  },
+  {
+   "asset": "bmv:telvanni/tel_root_03"
+  },
+  {
+   "asset": "bmv:telvanni/tel_int_connector_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_int_gourdhouse01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_ramp_03"
+  },
+  {
+   "asset": "bmv:telvanni/tel_stairs_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_stairs_01b"
+  },
+  {
+   "asset": "bmv:telvanni/tel_ext_ramp_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_pod_shelf_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_shelffungus_01"
+  },
+  {
+   "asset": "bmv:telvanni/tel_entrance_01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots04"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots05"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots06"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histramp"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histtree"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/treegiantrootbase01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/treeroots01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/treeroots03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/treeroottrap"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproot"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/clutter/corruptedtaproothist"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/clutter/histfruit"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/histtree"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/fxhistmist01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/archwaysticks"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/sithisshrine"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/roundfloor01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/shellhalf"
+  }
+ ]
+}

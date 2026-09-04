@@ -2,7 +2,7 @@
   "schemaVersion": 3,
   "id": "settlement-asset-inventory",
   "generated": "2026-09-02",
-  "revised": "2026-09-02 (round 3: folded in item 6b's completed multi-round sourcing pass, commits cc15ae4/b5d824e. Eight new pools; six of the nine gaps now closed.)",
+  "revised": "2026-09-02 (round 3: folded in item 6b's completed multi-round sourcing pass, commits cc15ae4/b5d824e. Eight new pools; six of the nine gaps now closed.) | 2026-09-04 (Phase 11 Part 4: three kits BUILT from vault pieces that were already held but unpackaged - dungeon-root-v1, settlement-root-v1, works-v1. No downloads.)",
   "phase": "Phase 11, Part 0 item 6a (decision 0041)",
   "purpose": "Browsable survey of the settlement-building assets we actually hold or can source. Part 1 writes catalogue vibe/asset plans AGAINST this file so the province is designed for the breadth we own. Survey only: this agent downloaded nothing (item 6b owns downloads and ran concurrently).",
   "round2Corrections": [
@@ -2029,6 +2029,157 @@
         "broken (3 wall variants)"
       ],
       "gapFlag": "The domestic tier under arch.imperial.morrowind-keep - built ON SSE 133090 and retextured, so it shares that pool's texture paths (declared as a texture sibling in build_kit). Kit: hlaalu-domestic (68 pieces)."
+    },
+    {
+      "id": "arch.argonian-root.dungeon-interior",
+      "label": "Root-walled INTERIOR tileset (BM&V philscaves + citebosmer trunk interiors + Telvanni root pieces + HTBM Hist roots)",
+      "class": "building",
+      "culture": "argonian-root",
+      "status": "have",
+      "pool": "bmv+htbm+mudmother",
+      "kit": "dungeon-root-v1",
+      "kitConfig": "tooling/asset-pipeline/pipeline/config/kits/dungeon-root-v1.json",
+      "vaultPaths": [
+        "meshes/architecture/philscaves/",
+        "meshes/architecture/citebosmer/houses/ (int* modules only)",
+        "meshes/telvanni/",
+        "meshes/here there be monsters - curse of cipactli/trees/",
+        "meshes/gv_meshes/argoniannest/ (ritual/light subset)"
+      ],
+      "pieceCount": 124,
+      "pieces": [
+        "philscaves 46: srooms tier (connect, cor01-03, corc+corc01-04, mid01-05, room01-05, wall01-06) and small tier (cap, cor01-04, doorcaveb, exit01/02, hall01-05+05_a/b, hallh01, ram01) plus cave2/cave3 one-piece shells - the walkable SHELL",
+        "citebosmer interiors 41: housetroncint* (rc/et/ss storeys, walls, windows, doors, 90v corner variants), housechampint* (15v/45v tilted walls), houseglandint* incl. the four trapdoor stair pieces",
+        "telvanni 12: tel_ext_root_01/02, tel_root_03, tel_int_connector_01, tel_int_gourdhouse01, tel_ramp_03, tel_stairs_01/01b, tel_ext_ramp_01, tel_pod_shelf_01, tel_shelffungus_01, tel_entrance_01 - retextured to BM&V bark by kit textureAliases (vault has no Dragonborn DLC)",
+        "HTBM roots 15: histroots01-06, histramp, histtree, treegiantrootbase01, treeroots01/03, treeroottrap, corruptedtaproot(+hist), histfruit",
+        "Mud Mother Grove 10: histtree, fxhistmist01, cavegbalconyshelf01, archwaysticks, argonianlanterns01/03, sithisshrine, argoniantotem01, roundfloor01, shellhalf"
+      ],
+      "moduleM": "philscaves small tier ~7.2 m hall run, 3.6 m corridor width, 3.7-4.0 m headroom; srooms rooms 17-20 m; citebosmer tronc storey 24.1 m across x 4.3 m high, champ 14.1 m x 5.4 m, gland 7.5 m x 12.4 m",
+      "palette": [
+        "wet root bark",
+        "dark heartwood",
+        "cavern silt",
+        "hist amber"
+      ],
+      "materials": [
+        "root",
+        "bark",
+        "earth",
+        "woven fibre"
+      ],
+      "conditionVariants": [
+        "intact",
+        "corrupted (taproot pieces)"
+      ],
+      "gapFlag": "CLOSES the root-interior gap (deliverability audit S3/S5.2). Delivers INTERIOR_FAMILIES root-cavern and hist-sanctum outright, and backs dwelling and civic-hall for grown-root settlements.",
+      "sourceCandidate": null,
+      "useFor": [
+        "root-hollow-gallery and wild-rootworm-burrow interiors",
+        "hist-sanctum centres",
+        "the inside of any settlement-root-v1 dwelling",
+        "root-dressed cave dungeons province-wide"
+      ]
+    },
+    {
+      "id": "arch.argonian-root.settlement",
+      "label": "Grown-root EXTERIOR settlement (BM&V citebosmer trunk-houses + the complete modular elevated walkway system)",
+      "class": "building",
+      "culture": "argonian-root",
+      "status": "have",
+      "pool": "bmv+htbm+mudmother",
+      "kit": "settlement-root-v1",
+      "kitConfig": "tooling/asset-pipeline/pipeline/config/kits/settlement-root-v1.json",
+      "vaultPaths": [
+        "meshes/architecture/citebosmer/{houses,passerelles,trees}/",
+        "meshes/here there be monsters - curse of cipactli/trees/",
+        "meshes/gv_meshes/argoniannest/"
+      ],
+      "pieceCount": 140,
+      "pieces": [
+        "three trunk-house forms with their OWN accessory families: tronc (trunk), champ (tapered cap), gland (hanging pod) - shells, balconies + approaches + end caps, doors, window inserts, liana drops",
+        "the COMPLETE passerelles walkway system, 52 pieces: straights passl64/128/160/256/512 with h0/h32/h64/h128 rises, authored climb starts, 45-degree turns, r448/r576/r1280 arcs, T/X/Y junctions, end cap, stair",
+        "kiosque platform node 8: deck, two approach ramps, railings, solid sides, trunk fixation collar",
+        "host trees 15: treegiant01 (131 x 110 x 206 m), branches 1-7/12/13, three leaf sets, treegiantrootbase01, treemere03",
+        "HTBM histroots01-06 + histramp for the ground layer",
+        "Mud Mother Grove 17: lanterns 01-04, totem, bone chime, banner, plank bridge + start, two platforms, three fences, histtree, thatch roofing, archway sticks"
+      ],
+      "moduleM": "walkway deck 3.03 m wide; straight runs 1.07 / 1.98 / 2.48 / 3.80 / 7.44 m (= the l value in Bethesda units); an h64 segment rises 0.92 m, h128 rises 1.82 m; kiosk deck 8.6 m across",
+      "palette": [
+        "living bark",
+        "sap-amber timber",
+        "green canopy",
+        "woven rope"
+      ],
+      "materials": [
+        "living wood",
+        "bark",
+        "rope",
+        "thatch"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "CLOSES gap.grown-root-architecture (34 flagged records, audit S4). hist-grove-capital and every canopy/trunk dwelling now has a real kit. housetroncbalcon001 is EXCLUDED - no exportable geometry.",
+      "sourceCandidate": null,
+      "useFor": [
+        "hist-grove-capital and hist-village canopy tiers",
+        "hammock-crown-terrace",
+        "any elevated walkway or canopy route",
+        "grown dwellings province-wide"
+      ]
+    },
+    {
+      "id": "prop.neutral.works-and-industry",
+      "label": "Works and industry prop set (vanilla forge/smelter/racks/carts/mine timbers/scaffold/water wheels + Argonian oven and racks)",
+      "class": "prop",
+      "culture": "neutral",
+      "status": "have",
+      "pool": "vanilla+mudmother",
+      "kit": "works-v1",
+      "kitConfig": "tooling/asset-pipeline/pipeline/config/kits/works-v1.json",
+      "vaultPaths": [
+        "Skyrim - Meshes.bsa clutter/{blacksmith,smelter,carts,firewood,stockade,common,containers,ingredients}",
+        "dungeons/mines/{clutter,scaffolding,ore}",
+        "architecture/farmhouse/",
+        "architecture/docks/",
+        "meshes/gv_meshes/argoniannest/"
+      ],
+      "pieceCount": 85,
+      "pieces": [
+        "forge set: blacksmithforge01, workbench, bellows, sharpening wheel",
+        "smelter (READ AS the kiln): smelter01, smelter01coal01, coal01, firewood piles small-huge",
+        "racks: tanningrack01, wrherbdryingrack01, fishrack01/02, Mud Mother fishracksmall, carapaceoven, ovennew",
+        "carts: handcart01 (+wheel), handcart02, canopy, crate, vendorcartstatic01, wagonwheel01",
+        "mine timbers: minewoodbeam01-03 + short01/02, minewoodplanks01-04, minescaffoldsupport01, minescaffoldbasesupport01(w), genericwell01, mineoreiron01, mineoredepleted01",
+        "stockade scaffold: base 0-4 sided, top 0-4 sided, basesupport, ramp, stairs, bridge01/02 + narrow, toppost01/02",
+        "water works: lumbermill01waterwheel01/02; SLUICE GATES walkwaycwallgate01/02; dockstepsdown01, dockstrent01",
+        "salt-pan and paddy dressing: saltpile, pitchfork01 (rake), shovel01, baskets, barrels, crates, sacks, bucket, horsetrough01, cattail, woven and snake fences, painted urn"
+      ],
+      "moduleM": null,
+      "palette": [
+        "soot black",
+        "hot iron",
+        "weathered plank",
+        "wet salt white"
+      ],
+      "materials": [
+        "iron",
+        "charcoal",
+        "plank",
+        "wicker",
+        "salt"
+      ],
+      "conditionVariants": [
+        "intact"
+      ],
+      "gapFlag": "PARTIALLY CLOSES gap.working-infrastructure. There is still NO kiln, saltern, sluice, winding-gear or hull-on-stocks mesh in any pool and none is sourceable; this kit is the agreed substitution vocabulary (audit S5.4). Descriptions must be written in these terms.",
+      "sourceCandidate": null,
+      "useFor": [
+        "shipyard, boatwright-yard, portage-slipway",
+        "salt-pans, paddy-works, horwalli-waterworks",
+        "clay-pit-and-kiln, bog-iron-bloomery, works-town",
+        "crystal-diggings and mine dressing"
+      ]
     }
   ],
   "gaps": [
@@ -2255,7 +2406,20 @@
     "roundOverRound": "Round 1 named five critical/high gaps and under-searched. Round 2's vault sweep closed two and downgraded one. Round 3's completed 6b sourcing pass closed four more (mud variety, xanmeer exteriors+ornament, rafts, canoes), added the underwater layer, and proved that the three remaining gaps have no Nexus answer at all.",
     "nativeKeellessHulls": 6,
     "underwaterPieces": 247,
-    "builtKits": 5
+    "builtKits": 5,
+    "existingKits": [
+      "tooling/asset-pipeline/pipeline/config/kits/settlement-mud-v1.json (Shadowfen mud/wattle, 33 assets)",
+      "tooling/asset-pipeline/pipeline/config/kits/settlement-stilt-v1.json (Murkmire reed/stilt, 26 assets)",
+      "tooling/asset-pipeline/pipeline/config/kits/settlement-imperial-v1.json (Imperial stone-timber, 11 assets)",
+      "tooling/asset-pipeline/pipeline/config/kits/settlement-root-v1.json (grown-root canopy settlement, 140 assets, 2026-09-04)",
+      "tooling/asset-pipeline/pipeline/config/kits/dungeon-root-v1.json (walkable root INTERIOR tileset, 124 assets, 2026-09-04)",
+      "tooling/asset-pipeline/pipeline/config/kits/works-v1.json (works/industry props, 85 assets, 2026-09-04)",
+      "tooling/asset-pipeline/pipeline/config/kits/imperial-keep.json, hlaalu-domestic.json (Morrowind-Imperial tiers)",
+      "tooling/asset-pipeline/pipeline/config/kits/ruin-monumental-v1.json",
+      "tooling/asset-pipeline/pipeline/config/kits/underwater-v1.json",
+      "flora-province-v1, groundcover-province-v1 (Phase 10)"
+    ],
+    "kitCount": 10
   },
   "nexusResearch": {
     "conducted": "2026-09-02, round 2. RESEARCH ONLY - nothing downloaded. All mod IDs confirmed live against the Nexus API unless flagged unverified.",
@@ -2591,7 +2755,8 @@
     "Hovelmud (SSE 63329), an owner lead, is NOT a mud hut - it is Stroti's Mushroom House kit, a fungal/Telvanni idiom that material-culture puts off-limits inland, and BM&V already bundles the same Stroti material. Recorded so nobody chases it again.",
     "Round 2 flagged that BM&V's 'swamp house.nif' might be the Sniper: Ghost Warrior 2 rip. HTBM bundles a mesh of the same name; the provenance question stands and is recorded under doNotChase.",
     "BM&V extraction is NO LONGER a blocker: 6b's RarSource pulls single members from Data1.rar/Data2.rar on demand in ~0.1 s, so no bulk extraction is needed.",
-    "Kits now number FIVE, not the three in the sourcing log's early section: settlement-mud-v1, settlement-stilt-v1, settlement-imperial-v1, ruin-monumental-v1, underwater-v1."
+    "Kits now number FIVE, not the three in the sourcing log's early section: settlement-mud-v1, settlement-stilt-v1, settlement-imperial-v1, ruin-monumental-v1, underwater-v1.",
+    "2026-09-04: kits now number EIGHT settlement/dungeon/prop kits plus flora and groundcover. dungeon-root-v1 (124 assets) and settlement-root-v1 (140) close the root-interior and grown-root-architecture gaps that the place-asset-deliverability audit called the two big kit fixes; works-v1 (85) is the substitution vocabulary for the works taxonomy branch. Alias slugs dungeon-root / settlement-root / works-props resolve to arch.argonian-root.dungeon-interior / arch.argonian-root.settlement / prop.neutral.works-and-industry."
   ],
   "doNotChase": [
     {

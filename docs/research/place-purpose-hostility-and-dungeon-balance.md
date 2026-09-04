@@ -84,10 +84,17 @@ southern regions are badly under-served**; `pirate-freeholds` with zero hostile
 camps and 6 dungeons is the clearest failure — a pirate region should be the
 densest hostile ground in the province.
 
-**Target.** The shipped 55–65% would mean ~290–340, which the owner warned
-against, and our mix is far more settlement/civic than Morrowind's. Take the low
-end, discounted: **240–280 dungeon-like of 527 (45–53%)** = **+45 to +85 over
-today's 197**. Sub-targets:
+**Target — CORRECTED by owner ruling 2026-09-04.** The original draft here
+read the owner's "don't overdo it" as a cap below Morrowind and argued our mix
+should stay more settlement/civic than Morrowind's. **Both were wrong.** The
+owner's ruling: Black Marsh is dangerous and wild, not a unified state, and
+civilisation is *rarer* there than in other provinces — so the province must
+carry **at least Morrowind's share of hostile, clearable places (55–65 % of
+live records)** and **fewer settlement/civic records than Morrowind, not
+more**. Target: **≥ 55 % dungeon-like or hostile-baseline of live records**,
+settlements + civic ≤ 22 % of live records (Morrowind's towns, villages and
+Ashlander camps are ~25 % of named places), the surplus converted into delves,
+lairs, wrecks and owned hostile camps or deferred. Sub-targets (rescaled):
 
 | Band | Target | Note |
 |---|---:|---|
@@ -313,3 +320,152 @@ Lean, role-string-now / register-ID-later; Phase 13 (world 95) owns the register
 line to world 95's Phase 15 (or Phase 10 rollout) deliverables saying
 coastal/river submerged dressing compiles with the terrestrial scatter pass. No
 new phase needed.
+
+---
+
+## 8. Hostility rebalance 2026-09-04
+
+Owner: "85 hostile of 566 still sounds small — what is the Morrowind
+equivalent? Black Marsh is supposed to be dangerous." §1.1–§1.2 answer it:
+in Morrowind nearly every cave, ancestral tomb, Dwemer/Daedric ruin, stronghold
+ruin and smuggler den is hostile the moment you are inside; settlements, shrines
+and Ashlander camps are the exception. Weighting the small tombs at half, that
+is **~60–75 % of named places** — a hostile occupant, not a hostile flag.
+
+| Measure | Morrowind (Vvardenfell) | Ours before | Ours after |
+|---|---:|---:|---:|
+| Hostile-on-entry share of non-settlement named places | ~60–75 % | 83 / 436 (19 %) | **170 / 436 (39 %)** |
+| …plus places that attack on trespass (`guarded` + ring) | — | 138 / 436 (32 %) | **225 / 436 (52 %)** |
+| Dungeon-like interiors that are hostile | near-total | 66 / 223 (30 %) | **137 / 223 (61 %)** |
+| D1+ places with nothing hostile recorded anywhere | ~0 | 154 | **0** |
+| Settlements / sanctuaries flipped | — | — | 0 (deliberate) |
+
+Per class (live plotted records, stance counts before → after):
+
+| class | before | after |
+|---|---|---|
+| camp | hostile 21, wary 16, neutral 2, friendly 2 | hostile 26, wary 13, friendly 2 |
+| lair | hostile 42, neutral 16, wary 3, guarded 1 | hostile 49, neutral 9, wary 3, guarded 1 |
+| lone | neutral 32, wary 14 | hostile 13, neutral 19, wary 14 |
+| martial | guarded 17, neutral 8, hostile 3 | guarded 17, hostile 7, neutral 4 |
+| ruin | neutral 53, hostile 9, wary 1, sanctuary 1 | hostile 52, neutral 10, wary 1, sanctuary 1 |
+| sacred | neutral 29, sanctuary 18, guarded 10, hostile 1 | neutral 23, sanctuary 18, guarded 10, hostile 7 |
+| transit | neutral 48, guarded 5, friendly 2, hostile 1 | neutral 42, hostile 7, guarded 5, friendly 2 |
+| works | guarded 18, friendly 14, neutral 8, hostile 6, wary 1 | guarded 17, friendly 14, hostile 8, neutral 7, wary 1 |
+| civic / settlement | unchanged | unchanged |
+
+**Rules applied.** (1) A dungeon-like interior (`delve`/`dungeon`/`complex`/
+`warren`) of class `ruin`/`lair` or family `the-dead`/`sithis`/`illicit`/
+`hostile-camp` at D2+ is `hostile`, `clearable`, respawn slow (camps seasonal),
+*unless* its record shows a living community (a `family`/`priest`/`merchant`/
+`hermit`/`official`/`trainer` slot, or purpose `safe-rest`/`service-hub`) or the
+prose states it is tended or communally worked. (2) Every D1+ record now has a
+hostile presence in data: a creature slot, a hostile NPC slot, or a hostile/
+guarded stance — D1 means low difficulty, not safety. 142 creature slots were
+added from the canon fauna list (fauna-hazards.md: hackwings, crocodiles,
+slaughterfish, butcher eels, leeches, kotu gava, death hoppers, wamasu,
+miregaunt, marsh giant, voriplasm, bog blights, wisps, fleshflies). (3) Guarded
+martial, carceral, works and civic places got the Gothic warn→escalate ring
+(`trespassZones` inner / challenge-then-attack): 38 added.
+
+**Why 39 % and not more.** The remaining non-hostile ruins and lairs are all
+places whose own text says people are in them — tended xanmeers on a village
+duty roster, drawdown flats the whole shore walks out onto, reefs and banks
+worked in lots, bone-carrier waystations, cordon lines. Flipping those would
+contradict the prose, so they keep their stance and carry a creature or hazard
+slot instead; the danger there is what lives in the water, not the owner.
+Hostile-or-trespass-hostile is the number that matches Morrowind's felt danger,
+and that is 52 %.
+
+## 8b. Rebalance to the corrected owner target — 2026-09-04
+
+Owner ruling (recorded in § Target, CORRECTED): "If Skyrim and Morrowind have
+55–65 % of places hostile and clearable, we should have at least that too. Ours
+should NOT be more settlement/civic than Morrowind's; if anything less. Black
+Marsh is dangerous and wild, not a unified state, civilisation is rarer."
+
+Three binding measures, province-wide, over live records:
+
+| measure | target | before | after |
+|---|---|---:|---:|
+| dungeon-like interior **or** hostile baseline | ≥ 55 % | 249 / 576 (43.2 %) | **310 / 557 (55.7 %)** |
+| settlement + civic | ≤ 22 % | 168 / 576 (29.2 %) | **121 / 557 (21.7 %)** |
+| hostile baseline, of non-settlement records | ≥ 50 % | 85 / 445 (19.1 %) | **271 / 456 (59.4 %)** |
+| live records | ≤ 596 | 576 | **557** |
+
+Per region (live / settlement / civic / settlement+civic % / dungeon-like /
+hostile-baseline / dungeon-or-hostile % / hostile share of non-settlement):
+
+| region | before | after |
+|---|---|---|
+| dunmer-north | 134 / 32 / 11 / 32.1 % / 46 / 18 / 37.3 % / 17.6 % | 125 / 26 / 5 / 24.8 % / 56 / 52 / 50.4 % / 52.5 % |
+| hist-heartland | 113 / 22 / 1 / 20.4 % / 48 / 20 / 45.1 % / 22.0 % | 112 / 17 / 1 / 16.1 % / 56 / 61 / 60.7 % / 64.2 % |
+| imperial-fringe | 121 / 25 / 15 / 33.1 % / 39 / 15 / 35.5 % / 14.6 % | 115 / 19 / 7 / 22.6 % / 47 / 50 / 47.8 % / 51.0 % |
+| imperial-penal-south | 45 / 11 / 1 / 26.7 % / 23 / 7 / 55.6 % / 20.6 % | 44 / 10 / 0 / 22.7 % / 25 / 24 / 61.4 % / 70.6 % |
+| mercantile-coast | 64 / 21 / 3 / 37.5 % / 22 / 5 / 39.1 % / 9.3 % | 64 / 15 / 3 / 28.1 % / 29 / 27 / 48.4 % / 55.1 % |
+| naga-kur-deeps | 41 / 9 / 1 / 24.4 % / 23 / 13 / 65.9 % / 40.6 % | 41 / 5 / 1 / 14.6 % / 27 / 30 / 80.5 % / 83.3 % |
+| pirate-freeholds | 32 / 7 / 3 / 31.2 % / 12 / 4 / 40.6 % / 16.0 % | 31 / 7 / 2 / 29.0 % / 12 / 12 / 45.2 % / 50.0 % |
+| saxhleel-coast | 26 / 4 / 2 / 23.1 % / 13 / 3 / 57.7 % / 13.6 % | 25 / 2 / 1 / 12.0 % / 14 / 15 / 76.0 % / 65.2 % |
+| **province** | **576 / 131 / 37 / 29.2 % / 226 / 85 / 43.2 % / 19.1 %** | **557 / 101 / 20 / 21.7 % / 266 / 271 / 55.7 % / 59.4 %** |
+
+`pirate-freeholds` sits lowest at 45.2 % by design: it is the opening region and
+holds the start's civilisation. Its remaining non-hostile records are all rests,
+travel stations or quest-bound.
+
+**What was done.** No ids were created or destroyed; ids are permanent.
+
+1. **Stance pass, 145 records** (rule-based, `hostility.baseline → hostile`,
+   `clearable: true`): a dungeon-like interior whose contents already name an
+   aggressor creature (46) or a hostile NPC crew (42); a dungeon-like interior
+   with no occupants at all, which got one drawn from its interior family (39);
+   an exterior camp or lair with an aggressor already recorded (13) or none (5).
+   Exempt throughout: friendly/sanctuary stances, `safe-rest`/`service-hub`
+   purposes, travel stations, importance tier 0, D0/D1 records, and every
+   settlement and civic record.
+2. **Converted, 28 settlement/civic records** into what Black Marsh actually
+   has, keeping the old name in 27 of 28: burn-scar and plague-abandoned
+   villages, drowned villages with an underwater entrance, subsidence hamlets,
+   derelict plantations and worker rows held by sap-poachers, a Naga highway
+   camp, a poacher camp, a smugglers' lay-by, root-hollow galleries, a wamasu
+   pond, a crocodile ravine, a leviathan bone field, submerged and broken
+   xanmeers, a sunken house, an empty College of Whispers mission. Every one
+   carries rewritten `why`, `vibe`, `hook`, typed interior, stance with an owner
+   where people hold it, creature or NPC slots naming what fights, and reviewed
+   `playerPurpose`. One rename: `drifting-village-wet-mooring` "The Moving
+   Village" → "The Last Mooring", because it no longer moves.
+3. **Converted, 14 non-settlement records** that were dangerous ground with no
+   way in and no stance: a wreck's flooded hold, a failed chapel's open floor,
+   the Silyanorn block, a hollow burial fork, an expedition's cache at the far
+   anchor, two mist hollows, a lit lake arm, siege lines with a gang digging for
+   the pay chest, a mad Hist's ring, a trial ground.
+4. **Interiors added without a stance change, 8 records**: places that honestly
+   have one (a tomb's unopened inner door, two mass-grave cuts, two bone vaults,
+   an ancestor crown's hollow trunk, a hermitage's sealed cells, a drowned
+   channel under a glowfen). These count as dungeon-like without pretending a
+   tended place attacks you.
+5. **Deferred, 19 settlement/civic records** that existed for density: courier
+   relays, hearth houses, storm shelters, a quarantine shed, flood-high hamlets,
+   a withdrawal house, two pest houses, two tradehouses. 62 edges pointing at
+   them were parked in `relationsReserved`; 56 more were parked where a
+   converted ruin can no longer supply or toll anyone.
+
+**Rest cadence, city rings and spacing all improved.** Delves and combat places
+at D3+ with no friendly or sanctuary rest inside the cadence: **1 → 0**. All nine
+cities keep every core purpose within 2 km and keep their edge ring. Every region
+stays inside its hard floor and the province stays under 596.
+
+**Two tool bugs this exposed, both root-caused rather than worked around.**
+
+- `worldgen.macro_plot` could not solve at all afterwards (90 of 557 records
+  unplaceable). Cause: `HOSTILE_CLUSTER_MAX = 3` unrelated hostile places within
+  800 m, calibrated when 85 of 576 records were hostile. At the owner's target an
+  800 m circle holds roughly fifty places and half are meant to be hostile, so a
+  fixed 3 rejects nearly every hostile site. The rule is now a **share** rule:
+  unrelated hostile neighbours may not exceed `HOSTILE_CLUSTER_SHARE` (0.7) of
+  everything plotted within 800 m, never biting below `HOSTILE_CLUSTER_FLOOR`
+  (4). One owner's territory is still free, which was the rule's real intent.
+  With that, 557 / 557 plot with zero unresolved.
+- `worldgen.compile_minor_routes` drew a footpath starting 118 m from a divers'
+  yard, because a water-sited record snapped to the nearest land cell at any
+  distance. It now has `SNAP_M` (65 m, mirroring `compile_minor_waterways`), and
+  a record with no land inside it is recorded as boat-served instead.

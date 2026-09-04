@@ -5,11 +5,16 @@
  * One dot per sited catalogue place, drawn over the 2D map canvas: colour by
  * region zone (the society.CULTURES palette, shipped inside places.json),
  * size by importance tier (0 largest), a dashed pale outline for
- * ruined / abandoned / drowned. Filters by region, tier, class, danger,
- * density layer and text; hover for a label, click for the record and its
- * *why*; "fly here" hands the place's u/v to App's existing spawn mechanism.
- * Under the dots, an optional thin "Minor tracks" layer (routes-minor.json,
- * tolerated absent) and the terrain-scour candidate-sites underlay.
+ * ruined / abandoned / drowned, and a cyan ring for an underwater way in.
+ * Filters by region, tier, class, danger, density layer, hostility stance,
+ * interior kind/family, purpose and impact, plus "dungeon-like" and
+ * "underwater entrance" shortcuts and free text; hover for a label, click for
+ * the record, its *why* and its schema-v2 blocks (purpose, hook, stance and
+ * flips, interior, contents, travel station, quest provisions); "fly here"
+ * hands the place's u/v to App's existing spawn mechanism. Under the dots sits
+ * the terrain-scour candidate-sites underlay; route/track lines (including the
+ * minor tracks this panel's `tracks` checkbox toggles) are drawn by
+ * ../routes/RoutesLayer.
  *
  * Filters, the selected place and the two sub-layers round-trip through the
  * URL via `onUrlState` (App owns the query string). Mount inside the map
@@ -17,9 +22,9 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  DEAD_STATUSES, HYDRO_GRID_PX, TRACK_DASH, dotRadius, landformColour,
-  loadCandidateSites, loadMinorTracks, loadPlaces, matchesFilter, toggleIn, zoneColour,
-  type CandidateSiteSet, type MinorTracksBundle, type PlacesFilter, type PlacesUrlState,
+  DEAD_STATUSES, dotRadius, isUnderwaterEntry, landformColour,
+  loadCandidateSites, loadPlaces, matchesFilter, toggleIn, zoneColour,
+  type CandidateSiteSet, type PlacesFilter, type PlacesUrlState,
   type PlottedPlace, type PlottedPlacesBundle,
 } from "./placesData";
 
@@ -68,22 +73,109 @@ function Field({ k, v }: { k: string; v: unknown }) {
   return <div style={{ marginTop: 2, wordBreak: "break-word" }}><span style={{ opacity: 0.65 }}>{k}: </span>{text}</div>;
 }
 
+/** The multi-select axes of PlacesFilter (the booleans and `search` are not). */
+type SetAxis = {
+  [K in keyof PlacesFilter]: PlacesFilter[K] extends Set<string> ? K : never;
+}[keyof PlacesFilter];
+
+function Section({ title, colour, children }: { title: string; colour: string; children: React.ReactNode }) {
+  return (
+    <div style={{ marginTop: 8 }}>
+      <div style={{ color: colour, fontWeight: 600 }}>{title}</div>
+      {children}
+    </div>
+  );
+}
+
+function Lines({ label, items }: { label: string; items: string[] }) {
+  if (!items.length) return null;
+  return (
+    <div style={{ marginTop: 3 }}>
+      <span style={{ opacity: 0.65 }}>{label}</span>
+      {items.map((t, i) => (
+        <div key={i} style={{ paddingLeft: 8, wordBreak: "break-word" }}>· {t}</div>
+      ))}
+    </div>
+  );
+}
+
+/** The schema-v2 blocks: purpose, hook, stance + flips, interior, contents,
+ * travel station and the quest linkage the quest layer will hold us to. */
+function PlaceV2({ p }: { p: PlottedPlace }) {
+  const purpose = p.purposeDetail;
+  const stance = p.stanceDetail;
+  const it = p.interiorDetail;
+  const c = p.contents;
+  const ts = p.travelStation;
+  return (
+    <>
+      {(purpose || p.hook) && (
+        <Section title="player purpose" colour="#ffc46b">
+          {purpose && <Field k="primary" v={`${purpose.primary ?? "?"} · impact ${purpose.impact ?? "?"}`} />}
+          {purpose && <Field k="secondary" v={purpose.secondary} />}
+          {p.hook && <div style={{ marginTop: 3, fontStyle: "italic" }}>{p.hook}</div>}
+        </Section>
+      )}
+      {stance && (
+        <Section title="stance" colour="#ff9d8a">
+          <Field k="baseline" v={stance.baseline} />
+          <Field k="owner" v={stance.owner} />
+          <Field k="clearable" v={stance.clearable === null ? null : stance.clearable ? "yes" : "no"} />
+          <Field k="respawn" v={stance.respawn} />
+          <Lines label="flips" items={stance.flips} />
+        </Section>
+      )}
+      {(it || p.entrance || (p.underwaterAccess && p.underwaterAccess !== "none")) && (
+        <Section title="interior" colour="#9fe0c8">
+          {it && <Field k="kind" v={`${it.kind ?? "?"} · ${it.family ?? "?"} · ${it.sizeBand ?? "?"}`} />}
+          {it && typeof it.wetFraction === "number" && <Field k="wet" v={`${Math.round(it.wetFraction * 100)}%`} />}
+          {it && <Field k="entrances" v={it.entranceCount} />}
+          {it && <Field k="exterior shell" v={it.exteriorShell} />}
+          {it && <Field k="vertical" v={it.verticalRelationship} />}
+          <Field k="entrance type" v={p.entrance} />
+          <Field k="underwater access" v={p.underwaterAccess} />
+        </Section>
+      )}
+      {c && (
+        <Section title="contents" colour="#d7a8ff">
+          <Lines label="creatures" items={c.creatures} />
+          <Lines label="NPCs" items={c.npcs} />
+          <Lines label="loot" items={c.loot} />
+        </Section>
+      )}
+      {ts && (
+        <Section title="travel station" colour="#5fd6e8">
+          <Field k="modes" v={ts.modes} />
+          <Lines label="destinations" items={ts.destinations.map((d) => d.name)} />
+        </Section>
+      )}
+      {(p.questProvisions.length > 0 || p.tierOwnership) && (
+        <Section title="quest linkage" colour="#ffd166">
+          <Field k="tier ownership" v={p.tierOwnership} />
+          <Lines label="provisions (docs/quests/20)" items={p.questProvisions} />
+        </Section>
+      )}
+    </>
+  );
+}
+
 export interface PlacesLayerProps {
   baseUrl: string;
   initial: PlacesUrlState;
   onUrlState: (s: PlacesUrlState) => void;
   /** Fly the 3D camera to a province-fraction position (App converts to km). */
   onFly: (u: number, v: number) => void;
+  /** Extra checkboxes for sibling layers (App injects the waterways toggle). */
+  controls?: React.ReactNode;
 }
 
-export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayerProps) {
+export function PlacesLayer({ baseUrl, initial, onUrlState, onFly, controls }: PlacesLayerProps) {
   const [bundle, setBundle] = useState<PlottedPlacesBundle | null>(null);
   // Owner 2026-09-03: the panels hid the map. Both fold to a one-line header
   // and sit at the bottom corners, leaving the centre clear.
   const [filterOpen, setFilterOpen] = useState(false);
   const [detailOpen, setDetailOpen] = useState(true);
   const [loadError, setLoadError] = useState<string | null>(null);
-  const [tracks, setTracks] = useState<MinorTracksBundle | null | "missing">(null);
   const [sites, setSites] = useState<CandidateSiteSet | null>(null);
   const [filter, setFilter] = useState<PlacesFilter>(initial.filter);
   const [selectedId, setSelectedId] = useState<string | null>(initial.selectedId);
@@ -97,14 +189,6 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
       .catch((e: Error) => { if (alive) setLoadError(e.message); });
     return () => { alive = false; };
   }, [baseUrl]);
-
-  useEffect(() => {
-    if (!showTracks || tracks !== null) return;
-    let alive = true;
-    loadMinorTracks(baseUrl).then((t) => { if (alive) setTracks(t ?? "missing"); })
-      .catch(() => { if (alive) setTracks("missing"); });
-    return () => { alive = false; };
-  }, [showTracks, tracks, baseUrl]);
 
   useEffect(() => {
     if (!showSites || sites) return;
@@ -124,6 +208,11 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
     return {
       regions: uniq((p) => p.region), tiers: uniq((p) => String(p.importanceTier)),
       classes: uniq((p) => p.class), dangers: uniq((p) => p.dangerTier), densities: uniq((p) => p.densityLayer),
+      stances: uniq((p) => p.stance),
+      interiorKinds: uniq((p) => p.interiorDetail?.kind).filter((k) => k !== "?"),
+      interiorFamilies: uniq((p) => p.interiorDetail?.family).filter((k) => k !== "?"),
+      purposes: uniq((p) => p.purposeDetail?.primary).filter((k) => k !== "?"),
+      impacts: uniq((p) => p.purposeDetail?.impact).filter((k) => k !== "?"),
     };
   }, [places]);
 
@@ -132,10 +221,8 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
   const selected = selectedId ? byId.get(selectedId) ?? null : null;
   const landformIndex = useMemo(() => new Map((sites?.landformClasses ?? []).map((c, i) => [c, i])), [sites]);
 
-  const setAxis = (key: keyof Omit<PlacesFilter, "search">, k: string) =>
+  const setAxis = (key: SetAxis, k: string) =>
     setFilter({ ...filter, [key]: toggleIn(filter[key], k) });
-
-  const trackList = tracks && tracks !== "missing" ? tracks.tracks : [];
 
   return (
     <>
@@ -147,18 +234,18 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
             <title>{`${s.landform} · ${s.id}\n${s.regionName} · ${s.elevationM.toFixed(0)} m · slope ${s.slopeDeg.toFixed(1)}°`}</title>
           </rect>
         ))}
-        {showTracks && trackList.map((t) => (
-          <polyline key={t.id} fill="none" stroke="#e8d9b0" strokeWidth={1.1} opacity={0.8}
-            strokeDasharray={TRACK_DASH[t.kind]} vectorEffect="non-scaling-stroke"
-            points={t.px.map(([c, r]) => `${(c / HYDRO_GRID_PX) * VB},${(r / HYDRO_GRID_PX) * VB}`).join(" ")}>
-            <title>{`${t.kind} ${t.id}: ${t.from} → ${t.to} (${t.lengthKm} km)`}</title>
-          </polyline>
-        ))}
         {visible.map((p) => {
           const dead = DEAD_STATUSES.has(p.status);
           const isSel = p.id === selectedId;
+          const wet = isUnderwaterEntry(p);
+          const r = dotRadius(p.importanceTier);
           return (
-            <circle key={p.id} cx={p.position.u * VB} cy={p.position.v * VB} r={dotRadius(p.importanceTier)}
+            <g key={p.id}>
+            {wet && (
+              <circle cx={p.position.u * VB} cy={p.position.v * VB} r={r + 3.2} fill="none"
+                stroke="#5fd6e8" strokeWidth={1.4} strokeDasharray="2 1.6" pointerEvents="none" />
+            )}
+            <circle cx={p.position.u * VB} cy={p.position.v * VB} r={r}
               fill={zoneColour(bundle, p.region)} fillOpacity={dead ? 0.55 : 0.95}
               stroke={isSel ? "#ffffff" : dead ? "#f3f0e6" : "rgba(0,0,0,0.7)"}
               strokeWidth={isSel ? 3 : dead ? 1.6 : 1}
@@ -166,6 +253,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
               style={{ cursor: "pointer" }}
               onPointerEnter={() => setHovered(p)} onPointerLeave={() => setHovered(null)}
               onClick={(e) => { e.stopPropagation(); setSelectedId(p.id); }} />
+            </g>
           );
         })}
       </svg>
@@ -194,6 +282,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
           <label style={{ cursor: "pointer" }}>
             <input type="checkbox" checked={showSites} onChange={(e) => setShowSites(e.target.checked)} /> candidate sites
           </label>
+          {controls}
           </>}
         </div>
         {filterOpen && <>
@@ -201,8 +290,6 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
           {loadError ? `places.json failed: ${loadError} (run python3 -m worldgen.export_places)` : bundle
             ? `${visible.length} shown of ${places.length} plotted · ${bundle.unsitedCount} unsited (not exported)`
             : "loading places.json…"}
-          {showTracks && tracks === "missing" && " · routes-minor.json not present"}
-          {showTracks && trackList.length > 0 && ` · ${trackList.length} tracks`}
         </div>
         <input value={filter.search} placeholder="search name or id" onChange={(e) => setFilter({ ...filter, search: e.target.value })}
           style={{ background: "#141a22", color: "#e6ecf5", border: "1px solid #2b3644", borderRadius: 5, padding: "3px 6px", font: "12px system-ui" }} />
@@ -211,6 +298,16 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
         <ChipRow label="class" keys={axes.classes} active={filter.classes} onToggle={(k) => setAxis("classes", k)} />
         <ChipRow label="danger" keys={axes.dangers} active={filter.dangers} onToggle={(k) => setAxis("dangers", k)} />
         <ChipRow label="density" keys={axes.densities} active={filter.densities} onToggle={(k) => setAxis("densities", k)} />
+        <ChipRow label="stance" keys={axes.stances} active={filter.stances} onToggle={(k) => setAxis("stances", k)} />
+        <ChipRow label="purpose" keys={axes.purposes} active={filter.purposes} onToggle={(k) => setAxis("purposes", k)} />
+        <ChipRow label="impact" keys={axes.impacts} active={filter.impacts} onToggle={(k) => setAxis("impacts", k)} />
+        <ChipRow label="interior" keys={axes.interiorKinds} active={filter.interiorKinds} onToggle={(k) => setAxis("interiorKinds", k)} />
+        <ChipRow label="family" keys={axes.interiorFamilies} active={filter.interiorFamilies} onToggle={(k) => setAxis("interiorFamilies", k)} />
+        <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
+          <span style={{ opacity: 0.7, minWidth: 44 }}>only</span>
+          <Chip label="dungeon-like" on={filter.dungeonLike} onClick={() => setFilter({ ...filter, dungeonLike: !filter.dungeonLike })} />
+          <Chip label="underwater entrance" colour="#5fd6e8" on={filter.underwater} onClick={() => setFilter({ ...filter, underwater: !filter.underwater })} />
+        </div>
         {showSites && sites && (
           <div style={{ display: "flex", gap: 5, flexWrap: "wrap", opacity: 0.9 }}>
             {sites.landformClasses.map((c, i) => (
@@ -220,7 +317,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
             ))}
           </div>
         )}
-        <div style={{ opacity: 0.6 }}>dot size = importance (T0 largest) · colour = region zone · dashed = ruined/abandoned/drowned</div>
+        <div style={{ opacity: 0.6 }}>dot size = importance (T0 largest) · colour = region zone · dashed = ruined/abandoned/drowned · cyan ring = underwater way in</div>
         </>}
       </div>
 
@@ -257,6 +354,7 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
               <div>{selected.whySiteWon}</div>
             </div>
           )}
+          <PlaceV2 p={selected} />
           <div style={{ marginTop: 8 }}>
             <div style={{ color: "#9ec5ff", fontWeight: 600 }}>record</div>
             <Field k="culture" v={selected.culture} />
@@ -264,10 +362,6 @@ export function PlacesLayer({ baseUrl, initial, onUrlState, onFly }: PlacesLayer
             <Field k="workflow" v={selected.workflow} />
             <Field k="discovery" v={selected.discovery} />
             <Field k="valueTier" v={selected.valueTier} />
-            <Field k="purpose" v={selected.purpose} />
-            <Field k="hook" v={selected.hook} />
-            <Field k="stance" v={selected.stance} />
-            <Field k="interior" v={selected.interior} />
             <Field k="hardConstraints" v={selected.hardConstraints} />
             <Field k="reachedVia" v={selected.reachedVia} />
             <Field k="position" v={`u ${selected.position.u.toFixed(4)}, v ${selected.position.v.toFixed(4)}`} />

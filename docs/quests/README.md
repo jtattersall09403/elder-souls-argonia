@@ -9,6 +9,7 @@ until then this plan's job is to tell the world build what to provide.
 
 | You are… | Read |
 |---|---|
+| **Placing, moving or cutting a place; or authoring a quest that needs one** | [25-quest-place-map.md](25-quest-place-map.md) — the provision → catalogue-place table, the questline → anchor-places view, and the four standing rules that keep the two halves in sync. Read it before you touch `world/sources/catalogue/places-*.json` or write a brief. |
 | **Any world-generation agent** (terrain, settlements, POIs, dungeons, routes, danger, ecology) | [20-world-provisions.md](20-world-provisions.md) — handoff contract, provision tags, danger tiers (incl. the D↔danger-band mapping), location packet, consequence budget, exit gate. Then the quest tables for whatever region/city you're building: [30-main-quest.md](30-main-quest.md), [40-factions.md](40-factions.md), [50-side-quests.md](50-side-quests.md) each carry per-quest **World-generation provision** columns — those are requirements. |
 | Anyone needing the story/design picture | [00-overview.md](00-overview.md) — summary, content targets, frozen decisions, design rules (cost tiers, dramatic register, wonder budget, **cast rules, delivery tiers, the boredom test**), acceptance criteria. |
 | **Authoring any new quest** | [55-quest-index.md](55-quest-index.md) — **mandatory before writing a brief**: one line per existing quest, the shape taxonomy, the novelty/collision rule, per-region shape budgets, and the current coverage gaps. Update it in the same change. |
@@ -77,3 +78,11 @@ until then this plan's job is to tell the world build what to provide.
   re-skinned by allegiance. And [55-quest-index.md](55-quest-index.md) is
   **mandatory reading before authoring any quest** — shape taxonomy, novelty
   rule, coverage gaps.
+
+- The **quest ↔ place co-design pass** ran on 2026-09-04 (decision
+  [0041](../decisions/0041-phase11-settlement-decisions.md) § Part 4 step 2):
+  every provision in this plan now names the catalogue place that satisfies it
+  ([25-quest-place-map.md](25-quest-place-map.md)), four records were added and
+  eight promoted to close gaps, fifteen places were re-sited for quest value,
+  and eighteen *proposed* rows written from what the plotted province offers
+  ([55-quest-index.md](55-quest-index.md) §47e).

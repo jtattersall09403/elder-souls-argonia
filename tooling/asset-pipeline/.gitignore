@@ -16,6 +16,9 @@ output/*.png
 output/*.gif
 output/*.svg
 output/**/
+# Generated machine-readable sidecars (the human report is versioned in
+# world/sources/assets/, this is the queryable form).
+output/vault-inventory.json
 
 # Keep the runtime animation manifest (metadata only, no Bethesda bytes)
 !output/

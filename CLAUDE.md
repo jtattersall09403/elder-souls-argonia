@@ -61,6 +61,12 @@ The overall goal at this point is to build the province-scale world, in a way th
   mods' *assets*, not their Papyrus/SKSE code — that we cannot run, and it is
   only a design reference. Procedural motion (IK, physics) drives sourced
   clips; it never replaces them.
+- **Kits only combine pieces that were designed to combine** (owner ruling
+  2026-09-04). Never jam two meshes together because their descriptions sound
+  compatible (a stilt house "standing on" a stone quay arch). Assemble only
+  pieces authored to fit each other, in the ways and with the snap/placement
+  rules their authors intended; a composition that needs a piece nobody made is
+  a sourcing gap, and it is shown as a gap, never faked.
 - **Game played from github pages.** The game will be built from github actions and played in the browser at github pages. So the code must work for that context. e.g. make sure animation files that are needed in the game are included.
 - **Controller-independent.** Combat/input/lock-on/animation depend on
   `PlayerMovementController`, not ecctrl directly (ecctrl is behind `EcctrlAdapter`). This is so we can easily change the controller later if we need to
@@ -79,12 +85,14 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
-- **Obey the eleven engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
+- **Obey the twelve engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
   decision 0042): stable IDs on everything placed; every player-visible string
   in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
   data; determinism in world building; no new module-level mutable singletons
   in `packages/`; asset source+hash+credit in the same change; quest gates only
-  in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md)).
+  in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md));
+  prose written against the record it describes, never promising what the
+  typed fields cannot deliver (standard 12).
   Four are checked mechanically by `npm test` — they are cheap now and brutal
   to retrofit, which is the whole reason they exist.
 - **Don't over-validate.** `npm test` and `npm run typecheck` are the routine
@@ -101,6 +109,7 @@ The overall goal at this point is to build the province-scale world, in a way th
 - **Keep the repo tidy**. Everything needs to be neatly organised, modular and structured, so it's easy to navigate and find what you need and we don't get lost and confused (which can quietly happen when you have many agents creating things over time). Follow general good practices for this.
 - **Ask for steers on the biggest load-bearing decisions if there are multiple viable directions**. You don't want the user to have to input on all of the many decisions that may be required during your work. But you **should** seek their steer **if** (a) a decision is substantially load-bearing - e.g. would change/affect something big about the game's overall direction and feel; **and** (b) there is more than one similarly viable option - no point asking for a steer if one option is clearly miles better than all the others. If you do ask for a steer, present the options *and* a description of the implications of each, and their pros and cons. Use your judgment about what needs a user steer and what doesn't. Also take into account how much a decision 'locks us into' a particular direction. If something can be set up so that it would be trivial to change later, then do that, and present at the end as part of things you ask for user to feed back on. But if that can't be done, and a big decision has to be made, and it will set us on a particular path that then would be very hard to change later - ask for a steer.
 - **Self-check for gotchas.** Whatever you're planning to do, at appropriate points (you decide when), do a quick sense check for potential 'gotchas' and prevent/resolve them.
+- **Make asset-aware decisions**. If you are ever writing something that will eventually have an impact on what is physically present in our game, it **must** be possible for us to actually deliver that thing with existing assets (meshes, textures, animations etc) without creating our own. e.g. if you're writing a creature register or a quest, there is no point saying our game will have giant rootworms physically present and visible if we don't have any assets for them. That is one small example, there will be many others. Whatever you are doing, think about whether this rule is relevant, and apply it. If it is relevant, then you will need to check what assets we already have available. If there is a gap, then you need to decide how important the thing you're writing is - could you change it to something else that we **do** have assets for, without making the game too samey/boring? e.g. switch one type of fish for another, or whatever. If you **don't** want to do that for whatever reason, you should instead **source** an asset from mods on Nexus (and/or other sources if you can think of any good ones that will work) to fill the gap. If it's not possible to find an asset for something anywhere, then we can't have it in our game. (The exception to all of this is UI elements, which we can create ourselves).
 
 ## Map
 

@@ -6,7 +6,9 @@ from pathlib import Path
 import pytest
 
 from . import catalogue
-from .export_places import OUT_PATH, SCHEMA_VERSION, build_bundle, export, render, zone_colours
+from .export_places import (
+    OUT_PATH, SCHEMA_VERSION, _condition_line, build_bundle, export, render, zone_colours,
+)
 
 HAVE_CATALOGUE = any(catalogue.CATALOGUE_DIR.glob("places-*.json"))
 
@@ -26,6 +28,32 @@ def test_bundle_shape():
         assert 0.0 <= p["position"]["u"] <= 1.0 and 0.0 <= p["position"]["v"] <= 1.0
         assert p["region"] in bundle["zoneColours"], p["id"]
         assert set(p["why"]) == {"founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf"}
+        # schemaVersion 2 structured blocks stay lean (short strings/arrays only)
+        if p["purposeDetail"]:
+            assert set(p["purposeDetail"]) == {"primary", "impact", "secondary"}
+        if p["stanceDetail"]:
+            assert p["stanceDetail"]["baseline"] == p["stance"]
+            assert all(f.startswith("→ ") for f in p["stanceDetail"]["flips"]), p["id"]
+        if p["contents"]:
+            assert set(p["contents"]) == {"creatures", "npcs", "loot"}
+            assert all(isinstance(line, str) for v in p["contents"].values() for line in v)
+        if p["travelStation"]:
+            assert all(set(d) == {"id", "name"} for d in p["travelStation"]["destinations"])
+        assert isinstance(p["questProvisions"], list)
+
+
+@pytest.mark.skipif(not HAVE_CATALOGUE, reason="no catalogue committed")
+def test_interior_detail_agrees_with_the_summary_line():
+    for p in build_bundle()["places"]:
+        assert (p["interiorDetail"] is None) == (p["interior"] is None), p["id"]
+        if p["interiorDetail"]:
+            assert p["interior"].startswith(str(p["interiorDetail"]["kind"]))
+
+
+def test_condition_line_is_a_short_human_clause():
+    assert _condition_line(None) == "always"
+    assert _condition_line({"notorietyTier": ["region.x", "hunted"]}) == "notorietyTier region.x hunted"
+    assert _condition_line({"b": 1, "a": 2}) == "a 2, b 1"
 
 
 @pytest.mark.skipif(not HAVE_CATALOGUE, reason="no catalogue committed")
@@ -41,6 +69,6 @@ def test_committed_export_matches_catalogue(tmp_path: Path):
 
 
 def test_render_is_byte_stable():
-    bundle = {"schemaVersion": 1, "zoneColours": {}, "unsitedCount": 0, "places": []}
+    bundle = {"schemaVersion": SCHEMA_VERSION, "zoneColours": {}, "unsitedCount": 0, "places": []}
     assert render(bundle) == render(json.loads(render(bundle)))
     assert render(bundle).endswith("\n")

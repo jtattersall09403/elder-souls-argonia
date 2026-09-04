@@ -30,7 +30,7 @@ def test_every_track_serves_a_live_plotted_place_and_starts_at_it():
         c0, r0 = t["px"][0]
         x, z = rec["positionM"]
         # the path starts on the record's cell (or the nearest land cell for a submerged record)
-        assert abs(c0 * px - x) < 12 * px and abs(r0 * px - z) < 12 * px, t["id"]
+        assert abs(c0 * px - x) <= mr.SNAP_M + px and abs(r0 * px - z) <= mr.SNAP_M + px, t["id"]
         assert 0 < t["lengthKm"] * 1000 <= mr.MAX_TRACK_M + px, t["id"]
 
 

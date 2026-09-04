@@ -1,0 +1,3037 @@
+{
+  "schemaVersion": 1,
+  "domain": "deed",
+  "_": "Every deedCounterKeys value in the catalogue. Deeds are the reputation/progress counters the quest condition vocabulary reads (docs/quests/85); keep this in step with --sync.",
+  "entries": [
+    {
+      "id": "deed.alchemy.taught",
+      "name": "Alchemy taught",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.antiquities.returned",
+      "name": "Antiquities returned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.antiquities.sold",
+      "name": "Antiquities sold",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ash-holding.dealt-with",
+      "name": "Ash Holding dealt With",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.black-tarn.dived",
+      "name": "Black Tarn dived",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.blackrose.core-holders",
+      "name": "Blackrose core Holders",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.blackrose.hist-less",
+      "name": "Blackrose hist Less",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.blackrose.tolls",
+      "name": "Blackrose tolls",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.blackwood-road.gate-passed",
+      "name": "Blackwood Road gate Passed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.blackwood-road.stages-used",
+      "name": "Blackwood Road stages Used",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.bogmother.honoured",
+      "name": "Bogmother honoured",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.bogmother.robbed",
+      "name": "Bogmother robbed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.bond.run",
+      "name": "Bond run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.bond.seal-broken",
+      "name": "Bond seal Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.bones.carried",
+      "name": "Bones carried",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.border.counted",
+      "name": "Border counted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.border.crossed",
+      "name": "Border crossed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.borrowed-house.visited",
+      "name": "Borrowed House visited",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.borrowed-tomb.visited",
+      "name": "Borrowed Tomb visited",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.branchmont.title-settled",
+      "name": "Branchmont title Settled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.brokers.contracted",
+      "name": "Brokers contracted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.burn.mapped",
+      "name": "Burn mapped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ca-uxith.charge-kept",
+      "name": "Ca Uxith charge Kept",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cairns.reclosed",
+      "name": "Cairns reclosed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.causeway.crossed",
+      "name": "Causeway crossed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.bones-returned",
+      "name": "Chainbreakers bones Returned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.crew-broken",
+      "name": "Chainbreakers crew Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.debts-bought",
+      "name": "Chainbreakers debts Bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.owings-found",
+      "name": "Chainbreakers owings Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.pens-witnessed",
+      "name": "Chainbreakers pens Witnessed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.shelter-supported",
+      "name": "Chainbreakers shelter Supported",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chainbreakers.sheltered",
+      "name": "Chainbreakers sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.chapel.names-read",
+      "name": "Chapel names Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.charge-bone.traded",
+      "name": "Charge Bone traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.claim.sabinus",
+      "name": "Claim sabinus",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.claywater.well-mended",
+      "name": "Claywater well Mended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.coast.cargoes-run",
+      "name": "Coast cargoes Run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.coast.wreckers-broken",
+      "name": "Coast wreckers Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cold-gallery.mapped",
+      "name": "Cold Gallery mapped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cold-holding.opened",
+      "name": "Cold Holding opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cold-lights.seen",
+      "name": "Cold Lights seen",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.collections.repatriation",
+      "name": "Collections repatriation",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.collections.specimen-delivered",
+      "name": "Collections specimen Delivered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.conclave.consulted",
+      "name": "Conclave consulted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cordon.walked",
+      "name": "Cordon walked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.courier.letters-carried",
+      "name": "Courier letters Carried",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.courier.rim-run",
+      "name": "Courier rim Run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.crystal.graded",
+      "name": "Crystal graded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.crystal.traded",
+      "name": "Crystal traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cut-and-carried.cutting",
+      "name": "Cut And Carried cutting",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.cutting.resolved",
+      "name": "Cutting resolved",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.deeps.held-tree",
+      "name": "Deeps held Tree",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.deeps.warren-cleared",
+      "name": "Deeps warren Cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.derelict.claimed",
+      "name": "Derelict claimed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.drawdown.gleaned",
+      "name": "Drawdown gleaned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dream-wallow.entered",
+      "name": "Dream Wallow entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.drowned-terrace.dived",
+      "name": "Drowned Terrace dived",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.air-pocket-surfaced",
+      "name": "Dunmer North air Pocket Surfaced",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.andalen-entered",
+      "name": "Dunmer North andalen Entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.ash-causeway-walked",
+      "name": "Dunmer North ash Causeway Walked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.ash-wallow-entered",
+      "name": "Dunmer North ash Wallow Entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.bank-fished",
+      "name": "Dunmer North bank Fished",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.blades-opened",
+      "name": "Dunmer North blades Opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.boom-opened",
+      "name": "Dunmer North boom Opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.causeway-kept",
+      "name": "Dunmer North causeway Kept",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.claim-heard",
+      "name": "Dunmer North claim Heard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.crown-terrace-permitted",
+      "name": "Dunmer North crown Terrace Permitted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.diggings-ladder-descended",
+      "name": "Dunmer North diggings Ladder Descended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.fish-boon-attended",
+      "name": "Dunmer North fish Boon Attended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.flood-shelter",
+      "name": "Dunmer North flood Shelter",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.guar-ground-worked",
+      "name": "Dunmer North guar Ground Worked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.hackwing-bell",
+      "name": "Dunmer North hackwing Bell",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.herd-ground-hunted",
+      "name": "Dunmer North herd Ground Hunted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.hermitage-reached",
+      "name": "Dunmer North hermitage Reached",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.high-wrappings-seen",
+      "name": "Dunmer North high Wrappings Seen",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.island-standing-bought",
+      "name": "Dunmer North island Standing Bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.junction-lamp-lit",
+      "name": "Dunmer North junction Lamp Lit",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.lantern-bought",
+      "name": "Dunmer North lantern Bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.level-line-read",
+      "name": "Dunmer North level Line Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.marks-found",
+      "name": "Dunmer North marks Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.matched-set-bought",
+      "name": "Dunmer North matched Set Bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.moon-court-worked",
+      "name": "Dunmer North moon Court Worked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.naming-witnessed",
+      "name": "Dunmer North naming Witnessed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.nests-worked",
+      "name": "Dunmer North nests Worked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.ninth-chapel-sheltered",
+      "name": "Dunmer North ninth Chapel Sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.north-cut-walked",
+      "name": "Dunmer North north Cut Walked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.one-house-lodged",
+      "name": "Dunmer North one House Lodged",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.peat-cut",
+      "name": "Dunmer North peat Cut",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.rim-shelter-stocked",
+      "name": "Dunmer North rim Shelter Stocked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.rimfield-traded",
+      "name": "Dunmer North rimfield Traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.rope-ferry-used",
+      "name": "Dunmer North rope Ferry Used",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.rows-title",
+      "name": "Dunmer North rows Title",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.seam-found",
+      "name": "Dunmer North seam Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.second-island-welcomed",
+      "name": "Dunmer North second Island Welcomed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.shell-plate-taken",
+      "name": "Dunmer North shell Plate Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.silyanorn-crown-topped",
+      "name": "Dunmer North silyanorn Crown Topped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.socket-read",
+      "name": "Dunmer North socket Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.stone-cut",
+      "name": "Dunmer North stone Cut",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.subsidence-read",
+      "name": "Dunmer North subsidence Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.tearmouth-shipped",
+      "name": "Dunmer North tearmouth Shipped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.toll-avoided",
+      "name": "Dunmer North toll Avoided",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.trial-queue",
+      "name": "Dunmer North trial Queue",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.turning-stone-measured",
+      "name": "Dunmer North turning Stone Measured",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.underwater-store-found",
+      "name": "Dunmer North underwater Store Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.upper-floor-entered",
+      "name": "Dunmer North upper Floor Entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.walkway-junction-crossed",
+      "name": "Dunmer North walkway Junction Crossed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.wall-neighbourhood",
+      "name": "Dunmer North wall Neighbourhood",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.watch-tower-topped",
+      "name": "Dunmer North watch Tower Topped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.wild-rootworm",
+      "name": "Dunmer North wild Rootworm",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.dunmer-north.withdrawal-house-helped",
+      "name": "Dunmer North withdrawal House Helped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.duskfall.taught",
+      "name": "Duskfall taught",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.eggs.quota-kept",
+      "name": "Eggs quota Kept",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.eight-steps.run",
+      "name": "Eight Steps run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.estate.workers-freed",
+      "name": "Estate workers Freed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.exploration.delves-cleared",
+      "name": "Exploration delves Cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.exploration.vantages-climbed",
+      "name": "Exploration vantages Climbed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.fairs.traded",
+      "name": "Fairs traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.falls-chamber.found",
+      "name": "Falls Chamber found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.falls.entered",
+      "name": "Falls entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.farms.traded",
+      "name": "Farms traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.fenmarch.spoken-for",
+      "name": "Fenmarch spoken For",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ferries.crossed",
+      "name": "Ferries crossed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.first-count.honoured",
+      "name": "First Count honoured",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.fishing.marked",
+      "name": "Fishing marked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.four-winds.trained",
+      "name": "Four Winds trained",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.freed.sheltered",
+      "name": "Freed sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.freehold.list-standing",
+      "name": "Freehold list Standing",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.gandranen.entered",
+      "name": "Gandranen entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.gate-scar.surveyed",
+      "name": "Gate Scar surveyed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.gideon.antiquities-returned",
+      "name": "Gideon antiquities Returned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.gideon.writs-served",
+      "name": "Gideon writs Served",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.giovesse-lines.read",
+      "name": "Giovesse Lines read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.giovesse.cell-opened",
+      "name": "Giovesse cell Opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.glenbridge.sermons-heard",
+      "name": "Glenbridge sermons Heard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.gorge-gallery.reached",
+      "name": "Gorge Gallery reached",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.greenditch.cleared",
+      "name": "Greenditch cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.greylight.mediated",
+      "name": "Greylight mediated",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.guar.bought",
+      "name": "Guar bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hackwing.eggs-taken",
+      "name": "Hackwing eggs Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.harbour-authority.archon",
+      "name": "Harbour Authority archon",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hatchery.defended",
+      "name": "Hatchery defended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hearth.sheltered",
+      "name": "Hearth sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.helstrom.assembly",
+      "name": "Helstrom assembly",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hermit.visited",
+      "name": "Hermit visited",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.highwater.sheltered",
+      "name": "Highwater sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist-chamber.stripped",
+      "name": "Hist Chamber stripped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist-less.pilgrimage-funded",
+      "name": "Hist Less pilgrimage Funded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.dunmer-north.hatching-pools.regard",
+      "name": "Hist dunmer North hatching Pools regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.dunmer-north.hutan-tzel.regard",
+      "name": "Hist dunmer North hutan Tzel regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.dunmer-north.stormhold.regard",
+      "name": "Hist dunmer North stormhold regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.freed",
+      "name": "Hist freed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.hero-tree-visited",
+      "name": "Hist hero Tree Visited",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.hist-heartland.hist-agaceph-needle.regard",
+      "name": "Hist hist Heartland hist Agaceph Needle regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.hist-heartland.hist-first-rain-trunk.regard",
+      "name": "Hist hist Heartland hist First Rain Trunk regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.hist-heartland.hist-paatru-lowcrown.regard",
+      "name": "Hist hist Heartland hist Paatru Lowcrown regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.hist-heartland.hist-sarpa-highflower.regard",
+      "name": "Hist hist Heartland hist Sarpa Highflower regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.imperial-fringe.gideon.regard",
+      "name": "Hist imperial Fringe gideon regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.imperial-fringe.stone-talkers-watch.regard",
+      "name": "Hist imperial Fringe stone Talkers Watch regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.mercantile-coast.lilmoth.regard",
+      "name": "Hist mercantile Coast lilmoth regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hist.saxhleel-coast.archon-harbour-hist.regard",
+      "name": "Hist saxhleel Coast archon Harbour Hist regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hixinoag.found",
+      "name": "Hixinoag found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hunt.licensed",
+      "name": "Hunt licensed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.hutan-tzel.totem-meddled",
+      "name": "Hutan Tzel totem Meddled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.interior.bleeding-house",
+      "name": "Interior bleeding House",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.interior.grave-robbery",
+      "name": "Interior grave Robbery",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.interior.made-ground-read",
+      "name": "Interior made Ground Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.interior.restaked-field",
+      "name": "Interior restaked Field",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.interior.tapping-ended",
+      "name": "Interior tapping Ended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.iron.dug",
+      "name": "Iron dug",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.knapping.learned",
+      "name": "Knapping learned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ladder-tower.topped",
+      "name": "Ladder Tower topped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.landing.carried",
+      "name": "Landing carried",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.levy.served",
+      "name": "Levy served",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.library.catalogued",
+      "name": "Library catalogued",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.lilmoth.council",
+      "name": "Lilmoth council",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.lilmoth.hist-less",
+      "name": "Lilmoth hist Less",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.lilmoth.tree-minders",
+      "name": "Lilmoth tree Minders",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.lilmoth.vigil",
+      "name": "Lilmoth vigil",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.locks.climbed",
+      "name": "Locks climbed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.lowmere.moored",
+      "name": "Lowmere moored",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.marcians-terrace.traded",
+      "name": "Marcians Terrace traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.market.traded",
+      "name": "Market traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.mazzatun.conduits-cut",
+      "name": "Mazzatun conduits Cut",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.mist.crossed",
+      "name": "Mist crossed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.monsoon.waited",
+      "name": "Monsoon waited",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.moonmarch.attended",
+      "name": "Moonmarch attended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.murkwater.trained",
+      "name": "Murkwater trained",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.naga-kur-deeps.leviathan-bone-taken",
+      "name": "Naga Kur Deeps leviathan Bone Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.naga-kur.regard",
+      "name": "Naga Kur regard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.naga-kur.village-cleared",
+      "name": "Naga Kur village Cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.naga.driven-off",
+      "name": "Naga driven Off",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.nisswo.rest-used",
+      "name": "Nisswo rest Used",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.nisswo.spoken-with",
+      "name": "Nisswo spoken With",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.nisswo.unmade",
+      "name": "Nisswo unmade",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.office.judged",
+      "name": "Office judged",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.onkobra.eggs-taken",
+      "name": "Onkobra eggs Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.onkobra.pots-fired",
+      "name": "Onkobra pots Fired",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.outer-silyanorn.surveyed",
+      "name": "Outer Silyanorn surveyed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.debts-bought",
+      "name": "Owing debts Bought",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.debts-bought-out",
+      "name": "Owing debts Bought Out",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.debts-observed",
+      "name": "Owing debts Observed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.eviction-reversed",
+      "name": "Owing eviction Reversed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.evictions-witnessed",
+      "name": "Owing evictions Witnessed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.gallery-freed",
+      "name": "Owing gallery Freed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.ledger-voided",
+      "name": "Owing ledger Voided",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.pit-opened",
+      "name": "Owing pit Opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.porters-freed",
+      "name": "Owing porters Freed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.rolls-read",
+      "name": "Owing rolls Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.runaway-hidden",
+      "name": "Owing runaway Hidden",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.owing.tolled-crossings",
+      "name": "Owing tolled Crossings",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.paddies.gate-won",
+      "name": "Paddies gate Won",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.paddies.sluice-mended",
+      "name": "Paddies sluice Mended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.pass-shelter.sheltered",
+      "name": "Pass Shelter sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.pass.sheltered",
+      "name": "Pass sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.pen-yard.thrown-down",
+      "name": "Pen Yard thrown Down",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.pilgrimage.walked",
+      "name": "Pilgrimage walked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.pilot.hired",
+      "name": "Pilot hired",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.piracy.charters-taken",
+      "name": "Piracy charters Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.piracy.crews-broken",
+      "name": "Piracy crews Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.poachers.reported",
+      "name": "Poachers reported",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.prospect.staked",
+      "name": "Prospect staked",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.quarantine.cleared",
+      "name": "Quarantine cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ravine-doors.hosted",
+      "name": "Ravine Doors hosted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.rectavius.seal-state",
+      "name": "Rectavius seal State",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.reedmoor.hosted",
+      "name": "Reedmoor hosted",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.repairs.made",
+      "name": "Repairs made",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.riverwalk.tolled",
+      "name": "Riverwalk tolled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.road-gangs.cleared",
+      "name": "Road Gangs cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.robbers.driven-off",
+      "name": "Robbers driven Off",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.root-gallery.explored",
+      "name": "Root Gallery explored",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.rootworm.rides-taken",
+      "name": "Rootworm rides Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.rose.prison-born",
+      "name": "Rose prison Born",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.salt.traded",
+      "name": "Salt traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.saltmarch.harvest-helped",
+      "name": "Saltmarch harvest Helped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.salvage.raised",
+      "name": "Salvage raised",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.shadowscale.ground-ended",
+      "name": "Shadowscale ground Ended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.shadowscale.sanctuary-entered",
+      "name": "Shadowscale sanctuary Entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.shut-village.opened",
+      "name": "Shut Village opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.sick.tended",
+      "name": "Sick tended",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.silent-halls.gems-freed",
+      "name": "Silent Halls gems Freed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.silver-mouth.entered",
+      "name": "Silver Mouth entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.silver-mouth.robbed",
+      "name": "Silver Mouth robbed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.silyanorn.reported",
+      "name": "Silyanorn reported",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.sinkhole.dived",
+      "name": "Sinkhole dived",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.slough-point.goods-declared",
+      "name": "Slough Point goods Declared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.smith.commissioned",
+      "name": "Smith commissioned",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.smuggling.run",
+      "name": "Smuggling run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.snowline.wintered",
+      "name": "Snowline wintered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.soulrest.council",
+      "name": "Soulrest council",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.soulrest.imperial-remnant",
+      "name": "Soulrest imperial Remnant",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.spears.raised",
+      "name": "Spears raised",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.steading.claimed",
+      "name": "Steading claimed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stillrise.array-broken",
+      "name": "Stillrise array Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stillrise.array-kept",
+      "name": "Stillrise array Kept",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stonefoot.wall-rebuilt",
+      "name": "Stonefoot wall Rebuilt",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stonewastes.charter-signed",
+      "name": "Stonewastes charter Signed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stormhold.writs-served",
+      "name": "Stormhold writs Served",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.stronghold.claim-established",
+      "name": "Stronghold claim Established",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.sul-xan.camps-broken",
+      "name": "Sul Xan camps Broken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.survey.stations-found",
+      "name": "Survey stations Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.swampmoth.gate-taken",
+      "name": "Swampmoth gate Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.swampmoth.tolls-paid",
+      "name": "Swampmoth tolls Paid",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.swampmoth.town-sided",
+      "name": "Swampmoth town Sided",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.synod.favour",
+      "name": "Synod favour",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tear-road.travelled",
+      "name": "Tear Road travelled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.ten-maur-wolk.entered",
+      "name": "Ten Maur Wolk entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tenmar-wall.traded",
+      "name": "Tenmar Wall traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.thorn.smuggling-run",
+      "name": "Thorn smuggling Run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.thorn.titles-settled",
+      "name": "Thorn titles Settled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tide-fair.traded",
+      "name": "Tide Fair traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tolls.evaded",
+      "name": "Tolls evaded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tolls.paid",
+      "name": "Tolls paid",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.tradehouse.rested",
+      "name": "Tradehouse rested",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.two-hundred.entered",
+      "name": "Two Hundred entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.twyllbek-crown.topped",
+      "name": "Twyllbek Crown topped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.twyllbek.finds-declared",
+      "name": "Twyllbek finds Declared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.umbriel.witnessed",
+      "name": "Umbriel witnessed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.urns.judged",
+      "name": "Urns judged",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.veiled-reed.writ-points",
+      "name": "Veiled Reed writ Points",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.veterans.heard",
+      "name": "Veterans heard",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.vice.debts-run",
+      "name": "Vice debts Run",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.vista.reached",
+      "name": "Vista reached",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wamasu.killed",
+      "name": "Wamasu killed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wamasu.offered",
+      "name": "Wamasu offered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.watch.kept",
+      "name": "Watch kept",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.watch.signals-read",
+      "name": "Watch signals Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.waykeepers.passages-taken",
+      "name": "Waykeepers passages Taken",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wells.charged",
+      "name": "Wells charged",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.westfield.harvest-helped",
+      "name": "Westfield harvest Helped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.whispers.dig-found",
+      "name": "Whispers dig Found",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.whispers.favour",
+      "name": "Whispers favour",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.withdrawal-house.helped",
+      "name": "Withdrawal House helped",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wolk-market.dispute-settled",
+      "name": "Wolk Market dispute Settled",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wolk-market.traded",
+      "name": "Wolk Market traded",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.wreck.dived",
+      "name": "Wreck dived",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer-hold.sheltered",
+      "name": "Xanmeer Hold sheltered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer.cleared",
+      "name": "Xanmeer cleared",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer.opened",
+      "name": "Xanmeer opened",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer.respected",
+      "name": "Xanmeer respected",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer.robbed",
+      "name": "Xanmeer robbed",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xanmeer.trespass",
+      "name": "Xanmeer trespass",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.xi-tsei.marks-read",
+      "name": "Xi Tsei marks Read",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    },
+    {
+      "id": "deed.zuuk.entered",
+      "name": "Zuuk entered",
+      "kind": "counter",
+      "status": "derived",
+      "sources": [
+        "world/sources/catalogue"
+      ],
+      "notes": "Deed counter incremented by play at the place(s) that declare it."
+    }
+  ]
+}

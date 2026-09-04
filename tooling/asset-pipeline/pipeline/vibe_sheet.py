@@ -45,6 +45,8 @@ def wrap(draw: ImageDraw.ImageDraw, text: str, fnt, width: int) -> list[str]:
             cur = word
     if cur:
         lines.append(cur)
+    if len(lines) > 2:
+        print(f"[vibe] WARNING caption truncated (2 lines max): {text}")
     return lines[:2]
 
 

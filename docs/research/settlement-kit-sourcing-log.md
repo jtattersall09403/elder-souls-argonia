@@ -269,3 +269,65 @@ built GLBs.
   tool — `tooling/asset-pipeline/pipeline/vibe_sheet.py` with the frame/caption
   spec in `pipeline/config/vibe-sheets.json` — so the sheets are reproducible
   rather than one-off.
+
+## Entry 3 — the three kits the deliverability audit named (2026-09-04)
+
+**Nothing was downloaded.** All three are *packaging* jobs against pools already
+in the vault, exactly as
+[place-asset-deliverability-audit.md](place-asset-deliverability-audit.md) §6
+predicted. No new pool, so no new credit line is due; BM&V (ModDB), Here There
+Be Monsters — Curse of Cipactli (SSE 35933) and Mud Mother Grove (SSE 146557)
+are already credited in the root README.
+
+| Kit | Assets | Built from | Delivers |
+|---|---|---|---|
+| `dungeon-root-v1` | 124 | BM&V `philscaves` (46) + `citebosmer` **interior** modules (41) + `telvanni` root/interior (12); HTBM Hist roots (15); Mud Mother ritual/light (10) | `INTERIOR_FAMILIES` **`root-cavern`** and **`hist-sanctum`** outright; backs `dwelling` / `civic-hall` inside grown-root settlements |
+| `settlement-root-v1` | 140 | BM&V `citebosmer` trunk-houses (42) + the **complete** `passerelles` walkway system (52) + `kiosque` (8) + host trees (15); HTBM roots (7); Mud Mother props (17) | `hist-grove-capital`, `hist-village` canopy tiers, `hammock-crown-terrace`, every elevated walkway |
+| `works-v1` | 85 | vanilla forge/smelter/racks/carts/mine timbers/stockade scaffold/water wheels/dock + Mud Mother oven, racks, fences | the whole works taxonomy branch (`shipyard`, `salt-pans`, `paddy-works`, `clay-pit-and-kiln`, `portage-slipway`, `bog-iron-bloomery`, `works-town`, `crystal-diggings`) |
+
+**Each set is packaged in its OWN snap logic**, written into the new `snapLogic`
+key of each kit config (ignored by the builder, read by whoever lays pieces
+out). The three that matter:
+
+- **`passerelles`** encodes its grid in its filenames: `passl<len>[h<rise>]<d|i>01`
+  — `len` and `rise` are Bethesda units, `d`/`i` the two authored handrail sides,
+  which must stay consistent along a run. Measured against the built manifest:
+  `l64/128/256/512` → 1.07 / 1.98 / 3.80 / 7.44 m of deck (3.03 m wide), `h64` →
+  +0.92 m, `h128` → +1.82 m. Arcs come in three fixed radii (448 / 576 / 1280 u)
+  and chain only with their own radius; `passl256h64startd01` is the authored
+  start of a climb.
+- **`citebosmer` interiors** stack by storey code — `rc` ground, `et` upper, `ss`
+  basement — one floor shell per storey with `intwall`/`intwindow` panels
+  substituted round the perimeter and the `gland` trapdoor family as the stair.
+  `15v`/`45v` are the champ house's authored wall tilts: pick one family per shell.
+- **`philscaves`** is a two-tier Morrowind-style cave set (`small` and `srooms`)
+  that butts end-to-end at open faces; cross tiers only through `srooms/connect`.
+
+**Two build fixes were needed.** (1) BM&V's Telvanni pieces UV Dragonborn paths
+(`textures/dlc02/architecture/telvannitower/*`) and **the vault holds no DLC**, so
+all twelve exported grey; `dungeon-root-v1` `textureAliases` redirects those (plus
+two Earrindo and two Stroti wood paths BM&V also fails to ship) to BM&V's own
+Bosmer bark `eressea/architecture/citesylvestrepactevert/bark0143`. That *is* the
+audit's "retexture the Telvanni silhouette to root", done as a config alias rather
+than new art. All three kits now report **zero missing textures**. (2)
+`housetroncbalcon001` carries no exportable geometry (editor marker) and is
+excluded; `housetroncbalcon15v001` is the usable trunk balcony.
+
+`works-v1` is tropicalised (`textureOverlayPools: ["tropical"]` + the same
+`clutter/stockade` alias redirect as `settlement-stilt-v1`) because nearly every
+piece is vanilla-backed. The two root kits are **not** — they contain no
+vanilla-pool assets, so the overlay would be a no-op.
+
+**Still not deliverable, and not sourceable:** kiln, saltern, sluice-gate,
+pithead winding gear and hull-on-stocks meshes. `works-v1` is the agreed
+substitution vocabulary for them (audit §5.4) — smelter+coal+firewood reads as
+the kiln, `walkwaycwallgate01/02` as the sluice, scaffold + `minewoodbeam`
+rollers + dock steps as the slipway. Place prose must be written in those terms.
+Grave-stakes remains a permanent gap. `settlement-dunmer-v1` (shortlist #3) is
+**not** built — still a Part 6 prerequisite.
+
+Registered as inventory families `arch.argonian-root.dungeon-interior`,
+`arch.argonian-root.settlement` and `prop.neutral.works-and-industry`; catalogue
+alias slugs `dungeon-root`, `settlement-root`, `works-props` now point at them,
+and `worldgen.catalogue` gained a check that every alias **target** exists in the
+inventory (slug presence alone was checked before, so dangling targets survived).

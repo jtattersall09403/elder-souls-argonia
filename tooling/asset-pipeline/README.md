@@ -25,7 +25,18 @@ python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
 
 python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb
 python3 -m pipeline.vet_kit   output/kits/settlement-mud-v1.kit.json
+
+python3 -m pipeline.vault_inventory                      # -> world/sources/assets/vault-inventory.md
 ```
+
+`vault_inventory` answers "what do we already own but have not packaged?" — it
+lists every mesh in every vault source (one `bsdtar -tf` per archive, `os.walk`
+per extracted mod, manifests for vanilla and BM&V), groups them by the author's
+own folder, and cross-references the kit configs, the asset registries and the
+placement inventory. Run it **before** any sourcing search (world/90 §71): it
+takes ~3 seconds and it is how unused sets like the BM&V tree-house and root
+pieces get found. Output is a ≤400-line report plus a machine-readable
+`output/vault-inventory.json` sidecar.
 
 Python deps beyond the stdlib: `lz4` (SSE BSA v105 archives — several sourced
 mods ship them). Install with `pip install lz4` if `pipeline.bsa` complains.

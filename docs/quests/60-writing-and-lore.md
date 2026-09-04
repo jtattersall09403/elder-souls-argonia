@@ -17,18 +17,26 @@ Every narrative datum should use the existing source-confidence categories:
 
 The Veiled Reed, Unbound Root and Root of Accord are project-original. The Eye of Argonia, Hist, Sithis, Nisswo, An-Xileel, Shadowscales, Duskfall, Xanmeers, Lilmoth/Umbriel and Black Marsh cities are grounded in established lore.
 
-## 45b. Argonian register
+## 45b. Argonian register — and the layered model it sits in
 
-Canon Argonian speech habits bind dialogue authoring; the full set lives in the
-lore dossier — read it before writing Argonian dialogue rather than
-rediscovering it per quest (lore: topics/material-culture.md § *Language notes
-for dialogue*). Headlines: Jel has no past or future tense; body language
-carries grammar, which is why Argonians speaking Tamrielic preface statements
-with emotional qualifiers ("I erect the spine of…", "My rage-quill is
-engorged!"); farewell "Stay moist.", curse "Hist piss!", exclamation "Host of
-Stormhold."; outsiders are **ojel** (not derogatory) — the An-Xileel's
-**Lukiul** very much is. Moderation: one qualifier per scene per speaker is
-plenty; overuse is the failure mode.
+**This section binds Argonian speakers only.** Argonia holds all ten Tamrielic
+races in the proportions in [world/92 §82](../world/92-demographics.md), and a
+Khajiit, a Dunmer or a Nord living in the marsh does **not** speak like a
+Saxhleel. Every speaker's voice is composed from four layers — race +
+upbringing + region + faction — per
+[text/culture-registers.md](../text/culture-registers.md) §0, which is the
+binding model; this section is just its Argonian race row in full.
+
+Canon Argonian speech habits: the full set lives in the lore dossier — read it
+before writing Argonian dialogue rather than rediscovering it per quest (lore:
+topics/material-culture.md § *Language notes for dialogue*). Headlines: Jel has
+no past or future tense; body language carries grammar, which is why Argonians
+speaking Tamrielic preface statements with emotional qualifiers ("I erect the
+spine of…", "My rage-quill is engorged!"); farewell "Stay moist.", curse "Hist
+piss!", exclamation "Host of Stormhold."; outsiders are **ojel** (not
+derogatory) — the An-Xileel's **Lukiul** very much is. Moderation: one
+qualifier per scene per speaker is plenty; overuse is the failure mode. A
+**lukiul** cannot use them naturally and it shows.
 
 ## 45c. The 4E 48 calibration (binding tone rule)
 
@@ -124,6 +132,10 @@ Engineering standard 4 (one keyed text catalogue,
 
 ### 45e.1 Banned constructions (grows — add on sight)
 
+Evidence, examples and the reviewer's qualitative tests:
+[docs/research/ai-writing-tells.md](../research/ai-writing-tells.md). **Density is the
+tell, not any single instance** — these are checks, not a lint.
+
 | Don't | Do | Why |
 |---|---|---|
 | "a root the story grew along is severed" | "a root is severed" | stranded preposition reaching for weight; cut to the image |
@@ -141,6 +153,23 @@ Engineering standard 4 (one keyed text catalogue,
 | Two stock phrases welded with an em dash ("worn but sound — everything load-bearing is new") | one clause | the dash doing the work a choice should do; often contradictory |
 | Modern idiom no one in the world could hold ("unionised", "brute-forced", "ordinary until it isn't", "infrastructure", "leverage") | the plain word for the thing | |
 | "X — the only such thing in the province" flourish after a concrete image | end at the image; uniqueness goes in a fact field | |
+| Provenance markers inside world prose ("Canon:", "Canon-named as", "canon says") | state the fact; the citation goes in `sources` | design sourcing voice in fiction (second review pass 2026-09-04) |
+| A label field (`mood`, `condition`) restating the field above it, or a `hook` copying `siteAdvantages` | cut the echo; the hook says what the player gets | a writer artefact, four to eleven per region |
+| "everyone knows X and nobody does Y" as a closer | end at "everyone knows" | the owner's named tell |
+| The same label-field SHAPE across a whole set ("adjective pair, and appended judgement" in 77 of 134 moods) | vary the shape between records | convergence is a set property; fix the set, not the line |
+| Game or session references in `note` fields ("the game's first loss", "before the game does") | describe the thing | the in-world-prose row was being dodged via notes |
+| Contrast joined with *and* where the sense is *but* ("The bridge is new and no one uses it") | use **but** — it is allowed and usually better — or cut the second clause | the model avoids *but* (owner finding 2026-09-04); see the and/but test in [research/ai-writing-tells.md](../research/ai-writing-tells.md) §5 |
+| Sentence-final antithesis pair ("…the one thing everyone knows and nobody will talk about") | end at the first half | a balanced closer bolted to a finished sentence; the most distinctive AI beat in the Phase 11 catalogue |
+| Negative parallelism ("it is not a shrine, it is a warning"; "not just a ford but a boundary") | say the true half only | ~3× more frequent in post-2022 web text (Pew); reads as machine contrast |
+| Colon-reveal ("The garrison has one purpose: fear") | write it as a sentence | the colon doing a drum-roll |
+| Question answered in the next clause ("Who guards it? No one.") | state it | rhetorical scaffolding, not speech |
+| Register vocabulary: *delve, tapestry, testament, realm, intricate, interplay, underscore, pivotal, showcase, meticulous, landscape, foster, harness, navigate* | the plain word for the thing | the standard AI-vocabulary list; *tapestry* and *testament* are the loudest |
+| Scene-setting defaults: *nestled, whispers, echoes, timeless, ancient* | one concrete noun ("a village on the sandbar") | unchecked, these open half the descriptions |
+| Grandeur without specifics ("the fort's enduring presence") | a number, a name or an object | vagueness is a stronger tell than vocabulary |
+| Every paragraph ending on a resonant line | most records end on a plain fact | uniform flourish is a set-level failure; caught by the flourish count (review-process §3) |
+| One-sentence paragraph dropped for punch | fold it into the paragraph above | |
+| Uniform sentence length through a paragraph | let one sentence be four words | human rhythm is uneven. Flat sentences carry the interesting ones |
+| Constructions with a comma followed by 'and' | Avoid. Phrase differently. | British English convention. e.g. don't write constructions like e.g. "this name is important, and nobody will tell you why", or "the answer is wrong, and it changes the picture in an interesting way" |
 
 ## 46. Dialogue model
 
@@ -171,26 +200,36 @@ There is no full voice acting, so **the prose is the performance**. Who a
 character *is* lives in [35-cast.md](35-cast.md); this is how they sound.
 
 Every C1 and C2 gets a one-page voice sheet before any dialogue is written,
-carrying exactly five things:
+carrying exactly six things:
 
-1. **Sentence length and rhythm.** The cast's registers must not converge:
+1. **Their four layers, named explicitly** — **race**, **upbringing**,
+   **region** and **faction** ([text/culture-registers.md](../text/culture-registers.md)
+   §0). All four fields are mandatory, even when one is "none" (no faction) or
+   "default for their race". A sheet missing a layer produces a character who
+   defaults to the province's majority voice, which is the exact failure the
+   layered model exists to prevent. Note here any deliberate departure from a
+   layer, and why — the voice sheet outranks the layers, but only on the record.
+2. **Sentence length and rhythm.** The cast's registers must not converge:
    Sings-Over-Stone corrects in clauses; Never-Writes-Twice speaks in finished
    sentences she could defend under oath; Spills-The-Ink starts twice; Ei-Tuja
    answers a different question than the one asked and it turns out to be better.
-2. **Their Jel register habit** (§45b). *Which* emotional qualifier a character
-   reaches for is characterisation: an office-hardened Argonian may have dropped
-   them entirely when speaking to *ojel*, and that loss is worth a line
-   somewhere. A **lukiul** cannot use them naturally and it shows.
-3. **What they will not say.** Every character has one subject they change
+3. **Their one race marker, and how strong it is** (culture-registers §1).
+   For an Argonian that is the Jel qualifier (§45b) and *which* one they reach
+   for is characterisation — an office-hardened Argonian may have dropped them
+   entirely when speaking to *ojel*, and that loss is worth a line somewhere.
+   For a Khajiit it is how completely duty suppresses the illeism; for a Dunmer,
+   which rung of *sera / muthsera / serjo* they use for whom.
+4. **What they will not say.** Every character has one subject they change
    direction around, and the player can notice it long before they find out why.
-4. **How they address the player** — and whether it changes across the game. This
+5. **How they address the player** — and whether it changes across the game. This
    is where trust, rank and the branch state become audible without a meter.
-5. **One repeatable formula** the player will recognise on sight after three
+6. **One repeatable formula** the player will recognise on sight after three
    meetings. Cheap, and it is most of what memorability actually is.
 
 Additional rules:
 
-- **No two characters in a scene share a register** (strong default — a
+- **No two characters in a scene share a register** — and where two characters
+  *do* share a race, they must differ on at least one other layer (strong default — a
   deliberate shared register can be the joke; record the one-line reason). A
   scene with three grave people in it by accident is one character having an
   argument with itself.

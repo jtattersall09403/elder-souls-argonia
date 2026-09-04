@@ -63,6 +63,12 @@ OUT_MD = REPO_ROOT / "world" / "sources" / "sites" / "minor-routes.md"
 SCHEMA_VERSION = 1
 ARRIVAL_M = 45.0          # already on the network: no path
 MAX_TRACK_M = 2600.0      # beyond this the place is boat/guide/root-served
+# How far a water-sited record may reach for its own land head. Beyond this it
+# is a boat place, not a walked one, and a track that starts hundreds of metres
+# away is a lie about where the path begins (found 2026-09-04, when a re-plot
+# moved a divers' yard 118 m off the nearest land and the compiler drew the
+# track from there anyway). Mirrors compile_minor_waterways.SNAP_M.
+SNAP_M = 65.0
 MAGNITUDE_RANK = {"M5": 5, "M4": 4, "M3": 3, "M2": 2, "M1": 1}
 
 # per-metre relative costs (cf. routes.cost_surface, adapted to the published rasters)
@@ -194,7 +200,11 @@ def run(write: bool = True) -> dict:
                 # a submerged / island record: walk to the nearest land cell first
                 land_rc = np.argwhere(s.land)
                 d2 = (land_rc[:, 0] - row) ** 2 + (land_rc[:, 1] - col) ** 2
-                row, col = map(int, land_rc[int(np.argmin(d2))])
+                k = int(np.argmin(d2))
+                if float(np.sqrt(d2[k])) * px_m > SNAP_M:
+                    unconnected.append({"id": rec["id"], "why": "no land within the snap; boat-served"})
+                    continue
+                row, col = map(int, land_rc[k])
             if not np.isfinite(dist[row, col]):
                 unconnected.append({"id": rec["id"], "why": "no land path at all"})
                 continue
@@ -232,7 +242,11 @@ def run(write: bool = True) -> dict:
            "unconnected": unconnected, "tracks": tracks}
     if write:
         OUT_JSON.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-        OUT_MD.write_text(digest(doc), encoding="utf-8")
+        # keep any Part 3c (minor waterways) section that follows ours
+        old = OUT_MD.read_text(encoding="utf-8") if OUT_MD.exists() else ""
+        mark = "## Minor waterways"
+        tail = ("\n\n" + mark + old.split(mark, 1)[1].rstrip("\n") + "\n") if mark in old else ""
+        OUT_MD.write_text(digest(doc).rstrip("\n") + "\n" + tail, encoding="utf-8")
     return doc
 
 

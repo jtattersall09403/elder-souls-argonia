@@ -196,6 +196,40 @@ validators, the voice review and the discovery feed all operate on one table.
 
 ---
 
+## 12. Prose is written against the record, and checked against it
+
+**What.** Any free-text field that describes something the game will have to
+show or do (a place's `why`/`vibe`/`hook`, a creature note, an item
+description, a quest brief) is written *from* the typed fields beside it —
+`assetPlan`, `interior.family`, `contents`, `sitingPrefs`, `plotFacts`, the
+registries — and never promises anything those fields cannot deliver. A
+built form, creature, item or landform named in prose must resolve to a kit
+family, a registry entry with `assetAvailability ≠ none`, or a landform the
+plot actually gave the record. When prose and data disagree, the data is
+fixed or the prose is rewritten in the same change; the disagreement never
+ships.
+
+**Why.** The Phase 11 catalogue validated every record's kit list and every
+id, and still promised root galleries, cliff dwellings, insect swarms and
+sightlines that nothing could build (owner finding 2026-09-04). Validators
+see fields; they did not see the sentences. The class of failure is general:
+whenever a typed record grows a prose neighbour, the prose drifts from the
+data unless writing it *starts* from the data and a check reads it back.
+
+**Enforcement.** rule for the writing agent (the brief for any prose pass
+names the fields it must be written against); mechanical where a lexicon
+exists — `worldgen.audit_place_semantics` (prose vs ground) and the
+built-form/creature noun scan of
+[research/place-asset-deliverability-audit.md](research/place-asset-deliverability-audit.md)
+(prose vs kits and registries), both run in the Phase 11 QA gate; the text
+review (docs/text/review-process.md §3) checks fact-against-record as its
+last step.
+
+**Owner.** Defined 2026-09-04; applied to the place catalogue in the same
+round; every later register (creatures, items, quests, dialogue) inherits it.
+
+---
+
 ## Running the checks
 
 ```

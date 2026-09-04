@@ -24,7 +24,7 @@ from pathlib import Path
 from . import catalogue
 from .society import CULTURES
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 OUT_PATH = catalogue.REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "places.json"
 
 WHY_FIELDS = ("founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf")
@@ -39,7 +39,71 @@ def zone_colours() -> dict[str, str]:
     return {name: _hex(spec["colour"]) for name, spec in CULTURES.items()}
 
 
-def project_record(rec: dict, region: str) -> dict:
+def _condition_line(when: dict | None) -> str:
+    """A schema-v2 flip condition as one short human clause (studio review only —
+    the authoritative vocabulary is docs/quests/85-condition-vocabulary.md)."""
+    if not when:
+        return "always"
+    parts = []
+    for key, val in sorted(when.items()):
+        if isinstance(val, (list, tuple)):
+            val = " ".join(str(v) for v in val)
+        elif isinstance(val, dict):
+            val = _condition_line(val)
+        # `val is True` (not ==): a flag with no argument reads as just its key,
+        # but a numeric 1 must keep its number.
+        parts.append(str(key) if val is True else f"{key} {val}")
+    return ", ".join(parts)
+
+
+def _flip_lines(host: dict | None) -> list[str]:
+    out = []
+    for flip in (host or {}).get("flips") or []:
+        scope = flip.get("scope")
+        out.append(f"→ {flip.get('to')} when {_condition_line(flip.get('when'))}"
+                   + (f" [{scope}]" if scope and scope != "place" else ""))
+    return out
+
+
+def _slot_line(slot: dict, kind: str) -> str:
+    """One short line per contents slot: role, danger/payoff, count, note."""
+    bits = [str(slot.get("role") or "?")]
+    if kind == "loot":
+        for k in ("payoff", "valueTier", "provenance"):
+            if slot.get(k):
+                bits.append(str(slot[k]))
+    else:
+        if slot.get("danger"):
+            bits.append(str(slot["danger"]))
+        if slot.get("count"):
+            bits.append(str(slot["count"]))
+        if slot.get("named"):
+            bits.append("named")
+        if slot.get("trigger"):
+            bits.append(f"on {slot['trigger']}")
+    line = " · ".join(bits)
+    if slot.get("note"):
+        line += f" — {slot['note']}"
+    return line
+
+
+def _contents(rec: dict) -> dict | None:
+    c = rec.get("contents") or {}
+    out = {k: [_slot_line(s, k) for s in (c.get(k) or [])] for k in ("creatures", "npcs", "loot")}
+    return out if any(out.values()) else None
+
+
+def _travel_station(rec: dict, names: dict[str, str]) -> dict | None:
+    ts = rec.get("travelStation") or {}
+    if not ts.get("modes") and not ts.get("destinations"):
+        return None
+    return {
+        "modes": list(ts.get("modes") or []),
+        "destinations": [{"id": d, "name": names.get(d, d)} for d in (ts.get("destinations") or [])],
+    }
+
+
+def project_record(rec: dict, region: str, names: dict[str, str]) -> dict:
     cls = rec.get("classification") or {}
     why = rec.get("why") or {}
     prefs = rec.get("sitingPrefs") or {}
@@ -73,6 +137,30 @@ def project_record(rec: dict, region: str) -> dict:
         "hook": (rec.get("playerPurpose") or {}).get("hook"),
         "stance": (rec.get("hostility") or {}).get("baseline"),
         "interior": _interior_line(rec.get("interior")),
+        # ...and the structured view of the same v2 blocks, for the studio's
+        # detail panel and its filters. Short strings and short arrays only:
+        # the bundle is a review projection, never a copy of the record.
+        "purposeDetail": (lambda pp: pp and {
+            "primary": pp.get("primary"), "impact": pp.get("impact"),
+            "secondary": list(pp.get("secondary") or []),
+        })(rec.get("playerPurpose")) or None,
+        "stanceDetail": (lambda h: h and {
+            "baseline": h.get("baseline"), "owner": h.get("owner"),
+            "clearable": h.get("clearable"), "respawn": h.get("respawn"),
+            "flips": _flip_lines(h),
+        })(rec.get("hostility")) or None,
+        "interiorDetail": (lambda it: it and it.get("kind") not in (None, "none") and {
+            "kind": it.get("kind"), "family": it.get("family"), "sizeBand": it.get("sizeBand"),
+            "wetFraction": it.get("wetFraction"), "entranceCount": it.get("entranceCount"),
+            "exteriorShell": it.get("exteriorShell"),
+            "verticalRelationship": it.get("verticalRelationship"),
+        })(rec.get("interior")) or None,
+        "entrance": rec.get("entrance"),
+        "underwaterAccess": rec.get("underwaterAccess"),
+        "contents": _contents(rec),
+        "travelStation": _travel_station(rec, names),
+        "questProvisions": list((rec.get("questHooks") or {}).get("provisions") or []),
+        "tierOwnership": (rec.get("questHooks") or {}).get("tierOwnership"),
     }
 
 
@@ -91,14 +179,18 @@ def _interior_line(it: dict | None) -> str | None:
 
 
 def build_bundle(catalogue_dir: Path = catalogue.CATALOGUE_DIR) -> dict:
+    region_files = list(catalogue.load_region_files(catalogue_dir))
+    # id → name for every record (sited or not), so travel-station destinations
+    # can be shown by name even when the far end is not on the map.
+    names = {rec["id"]: (rec.get("name") or rec["id"]) for rf in region_files for rec in rf.places}
     places = []
     unsited = 0
-    for rf in catalogue.load_region_files(catalogue_dir):
+    for rf in region_files:
         for rec in rf.places:
             # only LIVE plotted records reach the map: a deferred record may
             # still carry a stale position from an earlier plot
             if rec.get("position") and rec.get("status") not in ("deferred", "cut"):
-                places.append(project_record(rec, rf.region))
+                places.append(project_record(rec, rf.region, names))
             else:
                 unsited += 1
     places.sort(key=lambda p: p["id"])

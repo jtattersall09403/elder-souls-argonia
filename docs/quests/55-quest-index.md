@@ -208,3 +208,46 @@ and an Archon pair (LQ16/LQ18); neither is a gap. Regions with no local
 quests yet: **Helstrom's basin rim, Blackwood, Middle Argonia, Thornmarsh
 east**; Murkmire holds LQ24/LQ31 and Deepmire holds UW04, so their gaps are
 depth, not absence.
+
+## 47e. Proposed rows from the plotted province (2026-09-04) — **not authored**
+
+The quest–world co-design pass (decision
+[0041](../decisions/0041-phase11-settlement-decisions.md) § Part 4 step 2,
+point 2 of the loop) read the 578 plotted places as a quest designer and asked
+what the province now makes possible that this index does not use. These are
+**proposals**, not briefs: no `status: live` row exists for any of them, none
+has a cast, and any of them may be dropped. Each names its anchor places by
+catalogue id, and each passed the §47c collision test at the time of writing —
+an author picking one up **must re-run the test**, because the index will have
+moved.
+
+They are weighted deliberately toward the two standing gaps, `HAUNTING` and
+`WONDER`, and away from `PREDATOR`.
+
+| ID | Working title | Region | Shapes | Premise in one clause | Anchor places (catalogue ids, `place.` prefix implied) |
+|---|---|---|---|---|---|
+| PP01 | The Stage That Stopped Calling | Naga-Kur deeps | `MISSING`, `NEGOTIATION` | A scheduled boat service quietly stopped calling at one landing and the crews will not say which of them decided it | `naga-kur-deeps.ferry-stage-guide-hire`, `imperial-penal-south.lake-ferry-stage`, `naga-kur-deeps.drifting-village-wet-mooring` |
+| PP02 | Buying the Reed Gate | Naga-Kur deeps / trunk road | `NEGOTIATION`, `BONDAGE` | A raiding camp will sell a season's safe passage, and the price is a person | `naga-kur-deeps.naga-highway-camp-active-south`, `naga-kur-deeps.naga-village-raiding`, `pirate-freeholds.freehold-naga-camp` |
+| PP03 | The Interrupted Flight | Interior basin | `WONDER`, `MISSING` | A man fell out of the sky, his scrolls survived him, and nothing in them says where he was going | `hist-heartland.falling-mage-impact`, `hist-heartland.vista-ledge-canopy-break` |
+| PP04 | Provably Stolen | Naga-Kur deeps | `THEFT`, `RECKONING` | The wreck's cargo seals are intact and legible, so anything taken off her can be traced to whoever is holding it | `naga-kur-deeps.wreck-submerged-barge`, `imperial-penal-south.lake-divers-yard` |
+| PP05 | Cordon Two, Under-Stores | Penal south | `SUCCESSION`, `BONDAGE` | Everything the Owing seized in the south is racked, tagged and dated in one cellar, and most of the owners are dead | `imperial-penal-south.cordon-cellars`, `imperial-penal-south.chainbreaker-shelter`, `imperial-penal-south.rose-supply-town` |
+| PP06 | The Line Nobody Walked | Dunmer north | `HAUNTING`, `DISPUTE` | A camp has sat on a Dres boundary for forty years waiting for someone who came back wrong, and no grave-singer will go out to it | `dunmer-north.waits-for-the-promise`, `dunmer-north.the-pen-yard`, `dunmer-north.andalen-plantation` |
+| PP07 | The Watch Runs Out | Interior | `SUCCESSION`, `RITE` | A village whose entire history is a guard roster has no one left to put on it, and will not say what it is guarding | `hist-heartland.insular-hereditary-watch`, `mercantile-coast.insular-jungle-village` |
+| PP08 | Sixteen Doors | Murkmire / deeps | `HAUNTING`, `RECKONING` | Umbriel emptied four villages in a night; one of them has begun refilling, and the containment ring is being maintained by somebody | `naga-kur-deeps.umbriel-stripped-undead`, `mercantile-coast.stripped-village-north`, `dunmer-north.the-stripped-village`, `hist-heartland.umbriel-stripped-quiet` |
+| PP09 | Who Stocks the Breath | Province-wide (dive routes) | `MISSING`, `RITE` | Five air-pocket stations on five different dives have been stocked by one person for thirty years, and this season they were not | `hist-heartland.air-pocket-station-basin`, `naga-kur-deeps.air-pocket-station-deeps`, `mercantile-coast.oliis-air-station`, `saxhleel-coast.mangrove-air-pocket` |
+| PP10 | Six Weeks of Floor | Penal south / north | `MURDER`, `WONDER` | The lake pulls back for six weeks a year and this year the bed has a body on it that everyone had agreed was a drowning | `imperial-penal-south.drawdown-flat`, `dunmer-north.the-drawdown-flats`, `hist-heartland.drawdown-flat-exposed` |
+| PP11 | The Oldest Bundle | Bone road (province-wide) | `RITE`, `SUCCESSION` | The bundle at the bottom of the rack has been rewrapped four times and no carrier will take it the last stage home | `naga-kur-deeps.bone-carriers-camp-deeps`, `pirate-freeholds.bone-repatriation-waystation`, `imperial-fringe.bone-road-waystation`, `hist-heartland.bone-waystation-interior` |
+| PP12 | Nine Stakes Standing | Interior / deeps | `RECKONING`, `HAUNTING` | Somebody is pulling grave-stakes on purpose, in a pattern, and the pattern is the point | `naga-kur-deeps.bog-blight-ground-nine-stakes`, `hist-heartland.bog-blight-ground-stakes`, `hist-heartland.necropolis-dead-tenders` |
+| PP13 | Two Gates, One Receipt | Dunmer north | `FRAUD`, `DISPUTE` | One gatehouse on a two-toll bridge has been issuing the other's receipts for nine years | `dunmer-north.the-two-gate-bridge`, `dunmer-north.nine-fords` |
+| PP14 | The Court Under No Light | Dunmer north / fringe | `WONDER`, `NEGOTIATION` | Two calcinator courts are laid out to a sky with nothing in it, and the work done in them cannot be done anywhere else | `dunmer-north.the-moon-court`, `imperial-fringe.moonrack-calcinator` |
+| PP15 | The Keeper of the Turning | Murkmire | `WONDER`, `SUCCESSION` | The province's working ancient calendar has one hereditary keeper, no successor, and canon says it can turn the weather | `mercantile-coast.xinchei-konu`, `mercantile-coast.wraxu-frieze` |
+| PP16 | The Cut That Still Opens | Naga-Kur deeps | `WONDER`, `DISPUTE` | Sluices nobody attends still open and close on the season, and four villages have built their year on a machine with no owner | `naga-kur-deeps.horwalli-waterworks-deeps`, `naga-kur-deeps.naga-village-settled` |
+| PP17 | Still Billing for the Road | Imperial fringe | `FRAUD`, `RECKONING` | An Imperial roadworks stopped mid-formation centuries ago and something is still drawing against its account | `imperial-fringe.unfinished-culvert-line`, `imperial-fringe.the-embankment-that-drowned`, `imperial-fringe.the-second-empire-locks`, `dunmer-north.the-north-cut` |
+| PP18 | Who Was Fed | Penal south | `RECKONING`, `CONTAMINATION` | The Flu cordon's ration ledgers are still in the store, they show who was fed and who was not, and Blackrose has never once discussed them | `imperial-penal-south.flu-quarantine-village`, `imperial-penal-south.plague-cordon`, `imperial-penal-south.flu-mass-grave` |
+
+**What the province offered that the plan already covers**, and therefore is
+*not* proposed: hostile camps as combat content (Marsh Charter, RS/Salt-Teeth),
+smuggling ledges (TG line), diving for documents (SA line, MQ10/MQ16),
+sap tapping (MR04), the Owing's pits (BC line). The gap was never subjects — it
+was *shapes*: eleven of the eighteen above are `WONDER`, `HAUNTING`,
+`SUCCESSION` or `RITE`.

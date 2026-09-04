@@ -506,7 +506,7 @@
     "transit": {
       "crossing": {
         "causeway": [
-          "buoyant-timber",
+          "pile-timber",
           "stone-flagged",
           "broken"
         ],

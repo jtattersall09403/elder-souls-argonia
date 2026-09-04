@@ -25,8 +25,10 @@ from scipy import ndimage
 
 from .composition import Composition
 from .regions import REGION_CLASSES
+from .routes_raster import corridor_masks
 from .scale import RAW_M
-from .scatter import Fields, Palette, clark_evans, encode, scatter_chunk
+from .scatter import (ROUTE_CLEAR, ROUTE_THIN, Fields, Palette, clark_evans,
+                      encode, scatter_chunk)
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
@@ -102,6 +104,15 @@ class ProvinceFields:
                              .convert("RGBA"))
         self.land_cover = control[..., 0].copy()
 
+        # Route corridors (major roads + Part 3b tracks/footpaths/boardwalks)
+        # on the ground-control grid: trunks cleared, groundcover thinned.
+        # Route px are on the 1345 macro grid; the control raster is the
+        # full-res one, so the step is its size ratio.
+        step = int(round(control.shape[0] / 1345))
+        trunk, ground = corridor_masks(control.shape[:2], step, province=province)
+        self.corridor = (trunk.astype(np.uint8) * ROUTE_CLEAR
+                         | ground.astype(np.uint8) * ROUTE_THIN)
+
         self.extent_m = self.height_m.shape[0] * self.px_m
         # ground-control ships at FULL resolution (double the refined height
         # raster) — sampling it with px_m read the wrong quadrant entirely.
@@ -127,6 +138,8 @@ class ProvinceFields:
                 v if (v := self._pixel(self.region, x, z, self.region_px_m)) is not None else 0),
             land_cover=lambda x, z: int(
                 v if (v := self._pixel(self.land_cover, x, z, self.control_px_m)) is not None else 0),
+            route_corridor=lambda x, z: int(
+                v if (v := self._pixel(self.corridor, x, z, self.control_px_m)) is not None else 0),
             shore=lambda x, z: float(
                 v if (v := self._pixel(self.shore_m, x, z, self.px_m)) is not None else 9999.0),
             coast=lambda x, z: float(

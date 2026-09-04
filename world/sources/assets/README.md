@@ -6,6 +6,16 @@ kit-compile deep on demand** — a row says *what an asset is and whether a
 shipped world used it*, not how it collides or snaps. Collision profiles, snap
 points, sockets and LOD chains are added per asset by the kit that places it.
 
+## Coverage report: `vault-inventory.md`
+
+[vault-inventory.md](vault-inventory.md) is the companion to the registry and
+answers the opposite question: not *what is this asset*, but **what have we
+never used?** It groups every mesh in the vault by the author's own folder (the
+folder *is* the authored set) and shows, per set, how much is catalogued in a
+registry versus actually referenced by a kit or placement file. Regenerate with
+`cd tooling/asset-pipeline && python3 -m pipeline.vault_inventory` (~3s). Read
+it before any sourcing search (world/90 §71).
+
 ## Do not read these files — query them
 
 They are ~28k rows / 5 MB. Reading one whole is exactly the context bloat the

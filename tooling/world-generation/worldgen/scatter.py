@@ -387,12 +387,33 @@ class Fields:
     land_cover: Callable[[float, float], int] = lambda x, z: 0
     shore: Callable[[float, float], float] = lambda x, z: 9999.0
     """Signed distance to the water's edge, metres (+ land, − water)."""
+    route_corridor: Callable[[float, float], int] = lambda x, z: 0
+    """Route-corridor bits at this position: ROUTE_CLEAR (a road/track/path
+    keeps woody layers out) | ROUTE_THIN (groundcover is trodden down).
+    Zero everywhere off a route. Fed by `routes_raster.corridor_masks`."""
     coast: Callable[[float, float], float] = lambda x, z: 99999.0
     """Signed distance to the OCEAN, metres (+ inland, − at sea) — the salt-
     exposure field the coastal gradient reads (round 4)."""
 
 
 HECTARE_M2 = 10_000.0
+
+# Route corridors (Phase 11). Anything a traveller walks on is kept clear of
+# trunks and trodden thin at the herb layer — the same rule for a trunk road,
+# a cart track, a footpath and a boardwalk, only the width differs (widths
+# live in routes_raster.CLEARANCE_M).
+ROUTE_CLEAR = 1                 # woody layers (T1/T2) removed
+ROUTE_THIN = 2                  # groundcover (T3) survives at this share
+ROUTE_THIN_KEEP = 0.25
+
+
+def route_allows(layer: "Layer", corridor: int, roll: float) -> bool:
+    """False if this instance falls in a route corridor that excludes it."""
+    if not corridor:
+        return True
+    if layer.tier == "T3":
+        return not (corridor & ROUTE_THIN) or roll < ROUTE_THIN_KEEP
+    return not (corridor & ROUTE_CLEAR)
 
 
 def _layer_salt(seed: int, layer: Layer) -> int:
@@ -577,6 +598,9 @@ def scatter_chunk(origin_x: float, origin_z: float, size_m: float,
                                           coast_m=fields.coast(px, pz)):
                             continue
                         if uniform_at(mkey, 2) > layer.weight(depth_m, slope_m):
+                            continue
+                        if not route_allows(layer, fields.route_corridor(px, pz),
+                                            uniform_at(mkey, 7)):
                             continue
                         if layer.respects_clearance and _blocked(px, pz, stamps):
                             continue

@@ -221,8 +221,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        6,
-        9
+        2,
+        5
       ],
       "lore": "region grammar: seasonal floodplain"
     },
@@ -360,8 +360,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        3,
-        6
+        1,
+        4
       ],
       "lore": "Lore:Thorn; Lore:Saltrice; Lore:House Dres"
     },
@@ -429,8 +429,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        3,
-        6
+        1,
+        4
       ],
       "lore": "region grammar: raised hammock; Lore:Black Marsh"
     },
@@ -498,8 +498,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
-        6
+        2,
+        5
       ],
       "lore": "region grammar: upland hills / border mountains; scour finding: a quarter of interesting ground is on the rim"
     },
@@ -941,8 +941,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        0,
+        2
       ],
       "lore": "Lore:Black Marsh (Imperial houses on the same soil sank)"
     },
@@ -1014,8 +1014,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        3,
-        6
+        2,
+        5
       ],
       "lore": "Lore:Blackwood Road; openworld research (waystation recipe)"
     },
@@ -1759,8 +1759,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        0,
+        3
       ],
       "lore": "Lore:House Dres; Lore:Tear; Lore:Red Year (4E 5); foreign-powers dossier (the cold settled frontier)"
     },
@@ -2054,8 +2054,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        4
+        0,
+        3
       ],
       "lore": "Lore:Black Marsh (no cash-crop economy is possible); Lore:Archein; Lore:Hereguard Plantation"
     },
@@ -2562,8 +2562,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        4,
-        7
+        2,
+        5
       ],
       "lore": "Lore:Lukiul; League of Open Water (quest plan); Lore:Hist"
     },
@@ -2772,7 +2772,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        3
+        2
       ],
       "lore": "Lore:An-Xileel; Lore:Umbriel; argonia-4e201-state (the Wild Ones)"
     },
@@ -2914,8 +2914,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        4
+        0,
+        2
       ],
       "lore": "Lore:Dead-Water (crocodiles); Lore:Lizard-Steed; Lore:Riverbacks (osheeja gar)"
     },
@@ -3202,8 +3202,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        13,
-        16
+        11,
+        14
       ],
       "lore": "Lore:Hist; Lore:Argonian; settlement-register M3 band"
     },
@@ -3275,8 +3275,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        1,
+        4
       ],
       "lore": "Lore:Stonewastes (Four Winds); Lore:Lut-Eileel"
     },
@@ -3346,8 +3346,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        0,
+        3
       ],
       "lore": "Lore:Naga (a people of Black Marsh; the tribeless are the brigands, not the whole nation)"
     },
@@ -3623,7 +3623,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        3
+        2
       ],
       "lore": "Lore:Hist Sap; Miredancers (settlement-register)"
     },
@@ -3834,8 +3834,8 @@
       "complexityBudget": "standard",
       "complexityJustification": "two authored mooring locations plus an empty-footprint state, not a moving object",
       "countBand": [
-        1,
-        4
+        0,
+        3
       ],
       "lore": "Lore:Hixinoag; Lore:Black Marsh (most villages do not stay put)",
       "countBandNote": "Band widened 1->2 (2026-09-02 reconciliation), and settlement-register.md 5 G3.3 updated to match: its 'exactly one' was an EXTRAPOLATED engineering-cost recommendation, not canon — canon says MOST villages do not stay put. Two hand-authored mobile villages: canon Hixinoag on the northern caravan route, and an inner-swamp raft village whose abandoned moorings form a trail of ghost villages, which is this type's own recipe (the empty mooring is as much a POI as the full one)."
@@ -4046,8 +4046,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        4
+        0,
+        3
       ],
       "lore": "Lore:Argonian Houseboat; Lore:Alten Meerhleel"
     },
@@ -5103,8 +5103,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        6
+        4,
+        7
       ],
       "lore": "Lore:Lilmoth (the drowned quarter, salvaged for 150 years)"
     },
@@ -6771,8 +6771,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "material-culture (daril); Lore:Argonian"
     },
@@ -8056,15 +8056,15 @@
       "family": "crossing",
       "recordScope": "poi",
       "variants": [
-        "buoyant-timber",
+        "pile-timber",
         "stone-flagged",
         "broken"
       ],
-      "summary": "A raised way across water: flexible buoyant timber that rides the flood, or an older stone-flagged road firmer than a Breton one and older than the objection to stone.",
+      "summary": "A raised way across water: lashed log piles carrying a plank deck, or an older stone-flagged road firmer than a Breton one and older than the objection to stone.",
       "slots": {
         "cue": "a line running dead straight across water — the least natural shape in the province",
         "population": "0-4 repairers; elevated member on a causeway-head structure",
-        "props": "anchor piles, flood damage, repair sections in the wrong material, a causeway-head shrine",
+        "props": "driven piles, flood damage, repair sections in the wrong material, a causeway-head shrine",
         "rewardFree": "the causeway is the reward — it is a shortcut",
         "rewardGated": "a broken section requiring a swim or climb, with something on the far part",
         "satellite": "a causeway-head shrine or toll 200-400 m along it"
@@ -9504,9 +9504,9 @@
         "open",
         "collapsed"
       ],
-      "summary": "Where the root tunnels surface: a spire of hardened root and bubble that opens, or used to.",
+      "summary": "Where the root tunnels surface: a bulbed tower of fused root that opens at its foot, or used to.",
       "slots": {
-        "cue": "a spire form that is neither tree nor rock, breaking the canopy",
+        "cue": "a bulbed root tower breaking the canopy, neither tree nor rock",
         "population": "0-2; elevated member absent",
         "props": "polished root where things have passed, a departure mark, spilled cargo from a bad arrival",
         "rewardFree": "the spilled cargo",
@@ -9546,7 +9546,8 @@
         "ruined"
       ],
       "assetPlan": [
-        "azura-tree",
+        "dunmer-telvanni",
+        "dungeon-root",
         "totems-ritual",
         "clutter",
         "landmark-civic"
@@ -9559,8 +9560,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Rootworm; hist-placement dossier"
     },
@@ -9619,7 +9620,8 @@
         "stockade-scaffold",
         "totems-ritual",
         "argonian-lights",
-        "clutter"
+        "clutter",
+        "dungeon-root"
       ],
       "assetGaps": [],
       "traversal": [
@@ -10743,8 +10745,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        4
+        2,
+        5
       ],
       "lore": "Lore:Wamasu (Haynekhtnamet of Shadowfen received offerings to stop seasonal flooding)"
     },
@@ -11636,8 +11638,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        6
+        4,
+        7
       ],
       "lore": "Lore:Argonian (bones brought to the dirt redeem a death away from the Hist); White Rose Prison"
     },
@@ -13256,8 +13258,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        0,
+        3
       ],
       "lore": "Lore:Jel (an oral language with no past or future tense); build-out: this is the letter/rumour delivery spine"
     },
@@ -13674,8 +13676,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        4
+        0,
+        2
       ],
       "lore": "fauna-hazards dossier (swamp rot, blood rot, greenspore); Lore:Knahaten Flu"
     },
@@ -13748,7 +13750,7 @@
       "complexityBudget": "trivial",
       "countBand": [
         0,
-        3
+        2
       ],
       "lore": "Lore:Knahaten Flu; Lore:Slough Point (census and excise)"
     },
@@ -13816,8 +13818,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        1,
-        4
+        0,
+        3
       ],
       "lore": "Lore:Hist Sap; material-culture (daril); sap-touched-village is the failure case this type exists to prevent"
     },
@@ -14928,7 +14930,7 @@
       "complexityBudget": "simple",
       "countBand": [
         0,
-        3
+        2
       ],
       "lore": "Lore:College of Whispers (secretive, no public chapters); Lore:Umbriel (what they are here for)"
     },
@@ -15226,8 +15228,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        4,
-        7
+        0,
+        2
       ],
       "lore": "Lore:Argonian (a comer cannot be refused); pacing: a hostile province needs a safety floor outside its cities"
     },
@@ -15367,8 +15369,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        0,
+        3
       ],
       "lore": "climate fields (sea squalls, orographic rain); module 20 §12.3b refuge reward type"
     },
@@ -18095,8 +18097,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Sul-Xan (jade death masks, green raider tattoos, soul-snares; Xi-Tsei, Rockgrove, the Silent Halls)"
     },
@@ -18168,8 +18170,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        3,
-        6
+        5,
+        8
       ],
       "lore": "Lore:Naga (the majority of native brigands and highwaymen; they leave when merchants stop coming)"
     },
@@ -18317,8 +18319,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Hist Sap; Lore:Marsh Giant (killing one is an ecological and religious offence)"
     },
@@ -19065,8 +19067,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        1,
-        4
+        3,
+        6
       ],
       "lore": "Lore:Black Marsh (Legate Elissia Mallicius set the marsh alight, 1E 2828; parts still burn)"
     },
@@ -19141,8 +19143,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        4,
+        7
       ],
       "lore": "Lore:Lilmoth (the drowned quarter); acceptance rule: underwater POIs throughout appropriate regions"
     },
@@ -19214,8 +19216,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        1,
-        4
+        4,
+        7
       ],
       "lore": "Lore:Knahaten Flu (2E 560-603; the Argonians alone were immune)"
     },
@@ -19423,8 +19425,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        2,
+        5
       ],
       "lore": "scour finding: sinkholes are genuinely rare (11) — spend this type sparingly; Lore:Black Marsh (the Great Burn)"
     },
@@ -19563,8 +19565,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        0,
-        3
+        3,
+        6
       ],
       "lore": "Lore:Hereguard Plantation; Lore:Archein; Lore:Black Marsh (no cash-crop economy is possible)"
     },
@@ -19694,8 +19696,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Umpholo (the mission died of swamp rot within a month)"
     },
@@ -19765,8 +19767,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Black Marsh (Imperial roads, bridges and drainage made freight slower)"
     },
@@ -20447,8 +20449,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Xanmeer (~15% broken); xanmeer-mesoamerican-reference (ruins subsumed by vegetation)"
     },
@@ -20668,8 +20670,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        4,
-        7
+        5,
+        8
       ],
       "lore": "Lore:Lakemire Xanmeer; Lore:Ixtaxh Xanmeer (re-drowned but for the topmost chamber)"
     },
@@ -21306,8 +21308,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        0,
-        3
+        1,
+        4
       ],
       "lore": "Lore:Argonian (bone as a primary structural material); fauna-hazards dossier"
     },
@@ -21719,8 +21721,8 @@
       ],
       "complexityBudget": "trivial",
       "countBand": [
-        2,
-        5
+        1,
+        4
       ],
       "lore": "Lore:Voriplasm; ecology-encounters-loot feed (loot has provenance)"
     },
@@ -21790,8 +21792,8 @@
       ],
       "complexityBudget": "simple",
       "countBand": [
-        2,
-        5
+        3,
+        6
       ],
       "lore": "Lore:Wamasu; Lore:Haynekhtnamet (received offerings to stay the flooding)"
     },
@@ -22953,8 +22955,8 @@
         "drowned"
       ],
       "assetPlan": [
-        "azura-tree",
-        "hist-variants",
+        "dungeon-root",
+        "hist-tree",
         "submerged-blocks",
         "stockade-scaffold",
         "clutter",
@@ -22972,8 +22974,8 @@
       ],
       "complexityBudget": "standard",
       "countBand": [
-        9,
-        12
+        11,
+        14
       ],
       "lore": "hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
     },
@@ -22988,7 +22990,7 @@
       ],
       "summary": "An untamed rootworm's tunnel mouth — the same animal the transit network rides, without the handlers, which changes it from infrastructure into a hazard.",
       "slots": {
-        "cue": "a tunnel bore too regular to be natural and too large to be comfortable",
+        "cue": "a tunnel mouth too regular to be natural and too large to be comfortable",
         "population": "one, and it is the tunnel; elevated member absent",
         "props": "a bore of consistent diameter, undigested leavings containing other people's equipment, a handler's failed attempt to tame it",
         "rewardFree": "the leavings, which are a loot table with provenance",
@@ -23028,8 +23030,8 @@
         "ruined"
       ],
       "assetPlan": [
-        "azura-tree",
-        "hist-variants",
+        "dungeon-root",
+        "hist-tree",
         "clutter",
         "lights-general"
       ],

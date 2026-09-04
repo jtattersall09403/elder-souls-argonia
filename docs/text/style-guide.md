@@ -1,6 +1,7 @@
 # The style guide (binding)
 
-> Read before writing any player-visible text. Per-people registers are in
+> Read before writing any player-visible text. Speaker registers — the layered
+> race + upbringing + region + faction model — are in
 > [culture-registers.md](culture-registers.md); review in
 > [review-process.md](review-process.md). Router: [README](README.md).
 
@@ -35,13 +36,15 @@ also the cheapest to reverse: the text catalogue is one keyed table.
 
 | Thing | Rule | Note |
 |---|---|---|
-| Em dash | **`—`, spaced** | Morrowind writes ` -- ` ("blessed -- or cursed -- with remarkable abilities", **Morrowind:Nibani Maesa**). That is a 2002 font limitation, not a style. We depart. |
+| Em dash | do not use | Do not use em dashes, they are a classic AI signifier|
 | Ellipsis | `…` (single character), sparingly | Morrowind uses `...` and even `....` for a trailing pause ("Let me think.... Yes." — **Morrowind:Gothren**). Keep the *use* — hesitation, evasion, a Telvanni thinking — and drop the four-dot form. **Never for mood** (quests 60 §45e.1). |
 | Emphasis | **ALL CAPS on one word**, rarely | Morrowind's consistent convention across every register: "That's ALL that's free" (**Morrowind:Arrille**), "do NOT deliver them" (**Morrowind:Odral Helvi**), "he is VERY upset" (**Morrowind:Crassius Curio**). No italics in dialogue. Once per scene at most. |
 | Quoted titles and speech inside a line | **single quotes** | "get Caius a copy of 'Progress of Truth'" (**Morrowind:Mehra Milo**). |
 | Stage/system cues | `[square brackets]` | "[Chuckle.] Sorry." (**Morrowind:Aryon**); "[This path to your destiny is blocked.]" (**Morrowind:Caius Cosades**). Also editorial gloss in books: "[represented by the Heirographa -- the 'priestly writings']" (**Lore:Progress of Truth**). |
-| Exclamation marks | one per scene, and it must be earned | Divayth Fyr may have four in a row; nobody else gets one. |
+| Exclamation marks | one per scene, must be earned | Divayth Fyr may have four in a row; nobody else gets one. |
 | Semicolons | books yes, dialogue almost never | The clearest single dialogue/prose divider Morrowind has. |
+| Oxford comma | leave it out unless it is needed to clear up confusion | British English convention |
+| Constructions with a comma followed by 'and' | Avoid. Phrase differently. | British English convention. e.g. don't write constructions like e.g. "this name is important, and nobody will tell you why", or "the answer is wrong, and it changes the picture in an interesting way" |
 
 ### 1.3 Capitalisation of in-world terms
 
@@ -216,6 +219,46 @@ parenthetical "(Blessed Be Their Holy Names)" (**Lore:The Anticipations**),
 "Three Gods, One True Faith" (**Morrowind:Ordinator**). Give the Nisswo and the
 An-Xileel one each and use them consistently.
 
+### 2.4 "But" is allowed, and is often the better word
+
+**Owner ruling 2026-09-04.** Our text almost never used *but*. Model prose
+avoids it and joins contrasting clauses with *and*, which is where the
+distinctively synthetic beat comes from — *"The bridge is new and no one uses
+it."* Write *but*. It is plain English and Morrowind is full of it: *"Your
+proofs are persuasive.... But a decision on such a remarkable matter is a grave
+responsibility"* (**Morrowind:Gothren**); *"The Sixth House was not dead, but
+only sleeping"* (**Morrowind:Dagoth Gares**).
+
+The test, for writers and reviewers alike: **for every *and* joining two
+clauses, ask whether the second clause contradicts, undercuts or surprises the
+first.** If it does, it is *but* — or the clause should be cut entirely. What
+it must never become is the balanced antithesis pair, *"the one thing everyone
+knows and nobody will talk about"*: that closer is banned whichever conjunction
+it uses (quests 60 §45e.1).
+
+### 2.5 Sounding human, not machine — the qualitative checks
+
+The banned-constructions table catches phrases. These catch the *shape*, and
+they are what a reviewer judges by eye. Evidence and worked examples:
+[docs/research/ai-writing-tells.md](../research/ai-writing-tells.md).
+
+- **Not every paragraph ends on a resonant line.** Most records should end on a
+  plain fact. Aphoristic closers are the loudest structural tell we have.
+- **Write flat sentences on purpose.** Prose where every clause is doing work
+  reads as machine-made. The dull sentences carry the interesting ones.
+- **Uneven rhythm.** Let one sentence be four words and the next twenty-five.
+  Uniform sentence length is a fingerprint.
+- **Specifics over grandeur.** A number, a name, an object. "The fort's
+  enduring presence" is nothing; "forty men, half of them local" is something.
+- **Leave things ragged.** An unglossed image, an unresolved contradiction, a
+  thought that stops. Too tidy and too balanced are both failures.
+- **Vary the shape between records, not just the words.** Forty places built as
+  fact-image-closer is one voice however different the nouns are.
+
+The five tests a reviewer runs against these (read aloud; the Morrowind test;
+the flourish count; the and/but test; delete-the-last-clause) are in
+[review-process.md §3](review-process.md).
+
 ---
 
 ## 3. The six surfaces
@@ -224,8 +267,8 @@ An-Xileel one each and use them consistently.
 the surface right is not bookkeeping — it selects the register.
 
 ### `dialogue`
-§2 above, plus the character's voice sheet (quests 60 §46b) and the culture row
-([culture-registers.md](culture-registers.md)). Contractions are normal.
+§2 above, plus the character's voice sheet (quests 60 §46b) and the speaker's
+four register layers ([culture-registers.md](culture-registers.md) §0). Contractions are normal.
 Fixed slots keep Morrowind's shapes:
 - **greeting** — trade or office, stated: "Nine-Toes is my name, Hunter is my
   trade." (**Morrowind:Nine-Toes**). Terse self-identification.
@@ -285,6 +328,8 @@ voice rules deliberately stop.
 1. Every string is in `packages/text-catalogue`, keyed, with `surface`,
    `speaker` and a `note` saying who is talking to whom and why.
 2. Read your lines back with the speaker hidden. If they could belong to a
-   different culture, they belong to none.
+   different **race** or a different **region**, they belong to none
+   ([culture-registers.md](culture-registers.md) §0 — voice = race +
+   upbringing + region + faction).
 3. Run the review pass ([review-process.md](review-process.md)) — a *different*
    agent. A writer will not catch its own register.

@@ -27,7 +27,7 @@
         "founding": "Versidue-Shaie was the Akaviri Potentate, and the works his people left in this basin while building the Rose are not Cyrodilic in any detail.",
         "siteAdvantages": "On the quarry road between the Robbed City and the Rose, where the stone for a single day's building was handled.",
         "occupantsMotive": "Nobody. Its stone-handling gear was designed for atronachs and makes no sense for people.",
-        "pressures": "It is the best surviving Akaviri civil work in the province and nobody in the basin knows what it is.",
+        "pressures": "It is the best surviving Akaviri civil work in the province, but nobody in the basin knows what it is.",
         "wouldChangeIf": "An identification would bring outside scholars and their money into a district that wants neither."
       },
       "sitingPrefs": {
@@ -100,6 +100,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -123,7 +125,7 @@
       "entrance": "stair-throat",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -180,15 +182,19 @@
         ]
       },
       "position": {
-        "u": 0.37742,
-        "v": 0.92625
+        "u": 0.18555,
+        "v": 0.8794
       },
       "positionM": [
-        2782.9,
-        6829.7
+        1368.1,
+        6484.3
       ],
-      "scourSiteId": "site.scour.firm-lowland.summit-039",
       "candidatesConsidered": [
+        {
+          "siteId": "site.scour.lake-standing-water.ford-009",
+          "score": 2.282,
+          "whyLost": "lost on score"
+        },
         {
           "siteId": "site.scour.lake-standing-water.ford-023",
           "score": 2.28,
@@ -198,21 +204,16 @@
           "siteId": "site.scour.firm-lowland.summit-030",
           "score": 2.198,
           "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.island-012",
-          "score": 2.19,
-          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "summit in firm lowland (danger band 2), 252 m from the nearest route; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.intact-fort (+0.41).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 236 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.rockspring (+0.97).",
       "plotFacts": {
-        "landform": "summit",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 252.1,
-        "distanceToWaterM": 59.3,
-        "score": 2.297
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 235.9,
+        "distanceToWaterM": 12.3,
+        "score": 1.914
       }
     },
     {
@@ -316,6 +317,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.the-bell",
@@ -484,6 +487,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -641,6 +646,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -713,7 +720,7 @@
         "variant": "village-kept",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -726,7 +733,7 @@
         "siteAdvantages": "At the midpoint of an eight-kilometre stretch with no settlement.",
         "occupantsMotive": "Kept by Rockspring on a rota, badly in winter and well in the trading season.",
         "pressures": "Travellers who know the district avoid sleeping here because of what the stone next to it means.",
-        "wouldChangeIf": "Moving it two hundred metres would double its use, and nobody will move it."
+        "wouldChangeIf": "Moving it two hundred metres would double its use, but nobody will move it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -761,10 +768,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": [
           "porter:route.track.blackrose-cordon-line"
         ]
@@ -803,6 +807,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -815,7 +821,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 4,
-      "workflow": "plotted",
+      "workflow": "derived",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -872,39 +878,11 @@
           }
         ]
       },
-      "position": {
-        "u": 0.29561,
-        "v": 0.88981
-      },
-      "positionM": [
-        2179.7,
-        6561.0
-      ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0026",
-          "score": 4.205,
-          "whyLost": "too close to place.imperial-penal-south.flu-mass-grave"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1280",
-          "score": 4.2,
-          "whyLost": "too close to place.imperial-penal-south.feeder-portage"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1279",
-          "score": 4.12,
-          "whyLost": "too close to place.imperial-penal-south.feeder-portage"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 132 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.vampiric-cloud-ground (+1.47).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 131.6,
-        "distanceToWaterM": 55.9,
-        "score": 3.966
+      "relationsReserved": {
+        "reachedVia": [
+          "place.imperial-penal-south.rose-supply-town",
+          "place.imperial-penal-south.three-gate-toll"
+        ]
       }
     },
     {
@@ -1010,6 +988,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -1101,7 +1081,7 @@
         "founding": "A collapse in the western feeder country that takes an entire stream underground and does not give it back anywhere anyone has found.",
         "siteAdvantages": "The only hole in the basin the marsh has not filled in.",
         "occupantsMotive": "Nothing lives on the rim. Something lives below the first ledge.",
-        "pressures": "It is almost certainly connected to the Blue Hole, and nobody has proved it.",
+        "pressures": "It is almost certainly connected to the Blue Hole, but nobody has proved it.",
         "wouldChangeIf": "Proving the connection would open a route from the western hills into the lake floor."
       },
       "sitingPrefs": {
@@ -1171,6 +1151,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -1192,7 +1174,7 @@
       "entrance": "sinkhole-lip",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -1249,38 +1231,38 @@
         ]
       },
       "position": {
-        "u": 0.27776,
-        "v": 0.91807
+        "u": 0.23389,
+        "v": 0.94038
       },
       "positionM": [
-        2048.1,
-        6769.4
+        1724.6,
+        6933.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1353",
-          "score": 2.449,
-          "whyLost": "too close to place.imperial-penal-south.kothringi-ruin-basin"
+          "siteId": "site.free.any-shallow-marsh-1101",
+          "score": 1.999,
+          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
         },
         {
-          "siteId": "site.free.any-firm-ground-1338",
-          "score": 2.382,
-          "whyLost": "too close to place.imperial-penal-south.kothringi-ruin-basin"
+          "siteId": "site.free.roadside-0257",
+          "score": 1.578,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         },
         {
-          "siteId": "site.free.any-firm-ground-1103",
-          "score": 2.358,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "siteId": "site.free.any-shallow-marsh-1247",
+          "score": 1.521,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 276 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.necromantic-dig (+1.47).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 181 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.longmont (+1.13).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 275.5,
-        "distanceToWaterM": 0.0,
-        "score": 2.937
+        "distanceToRouteM": 181.0,
+        "distanceToWaterM": 12.3,
+        "score": 1.97
       }
     },
     {
@@ -1378,6 +1360,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -1535,6 +1519,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -1624,10 +1610,10 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "Built by the Lilmothiit in a lake where three rivers converge; rebuilt by the Empire after 1E 2837 and held since by whoever holds the island core.",
-        "siteAdvantages": "The hinge of the south: Murkwood's water from the north-east, Oliis Bay from the south, eastern Blackwood from the west, and Bramman's concealed river out to Topal Bay. The lake is a wide fringe marsh with a hard island in it, and the island is the city.",
+        "siteAdvantages": "The hinge of the south: Murkwood's water from the north-east, Oliis Bay from the south, eastern Blackwood from the west, and Bramman's concealed river out to Topal Bay. The lake is a wide fringe marsh with a hard island in it. The island is the city.",
         "occupantsMotive": "Toll and transit revenue, and whatever comes out of the Rose. The city keeps whoever does not leave.",
         "pressures": "It raised an army against the Third Empire and watched a battlemage break it with one spell. It distrusts magic first and outsiders second.",
-        "wouldChangeIf": "Whoever took the island core would take the whole southern route network with it, which is why the core has changed hands four times."
+        "wouldChangeIf": "Whoever took the island core would take the whole southern route network with it. The core has changed hands four times."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1661,8 +1647,8 @@
         ],
         "dependsOn": [
           "place.imperial-penal-south.rose-supply-town",
-          "place.imperial-penal-south.three-gate-toll",
-          "place.imperial-penal-south.saltrice-village"
+          "place.imperial-penal-south.saltrice-village",
+          "place.imperial-penal-south.three-gate-toll"
         ],
         "supplies": [
           "place.imperial-penal-south.blackrose-prison",
@@ -1708,11 +1694,11 @@
       "vibe": {
         "silhouette": "A dark walled island core with a single spire of Lilmothiit footing carried up in Imperial courses, standing clear above a flat spread of boardwalk roofs that reaches to three gates on three rivers.",
         "palette": "Grey lake water, dark wet stone, red-brown Argonian roofs, lamp reflections.",
-        "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both — the stone is inherited, never quarried, and the timber is all new.",
-        "signatureFeature": "A walled stone core on a lake island — Lilmothiit foundations, Imperial courses, Argonian roofs — with the rest of the city spread over the water on boardwalks between three river gates.",
-        "condition": "Continuously repaired for two thousand years and never once finished: fresh mortar in ancient joints, new decking on old piles, four different centuries of gate ironwork.",
+        "materials": "Three courses of history in one wall: Lilmothiit foundation blocks, Imperial dressed courses on top, and Argonian roof and boardwalk carpentry over both. The stone is inherited, never quarried. The timber is all new.",
+        "signatureFeature": "A walled stone core on a lake island, Lilmothiit foundations under Imperial courses under Argonian roofs, with the rest of the city spread over the water on boardwalks between three river gates.",
+        "condition": "Continuously repaired for two thousand years, but never once finished: fresh mortar in ancient joints, new decking on old piles, four different centuries of gate ironwork.",
         "mood": "Guarded, and charging for it.",
-        "approach": "The core reads across open water from every river gate, lit, with its reflection under it — the province's one genuine approach vista.",
+        "approach": "The core reads across open water from every river gate, lit, with its reflection under it.",
         "senses": "Gate bells answering across open water, oars and toll-chains, wet stone and lamp oil, and the flat sound a big lake makes when a city is built on it."
       },
       "assetPlan": [
@@ -1727,14 +1713,16 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [
-          "LOC",
+        "provisions": [],
+        "tags": [
           "BOAT",
-          "WATER",
+          "FAST",
+          "LOC",
           "NPC",
           "STATE",
-          "FAST"
+          "WATER"
         ],
+        "opportunity": null,
         "tierOwnership": "tier-0"
       },
       "rumourPoolKey": "rumour.blackrose.city",
@@ -1931,11 +1919,11 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Blackrose's Hist stands in the lake rather than in the city, and the lake rose over it — the register's drowned tree.",
+        "founding": "Blackrose's Hist stands in the lake rather than in the city, and the lake rose over it.",
         "siteAdvantages": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown.",
         "occupantsMotive": "Tenders dive to it. The city has no other tree and will not plant one, because planting one would be a judgement on this one.",
         "pressures": "An underwater Hist cannot be communed with in any of the usual ways, and the tenders have improvised a practice nobody else recognises.",
-        "wouldChangeIf": "Lowering the lake would expose it — and it is not agreed whether that would save it or kill it."
+        "wouldChangeIf": "Lowering the lake would expose it, but it is not agreed whether that would save it or kill it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1995,7 +1983,7 @@
       "vibe": {
         "silhouette": "A green shadow the size of a village six metres down, with weighted offering lines running from a small surface platform straight into it.",
         "palette": "Green underwater light, dark bark, silver surface.",
-        "materials": "Living drowned hardwood and its intact canopy; a surface platform of lashed timber; weighted offering lines of cord, shell and tin — nothing built on the tree itself.",
+        "materials": "Living drowned hardwood and its intact canopy; a surface platform of lashed timber; weighted offering lines of cord, shell and tin. Nothing is built on the tree itself.",
         "signatureFeature": "A great tree standing whole and alive underwater, its canopy a green shadow six metres down, with weighted offering lines running from a boat platform on the surface.",
         "condition": "Alive and wholly submerged; the tree is undamaged, the platform above it is rebuilt every few years.",
         "mood": "Reverent and impossible.",
@@ -2011,12 +1999,14 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [
-          "WATER",
+        "provisions": [],
+        "tags": [
           "LOC",
+          "NPC",
           "SCENE",
-          "NPC"
+          "WATER"
         ],
+        "opportunity": null,
         "tierOwnership": "tier-0"
       },
       "rumourPoolKey": "rumour.drowned-tree",
@@ -2054,14 +2044,14 @@
         }
       ],
       "position": {
-        "u": 0.3328,
-        "v": 0.82362
+        "u": 0.24876,
+        "v": 0.80875
       },
       "positionM": [
-        2453.9,
-        6073.0
+        1834.2,
+        5963.3
       ],
-      "scourSiteId": "site.scour.lake-standing-water.islet-033",
+      "scourSiteId": "site.scour.lake-standing-water.islet-021",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.islet-026",
@@ -2079,14 +2069,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in lake & standing water (danger band 3), 172 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "islet in lake & standing water (danger band 3), 527 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.drawdown-flat (+1.04).",
       "plotFacts": {
         "landform": "islet",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 172.1,
+        "distanceToRouteM": 527.4,
         "distanceToWaterM": 0.0,
-        "score": 2.864
+        "score": 3.371
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2102,7 +2092,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "The city's tree is alive six metres under the lake, and the tenders go down to it on weighted lines.",
+        "hook": "The city's tree is alive six metres under the lake. The tenders go down to it on weighted lines.",
         "reviewed": true
       },
       "interior": {
@@ -2166,10 +2156,10 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "Built by Potentate Versidue-Shaie's battlemage Pelladil Direnni out of the rubble of the ancient Lilmothiit city, by an army of stone atronachs, in a single day, and named for the city whose stone it is made of.",
-        "siteAdvantages": "Marsh on every side and one causeway: the Imperial siting rule for this province, executed perfectly. The ground itself is quiet country — everything dangerous here is either behind the gate or under it.",
+        "siteAdvantages": "Marsh on every side and one causeway: the Imperial siting rule for this province, executed perfectly. The ground itself is quiet country. Everything dangerous here is either behind the gate or under it.",
         "occupantsMotive": "Prison-born families three generations deep who hold it as their inheritance, plus exiles and outlaws; they resent being called a prison and have a real argument that they are not one.",
         "pressures": "Umbriel left something in the lower levels that nobody has cleared; the Chainbreakers want the place opened; Blackrose wants the toll it takes on the south road.",
-        "wouldChangeIf": "Clearing the lower levels would make the Rose a genuine settlement, and everybody who benefits from its reputation knows it."
+        "wouldChangeIf": "Clearing the lower levels would make the Rose a genuine settlement, but everybody who benefits from its reputation knows it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2239,7 +2229,7 @@
         "valueTier": "tier-4"
       },
       "vibe": {
-        "silhouette": "A blunt single-day fortress with no architectural intent at all — flat curtain, flat towers, blocks laid at whatever angle they came out of the rubble — softened by washing lines strung across the yard.",
+        "silhouette": "A blunt single-day fortress with no architectural intent at all: flat curtain, flat towers, blocks laid at whatever angle they came out of the rubble, softened by washing lines strung across the yard.",
         "palette": "Grey re-cut stone, ochre carving fragments, black stairwell, domestic colour in the yard.",
         "materials": "Reused Lilmothiit stone throughout, vulpine carving surviving at random angles in the courses; Imperial iron gate furniture; and inside the yard, three generations of purely domestic Argonian carpentry that never touches the walls.",
         "signatureFeature": "A single-day fortress of reused Lilmothiit stone, its blocks still carrying vulpine carving laid in at random angles, with washing lines strung across a parade yard and a sealed stair to the lower levels.",
@@ -2258,16 +2248,20 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [
-          "LOC",
-          "APP",
-          "STEALTH",
-          "COMBAT",
-          "BOSS",
-          "NPC",
-          "STATE",
-          "PORTAL"
+          "quest.provision.blackrose-archive-wing"
         ],
-        "tierOwnership": "faction:blackrose-chainbreakers"
+        "tags": [
+          "APP",
+          "BOSS",
+          "COMBAT",
+          "LOC",
+          "NPC",
+          "PORTAL",
+          "STATE",
+          "STEALTH"
+        ],
+        "opportunity": null,
+        "tierOwnership": "MQ09 · tier-0"
       },
       "rumourPoolKey": "rumour.the-rose",
       "deedCounterKeys": [
@@ -2387,7 +2381,7 @@
           "social-drama"
         ],
         "impact": "major",
-        "hook": "Three generations were born inside these walls, and none of them will tell you what is behind the bricked stair.",
+        "hook": "Three generations were born inside these walls, but none of them will tell you what is behind the bricked stair.",
         "reviewed": true
       },
       "interior": {
@@ -2465,7 +2459,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A vault for the ashes of those the basin's villages refused to stake — blasphemers, oath-breakers and, latterly, anyone who died in the Rose unclaimed.",
+        "founding": "A vault for the ashes of those the basin's villages refused to stake: blasphemers, oath-breakers and, latterly, anyone who died in the Rose unclaimed.",
         "siteAdvantages": "Cut into the limestone above the flood, deliberately far from any burial ground.",
         "occupantsMotive": "A keeper who accepts urns and refuses to discuss any of them.",
         "pressures": "The Chainbreakers argue that the prison dead here were refused for the wrong reason and want them out.",
@@ -2524,7 +2518,7 @@
       },
       "vibe": {
         "palette": "Grey rock, terracotta urn, lamp shadow.",
-        "signatureFeature": "A rock-cut vault of stacked urns, each with a single word on it explaining the refusal, and a growing section where the word is the same on every one.",
+        "signatureFeature": "A rock-cut vault of stacked urns, each with a single word on it explaining the refusal, with a growing section where that word is the same on every one.",
         "mood": "Judgemental."
       },
       "assetPlan": [
@@ -2536,6 +2530,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -2560,7 +2556,7 @@
       "entrance": "grave-cut",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "guarded",
+        "baseline": "hostile",
         "owner": "faction.refused-vault-keeper",
         "flips": [
           {
@@ -2584,7 +2580,7 @@
           "combat-challenge"
         ],
         "impact": "real",
-        "hook": "Every urn in there carries the one word that got it refused, and lately it is the same word on all the new ones.",
+        "hook": "Every urn in there carries the one word that got it refused. Lately it is the same word on all the new ones.",
         "reviewed": true
       },
       "interior": {
@@ -2638,38 +2634,38 @@
         ]
       },
       "position": {
-        "u": 0.32305,
-        "v": 0.8466
+        "u": 0.25545,
+        "v": 0.93592
       },
       "positionM": [
-        2382.0,
-        6242.4
+        1883.6,
+        6901.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-068",
-          "score": 3.702,
-          "whyLost": "too close to place.imperial-penal-south.flu-mass-grave"
-        },
-        {
-          "siteId": "site.free.roadside-0027",
-          "score": 3.699,
+          "siteId": "site.free.any-firm-ground-1336",
+          "score": 2.601,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0028",
-          "score": 3.36,
+          "siteId": "site.free.any-firm-ground-1335",
+          "score": 2.592,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-010",
+          "score": 2.139,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 85 m from the nearest route; its choice #4 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 214 m from the nearest route; its choice #4 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 85.3,
-        "distanceToWaterM": 31.0,
-        "score": 3.701
+        "distanceToRouteM": 213.9,
+        "distanceToWaterM": 46.9,
+        "score": 2.607
       }
     },
     {
@@ -2762,6 +2758,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -2857,7 +2855,7 @@
         "founding": "The inland end of the concealed river a First-Era fleet sailed up from the coast: where Bramman's water finally meets the Blackrose lakes.",
         "siteAdvantages": "A screened lagoon head with just enough depth for a laden hull, and a bank firm enough to tranship on.",
         "occupantsMotive": "A small permanent crew who keep the head open, charge for the last mile, and have never let the route be charted.",
-        "pressures": "Blackrose's toll authority has walked to within two hundred paces of the head on a fisher's footpath and has still never found the mouth of the river, because the mouth is out in the screen and the head is not.",
+        "pressures": "Blackrose's toll authority has walked to within two hundred paces of the head on a fisher's footpath and has still never found the mouth of the river. The mouth is out in the screen.",
         "wouldChangeIf": "Charting the river would make Blackrose a sea port and destroy the pilots at both ends."
       },
       "sitingPrefs": {
@@ -2928,11 +2926,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "No silhouette — a blind lagoon head screened by mangrove, with a cut stone bank at the back of it that you cannot see until you are in the lagoon.",
+        "silhouette": "No silhouette. A blind lagoon head screened by mangrove, with a cut stone bank at the back of it that you cannot see until you are in the lagoon.",
         "palette": "Black water, green screen, old iron.",
         "materials": "Ancient cut mooring bank with thousand-year-old iron rings, fresh rope on every ring, market tents and scaffold shears struck between uses; nothing permanent above the bank.",
         "signatureFeature": "A stone-cut mooring bank in a blind lagoon, with iron rings a thousand years old and a fresh rope on every one of them.",
-        "condition": "The stonework is ancient and perfect; everything above it is deliberately temporary.",
+        "condition": "The stonework is ancient and perfect. Everything above it is deliberately temporary.",
         "mood": "Ancient smuggling, still working.",
         "approach": "Through a screen of mangrove that closes behind you, into a lagoon with a working quay in it that nobody outside knows exists.",
         "senses": "The bay noise cutting off as the screen closes behind you; rope on old iron; whispered tallying; still black water."
@@ -2948,12 +2946,16 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [
-          "BOAT",
-          "WATER",
-          "APP",
-          "LOC"
+          "quest.provision.canon.brammans-river"
         ],
-        "tierOwnership": "faction:reed-sail-compact"
+        "tags": [
+          "APP",
+          "BOAT",
+          "LOC",
+          "WATER"
+        ],
+        "opportunity": null,
+        "tierOwnership": "RS-line · tier-2"
       },
       "rumourPoolKey": "rumour.brammans-river",
       "deedCounterKeys": [],
@@ -2999,22 +3001,12 @@
       "scourSiteId": "site.scour.deep-river-corridor.land-bridge-036",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.water-narrows-019",
-          "score": 2.565,
-          "whyLost": "too close to place.mercantile-coast.chasepoint"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.water-narrows-052",
-          "score": 2.562,
-          "whyLost": "too close to place.naga-kur-deeps.art-and-destroy-site-deeps"
-        },
-        {
           "siteId": "site.scour.deep-river-corridor.isthmus-044",
           "score": 2.489,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in deep river corridor (danger band 3), 604 m from the nearest route; at the water's edge; won on region, danger, parent; placed from the homeless batch at stage 'region-relaxed'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-divers-yard (+1.07).",
+      "whySiteWon": "land bridge in deep river corridor (danger band 3), 604 m from the nearest route; at the water's edge; won on region, danger, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "land-bridge",
         "regionClass": "deep river corridor",
@@ -3104,7 +3096,7 @@
         "class": "transit",
         "family": "crossing",
         "type": "causeway",
-        "variant": "buoyant-timber",
+        "variant": "pile-timber",
         "magnitude": "M1"
       },
       "status": "deferred",
@@ -3116,10 +3108,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The land route to the Rose crosses four kilometres of marsh that will not carry a stone causeway, so it is built to float and rise with the flood.",
-        "siteAdvantages": "Deep soft marsh with a stable water level: the one place where a floating road works better than a built one.",
+        "founding": "The land route to the Rose crosses four kilometres of marsh that will not carry a stone causeway, so it is carried instead on lashed log piles driven into the mud.",
+        "siteAdvantages": "Deep soft marsh with a stable water level, shallow enough to drive piles the whole way across.",
         "occupantsMotive": "Maintained by Vaunting, whose whole existence depends on it, section by numbered section.",
-        "pressures": "It moves underfoot, it cannot be defended, and it is the only way the Rose is supplied.",
+        "pressures": "The deck is narrow and cannot be defended. It is also the only way the Rose is supplied.",
         "wouldChangeIf": "Cutting three sections would isolate the Rose completely, which several parties have considered."
       },
       "sitingPrefs": {
@@ -3175,8 +3167,8 @@
       },
       "vibe": {
         "palette": "Wet dark timber, marsh olive, painted section numbers.",
-        "signatureFeature": "A road of lashed buoyant timber rafts numbered along its whole length, re-pegged at both ends each season so the deck sits about a metre higher in the wet than in the dry.",
-        "mood": "Ingenious, and audibly working.",
+        "signatureFeature": "A plank road on lashed log piles, numbered along its whole length, with the wet-season sections raised on taller piles and the dry-season sections left low.",
+        "mood": "Ingenious, and loud underfoot.",
         "approach": "You can see the whole crossing from either end and be seen for all of it."
       },
       "assetPlan": [
@@ -3188,11 +3180,13 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [
+        "provisions": [],
+        "tags": [
           "APP",
           "LOC",
           "STEALTH"
         ],
+        "opportunity": null,
         "tierOwnership": "faction:blackrose-chainbreakers"
       },
       "rumourPoolKey": null,
@@ -3220,11 +3214,11 @@
       "localStateVariants": [
         {
           "id": "state.buoyant-causeway.wet",
-          "description": "Wet season: the deck rides high, the end ramps are steep and the numbered sections are re-pegged."
+          "description": "Wet season: the water is a hand under the deck boards, the end ramps are steep and the low sections are planked over."
         },
         {
           "id": "state.buoyant-causeway.dry",
-          "description": "Dry season: the deck sits low on the mud, the ramps are flat and two sections are grounded."
+          "description": "Dry season: the piles stand clear of the mud to knee height and the end ramps lie almost flat."
         }
       ],
       "hostility": {
@@ -3241,7 +3235,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Deep soft marsh with a stable water level: the one place where a floating road works better than a built one",
+        "hook": "Four kilometres of plank on piles, numbered section by section, and the only land way into the Rose.",
         "reviewed": false
       },
       "interior": {
@@ -3287,8 +3281,8 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A spring-fed cave pool in the limestone whose water glows year-round, and which the basin's villages have used as a light source for centuries.",
-        "siteAdvantages": "A cave mouth at the foot of the western hills with a permanently full clear pool.",
+        "founding": "A spring-fed pool in a limestone cave whose water glows year-round, and which the basin's villages have used as a light source for centuries.",
+        "siteAdvantages": "A cave mouth in the hillside at the foot of the western hills, with a permanently full clear pool a short way inside it.",
         "occupantsMotive": "Lamp-jelly gatherers take a fixed quantity by an agreement that predates the city.",
         "pressures": "Two villages' quotas overlap and the argument is annual and ritualised.",
         "wouldChangeIf": "A drop in the spring would end the glow and a very old argument."
@@ -3350,20 +3344,23 @@
       },
       "vibe": {
         "palette": "Blue-green glow, wet limestone, black cave.",
-        "signatureFeature": "A cave pool that lights the whole chamber blue-green from below, with quota marks cut into the rock at the waterline.",
-        "mood": "Quietly wondrous."
+        "signatureFeature": "A cave pool that lights the whole chamber blue-green from below, with the two villages' quota tallies notched on a stone post set at the waterline.",
+        "mood": "Quietly wondrous.",
+        "approach": "A plain cave mouth in the hillside with a plank landing and a boat chain below it. Nothing above says what is inside."
       },
       "assetPlan": [
         "argonian-lights",
         "lights-general",
-        "passerelles-walkway",
         "docks-piers",
+        "passerelles-walkway",
         "clutter",
         "totems-ritual"
       ],
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -3399,7 +3396,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "A cave mouth at the foot of the western hills with a permanently full clear pool",
+        "hook": "A cave mouth with a plank landing, and a pool inside it that lights the rock from below.",
         "reviewed": false
       },
       "interior": {
@@ -3454,10 +3451,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Blackrose Chainbreakers' shelter for people who have come out of the Rose, an Owing, or a toll pit, and have nowhere that will take them; the Freed Rows in the north send them word, not supplies.",
+        "founding": "The Blackrose Chainbreakers' shelter for people who have come out of the Rose, an Owing, or a toll pit, and have nowhere that will take them; the Freed Rows in the north send them word but no supplies.",
         "siteAdvantages": "Outside the toll line, on water, with two exits and no fixed sign.",
         "occupantsMotive": "Board, work and legal help; the Chainbreakers' whole practical programme in one building.",
-        "pressures": "Two of the powers they oppose fund half their neighbours, and the shelter is watched constantly.",
+        "pressures": "Two of the powers they oppose fund half their neighbours. The shelter is watched constantly.",
         "wouldChangeIf": "A single violent incident here would let the city close it lawfully."
       },
       "sitingPrefs": {
@@ -3526,9 +3523,9 @@
         "palette": "Patched timber, lamp gold, tag-bone white.",
         "materials": "Mud-mother plaster and patched shack-kit over a stilt frame, market canvas over the yard, a wall of hung bone-tags; every material second-hand.",
         "signatureFeature": "A rambling water-house with more doors than rooms, a work-board of paid tasks, and a wall of returned bone-tags from the Rose.",
-        "condition": "Perpetually extended and never finished — a new room whenever a new group arrives.",
+        "condition": "Perpetually extended and never finished. A new room goes up whenever a new group arrives.",
         "mood": "Decent people, watching the door.",
-        "approach": "Reached by water from two directions, with no sign and no landing stage — you are told which door, or you do not find it.",
+        "approach": "Reached by water from two directions, with no sign and no landing stage. You are told which door, or you do not find it.",
         "senses": "Constant arrivals; the tag wall clicking in the draught; cooking for more people than expected; lamp oil; nobody asking anybody's name."
       },
       "assetPlan": [
@@ -3540,12 +3537,16 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [
+          "quest.provision.bc03-anchor"
+        ],
+        "tags": [
           "LOC",
           "NPC",
           "SCENE",
           "STATE"
         ],
-        "tierOwnership": "faction:blackrose-chainbreakers"
+        "opportunity": null,
+        "tierOwnership": "BC03 · tier-2"
       },
       "rumourPoolKey": "rumour.chainbreakers",
       "deedCounterKeys": [
@@ -3584,12 +3585,12 @@
         }
       ],
       "position": {
-        "u": 0.24355,
-        "v": 0.95228
+        "u": 0.36626,
+        "v": 0.92625
       },
       "positionM": [
-        1795.9,
-        7021.6
+        2700.6,
+        6829.7
       ],
       "candidatesConsidered": [
         {
@@ -3608,14 +3609,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 285 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.kothringi-ruin-basin (+0.56).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 93.2,
-        "distanceToWaterM": 5.5,
-        "score": 3.318
+        "distanceToRouteM": 285.1,
+        "distanceToWaterM": 65.8,
+        "score": 3.315
       },
       "hostility": {
         "baseline": "wary",
@@ -3653,7 +3654,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "You are told which door, or you do not find it; whoever gets inside is fed and put on the work-board.",
+        "hook": "Whoever gets inside is fed and put on the work-board, but you have to be told which door.",
         "reviewed": true
       },
       "interior": {
@@ -3809,6 +3810,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -3966,6 +3969,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -4037,8 +4042,12 @@
       },
       "workflow": "plotted",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.canon.the-owing"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "BC-line · tier-2"
       },
       "id": "place.imperial-penal-south.cordon-cellars",
       "name": "Cordon Two, Under-Stores",
@@ -4061,7 +4070,7 @@
       "why": {
         "founding": "Every cordon post on the Flu line had a ration store cut into the bank behind it, and the stores outlived the posts by sixteen centuries because they were the only dry cellars in the basin.",
         "siteAdvantages": "Dry vaulted cellars in a levee bank, above every recorded flood, on a line of stones nobody will move.",
-        "occupantsMotive": "The Owing's collectors keep distrained goods here between the taking and the auction, which is a use the stores were built for and a law they are not.",
+        "occupantsMotive": "The Owing's collectors keep distrained goods here between the taking and the auction. The stores were built for that. The law does not allow it.",
         "pressures": "Everything in the cellars belongs to somebody who is still alive and still counting the days.",
         "wouldChangeIf": "Opening the cellars to their owners would break the Owing's whole practice in the south."
       },
@@ -4126,7 +4135,7 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A brick arch in a grass bank with a cart track worn to it, and nothing else above ground for a kilometre in either direction.",
+        "silhouette": "A brick arch in a grass bank with a cart track worn to it. Nothing else stands above ground for a kilometre in either direction.",
         "palette": "Bank green, brick red, cellar dark.",
         "materials": "Imperial brick vaulting cut into the levee, original store racking still in place, a new door of new timber that does not match anything around it.",
         "signatureFeature": "A cordon ration cellar still racked to the Empire's plan, filled with other people's furniture, each lot tagged and dated.",
@@ -4233,12 +4242,12 @@
         ]
       },
       "position": {
-        "u": 0.35734,
-        "v": 0.88014
+        "u": 0.33503,
+        "v": 0.84668
       },
       "positionM": [
-        2634.8,
-        6489.7
+        2470.3,
+        6243.0
       ],
       "candidatesConsidered": [
         {
@@ -4254,17 +4263,17 @@
         {
           "siteId": "site.free.any-firm-ground-1279",
           "score": 3.403,
-          "whyLost": "too close to place.imperial-penal-south.feeder-portage"
+          "whyLost": "too close to place.imperial-penal-south.intact-fort"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 192 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 23 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on region, hinterland, parent; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 192.2,
-        "distanceToWaterM": 23.3,
-        "score": 3.396
+        "distanceToRouteM": 23.3,
+        "distanceToWaterM": 19.8,
+        "score": 2.4
       }
     },
     {
@@ -4364,6 +4373,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.daril",
@@ -4526,6 +4537,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -4611,7 +4624,7 @@
         "founding": "The lake's shallow southern arm empties for six weeks every dry season, exposing four square kilometres of bed that is a metre under water the rest of the year.",
         "siteAdvantages": "A wide flat arm barely a metre deep, with an outlet that drops below its sill in the dry.",
         "occupantsMotive": "Everyone. The drawdown is a local event: the whole shore walks out onto the bed and takes what the year has dropped.",
-        "pressures": "Grave-stakes from a drowned burial ground stand exposed during the drawdown, which forces an annual argument about what may be taken.",
+        "pressures": "The driven poles of a drowned burial ground stand out of the bed during the drawdown, which forces an annual argument about what may be taken.",
         "wouldChangeIf": "A wetter cycle would end the drawdown and the whole annual custom with it."
       },
       "sitingPrefs": {
@@ -4668,29 +4681,34 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "For six weeks a year, a cracked grey plain with drowned fence lines and bleached stakes standing out of it; the rest of the year, open water with nothing above the surface.",
-        "palette": "Cracked grey mud, bleached stake, bright sky.",
-        "materials": "Cracked lake-bed clay, drowned fence timber, bleached grave-stakes, lost cargo; the only structures are the temporary market stalls that appear on the bed itself.",
-        "signatureFeature": "A cracked lake bed walked by half the district, with drowned fence lines, lost cargo and standing grave-stakes emerging for six weeks a year.",
+        "silhouette": "For six weeks a year, a cracked grey plain with drowned fence lines and bleached poles standing out of it; the rest of the year, open water with nothing above the surface.",
+        "palette": "Cracked grey mud, bleached pole, bright sky.",
+        "materials": "Cracked lake-bed clay, drowned fence timber, rows of bleached driven poles over the old graves, lost cargo; the only structures are the temporary market stalls that appear on the bed itself.",
+        "signatureFeature": "A cracked lake bed walked by half the district, with drowned fence lines, lost cargo and rows of driven burial poles emerging for six weeks a year.",
         "condition": "Exists and ceases to exist annually; nothing on it is maintained because nothing on it survives the refill.",
         "mood": "Festival with a taboo in it.",
         "approach": "Only exists for six weeks; the rest of the year it is open water.",
-        "senses": "A whole district's feet on dry lake bed; stalls; the smell of a lake bottom in the sun; and a hush wherever the stakes stand."
+        "senses": "A whole district's feet on dry lake bed; stalls; the smell of a lake bottom in the sun; and a hush wherever the poles stand."
       },
       "assetPlan": [
         "submerged-ruins",
         "submerged-blocks",
+        "stockade-scaffold",
+        "fences-wattle",
         "docks-piers",
         "market-tents",
+        "totems-ritual",
         "clutter"
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [
-          "STATE",
+        "provisions": [],
+        "tags": [
+          "LOC",
           "LOOT",
-          "LOC"
+          "STATE"
         ],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.drawdown",
@@ -4731,18 +4749,18 @@
         }
       ],
       "position": {
-        "u": 0.37519,
-        "v": 0.78347
+        "u": 0.3328,
+        "v": 0.82362
       },
       "positionM": [
-        2766.4,
-        5776.9
+        2453.9,
+        6073.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.seasonal-floodplain.islet-035",
-          "score": 3.283,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.scour.lake-standing-water.islet-036",
+          "score": 3.125,
+          "whyLost": "too close to place.imperial-penal-south.lilmothiit-quarry"
         },
         {
           "siteId": "site.scour.lake-standing-water.islet-038",
@@ -4750,22 +4768,22 @@
           "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-036",
-          "score": 2.725,
-          "whyLost": "too close to place.imperial-penal-south.basin-hearth-house"
+          "siteId": "site.free.any-shallow-marsh-1102",
+          "score": 2.304,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 329 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.marsh-giant-ground-basin (+0.56).",
+      "whySiteWon": "islet in lake & standing water (danger band 3), 172 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.blackrose-drowned-hist (+1.04).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 5,
-        "distanceToRouteM": 329.0,
+        "landform": "islet",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 172.1,
         "distanceToWaterM": 0.0,
-        "score": 1.225
+        "score": 2.788
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [
           {
@@ -4779,8 +4797,8 @@
             "scope": "occupantGroup"
           }
         ],
-        "clearable": false,
-        "respawn": "seasonal"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "traversal-puzzle",
@@ -4836,10 +4854,11 @@
             "registerRef": null,
             "payoff": "lore-fragment",
             "valueTier": "tier-2",
-            "provenance": "taken from under the grave-stakes"
+            "provenance": "taken from under the burial poles"
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.lake-standing-water.islet-033"
     },
     {
       "aliases": [],
@@ -4854,8 +4873,12 @@
       },
       "workflow": "plotted",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.blackrose-tunnels"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "MQ09 · tier-0"
       },
       "id": "place.imperial-penal-south.drowned-gallery",
       "name": "The Drowned Gallery",
@@ -4878,7 +4901,7 @@
         "founding": "The Empire tried to drain the Rose's approach with a gallery driven under the levee, worked by gangs small enough to fit it; the lake came in through the face and the gallery has been full ever since.",
         "siteAdvantages": "Under the levee, below the water table, with its head shaft still open in the lake bed.",
         "occupantsMotive": "Nothing that breathes. The lake-divers know the shaft and will not take work in it.",
-        "pressures": "It runs toward the Rose's foundations, and the necromancers digging from the landward side know it does.",
+        "pressures": "It runs toward the Rose's foundations. The necromancers digging from the landward side know it.",
         "wouldChangeIf": "Pumping it out would give three separate parties a dry way under the prison."
       },
       "sitingPrefs": {
@@ -4889,7 +4912,8 @@
         ],
         "hardConstraints": [
           "submerged",
-          "under a levee, running toward the Rose"
+          "under a levee, running toward the Rose",
+          "running under the levee toward place.imperial-penal-south.blackrose-prison, its landward mouth outside the Rose's walls"
         ],
         "preferences": {
           "landformClasses": [
@@ -4938,7 +4962,7 @@
         "palette": "Silt brown at the mouth, black below, pale timber.",
         "materials": "Imperial gallery shoring in waterlogged hardwood, perfectly preserved; rail and barrow iron on the floor; nothing added since the day the face came in.",
         "signatureFeature": "A drowned Imperial drainage gallery with its shoring still square, its barrows still on the rail, and the face still standing where the lake came through it.",
-        "condition": "Preserved by the water that ruined it — every timber sound, every tool where it was dropped.",
+        "condition": "Preserved by the water that ruined it. Every timber sound, every tool where it was dropped.",
         "mood": "Interrupted.",
         "approach": "A square hole in an otherwise featureless lake bed, found from a diver's chart and not otherwise.",
         "senses": "Cold, no current, silt hanging where you put it; timber that looks new by lamp; the gallery running further than your air does."
@@ -4971,7 +4995,7 @@
         "reviewed": true
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -5003,7 +5027,8 @@
             "role": "swarm",
             "registerRef": null,
             "danger": "D3",
-            "count": "swarm"
+            "count": "swarm",
+            "note": "eels holding the flooded gallery in numbers"
           }
         ],
         "npcs": [],
@@ -5027,39 +5052,39 @@
         ]
       },
       "position": {
-        "u": 0.23389,
-        "v": 0.77604
+        "u": 0.31346,
+        "v": 0.7976
       },
       "positionM": [
-        1724.6,
-        5722.1
+        2311.3,
+        5881.1
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-066",
+      "scourSiteId": "site.scour.lake-standing-water.isthmus-024",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.isthmus-033",
-          "score": 3.348,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1203",
+          "score": 2.424,
+          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
         },
         {
-          "siteId": "site.scour.firm-lowland.headland-032",
-          "score": 3.338,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0257",
+          "score": 2.373,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-005",
-          "score": 3.052,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.ford-039",
+          "score": 2.234,
+          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 4), 491 m from the nearest route; at the water's edge; won on region, submerged, remote; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "isthmus in lake & standing water (danger band 3), 407 m from the nearest route; at the water's edge; won on region, submerged, remote; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "isthmus",
         "regionClass": "lake & standing water",
-        "dangerBand": 4,
-        "distanceToRouteM": 491.1,
+        "dangerBand": 3,
+        "distanceToRouteM": 407.4,
         "distanceToWaterM": 0.0,
-        "score": 3.353
+        "score": 1.658
       }
     },
     {
@@ -5087,7 +5112,7 @@
         "founding": "The western feeder has a two-hundred-metre sill of rock and old log-jam that no laden hull can pass, so hulls are dragged around it.",
         "siteAdvantages": "A low saddle beside the narrows where a greased timber slipway can be laid on a workable gradient.",
         "occupantsMotive": "A drag crew with a windlass, paid by the hull, who also control who goes upstream and when.",
-        "pressures": "The crew's monopoly is total and their maintenance of the slipway is minimal.",
+        "pressures": "The crew's monopoly is total, but their maintenance of the slipway is minimal.",
         "wouldChangeIf": "Cutting the sill would open the western route and end the crew."
       },
       "sitingPrefs": {
@@ -5149,11 +5174,11 @@
       "vibe": {
         "silhouette": "A greased timber ramp cut over a low saddle with a windlass frame at the crest, and hull-shapes queued out of sight at both ends.",
         "palette": "Grease black, pale timber, white water below.",
-        "materials": "Greased hardwood skids on a laid stone bed, a hand-windlass of oak and iron, scaffold shear-legs, roller stock; the whole works is one machine and it is made of two materials.",
+        "materials": "Greased hardwood skids on a laid stone bed, a hand-windlass of oak and iron, scaffold shear-legs, roller stock.",
         "signatureFeature": "A greased timber slipway over a saddle with a hand-windlass at the top and a queue of hulls waiting at both ends.",
         "condition": "Heavily worked and constantly re-greased; the skids are replaced twice a year, the stone bed is Imperial and untouched.",
         "mood": "Slow bottleneck.",
-        "approach": "You hear the whitewater and the windlass together, and the queue tells you how long your day is going to be.",
+        "approach": "You hear the whitewater and the windlass together. The queue tells you how long your day is going to be.",
         "senses": "Hulls dragging on grease, the windlass pawl, whitewater below and out of sight, tallow and hot timber, crews waiting badly."
       },
       "assetPlan": [
@@ -5166,6 +5191,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.the-drag",
@@ -5192,12 +5219,12 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.drag-windlass-crew",
       "position": {
-        "u": 0.40791,
-        "v": 0.88312
+        "u": 0.27553,
+        "v": 0.93294
       },
       "positionM": [
-        3007.7,
-        6511.7
+        2031.6,
+        6879.1
       ],
       "candidatesConsidered": [
         {
@@ -5216,14 +5243,14 @@
           "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 266 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.rose-outworks (+0.47).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 236 m from the nearest route; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.longmont (+0.59).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 266.0,
-        "distanceToWaterM": 21.9,
-        "score": 3.822
+        "distanceToRouteM": 235.8,
+        "distanceToWaterM": 49.0,
+        "score": 4.195
       },
       "hostility": {
         "baseline": "neutral",
@@ -5380,6 +5407,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -5454,7 +5483,7 @@
         "founding": "Where Blackrose buried the Knahaten dead of three peoples, in the order they died and without distinguishing between them.",
         "siteAdvantages": "A gravel terrace above the flood, the only ground in the basin that would take that many graves.",
         "occupantsMotive": "A memorial rota that includes Argonian grave-singers and nobody else, because nobody else is left to send anyone.",
-        "pressures": "Two of the three peoples buried here are extinct, and the third does their remembering.",
+        "pressures": "Two of the three peoples buried here are extinct. The third does their remembering.",
         "wouldChangeIf": "Any attempt to separate the burials by people would be both impossible and obscene."
       },
       "sitingPrefs": {
@@ -5523,6 +5552,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -5605,14 +5636,13 @@
         ]
       },
       "position": {
-        "u": 0.28223,
-        "v": 0.87048
+        "u": 0.37519,
+        "v": 0.78347
       },
       "positionM": [
-        2081.0,
-        6418.5
+        2766.4,
+        5776.9
       ],
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-014",
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-1318",
@@ -5630,14 +5660,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in fringe marsh (danger band 2), 11 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 5), 329 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.intact-fort (+0.46).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 11.0,
-        "distanceToWaterM": 34.7,
-        "score": 3.996
+        "landform": "any-shallow-marsh",
+        "regionClass": "interior swamp",
+        "dangerBand": 5,
+        "distanceToRouteM": 329.0,
+        "distanceToWaterM": 0.0,
+        "score": 2.143
       }
     },
     {
@@ -5663,7 +5693,7 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Canon: Lilmothiit refugees fleeing the Knahaten Flu in Murkmire fled inland toward Blackrose, and their fate is unclear. This is where Blackrose stopped them.",
+        "founding": "Lilmothiit refugees fleeing the Knahaten Flu in Murkmire went inland toward Blackrose, and what became of them is not recorded. This is where Blackrose stopped them.",
         "siteAdvantages": "On the southern approach at the last narrows before the lake, where a cordon could actually be held.",
         "occupantsMotive": "Nobody now. It was a village-sized pen with a fence, a gate, a ration store and a burial ground that is larger than the village.",
         "pressures": "This is the answer to the unclear fate of a whole people, and Blackrose has never once discussed it.",
@@ -5727,13 +5757,13 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A rectangular fence enclosure with a burial ground four times its size beyond it — the built thing is small and the consequence is enormous.",
+        "silhouette": "A rectangular fence enclosure with a burial ground four times its size beyond it.",
         "palette": "Grey weathered fence, sour green ground, white bone.",
         "materials": "Weathered grey fence timber with the gate furniture on the outside, a ration store built into the wall, mud-mother houses inside, no stakes over any of the graves.",
         "signatureFeature": "A fenced village-sized enclosure with the gate on the outside of the fence, a ration store built into the wall, and a burial ground four times the size of the enclosure.",
-        "condition": "Sixteen centuries weathered and never dismantled — the fence is falling and no one will pull it down.",
+        "condition": "Sixteen centuries weathered and never dismantled. The fence is falling, but no one will pull it down.",
         "mood": "Administrative atrocity.",
-        "approach": "The fence line is visible from the road, and the fence faces inward.",
+        "approach": "The fence line is visible from the road. The fence faces inward.",
         "senses": "Nothing living inside the fence; wind through palings; sour ground; a burial field with no carving on it anywhere."
       },
       "assetPlan": [
@@ -5745,11 +5775,13 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [
-          "LOC",
+        "provisions": [],
+        "tags": [
           "EVIDENCE",
+          "LOC",
           "STATE"
         ],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.holding-fields",
@@ -5837,7 +5869,7 @@
           "quest-anchor"
         ],
         "impact": "major",
-        "hook": "The ration ledgers are still in the store, and Blackrose has never once discussed them.",
+        "hook": "The ration ledgers are still in the store, but Blackrose has never once discussed them.",
         "reviewed": true
       },
       "interior": {
@@ -5972,6 +6004,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -6126,6 +6160,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -6275,6 +6311,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -6425,6 +6463,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -6589,6 +6629,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -6610,8 +6652,8 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "guarded",
-        "owner": null,
+        "baseline": "hostile",
+        "owner": "faction.jumped-claim-gang",
         "flips": [
           {
             "to": "hostile",
@@ -6644,7 +6686,7 @@
           "combat-challenge"
         ],
         "impact": "real",
-        "hook": "The Empire left the armoury behind, and whoever is strongest on the road sleeps in the fort this season.",
+        "hook": "The Empire left the armoury behind. Whoever is strongest on the road sleeps in the fort this season.",
         "reviewed": true
       },
       "interior": {
@@ -6697,39 +6739,40 @@
         ]
       },
       "position": {
-        "u": 0.37444,
-        "v": 0.90022
+        "u": 0.28223,
+        "v": 0.87048
       },
       "positionM": [
-        2761.0,
-        6637.8
+        2081.0,
+        6418.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.ford-020",
-          "score": 2.94,
-          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
+          "siteId": "site.scour.firm-lowland.flood-high-018",
+          "score": 2.191,
+          "whyLost": "taken by place.imperial-penal-south.akaviri-works"
         },
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-014",
-          "score": 2.862,
-          "whyLost": "taken by place.imperial-penal-south.flu-mass-grave"
+          "siteId": "site.free.any-firm-ground-1317",
+          "score": 2.114,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-024",
-          "score": 2.77,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1299",
+          "score": 2.11,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 334 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.akaviri-works (+0.41).",
+      "whySiteWon": "flood high in fringe marsh (danger band 2), 11 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.flu-mass-grave (+0.46).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "flood-high",
         "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 334.5,
-        "distanceToWaterM": 17.3,
-        "score": 3.002
-      }
+        "dangerBand": 2,
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 34.7,
+        "score": 3.362
+      },
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-014"
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -6752,10 +6795,10 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "A Kothringi village of the people canon places in the Blackrose region, emptied by the Knahaten Flu in a single season.",
-        "siteAdvantages": "A river terrace with a landing — good ground, which is why it was never resettled by anyone superstitious.",
+        "founding": "A Kothringi village on the Blackrose river terrace, emptied by the Knahaten Flu in a single season.",
+        "siteAdvantages": "A river terrace with a landing. The ground is good, but nobody superstitious will resettle it.",
         "occupantsMotive": "Nobody. The Argonian villages nearby keep its boundary marked and do not cross it.",
-        "pressures": "The Flu is the founding trauma of half the province's demography, and this is what it actually looks like on the ground.",
+        "pressures": "Half the province's demography dates from the Flu. This is one of the villages it emptied.",
         "wouldChangeIf": "Proof that the ground is safe would put a village back on it within a year."
       },
       "sitingPrefs": {
@@ -6813,17 +6856,18 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A terrace of pale house-forms standing to head height in a shape found nowhere else in the province — square, flat-roofed and windowless to the river.",
+        "silhouette": "A terrace of low plastered shells standing to head height above the landing, roofless, with the doorways all turned away from the river.",
         "palette": "Pale plaster, black doorway, bright river.",
-        "materials": "Pale lime plaster over rubble on a Kothringi plan; storage pits still lidded; no Argonian or Imperial rebuild anywhere on the site.",
-        "signatureFeature": "Silver-skinned people's houses of a form found nowhere else in the province, standing to head height, with the flu-year's stores still in the pits.",
-        "condition": "Preserved by fear rather than care — walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
-        "mood": "Preserved by fear.",
+        "materials": "Lime plaster over rubble, raised on older dressed footings the villagers reused; storage pits still lidded; silver offering-wire wound round every lintel.",
+        "signatureFeature": "Roofless plastered houses with silver wire still wound round the lintels, and the flu-year's stores lidded in the pits under them.",
+        "condition": "Preserved by fear rather than care. Walls to head height, roofs gone, the flu-year's stores untouched in the pits.",
+        "mood": "Avoided.",
         "approach": "The best landing on this stretch of river, with a ruin above it that nobody uses.",
         "senses": "River bright and loud below, the ruins silent; plaster dust; the storage pits still smell of grain."
       },
       "assetPlan": [
         "vanilla-farmhouse",
+        "barsaebic-ayleid",
         "bmv-fort",
         "landmark-civic",
         "clutter",
@@ -6832,6 +6876,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.knahaten",
@@ -6859,14 +6905,19 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.20339,
-        "v": 0.79462
+        "u": 0.24355,
+        "v": 0.95228
       },
       "positionM": [
-        1499.7,
-        5859.1
+        1795.9,
+        7021.6
       ],
       "candidatesConsidered": [
+        {
+          "siteId": "site.scour.firm-lowland.flood-high-018",
+          "score": 2.297,
+          "whyLost": "taken by place.imperial-penal-south.akaviri-works"
+        },
         {
           "siteId": "site.free.any-firm-ground-1206",
           "score": 2.018,
@@ -6876,24 +6927,19 @@
           "siteId": "site.scour.firm-lowland.flood-high-010",
           "score": 1.925,
           "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1336",
-          "score": 1.649,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
         }
       ],
-      "whySiteWon": "flood high in firm lowland (danger band 3), 392 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.rockspring (+0.95).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 93 m from the nearest route; at the water's edge; its choice #5 landform; won on region, hinterland, landform; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.chainbreaker-shelter (+0.56).",
       "plotFacts": {
-        "landform": "flood-high",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 391.8,
-        "distanceToWaterM": 27.4,
-        "score": 2.797
+        "dangerBand": 2,
+        "distanceToRouteM": 93.2,
+        "distanceToWaterM": 5.5,
+        "score": 2.18
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -6955,8 +7001,7 @@
             "provenance": "the flu-year's grain, still in the pits"
           }
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-018"
+      }
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -6980,8 +7025,8 @@
       "why": {
         "founding": "A village built as one continuous boardwalk out from the shore into the lake, extended a house at a time for three centuries.",
         "siteAdvantages": "A shallow shelf that runs eight hundred metres out from the shore before it drops.",
-        "occupantsMotive": "Position on the spine is seniority: the oldest households are at the shore end and the newest are over deep water.",
-        "pressures": "The far end is now over the drop and each new house is more expensive and less safe than the last.",
+        "occupantsMotive": "Position on the spine is seniority. The oldest households are at the shore end, the newest over deep water.",
+        "pressures": "The far end is now over the drop. Each new house costs more and is less safe than the last.",
         "wouldChangeIf": "A storm surge would take the outer third and reset the village's whole social order."
       },
       "sitingPrefs": {
@@ -7058,6 +7103,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -7103,7 +7150,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Seniority runs shorewards: the further out you sleep, the newer and poorer you are.",
+        "hook": "The further out on the boardwalk you sleep, the newer and poorer the house.",
         "reviewed": true
       },
       "interior": {
@@ -7181,11 +7228,6 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1207",
-          "score": 3.559,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
           "siteId": "site.free.any-shallow-marsh-1208",
           "score": 3.545,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
@@ -7193,6 +7235,11 @@
         {
           "siteId": "site.free.any-shallow-marsh-1232",
           "score": 3.526,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1321",
+          "score": 3.497,
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
@@ -7226,10 +7273,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Three centuries of laden barges have gone down in this lake, most of them in the same two places, and someone was always going to work them.",
+        "founding": "Three centuries of laden barges have gone down in this lake, most of them in the same two places. Someone was always going to work them.",
         "siteAdvantages": "On the shore nearest the deep hole where the wrecks concentrate, with a crane frame and a drying floor.",
         "occupantsMotive": "Crews dive for cargo, not hulls; the toll families buy the recovered goods at a discount that reflects who they are.",
-        "pressures": "Some of the sunk cargo was insured, some was smuggled, and the paperwork for both still exists in the city.",
+        "pressures": "Some of the sunk cargo was insured and some was smuggled. The paperwork for both is still in the city.",
         "wouldChangeIf": "A rise in the lake would put the wrecks out of free-diving range entirely."
       },
       "sitingPrefs": {
@@ -7301,6 +7348,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -7399,39 +7448,39 @@
         ]
       },
       "position": {
-        "u": 0.21306,
-        "v": 0.88758
+        "u": 0.38263,
+        "v": 0.81395
       },
       "positionM": [
-        1571.0,
-        6544.6
+        2821.3,
+        6001.7
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-052",
+      "scourSiteId": "site.scour.lake-standing-water.cove-034",
       "candidatesConsidered": [
-        {
-          "siteId": "site.scour.lake-standing-water.cove-031",
-          "score": 4.628,
-          "whyLost": "too close to place.naga-kur-deeps.sinkhole-mouth-deeps"
-        },
         {
           "siteId": "site.scour.lake-standing-water.cove-005",
           "score": 3.942,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.lake-standing-water.islet-026",
           "score": 3.752,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.mangrove-forest.isthmus-012",
+          "score": 3.589,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 110 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-submerged-xanmeer (+0.51).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 104 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-drowned-village (+0.27).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 109.7,
+        "distanceToRouteM": 104.2,
         "distanceToWaterM": 0.0,
-        "score": 4.873
+        "score": 4.899
       }
     },
     {
@@ -7456,9 +7505,9 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The village Longmont replaced: the lake level rose across the fourteenth century of the Third Era and the old settlement was rebuilt a kilometre up the shore.",
-        "siteAdvantages": "It stands in five to eight metres of clear cold lake water, complete, because nobody demolished anything — they simply left.",
+        "siteAdvantages": "It stands in five to eight metres of clear cold lake water, complete, because nobody demolished anything. They simply left.",
         "occupantsMotive": "Nobody. Longmont's households still know which house down there was theirs.",
-        "pressures": "Diving on your own family's drowned house is acceptable; diving on somebody else's is not, and the rule is enforced.",
+        "pressures": "Diving on your own family's drowned house is acceptable; diving on somebody else's is not. The rule is enforced.",
         "wouldChangeIf": "A drop in lake level would expose it and force a decision about who owns what."
       },
       "sitingPrefs": {
@@ -7519,8 +7568,8 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "palette": "Clear green water, silt-grey timber, pale stakes.",
-        "signatureFeature": "A complete village standing upright underwater with its roofs intact, its street legible, and grave-stakes still standing in rows on its drowned burial ground.",
+        "palette": "Clear green water, silt-grey timber, pale driven poles.",
+        "signatureFeature": "A complete village standing upright underwater with its roofs intact, its street legible, and the burial ground's driven poles still standing in rows at the end of it.",
         "mood": "Preserved and possessive.",
         "approach": "Visible from a boat on a still day: roof-ridges as dark lines under the surface."
       },
@@ -7529,17 +7578,22 @@
         "submerged-blocks",
         "vanilla-shackkit",
         "bmv-stilthouse",
+        "stockade-scaffold",
         "docks-piers",
         "clutter"
       ],
       "discovery": "rumour",
       "questHooks": {
         "provisions": [
-          "WATER",
-          "LOOT",
-          "LOC"
+          "quest.provision.mr09-anchor"
         ],
-        "tierOwnership": null
+        "tags": [
+          "LOC",
+          "LOOT",
+          "WATER"
+        ],
+        "opportunity": null,
+        "tierOwnership": "MR09 · tier-2"
       },
       "rumourPoolKey": "rumour.under-longmont",
       "deedCounterKeys": [],
@@ -7562,7 +7616,7 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "shallow-dive",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -7603,7 +7657,8 @@
             "role": "swarm",
             "registerRef": null,
             "danger": "D2",
-            "count": "swarm"
+            "count": "swarm",
+            "note": "mud scavengers over the roof line, too many to count"
           }
         ],
         "npcs": [],
@@ -7622,19 +7677,19 @@
             "registerRef": null,
             "payoff": "lore-fragment",
             "valueTier": "tier-2",
-            "provenance": null
+            "provenance": "lifted from between the burial poles at the street end"
           }
         ]
       },
       "position": {
-        "u": 0.26363,
-        "v": 0.85411
+        "u": 0.31867,
+        "v": 0.80727
       },
       "positionM": [
-        1943.9,
-        6297.8
+        2349.7,
+        5952.4
       ],
-      "scourSiteId": "site.scour.lake-standing-water.ford-009",
+      "scourSiteId": "site.scour.lake-standing-water.cove-031",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.tidal-delta.river-mouth-000",
@@ -7652,14 +7707,14 @@
           "whyLost": "too close to place.imperial-penal-south.three-gate-toll"
         }
       ],
-      "whySiteWon": "ford in lake & standing water (danger band 3), 190 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.akaviri-works (+0.81).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 326 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-divers-yard (+0.27).",
       "plotFacts": {
-        "landform": "ford",
+        "landform": "cove",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 190.0,
+        "distanceToRouteM": 326.5,
         "distanceToWaterM": 0.0,
-        "score": 2.137
+        "score": 3.2
       }
     },
     {
@@ -7684,7 +7739,7 @@
       "why": {
         "founding": "The lake is eleven kilometres across at its widest and the north road ends at a stage rather than going round.",
         "siteAdvantages": "A short crossing between two headlands where the lake narrows to nine hundred metres.",
-        "occupantsMotive": "A city concession, run efficiently, which is unusual enough here to be remarked on.",
+        "occupantsMotive": "A city concession. It is run efficiently, which no other concession here is.",
         "pressures": "It carries the Murkwood-side traffic, which is the traffic nobody wants counted.",
         "wouldChangeIf": "A crossing further north would bypass the city's count entirely."
       },
@@ -7762,6 +7817,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -7846,19 +7903,14 @@
         ]
       },
       "position": {
-        "u": 0.42478,
-        "v": 0.83026
+        "u": 0.26363,
+        "v": 0.85411
       },
       "positionM": [
-        3132.1,
-        6122.0
+        1943.9,
+        6297.8
       ],
       "candidatesConsidered": [
-        {
-          "siteId": "site.scour.fringe-marsh.water-narrows-007",
-          "score": 3.918,
-          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
-        },
         {
           "siteId": "site.scour.fringe-marsh.water-narrows-019",
           "score": 3.742,
@@ -7868,17 +7920,23 @@
           "siteId": "site.scour.tidal-delta.river-mouth-000",
           "score": 3.686,
           "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.water-narrows-007",
+          "score": 3.518,
+          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 35 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "ford in lake & standing water (danger band 3), 190 m from the nearest route; at the water's edge; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lilmothiit-quarry (+0.76).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 35.1,
-        "distanceToWaterM": 11.0,
-        "score": 3.003
-      }
+        "landform": "ford",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 190.0,
+        "distanceToWaterM": 0.0,
+        "score": 2.345
+      },
+      "scourSiteId": "site.scour.lake-standing-water.ford-009"
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -7973,6 +8031,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -8135,6 +8195,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -8268,9 +8330,9 @@
       "vibe": {
         "silhouette": "A dark mass under the boat resolving into a stepped pyramid, its top terrace six metres down and its base lost in silt.",
         "palette": "Deep green-blue, pale stone, silver fish.",
-        "materials": "Xanmeer stone throughout, upper terraces scoured clean by current, lower terraces silted; no addition of any kind — the only untouched xanmeer in the region.",
+        "materials": "Xanmeer stone throughout, upper terraces scoured clean by current, lower terraces silted; no addition of any kind.",
         "signatureFeature": "A stone pyramid standing whole on a lake floor, its lower terraces buried in silt and its upper terraces clean, with fish holding station in every doorway.",
-        "condition": "Whole. Undisturbed and unlooted, purely because eighteen metres of cold water is a better lock than any door.",
+        "condition": "Whole, undisturbed and unlooted. Eighteen metres of cold water has kept it that way.",
         "mood": "Cathedral cold.",
         "approach": "A dark mass under the boat that resolves into steps as you descend.",
         "senses": "Cold clear water, the pressure change on the descent, fish holding station in the doorways, and no silt at all until the lower terraces."
@@ -8286,13 +8348,17 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [
-          "WATER",
-          "PORTAL",
-          "APP",
-          "LOOT",
-          "COMBAT"
+          "quest.provision.dq02-anchor"
         ],
-        "tierOwnership": null
+        "tags": [
+          "APP",
+          "COMBAT",
+          "LOOT",
+          "PORTAL",
+          "WATER"
+        ],
+        "opportunity": null,
+        "tierOwnership": "DQ02 · tier-3"
       },
       "rumourPoolKey": "rumour.lake-meer",
       "deedCounterKeys": [],
@@ -8327,12 +8393,12 @@
         }
       ],
       "position": {
-        "u": 0.26289,
-        "v": 0.83924
+        "u": 0.36032,
+        "v": 0.77826
       },
       "positionM": [
-        1938.4,
-        6188.2
+        2656.8,
+        5738.5
       ],
       "candidatesConsidered": [
         {
@@ -8341,27 +8407,27 @@
           "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-021",
-          "score": 3.066,
-          "whyLost": "too close to place.imperial-penal-south.lake-divers-yard"
-        },
-        {
           "siteId": "site.scour.lake-standing-water.islet-026",
           "score": 3.064,
           "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+        },
+        {
+          "siteId": "site.scour.interior-swamp.cove-039",
+          "score": 3.003,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 280 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on submerged, parent, landform; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-divers-yard (+0.51).",
+      "whySiteWon": "islet in interior swamp (danger band 4), 372 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 280.3,
+        "landform": "islet",
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 372.3,
         "distanceToWaterM": 0.0,
-        "score": 0.938
+        "score": 2.857
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -8375,7 +8441,7 @@
           "unique-item"
         ],
         "impact": "major",
-        "hook": "The divers who work the sunk xanmeer count it a different trade from lake salvage, and nothing has been taken off it yet.",
+        "hook": "The divers who work the sunk xanmeer count it a different trade from lake salvage. Nothing has been taken off it yet.",
         "reviewed": true
       },
       "interior": {
@@ -8425,7 +8491,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.interior-swamp.islet-020"
     },
     {
       "id": "place.imperial-penal-south.ledgered-blackguards",
@@ -8448,7 +8515,7 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "The Blackguards' heirs of the Blackrose region run their business like a counting house, because their inheritance from the Rose was a ledger, not a gang.",
+        "founding": "The Blackguards' heirs of the Blackrose region run their business like a counting house, because what they inherited from the Rose was a ledger.",
         "siteAdvantages": "An unremarkable water-house on a back channel with three exits and a clear view of the toll quay.",
         "occupantsMotive": "They broker debt, cargo and silence, and they are better at accounts than the city is.",
         "pressures": "Their ledger is the most complete record of who owes what in the south, and everyone wants it for different reasons.",
@@ -8512,7 +8579,7 @@
       },
       "vibe": {
         "palette": "Ledger cream, lamp brown, black channel.",
-        "signatureFeature": "A back-channel house whose front room is a working counting office with proper books, and whose back room is not.",
+        "signatureFeature": "A back-channel house whose front room is a working counting office with proper books.",
         "mood": "Professional criminality."
       },
       "assetPlan": [
@@ -8525,6 +8592,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.blackguards",
@@ -8656,7 +8725,6 @@
         2558.1,
         7005.2
       ],
-      "scourSiteId": "site.scour.mangrove-forest.ford-017",
       "candidatesConsidered": [
         {
           "siteId": "site.scour.lake-standing-water.cove-005",
@@ -8682,7 +8750,8 @@
         "distanceToRouteM": 109.8,
         "distanceToWaterM": 5.5,
         "score": 0.777
-      }
+      },
+      "scourSiteId": "site.scour.mangrove-forest.ford-017"
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -8707,8 +8776,8 @@
       ],
       "confidence": "CANON_FIXED",
       "why": {
-        "founding": "The ancient Lilmothiit city Blackrose stands on and was quarried out of: canon says the Rose was built from its rubble in a single day.",
-        "siteAdvantages": "A whole vanished city's stone lying within a day of the site that needed it — which is why the Rose exists at all.",
+        "founding": "The ancient Lilmothiit city Blackrose stands on and was quarried out of: the Rose was built from its rubble in a single day.",
+        "siteAdvantages": "A whole vanished city's stone lying within a day of the site that needed it.",
         "occupantsMotive": "No inheritors: the Lilmothiit died of the Knahaten Flu. Blackrose's own foundations are its remains.",
         "pressures": "What is left is a robbed-out ground plan, and every carved block in the district can be matched back to a socket here.",
         "wouldChangeIf": "A systematic survey would reconstruct a lost people's city from the buildings it was stolen into."
@@ -8772,16 +8841,18 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A city reduced to a floor plan — footings, robbing trenches and square sockets to the horizon, with one colonnade left standing because nobody could shift it.",
+        "silhouette": "A city reduced to a floor plan of footings, robbing trenches and square sockets to the horizon, with one colonnade left standing because nobody could shift it.",
         "palette": "Pale foundation stone, black robbing trench, green lake edge.",
-        "materials": "Pale foundation stone in situ, black robbing trenches where everything above it went, one unrobbed colonnade of blocks too large to move; not one building material added since.",
-        "signatureFeature": "A vulpine city reduced to its footings and its robbing trenches, with the sockets of removed blocks still square, and a single unrobbed colonnade nobody could shift.",
-        "condition": "Systematically dismantled in a single campaign and never touched again — the robbing trenches are as sharp as the day they were dug.",
+        "materials": "Pale dressed foundation stone in situ, black robbing trenches where everything above it went, one unrobbed colonnade of blocks too large to move. The only carving left is on the faces that were laid downward. It is all foxes.",
+        "signatureFeature": "A city reduced to its footings and robbing trenches, the sockets of lifted blocks still square, and one colonnade nobody could shift.",
+        "condition": "Systematically dismantled in a single campaign and never touched again. The robbing trenches are as sharp as the day they were dug.",
         "mood": "Erased on purpose.",
         "approach": "You are walking on the city for several minutes before you understand that the pattern in the grass is streets.",
         "senses": "Ground that rings differently underfoot where the footings run; lake wind with nothing to break it; the total absence of stone above knee height."
       },
       "assetPlan": [
+        "xanmeer-ayleid-exterior",
+        "barsaebic-ayleid",
         "stockade-scaffold",
         "clutter",
         "landmark-civic",
@@ -8790,6 +8861,8 @@
       "discovery": "sightline",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.lilmothiit",
@@ -8818,41 +8891,41 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.38263,
-        "v": 0.81395
+        "u": 0.25249,
+        "v": 0.81842
       },
       "positionM": [
-        2821.3,
-        6001.7
+        1861.7,
+        6034.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0998",
-          "score": 1.167,
-          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
+          "siteId": "site.free.any-firm-ground-1206",
+          "score": 0.913,
+          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.free.any-firm-ground-0999",
-          "score": 1.144,
-          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
+          "siteId": "site.scour.firm-lowland.summit-030",
+          "score": 0.601,
+          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
         },
         {
           "siteId": "site.free.any-firm-ground-1336",
-          "score": 0.794,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "score": 0.544,
+          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 104 m from the nearest route; at the water's edge; won on region, danger, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.basin-hearth-house (+2.35).",
+      "whySiteWon": "ford in lake & standing water (danger band 3), 452 m from the nearest route; at the water's edge; won on region, danger, parent; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-ferry-stage (+0.76).",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "ford",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 104.2,
+        "distanceToRouteM": 451.7,
         "distanceToWaterM": 0.0,
-        "score": 0.952
+        "score": 0.901
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
         "clearable": true,
@@ -8908,7 +8981,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-034"
+      "scourSiteId": "site.scour.lake-standing-water.ford-023"
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
@@ -9006,6 +9079,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -9083,7 +9158,7 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Canon-named as Blackrose's south-western neighbour: a lake-shore village on the approach, and the last stop before the city's toll gates.",
+        "founding": "Blackrose's south-western neighbour: a lake-shore village on the approach, and the last stop before the city's toll gates.",
         "siteAdvantages": "A long shallow flat on the lake's south-west shore, poleable all year and outside the city's wall line.",
         "occupantsMotive": "Everything bound for Blackrose by land is broken to boats here, by people who are not the city and charge less than it.",
         "pressures": "Blackrose has twice tried to bring Longmont inside its toll regime and twice found the village simply stops handling freight.",
@@ -9160,9 +9235,9 @@
       "vibe": {
         "silhouette": "One horizontal line a kilometre long, the same height from end to end, with a continuous loading deck under it and no vertical accent anywhere.",
         "palette": "Pale stilt timber, silver flat, red-brown thatch.",
-        "materials": "Pale stilt timber and cane decking, reed thatch, Argonian lamps at fixed intervals down the whole length; one kit, repeated a thousand times.",
+        "materials": "Pale stilt timber and cane decking, reed thatch, Argonian lamps at fixed intervals down the whole length; the same kit repeated the whole length.",
         "signatureFeature": "A single village street a kilometre long on stilts over a shallow flat, with a loading deck running its entire length.",
-        "condition": "Uniformly maintained — the village replaces the deck in sections on a rota and you can read the rota in the timber colour.",
+        "condition": "Uniformly maintained. The deck is replaced in sections on a rota you can read in the timber colour.",
         "mood": "Long and self-possessed.",
         "approach": "From the lake it reads as a single unbroken line on the water that takes ten minutes to pole past.",
         "senses": "Sound travelling the length of the street and arriving late; poling, freight, a bell relayed door to door; wet timber and lake weed."
@@ -9179,6 +9254,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.longmont",
@@ -9211,12 +9288,12 @@
         }
       ],
       "position": {
-        "u": 0.28594,
-        "v": 0.93517
+        "u": 0.27776,
+        "v": 0.91807
       },
       "positionM": [
-        2108.4,
-        6895.5
+        2048.1,
+        6769.4
       ],
       "candidatesConsidered": [
         {
@@ -9235,16 +9312,15 @@
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "river mouth in fringe marsh (danger band 3), 219 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.kothringi-ruin-basin (+1.45).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 276 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.feeder-portage (+0.59).",
       "plotFacts": {
-        "landform": "river-mouth",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 219.4,
+        "distanceToRouteM": 275.5,
         "distanceToWaterM": 0.0,
-        "score": 2.874
+        "score": 3.114
       },
-      "scourSiteId": "site.scour.fringe-marsh.river-mouth-009",
       "hostility": {
         "baseline": "wary",
         "owner": "faction.longmont-polers",
@@ -9361,8 +9437,8 @@
       "why": {
         "founding": "A tower on the north-east river where the Murkwood water enters the lake system, put there to count hulls.",
         "siteAdvantages": "On a rock spur the channel must pass within thirty metres of.",
-        "occupantsMotive": "Two counters and a boom; the boom has not been lowered in thirty years and is maintained anyway.",
-        "pressures": "Traffic from the north-east is the least legible and most valuable, and the counters know it.",
+        "occupantsMotive": "Two counters and a boom; the boom has not been lowered in thirty years, but is maintained anyway.",
+        "pressures": "Traffic from the north-east is the least legible and the most valuable.",
         "wouldChangeIf": "Lowering the boom would be an act of policy that would be answered from upriver."
       },
       "sitingPrefs": {
@@ -9430,8 +9506,12 @@
       ],
       "discovery": "document",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.reed-writ-enforcement-point"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "Reed track · tier-2"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -9579,8 +9659,8 @@
       "why": {
         "founding": "A marsh giant's range on the north-east marsh, marked by two centuries of the same paths being walked.",
         "siteAdvantages": "A wide shallow marsh with reed stands and no human settlement, on the Murkwood side of the lake.",
-        "occupantsMotive": "The animal. Its paths are the only firm walking in eight square kilometres, and they are its own.",
-        "pressures": "The paths are also the fastest route toward the Murkwood verge, and guides use them anyway.",
+        "occupantsMotive": "The animal. Its paths are the only firm walking in eight square kilometres. They are its own.",
+        "pressures": "The paths are also the fastest route toward the Murkwood verge, but guides use them anyway.",
         "wouldChangeIf": "Nothing will move it; it has been here longer than the city."
       },
       "sitingPrefs": {
@@ -9650,6 +9730,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -9730,22 +9812,22 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1157",
-          "score": 1.54,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.any-shallow-marsh-1052",
+          "score": 2.349,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1211",
-          "score": 1.511,
-          "whyLost": "too close to place.naga-kur-deeps.bone-carriers-camp-deeps"
+          "siteId": "site.free.any-shallow-marsh-1027",
+          "score": 2.332,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1187",
-          "score": 1.441,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1053",
+          "score": 2.182,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 260 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.drawdown-flat (+0.56).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 260 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.voriplasm-vault (+2.20).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "rootland deep marsh",
@@ -9780,10 +9862,10 @@
       "confidence": "CANON_FIXED",
       "why": {
         "founding": "The forest that ever moves, last located north-east of Blackrose; findable only via the Conclave of Baal at Stormhold reading the Elder Scrolls with an ancient tablet.",
-        "siteAdvantages": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree. The danger is not in the ground, which is ordinary: it arrived with the forest and it leaves with it.",
+        "siteAdvantages": "A stretch of deep marsh north-east of the lake where the tree line is wrong on every survey and no two surveys agree. The ground itself is ordinary. The danger arrived with the forest and leaves with it.",
         "occupantsMotive": "Medusas and fellrunners. Nothing that lives here is from anywhere.",
         "pressures": "The verge is where the forest stands now. The villages within a day of it keep a tally of where it has stood before.",
-        "wouldChangeIf": "Its movement is off-screen lore between visits — the verge is a fixed site whose surroundings tell you it has moved."
+        "wouldChangeIf": "It will stand somewhere else. The stump-field behind it is how the villages know it has moved before."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9843,7 +9925,7 @@
       "vibe": {
         "silhouette": "A vertical wall of black-green forest standing straight up out of flat marsh with no transition, and a kilometre behind it a field of grey drowned stumps marking where it used to be.",
         "palette": "Black-green canopy wall, grey drowned stumps, white mist.",
-        "materials": "Living forest, and refusal: market tents and totem posts on the marsh side only, nothing built within a hundred metres of the tree line, no cut timber taken from it.",
+        "materials": "Living forest. On the marsh side, market tents and totem posts; nothing built within a hundred metres of the tree line, and no cut timber taken from it.",
         "signatureFeature": "A wall of forest standing across open marsh with no transition at all, with drowned stumps of the previous tree line visible a kilometre behind it.",
         "condition": "The verge itself is unaltered; the drowned stump-field behind is the record of it having stood somewhere else.",
         "mood": "Categorically wrong.",
@@ -9860,12 +9942,16 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [
-          "LOC",
+          "quest.provision.canon.murkwood"
+        ],
+        "tags": [
           "APP",
           "COMBAT",
+          "LOC",
           "STATE"
         ],
-        "tierOwnership": "faction:sunken-archive"
+        "opportunity": null,
+        "tierOwnership": "SA03 · tier-2"
       },
       "rumourPoolKey": "rumour.murkwood",
       "deedCounterKeys": [],
@@ -9903,35 +9989,45 @@
         }
       ],
       "position": {
-        "u": 0.18555,
-        "v": 0.8794
+        "u": 0.31049,
+        "v": 0.71951
       },
       "positionM": [
-        1368.1,
-        6484.3
+        2289.4,
+        5305.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1103",
-          "score": 1.004,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1052",
+          "score": 2.462,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1076",
+          "score": 2.36,
+          "whyLost": "taken by place.naga-kur-deeps.dive-shaft-natural-deeps"
+        },
+        {
+          "siteId": "site.scour.rootland-deep-marsh.isthmus-002",
+          "score": 1.657,
+          "whyLost": "too close to place.naga-kur-deeps.dive-shaft-natural-deeps"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 236 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, parent, remote; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.rockspring (+1.00).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 701 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, remote, danger; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 235.9,
+        "landform": "any-shallow-marsh",
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 700.6,
         "distanceToWaterM": 12.3,
-        "score": 0.422
+        "score": 1.651
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "faction-refills"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "wonder-oddity",
@@ -10015,7 +10111,7 @@
         "founding": "A karst shaft in the lake floor that drops well below the lake bed and connects to something else.",
         "siteAdvantages": "A vertical hole nine metres wide in an otherwise flat lake bottom, with a cold current coming out of it.",
         "occupantsMotive": "Nobody. Two lake-divers have gone down it and one came back.",
-        "pressures": "The current reverses seasonally, which means it goes somewhere and that somewhere fills and empties.",
+        "pressures": "The current reverses seasonally. Whatever it comes from fills and empties.",
         "wouldChangeIf": "Mapping where it surfaces would rewrite the basin's hydrology and open a route."
       },
       "sitingPrefs": {
@@ -10086,6 +10182,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -10108,11 +10206,11 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none",
+        "clearable": true,
+        "respawn": "slow",
         "environmentalDanger": true
       },
       "playerPurpose": {
@@ -10159,39 +10257,39 @@
         ]
       },
       "position": {
-        "u": 0.27999,
-        "v": 0.90394
+        "u": 0.21306,
+        "v": 0.88758
       },
       "positionM": [
-        2064.5,
-        6665.2
+        1571.0,
+        6544.6
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-004",
+      "scourSiteId": "site.scour.lake-standing-water.cove-052",
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.interior-swamp.cove-039",
+          "score": 3.617,
+          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+        },
+        {
           "siteId": "site.scour.lake-standing-water.islet-038",
-          "score": 4.042,
+          "score": 3.142,
           "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-031",
-          "score": 3.764,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.cove-034",
-          "score": 3.76,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0257",
+          "score": 2.977,
+          "whyLost": "too close to place.naga-kur-deeps.leviathan-bone-field"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 176 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 110 m from the nearest route; at the water's edge; its choice #5 landform; won on route, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 175.6,
+        "distanceToRouteM": 109.7,
         "distanceToWaterM": 0.0,
-        "score": 3.863
+        "score": 2.838
       }
     },
     {
@@ -10215,9 +10313,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Someone is digging toward the Rose's lower levels from outside, and they are not looking for the living.",
+        "founding": "Someone is digging toward the Rose's lower levels from outside. They are not looking for the living.",
         "siteAdvantages": "Four hundred metres from the Rose's foundations, on a spoil-hidden rise in the marsh, on the alignment of the flooded tunnel.",
-        "occupantsMotive": "They know exactly what Umbriel left in the lower levels, and they are digging for it and not for grave goods.",
+        "occupantsMotive": "They know exactly what Umbriel left in the lower levels, and they are digging for that.",
         "pressures": "The Rose's families have not noticed. The Chainbreakers have, and have not decided what to do.",
         "wouldChangeIf": "Breaking into the lower levels from outside would release what the bricked stair contains."
       },
@@ -10291,12 +10389,14 @@
       ],
       "discovery": "rumour",
       "questHooks": {
-        "provisions": [
-          "LOC",
-          "EVIDENCE",
+        "provisions": [],
+        "tags": [
           "COMBAT",
+          "EVIDENCE",
+          "LOC",
           "STATE"
         ],
+        "opportunity": null,
         "tierOwnership": "faction:blackrose-chainbreakers"
       },
       "rumourPoolKey": null,
@@ -10393,43 +10493,43 @@
             "registerRef": null,
             "payoff": "evidence",
             "valueTier": "tier-4",
-            "provenance": "they know exactly what is down there, and wrote it down"
+            "provenance": "they knew exactly what is down there and wrote it down"
           }
         ]
       },
       "position": {
-        "u": 0.25768,
-        "v": 0.81991
+        "u": 0.29412,
+        "v": 0.92551
       },
       "positionM": [
-        1900.0,
-        6045.6
+        2168.7,
+        6824.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1353",
-          "score": 1.156,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1053",
+          "score": 2.592,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.scour.fringe-marsh.isthmus-025",
-          "score": 0.625,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1052",
+          "score": 2.554,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.scour.fringe-marsh.land-bridge-030",
-          "score": 0.618,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1054",
+          "score": 2.553,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 424 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, remote, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.basin-sinkhole (+1.47).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 291 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, parent, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.wisp-lure-basin (+1.99).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 424.4,
-        "distanceToWaterM": 0.0,
-        "score": 1.767
+        "distanceToRouteM": 290.6,
+        "distanceToWaterM": 39.9,
+        "score": 1.607
       }
     },
     {
@@ -10452,10 +10552,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The basin's red clay is the best in the south and every roof tile and storage jar for fifty kilometres comes out of this pit.",
+        "founding": "The basin's red clay is the best in the south and every roof tile and storage jar for fifty kilometres is fired at this pit.",
         "siteAdvantages": "A clay bank at a river bend, with the fuel coming down the river and the product going out on it.",
-        "occupantsMotive": "Three kilns working in rotation, run by families who have never done anything else.",
-        "pressures": "The pit face is undercutting the river bend and will eventually take the kilns with it.",
+        "occupantsMotive": "Three firing floors worked in rotation by families who have never done anything else.",
+        "pressures": "The pit face is undercutting the river bend and will eventually take the firing floors with it.",
         "wouldChangeIf": "A bank collapse would move the whole industry to a worse clay."
       },
       "sitingPrefs": {
@@ -10511,19 +10611,23 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "palette": "Red clay, kiln-smoke grey, orange tile.",
-        "signatureFeature": "A red clay cliff with three beehive kilns at its foot and stacks of drying tiles laid out in an orange field.",
+        "palette": "Red clay, wood-smoke grey, orange tile.",
+        "signatureFeature": "A red clay cliff with three stone-hooded firing floors at its foot, fuel stacked in walls behind them, and drying racks of green tile laid out in an orange field.",
         "mood": "Hot, ordered, ancient."
       },
       "assetPlan": [
+        "works-props",
         "stockade-scaffold",
+        "fences-wattle",
         "argonian-props",
-        "clutter",
-        "market-tents"
+        "market-tents",
+        "clutter"
       ],
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -10559,7 +10663,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A clay bank at a river bend, with the fuel coming down the river and the product going out on it",
+        "hook": "Every tile roof for fifty kilometres was dried on these racks. The bank they stand on is going into the river.",
         "reviewed": false
       },
       "interior": {
@@ -10674,6 +10778,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -10760,7 +10866,7 @@
       "why": {
         "founding": "The line Blackrose held during the Flu, marked in stone every hundred paces from the hills to the water.",
         "siteAdvantages": "It follows the narrows, which is the only line a cordon could hold in this basin.",
-        "occupantsMotive": "Nobody enforces it. Every stone is still standing and nobody has moved one.",
+        "occupantsMotive": "Nobody enforces it. Every stone is still standing.",
         "pressures": "Villages on the far side of the line still describe themselves as being outside, sixteen centuries later.",
         "wouldChangeIf": "Removing the stones would be a civic decision nobody wants to propose."
       },
@@ -10821,7 +10927,7 @@
       "vibe": {
         "palette": "Weathered stone, grass, distant water.",
         "signatureFeature": "A line of hundred-pace marker stones running six kilometres across country, each cut with the same three words.",
-        "mood": "A border nobody polices and everybody observes."
+        "mood": "A border nobody polices."
       },
       "assetPlan": [
         "totems-ritual",
@@ -10833,6 +10939,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -10889,38 +10997,38 @@
         ]
       },
       "position": {
-        "u": 0.40196,
-        "v": 0.83924
+        "u": 0.36775,
+        "v": 0.86006
       },
       "positionM": [
-        2963.8,
-        6188.2
+        2711.6,
+        6341.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 4.209,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1280",
-          "score": 4.207,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1255",
+          "score": 3.822,
+          "whyLost": "too close to place.mercantile-coast.hist-less-fringe"
         },
         {
           "siteId": "site.free.roadside-0436",
-          "score": 3.982,
+          "score": 3.582,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0033",
+          "score": 3.454,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 23 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, bound; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 44 m from the nearest route; its first-choice landform; won on landform, route, bound; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 22.6,
-        "score": 4.222
+        "distanceToRouteM": 43.9,
+        "distanceToWaterM": 38.8,
+        "score": 3.807
       }
     },
     {
@@ -11008,11 +11116,11 @@
         "valueTier": "tier-2"
       },
       "vibe": {
-        "silhouette": "A new settlement built around a carefully finished empty enclosure — the shape of a hist-village with nothing in the middle of it.",
+        "silhouette": "A new settlement built around a carefully finished empty enclosure. The shape of a hist-village with nothing in the middle of it.",
         "palette": "Raw new timber, bare earth, marsh grey.",
-        "materials": "Raw new timber throughout, unweathered plaster, a properly built tree-enclosure of dressed stakes with nothing planted in it; everything correct and nothing old.",
+        "materials": "Raw new timber throughout, unweathered plaster, a properly built tree-enclosure of dressed stakes with nothing planted in it.",
         "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting nobody has agreed to give them.",
-        "condition": "Newly built to an old standard: the enclosure is finished to a quality the houses are not.",
+        "condition": "Newly built to an old standard. The enclosure is finished better than the houses.",
         "mood": "Determined and unmoored.",
         "approach": "Two hours off the causeway by water, and the enclosure is the first thing you see from the landing.",
         "senses": "New wood; the enclosure swept daily; three generations' worth of accents in one place; no root-hum and everybody listening for one."
@@ -11026,8 +11134,12 @@
       ],
       "discovery": "rumour",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.lq04-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "LQ04 · tier-3"
       },
       "rumourPoolKey": "rumour.third-generation",
       "deedCounterKeys": [
@@ -11272,6 +11384,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -11350,10 +11464,10 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Thrown up around the city when Blackrose rebelled against the Third Empire and raised an army; abandoned when Empress Morihatha's battlemage Welloc broke the rebellion with a spell instead of a siege.",
-        "siteAdvantages": "Sited on the dry ground commanding all three approaches — competent, complete, and never used.",
-        "occupantsMotive": "Nobody. Grazing now, with the ditch profiles perfectly legible from any rise.",
-        "pressures": "A city that remembers raising an army looks at these lines every day.",
-        "wouldChangeIf": "Nothing. The earth stays. That is what makes it a monument."
+        "siteAdvantages": "Sited on the dry ground commanding all three approaches. Competent, complete, never used.",
+        "occupantsMotive": "A claim gang has the gate stockade's magazine open and is working along the ditch for the pay chest that was never issued.",
+        "pressures": "A city that remembers raising an army looks at these lines every day, and now watches somebody else dig them.",
+        "wouldChangeIf": "Nothing. The earth stays."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11411,10 +11525,10 @@
         "palette": "Grass green, ditch shadow, grey sky.",
         "materials": "Cut turf and rammed earth only; a few stockade stumps at the gate positions; not one piece of iron in the whole system.",
         "signatureFeature": "Complete, unused siege lines with sharp unfought ditch profiles, and not one arrowhead anywhere in them.",
-        "condition": "Complete, unfought and unweathered by battle — softened only by grass, with sharp profiles surviving where a siege would have flattened them.",
-        "mood": "An anticlimax preserved in earth.",
+        "condition": "Complete, unfought and unweathered by battle. Grass has softened it; the profiles are sharp where a siege would have flattened them.",
+        "mood": "An anticlimax with new spoil heaps on it.",
         "approach": "You cross the ditch system before you realise you are in it; from the ground it reads as terracing.",
-        "senses": "Wind across grass; hollow footfall on the counterscarp; nothing else — no bone, no burnt ground, no smell of anything having happened."
+        "senses": "Wind across grass; hollow footfall on the counterscarp; nothing else. No bone, no burnt ground, no smell of anything having happened."
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -11425,6 +11539,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.wellocs-lines",
@@ -11446,7 +11562,7 @@
         "imperial"
       ],
       "densityLayer": "destination",
-      "entrance": "none",
+      "entrance": "stair-throat",
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
@@ -11484,23 +11600,30 @@
         "score": 3.322
       },
       "hostility": {
-        "baseline": "neutral",
-        "owner": null,
+        "baseline": "hostile",
+        "owner": "faction.jumped-claim-gang",
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "faction-refills"
       },
       "playerPurpose": {
         "primary": "lore-reveal",
         "secondary": [
-          "vista-landmark"
+          "vista-landmark",
+          "combat-challenge"
         ],
         "impact": "mild",
-        "hook": "The siege lines were dug for a battle that never happened, and a gate stockade's pay chest was never issued.",
+        "hook": "Siege lines dug for a battle that never happened, with a pay chest that was never issued and a gang already digging for it.",
         "reviewed": true
       },
       "interior": {
-        "kind": "none"
+        "kind": "delve",
+        "family": "imperial-fort",
+        "sizeBand": "S1",
+        "wetFraction": 0.2,
+        "entranceCount": 2,
+        "exteriorShell": true,
+        "programRef": null
       },
       "contents": {
         "creatures": [
@@ -11512,7 +11635,26 @@
             "count": "few"
           }
         ],
-        "npcs": [],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "rank-and-file",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "band",
+            "named": false,
+            "faction": "faction.jumped-claim-gang"
+          },
+          {
+            "slotId": "n2",
+            "role": "lieutenant",
+            "registerRef": null,
+            "danger": "D2",
+            "count": "single",
+            "named": false,
+            "faction": "faction.jumped-claim-gang"
+          }
+        ],
         "loot": [
           {
             "slotId": "l1",
@@ -11619,6 +11761,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -11777,6 +11921,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -11863,7 +12009,7 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Canon-named as Blackrose's north-western neighbour, built along a natural levee on the western feeder around the one hard spring in the basin.",
+        "founding": "Blackrose's north-western neighbour, built along a natural levee on the western feeder around the one hard spring in the basin.",
         "siteAdvantages": "A levee crest a metre above every recorded flood, with a rock spring that runs clean when the whole basin is brown.",
         "occupantsMotive": "The spring is the asset; in a bad year the village sells water to boats and does not apologise for it.",
         "pressures": "Longmont's freight trade is the one they want and cannot get, because the feeder is too shallow for laden hulls.",
@@ -11936,7 +12082,7 @@
         "palette": "Levee green, thatch, clear spring silver against brown flood.",
         "materials": "Mud-mother plaster over withy on the levee, reed thatch, wattle stock-fencing; the spring house is the only stone in the hamlet and it is undressed.",
         "signatureFeature": "A single-file village strung along the crest of a natural levee, with the spring house at its centre and every door facing the water.",
-        "condition": "Thrifty and sound — the levee is maintained by everyone, the houses individually and unevenly.",
+        "condition": "Thrifty and sound. The levee is maintained by everyone, the houses individually and unevenly.",
         "mood": "Linear and thrifty.",
         "approach": "In flood the levee is the only path and the hamlet is on it, so you walk the length of the village whether you meant to or not.",
         "senses": "Clean water running loudly in a landscape where all other water is silent and brown; hens; wet clay; woodsmoke going straight along the levee."
@@ -11950,6 +12096,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.rockspring",
@@ -11980,12 +12128,12 @@
         }
       ],
       "position": {
-        "u": 0.23389,
-        "v": 0.94038
+        "u": 0.20339,
+        "v": 0.79462
       },
       "positionM": [
-        1724.6,
-        6933.9
+        1499.7,
+        5859.1
       ],
       "candidatesConsidered": [
         {
@@ -12004,14 +12152,14 @@
           "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 181 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.kothringi-ruin-basin (+0.95).",
+      "whySiteWon": "flood high in firm lowland (danger band 3), 392 m from the nearest route; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.akaviri-works (+0.97).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 181.0,
-        "distanceToWaterM": 12.3,
-        "score": 2.951
+        "distanceToRouteM": 391.8,
+        "distanceToWaterM": 27.4,
+        "score": 3.57
       },
       "hostility": {
         "baseline": "friendly",
@@ -12069,7 +12217,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.firm-lowland.flood-high-018"
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -12082,7 +12231,7 @@
         "variant": null,
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/prisons.md",
@@ -12094,7 +12243,7 @@
         "founding": "Argonians die in the Rose and their bones must reach the dirt; the Chainbreakers built a station on the causeway road to receive them.",
         "siteAdvantages": "On the causeway, at the point where the Rose's people will hand a body over and the villages' people will accept one.",
         "occupantsMotive": "The Rose's families release the dead here for a fee they call a carriage charge; the Chainbreakers pay it and record every payment.",
-        "pressures": "The fee is the single most resented transaction in the south, and both sides need it to continue.",
+        "pressures": "The fee is the most resented transaction in the south, but both sides need it to continue.",
         "wouldChangeIf": "The Rose refusing to release the dead would end the arrangement and start something much worse."
       },
       "sitingPrefs": {
@@ -12166,8 +12315,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.whiterose-prison-ruin"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "BC05 · tier-2"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [
@@ -12183,7 +12336,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 2,
-      "workflow": "derived",
+      "workflow": "plotted",
       "season": "all-year",
       "eraLayers": [
         "current"
@@ -12207,7 +12360,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "On the causeway, at the point where the Rose's people will hand a body over and the villages' people will accept one",
+        "hook": "The Rose's families will not release a body without a fee; the Chainbreakers pay it at this shed.",
         "reviewed": false
       },
       "interior": {
@@ -12240,6 +12393,40 @@
             "provenance": null
           }
         ]
+      },
+      "position": {
+        "u": 0.37444,
+        "v": 0.90022
+      },
+      "positionM": [
+        2761.0,
+        6637.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-1338",
+          "score": 3.618,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1229",
+          "score": 3.611,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1353",
+          "score": 3.603,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 334 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 334.5,
+        "distanceToWaterM": 17.3,
+        "score": 3.62
       }
     },
     {
@@ -12267,7 +12454,7 @@
       "why": {
         "founding": "The Rose's lowest levels flooded when the marsh took the foundations, and what Umbriel left in 4E 48 is still down there.",
         "siteAdvantages": "Below the water table, sealed by a stair the prison-born families bricked up two generations ago.",
-        "occupantsMotive": "The undead, behind a bricked stair that nobody has opened. The families above will confirm nothing, and while the brick holds there is nothing here to fight.",
+        "occupantsMotive": "The undead, behind a bricked stair that nobody has opened. The families above will confirm nothing. While the brick holds there is nothing here to fight.",
         "pressures": "The Chainbreakers' bone claims include people who died down there; the families' claim to legitimacy depends on the stair staying shut.",
         "wouldChangeIf": "Clearing the lower levels would make the Rose a settlement and end its reputation; the families would rather it stayed bricked."
       },
@@ -12349,14 +12536,18 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [
-          "WATER",
-          "PORTAL",
-          "COMBAT",
-          "BOSS",
-          "APP",
-          "LOOT"
+          "quest.provision.blackrose-tunnels"
         ],
-        "tierOwnership": "faction:blackrose-chainbreakers"
+        "tags": [
+          "APP",
+          "BOSS",
+          "COMBAT",
+          "LOOT",
+          "PORTAL",
+          "WATER"
+        ],
+        "opportunity": null,
+        "tierOwnership": "MQ09 · tier-0"
       },
       "rumourPoolKey": "rumour.rose-lower-levels",
       "deedCounterKeys": [],
@@ -12403,16 +12594,16 @@
         {
           "siteId": "site.free.roadside-0029",
           "score": 1.874,
-          "whyLost": "too close to place.imperial-penal-south.flu-mass-grave"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1317",
-          "score": 1.639,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.scour.mangrove-forest.isthmus-012",
           "score": 1.529,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1317",
+          "score": 1.239,
           "whyLost": "lost on score"
         }
       ],
@@ -12423,10 +12614,10 @@
         "dangerBand": 2,
         "distanceToRouteM": 229.1,
         "distanceToWaterM": 5.5,
-        "score": 1.668
+        "score": 2.068
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": "faction.umbriel-dead",
         "flips": [
           {
@@ -12517,8 +12708,12 @@
       },
       "workflow": "plotted",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.bc04-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "BC04 · tier-2"
       },
       "id": "place.imperial-penal-south.rose-outworks",
       "name": "Outworks, Cordon One",
@@ -12606,7 +12801,7 @@
       "vibe": {
         "silhouette": "A shallow ditch-and-bank rectangle with six roofed stone pits set into the ground inside it and nothing standing above waist height.",
         "palette": "Wet ditch shadow, grey pit stone, rust.",
-        "materials": "Imperial pit stone with iron floor-grates and original numbering cut into every lintel; the crew's additions are all timber and rope and none of them are needed.",
+        "materials": "Imperial pit stone with iron floor-grates and original numbering cut into every lintel; the crew's additions are all timber and rope.",
         "signatureFeature": "Six numbered stone pits in a ditched enclosure, the Empire's numbering still legible, and every lock replaced within the last year.",
         "condition": "The stonework is sound and twelve centuries old; the locks are new.",
         "mood": "Still in use.",
@@ -12720,38 +12915,38 @@
         ]
       },
       "position": {
-        "u": 0.35585,
-        "v": 0.84965
+        "u": 0.35734,
+        "v": 0.88014
       },
       "positionM": [
-        2623.9,
-        6264.9
+        2634.8,
+        6489.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1299",
-          "score": 3.223,
+          "siteId": "site.free.roadside-0032",
+          "score": 2.812,
           "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
         },
         {
-          "siteId": "site.free.roadside-0440",
-          "score": 2.864,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1317",
+          "score": 2.811,
+          "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
         },
         {
-          "siteId": "site.free.roadside-0438",
-          "score": 2.819,
+          "siteId": "site.free.any-firm-ground-1278",
+          "score": 2.809,
           "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 17 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.feeder-portage (+0.47).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 192 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.intact-fort (+1.12).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 17.3,
-        "distanceToWaterM": 5.5,
-        "score": 2.849
+        "distanceToRouteM": 192.2,
+        "distanceToWaterM": 23.3,
+        "score": 3.227
       }
     },
     {
@@ -12775,10 +12970,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Rose needed feeding for twelve centuries, and the supply town the Empire built for that outlived both the Empire and the prison's official function.",
+        "founding": "The Rose needed feeding for twelve centuries. The supply town the Empire built for it outlived both the Empire and the prison's official function.",
         "siteAdvantages": "On the causeway road at the last firm ground before the marsh, with a barge landing and a walled magazine.",
         "occupantsMotive": "It still supplies the Rose, now on commercial terms, and the arrangement is the town's entire economy.",
-        "pressures": "Half the town is descended from prison staff and half from released prisoners, and the two halves marry but do not forget.",
+        "pressures": "Half the town is descended from prison staff and half from released prisoners. The two halves marry, but they do not forget.",
         "wouldChangeIf": "Emptying the Rose would end the town within a decade."
       },
       "sitingPrefs": {
@@ -12855,7 +13050,7 @@
         "palette": "Lime render, red pantile, marsh olive.",
         "materials": "Imperial lime render and red pantile on the ranges and magazine; Argonian reed lean-tos and mud-mother garden walls added behind them, never through them.",
         "signatureFeature": "An Imperial garrison town with its barrack rows converted to houses, its magazine still locked, and the prison's ration tally still chalked on the magazine door every week.",
-        "condition": "Institutional fabric maintained beyond any civilian need, domestic fabric patched — the magazine is still locked and still sound.",
+        "condition": "Institutional fabric maintained beyond any civilian need, domestic fabric patched. The magazine is still locked and still sound.",
         "mood": "Institutional afterlife.",
         "approach": "From the causeway road the barrack ranges read as a fort until you see the washing between them.",
         "senses": "The weekly chalk tally being written on the magazine door; barge traffic; drill-yard flagstones under civilian feet; render dust and marsh olive air."
@@ -12870,8 +13065,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.lq04-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "LQ04 · tier-3"
       },
       "rumourPoolKey": "rumour.vaunting",
       "deedCounterKeys": [],
@@ -13043,13 +13242,13 @@
       "name": "Wide-Furrow",
       "aliases": [],
       "classification": {
-        "class": "settlement",
-        "family": "dry-village",
-        "type": "grassland-field-village",
-        "variant": "saltrice",
-        "magnitude": "M3"
+        "class": "ruin",
+        "family": "depopulated",
+        "type": "drowned-village",
+        "magnitude": null,
+        "variant": null
       },
-      "status": "active",
+      "status": "drowned",
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Blackrose",
@@ -13059,11 +13258,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The basin's saltrice village, on the flood-fed grassland where the eastern feeder spreads out each wet season.",
-        "siteAdvantages": "A shallow annual flood over firm ground: the exact condition saltrice needs and almost nothing else tolerates.",
-        "occupantsMotive": "They feed the city, the Rose and Vaunting, and they know the value of that in a basin with three mouths to feed.",
-        "pressures": "The Rose pays late and the city pays in tariff credit, and neither is money.",
-        "wouldChangeIf": "A refusal to supply the Rose would be a political act with immediate consequences."
+        "founding": "The basin's saltrice village stood on flood-fed grassland where the eastern feeder spread out each wet season, until the flood stopped receding.",
+        "siteAdvantages": "The same shallow annual flood the saltrice needed once now covers the village year round.",
+        "occupantsMotive": "Nobody farms here now. What moved into the flooded barns hunts the fields it stands in.",
+        "pressures": "The grain barns' stone staddles are the only dry footing left and something is denned under the largest of them.",
+        "wouldChangeIf": "If the feeder's channel were cut back the fields could drain and be worked again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13085,12 +13284,7 @@
         }
       },
       "relations": {
-        "supplies": [
-          "place.imperial-penal-south.blackrose",
-          "place.imperial-penal-south.blackrose-prison",
-          "place.imperial-penal-south.rose-supply-town",
-          "place.mercantile-coast.soulrest"
-        ],
+        "supplies": [],
         "dependsOn": [],
         "rivals": [
           "place.imperial-penal-south.rockspring"
@@ -13115,27 +13309,33 @@
       "effortToReach": 2,
       "rewardProfile": {
         "kinds": [
-          "rest-shelter",
-          "trade-access",
-          "services"
+          "loot-cache",
+          "gear",
+          "lore-fragment"
         ],
-        "valueTier": "tier-2"
+        "valueTier": "tier-3"
       },
       "vibe": {
-        "palette": "Saltrice pale gold, flood silver, grey staddle stone.",
-        "signatureFeature": "Open flood-fed fields with a village of long grain barns raised on stone staddles, and a threshing floor bigger than any building in it.",
-        "mood": "Solid and unromantic."
+        "silhouette": "Long grain barns raised on stone staddles, half submerged, the threshing floor gone under entirely.",
+        "palette": "Flood silver over drowned gold stubble, grey staddle stone, waterweed green.",
+        "materials": "Timber barn walls rotting at the waterline, stone staddles holding firm below, sluice gates jammed open.",
+        "signatureFeature": "The staddle stones, the only dry ground left, ringing the flooded barns like stepping stones.",
+        "condition": "Permanently flooded; the stonework survives where the timber has failed.",
+        "mood": "Waterlogged and empty.",
+        "approach": "A shallow dive down through the sluice gate into the flooded barn floor.",
+        "senses": "Still water smell, the creak of waterlogged timber, nothing moving on the surface."
       },
       "assetPlan": [
-        "vanilla-farmhouse",
-        "mud-mother-grove",
-        "fences-wattle",
+        "submerged-blocks",
+        "submerged-ruins",
         "clutter",
-        "landmark-civic"
+        "lights-general"
       ],
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -13155,11 +13355,11 @@
         "current"
       ],
       "densityLayer": "fine-tempo",
-      "entrance": "door",
-      "underwaterAccess": "none",
+      "entrance": "underwater-entry",
+      "underwaterAccess": "shallow-dive",
       "hostility": {
-        "baseline": "friendly",
-        "owner": "faction.wide-furrow-households",
+        "baseline": "hostile",
+        "owner": null,
         "flips": [
           {
             "to": "wary",
@@ -13171,94 +13371,109 @@
             "scope": "place"
           }
         ],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
-        "primary": "resource-source",
+        "primary": "dungeon-delve",
         "secondary": [
-          "safe-rest",
-          "service-hub"
+          "combat-challenge",
+          "lore-reveal"
         ],
         "impact": "real",
-        "hook": "Three mouths to feed in this basin and one village that grows the grain for all of them.",
+        "hook": "The Rose's saltrice fields flooded for good and the village went under with them; the drowned barns are still standing.",
         "reviewed": true
       },
       "interior": {
-        "kind": "building",
-        "family": "dwelling",
+        "kind": "delve",
+        "family": "flooded-cave",
         "sizeBand": "S1",
-        "wetFraction": 0.0,
+        "wetFraction": 0.7,
         "entranceCount": 2,
-        "exteriorShell": true,
-        "programRef": null,
-        "verticalRelationship": "within"
+        "exteriorShell": false,
+        "programRef": null
       },
       "contents": {
-        "creatures": [],
-        "npcs": [
+        "creatures": [
           {
-            "slotId": "n1",
-            "role": "merchant",
+            "slotId": "c1",
+            "role": "apex-ambusher",
             "registerRef": null,
-            "faction": null,
-            "named": false,
-            "count": "single"
+            "count": "single",
+            "danger": "D2"
           },
           {
-            "slotId": "n2",
-            "role": "family",
+            "slotId": "c2",
+            "role": "pack-hunter",
             "registerRef": null,
-            "faction": null,
-            "named": false,
-            "count": "band"
+            "count": "few",
+            "danger": "D2"
           }
         ],
+        "npcs": [],
         "loot": [
           {
             "slotId": "l1",
-            "role": "workshop-stock",
+            "role": "personal-effects",
             "registerRef": null,
-            "payoff": "materials",
+            "payoff": "loot-cache",
             "valueTier": "tier-2",
-            "provenance": "the threshing floor's whole season"
+            "provenance": "left by the people who lived here"
+          },
+          {
+            "slotId": "l2",
+            "role": "hidden-cache",
+            "registerRef": null,
+            "payoff": "gear",
+            "valueTier": "tier-3",
+            "provenance": "whatever the current occupants have taken"
           }
         ]
       },
       "position": {
-        "u": 0.42353,
-        "v": 0.9441
+        "u": 0.21827,
+        "v": 0.83925
       },
       "positionM": [
-        3122.9,
-        6961.3
+        1609.4,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1339",
-          "score": 4.412,
-          "whyLost": "too close to place.imperial-penal-south.intact-fort"
-        },
-        {
           "siteId": "site.free.any-firm-ground-1336",
-          "score": 4.12,
-          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
+          "score": 2.72,
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
         },
         {
           "siteId": "site.free.any-firm-ground-1352",
-          "score": 4.113,
-          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
+          "score": 2.713,
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1335",
+          "score": 2.708,
+          "whyLost": "too close to place.imperial-penal-south.longmont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 74 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "summit in firm lowland (danger band 2), 411 m from the nearest route; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "summit",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 73.8,
-        "distanceToWaterM": 11.0,
-        "score": 3.941
-      }
+        "distanceToRouteM": 411.3,
+        "distanceToWaterM": 66.0,
+        "score": 1.335
+      },
+      "ownerFaction": null,
+      "relationsReserved": {
+        "supplies": [
+          "place.imperial-penal-south.blackrose",
+          "place.imperial-penal-south.blackrose-prison",
+          "place.imperial-penal-south.rose-supply-town",
+          "place.mercantile-coast.soulrest"
+        ]
+      },
+      "scourSiteId": "site.scour.firm-lowland.summit-043"
     },
     {
       "id": "place.imperial-penal-south.scandal-holding-pit",
@@ -13284,7 +13499,7 @@
         "founding": "A holding pit under a toll counting-house for debtors who could not pay at the gate, in a city that officially has no such practice.",
         "siteAdvantages": "Beneath the counting quay, dry, private, and eleven steps from where the debt is recorded.",
         "occupantsMotive": "The toll families use it for days, not years, and consider that an important distinction.",
-        "pressures": "It is currently occupied, and one of the occupants is somebody Blackrose's council would rather were not there.",
+        "pressures": "It is currently occupied. One of the occupants is somebody Blackrose's council would rather were not there.",
         "wouldChangeIf": "Public exposure would break the toll compact's standing with the city."
       },
       "sitingPrefs": {
@@ -13352,8 +13567,12 @@
       ],
       "discovery": "document",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.canon.the-owing"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "BC-line · tier-2"
       },
       "rumourPoolKey": null,
       "deedCounterKeys": [],
@@ -13376,7 +13595,7 @@
       "entrance": "trapdoor",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "guarded",
+        "baseline": "hostile",
         "owner": "faction.three-gate-compact",
         "flips": [
           {
@@ -13577,9 +13796,9 @@
       "vibe": {
         "silhouette": "Three gated water channels converging on one stone counting-quay, with three tariff boards standing above the roofline like sails.",
         "palette": "Wet stone, painted tariff boards, dark converging water.",
-        "materials": "Dressed stone quay and gate piers (Imperial work, Argonian-held), bridge timber, painted board; the counting house is stone and everything else is not.",
+        "materials": "Dressed stone quay and gate piers (Imperial work, Argonian-held), bridge timber, painted board; only the counting house is stone.",
         "signatureFeature": "Three gated water channels converging on one stone counting-quay, with three separate tariff boards in three scripts and one set of accounts.",
-        "condition": "Maintained ruthlessly — the gates work, the boards are repainted, the compact's counting house is the best-kept building in the region.",
+        "condition": "Maintained ruthlessly. The gates work, the boards are repainted, and the compact's counting house is the best-kept building in the region.",
         "mood": "Immovable extraction.",
         "approach": "Whichever river you come down, the other two arrive at the same quay.",
         "senses": "Three streams of traffic arriving and one queue leaving; chain and windlass; the scratch of three sets of accounts being kept as one."
@@ -13594,8 +13813,13 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.reed-writ-enforcement-point",
+          "quest.provision.rs04-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "RS04 · tier-2; Reed track · tier-2"
       },
       "rumourPoolKey": "rumour.imperial-penal-south.three-gate-toll",
       "deedCounterKeys": [
@@ -13776,10 +14000,10 @@
       "confidence": "CANON_IMPLIED",
       "why": {
         "founding": "Where Welloc's vampiric cloud displaced the rebels' strength and skill to their opponents, and the Blackrose army stopped being an army in about a minute.",
-        "siteAdvantages": "The open ground north of the city where the rebel army formed up. They chose it themselves, and Blackrose has not forgiven them for that either.",
+        "siteAdvantages": "The open ground north of the city where the rebel army formed up. They chose it themselves. Blackrose has not forgiven them for that either.",
         "occupantsMotive": "Nobody. Grave-singers refuse to work it: they say the dead here were emptied, and they have no rite for that.",
-        "pressures": "Blackrose's distrust of battlemages is a policy, not a prejudice, and this field is the reason.",
-        "wouldChangeIf": "A grave-singer willing to stake this field would end a two-century-old civic wound."
+        "pressures": "Blackrose's distrust of battlemages is policy. This field is why.",
+        "wouldChangeIf": "A grave-singer willing to drive the poles over this field would end a two-century-old civic wound."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -13833,11 +14057,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "A flat open field whose grass grows in the shape of an army — visible as a pattern, not as an object, and only from slightly above.",
+        "silhouette": "A flat open field whose grass grows in the shape of an army. You see it as a pattern, and only from slightly above.",
         "palette": "Pale grass, rusted mass, flat light.",
-        "materials": "Grass, and rusted mass beneath it; no stakes, no cairn, no marker of any kind, and nothing carried away in sixteen centuries.",
-        "signatureFeature": "An open field of unstaked dead where the grass grows in the shape of a formation, and nothing has been carried away.",
-        "condition": "Undisturbed and unhonoured — no burial, no salvage, no memorial; the formation is still legible in the sward.",
+        "materials": "Grass, and rusted mass beneath it; no poles, no cairn, no marker of any kind, and nothing carried away in sixteen centuries.",
+        "signatureFeature": "An open field where the grass grows in the shape of a formation, with not one burial pole driven in it and nothing carried away.",
+        "condition": "Undisturbed and unhonoured: no burial, no salvage, no memorial. The formation is still legible in the sward.",
         "mood": "Drained.",
         "approach": "From the ridge track the pattern in the grass reads for about ten seconds before you work out what shape it is.",
         "senses": "Wind, flat light, insects; grass that changes underfoot from soft to something that is not soil; total absence of scavenger birds."
@@ -13845,16 +14069,19 @@
       "assetPlan": [
         "landmark-civic",
         "totems-ritual",
+        "stockade-scaffold",
         "xanmeer-tileset",
         "clutter"
       ],
       "discovery": "rumour",
       "questHooks": {
-        "provisions": [
-          "LOC",
+        "provisions": [],
+        "tags": [
+          "COMBAT",
           "EVIDENCE",
-          "COMBAT"
+          "LOC"
         ],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": "rumour.given-field",
@@ -13886,23 +14113,18 @@
       "localStateVariants": [
         {
           "id": "state.given-field.staked",
-          "description": "Somebody has finally staked the dead; the grass pattern is broken by ranks of new stakes."
+          "description": "Somebody has finally driven the burial poles; the grass pattern is broken by ranks of new poles and a line of cairns along the ridge track."
         }
       ],
       "position": {
-        "u": 0.28223,
-        "v": 0.80354
+        "u": 0.29561,
+        "v": 0.88981
       },
       "positionM": [
-        2081.0,
-        5924.9
+        2179.7,
+        6561.0
       ],
       "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1206",
-          "score": 2.996,
-          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
-        },
         {
           "siteId": "site.free.roadside-0029",
           "score": 2.849,
@@ -13912,19 +14134,24 @@
           "siteId": "site.free.any-firm-ground-1317",
           "score": 2.843,
           "whyLost": "too close to place.imperial-penal-south.blackrose-prison"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1319",
+          "score": 2.836,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 482 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.basin-hearth-house (+1.47).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 132 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "seasonal floodplain",
-        "dangerBand": 3,
-        "distanceToRouteM": 482.5,
-        "distanceToWaterM": 5.5,
-        "score": 3.496
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 131.6,
+        "distanceToWaterM": 55.9,
+        "score": 2.838
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [
           {
@@ -13939,7 +14166,7 @@
           }
         ],
         "clearable": true,
-        "respawn": "none"
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "lore-reveal",
@@ -13948,7 +14175,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "Nobody has taken a blade off this field in sixteen centuries, and no grave-singer will stake it.",
+        "hook": "Nobody has taken a blade off this field in sixteen centuries. No grave-singer will drive a pole in it.",
         "reviewed": true
       },
       "interior": {
@@ -14015,8 +14242,8 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A vault under a ruined works, sealed by the people who found what had grown in it and left the door welded.",
-        "siteAdvantages": "A stone undercroft with one door and no other opening — which is why sealing it worked.",
-        "occupantsMotive": "The voriplasm. It has been sealed long enough that the seal is now the archaeology.",
+        "siteAdvantages": "A stone undercroft with one door and no other opening.",
+        "occupantsMotive": "The voriplasm. It has been sealed in there for two hundred years.",
         "pressures": "The sealing party's note is still nailed to the door and is perfectly explicit.",
         "wouldChangeIf": "Opening it would release something the province has a specific and unhappy history with."
       },
@@ -14089,6 +14316,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -14127,7 +14356,7 @@
           "unique-item"
         ],
         "impact": "major",
-        "hook": "The party that sealed the door nailed a board to it saying what is inside, and the board is still legible.",
+        "hook": "The party that sealed the door nailed a board to it saying what is inside. The board is still legible.",
         "reviewed": true
       },
       "interior": {
@@ -14155,7 +14384,8 @@
             "role": "swarm",
             "registerRef": null,
             "danger": "D3",
-            "count": "swarm"
+            "count": "swarm",
+            "note": "crawlers feeding at the edge of the seep"
           }
         ],
         "npcs": [],
@@ -14179,38 +14409,38 @@
         ]
       },
       "position": {
-        "u": 0.36738,
-        "v": 0.83395
+        "u": 0.21455,
+        "v": 0.7091
       },
       "positionM": [
-        2708.9,
-        6149.1
+        1582.0,
+        5228.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1338",
-          "score": 1.594,
-          "whyLost": "too close to place.imperial-penal-south.kothringi-ruin-basin"
+          "siteId": "site.free.any-shallow-marsh-1052",
+          "score": 1.986,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-firm-ground-1353",
-          "score": 1.251,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1027",
+          "score": 1.965,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         },
         {
-          "siteId": "site.free.any-firm-ground-1300",
-          "score": 1.241,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-1053",
+          "score": 1.825,
+          "whyLost": "too close to place.naga-kur-deeps.root-gallery-blight-warren"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 30 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.wisp-lure-basin (+0.56).",
+      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 168 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.marsh-giant-ground-basin (+2.20).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 29.5,
-        "distanceToWaterM": 5.5,
-        "score": 1.868
+        "regionClass": "rootland deep marsh",
+        "dangerBand": 5,
+        "distanceToRouteM": 168.2,
+        "distanceToWaterM": 76.4,
+        "score": 2.706
       }
     },
     {
@@ -14316,10 +14546,10 @@
         "palette": "Shed timber, grain sack, brown river.",
         "materials": "Bamboo and mud-mother frames with shed roofing over open sides, market canvas, plank scales at every stall, one landmark scale-house; deliberately nothing defensible.",
         "signatureFeature": "A grid of open-sided trading sheds along a river junction, each with its own scale, and not one wall or gate anywhere in the town.",
-        "condition": "Cheap, new and constantly rebuilt; nothing here is meant to last longer than the arrangement that made it profitable.",
+        "condition": "Cheap, new and constantly rebuilt; nothing here is meant to last.",
         "mood": "Cheerfully evasive.",
-        "approach": "You arrive along the river and there is no edge to the town — the sheds simply start.",
-        "senses": "Weighing all day — a hundred scales, a hundred arguments; grain dust; river; the total absence of any gate-bell."
+        "approach": "You arrive along the river and there is no edge to the town. The sheds simply start.",
+        "senses": "Weighing all day, a hundred scales and a hundred arguments; grain dust; river; the total absence of any gate-bell."
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -14332,8 +14562,12 @@
       ],
       "discovery": "road",
       "questHooks": {
-        "provisions": [],
-        "tierOwnership": null
+        "provisions": [
+          "quest.provision.lq25-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "LQ25 · tier-3"
       },
       "rumourPoolKey": "rumour.threewater",
       "deedCounterKeys": [],
@@ -14371,12 +14605,12 @@
         }
       ],
       "position": {
-        "u": 0.24431,
-        "v": 0.89726
+        "u": 0.39787,
+        "v": 0.84066
       },
       "positionM": [
-        1801.4,
-        6615.9
+        2933.7,
+        6198.6
       ],
       "candidatesConsidered": [
         {
@@ -14385,24 +14619,24 @@
           "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
-          "siteId": "site.free.any-firm-ground-1280",
-          "score": 3.507,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0022",
+          "score": 3.555,
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         },
         {
           "siteId": "site.free.roadside-0025",
           "score": 3.495,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.imperial-penal-south.blackrose"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 33 m from the nearest route; at the water's edge; its choice #4 landform; won on route, landform, region; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 40 m from the nearest route; at the water's edge; no free 'confluence' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 33.4,
-        "distanceToWaterM": 19.8,
-        "score": 3.555
+        "distanceToRouteM": 39.5,
+        "distanceToWaterM": 0.0,
+        "score": 2.986
       },
       "hostility": {
         "baseline": "friendly",
@@ -14522,7 +14756,7 @@
         "siteAdvantages": "Directly beside the floating road, on the fen side.",
         "occupantsMotive": "Whatever makes the lights. It has been doing it for as long as the road has been there.",
         "pressures": "People walking to the Rose at night have followed them off the road; Vaunting posts a lamp-keeper in the bad months.",
-        "wouldChangeIf": "A properly lit causeway would end the deaths and cost Vaunting money it does not have."
+        "wouldChangeIf": "A properly lit causeway would end the deaths, but cost Vaunting money it does not have."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -14592,6 +14826,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -14656,38 +14892,38 @@
         ]
       },
       "position": {
-        "u": 0.39229,
-        "v": 0.91658
+        "u": 0.36738,
+        "v": 0.83395
       },
       "positionM": [
-        2892.6,
-        6758.4
+        2708.9,
+        6149.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0577",
-          "score": 2.778,
-          "whyLost": "too close to place.imperial-penal-south.rose-supply-town"
+          "siteId": "site.free.any-shallow-marsh-1233",
+          "score": 3.208,
+          "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1337",
-          "score": 2.749,
+          "siteId": "site.scour.fringe-marsh.water-narrows-052",
+          "score": 2.292,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1282",
-          "score": 2.714,
+          "siteId": "site.free.any-shallow-marsh-1230",
+          "score": 2.087,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.voriplasm-vault (+0.56).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 30 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.necromantic-dig (+1.99).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 224.9,
-        "distanceToWaterM": 31.0,
-        "score": 2.744
+        "distanceToRouteM": 29.5,
+        "distanceToWaterM": 5.5,
+        "score": 3.666
       }
     },
     {
@@ -14786,6 +15022,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -14945,6 +15183,8 @@
       "discovery": "document",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,

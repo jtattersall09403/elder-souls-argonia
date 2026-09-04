@@ -1,210 +1,161 @@
-# Culture registers
+# Speech registers — the layered model
 
-> **Read only the rows your text touches.** Rules that apply to everyone are in
-> [style-guide.md](style-guide.md); character-level voice is the voice sheet
-> (quests 60 §46b). Router: [README](README.md).
+> **A speaker's voice is composed, not looked up.** There is no "the register
+> of region X". Argonia holds all ten Tamrielic races in the proportions given
+> by [world/92 §82](../world/92-demographics.md), and they do not all talk like
+> Argonians. Read §0 (composition rule) plus **your speaker's four rows**:
+> one race row, one upbringing row, one region row, one faction row.
+> Universal rules are in [style-guide.md](style-guide.md); the individual is
+> the voice sheet (quests 60 §46b). Router: [README](README.md).
+>
+> **Why layered:** Morrowind's own dialogue engine filters every line by Race,
+> Class, Faction, Rank, Region/Cell and disposition at once — the game composes
+> a voice from conditions rather than storing one voice per town. Evidence and
+> quoted lines: [research/speech-register-model-morrowind.md](../research/speech-register-model-morrowind.md).
 
-The eight rows are the province's **culture zones** — the same eight as the
-place catalogue's naming register
-([world/sources/catalogue/README.md](../../world/sources/catalogue/README.md)),
-so how a place is *named* and how its people *speak* stay in agreement. Each row
-carries a Morrowind register it is derived from, because the point of the
-research was to inherit a proven contrast set rather than invent eight from
-nothing.
+## 0. The composition rule
 
-## 0. What binds everywhere first
+```
+voice = RACE markers (§1) + UPBRINGING (§2) + REGION idiom (§3) + FACTION vocabulary (§4)
+        + the individual's voice sheet (quests 60 §46b)
+```
 
-**The Jel register** (quests 60 §45b, lore: topics/material-culture.md,
-`CANON_EXPLICIT`). Jel has no past or future tense, word order is fluid, and
-grammar is carried by body language — which is why Argonians speaking Tamrielic
-preface statements with an emotional qualifier: *"I erect the spine of…"*, *"I
-extend the claw of welcome, warrior."*, *"My rage-quill is engorged!"*
-Farewell **"Stay moist."** Curse **"Hist piss!"** Exclamation **"Host of
-Stormhold."** Outsiders are **ojel** (neutral); **lukiul** is the An-Xileel's
-slur for the assimilated.
+**Precedence when two layers conflict:**
 
-**Moderation is the rule and overuse is the failure mode: one qualifier per
-scene per speaker.** *Which* qualifier a character reaches for is
-characterisation; an office-hardened Argonian may have dropped them entirely
-when speaking to *ojel*, and a lukiul cannot use them naturally and it shows.
+1. **Faction wins on duty, for the words the institution owns** — forms of
+   address, procedure nouns, how an order is phrased. A Khajiit legionary says
+   *citizen* and *by the authority of the Cordon* because the Legion issues
+   those words to everyone who wears the cuirass.
+2. **Race markers survive underneath, at reduced strength.** Duty suppresses a
+   habit; it does not delete it. The same legionary still slips into illeism
+   off duty, when angry, or when speaking to another Khajiit — and *that slip
+   is the characterisation*.
+3. **Region supplies subject matter and place words to everyone**, whatever
+   their race or faction, if they live there. It rarely fights the other
+   layers; it fills them.
+4. **Upbringing beats birth race** wherever the two disagree. A Dunmer born in
+   Thorn is a Thorn speaker with Dunmer habits, not a Morrowind speaker.
+5. **The voice sheet beats all four** for a named C1/C2. Layers are the default
+   a character is written *against*; a deliberate exception is characterisation
+   as long as the reason is recorded on the sheet.
 
-**No phonetic accent, ever** (style guide §1.6). Every row below is marked by
-syntax, address terms and subject matter — nothing else.
+**Moderation is the rule and overuse is the failure mode.** At most **one race
+marker per scene per speaker**, and never in every line. A register is a
+seasoning, not a costume.
 
----
-
-## 1. `hist-heartland` — the interior tribes
-
-**Derived from:** Ashlander wise-woman and ashkhan speech (**Morrowind:Nibani
-Maesa**, **Morrowind:Sul-Matuul**, **Lore:Words of the Wind**).
-
-- **Short main clauses joined by *and* / *but*.** Near-total absence of
-  which/that subordination. The Morrowind proof: "He is dead, but he dreams he
-  lives. He hears laughter and love, but he makes monsters and ghouls."
-  (**Nibani Maesa**) — anaphora and triads carry the weight that syntax
-  doesn't.
-- **Address by category, not name** — *ojel*, and our equivalents of
-  *Clanfriend*. Naming and gift-giving are **performative acts**: "I name you
-  %PCName, Clanfriend of the Ashlanders." (**Sul-Matuul**) A conferred status
-  is conferred *in a sentence*, and it binds.
-- **Bluntness is not rudeness.** "You are in the wrong place, outlander. Leave,
-  now." (**Nibani Maesa**) The interior does not soften refusals.
-- **Proverb and riddle mode**: lowercase, unpunctuated, paired images — "the
-  eye of the needle lies in the teeth of the wind" (**Sul-Matuul**). Use
-  sparingly and never as decoration; a riddle must be *the* information.
-- **Epistemic honesty about their own knowledge**: "I only see what may be, not
-  what must be." / "it is a faulty memory, and we are mortal" (**Nibani
-  Maesa**). Our naheesh and root-elders should be the same — authoritative
-  about the past, careful about the future.
-- Jel qualifiers at full strength. Names in the **Jel** form (35-cast §54).
-- **Avoid:** Imperial abstractions, legal vocabulary, "perhaps".
-
-## 2. `naga-kur-deeps` — the Naga
-
-**Derived from:** the Sixth House and Daedric registers (**Morrowind:Dagoth
-Gares**, **Morrowind:Anhaedra**), *not* from generic monstrousness.
-
-- **Menace written as hospitality.** The single most effective antagonist trick
-  in Morrowind: "The Sixth House greets you… Here we share the sacraments of
-  flesh and blood." (**Dagoth Gares**) A Naga speaker is *courteous* and the
-  content is appalling. Never a snarl.
-- **Liturgical parallelism and noun-stacking**: "The Sixth House, the Sleeping
-  House, House Dagoth, the House of Lord Dagoth." Naming a thing several ways
-  is how conviction sounds. (Note this is the one licensed exception to the
-  no-tricolons rule — it is *in a mouth*, ritual, and never in `system` text.)
-- **The body is a subject, plainly**: **Anhaedra**'s "I long to feast on your
-  marrow" is coarse where Dagoth Gares is ceremonial. Split the zone the same
-  way: **rite-keepers are ceremonial, raiders are corporeal.**
-- Present tense; counts and stakes as imagery, matching the region's naming
-  register ("The Unmaking Yard", "Nine-Stakes Field").
-- **Avoid:** hissing spelled out, "sssss", broken grammar, cackling. The
-  research finding stands — Morrowind marks no race by error.
-
-## 3. `saxhleel-coast` — the coastal Argonian majority
-
-**Derived from:** Argonian first-person formality (**Morrowind:Huleeya**) plus
-the practical-trade slots (**Morrowind:Arrille**).
-
-- **Formal, guarded, and deflecting about their own culture** — the canon
-  Argonian move: "we have always been a private, even secretive people, and I
-  am not comfortable speaking in this manner. You might do better to look in
-  books, if you are curious." (**Huleeya**) This is the register's gift: it
-  lets an NPC *decline* to be an encyclopaedia and stay in character.
-- Complete sentences, few contractions, courteous even under threat.
-- **Practical advice given imperatively** when trade or safety is the subject.
-- Names overwhelmingly in the **translated Tamrielic verb-clause** form,
-  matching the region's place names ("Speaks-Below-The-Water").
-- Jel qualifiers present but worn smooth by daily contact with *ojel*.
-- **Avoid:** grandeur; the coast is competent, not mystical.
-
-## 4. `mercantile-coast` — the trade ports
-
-**Derived from:** Hlaalu (**Morrowind:Crassius Curio**, **Morrowind:Duke Vedam
-Dren**) and the merchant slots.
-
-- **Transactional and euphemistic.** Difficult things become *business*, an
-  *accommodation*, "a... trivial matter" (**Morrowind:Odral Helvi** — the
-  ellipsis does the work). Nobody here says the thing.
-- **Charm as a tool with a visible handle.** Crassius Curio's pet names
-  ("dumpling", "sweetie") are a verbal tic that is also a power move; give the
-  zone's brokers one repeatable formula each (quests 60 §46b item 5).
-- Contractions, rhetorical questions, prices in **drakes**.
-- **Two registers in one port**: the exonym-speaking clerk and the Argonian
-  quarter's verb-clause names sit side by side, and the seam is audible.
-- **Avoid:** open threats. A mercantile threat is a scheduling problem.
-
-## 5. `pirate-freeholds`
-
-**Derived from:** the criminal/gutter register (**Morrowind:Foryn Gilnith**,
-**Morrowind:Hainab Lasamsi**, **Morrowind:Sugar-Lips Habasi**).
-
-- **Shortest thing that can be shouted across water** — the same rule as the
-  zone's place names ("No-Tree", "Bundle Racks").
-- Elision and contraction ("take 'em"), mild profanity, the Dunmer loan-slurs
-  where a crew is mixed (*n'wah*, *s'wit*, *fetcher* — **Lore:Profanity**).
-- **Criminality by omission**, not declaration: what a smuggler doesn't say is
-  the characterisation.
-- Epithet names earned by an event, which the bearer may resent (35-cast §54).
-- **Avoid:** ceremony, long sentences, "arr". No pirate-speak pastiche.
-
-## 6. `imperial-penal-south` — cordon, ledger and the Owing
-
-**Derived from:** Imperial officialdom (**Morrowind:Dumbuk gro-Bolak**,
-**Morrowind:Larrius Varro**).
-
-- **The manual page in a mouth.** Procedure recited neutrally, including when
-  monstrous: "Outlaws have no rights, and may be killed without scandal or
-  sanction." (**Dumbuk gro-Bolak**) The flatness *is* the horror; do not add
-  cruelty to the delivery.
-- **Deniability as a genre.** Larrius Varro's parable — "Once upon a time there
-  was a bad magistrate…" — is how an officer orders a killing without ordering
-  it. The Owing's administrators should have the same reflex.
-- Passive constructions and nominalisation are *permitted here and nowhere
-  else*, because bureaucratic evasion is the point. Do not let it leak.
-- **Avoid:** the officials being straightforwardly villainous. Several must be
-  decent people executing a bad instrument.
-
-## 7. `imperial-fringe` — colonials and the farming seam
-
-**Derived from:** Imperial commoners (**Morrowind:Eldafire**) and Legion
-officers (**Morrowind:Varus Vantinius**).
-
-- **Speaks modern**: contractions, sarcasm, rhetorical questions, moral
-  commentary on native custom — "the natives persist in their cruel and
-  barbaric 'traditions'." (**Eldafire**) Crucially, **the commentator is often
-  wrong**, and the game does not correct them.
-- The outsider's-eye register is our newcomer bridge: a colonial explaining
-  Argonia to the player is explaining it *badly*, which is more useful than a
-  correct lecture.
-- Chivalric vocabulary for the soldiery — honour, duel, oath
-  (**Vantinius**) — kept plain.
-- Two naming registers side by side (Colovian possessives vs Argonian verb
-  names) and **never mixed inside one name**.
-- **Avoid:** every colonial being a bigot; and any of them knowing more about
-  the Hist than the player.
-
-## 8. `dunmer-north` — the planters
-
-**Derived from:** Redoran honour-speech (**Morrowind:Bolvyn Venim**) and
-Telvanni (**Morrowind:Divayth Fyr**, **Morrowind:Aryon**).
-
-- **Redoran mode** — full sentences, abstract nouns (honour, courage, shame),
-  contempt delivered formally: "You are a fool. An ignorant, ill-mannered,
-  outlander fool." (**Venim**) Use for old plantation families.
-- **Telvanni mode** — fast, elliptical, sentence fragments, amoral, no moral
-  framing because power is assumed: "Not interesting. Sorry. Not your fault,
-  perhaps, but you are not interesting, and I can't waste energy talking to
-  boring people." (**Divayth Fyr**) And murder as procedure: "in House Telvanni
-  it is customary to settle disputes in this manner." (**Aryon**)
-- Honorific ladder **sera / muthsera / serjo** (peer / respected superior /
-  lord). *Muthsera* prefixes a title (**Morrowind:Ghost-Free Papers**); *serjo*
-  attaches to a name (**Morrowind:Serjo Avon Oran**). Who uses which for whom is
-  the fastest status information in a scene. (Evidence gap: no clean in-game
-  *sera* vocative was captured — the ladder is `LORE_INFERRED` from these two.)
-- Canon drift (35-cast §54): **a third-generation Argonia-born Dunmer speaks
-  better Jel than Dunmeris and knows it** — a rich seam of character.
-- **Avoid:** treating them as visiting Morrowind Dunmer. Two centuries without
-  an Empire have happened to them too.
+**No phonetic accent, ever, and no broken grammar to mark a race**
+(style guide §1.6). Morrowind marks no race by spelling errors. Every marker
+below is syntax, address terms, or subject matter.
 
 ---
 
-## 9. Cross-cutting registers
+## 1. RACE layer — what a speaker keeps anywhere in Tamriel
 
-| Register | Rule | Anchor |
+Applies to a speaker of that race *whatever* region or faction they are in.
+
+| Race | Marker (use one at a time) | Anchor |
 |---|---|---|
-| **Nisswo / Sithis clergy** | Doctrinal, numbered structures, one mandatory formula used every time (Morrowind's "(Blessed Be Their Holy Names)"). Preaching *shunatei* is consolation, not callousness (quests 60 §45c) | **Lore:The Anticipations**, **Morrowind:Tholer Saryoni** |
-| **Shadowscales** | Understatement. Divinity and killing are both written small: "When I was young like you, I was very impatient. So I will keep our business short." | **Morrowind:Vivec (god)** |
-| **The An-Xileel** | Political certainty; *lukiul* as a weapon; invitation rather than threat | **Morrowind:Sleepers Awake** |
-| **Guards and wardens** | One vocative carries the whole relationship — *citizen* to the compliant, *ojel* to the suspect. Idle barks of four words | **Morrowind:Ordinator** |
-| **Khajiit** | Third-person self-reference (illeism), present tense, no contractions — but not absolute; the group takes "we" | **Morrowind:Ajira**, **Morrowind:Sugar-Lips Habasi** |
-| **Texture NPCs (C4)** | One line of specificity, no worldview. Trade and place, not backstory | quests 35-cast §59 |
+| **Argonian (Saxhleel)** | Jel has no past or future tense and carries grammar in body language, so Tamrielic comes out prefaced by an **emotional qualifier**: *"I erect the spine of…"*, *"I extend the claw of welcome, warrior."*, *"My rage-quill is engorged!"* Farewell **"Stay moist."**; curse **"Hist piss!"**; exclamation **"Host of Stormhold."** Outsiders are **ojel** (neutral). Formal, guarded, deflecting about their own culture: *"we have always been a private, even secretive people…"* | **Morrowind:Huleeya**; lore topics/material-culture.md, `CANON_EXPLICIT` |
+| **Khajiit** | Third-person self-reference (illeism) — *this one*, or their own name — present tense, few contractions. **Not absolute**: a group takes "we", and educated or long-settled Khajiit drop it under pressure of business | **Morrowind:Ajira**, **Morrowind:Sugar-Lips Habasi** |
+| **Dunmer** | The honorific ladder **sera / muthsera / serjo** (peer / respected superior / lord) — who uses which for whom is the fastest status information in a scene. Abstract honour-nouns in formal mouths; the loan-slurs *n'wah*, *s'wit*, *fetcher* in coarse ones | **Morrowind:Bolvyn Venim**, **Morrowind:Ghost-Free Papers**, **Lore:Profanity** |
+| **Imperial** | Officialese: procedure recited neutrally, legal vocabulary, nominalisation, deniability. Also the colonial commentator — contractions, sarcasm, confident wrong opinions about native custom | **Morrowind:Dumbuk gro-Bolak**, **Morrowind:Larrius Varro**, **Morrowind:Eldafire** |
+| **Nord** | Short declaratives, no hedging, an oath or a blunt boast where another race would qualify; drink, weather and cold as reference points. Refuses euphemism — the opposite pole to the Imperial clerk | `LORE_INFERRED` (research §2) |
+| **Orc (Orsimer)** | Directness with no apology attached, plain contract language (a job is a job and a debt is a debt), oath and blood vocabulary used literally rather than poetically. Often *more* correct and formal than expected — an Orc legionary out-procedures the Imperials | **Morrowind:Dumbuk gro-Bolak**; `LORE_INFERRED` |
+| **Bosmer** | Fast, familiar, wry; nicknames the player early; food, meat and the forbidden-plant edge as running subject; light on ceremony and heavy on the concrete | `LORE_INFERRED` from Morrowind Bosmer greetings |
+| **Breton** | Educated hedging — *perhaps*, *one might say* — courteous qualification, arcane or contractual precision. The race most likely to say a hard thing politely and at length | `LORE_INFERRED` |
+| **Redguard** | Terse and proverbial; a saying where an argument would go; sword, sea and ancestry as the metaphor stock; pride expressed as understatement | `LORE_INFERRED` |
+| **Altmer** | Precise diction, complete clauses, no contractions, condescension worn as courtesy; corrects the terms of a question before answering it | `LORE_INFERRED` (research §2) |
+
+Where a row is `LORE_INFERRED`, a better in-game line found later should replace
+it — record the page in [99-sources](../world/99-sources.md).
 
 ---
 
-## 10. The convergence test
+## 2. UPBRINGING / CULTURE layer — who raised them, and when
 
-The failure this document exists to prevent is not a bad line — it is **eight
-cultures quietly growing one voice**. At every phase wrap, the reviewer reads
-the phase's dialogue with speaker IDs hidden and sorts it by culture
-([review-process.md](review-process.md) §3.4). If the sort fails, the rows above
-were not used.
+Applies across race. This is the layer that stops "all Dunmer sound alike".
+
+| Upbringing | What it does to the voice |
+|---|---|
+| **Marsh-raised (any race)** | Jel-shaped *word order* and marsh subject matter without the Argonian qualifiers: tide, egg, root, season, the Hist named casually as furniture. A third-generation Argonia-born Dunmer **speaks better Jel than Dunmeris and knows it** (35-cast §54) |
+| **Newcomer (any race, <10 years)** | Explains Argonia to the player, and explains it **badly**; exonyms for places the locals name in a verb-clause; asks questions a resident would not need to ask |
+| **Argonian, tribal / interior-raised** | Qualifiers at full strength; address by category, not name; proverb-and-riddle mode |
+| **Argonian, city / port-raised** | Qualifiers worn smooth by daily contact with *ojel*; complete sentences, practical imperatives |
+| **Lukiul (assimilated Argonian)** | **Cannot use the qualifiers naturally and it shows** — either omitted entirely or used one beat late. *Lukiul* is the An-Xileel's slur, so hearing it applied is an event |
+| **An-Xileel-era (raised after the rise)** | Political certainty; invitation rather than threat; the province as a settled fact rather than a contested one |
+| **Older generation (remembers the Empire / the Accession War)** | Provisional phrasing about the state; Imperial place-names used out of habit and corrected by the young |
+| **Slaver-descended / freed-descended (Dunmer and Argonian both)** | The subject both sides route around. Neither says it plainly; each says it differently |
+
+---
+
+## 3. REGION layer — the eight zones, for anyone who lives there
+
+These are the same eight zones as the place catalogue's naming register
+([world/sources/catalogue/README.md](../../world/sources/catalogue/README.md)),
+so how a place is *named* and what its people *talk about* stay in agreement.
+**A region row is idiom and subject matter, not a race.** An Imperial fisher in
+`saxhleel-coast` uses the coast's words; a Khajiit smuggler in
+`imperial-penal-south` knows the cordon's paperwork by name.
+
+| Zone | Local idiom and place words | What people here talk about | Avoid |
+|---|---|---|---|
+| `hist-heartland` | Short main clauses joined by *and* / *but*; near-total absence of subordination (**Morrowind:Nibani Maesa**). Naming and gift-giving are **performative** — a status conferred in a sentence binds (**Morrowind:Sul-Matuul**). Proverb mode, lowercase and unpunctuated, only when the riddle *is* the information | Root, tree-health, season, who is owed what; outsiders as a category | Imperial abstractions, legal vocabulary, "perhaps" |
+| `naga-kur-deeps` | **Menace written as hospitality** (**Morrowind:Dagoth Gares**) — courteous delivery, appalling content, never a snarl. Liturgical parallelism and noun-stacking (the one licensed tricolon exception, in a mouth only). Counts and stakes as imagery | Rite, flesh, tally, what the deeps are owed. Rite-keepers ceremonial, raiders corporeal (**Morrowind:Anhaedra**) | Spelled-out hissing, cackling, broken grammar |
+| `saxhleel-coast` | Practical advice given imperatively; verb-clause place names used unselfconsciously | Tide, catch, wrecks, passage, safety on water | Grandeur — the coast is competent, not mystical |
+| `mercantile-coast` | Transactional euphemism: difficult things become *business*, an *accommodation*, "a... trivial matter" (**Morrowind:Odral Helvi**). Prices in **drakes**. Two naming systems side by side, and the seam is audible | Cargo, licence, who is late paying, whose quarter is whose | Open threats — a mercantile threat is a scheduling problem |
+| `pirate-freeholds` | The shortest thing that can be shouted across water. Elision and contraction; mixed-crew loan-slurs. **Criminality by omission** — what is not said is the characterisation | Weather, shares, the next hull, who is ashore | Ceremony, long sentences, "arr" |
+| `imperial-penal-south` | **The manual page in a mouth**: procedure recited flatly, including when monstrous — *"Outlaws have no rights, and may be killed without scandal or sanction."* (**Morrowind:Dumbuk gro-Bolak**). Deniability as a genre (**Morrowind:Larrius Varro**). Passive voice and nominalisation are permitted **here and nowhere else** | The ledger, the Owing, sentences, transfers, what the paperwork will bear | Everyone being straightforwardly villainous; several must be decent people running a bad instrument |
+| `imperial-fringe` | Modern speech: contractions, sarcasm, rhetorical questions, moral commentary on native custom that **the game does not correct** (**Morrowind:Eldafire**). Chivalric vocabulary for the soldiery, kept plain (**Morrowind:Varus Vantinius**) | Harvest, roads, the border, whether any of this was worth it | Every colonial being a bigot; anyone knowing more about the Hist than the player |
+| `dunmer-north` | Two modes in one zone. **Redoran**: full sentences, abstract nouns, contempt delivered formally (**Morrowind:Bolvyn Venim**). **Telvanni**: fast, elliptical, fragmentary, amoral because power is assumed (**Morrowind:Divayth Fyr**, **Morrowind:Aryon**) | Plantation, ash, lineage, the crystal trade, the war two centuries back | Treating residents as visiting Morrowind Dunmer — two centuries without an Empire happened to them too |
+
+---
+
+## 4. FACTION / CLASS layer — the words an institution issues
+
+Applies to **every** member regardless of race, and governs on-duty speech.
+
+| Institution | Imposed vocabulary and address | Anchor |
+|---|---|---|
+| **Imperial Legion / cordon guard** | *citizen* to the compliant, the suspect's status-noun to the rest; four-word idle barks; orders as regulation numbers; honour/oath/duty kept plain | **Morrowind:Ordinator**, **Morrowind:Varus Vantinius** |
+| **The Owing (penal administration)** | Debt and ledger nouns for people; sentences described as balances; the passive voice carve-out | region row `imperial-penal-south` |
+| **Nisswo / Sithis clergy** | Doctrinal, numbered structures, one mandatory formula used every time (Morrowind's "(Blessed Be Their Holy Names)"). Preaching *shunatei* is consolation, not callousness (quests 60 §45c) | **Lore:The Anticipations**, **Morrowind:Tholer Saryoni** |
+| **Shadowscales** | Understatement. Divinity and killing both written small: *"When I was young like you, I was very impatient. So I will keep our business short."* | **Morrowind:Vivec (god)** |
+| **The An-Xileel** | Political certainty; *lukiul* as a weapon; invitation rather than threat | **Morrowind:Sleepers Awake** |
+| **East Empire Company / chartered trade** | Contract nouns, tonnages, "the Company" as a person; complaint routed as procedure | `mercantile-coast` row |
+| **Smugglers and free crews** | Trade in euphemism (*cargo*, *passengers*); names withheld; a question answered with a different question | `pirate-freeholds` row |
+| **House Dres remnants** | Antique legal formality about property, applied to people, by speakers who no longer have the law behind them | **Morrowind:Bolvyn Venim** (register), `LORE_INFERRED` (Dres in 4E 48) |
+| **Class-conditioned (any faction)** | Guard, commoner, noble and scholar greet differently within one race — the shortest, cheapest variation available and the one most often forgotten | **Morrowind:Generic Dialogue** class filter |
+
+---
+
+## 5. Worked examples
+
+Same region, different composition — these must be sortable in a blind read.
+
+| Speaker | Race layer | Upbringing | Region (`imperial-penal-south`) | Faction | Resulting line |
+|---|---|---|---|---|---|
+| **Khajiit legionary** | illeism, suppressed on duty | Elsweyr-born, 12 years in post | cordon procedure nouns | Legion: *citizen*, regulation numbers | "Citizen, the transfer list closed at dusk. — Ah. This one will look again, but it closed at dusk." |
+| **Khajiit outlaw** | illeism at full strength | port-raised, no Legion | same ledger words, used as a threat to *avoid* | smuggler: euphemism, omission | "This one has passengers, not cargo. Khajiit does not ask what the ledger says. Does the ledger ask about Khajiit?" |
+| **Imperial legionary** | officialese, legalism | Cyrodiil-born newcomer | cordon procedure nouns | Legion: same forms of address | "Citizen. The list closed at dusk, and the list is the list. Take it up with the prefect in the morning." |
+
+Same market in Thorn, different races:
+
+| Speaker | Resulting line |
+|---|---|
+| **Argonian stallholder** (marsh-raised, no faction) | "I extend the claw of welcome. The eels came up short this tide, and I will not pretend otherwise. Stay moist." |
+| **Dunmer counting-house clerk** (Thorn-born, third generation, EEC) | "Sera. Short tide, short ledger — the Company will want it written that way regardless. You will find nobody here calls it the Accession quarter but the Company." |
+
+Note what the second speaker does *not* do: she has no Morrowind nostalgia, her
+Jel is better than her Dunmeris (36-cast, Dravyna Andalen), and *sera* is the
+only Dunmer thing left in the line.
+
+---
+
+## 6. The convergence test
+
+The failure this document exists to prevent is **everyone quietly growing one
+voice** — historically, the Argonian one, because the province is
+Argonian-majority and the register file used to assume it. At every phase wrap
+the reviewer reads the phase's dialogue with speaker IDs hidden and sorts it by
+**race and by region** ([review-process.md](review-process.md) §3.4–3.5). If
+either sort fails, the layers above were not used.

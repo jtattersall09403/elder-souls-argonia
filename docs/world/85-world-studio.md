@@ -85,14 +85,42 @@ it is stale). One dot per place: **colour = region zone** (the
 `society.CULTURES` palette, embedded in the export so studio and Python
 pictures agree), **size = importance tier** (0 largest), **dashed pale outline
 = ruined / abandoned / drowned**. Filters: region, tier, class, danger tier,
-density layer, text search on name/id. Hover shows name · type · tier; click
-opens the record with its five `why` fields and `whySiteWon` prominent and a
-**Fly here** button (the map's click-to-spawn). Everything round-trips through
-the URL: `pr`, `pt`, `pc`, `pd`, `pl` (comma lists), `pq` (search), `place`
-(selected id — implies the layer on), `tracks=1` (the thin "Minor tracks"
-layer from `routes-minor.json`, tolerated absent), `sites=1` (terrain-scour
-candidate-sites underlay). Types: `PlottedPlacesBundle` / `MinorTracksBundle`
-in `packages/contracts`. Code: `apps/world-studio/src/places/`.
+density layer, **hostility stance**, **purpose primary/impact**, **interior
+kind and family**, the **dungeon-like** shortcut (interior kind ∈ delve /
+dungeon / complex / warren), the **underwater-entrance** shortcut (entrance
+`underwater-entry` or `underwaterAccess ≠ none` — those dots also carry a
+dashed **cyan ring**), and text search on name/id. Hover shows name · type ·
+tier; click opens the record with its five `why` fields and `whySiteWon`
+prominent, the schema-v2 blocks (**player purpose** + hook, **stance** with
+owner and one-line "→ hostile when …" flips, **interior**, **contents** as one
+short line per creature / NPC / loot slot, **travel station** with destinations
+by name, and **quest linkage**: `questHooks.provisions` — free prose, not ids —
+and `tierOwnership`) and a **Fly here** button (the map's click-to-spawn).
+Everything round-trips through the URL: `pr`, `pt`, `pc`, `pd`, `pl`, `ps`
+(stance), `pp` (purpose), `pi` (impact), `pk` (interior kind), `pf` (interior
+family) as comma lists, `pdg=1` / `puw=1` (the two shortcuts), `pq` (search),
+`place` (selected id — implies the layer on), `tracks=1` (minor land tracks),
+`sites=1` (terrain-scour candidate-sites underlay). Both panels collapse to a
+one-line header and sit at the bottom corners so the map stays visible. Types:
+`PlottedPlacesBundle` (schemaVersion **2**) / `MinorTracksBundle` in
+`packages/contracts`. Code: `apps/world-studio/src/places/`.
+
+### 68b. Clickable routes and waterways (Phase 11 Part 4 step 2)
+
+Under the place dots, `apps/world-studio/src/routes/` draws every route line
+and makes it clickable. Roads (`routes.json`) always; minor land tracks
+(`routes-minor.json`) with `tracks=1`; boat lanes (`waterways.json`) and minor
+channels (`waterways-minor.json`, tolerated absent) with **`water=1`** — water
+in cyan, land in tan, minor lines dashed. Clicking a line opens a bottom-centre
+details panel: id, name, class, mode, from/to, length km, and for lines whose
+`id` is in the route registry also confidence, sources, notes and aliases;
+minor routes with no registry id show their derived fields only. The registry
+is not read by the browser: `python3 -m worldgen.export_routes` projects
+`world/sources/routes/registry.json` to
+`apps/world-studio/public/province/routes-index.json` (`RoutesIndexBundle` in
+`packages/contracts`, registered in `tooling/repo-standards/data-registry.json`;
+`test_export_routes` fails when it is stale) and the layer joins on `id`. URL:
+`water=1`, `route=<id>`.
 
 ## 69. Agent-readable probes
 

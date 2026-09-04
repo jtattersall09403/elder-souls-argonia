@@ -1311,9 +1311,22 @@ wire later:** Part 6's settlement compiler (streets join the arriving
 track), vegetation clearing (a track is a thinned corridor), the navmesh
 bake (Module 72, preferred-road cost), the road-mesh/decal compiler
 (Phase 14 streaming), and Part 4's route-visibility sweep (major routes
-only today). Boat-lane *minor* channels (canoe routes to interior places)
-are not derived yet — the boat cost surface exists in `routes.py`; a
-Part 3c when Phase 9 boats need them.
+only today). **Part 3c is now done (2026-09-04, owner ask "display all
+waterways on the map including the minor ones"):**
+`worldgen.compile_minor_waterways` derives the minor WATER network the same
+way, on the Phase 4 boat cost surface with land impassable, from every
+water-bound place (boat/ferry/lighter/pilot station, landing, crossing,
+water-village, any place with underwater access or a boat travel-service
+edge) to the nearest major lane, navigable river corridor or already-solved
+station; classed channel / river / crossing. First run: 139 channels,
+49.4 km (80 channels, 44 rivers, 15 ferry crossings), 52 places already on
+a lane, 14 unconnected. Data
+`apps/world-studio/public/province/waterways-minor.json` (same shape and px
+frame as `routes-minor.json`), digest in the same
+`world/sources/sites/minor-routes.md`. `--registry` attaches a `geometryId`
+to route-registry entries whose endpoints resolve to a channelled place and
+flips them `solved: true` (6 on the first run); `route_registry --check`
+accepts `geometryId` as "solved by minor geometry".
 
 ## Part 4 step 1 — agent QA of the plot (2026-09-03)
 
@@ -1401,7 +1414,7 @@ relation targets; the `sitingPrefs` wording edits the review lists (finding
 | Location semantics (Trunk Span, Chasecreek) | `worldgen.audit_place_semantics` → `world/sources/sites/semantic-audit.md` (832 findings over 399 places; both owner cases caught); region passes resolve each as move / rewrite / swap / cut |
 | Collections near cities; distance to city | plot now has **city rings** (edge ≤350 m: wards/docks/works/shrines only; hinterland ≤1.2 km: no hostile or D4 lairs, farms/works/villages rewarded), a **hard danger gate** (lived-in classes ±1 band, others ±2), **hostile clustering** (≤3 unrelated in 800 m), **purpose repetition** along a road, and a **swap-improvement pass** after the greedy solve (the anti-greedy step); the report lists each city's hinterland purpose coverage and ring mix |
 | Major cities may shift | `worldgen.anchor_nudge` scans every tolerance circle: **Soulrest** (pin was half in the sea) and **Lilmoth** nudged 234 / 153 m onto firm ground; Stormhold, Thorn and Gideon have no flatter ground in their circles (steep everywhere — a Part 6 terracing job, not an anchor job); Archon/Helstrom/AC gain nothing. Rebuild chain re-run (society → refine → chunks → web → water → landcover) |
-| Minor roads painted + vegetation cleared | recorded as consumers in Part 3b; painting the minor network into the land cover and the scatter's route-clearing corridor are Phase 14/15 work — added to [polish-backlog](../polish-backlog.md) as a must-do before rollout |
+| Minor roads painted + vegetation cleared | **DONE in Phase 11** (owner ask 2026-09-04). `worldgen/routes_raster.py` rasterises both networks: tracks paint TRACK (2.5 m), footpaths PATH (1.2 m), boardwalks nothing; the same module stamps the scatter's clearance corridors (trunk-clear 14/8/4/3 m for road/track/footpath/boardwalk, groundcover thinned to 25%). Consumed by `refine_province`, `rebake_landcover` and `compile_scatter`; removed from the polish backlog |
 | Hostile places; conditional hostility | `hostility` block (baseline stance + typed flips in the quests-85 vocabulary, incl. new `placeCleared` / `placeStanceIs`); region passes raise hostile-baseline places toward the research target |
 | What you find there | `contents` block (creature / NPC / loot slots, `registerRef: null` until Phase 13) |
 | Point to the player | `playerPurpose` block (16 purposes, impact band, one-sentence hook) + typed `rewardProfile.kinds`; used by the plot (repetition, rings, reports) |
@@ -1429,10 +1442,74 @@ ids in `hostility.owner`; the build-out's faction system must register
 them (game-buildout-register). Vibe sheets re-rendered
 (`tooling/asset-pipeline/pipeline/vibe_sheet.py`, now committed).
 
+**Round 2 (touchpoint ③ feedback, 2026-09-04).** Owner rulings: match or
+exceed Morrowind's share of hostile/clearable places and carry *fewer*
+settlement/civic places than Morrowind (Black Marsh is wild, not a unified
+state) — the research doc's earlier reading of "don't overdo it" as a cap was
+wrong and is corrected; kits combine only pieces authored to combine (rule in
+CLAUDE.md; the vibe-sheet composites were removed); decisions must be
+asset-aware (CLAUDE.md rule; creature registry carries `assetAvailability`);
+"but" is allowed and the AI-tell research is folded into the text rules;
+speech registers are race + upbringing + region + faction, not one voice per
+region. Delivered: minor routes painted and cleared (`routes_raster.py`);
+Part 3c minor boat channels (145 paths); studio filters/popup/routes layer;
+world registries (decision 0044); the quest co-design pass (point 2 of the
+loop: 74/74 provisions placed, 18 proposed quests, 15 siting edits,
+`docs/quests/25`); the hostility pass then the structural rebalance
+(clearable-or-hostile 43 → 56 %, settlement+civic 29 → 22 %, 28 records
+converted, 19 deferred, 557 live); two more text passes. Then the **deliverability round**
+(owner: all place content must be buildable; engineering standard 12 added):
+[audit](../research/place-asset-deliverability-audit.md) over 237 types and
+818 records → 96 records repaired in place by seven region agents, one type
+redefined (bubble spire → fused-root tower, retexture only), `causeway`
+re-specified as pile-borne, `kothringi-lilmothiit-site` redefined as reused
+architecture + dressing; kits `dungeon-root-v1` (124), `settlement-root-v1`
+(140), `works-v1` (85) packaged from vault pieces (no downloads); alias
+targets now validated; `vault_inventory.py` reports every unpackaged
+authored set (733) and rigged creature (43). Open: the audit's
+position-dependent findings (527, high 26) for the next repair round; the
+"house on the stone quay" composition gap; the four faction id merge
+candidates in factions.json; the still-unsourceable forms (kiln, saltern,
+sluice, winding gear, hull-on-stocks, carved grave-stakes) stay written
+out of the prose until a set is found.
+
 **Schema**: places files are `schemaVersion: 2` (migration
 `worldgen.migrate_catalogue_v2`; new blocks required at `derived`); route
 registry `worldgen.route_registry` with ids stamped on `routes.json` /
 `waterways.json` by `compile_society`.
+
+### Quest ↔ place co-design pass (2026-09-04) — point 2 of the loop
+
+The owner asked when the two-way quest/place approach starts; the answer was
+"now", per the loop's own point 2 (*after the macro plot*), and it ran. A quest
+agent read the 566 plotted records against every provision in quests
+[20](../quests/20-world-provisions.md)/[30](../quests/30-main-quest.md)/[40](../quests/40-factions.md)/[50](../quests/50-side-quests.md)
+and reconciled both directions. **Provisions → places:** the 51 provision ids
+the quest tables declare, plus the 23 canon-supplied places and systems of
+20 §12b, now all name the catalogue record(s) that satisfy them — 149
+`quest.provision.*` ids written across 186 records, with `tierOwnership` on 244.
+Two provisions had a place before the pass. Four gaps needed a new record
+(`pirate-freeholds.upriver-hist-village` — the start region had no Hist at all,
+and MQ01's whole stake is a tree going quiet; `dunmer-north.the-standing-bid`,
+MQ07's floating auction; `dunmer-north.the-quiet-landing`, MQ08's cult
+safehouse; `hist-heartland.the-cut-circle`, MQ18's sermon house) and eight were
+closed by promoting deferred records — worst among them
+`saxhleel-coast.archon-lighthouse`, a **tier-0** provision (MQ14) whose only
+candidate was sitting in the reserve. Live records 566 → 578, every region
+inside budget, no offsetting deferrals taken because fullness is still an open
+owner question. **Places → quests:** eighteen PROPOSED rows added to
+[55-quest-index.md](../quests/55-quest-index.md) §47e from what the province now
+offers and the plan does not use — weighted at the two standing shape gaps
+(eleven are `WONDER`, `HAUNTING`, `SUCCESSION` or `RITE`), each naming its
+anchor places by id, none authored. **Move a dot:** fifteen `sitingPrefs` edits
+made for quest value (a sightline between the true light and the false one; the
+survey line laid on the omitted corridor; the boss put behind the Lost City
+rather than beside it). The join, the rules and the reverse view live in the new
+[docs/quests/25-quest-place-map.md](../quests/25-quest-place-map.md); the
+`questHooks` shape gained `tags` and `opportunity` so the places→quests
+direction is not thrown away. **Open:** the twelve new live records are
+unplotted — `python3 -m worldgen.macro_plot` and the studio export must be
+re-run by the lead, which is also what applies the fifteen siting edits.
 
 ## Owner Q&A (grows from Parts 2, 4 and 5)
 
@@ -1517,3 +1594,31 @@ will be kitbashed permanently, plan for it. Next sourcing priorities:
 Ships and Boats of Tamriel (SSE 41653, flat-bottomed hulls) and Skyfall's
 Sleeping Hist Tree Overhaul (SSE 116792, mesh variants for the ten hero
 Hist + cairns-as-grave-markers).
+
+### Part 4 step 2, round 2 — the hostile/settlement mix rebalance (2026-09-04)
+
+The owner's corrected target (research doc § Target, § 8b) is that at least
+55–65 % of places should be hostile and clearable, as in Skyrim and Morrowind,
+and that the province should hold no *more* settlement and civic fabric than
+Morrowind does. The catalogue was at 43 % dungeon-or-hostile and 29 %
+settlement-plus-civic. It is now **55.7 %** and **21.7 %**, with hostile
+baselines on **59 %** of non-settlement records, at **557 live records** (from
+576). No id was created or destroyed. 145 records had their stance rebalanced by
+rule against contents they already carried; 28 low-value settlement and civic
+records were converted into overrun, drowned, burnt or raider-held versions of
+themselves, keeping their names and getting fully rewritten prose in their
+region's register; 14 more dangerous places got an interior and a stance; 8
+honest interiors were added without changing a stance; 19 pure-density
+settlement and civic records were deferred with their edges parked in
+`relationsReserved`. Rest cadence improved (the one D3+ delve without a rest in
+range is now zero), every city keeps its core purposes and edge ring, and every
+region stays inside its hard floor. Housekeeping from the text reviewers landed
+in the same pass: 33 "Canon:" and "canon says" openers rewritten as plain
+in-world fact (the citations were already in `sources`), four factual conflicts
+fixed, the pirate freehold smithy renamed "The Chimney" in the sailor's-shorthand
+register, and the Xi-Tsei siting rationale moved out of `why.founding` into a new
+`sitingNote` field. Two tool bugs were root-caused rather than patched around:
+`macro_plot`'s hostile-clustering rule was a fixed count calibrated for the old
+mix and is now a share rule, and `compile_minor_routes` now refuses to start a
+footpath at a land cell further than `SNAP_M` from a water-sited record. Count
+bands re-derived; `npm test`, `npm run typecheck` and the worldgen suite green.

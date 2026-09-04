@@ -58,6 +58,55 @@
       "what": "Phase 11 Part 4 route registry — route.road.* / route.boat.* / route.track.* (worldgen.route_registry)",
       "idKey": "id",
       "collectionKey": "routes"
+    },
+    {
+      "path": "world/sources/registries/factions.json",
+      "what": "world registries — every group the world names (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/quests.json",
+      "what": "world registries — quest and questline ids (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/creatures.json",
+      "what": "world registries — creature register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/npcs.json",
+      "what": "world registries — NPC register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/items.json",
+      "what": "world registries — item register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/deeds.json",
+      "what": "world registries — deed counters named by deedCounterKeys (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
+    },
+    {
+      "path": "world/sources/registries/rumour-pools.json",
+      "what": "world registries — rumour pools named by rumourPoolKey (worldgen.registries)",
+      "idKey": "id",
+      "collectionKey": "entries",
+      "idShape": "flat"
     }
   ],
   "retired": []

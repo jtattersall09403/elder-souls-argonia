@@ -52,6 +52,7 @@ python3 -m worldgen.catalogue --check                    # schema v2 + cross-rec
 python3 -m worldgen.route_registry --check               # roads/lanes registry vs routes.json/waterways.json
 python3 -m worldgen.macro_plot                           # positions for every live record (+ owner-feedback checks in the report)
 python3 -m worldgen.compile_minor_routes                 # tracks/footpaths/boardwalks from the plot
+python3 -m worldgen.compile_minor_waterways --registry   # Part 3c: canoe channels/rivers/ferry crossings (--registry solves registry entries)
 python3 -m worldgen.audit_place_semantics                # prose-vs-ground contradictions (report only)
 python3 -m worldgen.anchor_nudge                         # scores alternative city pins inside their tolerance circles (report only)
 # one-shot, already applied: python3 -m worldgen.migrate_catalogue_v2
@@ -83,6 +84,13 @@ culture rules. Outputs are deterministic (fixed noise seed).
   `world/sources/regions/authored-overrides.json` (e.g. the jungle).
 - `worldgen/routes.py` — least-cost road corridors, boat cost surface,
   cost-distance fields.
+- `worldgen/routes_raster.py` — routes.json + routes-minor.json as rasters:
+  the ONE source of both the road/track/footpath ground paint (consumed by
+  `refine_province` and `rebake_landcover`) and the vegetation clearance
+  corridors (consumed by `compile_scatter`). Widths in metres via `scale.py`.
+  **Re-run `rebake_landcover` and then `compile_scatter` whenever either
+  route file changes** — the minor network is derived from the plot, so a
+  re-plot moves the paint.
 - `worldgen/society.py` — fixed danger (depth-into-marsh model, decision
   0004/0007) and lore-grounded culture territories.
 - `worldgen/refine_province.py` — Phase 6 province-wide refinement

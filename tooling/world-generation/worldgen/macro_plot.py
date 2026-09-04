@@ -120,10 +120,20 @@ HINTERLAND_HOSTILE_PENALTY = 0.9
 OPENING_ANCHOR = "alten-corimont"
 OPENING_RING_A_M, OPENING_RING_B_M = 250.0, 600.0
 OPENING_ALLOW = {"place.pirate-freeholds.the-wading-ground"}
-# Hostile places: ≤ 3 unrelated hostile-baseline places within 800 m (a bandit
-# territory with one owner is fine; three unrelated warbands in a valley is not).
+# Hostile places: a SHARE rule, not a fixed count (recalibrated 2026-09-04 for
+# the owner's hostile-mix ruling, docs/research/place-purpose-hostility-and-dungeon-balance.md
+# §8b). The old rule allowed 3 unrelated hostile-baseline places within 800 m.
+# That was calibrated when 85 of 576 records were hostile; once the province is
+# 55-65 % hostile-or-clearable, as Skyrim and Morrowind are, an 800 m circle
+# holds roughly fifty places and half of them are meant to be hostile, so a
+# fixed 3 rejects almost every hostile site and the plot cannot solve. The rule
+# now says: unrelated hostile neighbours may not exceed HOSTILE_CLUSTER_SHARE of
+# everything already plotted within HOSTILE_CLUSTER_M, and never bites below
+# HOSTILE_CLUSTER_FLOOR. One owner's territory is still free (owner match is
+# excluded from the count), which was the rule's real intent.
 HOSTILE_CLUSTER_M = 800.0
-HOSTILE_CLUSTER_MAX = 3
+HOSTILE_CLUSTER_FLOOR = 4
+HOSTILE_CLUSTER_SHARE = 0.7
 # Purpose repetition: the same primary purpose twice along one road within this
 # distance is wallpaper (research §5.3 rule 1, approximated pairwise).
 PURPOSE_REPEAT_ROUTE_M = 500.0
@@ -584,14 +594,17 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     # hostile clustering and purpose repetition against what is already plotted
     if plotted_meta is not None:
         hostile_near = 0
+        near_total = 0
         for oid, (ox, oz) in plotted.items():
             om = plotted_meta.get(oid)
             if om is None:
                 continue
             dist = math.hypot(c.x - ox, c.z - oz)
-            if d.stance == "hostile" and om.stance == "hostile" and dist <= HOSTILE_CLUSTER_M \
-                    and (d.owner is None or d.owner != om.owner):
-                hostile_near += 1
+            if dist <= HOSTILE_CLUSTER_M:
+                near_total += 1
+                if d.stance == "hostile" and om.stance == "hostile" \
+                        and (d.owner is None or d.owner != om.owner):
+                    hostile_near += 1
             if om.purpose == d.purpose and oid != d.bound_to and oid not in d.parents:
                 if dist <= PURPOSE_REPEAT_ANY_M:
                     parts["purpose"] = parts.get("purpose", 0.0) - 0.5
@@ -600,7 +613,7 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                     if not relaxed:
                         return -9.0, {"purpose": -9.0}
                     parts["purpose"] = parts.get("purpose", 0.0) - 0.4
-        if hostile_near >= HOSTILE_CLUSTER_MAX:
+        if hostile_near > max(HOSTILE_CLUSTER_FLOOR, HOSTILE_CLUSTER_SHARE * near_total):
             return -9.0, {"hostile-cluster": -9.0}
     if d.danger >= 4 and c.danger <= 2:
         parts["danger"] -= 0.8

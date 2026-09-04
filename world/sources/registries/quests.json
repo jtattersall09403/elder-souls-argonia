@@ -1,0 +1,3044 @@
+{
+  "schemaVersion": 1,
+  "domain": "quest",
+  "_": "Every quest and questline id. Codes (MQ01, LW03) are the authoring handles; ids are the stable save-safe form. Quest gates use docs/quests/85-condition-vocabulary.md, and reference these ids.",
+  "entries": [
+    {
+      "id": "quest.bc.bc01",
+      "name": "Chainbreakers BC01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.bc.bc02",
+      "name": "Chainbreakers BC02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.bc.bc03",
+      "name": "Chainbreakers BC03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.bc.bc04",
+      "name": "Chainbreakers BC04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.bc.bc05",
+      "name": "Chainbreakers BC05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.bc.bc06",
+      "name": "Chainbreakers BC06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Chainbreakers line; title and brief in docs/quests/40-factions.md.",
+      "code": "BC06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.chainbreakers",
+      "faction": "faction.chainbreakers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq01",
+      "name": "The Flu That Prays",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ01",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq02",
+      "name": "What the Water Keeps",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ02",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq03",
+      "name": "The Hunt Below the Hunt",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ03",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq04",
+      "name": "The Door That Bargains",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ04",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq05",
+      "name": "A Shadow With No Star",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ05",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq06",
+      "name": "The Feast of the Patient",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ06",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq07",
+      "name": "The Lover Who Stayed Wet",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ07",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.daedric.dq08",
+      "name": "The Mask of the First Speaker",
+      "kind": "daedric-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Daedric/oddity packet.",
+      "code": "DQ08",
+      "tier": "daedric",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg01",
+      "name": "Marsh Charter FG01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg02",
+      "name": "Marsh Charter FG02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg03",
+      "name": "Marsh Charter FG03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg04",
+      "name": "Marsh Charter FG04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg05",
+      "name": "Marsh Charter FG05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg06",
+      "name": "Marsh Charter FG06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg07",
+      "name": "Marsh Charter FG07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg08",
+      "name": "Marsh Charter FG08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg09",
+      "name": "Marsh Charter FG09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.fg.fg10",
+      "name": "Marsh Charter FG10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Marsh Charter line; title and brief in docs/quests/40-factions.md.",
+      "code": "FG10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.marsh-charter",
+      "faction": "faction.marsh-charter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.line.chainbreakers",
+      "name": "Chainbreakers line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline BC01-BC06; production depth 'standard'.",
+      "faction": "faction.chainbreakers",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.league-of-open-water",
+      "name": "League of Open Water line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline LW01-LW10; production depth 'standard'.",
+      "faction": "faction.league-of-open-water",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.main",
+      "name": "The Eye and the Root",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "The main quest spine (merged numbering, decision 0026).",
+      "faction": "faction.veiled-reed",
+      "milestone": 1,
+      "depth": "deep"
+    },
+    {
+      "id": "quest.line.many-root",
+      "name": "Many-Root line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline MR01-MR10; production depth 'deep'.",
+      "faction": "faction.many-root-conclave",
+      "milestone": 1,
+      "depth": "deep"
+    },
+    {
+      "id": "quest.line.marsh-charter",
+      "name": "Marsh Charter line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline FG01-FG10; production depth 'standard'.",
+      "faction": "faction.marsh-charter",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.night-reed",
+      "name": "Night-Reed line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline TG01-TG11; production depth 'deep'.",
+      "faction": "faction.night-reed-chapter",
+      "milestone": 1,
+      "depth": "deep"
+    },
+    {
+      "id": "quest.line.nisswo",
+      "name": "Nisswo line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline NI01-NI10; production depth 'deep'.",
+      "faction": "faction.nisswo",
+      "milestone": 1,
+      "depth": "deep"
+    },
+    {
+      "id": "quest.line.reed-sail",
+      "name": "Reed-Sail line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline RS01-RS10; production depth 'standard'.",
+      "faction": "faction.reed-sail-compact",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.rootworm-waykeepers",
+      "name": "Rootworm Waykeepers line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline RW01-RW05; production depth 'standard'.",
+      "faction": "faction.rootworm-waykeepers",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.shadowscales",
+      "name": "Shadowscales line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline SS01-SS10; production depth 'deep'.",
+      "faction": "faction.shadowscales",
+      "milestone": 1,
+      "depth": "deep"
+    },
+    {
+      "id": "quest.line.sunken-archive",
+      "name": "Sunken Archive line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline SA01-SA10; production depth 'standard'.",
+      "faction": "faction.sunken-archive",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.thorn-ash-reed",
+      "name": "Thorn Ash-Reed line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline TA01-TA05; production depth 'standard'.",
+      "faction": "faction.thorn-ash-reed-accord",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.line.umbriel-witness",
+      "name": "Umbriel Witness line",
+      "kind": "questline",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Faction questline UW01-UW05; production depth 'standard'.",
+      "faction": "faction.umbriel-witness-society",
+      "milestone": 1,
+      "depth": "standard"
+    },
+    {
+      "id": "quest.local.lq01",
+      "name": "The Causeway That Sinks",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ01",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq02",
+      "name": "One Boat, Two Funerals",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ02",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq03",
+      "name": "The Crocodile Bell",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ03",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq04",
+      "name": "The Prisoner Who Stayed",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ04",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq05",
+      "name": "Dinner Outside the Walls",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ05",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq06",
+      "name": "The City Map That Lies",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ06",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq07",
+      "name": "A Rootworm's Fare",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ07",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq08",
+      "name": "The House with Three Floors of Water",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ08",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq09",
+      "name": "The Pusbottom Insurance Society",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ09",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq10",
+      "name": "The Khajiit Flotilla",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ10",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq11",
+      "name": "The Honest Pirate",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ11",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq12",
+      "name": "Wamasu Eggs for Sale",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ12",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq13",
+      "name": "The Estate's Old Door",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ13",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq14",
+      "name": "A Shrine for Two Empires",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ14",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq15",
+      "name": "The Bandits Who Count Boats",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ15",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq16",
+      "name": "The Drowned Testament",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ16",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq17",
+      "name": "The Lighthouse Without a Keeper",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ17",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq18",
+      "name": "A Marriage of Two Shores",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ18",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq19",
+      "name": "The Memorial That Moves",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ19",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq20",
+      "name": "The Physician's Family Book",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ20",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq21",
+      "name": "The Spear in the Reedbed",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ21",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq22",
+      "name": "The Scholar Who Chose the Marsh",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ22",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq23",
+      "name": "The Underwater Door",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ23",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq24",
+      "name": "The Healer's Mosquito",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ24",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq25",
+      "name": "The River Monster's Rent",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ25",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq26",
+      "name": "The Tree That Heard a Stranger",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ26",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq27",
+      "name": "A Grave Below the Root",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ27",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq28",
+      "name": "The Last Dry Room",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ28",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq29",
+      "name": "A Wreck with Living Cargo",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ29",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq30",
+      "name": "The Gates of Helstrom",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ30",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.lq31",
+      "name": "The Bonding Feast",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/50-side-quests.md"
+      ],
+      "notes": "Standalone local quest.",
+      "code": "LQ31",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.mq11",
+      "name": "The Surveyor's Lie",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "Ex-main-quest packet, retained as a standalone (decision 0026).",
+      "code": "MQ11",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.mq12",
+      "name": "Ash Written in Water",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "Ex-main-quest packet, retained as a standalone (decision 0026).",
+      "code": "MQ12",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.local.mq19",
+      "name": "The Child of Two Hist",
+      "kind": "local-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md"
+      ],
+      "notes": "Ex-main-quest packet, retained as a standalone (decision 0026).",
+      "code": "MQ19",
+      "tier": "local",
+      "milestone": 1,
+      "line": null,
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw01",
+      "name": "League of Open Water LW01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw02",
+      "name": "League of Open Water LW02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw03",
+      "name": "League of Open Water LW03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw04",
+      "name": "League of Open Water LW04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw05",
+      "name": "League of Open Water LW05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw06",
+      "name": "League of Open Water LW06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw07",
+      "name": "League of Open Water LW07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw08",
+      "name": "League of Open Water LW08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw09",
+      "name": "League of Open Water LW09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.lw.lw10",
+      "name": "League of Open Water LW10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the League of Open Water line; title and brief in docs/quests/40-factions.md.",
+      "code": "LW10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.league-of-open-water",
+      "faction": "faction.league-of-open-water",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq01",
+      "name": "No Name on the Work Roll",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ01",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq03",
+      "name": "A Dead Prisoner's Use",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ03",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq04",
+      "name": "The Tree That Turned Its Face",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ04",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq05",
+      "name": "Helstrom Behind the Thorns",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ05",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq06",
+      "name": "The Jewel Nobody Has Seen",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ06",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq07",
+      "name": "The First False Eye",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ07",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq08",
+      "name": "The Unbound Root",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ08",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq09",
+      "name": "The Map Beneath the Prison",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ09",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq10",
+      "name": "The Auction of Drowned Things",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ10",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq13",
+      "name": "Pusbottom Remembers",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ13",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq14",
+      "name": "The City of Two Shores",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ14",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq15",
+      "name": "The Eye Opens Once",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ15",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq16",
+      "name": "A Key Without a Lock",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ16",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq18",
+      "name": "A Sermon Against Roots",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ18",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq20",
+      "name": "Dreams for Sale",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ20",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq21",
+      "name": "The Black Sap House",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ21",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq22",
+      "name": "The Second Report",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ22",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq23",
+      "name": "Marks Only the Eye Can See",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ23",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq25",
+      "name": "Council Behind Closed Gates",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ25",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq26",
+      "name": "The Root of Accord",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ26",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq27",
+      "name": "The Road No Map Keeps",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ27",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq29",
+      "name": "The City Beneath the First Rain",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ29",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq31",
+      "name": "The Door That Was Promised",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ31",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.main.mq32",
+      "name": "Names Written in Sap",
+      "kind": "main-quest",
+      "status": "derived",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/30-main-quest.md"
+      ],
+      "notes": "Main quest 'The Eye and the Root'.",
+      "code": "MQ32",
+      "tier": "main",
+      "milestone": 1,
+      "line": "quest.line.main",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr01",
+      "name": "Many-Root MR01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr02",
+      "name": "Many-Root MR02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr03",
+      "name": "Many-Root MR03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr04",
+      "name": "Many-Root MR04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr05",
+      "name": "Many-Root MR05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr06",
+      "name": "Many-Root MR06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr07",
+      "name": "Many-Root MR07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr08",
+      "name": "Many-Root MR08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr09",
+      "name": "Many-Root MR09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.mr.mr10",
+      "name": "Many-Root MR10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Many-Root line; title and brief in docs/quests/40-factions.md.",
+      "code": "MR10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.many-root",
+      "faction": "faction.many-root-conclave",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni01",
+      "name": "Nisswo NI01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni02",
+      "name": "Nisswo NI02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni03",
+      "name": "Nisswo NI03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni04",
+      "name": "Nisswo NI04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni05",
+      "name": "Nisswo NI05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni06",
+      "name": "Nisswo NI06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni07",
+      "name": "Nisswo NI07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni08",
+      "name": "Nisswo NI08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni09",
+      "name": "Nisswo NI09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ni.ni10",
+      "name": "Nisswo NI10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Nisswo line; title and brief in docs/quests/40-factions.md.",
+      "code": "NI10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.nisswo",
+      "faction": "faction.nisswo",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs01",
+      "name": "Reed-Sail RS01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs02",
+      "name": "Reed-Sail RS02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs03",
+      "name": "Reed-Sail RS03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs04",
+      "name": "Reed-Sail RS04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs05",
+      "name": "Reed-Sail RS05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs06",
+      "name": "Reed-Sail RS06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs07",
+      "name": "Reed-Sail RS07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs08",
+      "name": "Reed-Sail RS08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs09",
+      "name": "Reed-Sail RS09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rs.rs10",
+      "name": "Reed-Sail RS10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Reed-Sail line; title and brief in docs/quests/40-factions.md.",
+      "code": "RS10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.reed-sail-compact",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rw.rw01",
+      "name": "Rootworm Waykeepers RW01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Rootworm Waykeepers line; title and brief in docs/quests/40-factions.md.",
+      "code": "RW01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.rootworm-waykeepers",
+      "faction": "faction.rootworm-waykeepers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rw.rw02",
+      "name": "Rootworm Waykeepers RW02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Rootworm Waykeepers line; title and brief in docs/quests/40-factions.md.",
+      "code": "RW02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.rootworm-waykeepers",
+      "faction": "faction.rootworm-waykeepers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rw.rw03",
+      "name": "Rootworm Waykeepers RW03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Rootworm Waykeepers line; title and brief in docs/quests/40-factions.md.",
+      "code": "RW03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.rootworm-waykeepers",
+      "faction": "faction.rootworm-waykeepers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rw.rw04",
+      "name": "Rootworm Waykeepers RW04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Rootworm Waykeepers line; title and brief in docs/quests/40-factions.md.",
+      "code": "RW04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.rootworm-waykeepers",
+      "faction": "faction.rootworm-waykeepers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.rw.rw05",
+      "name": "Rootworm Waykeepers RW05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Rootworm Waykeepers line; title and brief in docs/quests/40-factions.md.",
+      "code": "RW05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.rootworm-waykeepers",
+      "faction": "faction.rootworm-waykeepers",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa01",
+      "name": "Sunken Archive SA01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa02",
+      "name": "Sunken Archive SA02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa03",
+      "name": "Sunken Archive SA03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa04",
+      "name": "Sunken Archive SA04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa05",
+      "name": "Sunken Archive SA05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa06",
+      "name": "Sunken Archive SA06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa07",
+      "name": "Sunken Archive SA07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa08",
+      "name": "Sunken Archive SA08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa09",
+      "name": "Sunken Archive SA09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.sa.sa10",
+      "name": "Sunken Archive SA10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Sunken Archive line; title and brief in docs/quests/40-factions.md.",
+      "code": "SA10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.sunken-archive",
+      "faction": "faction.sunken-archive",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss01",
+      "name": "Shadowscales SS01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss02",
+      "name": "Shadowscales SS02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss03",
+      "name": "Shadowscales SS03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss04",
+      "name": "Shadowscales SS04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss05",
+      "name": "Shadowscales SS05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss06",
+      "name": "Shadowscales SS06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss07",
+      "name": "Shadowscales SS07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss08",
+      "name": "Shadowscales SS08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss09",
+      "name": "Shadowscales SS09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ss.ss10",
+      "name": "Shadowscales SS10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Shadowscales line; title and brief in docs/quests/40-factions.md.",
+      "code": "SS10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.shadowscales",
+      "faction": "faction.shadowscales",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.st.st01",
+      "name": "A Flag with No Ship",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Salt-Teeth arc inside the Reed-Sail pirate branch.",
+      "code": "ST01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.salt-teeth",
+      "questStatus": "concept"
+    },
+    {
+      "id": "quest.st.st02",
+      "name": "The Honest Prize",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Salt-Teeth arc inside the Reed-Sail pirate branch.",
+      "code": "ST02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.salt-teeth",
+      "questStatus": "concept"
+    },
+    {
+      "id": "quest.st.st03",
+      "name": "Mutiny at Low Tide",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Salt-Teeth arc inside the Reed-Sail pirate branch.",
+      "code": "ST03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.salt-teeth",
+      "questStatus": "concept"
+    },
+    {
+      "id": "quest.st.st04",
+      "name": "Black Sails at Soulrest",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Salt-Teeth arc inside the Reed-Sail pirate branch.",
+      "code": "ST04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.reed-sail",
+      "faction": "faction.salt-teeth",
+      "questStatus": "concept"
+    },
+    {
+      "id": "quest.ta.ta01",
+      "name": "Thorn Ash-Reed TA01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Thorn Ash-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TA01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.thorn-ash-reed",
+      "faction": "faction.thorn-ash-reed-accord",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ta.ta02",
+      "name": "Thorn Ash-Reed TA02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Thorn Ash-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TA02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.thorn-ash-reed",
+      "faction": "faction.thorn-ash-reed-accord",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ta.ta03",
+      "name": "Thorn Ash-Reed TA03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Thorn Ash-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TA03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.thorn-ash-reed",
+      "faction": "faction.thorn-ash-reed-accord",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ta.ta04",
+      "name": "Thorn Ash-Reed TA04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Thorn Ash-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TA04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.thorn-ash-reed",
+      "faction": "faction.thorn-ash-reed-accord",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.ta.ta05",
+      "name": "Thorn Ash-Reed TA05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Thorn Ash-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TA05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.thorn-ash-reed",
+      "faction": "faction.thorn-ash-reed-accord",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg01",
+      "name": "Night-Reed TG01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg02",
+      "name": "Night-Reed TG02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg03",
+      "name": "Night-Reed TG03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg04",
+      "name": "Night-Reed TG04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg05",
+      "name": "Night-Reed TG05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg06",
+      "name": "Night-Reed TG06",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG06",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg07",
+      "name": "Night-Reed TG07",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG07",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg08",
+      "name": "Night-Reed TG08",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG08",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg09",
+      "name": "Night-Reed TG09",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG09",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg10",
+      "name": "Night-Reed TG10",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG10",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.tg.tg11",
+      "name": "Night-Reed TG11",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Night-Reed line; title and brief in docs/quests/40-factions.md.",
+      "code": "TG11",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.night-reed",
+      "faction": "faction.night-reed-chapter",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.uw.uw01",
+      "name": "Umbriel Witness UW01",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Umbriel Witness line; title and brief in docs/quests/40-factions.md.",
+      "code": "UW01",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.umbriel-witness",
+      "faction": "faction.umbriel-witness-society",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.uw.uw02",
+      "name": "Umbriel Witness UW02",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Umbriel Witness line; title and brief in docs/quests/40-factions.md.",
+      "code": "UW02",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.umbriel-witness",
+      "faction": "faction.umbriel-witness-society",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.uw.uw03",
+      "name": "Umbriel Witness UW03",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Umbriel Witness line; title and brief in docs/quests/40-factions.md.",
+      "code": "UW03",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.umbriel-witness",
+      "faction": "faction.umbriel-witness-society",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.uw.uw04",
+      "name": "Umbriel Witness UW04",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Umbriel Witness line; title and brief in docs/quests/40-factions.md.",
+      "code": "UW04",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.umbriel-witness",
+      "faction": "faction.umbriel-witness-society",
+      "questStatus": "live"
+    },
+    {
+      "id": "quest.uw.uw05",
+      "name": "Umbriel Witness UW05",
+      "kind": "faction-quest",
+      "status": "placeholder",
+      "sources": [
+        "docs/quests/55-quest-index.md",
+        "docs/quests/40-factions.md"
+      ],
+      "notes": "Spine slot in the Umbriel Witness line; title and brief in docs/quests/40-factions.md.",
+      "code": "UW05",
+      "tier": "faction",
+      "milestone": 1,
+      "line": "quest.line.umbriel-witness",
+      "faction": "faction.umbriel-witness-society",
+      "questStatus": "live"
+    }
+  ]
+}

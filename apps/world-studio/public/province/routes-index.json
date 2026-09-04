@@ -1,0 +1,816 @@
+{
+  "schemaVersion": 1,
+  "source": "world/sources/routes/registry.json via worldgen.export_routes",
+  "routes": {
+    "route.boat.alten-corimont-helstrom": {
+      "name": "the Onkobra reach",
+      "mode": "boat",
+      "class": "lane",
+      "from": "alten-corimont",
+      "to": "helstrom",
+      "confidence": "CANON_DERIVED",
+      "notes": "The guarded channel of the MQ05 escorted convoy; the Shadowfen reach of the Onkobra south of Alten Corimont.",
+      "sources": [
+        "uesp:Lore:Onkobra River",
+        "docs/quests/30-main-quest.md#MQ05"
+      ],
+      "aliases": [
+        "boat.alten-corimont-helstrom",
+        "boat:helstrom-approach",
+        "boat:onkobra",
+        "boat:onkobra-upper",
+        "boat:onkobra-crossing"
+      ]
+    },
+    "route.boat.archon-estuary": {
+      "name": "the Archon estuary",
+      "mode": "boat",
+      "class": "channel",
+      "from": "archon",
+      "to": "helstrom",
+      "confidence": "CANON_DERIVED",
+      "solved": false,
+      "notes": "The estuary that feeds the provincial centre; root-transit station root-east-estuary sits on it.",
+      "sources": [
+        "uesp:Lore:Archon"
+      ],
+      "aliases": [
+        "boat:delta",
+        "boat:panther-basin"
+      ]
+    },
+    "route.boat.archon-thorn": {
+      "name": "the Padomaic run",
+      "mode": "boat",
+      "class": "lane",
+      "from": "archon",
+      "to": "thorn",
+      "confidence": "CANON_DERIVED",
+      "notes": "The Archon-coast pirate ground (waters.md §5).",
+      "sources": [
+        "uesp:Lore:Padomaic Ocean",
+        "uesp:Lore:Archon"
+      ],
+      "aliases": [
+        "boat:tearmouth-thorn",
+        "boat:east-river",
+        "boat:north-east-river"
+      ]
+    },
+    "route.boat.blackrose-lake-ferry": {
+      "name": "the lake stage",
+      "mode": "boat",
+      "class": "channel",
+      "from": "lake-ferry-stage",
+      "to": "blackrose",
+      "confidence": "LORE_IMPLIED",
+      "solved": true,
+      "notes": "The city ferry concession across the eleven-kilometre lake, calling at Longmont and the Spine rather than going round.",
+      "sources": [
+        "world/sources/lore/blackrose.md"
+      ],
+      "aliases": [
+        "ferry:lake-north-stage",
+        "boat:blackrose-lake"
+      ]
+    },
+    "route.boat.blackrose-lilmoth": {
+      "name": "the Oliis river",
+      "mode": "boat",
+      "class": "lane",
+      "from": "blackrose",
+      "to": "lilmoth",
+      "confidence": "CANON_DERIVED",
+      "notes": "Blackrose's south-flowing river toward Oliis Bay (waters.md: the three-river confluence).",
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "uesp:Lore:Oliis Bay"
+      ],
+      "aliases": [
+        "boat:lowmere",
+        "boat:lowmere-fig-market"
+      ]
+    },
+    "route.boat.deeps-inner-poling-line": {
+      "name": "the inner poling line",
+      "mode": "boat",
+      "class": "channel",
+      "from": "deeps-hire-stage",
+      "to": "deeps-dead-water",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The guided channel across the inner swamp: hire stage to Dead-Water Village via the Polers' Camp. Geometry awaits compile_minor_routes.",
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json (The Hire Stage, Dead-Water Village, The Polers' Camp)",
+        "uesp:Lore:Argonian (poling craft and guided marsh travel)"
+      ],
+      "aliases": [
+        "guide:inner-swamp-poling",
+        "ferry:deeps-hire-stage",
+        "boat:deeps-inner"
+      ]
+    },
+    "route.boat.gideon-onkobra": {
+      "name": "the Onkobra white water",
+      "mode": "boat",
+      "class": "channel",
+      "from": "gideon",
+      "to": "helstrom",
+      "confidence": "CANON_DERIVED",
+      "solved": true,
+      "notes": "Canon west-to-east river from near Topal Bay through Gideon; canoe channel, not a lane.",
+      "sources": [
+        "uesp:Lore:Onkobra River"
+      ],
+      "aliases": [
+        "boat:western-feeder",
+        "boat:three-rivers"
+      ]
+    },
+    "route.boat.lilmoth-anchorage": {
+      "name": "the Lighter run",
+      "mode": "boat",
+      "class": "channel",
+      "from": "lilmoth",
+      "to": "lighter-flotilla",
+      "confidence": "CANON_DERIVED",
+      "solved": false,
+      "notes": "Canon: big hulls cannot dock at Lilmoth, so everything is lightered between the deep anchorage and the quay.",
+      "sources": [
+        "uesp:Lore:Lilmoth",
+        "world/sources/lore/lilmoth.md"
+      ],
+      "aliases": [
+        "lighter:lilmoth-anchorage"
+      ]
+    },
+    "route.boat.lilmoth-archon": {
+      "name": "the Oliis coast",
+      "mode": "boat",
+      "class": "lane",
+      "from": "lilmoth",
+      "to": "archon",
+      "confidence": "CANON_DERIVED",
+      "notes": "Out of Oliis Bay (Jel: Tikmak) and up the Padomaic shore.",
+      "sources": [
+        "uesp:Lore:Oliis Bay",
+        "uesp:Lore:Lilmoth"
+      ],
+      "aliases": [
+        "route.boat.archon-lilmoth",
+        "boat:oliis-bay"
+      ]
+    },
+    "route.boat.lilmoth-keel-sakka": {
+      "name": "the Keel-Sakka",
+      "mode": "boat",
+      "class": "channel",
+      "from": "lilmoth",
+      "to": "murkmire-interior",
+      "confidence": "CANON_NAMED",
+      "solved": false,
+      "notes": "Inland from Lilmoth; the Tum-Taleel bridge toll (waters.md).",
+      "sources": [
+        "uesp:Lore:Keel-Sakka River"
+      ],
+      "aliases": [
+        "boat:keel-sakka"
+      ]
+    },
+    "route.boat.oliis-crossing": {
+      "name": "the Estuary crossing",
+      "mode": "boat",
+      "class": "channel",
+      "from": "oliis-ferry-stage",
+      "to": "oliis-boardwalk",
+      "confidence": "LORE_IMPLIED",
+      "solved": true,
+      "notes": "The half-mile ferry across the Oliis estuary on the coast road; older than the rebuilt city.",
+      "sources": [
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ],
+      "aliases": [
+        "ferry:oliis-crossing"
+      ]
+    },
+    "route.boat.soulrest-blackrose": {
+      "name": "Bramman's river",
+      "mode": "boat",
+      "class": "lane",
+      "from": "soulrest",
+      "to": "blackrose",
+      "confidence": "CANON_NAMED",
+      "solved": false,
+      "notes": "Canon navigable interior route (the Imperial Navy sailed it in 1E 1033); Phase 4's lane solver did not keep it — a Part 3c boat-lane candidate when the water graph is re-solved.",
+      "sources": [
+        "uesp:Lore:Soulrest",
+        "uesp:Lore:Red Bramman"
+      ],
+      "aliases": [
+        "boat:bramman-river"
+      ]
+    },
+    "route.boat.soulrest-lilmoth": {
+      "name": "the Southern Sea run",
+      "mode": "boat",
+      "class": "lane",
+      "from": "soulrest",
+      "to": "lilmoth",
+      "confidence": "CANON_DERIVED",
+      "notes": "Coastal sail between the two Southern Sea cities; Khajiit pirates keep a low profile here (waters.md).",
+      "sources": [
+        "uesp:Lore:Southern Sea",
+        "uesp:Lore:Topal Bay"
+      ],
+      "aliases": [
+        "boat:southern-sea",
+        "boat:topal-bay",
+        "boat:padomaic-coast"
+      ]
+    },
+    "route.boat.stormhold-alten-corimont": {
+      "name": "the Shadowfen channels",
+      "mode": "boat",
+      "class": "lane",
+      "from": "stormhold",
+      "to": "alten-corimont",
+      "confidence": "CANON_DERIVED",
+      "notes": "Stormhold's river network down to the freehold.",
+      "sources": [
+        "uesp:Lore:Shadowfen",
+        "uesp:Lore:Alten Corimont"
+      ],
+      "aliases": [
+        "route.boat.stormhold-alten-corimont",
+        "boat.alten-corimont-stormhold",
+        "boat:shadowfen-channels",
+        "boat:northern-river",
+        "boat:channel-cross-stormhold",
+        "route.northern-river"
+      ]
+    },
+    "route.road.alten-corimont-stormhold": {
+      "name": "the Corimont road",
+      "mode": "road",
+      "class": "road",
+      "from": "alten-corimont",
+      "to": "stormhold",
+      "confidence": "AGENT_INVENTED",
+      "notes": "The offshoot from the Border road down to the freehold; the opening hours' only road out (docs/research/opening-hours-and-start-area.md).",
+      "sources": [
+        "uesp:Lore:Alten Corimont"
+      ],
+      "aliases": [
+        "route.road.alten-corimont-stormhold",
+        "route.shadowfen-paths"
+      ]
+    },
+    "route.road.archon-gideon": {
+      "name": "the Long road",
+      "mode": "road",
+      "class": "road",
+      "from": "archon",
+      "to": "gideon",
+      "confidence": "AGENT_INVENTED",
+      "notes": "The interior crossing; the province's longest single leg.",
+      "sources": [
+        "uesp:Lore:Archon"
+      ],
+      "aliases": [
+        "route.road.archon-gideon"
+      ]
+    },
+    "route.road.blackrose-lilmoth": {
+      "name": "the Prison road",
+      "mode": "road",
+      "class": "road",
+      "from": "blackrose",
+      "to": "lilmoth",
+      "confidence": "AGENT_INVENTED",
+      "notes": "Imperial-penal-south administrative register: the road the cordons used.",
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "uesp:Lore:Lilmoth"
+      ],
+      "aliases": []
+    },
+    "route.road.bone-road-waystation-the-counted-dead": {
+      "name": "the bone road",
+      "mode": "road",
+      "class": "track",
+      "from": "bone-road-waystation",
+      "to": "the-counted-dead",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The western carry: staged a day apart, walked, never carted.",
+      "sources": [
+        "uesp:Lore:Argonian (bones carried home)",
+        "world/sources/catalogue/places-imperial-fringe.json (bone-road-waystation)"
+      ],
+      "aliases": [
+        "route.track.imperial-fringe.bone-road",
+        "walk:bone-road"
+      ]
+    },
+    "route.road.cartwrights-cross-fig-market": {
+      "name": "the north track",
+      "mode": "road",
+      "class": "track",
+      "from": "cartwrights-cross",
+      "to": "fig-market",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "notes": "The cart track off the Blackwood Road to the marsh-edge market; geometry awaits compile_minor_routes.",
+      "sources": [
+        "world/sources/catalogue/places-imperial-fringe.json (cartwrights-cross, fig-market)"
+      ],
+      "aliases": [
+        "route.track.imperial-fringe.north-track",
+        "road:north-track",
+        "cart:cross-fig-market"
+      ]
+    },
+    "route.road.deeps-narrows-drag": {
+      "name": "the Drag",
+      "mode": "road",
+      "class": "track",
+      "from": "deeps-narrows-west",
+      "to": "deeps-narrows-east",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "notes": "The hauled portage across the neck at the narrows; land route, hulls on bog-oak rollers.",
+      "sources": [
+        "world/sources/catalogue/places-naga-kur-deeps.json (The Drag, The Gate Narrows)"
+      ],
+      "aliases": [
+        "portage:deeps-narrows"
+      ]
+    },
+    "route.road.gideon-blackwood-road": {
+      "name": "the Blackwood Road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "gideon",
+      "to": "blackwood-road",
+      "confidence": "CANON_NAMED",
+      "notes": "The canon exit road to Leyawiin; playable edge closed (00-core acceptance rules).",
+      "sources": [
+        "uesp:Lore:Blackwood Road",
+        "uesp:Lore:Gideon"
+      ],
+      "aliases": [
+        "route.blackwood-road",
+        "route.pilgrim-way-blackwood"
+      ]
+    },
+    "route.road.gideon-ridge-runners-post": {
+      "name": "the Rim path",
+      "mode": "road",
+      "class": "footpath",
+      "from": "gideon",
+      "to": "ridge-runners-post",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "notes": "The runners' line north along the rim; no cart can use it, which is why letters go this way.",
+      "sources": [
+        "world/sources/catalogue/places-imperial-fringe.json (ridge-runners-post, the-hollow-pass-station)"
+      ],
+      "aliases": [
+        "route.track.imperial-fringe.rim-path",
+        "courier:rim",
+        "walk:rim-path"
+      ]
+    },
+    "route.road.gideon-soulrest": {
+      "name": "the Bog causeway",
+      "mode": "road",
+      "class": "road",
+      "from": "gideon",
+      "to": "soulrest",
+      "confidence": "AGENT_INVENTED",
+      "notes": "Flood-damaged legs are bridged or ferried, never absent (acceptance rule).",
+      "sources": [
+        "uesp:Lore:Gideon",
+        "uesp:Lore:Soulrest"
+      ],
+      "aliases": [
+        "route.blackwood-bog-causeway",
+        "route.marsh-edge-way"
+      ]
+    },
+    "route.road.gideon-stormhold": {
+      "name": "the Rim road",
+      "mode": "road",
+      "class": "road",
+      "from": "gideon",
+      "to": "stormhold",
+      "confidence": "AGENT_INVENTED",
+      "notes": "Skirts the western upland rim between the two frontier cities.",
+      "sources": [
+        "world/sources/lore/regions/blackwood-and-gloommire.md"
+      ],
+      "aliases": [
+        "route.rim-path",
+        "route.upland-track",
+        "route.gideon-north-track",
+        "route.north-track"
+      ]
+    },
+    "route.road.glenbridge-the-road-nisswo-house": {
+      "name": "the sermon road",
+      "mode": "road",
+      "class": "track",
+      "from": "glenbridge",
+      "to": "the-road-nisswo-house",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The pilgrim walk to the Sermon Xanmeer, kept by nisswo houses at walking intervals.",
+      "sources": [
+        "uesp:Lore:Nisswo",
+        "world/sources/catalogue/places-imperial-fringe.json (glenbridge)"
+      ],
+      "aliases": [
+        "route.track.imperial-fringe.sermon-road",
+        "road:pilgrim-way"
+      ]
+    },
+    "route.road.helstrom-blackrose": {
+      "name": "the Bogmother causeway",
+      "mode": "road",
+      "class": "road",
+      "from": "helstrom",
+      "to": "blackrose",
+      "confidence": "AGENT_INVENTED",
+      "notes": "Named for the Bogmother shrine the catalogue places on it.",
+      "sources": [
+        "uesp:Lore:Helstrom",
+        "uesp:Lore:Blackrose"
+      ],
+      "aliases": [
+        "route.bogmother-causeway"
+      ]
+    },
+    "route.road.soulrest-blackrose": {
+      "name": "the Lake road",
+      "mode": "road",
+      "class": "road",
+      "from": "soulrest",
+      "to": "blackrose",
+      "confidence": "AGENT_INVENTED",
+      "notes": "",
+      "sources": [
+        "uesp:Lore:Blackrose"
+      ],
+      "aliases": []
+    },
+    "route.road.stormhold-thorn": {
+      "name": "the Border road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "stormhold",
+      "to": "thorn",
+      "confidence": "AGENT_INVENTED",
+      "notes": "The two Morrowind-facing cities' trunk; dunmer-north English-compound register.",
+      "sources": [
+        "uesp:Lore:Stormhold",
+        "uesp:Lore:Thorn"
+      ],
+      "aliases": [
+        "route.northern-trunk",
+        "route.northern-caravan"
+      ]
+    },
+    "route.road.thorn-tear-road": {
+      "name": "the Tear road",
+      "mode": "road",
+      "class": "trunk",
+      "from": "thorn",
+      "to": "tear-road",
+      "confidence": "CANON_DERIVED",
+      "notes": "Canon exit toward Tear in Morrowind; playable edge closed.",
+      "sources": [
+        "uesp:Lore:Thorn",
+        "uesp:Lore:Tear"
+      ],
+      "aliases": [
+        "route.tear-road"
+      ]
+    },
+    "route.track.blackrose-cordon-line": {
+      "name": "the cordon line",
+      "mode": "road",
+      "class": "footpath",
+      "from": "plague-cordon",
+      "to": "flu-quarantine-village",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The Knahaten Flu cordon's own patrol path, still walked between the hundred-pace marker stones from the hills to the water.",
+      "sources": [
+        "uesp:Lore:Knahaten Flu",
+        "world/sources/lore/blackrose.md"
+      ],
+      "aliases": []
+    },
+    "route.track.bogmother-causeway": {
+      "name": "the Bogmother causeway",
+      "mode": "track",
+      "class": "causeway",
+      "from": "stormhold",
+      "to": "bogmother",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "Stone causeway from Stormhold to the xanmeer, ending in a ferry at the Black Stage.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "walk:bogmother-causeway",
+        "boat:bogmother-crossing",
+        "ferry:black-stage-hissmir"
+      ]
+    },
+    "route.track.dres-slave-road": {
+      "name": "the old Dres road",
+      "mode": "track",
+      "class": "track",
+      "from": "the-pen-yard",
+      "to": "the-sump-hamlet",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The Dres coffle road out of Morrowind. Legally dead, physically intact, and Sump Rows is on it.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "road:dres-slave-road"
+      ]
+    },
+    "route.track.gravel-six-ferry": {
+      "name": "the Gravel Six rope",
+      "mode": "track",
+      "class": "channel",
+      "from": "the-gravel-six",
+      "to": "sits-above-the-flood",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "A rope ferry that only works in the wet months, which is when the hamlet needs it.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "ferry:gravel-six-crossing"
+      ]
+    },
+    "route.track.hissmir-pilgrim-water": {
+      "name": "the pilgrim water",
+      "mode": "track",
+      "class": "channel",
+      "from": "hissmir",
+      "to": "murkwater",
+      "confidence": "LORE_IMPLIED",
+      "solved": true,
+      "notes": "The poled water route pilgrims take to the trial village; deliberately easy to find.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "boat:hissmir-pilgrim-water"
+      ]
+    },
+    "route.track.hist-heartland.basin-guide-crossing": {
+      "name": "the basin crossing",
+      "mode": "road",
+      "class": "track",
+      "from": "helstrom",
+      "to": "hist-heartland-deep-basin",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "sources": [
+        "world/sources/catalogue/places-hist-heartland.json"
+      ],
+      "aliases": []
+    },
+    "route.track.hist-heartland.helstrom-pilgrim-way": {
+      "name": "the pilgrim way to Helstrom",
+      "mode": "road",
+      "class": "footpath",
+      "from": "helstrom",
+      "to": "hist-heartland-pilgrim-south",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "sources": [
+        "uesp:Lore:Helstrom",
+        "world/sources/catalogue/places-hist-heartland.json"
+      ],
+      "aliases": []
+    },
+    "route.track.hist-heartland.helstrom-underway": {
+      "name": "the Underway",
+      "mode": "road",
+      "class": "track",
+      "from": "helstrom",
+      "to": "hist-heartland-second-junction",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "sources": [
+        "world/sources/catalogue/places-hist-heartland.json",
+        "docs/world/70-interiors.md"
+      ],
+      "aliases": []
+    },
+    "route.track.hist-heartland.poling-stages": {
+      "name": "the poling stages",
+      "mode": "boat",
+      "class": "channel",
+      "from": "hist-heartland-ux-aneet",
+      "to": "hist-heartland-tenders-landings",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "sources": [
+        "world/sources/catalogue/places-hist-heartland.json",
+        "docs/world/50-hydrology-climate.md"
+      ],
+      "aliases": []
+    },
+    "route.track.hutan-tzel-totem-line": {
+      "name": "the totem line",
+      "mode": "track",
+      "class": "channel",
+      "from": "hutan-tzel",
+      "to": "archon",
+      "confidence": "LORE_IMPLIED",
+      "solved": true,
+      "notes": "Totem-marked channel line downstream; needs a village guide to read.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "guide:hutan-tzel-totem-line"
+      ]
+    },
+    "route.track.last-landing-carry": {
+      "name": "the Last Landing carry",
+      "mode": "track",
+      "class": "footpath",
+      "from": "the-last-landing",
+      "to": "thorn",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "Where the sill stops hulls, porters carry inland; the whole reason the landing exists.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "porter:last-landing-inland",
+        "walk:inland-carry"
+      ]
+    },
+    "route.track.mercantile-coast.coast-road": {
+      "name": "the Coast road",
+      "mode": "road",
+      "class": "road",
+      "from": "soulrest",
+      "to": "lilmoth",
+      "confidence": "CANON_DERIVED",
+      "solved": false,
+      "notes": "The landward coast road between the two southern ports, counted in Imperial stages from Soulrest; no geometry until the minor-route compiler runs.",
+      "sources": [
+        "uesp:Lore:Soulrest",
+        "uesp:Lore:Lilmoth",
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ],
+      "aliases": [
+        "road:coast-soulrest-lilmoth"
+      ]
+    },
+    "route.track.mercantile-coast.lilmoth-north-gate": {
+      "name": "the North Gate road",
+      "mode": "road",
+      "class": "track",
+      "from": "lilmoth",
+      "to": "keel-sakka",
+      "confidence": "CANON_DERIVED",
+      "solved": false,
+      "notes": "Out of Lilmoth’s north gate to the head of poling water on the Keel-Sakka; the customs suburb and the beast ground sit on it.",
+      "sources": [
+        "uesp:Lore:Keel-Sakka River",
+        "world/sources/lore/lilmoth.md"
+      ],
+      "aliases": [
+        "road:lilmoth-north-gate"
+      ]
+    },
+    "route.track.mercantile-coast.nisswo-line": {
+      "name": "the Nisswo line",
+      "mode": "road",
+      "class": "footpath",
+      "from": "lilmoth",
+      "to": "teeth-of-sithis",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The walked pilgrim line to the Teeth of Sithis; Xal-Meht and the glow-fen are stages on it, and it is walked at night.",
+      "sources": [
+        "uesp:Lore:Nisswo",
+        "world/sources/lore/topics"
+      ],
+      "aliases": [
+        "guide:nisswo-pilgrim-line"
+      ]
+    },
+    "route.track.mercantile-coast.porters-carry": {
+      "name": "the Porters’ carry",
+      "mode": "road",
+      "class": "footpath",
+      "from": "head-of-tide",
+      "to": "interior",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "Portered cargo above the gravel sill where the river stops carrying hulls.",
+      "sources": [
+        "world/sources/catalogue/places-mercantile-coast.json"
+      ],
+      "aliases": [
+        "porter:head-of-tide-interior"
+      ]
+    },
+    "route.track.north-shadowfen-rootworm-line": {
+      "name": "the north rootworm line",
+      "mode": "track",
+      "class": "track",
+      "from": "stormhold",
+      "to": "gideon",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The tamed rootworm run through the north marsh; the Wild Mouth lies off it.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "rootworm:north-shadowfen"
+      ]
+    },
+    "route.track.pirate-freeholds.gang-walk": {
+      "name": "the Gang Walk",
+      "mode": "road",
+      "class": "boardwalk",
+      "from": "alten-corimont",
+      "to": "opening-work-camp",
+      "confidence": "AGENT_INVENTED",
+      "solved": false,
+      "sources": [
+        "world/sources/catalogue/places-pirate-freeholds.json",
+        "docs/quests/30-main-quest.md MQ01"
+      ],
+      "aliases": []
+    },
+    "route.track.rim-ledge-crossing": {
+      "name": "the ledge crossing",
+      "mode": "track",
+      "class": "footpath",
+      "from": "the-salt-ledge",
+      "to": "tear-road",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "The uncounted ledge line parallel to the pass, a person wide and no beasts.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "climb:rim-crossing"
+      ]
+    },
+    "route.track.rose-causeway": {
+      "name": "the Rose causeway",
+      "mode": "road",
+      "class": "track",
+      "from": "rose-supply-town",
+      "to": "blackrose-prison",
+      "confidence": "CANON_DERIVED",
+      "solved": false,
+      "notes": "The single causeway across open marsh to Blackrose Prison, watched from the moment you step on it; carries the supply town's ration traffic and passes the outworks.",
+      "sources": [
+        "uesp:Lore:Blackrose",
+        "world/sources/lore/blackrose.md"
+      ],
+      "aliases": [
+        "road:rose-causeway"
+      ]
+    },
+    "route.track.tear-pass-carry": {
+      "name": "the pass carry",
+      "mode": "track",
+      "class": "footpath",
+      "from": "the-pass-station",
+      "to": "tear-road",
+      "confidence": "LORE_IMPLIED",
+      "solved": false,
+      "notes": "Porter stages over the saddle into Morrowind; carts stop at the Tear Road Stage.",
+      "sources": [
+        "world/sources/catalogue/places-dunmer-north.json"
+      ],
+      "aliases": [
+        "porter:pass-tenmar"
+      ]
+    }
+  }
+}

@@ -1,0 +1,284 @@
+{
+ "id": "works-v1",
+ "description": "The WORKS prop set \u2014 the industry/infrastructure vocabulary the audit's \u00a75.4 requires every works place type to be described in (`shipyard`, `salt-pans`, `paddy-works`, `clay-pit-and-kiln`, `portage-slipway`, `bog-iron-bloomery`, `works-town`, `crystal-diggings`, `boatwright-yard`). There is no kiln, saltern, sluice-gate, winding-gear or hull-on-stocks mesh anywhere in the vault and none can be sourced, so this kit packages the vanilla pieces those descriptions must be built from: the blacksmith set (forge, workbench, bellows, sharpening wheel), the smelter and its coal (READ AS the kiln), tanning and drying and fish racks, hand/vendor carts and wheels, firewood stacks, the mine timber family (beams, planks, scaffold supports) and ore faces, the full stockade scaffold family (bases, tops, ramp, stairs, bridges, posts) for slipways/stocks/staging, the lumbermill WATER WHEELS, the farmhouse walkway gate boards (the only vanilla piece that reads as a SLUICE gate), dock steps/entry, and salt/basket/barrel/crate/sack/bucket/pitchfork/shovel/trough dressing for salt-pan and paddy terrain (the pans and bunds themselves are compiler-authored terrain and water, not meshes). Mud Mother Grove adds the Argonian fish rack, carapace oven, clay oven, baskets, urn and woven/snake fences so a works site reads Argonian. TROPICALISED (`textureOverlayPools: [\"tropical\"]`): almost every piece is vanilla-backed, so the overlay is what keeps the works hot and wet rather than Nordic grey; `clutter/stockade` is not covered by Tropical and uses the same textureAliases redirect as settlement-stilt-v1.",
+ "culture": "neutral-works",
+ "output": "tooling/asset-pipeline/output/kits/works-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "textureOverlayPools": [
+  "tropical"
+ ],
+ "textureAliases": {
+  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+ },
+ "snapLogic": {
+  "grid": "None \u2014 these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
+  "stockade-scaffold": "The one family here that DOES snap, in vanilla's own logic: a `stockadescaffoldbase<n>sided01` footing carries a `stockadescaffoldtop<n>sided01` deck of the matching side count (`n` = how many faces are railed), joined between decks by `bridge01/02`/`bridgenarrow`, climbed by `ramp01` or `stairs01`, and propped by `basesupport01` and `toppost01/02`. Keep side counts consistent around a platform or railings gap.",
+  "mine-timbers": "`minewoodbeam01-03` + `minewoodbeamshort01/02` + `minewoodplanks01-04` are vanilla's shoring vocabulary and are placed as a repeating rib along a tunnel or trench; `minescaffoldsupport01`/`minescaffoldbasesupport01(w)` are the vertical props.",
+  "reads": "Documented substitutions this kit is the answer to: kiln = `smelter01` + `smelter01coal01` + firewood stacks + drying racks; sluice gate = `walkwaycwallgate01/02` set in a compiler-cut channel; slipway/hull-on-stocks = stockade scaffold + `minewoodbeam` rollers + dock steps, with an SBoT hull raised on them (hull comes from the boat pools, not this kit); winding gear = mine scaffold and a shored tunnel mouth; saltern = terrain pans dressed with `saltpile`, baskets, rakes (`pitchfork01`), `shovel01` and a `horsetrough01` store; water-wheel works = `lumbermill01waterwheel01/02`.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "vanilla:clutter/blacksmith/blacksmithforge01/blacksmithforge01"
+  },
+  {
+   "asset": "vanilla:clutter/blacksmith/blacksmithnovicebellows01"
+  },
+  {
+   "asset": "vanilla:clutter/blacksmith/blacksmithsharpeningwheelstatic"
+  },
+  {
+   "asset": "vanilla:clutter/blacksmith/blacksmithworkbench01"
+  },
+  {
+   "asset": "vanilla:clutter/smelter/smelter01"
+  },
+  {
+   "asset": "vanilla:clutter/smelter/smelter01coal01"
+  },
+  {
+   "asset": "vanilla:clutter/smelter/coal01"
+  },
+  {
+   "asset": "vanilla:clutter/common/tanningrack01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrclutter/wrherbdryingrack01"
+  },
+  {
+   "asset": "vanilla:clutter/deadanimals/fishrack01"
+  },
+  {
+   "asset": "vanilla:clutter/deadanimals/fishrack02"
+  },
+  {
+   "asset": "vanilla:clutter/carts/handcart01"
+  },
+  {
+   "asset": "vanilla:clutter/carts/handcart01wheel"
+  },
+  {
+   "asset": "vanilla:clutter/carts/handcart02"
+  },
+  {
+   "asset": "vanilla:clutter/carts/handcartcanopy"
+  },
+  {
+   "asset": "vanilla:clutter/carts/handcartcrate"
+  },
+  {
+   "asset": "vanilla:clutter/carts/vendorcartstatic01"
+  },
+  {
+   "asset": "vanilla:clutter/common/wagonwheel01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilesmall01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilemedium01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilelarge01"
+  },
+  {
+   "asset": "vanilla:clutter/firewood/firewoodpilehuge01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodbeam01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodbeam02"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodbeam03"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodbeamshort01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodbeamshort02"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodplanks01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodplanks02"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodplanks03"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/minewoodplanks04"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/clutter/genericwell01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/scaffolding/minescaffoldsupport01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupport01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/ore/mineoreiron01"
+  },
+  {
+   "asset": "vanilla:dungeons/mines/ore/mineoredepleted01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbase0sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbase1sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbase2sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbase3sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbasesupport01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtop0sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtop1sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtop2sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtop3sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtop4sided01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldramp01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldstairs01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridge01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridge02"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtoppost01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldtoppost02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/lumbermill01waterwheel01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/lumbermill01waterwheel02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstepsdown01"
+  },
+  {
+   "asset": "vanilla:architecture/docks/dockstrent01"
+  },
+  {
+   "asset": "vanilla:clutter/ingredients/saltpile"
+  },
+  {
+   "asset": "vanilla:clutter/barrel01"
+  },
+  {
+   "asset": "vanilla:clutter/largerainbarrel01"
+  },
+  {
+   "asset": "vanilla:clutter/common/cratesmall01"
+  },
+  {
+   "asset": "vanilla:clutter/common/cratesmalllong01"
+  },
+  {
+   "asset": "vanilla:clutter/basket01"
+  },
+  {
+   "asset": "vanilla:clutter/basket03"
+  },
+  {
+   "asset": "vanilla:clutter/basketclosed01"
+  },
+  {
+   "asset": "vanilla:clutter/bucket01"
+  },
+  {
+   "asset": "vanilla:clutter/common/pitchfork01"
+  },
+  {
+   "asset": "vanilla:clutter/common/shovel01"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsacklarge"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsacklargeflat01"
+  },
+  {
+   "asset": "vanilla:clutter/horsetrough/horsetrough01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/fishracksmall"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/carapaceoven"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/ovennew"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wovenfence01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/snakefence01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/snakefence02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/cattail"
+  }
+ ]
+}

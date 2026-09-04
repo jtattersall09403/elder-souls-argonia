@@ -161,6 +161,11 @@ function checkSingletons() {
 // `<domain>.<packet>.<name>`, lower kebab, globally unique, never reused.
 
 const ID_SHAPE = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*){2,}$/;
+// Vocabulary registries (world/sources/registries) key *kinds of thing*, not
+// placed objects, so they have no packet segment: `faction.naga-kur`,
+// `deed.tolls.paid`. Such a source declares `"idShape": "flat"` and is held to
+// <domain>.<slug> instead (decision 0044). Uniqueness and no-reuse are unchanged.
+const ID_SHAPE_FLAT = /^[a-z0-9]+(-[a-z0-9]+)*(\.[a-z0-9]+(-[a-z0-9]+)*)+$/;
 
 function collectIds(value, key, out) {
   if (Array.isArray(value)) {
@@ -191,14 +196,18 @@ function checkIds() {
     }
     const ids = [];
     collectIds(readJson(source.path), source.idKey ?? "id", ids);
+    const shape = source.idShape === "flat" ? ID_SHAPE_FLAT : ID_SHAPE;
     for (const id of ids) {
-      if (!ID_SHAPE.test(id))
+      if (!shape.test(id))
         fail(
           2,
           source.path,
           0,
-          `ID \`${id}\` is not <domain>.<packet>.<name> in lower kebab ` +
-            `(e.g. poi.murkmire.drowned-stair).`,
+          source.idShape === "flat"
+            ? `ID \`${id}\` is not <domain>.<slug> in lower kebab ` +
+              `(e.g. faction.naga-kur).`
+            : `ID \`${id}\` is not <domain>.<packet>.<name> in lower kebab ` +
+              `(e.g. poi.murkmire.drowned-stair).`,
         );
       if (retired.has(id))
         fail(2, source.path, 0, `ID \`${id}\` is retired and may never be reused.`);

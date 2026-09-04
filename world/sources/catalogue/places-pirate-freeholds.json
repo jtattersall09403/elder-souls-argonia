@@ -30,7 +30,7 @@
         "founding": "A river port ESE of the Hatching Pools, grown into a town by being neutral about cargo. It sits on the northern trunk between Stormhold and Thorn, on water deep enough for a laden hull and far enough from either customs regime that both of them use it.",
         "siteAdvantages": "The last reach of navigable river below the northern rim, with an oxbow that makes a natural basin, firm banks for warehousing and a rim road behind it that crosses to Morrowind without passing a post.",
         "occupantsMotive": "A captain of the port whose only law is a nailed-up price list, freeholder crews with no tribe and no tree, Dunmer factors from the Morrowind trade and Nord hands off the northern hulls.",
-        "pressures": "There is no Hist here — the register is explicit — so nothing binds anyone to anything except the list; Stormhold's vicecanons would like the trade and cannot reach it; Rockpoint downriver still resents losing.",
+        "pressures": "There is no Hist here, so nothing binds anyone to anything except the list. Stormhold's vicecanons would like the trade but cannot reach it. Rockpoint downriver still resents losing.",
         "wouldChangeIf": "If either Stormhold or Thorn made the port lawful, its whole reason to exist is gone; if the river silted below the oxbow, the town is a village in five years."
       },
       "sitingPrefs": {
@@ -122,11 +122,11 @@
         "valueTier": "tier-3"
       },
       "vibe": {
-        "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, and warehouse gables behind it",
-        "palette": "weathered grey timber everywhere, tar black, and cargo colours that do not belong together — Dunmer lacquer, Nord paint, Imperial red",
+        "silhouette": "a beached hull sitting upright among the houses, too big for the street it ends, with warehouse gables behind it",
+        "palette": "weathered grey timber everywhere, tar black, Dunmer lacquer and Nord paint on crates stacked together",
         "materials": "the town is built out of other people's cargo: crate timber, ship planking, salvaged spars, with mud render only where nothing else was to hand",
         "signatureFeature": "a price list nailed up in public that names contraband by grade, with a separate rate for each grade",
-        "condition": "prosperous and ramshackle, never planned",
+        "condition": "prosperous and ramshackle",
         "mood": "transactional; dangerous only if you are slow",
         "approach": "the hull's shape resolves out of the roofline from upriver, long before you can read the town",
         "senses": "hulls working against the bank, four languages, tar, wet rope, cooking from three cuisines at once"
@@ -144,10 +144,14 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [
+          "quest.provision.boat-corimont-helstrom",
+          "quest.provision.contraband-price-list",
           "quest.provision.free-port-of-entry",
-          "quest.provision.contraband-price-list"
+          "quest.provision.lq02-anchor"
         ],
-        "tierOwnership": "tier-0"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "MQ05 · tier-0; LQ02 · tier-3"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-list",
       "deedCounterKeys": [
@@ -450,6 +454,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -529,7 +539,7 @@
         "condition": "orderly, full, quiet",
         "mood": "careful; nobody raises their voice",
         "approach": "you smell the resin used for wrapping before you reach it",
-        "senses": "cloth, cut cord, and no talking"
+        "senses": "cloth, cut cord and no talking"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -541,9 +551,12 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [
-          "quest.provision.bone-repatriation"
+          "quest.provision.bone-repatriation",
+          "quest.provision.lq02-anchor"
         ],
-        "tierOwnership": "tier-2"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "LQ02 · tier-3"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.no-tree",
       "deedCounterKeys": [],
@@ -598,11 +611,6 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0608",
-          "score": 3.806,
-          "whyLost": "lost on score"
-        },
-        {
           "siteId": "site.free.any-firm-ground-0205",
           "score": 3.803,
           "whyLost": "lost on score"
@@ -610,6 +618,11 @@
         {
           "siteId": "site.free.roadside-0050",
           "score": 3.802,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0053",
+          "score": 3.801,
           "whyLost": "lost on score"
         }
       ],
@@ -636,7 +649,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "Bundled bones waiting on racks for someone travelling the right way upriver, and a keeper who will pay you to be that someone.",
+        "hook": "Bundled bones wait on racks for someone travelling the right way upriver. The keeper will pay you to be that someone.",
         "reviewed": true
       },
       "interior": {
@@ -697,8 +710,8 @@
       "why": {
         "founding": "Foreign keeled hulls come this far up the river and have to be laid over and scraped somewhere the owner is not watching.",
         "siteAdvantages": "A firm shelving bank inside the basin, with a hard bottom that will take a hull's weight at low water.",
-        "occupantsMotive": "Boatwrights who build canoes beautifully and repair Nord hulls badly, on purpose, for money.",
-        "pressures": "Hull identities change here: a name is planed off and another painted on, and everybody knows the going rate.",
+        "occupantsMotive": "Boatwrights who build canoes beautifully but repair Nord hulls badly, on purpose, for money.",
+        "pressures": "Hull identities change here. A name is planed off and another painted on for a rate everybody knows.",
         "wouldChangeIf": "If the free port were ever inspected, the hard is the first thing that would have to disappear."
       },
       "sitingPrefs": {
@@ -748,7 +761,7 @@
         "materials": "hull timber, steaming pit, paint pots",
         "signatureFeature": "a stack of planed-off nameboards under a bench, kept because someone thinks they might be needed again",
         "condition": "working, filthy",
-        "mood": "cheerful, and nobody asks whose hull it is",
+        "mood": "cheerful; nobody asks whose hull it is",
         "approach": "the laid-over hull reads as a building until it moves",
         "senses": "scraping; hot pitch; hammering that stops when strangers arrive"
       },
@@ -842,12 +855,12 @@
       },
       "promotedWhy": "The freehold's signature works and the friendly rest/service the new delves need within 600 m (research §5.3 rule 2).",
       "position": {
-        "u": 0.50682,
-        "v": 0.16101
+        "u": 0.54631,
+        "v": 0.10441
       },
       "positionM": [
-        3737.0,
-        1187.2
+        4028.2,
+        769.9
       ],
       "candidatesConsidered": [
         {
@@ -858,22 +871,28 @@
         {
           "siteId": "site.free.roadside-0108",
           "score": 3.241,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
         },
         {
-          "siteId": "site.free.roadside-0608",
-          "score": 3.239,
-          "whyLost": "taken by place.pirate-freeholds.corimont-crosstrees"
+          "siteId": "site.free.roadside-0567",
+          "score": 3.234,
+          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 73 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, hinterland, danger.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.corimont-hiring-yard (+0.97).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 73.2,
-        "distanceToWaterM": 27.4,
-        "score": 3.225
+        "dangerBand": 3,
+        "distanceToRouteM": 77.5,
+        "distanceToWaterM": 36.8,
+        "score": 3.229
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -900,7 +919,7 @@
         "siteAdvantages": "A blind reach with a cut bank, out of sight of the port and above the last mooring anybody legal uses.",
         "occupantsMotive": "A Salt-Teeth crew working the reach between the port and the head of navigation, keeping their prizes in the bank until they can be sold as salvage.",
         "pressures": "The port halls will tolerate them exactly as long as the price list is not undercut in public.",
-        "wouldChangeIf": "If the port ever set a rate for salvage, the crew would come in and pay it, and hate it."
+        "wouldChangeIf": "If the port ever set a rate for salvage, the crew would come in and pay it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -959,7 +978,7 @@
         "condition": "temporary by design, used for years",
         "mood": "businesslike; nobody is showing off",
         "approach": "you hear the stage working against the hulls before you see anything",
-        "senses": "rope, tar, and somebody counting out loud"
+        "senses": "rope, tar, somebody counting out loud"
       },
       "assetPlan": [
         "boats-keeled",
@@ -972,9 +991,12 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [
+          "quest.provision.rs05-anchor",
           "quest.provision.salt-teeth-reach-crew"
         ],
-        "tierOwnership": "tier-2"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "RS05 · tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
       "deedCounterKeys": [
@@ -1052,7 +1074,7 @@
           "unique-item"
         ],
         "impact": "real",
-        "hook": "A crew that will not pay the port's prices keeps its prizes in a hole in the bank, and will kill you for looking at them.",
+        "hook": "A crew that will not pay the port's prices keeps its prizes in a hole in the bank. They kill people for looking at it.",
         "reviewed": true
       },
       "interior": {
@@ -1116,39 +1138,40 @@
         ]
       },
       "position": {
-        "u": 0.42576,
-        "v": 0.16696
+        "u": 0.52466,
+        "v": 0.08516
       },
       "positionM": [
-        3139.3,
-        1231.1
+        3868.6,
+        627.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.seasonal-floodplain.cliff-bench-002",
-          "score": 3.357,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 2.641,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-062",
-          "score": 3.18,
-          "whyLost": "too close to place.pirate-freeholds.chasecreek"
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 2.617,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-057",
-          "score": 2.977,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.roadside-0104",
+          "score": 2.609,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 517 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, hinterland, danger; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "cliff bench in seasonal floodplain (danger band 3), 52 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "cliff-bench",
+        "regionClass": "seasonal floodplain",
         "dangerBand": 3,
-        "distanceToRouteM": 517.3,
-        "distanceToWaterM": 49.0,
-        "score": 2.35
-      }
+        "distanceToRouteM": 51.7,
+        "distanceToWaterM": 5.5,
+        "score": 3.357
+      },
+      "scourSiteId": "site.scour.seasonal-floodplain.cliff-bench-002"
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
@@ -1170,10 +1193,10 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A fishing hamlet on the one rise the creek does not reach. A boat can wait out of the channel here while the free port is being watched, and the hamlet has lived off that ever since.",
+        "founding": "A fishing hamlet on the one rise the creek does not reach. A boat can wait out of the channel here while the free port is being watched. The hamlet has lived off that ever since.",
         "siteAdvantages": "A rise of firm ground well above the water, with a creek behind it deep enough to lie a hull in and shallow enough that nobody follows.",
         "occupantsMotive": "Fisher households who are also, on about four nights a month, a lay-by with a fee.",
-        "pressures": "The lay-by trade is worth more than the fish, everyone under 16 already knows it, and the port road runs close enough that being discreet is work.",
+        "pressures": "The lay-by trade is worth more than the fish and every child in the hamlet knows it. The port road runs close enough that discretion is work.",
         "wouldChangeIf": "If the free port's list ever covered waiting time, Chasecreek loses its niche and becomes a fishing hamlet again."
       },
       "sitingPrefs": {
@@ -1246,13 +1269,13 @@
       },
       "vibe": {
         "silhouette": "a dozen roofs on a rise above the creek, higher than anything else in sight of the water",
-        "palette": "reed gold, mud grey, and one very good bought lamp per household",
+        "palette": "reed gold, mud grey and one very good bought lamp per household",
         "materials": "mud render and reed on a rise, plus a great deal of unexplained plank",
         "signatureFeature": "every household has one expensive object that does not match anything else it owns",
         "condition": "modest outside, well found inside",
-        "mood": "friendly, curious, and counting",
+        "mood": "friendly; counting",
         "approach": "the rise shows first, then the road below it, then the creek behind",
-        "senses": "reed, frogs, and a boat arriving at the wrong hour"
+        "senses": "reed, frogs, a boat arriving at the wrong hour"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -1374,6 +1397,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -1394,6 +1423,8 @@
       "notableNpcSlots": [],
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": null
       },
       "rumourPoolKey": null,
@@ -1703,6 +1734,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -1724,10 +1761,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port is built around a hull that was dragged up the bank and never floated again. Its masts were left standing because they were useful, and the crosstrees became the port's lookout: the one place in the freehold you can see over the roofs and the canopy at once.",
-        "siteAdvantages": "The beached hull sits on the highest firm ground in the basin, and the canopy is cut back around it so the lookout can work.",
-        "occupantsMotive": "The port's lookout watches for hulls coming up the reach, and charges nothing, because everybody benefits from knowing early.",
-        "pressures": "The rigging is sixty years past its rope; the ladder is rebuilt every wet season and rebuilt worse.",
+        "founding": "The free port is built around a hull that was dragged up the bank and never floated again. Its masts were left standing because they were useful. From the crosstrees you can see over the roofs and the canopy at once, which is more than anywhere else in the freehold.",
+        "siteAdvantages": "The beached hull sits on the highest firm ground in the basin, with the canopy cut back around it so the lookout can work.",
+        "occupantsMotive": "The port's lookout watches for hulls coming up the reach and charges nothing, because everybody benefits from knowing early.",
+        "pressures": "The rigging is sixty years past its rope. The ladder gets rebuilt every wet season by whoever is free that week.",
         "wouldChangeIf": "If the hull finally goes over, the freehold loses the only high ground it has and starts posting watchers on the water instead."
       },
       "sitingPrefs": {
@@ -1778,10 +1815,10 @@
         "palette": "grey timber, tarred rope, one strip of faded flag nobody has taken down",
         "materials": "ship spars, lashed plank, a ladder of salvaged batten",
         "signatureFeature": "a stage at the crosstrees with three notches cut in the rail, one for each thing worth watching",
-        "condition": "sound enough, rebuilt badly, rebuilt again",
+        "condition": "sound enough, rebuilt badly",
         "mood": "quiet, with the port's noise under it",
         "approach": "the ladder starts behind the hull-hall, out of the weather",
-        "senses": "wind in slack rigging; the port's noise arriving from below"
+        "senses": "wind in slack rigging; the ladder complaining under you"
       },
       "assetPlan": [
         "stockade-scaffold",
@@ -1795,6 +1832,8 @@
         "provisions": [
           "quest.provision.opening-vantage"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-1"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
@@ -1871,12 +1910,12 @@
         "loot": []
       },
       "position": {
-        "u": 0.54838,
-        "v": 0.15514
+        "u": 0.50682,
+        "v": 0.16101
       },
       "positionM": [
-        4043.5,
-        1143.9
+        3737.0,
+        1187.2
       ],
       "candidatesConsidered": [
         {
@@ -1892,17 +1931,17 @@
         {
           "siteId": "site.free.roadside-0050",
           "score": 3.29,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 43 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 73 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 42.8,
-        "distanceToWaterM": 17.3,
-        "score": 3.293
+        "distanceToRouteM": 73.2,
+        "distanceToWaterM": 27.4,
+        "score": 3.286
       }
     },
     {
@@ -2085,6 +2124,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -2268,6 +2313,12 @@
           "porter"
         ],
         "destinations": []
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -2291,10 +2342,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Debts bought at the gambling house become owings, and owings become gangs — the yard is where the people who lost their ground wait to be told where they are working.",
+        "founding": "Debts bought at the gambling house become owings. Owings become gangs. The yard is where the people who lost their ground wait to be told where they are working.",
         "siteAdvantages": "A hard standing beside the porter yard, on the only road out of the free port.",
-        "occupantsMotive": "Households whose owing was called in, and a broker's clerk with a ledger.",
-        "pressures": "Nobody here is chained and nobody here can leave, and the difference is legally important and practically nil.",
+        "occupantsMotive": "Households whose owing was called in, plus a broker's clerk with a ledger.",
+        "pressures": "Nobody here is chained. Nobody here can leave either.",
         "wouldChangeIf": "If a Chainbreaker cell reached the yard, the free port's labour supply stops on the same day."
       },
       "sitingPrefs": {
@@ -2349,8 +2400,8 @@
         "palette": "grey canvas, mud, one painted door on the office",
         "materials": "salvaged canvas and crate timber; one proper building",
         "signatureFeature": "an office with a ledger in it that is the only writing anybody in this zone treats as binding",
-        "condition": "permanent, in a form that pretends to be temporary",
-        "mood": "quiet, and nobody looks up",
+        "condition": "twenty years old, built out of canvas",
+        "mood": "quiet; nobody looks up",
         "approach": "the road out of town runs straight through it",
         "senses": "a ledger being read aloud; no reply"
       },
@@ -2364,9 +2415,14 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [
+          "quest.provision.bc01-anchor",
+          "quest.provision.canon.the-owing",
+          "quest.provision.canon.washed-out-variant",
           "quest.provision.owing-hiring-hall"
         ],
-        "tierOwnership": "tier-2"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "province system · tier-1; BC-line · tier-2; BC01 · tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
       "deedCounterKeys": [
@@ -2414,7 +2470,7 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "hostility": {
-        "baseline": "wary",
+        "baseline": "hostile",
         "owner": "faction.the-owing-brokers",
         "flips": [
           {
@@ -2428,8 +2484,8 @@
             "scope": "occupantGroup"
           }
         ],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "faction-refills"
       },
       "playerPurpose": {
         "primary": "social-drama",
@@ -2439,7 +2495,7 @@
           "faction-gateway"
         ],
         "impact": "real",
-        "hook": "The yard where an owing turns into a work gang, and the ledger is read aloud so everyone hears the months go on.",
+        "hook": "The yard where an owing turns into a work gang. The ledger is read aloud, so everyone hears the months go on.",
         "reviewed": true
       },
       "interior": {
@@ -2495,38 +2551,38 @@
       },
       "promotedWhy": "Owner feedback / opening-hours research §6.1: the Owing institution the player is processed into in MQ01 must exist as a live place.",
       "position": {
-        "u": 0.49707,
-        "v": 0.08374
+        "u": 0.52921,
+        "v": 0.16257
       },
       "positionM": [
-        3665.2,
-        617.5
+        3902.1,
+        1198.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0564",
-          "score": 3.439,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0064",
+          "score": 2.239,
+          "whyLost": "too close to place.dunmer-north.wolk-market"
         },
         {
           "siteId": "site.free.roadside-0060",
-          "score": 3.439,
+          "score": 2.239,
           "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0109",
-          "score": 3.437,
+          "score": 2.237,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 71 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.careening-hard (+0.97).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 77.5,
-        "distanceToWaterM": 43.9,
-        "score": 3.439
+        "dangerBand": 2,
+        "distanceToRouteM": 71.3,
+        "distanceToWaterM": 38.4,
+        "score": 3.183
       }
     },
     {
@@ -2551,7 +2607,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port has no Hist, and that is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and the camp on the town's edge is where that is said out loud.",
+        "founding": "The free port has no Hist. That is the reason the freeholds exist. Everyone here is Hist-less by choice or by accident, and in the camp on the town's edge it is said out loud.",
         "siteAdvantages": "The town's landward fringe, on ground the port does not administer.",
         "occupantsMotive": "Argonians with no tree to return to, plus outsiders who find that easier to be around.",
         "pressures": "The tribal villages upriver will not visit; Hissmir's reconnection rite is a two-week journey and a hard conversation.",
@@ -2608,10 +2664,10 @@
         "palette": "mud grey, undyed cloth, no amber anywhere",
         "materials": "mud render, crate timber, no ritual totems at all",
         "signatureFeature": "a planting circle dug, edged and kept swept for sixty years, with nothing in it",
-        "condition": "solid, plain, permanent",
+        "condition": "solid and plain",
         "mood": "stubborn; the subject comes up every day",
         "approach": "the gap in the middle is visible before anything else",
-        "senses": "no chimes anywhere, and everyone notices"
+        "senses": "no chimes anywhere; everyone notices"
       },
       "assetPlan": [
         "mud-mother-grove",
@@ -2625,6 +2681,8 @@
         "provisions": [
           "quest.provision.hist-less-community.north"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-1"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.no-tree",
@@ -2720,7 +2778,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A village with a planting circle kept swept for sixty years and nothing in it, and people who will tell you exactly why.",
+        "hook": "A village with a planting circle kept swept for sixty years and nothing in it. Ask anyone why.",
         "reviewed": true
       },
       "interior": {
@@ -2775,7 +2833,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A bonded store was cut into the channel bank when the water sat two feet lower. The water came back, the owner stopped paying the port, and the doors were left to whoever wanted them.",
+        "founding": "A bonded store was cut into the channel bank when the water sat two feet lower. The water came back. The owner stopped paying the port, and the doors were left to whoever wanted them.",
         "siteAdvantages": "A dry-ish cellar under a wet bank, on the water but out of sight of the quay.",
         "occupantsMotive": "Three of the port's less useful hands sleep here between jobs and take what floats past.",
         "pressures": "It floods to the knee on a high river and to the chest twice a year.",
@@ -2829,7 +2887,7 @@
         "materials": "cut bank shored with ship planking, a brick floor under the silt",
         "signatureFeature": "a bond seal still nailed to the door frame, cut through with a knife",
         "condition": "flooded, occupied, not defended",
-        "mood": "small, damp, and nobody's idea of a fight",
+        "mood": "damp; no kind of fight",
         "approach": "the bank steps down to it; you can look in before you go in",
         "senses": "water slapping brick; three people arguing about nothing"
       },
@@ -2845,6 +2903,8 @@
         "provisions": [
           "quest.provision.opening-first-delve"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
@@ -2911,7 +2971,7 @@
           "hidden-secret"
         ],
         "impact": "mild",
-        "hook": "A flooded store under the bank with three idlers living in it, and whatever the last owner never came back for.",
+        "hook": "A flooded store under the bank. Three idlers live in it, on top of whatever the last owner never came back for.",
         "reviewed": true
       },
       "interior": {
@@ -2957,38 +3017,28 @@
         ]
       },
       "position": {
-        "u": 0.48004,
-        "v": 0.16249
+        "u": 0.48599,
+        "v": 0.19373
       },
       "positionM": [
-        3539.6,
-        1198.1
+        3583.5,
+        1428.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0180",
-          "score": 3.495,
-          "whyLost": "too close to place.pirate-freeholds.corimont-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0609",
-          "score": 3.17,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0055",
-          "score": 3.164,
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 2.75,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 270 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.trunk-toll-bridge (+1.44).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 306 m from the nearest route; its choice #2 landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 270.1,
-        "distanceToWaterM": 21.9,
-        "score": 4.382
+        "distanceToRouteM": 305.8,
+        "distanceToWaterM": 33.4,
+        "score": 2.931
       }
     },
     {
@@ -3014,7 +3064,7 @@
         "founding": "A port whose social hall is a beached hull still needs somewhere you can pay for a bed and a locked door.",
         "siteAdvantages": "On the basin front, one door from the hull hall and two from the gambling house.",
         "occupantsMotive": "A keeper who sells beds and rents silence.",
-        "pressures": "Four languages in one room, and the guest book is worth more than the takings.",
+        "pressures": "Four languages in one room. The guest book is worth more than the takings.",
         "wouldChangeIf": "If the free port were made lawful, the guest book becomes evidence and the keeper burns it."
       },
       "sitingPrefs": {
@@ -3068,9 +3118,9 @@
         "silhouette": "a lit doorway with a mooring outside and a stable behind",
         "palette": "lamp yellow, tar black, cargo-crate walls",
         "materials": "crate timber and ship plank, one bought Imperial door",
-        "signatureFeature": "a guest book kept in four scripts, none of them Jel, and a private stair that avoids the main room",
+        "signatureFeature": "a guest book kept in four scripts, none of them Jel, with a private stair that avoids the main room",
         "condition": "prosperous, scuffed",
-        "mood": "warm, loud, entirely for sale",
+        "mood": "loud; everything in it is for sale",
         "approach": "the noise reaches the basin",
         "senses": "four languages; cooking; a lock being turned upstairs"
       },
@@ -3122,12 +3172,12 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.55375,
-        "v": 0.12003
+        "u": 0.58415,
+        "v": 0.19225
       },
       "positionM": [
-        4083.1,
-        885.0
+        4307.2,
+        1417.6
       ],
       "candidatesConsidered": [
         {
@@ -3138,7 +3188,7 @@
         {
           "siteId": "site.free.roadside-0566",
           "score": 3.618,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "whyLost": "too close to place.dunmer-north.the-standing-bid"
         },
         {
           "siteId": "site.free.roadside-0606",
@@ -3146,14 +3196,14 @@
           "whyLost": "taken by place.pirate-freeholds.bone-repatriation-waystation"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 71 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 33 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.freehold-market (+1.54).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 71.5,
-        "distanceToWaterM": 35.1,
-        "score": 3.365
+        "distanceToRouteM": 33.4,
+        "distanceToWaterM": 38.4,
+        "score": 3.855
       },
       "hostility": {
         "baseline": "friendly",
@@ -3170,7 +3220,7 @@
           "quest-anchor"
         ],
         "impact": "real",
-        "hook": "A bed, a door that locks, and a guest book in four scripts that is worth more than the takings.",
+        "hook": "A bed, a door that locks and a keeper who sells silence by the night.",
         "reviewed": true
       },
       "interior": {
@@ -3219,6 +3269,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -3244,9 +3300,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "House Dres took Argonians out of this river country for centuries, and the pens they used to hold and count them are still standing on the bank they loaded from.",
+        "founding": "House Dres took Argonians out of this river country for centuries. The pens they used to hold and count them are still standing on the bank they loaded from.",
         "siteAdvantages": "A river landing with hard standing, sited for loading rather than living.",
-        "occupantsMotive": "Nobody above ground. Something has been getting into the flooded cells below, and the free port will not use the ground and will not explain why to outsiders.",
+        "occupantsMotive": "Nobody above ground. Something has been getting into the flooded cells below. The free port will not use the ground and will not say why to outsiders.",
         "pressures": "It is the one thing in this zone nobody makes a joke about.",
         "wouldChangeIf": "If the Dunmer factors in town were ever formally associated with it, the freehold's trade with Morrowind ends overnight."
       },
@@ -3292,7 +3348,7 @@
       },
       "vibe": {
         "silhouette": "stone pens and a loading ramp on an empty bank",
-        "palette": "grey stone, rust, and nothing growing on the standing",
+        "palette": "grey stone, rust, nothing growing on the standing",
         "materials": "Dunmer-cut stone, iron rings, a ramp graded for people",
         "signatureFeature": "a loading ramp graded and railed for people rather than cargo, with the count-marks still cut into the gatepost and a stair at the bottom of it going down into the holding cells",
         "condition": "sound; deliberately not repaired and deliberately not demolished",
@@ -3312,6 +3368,8 @@
         "provisions": [
           "quest.provision.dres-pens"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.old-pens",
@@ -3393,7 +3451,7 @@
         "score": 3.197
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": "faction.dres-remnant",
         "flips": [
           {
@@ -3408,8 +3466,8 @@
             "scope": "occupantGroup"
           }
         ],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -3419,7 +3477,7 @@
           "stealth-challenge"
         ],
         "impact": "real",
-        "hook": "The Dres loading pens, still standing, count-marks still cut in the gatepost, and something living in the cells below.",
+        "hook": "The Dres loading pens, count-marks still cut in the gatepost. Something lives in the cells below.",
         "reviewed": true
       },
       "interior": {
@@ -3442,6 +3500,13 @@
             "count": "few",
             "trigger": "on-approach",
             "note": "denning in the flooded lower cells"
+          },
+          {
+            "slotId": "c2",
+            "role": "pack-hunter",
+            "registerRef": null,
+            "count": "few",
+            "danger": "D3"
           }
         ],
         "npcs": [],
@@ -3551,8 +3616,8 @@
         "palette": "ash grey, lacquer red, black",
         "materials": "Velothi render and stone, imported roof tile, a wall",
         "signatureFeature": "an ancestor hall maintained for three hundred years by people who have never seen Morrowind",
-        "condition": "solid, wealthy, closed",
-        "mood": "proud and closed, and aware of what stands on the riverbank",
+        "condition": "solid and wealthy",
+        "mood": "closed; aware of what stands on the riverbank",
         "approach": "the roof shapes read wrong from a long way off",
         "senses": "a different language; a bell rather than a chime"
       },
@@ -3567,6 +3632,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.old-pens",
@@ -3588,6 +3655,7 @@
       "workflow": "plotted",
       "relations": {
         "dependsOn": [
+          "place.dunmer-north.the-ash-holding",
           "place.pirate-freeholds.rim-pass-station"
         ],
         "supplies": [
@@ -3628,17 +3696,17 @@
           "whyLost": "taken by place.pirate-freeholds.veterans-holding"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.931,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
-        },
-        {
           "siteId": "site.scour.border-mountains.saddle-041",
           "score": 2.826,
           "whyLost": "taken by place.pirate-freeholds.rim-pass-station"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0181",
+          "score": 2.219,
+          "whyLost": "too close to place.pirate-freeholds.veterans-holding"
         }
       ],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.veterans-holding (+1.13).",
+      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.veterans-holding (+0.38).",
       "plotFacts": {
         "landform": "ridge-end",
         "regionClass": "border mountains",
@@ -3704,11 +3772,6 @@
             "valueTier": "tier-3",
             "provenance": null
           }
-        ]
-      },
-      "relationsReserved": {
-        "dependsOn": [
-          "place.dunmer-north.the-ash-holding"
         ]
       }
     },
@@ -3860,6 +3923,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -3883,7 +3952,7 @@
       "why": {
         "founding": "The people who died in the Flu here were not Argonian and had no Hist to go to, so they were cairned where they fell, by whoever was left.",
         "siteAdvantages": "Firm dry ground above the village, with loose stone to hand.",
-        "occupantsMotive": "Nobody; the cairns are re-stacked by passing travellers, which is a custom nobody can explain.",
+        "occupantsMotive": "Nobody. Passing travellers re-stack the cairns. No one can say when that started.",
         "pressures": "It is the largest visible evidence in the zone that a whole people used to live here.",
         "wouldChangeIf": "If a scholar counted them properly, the district's population history changes."
       },
@@ -3929,7 +3998,7 @@
         "materials": "field stone, nothing worked, no markers",
         "signatureFeature": "hundreds of cairns and exactly one with a date cut into it",
         "condition": "re-stacked by strangers for six hundred years",
-        "mood": "quiet, and larger than it looked from below",
+        "mood": "quiet; larger than it looked from below",
         "approach": "the slope reads as scree until the pattern resolves",
         "senses": "wind; stones being replaced by someone ahead of you"
       },
@@ -3975,45 +4044,45 @@
       "underwaterAccess": "none",
       "name": "Five-Sixty Field",
       "position": {
-        "u": 0.53739,
-        "v": 0.09028
+        "u": 0.61019,
+        "v": 0.15431
       },
       "positionM": [
-        3962.4,
-        665.7
+        4499.2,
+        1137.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0110",
-          "score": 3.867,
-          "whyLost": "too close to place.hist-heartland.officeholder-grave-singer-house"
+          "siteId": "site.free.any-firm-ground-0277",
+          "score": 2.28,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-firm-ground-0178",
-          "score": 3.504,
-          "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
+          "score": 2.104,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.any-firm-ground-0156",
-          "score": 2.354,
+          "score": 1.454,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 90 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.rockpoint (+0.95).",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 89.9,
-        "distanceToWaterM": 36.8,
-        "score": 3.869
+        "distanceToRouteM": 223.8,
+        "distanceToWaterM": 19.8,
+        "score": 2.964
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -4021,7 +4090,7 @@
           "lore-reveal"
         ],
         "impact": "mild",
-        "hook": "A slope of plague cairns, 560 of them, and one opened from the inside.",
+        "hook": "A slope of plague cairns, 560 of them. One has been opened from the inside.",
         "reviewed": true
       },
       "interior": {
@@ -4034,7 +4103,15 @@
         "programRef": null
       },
       "contents": {
-        "creatures": [],
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "pack-hunter",
+            "registerRef": null,
+            "count": "few",
+            "danger": "D2"
+          }
+        ],
         "npcs": [],
         "loot": [
           {
@@ -4051,6 +4128,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -4148,6 +4231,8 @@
         "provisions": [
           "quest.provision.chainbreaker-shelter"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
@@ -4402,6 +4487,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -4424,11 +4515,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The price list has to be applied somewhere, and the stall row under the list board is where the zone's economy actually happens.",
+        "founding": "The price list has to be applied somewhere. The stall row under the board is where it happens.",
         "siteAdvantages": "Level ground below the list board, one street up from the basin and not on the water itself.",
         "occupantsMotive": "Traders working in septims, Dunmer coin, barter and obligation at adjacent stalls.",
-        "pressures": "The board is a public document that names contraband, which makes it the province's best commercial intelligence.",
-        "wouldChangeIf": "If the list were withdrawn, the row would still meet and nobody would know what anything was worth."
+        "pressures": "The board is a public document that names contraband by grade. Nothing else in the province prices the trade so plainly.",
+        "wouldChangeIf": "If the list were withdrawn, the row would still meet but nobody would know what anything was worth."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4474,7 +4565,7 @@
         "materials": "timber frames, bought canvas, four provinces' goods",
         "signatureFeature": "a weights post carrying four sets of weights, three of which disagree",
         "condition": "structure permanent, contents wildly variable",
-        "mood": "loud, and sharp about prices",
+        "mood": "loud; sharp about prices",
         "approach": "the board is the first thing you can read from the water",
         "senses": "four languages haggling in three currencies"
       },
@@ -4526,12 +4617,12 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.marsh-charter",
       "position": {
-        "u": 0.46815,
-        "v": 0.23537
+        "u": 0.58342,
+        "v": 0.1201
       },
       "positionM": [
-        3451.9,
-        1735.5
+        4301.8,
+        885.6
       ],
       "candidatesConsidered": [
         {
@@ -4545,19 +4636,19 @@
           "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
         },
         {
-          "siteId": "site.free.roadside-0110",
-          "score": 3.057,
-          "whyLost": "too close to place.pirate-freeholds.half-chartered-anchorage"
+          "siteId": "site.free.any-firm-ground-0230",
+          "score": 3.052,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 598 m from the nearest route; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.freehold-naga-camp (+0.47).",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; its first-choice landform; won on landform, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.corimont-tradehouse (+1.54).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 597.9,
-        "distanceToWaterM": 68.7,
-        "score": 2.689
+        "regionClass": "border mountains",
+        "dangerBand": 3,
+        "distanceToRouteM": 271.4,
+        "distanceToWaterM": 32.0,
+        "score": 2.26
       },
       "hostility": {
         "baseline": "friendly",
@@ -4599,6 +4690,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -4623,7 +4720,7 @@
         "founding": "A Naga band works the trunk road where it runs closest to the marsh, because the freeholds' cargo is worth taking and nobody polices the road.",
         "siteAdvantages": "Cover within a spear's throw of the road at a point where it cannot be left.",
         "occupantsMotive": "Eight or so, who strike camp after every taking.",
-        "pressures": "The free port pays escorts rather than fight them, which is cheaper and everyone knows it.",
+        "pressures": "The free port pays escorts rather than fight them. It is cheaper and everybody says so.",
         "wouldChangeIf": "If the reoccupied fort extended its patrols, the band moves to the river and takes boats instead."
       },
       "sitingPrefs": {
@@ -4675,13 +4772,13 @@
       },
       "vibe": {
         "silhouette": "nothing at all from the road; from the trees uphill, a cleared circle with no fire in it",
-        "palette": "dull hide, wet bone, dark green — no smoke, no colour, nothing that carries",
+        "palette": "dull hide, wet bone, dark green; no smoke and nothing that carries",
         "materials": "hide shelters struck and re-pitched daily, bone-and-flint gear, taken cargo still in other people's crates",
         "signatureFeature": "taken cargo sorted by where on the road it was taken from, in labelled heaps",
         "condition": "recently made, ready to move",
         "mood": "patient; they take and they move",
         "approach": "you are watched from cover for some minutes before anything happens",
-        "senses": "no dogs, no smoke, and then everything at once"
+        "senses": "no dogs, no smoke; then everything at once"
       },
       "assetPlan": [
         "tents-hide",
@@ -4784,39 +4881,46 @@
       },
       "promotedWhy": "Hostility balance: the trunk road needs one honest ambush, sited well clear of the start.",
       "position": {
-        "u": 0.61019,
-        "v": 0.15431
+        "u": 0.61614,
+        "v": 0.06879
       },
       "positionM": [
-        4499.2,
-        1137.8
+        4543.1,
+        507.2
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-0347",
+          "score": 2.566,
+          "whyLost": "too close to place.pirate-freeholds.chasecreek"
+        },
+        {
           "siteId": "site.free.any-firm-ground-0348",
           "score": 2.513,
-          "whyLost": "too close to place.hist-heartland.maturity-trial-chukka-sei"
+          "whyLost": "too close to place.hist-heartland.dream-wallow-starblossom"
         },
         {
           "siteId": "site.free.any-firm-ground-0376",
           "score": 2.486,
-          "whyLost": "too close to place.hist-heartland.hermit-hut-mad-basin"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.saddle-063",
-          "score": 1.491,
-          "whyLost": "lost on score"
+          "whyLost": "too close to place.hist-heartland.dream-wallow-starblossom"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; site exchanged in the swap pass with place.pirate-freeholds.freehold-market (+0.47).",
+      "whySiteWon": "ravine in border mountains (danger band 3), 653 m from the nearest route; its choice #2 landform; won on landform, remote, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "upland hills",
+        "landform": "ravine",
+        "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 223.8,
-        "distanceToWaterM": 19.8,
-        "score": 2.728
-      }
+        "distanceToRouteM": 652.6,
+        "distanceToWaterM": 35.1,
+        "score": 0.482
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      },
+      "scourSiteId": "site.scour.border-mountains.ravine-036"
     },
     {
       "id": "place.pirate-freeholds.freehold-pest-house",
@@ -4827,7 +4931,7 @@
         "variant": "active",
         "magnitude": "M1"
       },
-      "status": "active",
+      "status": "deferred",
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Knahaten Flu",
@@ -4837,11 +4941,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A port that takes anyone's cargo takes everyone's sickness, and a town with no temple needs somewhere to put the sick.",
+        "founding": "A port that takes anyone's cargo takes everyone's sickness. The town has no temple, so the sick come here.",
         "siteAdvantages": "Downwind and downstream of the free port, on its own ground.",
         "occupantsMotive": "Two keepers with no formal training and four hundred years of accumulated local practice.",
         "pressures": "It is funded out of the price list, which is the only public spending in the zone.",
-        "wouldChangeIf": "If the list stopped funding it, the port would find out very quickly why it did."
+        "wouldChangeIf": "If the list stopped funding it, the sick would be lying in the port's own lodging houses within a month."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -4885,7 +4989,7 @@
         "palette": "lime white, grey timber, green",
         "materials": "lime-washed timber, reed screens, a boiling hearth",
         "signatureFeature": "a lime-washed board recording what worked, kept for four hundred years and never once organised",
-        "condition": "clean, plain, hard-used",
+        "condition": "clean and hard-used",
         "mood": "brisk; nobody prays over you",
         "approach": "it stands alone downwind and you can smell the lime",
         "senses": "boiling water; low voices; wind through open sides"
@@ -4912,7 +5016,7 @@
       },
       "complexityBudget": "trivial",
       "importanceTier": 3,
-      "workflow": "plotted",
+      "workflow": "derived",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -4920,9 +5024,7 @@
         "patrols": [],
         "tolls": [],
         "visibleFrom": [],
-        "reachedVia": [
-          "place.pirate-freeholds.rim-pass-station"
-        ],
+        "reachedVia": [],
         "travelServiceEdges": []
       },
       "season": "all-year",
@@ -4986,48 +5088,21 @@
       },
       "relationsReserved": {
         "reachedVia": [
+          "place.pirate-freeholds.rim-pass-station",
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
       },
       "promotedWhy": "Rest cadence: the region's only sanctuary, and Ring B needs one.",
-      "position": {
-        "u": 0.5138,
-        "v": 0.10088
-      },
-      "positionM": [
-        3788.5,
-        743.9
-      ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0098",
-          "score": 3.665,
-          "whyLost": "too close to place.dunmer-north.wolk-market"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0204",
-          "score": 3.66,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0097",
-          "score": 3.639,
-          "whyLost": "too close to place.dunmer-north.wolk-market"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 76 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.kothringi-river-ruin (+0.85).",
-      "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 76.2,
-        "distanceToWaterM": 16.5,
-        "score": 3.805
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
-      "name": "The Anomaly",
+      "name": "The Chimney",
       "classification": {
         "class": "works",
         "family": "craft",
@@ -5047,7 +5122,7 @@
         "founding": "A province with almost no metalworking has one here, because a free port that steals fastenings needs somewhere to reuse them.",
         "siteAdvantages": "Beside the careening hard inside the port, on the only ground in the zone with a permanent forge on it.",
         "occupantsMotive": "A Nord smith who came off a hull twenty years ago and never re-embarked.",
-        "pressures": "His stock is entirely other people's ship iron and everyone pretends not to know.",
+        "pressures": "His stock is entirely other people's ship iron, but nobody says so.",
         "wouldChangeIf": "If the fastening supply were cut, the forge goes cold and the boatwrights lose their hulls."
       },
       "sitingPrefs": {
@@ -5097,9 +5172,9 @@
         "silhouette": "a stone chimney standing over reed and plank roofs",
         "palette": "soot black, ember orange, grey stone",
         "materials": "stone forge, ship iron, charcoal",
-        "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, and the hulls are named",
-        "condition": "hot, sound, incongruous",
-        "mood": "resented, and used by everybody",
+        "signatureFeature": "a rack of ship fastenings sorted by the hull they came off, each hull named",
+        "condition": "hot and sound",
+        "mood": "resented; used by everybody",
         "approach": "the chimney smoke is the only vertical smoke in the town",
         "senses": "hammer on iron, charcoal, hot scale"
       },
@@ -5145,12 +5220,12 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.5768,
-        "v": 0.14903
+        "u": 0.58416,
+        "v": 0.06805
       },
       "positionM": [
-        4253.0,
-        1098.9
+        4307.3,
+        501.7
       ],
       "candidatesConsidered": [
         {
@@ -5166,17 +5241,17 @@
         {
           "siteId": "site.free.roadside-0110",
           "score": 3.047,
-          "whyLost": "too close to place.pirate-freeholds.half-chartered-anchorage"
+          "whyLost": "taken by place.pirate-freeholds.freehold-market"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 86 m from the nearest route; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.freehold-pest-house (+1.69).",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 453 m from the nearest route; its first-choice landform; won on landform, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+0.73).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 85.7,
-        "distanceToWaterM": 35.1,
-        "score": 3.553
+        "distanceToRouteM": 453.0,
+        "distanceToWaterM": 57.2,
+        "score": 2.252
       },
       "hostility": {
         "baseline": "friendly",
@@ -5225,6 +5300,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -5393,6 +5474,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -5547,6 +5634,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -5569,11 +5662,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Half the crews on this water hold a charter from somebody, and none of them will say from whom. Long Water is where they lie up between charters, and the port treats it as a berth rather than a problem.",
+        "founding": "Half the crews on this water hold a charter from somebody and none of them will say from whom. Long Water is where they lie up between charters. The port treats it as a berth rather than a problem.",
         "siteAdvantages": "A long straight reach with deep water on one bank, room for four hulls and a clear run out in either direction.",
-        "occupantsMotive": "Crews resting, refitting and hiring, and a broker who sells passage to anyone who does not ask what else the hull is carrying.",
-        "pressures": "One bad prize and the port halls withdraw the berth, and the whole anchorage becomes Short Rope.",
-        "wouldChangeIf": "If the League of Open Water ever chartered these crews properly, the freehold would have a navy and stop being a freehold."
+        "occupantsMotive": "Crews resting, refitting and hiring. A broker sells passage to anyone who does not ask what else the hull is carrying.",
+        "pressures": "One bad prize and the port halls withdraw the berth. Then it is Short Rope.",
+        "wouldChangeIf": "If the League of Open Water ever chartered these crews properly, the freehold would have a navy."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5626,13 +5719,13 @@
       },
       "vibe": {
         "silhouette": "four hulls on a long reach, two of them careened over, nothing built on land at all",
-        "palette": "tar, bare timber, and every crew's own paint on its own bow",
-        "materials": "hulls, stages between hulls, and one plank walk to the bank",
+        "palette": "tar, bare timber and every crew's own paint on its own bow",
+        "materials": "hulls, stages between hulls and one plank walk to the bank",
         "signatureFeature": "no building anywhere; everything that happens here happens on a deck",
-        "condition": "busy, and packs up in a morning if it has to",
+        "condition": "busy; packs up in a morning if it has to",
         "mood": "civil, on terms you have to learn quickly",
-        "approach": "the reach opens and there they are, and they have seen you first",
-        "senses": "hammering, careening tar, and four conversations that stop when you get close"
+        "approach": "the reach opens and there they are. They saw you first.",
+        "senses": "hammering, careening tar, four conversations that stop when you get close"
       },
       "assetPlan": [
         "boats-keeled",
@@ -5647,6 +5740,8 @@
         "provisions": [
           "quest.provision.pirate-passage-broker"
         ],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-reach",
@@ -5748,7 +5843,7 @@
           "social-drama"
         ],
         "impact": "real",
-        "hook": "Four crews lying up between charters, and a broker on the middle hull who will sell you passage and not ask why you want it.",
+        "hook": "Four crews lying up between charters. The broker on the middle hull sells passage and does not ask why.",
         "reviewed": true
       },
       "interior": {
@@ -5782,7 +5877,7 @@
             "danger": "D2",
             "count": "few",
             "named": false,
-            "note": "captains, one per hull, each with a different idea of what a charter is; the dangerous ones are dangerous by reputation, not by drawing first"
+            "note": "captains, one per hull, each with a different idea of what a charter is; the dangerous ones trade on reputation and rarely draw first"
           }
         ],
         "loot": [
@@ -5792,45 +5887,45 @@
             "registerRef": null,
             "payoff": "rumour",
             "valueTier": "tier-2",
-            "provenance": "the broker's berth book, which is a map of who is where"
+            "provenance": "the broker's berth book, listing who is lying where"
           }
         ]
       },
       "position": {
-        "u": 0.63845,
-        "v": 0.13052
+        "u": 0.59754,
+        "v": 0.17589
       },
       "positionM": [
-        4707.6,
-        962.4
+        4406.0,
+        1296.9
       ],
-      "scourSiteId": "site.scour.border-mountains.spring-head-022",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0178",
-          "score": 3.182,
-          "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
+          "siteId": "site.free.roadside-0610",
+          "score": 3.403,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
-          "siteId": "site.free.any-firm-ground-0277",
-          "score": 3.178,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.roadside-0060",
+          "score": 3.397,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
-          "siteId": "site.free.roadside-0104",
-          "score": 3.16,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+          "siteId": "site.free.roadside-0058",
+          "score": 3.396,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         }
       ],
-      "whySiteWon": "spring head in border mountains (danger band 3), 496 m from the nearest route; at the water's edge; won on hinterland, parent, route; site exchanged in the swap pass with place.pirate-freeholds.reach-wreck (+1.50).",
+      "whySiteWon": "gorge in firm lowland (danger band 3), 66 m from the nearest route; at the water's edge; won on region, hinterland, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.freehold-smithy (+1.28).",
       "plotFacts": {
-        "landform": "spring-head",
-        "regionClass": "border mountains",
+        "landform": "gorge",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 495.9,
-        "distanceToWaterM": 0.0,
-        "score": 1.092
-      }
+        "distanceToRouteM": 65.8,
+        "distanceToWaterM": 5.5,
+        "score": 2.807
+      },
+      "scourSiteId": "site.scour.firm-lowland.gorge-058"
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
@@ -5853,10 +5948,10 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The Kothringi held river country like this and the Knahaten Flu ended them in 2E 560; their village on the bend was never reoccupied because nobody would.",
-        "siteAdvantages": "A firm bend site with a landing — the same reasons a village would be built there today.",
+        "siteAdvantages": "A firm bend site with a landing, for the same reasons a village would be built there today.",
         "occupantsMotive": "Nobody. The free port's crews will not tie up here and will not say it is superstition.",
-        "pressures": "It is the best unoccupied river frontage in the zone and it has been empty for six hundred years.",
-        "wouldChangeIf": "If somebody built here and did not die, the whole taboo collapses and the zone gains a settlement site."
+        "pressures": "It is the best unoccupied river frontage in the zone, but it has been empty for six hundred years.",
+        "wouldChangeIf": "If somebody built here and did not die, the taboo would collapse in a season."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -5901,12 +5996,12 @@
       "vibe": {
         "silhouette": "house platforms and a landing on a good bend, with nothing standing on them",
         "palette": "grey stone footings, long grass, brown river",
-        "materials": "stone footings and post holes — a people who built differently from Argonians",
+        "materials": "stone footings and post holes, from a people who built differently from Argonians",
         "signatureFeature": "a village-shaped clearing on the best ground for kilometres, with a two-hundred-year-old tree growing in the middle of the square",
         "condition": "reduced to footings, undisturbed",
         "mood": "empty, on ground that should not be",
         "approach": "you notice the good ground before you notice why it is empty",
-        "senses": "river noise, and crews going quiet as they pass"
+        "senses": "river noise; crews going quiet as they pass"
       },
       "assetPlan": [
         "landmark-civic",
@@ -5952,11 +6047,11 @@
       "underwaterAccess": "none",
       "name": "Slack Bend",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -5966,7 +6061,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "The best empty river frontage in the zone, and six hundred years of crews refusing to tie up at it.",
+        "hook": "The best empty river frontage in the zone. Six hundred years of crews have refused to tie up at it.",
         "reviewed": true
       },
       "interior": {
@@ -5987,7 +6082,7 @@
             "danger": "D3",
             "count": "single",
             "trigger": "on-entry",
-            "note": "a flu-era ghast still keeping the village's last house, which is why no crew ties up"
+            "note": "a flu-era ghast still keeping the village's last house"
           }
         ],
         "npcs": [],
@@ -6017,23 +6112,23 @@
       },
       "promotedWhy": "Dungeon balance: a standard delve with lore payoff on the water, and the region's Knahaten Flu layer.",
       "position": {
-        "u": 0.59754,
-        "v": 0.17589
+        "u": 0.51946,
+        "v": 0.22496
       },
       "positionM": [
-        4406.0,
-        1296.9
+        3830.2,
+        1658.8
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.seasonal-floodplain.cliff-bench-002",
           "score": 2.469,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+          "whyLost": "taken by place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
           "siteId": "site.free.roadside-0107",
           "score": 1.869,
-          "whyLost": "taken by place.pirate-freeholds.corimont-tradehouse"
+          "whyLost": "too close to place.pirate-freeholds.corimont-hiring-yard"
         },
         {
           "siteId": "site.free.any-firm-ground-0277",
@@ -6041,16 +6136,21 @@
           "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
         }
       ],
-      "whySiteWon": "gorge in firm lowland (danger band 3), 66 m from the nearest route; at the water's edge; won on region, hinterland, danger; site exchanged in the swap pass with place.pirate-freeholds.freehold-pest-house (+0.85).",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 330 m from the nearest route; no free 'oxbow' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.trunk-road-tradehouse (+0.52).",
       "plotFacts": {
-        "landform": "gorge",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 65.8,
-        "distanceToWaterM": 5.5,
-        "score": 1.319
+        "dangerBand": 4,
+        "distanceToRouteM": 329.9,
+        "distanceToWaterM": 41.8,
+        "score": 1.391
       },
-      "scourSiteId": "site.scour.firm-lowland.gorge-058"
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      }
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -6199,6 +6299,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -6221,10 +6327,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port pays for its channel to stay open, and the cheapest way to keep it open is a dredging gang that owes money. The barge is where the gang lives, and where a new hand is read onto the roll.",
+        "founding": "The free port pays to keep its channel open. The cheapest way to keep it open is a dredging gang that owes money. The barge is where the gang lives and where a new hand is read onto the roll.",
         "siteAdvantages": "Moored in the channel off the port, close enough to work the reach and far enough that the port does not have to look at it.",
         "occupantsMotive": "A broker's detail, a handful of overseers and thirty people who owe months; two of them are visibly washed out from years away from their Hist.",
-        "pressures": "The ledger is read aloud at every intake, with the months added for food, and nobody argues because arguing costs months.",
+        "pressures": "The ledger is read aloud at every intake, with the months added for food. Nobody argues, because arguing costs months.",
         "wouldChangeIf": "If the port stopped paying for the dredging, the owings would be sold on to an estate upriver and the barge would be broken for planking."
       },
       "sitingPrefs": {
@@ -6281,9 +6387,9 @@
         "palette": "tar black, wet timber, the grey of dredged silt",
         "materials": "barge deck, plank partitions, chain and basket dredging gear",
         "signatureFeature": "the roll itself, a board of names in a locked case, read out at the top of every shift",
-        "condition": "working, crowded, kept just short of unsafe",
+        "condition": "crowded, kept just short of unsafe",
         "mood": "orderly; every hour of it is counted",
-        "approach": "you arrive on it; the first thing you see is the shore you are not on",
+        "approach": "you arrive by boat; there is no other way off",
         "senses": "chain over a drum; a name read out, then a number"
       },
       "assetPlan": [
@@ -6297,11 +6403,14 @@
       "discovery": "none",
       "questHooks": {
         "provisions": [
-          "quest.provision.opening-work-barge",
+          "quest.provision.confiscated-property-container",
+          "quest.provision.opening-camp",
           "quest.provision.opening-processing-interior",
-          "quest.provision.confiscated-property-container"
+          "quest.provision.opening-work-barge"
         ],
-        "tierOwnership": "tier-0"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "MQ01 · tier-0"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
       "deedCounterKeys": [
@@ -6464,38 +6573,38 @@
         ]
       },
       "position": {
-        "u": 0.53067,
-        "v": 0.16078
+        "u": 0.45848,
+        "v": 0.14762
       },
       "positionM": [
-        3912.9,
-        1185.5
+        3380.6,
+        1088.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.oxbow-016",
-          "score": 3.115,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 2.675,
+          "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
         },
         {
-          "siteId": "site.free.any-firm-ground-0180",
-          "score": 2.789,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.any-firm-ground-0204",
+          "score": 2.604,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
-          "siteId": "site.free.roadside-0108",
-          "score": 2.772,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.roadside-0603",
+          "score": 2.592,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 77 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on sightline, region, parent.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 436 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on sightline, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 77.0,
-        "distanceToWaterM": 29.5,
-        "score": 2.755
+        "dangerBand": 3,
+        "distanceToRouteM": 435.6,
+        "distanceToWaterM": 32.0,
+        "score": 2.363
       }
     },
     {
@@ -6518,11 +6627,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A gang that works a channel has to sleep somewhere on land, and the families follow the gang. The camp is forty years old and has never been called anything but the ground the gang is on.",
+        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and has never been called anything but the ground the gang is on.",
         "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
-        "pressures": "The camp has a Hist a day upriver and no claim on it, and the clutch in the shed is the argument for staying.",
-        "wouldChangeIf": "If the clutch is lost, the camp has no reason to be here and every reason to go somewhere the ledger cannot follow."
+        "pressures": "The camp has a Hist a day upriver but no claim on it. The clutch in the shed is the argument for staying.",
+        "wouldChangeIf": "If the clutch is lost, the families go somewhere the ledger cannot follow."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6577,10 +6686,10 @@
         "palette": "mud, undyed cloth, the warm amber of the hatching shed's lamps at night",
         "materials": "mud render, cut reed, plank walkways over the wet ground",
         "signatureFeature": "the hatching shed, kept warmer and cleaner than anything else in the camp",
-        "condition": "poor, cared for, permanent in all but name",
+        "condition": "poor and cared for",
         "mood": "domestic; the ledger is a walk away",
         "approach": "the walkway from the water runs straight past the shed door",
-        "senses": "cooking, wet reed, and from the long shed a low continuous sound you cannot place until it stops"
+        "senses": "cooking, wet reed; from the long shed a low sound you cannot place until it stops"
       },
       "assetPlan": [
         "bamboo-hut",
@@ -6594,10 +6703,14 @@
       "discovery": "sightline",
       "questHooks": {
         "provisions": [
-          "quest.provision.opening-work-camp",
-          "quest.provision.opening-egg-clutch"
+          "quest.provision.mq32-epilogue-sockets",
+          "quest.provision.opening-camp",
+          "quest.provision.opening-egg-clutch",
+          "quest.provision.opening-work-camp"
         ],
-        "tierOwnership": "tier-0"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "MQ01 · tier-0; MQ32 · tier-0"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
       "deedCounterKeys": [
@@ -6682,7 +6795,7 @@
           "lore-reveal"
         ],
         "impact": "province-changing",
-        "hook": "The gang's families live on this bank, and the warm shed at the back of the camp holds the clutch they will not leave.",
+        "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch they will not leave.",
         "reviewed": true
       },
       "interior": {
@@ -6714,7 +6827,7 @@
             "danger": "D1",
             "count": "single",
             "named": true,
-            "note": "the clutch-keeper, and the game's first loss"
+            "note": "the clutch-keeper, who does not leave the shed"
           },
           {
             "slotId": "n3",
@@ -6738,38 +6851,38 @@
         ]
       },
       "position": {
-        "u": 0.52936,
-        "v": 0.16913
+        "u": 0.53472,
+        "v": 0.18522
       },
       "positionM": [
-        3903.2,
-        1247.1
+        3942.8,
+        1365.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0566",
-          "score": 3.266,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.any-firm-ground-0178",
+          "score": 2.913,
+          "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
         },
         {
-          "siteId": "site.free.roadside-0057",
-          "score": 3.244,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-0204",
+          "score": 2.839,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         },
         {
-          "siteId": "site.free.roadside-0604",
-          "score": 3.239,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0603",
+          "score": 2.826,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 56 m from the nearest route; its first-choice landform; won on landform, sightline, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; its first-choice landform; won on landform, sightline, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 56.5,
-        "distanceToWaterM": 46.5,
-        "score": 3.255
+        "dangerBand": 3,
+        "distanceToRouteM": 36.8,
+        "distanceToWaterM": 7.8,
+        "score": 2.51
       }
     },
     {
@@ -6904,6 +7017,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -7089,6 +7208,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -7160,7 +7285,7 @@
         "materials": "hull timber, silt, trapped cargo",
         "signatureFeature": "cargo still lashed in the hold under a metre of silt, in water too dark to work",
         "condition": "silted, intact",
-        "mood": "dark, and worth the dive",
+        "mood": "dark; worth the dive",
         "approach": "found by diving where the salvagers will not",
         "senses": "current noise above; nothing below"
       },
@@ -7201,11 +7326,11 @@
       "underwaterAccess": "deep-dive",
       "name": "Sixty Tun Salt",
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -7215,7 +7340,7 @@
           "traversal-puzzle"
         ],
         "impact": "real",
-        "hook": "Sixty tun of salt on the bottom of the confluence hole, and a hold the salvage yard decided was not worth drowning for.",
+        "hook": "Sixty tun of salt on the bottom of the confluence hole, under a metre of silt.",
         "reviewed": true
       },
       "interior": {
@@ -7236,7 +7361,14 @@
             "danger": "D3",
             "count": "pair",
             "trigger": "on-approach",
-            "note": "living in the hull's shadow, and in the way"
+            "note": "living in the hull's shadow"
+          },
+          {
+            "slotId": "c2",
+            "role": "apex-ambusher",
+            "registerRef": null,
+            "count": "single",
+            "danger": "D3"
           }
         ],
         "npcs": [],
@@ -7267,38 +7399,44 @@
       },
       "promotedWhy": "Dungeon balance: the region's only underwater-entrance delve (research §2 sub-target).",
       "position": {
-        "u": 0.57069,
-        "v": 0.17745
+        "u": 0.50532,
+        "v": 0.08144
       },
       "positionM": [
-        4208.0,
-        1308.4
+        3726.0,
+        600.5
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.roadside-0063",
-          "score": 3.276,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hiring-yard"
+          "score": 2.776,
+          "whyLost": "too close to place.dunmer-north.wolk-market"
         },
         {
           "siteId": "site.scour.firm-lowland.water-narrows-048",
-          "score": 3.148,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+          "score": 2.648,
+          "whyLost": "lost on score"
         },
         {
           "siteId": "site.free.roadside-0062",
-          "score": 2.7,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hiring-yard"
+          "score": 2.2,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 23 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.half-chartered-anchorage (+1.50).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 23 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, submerged; placed from the homeless batch at stage 'spacing-3/4'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 11.0,
-        "score": 4.38
+        "distanceToRouteM": 23.3,
+        "distanceToWaterM": 12.3,
+        "score": 2.687
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -7321,9 +7459,9 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "An intact Imperial fort on the trunk road, abandoned two hundred years ago, into which somebody moved and started charging.",
-        "siteAdvantages": "It commands the trunk where the road cannot go around it — which is why the Legion built there.",
+        "siteAdvantages": "It commands the trunk where the road cannot go around it, which is why the Legion built there.",
         "occupantsMotive": "A toll-taking outfit with a claim, a garrison of thirty and no legal standing whatsoever.",
-        "pressures": "They are the free port's only rival for the road trade, and the port would rather they existed than the state did.",
+        "pressures": "They are the free port's only rival for the road trade. The port would still rather have them than the state.",
         "wouldChangeIf": "If the state ever garrisoned it properly, the whole zone's economy is enclosed in a season."
       },
       "sitingPrefs": {
@@ -7379,8 +7517,8 @@
         "materials": "Imperial ashlar with freehold timber additions bolted through the parapets",
         "signatureFeature": "an Imperial eagle still over the gate because nobody bothered to chisel it off, under a banner nobody can identify",
         "condition": "sound, crudely extended",
-        "mood": "borrowed authority, and it works",
-        "approach": "the walls are the only such shape in the zone and read from far off",
+        "mood": "borrowed authority; it works",
+        "approach": "square walls, legible a long way down the road",
         "senses": "a gate being worked; drilling that is not quite drill"
       },
       "assetPlan": [
@@ -7394,6 +7532,8 @@
       "discovery": "road",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-fort",
@@ -7441,7 +7581,7 @@
       "underwaterAccess": "none",
       "name": "Gorrey's Fort",
       "hostility": {
-        "baseline": "guarded",
+        "baseline": "hostile",
         "owner": "faction.unclaimed",
         "trespassZones": [
           {
@@ -7737,6 +7877,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -7877,6 +8023,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -8059,6 +8211,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -8209,6 +8367,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -8231,10 +8395,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country, and one of them is cut into the rim rock above the river.",
+        "founding": "The Barsaebic Ayleids left keystone mechanisms across the fringe of this country. One of them is cut into the rim rock above the river.",
         "siteAdvantages": "A dry chamber in the ravine wall, above the flood and below the snow.",
         "occupantsMotive": "Nothing living; the mechanism is the occupant.",
-        "pressures": "The sockets are empty and the keystones are elsewhere, which is exactly the problem the type poses.",
+        "pressures": "The sockets are empty. The keystones are somewhere else.",
         "wouldChangeIf": "If the keystones were returned, whatever the chamber does would start doing it again."
       },
       "sitingPrefs": {
@@ -8282,7 +8446,7 @@
         "materials": "Ayleid ashlar, crystal sockets, cut channels",
         "signatureFeature": "empty keystone sockets cut so precisely that dust does not settle in them",
         "condition": "intact, inert",
-        "mood": "cold, and switched off",
+        "mood": "cold; switched off",
         "approach": "reached by scrambling a ravine wall nobody has business on",
         "senses": "a low resonance you feel rather than hear"
       },
@@ -8343,13 +8507,13 @@
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0348",
-          "score": 1.704,
+          "siteId": "site.free.any-firm-ground-0069",
+          "score": 1.89,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0222",
-          "score": 1.642,
+          "siteId": "site.free.any-firm-ground-0348",
+          "score": 1.704,
           "whyLost": "lost on score"
         }
       ],
@@ -8363,11 +8527,11 @@
         "score": 2.157
       },
       "hostility": {
-        "baseline": "neutral",
+        "baseline": "hostile",
         "owner": null,
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "slow"
       },
       "playerPurpose": {
         "primary": "dungeon-delve",
@@ -8390,7 +8554,15 @@
         "programRef": null
       },
       "contents": {
-        "creatures": [],
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "something-old",
+            "registerRef": null,
+            "count": "few",
+            "danger": "D4"
+          }
+        ],
         "npcs": [],
         "loot": [
           {
@@ -8423,6 +8595,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -8572,6 +8750,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -8595,9 +8779,9 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The one legal crossing of the northern rim needs a staged shelter, because the pass is above the snowline for part of the year and people die on it.",
-        "siteAdvantages": "The saddle at 226 m: the lowest crossing of the wall for many kilometres.",
+        "siteAdvantages": "The saddle at 226 m, the lowest crossing of the wall for many kilometres.",
         "occupantsMotive": "A keeper who is nominally the state's and is paid by the free port, which he does not advertise.",
-        "pressures": "The pass closes seasonally, and when it closes the ledge trade doubles.",
+        "pressures": "The pass closes seasonally. When it closes, the ledge trade doubles.",
         "wouldChangeIf": "If the state funded it properly the rim would be policed and this zone's economy would change entirely."
       },
       "sitingPrefs": {
@@ -8644,9 +8828,9 @@
         "silhouette": "a stone hut at the low point of a skyline notch",
         "palette": "grey stone, white above it half the year, brown below",
         "materials": "dry stone, a heavy timber roof weighted with rocks",
-        "signatureFeature": "a season board that closes the pass, and a keeper who is paid by the people who profit when it does",
-        "condition": "sound, cold, permanently smoky",
-        "mood": "dutiful, and paid twice",
+        "signatureFeature": "a season board that closes the pass; the keeper who turns it is paid by the people who profit when it does",
+        "condition": "cold and permanently smoky",
+        "mood": "dutiful, paid twice",
         "approach": "the notch is the only legible feature on the rim skyline",
         "senses": "wind; a fire that never quite warms the room"
       },
@@ -8747,7 +8931,7 @@
         "primary": "navigation-aid",
         "secondary": [],
         "impact": "real",
-        "hook": "The last roofed room before the pass into Morrowind, and the only place to ask what the road is like today.",
+        "hook": "The last roofed room before the pass into Morrowind. Ask the keeper what the road is like today.",
         "reviewed": true
       },
       "interior": {
@@ -8785,7 +8969,13 @@
         ],
         "destinations": []
       },
-      "scourSiteId": "site.scour.border-mountains.saddle-041"
+      "scourSiteId": "site.scour.border-mountains.saddle-041",
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-porter-yard",
@@ -8959,6 +9149,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -9127,6 +9323,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -9302,7 +9504,13 @@
           "place.pirate-freeholds.rim-porter-yard"
         ]
       },
-      "promotedWhy": "Dungeon balance: a D4 cache delve on the rim, far from the opening rings."
+      "promotedWhy": "Dungeon balance: a D4 cache delve on the rim, far from the opening rings.",
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-smugglers-ledge-north",
@@ -9324,7 +9532,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The free port's cargo has to leave the province somehow, and the legal crossings into Morrowind are few — so the illegal ones are the rim itself.",
+        "founding": "The free port's cargo has to leave the province somehow. There are few legal crossings into Morrowind, so the rim itself is the illegal one.",
         "siteAdvantages": "A cliff bench two-thirds of the way up the border wall, out of sight from below and from the pass, with a traverse line rather than a path.",
         "occupantsMotive": "Two or three men who move consignments and mark which side each one is going.",
         "pressures": "It is a four-hour climb with a load and the weather on the rim turns without warning.",
@@ -9377,7 +9585,7 @@
       },
       "vibe": {
         "silhouette": "nothing at all from below; from above, a worn traverse line across a face",
-        "palette": "rock grey, and covers dyed to match it exactly",
+        "palette": "rock grey, rope brown, nothing else",
         "materials": "rock, rope, rock-coloured canvas",
         "signatureFeature": "consignments stacked under covers dyed to the exact colour of the rock, with chalk marks saying which way each is going",
         "condition": "in constant use, invisible",
@@ -9515,6 +9723,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -9535,10 +9749,10 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Somebody was put out of an order and went as high as there is to go in this province, which is the northern rim.",
+        "founding": "Somebody was put out of an order and went as high as this province goes, onto the northern rim.",
         "siteAdvantages": "Above the snowline on the border wall, with a spring that does not freeze.",
         "occupantsMotive": "One or two, keeping an observance nobody else keeps.",
-        "pressures": "It is the coldest inhabited place in Argonia and reaching it is a genuine expedition.",
+        "pressures": "It is the coldest inhabited place in Argonia. Nobody comes up twice in a year.",
         "wouldChangeIf": "If the order that exiled them collapsed, the observance here becomes the only surviving version of it."
       },
       "sitingPrefs": {
@@ -9591,7 +9805,7 @@
         "materials": "dry stone, a turf roof, a single ritual fitting",
         "signatureFeature": "snow lying on an inhabited roof, in Argonia",
         "condition": "spare and perfectly maintained",
-        "mood": "spare; the cold is the point",
+        "mood": "unbothered by company",
         "approach": "a full day's climb with no encouragement",
         "senses": "wind, then nothing"
       },
@@ -9637,45 +9851,45 @@
       "underwaterAccess": "none",
       "name": "Exile's Roof",
       "position": {
-        "u": 0.61911,
-        "v": 0.08813
+        "u": 0.55813,
+        "v": 0.03533
       },
       "positionM": [
-        4565.0,
-        649.8
+        4115.4,
+        260.5
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.free.any-firm-ground-0098",
-          "score": 2.79,
+          "score": 1.89,
           "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
         },
         {
           "siteId": "site.free.any-firm-ground-0126",
-          "score": 2.681,
+          "score": 1.781,
           "whyLost": "too close to place.pirate-freeholds.dunmer-frontier-holding"
         },
         {
-          "siteId": "site.scour.border-mountains.saddle-021",
-          "score": 2.494,
+          "siteId": "site.scour.border-mountains.summit-005",
+          "score": 1.612,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "summit in border mountains (danger band 3), 604 m from the nearest route; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "summit in border mountains (danger band 3), 477 m from the nearest route; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "summit",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 604.1,
-        "distanceToWaterM": 81.5,
-        "score": 2.512
+        "distanceToRouteM": 477.3,
+        "distanceToWaterM": 105.9,
+        "score": 1.67
       },
       "hostility": {
-        "baseline": "wary",
-        "owner": null,
+        "baseline": "hostile",
+        "owner": "faction.padomaic-wreckers",
         "flips": [],
-        "clearable": false,
-        "respawn": "none"
+        "clearable": true,
+        "respawn": "faction-refills"
       },
       "playerPurpose": {
         "primary": "social-drama",
@@ -9685,7 +9899,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Snow on an inhabited roof in Argonia, a day's climb up, kept by one exile with an observance nobody else keeps.",
+        "hook": "Snow on an inhabited roof, in Argonia. A day's climb up to one exile who keeps an observance nobody else keeps.",
         "reviewed": true
       },
       "interior": {
@@ -9734,7 +9948,13 @@
           "place.pirate-freeholds.rim-porter-yard"
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.summit-005"
+      "scourSiteId": "site.scour.border-mountains.summit-004",
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      }
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
@@ -9886,6 +10106,12 @@
         "reachedVia": [
           "place.pirate-freeholds.rim-porter-yard"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -10037,6 +10263,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -10203,6 +10435,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -10226,11 +10464,11 @@
       ],
       "confidence": "ARENA_NAME_EXTRAPOLATED",
       "why": {
-        "founding": "A rival landing founded downriver to undercut Alten Corimont's list, which lost — because the river bar below it will not take a laden hull and the list will not be undercut.",
+        "founding": "A rival landing founded downriver to undercut Alten Corimont's list. It lost. The bar below it will not take a laden hull, and nobody undercuts the list twice.",
         "siteAdvantages": "A stone-footed landing, a warehouse shell and a defensible bank, all standing, on ground nobody now claims.",
-        "occupantsMotive": "Nobody. The bar that killed it also keeps casual squatters away, and Alten Corimont makes sure the story of why it failed is well told.",
-        "pressures": "It is intact, empty, freehold ground with a river frontage — which in this zone is the most valuable unowned thing there is.",
-        "wouldChangeIf": "If anyone repaired the landing and dredged the bar, Alten Corimont would have a competitor again, and would act."
+        "occupantsMotive": "Nobody. The bar that killed it keeps squatters away too. Alten Corimont sees that the story of the failure is well told.",
+        "pressures": "It is intact, empty freehold ground with a river frontage. Nobody has claimed it in eighty years.",
+        "wouldChangeIf": "If anyone repaired the landing and dredged the bar, Alten Corimont would act."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10247,7 +10485,8 @@
         ],
         "preferences": [
           "defensible bank",
-          "reserve for the Phase 30 player-stronghold study — three phase states, four allegiance re-skins"
+          "reserve for the Phase 30 player-stronghold study — three phase states, four allegiance re-skins",
+          "within sight of the trunk road but off it, so the stronghold reads as a claim on the road rather than a hideout"
         ],
         "landformClasses": [
           "cliff-bench",
@@ -10279,11 +10518,11 @@
       "vibe": {
         "silhouette": "a stone landing and a warehouse shell with no roof, standing alone on a bend",
         "palette": "grey stone, black burnt timber ends, brown river, green taking it back",
-        "materials": "cut stone footings, bought in and shipped up, which is why it is still standing",
+        "materials": "cut stone footings, bought in and shipped up the river",
         "signatureFeature": "a landing built for hulls that cannot get to it, with the mooring rings still bright from a rope nobody has tied in eighty years",
         "condition": "structurally sound, roofless, empty",
-        "mood": "empty, and worth having",
-        "approach": "you see the landing from the water and assume the town is behind it, and it is not",
+        "mood": "empty; worth having",
+        "approach": "you see the landing from the water and assume there is a town behind it. There is not.",
         "senses": "river; wind through an unroofed shell; no voices at all"
       },
       "assetPlan": [
@@ -10300,7 +10539,9 @@
           "quest.provision.player-stronghold-candidate",
           "quest.provision.rival-landing"
         ],
-        "tierOwnership": "tier-1 (offered to the stronghold reservation; not claimed by any tier-2 line)"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "player · tier-1"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.rockpoint",
       "deedCounterKeys": [
@@ -10352,38 +10593,38 @@
         "claimed (the landing dredged and somebody's mark on the gate)"
       ],
       "position": {
-        "u": 0.48599,
-        "v": 0.19373
+        "u": 0.55375,
+        "v": 0.12003
       },
       "positionM": [
-        3583.5,
-        1428.5
+        4083.1,
+        885.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.seasonal-floodplain.cliff-bench-002",
-          "score": 2.733,
+          "siteId": "site.free.roadside-0062",
+          "score": 2.513,
           "whyLost": "too close to place.dunmer-north.wolk-market"
         },
         {
-          "siteId": "site.free.any-firm-ground-0230",
-          "score": 1.816,
-          "whyLost": "too close to place.hist-heartland.heretic-stone-restarted"
+          "siteId": "site.free.roadside-0103",
+          "score": 2.511,
+          "whyLost": "taken by place.pirate-freeholds.reach-wreck"
         },
         {
-          "siteId": "site.free.any-firm-ground-0178",
-          "score": 1.813,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0058",
+          "score": 2.508,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 306 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, danger, landform; site exchanged in the swap pass with place.pirate-freeholds.flu-cairn-field (+0.95).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 71 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on route, region, danger; placed from the homeless batch at stage 'spacing-3/4'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 305.8,
-        "distanceToWaterM": 33.4,
-        "score": 2.054
+        "distanceToRouteM": 71.5,
+        "distanceToWaterM": 35.1,
+        "score": 2.51
       },
       "hostility": {
         "baseline": "neutral",
@@ -10399,7 +10640,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "A derelict steading with its own landing, empty since the port outgrew it, and yours if you can make the roof hold.",
+        "hook": "A derelict steading with its own landing, empty since the port outgrew it. Yours, if you can make the roof hold.",
         "reviewed": true
       },
       "interior": {
@@ -10600,6 +10841,12 @@
           "ferry"
         ],
         "destinations": []
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -10767,6 +11014,12 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -10778,7 +11031,7 @@
         "variant": "road",
         "magnitude": "M1"
       },
-      "status": "deferred",
+      "status": "active",
       "provenance": "geography-derived",
       "sources": [
         "docs/research/morrowind-content-density.md",
@@ -10787,9 +11040,9 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A day's travel out on the northern trunk, which is exactly where a paid bed sells to people who cannot reach the port before dark.",
+        "founding": "A day's travel out on the northern trunk, where a paid bed sells to people who cannot reach the port before dark.",
         "siteAdvantages": "A ford with firm ground, a landing and space for beasts.",
-        "occupantsMotive": "A keeper who takes coin, barter and — reluctantly — obligation.",
+        "occupantsMotive": "A keeper who takes coin, barter and, reluctantly, obligation.",
         "pressures": "It is the last place before the rim where a stranger is served without questions.",
         "wouldChangeIf": "If the trunk were rerouted the house is worthless within a year."
       },
@@ -10838,7 +11091,7 @@
         "silhouette": "a long low building with lamps at a road bend",
         "palette": "whitewash gone grey, thatch, lamp yellow, road mud to the height of a cart axle",
         "materials": "timber frame, thatch, a stone-flagged main room",
-        "signatureFeature": "three price columns chalked at the door: coin, goods, and owed",
+        "signatureFeature": "three price columns chalked at the door: coin, goods and owed",
         "condition": "commercially maintained",
         "mood": "brisk, incurious",
         "approach": "lamps at the bend, in a landscape with none",
@@ -10867,7 +11120,7 @@
       },
       "complexityBudget": "simple",
       "importanceTier": 3,
-      "workflow": "derived",
+      "workflow": "plotted",
       "relations": {
         "dependsOn": [],
         "supplies": [],
@@ -10903,7 +11156,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A ford with firm ground, a landing and space for beasts",
+        "hook": "A paid bed a day out from the port. Nobody at the door asks your business.",
         "reviewed": false
       },
       "interior": {
@@ -10919,6 +11172,48 @@
         "creatures": [],
         "npcs": [],
         "loot": []
+      },
+      "questHooks": {
+        "provisions": [
+          "quest.provision.lq28-anchor"
+        ],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "LQ28 · tier-3"
+      },
+      "position": {
+        "u": 0.50012,
+        "v": 0.10969
+      },
+      "positionM": [
+        3687.7,
+        808.8
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.roadside-0055",
+          "score": 3.94,
+          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+        },
+        {
+          "siteId": "site.free.roadside-0050",
+          "score": 3.899,
+          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+        },
+        {
+          "siteId": "site.free.roadside-0566",
+          "score": 3.884,
+          "whyLost": "too close to place.dunmer-north.the-standing-bid"
+        }
+      ],
+      "whySiteWon": "firm ground in upland hills (danger band 3), 194 m from the nearest route; its choice #2 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.kothringi-river-ruin (+0.52).",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "upland hills",
+        "dangerBand": 3,
+        "distanceToRouteM": 194.0,
+        "distanceToWaterM": 74.6,
+        "score": 4.045
       }
     },
     {
@@ -10941,11 +11236,11 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The road from the free port to Stormhold has to cross the channel, and the crossing has an owner, as every crossing here does.",
+        "founding": "The road from the free port to Stormhold has to cross the channel. The crossing has an owner, as every crossing here does.",
         "siteAdvantages": "The narrowest hard-banked crossing on the Alten Corimont to Stormhold road.",
         "occupantsMotive": "Four toll-takers working for a freehold syndicate that bought the span outright.",
-        "pressures": "The Owing operates at this crossing, as it does at every tolled crossing in the route graph, and the ledger is kept in the open.",
-        "wouldChangeIf": "If the free port bought the span outright, Stormhold's road trade would be paying Alten Corimont directly, which is why it has not happened."
+        "pressures": "The Owing operates at this crossing, as it does at every tolled crossing on the road. The ledger is kept in the open.",
+        "wouldChangeIf": "If the free port bought the span outright, Stormhold's road trade would be paying Alten Corimont directly."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -11014,7 +11309,9 @@
         "provisions": [
           "quest.provision.reed-writ-enforcement-point"
         ],
-        "tierOwnership": "tier-3"
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": "Reed track · tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
       "deedCounterKeys": [
@@ -11060,18 +11357,18 @@
         "free (the board painted out and the span deliberately unrepaired, which is its own toll)"
       ],
       "position": {
-        "u": 0.53472,
-        "v": 0.18522
+        "u": 0.48004,
+        "v": 0.16249
       },
       "positionM": [
-        3942.8,
-        1365.7
+        3539.6,
+        1198.1
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.firm-lowland.water-narrows-048",
           "score": 3.061,
-          "whyLost": "too close to place.pirate-freeholds.rockpoint"
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
           "siteId": "site.free.any-firm-ground-0228",
@@ -11084,14 +11381,14 @@
           "whyLost": "too close to place.pirate-freeholds.alten-corimont"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, landform; site exchanged in the swap pass with place.pirate-freeholds.corimont-low-store (+1.44).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 270 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on region, hinterland, route.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 36.8,
-        "distanceToWaterM": 7.8,
-        "score": 2.637
+        "distanceToRouteM": 270.1,
+        "distanceToWaterM": 21.9,
+        "score": 2.387
       },
       "hostility": {
         "baseline": "neutral",
@@ -11283,6 +11580,12 @@
           "place.pirate-freeholds.corimont-head-of-navigation",
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
       }
     },
     {
@@ -11437,6 +11740,283 @@
         "reachedVia": [
           "place.pirate-freeholds.trunk-road-tradehouse"
         ]
+      },
+      "questHooks": {
+        "provisions": [],
+        "tags": [],
+        "opportunity": null,
+        "tierOwnership": null
+      }
+    },
+    {
+      "id": "place.pirate-freeholds.upriver-hist-village",
+      "name": "Nine Bends",
+      "aliases": [],
+      "classification": {
+        "class": "settlement",
+        "family": "tribal-village",
+        "type": "hist-village",
+        "variant": "speaking-hist",
+        "magnitude": "M3"
+      },
+      "status": "active",
+      "season": "all-year",
+      "eraLayers": [
+        "current"
+      ],
+      "provenance": "quest-required",
+      "sources": [
+        "docs/quests/30-main-quest.md MQ01 (the Hist that withdraws; the clutch dies that night)",
+        "docs/quests/20-world-provisions.md §12b",
+        "world/sources/lore/topics/hist-and-sap.md"
+      ],
+      "confidence": "EXTRAPOLATED",
+      "why": {
+        "founding": "The gangs that work the lower channel are hired out of Alten Corimont, but the tree the gang families answer to stands nine bends upriver, where the water is still fresh enough to drink. The village grew where the tree is. The work has been a day downriver for sixty years.",
+        "siteAdvantages": "Fresh water above the salt wedge, a bank firm enough to build on, and bends enough between here and the port that its ledgers have never come up.",
+        "occupantsMotive": "A tribe keeping a tree, hiring its own people out downriver because there is no other coin, counting the days until each of them comes home.",
+        "pressures": "Every year more of the village's adults are on somebody's roll downriver. The tree has begun to notice how few of them it sees.",
+        "wouldChangeIf": "If the tree withdraws, nothing keeps the village nine bends from the work. The lower channel loses the only Hist that will speak to it."
+      },
+      "sitingPrefs": {
+        "regionClasses": [
+          "fringe marsh",
+          "firm lowland"
+        ],
+        "hardConstraints": [
+          "on the trunk river above the salt wedge",
+          "within a day's poling of place.pirate-freeholds.opening-work-camp",
+          "danger band 2 or lower"
+        ],
+        "preferences": [
+          "a bend with a deep pool for the hatchery",
+          "no road within sight"
+        ],
+        "landformClasses": [
+          "any-firm-ground",
+          "flood-high"
+        ],
+        "scourSiteIds": []
+      },
+      "relations": {
+        "dependsOn": [],
+        "supplies": [],
+        "rivals": [],
+        "patrols": [],
+        "tolls": [],
+        "visibleFrom": [],
+        "reachedVia": [
+          "place.pirate-freeholds.opening-work-camp",
+          "place.pirate-freeholds.alten-corimont"
+        ],
+        "travelServiceEdges": []
+      },
+      "culture": "argonian",
+      "ownerFaction": null,
+      "occupants": [
+        "D1 tribe",
+        "D1 tree-minder",
+        "D2 river predators on the approach"
+      ],
+      "notableNpcSlots": [
+        "npc.opening.tree-minder",
+        "npc.opening.upriver-elder"
+      ],
+      "dangerTier": "D2",
+      "approachDanger": "D2",
+      "traversalModes": [
+        "boat",
+        "walk",
+        "swim"
+      ],
+      "traversalFallback": "walk",
+      "effortToReach": 2,
+      "rewardProfile": {
+        "kinds": [
+          "quest-hook",
+          "lore-fragment",
+          "rest-shelter",
+          "rumour"
+        ],
+        "valueTier": "tier-3"
+      },
+      "vibe": {
+        "silhouette": "one broad low tree with a village built round its foot in a ring, the river bending away on both sides",
+        "palette": "wet green, pale sap-white on the trunk, the dull red of fired clay hatchery lids",
+        "materials": "cut reed, mud render, split cane walkways, one carved landing stage",
+        "signatureFeature": "the hatchery pool cut into the bank so the tree's roots run down into it",
+        "condition": "kept, but with too few hands keeping it",
+        "mood": "quiet; too few people for the size of it",
+        "approach": "you hear the tree's chimes a bend before you see the village",
+        "senses": "sap, wet reed, the low sound of a tree still talking"
+      },
+      "assetPlan": [
+        "hist-tree",
+        "bamboo-hut",
+        "passerelles-walkway",
+        "argonian-props",
+        "argonian-lights",
+        "totems-ritual",
+        "clutter"
+      ],
+      "discovery": "rumour",
+      "densityLayer": "destination",
+      "entrance": "door",
+      "underwaterAccess": "surface-swim",
+      "questHooks": {
+        "provisions": [
+          "quest.provision.opening-hist-withdrawal"
+        ],
+        "tags": [
+          "LOC",
+          "NPC",
+          "SCENE",
+          "STATE"
+        ],
+        "opportunity": "the tree the opening's stakes hang on, a day upriver from the gang that will lose its clutch",
+        "tierOwnership": "MQ01 · tier-0"
+      },
+      "rumourPoolKey": "rumour.pirate-freeholds.the-owing",
+      "deedCounterKeys": [
+        "deed.hatchery.defended"
+      ],
+      "sockets": {
+        "scene": [
+          "scene.opening.tree-withdraws"
+        ],
+        "evidence": [
+          "evidence.opening.harvest-cut"
+        ],
+        "station": [
+          "station.rest.nine-bends"
+        ],
+        "marks": [
+          "mark.opening.hatchery-pool",
+          "mark.opening.tree-foot"
+        ]
+      },
+      "complexityBudget": "standard",
+      "importanceTier": 0,
+      "workflow": "plotted",
+      "localStateVariants": [
+        "speaking (chimes, lit hatchery, minders on the landing)",
+        "withdrawn (no chimes, the pool covered, the village indoors)"
+      ],
+      "hostility": {
+        "baseline": "wary",
+        "owner": null,
+        "flips": [
+          {
+            "to": "friendly",
+            "when": {
+              "questStage": [
+                "quest.mq.01",
+                "≥",
+                40
+              ]
+            },
+            "scope": "place"
+          }
+        ],
+        "clearable": false,
+        "respawn": "none"
+      },
+      "playerPurpose": {
+        "primary": "quest-anchor",
+        "secondary": [
+          "lore-reveal",
+          "safe-rest"
+        ],
+        "impact": "province-changing",
+        "hook": "The tree the gang's families answer to stands nine bends upriver. Its minder says it has begun to go quiet.",
+        "reviewed": true
+      },
+      "interior": {
+        "kind": "building",
+        "family": "dwelling",
+        "sizeBand": "S1",
+        "wetFraction": 0.1,
+        "entranceCount": 2,
+        "exteriorShell": true,
+        "verticalRelationship": "within",
+        "programRef": null
+      },
+      "contents": {
+        "creatures": [
+          {
+            "slotId": "c1",
+            "role": "domestic",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "few",
+            "named": false,
+            "note": "pond guar kept for the hatchery's warmth"
+          }
+        ],
+        "npcs": [
+          {
+            "slotId": "n1",
+            "role": "named-keeper",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "single",
+            "named": true,
+            "note": "the tree-minder, who will say plainly what withdrawal means"
+          },
+          {
+            "slotId": "n2",
+            "role": "family",
+            "registerRef": null,
+            "danger": "D1",
+            "count": "band",
+            "named": false,
+            "note": "the households whose adults are all downriver on a roll"
+          }
+        ],
+        "loot": [
+          {
+            "slotId": "l1",
+            "role": "provisions",
+            "registerRef": null,
+            "payoff": "rest-shelter",
+            "valueTier": "tier-1",
+            "provenance": "what a village gives a stranger who brought news"
+          }
+        ]
+      },
+      "position": {
+        "u": 0.54838,
+        "v": 0.15514
+      },
+      "positionM": [
+        4043.5,
+        1143.9
+      ],
+      "candidatesConsidered": [
+        {
+          "siteId": "site.free.any-firm-ground-0205",
+          "score": 3.008,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0108",
+          "score": 3.005,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0566",
+          "score": 3.004,
+          "whyLost": "lost on score"
+        }
+      ],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 43 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "plotFacts": {
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 42.8,
+        "distanceToWaterM": 17.3,
+        "score": 3.013
       }
     },
     {
@@ -11460,8 +12040,8 @@
       "why": {
         "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border they had crossed.",
         "siteAdvantages": "High firm ground on the flank above the pass, chosen for the sightline rather than the soil.",
-        "occupantsMotive": "Veterans and their children, armed, organised, and not answerable to the free port.",
-        "pressures": "They are the only armed force in the zone and everyone is careful about what they are asked to do.",
+        "occupantsMotive": "Veterans and their children, armed and not answerable to the free port.",
+        "pressures": "They are the only armed force in the zone, so everyone is careful what they ask of them.",
         "wouldChangeIf": "If they were ever hired by the port, the freeholds become a power rather than a market."
       },
       "sitingPrefs": {
@@ -11520,7 +12100,7 @@
         "materials": "heavy timber stockade, mud render, taken Dunmer gear used as fittings",
         "signatureFeature": "Dunmer armour pieces reused as door furniture, throughout, without comment",
         "condition": "hard, well maintained",
-        "mood": "watchful, and short with strangers",
+        "mood": "watchful; short with strangers",
         "approach": "the stockade breaks the slope above the road long before you reach it",
         "senses": "drill in the mornings; long silences otherwise"
       },
@@ -11535,6 +12115,8 @@
       "discovery": "rumour",
       "questHooks": {
         "provisions": [],
+        "tags": [],
+        "opportunity": null,
         "tierOwnership": "tier-2"
       },
       "rumourPoolKey": "rumour.pirate-freeholds.veterans",
@@ -11579,12 +12161,12 @@
       "underwaterAccess": "none",
       "name": "Blacklight Holding",
       "position": {
-        "u": 0.58416,
-        "v": 0.06805
+        "u": 0.60052,
+        "v": 0.02417
       },
       "positionM": [
-        4307.3,
-        501.7
+        4427.9,
+        178.2
       ],
       "candidatesConsidered": [
         {
@@ -11603,14 +12185,14 @@
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 453 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, danger; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+1.13).",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 764 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on region, hinterland, danger; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+0.38).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 453.0,
-        "distanceToWaterM": 57.2,
-        "score": 3.317
+        "distanceToRouteM": 763.9,
+        "distanceToWaterM": 27.4,
+        "score": 2.742
       },
       "hostility": {
         "baseline": "wary",

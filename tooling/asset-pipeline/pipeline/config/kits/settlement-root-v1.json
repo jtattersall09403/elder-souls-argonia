@@ -1,0 +1,440 @@
+{
+ "id": "settlement-root-v1",
+ "description": "Grown-root EXTERIOR settlement kit \u2014 the canopy/trunk building culture the catalogue's `hist-grove-capital` and 34 other records assume (audit \u00a74 claim `grown-root-architecture`). Pure packaging of BM&V's Bosmer tree-city (`citebosmer`) as its authors built it: the three trunk-house forms with their own balcony, door, window and liana pieces (`tronc` = trunk house, `champ` = tapered mushroom-cap house, `gland` = hanging acorn/pod house), the COMPLETE modular elevated walkway system (all 52 `passerelles/troncons` straights, climbs, turns, 45/90 curves, T/X/Y junctions, stair and end pieces) and its `kiosque` platform family (deck, side walls, railings, access ramps, fixation collar), plus the giant host trees and root base the houses are authored to hang from. Extended with HTBM Cipactli Hist roots and ramp for the ground layer, and Mud Mother Grove's Argonian lanterns, totem, bone chime, banner, woven fences, plank bridge and platforms so the settlement reads Argonian rather than Bosmer. Interiors for these dwellings come from dungeon-root-v1 (`dwelling`/`civic-hall` interior families also resolve there). NOT tropicalised: no vanilla-backed piece is present. EXCLUDED: `housetroncbalcon001` \u2014 it carries no exportable geometry (an editor marker/parent node); the usable trunk balcony is `housetroncbalcon15v001` with its `acces15d/i` approach and `endl/endr` caps.",
+ "culture": "argonian-root",
+ "output": "tooling/asset-pipeline/output/kits/settlement-root-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "passerelles": "The walkway system's own encoded grid \u2014 this is the whole reason to package it intact. `passl<len>[h<rise>]<d|i>01`: `l` = length in Bethesda units (64/128/160/256/512), `h` = the rise that segment climbs (0/32/64/128), `d`/`i` = the two authored handrail sides (droite/interieur), which must stay consistent along a run or the rail flips. `passl256h64startd01` is the authored START of a climbing run. `passturn45...` are flat/climbing 45-degree turns (`ldi`/`rdi`/`lid`/`rid` encode which side turns and which rail leads); `passcirc45r1280...` and `passcirc90r448/r576...` are true arcs at a fixed radius (1280 / 448 / 576 units) \u2014 chain only arcs of the SAME radius. `passjunct`/`passjuncx`/`passjuncy` are the T, cross and Y junctions; `passend01` terminates; `passesc128h64d01` is the stair. All pieces butt end-to-end on the deck plane with origin at the entry face, so a run is a sum of `l` values and its height a sum of `h` values.",
+  "kiosque": "A platform node dropped into a walkway run: `kiosk01` deck, `kioskaccesd01`/`kioskaccesi01` the two approach ramps that mate to a `pass...` end, `kioskbarriered01`/`kioskbarrierei01` the railings, `kioskmurd01`/`kioskmuri01` the solid sides, `kioskfixation001` the collar that ties it to a trunk.",
+  "houses": "Each house form is a shell plus its OWN accessory family; do not cross forms. `housetronc001` takes `housetroncbalcon*` (with `acces15d/i` approach and `endl/endr` caps), `housetroncdooret/rc01` and `housetroncwindowet/rc00x`. `housechamp001` takes the `45v` balcony family, the `acceslat*` lateral accesses, `finl/finr` end caps and `housechampwindow00x`. `housegland001` hangs and takes `houseglandacceslatd/i01`, its own door and `windowet/rc` set. `housechamplianess001`/`lianestronc` and `housetronc001lianess` are the authored liana drops that visually tie a house to the tree.",
+  "trees": "`treegiant01` is the host trunk, `treegiantbranche1-7/12/13` the boughs and `treegiantbrancheleaves01b/03/04` the foliage; `treegiantrootbase01` is the root flare at the base. Houses and walkways are hand-attached to boughs \u2014 there are no snap points, the branch geometry is the guide.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in settlement-root-v1.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetronc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetronc001lianess"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncbalcon15v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncbalconacces15d001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncbalconacces15i001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncbalconendl01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncbalconendr01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncdooret01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncdoorrc01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowet002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowet003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowet004"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowrc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowrc002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housetroncwindowrc003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechamp001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalcon45v001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacces45d001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacces45i001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacceslatld001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacceslatli001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacceslatrd001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconacceslatri001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconfinl01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampbalconfinr01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampdoor01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechamplianess001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechamplianestronc"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampwindow001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampwindow002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampwindow003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housechampwindow004"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/housegland001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandacceslatd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandacceslati01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglanddoor001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandfixation001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandwindowet001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandwindowet002"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandwindowet003"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/houses/houseglandwindowrc001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0rdi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256lid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rdi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h256rid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h0dd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128ldd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h128rdd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256rdd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256ldd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r576h256rdd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passend01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncti01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncydii01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncyidd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128h32i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl160h128i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64starti01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl64i01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128lid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rdi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h128rid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64lid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rdi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45h64rid01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45ldis01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passturn45rdis01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarriered01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskfixation001"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmurd01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskmuri01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiant01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche1"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche2"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche3"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche4"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche5"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche6"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche7"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche12"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbranche13"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves01b"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves03"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantbrancheleaves04"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treegiantrootbase01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/trees/treemere03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots04"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots05"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histroots06"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/trees/histramp"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns03"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns04"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbridge"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbridgestart"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianplatform"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianplatformsmall"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfence01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfence02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfenceend"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/histtree"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/thatchroofing"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/archwaysticks"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/banner01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01"
+  }
+ ]
+}

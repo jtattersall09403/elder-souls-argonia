@@ -126,12 +126,15 @@ def _warp_regions(region, m_per_px, rng):
 
 def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
                            salinity=None, twi=None, wetlands=None, roads=None,
-                           v_frac=None, water_level=None):
+                           minor_routes=None, v_frac=None, water_level=None):
     """Return (landcover material raster int16, control RGBA uint8).
 
     height: metres relative to sea level (water surface y=0); region: region
     class raster; rivers: river band raster (0/1/2/3); slope: rise/run;
     salinity/twi/wetlands: optional macro fields, roads: optional bool mask;
+    minor_routes: optional int8 raster of minor-route surface classes
+    (routes_raster.MINOR_TRACK / MINOR_PATH) — the Part 3b tracks and
+    footpaths, painted narrower and duller than the trunk roads;
     v_frac: optional 0(north)..1(south) province-latitude raster enabling the
     northern palette zone — all at the same resolution as height.
     water_level: optional LOCAL water-surface height raster (Phase 8b
@@ -333,6 +336,18 @@ def compile_ground_control(height, region, rivers, slope, m_per_px, rng,
         road_mat[wear > 0.55] = PATH
         road_mat[(wet_score > 1.2) & (wear > 0.3)] = TRACK
         mat = np.where(roads & ~water & ~channel_bed, road_mat, mat)
+
+    # Minor routes (Part 3b): a track is a cart-width worn dirt surface, a
+    # footpath a single-texel trodden strip; boardwalks paint nothing (they
+    # are placed assets over water — vegetation clearance only). Painted
+    # after the trunk roads so a track joining a road cannot overwrite it,
+    # and on dry ground only, same rule as above.
+    if minor_routes is not None:
+        dry = ~water & ~channel_bed
+        mat = np.where((minor_routes == 1) & dry, TRACK, mat)
+        mat = np.where((minor_routes == 2) & dry, PATH, mat)
+        if roads is not None:
+            mat = np.where(roads & dry, road_mat, mat)
 
     # Control map: blur each material's mask a little and keep the top two per
     # texel -> (id0, id1, blend), tracked incrementally so a full-res compile

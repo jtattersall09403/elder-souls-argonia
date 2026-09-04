@@ -24,6 +24,16 @@
       "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json."
     },
     {
+      "path": "apps/world-studio/public/province/waterways-minor.json",
+      "enforced": true,
+      "_": "Minor water network — channels, rivers, ferry crossings (worldgen.compile_minor_waterways, Part 3c); same px frame and shape as routes-minor.json."
+    },
+    {
+      "path": "apps/world-studio/public/province/routes-index.json",
+      "enforced": true,
+      "_": "Route registry projection for the studio's routes/waterways layers (worldgen.export_routes); keyed by route id, joined to the geometry bundles."
+    },
+    {
       "path": "world/sources/flora/palettes.json",
       "enforced": false,
       "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
@@ -42,6 +52,11 @@
       "path": "world/sources/routes/registry.json",
       "enforced": true,
       "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society)."
+    },
+    {
+      "path": "world/sources/registries",
+      "enforced": true,
+      "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044."
     }
   ]
 }

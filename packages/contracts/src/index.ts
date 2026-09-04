@@ -130,17 +130,121 @@ export interface PlottedPlace {
   /** Catalogue v2 (2026-09-03): "primary (impact) + secondary…", the one-sentence hook, hostility baseline, interior summary. */
   purpose: string | null;
   hook: string | null;
-  stance: string | null;
+  stance: HostilityStance | string | null;
   interior: string | null;
+  /** Structured views of the same v2 blocks (export schemaVersion 2). */
+  purposeDetail: PlottedPlacePurpose | null;
+  stanceDetail: PlottedPlaceStance | null;
+  interiorDetail: PlottedPlaceInterior | null;
+  /** How the place is entered, e.g. `underwater-entry`. */
+  entrance: string | null;
+  /** `none` | `argonian-only-depth` | … — an Argonian-only underwater way in. */
+  underwaterAccess: string | null;
+  /** Population/loot slots, already flattened to one short line each. */
+  contents: PlottedPlaceContents | null;
+  travelStation: PlottedPlaceTravelStation | null;
+  /** Prose provisions this place owes the quest layer (docs/quests/20). */
+  questProvisions: string[];
+  /** Quest tier claim, e.g. `tier-0 protected` (docs/quests/20 §Tier-0). */
+  tierOwnership: string | null;
+}
+
+/** The six hostility baselines of catalogue schema v2. */
+export type HostilityStance = "sanctuary" | "friendly" | "neutral" | "guarded" | "wary" | "hostile";
+
+export interface PlottedPlacePurpose {
+  primary: string | null;
+  impact: string | null;
+  secondary: string[];
+}
+
+export interface PlottedPlaceStance {
+  baseline: HostilityStance | string | null;
+  owner: string | null;
+  clearable: boolean | null;
+  respawn: string | null;
+  /** Pre-rendered one-liners: `→ hostile when notorietyTier region.x hunted`. */
+  flips: string[];
+}
+
+export interface PlottedPlaceInterior {
+  /** `delve` | `dungeon` | `complex` | `warren` | `room` … (`none` is exported as null). */
+  kind: string | null;
+  family: string | null;
+  sizeBand: string | null;
+  /** 0–1 share of the interior that is underwater. */
+  wetFraction: number | null;
+  entranceCount: number | null;
+  exteriorShell: string | null;
+  verticalRelationship: string | null;
+}
+
+export interface PlottedPlaceContents {
+  creatures: string[];
+  npcs: string[];
+  loot: string[];
+}
+
+export interface PlottedPlaceTravelStation {
+  modes: string[];
+  destinations: { id: string; name: string }[];
 }
 
 export interface PlottedPlacesBundle {
-  schemaVersion: 1;
+  schemaVersion: 2;
   source: string;
   /** Region zone → CSS hex, copied from society.CULTURES so pictures agree. */
   zoneColours: Record<string, string>;
   unsitedCount: number;
   places: PlottedPlace[];
+}
+
+// ---------------------------------------------------------------------------
+// Route registry index (worldgen.export_routes → province/routes-index.json)
+// ---------------------------------------------------------------------------
+// Registry fields keyed by route id. The geometry bundles (routes.json,
+// waterways.json, routes-minor.json) carry the ids; consumers join on them so
+// no runtime reads world/sources/routes/registry.json.
+
+export interface RegisteredRoute {
+  name?: string;
+  /** `road` | `boat` | `track`. */
+  mode?: string;
+  /** `trunk` | `road` | `lane` | `channel` | `track` | `footpath` | `boardwalk` | `causeway`. */
+  class?: string;
+  from?: string;
+  to?: string;
+  confidence?: string;
+  /** Named routes with no solved geometry yet are `false`. */
+  solved?: boolean;
+  notes?: string;
+  sources: string[];
+  aliases: string[];
+}
+
+export interface RoutesIndexBundle {
+  schemaVersion: 1;
+  source: string;
+  routes: Record<string, RegisteredRoute>;
+}
+
+/** A drawn route line on the 1345-px hydrology grid (routes.json / waterways.json). */
+export interface RouteGeometry {
+  id?: string;
+  name?: string;
+  class?: string;
+  from: string;
+  to: string;
+  lengthKm?: number;
+  px: [number, number][];
+}
+
+export interface RoadsBundle {
+  routes: RouteGeometry[];
+}
+
+export interface WaterwaysBundle {
+  lanes: RouteGeometry[];
 }
 
 export type MinorTrackKind = "track" | "footpath" | "boardwalk" | "causeway";

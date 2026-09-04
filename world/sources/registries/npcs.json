@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "domain": "npc",
+  "_": "PLACEHOLDER register. The catalogue's notableNpcSlots are prose descriptions of a role, not ids: Phase 13's NPC register turns each into an npc.* entry and stamps the id into contents.npcs[].registerRef. Seeded only with the principal cast that already has a written brief.",
+  "entries": [
+    {
+      "id": "npc.holds-the-reed",
+      "name": "Holds-the-Reed",
+      "kind": "principal",
+      "status": "derived",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Director of the Veiled Reed; Gideon-born lukiul. Full brief in docs/quests/36-cast-roster.md.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    },
+    {
+      "id": "npc.nesh-deeka",
+      "name": "Nesh-Deeka",
+      "kind": "principal",
+      "status": "derived",
+      "sources": [
+        "docs/quests/36-cast-roster.md"
+      ],
+      "notes": "Veiled Reed field handler at Alten Corimont; the player's handler, removed at the midpoint. Full brief in docs/quests/36-cast-roster.md.",
+      "assetAvailability": {
+        "status": "vanilla",
+        "via": "vanilla Argonian race (meshes/actors/character) with vanilla humanoid animation sets",
+        "notes": "Playable-race body; equipment and face variation only. No new rig or clips."
+      }
+    }
+  ]
+}

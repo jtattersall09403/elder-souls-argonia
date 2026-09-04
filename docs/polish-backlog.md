@@ -8,7 +8,6 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 | Item | Source | Done when |
 |---|---|---|
 | **Water: full re-review of all water systems** (rivers, waterfalls, shore/sea lapping, marsh wetness, underwater, perf) — owner closed 8b as good-enough, explicitly **not perfect**; re-review and polish as a set at Phase P | 8b close (owner 2026-08-28) | owner walks a river source→sea + a beach + a marsh and signs off, remaining niggles fixed |
-| **Minor routes painted and cleared** — the Part 3b tracks/footpaths/boardwalks (`routes-minor.json`) and any named `route.track.*` must be rasterised into the land cover (`refine_province.rasterize_roads` reads only the major roads today) and treated as thinned corridors by the vegetation scatter; boat lanes/channels likewise clear emergent reeds. **Must-do before Phase 15 rollout, not optional polish** | Phase 11 owner feedback 2026-09-03 (0041 Part 4 step 2) | walking a footpath in the deployed build shows a worn surface with no trunks in the way; a canoe channel is reed-free |
 | Water: hero-pool interactive sim patches (jeantimex) at select POIs | 8b deferred (0025) | a hero pool ripples/reflects at full sim quality |
 | Water: FFT open-sea tier (abyssal-ocean) for Topal Bay horizon | 8b deferred (0025) | open-sea swell quality on high tier, no perf regression |
 | Water: projected bed caustics | 8b deferred (0025) | moving caustics on shallow beds in sun |

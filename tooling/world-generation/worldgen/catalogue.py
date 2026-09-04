@@ -39,7 +39,16 @@ rest become required as `workflow` advances):
                   condition, mood, approach, senses}
   asset plan      assetPlan [inventory family refs] — feasible by construction
   discovery       *discovery (sightline|road|rumour|document|none)
-  quest hooks     questHooks {provisions, tierOwnership}
+  quest hooks     questHooks {provisions, tags, opportunity, tierOwnership} —
+                  the join with docs/quests (see docs/quests/25-quest-place-map.md).
+                  provisions: `quest.provision.<slug>` ids answering the
+                  World-generation provision column of quests 30/40/50 (the
+                  §11 tag is dropped, dots/underscores become dashes);
+                  tags: the quests-20 §11 vocabulary (LOC/APP/WATER/…);
+                  opportunity: the region agent's one-line "what a quest could
+                  do here", the places→quests direction;
+                  tierOwnership: "<quest or line id> · tier-N", semicolon-joined
+                  when several claim one place, lowest tier first.
   build-out keys  rumourPoolKey?, deedCounterKeys [], sockets
                   {scene:[], evidence:[], station:[], marks:[]}  — present
                   from v1 even when empty (buildout register)
@@ -70,6 +79,10 @@ rest become required as `workflow` advances):
   travel          travelStation? {modes[], destinations[]} — a Morrowind-style
                   pay-and-go node (boat/ferry/rootworm/guide); destinations are
                   place ids that also carry a travelStation
+  siting note     sitingNote? — why WE placed a canon subject where we did, when
+                  the sources put it elsewhere or say nothing. Design rationale
+                  belongs here or in `sources`, never in `why.*` prose
+                  (quests 60 §45e.1 bans provenance voice in world text)
   reserve         relationsReserved? — edges pruned because their target is
                   deferred/cut; same shape as relations; restored if the target
                   is promoted (owner ruling 2026-09-03)
@@ -430,6 +443,18 @@ def validate_catalogue(catalogue_dir: Path = CATALOGUE_DIR, check_permanence: bo
     errors: list[str] = []
     classes = load_taxonomy(catalogue_dir)
     aliases = load_asset_aliases(catalogue_dir)
+    # Every alias TARGET must be a real inventory family. Slug presence alone
+    # was checked before, so a dangling target (an invented family id) survived
+    # silently until a kit agent tripped over it — Phase 11 Part 4 found three.
+    if aliases is not None:
+        inventory = (catalogue_dir.parents[1] / "sources" / "placement"
+                     / "settlement-asset-inventory.json")
+        if inventory.exists():
+            known = {f["id"] for f in json.loads(inventory.read_text())["families"]}
+            for slug, family in sorted(aliases.items()):
+                if family not in known:
+                    errors.append(f"asset-aliases.json: slug '{slug}' targets unknown inventory "
+                                  f"family '{family}'")
     seen: set[str] = set()
     for rf in load_region_files(catalogue_dir):
         ids = [p.get("id", "") for p in rf.places]

@@ -27,6 +27,7 @@ from scipy import ndimage
 
 from .condition import base_terrain
 from .landcover import compile_ground_control
+from .routes_raster import rasterize_minor_paint
 from .scale import RAW_M, TUNE
 
 STEP = 3                               # macro rasters are 1/3 of full res
@@ -319,11 +320,13 @@ def main() -> None:
     v_frac = np.broadcast_to(
         (np.arange(h.shape[0], dtype=np.float32) / h.shape[0])[:, None], h.shape)
     roads = rasterize_roads(h.shape, (0, 0)) | portage_track
+    minor = rasterize_minor_paint(h.shape, STEP, (0, 0))
     landcover_mat, control = compile_ground_control(
         h, regions_up, rivers_up, slope_f, RAW_M, rng,
         salinity=up(npz["salinity"]), twi=up(npz["twi"]),
-        wetlands=up(npz["wetlands"]), roads=roads, v_frac=v_frac)
-    del slope_f, roads
+        wetlands=up(npz["wetlands"]), roads=roads,
+        minor_routes=minor, v_frac=v_frac)
+    del slope_f, roads, minor
     Image.fromarray(control, "RGBA").save(STUDIO_DIR / "ground-control.png")
     np.save(vault_dir / "landcover-i16.npy", landcover_mat)
     (STUDIO_DIR / "portages.json").write_text(json.dumps(
