@@ -13,25 +13,24 @@
      "c": "hist-tree (Hist tree, landmark)"
     },
     {
-     "f": "settlement-stilt-v1/bmv__architecture_citebosmer_passerelles_troncons_passl256h64i01.png",
-     "c": "passerelles-walkway (raised lane)"
+     "f": "settlement-root-v1/bmv__architecture_citebosmer_passerelles_troncons_passl256h64i01.png",
+     "c": "settlement-root-v1: raised walkway span (passerelles set)"
     },
     {
-     "f": "settlement-stilt-v1/bmv__architecture_citebosmer_passerelles_kiosque_kiosk01.png",
-     "c": "passerelles-walkway (gallery kiosk)"
+     "f": "settlement-root-v1/bmv__architecture_citebosmer_passerelles_kiosque_kiosk01.png",
+     "c": "settlement-root-v1: walkway kiosk (gallery platform on the lane)"
     },
     {
-     "f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_mudhut01.png",
-     "c": "mud-mother-grove (dwelling) STAND-IN for grown-root houses",
-     "standIn": true
+     "f": "settlement-root-v1/bmv__architecture_citebosmer_houses_housetronc001.png",
+     "c": "settlement-root-v1: grown root-house (one authored dwelling pod)"
     },
     {
      "f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argonianlanterns02.png",
      "c": "argonian-lights"
     },
     {
-     "f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argoniantotem01.png",
-     "c": "totems-ritual"
+     "f": "settlement-root-v1/htbm__here_there_be_monsters_-_curse_of_cipactli_trees_histroots01.png",
+     "c": "settlement-root-v1: Hist roots (the city's floor and stair)"
     }
    ]
   },
@@ -143,8 +142,8 @@
      "c": "boats-keeled (river hull)"
     },
     {
-     "f": "settlement-imperial-v1/rowboats__dungeons_ship_shiprowboat01.png",
-     "c": "boats-keeled (rowboat)"
+     "f": "works-v1/vanilla__clutter_carts_vendorcartstatic01.png",
+     "c": "works-v1: cargo handcart (the salvage yard)"
     },
     {
      "f": "settlement-imperial-v1/vanilla__architecture_docks_dockstr4way01.png",
@@ -166,18 +165,17 @@
    "subtitle": "A blunt fortress of reused carved stone with washing lines across its yard; domestic on top, wrong beneath.",
    "frames": [
     {
-     "f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arringouterwall03.png",
-     "c": "bmv-fort STAND-IN: curtain wall (Ayleid ring wall)",
-     "standIn": true
+     "f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_walls_mwimparchwall01.png",
+     "c": "imperial-keep: curtain wall (Imperial fort masonry)"
     },
     {
-     "f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_artower01.png",
-     "c": "bmv-fort STAND-IN: flat tower",
-     "standIn": true
+     "f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchguardtower01.png",
+     "c": "imperial-keep: wall guard tower"
     },
     {
      "f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arstatuewall01.png",
-     "c": "reused carved stone (vulpine carving analogue)"
+     "c": "reused carved stone STAND-IN: no Lilmothiit fox carving asset exists",
+     "standIn": true
     },
     {
      "f": "settlement-imperial-v1/vanilla__architecture_farmhouse_farmhouse01walkway.png",
@@ -219,8 +217,8 @@
      "c": "hlaalu-domestic (tower house)"
     },
     {
-     "f": "settlement-imperial-v1/vanilla__architecture_farmhouse_fencewoven01.png",
-     "c": "fences-wattle (woven wattle panel, marsh repairs)"
+     "f": "works-v1/vanilla__clutter_blacksmith_blacksmithforge01_blacksmithforge01.png",
+     "c": "works-v1: smithy forge (tropicalised)"
     }
    ]
   },
@@ -246,9 +244,8 @@
      "c": "fences-wattle (field margin)"
     },
     {
-     "f": "hlaalu-domestic/hlaalu__hlaaluarchitecture_custom_tower03.png",
-     "c": "dunmer quarter STAND-IN: Hlaalu tower house shown; the Velothi kit is NOT built",
-     "standIn": true
+     "f": "hlaalu-domestic/hlaalu__hlaaluarchitecture_custom_house01.png",
+     "c": "hlaalu-domestic: Dunmer Great House Hlaalu townhouse (Dunmer quarter)"
     },
     {
      "f": "settlement-mud-v1/mudmother__gv_meshes_argoniannest_argoniantent01.png",
@@ -287,7 +284,7 @@
     "c2": "Alten Corimont (neutral-free-port)"
    },
    {
-    "f": "ruin-monumental-v1/ayleidkit__igsresources_dungeons_ayleidruins_exterior_arringouterwall03.png",
+    "f": "imperial-keep/mwkeep__tesak1243_mwimperialarchitecture_architecture_keep_exterior_mwimparchguardtower01.png",
     "c": "imperial-penal-south",
     "c2": "Blackrose Prison (reoccupied-prison)"
    },
