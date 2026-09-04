@@ -61,6 +61,7 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
+- **Phase 11 touchpoint ③ — FEEDBACK RECEIVED 2026-09-04; round 2 in progress** (minor-route painting, studio filters/popup/waterways, Part 3c boat channels, hostility rebalance, quest co-design pass, AI-tell text rules + second text pass, world registries). Nothing blocked on the owner until this hands off. Previous ask kept:
 - **Phase 11 touchpoint ③ — the province after your feedback** (2026-09-03).
   Everything from your touchpoint-② list is in (decision 0041 § Part 4
   step 2 has the item-by-item table). What to look at, in order:
