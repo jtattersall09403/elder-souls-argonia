@@ -61,7 +61,8 @@
         "hairMeshes": [
           "MaleDarkElfHair03"
         ]
-      }
+      },
+      "body": "male"
     },
     "nord": {
       "label": "Nord",
@@ -119,7 +120,8 @@
         "hairMeshes": [
           "Hair12"
         ]
-      }
+      },
+      "body": "male"
     },
     "imperial": {
       "label": "Imperial",
@@ -177,7 +179,8 @@
         "hairMeshes": [
           "Hair04"
         ]
-      }
+      },
+      "body": "male"
     },
     "breton": {
       "label": "Breton",
@@ -235,7 +238,8 @@
         "hairMeshes": [
           "Hair09"
         ]
-      }
+      },
+      "body": "male"
     },
     "redguard": {
       "label": "Redguard",
@@ -293,7 +297,8 @@
         "hairMeshes": [
           "MaleRedGuardHair02"
         ]
-      }
+      },
+      "body": "male"
     },
     "altmer": {
       "label": "Altmer",
@@ -351,7 +356,8 @@
         "hairMeshes": [
           "Hair14"
         ]
-      }
+      },
+      "body": "male"
     },
     "bosmer": {
       "label": "Bosmer",
@@ -409,7 +415,8 @@
         "hairMeshes": [
           "Hair07"
         ]
-      }
+      },
+      "body": "male"
     },
     "orsimer": {
       "label": "Orsimer",
@@ -466,7 +473,8 @@
         "hairMeshes": [
           "MaleOrcHair04"
         ]
-      }
+      },
+      "body": "male"
     },
     "khajiit": {
       "label": "Khajiit",
@@ -527,7 +535,8 @@
         "hairMeshes": [
           "KhajiitMaleHair02"
         ]
-      }
+      },
+      "body": "male-khajiit"
     },
     "argonian": {
       "label": "Argonian",
@@ -586,7 +595,8 @@
         "hairMeshes": [
           "ArgonianMaleHorns03"
         ]
-      }
+      },
+      "body": "male-argonian"
     }
   }
 }

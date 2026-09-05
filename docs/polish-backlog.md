@@ -109,9 +109,6 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   still drive their strides through the controller with cadence scaling.
   Extending the same rule to enemies is a small change once the owner has
   judged the feel on the player.
-- **First-person arms are untinted** (round 7, 0040 §40). The first-person
-  body and hands use the vanilla skin texture; the race tint the third-person
-  body gets is not applied to them yet. Also: only the male meshes are built.
 # Polish backlog (Phase P — plan §86)
 
 Rolling list for the general polish pass (module 95, "Phase P"). Add items

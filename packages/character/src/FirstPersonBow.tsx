@@ -8,7 +8,8 @@ import * as THREE from "three";
 import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 import { CHARACTER_SCALE, sanitizeBoneName } from "@elder-souls/game-core/anim/animationManifest";
-import { FIRST_PERSON_BOW_MANIFEST, type FirstPersonBowClip } from "@elder-souls/game-core/anim/firstPersonBowManifest";
+import { FIRST_PERSON_BOW_MANIFEST, firstPersonBowAsset, type FirstPersonBowClip } from "@elder-souls/game-core/anim/firstPersonBowManifest";
+import { DEFAULT_RACE, raceById, type RaceId } from "@elder-souls/game-core/actors/races";
 import type { WeaponVisualProfile } from "@elder-souls/game-core/core/types";
 
 /**
@@ -62,6 +63,7 @@ function carryClip(drawn: boolean, move: { x: number; y: number }, magnitude: nu
 
 export function FirstPersonBow({
   bow,
+  raceId = DEFAULT_RACE,
   state,
   bowDraw,
   nockedArrow,
@@ -70,6 +72,8 @@ export function FirstPersonBow({
 }: {
   /** The held bow's visual profile (its rigged build mounts on the arms). */
   bow: WeaponVisualProfile;
+  /** Picks the arms for the race's body and tints their skin as the body is. */
+  raceId?: RaceId;
   state: MutableRefObject<FirstPersonBowState>;
   bowDraw: BowDrawRefs;
   nockedArrow: {
@@ -82,18 +86,29 @@ export function FirstPersonBow({
   cameraOut: MutableRefObject<THREE.Vector3>;
   visible: boolean;
 }) {
-  const gltf = useGLTF(assetUrl(MANIFEST.asset));
+  const race = raceById(raceId);
+  const gltf = useGLTF(assetUrl(firstPersonBowAsset(race.body)));
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
+    const tint = new THREE.Color(race.appearance.skinTint[0], race.appearance.skinTint[1], race.appearance.skinTint[2]);
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) {
         object.castShadow = false;
         object.receiveShadow = false;
         object.frustumCulled = false;
+        // Every mesh on this rig is skin, so the race's tint applies to all of
+        // it — multiplied over the diffuse, as `applyAppearance` does for the
+        // body. Materials are cloned so the tint does not leak between races.
+        const tinted = (material: THREE.Material) => {
+          const own = material.clone();
+          if (own instanceof THREE.MeshStandardMaterial) own.color.multiply(tint);
+          return own;
+        };
+        object.material = Array.isArray(object.material) ? object.material.map(tinted) : tinted(object.material);
       }
     });
     return instance;
-  }, [gltf.scene]);
+  }, [gltf.scene, race]);
   const mixer = useMemo(() => new THREE.AnimationMixer(model), [model]);
   const actions = useMemo(() => {
     const map = new Map<string, THREE.AnimationAction>();

@@ -722,8 +722,11 @@ own `Camera1st` bone and hands the camera that bone's position; the rigged
 bow mounts on its `Shield` node and the nocked arrow on `Weapon`, so the shot
 leaves from the first-person string. The third-person body is hidden while
 it is up. "First-person bow rig (Skyrim arms)" in the debug panel is the
-whole revert. Skin is the vanilla texture (untinted) for now; race tinting of
-the arms is a follow-up.
+whole revert. **Addendum (same day):** the arms are built once per body the
+races stand on — `male`, `male-argonian` (clawed first-person hands) and
+`male-khajiit` (beast skin substituted the way the body build does it) — the
+roster now carries each race's `body`, and the arms take the race's skin tint
+multiplied over the diffuse exactly as the third-person body does.
 
 ## 41. The interface owns its clicks
 

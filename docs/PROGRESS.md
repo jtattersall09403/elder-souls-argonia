@@ -84,9 +84,10 @@ first, then open only the master-plan sections the active phase needs.
   string and leaves from it. Both are new sourcing from vanilla, no new art.
   Judge: raise, draw, hold, turn while drawn, loose, walk while aiming. The
   debug panel's "First-person bow rig (Skyrim arms)" switch turns it off and
-  puts the old view back, so comparing is one tick. Known gaps: the arms use
-  the vanilla skin texture (not your race's tint yet) and only the male arms
-  are built.
+  puts the old view back, so comparing is one tick. The arms are built per
+  body (human, Argonian with clawed hands, Khajiit with its own skin) and
+  take your race's skin tint, so switching race in the picker should change
+  the hands you see.
 
   **Archer.** Aimed a head's height above your head, which is why it missed
   a standing target; now aims at the chest. It also holds a rigged bow, so

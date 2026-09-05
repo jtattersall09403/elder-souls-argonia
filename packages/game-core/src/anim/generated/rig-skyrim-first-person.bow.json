@@ -1,13 +1,35 @@
 {
-  "schemaVersion": 1,
-  "asset": "rig-skyrim-first-person.bow.glb",
-  "source": "Skyrim vanilla _1stperson skeleton, 1stpersonmalebody/hands, bow_* first-person clips (locally regenerated authorized runtime build)",
+  "schemaVersion": 2,
+  "source": "Skyrim vanilla _1stperson skeleton, 1stpersonmalebody/hands (+argonian hands, beast skin substitutions), bow_* first-person clips (locally regenerated authorized runtime build)",
+  "variants": {
+    "male": {
+      "asset": "rig-skyrim-first-person.bow.male.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    },
+    "male-argonian": {
+      "asset": "rig-skyrim-first-person.bow.male-argonian.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    },
+    "male-khajiit": {
+      "asset": "rig-skyrim-first-person.bow.male-khajiit.glb",
+      "meshes": [
+        "body",
+        "hands"
+      ]
+    }
+  },
   "bones": {
     "camera": "Camera1st [Cam1]",
-    "weapon": "WEAPON",
-    "shield": "SHIELD",
-    "rightHand": "NPC R Hand [RHnd]",
-    "leftHand": "NPC L Hand [LHnd]"
+    "weapon": "Weapon",
+    "shield": "Shield",
+    "rightHand": "NPC Hand [Hnd].R",
+    "leftHand": "NPC Hand [Hnd].L"
   },
   "restMeasures": {
     "cameraAboveRoot": 12.05,

@@ -3833,6 +3833,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         <Suspense fallback={null}>
           <FirstPersonBow
             bow={playerWeapon.visual}
+            raceId={playerRace}
             state={firstPersonState}
             bowDraw={playerBowDraw}
             nockedArrow={playerQuiver

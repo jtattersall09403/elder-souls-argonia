@@ -31,6 +31,8 @@ export type RaceDefinition = {
   meshBipedSlots: Readonly<Record<string, readonly number[]>>;
   /** How this race is coloured. See `Appearance`. */
   appearance: Appearance;
+  /** The body the race is built on (`male`, `male-argonian`, `male-khajiit`). */
+  body: string;
 };
 
 /**
@@ -70,6 +72,7 @@ type BuiltRace = {
   asset: string;
   sha256: string;
   meshBipedSlots?: Record<string, number[]>;
+  body?: string;
   appearance?: {
     skinTint: [number, number, number];
     hairTint: [number, number, number];
@@ -89,6 +92,7 @@ export const RACES: Readonly<Record<RaceId, RaceDefinition>> = Object.fromEntrie
     revision: race.sha256.slice(0, 16),
     meshBipedSlots: race.meshBipedSlots ?? {},
     appearance: race.appearance ?? NEUTRAL_APPEARANCE,
+    body: race.body ?? "male",
   }]),
 );
 

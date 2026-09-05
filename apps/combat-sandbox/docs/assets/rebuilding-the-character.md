@@ -35,10 +35,11 @@ python3 -m pipeline.build_bow_rigs            # or --only steel-longbow
 cp output/bow-rigs/*.glb        ../../packages/character-assets/files/bow-rigs/
 cp output/bow-rigs.items.json   ../../packages/game-core/src/equipment/generated/
 
-# The first-person bow rig (Skyrim's own arms for aiming). ~2 minutes.
-python3 -m pipeline.build_first_person
-cp output/rig-skyrim-first-person.bow.glb  ../../packages/character-assets/files/
-cp output/rig-skyrim-first-person.bow.json ../../packages/game-core/src/anim/generated/
+# The first-person bow rig (Skyrim's own arms for aiming), one GLB per body
+# the races stand on (male, male-argonian, male-khajiit). ~2 minutes each.
+python3 -m pipeline.build_first_person        # or --only male-argonian
+cp output/rig-skyrim-first-person.bow.*.glb ../../packages/character-assets/files/
+cp output/rig-skyrim-first-person.bow.json  ../../packages/game-core/src/anim/generated/
 ```
 
 **The build is byte-for-byte deterministic**, and that is the check to run after

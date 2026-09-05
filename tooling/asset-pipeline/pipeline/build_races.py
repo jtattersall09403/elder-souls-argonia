@@ -172,6 +172,10 @@ def build(
             # Which biped slot each body mesh occupies, so armour can hide what
             # it actually covers without a table of mesh names in game code.
             "meshBipedSlots": summaries[race_id].get("meshBipedSlots", {}),
+            # Which body the race is built on (male, male-argonian, ...), so a
+            # second rig built per body — the first-person arms — can be
+            # matched to the race without a table in game code.
+            "body": _race_config(race_id).get("body", "male"),
             # A race is a *tint*, not a texture set: the same body art coloured
             # differently, which is how the game itself does it. The tints are
             # applied at runtime, so a character creator can move them without
