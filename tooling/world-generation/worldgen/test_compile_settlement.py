@@ -37,8 +37,18 @@ def _corrected(bp):
     return fixed
 
 
+def _underdeclared(bp):
+    """The fixture is a valid exemplar; this is the blind-to-terrain draft an
+    authoring agent would have started from (everything 'direct', no clearing)."""
+    bad = copy.deepcopy(bp)
+    for p in bad["parcels"]:
+        p["groundFit"] = "direct"
+    bad["clearance"]["hardClear"] = []
+    return bad
+
+
 def test_ground_fit_ladder_rejects_underdeclared_fits(survey, shelf):
-    result = cs.compile_blueprint(_blueprint(), survey, shelf)
+    result = cs.compile_blueprint(_underdeclared(_blueprint()), survey, shelf)
     assert any("exceeds groundFit 'direct'" in e for e in result["errors"])
     assert any("unreachable" in e for e in result["errors"])
 

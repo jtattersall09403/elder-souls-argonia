@@ -30,6 +30,8 @@ import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
 import { CityMarkers } from "../CityMarkers";
+import { BlueprintGround } from "./BlueprintGround";
+import { loadBlueprints, type Blueprint } from "../blueprints/blueprintsData";
 import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { headingOf } from "../compass";
@@ -114,6 +116,24 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     parseQuality(new URLSearchParams(window.location.search).get("q"), "medium"));
   // Settlement beacons in walk mode (owner round 6): on by default.
   const [showMarkers, setShowMarkers] = useState(true);
+  // TEMPORARY debug layer (owner 2026-09-05): the settlement blueprint painted
+  // on the ground, until Round B places real buildings. `?bpground=1` seeds it.
+  const [showBpGround, setShowBpGround] = useState(
+    () => new URLSearchParams(window.location.search).get("bpground") === "1");
+  const [blueprints, setBlueprints] = useState<Blueprint[]>([]);
+  useEffect(() => {
+    if (!showBpGround || blueprints.length) return;
+    let alive = true;
+    loadBlueprints(base)
+      .then((b) => { if (alive) setBlueprints(b.blueprints); })
+      .catch(() => {});
+    return () => { alive = false; };
+  }, [showBpGround, blueprints.length, base]);
+  const bpGroundAt = useMemo(
+    () => (x: number, z: number) => world.groundHeight(x, z),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [world, verticalScale],
+  );
   const markerGroundAt = useMemo(
     () => (xM: number, zM: number) => world.groundHeight(xM, zM) ?? 0,
     // Re-key markers when the vertical scale changes (heights re-seat).
@@ -342,7 +362,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             verticalScale={verticalScale}
             farExtentM={3000}
           />
-          {showMarkers && <CityMarkers extentM={extentM} groundAt={markerGroundAt} />}
+          {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
+          {/* TEMPORARY until Round B builds the real thing. */}
+          {showBpGround && blueprints.length > 0 && (
+            <BlueprintGround blueprints={blueprints} focusRef={focusRef} groundAt={bpGroundAt} />
+          )}
           <RenderWarmup armed={collidersReady} onWarm={() => setRenderWarm(true)} />
           {/* Own Suspense boundary: rapier's WASM init and collider loads
               suspend, and without a boundary HERE each suspension unmounts and
@@ -439,6 +463,11 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         <label style={{ display: "flex", alignItems: "center", gap: 4 }}>
           <input type="checkbox" checked={showMarkers} onChange={(e) => setShowMarkers(e.target.checked)} />
           markers
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: 4 }}
+          title="TEMPORARY: paint the settlement blueprint (districts, parcels, ways, doors) on the ground around you">
+          <input type="checkbox" checked={showBpGround} onChange={(e) => setShowBpGround(e.target.checked)} />
+          bp ground
         </label>
         <label title="Render quality on foot: draw distances, plant density, pixel density">
           quality{" "}

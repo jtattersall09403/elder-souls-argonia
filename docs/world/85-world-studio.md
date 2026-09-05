@@ -127,18 +127,41 @@ is not read by the browser: `python3 -m worldgen.export_routes` projects
 `?bp=1` (or the tick beside the layer list) opens a full-screen viewer over one
 settlement blueprint — the interactive answer to the static `render_blueprint`
 sheets, which the owner read as "a lot of stuff jumbled on top of each other"
-(2026-09-05). Wheel zooms, drag pans, `+` / `-` zoom and `0` refits; the terrain
-crop is the backdrop, then clearance, districts (tinted by kit set), roads /
+(2026-09-05). Wheel zooms, drag pans, `+` / `-` zoom and `0` refits.
+
+**Backdrop (round 2, owner ask 2026-09-05):** the `map` layer is the SAME
+coloured province map the 2D map screen paints — the shared loader and painter
+live in `apps/world-studio/src/map/provinceMap.ts` (used by `App.tsx` too), so
+there is one map, not a copy — cropped to the blueprint's exported `contextM`
+box, with the neighbouring plotted places and the road / boat-lane / track /
+channel network drawn over it from the same bundles PlacesLayer and RoutesLayer
+read. It is a 1345-px raster at ~5.5 m per pixel, so at settlement zoom it is
+coarse *by construction*: it answers "where is this and what is around it", and
+the exported hillshade crop (`terrain`) stays underneath as the finer read of
+the ground. Then clearance, districts (tinted by kit set), roads /
 canals / boardwalks at their real width, parcels as their real footprints with a
 door tick and a yaw stub, landmarks, docks, combat spaces, quest sockets and the
-siting candidates (chosen filled, rejected hollow). Hover names a thing; click
-opens every field it carries (a parcel's asset, ground fit and orientation
-reason; a candidate's why / rejectedBecause; with nothing selected, the
-blueprint's causal model, budget and quest provisions). Each class has a
+siting candidates (chosen filled, rejected hollow). Fences, walls, palisades and
+hedges each have their own line style, a dredged `channel` differs from a cut
+`canal`, a selected way shows its authored `via` waypoints and a tick where it
+attaches to each `endsAt` parcel, a selected gate highlights the way it `spans`,
+and approaches enter as arrows that flash their `firstSeen` object on hover.
+
+**Click → the whys.** The details panel leads with the record's plain-English
+`why` block under fixed headings (What it is · Why it is in this place · Why this
+spot · Why it sits with its neighbours · What it gives the player · How it uses
+the ground), then which way it faces and the reason, then ids / piece / ground
+fit collapsed below. A way or combat space shows its one-sentence `why`. **An
+unwritten why shows in red as "not yet written"** — the gap is visible, never
+hidden. With nothing selected the panel shows the causal model, the approaches
+(sequence and wayfinding), `scaleGrounding`, the budget and the quest provisions. Each class has a
 checkbox, and **labels only draw at or above 3 px per metre**, so nothing piles
 up when zoomed out. Feed: `python3 -m worldgen.export_blueprints` writes
 `apps/world-studio/public/province/blueprints.json` (everything in world metres)
 plus a hillshade crop per blueprint under `province/blueprints/<id>.png`;
+`schemaVersion` 2 carries the whys, approaches, scaleGrounding, fences,
+`via`/`routing`/`endsAt`, `spans`, `interior` and `contextM`, all optional on the
+way in so a half-authored blueprint still exports;
 `test_export_blueprints` fails when the JSON is stale. URL: `bp=1`,
 `blueprint=<id or slug>`, `bpsel=<object id>`, `bphide=<layers>`. Code:
 `apps/world-studio/src/blueprints/`.

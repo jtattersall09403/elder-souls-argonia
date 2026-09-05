@@ -2,32 +2,35 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **168 paths**, 60.61 km in total: track 35, footpath 92, boardwalk 41, causeway 0
-- 55 places were already on a road or landing (within 45 m)
-- 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 2.6 km):
+- **173 paths**, 123.3 km in total: track 33, footpath 95, boardwalk 42, causeway 3
+- 50 places were already on a road or landing (within 45 m)
+- 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):
 
   - `place.mercantile-coast.alten-meerhleel` — no land within the snap; boat-served
   - `place.imperial-penal-south.blackrose-drowned-hist` — no land within the snap; boat-served
+
+- 5 settlements sit further than 4.0 km along the cheapest walkable line and keep their path anyway (a settlement is always reachable on foot): `place.imperial-fringe.lowmere-raft-town` (6.834 km), `place.imperial-fringe.swampmoth-town` (5.843 km), `place.pirate-freeholds.dunmer-frontier-holding` (5.839 km), `place.dunmer-north.crystalgate` (5.734 km), `place.dunmer-north.the-field-gate-garrison` (4.616 km)
 
 ## Longest paths
 
 | path | kind | km |
 |---|---|---|
-| `place.imperial-fringe.lowmere-raft-town` | footpath | 2.109 |
-| `place.imperial-fringe.the-stone-talkers-watch` | track | 1.829 |
-| `place.dunmer-north.the-field-gate-garrison` | track | 1.762 |
-| `place.imperial-fringe.swampmoth-town` | track | 1.68 |
-| `place.dunmer-north.crystalgate` | track | 1.088 |
-| `place.pirate-freeholds.veterans-holding` | track | 1.0 |
-| `place.dunmer-north.the-flu-cordon` | footpath | 0.961 |
-| `place.dunmer-north.rimfield` | footpath | 0.923 |
-| `place.imperial-fringe.stonewastes` | track | 0.913 |
-| `place.dunmer-north.stands-on-the-island` | boardwalk | 0.909 |
-| `place.dunmer-north.riverwalk` | track | 0.889 |
-| `place.hist-heartland.hammock-tree-island-greenmoss` | boardwalk | 0.884 |
-| `place.imperial-fringe.glenbridge` | track | 0.862 |
-| `place.mercantile-coast.ixtaxh-xanmeer` | footpath | 0.86 |
-| `place.naga-kur-deeps.necropolis-nightbound` | boardwalk | 0.846 |
+| `place.imperial-fringe.lowmere-raft-town` | footpath | 6.834 |
+| `place.imperial-fringe.swampmoth-town` | track | 5.843 |
+| `place.pirate-freeholds.dunmer-frontier-holding` | track | 5.839 |
+| `place.dunmer-north.crystalgate` | track | 5.734 |
+| `place.dunmer-north.the-field-gate-garrison` | track | 4.616 |
+| `place.pirate-freeholds.veterans-holding` | track | 3.829 |
+| `place.dunmer-north.rimfield` | footpath | 3.654 |
+| `place.imperial-fringe.the-stone-talkers-watch` | track | 3.321 |
+| `place.dunmer-north.mazzatun` | track | 2.959 |
+| `place.imperial-fringe.stonewastes` | track | 2.823 |
+| `place.dunmer-north.saltmarch-village` | track | 2.656 |
+| `place.hist-heartland.heretic-stone-restarted` | track | 2.646 |
+| `place.dunmer-north.tearmouth` | track | 2.51 |
+| `place.dunmer-north.nine-fords` | track | 2.442 |
+| `place.dunmer-north.murkwater` | track | 2.394 |
+
 
 ## Minor waterways — channels, rivers, ferry crossings (Phase 11 Part 3c)
 

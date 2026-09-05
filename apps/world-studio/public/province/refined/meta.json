@@ -21,5 +21,6 @@
     "canoeChannels": 7,
     "portages": 9
   },
-  "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks"
+  "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
+  "naturalHeight": "height-natural-rg.png"
 }

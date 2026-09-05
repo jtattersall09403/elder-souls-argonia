@@ -2,7 +2,7 @@
 
 import pytest
 
-from . import blueprint, blueprint_footprints
+from . import blueprint, blueprint_footprints, street_router
 
 # A real, measured kit asset: parcels are picked on geometry, so the tests are
 # too (the validator recomputes the derived footprint from this piece).
@@ -18,6 +18,20 @@ def _derived(centre_uv=CENTRE_UV, yaw=YAW_DEG, asset_ref=ASSET_REF):
     return blueprint_footprints.derive_footprint(record, centre_uv, yaw)
 
 
+def _why(full=True):
+    """A why block that satisfies the reference-register minimum length."""
+    block = {
+        "what": "A reed-cutters' camp of one hut above the cut itself.",
+        "whyHere": "The cut is worked for three months a year, and the cutters sleep beside it.",
+        "whyNeighbours": "The hut stands alone, because nothing else is built within a mile of it.",
+        "playerPurpose": "A shelter, a bedroll and a reed-cutter who talks about the marsh.",
+        "microGeography": "The hut takes the one dry hummock at the head of the cut.",
+    }
+    if full:
+        block["whySpot"] = "This hummock stays above the water when the rest of the cut floods."
+    return block
+
+
 def _bp(**over):
     bp = {
         "id": "place.testreg.reed-cut-camp",
@@ -26,16 +40,34 @@ def _bp(**over):
                         "pressures": "p", "wouldChangeIf": "w"},
         "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]],
         "districts": [{"id": "district.reed-cut-camp.core", "kind": "core", "cultureKit": "argonian",
-                       "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]]}],
+                       "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]], "why": _why(full=False)}],
         "parcels": [{"id": "parcel.reed-cut-camp.hut", "districtId": "district.reed-cut-camp.core", "use": "dwelling",
                      "buildingFamily": "shackkit", "groundFit": "stilt",
                      "centreUV": list(CENTRE_UV), "yawDeg": YAW_DEG,
                      "orientationWhy": "Turned so its landing faces the reed cut.",
-                     "assetRef": ASSET_REF, "footprint": _derived()}],
+                     "assetRef": ASSET_REF, "footprint": _derived(), "why": _why()}],
         "doors": [{"id": "door.testreg.reed-cut-camp.1", "parcelId": "parcel.reed-cut-camp.hut",
                    "facingDeg": _door_facing(), "thresholdUV": _threshold(),
-                   "interiorClaim": {"sizeClass": "small", "culture": "argonian"}}],
+                   "interiorClaim": {"sizeClass": "large", "culture": "argonian",
+                                     "interiorRef": "vanilla-farmhouse-int"}}],
         "clearance": {"hardClear": [], "thinned": [], "kept": []},
+        "approaches": [{"id": "approach.reed-cut-camp.marsh-track", "mode": "walk",
+                        "fromDirection": "south-east", "firstSeen": "parcel.reed-cut-camp.hut",
+                        "sequence": "The hut's roof shows over the reeds a hundred paces out, and nothing else does.",
+                        "wayfinding": "The cut itself leads to the door, because the only dry line runs along its bank."}],
+        "scaleGrounding": {"loreSource": "Test stub: the smallest camp on module 92's ladder.",
+                           "population": "2-4", "households": 1, "buildingsPlanned": 1, "npcsPlanned": 2,
+                           "why": "One family works this cut, so one hut is all the camp needs."},
+        "combatSpaces": [{"id": "combat.reed-cut-camp.cut-head", "clearanceClass": "open",
+                          "boundary": [[0.128, 0.128], [0.133, 0.128], [0.133, 0.133]],
+                          "why": "The cutters fight bog-lurkers at the head of the cut, and it is the one open ground."}],
+        "siting": {"dossier": "world/sources/sites/fixture-reed-cut-camp.md",
+                   "candidates": [
+                       {"id": "candidate.reed-cut-camp.hummock", "positionM": [960.0, 960.0], "chosen": True,
+                        "why": "The hummock stays dry when the cut floods."},
+                       {"id": "candidate.reed-cut-camp.bank", "positionM": [980.0, 990.0],
+                        "why": "Closer to the water but under it for two months a year.",
+                        "rejectedBecause": "It floods."}]},
         "variants": [{"id": "variant.reed-cut-camp.raided", "changedRefs": ["parcel.reed-cut-camp.hut"]}],
         "occupants": [{"slotId": "o1", "ladderRef": "modest-d2 hunter", "cultureRole": "hunter"}],
         "budget": {"maxInstances": 500, "maxUniqueMaterials": 20,
@@ -168,3 +200,286 @@ def test_part6_asset_ref_and_siting_block():
     bad_ids = _bp(districts=[{"id": "d1", "kind": "core", "cultureKit": "argonian", "boundary": [[0, 0], [0, 1], [1, 1]]}])
     assert any("standard 2" in e for e in blueprint.validate_blueprint(bad_ids, KNOWN))
     assert "argonian-stone" in blueprint.KIT_SETS and "neutral-works" in blueprint.KIT_SETS
+
+
+# --------------------------------------------------------------------------- #
+# Part 6 round 2 (owner 2026-09-05): why blocks, approaches, scale grounding,
+# ways authored as via + routing + why, gate spans and interiors
+# --------------------------------------------------------------------------- #
+
+def _way(**over):
+    way = {"id": "route.reed-cut-camp.cut-path", "kind": "footpath", "widthM": 1.5,
+           "routing": "straight", "via": [[0.1, 0.1], [0.13, 0.13]],
+           "points": [[0.1, 0.1], [0.13, 0.13]],
+           "endsAt": ["parcel.reed-cut-camp.hut"],
+           "why": "The only dry line into the camp, which runs along the bank of the cut."}
+    way.update(over)
+    return way
+
+
+def _routed(bp):
+    """`points` is derived: run the street router the way an author would."""
+    street_router.apply_to_blueprint(bp)
+    return bp
+
+
+def test_why_block_is_required_on_districts_and_parcels():
+    parcel = {k: v for k, v in _bp()["parcels"][0].items() if k != "why"}
+    errs = blueprint.validate_blueprint(_bp(parcels=[parcel]), KNOWN)
+    assert any("why block is required" in e for e in errs)
+    district = {k: v for k, v in _bp()["districts"][0].items() if k != "why"}
+    errs = blueprint.validate_blueprint(_bp(districts=[district]), KNOWN)
+    assert any("why block is required" in e for e in errs)
+
+
+def test_why_fields_must_be_plain_sentences():
+    parcel = dict(_bp()["parcels"][0])
+    parcel["why"] = dict(parcel["why"], whySpot="dry")
+    errs = blueprint.validate_blueprint(_bp(parcels=[parcel]), KNOWN)
+    assert any("why.whySpot must be a plain sentence" in e for e in errs)
+
+
+def test_approaches_are_required_and_shaped():
+    errs = blueprint.validate_blueprint(_bp(approaches=[]), KNOWN)
+    assert any("at least one walking/boat approach" in e for e in errs)
+    bad = [{"id": "approach.reed-cut-camp.marsh-track", "mode": "teleport",
+            "sequence": "x", "wayfinding": "y"}]
+    errs = blueprint.validate_blueprint(_bp(approaches=bad), KNOWN)
+    assert any("mode must be one of" in e for e in errs)
+    assert any("needs fromRouteId or fromDirection" in e for e in errs)
+    assert any("firstSeen" in e for e in errs)
+    assert any("sequence must be a plain sentence" in e for e in errs)
+
+
+def test_scale_grounding_must_match_the_parcels_drawn():
+    sg = dict(_bp()["scaleGrounding"], buildingsPlanned=40)
+    errs = blueprint.validate_blueprint(_bp(scaleGrounding=sg), KNOWN)
+    assert any("the plan and the drawing disagree" in e for e in errs)
+    missing = {k: v for k, v in sg.items() if k != "loreSource"}
+    errs = blueprint.validate_blueprint(_bp(scaleGrounding=missing), KNOWN)
+    assert any("scaleGrounding.loreSource is required" in e for e in errs)
+
+
+def test_ways_are_authored_as_via_routing_and_why():
+    assert blueprint.validate_blueprint(_routed(_bp(routes=[_way()])), KNOWN) == []
+    bad = _way(via=[[0.1, 0.1]], routing="vibes", why="short")
+    errs = blueprint.validate_blueprint(_bp(routes=[bad]), KNOWN)
+    assert any("via must be >=2" in e for e in errs)
+    assert any("routing must be one of" in e for e in errs)
+    assert any("why is required" in e for e in errs)
+    no_points = {k: v for k, v in _way().items() if k != "points"}
+    errs = blueprint.validate_blueprint(_bp(routes=[no_points]), KNOWN)
+    assert any("points" in e for e in errs)
+
+
+def test_fence_needs_its_kit_piece_and_combat_space_needs_a_why():
+    fence = _way(id="fence.reed-cut-camp.reed-screen", kind="hedge", endsAt=[])
+    errs = blueprint.validate_blueprint(_bp(fences=[fence]), KNOWN)
+    assert any("assetRef (the kit's fence/wall piece) is required" in e for e in errs)
+    space = {"id": "combat.reed-cut-camp.cut", "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]],
+             "clearanceClass": "open"}
+    errs = blueprint.validate_blueprint(_bp(combatSpaces=[space]), KNOWN)
+    assert any("why is required" in e for e in errs)
+    space["why"] = "A raid on the camp is the tier-1 hostility flip, and this is the only open ground."
+    assert blueprint.validate_blueprint(_bp(combatSpaces=[space]), KNOWN) == []
+
+
+def test_parcel_spans_and_interior_are_typed():
+    parcel = dict(_bp()["parcels"][0], spans=7, interior={"kind": "cellar"})
+    errs = blueprint.validate_blueprint(_bp(parcels=[parcel]), KNOWN)
+    assert any("spans must be a way id" in e for e in errs)
+    assert any("interior.kind must be one of" in e for e in errs)
+    ok = dict(_bp()["parcels"][0], spans="route.reed-cut-camp.cut-path",
+              interior={"kind": "dwelling"})
+    assert blueprint.validate_blueprint(_routed(_bp(parcels=[ok], routes=[_way()])), KNOWN) == []
+
+
+# --------------------------------------------------------------------------- #
+# Interiors and doors (owner ruling 2026-09-05). The index is DERIVED data, so
+# these tests substitute a stub library rather than depending on which kit
+# pieces happen to measure enclosed today — what is under test is the rule, not
+# the measurement (that is pipeline/test_interiors_index.py's job).
+# --------------------------------------------------------------------------- #
+from . import blueprint_interiors  # noqa: E402
+
+
+class _StubLibrary(blueprint_interiors.InteriorLibrary):
+    def __init__(self, record):
+        self.by_asset = {ASSET_REF: record}
+        self.kit_of = {ASSET_REF: "settlement-stilt-v1"}
+
+
+@pytest.fixture
+def stub_index(monkeypatch):
+    def install(record):
+        monkeypatch.setattr(blueprint_interiors, "library", lambda *a, **k: _StubLibrary(record))
+    return install
+
+
+def _claim(**over):
+    claim = {"sizeClass": "large", "culture": "argonian", "interiorRef": "vanilla-farmhouse-int"}
+    claim.update(over)
+    return claim
+
+
+def _door(**over):
+    door = {"id": "door.testreg.reed-cut-camp.1", "parcelId": "parcel.reed-cut-camp.hut",
+            "facingDeg": _door_facing(), "thresholdUV": _threshold(),
+            "interiorClaim": _claim()}
+    door.update(over)
+    return door
+
+
+SHELL = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94, "doorways": []}
+MATCHED = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
+           "interiorAssetRef": "pool:arch/hut01_int", "doorways": [{"sideDeg": 180.0, "arcM": 1.3}]}
+OPEN = {"interior": "none", "sizeClass": "large", "planAreaM2": 186.94, "doorways": [],
+        "why": "open to the sky"}
+
+
+def test_a_building_with_an_inside_must_have_a_door(stub_index):
+    stub_index(SHELL)
+    errs = blueprint.validate_blueprint(_bp(doors=[]), KNOWN)
+    assert any("has an inside" in e and "no door in doors[]" in e for e in errs)
+
+
+def test_a_piece_with_no_interior_may_not_have_a_door(stub_index):
+    stub_index(OPEN)
+    errs = blueprint.validate_blueprint(_bp(), KNOWN)
+    assert any("opens onto nothing" in e for e in errs)
+
+
+def test_a_matched_piece_needs_the_kit_s_own_interior_ref(stub_index):
+    stub_index(MATCHED)
+    errs = blueprint.validate_blueprint(_bp(doors=[_door(
+        facingDeg=(180.0 + YAW_DEG) % 360.0)]), KNOWN)
+    assert any("interiorClaim.interiorRef is 'vanilla-farmhouse-int'" in e
+               and "pool:arch/hut01_int" in e for e in errs)
+
+
+def test_a_shell_must_name_the_interior_kit_phase_12_will_build(stub_index):
+    stub_index(SHELL)
+    errs = blueprint.validate_blueprint(
+        _bp(doors=[_door(interiorClaim=_claim(interiorRef=None))]), KNOWN)
+    assert any("interiorClaim.interiorRef is required" in e for e in errs)
+
+
+def test_size_class_must_match_the_measured_footprint_and_says_the_numbers(stub_index):
+    stub_index(SHELL)
+    errs = blueprint.validate_blueprint(
+        _bp(doors=[_door(interiorClaim=_claim(sizeClass="small"))]), KNOWN)
+    message = next(e for e in errs if "sizeClass" in e)
+    assert "187 m²" in message and "under 40 m²" in message and "under 120 m²" in message
+    assert "'large'" in message
+
+
+def test_a_door_may_not_be_claimed_on_a_blank_wall(stub_index):
+    """The mesh's only doorway is at local 180°; with yaw 40° that is 220° in
+    the world, so a door facing 40° is on the back wall."""
+    stub_index(MATCHED)
+    errs = blueprint.validate_blueprint(_bp(doors=[_door(
+        facingDeg=YAW_DEG, interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
+    assert any("off the nearest doorway the mesh actually has" in e for e in errs)
+
+
+def test_a_door_on_the_measured_doorway_passes(stub_index):
+    stub_index(MATCHED)
+    errs = blueprint.validate_blueprint(_bp(doors=[_door(
+        facingDeg=(180.0 + YAW_DEG) % 360.0,
+        interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
+    assert not any("doorway" in e for e in errs)
+
+
+def test_the_report_lists_what_each_parcel_owes(stub_index):
+    stub_index(SHELL)
+    lines = blueprint_interiors.report_lines(_bp(doors=[]),
+                                             _StubLibrary(SHELL))
+    assert any("MISSING a door" in line for line in lines)
+    assert lines[-1].endswith("problem(s)")
+
+
+# --- module 97 placement principles (§G closures, 2026-09-05) --------------
+
+def test_siting_is_required_on_a_blueprint_of_a_catalogue_record():
+    """97 B1 / G7 — no design before a dossier."""
+    bp = _bp()
+    bp.pop("siting")
+    assert any("97 B1" in e for e in blueprint.validate_blueprint(bp, KNOWN))
+    # the Part 0 fixture details no catalogue record, so it is exempt
+    assert not any("97 B1" in e for e in blueprint.validate_blueprint(bp, None))
+
+
+def test_a_combat_space_is_required_with_its_clearance_and_why():
+    """97 D9 / G20 — even a safe place has one."""
+    assert any("97 D9" in e for e in blueprint.validate_blueprint(_bp(combatSpaces=[]), KNOWN))
+    bad = [{"id": "combat.reed-cut-camp.cut-head", "why": "short"}]
+    errs = blueprint.validate_blueprint(_bp(combatSpaces=bad), KNOWN)
+    assert any("clearanceClass" in e for e in errs)
+    assert any("boundary" in e and "combat" in e for e in errs)
+
+
+def _yaw_parcels(yaws):
+    base = _bp()["parcels"][0]
+    out = []
+    for i, yaw in enumerate(yaws):
+        u = 0.13 + i * 0.002
+        p = dict(base, id=f"parcel.reed-cut-camp.hut-{i}", centreUV=[u, 0.13], yawDeg=float(yaw))
+        p["footprint"] = _derived(centre_uv=[u, 0.13], yaw=float(yaw))
+        out.append(p)
+    return out
+
+
+def test_yaw_diversity_is_capped_per_district():
+    """97 C8 / G17 — a uniform bearing reads as copy-paste."""
+    uniform = _bp(parcels=_yaw_parcels([30.0] * 10), doors=[],
+                  scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10})
+    assert any("97 C8" in e for e in blueprint.validate_blueprint(uniform, KNOWN))
+    varied = _bp(parcels=_yaw_parcels([0, 20, 45, 70, 100, 130, 165, 200, 240, 300]), doors=[],
+                 scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10})
+    assert not any("97 C8" in e for e in blueprint.validate_blueprint(varied, KNOWN))
+
+
+def test_a_declared_grid_district_may_share_one_bearing():
+    """97 C2 — a surveyed Imperial grid is the exception."""
+    bp = _bp(parcels=_yaw_parcels([30.0] * 10), doors=[],
+             scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10})
+    bp["districts"][0]["routing"] = "straight"
+    assert not any("97 C8" in e for e in blueprint.validate_blueprint(bp, KNOWN))
+    bp["districts"][0]["routing"] = "surveyed"
+    assert any("97 C2" in e for e in blueprint.validate_blueprint(bp, KNOWN))
+
+
+def test_abuts_must_name_a_parcel_and_say_why():
+    """97 C5 — the declared exception to the 8 m floor."""
+    parcel = dict(_bp()["parcels"][0], abuts=["parcel.reed-cut-camp.nowhere"])
+    errs = blueprint.validate_blueprint(_bp(parcels=[parcel]), KNOWN)
+    assert any("not a parcel in this blueprint" in e for e in errs)
+    assert any("abutsWhy is required" in e for e in errs)
+
+
+def test_density_band_and_use_mix_are_warnings_not_failures():
+    """97 C6 / C7 — warn-grade, with the number in the message."""
+    errs, warns = blueprint.validate_blueprint_full(_bp(), KNOWN)
+    assert errs == []
+    assert any("97 C6" in w for w in warns)
+    assert all("97 C6" not in e for e in errs)
+
+
+def test_way_width_classes_are_reported_with_their_numbers():
+    """97 C3 — width reads as rank."""
+    ways = [{"id": "route.reed-cut-camp.spine", "kind": "road", "widthM": 2.0,
+             "why": "The one dry line into the cut, wide enough for a hauling sledge.",
+             "via": [[0.11, 0.11], [0.13, 0.13]], "routing": "straight",
+             "points": [[0.11, 0.11], [0.13, 0.13]]}]
+    _errs, warns = blueprint.validate_blueprint_full(_bp(routes=ways), KNOWN)
+    assert any("97 C3" in w and "4.3" in w for w in warns)
+
+
+def test_the_use_histogram_reports_the_share_it_measured():
+    parcels = _yaw_parcels([0, 20, 45, 70, 100, 130, 165, 200, 240, 300])
+    for p in parcels:
+        p["use"] = "storage"
+    _errs, warns = blueprint.validate_blueprint_full(
+        _bp(parcels=parcels, doors=[],
+            scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10}), KNOWN)
+    assert any("97 C7" in w and "storage" in w for w in warns)

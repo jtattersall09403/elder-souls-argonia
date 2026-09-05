@@ -32,6 +32,12 @@ road). A place whose cheapest path exceeds MAX_TRACK_M is recorded as
 `unconnected` — boat-, guide- or root-served, which is a design fact, not a
 failure — and listed in the digest.
 
+Every step of the search carries its own longitudinal gradient
+(`routes.grade_factor`), so a path prefers to follow the contour and is walled
+off above ROUTING_CAP_DEG: a track to a hill village switchbacks up the spur
+instead of running straight at it and leaving `grade_routes` a climb no cut or
+fill can hold (owner requirement 2026-09-05 — every way walkable end to end).
+
 Deterministic: no randomness; ties in the heap break by (cost, row, col).
 
 WHAT IT WRITES
@@ -53,7 +59,7 @@ import numpy as np
 from scipy import ndimage
 
 from . import catalogue
-from .routes import EDGE_MARGIN, EDGE_PENALTY, NEIGHBOR_OFFSETS
+from .routes import EDGE_MARGIN, EDGE_PENALTY, NEIGHBOR_OFFSETS, grade_factor
 from .site_fields import ProvinceSurvey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -62,7 +68,13 @@ OUT_MD = REPO_ROOT / "world" / "sources" / "sites" / "minor-routes.md"
 
 SCHEMA_VERSION = 1
 ARRIVAL_M = 45.0          # already on the network: no path
-MAX_TRACK_M = 2600.0      # beyond this the place is boat/guide/root-served
+# Beyond this the place is boat/guide/root-served. Raised from 2600 m when the
+# solver learned about gradient (2026-09-05): a path that switchbacks up a spur
+# or contours round it is legitimately longer than the straight climb it
+# replaces, and holding the old number would have retired fifteen places'
+# paths for being walkable. The limit says "past here, walking is not how you
+# get there" — it is a statement about effort, so it moved with the geometry.
+MAX_TRACK_M = 4000.0
 # How far a water-sited record may reach for its own land head. Beyond this it
 # is a boat place, not a walked one, and a track that starts hundreds of metres
 # away is a lie about where the path begins (found 2026-09-04, when a re-plot
@@ -78,6 +90,13 @@ COST_MOUNTAIN = 2.5       # above 40 m
 COST_RIVER = 9.0          # a crossing
 COST_DEEP = 60.0          # open water: effectively forbidden for a land path
 COST_JUNGLE = 1.8
+# Longitudinal gradient the solver routes to. A minor path is only classed
+# (track / footpath / boardwalk / causeway) once its line is known, so routing
+# holds the strictest cap any class it might land in carries — the track and
+# causeway cap of 12 deg (grade_routes.GRADIENT_CAP_DEG) — and every kind of
+# minor way then comes out walkable. Routed on the NATURAL heights, which is
+# what `ProvinceSurvey` reads and what `grade_routes` grades from.
+ROUTING_CAP_DEG = 12.0
 MARSH_REGIONS = (3, 4, 6, 7, 14)   # tidal delta, lagoon/salt marsh, rootland, interior swamp, mangrove
 
 
@@ -105,17 +124,29 @@ def rasterise_routes(s: ProvinceSurvey) -> np.ndarray:
     the water."""
     n = s.grid_n
     mask = np.zeros((n, n), dtype=bool)
-    for r in s.routes:
-        for x, z in r.points_m:
-            row, col = s.grid_px(float(x), float(z))
-            mask[row, col] = True
+    # The PUBLISHED geometry, not `s.routes`: that one is the natural-state
+    # snapshot siting reads (site_fields), and a track has to meet the road
+    # the world actually carries — the one `reroute_majors` repaired.
+    ways = [r["px"] for r in json.loads((s.province / "routes.json").read_text())["routes"]]
+    ways += [lane["px"] for lane in json.loads((s.province / "waterways.json").read_text())["lanes"]]
+    for px in ways:
+        for c, r in px:
+            mask[int(r), int(c)] = True
         # join the polyline: routes.json is per-pixel already, lanes too
     mask = ndimage.binary_dilation(mask, iterations=1)
     return mask & s.land
 
 
-def multi_source_field(cost: np.ndarray, seeds: np.ndarray, px_m: float):
-    """Dijkstra from every seed cell at once; returns (cost field, predecessor)."""
+def multi_source_field(cost: np.ndarray, seeds: np.ndarray, px_m: float,
+                      height: np.ndarray | None = None, cap_deg: float | None = None):
+    """Dijkstra from every seed cell at once; returns (cost field, predecessor).
+
+    With `height` and `cap_deg` the cost of each STEP carries its own
+    longitudinal gradient (`routes.grade_factor`): gentle contour-following
+    lines are cheap, and anything above the class cap is behind a wall, so a
+    path switchbacks up a spur instead of climbing it head-on. The 5.48 m grid
+    is fine enough to hold a switchback: at 12 deg a step may gain 1.17 m.
+    """
     h, w = cost.shape
     dist = np.full((h, w), np.inf)
     prev = np.full((h, w), -1, dtype=np.int64)
@@ -124,15 +155,21 @@ def multi_source_field(cost: np.ndarray, seeds: np.ndarray, px_m: float):
         dist[row, col] = 0.0
         heap.append((0.0, int(row), int(col)))
     heapq.heapify(heap)
+    graded = height is not None and cap_deg is not None
     while heap:
         d, y, x = heapq.heappop(heap)
         if d > dist[y, x]:
             continue
         cyx = cost[y, x]
+        zyx = float(height[y, x]) if graded else 0.0
         for dy, dx in NEIGHBOR_OFFSETS:
             ny, nx = y + dy, x + dx
             if 0 <= ny < h and 0 <= nx < w:
-                nd = d + (1.4142135623730951 if dy and dx else 1.0) * px_m * 0.5 * (cyx + cost[ny, nx])
+                run = (1.4142135623730951 if dy and dx else 1.0) * px_m
+                step = run * 0.5 * (cyx + cost[ny, nx])
+                if graded:
+                    step *= float(grade_factor(float(height[ny, nx]) - zyx, run, cap_deg))
+                nd = d + step
                 if nd < dist[ny, nx]:
                     dist[ny, nx] = nd
                     prev[ny, nx] = y * w + x
@@ -183,6 +220,7 @@ def run(write: bool = True) -> dict:
     s = ProvinceSurvey()
     files = catalogue.load_region_files()
     cost = cost_surface(s)
+    height = s.height_grid            # natural ground; the property re-derives, so hoist it
     network = rasterise_routes(s)
     w = s.grid_n
     px_m = s.grid_px_m
@@ -191,7 +229,7 @@ def run(write: bool = True) -> dict:
     on_road = 0
     batches = demand(files)
     for bi, batch in enumerate(batches, start=1):
-        dist, prev = multi_source_field(cost, network, px_m)
+        dist, prev = multi_source_field(cost, network, px_m, height, ROUTING_CAP_DEG)
         new_cells = np.zeros_like(network)
         for rec in batch:
             x, z = rec["positionM"]
@@ -214,9 +252,14 @@ def run(write: bool = True) -> dict:
             if length_m <= ARRIVAL_M:
                 on_road += 1
                 continue
-            if length_m > MAX_TRACK_M:
+            if length_m > MAX_TRACK_M and rec["classification"]["class"] != "settlement":
                 unconnected.append({"id": rec["id"], "why": f"cheapest land path {length_m / 1000:.1f} km", "batch": bi})
                 continue
+            # A SETTLEMENT always keeps its path, however long. People live
+            # there and walk out; "no way in on foot" is a worse world fact
+            # than a long one, and since the solver holds the gradient cap the
+            # long line is the honest length of a walkable approach to a hill
+            # village. Listed in the digest so the length stays visible.
             kind = classify(s, path, rec["classification"].get("magnitude"), rec["classification"]["class"])
             end_c, end_r = path[-1]
             tracks.append({
@@ -262,6 +305,13 @@ def digest(doc: dict) -> str:
          f"not a failure; longest allowed path {doc['maxTrackM'] / 1000:.1f} km):", ""]
     for u in doc["unconnected"]:
         L.append(f"  - `{u['id']}` — {u['why']}")
+    long = [t for t in doc["tracks"] if t["lengthKm"] * 1000.0 > doc["maxTrackM"]]
+    if long:
+        L += ["", f"- {len(long)} settlements sit further than {doc['maxTrackM'] / 1000:.1f} km "
+              "along the cheapest walkable line and keep their path anyway "
+              "(a settlement is always reachable on foot): " +
+              ", ".join(f"`{t['from']}` ({t['lengthKm']} km)" for t in
+                        sorted(long, key=lambda t: -t["lengthKm"]))]
     L += ["", "## Longest paths", "", "| path | kind | km |", "|---|---|---|"]
     for t in sorted(doc["tracks"], key=lambda t: -t["lengthKm"])[:15]:
         L.append(f"| `{t['from']}` | {t['kind']} | {t['lengthKm']} |")

@@ -1704,6 +1704,56 @@ cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
 [research/phase11-part6-round-a.md](../research/phase11-part6-round-a.md).
 
+### Round A feedback — the owner's first look at the studio view (2026-09-05)
+
+**Rulings and what they became.** (1) *Whys on click*: every district, parcel,
+landmark and dock carries a plain-English `why` block (what · why in the
+place · why this spot · why with its neighbours · what it gives the player ·
+how it uses the ground), shown first in the studio panel; blueprint prose is
+linted and text-reviewed like place prose. (2) *Layers integrate*: six
+compile-time checks (`blueprint_integration`) — a way touches only a building
+it ends at, no way drawn twice, no overlapping hulls, a gate spans its road, a
+door within 4 m of a way, a canal lies in water — plus `stacksOn` for a piece
+on a deck and `abuts` for designed abutments. (3) *Streets are routed*, not
+drawn: ways are `via` waypoints with a why; `street_router` derives the line
+over slope/water/buildings (A*), straight only where the culture surveys.
+(4) *Doors and interiors from the kits*: `pipeline/interiors_index.py`
+measures which pieces enclose a room and where their doorways are; a parcel
+with an interior must have a door on a real doorway side, with the interior
+kit named. (5) *Designed from the walking player's eye*: `approaches[]`
+(first-seen landmark, sequence, wayfinding) with a 16-item checklist in each
+design record; research in `docs/research/openworld-approach-and-wayfinding.md`.
+(6) *Full detail and honest scale*: every district parcelled; fences and
+walls drawn as ways; `scaleGrounding` derives the size from the settlement
+register and module 92 (Lilmoth 53 buildings, 190–230 people, 70 named NPCs).
+(7) *The map is the studio map*: the blueprint view reuses the main map with
+neighbouring places and routes as context; `?bpground=1` paints the outlines
+on the ground in walk mode (temporary until Round B); city markers follow the
+exported data. (8) *Roads walkable*: a route-grading stage in the terrain
+chain plus gradient-aware routing (`routes.grade_factor`, `reroute_majors`) —
+55 → 35 ways over cap; the 35 need authored geometry (14 one-piece lips, 11
+bridge decks, 9 stepped hill ascents, 1 terrace approach — listed in
+`world/sources/sites/route-grading.md`; Part 7 work). (9) *The workflow
+keeps itself*: engineering standard 13 fails `npm test` when placement work
+changes without the playbook or this record; gaps are filled the same
+session (G3 licence board sourced: `bmv:advertising_board`). (10) **Module 97,
+the placement principles**: one internally consistent set (A macro → F
+culture grammars), each rule with evidence tags and its enforcement; twenty
+gaps in §G, nine closed the same day as validator/compile checks; fifteen
+decisions listed for the owner's sense check. Evidence: measured settlement
+form from Skyrim + BM&V + Valenwood + HTBM (`settlement-form-evidence.md`)
+and online research (`settlement-design-principles-sources.md`).
+
+**Design outcomes.** Lilmoth redrawn on re-surveyed ground (the old "north
+road" did not exist on the published network; the gate now stands on the
+Blackrose road; drowned quarter measured 1–15 m); Nine-Trunks as nine sourced
+trunk columns with eight mud huts in the gaps, doors inward; Mazzatun's
+courses along the risers with the tribe housed underground behind the
+stair-throat (a recorded deviation from the use mix); the Standing Charge's
+lane moved onto the only poleable water (a creek south-east, not the north);
+the Licensed Stage's board placed at the landing. All five compile clean
+after the audit against module 97 (`docs/research/phase11-round-a-audit.md`).
+
 ### Round A follow-up — the owner's list on the Part 6 packet (2026-09-05)
 
 **Rulings.** (1) A place moved after the plot moves its dot, its paths and

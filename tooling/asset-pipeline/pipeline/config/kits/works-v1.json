@@ -1,6 +1,6 @@
 {
  "id": "works-v1",
- "description": "The WORKS prop set \u2014 the industry/infrastructure vocabulary the audit's \u00a75.4 requires every works place type to be described in (`shipyard`, `salt-pans`, `paddy-works`, `clay-pit-and-kiln`, `portage-slipway`, `bog-iron-bloomery`, `works-town`, `crystal-diggings`, `boatwright-yard`). There is no kiln, saltern, sluice-gate, winding-gear or hull-on-stocks mesh anywhere in the vault and none can be sourced, so this kit packages the vanilla pieces those descriptions must be built from: the blacksmith set (forge, workbench, bellows, sharpening wheel), the smelter and its coal (READ AS the kiln), tanning and drying and fish racks, hand/vendor carts and wheels, firewood stacks, the mine timber family (beams, planks, scaffold supports) and ore faces, the full stockade scaffold family (bases, tops, ramp, stairs, bridges, posts) for slipways/stocks/staging, the lumbermill WATER WHEELS, the farmhouse walkway gate boards (the only vanilla piece that reads as a SLUICE gate), dock steps/entry, and salt/basket/barrel/crate/sack/bucket/pitchfork/shovel/trough dressing for salt-pan and paddy terrain (the pans and bunds themselves are compiler-authored terrain and water, not meshes). Mud Mother Grove adds the Argonian fish rack, carapace oven, clay oven, baskets, urn and woven/snake fences so a works site reads Argonian. TROPICALISED (`textureOverlayPools: [\"tropical\"]`): almost every piece is vanilla-backed, so the overlay is what keeps the works hot and wet rather than Nordic grey; `clutter/stockade` is not covered by Tropical and uses the same textureAliases redirect as settlement-stilt-v1.",
+ "description": "The WORKS prop set — the industry/infrastructure vocabulary the audit's §5.4 requires every works place type to be described in (`shipyard`, `salt-pans`, `paddy-works`, `clay-pit-and-kiln`, `portage-slipway`, `bog-iron-bloomery`, `works-town`, `crystal-diggings`, `boatwright-yard`). There is no kiln, saltern, sluice-gate, winding-gear or hull-on-stocks mesh anywhere in the vault and none can be sourced, so this kit packages the vanilla pieces those descriptions must be built from: the blacksmith set (forge, workbench, bellows, sharpening wheel), the smelter and its coal (READ AS the kiln), tanning and drying and fish racks, hand/vendor carts and wheels, firewood stacks, the mine timber family (beams, planks, scaffold supports) and ore faces, the full stockade scaffold family (bases, tops, ramp, stairs, bridges, posts) for slipways/stocks/staging, the lumbermill WATER WHEELS, the farmhouse walkway gate boards (the only vanilla piece that reads as a SLUICE gate), dock steps/entry, and salt/basket/barrel/crate/sack/bucket/pitchfork/shovel/trough dressing for salt-pan and paddy terrain (the pans and bunds themselves are compiler-authored terrain and water, not meshes). Mud Mother Grove adds the Argonian fish rack, carapace oven, clay oven, baskets, urn and woven/snake fences so a works site reads Argonian. TROPICALISED (`textureOverlayPools: [\"tropical\"]`): almost every piece is vanilla-backed, so the overlay is what keeps the works hot and wet rather than Nordic grey; `clutter/stockade` is not covered by Tropical and uses the same textureAliases redirect as settlement-stilt-v1. Gap G3 (a nailed notice/licence board readable at arm's length — tapping licences, nailed price lists, toll posts and register boards) is closed by BM&V's `advertising_board`: a freestanding roofed notice pane 1.56 × 1.39 × 2.47 m whose posted papers are part of the authored mesh (`infopanel_papers`), so no paper piece has to be jammed onto it.",
  "culture": "neutral-works",
  "output": "tooling/asset-pipeline/output/kits/works-v1.glb",
  "lodRatios": [
@@ -18,11 +18,12 @@
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
  },
  "snapLogic": {
-  "grid": "None \u2014 these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
+  "grid": "None — these are freestanding props, not a tileset. Placement is by hand/compiler rule against the site, not by connector.",
   "stockade-scaffold": "The one family here that DOES snap, in vanilla's own logic: a `stockadescaffoldbase<n>sided01` footing carries a `stockadescaffoldtop<n>sided01` deck of the matching side count (`n` = how many faces are railed), joined between decks by `bridge01/02`/`bridgenarrow`, climbed by `ramp01` or `stairs01`, and propped by `basesupport01` and `toppost01/02`. Keep side counts consistent around a platform or railings gap.",
   "mine-timbers": "`minewoodbeam01-03` + `minewoodbeamshort01/02` + `minewoodplanks01-04` are vanilla's shoring vocabulary and are placed as a repeating rib along a tunnel or trench; `minescaffoldsupport01`/`minescaffoldbasesupport01(w)` are the vertical props.",
   "reads": "Documented substitutions this kit is the answer to: kiln = `smelter01` + `smelter01coal01` + firewood stacks + drying racks; sluice gate = `walkwaycwallgate01/02` set in a compiler-cut channel; slipway/hull-on-stocks = stockade scaffold + `minewoodbeam` rollers + dock steps, with an SBoT hull raised on them (hull comes from the boat pools, not this kit); winding gear = mine scaffold and a shored tunnel mouth; saltern = terrain pans dressed with `saltpile`, baskets, rakes (`pitchfork01`), `shovel01` and a `horsetrough01` store; water-wheel works = `lumbermill01waterwheel01/02`.",
-  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json."
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json.",
+  "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length."
  },
  "assets": [
   {
@@ -279,6 +280,9 @@
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/cattail"
+  },
+  {
+   "asset": "bmv:advertising_board"
   }
  ]
 }

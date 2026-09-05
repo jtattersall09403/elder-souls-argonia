@@ -12,6 +12,36 @@
  */
 
 export type Pt = [number, number];
+
+/**
+ * The plain-English record a reviewer reads on click (blueprint.py `why`).
+ * Every key is nullable: the blueprints are being re-authored, and an unwritten
+ * key must show as a visible gap ("not yet written", in red), never be hidden.
+ */
+export interface BpWhy {
+  what: string | null;
+  whyHere: string | null;
+  /** Area records (districts, docks) carry no `whySpot`. */
+  whySpot?: string | null;
+  whyNeighbours: string | null;
+  playerPurpose: string | null;
+  microGeography: string | null;
+}
+
+/** Heading order for the why block, as the owner asked to read it. */
+export const WHY_HEADINGS: [keyof BpWhy, string][] = [
+  ["what", "What it is"],
+  ["whyHere", "Why it is in this place"],
+  ["whySpot", "Why this spot"],
+  ["whyNeighbours", "Why it sits with its neighbours"],
+  ["playerPurpose", "What it gives the player"],
+  ["microGeography", "How it uses the ground"],
+];
+
+/** Keys shown for a whole-area record — a district or a dock has no one spot. */
+export const AREA_WHY_KEYS = new Set<keyof BpWhy>([
+  "what", "whyHere", "whyNeighbours", "playerPurpose", "microGeography",
+]);
 export type Poly = Pt[];
 
 export interface BpDistrict {
@@ -19,6 +49,7 @@ export interface BpDistrict {
   kind: string | null;
   cultureKit: string | null;
   wealth: string | null;
+  why: BpWhy | null;
   notes: string | null;
   polygon: Poly | null;
   centreM: Pt | null;
@@ -33,18 +64,52 @@ export interface BpParcel {
   groundFit: string | null;
   yawDeg: number | null;
   orientationWhy: string | null;
+  /** A gate or arch stands ACROSS this way — highlighted when the parcel is picked. */
+  spans: string | null;
+  interior: { kind: string | null; assetRef?: string | null } | null;
+  why: BpWhy | null;
   notes: string | null;
   polygon: Poly | null;
   centreM: Pt | null;
 }
 
+export type WayGroup = "routes" | "canals" | "boardwalks" | "fences";
+
 export interface BpWay {
   id: string;
-  group: "routes" | "canals" | "boardwalks";
+  group: WayGroup;
   kind: string | null;
   widthM: number | null;
+  assetRef: string | null;
+  routing: string | null;
+  /** Parcel / dock / landmark ids this way terminates at (drawn as a tick). */
+  endsAt: string[];
+  why: string | null;
   notes: string | null;
+  /** The authored waypoints; `points` is derived from them by the street router. */
+  via: Poly | null;
   points: Poly;
+}
+
+/** How a walking player arrives — the design is judged from the ground. */
+export interface BpApproach {
+  id: string;
+  mode: string | null;
+  fromRouteId: string | null;
+  fromDirection: string | null;
+  firstSeen: string | null;
+  sequence: string | null;
+  wayfinding: string | null;
+  notes: string | null;
+}
+
+export interface BpScaleGrounding {
+  loreSource?: string | null;
+  population?: string | number | null;
+  households?: number | null;
+  buildingsPlanned?: number | null;
+  npcsPlanned?: number | null;
+  why?: string | null;
 }
 
 export interface BpDoor {
@@ -56,13 +121,15 @@ export interface BpDoor {
 }
 
 export interface BpLandmark {
-  id: string; kind: string | null; assetRef: string | null; notes: string | null; positionM: Pt | null;
+  id: string; kind: string | null; assetRef: string | null; why: BpWhy | null;
+  notes: string | null; positionM: Pt | null;
 }
 export interface BpDock {
-  id: string; waterBodyId: string | null; piledToBed: boolean | null; notes: string | null; positionM: Pt | null;
+  id: string; waterBodyId: string | null; piledToBed: boolean | null; why: BpWhy | null;
+  notes: string | null; positionM: Pt | null;
 }
 export interface BpCombatSpace {
-  id: string; clearanceClass: string | null; notes: string | null; polygon: Poly | null;
+  id: string; clearanceClass: string | null; why: string | null; notes: string | null; polygon: Poly | null;
 }
 export interface BpSocket {
   id: string; kind: string | null; parcelId: string | null; ownerQuestTier: number | null;
@@ -100,6 +167,10 @@ export interface Blueprint {
   doors: BpDoor[];
   combatSpaces: BpCombatSpace[];
   questSockets: BpSocket[];
+  approaches: BpApproach[];
+  scaleGrounding: BpScaleGrounding | null;
+  /** Metre box the province-map backdrop and the neighbour context cover. */
+  contextM: Bounds;
   clearance: BpClearance;
   siting: BpSiting | null;
   budget: Record<string, number>;
@@ -125,7 +196,7 @@ export async function loadBlueprints(baseUrl: string): Promise<BlueprintBundle> 
   // Vite's dev server answers a missing public file with index.html (200).
   if (!ct.includes("json")) throw new Error("blueprints.json missing — run python3 -m worldgen.export_blueprints");
   const data = (await r.json()) as BlueprintBundle;
-  if (data.schemaVersion !== 1) {
+  if (data.schemaVersion !== 2) {
     throw new Error(`blueprints.json schemaVersion ${data.schemaVersion} unsupported — re-run python3 -m worldgen.export_blueprints`);
   }
   return data;
@@ -149,11 +220,53 @@ export const GROUND_FIT_FILL: Record<string, string> = {
   direct: "#d9d2c4", plinth: "#c9b98f", pad: "#c2a978", stilt: "#9fc6d8", "dug-in": "#a89bb5",
 };
 
-export const WAY_STYLE: Record<string, { colour: string; dash?: string }> = {
+export interface WayStyle {
+  colour: string;
+  /** Dash pattern in SCREEN pixels (the view divides by px-per-metre). */
+  dash?: [number, number];
+  /** Draw at the way's real width in metres (a road, a canal) or as a thin
+   * line whatever the zoom (a fence is 0.3 m wide and would vanish). */
+  hairline?: boolean;
+}
+
+/**
+ * A line style per way KIND, so the map distinguishes the things the owner
+ * asked to tell apart: a dredged `channel` from a cut `canal`, and a fence from
+ * a wall from a palisade from a hedge. Falls back to the group.
+ */
+export const WAY_STYLE: Record<string, WayStyle> = {
   routes: { colour: "#e0c48a" },
   canals: { colour: "#6fb7e0" },
-  boardwalks: { colour: "#caa06a", dash: "6 4" },
+  boardwalks: { colour: "#caa06a", dash: [6, 4] },
+  fences: { colour: "#b0a58c", hairline: true },
+  // canals: a cut is a solid blue line; a dredged navigation channel into open
+  // water is the same blue, long-dashed — it is water already, only deepened.
+  canal: { colour: "#6fb7e0" },
+  channel: { colour: "#7fd0f0", dash: [10, 6] },
+  // fences: solid grey-brown pale = hedge, heavy = wall, spiked dash = palisade.
+  fence: { colour: "#b0a58c", dash: [3, 2], hairline: true },
+  wall: { colour: "#9a9384", hairline: false },
+  palisade: { colour: "#a5762f", dash: [1.5, 2.5], hairline: true },
+  hedge: { colour: "#6f9a5e", dash: [2, 2], hairline: true },
 };
+
+/** Style for one way: its kind wins, then its group. */
+export function wayStyle(group: string, kind: string | null): WayStyle {
+  return (kind && WAY_STYLE[kind]) || WAY_STYLE[group] || WAY_STYLE.routes;
+}
+
+/** A compass word ("north-east", "SW", "west") → degrees clockwise from north,
+ * or null when the text names no direction. Approaches may give a route id
+ * instead, in which case the view uses the route's far end. */
+export function compassDeg(text: string | null): number | null {
+  if (!text) return null;
+  const t = text.toLowerCase().replace(/[^a-z]/g, "");
+  const table: Record<string, number> = {
+    n: 0, north: 0, ne: 45, northeast: 45, e: 90, east: 90, se: 135, southeast: 135,
+    s: 180, south: 180, sw: 225, southwest: 225, w: 270, west: 270, nw: 315, northwest: 315,
+  };
+  return table[t] ?? null;
+}
 
 export const SOCKET_FILL = "#ffd166";
 

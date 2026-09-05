@@ -120,10 +120,22 @@ class ProvinceSurvey:
 
     def __init__(self, province: Path = PROVINCE):
         self.province = province
-        self.fields = ProvinceFields(province)      # height/slope/depth/shore/coast/region/land-cover
+        # Siting scores NATURAL ground: route grading (worldgen.grade_routes)
+        # reshapes the terrain *because of* the plotted places and their
+        # routes, so scoring on the graded surface would feed that back and
+        # move committed records. The graded surface is what the chunks and
+        # colliders carry; siting keeps the ungraded raster when it exists.
+        natural = province / "refined" / "height-natural-rg.png"
+        self.fields = ProvinceFields(
+            province, "height-natural-rg.png" if natural.exists() else "height-rg.png")
+        # The water bake follows the graded ground, so siting reads the
+        # natural-state snapshot of it that `grade_routes` keeps beside it.
+        water_dir = province / "water" / "natural"
+        if not water_dir.exists():
+            water_dir = province / "water"
         self.hydro_meta = json.loads((province / "hydrology-meta.json").read_text())
         self.society_meta = json.loads((province / "society-meta.json").read_text())
-        self.water_meta = json.loads((province / "water" / "water-meta.json").read_text())
+        self.water_meta = json.loads((water_dir / "water-meta.json").read_text())
         self.refined_meta = json.loads((province / "refined" / "meta.json").read_text())
 
         self.extent_m = float(self.fields.extent_m)
@@ -171,12 +183,12 @@ class ProvinceSurvey:
         self.air_visibility_m = (3.912 / beta).astype(np.float32)
 
         # -- water (2017 / 1345) -------------------------------------------
-        surf = _rgb(province / "water" / "water-surface.png").astype(np.float32)
+        surf = _rgb(water_dir / "water-surface.png").astype(np.float32)
         wlo, whi = self.water_meta["surface"]["minM"], self.water_meta["surface"]["maxM"]
         self.water_level_m = ((surf[..., 0] * 256 + surf[..., 1]) / 65535.0
                               * (whi - wlo) + wlo).astype(np.float32)
         self.water_depth_m = (surf[..., 2] * 0.1).astype(np.float32)
-        klass = _rgb(province / "water" / "water-class.png")
+        klass = _rgb(water_dir / "water-class.png")
         self.water_class = _resample(klass[..., 0], self.grid_n)
         self.water_turbidity = _resample(klass[..., 1], self.grid_n).astype(np.float32) / 255.0
         self.water_salinity = _resample(klass[..., 2], self.grid_n).astype(np.float32) / 255.0
@@ -184,7 +196,7 @@ class ProvinceSurvey:
         # water-shore.png: R = shore distance / SHORE_MAX_M, G = seasonal
         # response (how much this water rises/falls with the wet season),
         # B = tannin (blackwater staining).
-        shore = _rgb(province / "water" / "water-shore.png").astype(np.float32) / 255.0
+        shore = _rgb(water_dir / "water-shore.png").astype(np.float32) / 255.0
         self.water_season_response = _resample(shore[..., 1], self.grid_n)
         self.water_tannin = _resample(shore[..., 2], self.grid_n)
         # wet-season newly-inundated mask (refine_province, half-res of refined)
@@ -212,7 +224,16 @@ class ProvinceSurvey:
 
     def _load_routes(self) -> list[Route]:
         out: list[Route] = []
-        roads = json.loads((self.province / "routes.json").read_text())["routes"]
+        # Siting scores the NATURAL road corridors, for the same reason it
+        # scores natural ground: `reroute_majors` re-solves the steep stretches
+        # of a road *because of* the gradient cap, and a place's score depends
+        # on how near a road it is — so scoring on the repaired line would feed
+        # the repair back into the plot and move committed records. The
+        # repaired line is what the world carries; the snapshot is what siting
+        # reads. `reroute_majors` keeps it fresh (2026-09-05).
+        natural_roads = self.province / "routes-natural.json"
+        roads_path = natural_roads if natural_roads.exists() else self.province / "routes.json"
+        roads = json.loads(roads_path.read_text())["routes"]
         for r in roads:
             pts = np.asarray(r["px"], dtype=np.float32) * self.grid_px_m
             out.append(Route("road", r["from"], r["to"], float(r["lengthKm"]),

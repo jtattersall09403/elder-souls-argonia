@@ -10,6 +10,7 @@
  * Run: npm test -w @elder-souls/repo-standards   (or `npm test` from the root)
  */
 import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
+import { execSync } from "node:child_process";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -323,12 +324,50 @@ function checkCredits() {
 }
 
 // ---------------------------------------------------------------------------
+// Standard 13 — the placement playbook moves with the placement work
+// ---------------------------------------------------------------------------
+// The owner asked (2026-09-05) for a MECHANISM, not a reminder: if a blueprint,
+// a design record or a placement tool changes in the working tree and the
+// playbook (docs/world/96-placement-playbook.md) or the Phase 11 decision record
+// does not, the round's lesson has not been written down. Checked against git
+// (staged + unstaged vs HEAD), so it fires in `npm test` before a commit.
+const PLAYBOOK = "docs/world/96-placement-playbook.md";
+const PLAYBOOK_ALSO_OK = ["docs/decisions/0041-phase11-settlement-decisions.md"];
+const PLACEMENT_WORK = [
+  /^world\/sources\/blueprints\/place\./,
+  /^tooling\/world-generation\/worldgen\/(blueprint|blueprint_footprints|blueprint_integration|compile_settlement|street_router|apply_sitings|export_blueprints|render_blueprint)\.py$/,
+];
+
+function checkPlaybookMoves() {
+  let changed;
+  try {
+    changed = execSync("git status --porcelain=v1 --untracked-files=all", { cwd: ROOT, encoding: "utf8" })
+      .split("\n").filter(Boolean).map((l) => l.slice(3).trim().replace(/^"|"$/g, ""));
+  } catch {
+    note("standard 13: git unavailable; playbook drift not checked");
+    return;
+  }
+  const placement = changed.filter((p) => PLACEMENT_WORK.some((re) => re.test(p)));
+  if (placement.length === 0) return;
+  const recorded = changed.includes(PLAYBOOK) || PLAYBOOK_ALSO_OK.some((p) => changed.includes(p));
+  if (!recorded)
+    fail(
+      13,
+      PLAYBOOK,
+      0,
+      `placement work changed (${placement.slice(0, 3).join(", ")}${placement.length > 3 ? ", …" : ""}) but neither the ` +
+        `placement playbook nor decision 0041 did. Write the round's lesson or steer (a one-line row is enough), then re-run.`,
+    );
+}
+
+// ---------------------------------------------------------------------------
 
 checkDeterminism();
 checkSingletons();
 checkIds();
 checkSchemaVersions();
 checkCredits();
+checkPlaybookMoves();
 
 for (const n of notes) console.log(`note  ${n}`);
 

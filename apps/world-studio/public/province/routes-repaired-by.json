@@ -1,0 +1,156 @@
+{
+ "size": 84659,
+ "mtime_ns": 1788611901166000000,
+ "roads": [
+  {
+   "id": "route.road.soulrest-blackrose",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 22.204765378692773,
+   "afterDeg": 7.106705184146567,
+   "stretches": 2,
+   "pxBefore": 115,
+   "pxAfter": 428,
+   "worstKm": [
+    1.12,
+    6.75
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.blackrose-lilmoth",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 15.469835378842074,
+   "afterDeg": 6.722366059092217,
+   "stretches": 2,
+   "pxBefore": 83,
+   "pxAfter": 189,
+   "worstKm": [
+    3.56,
+    6.37
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.alten-corimont-stormhold",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 28.28482723116962,
+   "afterDeg": 7.920873253530958,
+   "stretches": 2,
+   "pxBefore": 144,
+   "pxAfter": 484,
+   "worstKm": [
+    3.15,
+    0.73
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.stormhold-thorn",
+   "kind": "trunk_road",
+   "cap": 8.0,
+   "beforeDeg": 40.91153637306685,
+   "afterDeg": 9.262146811198953,
+   "stretches": 6,
+   "pxBefore": 300,
+   "pxAfter": 1596,
+   "worstKm": [
+    3.87,
+    0.85
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.gideon-stormhold",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 20.249802846937957,
+   "afterDeg": 7.029436037857781,
+   "stretches": 2,
+   "pxBefore": 191,
+   "pxAfter": 865,
+   "worstKm": [
+    2.26,
+    1.77
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.gideon-soulrest",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 22.325530363378796,
+   "afterDeg": 7.983839654634931,
+   "stretches": 6,
+   "pxBefore": 289,
+   "pxAfter": 745,
+   "worstKm": [
+    1.99,
+    3.37
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.gideon-blackwood-road",
+   "kind": "trunk_road",
+   "cap": 8.0,
+   "beforeDeg": 31.96193372723789,
+   "afterDeg": 14.953449878687788,
+   "stretches": 1,
+   "pxBefore": 98,
+   "pxAfter": 445,
+   "worstKm": [
+    0.86,
+    3.2
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.archon-gideon",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 25.12169900395143,
+   "afterDeg": 7.888272471328184,
+   "stretches": 9,
+   "pxBefore": 287,
+   "pxAfter": 1018,
+   "worstKm": [
+    3.69,
+    3.21
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.helstrom-blackrose",
+   "kind": "road",
+   "cap": 8.0,
+   "beforeDeg": 24.331440548562906,
+   "afterDeg": 7.679847798762093,
+   "stretches": 6,
+   "pxBefore": 273,
+   "pxAfter": 778,
+   "worstKm": [
+    3.43,
+    3.28
+   ],
+   "atEnd": false
+  },
+  {
+   "id": "route.road.thorn-tear-road",
+   "kind": "trunk_road",
+   "cap": 8.0,
+   "beforeDeg": 62.74623959462226,
+   "afterDeg": 41.6887500449389,
+   "stretches": 1,
+   "pxBefore": 63,
+   "pxAfter": 270,
+   "worstKm": [
+    6.54,
+    0.5
+   ],
+   "atEnd": false
+  }
+ ]
+}

@@ -14,7 +14,7 @@
    "id": "place.hist-heartland.nine-trunks",
    "u": 0.674428,
    "v": 0.509378,
-   "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg, and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and only the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
+   "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
    "source": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
    "candidateId": "candidate.nine-trunks.knoll"
   },
@@ -22,7 +22,7 @@
    "id": "place.hist-heartland.sap-tapping-licensed",
    "u": 0.473398,
    "v": 0.595619,
-   "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330) — the only water within 250 m that a loaded canoe can be poled along. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
+   "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
    "source": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
    "candidateId": "candidate.sap-tapping-licensed.a-north-bank"
   },

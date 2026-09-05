@@ -230,6 +230,18 @@ round; every later register (creatures, items, quests, dialogue) inherits it.
 
 ---
 
+## 13. The placement playbook moves with the placement work
+
+Owner ruling 2026-09-05: the workflow record is kept by a mechanism, not by
+memory. If a blueprint, a design record or a placement tool
+(`blueprint*.py`, `compile_settlement.py`, `street_router.py`,
+`apply_sitings.py`, `export_blueprints.py`, `render_blueprint.py`) changes in
+the working tree and neither [world/96-placement-playbook.md](world/96-placement-playbook.md)
+nor decision 0041 does, `npm test` fails. A one-line lesson or steer row is
+enough; the point is that no round ends without its lesson written where the
+next agent reads it. **Checked mechanically** (`tooling/repo-standards/check.mjs`,
+standard 13, via `git status`).
+
 ## Running the checks
 
 ```

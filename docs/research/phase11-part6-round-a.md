@@ -114,15 +114,33 @@ by-product but are not the review medium.
   (a terrace lip read as 40°); parcels can now state their orientation; a
   district is one packaged kit set; every placed object has a stable id.
 
-## Orientation, in one paragraph
+## What changed since your first look (2026-09-05)
 
-Every building now has a stated reason for the way it faces, visible on
-click: a hut's long side along the contour behind it, a quay row facing the
-channel along its whole length, the Hist court turned to the tree, Mazzatun's
-courses running along the terrace risers, Nine-Trunks' huts on the ring's
-tangent with doors inward because the ring is the stockade. If a reason reads
-wrong to you, say so; the reasons are meant to become the rules for the
-long tail, so a correction on one building corrects the type.
+- **Click shows the whys.** Every building, district, landmark and dock opens
+  with six plain-English paragraphs: what it is, why it is in the place, why
+  this exact spot, why it sits with its neighbours, what it gives the player,
+  how it uses the ground. Then the orientation and its reason. Missing text
+  shows in red.
+- **The map is the studio map**, zoomed in, with the neighbouring places and
+  routes drawn as context. In walk mode, tick "bp ground" (or `?bpground=1`)
+  to see the outlines painted on the ground and walk them.
+- **Layers are integrated by the compiler**: a way only touches a building it
+  ends at, no path is drawn twice, a gate stands across its road, every door
+  opens within four metres of a way, canals lie in water. Streets are routed
+  over the ground by a cost search unless the culture builds straight.
+- **Doors and interiors** are derived from what the kits ship: a piece that
+  encloses a room has a door on its real doorway side and names the interior
+  kit that will fill it.
+- **Full detail**: every district parcelled; fences and walls drawn; each
+  place's size derived from lore (the design record's "Size grounding").
+- **Approaches**: each design record has an "Approach and wayfinding" section
+  describing what a walking or paddling player sees, in order, from each
+  direction, and a 16-item checklist with answers.
+- **The principles** these designs follow are now one document,
+  [world/97-placement-principles.md](../world/97-placement-principles.md);
+  its closing list has fifteen decisions for your sense check. The audit of
+  the five blueprints against it is
+  [phase11-round-a-audit.md](phase11-round-a-audit.md).
 
 ## How to feed back
 

@@ -1,322 +1,189 @@
-# Mazzatun — meso design record (Phase 11 Part 6, Round A draft)
+# Mazzatun — meso design record (Phase 11 Part 7, Round A re-authoring)
 
-`place.dunmer-north.mazzatun` · heretic-stone-village · M3 · D3 (approach D4)
-· dossier `world/sources/sites/dossiers/mazzatun.{json,md}`
-· map `tooling/world-generation/output/blueprint-maps/place.dunmer-north.mazzatun.png`
+`place.dunmer-north.mazzatun` · heretic-stone-village · M3 · D3 (approach D4) · dossier `world/sources/sites/dossiers/mazzatun.{json,md}` · map `tooling/world-generation/output/blueprint-maps/place.dunmer-north.mazzatun.png`
 
-Exemplar brief: a **stone kit on sloping ground**. The slope ladder (direct ·
-plinth · pad · never grade at Δ ≥ 2 m → stilt, dug-in or re-site) is what this
-record has to prove; the terrace scheme is a Part 6 decision recorded as
-grade patches the compiler emits, never as raster edits.
+Exemplar brief: a **stone kit on sloping ground**, designed from the walking player's eye. The city is met twice: from below, up 52 m of escarpment beside the amber conduit, then from above, down the ridge shoulder into the pens. The v2 schema is filled in full: a `why` on every district, parcel and landmark, ways authored as waypoints and routed over the ground, the risers and the pen fence as `fences[]`, a door on every piece the kit index says has an inside, four combat spaces with their reasons, two approaches and a scale grounding. `blueprint --check`, `compile_settlement` (27 placements, 0 errors) and `render_blueprint` all pass on the committed file.
 
-## 1. The ground, and why the plotted point could not be used
+## 1. The ground and the siting
 
-The dossier over the plotted neighbourhood reports 369 m of relief inside a
-400 m disc, a slope median of 28.6° and only 4.87 ha (10%) buildable. The plot
-itself sits on the face of that relief.
+The dossier over the plotted point reports 369 m of relief in a 400 m disc, a slope median of 28.6° and 4.87 ha (10 %) buildable; the plot itself sits on a 47° face. Three candidates were measured with `ProvinceSurvey.height_at`:
 
-| Candidate | positionM | Height | Slope | Δ across the core | Flood | Route | To the Hist | Verdict |
-|---|---|---|---|---|---|---|---|---|
-| `candidate.mazzatun.shelf` — the rock shelf | 1985.0, 1341.0 | 202.6 m | 20.6° (raster) | 1.9 m over 30 × 20 m; 6.5 m over 70 × 45 m | band 0, 4.1 m above the water table | 296 m to the Gideon–Stormhold road | 85 m, 55 m above it | **chosen** |
-| `candidate.mazzatun.plot` — the plotted point | 1993.3, 1455.9 | 201.2 m | 46.9° | 24.0 m over 30 × 20 m | band 0 | 243 m | 138 m | rejected |
-| `candidate.mazzatun.gorge` — the Hist's own floor | 2070.0, 1341.0 | 148.2 m | 32.1° | 6.5 m at best within 170 m | water depth 0.10 m, −0.12 m above the water table, river band 1 | 219 m | 0 m | rejected |
+| Candidate | positionM | Height | Δ across the core | Water | Verdict |
+|---|---|---|---|---|---|
+| `candidate.mazzatun.shelf` — the rock shelf | 1985, 1341 | 202.6 m | 1.9 m over 30 × 20 m; 6.5 m over 70 × 45 m | band 0, 4.1 m above the table | **chosen** |
+| `candidate.mazzatun.plot` — the plotted point | 1993, 1456 | 201.2 m | 24.0 m over 30 × 20 m | band 0 | rejected: Δ ≥ 2 m under every footprint; the ladder forbids grading there |
+| `candidate.mazzatun.gorge` — the Hist's own floor | 2070, 1341 | 148.2 m | 6.5 m at best within 170 m | in the channel, −0.12 m above the table | rejected: a stone works cannot stand in a river |
 
-`candidate.mazzatun.plot` fails the ladder outright: Δ is over 2 m under every footprint
-tested; the ladder forbids grading at that delta, so the answer is
-to re-site rather than to flatten a hillside. `candidate.mazzatun.gorge` is the channel floor —
-the sample returns standing water and a negative height above the water table,
-so a stone works cannot stand there, however well it would suit the lore.
+The shelf is 68 m east–west by 42 m north–south between 198 and 209 m, falling about 8.5 m north to south in three readable steps, with a headwater stream along its southern lip and a 55 m escarpment on its east dropping to the gorge in which Tsono-Xuhil stands. The blueprint boundary is wider than the shelf (1860–2085 by 1280–1400 m) because it now carries the two approach ways.
 
-`candidate.mazzatun.shelf` is a real bench measured at 1 m spacing: **68 m east–west by 42 m
-north–south**, between 198.3 m and 209.0 m, falling roughly 8.5 m from its
-northern edge to its southern lip in three readable steps, with a headwater
-stream along that southern lip (shore distance 3–8 m at z ≈ 1352–1360) and a
-55 m escarpment on its eastern side dropping to the gorge where Tsono-Xuhil
-stands. Every claim above was measured with `ProvinceSurvey.height_at` and
-`sample`, not read off the region map.
+## 2. Scale grounding
 
-The shelf also satisfies the record's siting preferences literally: ridge-end
-landform, upland hills region, danger band 3, a stone source in its own
-southern lip with a haul water along it, plus a neighbour relation of "raids its
-neighbours for labour" served by a single haul road climbing from the east.
+| Field | Value | Source |
+|---|---|---|
+| population | 38–48 | UESP Lore:Xit-Xaht (a tribe that raided its neighbours for slave labour under a Hist it bound); `extrapolation/settlement-register.md` §Mazzatun (stirring, building restarted); the record's occupants (few D3 builders, few taken labourers, one D4 shaper) |
+| households | 9 | six Xit-Xaht households of the work gang and the shaper, three pens |
+| buildingsPlanned | 27 | the parcel count; validator tolerance ±25 % |
+| npcsPlanned | 12 | `occupants[]`: shaper, two builders, carver, three taken labourers, walkway keeper, gate watch plus the record's sap-tenders |
 
-## 2. Districts — one kit set each
+The Xit-Xaht live underground, in the twisted halls that earned the place its epithet, so the exterior carries no dwellings of theirs; the interior behind the stair-throat is where the thirty of the tribe sleep. The taken labourers, twelve to fifteen, are housed in three mud shells of 30 m². The other twenty-three structures are the works.
 
-| District | Kit set | Ground | What it is |
+## 3. Districts and the terrace rules
+
+| District | Kit set | Ground | Parcels |
 |---|---|---|---|
-| `district.mazzatun.pens` | `argonian-mud` (settlement-mud-v1) | upper step, 205–209 m | Mud shells, an oven, a rack and a fence for the taken labourers. They are not Xit-Xaht, so they are not permitted stone; the pens are the part of Mazzatun built the way the rest of the province builds. Overlooked from the works below. |
-| `district.mazzatun.works` | `argonian-stone` (ruin-monumental-v1 + xanmeer-interior-v1) | middle step, 198–206 m | The half-built quarter: courses, frontage, the statue court, the watch column, the ceremonial stair, the stair-throat and the conduit head at the eastern lip. |
-| `district.mazzatun.staging` | `neutral-works` (works-v1) | lower step and stream lip, 190–203 m | Block face, kiln, scaffold staging, hoist, haul gate and cart. |
+| `district.mazzatun.pens` | `argonian-mud` | upper step, 205–209 m, z 1317–1332 | three shells, oven, rack |
+| `district.mazzatun.works` | `argonian-stone` | middle step, 198–206 m, z 1332–1349, reaching down to the half-cut blocks | courses n1, n2, w1, e1, statue wall, stair-throat, great stair, pens stair, tower, conduit column and pillar, half-cut blocks |
+| `district.mazzatun.staging` | `neutral-works` | lower step and stream lip, 196–203 m, z 1349–1364 | gate, cart, kiln, scaffolds a/b/c, scaffold stair, cutting floor, hoist |
 
-The two-culture rule is kept by district, never blended.
-Within `ruin-monumental-v1` there is a second, finer rule the kit's own description
-imposes: it packages two authors' work (the IGS Ayleid exterior set and Here
-There Be Monsters' xanmeer set). Those are different grids by different hands,
-so this blueprint keeps them in **separate parcels that never abut** — the IGS
-blocks, spans and stairs carry the terracing, the courses and the stairways,
-and the one xanmeer piece still used, `pillar02`, carries the conduit head.
+The terrace rules, each of them visible in the data:
 
-## 3. Terrace scheme
+1. **Every course runs along a riser; every stair runs on the fall line.** The arched bays, the corner block, the statue wall and the frontage dais have contour bearings (74–108°) in their `yawDeg`; the two stairs and the stair-throat are set at 0° and 353.6°, on the fall.
+2. **The risers are built, not painted.** Heightfields cannot hold a vertical, so the two risers are `fences[]` of kind `wall` with the quad-block asset: `fence.mazzatun.riser-upper-{west,east}` at z 1332.5 (either side of the pens stair) and `fence.mazzatun.riser-lower-{west,east}` at z 1349.5 (either side of the great stair). Buildings on a riser stand on the course.
+3. **The slope ladder is obeyed by measurement.** Ten parcels are pads (Δ < 2 m) and seventeen are dug-in; nothing is graded above 2 m and nothing is stilted. The compiler's own Δ pushed six parcels from pad to dug-in this round (course-n1, pen-b, half-cut blocks, scaffolds a/b/c), which is the permitted downward relaxation of the ladder.
+4. **The pens are mud and the works are stone**, by district, never blended; the IGS Ayleid pieces and the Here There Be Monsters xanmeer pieces stand in separate parcels and never abut (tower to course-e1: 0.33 m, the closest).
+5. **Authority is high and last.** The tower (shaper's station) stands at the lip at the far end of the terrace track; the pens are higher still, which is the point: the labour is above the masters and looks down at their stone, while the masters look up into the pens from the court.
 
-Seventeen of twenty-nine parcels sit at **pad** (Δ 0.00–1.75 m); twelve
-at **dug-in**. Nothing is graded above 2 m and nothing is stilted:
-this is dry rock, not marsh.
+## 4. Ways — authored as waypoints, routed over the ground
 
-- **Pads** are the compiler's grade patches — target height taken from the
-  maximum sample under the footprint, a 2.5× falloff ring, 0.7° residual tilt
-  against shadow acne, base buried 0.25 m. They are data, applied at chunk
-  rebuild; no raster in this repository is edited.
-- **Dug-in** is the answer wherever the piece is itself a ground-working thing:
-  the retaining blocks (`parcel.mazzatun.terrace-wall-a`, `parcel.mazzatun.terrace-wall-c`), the ceremonial
-  stair throat and the flight beside it, the quarry face, the haul gate's
-  footings, the watch column's base, the frontage dais and the statue court. Each is cut into its riser rather than
-  standing on a flattened shelf.
-- **The three risers are polygon geometry, not terrain.** The riser between the
-  pens and the works is held by `parcel.mazzatun.terrace-wall-a` (`arquadblock01`, 6.37 ×
-  6.37 × 1.82 m); the riser between the works and the staging yard
-  by `parcel.mazzatun.terrace-wall-c` (`arquadblock02`, same extents). Heightfields cannot
-  express a vertical, so a terrace wall is always a placed block course
-  ray-sampled onto the terrain, never a cliff painted into the height grid.
+| Way | Kind, width | Routing | Length | Climb | Steepest 3 m segment | Ends at |
+|---|---|---|---|---|---|---|
+| `route.mazzatun.haul` | road 3.0 | terrain, 4 via | 204 m | 148 → 200 m | 34° | the Hist landmark; the gate |
+| `route.mazzatun.gateway` | road 3.0 | straight | 5.7 m | — | — | the gate (which `spans` it) |
+| `route.mazzatun.yard` | road 3.0 | terrain | 13 m | — | 2° | the gate; the great stair |
+| `route.mazzatun.terrace` | track 2.2 | terrain, 4 via | 47 m | 201 → 202 m | 13° | the frontage dais; the tower |
+| `route.mazzatun.pens-stair-link` | footpath 1.5 | straight | 8 m | 204 → 202 m | 13° | the pens stair |
+| `route.mazzatun.pen-lane` | footpath 1.6 | terrain, 4 via | 48 m | 206 → 204 m | 11° | the rack; the east pen |
+| `route.mazzatun.shoulder` | footpath 1.5 | terrain, 4 via | 146 m | 242 → 206 m | 42° | the rack |
 
-## 3b. Orientation and footprints
+**Did the road climb?** Yes. The router was given the foot at the Hist court (2062, 1352; 158 m), two hairpin waypoints on the face (2040, 1300 and 2020, 1345) and the gate; it found a 204 m line for a 52 m climb: 14° on average, with thirteen segments over 20° and the worst 3 m stretch at 34°. The terrain raster is stepped at 1 m, so single-metre risers of 2–4 m appear along it; those are cut steps in a haul road, not a fault in the line. The previous draft's Q4 (road or winch) is answered: a road for carts and gangs, with the hoist kept for lifting blocks out of the cut, not for people.
 
-Every parcel is authored as **where** (`centreUV`), **which piece**
-(`assetRef`), **which way** (`yawDeg`, degrees clockwise from north) and **why
-that way** (`orientationWhy`). The footprint is derived from the measured hull
-and cannot be hand-edited. Orientation is read off the ground: the contour
-bearing at each parcel's centre comes from four height samples 4 m apart, and
-the fall line is its perpendicular.
+The spine is the haul road, authored in three collinear pieces because the router keeps ways out of parcels: a terrain-routed climb that ends at the gate's outer face, a straight passage through the gate that the gate `spans`, then a terrain-routed yard road from the inner face to the foot of the great stair. `way-overlap` accepts it (the pieces meet end to end). The middle step has one way, the terrace track; the upper step has one, the pen lane.
 
-| Terrace | Orientation logic | Bearings found |
+The conduit is not a path. It is `fence.mazzatun.conduit`, kind `wall`, asset `histroots03` (hollowed root, the record's stated material), an arc of seven waypoints from the Hist up the face to the head, over the gate's north end on the two xanmeer pillars and into the throat — 81 m for 55 m of climb. The schema has no `conduit` kind; see §11.
+
+## 5. Fences
+
+| Fence | Kind | Asset | Line |
+|---|---|---|---|
+| `fence.mazzatun.riser-upper-west` / `-east` | wall | `arquadblock01` | z 1332.5, 31 m + 8 m, split at the pens stair |
+| `fence.mazzatun.riser-lower-west` / `-east` | wall | `arquadblock02` | z 1349.5, 17 m + 9 m, split at the great stair |
+| `fence.mazzatun.pen` | fence | `argonianfence01` | north of the pens at z 1319 and down the east side to the east course: 60 m |
+| `fence.mazzatun.conduit` | wall | `histroots03` | Hist → lip → over the gate → throat, 81 m |
+
+The compiler does not yet place fence or wall pieces; these are map and data until it does; the record says so in `assetConstraints`.
+
+## 6. Doors and interiors
+
+The kit index (`blueprint_interiors --report`) says which pieces have an inside; every one of them has a door; the report ends "0 problem(s)".
+
+| Door | Parcel | Piece | Interior (derived) | Faces | Reached from |
+|---|---|---|---|---|---|
+| `door.dunmer-north.mazzatun.1` | `stair-throat` | `arstairscenter01`, covered flight, 23 m² | tileset → `xanmeer-interior-v1`, small | 180°, the downhill end | terrace track, 3 m |
+| `.2` | `pen-a` | `mudhut01` | matched `mudhut01intnew`, small | 188° | pen lane |
+| `.3` | `pen-b` | `mudhut01` | matched `mudhut01intnew`, small | 157° | pen lane |
+| `.4` | `pen-c` | `mudhut01` | matched `mudhut01intnew`, small | 270°, away from the works | pen lane end |
+| `.5` | `haul-gate` | `walkwaycwallgate02` | tileset → `vanilla-farmhouse-int`, medium | 246°, inner face beside the opening | gateway road, 3.6 m |
+
+Three pieces of the last draft had an inside and no door, or a door and no inside; each is resolved by geometry rather than by exception: the stair throat moves from the open spiral stair (no roof, so no interior) to the covered central flight, which has one; the spiral stair becomes the great stair up from the yard; the Ayleid column carrying the conduit (17 m² of inside nobody would enter) becomes a xanmeer `pillar05`; the eastern arched bay changes from `arbridge03` (enclosed) to `arbridge01` (open-sided, as the north bay already was); the statue court moves from `arstatuebase01` (110 m² of inside) to the carved `arstatuewall01`, which is open to the sky. The gate keeps its inside as the gatehouse where the watch sits.
+
+The record's `entranceCount: 1` is the stair-throat, the one entrance to the S3 interior. The pens and the gatehouse are separate small interiors and are listed as a catalogue change in §12.
+
+## 7. Combat spaces
+
+| Space | Clearance | Why |
 |---|---|---|
-| Pens (upper step, 206–208 m) | shells turned so the doorway wall — the flat panel on the shell's local southern face — looks downhill at the works; the fence and the racks run along the contour | fall 157–188°, contour 82–113° |
-| Works (middle step, 198–206 m) | every course, retaining block and frontage runs **along the riser**, that is along the contour; the stair throat, the flight beside it and the statue court are set on the fall line, so the climb is short and the statues face whoever climbs | contour 74–108°, fall 165–196° |
-| Staging (lower step and stream lip, 197–204 m) | the gate and the cart line up on the haul road, the cutting floor opens along the block face, the scaffold bays are squared to the courses that they serve and the hoist beam overhangs the fall | road 62°, contour 95–133° |
+| `combat.mazzatun.court` | open | LV28's stone rite is put to a visitor before the statue wall; refusal flips the place hostile and the watch comes down the terrace |
+| `combat.mazzatun.yard` | cluttered | LV29's quarrel between the carver and the overseers among the scaffolds; the first fight inside the gate after the flip |
+| `combat.mazzatun.pens` | cluttered | a night fight when the labourer who remembers is taken to be held harder (LV28) |
+| `combat.mazzatun.gate-road` | tight | the flip closes the gate; the watch fights on the road head with the drop behind the defender |
 
-Two parcels are deliberately off their terrace's logic; both say so:
-`parcel.mazzatun.pen-c` is swung across the slope with its door to the west,
-behind the rise and out of sight of the works. `parcel.mazzatun.tower` is
-turned to the haul gate and the escarpment lip rather than to any contour.
+## 8. Approach and wayfinding
 
-The tower's door sits on the edge that it faces: at the foot of the sunk stair
-throat, on the piece's downhill face, bearing 165°, threshold taken from the
-outline's own downhill vertex. It passes the compiler's reachability check.
-The pens keep their door sides recorded in `notes` — the flat panel on the
-shell's local southern face — without doors of their own, because the
-catalogue record's `entranceCount` is 1; three pen interiors are a change
-to that record, listed in §8.
+### Part 1 — per approach
 
-## 4. Layout intent, signature and sockets
+#### `approach.mazzatun.haul-road` (walk, from `route.mazzatun.haul`)
 
-The city reads from the east, which is the only approach: the haul road climbs
-the escarpment, passes the **haul gate** (`walkwaycwallgate02`, 14.9 × 5.2 ×
-10.0 m, dug-in footings) into the staging yard, then turns up the **ceremonial
-stair** onto the works terrace, then up again to the pens. Three steps on one
-processional line. Each step is a different material.
+The walker stands at the Hist court on the gorge floor at 158 m, beside a grey crown that is wrong for a Hist. The conduit-head pillar (`pillar02`, 9.3 m, base at 198 m) reads first: a thin thing on the lip 40 m up and 46 m off, with the amber line running down the face from it to the tree's roots. The sightline to the lip is 41° above level; the road corridor over the face is hard-cleared (the second `hardClear` polygon), because a 15 m cedar at mid-face would otherwise stand across it. The watch column (12.4 m, set 8 m back from the lip) shows beside the pillar from here; the amber and its position over the road are what single the pillar out. The first hairpin at (2040, 1300) turns the walker away and the face hides the lip; the second at (2020, 1345) turns back and the gate wall — 15 m of timber with a walkway, 10 m high — comes across the road with the pillar at its outer end. Through the gate the yard opens: 13 m of road ending at the foot of the great stair, with the cart, the scaffold stair and the block face to the right. At the stair head the carved figures of the statue wall face the climber, the throat door is 10 m to the right beside the amber run; the column stands at the far end of the track. The climb pays at the lip: `socket.mazzatun.hist-overlook` looks back down onto the crown of Tsono-Xuhil.
 
-**The signature feature is the conduit run.** Amber tubes leave Tsono-Xuhil
-on the gorge floor at 148 m, climb 55 m of escarpment, crest the lip
-at `landmark.mazzatun.conduit-head` (`pillar02`, 1.72 × 1.72 × 9.31 m, the tallest thin thing
-on the lip), pass through `parcel.mazzatun.conduit-column` (`arcolumn02`, 4.16 × 4.16 × 5.14 m)
-and run west into the works along the causeway. The point the record makes is
-made by geometry alone: the sap climbs *away* from the tree and into the
-labour. It is authored as `canal.mazzatun.conduit`, a 1.2 m channel of six points.
+#### `approach.mazzatun.shoulder` (walk, from `route.mazzatun.shoulder`, north-west)
 
-**The stair-throat** is `parcel.mazzatun.stair-throat` (`arspiralstairs01`, 9.2 × 9.2 ×
-3.5 m, dug-in, Δ 1.77 m) on the works terrace — a cut stair down into the root
-cavern under the ridge, which is where the record's S3 root-cavern interior and
-`scene.mazzatun.the-conduit-room` sit. It carries the blueprint's single door,
-matching the record's `entranceCount: 1`. Putting it on the terrace rather than
-at the tree's feet keeps it reachable: the escarpment is a 38° average grade
-and a door at its foot would fail reachability every compile.
+From the ridge shoulder at 240 m the shelf lies 35 m below. The tower reads first: the tallest built thing on the shelf (top at 215 m), standing at the far lip against the void of the gorge with the grey crown behind it; the pens' shells (tops at 212 m) sit under the sightline and the shelf is hard-cleared, so nothing on it competes. The path drops behind the western rise and the column is lost; the rack and the woven fence appear at the foot of the path; then the three shells and their lane, with the column at the far end of the lane above the pens stair. The threshold is the rack: the shoulder path becomes the lane there. The first node is the pens themselves, so this approach meets the taken before the tribe. The pens stair drops onto the terrace track beside the throat door.
 
-Sockets, all placed on parcels:
+### Part 2 — the checklist
 
-| Record socket | Blueprint socket | Where |
+| # | Check | Answer |
 |---|---|---|
-| `scene.mazzatun.the-conduit-room` | `socket.mazzatun.conduit-room` | `parcel.mazzatun.stair-throat` |
-| `evidence.mazzatun.the-half-cut-blocks` | `socket.mazzatun.half-cut-blocks` | `parcel.mazzatun.half-cut-blocks` (`arrubblepile03`, 10.2 × 7.9 × 8.4 m) |
-| `station.mazzatun.shaper` | `socket.mazzatun.shaper` | `parcel.mazzatun.tower` (`ararchcolumn02`, 1.9 × 6.3 × 12.4 m) |
-| `marks.mazzatun.xit-xaht-mark` | `socket.mazzatun.xit-xaht-mark` | `parcel.mazzatun.statue-court` (`arstatuebase01`, 11.83 × 11.83 × 3.68 m) |
-| LV29, the carver | `socket.mazzatun.carver` | `parcel.mazzatun.cutting-floor` |
-| LV30, the walkway keeper | `socket.mazzatun.walkway-keeper` | `parcel.mazzatun.scaffold-stair` |
-| LV28, the rite | `socket.mazzatun.conduit-head` | the lip at 2016, 1342 |
-| LV26, the sibling Hist | `socket.mazzatun.hist-overlook` | the lip at 2016, 1346, looking down on the crown |
+| 1 | Every approach designed (≥2 for M3+) | Yes: two, each with a `fromRouteId` |
+| 2 | One first-seen object each, a real id | Yes: `landmark.mazzatun.conduit-head`; `parcel.mazzatun.tower` |
+| 3 | Taller than the vegetation and terrain in the way | Yes, with the face corridor hard-cleared (§8 Part 1 gives the numbers) |
+| 4 | Three to five beats with an occlusion | Yes: five beats each; the hairpin and the western rise occlude |
+| 5 | Last stretch bends at least twice | Yes: two hairpins on the road, two bends on the shoulder path |
+| 6 | Centre visible from arrival, or a landmark at the bend | Yes: the great stair is in line with the gate; the column ends the lane |
+| 7 | Threshold spanned, not passed | Yes: `haul-gate` spans `route.mazzatun.gateway`, checked by integration |
+| 8 | One spine, wider, no duplicated movement | Yes: the 3 m road; the track and lanes are 1.5–2.2 m; `way-overlap` passes |
+| 9 | Landmark hierarchy, no rival to the beacon | Yes with a caveat: the 12.4 m column shows beside the 9.3 m pillar from the road; the amber distinguishes them (§11, Q6) |
+| 10 | Socket buildings present doors to a way | Yes: throat 3 m from the track, pens on the lane, gatehouse on the gateway; the open pieces stand beside their ways |
+| 11 | No dead end at a blank wall | Yes: the track ends at the dais (the view) and the tower (the station); the lane ends at the rack and the east pen |
+| 12 | Ascent visible from the node below | Yes: the great stair from the gate; the pens stair from the track beside the throat |
+| 13 | Edge reads from inside and out | Yes: gate wall and lip east, fence north and east of the pens, stream lip south; west is the shelf running out, marked by the single block |
+| 14 | Buildings match population ±25 % | Yes: 27 planned, 27 authored |
+| 15 | Approach cue in one clause | Yes: "follow the amber up the face to the gate"; "keep the column ahead and the fence on the left" |
+| 16 | Forced detours pay | Yes: the climb pays with the overlook socket at the lip |
 
-Clearance: a hard clear over the whole built shelf (1948–2018 by 1318–1360 m),
-a thinned ring 10 m wider on each side, with three kept features: Tsono-Xuhil
-itself, a shade tree on the western edge and the reed bed on the stream lip.
+## 9. Asset picks (measured hulls, never names)
 
-## 5. Asset picks (measured, never named)
+| Parcel | District | Asset | Hull (m) | Height (m) | Yaw | Fit |
+|---|---|---|---|---|---|---|
+| `pen-a` / `pen-b` / `pen-c` | pens | `mudhut01` | 5.9 × 6.5 | 5.1 | 7.6° / 336.8° / 90° | pad / dug-in / dug-in |
+| `pen-oven` | pens | `carapaceoven` | 3.5 × 2.3 | 1.4 | 137.7° | pad |
+| `pen-rack` | pens | `fishracksmall` | 2.5 × 2.6 | 2.5 | 325.7° | pad |
+| `pens-stair` | works | `arstairs01` | 5.7 × 5.7 | 2.0 | 0° | dug-in |
+| `course-w1` | works | `arblock03` | 2.7 × 2.7 | 0.9 | 319.5° | dug-in |
+| `course-n2` | works | `arquadblock01` | 6.4 × 6.4 | 1.8 | 6.7° | pad |
+| `course-n1` / `course-e1` | works | `arbridge01` | 12.8 × 7.0 | 8.9 | 352.5° / 81.8° | dug-in |
+| `gate-frontage` | works | `arsteppeddias01` | 9.3 × 9.3 | 1.2 | 344.1° | dug-in |
+| `statue-court` | works | `arstatuewall01` | 13.0 × 2.6 | 7.8 | 0° | dug-in |
+| `stair-throat` | works | `arstairscenter01` | 3.6 × 7.3 | 4.8 | 0° | dug-in |
+| `great-stair` | works | `arspiralstairs01` | 9.2 × 9.2 | 3.5 | 353.6° | dug-in |
+| `tower` | works | `ararchcolumn02` | 1.9 × 6.3 | 12.4 | 76.5° | dug-in |
+| `conduit-pillar` | works | `pillar02` | 1.7 × 1.7 | 9.3 | 271.4° | pad |
+| `conduit-column` | works | `pillar05` | 1.0 × 1.0 | 3.1 | 271.4° | pad |
+| `half-cut-blocks` | works | `arrubblepile03` | 10.2 × 7.9 | 8.4 | 76° | dug-in |
+| `haul-gate` | staging | `walkwaycwallgate02` | 14.9 × 5.2 | 10.0 | 66° | dug-in |
+| `haul-cart` | staging | `handcart01` | 1.3 × 2.2 | 1.4 | 233.7° | pad |
+| `kiln` | staging | `smelter01` | 2.8 × 3.1 | 2.6 | 18.4° | pad |
+| `scaffold-a` / `scaffold-b` | staging | `stockadescaffoldbase4sided01` | 3.7 × 3.8 | 2.7 | 320.5° / 12.1° | dug-in |
+| `scaffold-c` | staging | `stockadescaffoldbase2sided01` | 3.7 × 3.8 | 2.7 | 9.2° | dug-in |
+| `scaffold-stair` | staging | `stockadescaffoldstairs01` | 3.6 × 3.5 | 3.5 | 341.2° | pad |
+| `cutting-floor` | staging | `mineoreiron01` | 7.2 × 7.3 | 1.7 | 42.8° | dug-in |
+| `hoist` | staging | `minescaffoldbasesupportw01` | 3.7 × 3.8 | 2.7 | 208.2° | pad |
 
-Every pick is made on the measured ground hull
-in `tooling/asset-pipeline/output/kits/<kit>.footprints.json`; the parcel's
-polygon is that hull, rotated by the authored yaw
-(`worldgen.blueprint_footprints --apply`). Δ is the compiler's own measure:
-the height range over every vertex of the real outline plus the centre.
+Pieces with an off-centre pivot (`arstairscenter01`, `arstatuewall01`, `arstairs01`, `arsteppeddias01`, `arrubblepile03`) were authored by where the hull should stand; `centreUV` was back-solved from the measured hull centroid.
 
-| Parcel | District | Asset | Measured ground hull (m) | Height (m) | Yaw | Δ (m) | Fit |
-|---|---|---|---|---|---|---|---|
-| `parcel.mazzatun.conduit-column` | works | `arcolumn02` | 4.2 × 4.2 | 5.1 | 271.4° | 1.14 | pad |
-| `parcel.mazzatun.conduit-pillar` | works | `pillar02` | 1.7 × 1.7 | 9.3 | 271.4° | 0.91 | pad |
-| `parcel.mazzatun.course-e1` | works | `arbridge03` | 9.7 × 7.0 | 9.0 | 81.8° | 3.77 | dug-in |
-| `parcel.mazzatun.course-n1` | works | `arbridge01` | 12.8 × 7.0 | 8.9 | 352.5° | 1.75 | pad |
-| `parcel.mazzatun.course-n2` | works | `arquadblock01` | 6.4 × 6.4 | 1.8 | 6.7° | 1.15 | pad |
-| `parcel.mazzatun.course-w1` | works | `arblock03` | 2.7 × 2.7 | 0.9 | 319.5° | 2.51 | dug-in |
-| `parcel.mazzatun.cutting-floor` | staging | `mineoreiron01` | 7.2 × 7.3 | 1.7 | 42.8° | 2.13 | dug-in |
-| `parcel.mazzatun.gate-frontage` | works | `arsteppeddias01` | 9.3 × 9.3 | 1.2 | 344.1° | 4.01 | dug-in |
-| `parcel.mazzatun.great-stair` | works | `arplatwallstair02` | 3.6 × 3.6 | 0.9 | 353.6° | 1.25 | dug-in |
-| `parcel.mazzatun.half-cut-blocks` | works | `arrubblepile03` | 10.2 × 7.9 | 8.4 | 76.0° | 1.73 | pad |
-| `parcel.mazzatun.haul-cart` | staging | `handcart01` | 1.3 × 2.2 | 1.4 | 233.7° | 1.06 | pad |
-| `parcel.mazzatun.haul-gate` | staging | `walkwaycwallgate02` | 14.9 × 5.2 | 10.0 | 62.0° | 6.67 | dug-in |
-| `parcel.mazzatun.hoist` | staging | `minescaffoldbasesupportw01` | 3.7 × 3.8 | 2.7 | 208.2° | 1.72 | pad |
-| `parcel.mazzatun.kiln` | staging | `smelter01` | 2.8 × 3.1 | 2.6 | 18.4° | 1.41 | pad |
-| `parcel.mazzatun.pen-a` | pens | `mudhut01` | 5.9 × 6.5 | 5.1 | 7.6° | 1.06 | pad |
-| `parcel.mazzatun.pen-b` | pens | `mudhut01` | 5.9 × 6.5 | 5.1 | 336.8° | 1.29 | pad |
-| `parcel.mazzatun.pen-c` | pens | `mudhut01` | 5.9 × 6.5 | 5.1 | 90.0° | 1.90 | dug-in |
-| `parcel.mazzatun.pen-fence` | pens | `argonianfence01` | 1.6 × 0.3 | 1.7 | 1.3° | 0.00 | pad |
-| `parcel.mazzatun.pen-oven` | pens | `carapaceoven` | 3.5 × 2.3 | 1.4 | 137.7° | 1.16 | pad |
-| `parcel.mazzatun.pen-rack` | pens | `fishracksmall` | 2.5 × 2.6 | 2.5 | 325.7° | 1.31 | pad |
-| `parcel.mazzatun.scaffold-a` | staging | `stockadescaffoldbase4sided01` | 3.7 × 3.8 | 2.7 | 320.5° | 1.00 | pad |
-| `parcel.mazzatun.scaffold-b` | staging | `stockadescaffoldbase4sided01` | 3.7 × 3.8 | 2.7 | 12.1° | 1.35 | pad |
-| `parcel.mazzatun.scaffold-c` | staging | `stockadescaffoldbase2sided01` | 3.7 × 3.8 | 2.7 | 9.2° | 0.21 | pad |
-| `parcel.mazzatun.scaffold-stair` | staging | `stockadescaffoldstairs01` | 3.6 × 3.5 | 3.5 | 341.2° | 0.32 | pad |
-| `parcel.mazzatun.stair-throat` | works | `arspiralstairs01` | 9.2 × 9.2 | 3.5 | 345.4° | 1.77 | dug-in |
-| `parcel.mazzatun.statue-court` | works | `arstatuebase01` | 11.8 × 11.9 | 3.8 | 341.4° | 2.29 | dug-in |
-| `parcel.mazzatun.terrace-wall-a` | works | `arquadblock01` | 6.4 × 6.4 | 1.8 | 353.2° | 2.27 | dug-in |
-| `parcel.mazzatun.terrace-wall-c` | works | `arquadblock02` | 6.4 × 6.4 | 1.8 | 5.2° | 1.04 | dug-in |
-| `parcel.mazzatun.tower` | works | `ararchcolumn02` | 1.9 × 6.3 | 12.4 | 76.5° | 1.57 | dug-in |
+## 10. Lore
 
-Budget, declared and measured: 29 instances against a ceiling of 80. The
-compile reports **0 errors**.
+UESP Lore:Mazzatun, Lore:Xit-Xaht, Lore:Duskfall, Lore:Hist Sap, Online:Tsono-Xuhil, as recorded in `world/sources/lore/tribes.md` §Xit-Xaht, `topics/hist-and-sap.md` §Amber Plasm, `topics/history-timeline.md` §Duskfall and `extrapolation/settlement-register.md` §Mazzatun. Fixed by the sources and honoured here: the tribe never stopped building in stone under a Hist it bound with sap; it raided its neighbours for slave labour (the Su-Zahleel were taken wholesale), which is the pens and the shoulder path; the Hist weeps Amber Plasm, which the conduits carry; the elders put Tsono-Xuhil to sleep at the end of the Second Era. The "Puzzle City" epithet (cramped walls, twisted halls, dead ends) is an interior property and belongs to Phase 12 behind `door.dunmer-north.mazzatun.1`.
 
-The scaffold parcels follow `works-v1`'s own `snapLogic`: a
-`stockadescaffoldbase<n>sided01` footing carries a matching
-`stockadescaffoldtop<n>sided01` deck, decks join by `bridge01/02`, and
-`stairs01` climbs them. Side counts are kept consistent per platform — the
-four-sided bases stand alone, the two-sided base abuts the terrace wall, where
-a railing would be redundant.
+## 11. Open questions for the owner
 
-### 5b. Five picks that the real outlines forced out
+1. **A finished pyramid, or a building site?** Unchanged. The pyramid statics measure 34 × 22 m and larger; the shelf is 68 × 42 m, so any of them swallows the terrace. This draft builds courses rising.
+2. **How far below the city should the tree be?** Unchanged. 85 m east and 55 m below; the routed road now makes the climb concrete at 204 m.
+3. **Is the routed haul road acceptable as a cart road?** 14° on average with short 30–34° steps. If not, the alternative is a longer third traverse to the south along the stream lip, at the cost of the gate's position.
+4. **The conduit as a `wall`.** The schema's fence kinds are fence, wall, palisade and hedge; the compiler places none of them yet. A `conduit` kind (a raised line on posts, with an asset per span) would let the compiler dress the record's signature feature honestly. Until then it is a line on the map.
+5. **Which interior kit for the throat?** The kit index derives `xanmeer-interior-v1` for the Ayleid pieces, so the door claims it; the catalogue record says `root-cavern`. Either the record changes to a xanmeer interior with root dressing, or the throat needs a piece whose derived interior is `dungeon-root-v1`; none of the exterior kits has one.
+6. **Two tall things on the lip.** From the road the 12.4 m column shows beside the 9.3 m pillar. The amber run makes the pillar the followed object, but if a single silhouette is wanted the column should move 15 m west along the terrace, off the lip.
+7. **How visible should the pens be?** Two shells face the works, one faces away; the split is authored in `orientationWhy`. Confirm, or make all three one way.
 
-The re-authoring measured what each piece actually is; five earlier picks
-did not survive it.
+## 12. Notes for the catalogue and kit records (not edited from here)
 
-| Was | Now | Why |
-|---|---|---|
-| `wallstraight`, `wallcorner01` (HTBM xanmeer) | `arbridge01`, `arbridge03`, `arquadblock01`, `arblock03` | their measured hulls sit 449 m and 1,788 m from the pivot, so no outline can be attributed to a placed position — the same defect as `nodeAmbiguous` |
-| `blockslargepile` (HTBM) | `arrubblepile03` | hull 656 m off the pivot |
-| `arstatuewall01` | `arsteppeddias01` | hull 8.8 m off the pivot, which put the compiler's height sample off the terrace and Δ at 3.84 m |
-| `arstairscenter01`, `arstairsside01` | `arspiralstairs01`, `arplatwallstair02` | hulls 19.0 m and 16.1 m off the pivot |
-| `artower01` | `ararchcolumn02` | hull 4.6 m off the pivot; the arch column stands 12.4 m, so the watch post keeps its height |
+- `positionM` should move from `[1993.3, 1455.9]` to `[1985.0, 1341.0]`; `plotFacts` re-measured (route 296 m, water 8 m, elevation 202.6 m).
+- `interior.entranceCount` stays 1 for the S3 interior if the pens and the gatehouse are recorded as separate small interiors; otherwise it rises to 5. The blueprint carries five doors either way.
+- `interior.family` `root-cavern` versus the derived `xanmeer-interior-v1` (Q5).
+- `assetPlan` lists `pyramid-statics`; under the building-site reading it should read `xanmeer-frontage-statics`.
+- A `terrainRequests` entry for bare rock over 1946–2022 by 1316–1364 m and a trodden corridor down the face along the routed road.
+- `sitingPrefs.hardConstraints` should gain "a shelf of at least 60 × 40 m at under 15° of local fall".
+- `ruin-monumental-v1`'s kit description ("RUINS only") should name Mazzatun as the one live exception for which the `argonian-stone` kit set exists.
 
-Only pieces whose hull sits within about 2 m of the pivot are now used, which
-is the honest reading of "the outline is where the building is". The four wall
-courses are therefore an arched span, a second span, a corner block and one
-laid block: a course rising, not a finished wall — which is what the place is.
+## 13. What the integration checks caught this round
 
-## 6. Lore
-
-- **UESP Lore:Mazzatun**, **Lore:Xit-Xaht**, **Lore:Duskfall**, **Lore:Hist
-  Sap**, **Online:Tsono-Xuhil**, **Online:The Ruins of Mazzatun**, as recorded
-  in `world/sources/lore/tribes.md` §Xit-Xaht,
-  `topics/hist-and-sap.md` §Amber Plasm, `topics/hist-placement.md` §Mad,
-  `topics/history-timeline.md` §Duskfall, `regions/shadowfen.md`,
-  `regions/secondary-settlements.md` and
-  `extrapolation/settlement-register.md` §Mazzatun.
-- Fixed by the sources and honoured here: the tribe never stopped building in stone
-  under a Hist it bound with sap; it raided neighbours for slave labour (the
-  Su-Zahleel were taken wholesale), which is what `district.mazzatun.pens` is; the Hist weeps
-  Amber Plasm, which is chaotic creatia leaking through it, which is what the
-  conduits carry; the elders put Tsono-Xuhil into a convalescent sleep at the
-  end of the Second Era. The catalogue's extrapolation — three and a half
-  centuries later, the seep has resumed and the work has restarted, is owner
-  question Q8 option B, already settled
-  in `extrapolation/owner-questions.md`.
-- The "Puzzle City" epithet (cramped walls, twisted halls, dead ends) is an
-  **interior** property. It belongs to the root-cavern
-  behind `door.dunmer-north.mazzatun.1` in Phase 12, not to this exterior, which is
-  three open terraces by design.
-- `docs/research/xanmeer-mesoamerican-reference.md` §2 supplies the precinct
-  form followed here: a plaza composition on stepped platforms with a
-  processional axis, not a lone monument.
-
-## 7. Open questions for the owner
-
-Re-read 2026-09-05 against the measured outlines, which changed two of the four.
-
-1. **A finished pyramid, or a building site?** *Unchanged, and now harder.* The
-   three pyramid statics measure 34 × 22 m, 68 × 65 m and 69 × 65 m; the shelf
-   is 68 × 42 m, so even the smallest swallows the terrace and leaves no room
-   for the scaffolds, the block face or the pens — the things that say "still
-   being built". The re-authoring adds a second reason: the flat wall pieces
-   that would have made a finished frontage are unusable (§5b), so a "finished"
-   Mazzatun would have to be one giant static and nothing else. This draft
-   therefore builds the works from spans, blocks, a dais, stairs and a column:
-   courses rising. The alternative is the 34 m static here and everything else
-   pushed onto worse ground, or a move of about 220 m east onto a valley flat,
-   which breaks the record's ridge-end landform.
-2. **How far below the city should the tree be?** *Unchanged.* Tsono-Xuhil sits
-   85 m east and 55 m below, so the approach looks down onto the crown rather
-   than into a city built around a tree. Either keep it, so that the conduits
-   climbing 55 m of cliff become the strongest image here, or move the tree up
-   to the stream head at the southern lip, at the cost of the waterfall
-   landform on which its own record was won.
-3. **How visible should the pens be?** *Answered in the geometry, and it is now
-   both.* Two shells are turned downhill with their doorway walls to the works,
-   so arrival shows people in mud huts working for people in stone; the third
-   is swung across the slope behind the northern rise, out of sight until the
-   climb. The statement and the reveal are both on the ground; the split
-   is authored in `orientationWhy`. Confirm, or make all three one way.
-4. **Should the haul road be walkable, or a winch?** *Sharpened.* The gate and
-   the cart are now authored on the road's own bearing of 62°, so the approach
-   is a straight run through the gate with no turn under load — which reads as
-   a road, not a winch. The hoist beam still overhangs the fall over the block
-   face. If the winch reading is wanted instead, the gate parcel loses its
-   reason and should be re-authored facing the stair.
-
-## 8. Notes for the catalogue and kit records (not edited from here)
-
-- `place.dunmer-north.mazzatun.positionM` should move from `[1993.3, 1455.9]`
-  to `[1985.0, 1341.0]` (uv `0.269207, 0.181867`), with `plotFacts` re-measured:
-  distance to route 296 m, distance to water 8 m, elevation 202.6 m.
-  `whySiteWon` should record that the plotted point was re-sited on ground
-  measurement rather than graded.
-- The record carries no `terrainRequests`. It should gain one: a **rock-shelf
-  / bare upland ground** request over the built area (1948–2018 by 1318–1360 m)
-  with a trodden haul line down the eastern escarpment, so the ground material
-  reads as quarried rather than as jungle floor under a stone city.
-- `sitingPrefs.hardConstraints` should gain "a shelf of at least 60 × 40 m
-  of ground at under 15° of local fall", which is what this siting actually needed
-  and what the next stone place will need too.
-- If the pens are to be enterable, `entranceCount` must rise from 1 to 4. The
-  three shells are already oriented for it: each `notes` line names the door
-  side; `parcel.mazzatun.pen-c` was re-sited so a west-facing threshold
-  stands on walkable ground rather than on a 56° riser.
-- `assetPlan` lists `pyramid-statics`. If open question 1 is answered in favour
-  of the building-site reading, that entry should become
-  `xanmeer-frontage-statics`, because no pyramid static fits this ground.
-- `tooling/asset-pipeline/pipeline/config/kits/ruin-monumental-v1.json` says
-  the kit "is for RUINS only and must never mix with a settlement kit".
-  Mazzatun is the sources' single live exception — a settlement being built in stone
-  now — and the `argonian-stone` kit set exists for it. The kit description
-  should name that exception so the next agent does not read the rule as a
-  prohibition and quietly re-site the place.
-
-## 9. Open items on the compiler (found while building this, not faked around)
-
-- **Yaw is randomised, not authored.** `compile_settlement` sets each
-  placement's yaw from a seeded quarter-turn and ignores the parcel footprint's
-  orientation. For a terraced stone city where a wall course must run along a
-  riser, orientation is load-bearing. **Delivered 2026-09-05:** `yawDeg` and `orientationWhy` are required on every
-  parcel, the compiler honours them and no longer snaps to a grid; every
-  one of these 29 parcels now carries an authored bearing with a reason taken
-  from the ground (§3b). The square-margin footprints are gone: the polygon is
-  the measured hull.
-- **Door reachability uses the coarse slope raster.** The shelf reads 39–45°
-  in `slope_grid` while its measured fall is about 11° over 40 m, so a door
-  on genuinely walkable ground fails the 30° test unless its parcel is a pad.
-  `parcel.mazzatun.stair-throat` was a pad partly for that reason; it is dug-in now
-  and its door still passes. **Done the same day:** the
-  check now measures the local gradient from four height samples 2 m
-  around the threshold instead of reading the raster cell.
+Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the gatehouse door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening). The final compile is 27 placements, 0 errors, budget OK.

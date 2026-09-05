@@ -12,6 +12,7 @@ import { loadMinimapOverlay, type MinimapOverlay } from "./character/minimapOver
 import { encodeRoutesUrl, parseRoutesUrl, type RoutesUrlState } from "./routes/routesData";
 import { CharacterMode } from "./character/CharacterMode";
 import { colour } from "./terrainColor";
+import { decodeProvinceHeights, loadProvinceMeta, type ProvinceMapMeta } from "./map/provinceMap";
 import { TimePanel } from "./sky/TimePanel";
 import {
   applyTimeParams,
@@ -36,13 +37,8 @@ setWeatherOverride(parseWeatherParam(urlParams.get("w")));
   }
 }
 
-interface ProvinceMeta {
-  metresPerPixel: number;
-  heightMinMetres: number;
-  heightMaxMetres: number;
-  imageWidth: number;
-  imageHeight: number;
-}
+/** The map raster's geometry — shared with the Blueprint view (map/provinceMap). */
+type ProvinceMeta = ProvinceMapMeta;
 
 const anchors = anchorsFile.anchors as SettlementAnchor[];
 const connections = (anchorsFile.suggestedConnections ?? []) as SuggestedConnection[];
@@ -254,22 +250,10 @@ export function App() {
   useEffect(() => {
     const base = import.meta.env.BASE_URL;
     (async () => {
-      const m: ProvinceMeta = await (await fetch(`${base}province/meta.json`)).json();
-      const img = new Image();
-      img.src = `${base}province/height-rg.png`;
-      await img.decode();
-      const off = document.createElement("canvas");
-      off.width = m.imageWidth;
-      off.height = m.imageHeight;
-      const ctx = off.getContext("2d", { willReadFrequently: true })!;
-      ctx.drawImage(img, 0, 0);
-      const px = ctx.getImageData(0, 0, m.imageWidth, m.imageHeight).data;
-      const heights = new Float32Array(m.imageWidth * m.imageHeight);
-      const span = m.heightMaxMetres - m.heightMinMetres;
-      // 16-bit height packed as high byte -> R, low byte -> G (~3 mm steps).
-      for (let i = 0; i < heights.length; i++) {
-        heights[i] = m.heightMinMetres + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
-      }
+      const m: ProvinceMeta = await loadProvinceMeta(base);
+      // Shared with the Blueprint view's backdrop (map/provinceMap.ts); the
+      // returned context is the same offscreen canvas the overlays decode into.
+      const { heights, ctx } = await decodeProvinceHeights(base, m);
       heightsRef.current = heights;
       setMeta(m);
       // Generated overlays; missing files just leave a layer empty.

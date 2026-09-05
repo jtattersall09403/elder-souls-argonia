@@ -141,3 +141,37 @@ def routes_from(cost: np.ndarray, source: tuple[int, int],
         )
         out[(tx, ty)] = (path, length_m)
     return out
+
+
+# --------------------------------------------------------------------------
+# longitudinal gradient (owner requirement 2026-09-05)
+# --------------------------------------------------------------------------
+# `cost_surface` scores the *terrain* under a cell, so a solver can happily
+# take the cheap line straight up a spur: every cell it crosses is moderate
+# ground, and nothing in a per-cell cost knows how much height the STEP itself
+# gains. Grading then has to swallow the whole climb with cut and fill, and on
+# a mountain spur it cannot (route-grading report, 55 of 137 ways over cap).
+#
+# The fix belongs here, on the EDGE: the cost of moving from a to b carries the
+# gradient of that move, quadratically below the class cap (so a gentle
+# contour line is preferred long before anything is forbidden) and behind a
+# near-prohibitive wall above it (so the solver switchbacks or contours round
+# instead of climbing head-on). The wall is finite and rises with the excess:
+# a place that can only be reached over the cap still gets a path — reported as
+# a survivor needing a bridge or stair — rather than silently disconnecting.
+GRADE_QUADRATIC = 8.0     # x cost at exactly the cap, from the (g/cap)^2 term
+GRADE_WALL = 600.0        # x cost per unit of gradient excess above the cap
+GRADE_MARGIN = 0.85       # route to this fraction of the cap: grading, the
+                          # 1.83 m resample and sub-cell relief all cost a
+                          # little headroom, so the solver keeps some back.
+
+
+def grade_factor(dz, dist_m, cap_deg: float):
+    """Cost multiplier for a step that gains `dz` metres over `dist_m`.
+
+    Works on scalars or arrays; deterministic and monotone in |dz|.
+    """
+    cap = np.tan(np.radians(cap_deg)) * GRADE_MARGIN
+    g = np.abs(dz) / np.maximum(dist_m, 1e-6)
+    r = g / max(cap, 1e-6)
+    return 1.0 + GRADE_QUADRATIC * r ** 2 + GRADE_WALL * np.maximum(r - 1.0, 0.0)

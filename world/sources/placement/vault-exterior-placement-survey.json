@@ -1,0 +1,561 @@
+{
+ "schemaVersion": 1,
+ "root": "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources",
+ "date": "2026-09-05",
+ "plugins": [
+  {
+   "plugin": "ayleid-ruins-building-kit-90667/extracted/igs_tileset_ayleid.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/CFTO/SSKBoat - CFTO - Lux Via.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 3,
+   "exteriorRefs": 13,
+   "architectureRefs": 1
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/CFTO/SSKBoat - CFTO.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 116,
+   "exteriorRefs": 767,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKBoat - Animated Ships.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 14,
+   "exteriorRefs": 37,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKBoat - Enhanced Solitude Docks.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 4,
+   "exteriorRefs": 12,
+   "architectureRefs": 1
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKBoat - ExtendedFerryTravel.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 76,
+   "exteriorRefs": 290,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKBoat - Laintar Dale.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 10,
+   "exteriorRefs": 23,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKBoat - TGCoS.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 3,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/SSKMovingBoats.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 44,
+   "exteriorRefs": 213,
+   "architectureRefs": 6
+  },
+  {
+   "plugin": "boats-operational-animated-110882/fomod-source/Boats - Operational Animated Travel/sskBoat - nwsFollowerFramework.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "cc-ayleid-ruin-resources-83999/extracted/CCAyliedRuinsResources.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "darkwater-den-52630/extracted/DarkwaterDen.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 7,
+   "exteriorRefs": 10,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "depths-of-skyrim-26913/extracted/DepthsOfSkyrim.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1326,
+   "exteriorRefs": 4394,
+   "architectureRefs": 15
+  },
+  {
+   "plugin": "extracted/guard-break-1.0/AF_Stagger.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "extracted/rim-parry-1.1/RimExecutionHitSA.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "here-there-be-monsters-cipactli-35933/extracted/Here There Be Monsters - Curse of Cipactli.esp",
+   "worldspaces": [
+    "CIPHTBMHesperideWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 2037,
+   "exteriorRefs": 8241,
+   "architectureRefs": 903
+  },
+  {
+   "plugin": "hovelmud-63329/extracted/Mudmound.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 6,
+   "exteriorRefs": 166,
+   "architectureRefs": 11
+  },
+  {
+   "plugin": "lvx-magick-boats-36149/extracted/Data/LvxMagick - Boats.esm",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "Tamriel"
+   ],
+   "exteriorCells": 22,
+   "exteriorRefs": 11,
+   "architectureRefs": 1
+  },
+  {
+   "plugin": "marsh-rest-50111/extracted/ArgonianHome.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 16,
+   "exteriorRefs": 30,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "mud-mother-grove-146557/extracted/ArgonianLakeHouse.esl",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 7,
+   "exteriorRefs": 1082,
+   "architectureRefs": 8
+  },
+  {
+   "plugin": "sailboats-expanded-40057/extracted/Sailboats.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 16,
+   "exteriorRefs": 13,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "script-free-ship-sailing-67727/extracted/Script free ship sailing 2.3/Scriptfreeshipsailing.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Alternate Perspective Addon/Ferries - Alternate Perspective Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 5,
+   "exteriorRefs": 5,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Alternate Start Life Another Life Addon/Ferries - Alternate Start Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 5,
+   "exteriorRefs": 5,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Another Oakwood Addon/Ferries  - Another Oakwood addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - BS Bruma Addon/Ferries - Bruma Addon.esp",
+   "worldspaces": [
+    "BSHeartland"
+   ],
+   "exteriorCells": 6,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Chanterelle Addon/Ferries - Chanterelle Addon.esp",
+   "worldspaces": [
+    "aaChanterelle1"
+   ],
+   "exteriorCells": 11,
+   "exteriorRefs": 12,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Lainalten addon/Ferries - Lainalten addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 2,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Laintar Dale addon/Ferries - Laintar Dale addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 4,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Midwood Isle Addon/Ferries - Midwood Addon.esp",
+   "worldspaces": [
+    "Lastendell",
+    "MidwoodIsle"
+   ],
+   "exteriorCells": 7,
+   "exteriorRefs": 7,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Moon and Star addon/Ferries - Moon and Star addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 3,
+   "exteriorRefs": 11,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Old Gate MIll-Rustic Morthal Home  ESL/Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Old Gate MIll-Rustic Morthal Home addon-ESP/Ferries - Old Gate Mill - Morthal Player house Addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Rigmor of Bruma/Ferries - Rigmor of Bruma patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 5,
+   "exteriorRefs": 4,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Shadow over Inialta Addon/Ferries - Shadow Over Inialta addon.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 6,
+   "exteriorRefs": 7,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Siege at Icemoth Addon/Ferries - Siege At Icemoth Addon.esp",
+   "worldspaces": [
+    "BSKHyorkerIsle"
+   ],
+   "exteriorCells": 13,
+   "exteriorRefs": 14,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/addons/Ferries - Wyrmstooth Addon/Ferries - Wyrmstooth Addon.esp",
+   "worldspaces": [
+    "WyrmstoothWorld"
+   ],
+   "exteriorCells": 9,
+   "exteriorRefs": 9,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/main/Ferries.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld",
+    "EastEmpireWarehouse",
+    "Tamriel"
+   ],
+   "exteriorCells": 86,
+   "exteriorRefs": 170,
+   "architectureRefs": 4
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries  - Better Docks/Ferries - Better Docks patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 3,
+   "exteriorRefs": 63,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries  - More Bandit Camps patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Alternate Perspective - Here there be Monsters/Ferries - Alternate Perspective - Here there be Monsters Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Animated Ships/Ferries - Animated Ships patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 6,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - B-oat patch - No inialta scene.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 14,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - B-oat patch - With Inialta Scene.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Dynamic Boats/Ferries - Dynamic Boats Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 4,
+   "exteriorRefs": 7,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - JK Solitude Outskirts/Ferries - JK Solitude Outskirts.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 3,
+   "architectureRefs": 2
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - JKs Raven Rock/Ferries - JKs Raven Rock patch.esp",
+   "worldspaces": [
+    "DLC2SolstheimWorld"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Lux/Ferries - Lux patch.esp",
+   "worldspaces": [
+    "EastEmpireWarehouse"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Riften/Ferries - Riften patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 6,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Ryn Lumber Mills patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 1,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - Save The Icerunner/Ferries - Save the Icerunner Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 3,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "skyrim-ferries-109843/extracted/patches/Ferries - The Great City of Solitude/Ferries - TGSolitude Patch.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 2,
+   "exteriorRefs": 6,
+   "architectureRefs": 2
+  },
+  {
+   "plugin": "sleeping-hist-tree-overhaul-116792/extracted/Skyfall Sleeping Tree Overhaul.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 1,
+   "exteriorRefs": 116,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "solitude-ghost-ferry-89948/extracted/SNT ferry.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 15,
+   "exteriorRefs": 210,
+   "architectureRefs": 17
+  },
+  {
+   "plugin": "tamriel-worldspaces-118678/extracted/Argonia Worldspace/Argonia.esp",
+   "worldspaces": [
+    "ArgoniaWorld"
+   ],
+   "exteriorCells": 15876,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "tropical-skyrim-33017/extracted/Tropical Skyrim -- Birds.esp",
+   "worldspaces": [
+    "MarkarthWorld",
+    "RiftenWorld",
+    "SolitudeWorld",
+    "Tamriel",
+    "WhiterunWorld",
+    "WindhelmWorld"
+   ],
+   "exteriorCells": 340,
+   "exteriorRefs": 104,
+   "architectureRefs": 4
+  },
+  {
+   "plugin": "tropical-skyrim-33017/extracted/Tropical Skyrim.esp",
+   "worldspaces": [
+    "LabyrinthianWorld03",
+    "MarkarthWorld",
+    "RiftenWorld",
+    "Tamriel",
+    "WhiterunWorld",
+    "WindhelmWorld"
+   ],
+   "exteriorCells": 2388,
+   "exteriorRefs": 2608,
+   "architectureRefs": 3
+  },
+  {
+   "plugin": "underwater-treasure-17267/extracted/UT SoG,  Rivers and Lakes SSE 1-0/Underwater_Treasure.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 72,
+   "exteriorRefs": 299,
+   "architectureRefs": 28
+  },
+  {
+   "plugin": "various-immersive-rowboats-98215/extracted/Various Immersive Rowboats.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  },
+  {
+   "plugin": "xalfek-55595/extracted/DMArgonianHaus.esp",
+   "worldspaces": [
+    "Tamriel"
+   ],
+   "exteriorCells": 8,
+   "exteriorRefs": 26,
+   "architectureRefs": 2
+  },
+  {
+   "plugin": "xanmeer-tileset-181193/extracted/XanmeerResources.esp",
+   "worldspaces": [],
+   "exteriorCells": 0,
+   "exteriorRefs": 0,
+   "architectureRefs": 0
+  }
+ ]
+}

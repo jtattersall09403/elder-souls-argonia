@@ -288,7 +288,7 @@ export function Fly3D(props: Fly3DProps) {
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
             textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
         )}
-        <CityMarkers extentM={extentM} groundAt={markerGroundAt} />
+        <CityMarkers groundAt={markerGroundAt} />
         {props.showLanes !== false && (
           <LanesOverlay heights={props.heights} size={props.size}
             metresPerPixel={props.metresPerPixel} exaggeration={props.exaggeration} />

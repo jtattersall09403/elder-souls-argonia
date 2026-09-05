@@ -40,8 +40,56 @@ starting checklist for the Phase P water re-review) (deployed studio:
 **Rebuild chain** (after ANY worldgen change; ~10 min, from
 `tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
 `refine_province <vault>/heightfield-f32.npy <vault>/hydrology-pass1.npz`
-→ `compile_chunks` → `export_web_chunks` → `compile_water` →
-`rebake_landcover` → `python3 -m pytest -q` (55 tests must pass).
+→ `reroute_majors` → `compile_minor_routes` → **`grade_routes`** →
+`compile_chunks` → `export_web_chunks` → `compile_water` → `rebake_landcover`
+→ `compile_scatter` for the affected chunks (decision 0036) →
+`apply_sitings` (re-measures plot facts; re-runs the minor networks,
+`export_places` and `export_routes` itself) → `python3 -m pytest -q`.
+The two routing steps come first because gradient is a ROUTING property, not
+a grading one (owner requirement 2026-09-05: every way walkable end to end).
+Both solvers now cost each step by its own longitudinal gradient and wall off
+anything over the class cap (`routes.grade_factor`), so a line switchbacks or
+contours instead of climbing a spur head-on; grading then only has the last
+few metres to swallow. `reroute_majors` repairs the published major-road
+polylines in place rather than re-running `compile_society` (which would
+re-derive danger and cultures too).
+`grade_routes` (added 2026-09-05, owner report: roads running off the edge of
+a terrace contour) cuts and fills the heightfield along every road, track and
+footpath so each has a walkable longitudinal gradient — road 8 deg, track
+12 deg, footpath 17 deg, boardwalks untouched — flat across its width with a
+benched shoulder no steeper than 30 deg. It reads its input from the
+`refined-height-ungraded-f32.npy` snapshot beside the refined heights, so
+running it twice is the same as running it once, and it must run BEFORE
+anything derived from heights. Report:
+`world/sources/sites/route-grading.md`. It reads the *published* water
+surface, so on a first-ever bake run `compile_water` once before it.
+
+**Grading and siting are separated on purpose.** Grading reshapes the ground
+*because of* where the plot put places and where the route solvers ran, and
+the water bake then follows the graded ground — so scoring siting on that
+surface is a feedback loop that silently moves committed records. Before it
+grades, `grade_routes` snapshots the natural state
+(`refined-height-ungraded-f32.npy` in the vault,
+`refined/height-natural-rg.png` and `province/water/natural/` in the studio),
+and `site_fields.ProvinceSurvey` — the siting layer behind the macro plot,
+the route networks and the blueprints — reads the snapshot. The graded
+surface is what the chunks, colliders, water bake, land cover and scatter
+carry. The snapshot refreshes itself whenever `refine_province` rewrites the
+refined heights (tracked by `refined-height-graded-by.json`, not by mtime:
+grading's own output is always newer than its input).
+
+**The road geometry has the same seam** (2026-09-05). A place's siting score
+depends on how near a road it is, so re-routing a road would re-plot
+committed records. `reroute_majors` snapshots the pre-repair corridors as
+`province/routes-natural.json` (marker `routes-repaired-by.json`, same
+fingerprint trick) and `ProvinceSurvey` reads that; the repaired line is what
+the world carries, and `compile_minor_routes` seeds its tracks off the
+published `routes.json` so a track meets the road that is really there.
+
+**Watch the two `hydrology-pass1.npz` files.** The one `refine_province` must
+be given is the one *beside* `heightfield-f32.npy`; the stale copy in
+`province-refined/` produces a visibly different province (mean 1.4 m, up to
+409 m in the mountains).
 Texture-set changes: `build_ground_materials` first — **and check
 `BMV_OVERRIDES`, which silently overrides the base table for the default
 set** (Round 6 §1). App: `npm run build` in `apps/world-studio`; browser

@@ -19,6 +19,17 @@ jumbled on top of each other". The studio view can zoom, pan, hide classes and
 show a thing's *why* on click; this exporter is the data feed for it. The
 static renderer stays — it is the print medium, this is the review medium.
 
+Round 2 (owner feedback 2026-09-05) added, at ``schemaVersion`` 2: the
+plain-English ``why`` blocks on districts / parcels / landmarks / docks (and the
+one-sentence ``why`` on ways and combat spaces), the ``approaches[]`` list,
+``scaleGrounding``, the ``fences`` way group, ways' ``via`` / ``routing`` /
+``endsAt``, parcels' ``spans`` / ``interior``, and ``contextM`` — the metre
+rectangle the viewer paints the MAIN 2D province map and its neighbouring
+places / routes over, so a blueprint is read in its setting. Every one of these
+is optional on the way in: the live blueprints are being re-authored and a
+missing field exports as ``null`` (the viewer shows it in red as "not yet
+written") rather than failing the export.
+
 Determinism (standard 6): sorted keys, ``indent=2``, one trailing newline; the
 PNGs are written by PIL from a deterministic float pipeline and carry no
 timestamp, so a clean re-run is byte-identical.
@@ -37,16 +48,44 @@ from .blueprint import BLUEPRINT_DIR
 from .render_blueprint import PROVINCE_EXTENT_M, crop_box
 from .site_fields import PROVINCE, REPO_ROOT
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 OUT_PATH = OUT_DIR / "blueprints.json"
 CROP_DIR = OUT_DIR / "blueprints"
 CROP_PX = 600
 PAD_M = 60.0
+# How far beyond the blueprint's own crop the viewer shows the province map and
+# its neighbouring places / routes (owner 2026-09-05 item 1: the blueprint must
+# be read in its setting, not on a blank grey square).
+CONTEXT_PAD_M = 1500.0
 
 # Object classes the viewer can toggle; the order is the checklist order.
-LAYERS = ["terrain", "boundary", "clearance", "districts", "ways", "parcels",
-          "doors", "landmarks", "docks", "combatSpaces", "questSockets", "siting"]
+# "map" is the main 2D province map, painted in the browser from the SAME
+# rasters App.tsx uses; "terrain" is the hillshade crop written below it.
+LAYERS = ["map", "context", "terrain", "boundary", "clearance", "districts",
+          "ways", "fences", "parcels", "doors", "landmarks", "docks",
+          "combatSpaces", "approaches", "questSockets", "siting"]
+
+# The plain-English `why` blocks (blueprint.py WHY_KEYS_*): carried through
+# verbatim, key by key, so the viewer can show "not yet written" per field
+# while the blueprints are being re-authored.
+WHY_KEYS_FULL = ("what", "whyHere", "whySpot", "whyNeighbours", "playerPurpose", "microGeography")
+WHY_KEYS_AREA = ("what", "whyHere", "whyNeighbours", "playerPurpose", "microGeography")
+
+
+def _why(obj: dict, keys) -> dict | None:
+    """One `why` block → {key: sentence or None}, or None when unwritten."""
+    why = obj.get("why")
+    if not isinstance(why, dict):
+        return None
+    out = {k: (why[k] if isinstance(why.get(k), str) and why[k].strip() else None) for k in keys}
+    return out if any(v for v in out.values()) else None
+
+
+def _why_text(obj: dict) -> str | None:
+    """A way's / combat space's `why` — a single sentence, not a block."""
+    why = obj.get("why")
+    return why if isinstance(why, str) and why.strip() else None
 
 
 # --------------------------------------------------------------------------- #
@@ -85,12 +124,15 @@ def _centroid(poly: list[list[float]] | None) -> list[float] | None:
 # projection
 # --------------------------------------------------------------------------- #
 def _ways(bp: dict, extent_m: float) -> list[dict]:
-    """Routes, canals and boardwalks in one list, each tagged with its group so
+    """Routes, canals, boardwalks and fences in one list, each tagged with its group so
     the viewer can style and toggle them together or apart."""
     out = []
-    for group in ("routes", "canals", "boardwalks"):
+    for group in ("routes", "canals", "boardwalks", "fences"):
         for w in bp.get(group) or []:
-            pts = _poly_m(w.get("points"), extent_m)
+            # `points` is derived from `via`; a way that has not been routed yet
+            # still draws (as its waypoint line) rather than vanishing.
+            via = _poly_m(w.get("via"), extent_m)
+            pts = _poly_m(w.get("points"), extent_m) or via
             if not pts:
                 continue
             out.append({
@@ -98,7 +140,12 @@ def _ways(bp: dict, extent_m: float) -> list[dict]:
                 "group": group,
                 "kind": w.get("kind") or group[:-1],
                 "widthM": w.get("widthM"),
+                "assetRef": w.get("assetRef"),
+                "routing": w.get("routing"),
+                "endsAt": [r for r in (w.get("endsAt") or []) if isinstance(r, str)],
+                "why": _why_text(w),
                 "notes": w.get("notes"),
+                "via": via,
                 "points": pts,
             })
     out.sort(key=lambda w: (w["group"], str(w["id"])))
@@ -123,6 +170,9 @@ def _parcels(bp: dict, extent_m: float) -> list[dict]:
             "groundFit": p.get("groundFit"),
             "yawDeg": p.get("yawDeg"),
             "orientationWhy": p.get("orientationWhy"),
+            "spans": p.get("spans"),
+            "interior": p.get("interior") if isinstance(p.get("interior"), dict) else None,
+            "why": _why(p, WHY_KEYS_FULL),
             "notes": p.get("notes"),
             "polygon": poly,
             "centreM": centre,
@@ -186,6 +236,35 @@ def _siting(bp: dict, extent_m: float) -> dict | None:
     return {"dossier": s.get("dossier"), "candidates": cands}
 
 
+def _approaches(bp: dict) -> list[dict]:
+    """How a WALKING player arrives (blueprint.py `approaches[]`). Passed through
+    verbatim — the viewer resolves `fromRouteId` / `firstSeen` against the ids it
+    already holds and draws the arrow itself."""
+    out = []
+    for a in bp.get("approaches") or []:
+        out.append({
+            "id": a.get("id"),
+            "mode": a.get("mode"),
+            "fromRouteId": a.get("fromRouteId"),
+            "fromDirection": a.get("fromDirection"),
+            "firstSeen": a.get("firstSeen"),
+            "sequence": a.get("sequence"),
+            "wayfinding": a.get("wayfinding"),
+            "notes": a.get("notes"),
+        })
+    out.sort(key=lambda a: str(a["id"]))
+    return out
+
+
+def context_box(bp: dict, extent_m: float) -> dict:
+    """The metre rectangle the viewer draws the province map and the neighbouring
+    places / routes over: the blueprint's own crop, opened out by CONTEXT_PAD_M.
+    Deterministic (it is a function of the geometry alone)."""
+    x0, z0, x1, z1 = crop_box(bp, extent_m, PAD_M + CONTEXT_PAD_M)
+    return {"x0": round(float(x0), 3), "z0": round(float(z0), 3),
+            "x1": round(float(x1), 3), "z1": round(float(z1), 3)}
+
+
 def project(doc: dict, extent_m: float) -> dict:
     """One blueprint document → the studio entry, everything in metres."""
     bp = doc["blueprint"]
@@ -195,24 +274,28 @@ def project(doc: dict, extent_m: float) -> dict:
         districts.append({
             "id": d.get("id"), "kind": d.get("kind"), "cultureKit": d.get("cultureKit"),
             "wealth": d.get("wealth"), "notes": d.get("notes"),
+            "why": _why(d, WHY_KEYS_AREA),
             "polygon": poly, "centreM": _centroid(poly),
         })
     districts.sort(key=lambda d: str(d["id"]))
 
     landmarks = sorted(
         ({"id": lm.get("id"), "kind": lm.get("kind"), "assetRef": lm.get("assetRef"),
-          "notes": lm.get("notes"), "positionM": _point_m(lm.get("position"), extent_m)}
+          "notes": lm.get("notes"), "why": _why(lm, WHY_KEYS_FULL),
+          "positionM": _point_m(lm.get("position"), extent_m)}
          for lm in bp.get("landmarks") or []),
         key=lambda lm: str(lm["id"]))
     docks = sorted(
         ({"id": dk.get("id"), "waterBodyId": dk.get("waterBodyId"),
           "piledToBed": dk.get("piledToBed"), "notes": dk.get("notes"),
+          "why": _why(dk, WHY_KEYS_AREA),
           "positionM": _point_m(dk.get("position"), extent_m)}
          for dk in bp.get("docks") or []),
         key=lambda dk: str(dk["id"]))
     combat = sorted(
         ({"id": cs.get("id"), "clearanceClass": cs.get("clearanceClass"),
-          "notes": cs.get("notes"), "polygon": _poly_m(cs.get("boundary"), extent_m)}
+          "notes": cs.get("notes"), "why": _why_text(cs),
+          "polygon": _poly_m(cs.get("boundary"), extent_m)}
          for cs in bp.get("combatSpaces") or []),
         key=lambda cs: str(cs["id"]))
     sockets = sorted(
@@ -237,6 +320,9 @@ def project(doc: dict, extent_m: float) -> dict:
         "doors": _doors(bp, extent_m),
         "combatSpaces": combat,
         "questSockets": sockets,
+        "approaches": _approaches(bp),
+        "scaleGrounding": bp.get("scaleGrounding") if isinstance(bp.get("scaleGrounding"), dict) else None,
+        "contextM": context_box(bp, extent_m),
         "clearance": _clearance(bp, extent_m),
         "siting": _siting(bp, extent_m),
         "budget": bp.get("budget") or {},
@@ -249,6 +335,8 @@ def project(doc: dict, extent_m: float) -> dict:
         "districts": len(districts), "parcels": len(parcels), "ways": len(ways),
         "landmarks": len(landmarks), "docks": len(docks), "doors": len(entry["doors"]),
         "combatSpaces": len(combat), "questSockets": len(sockets),
+        "fences": len([w for w in ways if w["group"] == "fences"]),
+        "approaches": len(entry["approaches"]),
         "keptTrees": len(entry["clearance"]["kept"]),
         "sitingCandidates": len((entry["siting"] or {}).get("candidates") or []),
     }

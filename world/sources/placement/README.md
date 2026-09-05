@@ -25,6 +25,8 @@ which is the human-facing version and states the caveats.
 | `bmv-valenwood-settlement-form.json` | worldspace `Valenwood` | the same — the dry, road-led contrast to Black Marsh's waterline siting |
 | `vanilla-tamriel-settlement-form.json` | vanilla `Skyrim.esm`, worldspace `Tamriel` | the same for Bethesda's own world — the cross-check |
 | `settlement-asset-inventory.json` | the semantic asset registry + the vault filesystem + module 90 §71–§80 | **Phase 11 Part 0 item 6a:** the settlement-building families we hold or can source, by culture (the two never-blended Argonian cultures, xanmeer, Imperial), with vault paths, piece counts, palettes, condition variants, gaps and the 6b sourcing order. Not mined placement statistics — a survey. Digest: [docs/research/settlement-asset-inventory.md](../../../docs/research/settlement-asset-inventory.md) |
+| `*-settlement-form-stats.json` (vanilla Tamriel, BM&V Black Marsh, BM&V Valenwood, HTBM Cipactli) | the same worldspaces, via `worldgen/mine_settlement_form_stats.py` | **second-pass settlement form:** spacing by settlement size, density and radius by size, yaw against contour and road axis, entrance side, road-proximity shares, family mix, enclosure, waterfront, kit mixing, tallest-building placement. Digest: [docs/research/settlement-form-evidence.md](../../../docs/research/settlement-form-evidence.md) |
+| `vault-exterior-placement-survey.json` | every plugin under the vault's `mod-sources` | which mods place buildings in exterior cells at all, and which are resource-only |
 | `vanilla-region-object-tables.json` | `Skyrim.esm`/`Update.esm` `REGN` | the region object-generator census: 317 regions, 69 declaring an object block, **all of them empty** (`worldgen/mine_regions.py`) |
 
 ## Regenerating
@@ -99,3 +101,47 @@ Black Marsh's and 63 % of Valenwood's references are still `unresolved`.
 Re-running the BM&V commands above with an extra
 `--names "$D/Skyrim.esm"` resolves nearly all of them — worth doing as a
 standalone step, since it changes what `build_palettes.py` reads.
+
+## Second-pass settlement form (2026-09-05)
+
+`mine_settlement_form_stats.py` answers the placement questions the first pass
+does not carry, and `--report` writes
+[docs/research/settlement-form-evidence.md](../../../docs/research/settlement-form-evidence.md)
+whole — that doc is generated, not hand-edited.
+
+```bash
+cd tooling/world-generation
+D=<vault>/skyrim-source/Data
+BMV=../asset-pipeline/black-marsh-mod-source/plugins
+M=<vault>/skyrim-source/mod-sources
+OUT=../../world/sources/placement
+
+python3 -m worldgen.mine_settlement_form_stats --plugin "$D/Skyrim.esm" \
+  --world Tamriel --label "Skyrim (vanilla)" \
+  --out $OUT/vanilla-tamriel-settlement-form-stats.json
+python3 -m worldgen.mine_settlement_form_stats \
+  --plugin "$BMV/Black Marsh.esm" --plugin "$BMV/Black Marsh North.esp" \
+  --names "$D/Skyrim.esm" --world BlackMarsh --world BlackMarsh2 \
+  --world BlackMarshNorth --label "BM&V Black Marsh" \
+  --out $OUT/bmv-settlement-form-stats.json
+python3 -m worldgen.mine_settlement_form_stats --plugin "$BMV/Valenwood.esp" \
+  --names "$D/Skyrim.esm" --names "$BMV/Black Marsh.esm" --world Valenwood \
+  --label "BM&V Valenwood" --out $OUT/bmv-valenwood-settlement-form-stats.json
+python3 -m worldgen.mine_settlement_form_stats \
+  --plugin "$M/here-there-be-monsters-cipactli-35933/extracted/Here There Be Monsters - Curse of Cipactli.esp" \
+  --names "$D/Skyrim.esm" --label "Here There Be Monsters: Cipactli" \
+  --out $OUT/htbm-cipactli-settlement-form-stats.json
+
+# which vault mods place buildings outdoors at all
+python3 -m worldgen.mine_settlement_form_stats --survey-root "$M" \
+  --names "$D/Skyrim.esm" --survey-out $OUT/vault-exterior-placement-survey.json
+
+# the doc
+python3 -m worldgen.mine_settlement_form_stats \
+  --report ../../docs/research/settlement-form-evidence.md \
+  --input $OUT/vanilla-tamriel-settlement-form-stats.json \
+  --input $OUT/bmv-settlement-form-stats.json \
+  --input $OUT/bmv-valenwood-settlement-form-stats.json \
+  --input $OUT/htbm-cipactli-settlement-form-stats.json \
+  --survey $OUT/vault-exterior-placement-survey.json
+```

@@ -27,6 +27,7 @@ across the repo resolve via the map below.
 | Populations, cultures mix, demographic priors | [92-demographics.md](92-demographics.md) (§81–84) — read when deciding how many people live in a settlement (Phase 11) |
 | Phase deliverables in detail, three-scales model, sequencing rationale | [95-build-sequence.md](95-build-sequence.md) (§85–87) |
 | **Building a place** (Phase 11 Parts 6–8 and the Phase 15 long tail): the per-place loop, the write-back rule, lessons per round, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
+| **The rules for siting and laying out a place** (BINDING): province → place, place → ground, ground → layout, the walking player, integration, one grammar table per culture, the enforcement-gap table and the owner sense-check list | [97-placement-principles.md](97-placement-principles.md) |
 | Resolving [^..] citations from any module | [99-sources.md](99-sources.md) |
 
 Acceptance rules (old Part XIV, §88–92) live in **00-core** — they bind

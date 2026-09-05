@@ -47,13 +47,14 @@ class ProvinceFields:
     generalises BM&V's single flat water plane to our varied one.
     """
 
-    def __init__(self, province: Path = PROVINCE):
+    def __init__(self, province: Path = PROVINCE,
+                 height_file: str = "height-rg.png"):
         refined = json.loads((province / "refined" / "meta.json").read_text())
         water_meta = json.loads((province / "water" / "water-meta.json").read_text())
         hydro = json.loads((province / "hydrology-meta.json").read_text())
 
         self.px_m = refined["metresPerPixel"]
-        rgb = np.asarray(Image.open(province / "refined" / "height-rg.png")
+        rgb = np.asarray(Image.open(province / "refined" / height_file)
                          .convert("RGB")).astype(np.float32)
         lo, hi = refined["heightMinMetres"], refined["heightMaxMetres"]
         self.height_m = (rgb[..., 0] * 256 + rgb[..., 1]) / 65535.0 * (hi - lo) + lo

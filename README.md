@@ -126,6 +126,11 @@ asset registry.
 - **Black Marsh & Valenwood** (https://www.moddb.com/mods/black-marsh-valenwood;
   itself bundling many credited modder resources — see its page) — ground
   textures in the `bmv-v1` terrain material set; mesh pool for later phases.
+  Its bundled **advertising/notice board** resource (`advertising_board.nif`,
+  built from scratch by its author after Stroti's Oblivion miscellaneous
+  resource; roof shingles from vanilla Riften, window/wood-end/stall-roof from
+  Dark Creations' Beyond Skyrim: Bruma — per the mesh's own readme) is the
+  nailed licence/notice board in the `works-v1` kit.
 - **Mud Mother Grove — An Argonian Mud Hut** (Nexus SSE mod 146557,
   GeminiVoid, v1.5.1) — the Shadowfen mud/wattle building culture: round mud
   hut shell and thatch roofing, round deck, woven furniture and fences, tents,

@@ -1,0 +1,515 @@
+{
+ "schemaVersion": 1,
+ "source": {
+  "label": "Here There Be Monsters: Cipactli",
+  "plugins": [
+   "Here There Be Monsters - Curse of Cipactli.esp"
+  ],
+  "nameSources": [
+   "Skyrim.esm"
+  ],
+  "worldspaces": [],
+  "method": "worldgen.mine_settlement_form_stats \u2014 second-pass settlement form: spacing by size, contour and road alignment, entrance side, road proximity shares, family mix, enclosure, waterfront. Statistics only.",
+  "date": "2026-09-05"
+ },
+ "macro": {
+  "worldspacesSeen": [
+   "CIPHTBMHesperideWorld",
+   "Tamriel"
+  ],
+  "cellsWalked": 2037,
+  "unresolvedRefs": 875,
+  "architecturePieces": 871,
+  "enclosurePieces": 1,
+  "doorRefs": 50,
+  "roadSamples": 0,
+  "dockRefs": 0,
+  "waterSamples": 36817,
+  "dressingRefs": 1732,
+  "heightSamples": 129753,
+  "heightSampleSpacingM": 7.28
+ },
+ "form": {
+  "settlementCount": 6,
+  "params": {
+   "linkM": 45.0,
+   "structureLinkM": 8.0,
+   "minBuildings": 4,
+   "roadNearM": 20.0
+  },
+  "buildingsClustered": 225,
+  "spacingBySize": {
+   "13-25": {
+    "n": 40,
+    "p10": 8.58,
+    "p25": 8.81,
+    "p50": 14.48,
+    "p75": 19.24,
+    "p90": 24.15
+   },
+   "26+": {
+    "n": 145,
+    "p10": 9.26,
+    "p25": 10.97,
+    "p50": 14.11,
+    "p75": 16.3,
+    "p90": 19.75
+   },
+   "4-6": {
+    "n": 4,
+    "p10": 12.78,
+    "p25": 12.78,
+    "p50": 14.01,
+    "p75": 14.01,
+    "p90": 35.19
+   },
+   "7-12": {
+    "n": 9,
+    "p10": 8.02,
+    "p25": 9.45,
+    "p50": 12.02,
+    "p75": 14.76,
+    "p90": 15.79
+   }
+  },
+  "densityBySize": {
+   "13-25": {
+    "n": 2,
+    "p10": 10.45,
+    "p25": 10.45,
+    "p50": 10.45,
+    "p75": 11.65,
+    "p90": 11.65
+   },
+   "26+": {
+    "n": 2,
+    "p10": 3.84,
+    "p25": 3.84,
+    "p50": 3.84,
+    "p75": 8.0,
+    "p90": 8.0
+   },
+   "4-6": {
+    "n": 1,
+    "p10": 13.72,
+    "p25": 13.72,
+    "p50": 13.72,
+    "p75": 13.72,
+    "p90": 13.72
+   },
+   "7-12": {
+    "n": 1,
+    "p10": 12.2,
+    "p25": 12.2,
+    "p50": 12.2,
+    "p75": 12.2,
+    "p90": 12.2
+   }
+  },
+  "radiusBySize": {
+   "13-25": {
+    "n": 2,
+    "p10": 66.12,
+    "p25": 66.12,
+    "p50": 66.12,
+    "p75": 85.48,
+    "p90": 85.48
+   },
+   "26+": {
+    "n": 2,
+    "p10": 193.1,
+    "p25": 193.1,
+    "p50": 193.1,
+    "p75": 199.43,
+    "p90": 199.43
+   },
+   "4-6": {
+    "n": 1,
+    "p10": 30.47,
+    "p25": 30.47,
+    "p50": 30.47,
+    "p75": 30.47,
+    "p90": 30.47
+   },
+   "7-12": {
+    "n": 1,
+    "p10": 48.46,
+    "p25": 48.46,
+    "p50": 48.46,
+    "p75": 48.46,
+    "p90": 48.46
+   }
+  },
+  "buildingLongAxisBySize": {
+   "13-25": {
+    "n": 40,
+    "p10": 0.5,
+    "p25": 1.71,
+    "p50": 10.04,
+    "p75": 22.06,
+    "p90": 38.4
+   },
+   "26+": {
+    "n": 145,
+    "p10": 1.78,
+    "p25": 8.76,
+    "p50": 8.76,
+    "p75": 19.17,
+    "p90": 31.35
+   },
+   "4-6": {
+    "n": 4,
+    "p10": 0.5,
+    "p25": 12.26,
+    "p50": 12.26,
+    "p75": 12.26,
+    "p90": 12.26
+   },
+   "7-12": {
+    "n": 9,
+    "p10": 3.36,
+    "p25": 6.16,
+    "p50": 36.57,
+    "p75": 38.12,
+    "p90": 41.05
+   }
+  },
+  "roadDistanceM": {
+   "n": 0
+  },
+  "buildingsNearRoad": {
+   "n": 0,
+   "within5m": 0.0,
+   "within10m": 0.0,
+   "within20m": 0.0
+  },
+  "roadPieceWidthM": {
+   "n": 0
+  },
+  "yawVsContourDeg": {
+   "n": 111,
+   "p10": 0.0,
+   "p25": 5.71,
+   "p50": 18.0,
+   "p75": 30.96,
+   "p90": 41.31
+  },
+  "yawVsRoadAxisDeg": {
+   "n": 0
+  },
+  "doorSideVsRoadBearingDeg": {
+   "n": 0
+  },
+  "doorOnRoadSideShare": {
+   "n": 0
+  },
+  "waterDistanceM": {
+   "n": 185,
+   "p10": 4.16,
+   "p25": 27.74,
+   "p50": 66.44,
+   "p75": 116.81,
+   "p90": 151.38
+  },
+  "buildingsOverWaterShare": {
+   "n": 198,
+   "share": 0.086
+  },
+  "enclosurePiecesWithin15m": {
+   "n": 198,
+   "p10": 0.0,
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 0.0,
+   "p90": 0.0
+  },
+  "dressingRefsWithin10m": {
+   "n": 198,
+   "p10": 0.0,
+   "p25": 0.0,
+   "p50": 0.0,
+   "p75": 4.0,
+   "p90": 13.0
+  },
+  "familyMix": {
+   "civic": 0.556,
+   "unclassified": 0.298,
+   "storage": 0.066,
+   "work": 0.056,
+   "dwelling": 0.025
+  },
+  "familyMixBySize": {
+   "13-25": {
+    "unclassified": 0.325,
+    "storage": 0.225,
+    "work": 0.2,
+    "civic": 0.125,
+    "dwelling": 0.125
+   },
+   "26+": {
+    "civic": 0.697,
+    "unclassified": 0.283,
+    "storage": 0.021
+   },
+   "4-6": {
+    "work": 0.75,
+    "unclassified": 0.25
+   },
+   "7-12": {
+    "unclassified": 0.444,
+    "civic": 0.444,
+    "storage": 0.111
+   }
+  },
+  "kitsPerSettlement": {
+   "n": 6,
+   "p10": 1.0,
+   "p25": 1.0,
+   "p50": 1.0,
+   "p75": 3.0,
+   "p90": 3.0
+  },
+  "mixedKitSettlementShare": {
+   "n": 6,
+   "share": 0.5
+  },
+  "tallestElevationRank": {
+   "n": 6,
+   "p10": 0.0,
+   "p25": 0.07,
+   "p50": 0.37,
+   "p75": 0.95,
+   "p90": 0.95
+  },
+  "tallestRoadProximityRank": {
+   "n": 0
+  },
+  "tallestOffsetFromCentreRadii": {
+   "n": 6,
+   "p10": 0.22,
+   "p25": 0.34,
+   "p50": 0.49,
+   "p75": 0.65,
+   "p90": 0.65
+  },
+  "settlements": [
+   {
+    "buildings": 100,
+    "sizeClass": "26+",
+    "centreM": [
+     -911.8,
+     486.4
+    ],
+    "radiusM": 199.4,
+    "buildingsPerHectare": 8.0,
+    "spacingM": {
+     "n": 100,
+     "p10": 9.26,
+     "p25": 10.92,
+     "p50": 13.62,
+     "p75": 15.28,
+     "p90": 16.39
+    },
+    "kitCount": 1,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      100
+     ]
+    ],
+    "families": {
+     "civic": 99,
+     "storage": 1
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 27.5,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 45,
+    "sizeClass": "26+",
+    "centreM": [
+     67.1,
+     91.1
+    ],
+    "radiusM": 193.1,
+    "buildingsPerHectare": 3.84,
+    "spacingM": {
+     "n": 45,
+     "p10": 10.88,
+     "p25": 13.28,
+     "p50": 14.64,
+     "p75": 19.41,
+     "p90": 22.55
+    },
+    "kitCount": 3,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      41
+     ],
+     [
+      "architecture/solitude",
+      2
+     ],
+     [
+      "architecture/sovengarde",
+      2
+     ]
+    ],
+    "families": {
+     "unclassified": 41,
+     "civic": 2,
+     "storage": 2
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 26.3,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 24,
+    "sizeClass": "13-25",
+    "centreM": [
+     -116.2,
+     59.2
+    ],
+    "radiusM": 85.5,
+    "buildingsPerHectare": 10.45,
+    "spacingM": {
+     "n": 24,
+     "p10": 8.57,
+     "p25": 8.63,
+     "p50": 12.79,
+     "p75": 15.5,
+     "p90": 19.41
+    },
+    "kitCount": 3,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      22
+     ],
+     [
+      "architecture/sovengarde",
+      1
+     ],
+     [
+      "architecture/farmhouse",
+      1
+     ]
+    ],
+    "families": {
+     "civic": 5,
+     "storage": 9,
+     "work": 5,
+     "unclassified": 5
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 53.4,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 16,
+    "sizeClass": "13-25",
+    "centreM": [
+     -765.9,
+     76.6
+    ],
+    "radiusM": 66.1,
+    "buildingsPerHectare": 11.65,
+    "spacingM": {
+     "n": 16,
+     "p10": 11.32,
+     "p25": 12.5,
+     "p50": 19.24,
+     "p75": 24.15,
+     "p90": 25.16
+    },
+    "kitCount": 1,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      16
+     ]
+    ],
+    "families": {
+     "work": 3,
+     "dwelling": 5,
+     "unclassified": 8
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 0.2,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 9,
+    "sizeClass": "7-12",
+    "centreM": [
+     -914.9,
+     290.1
+    ],
+    "radiusM": 48.5,
+    "buildingsPerHectare": 12.2,
+    "spacingM": {
+     "n": 9,
+     "p10": 8.02,
+     "p25": 9.45,
+     "p50": 12.02,
+     "p75": 14.76,
+     "p90": 15.79
+    },
+    "kitCount": 2,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      8
+     ],
+     [
+      "architecture/whiterun",
+      1
+     ]
+    ],
+    "families": {
+     "unclassified": 4,
+     "civic": 4,
+     "storage": 1
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 10.9,
+    "nearestDockM": null
+   },
+   {
+    "buildings": 4,
+    "sizeClass": "4-6",
+    "centreM": [
+     -702.2,
+     -26.8
+    ],
+    "radiusM": 30.5,
+    "buildingsPerHectare": 13.72,
+    "spacingM": {
+     "n": 4,
+     "p10": 12.78,
+     "p25": 12.78,
+     "p50": 14.01,
+     "p75": 14.01,
+     "p90": 35.19
+    },
+    "kitCount": 1,
+    "kits": [
+     [
+      "here there be monsters - curse of cipactli/architecture",
+      4
+     ]
+    ],
+    "families": {
+     "work": 3,
+     "unclassified": 1
+    },
+    "medianRoadDistanceM": null,
+    "reliefM": 1.6,
+    "nearestDockM": null
+   }
+  ]
+ }
+}

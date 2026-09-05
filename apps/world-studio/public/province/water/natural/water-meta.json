@@ -1,0 +1,47 @@
+{
+ "surface": {
+  "file": "water-surface.png",
+  "size": 2017,
+  "metresPerPixel": 3.65568,
+  "minM": -5.958590984344482,
+  "maxM": 499.1853332519531,
+  "encoding": "R,G = 16-bit W; B = depth proxy 0.1 m steps",
+  "buryM": 3.0,
+  "shoreFile": "water-shore.png",
+  "shoreMaxM": 160.0
+ },
+ "flow": {
+  "file": "water-flow.png",
+  "size": 1345,
+  "metresPerPixel": 5.4835199999999995,
+  "flowMax": 3.0,
+  "shoreMaxM": 160.0
+ },
+ "klass": {
+  "file": "water-class.png",
+  "size": 1345,
+  "metresPerPixel": 5.4835199999999995,
+  "classes": [
+   "none",
+   "coast",
+   "estuary",
+   "river",
+   "lake",
+   "marsh"
+  ]
+ },
+ "stats": {
+  "wetFrac": 0.4008,
+  "tableExtFrac": 0.1077,
+  "classFrac": {
+   "coast": 0.33181,
+   "estuary": 0.00778,
+   "river": 0.00499,
+   "lake": 0.0835,
+   "marsh": 0.10461
+  },
+  "visibleWaterFrac2017": 0.3869,
+  "maxDepthM": 25.5,
+  "riverCellsAboveBed": 1.0
+ }
+}

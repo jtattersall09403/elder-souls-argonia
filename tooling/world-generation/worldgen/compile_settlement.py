@@ -25,6 +25,15 @@ owns already (because retrofitting them is the expensive version):
   * GenerationProvenance on every emitted object (module 40 §31).
   * the static budget report checked against the blueprint's declared budget
     (instances, unique assets/materials, texture MB, collider estimate).
+  * the module 97 layer-integration checks (`blueprint_integration`), which
+    FAIL the compile: ways vs buildings, gates across ways, doors onto ways,
+    the 8 m spacing floor (97 C5) and the 1.3 m passage (97 C3).
+  * WARN-grade module 97 reports, in `warnings` — they never fail a compile:
+    the density band (97 C6), the `use` histogram (97 C7), the way width
+    classes (97 C3) and the first-seen line of sight (97 B6/D2): each
+    approach's `firstSeen` piece must be visible over BARE TERRAIN from the
+    approach's first via point, and its height is reported against the region
+    palette's canopy height, since canopy is not in the survey.
 
 Output: output/settlements/<place-id>.settlement.json (derived, gitignored),
 deterministic and byte-stable for a given blueprint + seed.
@@ -44,6 +53,7 @@ from pathlib import Path
 
 from . import blueprint as bp_mod
 from .site_fields import ProvinceSurvey
+from .blueprint_integration import check_integration
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -53,8 +63,14 @@ PAD_FALLOFF_RATIO = 2.5
 PAD_RESIDUAL_TILT_DEG = 0.7
 DOOR_MAX_SLOPE_DEG = 30.0
 DOOR_SLOPE_SAMPLE_M = 2.0     # half-width of the threshold gradient sample
+EYE_HEIGHT_M = 1.83           # the character (97 D8)
+# Below this the player is already inside the clearing and the canopy between
+# them and the beacon is the settlement's own cleared ring, so the canopy
+# comparison is meaningless (the blocked-sightline test still runs at any range).
+CANOPY_COMPARE_MIN_M = 100.0
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
+PALETTES = REPO_ROOT / "world" / "sources" / "flora" / "palettes.json"
 OUT_DIR = Path(__file__).resolve().parents[1] / "output" / "settlements"
 
 # District cultureKit → kit configs, in preference order. The two-culture rule
@@ -79,9 +95,14 @@ class KitShelf:
     def __init__(self, kits_dir: Path = KITS_DIR):
         self.assets_by_kit: dict[str, list[dict]] = {}
         self.textures_mb: dict[str, float] = {}
+        # every measured asset by id, across all kits — the flora kit included,
+        # because the canopy the first-seen object has to clear lives there
+        self.by_asset: dict[str, dict] = {}
         for name, path in sorted((p.stem.removesuffix(".kit"), p) for p in kits_dir.glob("*.kit.json")):
             data = json.loads(path.read_text())
             self.assets_by_kit[name] = data["assets"]
+            for asset in data["assets"]:
+                self.by_asset.setdefault(asset["id"], asset)
 
     def find(self, culture: str, asset_ref: str) -> dict | None:
         """An exact kit asset id inside the district's kit set (the Part 6
@@ -114,6 +135,88 @@ class KitShelf:
         return {"kit": kit, **asset}
 
 
+def _canopy_height_m(survey, x: float, z: float, shelf: "KitShelf") -> tuple[float | None, str]:
+    """Canopy height of the region class under (x, z), from the flora palette's
+    canopy-role species measured in the flora kit. The survey has no canopy
+    raster, so the line-of-sight test below runs over BARE terrain and this
+    number is reported beside it (97 §G G10)."""
+    try:
+        row, col = survey.grid_px(x, z)
+        klass = str(int(survey.region_grid[row, col]))
+        entry = json.loads(PALETTES.read_text())["byRegionClass"].get(klass)
+    except Exception:
+        return None, "unknown region class"
+    if not entry:
+        return None, "no palette for this region class"
+    sizes = []
+    for layer in entry.get("layers", []):
+        if layer.get("role") != "canopy":
+            continue
+        asset = shelf.by_asset.get(layer.get("species"))
+        if asset and asset.get("sizeM"):
+            lo, hi = (layer.get("scale_range") or [1.0, 1.0])[:2]
+            sizes.append(asset["sizeM"][2] * (float(lo) + float(hi)) / 2.0)
+    if not sizes:
+        return None, f"{entry.get('id')}: no measured canopy species"
+    return max(sizes), entry.get("id", klass)
+
+
+def _first_seen_warnings(bp: dict, survey, shelf: "KitShelf") -> list[str]:
+    """97 B6 / D2 — the first-seen object must actually read from where the
+    player first sees it. Bare-terrain line of sight from the approach's first
+    via point to the top of the named piece, with the piece's height reported
+    against the region's canopy."""
+    out: list[str] = []
+    bid = bp["id"]
+    ways = {w["id"]: w for key in ("routes", "boardwalks", "canals")
+            for w in bp.get(key, []) or []}
+    targets: dict[str, tuple[list[float], float]] = {}
+    for p in bp.get("parcels", []) or []:
+        asset = shelf.by_asset.get(p.get("assetRef"))
+        h = (asset["sizeM"][2] * float(p.get("scale", 1.0))) if asset and asset.get("sizeM") else None
+        targets[p["id"]] = (p["centreUV"], h)
+    for lm in bp.get("landmarks", []) or []:
+        asset = shelf.by_asset.get(lm.get("assetRef"))
+        h = (asset["sizeM"][2] * float(lm.get("scale", 1.0))) if asset and asset.get("sizeM") else None
+        targets[lm["id"]] = (lm.get("position"), h)
+    for dk in bp.get("docks", []) or []:
+        targets[dk["id"]] = (dk.get("position"), None)
+
+    for ap in sorted(bp.get("approaches", []) or [], key=lambda a: a.get("id", "")):
+        seen = ap.get("firstSeen")
+        if seen not in targets:
+            out.append(f"{bid}: 97 D1 — approach {ap.get('id')} names firstSeen {seen!r}, which is not a "
+                       f"parcel, landmark or dock in this blueprint")
+            continue
+        way = ways.get(ap.get("fromRouteId"))
+        via = (way or {}).get("via") or (way or {}).get("points")
+        if not via:
+            out.append(f"{bid}: 97 B6 — approach {ap.get('id')} has no fromRouteId with waypoints, so the "
+                       f"line of sight to {seen} cannot be measured; it rests on the checklist alone")
+            continue
+        uv, height = targets[seen]
+        if uv is None:
+            continue
+        ax, az = survey.uv_to_m(float(via[0][0]), float(via[0][1]))
+        bx, bz = survey.uv_to_m(float(uv[0]), float(uv[1]))
+        dist = math.hypot(bx - ax, bz - az)
+        visible = survey.line_of_sight(ax, az, bx, bz, eye_a=EYE_HEIGHT_M,
+                                       eye_b=(height if height else EYE_HEIGHT_M))
+        canopy, region = _canopy_height_m(survey, bx, bz, shelf)
+        shown = f"{height:.1f} m" if height else "of unmeasured height (no assetRef in the built kits)"
+        canopy_note = (f"the piece is {shown} and the {region} canopy is {canopy:.1f} m"
+                       if canopy is not None else
+                       f"the piece is {shown} (canopy height unavailable: {region})")
+        if not visible:
+            out.append(f"{bid}: 97 B6/D2 — approach {ap.get('id')}: {seen} is NOT visible over bare terrain "
+                       f"from the first waypoint of {ap.get('fromRouteId')}, {dist:.0f} m out; {canopy_note}")
+        elif (canopy is not None and height is not None and height < canopy
+              and dist >= CANOPY_COMPARE_MIN_M):
+            out.append(f"{bid}: 97 D2 — approach {ap.get('id')}: {seen} clears the ground but not the trees — "
+                       f"{canopy_note}, so it does not read from {dist:.0f} m out under a closed canopy")
+    return out
+
+
 def _provenance(bp_id: str, seed: str, rule: str, asset_id: str, hashes: list[str]) -> dict:
     return {
         "sourceBlueprintId": bp_id,
@@ -126,10 +229,12 @@ def _provenance(bp_id: str, seed: str, rule: str, asset_id: str, hashes: list[st
     }
 
 
-def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict:
+def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
+                      warnings: list[str] | None = None) -> dict:
     bp_id = bp["id"]
     seed = str(bp["seed"])
     errors: list[str] = []
+    warns: list[str] = list(warnings or [])
     placements: list[dict] = []
     grades: list[dict] = []
 
@@ -165,6 +270,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
             continue
 
         base_y = max(heights) - BURY_M
+        if parcel.get("stacksOn"):
+            base = next((q for q in bp["parcels"] if q["id"] == parcel["stacksOn"]), None)
+            base_asset = shelf.pick(culture, base["buildingFamily"], f"{seed}:{base['id']}", base.get("assetRef")) if base else None
+            if base is not None and base_asset is not None:
+                bx, bz = survey.uv_to_m(*base["centreUV"])
+                base_y = survey.height_at(bx, bz) - BURY_M + base_asset["sizeM"][2] * float(base.get("scale", 1.0))
         if fit == "pad":
             grades.append({
                 "parcelId": pid,
@@ -229,6 +340,13 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
             )
         doors_out.append({**door, "reachable": reachable})
 
+    # --- layer integration (owner 2026-09-05): ways vs buildings, gates across
+    # roads, doors onto ways, ways in the right medium ------------------------
+    errors += check_integration(bp, survey)
+
+    # --- 97 B6/D2: does the first-seen object actually read from the approach?
+    warns += _first_seen_warnings(bp, survey, shelf)
+
     # --- clearance masks for the scatter compiler -----------------------
     chunk_m = 462.0  # 16x16 chunks over the 7392 m province (see chunks meta)
     affected: set[tuple[int, int]] = set()
@@ -280,6 +398,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
         },
         "budgetReport": report,
         "errors": errors,
+        # WARN grade (module 97 §G): reported, never failing
+        "warnings": warns,
     }
 
 
@@ -310,20 +430,25 @@ def main() -> int:
     data = json.loads(Path(args.blueprint).read_text())
     bp = data["blueprint"]
     known = None if args.skip_catalogue else bp_mod.catalogue_ids()
-    schema_errors = bp_mod.validate_blueprint(bp, known)
+    survey = ProvinceSurvey()
+    schema_errors, schema_warnings = bp_mod.validate_blueprint_full(bp, known, survey)
+    for w in schema_warnings:
+        print(f"compile_settlement: WARN: {w}", file=sys.stderr)
     if schema_errors:
         for e in schema_errors:
             print(f"compile_settlement: schema: {e}", file=sys.stderr)
         return 1
 
-    result = compile_blueprint(bp, ProvinceSurvey(), KitShelf())
+    result = compile_blueprint(bp, survey, KitShelf(), schema_warnings)
     out = Path(args.out) if args.out else OUT_DIR / f"{bp['id']}.settlement.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=1, sort_keys=True) + "\n")
+    for w in result["warnings"][len(schema_warnings):]:
+        print(f"compile_settlement: WARN: {w}", file=sys.stderr)
     for e in result["errors"]:
         print(f"compile_settlement: {e}", file=sys.stderr)
     print(f"compile_settlement: {out} — {result['budgetReport']['instances']} placements, "
-          f"{len(result['errors'])} errors, budget {'OK' if result['budgetReport']['withinBudget'] else 'EXCEEDED'}")
+          f"{len(result['errors'])} errors, {len(result['warnings'])} warnings, budget {'OK' if result['budgetReport']['withinBudget'] else 'EXCEEDED'}")
     return 1 if result["errors"] else 0
 
 

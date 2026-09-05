@@ -1,34 +1,42 @@
 {
   "schemaVersion": 1,
-  "_note": "TEST FIXTURE ONLY. Not a real place: this id is never registered in the place catalogue and this file must never move to world/sources/blueprints/ (that directory is for real places, whose ids are permanent). It exists so worldgen.render_blueprint has a schema-valid, geometry-rich blueprint to render in tests and in the tool's own smoke run.",
+  "_note": "TEST FIXTURE ONLY. Not a real place: this id is never registered in the place catalogue and this file must never move to world/sources/blueprints/ (that directory is for real places, whose ids are permanent). It exists so worldgen.render_blueprint has a schema-valid, geometry-rich blueprint to render in tests and in the tool's own smoke run, and so the layer-integration checks have a layout that passes them.",
   "blueprint": {
     "id": "place.fixture.mire-landing",
     "seed": "fixture-6",
     "causalModel": {
-      "founding": "A firm bank at the last navigable bend, where cargo has to leave the water.",
-      "siteAdvantages": "Deep channel against a hard bank; dry ground within 40 m; the road already ends here.",
-      "occupantsMotive": "Trans-ship, take a cut, feed and house the polers overnight.",
-      "pressures": "Wet season lifts the water 1.4 m; the Imperial factor and the local clan both claim the tolls.",
-      "wouldChangeIf": "The channel silts, or the road is pushed a mile downstream."
+      "founding": "A firm bank at the head of a deep bay, where cargo has to leave the water.",
+      "siteAdvantages": "Deep water against a hard bank, dry ground within 40 m, and the cart road already ends here.",
+      "occupantsMotive": "Trans-ship, take a cut of the tolls, and house the polers overnight.",
+      "pressures": "The wet season lifts the water 1.4 m, and the Imperial factor and the local clan both claim the tolls.",
+      "wouldChangeIf": "The bay silts, or the road is pushed a mile south to firmer ground."
     },
     "boundary": [
       [
-        0.47,
-        0.61
+        0.709296175,
+        0.595374801
       ],
       [
-        0.476,
-        0.61
+        0.724892554,
+        0.595374801
       ],
       [
-        0.477,
-        0.616
+        0.724892554,
+        0.607309421
       ],
       [
-        0.47,
-        0.6165
+        0.709296175,
+        0.607309421
       ]
     ],
+    "scaleGrounding": {
+      "loreSource": "Fixture only: a five-building landing, sized as the smallest trading stop in module 92's ladder.",
+      "population": "12\u201316",
+      "households": 4,
+      "buildingsPlanned": 5,
+      "npcsPlanned": 6,
+      "why": "Two poling households, a factor and his hands are all the traffic through this bay can keep."
+    },
     "districts": [
       {
         "id": "district.mire-landing.landing",
@@ -37,23 +45,30 @@
         "wealth": "poor",
         "boundary": [
           [
-            0.4705,
-            0.6105
+            0.716890933,
+            0.595374801
           ],
           [
-            0.4738,
-            0.6105
+            0.723400726,
+            0.595374801
           ],
           [
-            0.4738,
-            0.6138
+            0.723400726,
+            0.603512042
           ],
           [
-            0.4705,
-            0.6138
+            0.716890933,
+            0.603512042
           ]
         ],
-        "notes": "Stilt row over the shallows, boardwalk spine along the bank."
+        "notes": "Stilt row above the bay, with the boardwalk spine along the shore.",
+        "why": {
+          "what": "The Argonian waterfront: two households, a quay deck and the boardwalk between them.",
+          "whyHere": "The bay is the only deep water within a day of the road, so the boats work from here.",
+          "whyNeighbours": "It sits below the factor's yard, which is where the cargo goes after landing.",
+          "playerPurpose": "Boats, poler talk and the water route onward are all found in this district.",
+          "microGeography": "The ground falls gently east into the bay, so everything stands on piles."
+        }
       },
       {
         "id": "district.mire-landing.factor",
@@ -62,86 +77,30 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.4742,
-            0.6108
+            0.710381141,
+            0.59917218
           ],
           [
-            0.4766,
-            0.6108
+            0.716890933,
+            0.59917218
           ],
           [
-            0.4766,
-            0.614
+            0.716890933,
+            0.607309421
           ],
           [
-            0.4742,
-            0.614
+            0.710381141,
+            0.607309421
           ]
         ],
-        "notes": "Factor's yard and warehouse \u2014 stone sills, never blended with the stilt kit."
-      }
-    ],
-    "routes": [
-      {
-        "id": "route.mire-landing.approach",
-        "kind": "road",
-        "points": [
-          [
-            0.477,
-            0.6155
-          ],
-          [
-            0.4752,
-            0.6142
-          ],
-          [
-            0.4744,
-            0.6124
-          ]
-        ],
-        "widthM": 3.5
-      }
-    ],
-    "canals": [
-      {
-        "id": "canal.mire-landing.channel",
-        "kind": "canal",
-        "points": [
-          [
-            0.4698,
-            0.6152
-          ],
-          [
-            0.4716,
-            0.6136
-          ],
-          [
-            0.4734,
-            0.6114
-          ]
-        ],
-        "widthM": 9.0
-      }
-    ],
-    "boardwalks": [
-      {
-        "id": "boardwalk.mire-landing.spine",
-        "kind": "boardwalk",
-        "points": [
-          [
-            0.4708,
-            0.6134
-          ],
-          [
-            0.4724,
-            0.6122
-          ],
-          [
-            0.474,
-            0.6114
-          ]
-        ],
-        "widthM": 2.0
+        "notes": "Factor's yard and store shed on stone sills, never blended with the stilt kit.",
+        "why": {
+          "what": "The Imperial trading yard: a store shed, the factor's house and the open ground between them.",
+          "whyHere": "The company needs dry storage at the point where water carriage becomes cart carriage.",
+          "whyNeighbours": "It sits inland of the waterfront, close enough for a bale to be carried by hand.",
+          "playerPurpose": "The quest hub of the landing, and the place where the tolls dispute is heard.",
+          "microGeography": "The yard occupies the driest, flattest ground on the site, above the flood line."
+        }
       }
     ],
     "parcels": [
@@ -151,71 +110,82 @@
         "use": "dwelling",
         "buildingFamily": "argonian-stilt-hut",
         "groundFit": "stilt",
+        "centreUV": [
+          0.718382761,
+          0.600799628
+        ],
+        "yawDeg": 20.0,
+        "orientationWhy": "The long axis lies along the bank, so the entry deck faces the boardwalk and the open bay.",
+        "assetRef": "bmv:architecture/stilthouse/stilthouseext",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "why": {
+          "what": "A stilt house for one poling family, raised on piles over the soft bank.",
+          "whyHere": "Polers live within sight of their boats, which are moored at the quay below.",
+          "whySpot": "The ground here dries first after the flood, and the bank behind it is firm.",
+          "whyNeighbours": "It stands upstream of the second hut so that neither blocks the other's landing.",
+          "playerPurpose": "The first interior a player can enter, and the source of the poler's rumours.",
+          "microGeography": "The piles step down the shallow fall towards the water, which keeps the floor level."
+        },
         "footprint": [
           [
-            0.470889176,
-            0.612425967
+            0.717919112,
+            0.600213776
           ],
           [
-            0.471107549,
-            0.611957665
+            0.718095839,
+            0.599728223
           ],
           [
-            0.47111058,
-            0.611957582
+            0.718098851,
+            0.599727876
           ],
           [
-            0.472043498,
-            0.612392609
+            0.719066134,
+            0.600079938
           ],
           [
-            0.472489676,
-            0.612600665
+            0.719528748,
+            0.600248316
           ],
           [
-            0.472490988,
-            0.612604269
+            0.719530369,
+            0.600251792
           ],
           [
-            0.471711493,
-            0.614275901
+            0.718899533,
+            0.601985
           ],
           [
-            0.471383084,
-            0.614736289
+            0.718612499,
+            0.602472259
           ],
           [
-            0.47137948,
-            0.614737601
+            0.718609022,
+            0.60247388
           ],
           [
-            0.470795064,
-            0.61446658
+            0.71800321,
+            0.602254825
           ],
           [
-            0.470766794,
-            0.614453397
+            0.717973898,
+            0.602244157
           ],
           [
-            0.47032822,
-            0.613635359
+            0.717465696,
+            0.601467456
           ],
           [
-            0.470326908,
-            0.613631754
+            0.717464075,
+            0.601463979
           ],
           [
-            0.470543561,
-            0.613167139
+            0.71763941,
+            0.600982249
           ]
-        ],
-        "centreUV": [
-          0.4713,
-          0.61305
-        ],
-        "assetRef": "bmv:architecture/stilthouse/stilthouseext",
-        "yawDeg": 25.0,
-        "orientationWhy": "Long axis set square to the channel so the entry deck faces the open water."
+        ]
       },
       {
         "id": "parcel.mire-landing.hut-2",
@@ -223,431 +193,727 @@
         "use": "dwelling",
         "buildingFamily": "argonian-stilt-hut",
         "groundFit": "stilt",
+        "centreUV": [
+          0.718789623,
+          0.597680353
+        ],
+        "yawDeg": 115.0,
+        "orientationWhy": "The doorway is turned inland, away from the wet-season wind that comes up the bay.",
+        "assetRef": "bmv:architecture/huts/exterior/hutexterior",
+        "interior": {
+          "kind": "shell"
+        },
+        "why": {
+          "what": "A round reed-and-mud hut shared by the second poling family.",
+          "whyHere": "A second household is needed to crew the boats that work the bay in the wet season.",
+          "whySpot": "The spot sits behind the deck, sheltered from the wind that funnels up the bay.",
+          "whyNeighbours": "It sits between the deck and the stilt house, which keeps the walk to work short.",
+          "playerPurpose": "A small dwelling that shows how the poorer households here live.",
+          "microGeography": "The hut takes the low rise inland of the deck, above the reach of the flood."
+        },
         "footprint": [
           [
-            0.47246853,
-            0.612103572
+            0.719158153,
+            0.597133925
           ],
           [
-            0.472619817,
-            0.61224445
+            0.71930944,
+            0.597274803
           ],
           [
-            0.472739727,
-            0.612391645
+            0.71942935,
+            0.597421998
           ],
           [
-            0.472742924,
-            0.612397625
+            0.719432547,
+            0.597427978
           ],
           [
-            0.472743089,
-            0.612403688
+            0.719432712,
+            0.597434041
           ],
           [
-            0.472758886,
-            0.612626537
+            0.719448509,
+            0.59765689
           ],
           [
-            0.472733548,
-            0.612831701
+            0.719423171,
+            0.597862054
           ],
           [
-            0.472646428,
-            0.61301853
+            0.719336051,
+            0.598048883
           ],
           [
-            0.47250555,
-            0.613169817
+            0.719195173,
+            0.59820017
           ],
           [
-            0.472357616,
-            0.613284893
+            0.719047239,
+            0.598315246
           ],
           [
-            0.472352865,
-            0.613288663
+            0.719042488,
+            0.598319016
           ],
           [
-            0.472346802,
-            0.613288829
+            0.719036425,
+            0.598319182
           ],
           [
-            0.472123463,
-            0.613308886
+            0.718813086,
+            0.598339239
           ],
           [
-            0.471918299,
-            0.613283548
+            0.718607922,
+            0.598313901
           ],
           [
-            0.47173147,
-            0.613196428
+            0.718421093,
+            0.598226781
           ],
           [
-            0.471580183,
-            0.61305555
+            0.718269806,
+            0.598085903
           ],
           [
-            0.471454446,
-            0.612872716
+            0.718144069,
+            0.597903069
           ],
           [
-            0.471451905,
-            0.612868538
+            0.718141528,
+            0.597898891
           ],
           [
-            0.47145051,
-            0.612861902
+            0.718140133,
+            0.597892255
           ],
           [
-            0.471441114,
-            0.612673463
+            0.718130737,
+            0.597703816
           ],
           [
-            0.471466452,
-            0.612468299
+            0.718156075,
+            0.597498652
           ],
           [
-            0.471553572,
-            0.61228147
+            0.718243195,
+            0.597311823
           ],
           [
-            0.47169445,
-            0.612130183
+            0.718384073,
+            0.597160536
           ],
           [
-            0.471877774,
-            0.612000185
+            0.718567397,
+            0.597030538
           ],
           [
-            0.471883754,
-            0.611996988
+            0.718573377,
+            0.597027341
           ],
           [
-            0.471889161,
-            0.61199502
+            0.718578784,
+            0.597025373
           ],
           [
-            0.472076537,
-            0.611991114
+            0.71876616,
+            0.597021467
           ],
           [
-            0.472281701,
-            0.612016452
+            0.718971324,
+            0.597046805
           ]
-        ],
-        "centreUV": [
-          0.4721,
-          0.61265
-        ],
-        "assetRef": "bmv:architecture/huts/exterior/hutexterior",
-        "yawDeg": 115.0,
-        "orientationWhy": "Turned to put its back to the prevailing wet-season wind off the bend."
+        ]
       },
       {
-        "id": "parcel.mire-landing.drying-rack",
+        "id": "parcel.mire-landing.quay-deck",
         "districtId": "district.mire-landing.landing",
         "use": "work",
         "buildingFamily": "argonian-rack",
-        "groundFit": "pad",
+        "groundFit": "stilt",
+        "centreUV": [
+          0.720959554,
+          0.59727349
+        ],
+        "yawDeg": 0.0,
+        "orientationWhy": "The deck is set square to the shoreline, so cargo crosses it in a straight line.",
+        "assetRef": "bmv:architecture/huts/exterior/hutdecking",
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "A planked quay deck where cargo is landed and stacked before the haul inland.",
+          "whyHere": "Everything that arrives by water must be lifted out of the boats somewhere.",
+          "whySpot": "The bank falls steeply into deep water here, so a loaded boat can come alongside.",
+          "whyNeighbours": "The boardwalk ends on this deck, and the dock reaches out from its outer edge.",
+          "playerPurpose": "The arrival point for a player who comes by boat, and the settlement's busiest ground.",
+          "microGeography": "The piles stand in the shallows at the lip of the channel, clear of the reed bed."
+        },
         "footprint": [
           [
-            0.470655375,
-            0.611415482
+            0.719968167,
+            0.597146007
           ],
           [
-            0.471009013,
-            0.610657103
+            0.719968167,
+            0.596309227
           ],
           [
-            0.471013681,
-            0.610650301
+            0.719969523,
+            0.59630109
           ],
           [
-            0.471020808,
-            0.610644645
+            0.719973592,
+            0.596292952
           ],
           [
-            0.471028017,
-            0.610642022
+            0.719979016,
+            0.596287528
           ],
           [
-            0.471035882,
-            0.6106412
+            0.719985797,
+            0.596283459
           ],
           [
-            0.471045059,
-            0.610643983
+            0.719995291,
+            0.596282103
           ],
           [
-            0.471799752,
-            0.610995902
+            0.720828002,
+            0.596282103
           ],
           [
-            0.472035747,
-            0.611105948
+            0.721088394,
+            0.596282103
           ],
           [
-            0.472792897,
-            0.611459013
+            0.721923817,
+            0.596282103
           ],
           [
-            0.472799699,
-            0.611463681
+            0.721931954,
+            0.596283459
           ],
           [
-            0.472805355,
-            0.611470808
+            0.721940092,
+            0.596287528
           ],
           [
-            0.472807978,
-            0.611478017
+            0.721945516,
+            0.596292952
           ],
           [
-            0.472808227,
-            0.611487111
+            0.721949585,
+            0.59630109
           ],
           [
-            0.472806017,
-            0.611495059
+            0.721950941,
+            0.596309227
           ],
           [
-            0.472452379,
-            0.612253439
+            0.721950941,
+            0.597146007
           ],
           [
-            0.472342332,
-            0.612489434
+            0.721950941,
+            0.597406398
           ],
           [
-            0.471990987,
-            0.613242897
+            0.721950941,
+            0.598237753
           ],
           [
-            0.471986319,
-            0.613249699
+            0.721949585,
+            0.59824589
           ],
           [
-            0.471979192,
-            0.613255355
+            0.721945516,
+            0.598254028
           ],
           [
-            0.471971983,
-            0.613257978
+            0.721940092,
+            0.598259452
           ],
           [
-            0.471964118,
-            0.6132588
+            0.721933311,
+            0.598263521
           ],
           [
-            0.471954941,
-            0.613256017
+            0.721923817,
+            0.598264877
           ],
           [
-            0.470207103,
-            0.612440987
+            0.719995291,
+            0.598264877
           ],
           [
-            0.470200301,
-            0.612436319
+            0.719987154,
+            0.598263521
           ],
           [
-            0.470194645,
-            0.612429192
+            0.719979016,
+            0.598259452
           ],
           [
-            0.470192022,
-            0.612421983
+            0.719973592,
+            0.598254028
           ],
           [
-            0.470191773,
-            0.612412889
+            0.719969523,
+            0.59824589
           ],
           [
-            0.470193983,
-            0.612404941
+            0.719968167,
+            0.598237753
           ],
           [
-            0.470545329,
-            0.611651477
+            0.719968167,
+            0.597406398
           ]
-        ],
-        "centreUV": [
-          0.4715,
-          0.61195
-        ],
-        "assetRef": "bmv:architecture/huts/exterior/hutdecking",
-        "yawDeg": 25.0,
-        "orientationWhy": "Aligned with the boardwalk spine so racks load straight off the walk."
+        ]
       },
       {
         "id": "parcel.mire-landing.warehouse",
         "districtId": "district.mire-landing.factor",
         "use": "storage",
         "buildingFamily": "imperial-warehouse",
-        "groundFit": "plinth",
+        "groundFit": "direct",
+        "centreUV": [
+          0.714042899,
+          0.60107087
+        ],
+        "yawDeg": 0.0,
+        "orientationWhy": "The long wall is square to the yard, so a cart can be unloaded along its whole length.",
+        "assetRef": "vanilla:architecture/farmhouse/farmhouse01",
+        "interior": {
+          "kind": "hall"
+        },
+        "why": {
+          "what": "A stone-silled store shed that holds bales and barrels between boat and cart.",
+          "whyHere": "Cargo waits days for a cart, and it cannot wait in the rain.",
+          "whySpot": "The shed stands on the driest ground on the site, well back from the flood line.",
+          "whyNeighbours": "It faces the yard, which is the only open ground wide enough for a cart to turn.",
+          "playerPurpose": "The store a quest sends a player to search, and the place where the ledger is kept.",
+          "microGeography": "The long wall follows the low contour, so the sills sit level without any cutting."
+        },
         "footprint": [
           [
-            0.474685222,
-            0.613276966
+            0.71268398,
+            0.60107087
           ],
           [
-            0.474458844,
-            0.613177253
+            0.712700254,
+            0.60082404
           ],
           [
-            0.474318316,
-            0.613107342
+            0.712717885,
+            0.600668077
           ],
           [
-            0.474205137,
-            0.613025738
+            0.712755859,
+            0.600533812
           ],
           [
-            0.474161732,
-            0.612871388
+            0.712886055,
+            0.600440234
           ],
           [
-            0.474189127,
-            0.612700953
+            0.71305558,
+            0.600407685
           ],
           [
-            0.47425698,
-            0.612462979
+            0.71330241,
+            0.600390054
           ],
           [
-            0.474763505,
-            0.611071315
+            0.714783388,
+            0.600390054
           ],
           [
-            0.474864493,
-            0.610845401
+            0.715030218,
+            0.600407685
           ],
           [
-            0.474948421,
-            0.610709976
+            0.715186181,
+            0.600440234
           ],
           [
-            0.475073356,
-            0.610612567
+            0.715320446,
+            0.600524319
           ],
           [
-            0.475211935,
-            0.610612492
+            0.715367913,
+            0.600654515
           ],
           [
-            0.475377268,
-            0.610653906
+            0.715385544,
+            0.60082404
           ],
           [
-            0.475614778,
-            0.610723034
+            0.715401818,
+            0.60107087
           ],
           [
-            0.475841156,
-            0.610822747
+            0.715385544,
+            0.6013177
           ],
           [
-            0.475981684,
-            0.610892658
+            0.715367913,
+            0.601473663
           ],
           [
-            0.476094863,
-            0.610974262
+            0.715329939,
+            0.601607928
           ],
           [
-            0.476138268,
-            0.611128612
+            0.715199743,
+            0.601701506
           ],
           [
-            0.476110873,
-            0.611299047
+            0.715030218,
+            0.601734055
           ],
           [
-            0.47604302,
-            0.611537021
+            0.714783388,
+            0.601751686
           ],
           [
-            0.475536495,
-            0.612928685
+            0.71330241,
+            0.601751686
           ],
           [
-            0.475435507,
-            0.613154599
+            0.71305558,
+            0.601734055
           ],
           [
-            0.475351579,
-            0.613290024
+            0.712899617,
+            0.601701506
           ],
           [
-            0.475226644,
-            0.613387433
+            0.712765352,
+            0.601617421
           ],
           [
-            0.475088065,
-            0.613387508
+            0.712717885,
+            0.601487225
           ],
           [
-            0.474922732,
-            0.613346094
+            0.712700254,
+            0.6013177
           ]
-        ],
-        "centreUV": [
-          0.47515,
-          0.612
-        ],
-        "assetRef": "vanilla:architecture/farmhouse/farmhouse01",
-        "yawDeg": 290.0,
-        "orientationWhy": "Doors turned to the quay so cargo crosses the shortest distance from the water."
+        ]
       },
       {
         "id": "parcel.mire-landing.factor-house",
         "districtId": "district.mire-landing.factor",
         "use": "dwelling",
         "buildingFamily": "imperial-townhouse",
-        "groundFit": "direct",
+        "groundFit": "plinth",
+        "centreUV": [
+          0.715805968,
+          0.60513949
+        ],
+        "yawDeg": 0.0,
+        "orientationWhy": "The front is turned to the road, so the factor sees who arrives from the west.",
+        "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
+        "interior": {
+          "kind": "dwelling"
+        },
+        "why": {
+          "what": "The factor's house, which is the only two-storey building on the landing.",
+          "whyHere": "The company keeps an agent here to weigh cargo and to take its cut of the tolls.",
+          "whySpot": "The house sits at the head of the road, where every cart must pass its door.",
+          "whyNeighbours": "It looks across the yard to the store shed, which the factor watches all day.",
+          "playerPurpose": "The quest-giver's house, and the one interior with anything worth stealing.",
+          "microGeography": "It stands on the slight rise above the yard, which gives a view down the road."
+        },
         "footprint": [
           [
-            0.476167817,
-            0.613997803
+            0.71458945,
+            0.604626844
           ],
           [
-            0.476135254,
-            0.61401193
+            0.714615218,
+            0.604602432
           ],
           [
-            0.474302642,
-            0.613344913
+            0.716565444,
+            0.604602432
           ],
           [
-            0.474286777,
-            0.613313161
+            0.716591212,
+            0.604626844
           ],
           [
-            0.474784952,
-            0.611944436
+            0.716591212,
+            0.60608341
           ],
           [
-            0.474817979,
-            0.611929035
+            0.716565444,
+            0.606109178
           ],
           [
-            0.476650591,
-            0.612596052
+            0.714615218,
+            0.606109178
           ],
           [
-            0.476665992,
-            0.612629079
+            0.71458945,
+            0.60608341
+          ]
+        ]
+      }
+    ],
+    "routes": [
+      {
+        "id": "route.mire-landing.approach",
+        "kind": "road",
+        "widthM": 3.5,
+        "routing": "straight",
+        "via": [
+          [
+            0.709567416,
+            0.606224456
+          ],
+          [
+            0.712008589,
+            0.605817594
+          ],
+          [
+            0.714449761,
+            0.605275111
           ]
         ],
-        "centreUV": [
-          0.4752,
-          0.6131
+        "endsAt": [
+          "parcel.mire-landing.factor-house"
         ],
-        "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
-        "yawDeg": 200.0,
-        "orientationWhy": "Aligned to the contour behind it, with its front to the factor yard."
+        "why": "The cart road from the west, which ends at the factor's door because the landing is the end of the line.",
+        "points": [
+          [
+            0.709567416,
+            0.606224456
+          ],
+          [
+            0.71458945,
+            0.605275111
+          ]
+        ]
+      },
+      {
+        "id": "route.mire-landing.yard-path",
+        "kind": "footpath",
+        "widthM": 1.5,
+        "routing": "straight",
+        "via": [
+          [
+            0.714042899,
+            0.602020214
+          ],
+          [
+            0.71417852,
+            0.603512042
+          ],
+          [
+            0.713907278,
+            0.604732628
+          ]
+        ],
+        "endsAt": [
+          "parcel.mire-landing.warehouse"
+        ],
+        "why": "The trodden line from the store shed door across the yard to the road head.",
+        "points": [
+          [
+            0.714042899,
+            0.601751686
+          ],
+          [
+            0.71417852,
+            0.603512042
+          ],
+          [
+            0.713907278,
+            0.604732628
+          ]
+        ]
+      },
+      {
+        "id": "route.mire-landing.hut-path",
+        "kind": "footpath",
+        "widthM": 1.5,
+        "routing": "straight",
+        "via": [
+          [
+            0.719332106,
+            0.60120649
+          ],
+          [
+            0.72028145,
+            0.601477732
+          ]
+        ],
+        "endsAt": [
+          "parcel.mire-landing.hut-1"
+        ],
+        "why": "The short path that carries the poling family from their door to the boardwalk.",
+        "points": [
+          [
+            0.719200343,
+            0.601158532
+          ],
+          [
+            0.72028145,
+            0.601477732
+          ]
+        ]
+      },
+      {
+        "id": "route.mire-landing.hut-2-path",
+        "kind": "footpath",
+        "routing": "terrain",
+        "widthM": 1.5,
+        "via": [
+          [
+            0.720552692,
+            0.600121525
+          ],
+          [
+            0.719242615,
+            0.597194951
+          ]
+        ],
+        "endsAt": [
+          "parcel.mire-landing.hut-2"
+        ],
+        "why": "A trodden spur that leaves the boardwalk short of the deck and runs to the second hut's door, so the household reaches the spine without crossing the first hut's yard.",
+        "points": [
+          [
+            0.720552692,
+            0.600121525
+          ],
+          [
+            0.719535537,
+            0.59910437
+          ],
+          [
+            0.719535537,
+            0.597476922
+          ],
+          [
+            0.719233825,
+            0.597204391
+          ]
+        ]
+      }
+    ],
+    "boardwalks": [
+      {
+        "id": "boardwalk.mire-landing.spine",
+        "kind": "boardwalk",
+        "widthM": 2.0,
+        "routing": "straight",
+        "via": [
+          [
+            0.72014583,
+            0.602427076
+          ],
+          [
+            0.720552692,
+            0.600121525
+          ],
+          [
+            0.720688313,
+            0.598087215
+          ]
+        ],
+        "endsAt": [
+          "parcel.mire-landing.quay-deck"
+        ],
+        "why": "The planked spine along the bank, which keeps the walk to the quay out of the mud.",
+        "points": [
+          [
+            0.72014583,
+            0.602427076
+          ],
+          [
+            0.720552692,
+            0.600121525
+          ],
+          [
+            0.720688313,
+            0.598264877
+          ]
+        ]
+      }
+    ],
+    "canals": [
+      {
+        "id": "canal.mire-landing.channel",
+        "kind": "channel",
+        "widthM": 9.0,
+        "routing": "straight",
+        "via": [
+          [
+            0.72421445,
+            0.595917284
+          ],
+          [
+            0.723671968,
+            0.597815973
+          ],
+          [
+            0.72407883,
+            0.599985904
+          ]
+        ],
+        "endsAt": [
+          "dock.mire-landing.main"
+        ],
+        "why": "The dredged line through the bay, which is the only water deep enough for a laden boat.",
+        "points": [
+          [
+            0.722858243,
+            0.597544732
+          ],
+          [
+            0.723671968,
+            0.597815973
+          ],
+          [
+            0.72407883,
+            0.599985904
+          ]
+        ]
+      }
+    ],
+    "fences": [
+      {
+        "id": "fence.mire-landing.yard",
+        "kind": "fence",
+        "widthM": 0.4,
+        "routing": "straight",
+        "via": [
+          [
+            0.712551071,
+            0.602698318
+          ],
+          [
+            0.712551071,
+            0.606224456
+          ]
+        ],
+        "assetRef": "vanilla:architecture/farmhouse/fencewoven01",
+        "why": "A woven fence along the west of the yard, which stops stock straying onto the road.",
+        "points": [
+          [
+            0.712551071,
+            0.602698318
+          ],
+          [
+            0.712551071,
+            0.606224456
+          ]
+        ]
       }
     ],
     "landmarks": [
@@ -655,22 +921,37 @@
         "id": "landmark.mire-landing.hist-shoot",
         "kind": "hist-tree",
         "position": [
-          0.4731,
-          0.6141
+          0.717162175,
+          0.598900939
         ],
-        "assetRef": "flora.hist.shoot",
-        "notes": "Kept, never cleared \u2014 the settlement bends around it."
+        "assetRef": "histtree:hist/histshoot01",
+        "notes": "Kept, never cleared: the settlement bends around it.",
+        "why": {
+          "what": "A young hist shoot, which stands between the waterfront and the trading yard.",
+          "whyHere": "A hist shoot marks Argonian ground, and the clan will not let it be felled.",
+          "whySpot": "It grew on the boundary between the two districts, on ground nobody built on.",
+          "whyNeighbours": "Both districts stop short of it, which is why the yard is set back so far.",
+          "playerPurpose": "The mark a player steers by on the last mile of the road.",
+          "microGeography": "It stands on the low rise between the yard and the bank, visible from both."
+        }
       }
     ],
     "docks": [
       {
         "id": "dock.mire-landing.main",
         "position": [
-          0.4719,
-          0.6135
+          0.722858243,
+          0.597544732
         ],
-        "waterBodyId": "water.channel.mire",
-        "piledToBed": true
+        "waterBodyId": "water.bay.mire",
+        "piledToBed": true,
+        "why": {
+          "what": "The piled dock that reaches from the quay deck into the deep part of the bay.",
+          "whyHere": "A laden boat cannot come to the bank, so the landing must come to the boat.",
+          "whyNeighbours": "It grows straight out of the quay deck, and the dredged channel meets its head.",
+          "playerPurpose": "The mooring for the ferry, and the point where a player arrives by water.",
+          "microGeography": "The piles stand in the drop-off at the edge of the channel, clear of the reeds."
+        }
       }
     ],
     "combatSpaces": [
@@ -678,23 +959,24 @@
         "id": "combat.mire-landing.yard",
         "boundary": [
           [
-            0.4744,
-            0.6126
+            0.712822313,
+            0.602427076
           ],
           [
-            0.476,
-            0.6126
+            0.715534727,
+            0.602427076
           ],
           [
-            0.476,
-            0.6138
+            0.715534727,
+            0.604325766
           ],
           [
-            0.4744,
-            0.6138
+            0.712822313,
+            0.604325766
           ]
         ],
-        "clearanceClass": "open"
+        "clearanceClass": "open",
+        "why": "The tolls dispute turns violent in the flooded variant, and the yard is the only ground wide enough for the fight."
       }
     ],
     "questSockets": [
@@ -702,8 +984,8 @@
         "id": "socket.mire-landing.ledger",
         "kind": "evidence",
         "position": [
-          0.4751,
-          0.612
+          0.714042899,
+          0.60107087
         ],
         "parcelId": "parcel.mire-landing.warehouse",
         "ownerQuestTier": 2
@@ -712,52 +994,81 @@
         "id": "socket.mire-landing.poler",
         "kind": "npc",
         "position": [
-          0.4721,
-          0.6133
+          0.720417071,
+          0.600528387
         ],
         "ownerQuestTier": 3
+      }
+    ],
+    "approaches": [
+      {
+        "id": "approach.mire-landing.west-road",
+        "mode": "walk",
+        "fromRouteId": "route.mire-landing.approach",
+        "firstSeen": "landmark.mire-landing.hist-shoot",
+        "sequence": "The hist shoot shows above the scrub first, then the roof of the store shed, and only at the yard does the water open out.",
+        "wayfinding": "The road runs straight to the factor's door, and the fence on its right hand leads the eye into the yard and on to the boardwalk.",
+        "notes": "The only land approach; the water approach comes to the dock."
       }
     ],
     "doors": [
       {
         "id": "door.fixture.mire-landing.1",
         "parcelId": "parcel.mire-landing.hut-1",
-        "facingDeg": 295,
+        "facingDeg": 110,
         "thresholdUV": [
-          0.470627777,
-          0.612986537
+          0.719214951,
+          0.601118396
         ],
         "interiorClaim": {
-          "sizeClass": "small",
+          "sizeClass": "large",
           "culture": "argonian",
-          "owner": "poler family"
+          "owner": "a poler family",
+          "interiorRef": "vanilla-farmhouse-int"
         }
       },
       {
         "id": "door.fixture.mire-landing.2",
         "parcelId": "parcel.mire-landing.warehouse",
-        "facingDeg": 290,
+        "facingDeg": 180,
         "thresholdUV": [
-          0.474632951,
-          0.611430008
+          0.714042899,
+          0.601751686
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
-          "owner": "the factor"
+          "owner": "the factor",
+          "interiorRef": "vanilla-farmhouse-int"
         }
       },
       {
         "id": "door.fixture.mire-landing.3",
         "parcelId": "parcel.mire-landing.factor-house",
-        "facingDeg": 200,
+        "facingDeg": 270,
         "thresholdUV": [
-          0.474663106,
-          0.613476111
+          0.71458945,
+          0.605355127
+        ],
+        "interiorClaim": {
+          "sizeClass": "large",
+          "culture": "imperial",
+          "interiorRef": "vanilla-farmhouse-int"
+        }
+      },
+      {
+        "id": "door.fixture.mire-landing.4",
+        "parcelId": "parcel.mire-landing.hut-2",
+        "facingDeg": 43.0,
+        "thresholdUV": [
+          0.719242615,
+          0.597194951
         ],
         "interiorClaim": {
           "sizeClass": "medium",
-          "culture": "imperial"
+          "culture": "argonian",
+          "interiorRef": "dungeon-root-v1",
+          "owner": "a reed-cutter"
         }
       }
     ],
@@ -765,40 +1076,112 @@
       "hardClear": [
         [
           [
-            0.4744,
-            0.6112
+            0.712008589,
+            0.599443421
           ],
           [
-            0.476,
-            0.6112
+            0.718789623,
+            0.599443421
           ],
           [
-            0.476,
-            0.614
+            0.718789623,
+            0.60703818
           ],
           [
-            0.4744,
-            0.614
+            0.712008589,
+            0.60703818
+          ]
+        ],
+        [
+          [
+            0.718814951,
+            0.6007183960000001
+          ],
+          [
+            0.719614951,
+            0.6007183960000001
+          ],
+          [
+            0.719614951,
+            0.601518396
+          ],
+          [
+            0.718814951,
+            0.601518396
+          ]
+        ],
+        [
+          [
+            0.713642899,
+            0.601351686
+          ],
+          [
+            0.7144428989999999,
+            0.601351686
+          ],
+          [
+            0.7144428989999999,
+            0.6021516859999999
+          ],
+          [
+            0.713642899,
+            0.6021516859999999
+          ]
+        ],
+        [
+          [
+            0.71418945,
+            0.6049551270000001
+          ],
+          [
+            0.7149894499999999,
+            0.6049551270000001
+          ],
+          [
+            0.7149894499999999,
+            0.605755127
+          ],
+          [
+            0.71418945,
+            0.605755127
+          ]
+        ],
+        [
+          [
+            0.718842615,
+            0.596794951
+          ],
+          [
+            0.7196426149999999,
+            0.596794951
+          ],
+          [
+            0.7196426149999999,
+            0.5975949509999999
+          ],
+          [
+            0.718842615,
+            0.5975949509999999
           ]
         ]
       ],
       "thinned": [
         [
           [
-            0.4702,
-            0.6104
+            0.716890933,
+            0.595646042
           ],
           [
-            0.4744,
-            0.6104
+            0.723400726,
+            0.595646042
           ],
           [
-            0.4744,
-            0.6144
+            0.723400726,
+            0.603240801
           ],
           [
-            0.4702,
-            0.6144
+            0.716890933,
+            0.603240801
           ]
         ]
       ],
@@ -807,16 +1190,16 @@
           "id": "kept.mire-landing.hist",
           "kind": "hist-tree",
           "position": [
-            0.4731,
-            0.6141
+            0.717162175,
+            0.598900939
           ]
         },
         {
           "id": "kept.mire-landing.reeds",
           "kind": "reed-bed",
           "position": [
-            0.4706,
-            0.6146
+            0.721773278,
+            0.59917218
           ]
         }
       ]
@@ -825,7 +1208,7 @@
       {
         "id": "variant.mire-landing.flooded",
         "changedRefs": [
-          "parcel.mire-landing.drying-rack"
+          "parcel.mire-landing.quay-deck"
         ],
         "serviceOverrides": {
           "dock.mire-landing.main": "closed"
@@ -860,8 +1243,8 @@
       }
     ],
     "assetConstraints": [
-      "argonian stilt kit only in d.landing",
-      "imperial stone-timber only in d.factor"
+      "argonian stilt kit only in district.mire-landing.landing",
+      "imperial farmhouse kit only in district.mire-landing.factor"
     ],
     "ownership": {
       "socket.mire-landing.ledger": {

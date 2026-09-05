@@ -1,0 +1,18 @@
+{
+  "id": "probe-notice",
+  "description": "Sourcing-gap G3 probe (throwaway): measures the nailed notice/licence board candidates already in the vault - MannyGT's Alik'r noticeboard container and the BM&V 'advertising board', the Jokerine blank inn-sign panels and their posts, the vanilla road-sign post, and the vanilla high-poly note - so the pick is made on measured geometry, not labels. Not a shipping kit.",
+  "output": "tooling/asset-pipeline/output/kits/probe-notice.glb",
+  "lodRatios": [0.35],
+  "assets": [
+    {"asset": "bmv:manny_gf/alikr/manny_gf_cont_alikrnoticeboard"},
+    {"asset": "bmv:advertising_board"},
+    {"asset": "bmv:architecture/phitt/additional/board"},
+    {"asset": "bmv:jokerinesresources/blankinnsign/signinnblank"},
+    {"asset": "bmv:jokerinesresources/blankinnsign/signinnblankdoublesided"},
+    {"asset": "bmv:jokerinesresources/blankinnsign/signinnpost1"},
+    {"asset": "bmv:jokerinesresources/blankinnsign/signinnpost4"},
+    {"asset": "vanilla:clutter/signage/roadsigns/roadsignpost"},
+    {"asset": "vanilla:clutter/books/note01/note01"}
+  ],
+  "inspect": true
+}

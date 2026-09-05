@@ -7,7 +7,7 @@
       "founding": "The assembly designated this Hist for tapping and issued one licence against it: one stage, one season, one tree. The stage stands where the crew could raise it without cutting into the root flare.",
       "siteAdvantages": "A firm terrace 3.1 m above the water table, 16 m from a channel deep enough (0.9 m) to pole a loaded canoe, under closed canopy that hides the camp from the land side until the last thirty metres.",
       "occupantsMotive": "A tapper and two crew whose licence is their livelihood. They keep the stage correct and police poachers themselves, because a district that cannot police itself loses its licences.",
-      "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work and are not stopped by them either.",
+      "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work, and the crew do not stop them either.",
       "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
     },
     "boundary": [
@@ -37,11 +37,11 @@
         "boundary": [
           [
             0.47196,
-            0.593476
+            0.593
           ],
           [
             0.474401,
-            0.593476
+            0.593
           ],
           [
             0.474401,
@@ -52,7 +52,14 @@
             0.595646
           ]
         ],
-        "notes": "The tapping stage on the Hist's channel face, the mule line and the season's stock. Stockade-scaffold family only, at matched side counts."
+        "notes": "The tapping stage on the Hist's channel face, its stair, the mule line, the season's stock and the licence board at the landing. Works set only (stockade scaffold at one side count, the BM&V notice board).",
+        "why": {
+          "what": "The works: the stage and its stair against the Hist's channel face, the mule line, the season's cart and the licence board at the water's edge.",
+          "whyHere": "Sap is drawn where the tree stands; the stage is raised against the trunk and everything that serves it stays within a few paces.",
+          "whyNeighbours": "It lies between the tent to the east and the landing to the north-west, so the crew walk through the works both to their beds and to their boat; the board stands at its water end, where a canoe reads it first.",
+          "playerPurpose": "The climbable stage, the tapper and the graded stock; the licence board is read from the landing below.",
+          "microGeography": "The terrace here runs 29\u201330 m, a metre above the bank, with a 2 m fall under the stage that the scaffold posts take."
+        }
       },
       {
         "id": "district.sap-tapping-licensed.camp",
@@ -77,70 +84,180 @@
             0.597003
           ]
         ],
-        "notes": "One tent dwelling behind the trunk, the crew's hearth clutter and the plank walk down to the landing. Mud-culture set only; never blended with the works props on the stage."
+        "notes": "One tent dwelling behind the trunk, the crew's hearth clutter and the plank walk down to the landing. Mud-culture set only; never blended with the works props on the stage.",
+        "why": {
+          "what": "The camp: one tent, its hearth clutter and the spur down from the track.",
+          "whyHere": "A season's crew sleep beside their stage and land their canoe beside their stage, so the tent and the landing sit at the two ends of the works.",
+          "whyNeighbours": "The tent stands behind the trunk from the water and the landing stands in front of it, so a boat sees the stage and the board and nothing of where the crew sleep.",
+          "playerPurpose": "The tent is the camp's one interior, and the crew sleep in it through the night landing that MR04 stages at the water below.",
+          "microGeography": "The tent takes the flattest pad on the terrace, 32 m, with the ground falling west and north to the reed margin at the water's edge."
+        }
       }
     ],
     "routes": [
       {
         "id": "route.sap-tapping-licensed.track",
         "kind": "track",
-        "points": [
+        "widthM": 2.5,
+        "routing": "terrain",
+        "via": [
           [
-            0.474537,
-            0.598358
+            0.475079255,
+            0.598358456
           ],
           [
-            0.47413,
-            0.597003
+            0.474604582,
+            0.597002249
           ],
           [
-            0.473723,
-            0.595917
+            0.473926479,
+            0.595713853
           ],
           [
-            0.473384,
-            0.594832
+            0.473723048,
+            0.594696697
           ]
         ],
-        "widthM": 1.2
+        "endsAt": [
+          "parcel.sap-tapping-licensed.stage-stair"
+        ],
+        "why": "The one worn track, from the Helstrom\u2013Blackrose road 615 m to the south-east. It passes the tent's open end, bends past the mule line and dies at the foot of the stair, because the stair is where every load and every crew member goes.",
+        "points": [
+          [
+            0.475079255,
+            0.598358456
+          ],
+          [
+            0.475133503,
+            0.597490484
+          ],
+          [
+            0.474604582,
+            0.597002249
+          ],
+          [
+            0.474184158,
+            0.596948001
+          ],
+          [
+            0.473912917,
+            0.59667676
+          ],
+          [
+            0.473863236,
+            0.594777634
+          ]
+        ]
+      },
+      {
+        "id": "route.sap-tapping-licensed.tent-spur",
+        "kind": "footpath",
+        "widthM": 1.2,
+        "routing": "terrain",
+        "via": [
+          [
+            0.47412991,
+            0.596527577
+          ],
+          [
+            0.474618144,
+            0.59635127
+          ]
+        ],
+        "endsAt": [
+          "parcel.sap-tapping-licensed.dwelling"
+        ],
+        "why": "The worn spur from the track to the tent's open end: three strides that the crew take every night, so the door is on a way.",
+        "points": [
+          [
+            0.47412991,
+            0.596527577
+          ],
+          [
+            0.47459102,
+            0.596134277
+          ],
+          [
+            0.474783333,
+            0.596170456
+          ]
+        ]
       }
     ],
     "canals": [
       {
         "id": "canal.sap-tapping-licensed.channel",
         "kind": "channel",
-        "points": [
+        "widthM": 6.0,
+        "routing": "terrain",
+        "via": [
           [
-            0.46979,
-            0.59212
+            0.469640865,
+            0.592133467
           ],
           [
-            0.471147,
-            0.592663
+            0.470997072,
+            0.592675949
           ],
           [
-            0.471824,
-            0.59334
+            0.471756548,
+            0.593069249
           ]
         ],
-        "widthM": 6.0
+        "endsAt": [
+          "dock.sap-tapping-licensed.landing"
+        ],
+        "why": "The poling line up the channel from the north-west to the landing: the 0.9 m water that a loaded canoe can use, and the covert extraction route that the recipe asks for.",
+        "points": [
+          [
+            0.469640865,
+            0.592133467
+          ],
+          [
+            0.470115537,
+            0.592608139
+          ],
+          [
+            0.471336124,
+            0.592608139
+          ],
+          [
+            0.471756548,
+            0.593069249
+          ]
+        ]
       }
     ],
     "boardwalks": [
       {
         "id": "boardwalk.sap-tapping-licensed.landing-walk",
         "kind": "boardwalk",
-        "points": [
+        "widthM": 1.6,
+        "routing": "straight",
+        "via": [
           [
-            0.472774,
-            0.59429
+            0.472909324,
+            0.594154215
           ],
           [
-            0.472096,
-            0.593544
+            0.471756548,
+            0.593069249
           ]
         ],
-        "widthM": 1.6
+        "endsAt": [
+          "dock.sap-tapping-licensed.landing"
+        ],
+        "why": "The plank walk from the stage foot across the reed margin to the landing. It is laid straight because 12 m of planks over soft ground take the shortest line, and it ends on the dock so a canoe unloads onto boards rather than into mud.",
+        "points": [
+          [
+            0.472909324,
+            0.594154215
+          ],
+          [
+            0.471756548,
+            0.593069249
+          ]
+        ]
       }
     ],
     "parcels": [
@@ -206,59 +323,18 @@
             0.473270818,
             0.594701367
           ]
-        ]
-      },
-      {
-        "id": "parcel.sap-tapping-licensed.stage-deck",
-        "districtId": "district.sap-tapping-licensed.stage",
-        "use": "work",
-        "buildingFamily": "works-tapping-stage",
-        "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
-        "groundFit": "stilt",
-        "centreUV": [
-          0.473289062,
-          0.594425456
         ],
-        "yawDeg": 316.0,
-        "orientationWhy": "The deck carries the same bearing as the footing beneath it, so the matched three-sided rails line up and the open face stays toward the trunk.",
-        "footprint": [
-          [
-            0.472953436,
-            0.594421516
-          ],
-          [
-            0.473034542,
-            0.594335651
-          ],
-          [
-            0.473198539,
-            0.594171625
-          ],
-          [
-            0.473239546,
-            0.594130139
-          ],
-          [
-            0.473292127,
-            0.594085019
-          ],
-          [
-            0.473296871,
-            0.594087979
-          ],
-          [
-            0.473630341,
-            0.59443525
-          ],
-          [
-            0.473346889,
-            0.594739141
-          ],
-          [
-            0.473302013,
-            0.594782478
-          ]
-        ]
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "The tapping stage: a three-sided stockade scaffold footing with its deck at 2.7 m, whose open face looks at the trunk.",
+          "whyHere": "A tapping stage is the one structure the licence requires; the tap lines run from the tree to its deck.",
+          "whySpot": "It stands 9.8 m off the trunk centre on the channel face, clear of the root flare, where the crew could raise it without cutting into a root.",
+          "whyNeighbours": "The stair joins it on the landward side, the root flare lies between it and the trunk, and the plank walk leaves from a stride off its foot.",
+          "playerPurpose": "The stage that MR04 asks the player to climb and search; the tapper stands above it by day.",
+          "microGeography": "The ground under the footing falls 2.27 m toward the water, which is why it stands on its own posts rather than on a cut pad."
+        }
       },
       {
         "id": "parcel.sap-tapping-licensed.stage-stair",
@@ -322,7 +398,22 @@
             0.47337071,
             0.594719343
           ]
-        ]
+        ],
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "The scaffold stair, 3.45 m of rise, that climbs to the deck from the landward side.",
+          "whyHere": "A deck at 2.7 m needs a way up, and the crew carry full vessels down it.",
+          "whySpot": "At the head of the track: the climb starts where the walk from the road ends, and never over the water.",
+          "whyNeighbours": "The track ends against its lowest tread; the mule line stands beside the track a few paces back.",
+          "playerPurpose": "The visible means of ascent: from the last bend of the track the stair is in frame, so the player knows how to reach the deck.",
+          "microGeography": "The ground under the flight falls 2.08 m, so it stands on posts like the footing."
+        },
+        "abuts": [
+          "parcel.sap-tapping-licensed.stage"
+        ],
+        "abutsWhy": "The stockade scaffold stair is the kit's own way up to the scaffold footing: its top tread lands on the deck edge, so the two pieces were made to touch."
       },
       {
         "id": "parcel.sap-tapping-licensed.mule-line",
@@ -332,61 +423,72 @@
         "assetRef": "vanilla:clutter/horsetrough/horsetrough01",
         "groundFit": "pad",
         "centreUV": [
-          0.473587427,
-          0.595374801
+          0.473451806,
+          0.597070059
         ],
-        "yawDeg": 253.0,
-        "orientationWhy": "The trough's long axis lies on bearing 343, along the track, so a tied line of mules stands beside the path rather than across it.",
+        "yawDeg": 270.0,
+        "orientationWhy": "The trough's long axis lies on bearing 0, along the last straight of the track, so a tied line of mules stands beside the path rather than across it.",
         "footprint": [
           [
-            0.473580711,
-            0.595505908
+            0.473407051,
+            0.597193474
           ],
           [
-            0.473512799,
-            0.595288418
+            0.473405695,
+            0.596965631
           ],
           [
-            0.47350923,
-            0.595276745
+            0.473405695,
+            0.596953425
           ],
           [
-            0.473508545,
-            0.595269864
+            0.473407051,
+            0.596946644
           ],
           [
-            0.473515137,
-            0.595263594
+            0.473415188,
+            0.596942576
           ],
           [
-            0.473578687,
-            0.595244165
+            0.473481643,
+            0.596942576
           ],
           [
-            0.473594143,
-            0.595243694
+            0.473496561,
+            0.596946644
           ],
           [
-            0.47359454,
-            0.595244991
+            0.473496561,
+            0.596948
           ],
           [
-            0.473663352,
-            0.595460788
+            0.473499273,
+            0.597174487
           ],
           [
-            0.473666524,
-            0.595471163
+            0.473499273,
+            0.597185337
           ],
           [
-            0.47366721,
-            0.595478045
+            0.473497917,
+            0.597192118
           ],
           [
-            0.473666309,
-            0.595479738
+            0.473496561,
+            0.597193474
           ]
-        ]
+        ],
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "A trough and the tie line for the two mules that carry the season's sap to the road.",
+          "whyHere": "Sap goes out by mule when the channel is watched, so the crew keep the animals at the camp.",
+          "whySpot": "Beside the last straight of the track, a dozen paces short of the stair, where a loaded mule can be tied without standing in the path.",
+          "whyNeighbours": "Nine paces from the cart, on the track side, so a load is carried from cart to mule along the path and nothing stands between the stair and the stage.",
+          "playerPurpose": "A tell for the player: mules at a camp with a landing mean that sap leaves by two routes.",
+          "microGeography": "On a gentle pad at 29-30 m, three metres above the water table, where the track straightens for its run to the stair."
+        }
       },
       {
         "id": "parcel.sap-tapping-licensed.stock",
@@ -396,81 +498,92 @@
         "assetRef": "vanilla:clutter/carts/handcart01",
         "groundFit": "plinth",
         "centreUV": [
-          0.473044944,
-          0.595442611
+          0.473248375,
+          0.595849473
         ],
-        "yawDeg": 29.0,
-        "orientationWhy": "The cart's shafts point on bearing 29 toward the head of the track, so the season's stock is pulled out without turning it.",
+        "yawDeg": 35.0,
+        "orientationWhy": "The cart's shafts point on bearing 35 toward the track, so the season's stock is pulled out without turning it.",
         "footprint": [
           [
-            0.47297126,
-            0.595390913
+            0.473180498,
+            0.595790356
           ],
           [
-            0.473097953,
-            0.595223894
+            0.473323956,
+            0.595637496
           ],
           [
-            0.473100983,
-            0.595224023
+            0.473326956,
+            0.59563794
           ],
           [
-            0.473102827,
-            0.595223495
+            0.473328844,
+            0.595637607
           ],
           [
-            0.473200092,
-            0.59527741
+            0.473419941,
+            0.595701394
           ],
           [
-            0.473199435,
-            0.595278596
+            0.473419164,
+            0.595702505
           ],
           [
-            0.473201149,
-            0.595281097
+            0.473420608,
+            0.595705172
           ],
           [
-            0.473127833,
-            0.595477703
+            0.473327142,
+            0.595893037
           ],
           [
-            0.473118628,
-            0.595494309
+            0.473316252,
+            0.59590859
           ],
           [
-            0.473083496,
-            0.59553531
+            0.473277027,
+            0.595945694
           ],
           [
-            0.473059529,
-            0.595542182
+            0.473252472,
+            0.595950023
           ],
           [
-            0.473022758,
-            0.5955218
+            0.473218033,
+            0.595925909
           ],
           [
-            0.472976497,
-            0.595496157
+            0.473174706,
+            0.595895571
           ],
           [
-            0.472967008,
-            0.595490897
+            0.473165819,
+            0.595889348
           ],
           [
-            0.472951588,
-            0.59548235
+            0.473151376,
+            0.595879236
           ],
           [
-            0.472948931,
-            0.595459168
+            0.473151157,
+            0.595855904
           ],
           [
-            0.472962055,
-            0.595407519
+            0.473169608,
+            0.595805909
           ]
-        ]
+        ],
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "The handcart that holds the season's packed and graded stock.",
+          "whyHere": "The recipe's gated reward: sap sold by weight has to be graded and packed somewhere before it moves.",
+          "whySpot": "Ten paces off the stage foot, clear of the stair, with the shafts to the track, so a full cart is pulled out without turning.",
+          "whyNeighbours": "It stands between the stage foot and the mule line, nine paces from each, so a load goes to the plank walk or to the mules along a clear path.",
+          "playerPurpose": "The container socket of MR04 and the camp's one item of value.",
+          "microGeography": "On a plinth at the edge of the level pad, above the wet-season line by 3 m."
+        }
       },
       {
         "id": "parcel.sap-tapping-licensed.dwelling",
@@ -542,109 +655,75 @@
             0.475279127,
             0.595323673
           ]
-        ]
+        ],
+        "interior": {
+          "kind": "dwelling"
+        },
+        "why": {
+          "what": "A woven Argonian tent for the tapper and two crew.",
+          "whyHere": "A licence runs for a season, so the crew live under canvas, not in a hut that would say they come back every year.",
+          "whySpot": "The flattest pad in the camp, behind the trunk from the water, so a passing boat reads nothing of the sleeping place.",
+          "whyNeighbours": "Its open end looks down the track, so the crew see who comes up it; its blind back stands to the channel.",
+          "playerPurpose": "The camp's one interior, and the place where the crew sleep during the night landing that MR04 stages.",
+          "microGeography": "On a plinth over a 1.5 m fall, at 32 m, the highest ground in the camp."
+        }
       },
       {
-        "id": "parcel.sap-tapping-licensed.landing-walk",
-        "districtId": "district.sap-tapping-licensed.camp",
-        "use": "infrastructure",
-        "buildingFamily": "argonian-plank-walk",
-        "assetRef": "mudmother:gv_meshes/argoniannest/argonianbridge",
+        "id": "parcel.sap-tapping-licensed.licence-board",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "civic",
+        "buildingFamily": "works-notice-board",
+        "assetRef": "bmv:advertising_board",
         "groundFit": "stilt",
         "centreUV": [
-          0.472434651,
-          0.593950784
+          0.472529586,
+          0.593340491
         ],
-        "yawDeg": 228.0,
-        "orientationWhy": "The plank walk runs on bearing 318, square across the reed margin, so it crosses the soft ground by the shortest line and meets the landing squarely.",
+        "yawDeg": 318.0,
+        "orientationWhy": "The pane stands parallel to the bank on bearing 48, so its face looks on bearing 318 straight down the channel, and a canoe coming up the poling line reads it before it reads the stage.",
+        "interior": {
+          "kind": "none"
+        },
+        "why": {
+          "what": "The licence board: a roofed notice pane on two posts, with the licence and its counter-signature pinned under the roof.",
+          "whyHere": "The catalogue's signature: the licence is hung to be readable from the water, so the assembly's inspectors and the rival tribe's canoes can see the stage is lawful without landing.",
+          "whySpot": "At the water's edge beside the foot of the plank walk, 2.3 m clear of the boards, on the last dry ground before the reeds.",
+          "whyNeighbours": "It stands between the landing and the stage, so a boat sees board then stage, and a walker off the track sees stage then board.",
+          "playerPurpose": "The evidence socket of MR04: the counter-signature that the player matches elsewhere, legible from a canoe and from the walk.",
+          "microGeography": "Two posts driven into the lip of the bank at 30 m, each to its own depth over a 0.4 m fall, a hand above the channel's level."
+        },
         "footprint": [
           [
-            0.473038406,
-            0.594524034
+            0.472451672,
+            0.593379621
           ],
           [
-            0.472933689,
-            0.594616497
+            0.472451772,
+            0.593377706
           ],
           [
-            0.472848723,
-            0.594680225
+            0.472577754,
+            0.593264271
           ],
           [
-            0.472839046,
-            0.594681639
+            0.47257967,
+            0.593264371
           ],
           [
-            0.472837131,
-            0.594681538
+            0.472615061,
+            0.593303678
           ],
           [
-            0.4727726,
-            0.594611896
+            0.472614961,
+            0.593305593
           ],
           [
-            0.471823376,
-            0.593557676
+            0.472488979,
+            0.593419028
           ],
           [
-            0.47176086,
-            0.593486218
-          ],
-          [
-            0.471760961,
-            0.593484303
-          ],
-          [
-            0.471763378,
-            0.593474827
-          ],
-          [
-            0.471825857,
-            0.593382071
-          ],
-          [
-            0.471837951,
-            0.593371182
-          ],
-          [
-            0.471920596,
-            0.593296768
-          ],
-          [
-            0.47193269,
-            0.593285878
-          ],
-          [
-            0.472017459,
-            0.593244227
-          ],
-          [
-            0.472028043,
-            0.593243821
-          ],
-          [
-            0.472029959,
-            0.593243921
-          ],
-          [
-            0.472217096,
-            0.593429464
-          ],
-          [
-            0.472929467,
-            0.594220632
-          ],
-          [
-            0.473106229,
-            0.594439241
-          ],
-          [
-            0.473106129,
-            0.594441156
-          ],
-          [
-            0.473104619,
-            0.594451641
+            0.472487063,
+            0.593418928
           ]
         ]
       }
@@ -659,7 +738,15 @@
         ],
         "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histtree",
         "notes": "The licensed tree. Measured bounds 64.0 x 45.3 m across the crown, 53.6 m tall, 17073 tris. The stage stands 9.8 m off the trunk centre on the channel face; trunk clearance is verified against the geometry at Round B before the stage is fixed. Yaw 121 lays the crown's long axis (64.0 m) on bearing 211, across the channel, so the deepest shade falls over the stage and the landing rather than along the water.",
-        "yawDeg": 121.0
+        "yawDeg": 121.0,
+        "why": {
+          "what": "The licensed Hist: the largest Hist mesh in the vault, 64 m across the crown and 53.6 m tall.",
+          "whyHere": "The tree is the reason for the place; the assembly designated it and the licence runs against it.",
+          "whySpot": "It stands on the north bank of the channel at the head of the terrace, where its root plate is above the flood and its channel face is over deep water.",
+          "whyNeighbours": "The stage is raised on its channel face, the tent stands behind it, and the crown shades both the works and the landing.",
+          "playerPurpose": "The beacon: the crown shows above the canopy from the road and from the channel, and it is what the player walks and paddles toward.",
+          "microGeography": "Rooted at 31 m on the terrace lip, with the crown's long axis laid across the channel so the deepest shade falls over the stage."
+        }
       },
       {
         "id": "landmark.sap-tapping-licensed.root-flare",
@@ -670,20 +757,35 @@
         ],
         "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
         "notes": "Root flare from the same author's set, laid between the trunk and the stage footing; 9.56 x 2.54 m, 4.71 m high. Yaw 46 lays its 9.56 m axis on the trunk-to-stage line (bearing 136), which is the line that a flare out of the root plate would follow.",
-        "yawDeg": 46.0
+        "yawDeg": 46.0,
+        "why": {
+          "what": "A root flare from the same author's set, laid between the trunk and the stage footing.",
+          "whyHere": "A great tree's roots break the ground for metres around it, and the stage was raised where a flare could be stepped over rather than cut.",
+          "whySpot": "On the trunk-to-stage line, bearing 136, the line a flare out of the root plate would follow.",
+          "whyNeighbours": "It separates the footing from the trunk, which is why the stage stands 9.8 m off the centre and not closer.",
+          "playerPurpose": "Cover at the stage foot: a player crouched behind the flare is out of the tapper's line from the deck.",
+          "microGeography": "4.7 m high and 9.6 m long, it lies along the fall so the ground on either side of it drains to the water."
+        }
       }
     ],
     "docks": [
       {
         "id": "dock.sap-tapping-licensed.landing",
         "position": [
-          0.47196,
-          0.593476
+          0.471756548,
+          0.593069249
         ],
         "waterBodyId": "water.channel.licensed-stage",
         "piledToBed": true,
         "yawDeg": 138.0,
-        "notes": "The landing faces bearing 138, back up the plank walk, so a poled canoe comes alongside with the channel's run and unloads toward the camp."
+        "notes": "The landing faces bearing 138, back up the plank walk, so a poled canoe comes alongside with the channel's run and unloads toward the camp.",
+        "why": {
+          "what": "The landing: a piled stage in 1.4 m of water where the crew's canoe lies.",
+          "whyHere": "Sap leaves by water when the track is watched, and the assembly's inspection comes by water, so the camp has a landing.",
+          "whyNeighbours": "The plank walk ends on it, the licence board stands on the bank beside it, and the poling line comes up to its head.",
+          "playerPurpose": "The arrival point for a player who comes by canoe, and the scene of the night landing in MR04.",
+          "microGeography": "Piled to the bed at the lip of the channel, past the reed margin, where the water first reaches a canoe's draught."
+        }
       }
     ],
     "combatSpaces": [
@@ -707,7 +809,8 @@
             0.595646
           ]
         ],
-        "clearanceClass": "tight"
+        "clearanceClass": "tight",
+        "why": "MR04's night landing is watched from the reed margin, and blown cover brings the woken crew down the stair to this ground; the licence-revoked flip makes the same crew hostile by day. The stage foot is the one patch wide enough for a fight, and it is tight."
       }
     ],
     "questSockets": [
@@ -715,10 +818,10 @@
         "id": "socket.sap-tapping-licensed.licence",
         "kind": "evidence",
         "position": [
-          0.473181,
-          0.594209
+          0.472529586,
+          0.593340491
         ],
-        "parcelId": "parcel.sap-tapping-licensed.stage",
+        "parcelId": "parcel.sap-tapping-licensed.licence-board",
         "ownerQuestTier": 2
       },
       {
@@ -734,8 +837,8 @@
         "id": "socket.sap-tapping-licensed.graded-stock",
         "kind": "container",
         "position": [
-          0.473044,
-          0.595443
+          0.473248375,
+          0.595849473
         ],
         "parcelId": "parcel.sap-tapping-licensed.stock",
         "ownerQuestTier": 2
@@ -744,8 +847,8 @@
         "id": "socket.sap-tapping-licensed.night-landing",
         "kind": "scene",
         "position": [
-          0.472041,
-          0.593585
+          0.47216341,
+          0.593543922
         ],
         "ownerQuestTier": 2
       }
@@ -760,11 +863,12 @@
           0.596205938
         ],
         "interiorClaim": {
-          "sizeClass": "small",
+          "sizeClass": "medium",
           "culture": "argonian",
+          "interiorRef": "settlement-mud-v1",
           "owner": "the licensed tapper"
         },
-        "notes": "The door is the tent's open, tapered end (its local +x); the flat back wall stands opposite, to the channel."
+        "notes": "The door is the tent's open, tapered end (its local +x); the flat back wall stands opposite, to the channel. The kit ships the tent as a shell with an open front wider than 5 m, so the interior is the shell's own volume dressed from settlement-mud-v1, not a separate cell."
       }
     ],
     "clearance": {
@@ -807,40 +911,80 @@
         ],
         [
           [
-            0.472842,
-            0.595144
+            0.472841513,
+            0.595144246
           ],
           [
-            0.473791,
-            0.595144
+            0.473790858,
+            0.595144246
           ],
           [
-            0.473791,
-            0.595686
+            0.473790858,
+            0.596324146
           ],
           [
-            0.472842,
-            0.595686
+            0.472841513,
+            0.596324146
+          ]
+        ],
+        [
+          [
+            0.472299031,
+            0.59313706
+          ],
+          [
+            0.472773703,
+            0.59313706
+          ],
+          [
+            0.472773703,
+            0.593584608
+          ],
+          [
+            0.472299031,
+            0.593584608
+          ]
+        ],
+        [
+          [
+            0.473180565,
+            0.596731008
+          ],
+          [
+            0.473723048,
+            0.596731008
+          ],
+          [
+            0.473723048,
+            0.597409111
+          ],
+          [
+            0.473180565,
+            0.597409111
           ]
         ]
       ],
       "thinned": [
         [
           [
-            0.471689,
-            0.593476
+            0.471688737,
+            0.593476111
           ],
           [
-            0.475757,
-            0.593747
+            0.475757358,
+            0.593747353
           ],
           [
-            0.476029,
-            0.596731
+            0.476028599,
+            0.596731008
           ],
           [
-            0.472774,
-            0.597003
+            0.473858668,
+            0.597680353
+          ],
+          [
+            0.472773703,
+            0.59727349
           ]
         ]
       ],
@@ -913,9 +1057,10 @@
       }
     ],
     "assetConstraints": [
-      "stockade-scaffold pieces only at matched side counts (base3sided + top3sided), per works-v1 snapLogic",
+      "stockade-scaffold pieces at one side count (base3sided + stairs), per works-v1 snapLogic; the matching top3sided tier is not placed because the compiler has no stacking rule yet (recorded in the design record)",
       "no settlement-root dwelling pieces here: the smallest root house measures 24.6 x 24.6 m and 55.6 m tall",
-      "the stage carries no metal fixings; hardwood pegs and withy only"
+      "the stage carries no metal fixings; hardwood pegs and withy only",
+      "the licence board is bmv:advertising_board from works-v1, pane to the water; no other notice piece exists in the vault"
     ],
     "ownership": {
       "socket.sap-tapping-licensed.licence": {
@@ -980,8 +1125,37 @@
         "socket.sap-tapping-licensed.graded-stock",
         "socket.sap-tapping-licensed.night-landing",
         "parcel.sap-tapping-licensed.stage",
+        "parcel.sap-tapping-licensed.licence-board",
         "dock.sap-tapping-licensed.landing"
       ]
-    }
+    },
+    "scaleGrounding": {
+      "loreSource": "type recipe sap-tapping-camp (population 2\u20135, an elevated member on the stage, a mule line); Lore:Hist Sap; world/sources/lore/topics/hist-placement.md \u00a775 (a licence runs against the tree, for one season)",
+      "population": "3",
+      "households": 1,
+      "buildingsPlanned": 6,
+      "npcsPlanned": 3,
+      "why": "A licence is one stage on one tree for one season, and one stage needs a tapper on the deck and two hands on the ground. Three people share a tent, keep a mule line and fill a cart; six pieces is the whole of what a season leaves standing."
+    },
+    "approaches": [
+      {
+        "id": "approach.sap-tapping-licensed.track-from-road",
+        "mode": "walk",
+        "fromRouteId": "route.sap-tapping-licensed.track",
+        "firstSeen": "landmark.sap-tapping-licensed.hist",
+        "sequence": "The Hist's crown shows above the jungle canopy from the road, 615 m out; the track goes under closed canopy and the crown is lost; the pale trunk reads between the other trunks at about 30 m; the tent's open end and the mule line appear at the first bend; the stair and the stage come into frame at the second bend, with the water beyond them.",
+        "wayfinding": "Follow the one worn track from the road toward the great tree; it ends at the foot of the stair.",
+        "notes": "The last 27 m bend twice, round the tent and past the mule line, so the stage is seen, lost behind the trunk and re-found. The camp itself is hidden until 30 m by canopy closure 0.92; the tree, not the camp, is the beacon."
+      },
+      {
+        "id": "approach.sap-tapping-licensed.channel-by-canoe",
+        "mode": "boat",
+        "fromDirection": "north-west, up the channel",
+        "firstSeen": "landmark.sap-tapping-licensed.hist",
+        "sequence": "The crown stands over the channel from a bend away; the reed margin hides the bank; the roof of the licence board shows over the reeds; the plank walk and the landing open up; last, the stage rail and the tap lines on the trunk.",
+        "wayfinding": "Pole up the channel toward the great tree and land where the board stands at the water's edge; the plank walk leads from the landing to the stage foot.",
+        "notes": "The channel bends before the landing so the board is read at 20 m and not from the far reach. The board stands on the bank because a licence hung to be read from the water is the place's whole signature."
+      }
+    ]
   }
 }

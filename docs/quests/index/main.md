@@ -26,7 +26,7 @@
 | MQ23 | Marks Only the Eye Can See | hist-heartland | `EXPEDITION`, `MISSING` | An Eye-revealed route walked under a Shadowscale manhunt | `hist-heartland.guide-camp-gate-side`<br>`hist-heartland.root-gallery-helstrom-underway`<br>`hist-heartland.rootworm-station-helstrom` | live |
 | MQ25 | Council Behind Closed Gates | hist-heartland | `NEGOTIATION` | The council hearing, attacked mid-session | `hist-heartland.helstrom` | live |
 | MQ26 | The Root of Accord | hist-heartland | `RECKONING` | The hidden archive; the Accord's conversion | `hist-heartland.helstrom` | live |
-| MQ27 | The Road No Map Keeps | hist-heartland | `EXPEDITION` | Bargain for an expedition, then cross D5 country | `hist-heartland.guide-camp-far-shelter`<br>`hist-heartland.guide-camp-gate-side`<br>`hist-heartland.refuge-station-interior` | live |
+| MQ27 | The Road That No Map Keeps | hist-heartland | `EXPEDITION` | Bargain for an expedition, then cross D5 country | `hist-heartland.guide-camp-far-shelter`<br>`hist-heartland.guide-camp-gate-side`<br>`hist-heartland.refuge-station-interior` | live |
 | MQ29 | The City Beneath the First Rain | hist-heartland | `EXPEDITION` | The Lost City; the Last Warden who holds it | `hist-heartland.lost-city`<br>`hist-heartland.xal-krona-making-ground` | live |
 | MQ31 | The Door That Was Promised | hist-heartland | `RITE` | The confrontation at the sanctuary door; the choice | `hist-heartland.lost-city` | live |
 | MQ32 | Names Written in Sap | hist-heartland | `RECKONING` | An epilogue read back through the places that changed | `hist-heartland.helstrom`<br>`imperial-fringe.gideon`<br>`mercantile-coast.lilmoth`<br>`pirate-freeholds.opening-work-camp` | live |

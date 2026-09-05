@@ -24,6 +24,11 @@ terrain crop per blueprint; then open World Studio at
 name and click for the record and its *why*. The static PNG stays as the print
 sheet; the studio view is the review medium.
 
+The binding rules a blueprint is checked against (siting, slope ladder,
+spacing, orientation, culture grammars, doors and ways) are
+[docs/world/97-placement-principles.md](../../../docs/world/97-placement-principles.md);
+its Part F table is the grammar for each `cultureKit`.
+
 Loop (decision 0041 Parts 6–7; the full playbook is
 [docs/world/96-placement-playbook.md](../../../docs/world/96-placement-playbook.md)):
 dossier → candidates → choose → design → blueprint → `blueprint --check` →
@@ -35,6 +40,30 @@ edits of compiled output; every owner steer becomes a Taste-ledger rule.
 Geometry, never labels: a piece is chosen from its measured outline in
 `tooling/asset-pipeline/output/kits/<kit>.footprints.json` (and its `sizeM` in
 `<kit>.kit.json`, plus the kit config's `snapLogic`), not from its name.
+
+## Required section: "Approach and wayfinding" (owner directive 2026-09-05)
+
+A place is judged from the ground, never from the air. The design record
+`<place-id>.md` must carry a section headed **Approach and wayfinding** with
+two parts, and a blueprint whose record lacks it is not ready for Round A.
+
+**Part 1 — per approach.** One sub-heading per entry in the blueprint's
+`approaches[]`, giving in prose the sequence of what a walking (or boating)
+player sees, in order: the object that first reads on the horizon
+(`firstSeen`), what occludes it during the approach, what is seen next, the
+threshold, and the first node reached inside. The prose says the same thing as
+`approaches[].sequence` and `.wayfinding`, at more length and with the numbers
+(heights, distances, canopy height at the sightline) that justify it.
+
+**Part 2 — the checklist.** The sixteen yes/no items of
+[docs/research/openworld-approach-and-wayfinding.md](../../../docs/research/openworld-approach-and-wayfinding.md)
+§5, reproduced with an answer each. A "no" is either fixed before the round or
+carried into the record's open questions with the reason it stands.
+
+The research behind both parts — how shipped worlds stage an arrival, Lynch's
+five elements, the fourteen classic gotchas, Bethesda's and Morrowind's own
+settlement conventions — is that same document. Read it once; the checklist is
+the part run every time.
 
 ## Authoring a parcel (owner ruling 2026-09-05)
 
@@ -68,3 +97,20 @@ whose ground band is only piles), plus area, width, depth and height. Both the
 kits and these measurements are derived and gitignored: rebuild, never commit.
 Assets flagged `nodeAmbiguous` share a truncated GLB node name with a sibling —
 their numbers are not attributable to one piece, so do not pick them.
+
+### Ways: authored as waypoints, routed over the ground
+
+A route, canal, boardwalk or fence is authored as `via` (the waypoints you
+chose), a `widthM`, an `endsAt` and a `why`, plus `routing`: `"terrain"` (the
+worn line — least cost over the real slope, water and buildings), `"straight"`
+(a surveyed line: an Imperial road, a laid-out quay) or `"arc"` (a smooth curve
+through the waypoints). Its `points` polyline is DERIVED — run this next, after
+the footprints exist, because the router routes around them:
+
+```
+python3 -m worldgen.street_router --apply world/sources/blueprints/<place-id>.json
+```
+
+`--check` reports any way whose `points` have drifted from the derivation by
+more than 0.3 m, and the blueprint validator fails on the same thing. Costs and
+the cultural switch are documented in `worldgen/street_router.py`.

@@ -1,30 +1,14 @@
 # The Standing Charge — meso design record
 
-`place.naga-kur-deeps.wamasu-pond-adult` · beast lair · wamasu pond, adult ·
-danger D5 · region naga-kur-deeps · Phase 11 Part 6, Round A draft.
+`place.naga-kur-deeps.wamasu-pond-adult` · beast lair · wamasu pond, adult · danger D5 · region naga-kur-deeps · Phase 11 Part 7, Round A (v2 schema).
 
-Blueprint: `place.naga-kur-deeps.wamasu-pond-adult.json` ·
-dossier: `world/sources/sites/dossiers/standing-charge.{json,md}` ·
-map: `tooling/world-generation/output/blueprint-maps/place.naga-kur-deeps.wamasu-pond-adult.png`.
+Blueprint: `place.naga-kur-deeps.wamasu-pond-adult.json` · dossier: `world/sources/sites/dossiers/standing-charge.{json,md}` · map: `tooling/world-generation/output/blueprint-maps/place.naga-kur-deeps.wamasu-pond-adult.png`.
 
-This is the exemplar for the province's largest place family (38 beast lairs)
-and for fixed high danger in the deepest region class. It is a creature-owned
-outdoor place: no dwellings, no doors, two structures in total.
+This is the exemplar for the province's largest place family (38 beast lairs) and for fixed high danger in the deepest region class. It is a creature-owned outdoor place: no dwellings, no doors, two structures in total. The section "Lair rules" at the end is the part that the other 37 lairs inherit.
 
 ## The plotted neighbourhood
 
-Dossier centre 2404.5, 4433.4 m (uv 0.3261, 0.60126): elevation 10.15 m,
-slope 3.4 deg, rootland deep marsh, danger band 5, buildable 34.42 ha of the
-disc, canopy closure 0.82, 8039 compiled plants at 160/ha, nearest road 332 m
-east, effort score 0.34. Crucially, the plotted point carries **no standing
-water**: it sits 3.0 m above the water table with a shore 33 m away and a
-measured water depth of 0.00 m. A wamasu pond has to be sited on real water,
-so the meso pass moved it.
-
-The place already owns a compiled poling lane,
-`waterway.naga-kur-deeps.wamasu-pond-adult` (channel, 0.186 km, running
-from 2499.9, 4555.7 to 2620.5, 4659.8). That lane is the detour the record
-describes; every candidate below is measured against it.
+Dossier centre 2404.5, 4433.4 m (uv 0.3261, 0.60126): elevation 10.15 m, slope 3.4 deg, rootland deep marsh, danger band 5, canopy closure 0.82, 8039 compiled plants at 160/ha (cypress1 42 %, cypress3 6 %), nearest road 332 m east. The plotted point carries no standing water: it sits 3.0 m above the water table with a shore 33 m away. A wamasu pond has to be sited on real water, so the Part 6 pass moved it 69 m to the pan.
 
 ## Candidate sitings
 
@@ -32,204 +16,141 @@ describes; every candidate below is measured against it.
 |---|---|---|---|
 | positionM | 2466.0, 4403.0 | 2404.5, 4433.4 | 2602.0, 4652.0 |
 | standing water | yes, isolated | none | yes, but sea-connected |
-| water area | 962 m² (32 px) | — | flood-fills to the ocean |
-| extent | 38 x 38 m | — | estuary arm |
-| depth (measured) | 0.30 m max, 0.03 m mean | 0.00 m | 1.60 m |
+| water area | 962 m² | — | flood-fills to the ocean |
+| depth (measured) | 0.30 m max | 0.00 m | 1.60 m |
 | water level | 9.24 m | 7.15 m table, 3.0 m below ground | 0.00 m |
 | bank slope | p50 1.2 deg, p90 3.6 deg | 3.4 deg | 0.3 deg |
-| to the poling lane | 156 m | 155 m | 8 m |
-| to the nearest road | 278 m | 335 m | 198 m |
 | flood band | 0 | 2 | 3 |
 | canopy closure | 0.63 | 0.82 | 0.91 |
-| region class | lake & standing water | rootland deep marsh | rootland deep marsh |
 
-**`candidate.wamasu-pond-adult.pan` wins.** It is the sole closed body of standing water within 300 m
-of the plot; a flood fill from either of the other water bodies within 600 m
-runs out to the ocean, which makes them tidal channels rather than a held
-pond. The record's whole premise is still, avoided water that one animal can
-own. Only an isolated pan delivers that. It also sits 69 m from the
-plotted position, so the macro plot is barely disturbed; it keeps the lane
-at the same 156 m, so the detour still runs past for its whole length; its rim
-slopes of 1–4 deg give buildable bank without grading; and its canopy closure
-of 0.63 against 0.82 leaves a genuine hole in the canopy for the standing dead
-trees and for a lightning silhouette to be read from below.
+**`candidate.wamasu-pond-adult.pan` wins.** It is the sole closed body of standing water within 300 m of the plot; the other water within 600 m flood-fills to the ocean, which makes it tidal creek rather than a held pond. The record's premise is still, avoided water that one animal can own, so the isolated pan is the site. Its rim slopes of 1–4 deg give level bank without grading; its canopy closure of 0.63 against 0.82–0.95 around it leaves a hole in the canopy against which the dead trees are read.
 
-`candidate.wamasu-pond-adult.lane-head` was the tempting one, with real depth beside the lane. A
-pond that sits *on* the through route is a blockage rather than
-a hazard around which traffic is drawn. Its water is also the estuary at flood band 3.
+**The pond is too shallow as found (0.30 m).** That is a terrain request, not a reason to re-site: see "catalogue record should change" below.
 
-**The pond is too shallow as found (0.30 m).** That is a terrain request, not
-a reason to re-site: see "catalogue record should change" below.
+## What the ground says (the Round A correction)
+
+The Part 6 draft drew a "poling detour" from the pond's east shore to the head of the place's compiled lane. The survey's water raster shows that corridor to be dry ground for its whole 130 m: the pan sits perched at 9.24 m with no water link to anything. The nearest water that a boat can use is a creek 150 m to the south-east and 8–10 m below, running north from the estuary into a dead end at 2560, 4556 m, one to two boat-widths across under a canopy of 0.93. The v2 blueprint follows that ground:
+
+- the pole-marked lane is `canal.wamasu-pond-adult.pole-lane`, a `channel` routed over the creek (192 m, 100 % over published water), ending at a piled landing `dock.wamasu-pond-adult.lane-landing` at the creek head;
+- `route.wamasu-pond-adult.bank-path` (footpath, 1.5 m) climbs from the landing to the offering platform: 182 m, 8 m of climb, two bends;
+- `route.wamasu-pond-adult.stand-path` (footpath, 1.0 m) runs from the offering shelf round the south and west banks, past the cave mouth, up the west slope to the foot of the stand's ramp: 101 m;
+- the offering shelf's landward edge is `fence.wamasu-pond-adult.offering-line` (14 m of `argonianfence01`), so the offering ground has an edge from inside as well as outside.
+
+The catalogue's `vibe.approach` ("the pole line marks what is out there long before it becomes visible") survives intact; what changed is where the water is.
 
 ## The design
 
-Three districts, two parcels, twelve landmarks, no doors.
+Three districts, two parcels, fifteen landmarks, one dock, four ways, no doors.
 
-**`district.wamasu-pond-adult.bank` — the pond bank** (kit set `argonian-mud`, 66 x 66 m). The south and
-south-east shelf is the offering bank, flat at 0.8–2.2 deg and 9.18–9.24 m,
-level with the water. Reading outward from the water: the offering platform,
-then a totem, then the bone chime, then three grave-cairns stepped up the bank
-to the 10 m line. One lantern, maintained; nothing else on the bank is.
+**`district.wamasu-pond-adult.bank` — the pond** (kit set `argonian-mud`, 70 x 70 m). The pan and its bank ring. On the south shelf, level with the water for 20 m back: the offering platform at the waterline, the totem behind it facing the water, the lantern beside it, the bone chime closing the shelf on the east, the stake line closing it on the south. Three grave-cairns step up the east bank from the shelf to the tree line. Three dead trees stand on the rim: a scaled 40 m cypress on the north rim, a 26.5 m cypress at the north-east waterline, a 17 m willow leaning over the west shallows. The cave mouth opens in the 6-deg west bank at water level.
 
-**`district.wamasu-pond-adult.stand` — the knoll** (kit set `neutral-works`, 28 x 18 m). A rise
-north-west of the pond at 11.61 m, 2.4 m above the water and 22 m back
-from it, slope 2.8 deg. The hunter's abandoned stand is on it. From the deck the
-whole pan is in view; that is the point of the piece and the reason the
-evidence socket is up there.
+**`district.wamasu-pond-adult.stand` — the knoll** (kit set `neutral-works`, 36 x 32 m). The rise north-west of the pond at 11.7 m, 22 m back from the water. The hunter's stand footing (`stockadescaffoldbase3sided01`, yaw 146, the open face to the pond) and its ramp (`stockadescaffoldramp01`, landmark, yaw 326, on the landward face). From the deck the whole pan is in view; that is the point of the piece and the reason the evidence socket is up there.
 
-**`district.wamasu-pond-adult.detour` — the pole line** (kit set `argonian-stilt`, 36 x 148 m). A
-corridor from the pond's east landing at 2490, 4430 to the lane head at 2500,
-4556, following `route.wamasu-pond-adult.detour` through 2498/4462, 2500/4494 and 2502/4528. Poles
-only, repeated at 12 m, each kept root skirt uncleared: the signature feature
-is that the poles have stood long enough to root, so the roots are authored
-kept vegetation rather than dressing.
+**`district.wamasu-pond-adult.landing` — the pole lane** (kit set `argonian-stilt`). The creek and its landing. Four poles are authored, at the mouth, the two bends and the head, each in sight of the next; the poles between them are a compiler rule along the channel that does not yet exist (recorded in `assetConstraints`, see open questions).
 
-**The cave mouth and the delve.** Landmark `landmark.wamasu-pond-adult.cave-mouth` at 2446, 4402 — the
-west waterline, exactly at water level 9.24 m, bank slope 6.3 deg. It is
-entered from the water, which is what the record's `underwaterAccess:
-surface-swim` and `entrance: cave-mouth` already promise. The interior is a
-**Phase 12 claim, not built here**: flooded-cave delve, size band S1, wet
-fraction 0.4, one entrance, no exterior shell. There is no door record, because
-there is no building.
+**The fight ground.** `combat.wamasu-pond-adult.pond` (54 x 40 m, open) is the pan and its rim and is also the hard-clear polygon: nothing but the three kept dead trees stands inside it. The wamasu build is a large rigged actor with a body of roughly 5 m; the space gives it room to turn, charge and be circled. `combat.wamasu-pond-adult.bank-shelf` (40 x 22 m, broken) is the deliberate opposite: the cairn steps, the chime and the offerings are bad ground for a charge and good ground for a retreat.
 
-**The fight ground.** `combat.wamasu-pond-adult.pond` is 46 x 44 m over the pan and its rim,
-clearance class open; it is also the hard-clear polygon: nothing but the
-three kept dead trees stands inside it. The wamasu build is a large rigged
-actor (below) with a body of roughly 5 m; the space gives it room to turn,
-charge and be circled. The shallow water means the fight is fought *in*
-the pond rather than around it. `combat.wamasu-pond-adult.bank-shelf` (30 x 18 m, class broken) is
-the deliberate opposite: the cairn steps and offerings are bad ground for fighting
-and good ground for a retreat.
+**The cave mouth and the delve.** `landmark.wamasu-pond-adult.cave-mouth` at 2446, 4402 m, the west waterline at 9.24 m, bearing 93 deg into the pan. Entered from the water, as the record's `underwaterAccess: surface-swim` and `entrance: cave-mouth` promise. The interior is a Phase 12 claim, not built here: flooded-cave delve, S1, wet fraction 0.4, one entrance, no exterior shell. No door record, because there is no building.
 
-**Approach and reveal.** A visitor meets the pole line first, on the water,
-and follows it; the pond is screened by the bank rise until roughly 40 m out,
-at which point the dead crowns and the cairn line come over the rim together.
-The dossier's concealment figure for the neighbourhood is 0.67, so this is not
-a place seen from far off — it is a place the poles announce.
+## Approach and wayfinding
+
+### `approach.wamasu-pond-adult.pole-lane` — by boat, up the creek
+
+A poler on the estuary sees the mouth pole (`landmark.wamasu-pond-adult.pole-mouth`, 1.9 m, rooted into the bed) where the creek leaves the estuary. That is the first-seen object; it is a pole rather than a beacon for a measured reason: the creek runs under a canopy of 0.91–0.95, the pond lies 8–10 m above it behind the slope, so no object at the pond can be seen from water level 190 m away through that cover. The pole line is a breadcrumb cue, which the wayfinding literature rates at roughly 80 % reliability against 35 % for a sightline.
+
+Up the creek the poles lead: mouth to lower bend (60 m), lower bend to upper bend (55 m), upper bend to head (75 m), each pole in sight of the last. Above the upper bend the creek narrows to a boat's width and the canopy closes to 0.93; the head pole says that the water's end is a landing, not a dead end. The dock is the threshold: from here the way is on foot.
+
+The bank path climbs west from the landing. For its first 120 m the pond is hidden by the slope (terrain line of sight from the path's middle at 2535, 4530 to the water: blocked). At the last bend (2512, 4461) the line opens: the sky hole at 0.63 closure shows first, the two dead cypresses stand against it, then the water and the lantern on the south shelf. The chime is within earshot from this bend. The path ends on the offering platform, the first node.
+
+### `approach.wamasu-pond-adult.knoll` — on foot, down the ridge
+
+A walker crossing the rootland from the north-west comes over a ridge at 16 m (2444, 4300) with canopy closure of 0.43–0.55. From there the north dead tree's bare crown, scaled to 40 m, stands 8 m above the live cypress canopy (32 m) in the sky hole; terrain line of sight from the ridge to the crown is open. It is the one object at the pond that reads over the trees, so it is the first-seen object of this approach.
+
+Descending 100 m to the knoll (16 m to 11.7 m) the live trees hide the water. On the knoll top the stand's ramp faces the walker head-on (bearing 326, toward the ridge), so the means of ascent is in frame before the deck is. From the deck (eye at 4.4 m) the terrain line of sight to the pond is open: pan, cairns, platform, lantern and cave mouth are read at once, which is the survey for which the hunter built the stand. The stand path leaves from the ramp's foot, drops the west slope past the dead willow, whose lean points at the cave mouth, then arrives on the offering shelf at the stake line.
+
+### Checklist (research §5)
+
+| # | Check | Answer |
+|---|---|---|
+| 1 | Every approach designed, each with a route or a direction | Yes: boat from the creek (`fromRouteId` the channel), walk from the north-west (`fromDirection`) |
+| 2 | Each approach names one first-seen object, a real id | Yes: `landmark…pole-mouth`, `landmark…dead-tree-n` |
+| 3 | First-seen object taller than the vegetation between it and the viewer, measured | Knoll approach yes: 40 m crown against a 32 m cypress canopy, ridge line of sight open. Lane approach no, by design: under a 0.93 canopy the first-seen object is the first cue on the way; the beacon rule is replaced by the breadcrumb rule (lair rule 2) |
+| 4 | Sequence of 3–5 beats with an occlusion | Yes, both: seen, lost behind the slope or the trees, re-found at the last bend or from the deck |
+| 5 | Last stretch bends at least twice | Yes: bank path 2 bends over 182 m; stand path 3 bends over 101 m; the channel follows the creek's two bends |
+| 6 | From the arrival point the centre node is visible, or a landmark marks the bend | Yes: from the last bend of the bank path the pan and lantern are in line of sight; from the ramp foot the deck is the landmark |
+| 7 | Threshold spanned, not passed | No gate: the threshold is the dock (water to foot) and the head pole beside it. A lair has no gate to span; recorded, not fixed |
+| 8 | One spine, wider than the rest; no duplicated movement | Yes: bank path 1.5 m, stand path 1.0 m, channel 3.5 m on water; each joins different nodes |
+| 9 | Landmark hierarchy: one beacon, mid markers, no rival | Yes: dead-tree-n is the beacon (the other two dead trees are shorter, 26.5 and 17 m); the lantern and the head pole are the mid markers |
+| 10 | Socketed structures present their door to a way | No doors exist. The evidence socket's stand is reached by its ramp at the stand path's end; the scene socket's platform is the bank path's end |
+| 11 | No way ends at a blank wall; dead ends pay | Yes: channel ends at the landing, bank path at the platform, stand path at the ramp; the stand pays with the survey view and the evidence |
+| 12 | Every raised level has its ascent visible from below | Yes: the ramp landmark faces the arriving walker and the path ends at its foot |
+| 13 | The edge reads from inside as well as outside | Yes: the water line, the stake line on the shelf's landward side, the hard-clear ring |
+| 14 | Building count matches population within 25 %, lore source named | Yes: 2 parcels for `buildingsPlanned` 2; population 1 wamasu from the type recipe (lair rule 1) |
+| 15 | Approach cue describable in one clause | Yes: "follow the poles up the creek to the landing, then the path uphill"; "walk toward the bare crown" |
+| 16 | Any forced detour pays | Yes: the 180 m climb from the landing pays with the sky-hole reveal at its last bend; the west-bank descent pays with the cave mouth found on the way |
 
 ## Orientation and footprints
 
-Both parcels are authored as centre, piece, bearing and reason; the `footprint`
-polygon in the blueprint is derived from the piece's measured ground hull
-by `worldgen.blueprint_footprints --apply` and is never typed by hand. Bearings are
-degrees clockwise from north.
+Both parcels are authored as centre, piece, bearing and reason; `footprint` is derived by `worldgen.blueprint_footprints --apply`. Bearings are degrees clockwise from north.
 
-| Parcel | centreUV | Piece | yawDeg | Why that bearing | Derived footprint |
+| Parcel | centreM | Piece | yawDeg | Why | Derived footprint |
 |---|---|---|---|---|---|
-| `parcel.wamasu-pond-adult.hunters-stand` | 0.331464, 0.592800 | `stockadescaffoldbase3sided01` | 146 | The open, unrailed face looks straight down the 146 deg line from the knoll to the centre of the pan, which leaves the three railed sides and the ramp on the landward flank | 12-vertex hull, 3.70 x 3.84 m, 9.04 m² |
-| `parcel.wamasu-pond-adult.offering-platform` | 0.335254, 0.600257 | `argonianplatform` | 345 | Square to the south waterline, so the deck's long axis runs out toward the water and the offerings laid on it face the pan, as the bank's practice requires | 16-vertex hull, 2.79 x 2.68 m, 7.27 m²; the pivot sits at the landward end, so the deck reaches into the shallows |
+| `parcel.wamasu-pond-adult.hunters-stand` | 2444.0, 4371.0 | `stockadescaffoldbase3sided01` | 146 | Open unrailed face down the 146 deg line to the centre of the pan; railed sides and ramp on the landward flank | 3.70 x 3.84 m, 9.04 m² |
+| `parcel.wamasu-pond-adult.offering-platform` | 2472.0, 4426.0 | `argonianplatform` | 345 | Square to the south waterline; the pivot sits at the landward end so the deck reaches 2.7 m toward the shallows | 2.79 x 2.68 m, 7.27 m² |
 
-The offering platform's hull is asymmetric about its pivot (local x from -0.12 m
-to 2.67 m), which is why its bearing decides where the deck lies and not merely
-how it is turned.
-
-Four landmarks carry a bearing of their own, each with the reason recorded
-in its `notes`: the cave mouth at 93 deg (due east along the waterline, the one
-line a swimmer can enter it on being that line), the totem at 337 deg (face
-to the water, standing behind the platform), the bone chime at 317 deg (frame
-broadside across the bank walk, so the empty drum ring is read against the
-water) and the bank lantern at 334 deg (hood to the bank, light thrown over the
-water rather than up the cairn steps). The dead trees and the three cairns carry
-no bearing, because none of them has a front. The two detour poles are round
-in plan and are repeated by the compiler along `route.wamasu-pond-adult.detour`,
-whose own bearing runs 166 deg at the landing and 184 deg at the lane head, so
-the line follows the lane without any authored facing.
+Ways are authored as `via` and derived by `worldgen.street_router --apply` (terrain routing for the two footpaths and the channel; the fence is straight).
 
 ## Asset picks (measured, `sizeM` x/y/height in metres)
 
 | Role | Asset | sizeM | Why |
 |---|---|---|---|
-| Hunter's stand footing | `vanilla:clutter/stockade/stockadescaffoldbase3sided01` | 3.70 x 3.84 x 2.73 | 3 railed faces, open toward the water; measured ground hull 9.04 m², 12 vertices |
-| Stand deck | `vanilla:clutter/stockade/stockadescaffoldtop3sided01` | 3.54 x 3.77 x 0.96 | matching side count, per the kit's own snap rule |
-| Stand access | `vanilla:clutter/stockade/stockadescaffoldramp01` | 3.52 x 3.87 x 3.27 | landward side |
-| Stand prop | `vanilla:clutter/stockade/stockadescaffoldbasesupport01` | 1.92 x 2.95 x 2.72 | under the deck overhang |
-| Offering platform | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 x 2.68 x 0.34 | a low authored Argonian deck at the waterline; measured ground hull 7.27 m², 16 vertices, pivot at the landward end |
-| Totem | `mudmother:gv_meshes/argoniannest/argoniantotem01` | 0.75 x 0.49 x 1.95 | |
-| Bone chime | `mudmother:gv_meshes/argoniannest/argonianbonechime01` | 2.18 x 0.38 x 1.41 | the "drum frame with no drum in it" |
+| Stand footing | `vanilla:clutter/stockade/stockadescaffoldbase3sided01` | 3.70 x 3.84 x 2.73 | 3 railed faces, open toward the water |
+| Stand ramp (landmark) | `vanilla:clutter/stockade/stockadescaffoldramp01` | 3.52 x 3.87 x 3.27 | the chain's own ramp, on the landward face |
+| Stand deck, prop | `stockadescaffoldtop3sided01`, `stockadescaffoldbasesupport01` | 3.54 x 3.77 x 0.96 · 1.92 x 2.95 x 2.72 | the rest of the snap chain; compiler rule, not yet authored |
+| Offering platform | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 x 2.68 x 0.34 | a low authored Argonian deck; pivot at the landward end |
+| Stake line | `mudmother:gv_meshes/argoniannest/argonianfence01` | 1.58 x 0.29 x 1.70 | the mud kit's fence panel, drawn as a `fences[]` way |
+| Totem, chime, lantern | `argoniantotem01`, `argonianbonechime01`, `argonianlanterns02` | 0.75 x 0.49 x 1.95 · 2.18 x 0.38 x 1.41 · 0.66 x 0.64 x 2.71 | the mud kit's ritual pieces |
 | Cairns (3) | `rockcairn01` / `03` / `04` (`histtree:` set) | 2.49 x 2.51 x 2.65 · 1.75 x 2.60 x 2.56 · 1.39 x 1.88 x 2.56 | stepped up the bank, largest lowest |
-| Lantern | `mudmother:gv_meshes/argoniannest/argonianlanterns02` | 0.66 x 0.64 x 2.71 | the one maintained light |
-| Detour poles | `htbm:.../kothringi/tamu_woodpole01` | 0.23 x 0.22 x 1.92 | repeated every 12 m along the detour route `route.wamasu-pond-adult.detour` |
-| Dead trees (3) | `bmv:landscape/trees/cypress1`, `cypress3`, `treewillow03a` | 20.2 x 22.7 x 32.0 · 24.8 x 22.2 x 26.5 · 11.6 x 10.2 x 17.2 | the tallest species in the local scatter, stripped by the material pass |
+| Poles (4) | `htbm:.../kothringi/tamu_woodpole01` | 0.23 x 0.22 x 1.92 | mouth, two bends, head |
+| Dead trees (3) | `bmv:landscape/trees/cypress1` (scale 1.25), `cypress3`, `treewillow03a` | 40.0 · 26.5 · 17.2 m tall | the local scatter's own species, stripped by the material pass; the north one scaled so that it stands above the live canopy |
 
-The stand is the vanilla stockade-scaffold snap chain and only that chain,
-which is the one family in `works-v1` its author gave snap logic: footing,
-matching deck, ramp, support. No set is blended across districts.
+**Ground fit.** The stand is `plinth`: terrain delta across its footprint at 2.8 deg is roughly 0.19 m. The offering platform is `direct` at 0.8 deg. The dock is piled in the creek head at 1 m elevation.
 
-**Ground fit.** The stand is `plinth`: terrain delta across its 3.70 x 3.84 m
-footprint at 2.8 deg is roughly 0.19 m, inside the 0.15–0.6 m band. The
-offering platform is `direct` at 0.8 deg. No parcel here needs grading and
-none approaches the 2.0 m never-grade line.
+**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 3 placements, 0 errors.
 
-**Budget** (declared; the compiler agrees): 420 instances, 14 unique
-materials, 24 MB textures, 120 colliders. The compile reports 3 placements,
-1250 triangles, 0 errors. This is a small place and its budget should stay
-small — the cost here is the creature and the water volume, not the props.
+## Lair rules (what the other 37 beast lairs inherit)
 
-## What Phases 13 and 9 must deliver
+1. **Scale is creature count plus structure count.** `scaleGrounding` for a lair reads the type recipe's `slots.population` for the creature count and its named structures for `buildingsPlanned`; `households` and `npcsPlanned` are 0. The `why` says so in words.
+2. **Under a closed canopy the first-seen object is the first cue on the way.** Where the approach runs under closure above about 0.85, `firstSeen` is the first pole, cairn or scarred trunk on the route, not a beacon, and the record says why. Where an approach has a clear line from higher ground, one natural piece is scaled (0.2–5, natural pieces only) so that it stands above the measured canopy; that piece is the beacon.
+3. **A lair's water is authored from the raster, not the record.** The channel-class way goes where `open_water` is; a boat approach ends at a dock on the nearest published water and a footpath carries the rest.
+4. **The lair is the fight.** One `combatSpaces` entry covers the creature's ground with clearance `open` and is also the hard-clear polygon; a second entry of class `broken` is the retreat ground. Both carry a `why` naming the quest and the hostility flip.
+5. **Structures are few and each is a Lynch element.** A stand is a survey point (node), an offering platform is the first node, a stake line is an edge, a pole line is a path. No dwelling, no door, `interior.kind` "none".
+6. **The threshold is the change of mode**, not a gate: water to foot at a dock, or the last marker before the creature's ground. Checklist item 7 is answered "no gate" with that reason.
 
-- **The animal (Phase 13).** The adult wamasu is the armoured daedroth build
-  on the vanilla werewolfbeast rig — the same decision 0030 took for the Xal-Krona
-  boss (`docs/research/creature-asset-availability.md`). The rig exists in the
-  vault; **there is no sourcing gap**. Mihail's dedicated Wamasu mod stays
-  deferred, needing a skeleton conversion spike and a replacement for audio
-  credited to CDPR. One resident actor, single, triggered on approach.
-- **The water (Phase 9).** The pond's electrification is a water-volume hazard,
-  not a mesh and not a particle prop: a damage volume bound to the pond body,
-  live while the animal is alive and dead when the place is cleared. It is the
-  reason the fight is interesting and the reason the pond floor cache is gated.
-  The blueprint records the requirement in `assetConstraints`; it fakes nothing.
-- **The delve (Phase 12).** Flooded-cave interior, S1, wet fraction 0.4, one
-  entrance at `landmark.wamasu-pond-adult.cave-mouth`, no exterior shell.
+## What Phases 13, 9 and 12 must deliver
+
+- **The animal (Phase 13).** The armoured daedroth build on the vanilla werewolfbeast rig, as decision 0030 took for the Xal-Krona boss (`docs/research/creature-asset-availability.md`). No sourcing gap. One resident actor, triggered on approach.
+- **The water (Phase 9).** Electrification is a water-volume hazard bound to the pond body, live while the animal lives, dead when the place is cleared.
+- **The delve (Phase 12).** Flooded-cave interior, S1, wet fraction 0.4, one entrance at the cave mouth, no exterior shell.
 
 ## Lore grounding
 
-- **Lore:Wamasu** — a large lightning-powered reptile whose bones stay charged
-  for years and which electrifies the water around it; hide and organs are
-  traded across Tamriel. Both the fight hazard and the free reward on the bank
-  come straight from this.
-- **Lore:Haynekhtnamet** — the legendary Shadowfen wamasu to whom locals made
-  offerings, hoping to hold back the seasonal flooding. That precedent, not
-  invention, is what licenses an offering bank facing the water rather than a
-  hunting camp.
-- `world/sources/lore/topics/fauna-hazards.md` (the fauna dossier, which
-  records both of the above and flags water electrification as a first-class
-  hazard for our swimming).
+- **Lore:Wamasu** — a large lightning-powered reptile whose bones stay charged for years and which electrifies the water around it.
+- **Lore:Haynekhtnamet** — the legendary Shadowfen wamasu to whom locals made offerings, hoping to hold back the flooding; the precedent for an offering bank facing the water rather than a hunting camp.
+- `world/sources/lore/topics/fauna-hazards.md`.
 
 ## Catalogue record should change (not edited from here)
 
-1. **`positionM` → [2466.0, 4403.0]** (`position.u` 0.334441, `position.v`
-   0.597138). A 69 m move onto real standing water. `plotFacts` follow:
-   `regionClass` becomes "lake & standing water" (already in the record's
-   permitted `sitingPrefs.regionClasses`), `distanceToRouteM` 278,
-   `distanceToWaterM` 0, `landform` reads as a pan rather than shallow marsh.
-2. **Add a `terrainRequests` entry**: `{kind: "pool", radiusM: 30, note: "the
-   pan must hold 2.5 m of standing water over a floor to which a diver can descend,
-   or an adult wamasu has nothing to hold and the pond-floor cache has nowhere
-   to lie"}`. The found depth is 0.30 m; the meso compiler carves the basin
-   and the blueprint is authored against the deepened result.
-3. Optionally note in `vibe.approach` that the pole line is followed *on the
-   water*, since the compiled detour is a poling lane and not a footpath.
+1. `positionM` → [2466.0, 4403.0] is already applied by the Part 6 siting.
+2. Add a `terrainRequests` entry: `{kind: "pool", radiusM: 30, note: "the pan must hold 2.5 m of standing water over a floor to which a diver can descend"}`. The found depth is 0.30 m.
+3. `vibe.approach` should say that the pole line is followed on the creek below the pond and that the last 180 m are on foot; `relations.reachedVia` should name the creek landing rather than imply water to the pond.
+4. The compiled minor waterway `waterway.naga-kur-deeps.wamasu-pond-adult` runs over ground that the water raster shows dry for two thirds of its length; it should be re-derived onto the creek that the channel follows.
 
 ## Open questions for the owner
 
-1. **How deep should the pond be?** Deepening to 2.5 m makes it a swimmable
-   fight with a dive to the cache and a proper flooded cave. Leaving it
-   at knee depth makes it a wading fight in which the animal's whole
-   body stays visible and retreat is open. Deep is more frightening and more Morrowind-ish;
-   shallow is the clearer, fairer duel. The blueprint currently assumes deep.
-2. **Should the pond be lethal or merely dangerous while the animal lives?**
-   The lore says the water is cursed "to deadly convulsions", which argues
-   for water that will kill an under-levelled player outright and turn the fight
-   into a bank fight with a swim as the risk. The gentler reading is heavy
-   damage over time, so a strong swimmer can still take the cache mid-fight.
-   This sets how every one of the 38 beast lairs handles environmental danger.
-3. **How much does killing it change the world?** The record says clearing it
-   reopens the direct poling line and ends the offerings. That can be a quiet
-   variant (the lantern goes out, the poles are left) or a loud one (the detour
-   is abandoned on the map and travel times drop for the whole zone). The loud
-   version is better payoff and more work for the route compiler.
-4. **Whose side is the place on?** As drafted, the offering-makers are right:
-   the bank is tended and the hunter who built the stand failed. The record
-   also allows the reverse reading, in which the offerings are a superstition
-   and the stand is simply old. The first offers a moral choice
-   in LN05; the second keeps the lair as a clean hunt.
+1. **The lane comes from the south-east, not the north.** The round brief assumed a poling approach from the north; the survey has no water north of the pond. The blueprint follows the water. If a northern water approach is wanted, that is a hydrology change, not a blueprint one.
+2. **How deep should the pond be?** 2.5 m makes a swimmable fight with a dive to the cache and a real flooded cave; knee depth makes a wading fight with the animal always visible. The blueprint assumes deep.
+3. **Lethal or dangerous water while the animal lives?** This sets how every beast lair handles environmental danger.
+4. **Pole densification and the stand's snap chain are compiler rules that do not exist yet** (poles at ~15 m along a channel; deck and support placed from the footing). Until they are written the world shows four poles and a footing with a ramp.
+5. **The north dead tree is scaled to 40 m** so that a beacon exists on the overland approach. If a 40 m dead cypress reads wrong at eye level, the alternative is to accept that this lair has no beacon and rely on the cue chain alone.
+

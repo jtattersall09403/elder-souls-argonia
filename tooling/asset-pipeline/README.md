@@ -35,6 +35,33 @@ by construction, and recorded verbatim in the manifest's `node` field; the full
 semantic id stays in the GLB's `extras.assetId`, which is what the runtime and
 `pipeline.measure_footprints` look assets up by.
 
+`interiors_index` answers "which buildings have an inside, and where is the
+door?" (owner ruling 2026-09-05: *very few buildings have doors; everything
+intended to have an interior must have one*). Run
+`python3 -m pipeline.interiors_index` after building kits; it writes
+`output/kits/<kit>.interiors.json`, classifying every asset as **matched** (its
+own pool ships a sibling `*_int` mesh authored to fit it — HTBM's bamboo huts,
+Mud Mother Grove's mud hut), **tileset** (an exterior-only shell whose interior
+Phase 12 builds from a named interior kit — `vanilla-farmhouse-int`,
+`vanilla-imperial-int`, `xanmeer-interior-v1`, `dungeon-root-v1`), **shell**
+(measured to enclose a volume, interior still to be claimed) or **none**. The
+enclosure test is geometric, never a label: it stands an eye 1.6 m above a
+candidate floor inside the piece and fires 72 rays outwards plus one up and one
+down, and calls the piece a building only when three quarters of the ring hits
+a wall, something is overhead, and there is room to stand — which is what tells
+a hut from a dock, a stilt house's deck from the open air under it, and a room
+from a solid stone plinth. Doorways come from the same probe, comparing the
+ring at door height (1.1 m) with the ring above the lintel (2.4 m): a doorway is
+where the ray escapes, or where the modelled door leaf sits proud of the wall.
+Each is recorded as a local bearing (`sideDeg`, north = 0, clockwise) that adds
+straight to a parcel's `yawDeg`. Where no opening is derivable the record says
+`doorways: []` and why. `worldgen/blueprint.py` holds blueprints to this index —
+a piece with an inside must have a door, one without must not, and the door's
+`interiorClaim` must name the right interior and the right size class — and
+`python3 -m worldgen.blueprint_interiors --report <blueprint>` lists per parcel
+what the index says and which doors are missing or misplaced. The run takes
+about a minute over all kits and is deterministic.
+
 `vault_inventory` answers "what do we already own but have not packaged?" — it
 lists every mesh in every vault source (one `bsdtar -tf` per archive, `os.walk`
 per extracted mod, manifests for vanilla and BM&V), groups them by the author's

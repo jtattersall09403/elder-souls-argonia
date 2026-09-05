@@ -57,7 +57,11 @@ The overall goal at this point is to build the province-scale world, in a way th
   source is not just a pipeline/provenance doc note — add the credit line to
   root [README.md](README.md) § Credits and third-party sources in the same
   change** (or the same session) that ships the asset; a mod credited only in
-  a pipeline audit doc is a gap the next credits review has to re-find. Take
+  a pipeline audit doc is a gap the next credits review has to re-find.
+  **Fill gaps when you find them** (owner 2026-09-05): a sourcing gap is a job
+  done in the same session, not a row on a list; the register in
+  `docs/research/settlement-kit-sourcing-log.md` records the outcome, and an
+  OPEN row needs a written reason for the deferral. Take
   mods' *assets*, not their Papyrus/SKSE code — that we cannot run, and it is
   only a design reference. Procedural motion (IK, physics) drives sourced
   clips; it never replaces them.
@@ -88,7 +92,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   **not finished or frozen** — re-architect and extend them when the game needs
   it (see world module 75 §51.1), keeping the controller boundary and the
   package rule intact.
-- **Obey the twelve engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
+- **Obey the thirteen engineering standards** ([docs/engineering-standards.md](docs/engineering-standards.md),
   decision 0042): stable IDs on everything placed; every player-visible string
   in `packages/text-catalogue`, never a literal; `schemaVersion` on runtime
   data; determinism in world building; no new module-level mutable singletons
@@ -96,8 +100,9 @@ The overall goal at this point is to build the province-scale world, in a way th
   in the typed vocabulary ([docs/quests/85](docs/quests/85-condition-vocabulary.md));
   prose written against the record it describes, never promising what the
   typed fields cannot deliver (standard 12).
-  Four are checked mechanically by `npm test` — they are cheap now and brutal
-  to retrofit, which is the whole reason they exist.
+  Five are checked mechanically by `npm test` (incl. standard 13: placement
+  work that changes without the placement playbook or decision 0041 moving
+  fails the gate) — cheap now, brutal to retrofit.
 - **All prose is reviewed by a separate agent before commit.** Any text a
   player reads or a world record carries (catalogue prose, quest rows,
   text-catalogue strings, dialogue) is written against
