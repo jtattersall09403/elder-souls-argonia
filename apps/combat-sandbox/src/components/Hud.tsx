@@ -254,7 +254,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
       </div>
 
       {!visualScenario && <button className="help-button" onClick={() => setHelp((value) => !value)} aria-expanded={help}>?</button>}
-      {!visualScenario && <details className="debug-panel">
+      {!visualScenario && <details className="debug-panel" data-ui-capture>
         <summary>DEBUG</summary>
         <label>
           <input
@@ -361,11 +361,12 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
         <label>
           <input
             type="checkbox"
-            checked={state.stabRiposte}
-            onChange={(event) => state.patch({ stabRiposte: event.target.checked })}
+            checked={state.firstPersonBowRig}
+            onChange={(event) => state.patch({ firstPersonBowRig: event.target.checked })}
           />
-          Stabbing riposte (sword &amp; dagger)
+          First-person bow rig (Skyrim arms)
         </label>
+
         <label>
           <input
             type="checkbox"
@@ -379,7 +380,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
       </details>}
       {!touch && state.started && <CameraZone />}
       {help && (
-        <aside className="help-panel">
+        <aside className="help-panel" data-ui-capture>
           <button onClick={() => setHelp(false)} aria-label="Close controls">×</button>
           <h2>Controls</h2>
           <div className="control-columns">

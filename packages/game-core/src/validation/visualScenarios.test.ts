@@ -161,7 +161,11 @@ describe("visual scenario input driver", () => {
       Math.cos(targetYaw - scenario.enemy.yaw),
     ));
 
-    expect(initialDistance).toBeLessThan(DEFAULT_ENEMY_ARCHETYPE.locomotion.runAboveDistance);
+    // Beyond the run threshold from the start (round 7): the locked-on retreat
+    // now moves at the reverse stride's own 0.7 m/s and cannot open the gap
+    // itself, so the scene starts where the enemy runs and lets it close
+    // through the hysteresis band into a walk.
+    expect(initialDistance).toBeGreaterThan(DEFAULT_ENEMY_ARCHETYPE.locomotion.runAboveDistance);
     expect(retreatCues.length).toBeGreaterThanOrEqual(2);
     expect(retreatCues.some((cue) => Math.abs(cue.move?.[0] ?? 0) > 0.1)).toBe(true);
     expect(yawDelta).toBeGreaterThan(Math.PI / 6);

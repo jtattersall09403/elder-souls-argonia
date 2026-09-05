@@ -124,6 +124,44 @@ export function footAnchoredVelocity(
   return { forward: forward * scale, lateral: lateral * scale };
 }
 
+/**
+ * `footAnchoredVelocity` for a *looping* stride, m/s in the actor's frame.
+ *
+ * Locomotion clips loop, so the source time wraps; a step that crosses the
+ * wrap is the distance to the end of the loop plus the distance from its
+ * start. Round 7 (owner 2026-09-05): locked-on and crouched movement are
+ * driven from the clip's own feet at playback rate 1 — the planted foot is
+ * the anchor and the body moves relative to it — instead of a controller
+ * speed with the clip's cadence scaled to chase it.
+ */
+export function footAnchoredLoopVelocity(
+  state: AnimationState,
+  elapsed: number,
+  delta: number,
+): LocalDisplacement {
+  if (!(delta > 0)) return ZERO;
+  const config = clipConfig(state);
+  const rate = config.playbackRate || 1;
+  const start = config.playbackStartTime ?? 0;
+  const end = config.playbackEndTime ?? config.sourceDuration ?? 0;
+  const loop = end - start;
+  if (!(loop > 0)) return footAnchoredVelocity(state, elapsed, delta);
+  const wrap = (t: number) => start + (((t - start) % loop) + loop) % loop;
+  const fromSource = wrap(start + Math.max(0, elapsed - delta) * rate);
+  const toSource = wrap(start + Math.max(0, elapsed) * rate);
+  const from = groundTrackAt(state, fromSource);
+  const to = groundTrackAt(state, toSource);
+  let forward = to.forward - from.forward;
+  let lateral = to.lateral - from.lateral;
+  if (toSource < fromSource) {
+    const atEnd = groundTrackAt(state, end);
+    const atStart = groundTrackAt(state, start);
+    forward = (atEnd.forward - from.forward) + (to.forward - atStart.forward);
+    lateral = (atEnd.lateral - from.lateral) + (to.lateral - atStart.lateral);
+  }
+  return { forward: forward / delta, lateral: lateral / delta };
+}
+
 /** Total ground the clip's feet cover, for tests and for tooling. */
 export function groundTrackTotal(state: AnimationState): LocalDisplacement {
   const config = clipConfig(state);

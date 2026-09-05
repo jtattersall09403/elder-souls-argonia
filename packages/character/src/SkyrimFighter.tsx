@@ -45,7 +45,7 @@ import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
 import { ArmourAttachments } from "./ArmourAttachments";
 import { NockedArrow } from "./NockedArrow";
-import { OffHandItem } from "./OffHandItem";
+import { OffHandItem, type BowDrawRefs } from "./OffHandItem";
 import type { HurtboxBone, HurtboxRigRef } from "./SkeletalHurtbox";
 
 /**
@@ -245,10 +245,12 @@ function PosedActor({
   speedMultiplierRef,
   weaponProfile,
   offHandProfile = null,
+  bowDraw,
   offHandRef,
   armour = NO_ARMOUR,
   nockedArrow = null,
   firstPerson = false,
+  hidden = false,
   raceId = DEFAULT_RACE,
   modelOffsetY = CHARACTER_MODEL_OFFSET,
   validationTint,
@@ -288,6 +290,8 @@ function PosedActor({
   weaponProfile: WeaponVisualProfile;
   /** Shield or other off-hand item, or null for an empty hand. */
   offHandProfile?: WeaponVisualProfile | null;
+  /** The archer's draw, for a rigged bow in the off hand. */
+  bowDraw?: BowDrawRefs;
   /** Worn armour. Each piece is skinned to the shared rig and hides what it covers. */
   armour?: readonly ArmourDefinition[];
   /**
@@ -314,6 +318,11 @@ function PosedActor({
    * are what the shot is made of.
    */
   firstPerson?: boolean;
+  /**
+   * The whole body is hidden: the first-person arms rig is drawing the player
+   * instead. Bones and mixer keep running, so hurtboxes and sockets stay live.
+   */
+  hidden?: boolean;
   /** Which body to mount on the shared rig. */
   raceId?: RaceId;
   modelOffsetY?: number;
@@ -1102,11 +1111,11 @@ function PosedActor({
   }, visualProbe ? VISUAL_FRAME_PHASE_PRIORITY.actorPoseAndProbe : 0);
 
   return (
-    <group ref={root} position={[0, modelOffsetY, 0]} scale={CHARACTER_SCALE} dispose={null}>
+    <group ref={root} position={[0, modelOffsetY, 0]} scale={CHARACTER_SCALE} dispose={null} visible={!hidden}>
       <primitive object={model} />
       {offHandProfile && (
         <Suspense fallback={null}>
-          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandRef} />
+          <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandRef} bowDraw={bowDraw} />
         </Suspense>
       )}
       {nockedArrow && (

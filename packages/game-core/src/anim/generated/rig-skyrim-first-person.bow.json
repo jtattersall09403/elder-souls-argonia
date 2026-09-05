@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "asset": "rig-skyrim-first-person.bow.glb",
+  "source": "Skyrim vanilla _1stperson skeleton, 1stpersonmalebody/hands, bow_* first-person clips (locally regenerated authorized runtime build)",
+  "bones": {
+    "camera": "Camera1st [Cam1]",
+    "weapon": "WEAPON",
+    "shield": "SHIELD",
+    "rightHand": "NPC R Hand [RHnd]",
+    "leftHand": "NPC L Hand [LHnd]"
+  },
+  "restMeasures": {
+    "cameraAboveRoot": 12.05,
+    "cameraWorld": [
+      -0.0,
+      -0.0,
+      12.05
+    ]
+  },
+  "armatureScale": [
+    0.1,
+    0.1,
+    0.1
+  ],
+  "clips": {
+    "FP_BOW_IDLE": {
+      "source": "bow_idleheld",
+      "durationSeconds": 8.9667
+    },
+    "FP_BOW_DRAW": {
+      "source": "bow_drawlight",
+      "durationSeconds": 1.6667
+    },
+    "FP_BOW_DRAWN": {
+      "source": "bow_idledrawn",
+      "durationSeconds": 3.6667
+    },
+    "FP_BOW_RELEASE": {
+      "source": "bow_release",
+      "durationSeconds": 0.8333
+    },
+    "FP_BOW_EQUIP": {
+      "source": "bow_equip",
+      "durationSeconds": 1.4667
+    },
+    "FP_BOW_WALK": {
+      "source": "bow_walkforward",
+      "durationSeconds": 1.5667
+    },
+    "FP_BOW_WALK_BACK": {
+      "source": "bow_walkbackward",
+      "durationSeconds": 1.7667
+    },
+    "FP_BOW_STRAFE_LEFT": {
+      "source": "bow_walkleft",
+      "durationSeconds": 1.5
+    },
+    "FP_BOW_STRAFE_RIGHT": {
+      "source": "bow_walkright",
+      "durationSeconds": 1.4667
+    },
+    "FP_BOW_RUN": {
+      "source": "bow_runforward",
+      "durationSeconds": 0.6333
+    },
+    "FP_BOWDRAWN_WALK": {
+      "source": "bowdrawn_walkforward",
+      "durationSeconds": 1.5667
+    },
+    "FP_BOWDRAWN_WALK_BACK": {
+      "source": "bowdrawn_walkbackward",
+      "durationSeconds": 1.7667
+    },
+    "FP_BOWDRAWN_STRAFE_LEFT": {
+      "source": "bowdrawn_walkleft",
+      "durationSeconds": 1.5
+    },
+    "FP_BOWDRAWN_STRAFE_RIGHT": {
+      "source": "bowdrawn_walkright",
+      "durationSeconds": 1.4667
+    }
+  }
+}

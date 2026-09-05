@@ -1466,7 +1466,6 @@
     "requiredAnimationRuns": {
       "enemy": [
         "SWORD_IDLE",
-        "WALK",
         "RUN",
         "WALK"
       ]
@@ -2297,6 +2296,10 @@
         "CROUCH_STRAFE_RIGHT",
         "SWORD_CROUCH_IDLE"
       ]
+    },
+    "groundingLimits": {
+      "maxBlendedGroundCorrectionMeters": 0.12,
+      "note": "The crouch strides are now driven from their own feet at playback rate 1 (round 7); the blend between the sneak stride and the sneak idle lifts the solver a few millimetres past the 0.105 default while the two are mixed."
     }
   },
   "shield-guard": {
@@ -3081,5 +3084,159 @@
         "BACKSTABBED_FORWARD"
       ]
     }
+  },
+  "bow-aim-turn": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAWN"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": [],
+    "facing": {
+      "actor": "player",
+      "followsCameraWithinRadians": 0.15,
+      "note": "Held at full draw the body faces the camera yaw: the bow follows the crosshair (round 7)."
+    }
+  },
+  "archer-shot": {
+    "playerActions": [
+      "idle",
+      "hit"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "HIT"
+    ],
+    "enemyActions": [
+      "watching",
+      "shoot"
+    ],
+    "enemyAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE"
+    ],
+    "playerHealthLessThan": 150,
+    "requiredActionRuns": {
+      "enemy": [
+        "watching",
+        "shoot",
+        "watching",
+        "shoot",
+        "watching",
+        "shoot",
+        "watching"
+      ],
+      "player": [
+        "idle",
+        "hit",
+        "idle",
+        "hit",
+        "idle",
+        "hit",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "enemy": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_IDLE"
+      ],
+      "player": [
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE",
+        "HIT",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "enemy": [
+        "BOW_DRAWN"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": [],
+    "facing": {
+      "actor": "enemy",
+      "facesPlayerWithinRadians": 0.15,
+      "note": "By the end of the scene the archer has turned onto the player (round 7)."
+    },
+    "note": "Three shots at 8 m, every one landing: the archer aims the vacuum solution at the chest and a validation scene looses with no spread (deterministic by contract), so a miss here is an aiming defect, not luck."
+  },
+  "bow-drawn-hold": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAWN"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
   }
 }

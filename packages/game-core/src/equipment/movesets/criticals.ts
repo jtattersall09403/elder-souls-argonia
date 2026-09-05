@@ -201,15 +201,14 @@ export function applyCriticalStyle(
 }
 
 /**
- * The stabbing riposte for one-handed swords and daggers.
+ * The stabbing riposte for daggers.
  *
- * The owner wants a *stab*. The authored one-handed execution (`RIPOSTE`,
- * Rim's CQC02) is a lunge; Rim's dagger execution contains one clean forward
- * thrust, isolated by the round-5 audition at source 2.165-3.298 s with the
- * strike at 2.432 s (polish backlog, "per-weapon riposte clips"). It ships as
- * `RIPOSTE_STAB` behind the sandbox's "Stabbing riposte" switch so the two can
- * be compared in one session; the victim's half is unchanged, because being
- * run through does not depend on the clip that did it.
+ * The authored one-handed execution (`RIPOSTE`, Rim's CQC02) is a lunge and
+ * stays on the sword (owner 2026-09-05); Rim's dagger execution contains one
+ * clean forward thrust, isolated by the round-5 audition at source
+ * 2.165-3.298 s with the strike at 2.432 s. It ships as `RIPOSTE_STAB` on the
+ * dagger class; the victim's half is unchanged, because being run through
+ * does not depend on the clip that did it.
  *
  * Every number here is from that measurement: separation 0.8 m, entry blend
  * 0.24 s (the blade sweeps while the pair is still closing), and the exit
@@ -261,12 +260,11 @@ export function stabRiposteAttack<A extends AttackSpec>(base: A): A {
 }
 
 /**
- * A weapon with the stabbing riposte in place of the authored lunge, for the
- * weapons that riposte with `RIPOSTE` (the thrust classes: swords, daggers).
- * Anything else — a swing-class axe, a greatsword with its own execution — is
+ * A weapon with the stabbing riposte in place of the authored lunge. Only
+ * meaningful for a weapon that ripostes with `RIPOSTE`; anything else is
  * returned as is.
  */
-export function withStabRiposte(weapon: WeaponDefinition): WeaponDefinition {
+export function withStabRiposte<W extends WeaponDefinition>(weapon: W): W {
   if (weapon.animations.riposte.attackerAction !== "RIPOSTE") return weapon;
   return {
     ...weapon,

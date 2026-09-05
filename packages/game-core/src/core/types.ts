@@ -206,11 +206,11 @@ export type GameSnapshot = {
    */
   lockedSpeedFollowsClip: boolean;
   /**
-   * One-handed swords and daggers riposte with a *stab* (Rim's dagger
-   * execution, `RIPOSTE_STAB`) rather than the CQC02 lunge. A switch so the
-   * two can be compared in the same session; sandbox debug only.
+   * Aim with Skyrim's first-person bow rig (own skeleton, arm meshes and
+   * first-person bow clips on the camera) instead of the third-person body's
+   * eye view. Off restores that view unchanged; the switch is the revert.
    */
-  stabRiposte: boolean;
+  firstPersonBowRig: boolean;
   /** Which enemy archetype the sandbox spawns. See `actors/enemyArchetypes`. */
   enemyArchetypeId: string;
   resetToken: number;

@@ -60,6 +60,9 @@
   "ranged": [
     "bow-shot",
     "bow-partial-draw",
-    "bow-aim-tracking"
+    "bow-aim-tracking",
+    "bow-aim-turn",
+    "bow-drawn-hold",
+    "archer-shot"
   ]
 }

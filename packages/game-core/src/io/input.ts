@@ -83,7 +83,12 @@ export class InputController {
       if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "Tab"].includes(event.code)) event.preventDefault();
     };
     const up = (event: KeyboardEvent) => this.keys.delete(event.code);
-    const mouseDown = (event: MouseEvent) => this.mouse.add(event.button);
+    // A click on the interface (the debug panel, the help panel) is the
+    // interface's, not a swing: only the world takes mouse buttons.
+    const mouseDown = (event: MouseEvent) => {
+      if (isUiTarget(event.target)) return;
+      this.mouse.add(event.button);
+    };
     const mouseUp = (event: MouseEvent) => this.mouse.delete(event.button);
     // Mouse-look only while the pointer is locked (click the canvas to engage),
     // so moving the mouse to reach UI/menus doesn't spin the camera.
@@ -296,4 +301,14 @@ export function analogueMoveSpeed(
   const amount = Math.min(1, Math.max(0, magnitude));
   if (crouchSpeed !== undefined) return crouchSpeed * amount;
   return (sprinting ? PLAYER_SPRINT_SPEED : PLAYER_WALK_SPEED) * amount;
+}
+
+/**
+ * Whether a pointer event landed on interface chrome rather than the world.
+ * Panels opt in with `data-ui-capture`; the check is DOM-only so the controller
+ * stays free of any UI framework.
+ */
+function isUiTarget(target: EventTarget | null) {
+  const element = target as { closest?: (selector: string) => unknown } | null;
+  return Boolean(element?.closest?.("[data-ui-capture]"));
 }

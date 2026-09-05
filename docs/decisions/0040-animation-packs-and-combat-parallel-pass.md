@@ -641,3 +641,91 @@ complete bow set (`_1stperson/animations/bow_*.hkx`, `bowdrawn_*.hkx`), the
 first-person skeleton (`_1stperson/skeleton.nif`), and first-person body and
 hand meshes per race. Recorded in the polish backlog with paths and a build
 outline; not attempted this round.
+
+# Round 7 (2026-09-05) — the owner's round-6 list
+
+## 33. A parry catches by timing
+
+Owner ruling on §28's open question: the Souls rule. While the catch part of
+the parry clip is active, a blade that reaches the defender's *body* is
+parried, not only one that reaches the catch volume. Both directions. The
+round-6 `enemy-parry` failure was exactly the geometric rule's blind spot —
+with the honest 8 cm side-step the sword met the torso and never the raised
+blade — and the scene passes again without any restaging.
+
+## 34. The dagger stabs; the sword keeps its lunge
+
+`RIPOSTE_STAB` is now wired into the dagger *class* in the arsenal
+(`withStabRiposte` on `classId === "dagger"`); the one-handed sword keeps the
+authored CQC02 lunge. The round-6 comparison switch is gone. `riposte-stab`
+runs on the iron dagger.
+
+## 35. A held item's volume is re-measured when the item changes
+
+The dagger's swing volume "looked sword length" because `HeldObjectHitbox`
+measured its object once and the weapon mount object survives an inventory
+swap: a dagger inherited the sword's capsule. The measurement is keyed by the
+item id now, and an empty measurement (meshes not yet streamed) is retried
+rather than remembered.
+
+## 36. Foot-anchored locomotion, for real
+
+Round 6 matched the locked-on *speed* to the strafe clips but still scaled the
+clip. The owner wants the feet to be the anchor everywhere: locked-on strides
+and the crouch now play at rate 1 and the body's velocity is the clip's own
+planted-foot track (`footAnchoredLoopVelocity`, wrap-aware), applied in the
+actor's frame; the controller gets no joystick for them and the facing is
+driven directly (a crouch faces the way it goes and always plays the forward
+sneak stride; only a locked-on crouch strafes). Behind the same switch as
+round 6's speed rule. `enemy-approach` starts beyond the run threshold
+because a 0.7 m/s back-walk cannot open the gap; `crouch-locomotion` locks on
+for its reverse and strafes.
+
+## 37. Archers aimed a head above the head
+
+`aimEnemyBow` solved for `target.y + 0.9` where `target` is the capsule
+*centre*, i.e. ~1.9 m: a standing player was missed by design. Aimed at the
+chest (+0.25). A validation scene looses with no spread (deterministic by
+contract), and `archer-shot` proves three hits from 8 m after a quarter turn.
+
+## 38. A standing archer does not turn on the controller's torque
+
+The round-6 lock-forward fix did nothing measurable: `bow-aim-turn` swung the
+camera 2.2 rad and the body 0 (the controller's turning torque does not move a
+standing, joystick-less body). The aim now pins the body rotation to the
+camera yaw every frame, exactly as the lock-on does. The scene's `facing`
+check guards it, and the same telemetry (`playerYaw`, `cameraYaw`, `enemyYaw`,
+`enemyBearingToPlayer`) guards the archer's turn.
+
+## 39. Bows are rigged: the string and limbs draw
+
+`pipeline.build_bow_rigs` builds every arsenal bow *skinned* to the vanilla
+seven-bone bow skeleton (`meshes/weapons/bow/character assets/skeleton.hkx`)
+with the bow's own `bow_drawlight/drawheavy/idledrawn/release` clips baked
+in, one GLB per bow under `bow-rigs/`, in the skeleton's units with a
+measured runtime `scale` (taken from the exported GLB's own rest bounds — the
+exporter's unit handling for a skinned mesh is not the static build's). At
+runtime `OffHandItem` mounts the rig when the profile has one, scrubs the draw
+clip by the archer's draw fraction from the measured pull *onset* (the vanilla
+draws hold rest for ~1 s first) and plays the release once per loose. Player
+and archer alike. Static bow GLBs remain for anything without a draw.
+
+## 40. The first-person bow rig is in, behind a switch
+
+`pipeline.build_first_person` builds Skyrim's own first-person rig for bows:
+`skeletonfirst.hkx`, `1stpersonmalebody_1` + `1stpersonmalehands_1`, and
+fourteen `_1stperson/bow_*` / `bowdrawn_*` clips, as
+`rig-skyrim-first-person.bow.glb` (same units as the body rig — forearm
+1.6047 in both — so `CHARACTER_SCALE` applies). `FirstPersonBow` puts the
+rig's root at the body's feet, turns it to the view yaw, pitches it about its
+own `Camera1st` bone and hands the camera that bone's position; the rigged
+bow mounts on its `Shield` node and the nocked arrow on `Weapon`, so the shot
+leaves from the first-person string. The third-person body is hidden while
+it is up. "First-person bow rig (Skyrim arms)" in the debug panel is the
+whole revert. Skin is the vanilla texture (untinted) for now; race tinting of
+the arms is a follow-up.
+
+## 41. The interface owns its clicks
+
+Mouse buttons that land on `[data-ui-capture]` chrome (the debug and help
+panels) never reach the combat input, so ticking a switch no longer swings.

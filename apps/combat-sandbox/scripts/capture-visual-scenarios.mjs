@@ -179,6 +179,25 @@ function semanticFailures(scenario, telemetry, expected) {
   if (expected.enemyHealthGreaterThan !== undefined && telemetry.enemyHealth <= expected.enemyHealthGreaterThan) {
     failures.push(`${scenario}: expected enemy health above ${expected.enemyHealthGreaterThan}, observed ${telemetry.enemyHealth}`);
   }
+  if (expected.facing) {
+    // Who is looking where at the end of the scene, from the final telemetry.
+    const wrap = (angle) => Math.atan2(Math.sin(angle), Math.cos(angle));
+    const { actor, followsCameraWithinRadians, facesPlayerWithinRadians } = expected.facing;
+    if (actor === "player" && followsCameraWithinRadians !== undefined) {
+      // The camera sits behind the player and looks the other way, so the
+      // body's yaw is the camera yaw turned half a circle.
+      const error = Math.abs(wrap(telemetry.playerYaw - (telemetry.cameraYaw + Math.PI)));
+      if (!(error <= followsCameraWithinRadians)) {
+        failures.push(`${scenario}: player facing is ${error.toFixed(3)} rad off the camera yaw (limit ${followsCameraWithinRadians})`);
+      }
+    }
+    if (actor === "enemy" && facesPlayerWithinRadians !== undefined) {
+      const error = Math.abs(wrap(telemetry.enemyYaw - telemetry.enemyBearingToPlayer));
+      if (!(error <= facesPlayerWithinRadians)) {
+        failures.push(`${scenario}: enemy facing is ${error.toFixed(3)} rad off the bearing to the player (limit ${facesPlayerWithinRadians})`);
+      }
+    }
+  }
   if (expected.playerHealthLessThan !== undefined && telemetry.playerHealth >= expected.playerHealthLessThan) {
     failures.push(`${scenario}: expected player health below ${expected.playerHealthLessThan}, observed ${telemetry.playerHealth}`);
   }

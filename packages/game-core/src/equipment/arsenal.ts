@@ -1,7 +1,9 @@
 import manifest from "./generated/arsenal.items.json";
+import bowRigManifest from "./generated/bow-rigs.items.json";
 import { defineWeapon } from "./defineWeapon";
 import { MATERIAL_PROFILES, scaleGuardValue, type MaterialId, type MaterialProfile } from "./materials";
 import { SHIELD_STABILITY_BAND, WEAPON_STABILITY_BAND, clampToBand } from "./guard";
+import { withStabRiposte } from "./movesets/criticals";
 import { MAIN_HAND_NODE_HALF_TURN, OFF_HAND_NODE_HALF_TURN, WEAPON_CLASSES, resolveMoveset, resolveWeaponAnimations, scaleMoveset } from "./weaponClasses";
 import { SHIELD_ANIMATIONS } from "./movesets/shield";
 import type {
@@ -11,6 +13,7 @@ import type {
   ShieldDefinition,
   WeaponClass,
   WeaponDefinition,
+  BowRigProfile,
 } from "./types";
 
 /**
@@ -33,6 +36,31 @@ type BuiltItem = {
 };
 
 const BUILT = manifest.items as unknown as Record<string, BuiltItem>;
+
+type BuiltBowRig = {
+  asset: string;
+  scale: number;
+  sizeMeters: [number, number, number];
+  clipDurations: Record<string, number>;
+  drawOnsets: Record<string, number>;
+};
+const BUILT_BOW_RIGS = bowRigManifest.items as unknown as Record<string, BuiltBowRig>;
+
+/** The rigged bow for an item, when the pipeline built one. */
+function bowRigFor(itemId: string, pipelineClass: string): BowRigProfile | undefined {
+  const built = BUILT_BOW_RIGS[itemId];
+  if (!built) return undefined;
+  // Vanilla ships a light and a heavy draw; a hunting bow pulls light.
+  const drawClip = pipelineClass === "shortbow" ? "BOW_RIG_DRAW" : "BOW_RIG_DRAW_HEAVY";
+  return {
+    asset: built.asset,
+    scale: built.scale,
+    drawClip,
+    drawOnsetSeconds: built.drawOnsets[drawClip] ?? 0,
+    drawDurationSeconds: built.clipDurations[drawClip] ?? 1,
+    releaseDurationSeconds: built.clipDurations.BOW_RIG_RELEASE ?? 0.5,
+  };
+}
 
 /**
  * Map the pipeline's mesh-class vocabulary onto the game's weapon classes.
@@ -176,6 +204,7 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
       },
       sheathed: { socket: built.sheathSocket, localPosition: [0, 0, 0], localRotation: [0, 0, 0, 1], localScale: 1 },
       sizeMeters: built.sizeMeters,
+      ...(profile.ranged ? { rig: bowRigFor(itemId, built.class) } : {}),
     },
     // Clips and authored timing come from the resolved moveset; how hard and
     // how far come from the class. Neither is restated per item.
@@ -184,7 +213,9 @@ function buildWeapon(itemId: string, built: BuiltItem): ArsenalWeapon {
   });
 
   return {
-    ...definition,
+    // A dagger ripostes with a stab (owner 2026-09-05: dagger only; the
+    // one-handed sword keeps its authored CQC02 lunge).
+    ...(classId === "dagger" ? withStabRiposte(definition) : definition),
     materialId,
     classId,
     icon: built.icon,

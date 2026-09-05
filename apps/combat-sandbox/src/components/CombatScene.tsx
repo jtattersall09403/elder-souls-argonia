@@ -113,7 +113,6 @@ import type { RangedStats } from "@elder-souls/game-core/equipment/types";
 import { analogueMoveSpeed, cameraRelativeDirection, input, PLAYER_LOCK_ON_WALK_SPEED, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection } from "@elder-souls/game-core/io/input";
 import { inputToIntent } from "@elder-souls/game-core/combat/intent";
 import { lockOnLocomotionAnimation, lockOnOrientationWarp, lockOnSprintAllowed, lockOnYaws } from "@elder-souls/game-core/anim/lockOn";
-import { withStabRiposte } from "@elder-souls/game-core/equipment/movesets/criticals";
 import { useGameStore } from "@elder-souls/game-core/core/store";
 import type { AnimationState, CombatAction } from "@elder-souls/game-core/core/types";
 import type { AttackDefinition, PairedCriticalProfile, WeaponAnimationProfile } from "@elder-souls/game-core/equipment/types";
@@ -146,7 +145,7 @@ import {
   measureHeldObject,
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
-import { footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
+import { footAnchoredLoopVelocity, footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import {
   executionAnchor,
   executionBladeIntersectsVictim,
@@ -160,7 +159,7 @@ import {
 } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
-import { HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type HurtboxBone } from "@elder-souls/character";
+import { FirstPersonBow, HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
 const UP = new THREE.Vector3(0, 1, 0);
@@ -425,10 +424,18 @@ function HeldObjectHitbox({
   active,
   outline,
   outlineColor,
+  measureKey = "",
 }: {
   object: RefObject<THREE.Object3D | null>;
   /** Grown by this much all round. Zero for a swing, wider for a parry. */
   margin: number;
+  /**
+   * Changes whenever the held item's geometry changes (the item id). The
+   * mount object survives an inventory swap, so without this a dagger kept
+   * the sword's measured volume it replaced — the reported "dagger volume
+   * looks sword length".
+   */
+  measureKey?: string;
   overlaps: MutableRefObject<OverlapCounter>;
   name: string;
   active: RefObject<boolean>;
@@ -447,7 +454,7 @@ function HeldObjectHitbox({
   // and its box straddles it. Sizing from extents alone parks a shield's volume
   // a third of a metre off the shield. The mounted object knows the truth, and
   // asking it costs one traversal per equip.
-  const measured = useRef<THREE.Object3D | null>(null);
+  const measured = useRef<{ object: THREE.Object3D; key: string } | null>(null);
   const [capsule, setCapsule] = useState<HitCapsule>(() => hitCapsuleFor(
     { width: 0.1, height: 0.1, length: 0.9, minZ: 0 },
     margin,
@@ -461,9 +468,14 @@ function HeldObjectHitbox({
       return;
     }
     object.current.updateWorldMatrix(true, false);
-    if (measured.current !== object.current) {
-      measured.current = object.current;
-      setCapsule(hitCapsuleFor(measureHeldObject(object.current), margin));
+    if (measured.current?.object !== object.current || measured.current.key !== measureKey) {
+      const box = measureHeldObject(object.current);
+      // An item whose meshes have not streamed in yet measures empty; try
+      // again next frame rather than remembering a zero-length volume.
+      if (box.length > 0) {
+        measured.current = { object: object.current, key: measureKey };
+        setCapsule(hitCapsuleFor(box, margin));
+      }
     }
     // The object runs along its own frame's +Z from the grip at the origin.
     center.set(0, 0, capsule.centerOffset).applyMatrix4(object.current.matrixWorld);
@@ -576,12 +588,14 @@ function looseEnemyArrow(
   runtime: EnemyRuntime,
   ranged: RangedStats,
   distance: number,
+  /** No aim spread: a validation scene is deterministic by contract. */
+  exact = false,
 ) {
   // What every archer in the sandbox shoots. A per-archetype quiver is a
   // Phase 13 loot question, not a combat one.
   const arrow = DEFAULT_ARROW;
   const speed = launchSpeed(ranged, arrow.physics, 1);
-  const spread = bowAimSpread(runtime.fighter.personality, distance);
+  const spread = exact ? 0 : bowAimSpread(runtime.fighter.personality, distance);
   // Deterministic per-shot rather than per-frame: one wobble, applied to the
   // whole shot, so the arrow flies straight along a slightly wrong line.
   const yawError = (Math.random() - 0.5) * 2 * spread;
@@ -612,7 +626,10 @@ function aimEnemyBow(runtime: EnemyRuntime, ranged: RangedStats, target: THREE.V
   const arrow = DEFAULT_ARROW;
   const origin = runtime.nockWorld.current;
   const speed = launchSpeed(ranged, arrow.physics, 1);
-  const elevation = aimElevation(speed, arrow.physics, distance, (target.y + 0.9) - origin.y) ?? 0;
+  // Aimed at the chest: `target` is the capsule centre, a little below the
+  // sternum. The old +0.9 aimed a head's height above the crown, which is why
+  // a standing player was "almost always" missed.
+  const elevation = aimElevation(speed, arrow.physics, distance, (target.y + ARCHER_AIM_ABOVE_CENTRE) - origin.y) ?? 0;
   runtime.aimPitch.current = elevation;
   const yaw = runtime.fighter.yaw;
   runtime.aimDirection.current.set(
@@ -622,6 +639,8 @@ function aimEnemyBow(runtime: EnemyRuntime, ranged: RangedStats, target: THREE.V
   );
 }
 
+/** Where on the player an archer aims, above the capsule centre, metres. */
+const ARCHER_AIM_ABOVE_CENTRE = 0.25;
 /** How far off its target an archer may still be facing when it looses, radians. */
 const BOW_LOOSE_FACING_TOLERANCE = 0.06;
 /** The longest an archer waits at full draw for its turn to finish, seconds. */
@@ -694,6 +713,9 @@ type EnemyRuntime = {
    */
   aimDirection: MutableRefObject<THREE.Vector3>;
   aimPitch: MutableRefObject<number>;
+  /** The rigged bow's draw: 0-1 pull, and a counter bumped on every loose. */
+  bowDrawFraction: MutableRefObject<number>;
+  bowRelease: MutableRefObject<number>;
   nockVisible: MutableRefObject<boolean>;
   nockWorld: MutableRefObject<THREE.Vector3>;
   /**
@@ -758,6 +780,8 @@ function createEnemyRuntime(
     parryContactGrace: 0,
     aimDirection: { current: new THREE.Vector3(0, 0, 1) },
     aimPitch: { current: 0 },
+    bowDrawFraction: { current: 0 },
+    bowRelease: { current: 0 },
     nockVisible: { current: false },
     nockWorld: { current: new THREE.Vector3() },
     bowFacingDelay: 0,
@@ -901,6 +925,7 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           targetAnchorRef={runtime.targetAnchor}
           hurtboxRef={runtime.hurtbox}
           aimPitchRef={runtime.archetype.loadout.mainHand.stats.ranged ? runtime.aimPitch : undefined}
+          bowDraw={{ fraction: runtime.bowDrawFraction, release: runtime.bowRelease }}
           nockedArrow={runtime.archetype.loadout.mainHand.stats.ranged
             ? {
               asset: DEFAULT_ARROW.asset,
@@ -985,14 +1010,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // Validation runs a fixed, deterministic scene; background fetches would only
   // add noise to it.
   useCarriedAssetWarmup(!visualScenario);
-  // The stabbing riposte is a sandbox comparison switch; a scenario pins it
-  // itself so the recorded scenes do not depend on the panel.
-  const stabRiposteEnabled = useGameStore((state) => state.stabRiposte);
-  const stabRiposte = visualScenario ? (visualScenario.player.stabRiposte ?? false) : stabRiposteEnabled;
-  const playerWeapon = useMemo(
-    () => (stabRiposte ? withStabRiposte(playerLoadout.mainHand) : playerLoadout.mainHand),
-    [playerLoadout.mainHand, stabRiposte],
-  );
+  const playerWeapon = playerLoadout.mainHand;
   const consumeArrow = useInventoryStore((state) => state.remove);
   const playerGuard = useMemo(() => activeGuardProfile(playerLoadout), [playerLoadout]);
   // What a raised guard is *made of* and what it *looks like* come from the
@@ -1091,6 +1109,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const footDrivenMotion = useGameStore((state) => state.footDrivenMotion);
   const lockedSpeedFollowsClip = useGameStore((state) => state.lockedSpeedFollowsClip);
   /**
+   * Clip-driven locomotion (locked-on and crouched): the stride playing, how
+   * far into it we are — kept here rather than read back from the mixer, at
+   * playback rate 1 the two agree — and, for a crouch, the way the body is
+   * being turned to face.
+   */
+  const clipDrivenState = useRef<AnimationState | null>(null);
+  const clipDrivenTime = useRef(0);
+  const crouchFacing = useRef<THREE.Vector3 | null>(null);
+  const crouchFacingVector = useRef(new THREE.Vector3());
+  /**
    * The player's poise pool (module 76 §121.3). While it holds, a hit costs
    * health and nothing else; when it empties the blow interrupts. Enemies carry
    * the same structure on their Fighter.
@@ -1111,6 +1139,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         0,
         new THREE.Vector3(...visualScenario.enemy.position),
         visualScenario.enemy.yaw,
+        visualScenario.enemy.archetypeId ? enemyArchetypeById(visualScenario.enemy.archetypeId) : undefined,
       )];
     }
     return DEFAULT_ENEMY_SPAWNS.map((start, index) =>
@@ -1147,6 +1176,30 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const playerAimDirection = useRef(new THREE.Vector3(0, 0, -1));
   /** Where the nocked shaft's tail is, world space; the shot leaves from it. */
   const playerNockWorld = useRef(new THREE.Vector3());
+  /** The rigged bow's draw: 0-1 pull, and a counter bumped on every loose. */
+  const playerBowDrawFraction = useRef(0);
+  const playerBowRelease = useRef(0);
+  const playerBowDraw = useMemo(
+    () => ({ fraction: playerBowDrawFraction, release: playerBowRelease }),
+    [],
+  );
+  /**
+   * The first-person bow rig (Skyrim's own arms), when the switch is on and
+   * the held bow has a rigged build. Its state is fed every frame the bow is
+   * up; it writes back where its camera bone is.
+   */
+  const firstPersonBowRig = useGameStore((state) => state.firstPersonBowRig);
+  const firstPersonState = useRef<FirstPersonBowState>({
+    rootPosition: new THREE.Vector3(),
+    yaw: 0,
+    pitch: 0,
+    drawFraction: 0,
+    drawing: false,
+    move: { x: 0, y: 0 },
+    moveMagnitude: 0,
+  });
+  const firstPersonCamera = useRef(new THREE.Vector3());
+  const playerNockVisible = useRef(false);
   const cameraPosition = useRef(new THREE.Vector3(0, 3.4, 10));
   const cameraLook = useRef(new THREE.Vector3());
   const tmp = useRef({
@@ -1180,6 +1233,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // Rendered state, not frame state: the actor is a React component and the
   // head has to be collapsed through a prop rather than from the frame loop.
   const aimingSnapshot = useGameStore((state) => state.aiming);
+  const firstPersonActive = aimingSnapshot && firstPersonBowRig && Boolean(playerWeapon.visual.rig);
   const bowPhaseSnapshot = useGameStore((state) => state.bowPhase);
   /**
    * The shaft on the string. Present whenever the bow is up and an arrow is
@@ -2197,6 +2251,20 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         aimDirectionInto(playerAimDirection.current, cameraYaw.current, aimPitch.current);
         tmp.current.aimDirection.copy(playerAimDirection.current);
       }
+      playerBowDrawFraction.current = bowStep.cycle.phase === "drawing" ? bowStep.cycle.drawFraction : 0;
+      if (bowStep.shot) playerBowRelease.current += 1;
+      playerNockVisible.current = bowStep.cycle.phase === "ready" || bowStep.cycle.phase === "drawing";
+      {
+        const view = firstPersonState.current;
+        view.rootPosition.set(playerPos.x, playerPos.y - CHARACTER_BODY_CENTER_HEIGHT, playerPos.z);
+        view.yaw = cameraYaw.current + Math.PI;
+        view.pitch = aimPitch.current;
+        view.drawFraction = bowStep.cycle.phase === "drawing" ? bowStep.cycle.drawFraction : 0;
+        view.drawing = bowStep.cycle.phase === "drawing";
+        view.move.x = intent.move.x;
+        view.move.y = intent.move.y;
+        view.moveMagnitude = moveMagnitude;
+      }
       if (bowStep.shot && playerQuiver) {
         const arrow = playerQuiver.arrow;
         const speed = launchSpeed(ranged, arrow.physics, bowStep.shot.drawFraction);
@@ -2510,10 +2578,17 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // landed cannot then also be parried.
         if (!execution && !playerAttackHit.current) {
           for (const e of activeEnemies) {
+            // The Souls rule (owner 2026-09-05): a parry catches by TIMING.
+            // Anything the blade reaches — the catch volume, the weapon, or
+            // the body itself — while the catch is active is parried.
             if (
               e.fighter.state === "parry"
               && isParryActive(e.fighter.actionTime, activeGuardAnimations(e.archetype.loadout).parry)
-              && (e.parryOverlaps.current.has("player-weapon") || e.overlaps.current.has("player-weapon"))
+              && (
+                e.parryOverlaps.current.has("player-weapon")
+                || e.overlaps.current.has("player-weapon")
+                || playerWeaponOverlaps.current.has(e.hurtboxName)
+              )
             ) {
               parriedBy = e;
               break;
@@ -2684,16 +2759,31 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const lockedClip = lockedOn.current && moveMagnitude > 0.08 && playerAction.current === "idle"
       ? lockOnLocomotionAnimation(intent.move, moveMagnitude, playerLocomotionReversing.current)
       : null;
-    const lockedSpeed = lockedClip && lockedSpeedFollowsClip
-      ? clipAuthoredGroundSpeed(lockedWeaponClip(playerWeapon.animations.locomotion, lockedClip)) ?? PLAYER_LOCK_ON_WALK_SPEED
-      : PLAYER_LOCK_ON_WALK_SPEED;
+    const crouchMoving = crouching && moveMagnitude > 0.08 && playerAction.current === "idle";
+    // Foot-anchored locomotion: locked-on strides and the crouch play their
+    // clip at rate 1 and the body's velocity comes from the clip's own planted
+    // foot (`footAnchoredLoopVelocity`), so the controller's joystick is left
+    // alone and the facing is driven directly. Off (debug switch): the fixed
+    // locked-on / crouch speeds with the clip's cadence scaled to follow.
+    const clipDriven = lockedSpeedFollowsClip && movementAllowed && !aiming && handle.isOnGround
+      && (lockedClip !== null || crouchMoving);
     const lockOnMoveScale = aiming
       ? AIM_MOVE_SPEED / PLAYER_WALK_SPEED
-      : crouching
-        // The crouched cap comes from the authored sneak stride, so the stance
-        // moves at the speed its clips were timed for instead of scrubbing.
-        ? CROUCH_SPEED / PLAYER_WALK_SPEED
-        : lockedClip ? lockedSpeed / PLAYER_WALK_SPEED : 1;
+      : clipDriven
+        ? 0
+        : crouching
+          // The crouched cap comes from the authored sneak stride, so the stance
+          // moves at the speed its clips were timed for instead of scrubbing.
+          ? CROUCH_SPEED / PLAYER_WALK_SPEED
+          : lockedClip ? PLAYER_LOCK_ON_WALK_SPEED / PLAYER_WALK_SPEED : 1;
+    // A crouch faces the way it is going; the clip is the forward stride, the
+    // body turns. Only a locked-on crouch strafes.
+    if (clipDriven && crouchMoving && !lockedOn.current) {
+      const towards = cameraRelativeDirection(intent.move, cameraYaw.current);
+      crouchFacing.current = crouchFacingVector.current.set(towards.x, 0, towards.z).normalize();
+    } else {
+      crouchFacing.current = null;
+    }
     // The controller retains horizontal authority through touchdown. Moving
     // landings use a short directional compression and crossfade quickly into
     // locomotion, so there is no planted stationary pose to skate across the
@@ -2708,7 +2798,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // Ecctrl decelerates released input asymptotically, which leaves a brief
     // residual slide in the direction of travel. Snap planar velocity to zero
     // once there is no input at all, instead of waiting the friction out.
-    if ((guarding || (movementAllowed && moveMagnitude <= 0.01)) && handle.isOnGround) {
+    if ((guarding || (movementAllowed && moveMagnitude <= 0.01)) && handle.isOnGround && !clipDriven) {
       const settled = body.linvel();
       if (settled.x !== 0 || settled.z !== 0) body.setLinvel({ x: 0, y: settled.y, z: 0 }, true);
     }
@@ -2749,11 +2839,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           : !handle.isOnGround
             ? "JUMP_IDLE"
             : crouching
-              ? crouchLocomotionAnimation(
-                intent.move,
-                moveMagnitude,
-                equipped.current ? playerWeapon.animations : undefined,
-              )
+              ? (crouchMoving && !lockedOn.current
+                // Facing the way it goes, so always the forward stride.
+                ? crouchLocomotionAnimation({ x: 0, y: 1 }, moveMagnitude, equipped.current ? playerWeapon.animations : undefined)
+                : crouchLocomotionAnimation(
+                  intent.move,
+                  moveMagnitude,
+                  equipped.current ? playerWeapon.animations : undefined,
+                ))
             : sprinting
               ? playerWeapon.animations.sprintOverride ?? "SPRINT"
               : lockedLocomotion
@@ -2775,12 +2868,35 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // why strafing and back-walking scrubbed underfoot: the strafe clips are
       // authored at ~0.8 m/s and the locked walk moves at up to 3, so their
       // cadence has to follow the real speed like every other stride's.
+      const drivenByFeet = clipDriven && hasGroundTrack(locomotion);
       playerAnimationSpeed.current = jumpStartTimer.current > 0
         ? (clipPlaybackSourceSpan("JUMP_START") ?? JUMP_LAUNCH_ANIMATION_DURATION) / JUMP_LAUNCH_ANIMATION_DURATION
         : landingTimer.current > 0
           ? landingAnimationSpeed(landingDuration.current, landingAnimation.current)
-          : locomotionSpeedMultiplier(locomotion, playerMoveSpeed.current);
+          : drivenByFeet
+            ? 1
+            : locomotionSpeedMultiplier(locomotion, playerMoveSpeed.current);
       setAnim(locomotion);
+      if (drivenByFeet) {
+        // The stride's own feet move the body. The clock restarts with the
+        // clip (a new command starts its action at 0) and runs at rate 1.
+        if (clipDrivenState.current !== locomotion) {
+          clipDrivenState.current = locomotion;
+          clipDrivenTime.current = 0;
+        }
+        clipDrivenTime.current += delta;
+        const step = footAnchoredLoopVelocity(locomotion, clipDrivenTime.current, delta);
+        const facing = handle.bodyZAxis;
+        const fx = facing.x;
+        const fz = facing.z;
+        body.setLinvel({
+          x: fx * step.forward + fz * TRACK_LATERAL_SIGN * step.lateral,
+          y: body.linvel().y,
+          z: fz * step.forward - fx * TRACK_LATERAL_SIGN * step.lateral,
+        }, true);
+      } else {
+        clipDrivenState.current = null;
+      }
     } else {
       playerLocomotionReversing.current = false;
       playerAnimationSpeed.current = 1;
@@ -2813,6 +2929,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         e.nockVisible.current = false;
         e.bowFacingDelay = 0;
         e.aimPitch.current = 0;
+        e.bowDrawFraction.current = 0;
       }
       // The fighter owns the desired yaw, while Ecctrl is the sole writer of
       // the live body's non-critical rotation. Ecctrl's lock-forward path
@@ -3017,7 +3134,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           setEnemyAnim(e, step.animation);
           aimEnemyBow(e, ranged, playerPos, distance);
           e.nockVisible.current = step.phase === "draw" || step.phase === "hold";
-          if (step.loosed) looseEnemyArrow(e, ranged, distance);
+          e.bowDrawFraction.current = step.phase === "draw"
+            ? THREE.MathUtils.clamp(elapsed / Math.max(1e-3, ranged.drawSeconds), 0, 1)
+            : step.phase === "hold" ? 1 : 0;
+          if (step.loosed) {
+            e.bowRelease.current += 1;
+            looseEnemyArrow(e, ranged, distance, Boolean(visualScenario));
+          }
           if (step.phase === "done") {
             f.decisionTimer = 0;
             e.bowFacingDelay = 0;
@@ -3095,9 +3218,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           && !f.attackHit
           && playerAction.current === "parry"
           && isParryActive(playerActionTime.current, playerGuardAnimations.parry)
+          // Same Souls rule as the enemy's parry above: while the catch is
+          // active, a blade that reaches the body is caught too.
           && (
             playerParryOverlaps.current.has(e.weaponName)
             || playerWeaponOverlaps.current.has(e.weaponName)
+            || e.overlaps.current.has(PLAYER_HURTBOX_NAME)
           )
         ) {
           setEnemyMode(e, "parried", weapon.animations.guardBreak);
@@ -3400,6 +3526,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const freeForward = cameraRelativeDirection({ x: 0, y: 1 }, cameraYaw.current);
         tmp.current.forward.set(freeForward.x, 0, freeForward.z).normalize();
         handle.setForwardDir(tmp.current.forward);
+        // And pinned outright, as the lock-on does: the controller's turning
+        // torque proved not to move a standing archer at all (measured in the
+        // bow-aim-turn scene: the camera swung 2.2 rad, the body 0).
+        body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+        tmp.current.quaternion.setFromAxisAngle(UP, cameraYaw.current + Math.PI);
+        body.setRotation(tmp.current.quaternion, true);
       }
     } else {
       cameraYaw.current -= intent.camera.x * delta * 2.35;
@@ -3407,7 +3539,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // keep in step with game-core's FollowCamera, which is the extracted
       // copy of this path).
       cameraPitch.current = THREE.MathUtils.clamp(cameraPitch.current + intent.camera.y * delta * 1.7, -1.15, 0.78);
-      if (!playerAttack.current) {
+      if (!playerAttack.current && crouchFacing.current) {
+        // A clip-driven crouch gives the controller no joystick, so it would
+        // never turn on its own: the facing is driven, as a lock-on's is.
+        handle.setLockForward(true);
+        handle.setForwardDir(crouchFacing.current);
+      } else if (!playerAttack.current) {
         handle.setLockForward(false);
         const freeForward = cameraRelativeDirection({ x: 0, y: 1 }, cameraYaw.current);
         tmp.current.forward.set(freeForward.x, 0, freeForward.z).normalize();
@@ -3469,6 +3606,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // right moves hand and string off-centre the way an aimed bow reads.
       tmp.current.flat.x += -tmp.current.aimDirection.z * AIM_EYE_RIGHT_METERS;
       tmp.current.flat.z += tmp.current.aimDirection.x * AIM_EYE_RIGHT_METERS;
+      // With the first-person arms up, the camera is the rig's own camera bone:
+      // the arms, bow and arrow are framed exactly as their clips frame them.
+      if (firstPersonActive && firstPersonCamera.current.lengthSq() > 0) tmp.current.flat.copy(firstPersonCamera.current);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
       // direction exactly rather than approximately.
@@ -3511,7 +3651,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // The near plane rides the same blend: fully aimed clips the actor's
       // own near geometry (see AIM_NEAR_CLIP_METERS); anything less keeps the
       // third-person default so nothing pops during the raise.
-      const wantedNear = aimBlendAmount.current >= 1 ? AIM_NEAR_CLIP_METERS : BASE_NEAR_CLIP_METERS;
+      // The arms rig is authored to be seen from its camera bone, so it wants
+      // an ordinary near plane; the third-person body's eye view needs the
+      // near clip to cut the skull's neighbourhood away.
+      const wantedNear = aimBlendAmount.current >= 1 && !firstPersonActive ? AIM_NEAR_CLIP_METERS : BASE_NEAR_CLIP_METERS;
       if (Math.abs(camera.fov - wanted) > 0.01 || camera.near !== wantedNear) {
         camera.fov = wanted;
         camera.near = wantedNear;
@@ -3601,6 +3744,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       enemyAction,
       enemyAnimation,
       playerHealth: playerHealth.current,
+      playerYaw: Number(Math.atan2(handle.bodyZAxis.x, handle.bodyZAxis.z).toFixed(3)),
+      cameraYaw: Number(cameraYaw.current.toFixed(3)),
+      enemyYaw: enemy ? Number(enemy.fighter.yaw.toFixed(3)) : undefined,
+      enemyBearingToPlayer: enemy
+        ? Number(Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z).toFixed(3))
+        : undefined,
       enemyHealth: enemy?.fighter.health ?? 0,
       actorDistance: actorDistance === null ? null : Number(actorDistance.toFixed(3)),
       observedPlayerActions: [...visualObserved.current.playerActions],
@@ -3636,7 +3785,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           animationPacks={playerAnimationPacks}
           armour={playerArmour}
           nockedArrow={playerNockedArrow}
-          firstPerson={aimingSnapshot}
+          bowDraw={playerBowDraw}
+          firstPerson={aimingSnapshot && !firstPersonActive}
+          hidden={firstPersonActive}
           raceId={playerRace}
           speedMultiplierRef={playerAnimationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
@@ -3658,6 +3809,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       <HeldObjectHitbox
         object={playerWeaponObject}
         margin={0}
+        measureKey={playerWeapon.id}
         overlaps={playerWeaponOverlaps}
         name="player-weapon"
         active={playerHitboxActive}
@@ -3670,12 +3822,27 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       <HeldObjectHitbox
         object={playerParryObject}
         margin={PARRY_VOLUME_MARGIN_METERS}
+        measureKey={`${playerWeapon.id}/${playerLoadout.offHand?.id ?? ""}`}
         overlaps={playerParryOverlaps}
         name="player-parry-shield"
         active={playerParryActive}
         outline={showWeaponHitboxes}
         outlineColor="#4dd2ff"
       />
+      {firstPersonActive && playerWeapon.visual.rig && (
+        <Suspense fallback={null}>
+          <FirstPersonBow
+            bow={playerWeapon.visual}
+            state={firstPersonState}
+            bowDraw={playerBowDraw}
+            nockedArrow={playerQuiver
+              ? { asset: playerQuiver.arrow.asset, visibleRef: playerNockVisible, aimDirection: playerAimDirection, nockWorld: playerNockWorld }
+              : null}
+            cameraOut={firstPersonCamera}
+            visible
+          />
+        </Suspense>
+      )}
       <AnalogueSpeedLimiter
         controller={player}
         magnitude={moveMagnitudeRef}

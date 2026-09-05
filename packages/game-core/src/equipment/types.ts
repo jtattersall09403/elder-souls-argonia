@@ -283,6 +283,24 @@ export type WeaponVisualProfile = {
    * of a warhammer.
    */
   sizeMeters: readonly [number, number, number];
+  /**
+   * The rigged build of a bow: skinned to the vanilla seven-bone bow skeleton
+   * with the bow's own draw, drawn and release clips baked in, so a drawn bow
+   * bends and its string comes back to the hand. Bows only; when present the
+   * actor mounts this asset instead of `asset`.
+   */
+  rig?: BowRigProfile;
+};
+
+export type BowRigProfile = {
+  asset: string;
+  /** Applied to the mounted rig to bring it to the class length in metres. */
+  scale: number;
+  /** The clip the archer's draw fraction scrubs, and where its pull begins. */
+  drawClip: "BOW_RIG_DRAW" | "BOW_RIG_DRAW_HEAVY";
+  drawOnsetSeconds: number;
+  drawDurationSeconds: number;
+  releaseDurationSeconds: number;
 };
 
 export type PairedCriticalProfile = {

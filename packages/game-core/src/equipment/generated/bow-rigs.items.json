@@ -1,0 +1,239 @@
+{
+  "set": "bow-rigs",
+  "clips": [
+    "BOW_RIG_DRAW",
+    "BOW_RIG_DRAW_HEAVY",
+    "BOW_RIG_DRAWN",
+    "BOW_RIG_RELEASE"
+  ],
+  "items": {
+    "wood-shortbow": {
+      "asset": "bow-rigs/wood-shortbow.glb",
+      "scale": 0.111851,
+      "sizeMeters": [
+        0.18775,
+        0.03523,
+        1.28
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "forsworn-shortbow": {
+      "asset": "bow-rigs/forsworn-shortbow.glb",
+      "scale": 0.10945,
+      "sizeMeters": [
+        0.25074,
+        0.08281,
+        1.28
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "falmer-shortbow": {
+      "asset": "bow-rigs/falmer-shortbow.glb",
+      "scale": 0.109081,
+      "sizeMeters": [
+        0.28402,
+        0.07894,
+        1.28
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "iron-longbow": {
+      "asset": "bow-rigs/iron-longbow.glb",
+      "scale": 0.13917,
+      "sizeMeters": [
+        0.26078,
+        0.05437,
+        1.6
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "steel-longbow": {
+      "asset": "bow-rigs/steel-longbow.glb",
+      "scale": 0.139447,
+      "sizeMeters": [
+        0.307,
+        0.06405,
+        1.6
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "elven-longbow": {
+      "asset": "bow-rigs/elven-longbow.glb",
+      "scale": 0.139087,
+      "sizeMeters": [
+        0.34337,
+        0.06808,
+        1.6
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "glass-longbow": {
+      "asset": "bow-rigs/glass-longbow.glb",
+      "scale": 0.139082,
+      "sizeMeters": [
+        0.36381,
+        0.08185,
+        1.6
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "orcish-warbow": {
+      "asset": "bow-rigs/orcish-warbow.glb",
+      "scale": 0.149799,
+      "sizeMeters": [
+        0.29612,
+        0.0585,
+        1.75
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "dwarven-warbow": {
+      "asset": "bow-rigs/dwarven-warbow.glb",
+      "scale": 0.155291,
+      "sizeMeters": [
+        0.3266,
+        0.06793,
+        1.75
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "nordhero-warbow": {
+      "asset": "bow-rigs/nordhero-warbow.glb",
+      "scale": 0.153243,
+      "sizeMeters": [
+        0.42879,
+        0.11474,
+        1.75
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "ebony-warbow": {
+      "asset": "bow-rigs/ebony-warbow.glb",
+      "scale": 0.151935,
+      "sizeMeters": [
+        0.32609,
+        0.09473,
+        1.75
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    },
+    "daedric-warbow": {
+      "asset": "bow-rigs/daedric-warbow.glb",
+      "scale": 0.152134,
+      "sizeMeters": [
+        0.44912,
+        0.06026,
+        1.75
+      ],
+      "clipDurations": {
+        "BOW_RIG_DRAW": 1.6667,
+        "BOW_RIG_DRAW_HEAVY": 2.6333,
+        "BOW_RIG_DRAWN": 3.6667,
+        "BOW_RIG_RELEASE": 0.8
+      },
+      "drawOnsets": {
+        "BOW_RIG_DRAW": 0.9667,
+        "BOW_RIG_DRAW_HEAVY": 1.4
+      }
+    }
+  }
+}

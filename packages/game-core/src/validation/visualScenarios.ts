@@ -37,6 +37,9 @@ export const VISUAL_SCENARIO_IDS = [
   "bow-shot",
   "bow-partial-draw",
   "bow-aim-tracking",
+  "bow-aim-turn",
+  "bow-drawn-hold",
+  "archer-shot",
   "riposte-queued",
   "crouch-locomotion",
   "shield-guard",
@@ -106,8 +109,6 @@ export type VisualScenario = {
     weaponId?: string;
     /** Ammunition to nock, for the same reason. */
     ammoId?: string;
-    /** Riposte with the stabbing clip (`RIPOSTE_STAB`) rather than the lunge. */
-    stabRiposte?: boolean;
     /** Off-hand item, for the scenes about guarding behind a shield. */
     offHandId?: string;
     /**
@@ -140,6 +141,8 @@ export type VisualScenario = {
     health?: number;
     stamina?: number;
     holdInitialState?: boolean;
+    /** Enemy archetype for the scene (default: the reference warden). */
+    archetypeId?: string;
   };
   cues: readonly InputCue[];
   enemyCues?: readonly EnemyCue[];
@@ -410,10 +413,10 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   },
   "riposte-stab": {
     id: "riposte-stab",
-    label: "Riposte with the stabbing clip (RIPOSTE_STAB) — the sword and dagger thrust",
+    label: "Dagger riposte — the stabbing clip (RIPOSTE_STAB) at its own separation",
     warmup: 0.5,
     duration: 8.8,
-    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, stabRiposte: true },
+    player: { ...RIPOSTE_REVIEW_PLAYER, emptyOffHand: true, weaponId: "iron-dagger" },
     enemy: RIPOSTE_REVIEW_ENEMY,
     cues: [
       { from: 0.6, to: 0.69, actions: ["parry"] },
@@ -525,12 +528,9 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // compressed 1.75s, so the recording has to stay open long enough to show
     // the player recover from it.
     duration: 4.5,
-    // KNOWN FAILING since round 6 (0040 section 28): with the player's honest
-    // 8 cm lateral step during LIGHT_1 the blade reaches the parrying enemy's
-    // torso but not its raised catch volume at 1.0, 1.2, 1.54 or 1.74 m (all
-    // measured), and the one-outcome grace then lets neither the parry nor the
-    // hit resolve. Owner steer requested: a parry catches by timing (a blade
-    // reaching the body during the active catch counts) or by geometry.
+    // A parry catches by timing (owner 2026-09-05): the blade reaching the
+    // body during the active catch is enough, so the scene no longer depends
+    // on the raised blade lying exactly in the swing's path.
     player: { ...GUARD_CONTACT_PLAYER, emptyOffHand: true },
     enemy: GUARD_CONTACT_ENEMY,
     cues: [{ from: 0.35, to: 0.44, actions: ["light"] }],
@@ -583,15 +583,17 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     },
     enemy: {
       ...FACING_ENEMY,
-      position: [1.8, Y, -1.3],
+      // 7.1 m out: beyond the six-metre run threshold from the start, because
+      // a locked-on retreat now moves at the reverse stride's own 0.7 m/s and
+      // could not open the gap itself (round 7). The enemy runs, then drops
+      // to a walk through the hysteresis band as it closes.
+      position: [2.4, Y, -3.0],
       // Begin about 60 degrees off-target so the review includes a real turn,
       // not merely a straight treadmill pass.
       yaw: -1.4,
     },
     cues: [
       { from: 0.05, to: 0.14, actions: ["lockOn"] },
-      // Lock-on retreat grows the initial 5.31 m gap through the production
-      // six-metre run threshold; the curved second leg keeps turning visible.
       { from: 0.45, to: 2, move: [0, -0.75] },
       { from: 2, to: 3.15, move: [0.35, -0.75] },
     ],
@@ -762,18 +764,75 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   },
 
   // --- crouch ---------------------------------------------------------------
+  "bow-aim-turn": {
+    id: "bow-aim-turn",
+    label: "Bow → hold at full draw and turn the camera: the body turns with it",
+    warmup: 0.5,
+    duration: 7.2,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.6, to: 5.4, actions: ["light"] },
+      // A quarter turn to the left while the string is held.
+      { from: 2.0, to: 3.6, camera: [-18, 0] },
+    ],
+  },
+  "bow-drawn-hold": {
+    id: "bow-drawn-hold",
+    label: "Bow → draw and hold: the still the first-person rig is judged on",
+    warmup: 0.5,
+    duration: 6.2,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      // Held past the end: the longbow's full draw arrives at about 4.6 s.
+      { from: 0.6, to: 6.4, actions: ["light"] },
+    ],
+  },
+  "archer-shot": {
+    id: "archer-shot",
+    label: "Warden archer 8 m out, facing away → turns onto the player, draws, looses, hits",
+    warmup: 0.5,
+    duration: 13.4,
+    player: { position: [0, Y, 8], yaw: Math.PI, poise: false },
+    enemy: {
+      ...FACING_ENEMY,
+      archetypeId: "archer-warden",
+      animation: "BOW_IDLE",
+      // Facing a right angle away, so the loose has to wait for the turn.
+      yaw: Math.PI / 2,
+      holdInitialState: true,
+    },
+    cues: [],
+    enemyCues: [{ at: 0.3, intent: "shoot" }, { at: 4.2, intent: "shoot" }, { at: 8.1, intent: "shoot" }],
+  },
   "crouch-locomotion": {
     id: "crouch-locomotion",
-    label: "Crouch \u2192 sneak idle, stride, reverse, both strafes, then draw",
+    label: "Crouch \u2192 sneak idle, forward stride, then locked-on reverse and both strafes, then draw",
     warmup: 0.5,
     duration: 9.4,
     // Starts with the sword stowed so both the weapon-neutral crouch hold and
-    // the drawn one are reached through the ordinary equip path.
+    // the drawn one are reached through the ordinary equip path. Unlocked, a
+    // crouch faces the way it goes and plays the forward stride; the reverse
+    // and the strafes are the locked-on crouch's (round 7).
     player: { position: [0, Y, 3], yaw: Math.PI, equipped: false },
-    enemy: SOLO_ENEMY,
+    enemy: { ...FACING_ENEMY, position: [0, Y, -3] as const, holdInitialState: true },
     cues: [
       { from: 0.15, to: 0.24, actions: ["crouch"] },
       { from: 0.75, to: 2.0, move: [0, 0.6] },
+      { from: 2.05, to: 2.14, actions: ["lockOn"] },
       { from: 2.2, to: 3.35, move: [0, -0.6] },
       { from: 3.55, to: 4.7, move: [-0.6, 0] },
       { from: 4.9, to: 6.05, move: [0.6, 0] },

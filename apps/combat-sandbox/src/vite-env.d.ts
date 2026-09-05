@@ -13,6 +13,11 @@ type VisualScenarioTelemetry = {
   enemyAction: string;
   enemyAnimation: string;
   playerHealth: number;
+  /** Facings, radians, for scenes that check who is looking where. */
+  playerYaw?: number;
+  cameraYaw?: number;
+  enemyYaw?: number;
+  enemyBearingToPlayer?: number;
   enemyHealth: number;
   actorDistance: number | null;
   observedPlayerActions: string[];
