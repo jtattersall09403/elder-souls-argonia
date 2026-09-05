@@ -17,6 +17,12 @@ type VisualScenarioTelemetry = {
   playerYaw?: number;
   cameraYaw?: number;
   enemyYaw?: number;
+  enemyBodyYaw?: number;
+  lastArrow?: { origin: number[]; velocity: number[]; shooter: string } | null;
+  enemyNock?: number[];
+  enemyHandR?: number[];
+  enemyPosition?: number[];
+  playerPosition?: number[];
   enemyBearingToPlayer?: number;
   enemyHealth: number;
   actorDistance: number | null;

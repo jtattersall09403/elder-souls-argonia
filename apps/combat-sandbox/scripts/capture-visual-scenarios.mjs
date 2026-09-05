@@ -192,7 +192,10 @@ function semanticFailures(scenario, telemetry, expected) {
       }
     }
     if (actor === "enemy" && facesPlayerWithinRadians !== undefined) {
-      const error = Math.abs(wrap(telemetry.enemyYaw - telemetry.enemyBearingToPlayer));
+      // The BODY's yaw, not the fighter's desired yaw: the desired one turned
+      // on schedule while the body did not, once.
+      const bodyYaw = telemetry.enemyBodyYaw ?? telemetry.enemyYaw;
+      const error = Math.abs(wrap(bodyYaw - telemetry.enemyBearingToPlayer));
       if (!(error <= facesPlayerWithinRadians)) {
         failures.push(`${scenario}: enemy facing is ${error.toFixed(3)} rad off the bearing to the player (limit ${facesPlayerWithinRadians})`);
       }

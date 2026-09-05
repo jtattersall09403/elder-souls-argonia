@@ -12,6 +12,7 @@ import * as THREE from "three";
 
 import {
   ARROW_LIFETIME_SECONDS,
+  aerodynamicDrag,
   arrowMassSplit,
   flightAttitude,
   impactObliquity,
@@ -24,10 +25,11 @@ import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
  * Arrows in flight.
  *
  * Rapier owns the flight: each arrow is an ordinary dynamic body under gravity
- * and nothing else. Its rotation is locked, and every physics step the shaft
- * is pointed along its own velocity (`flightAttitude`), so it flies head-first
- * round a smooth arc with the tail tracing the path behind it. Collision, CCD
- * and interpolation are the solver's job.
+ * plus air drag (`aerodynamicDrag`, applied once per physics step). Its
+ * rotation is locked, and every physics step the shaft is pointed along its own
+ * velocity (`flightAttitude`), so it flies head-first round a smooth arc with
+ * the tail tracing the path behind it. Collision, CCD and interpolation are the
+ * solver's job.
  */
 
 export type ArrowHit = {
@@ -99,6 +101,7 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
   const landed = useRef(false);
   const forwardTmp = useRef(new THREE.Vector3());
   const quaternionTmp = useRef(new THREE.Quaternion());
+  const forceTmp = useRef(new THREE.Vector3());
 
   // Point the shaft along its launch direction and give it its speed. Done on
   // mount rather than through props so the body starts its first physics step
@@ -133,7 +136,15 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
   useBeforePhysicsStep(() => {
     const rigid = body.current;
     if (!rigid || spent.current || landed.current) return;
-    const attitude = flightAttitude(rigid.linvel());
+    const velocity = rigid.linvel();
+    // Air, with the solver's clock. Rapier's user forces PERSIST between
+    // steps, so the previous step's drag is cleared first: adding on top of it
+    // every step compounded the drag until every arrow fell short (the
+    // archer scene missed three from three the moment drag came back).
+    const drag = aerodynamicDrag(velocity, live.arrow.physics);
+    rigid.resetForces(true);
+    rigid.addForce(forceTmp.current.set(drag.x, drag.y, drag.z), true);
+    const attitude = flightAttitude(velocity);
     if (!attitude) return;
     forwardTmp.current.set(attitude.x, attitude.y, attitude.z);
     quaternionTmp.current.setFromUnitVectors(FORWARD, forwardTmp.current);

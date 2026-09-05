@@ -732,3 +732,83 @@ multiplied over the diffuse exactly as the third-person body does.
 
 Mouse buttons that land on `[data-ui-capture]` chrome (the debug and help
 panels) never reach the combat input, so ticking a switch no longer swings.
+
+# Round 8 (2026-09-05) — the owner's round-7 list
+
+## 42. The rigged bow never reached a third-person hand
+
+Round 7's rigged bows were mounted only by `OffHandItem`, which the
+first-person arms use — but a bow is a *main-hand* weapon, mounted by
+`SkyrimFighter`'s own weapon mount, which still loaded the static build. So the
+archer's bow (and the player's, in either third-person view) never drew. One
+driver now (`riggedBow.ts`) serves the main hand, the off hand and the
+first-person arms.
+
+**And the arrow really was hovering in front of the bow**, for a second
+reason found by telemetry: the nocked shaft rode the rig's `Weapon` node,
+and Skyrim's bow clips animate that node to where the game parks a bow's
+grip — measured 1.5 m in front of, and 0.4 m above, the string hand at full
+draw. The shaft's tail followed it out there. It now rides the right *hand*
+bone (third person and first person alike), and the archer's shot line is
+taken from the nock to the target rather than down the body's centre line:
+the string hand is a third of a metre off that line, and a shaft loosed
+parallel to the facing passed the player's shoulder by exactly that.
+
+## 43. Drag is back; attitude stays kinematic
+
+Owner: arrows "don't fall fast enough … too much of the research was thrown
+out". Round 6 removed *all* air. The calibrated drag term (`½ ρ Cd A v²`, the
+same one `integrateTrajectory` and the research use) is applied again per
+physics step, so a shot slows, arcs and hits with the speed that is left; the
+archer's elevation solver bisects against that model again. What stays gone
+is the aerodynamic *attitude* model — the shaft is still pointed along its
+velocity, so it cannot tumble. Two things checked on the way: the solver side
+of the fall is exact — an arrow body built as `Arrows.tsx` builds it (two
+mass-carrying colliders, rotation locked, CCD) falls at g in a unit test
+(`arrowGravity.test.ts`), so "gently floating" was the flat, undamped arc of
+a 50 m/s shot with no air, not gravity; and Rapier's user forces *persist*
+between steps, so drag has to `resetForces` before it adds — added on top of
+itself it compounded until every arrow fell short. The owner's original
+research brief is filed as `apps/combat-sandbox/docs/research/bow-physics-original-brief.md`;
+the implementation follows it except for the kinematic attitude.
+
+## 44. Three bow views, one dropdown
+
+`aimView`: `firstPerson` (round 7's Skyrim arms rig), `shoulder` (new: stay
+third person, camera behind the right shoulder sighting along the aim, the
+Tears of the Kingdom framing — `docs/research/third-person-bow-aim-camera.md`)
+and `eye` (the original third-person eye camera). A scene can pin its own.
+
+## 45. The archer's body is pinned to its facing
+
+`bow-aim-turn` had already shown that the controller's turning torque does not
+turn a standing body; the archer had the same defect — its `fighter.yaw`
+swung onto the player on schedule while the body stayed put and only the
+nocked arrow turned. Every non-frozen enemy now has its body rotation set
+from the rate-limited `fighter.yaw` each frame, and the archer scene's facing
+check reads the body's yaw, not the fighter's. It is the whole body that
+turns, on the spot (the capsule and everything on it); the only lean is the
+vertical aim pitch on the spine.
+
+## 46. The stutter was the anchor rule, and it is fixed at source
+
+Ground tracks carried a backward jerk at the left foot's strike: STRAFE_LEFT
+−1.35 m/s at 0.23–0.27 s, CROUCH_WALK −1.9 m/s at 1.67 s, the crouch reverse
+and WALK_BACK similar. The pipeline switched the anchor only once the landing
+foot was *clearly lower* than the planted one, so for a few frames the anchor
+stayed on the foot already pushing off, and its push-off was integrated as
+body motion. The anchor now moves at the other foot's touchdown (down on its
+floor and moving no faster than the current anchor), contact meaning heel
+*or toe* within 2 cm of its own floor — a crouch stands on the balls of its
+feet and a strafe lands toe first, so the foot bone alone read a swinging foot
+as planted. The runtime adds a belt to those braces: a stride's velocity is
+never applied against the loop's net direction (`footAnchoredLoopVelocity`),
+so any residual one-frame reversal (the crouch reverse keeps one) becomes a
+brief stand rather than a jerk. Packs rebuilt.
+
+## 47. Locked strides run at 1.35×, feet still the anchor
+
+The clock, the clip and the track advance together, so the body covers ground
+faster without the feet coming unstuck. Crouch stays at 1×.
+
+Also: an FPS counter in the debug panel.

@@ -57,7 +57,7 @@ import { launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/b
 import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
 import { nearestHurtboxBone, stickArrow } from "@elder-souls/game-core/combat/stuckArrows";
 import { totalArmourRating } from "@elder-souls/game-core/equipment/armour";
-import { clearArrows, fireArrow } from "@elder-souls/game-core/combat/arrowStore";
+import { clearArrows, fireArrow, useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
 import { ActorHealthBar } from "./ActorHealthBar";
 import { Arrows, type ArrowHit } from "./Arrows";
 import { usePlayerRace } from "@elder-souls/game-core/actors/raceStore";
@@ -243,6 +243,15 @@ const AIM_NEAR_CLIP_METERS = 0.34;
 const PARRY_HIT_GRACE_SECONDS = 0.12;
 /** Sideways offset of the aimed eye, toward the string-hand side. */
 const AIM_EYE_RIGHT_METERS = 0.14;
+/**
+ * The over-the-shoulder aim (`aimView: "shoulder"`): camera behind the right
+ * shoulder, slightly above the eye, close enough that the crosshair still
+ * reads as the arrow's line. Tears of the Kingdom sits at roughly this offset
+ * (see docs/research/third-person-bow-aim-camera.md).
+ */
+const SHOULDER_AIM_RIGHT_METERS = 0.55;
+const SHOULDER_AIM_UP_METERS = 0.22;
+const SHOULDER_AIM_BACK_METERS = 1.7;
 const BASE_NEAR_CLIP_METERS = 0.1;
 /**
  * Field of view while aiming, at each end of the zoom.
@@ -297,6 +306,8 @@ function aimFieldOfView(zoom: number) {
  * with the other handedness is a one-line change.
  */
 const TRACK_LATERAL_SIGN = 1;
+/** Playback rate of the locked-on strides (clip and feet together). */
+const LOCKED_STRIDE_RATE = 1.35;
 /**
  * Two navigation capsules in contact, plus a solver's worth of softness. An
  * enemy whose swing walks it forward on its own feet stops here instead of
@@ -600,7 +611,12 @@ function looseEnemyArrow(
   // whole shot, so the arrow flies straight along a slightly wrong line.
   const yawError = (Math.random() - 0.5) * 2 * spread;
   const pitchError = (Math.random() - 0.5) * 2 * spread;
-  const yaw = runtime.fighter.yaw + yawError;
+  // The shot line runs from the NOCK to the target, not down the body's
+  // centre line: the string hand is a third of a metre off that line, and a
+  // shaft loosed parallel to the facing passed the player's shoulder by
+  // exactly that (measured, round 8). The body still faces the bearing; the
+  // two differ by a couple of degrees at bow range.
+  const yaw = runtime.aimYaw.current + yawError;
   const pitch = runtime.aimPitch.current + pitchError;
   const horizontal = Math.cos(pitch) * speed;
   const direction = new THREE.Vector3(Math.sin(yaw) * Math.cos(pitch), Math.sin(pitch), Math.cos(yaw) * Math.cos(pitch));
@@ -622,16 +638,19 @@ function looseEnemyArrow(
  * and the upper-body lean track the target, and so the loose has a pitch that
  * was solved for *this* range.
  */
-function aimEnemyBow(runtime: EnemyRuntime, ranged: RangedStats, target: THREE.Vector3, distance: number) {
+function aimEnemyBow(runtime: EnemyRuntime, ranged: RangedStats, target: THREE.Vector3, _distance: number) {
   const arrow = DEFAULT_ARROW;
   const origin = runtime.nockWorld.current;
   const speed = launchSpeed(ranged, arrow.physics, 1);
   // Aimed at the chest: `target` is the capsule centre, a little below the
   // sternum. The old +0.9 aimed a head's height above the crown, which is why
-  // a standing player was "almost always" missed.
-  const elevation = aimElevation(speed, arrow.physics, distance, (target.y + ARCHER_AIM_ABOVE_CENTRE) - origin.y) ?? 0;
+  // a standing player was "almost always" missed. Range and bearing are
+  // taken from the nock, which is where the shaft actually starts.
+  const flat = Math.hypot(target.x - origin.x, target.z - origin.z);
+  const elevation = aimElevation(speed, arrow.physics, flat, (target.y + ARCHER_AIM_ABOVE_CENTRE) - origin.y) ?? 0;
   runtime.aimPitch.current = elevation;
-  const yaw = runtime.fighter.yaw;
+  const yaw = Math.atan2(target.x - origin.x, target.z - origin.z);
+  runtime.aimYaw.current = yaw;
   runtime.aimDirection.current.set(
     Math.sin(yaw) * Math.cos(elevation),
     Math.sin(elevation),
@@ -713,6 +732,8 @@ type EnemyRuntime = {
    */
   aimDirection: MutableRefObject<THREE.Vector3>;
   aimPitch: MutableRefObject<number>;
+  /** Bearing from the nock to the target, radians; the shot's own line. */
+  aimYaw: MutableRefObject<number>;
   /** The rigged bow's draw: 0-1 pull, and a counter bumped on every loose. */
   bowDrawFraction: MutableRefObject<number>;
   bowRelease: MutableRefObject<number>;
@@ -780,6 +801,7 @@ function createEnemyRuntime(
     parryContactGrace: 0,
     aimDirection: { current: new THREE.Vector3(0, 0, 1) },
     aimPitch: { current: 0 },
+    aimYaw: { current: 0 },
     bowDrawFraction: { current: 0 },
     bowRelease: { current: 0 },
     nockVisible: { current: false },
@@ -1188,7 +1210,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
    * the held bow has a rigged build. Its state is fed every frame the bow is
    * up; it writes back where its camera bone is.
    */
-  const firstPersonBowRig = useGameStore((state) => state.firstPersonBowRig);
+  const aimViewSetting = useGameStore((state) => state.aimView);
+  const aimView = visualScenario?.player.aimView ?? aimViewSetting;
   const firstPersonState = useRef<FirstPersonBowState>({
     rootPosition: new THREE.Vector3(),
     yaw: 0,
@@ -1233,7 +1256,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // Rendered state, not frame state: the actor is a React component and the
   // head has to be collapsed through a prop rather than from the frame loop.
   const aimingSnapshot = useGameStore((state) => state.aiming);
-  const firstPersonActive = aimingSnapshot && firstPersonBowRig && Boolean(playerWeapon.visual.rig);
+  const firstPersonActive = aimingSnapshot && aimView === "firstPerson" && Boolean(playerWeapon.visual.rig);
+  const shoulderAim = aimView === "shoulder";
   const bowPhaseSnapshot = useGameStore((state) => state.bowPhase);
   /**
    * The shaft on the string. Present whenever the bow is up and an arrow is
@@ -2879,13 +2903,20 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       setAnim(locomotion);
       if (drivenByFeet) {
         // The stride's own feet move the body. The clock restarts with the
-        // clip (a new command starts its action at 0) and runs at rate 1.
+        // clip (a new command starts its action at 0). Locked-on strides run a
+        // little quick (owner: the authored pace is "a bit too slow"); the
+        // clock and the track advance at the same rate, so the feet stay the
+        // anchor and the body simply covers ground faster.
+        const rate = lockedClip ? LOCKED_STRIDE_RATE : 1;
+        playerAnimationSpeed.current = rate;
         if (clipDrivenState.current !== locomotion) {
           clipDrivenState.current = locomotion;
           clipDrivenTime.current = 0;
         }
-        clipDrivenTime.current += delta;
-        const step = footAnchoredLoopVelocity(locomotion, clipDrivenTime.current, delta);
+        clipDrivenTime.current += delta * rate;
+        const step = footAnchoredLoopVelocity(locomotion, clipDrivenTime.current, delta * rate);
+        step.forward *= rate;
+        step.lateral *= rate;
         const facing = handle.bodyZAxis;
         const fx = facing.x;
         const fz = facing.z;
@@ -2983,6 +3014,15 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           tmp.current.forward.set(Math.sin(f.yaw), 0, Math.cos(f.yaw));
           enemyHandle.setForwardDir(tmp.current.forward);
           enemyHandle.setLockForward(true);
+          // And pinned outright. The controller's turning torque does not turn
+          // a body that is not also moving — measured on the player in
+          // bow-aim-turn and on the archer, whose `fighter.yaw` swung onto the
+          // player while its body stayed put with only the nocked arrow
+          // turning. `fighter.yaw` is already rate-limited, so this is the
+          // turn the archetype asked for and nothing faster.
+          enemyHandle.body.setAngvel({ x: 0, y: 0, z: 0 }, true);
+          tmp.current.quaternion.setFromAxisAngle(UP, f.yaw);
+          enemyHandle.body.setRotation(tmp.current.quaternion, true);
         }
       }
       if (f.staminaCooldown <= 0 && !(f.state === "attack" || f.state === "guard" || f.state === "parry" || f.state === "dodge" || f.state === "backstep")) {
@@ -3609,6 +3649,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // With the first-person arms up, the camera is the rig's own camera bone:
       // the arms, bow and arrow are framed exactly as their clips frame them.
       if (firstPersonActive && firstPersonCamera.current.lengthSq() > 0) tmp.current.flat.copy(firstPersonCamera.current);
+      if (shoulderAim) {
+        // Over the shoulder, the Tears of the Kingdom way: the camera stays
+        // third person, pulled in behind the archer's right shoulder and a
+        // little above the eye, sighting along the aim; the body turns with
+        // the view and its rigged bow, string and nocked arrow stay in shot.
+        tmp.current.flat.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y + SHOULDER_AIM_UP_METERS, playerPos.z);
+        tmp.current.flat.x += -tmp.current.aimDirection.z * SHOULDER_AIM_RIGHT_METERS;
+        tmp.current.flat.z += tmp.current.aimDirection.x * SHOULDER_AIM_RIGHT_METERS;
+        tmp.current.flat.addScaledVector(tmp.current.aimDirection, -SHOULDER_AIM_BACK_METERS);
+      }
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
       // direction exactly rather than approximately.
@@ -3654,7 +3704,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // The arms rig is authored to be seen from its camera bone, so it wants
       // an ordinary near plane; the third-person body's eye view needs the
       // near clip to cut the skull's neighbourhood away.
-      const wantedNear = aimBlendAmount.current >= 1 && !firstPersonActive ? AIM_NEAR_CLIP_METERS : BASE_NEAR_CLIP_METERS;
+      const wantedNear = aimBlendAmount.current >= 1 && !firstPersonActive && !shoulderAim ? AIM_NEAR_CLIP_METERS : BASE_NEAR_CLIP_METERS;
       if (Math.abs(camera.fov - wanted) > 0.01 || camera.near !== wantedNear) {
         camera.fov = wanted;
         camera.near = wantedNear;
@@ -3747,11 +3797,26 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerYaw: Number(Math.atan2(handle.bodyZAxis.x, handle.bodyZAxis.z).toFixed(3)),
       cameraYaw: Number(cameraYaw.current.toFixed(3)),
       enemyYaw: enemy ? Number(enemy.fighter.yaw.toFixed(3)) : undefined,
+      enemyBodyYaw: enemy?.handle.current
+        ? Number(Math.atan2(enemy.handle.current.bodyZAxis.x, enemy.handle.current.bodyZAxis.z).toFixed(3))
+        : undefined,
       enemyBearingToPlayer: enemy
         ? Number(Math.atan2(playerPos.x - enemy.position.x, playerPos.z - enemy.position.z).toFixed(3))
         : undefined,
       enemyHealth: enemy?.fighter.health ?? 0,
       actorDistance: actorDistance === null ? null : Number(actorDistance.toFixed(3)),
+      // Ranged diagnostics: the last shot's origin and velocity, and where the
+      // archer's nock was, so a miss can be read off the numbers.
+      lastArrow: (() => {
+        const arrows = useArrowStore.getState().arrows;
+        const last = arrows[arrows.length - 1];
+        return last ? { origin: last.origin.map((v: number) => Number(v.toFixed(3))), velocity: last.velocity.map((v: number) => Number(v.toFixed(2))), shooter: last.shooter } : null;
+      })(),
+      enemyNock: enemy ? enemy.nockWorld.current.toArray().map((v) => Number(v.toFixed(3))) : undefined,
+      enemyHandR: enemy?.hurtbox.current?.find((bone) => bone.bone.name.includes("HndR"))
+        ?.bone.getWorldPosition(new THREE.Vector3()).toArray().map((v) => Number(v.toFixed(3))),
+      enemyPosition: enemy ? enemy.position.toArray().map((v) => Number(v.toFixed(3))) : undefined,
+      playerPosition: [Number(playerPos.x.toFixed(3)), Number(playerPos.y.toFixed(3)), Number(playerPos.z.toFixed(3))],
       observedPlayerActions: [...visualObserved.current.playerActions],
       observedPlayerAnimations: [...visualObserved.current.playerAnimations],
       observedEnemyActions: [...visualObserved.current.enemyActions],
@@ -3786,7 +3851,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           armour={playerArmour}
           nockedArrow={playerNockedArrow}
           bowDraw={playerBowDraw}
-          firstPerson={aimingSnapshot && !firstPersonActive}
+          firstPerson={aimingSnapshot && aimView === "eye"}
           hidden={firstPersonActive}
           raceId={playerRace}
           speedMultiplierRef={playerAnimationSpeed}

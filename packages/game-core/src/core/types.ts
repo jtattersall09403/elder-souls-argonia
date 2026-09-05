@@ -32,6 +32,8 @@ export type CombatAction =
   | "guardBreak"
   | "dead";
 
+export type AimView = "eye" | "firstPerson" | "shoulder";
+
 export type AnimationState =
   | "IDLE"
   | "WALK"
@@ -206,11 +208,12 @@ export type GameSnapshot = {
    */
   lockedSpeedFollowsClip: boolean;
   /**
-   * Aim with Skyrim's first-person bow rig (own skeleton, arm meshes and
-   * first-person bow clips on the camera) instead of the third-person body's
-   * eye view. Off restores that view unchanged; the switch is the revert.
+   * How a raised bow is viewed. `eye`: the third-person body's eye view (the
+   * original); `firstPerson`: Skyrim's first-person arms rig on the camera;
+   * `shoulder`: stay third person, over-the-shoulder camera with the
+   * crosshair (the Tears of the Kingdom way). Sandbox comparison switch.
    */
-  firstPersonBowRig: boolean;
+  aimView: AimView;
   /** Which enemy archetype the sandbox spawns. See `actors/enemyArchetypes`. */
   enemyArchetypeId: string;
   resetToken: number;

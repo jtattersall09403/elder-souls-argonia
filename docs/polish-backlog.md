@@ -105,7 +105,7 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   swing whose feet walk it out of reach. Fix in the AI, not the feet: fold the
   track's displacement at contact into the effective range per attack.
 - **Foot-anchored locomotion is player-only** (round 7, 0040 §36). Locked-on
-  strides and the crouch move on their clips' own feet at rate 1; enemies
+  strides (1.35×) and the crouch move on their clips' own feet; enemies
   still drive their strides through the controller with cadence scaling.
   Extending the same rule to enemies is a small change once the owner has
   judged the feel on the player.

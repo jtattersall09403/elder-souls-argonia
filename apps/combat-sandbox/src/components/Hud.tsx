@@ -1,3 +1,4 @@
+import type { AimView } from "@elder-souls/game-core/core/types";
 import { useEffect, useRef, useState } from "react";
 import { input, type InputAction } from "@elder-souls/game-core/io/input";
 import { UI_MENU_BINDINGS, uiMenuInput } from "@elder-souls/game-core/io/uiMenus";
@@ -199,6 +200,28 @@ const POOL_STEP = 50;
 const POOL_MAXIMUM = 400;
 const POOL_DEFAULT = 100;
 
+/** Frames per second over the last half second, from the browser's own clock. */
+function FpsCounter() {
+  const [fps, setFps] = useState(0);
+  useEffect(() => {
+    let frames = 0;
+    let since = performance.now();
+    let handle = 0;
+    const tick = (now: number) => {
+      frames += 1;
+      if (now - since >= 500) {
+        setFps(Math.round((frames * 1000) / (now - since)));
+        frames = 0;
+        since = now;
+      }
+      handle = requestAnimationFrame(tick);
+    };
+    handle = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(handle);
+  }, []);
+  return <div className="fps-counter">{fps} fps</div>;
+}
+
 export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario | null }) {
   const state = useGameStore();
   const [help, setHelp] = useState(false);
@@ -358,14 +381,18 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           />
           Locked-on speed follows the strafe clips
         </label>
-        <label>
-          <input
-            type="checkbox"
-            checked={state.firstPersonBowRig}
-            onChange={(event) => state.patch({ firstPersonBowRig: event.target.checked })}
-          />
-          First-person bow rig (Skyrim arms)
+        <label className="enemy-picker">
+          Bow view:
+          <select
+            value={state.aimView}
+            onChange={(event) => state.patch({ aimView: event.target.value as AimView })}
+          >
+            <option value="firstPerson">First person — Skyrim arms rig</option>
+            <option value="shoulder">Third person — over the shoulder (Zelda style)</option>
+            <option value="eye">Third person body, eye camera (original)</option>
+          </select>
         </label>
+        <FpsCounter />
 
         <label>
           <input

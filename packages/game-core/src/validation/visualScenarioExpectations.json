@@ -2298,8 +2298,8 @@
       ]
     },
     "groundingLimits": {
-      "maxBlendedGroundCorrectionMeters": 0.12,
-      "note": "The crouch strides are now driven from their own feet at playback rate 1 (round 7); the blend between the sneak stride and the sneak idle lifts the solver a few millimetres past the 0.105 default while the two are mixed."
+      "maxBlendedGroundCorrectionMeters": 0.14,
+      "note": "The crouch strides are driven from their own feet (round 7) with the heel-or-toe anchor rule (round 8); the blend between the sneak stride and the sneak idle lifts the solver up to ~0.13 m past the default while the two are mixed."
     }
   },
   "shield-guard": {
@@ -3207,6 +3207,39 @@
     "note": "Three shots at 8 m, every one landing: the archer aims the vacuum solution at the chest and a validation scene looses with no spread (deterministic by contract), so a miss here is an aiming defect, not luck."
   },
   "bow-drawn-hold": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAWN"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
+  },
+  "bow-drawn-hold-shoulder": {
     "playerActions": [
       "idle",
       "aim"

@@ -1,14 +1,36 @@
 import { describe, expect, it } from "vitest";
 
 import { defineArrow } from "../equipment/arrows";
+import { AIR_DENSITY, dragDeceleration } from "./ballistics";
 import {
   ARROW_SHAFT_LENGTH_METERS,
+  aerodynamicDrag,
   arrowMassSplit,
   flightAttitude,
   impactObliquity,
 } from "./arrowFlight";
 
 const arrow = defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics;
+
+describe("drag in flight", () => {
+  it("agrees with the offline trajectory model", () => {
+    const force = aerodynamicDrag({ x: 0, y: 0, z: 50 }, arrow);
+    expect(-force.z / arrow.massKg).toBeCloseTo(dragDeceleration(50, arrow), 6);
+  });
+
+  it("opposes motion and grows with the square of speed", () => {
+    const slow = aerodynamicDrag({ x: 10, y: 0, z: 0 }, arrow);
+    const fast = aerodynamicDrag({ x: 20, y: 0, z: 0 }, arrow);
+    expect(slow.x).toBeLessThan(0);
+    expect(fast.x / slow.x).toBeCloseTo(4, 6);
+  });
+
+  it("thins out with the air", () => {
+    const sea = aerodynamicDrag({ x: 0, y: 0, z: 40 }, arrow, AIR_DENSITY);
+    const thin = aerodynamicDrag({ x: 0, y: 0, z: 40 }, arrow, AIR_DENSITY / 2);
+    expect(thin.z / sea.z).toBeCloseTo(0.5, 6);
+  });
+});
 
 describe("flight attitude", () => {
   it("points the shaft along its velocity", () => {

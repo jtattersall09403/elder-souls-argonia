@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { CombatAction, GameSnapshot } from "./types";
+import type { AimView, CombatAction, GameSnapshot } from "./types";
 import { DEFAULT_ENEMY_COUNT } from "../combat/tuning";
 import { COMBAT_TUNING } from "../combat/weapon";
 import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
@@ -31,7 +31,7 @@ export const initialSnapshot: GameSnapshot = {
   showBackstabZones: false,
   footDrivenMotion: true,
   lockedSpeedFollowsClip: true,
-  firstPersonBowRig: true,
+  aimView: "firstPerson" as AimView,
   enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,
   aiming: false,
@@ -61,7 +61,7 @@ export const useGameStore = create<GameStore>((set) => ({
     showBackstabZones: state.showBackstabZones,
     footDrivenMotion: state.footDrivenMotion,
     lockedSpeedFollowsClip: state.lockedSpeedFollowsClip,
-    firstPersonBowRig: state.firstPersonBowRig,
+    aimView: state.aimView,
     enemyArchetypeId: state.enemyArchetypeId,
     poiseEnabled: state.poiseEnabled,
     // Debug overrides survive a restart, or testing a rule that needs a raised

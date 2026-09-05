@@ -1,23 +1,17 @@
-import type { ArrowPhysics } from "./ballistics";
+import { AIR_DENSITY, frontalAreaM2, type ArrowPhysics } from "./ballistics";
 
 /**
  * An arrow in the air.
  *
  * The physics engine owns the flight as a rigid body under gravity and
- * nothing else — no drag, no aerodynamic torque, no damping. The shaft is
- * *pointed* along its own velocity every physics step rather than being turned
- * by simulated air, so it traces its arc head-first with the tail following
- * behind, exactly as a picture of an arrow does.
- *
- * That is a deliberate retreat from the aerodynamic model this file used to
- * hold (drag, weathercocking torque, pitch damping — round 2 of the combat
- * pass). The model was physically defensible and still read as a tumble in
- * play, because the restoring torque is a spring with a period of a fraction of
- * a second and the *visible* result of that on a 0.75 m stick is a wobble no
- * archer would recognise. Owner ruling (2026-09-04): arrows follow smooth arcs
- * from the bow's launch speed and gravity, head leading, tail tracing the arc.
- * Damage still comes from speed at impact (`resolveArrowImpact`), which without
- * drag is simply the launch speed plus whatever gravity added on the way down.
+ * **drag** — the same `½ ρ Cd A v²` the offline trajectory integrator and the
+ * calibration research use (`docs/research/archery-ballistics.md`), so a shot
+ * loses speed downrange and arcs the way a real one does, and damage at impact
+ * follows from the speed that is left. What is gone is the *attitude* model
+ * (weathercocking torque, pitch damping — round 2): the shaft is pointed along
+ * its own velocity every physics step instead, head leading, tail tracing the
+ * arc. Owner rulings: no tumble (2026-09-04); keep the ballistics (2026-09-05,
+ * "too much of the research work was thrown out").
  *
  * Pure vector maths, no engine types.
  */
@@ -26,6 +20,19 @@ export type Vec3 = { x: number; y: number; z: number };
 
 /** Length of a shaft in metres. Matches what the pipeline builds arrows to. */
 export const ARROW_SHAFT_LENGTH_METERS = 0.75;
+
+/**
+ * Drag force on an arrow travelling at `velocity`, in newtons. Opposes motion
+ * and grows with the square of speed; identical to the offline integrator's
+ * term, so a shot fired in game and the same shot solved in a test agree.
+ */
+export function aerodynamicDrag(velocity: Vec3, arrow: ArrowPhysics, airDensity = AIR_DENSITY): Vec3 {
+  const speed = Math.hypot(velocity.x, velocity.y, velocity.z);
+  if (speed < 1e-6) return { x: 0, y: 0, z: 0 };
+  const magnitude = 0.5 * airDensity * arrow.dragCoefficient * frontalAreaM2(arrow) * speed * speed;
+  const scale = -magnitude / speed;
+  return { x: velocity.x * scale, y: velocity.y * scale, z: velocity.z * scale };
+}
 
 /**
  * The direction the shaft should point, given how it is moving.

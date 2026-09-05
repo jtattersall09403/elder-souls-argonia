@@ -1,4 +1,4 @@
-import type { AnimationState } from "../core/types";
+import type { AimView, AnimationState } from "../core/types";
 import type { EnemyIntent } from "../ai/enemyAi";
 import type { InputAction, InputController } from "../io/input";
 import { CHARACTER_BODY_CENTER_HEIGHT } from "../physics/characterPhysics";
@@ -39,6 +39,7 @@ export const VISUAL_SCENARIO_IDS = [
   "bow-aim-tracking",
   "bow-aim-turn",
   "bow-drawn-hold",
+  "bow-drawn-hold-shoulder",
   "archer-shot",
   "riposte-queued",
   "crouch-locomotion",
@@ -109,6 +110,8 @@ export type VisualScenario = {
     weaponId?: string;
     /** Ammunition to nock, for the same reason. */
     ammoId?: string;
+    /** How a raised bow is viewed in this scene (default: first person). */
+    aimView?: AimView;
     /** Off-hand item, for the scenes about guarding behind a shield. */
     offHandId?: string;
     /**
@@ -798,6 +801,24 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [
       { from: 0.15, to: 0.24, actions: ["light"] },
       // Held past the end: the longbow's full draw arrives at about 4.6 s.
+      { from: 0.6, to: 6.4, actions: ["light"] },
+    ],
+  },
+  "bow-drawn-hold-shoulder": {
+    id: "bow-drawn-hold-shoulder",
+    label: "Bow → draw and hold, over-the-shoulder third-person view: rigged bow, string and arrow in shot",
+    warmup: 0.5,
+    duration: 6.2,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+      aimView: "shoulder",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
       { from: 0.6, to: 6.4, actions: ["light"] },
     ],
   },

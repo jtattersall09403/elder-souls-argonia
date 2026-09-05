@@ -40,6 +40,7 @@
           32
         ]
       },
+      "body": "male",
       "appearance": {
         "skinTint": [
           0.55,
@@ -61,8 +62,7 @@
         "hairMeshes": [
           "MaleDarkElfHair03"
         ]
-      },
-      "body": "male"
+      }
     },
     "nord": {
       "label": "Nord",

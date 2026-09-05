@@ -159,6 +159,21 @@ export function footAnchoredLoopVelocity(
     forward = (atEnd.forward - from.forward) + (to.forward - atStart.forward);
     lateral = (atEnd.lateral - from.lateral) + (to.lateral - atStart.lateral);
   }
+  // A stride never moves against its own direction of travel. The measured
+  // track can still carry a one-frame reversal at a foot switch (the anchor
+  // caught mid-lift), and on a loop that reads as a jerk backwards every
+  // cycle; the component against the loop's net travel is dropped.
+  const total = groundTrackTotal(state);
+  const length = Math.hypot(total.forward, total.lateral);
+  if (length > 1e-6) {
+    const ux = total.forward / length;
+    const uz = total.lateral / length;
+    const along = forward * ux + lateral * uz;
+    if (along < 0) {
+      forward -= along * ux;
+      lateral -= along * uz;
+    }
+  }
   return { forward: forward / delta, lateral: lateral / delta };
 }
 

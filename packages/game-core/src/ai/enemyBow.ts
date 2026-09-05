@@ -1,4 +1,4 @@
-import { GRAVITY, type ArrowPhysics } from "../combat/ballistics";
+import { integrateTrajectory, type ArrowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 import type { RangedStats } from "../equipment/types";
 
@@ -28,8 +28,10 @@ export type EnemyBowStep = {
  * Not zero, and the reason is legibility rather than realism: the draw is the
  * telegraph, and a player needs a beat at full draw to read "that one is aimed
  * at me" and start moving. It is the archer's equivalent of a wind-up.
+ * 0.6 s (was 0.45; round 8): a rigged bow at full draw is the telegraph now,
+ * and a beat and a half is what lets it read at bow range.
  */
-export const ENEMY_BOW_HOLD_SECONDS = 0.45;
+export const ENEMY_BOW_HOLD_SECONDS = 0.6;
 
 export function advanceEnemyBow(
   elapsed: number,
@@ -53,24 +55,46 @@ export function advanceEnemyBow(
 /**
  * The elevation an arrow has to leave at to arrive where it is aimed.
  *
- * An archer that fires flat at a target thirty metres away misses low by
- * several metres and looks broken. Arrows fly a plain gravity arc (no drag —
- * `combat/arrowFlight`), so this is the closed-form vacuum solution: of the
- * two launch angles that reach a point, the flatter one, which is the one an
- * archer takes. Returns null when the shot is out of reach at this speed, which
- * the caller should treat as "do not take it".
+ * Solved against the *same drag model the arrow flies under*
+ * (`integrateTrajectory`), because the vacuum answer undershoots by enough to
+ * miss at any range worth shooting at: a bisection on launch angle, converging
+ * on the trajectory that passes through the target's height at its distance.
+ * Returns null when the shot is out of reach at this speed.
  */
 export function aimElevation(
   speed: number,
-  _arrow: ArrowPhysics,
+  arrow: ArrowPhysics,
   horizontalRange: number,
   heightDifference: number,
 ): number | null {
   if (!(speed > 0) || !(horizontalRange > 0)) return null;
-  const v2 = speed * speed;
-  const discriminant = v2 * v2 - GRAVITY * (GRAVITY * horizontalRange * horizontalRange + 2 * heightDifference * v2);
-  if (discriminant < 0) return null;
-  return Math.atan2(v2 - Math.sqrt(discriminant), GRAVITY * horizontalRange);
+  let low = 0;
+  let high = Math.PI / 4;
+  if (dropAt(speed, arrow, horizontalRange, high) < heightDifference) return null;
+  for (let step = 0; step < AIM_BISECTION_STEPS; step += 1) {
+    const middle = (low + high) / 2;
+    if (dropAt(speed, arrow, horizontalRange, middle) < heightDifference) low = middle;
+    else high = middle;
+  }
+  return (low + high) / 2;
+}
+
+/** Bisection depth. Twelve halvings of 45 degrees is under a hundredth of one. */
+const AIM_BISECTION_STEPS = 12;
+
+/** Height of the shot when it has travelled `range` horizontally. */
+function dropAt(speed: number, arrow: ArrowPhysics, range: number, angle: number) {
+  const flight = integrateTrajectory(speed, angle, arrow, { maxSeconds: 6, sampleEvery: 0.01 });
+  let previous = flight.samples[0];
+  for (const sample of flight.samples) {
+    if (sample.x >= range) {
+      const span = sample.x - previous.x;
+      const alpha = span > 1e-9 ? (range - previous.x) / span : 0;
+      return previous.y + (sample.y - previous.y) * alpha;
+    }
+    previous = sample;
+  }
+  return -Infinity;
 }
 
 /**

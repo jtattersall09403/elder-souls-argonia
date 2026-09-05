@@ -122,8 +122,9 @@ export function FirstPersonBow({
     () => model.getObjectByName(sanitizeBoneName(MANIFEST.bones.camera)) ?? null,
     [model],
   );
+  // The hand bone, not the `Weapon` node — see `SkyrimFighter.drawHandSocket`.
   const drawHandSocket = useMemo(
-    () => model.getObjectByName(sanitizeBoneName(MANIFEST.bones.weapon)) ?? null,
+    () => model.getObjectByName(sanitizeBoneName(MANIFEST.bones.rightHand)) ?? null,
     [model],
   );
 

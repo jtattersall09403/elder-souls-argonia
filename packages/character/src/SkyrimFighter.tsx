@@ -46,6 +46,7 @@ import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting
 import { ArmourAttachments } from "./ArmourAttachments";
 import { NockedArrow } from "./NockedArrow";
 import { OffHandItem, type BowDrawRefs } from "./OffHandItem";
+import { createRiggedBow } from "./riggedBow";
 import type { HurtboxBone, HurtboxRigRef } from "./SkeletalHurtbox";
 
 /**
@@ -348,7 +349,10 @@ function PosedActor({
   const rigs = useGLTF(rigUrls) as unknown as { animations: THREE.AnimationClip[] }[];
   const rigClips = useMemo(() => rigs.flatMap((pack) => pack.animations), [rigs]);
   const gltf = useGLTF(raceUrl(race));
-  const weaponUrl = assetUrl(weaponProfile.asset);
+  // A bow with a rigged build is mounted rigged, string and all; the archer's
+  // draw drives it (`riggedBow`). Every other weapon is its static build.
+  const weaponRig = weaponProfile.rig ?? null;
+  const weaponUrl = assetUrl(weaponRig?.asset ?? weaponProfile.asset);
   const weaponGltf = useGLTF(weaponUrl);
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
@@ -363,7 +367,17 @@ function PosedActor({
     return instance;
   }, [gltf.scene]);
   const root = useRef<THREE.Group>(null);
+  const riggedWeapon = useMemo(
+    () => (weaponRig ? createRiggedBow(weaponGltf, weaponRig) : null),
+    [weaponGltf, weaponRig],
+  );
   const sword = useMemo(() => {
+    if (riggedWeapon) {
+      // The rig is in its skeleton's units; its measured scale brings it to
+      // the class length the static build is already at.
+      riggedWeapon.object.scale.setScalar(weaponRig?.scale ?? 1);
+      return riggedWeapon.object;
+    }
     const weapon = clone(weaponGltf.scene);
     weapon.traverse((object) => {
       if (object instanceof THREE.Mesh) {
@@ -372,12 +386,17 @@ function PosedActor({
       }
     });
     return weapon;
-  }, [weaponGltf.scene]);
+  }, [riggedWeapon, weaponGltf.scene, weaponRig]);
   const weaponMount = useMemo(() => new THREE.Group(), []);
   // The hand that is *not* holding the item. With a bow in the left hand, this
-  // is the one that nocks and draws.
+  // is the one that nocks and draws. The HAND bone, not the `Weapon` node:
+  // Skyrim's bow clips animate that node a metre and a half out in front of
+  // the archer (it is where the game parks a bow's grip), which is where the
+  // nocked shaft was "hovering in front of the bow" (owner, rounds 6-8).
   const drawHandSocket = useMemo(
-    () => model.getObjectByName(RIG_SOCKETS.weapon) ?? model.getObjectByName(RIG_SOCKETS.weaponFallback) ?? null,
+    () => model.getObjectByName(sanitizeBoneName(RIG_SOCKETS.rightHand))
+      ?? model.getObjectByName(RIG_SOCKETS.weaponFallback)
+      ?? null,
     [model],
   );
   const healingFlask = useMemo(() => createHealingFlask(), []);
@@ -678,6 +697,7 @@ function PosedActor({
   useLayoutEffect(() => {
     sword.position.set(0, 0, 0);
     sword.quaternion.identity();
+    if (!riggedWeapon) sword.scale.setScalar(1);
     weaponMount.add(sword);
     if (weaponRef) weaponRef.current = weaponMount;
     if (handSocket) mountOnSocket(handSocket, weaponProfile.held);
@@ -796,6 +816,10 @@ function PosedActor({
     mixer.timeScale = 1;
     mixer.update(mixerDelta);
     mixer.timeScale = 0;
+    if (riggedWeapon) {
+      const stowed = !(equippedRef?.current ?? equipped);
+      riggedWeapon.update(stowed ? 0 : (bowDraw?.fraction.current ?? 0), bowDraw?.release.current ?? 0, delta);
+    }
     if ((fadingFromAction.current?.getEffectiveWeight() ?? 0) <= 1e-5) fadingFromAction.current = null;
     // Eased, not applied raw. The lean moves the whole upper body, so a stick
     // flicked from level to full elevation would teleport both hands most of a

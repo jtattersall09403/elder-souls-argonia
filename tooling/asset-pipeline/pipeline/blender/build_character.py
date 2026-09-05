@@ -772,6 +772,12 @@ STANCE_HEIGHT_BAND = 0.18
 # How much lower the other foot has to be before the anchor moves to it.
 # In armature units; about a centimetre at runtime scale.
 STANCE_ANCHOR_HYSTERESIS = 0.065
+# A foot this close to its own floor (heel or toe) is down: about 2 cm, because
+# a clip's floor reference is its lowest sample and a crouch sways a centimetre.
+STANCE_CONTACT_LIFT = 0.15
+# The anchor is leaving the floor when it moves this much faster than the
+# other, down, foot.
+STANCE_LEAVE_SPEED_RATIO = 1.5
 
 
 def measure_authored_ground_speed(planar_by_id, height_by_id, sample_rate):
@@ -837,25 +843,51 @@ def measure_ground_track(planar_by_id, height_by_id):
     if count < 2:
         return []
 
-    # Per foot, how far above its own lowest point it is at each sample. A
-    # planted foot is the one nearest its own floor, which is robust against
-    # the two feet having different marker heights.
+    # Per foot, how far above its own lowest point it is at each sample, and
+    # the same for its toe. Contact is whichever is nearer its own floor: a
+    # heel strike puts the foot bone down first, a push-off keeps the toe down
+    # after the heel has lifted, and the foot bone alone reads the second as
+    # "still planted" for several frames — which integrated the push-off as
+    # body motion, a backward jerk at every left strike of the crouch and the
+    # left strafe (owner report, round 8). The *motion* still comes from the
+    # foot bone, not the toe, because a toe keeps moving through heel-off.
     lift = {}
+    contact = {}
     for marker in feet:
         heights = height_by_id[marker][:count]
         lowest = min(heights)
         lift[marker] = [height - lowest for height in heights]
+        toe = "toeL" if marker == "footL" else "toeR"
+        if toe in height_by_id and len(height_by_id[toe]) >= count:
+            toe_heights = height_by_id[toe][:count]
+            toe_lowest = min(toe_heights)
+            contact[marker] = [min(lift[marker][index], toe_heights[index] - toe_lowest)
+                               for index in range(count)]
+        else:
+            contact[marker] = lift[marker]
 
     track = [(0.0, 0.0)]
-    planted = min(feet, key=lambda marker: lift[marker][0])
+    planted = min(feet, key=lambda marker: contact[marker][0])
     x = y = 0.0
+
+    def planar_speed(marker, index):
+        a = planar_by_id[marker][index - 1]
+        b = planar_by_id[marker][index]
+        return ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
+
     for index in range(1, count):
-        # Switch anchor only when the other foot is clearly the lower one. The
-        # hysteresis matters: at a stride's crossover the two lifts are equal
-        # for a frame or two, and flip-flopping between them injects the
-        # difference between the feet as spurious body motion.
+        # Switch anchor when the other foot is clearly the one in contact
+        # (hysteresis: at a crossover the two are equal for a frame or two,
+        # and flip-flopping injects the difference as spurious motion) — or
+        # when the other foot is down and the current anchor has started to
+        # move faster than it, which is the anchor leaving the floor: a
+        # crouched foot bone hovers within a centimetre of its own lowest
+        # while it swings, so height alone read the swing as still planted.
         other = feet[0] if planted == feet[1] else feet[1]
-        if lift[other][index] < lift[planted][index] - STANCE_ANCHOR_HYSTERESIS:
+        other_down = contact[other][index] <= STANCE_CONTACT_LIFT
+        anchor_leaving = planar_speed(planted, index) > planar_speed(other, index) * STANCE_LEAVE_SPEED_RATIO
+        if (contact[other][index] < contact[planted][index] - STANCE_ANCHOR_HYSTERESIS
+                or (other_down and anchor_leaving)):
             planted = other
             # A foot that has just landed contributes nothing for the step it
             # landed on; its previous sample was mid-swing.

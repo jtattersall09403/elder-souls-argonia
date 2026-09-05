@@ -1,11 +1,11 @@
 import { assetUrl } from "./assetBase";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useLayoutEffect, useMemo, useRef, type MutableRefObject } from "react";
+import { useLayoutEffect, useMemo, type MutableRefObject } from "react";
 import * as THREE from "three";
-import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 
 import { RIG_SOCKET_ROTATION } from "@elder-souls/game-core/anim/animationManifest";
+import { createRiggedBow } from "./riggedBow";
 import type { WeaponSocketTransform, WeaponVisualProfile } from "@elder-souls/game-core/core/types";
 
 /**
@@ -59,36 +59,21 @@ export function OffHandItem({
   const gltf = useGLTF(assetUrl(rig?.asset ?? profile.asset));
   const built = useMemo(() => {
     const group = new THREE.Group();
-    const instance = rig ? clone(gltf.scene) : gltf.scene.clone(true);
+    if (rig) {
+      const rigged = createRiggedBow(gltf, rig);
+      group.add(rigged.object);
+      return { group, rigged };
+    }
+    const instance = gltf.scene.clone(true);
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) {
         object.castShadow = true;
         object.receiveShadow = true;
-        // A skinned bow's bones carry it well outside its rest bounds when
-        // drawn; culling on the rest box blinks it out at the edge of view.
-        if ((object as THREE.SkinnedMesh).isSkinnedMesh) object.frustumCulled = false;
       }
     });
     group.add(instance);
-    if (!rig) return { group, mixer: null, draw: null, release: null };
-    const mixer = new THREE.AnimationMixer(instance);
-    const clipNamed = (name: string) => gltf.animations.find((clip) => clip.name === name) ?? null;
-    const drawClip = clipNamed(rig.drawClip);
-    const releaseClip = clipNamed("BOW_RIG_RELEASE");
-    const draw = drawClip ? mixer.clipAction(drawClip) : null;
-    const release = releaseClip ? mixer.clipAction(releaseClip) : null;
-    if (draw) {
-      draw.setLoop(THREE.LoopOnce, 1);
-      draw.clampWhenFinished = true;
-      draw.play();
-      draw.paused = true;
-    }
-    if (release) {
-      release.setLoop(THREE.LoopOnce, 1);
-      release.clampWhenFinished = true;
-    }
-    return { group, mixer, draw, release };
-  }, [gltf.animations, gltf.scene, rig]);
+    return { group, rigged: null };
+  }, [gltf, rig]);
   const mount = built.group;
 
   const transform: WeaponSocketTransform = sheathed ? profile.sheathed : profile.held;
@@ -113,39 +98,10 @@ export function OffHandItem({
     };
   }, [actor, mount, objectRef, rig, transform]);
 
-  const seenRelease = useRef(bowDraw?.release.current ?? 0);
-  const releasing = useRef(false);
   useFrame((_, delta) => {
-    const { mixer, draw, release } = built;
-    if (!mixer || !rig) return;
-    const fraction = sheathed ? 0 : THREE.MathUtils.clamp(bowDraw?.fraction.current ?? 0, 0, 1);
-    const releaseCount = bowDraw?.release.current ?? 0;
-    if (releaseCount !== seenRelease.current) {
-      seenRelease.current = releaseCount;
-      if (release) {
-        if (draw) draw.stop();
-        release.reset().play();
-        releasing.current = true;
-      }
-    }
-    if (releasing.current && release) {
-      mixer.update(delta);
-      if (release.time >= rig.releaseDurationSeconds - 1e-3 || !release.isRunning()) {
-        releasing.current = false;
-        release.stop();
-        if (draw) {
-          draw.play();
-          draw.paused = true;
-        }
-      }
-      return;
-    }
-    if (!draw) return;
-    // The pull scrubbed by the draw: the clip holds its rest pose until the
-    // onset, so the archer's 0-1 maps onto onset..end.
-    const span = Math.max(1e-3, rig.drawDurationSeconds - rig.drawOnsetSeconds);
-    draw.time = rig.drawOnsetSeconds + fraction * span;
-    mixer.update(0);
+    if (!built.rigged) return;
+    const fraction = sheathed ? 0 : (bowDraw?.fraction.current ?? 0);
+    built.rigged.update(fraction, bowDraw?.release.current ?? 0, delta);
   });
 
   return null;
