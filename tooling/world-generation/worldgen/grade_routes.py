@@ -50,6 +50,14 @@ Water and specials:
 * On a way that is not crossing water, the graded profile is never pushed
   below the published water surface (`water/water-surface.png`, restricted to
   actually-wet cells by `water-class.png`): we do not dig roads into rivers.
+* **Authored structures** — a stair flight, stepped ascent, boardwalk/bridge
+  deck or one-step lip recorded in `world/sources/routes/route-structures.json`
+  is treated exactly like a bridge: nothing is cut or filled inside its
+  chainage window, its landings are pinned, and the window is excluded from
+  the "after" gradient because the player walks the piece, not the ground.
+  The over-cap stretches this pass measures are exported to
+  `output/route-grading-stretches.json` (gitignored) so the structure data is
+  derived from the measurement rather than typed by hand.
 * **Fords and bridges** — the stretches where a way crosses river / estuary /
   lake / coast cells — are derived from the water class raster. Their profile
   is still smoothed (so the approaches line up) but no height is ever written
@@ -121,6 +129,84 @@ OPEN_WATER_CLASSES = (1, 2, 3, 4)       # keep graded ways this far above the wa
 NATURAL_HEIGHT_FILE = "height-natural-rg.png"
 
 BOARDWALK = "boardwalk"
+
+# Authored geometry (worldgen.compile_route_structures) and the derived
+# over-cap stretch export.
+STRUCTURES_PATH = REPO_ROOT / "world" / "sources" / "routes" / "route-structures.json"
+STRETCHES_PATH = Path(__file__).resolve().parents[1] / "output" / "route-grading-stretches.json"
+# An over-cap run is merged with the next one when the under-cap gap between
+# them is shorter than this: two steps 5 m apart are one flight, not two.
+STRETCH_MERGE_GAP_M = 25.0
+# Landing pad added at each end of a stretch, so a structure starts and ends on
+# ground that is already under the cap.
+STRETCH_LANDING_M = 8.0
+
+
+def load_structure_spans(path: Path | None = None) -> dict[str, list[tuple[float, float]]]:
+    """wayId -> [(fromM, toM)] from the authored structures file (may be absent).
+
+    Chainage is measured along the same resampled centreline this module uses
+    (`resample(px, STEP)`), so the compiler and the grader agree sample for
+    sample."""
+    path = path or STRUCTURES_PATH
+    if not path.exists():
+        return {}
+    out: dict[str, list[tuple[float, float]]] = {}
+    for s in json.loads(path.read_text()).get("structures", []):
+        a, b = float(s["fromM"]), float(s["toM"])
+        out.setdefault(str(s["wayId"]), []).append((min(a, b), max(a, b)))
+    for v in out.values():
+        v.sort()
+    return out
+
+
+def span_mask(chain: np.ndarray, spans: list[tuple[float, float]]) -> np.ndarray:
+    """Samples that sit inside an authored span. The window's first and last
+    samples stay graded and pinned — they are the structure's landings — except
+    where the window runs to the end of the way itself: there is no landing
+    beyond the last sample, so the whole tail is carried by the piece."""
+    m = np.zeros(len(chain), dtype=bool)
+    end = float(chain[-1])
+    for a, b in spans:
+        inside = np.flatnonzero((chain >= a) & (chain <= b))
+        if len(inside) < 2:
+            continue
+        lo = 0 if a <= float(chain[0]) + 1e-6 else 1
+        hi = len(inside) if b >= end - 1e-6 else len(inside) - 1
+        if hi - lo >= 1:
+            m[inside[lo:hi]] = True
+    return m
+
+
+def over_cap_stretches(chain: np.ndarray, slopes: np.ndarray, ok: np.ndarray,
+                       cap: float) -> list[dict]:
+    """Contiguous over-cap runs along one way, merged across short under-cap
+    gaps and extended to a landing at each end. Chainage in metres."""
+    over = ok & (slopes > cap)
+    runs: list[list[int]] = []
+    i = 0
+    while i < len(over):
+        if not over[i]:
+            i += 1
+            continue
+        j = i
+        while j + 1 < len(over) and over[j + 1]:
+            j += 1
+        if runs and chain[i] - chain[runs[-1][1] + 1] <= STRETCH_MERGE_GAP_M:
+            runs[-1][1] = j
+        else:
+            runs.append([i, j])
+        i = j + 1
+    out = []
+    for a, b in runs:
+        z0 = max(0.0, float(chain[a]) - STRETCH_LANDING_M)
+        z1 = min(float(chain[-1]), float(chain[b + 1]) + STRETCH_LANDING_M)
+        seg = slopes[a:b + 1]
+        out.append({"fromM": round(z0, 2), "toM": round(z1, 2),
+                    "overM": round(float((chain[b + 1] - chain[a])), 2),
+                    "worstDeg": round(float(seg.max()), 2),
+                    "atFrac": round(a / max(len(slopes) - 1, 1), 3)})
+    return out
 
 
 # --------------------------------------------------------------------------
@@ -275,14 +361,21 @@ def _water_fields(province: Path, shape) -> tuple[np.ndarray | None, np.ndarray 
 
 def grade(h: np.ndarray, ways_list: list[dict],
           level: np.ndarray | None = None, wet: np.ndarray | None = None,
-          step: int = STEP) -> tuple[np.ndarray, list[dict]]:
+          step: int = STEP,
+          spans: dict[str, list[tuple[float, float]]] | None = None
+          ) -> tuple[np.ndarray, list[dict]]:
     """Return (graded heightfield, per-way stats). Pure: `h` is not modified.
 
     Ways are graded IN PRIORITY ORDER (roads, then tracks and footpaths by id)
     against the running result, and an earlier way's running surface is locked:
     a footpath meeting a road samples the road's graded height and ties into
     it, instead of the two disagreeing and leaving a step at the junction.
+
+    `spans` maps a way id to authored-structure chainage windows (metres). A
+    window behaves exactly like a bridge: no height is written inside it, its
+    landings are pinned, and it is excluded from the "after" gradient.
     """
+    spans = spans or {}
     cur = h.astype(np.float32).copy()
     locked = np.zeros_like(cur)
     stats: list[dict] = []
@@ -317,17 +410,20 @@ def grade(h: np.ndarray, ways_list: list[dict],
         # way ties into the shore instead of ending on a cliff above it.
         crossing = (wet[iy, ix] if wet is not None
                     else np.zeros(len(pts), dtype=bool))
+        chain = np.concatenate([[0.0], np.cumsum(ds)])
+        structure = span_mask(chain, spans.get(way["id"], []))
+        skip = crossing | structure
         # Never cut a way that starts above the sea down below it.
-        floor = np.where((z > 0.0) & ~crossing, WATER_CLEARANCE_M, -1e9)
+        floor = np.where((z > 0.0) & ~skip, WATER_CLEARANCE_M, -1e9)
 
         g = z.copy()
         i0 = 0
         while i0 < len(pts):
-            if crossing[i0]:
+            if skip[i0]:
                 i0 += 1
                 continue
             i1 = i0
-            while i1 + 1 < len(pts) and not crossing[i1 + 1]:
+            while i1 + 1 < len(pts) and not skip[i1 + 1]:
                 i1 += 1
             if i1 - i0 >= 2:
                 seg, dseg = slice(i0, i1 + 1), ds[i0:i1]
@@ -355,7 +451,7 @@ def grade(h: np.ndarray, ways_list: list[dict],
         graded_m = 0.0
 
         for i in range(len(pts)):
-            if crossing[i]:
+            if skip[i]:
                 continue
             cx, cy, cz = xs[i], ys[i], g[i]
             # Bench the shoulder: the blend carries the cut/fill depth under
@@ -398,7 +494,9 @@ def grade(h: np.ndarray, ways_list: list[dict],
         stats.append({"id": way["id"], "kind": kind, "graded": True,
                       "before": before, "after": before, "metres": graded_m,
                       "crossingM": float(ds[crossing[:-1]].sum()) if len(ds) else 0.0,
-                      "_pts": pts, "_ds": ds, "_crossing": crossing, "worst": None})
+                      "structureM": float(sum(min(b, chain[-1]) - max(a, 0.0)
+                                              for a, b in spans.get(way["id"], []))),
+                      "_pts": pts, "_ds": ds, "_crossing": skip, "worst": None})
 
     # Honest 'after' numbers: re-measure on the surface a player will actually
     # walk, skipping ford/bridge gaps (which are crossed, not walked down).
@@ -416,6 +514,8 @@ def grade(h: np.ndarray, ways_list: list[dict],
             wi = int(idx[np.argmax(slopes[idx])])
             cap = GRADIENT_CAP_DEG[s["kind"]]
             over = seg_ok & (slopes > cap)
+            s["stretches"] = over_cap_stretches(
+                np.concatenate([[0.0], np.cumsum(ds)]), slopes, seg_ok, cap)
             s["worst"] = {"deg": float(slopes[wi]),
                           "km": [round(float(pts[wi, 0]) * RAW_M / 1000.0, 3),
                                  round(float(pts[wi, 1]) * RAW_M / 1000.0, 3)],
@@ -463,6 +563,30 @@ def remedy(stat: dict) -> str:
     if w["frac"] <= 0.15 or w["frac"] >= 0.85:
         return "stair or ramped terrace on the approach"
     return "boardwalk or bridge deck over the step"
+
+
+def write_stretches(stats: list[dict], path: Path | None = None) -> dict:
+    """Export the per-way over-cap stretches (chainage windows) as JSON.
+
+    This is the input the authored-structure data is derived from: the windows
+    in `world/sources/routes/route-structures.json` are read off this file, not
+    typed by hand, so a re-grade that moves a stretch is visible immediately.
+    Gitignored output — it is a measurement, not a record.
+    """
+    path = path or STRETCHES_PATH
+    doc = {"schemaVersion": 1,
+           "_": "Over-cap stretches per way, metres of chainage along the "
+                "resampled centreline (worldgen.grade_routes.resample, STEP=3). "
+                "Derived output; regenerate with `python3 -m worldgen.grade_routes`.",
+           "ways": [{"wayId": s["id"], "kind": s["kind"],
+                     "capDeg": GRADIENT_CAP_DEG[s["kind"]],
+                     "lengthM": round(s["worst"]["lengthM"], 2),
+                     "stretches": s["stretches"]}
+                    for s in sorted(stats, key=lambda s: s["id"])
+                    if s.get("stretches")]}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(doc, indent=2, sort_keys=True) + "\n")
+    return doc
 
 
 def major_repairs(province: Path) -> list[str]:
@@ -529,6 +653,20 @@ def write_report(stats: list[dict], path: Path, cells: int,
                 s["id"], s["kind"], w["deg"], w["overM"], w["lengthM"],
                 where_label(w["frac"]), remedy(s)))
         lines.append("")
+    covered = [r for r in stats if r.get("structureM", 0.0) > 0.0
+               and r not in over]
+    if covered:
+        lines += ["## Covered by authored geometry", "",
+                  "These ways were over the cap on the natural ground and are "
+                  "not any more: the climb is walked on placed pieces (see "
+                  "`world/sources/sites/route-structures.md`), and the ground "
+                  "inside each structure's window is left alone.", "",
+                  "| way | class | structure m | max grad after |",
+                  "| --- | --- | --- | --- |"]
+        for s in sorted(covered, key=lambda s: s["id"]):
+            lines.append("| `{}` | {} | {:.0f} | {:.1f} |".format(
+                s["id"], s["kind"], s["structureM"], s["after"]))
+        lines.append("")
     lines += major_repairs(province or PROVINCE)
     lines += ["## Worst ten remaining spots", "",
               "| way | class | deg | km east | km south |", "| --- | --- | --- | --- | --- |"]
@@ -589,8 +727,10 @@ def main() -> None:
     ungraded, marker = snapshot_natural_state(height_path, province)
     h = np.load(ungraded)
     level, wet = _water_fields(province, h.shape)
-    graded, stats = grade(h, ways(province), level, wet)
+    graded, stats = grade(h, ways(province), level, wet,
+                          spans=load_structure_spans())
     cells = int((graded != h).sum())
+    write_stretches(stats)
     print(write_report(stats, REPORT_PATH, cells, province))
     if args.dry_run:
         return

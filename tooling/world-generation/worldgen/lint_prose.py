@@ -376,6 +376,24 @@ def lint_quests(res: LintResult) -> None:
                     res.add_text(scope, q.get("id") or q.get("code"), fld, q[fld])
 
 
+ROUTE_STRUCTURES = (catalogue.REPO_ROOT / "world" / "sources" / "routes"
+                    / "route-structures.json")
+
+
+def lint_route_structures(res: LintResult) -> None:
+    """The `why` on each authored route structure (Phase 11 stream B): a world
+    record's stated reason, held to the same register as a place record's."""
+    if not ROUTE_STRUCTURES.exists():
+        return
+    seen: set[str] = set()
+    for s in json.loads(ROUTE_STRUCTURES.read_text(encoding="utf-8")).get("structures", []):
+        # one sentence per way, carried by each of its structures: lint it once
+        if s["wayId"] in seen or not isinstance(s.get("why"), str):
+            continue
+        seen.add(s["wayId"])
+        res.add_text("route-structures", s["wayId"], "why", s["why"])
+
+
 BLUEPRINT_DIR = catalogue.REPO_ROOT / "world" / "sources" / "blueprints"
 
 
@@ -514,6 +532,7 @@ def main(argv: list[str] | None = None) -> int:
         lint_quests(res)
         lint_text_catalogue(res)
         lint_blueprints(res)
+        lint_route_structures(res)
     if a.quests:
         lint_quests(res)
     md_paths: list[Path] = []

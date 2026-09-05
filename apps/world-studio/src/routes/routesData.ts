@@ -117,6 +117,49 @@ export function selectMinor(
   };
 }
 
+/**
+ * Authored route structures (worldgen.compile_route_structures): the stairs,
+ * stepped ascents, decks, spans and lip steps that carry the stretches terrain
+ * grading could not fix. Coordinates arrive in WORLD METRES; the map layer
+ * works in hydrology-grid pixels, so they are converted here. Drawing them in
+ * 3D is Round B's job — this is the 2D map trace and its hover label.
+ */
+export interface RouteStructure {
+  id: string;
+  wayId: string;
+  kind: "stair" | "stepped-ascent" | "deck" | "bridge" | "lip-step";
+  family: string;
+  pieces: number;
+  riseM: number;
+  spanM: number;
+  why: string;
+  /** One point per placed piece, [x east, z south] in metres. */
+  pointsM: [number, number][];
+}
+
+export const METRES_PER_HYDRO_PX = 5.48352;
+
+export async function loadRouteStructures(baseUrl: string): Promise<RouteStructure[]> {
+  const d = await getJson<{ structures?: RouteStructure[] }>(
+    `${baseUrl}province/route-structures.json`);
+  return d?.structures ?? [];
+}
+
+/** A structure's trace in hydrology-grid pixels, the space the layer draws in. */
+export function structurePx(s: RouteStructure): [number, number][] {
+  return s.pointsM.map(([x, z]) => [x / METRES_PER_HYDRO_PX, z / METRES_PER_HYDRO_PX]);
+}
+
+/** The hover label: what it is, how many pieces, and the height it carries. */
+export function structureLabel(s: RouteStructure): string {
+  const rise = Math.abs(s.riseM);
+  return `${s.kind} — ${s.pieces} piece${s.pieces === 1 ? "" : "s"}, `
+    + `${rise.toFixed(1)} m rise over ${s.spanM.toFixed(0)} m`;
+}
+
+/** Hatched styling: one colour for built stone/timber, dashes read as treads. */
+export const STRUCTURE_STYLE = { stroke: "#ffb454", width: 3.4, dash: "1.5 2" };
+
 /** Query keys owned by the waterways layer (`water=1`); the selected route is `route`. */
 export const ROUTES_URL_KEYS = ["water", "route"] as const;
 

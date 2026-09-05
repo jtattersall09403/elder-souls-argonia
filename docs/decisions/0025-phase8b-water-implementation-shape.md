@@ -41,7 +41,8 @@ starting checklist for the Phase P water re-review) (deployed studio:
 `tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
 `refine_province <vault>/heightfield-f32.npy <vault>/hydrology-pass1.npz`
 → `reroute_majors` → `compile_minor_routes` → **`grade_routes`** →
-`compile_chunks` → `export_web_chunks` → `compile_water` → `rebake_landcover`
+`author_route_structures` → `grade_routes` again →
+`compile_route_structures` → `compile_chunks` → `export_web_chunks` → `compile_water` → `rebake_landcover`
 → `compile_scatter` for the affected chunks (decision 0036) →
 `apply_sitings` (re-measures plot facts; re-runs the minor networks,
 `export_places` and `export_routes` itself) → `python3 -m pytest -q`.
@@ -53,6 +54,17 @@ contours instead of climbing a spur head-on; grading then only has the last
 few metres to swallow. `reroute_majors` repairs the published major-road
 polylines in place rather than re-running `compile_society` (which would
 re-derive danger and cultures too).
+Authored geometry (added 2026-09-05, Phase 11 stream B) closes the loop the
+grading report opens: `author_route_structures` reads the over-cap stretches
+`grade_routes` exports to `output/route-grading-stretches.json` and records a
+stair, stepped ascent, deck, span or lip step for each in
+`world/sources/routes/route-structures.json`; the second `grade_routes` run
+then exempts those windows (no cut or fill inside one, landings pinned), which
+is what takes the survivor count to zero; `compile_route_structures` lays the
+kit pieces (`route-structures-v1`) and writes the studio feed. The author step
+is additive and idempotent — re-run author/grade until the survivor table is
+empty.
+
 `grade_routes` (added 2026-09-05, owner report: roads running off the edge of
 a terrace contour) cuts and fills the heightfield along every road, track and
 footpath so each has a walkable longitudinal gradient — road 8 deg, track
@@ -85,6 +97,19 @@ committed records. `reroute_majors` snapshots the pre-repair corridors as
 fingerprint trick) and `ProvinceSurvey` reads that; the repaired line is what
 the world carries, and `compile_minor_routes` seeds its tracks off the
 published `routes.json` so a track meets the road that is really there.
+
+**Boat lanes have it too** (2026-09-05, Phase 11 stream C). A lane solved
+anchor-to-anchor ends at the city's centre of gravity on land, where no boat
+can tie up, so `world/sources/routes/lane-terminals.json` declares the berth a
+city's lanes really end at (Lilmoth's lighter quay is the first) and
+`compile_society` routes to it. That correction is a repair like the road one:
+`compile_society` writes BOTH `province/waterways-natural.json` (the
+anchor-to-anchor solve, read by `ProvinceSurvey` for siting) and
+`province/waterways.json` (ending at the berths, what the world carries and
+what `compile_minor_routes` and the 97 C-stitch check measure against). With
+no terminal declared the two files are identical. Skipping the snapshot moved
+a committed record (`place.mercantile-coast.sunkfoot` went homeless) — the
+determinism test caught it.
 
 **Watch the two `hydrology-pass1.npz` files.** The one `refine_province` must
 be given is the one *beside* `heightfield-f32.npy`; the stale copy in

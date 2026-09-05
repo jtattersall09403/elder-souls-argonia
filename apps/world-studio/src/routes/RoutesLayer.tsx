@@ -16,9 +16,10 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import {
-  HYDRO_GRID_PX, ROUTE_STYLE, loadMinorWaterways, loadRoads, loadRoutesIndex, loadWaterways,
-  selectMajor, selectMinor,
-  type MinorTrack, type RouteGeometry, type RouteSelection, type RoutesIndexBundle,
+  HYDRO_GRID_PX, ROUTE_STYLE, STRUCTURE_STYLE, loadMinorWaterways, loadRoads, loadRoutesIndex,
+  loadRouteStructures, loadWaterways, selectMajor, selectMinor, structureLabel, structurePx,
+  type MinorTrack, type RouteGeometry, type RouteSelection, type RouteStructure,
+  type RoutesIndexBundle,
 } from "./routesData";
 
 const VB = 1000;
@@ -55,6 +56,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
   const [lanes, setLanes] = useState<RouteGeometry[]>([]);
   const [tracks, setTracks] = useState<MinorTrack[]>([]);
   const [channels, setChannels] = useState<MinorTrack[] | null>(null);
+  const [structures, setStructures] = useState<RouteStructure[]>([]);
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
@@ -62,6 +64,7 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
     const set = <T,>(f: (v: T) => void) => (v: T) => { if (alive) f(v); };
     loadRoutesIndex(baseUrl).then(set(setIndex)).catch(() => {});
     loadRoads(baseUrl).then(set(setRoads)).catch(() => {});
+    loadRouteStructures(baseUrl).then(set(setStructures)).catch(() => {});
     return () => { alive = false; };
   }, [baseUrl]);
 
@@ -114,6 +117,21 @@ export function RoutesLayer({ baseUrl, showWater, showTracks, selectedKey, onSel
                 strokeWidth={on ? st.width + 1.6 : st.width} strokeDasharray={st.dash}
                 opacity={on ? 1 : 0.85} vectorEffect="non-scaling-stroke" />
             </g>
+          );
+        })}
+        {/* Authored geometry over the stretches grading could not fix: short
+            hatched runs along the way, with the kind, piece count and rise on
+            hover. The pieces themselves are placed in 3D by Round B. */}
+        {structures.map((s) => {
+          const pts = structurePx(s)
+            .map(([c, r]) => `${(c / HYDRO_GRID_PX) * VB},${(r / HYDRO_GRID_PX) * VB}`).join(" ");
+          return (
+            <polyline key={s.id} points={pts} fill="none" stroke={STRUCTURE_STYLE.stroke}
+              strokeWidth={STRUCTURE_STYLE.width} strokeDasharray={STRUCTURE_STYLE.dash}
+              strokeLinecap="butt" vectorEffect="non-scaling-stroke" opacity={0.95}
+              style={{ pointerEvents: "stroke" }}>
+              <title>{`${s.id}\n${structureLabel(s)}\n${s.why}`}</title>
+            </polyline>
           );
         })}
       </svg>

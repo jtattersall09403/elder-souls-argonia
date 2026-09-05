@@ -1,221 +1,227 @@
 {
-  "_": "Engineering standard 2. Every file that carries stable IDs for placed or referenceable things registers here, and the check asserts ID shape (<domain>.<packet>.<name>, lower kebab), global uniqueness across all sources, and that no retired ID is reused. Phase 11 is where this goes from empty to load-bearing: add each placement file as you create it. `idKey` defaults to \"id\".",
-  "sources": [
-    {
-      "path": "world/sources/sites/candidate-sites.json",
-      "what": "Phase 11 Part 0 terrain scour — candidate landform sites (worldgen.terrain_scour)"
-    },
-    {
-      "path": "world/sources/catalogue/places-dunmer-north.json",
-      "what": "Phase 11 Part 2 place catalogue — dunmer-north region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-hist-heartland.json",
-      "what": "Phase 11 Part 2 place catalogue — hist-heartland region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-imperial-fringe.json",
-      "what": "Phase 11 Part 2 place catalogue — imperial-fringe region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-imperial-penal-south.json",
-      "what": "Phase 11 Part 2 place catalogue — imperial-penal-south region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-mercantile-coast.json",
-      "what": "Phase 11 Part 2 place catalogue — mercantile-coast region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-naga-kur-deeps.json",
-      "what": "Phase 11 Part 2 place catalogue — naga-kur-deeps region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-pirate-freeholds.json",
-      "what": "Phase 11 Part 2 place catalogue — pirate-freeholds region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/catalogue/places-saxhleel-coast.json",
-      "what": "Phase 11 Part 2 place catalogue — saxhleel-coast region records (worldgen.catalogue)",
-      "idKey": "id",
-      "collectionKey": "places"
-    },
-    {
-      "path": "world/sources/routes/registry.json",
-      "what": "Phase 11 Part 4 route registry — route.road.* / route.boat.* / route.track.* (worldgen.route_registry)",
-      "idKey": "id",
-      "collectionKey": "routes"
-    },
-    {
-      "path": "world/sources/registries/factions.json",
-      "what": "world registries — every group the world names (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat",
-      "_": "registries/quests.json is deliberately NOT here: it is a generated projection of world/sources/quests (worldgen.quests --sync) and its ids would duplicate them."
-    },
-    {
-      "path": "world/sources/registries/creatures.json",
-      "what": "world registries — creature register, PLACEHOLDER until Phase 13 (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/registries/npcs.json",
-      "what": "world registries — NPC register, PLACEHOLDER until Phase 13 (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/registries/items.json",
-      "what": "world registries — item register, PLACEHOLDER until Phase 13 (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/registries/deeds.json",
-      "what": "world registries — deed counters named by deedCounterKeys (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/registries/rumour-pools.json",
-      "what": "world registries — rumour pools named by rumourPoolKey (worldgen.registries)",
-      "idKey": "id",
-      "collectionKey": "entries",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/quests/lines.json",
-      "what": "quest data — every questline id (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "lines",
-      "idShape": "flat"
-    },
-    {
-      "path": "world/sources/quests/quests-main.json",
-      "what": "quest data — quests-main packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/quests-factions.json",
-      "what": "quest data — quests-factions packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/quests-standalone.json",
-      "what": "quest data — quests-standalone packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/quests-proposed.json",
-      "what": "quest data — quests-proposed packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-dunmer-north.json",
-      "what": "quest data — local-dunmer-north packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-hist-heartland.json",
-      "what": "quest data — local-hist-heartland packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-imperial-fringe.json",
-      "what": "quest data — local-imperial-fringe packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-imperial-penal-south.json",
-      "what": "quest data — local-imperial-penal-south packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-mercantile-coast.json",
-      "what": "quest data — local-mercantile-coast packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-naga-kur-deeps.json",
-      "what": "quest data — local-naga-kur-deeps packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-pirate-freeholds.json",
-      "what": "quest data — local-pirate-freeholds packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/quests/local-saxhleel-coast.json",
-      "what": "quest data — local-saxhleel-coast packet (worldgen.quests)",
-      "idKey": "id",
-      "collectionKey": "quests"
-    },
-    {
-      "path": "world/sources/blueprints/place.mercantile-coast.lilmoth.json",
-      "what": "settlement blueprint — Lilmoth, the exemplar city (worldgen.blueprint)",
-      "references": [
-        "place"
-      ]
-    },
-    {
-      "path": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
-      "what": "settlement blueprint — Nine-Trunks, Hist village exemplar (worldgen.blueprint)",
-      "references": [
-        "place"
-      ]
-    },
-    {
-      "path": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
-      "what": "settlement blueprint — Mazzatun, stone village on sloping ground exemplar (worldgen.blueprint)",
-      "references": [
-        "place"
-      ]
-    },
-    {
-      "path": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
-      "what": "settlement blueprint — The Standing Charge, wamasu pond lair exemplar (worldgen.blueprint)",
-      "references": [
-        "place"
-      ]
-    },
-    {
-      "path": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
-      "what": "settlement blueprint — The Licensed Stage, sap-tapping camp exemplar (worldgen.blueprint)",
-      "references": [
-        "place"
-      ]
-    }
-  ],
-  "retired": []
+ "_": "Engineering standard 2. Every file that carries stable IDs for placed or referenceable things registers here, and the check asserts ID shape (<domain>.<packet>.<name>, lower kebab), global uniqueness across all sources, and that no retired ID is reused. Phase 11 is where this goes from empty to load-bearing: add each placement file as you create it. `idKey` defaults to \"id\".",
+ "sources": [
+  {
+   "path": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
+   "what": "settlement blueprint \u2014 Mazzatun, stone village on sloping ground exemplar (worldgen.blueprint)",
+   "references": [
+    "place"
+   ]
+  },
+  {
+   "path": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
+   "what": "settlement blueprint \u2014 Nine-Trunks, Hist village exemplar (worldgen.blueprint)",
+   "references": [
+    "place"
+   ]
+  },
+  {
+   "path": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
+   "what": "settlement blueprint \u2014 The Licensed Stage, sap-tapping camp exemplar (worldgen.blueprint)",
+   "references": [
+    "place"
+   ]
+  },
+  {
+   "path": "world/sources/blueprints/place.mercantile-coast.lilmoth.json",
+   "what": "settlement blueprint \u2014 Lilmoth, the exemplar city (worldgen.blueprint)",
+   "references": [
+    "place"
+   ]
+  },
+  {
+   "path": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
+   "what": "settlement blueprint \u2014 The Standing Charge, wamasu pond lair exemplar (worldgen.blueprint)",
+   "references": [
+    "place"
+   ]
+  },
+  {
+   "path": "world/sources/catalogue/places-dunmer-north.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 dunmer-north region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-hist-heartland.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 hist-heartland region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-imperial-fringe.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 imperial-fringe region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-imperial-penal-south.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 imperial-penal-south region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-mercantile-coast.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 mercantile-coast region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-naga-kur-deeps.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 naga-kur-deeps region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-pirate-freeholds.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 pirate-freeholds region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/catalogue/places-saxhleel-coast.json",
+   "what": "Phase 11 Part 2 place catalogue \u2014 saxhleel-coast region records (worldgen.catalogue)",
+   "idKey": "id",
+   "collectionKey": "places"
+  },
+  {
+   "path": "world/sources/quests/lines.json",
+   "what": "quest data \u2014 every questline id (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "lines",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/quests/local-dunmer-north.json",
+   "what": "quest data \u2014 local-dunmer-north packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-hist-heartland.json",
+   "what": "quest data \u2014 local-hist-heartland packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-imperial-fringe.json",
+   "what": "quest data \u2014 local-imperial-fringe packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-imperial-penal-south.json",
+   "what": "quest data \u2014 local-imperial-penal-south packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-mercantile-coast.json",
+   "what": "quest data \u2014 local-mercantile-coast packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-naga-kur-deeps.json",
+   "what": "quest data \u2014 local-naga-kur-deeps packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-pirate-freeholds.json",
+   "what": "quest data \u2014 local-pirate-freeholds packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/local-saxhleel-coast.json",
+   "what": "quest data \u2014 local-saxhleel-coast packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/quests-factions.json",
+   "what": "quest data \u2014 quests-factions packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/quests-main.json",
+   "what": "quest data \u2014 quests-main packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/quests-proposed.json",
+   "what": "quest data \u2014 quests-proposed packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/quests/quests-standalone.json",
+   "what": "quest data \u2014 quests-standalone packet (worldgen.quests)",
+   "idKey": "id",
+   "collectionKey": "quests"
+  },
+  {
+   "path": "world/sources/registries/creatures.json",
+   "what": "world registries \u2014 creature register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/registries/deeds.json",
+   "what": "world registries \u2014 deed counters named by deedCounterKeys (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/registries/factions.json",
+   "what": "world registries \u2014 every group the world names (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat",
+   "_": "registries/quests.json is deliberately NOT here: it is a generated projection of world/sources/quests (worldgen.quests --sync) and its ids would duplicate them."
+  },
+  {
+   "path": "world/sources/registries/items.json",
+   "what": "world registries \u2014 item register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/registries/npcs.json",
+   "what": "world registries \u2014 NPC register, PLACEHOLDER until Phase 13 (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/registries/rumour-pools.json",
+   "what": "world registries \u2014 rumour pools named by rumourPoolKey (worldgen.registries)",
+   "idKey": "id",
+   "collectionKey": "entries",
+   "idShape": "flat"
+  },
+  {
+   "path": "world/sources/routes/registry.json",
+   "what": "Phase 11 Part 4 route registry \u2014 route.road.* / route.boat.* / route.track.* (worldgen.route_registry)",
+   "idKey": "id",
+   "collectionKey": "routes"
+  },
+  {
+   "path": "world/sources/routes/route-structures.json",
+   "what": "Phase 11 stream B authored route geometry \u2014 stairs, stepped ascents, decks, spans and lip steps over the stretches grading cannot fix (worldgen.author_route_structures, compiled by worldgen.compile_route_structures)",
+   "idKey": "id",
+   "collectionKey": "structures"
+  },
+  {
+   "path": "world/sources/sites/candidate-sites.json",
+   "what": "Phase 11 Part 0 terrain scour \u2014 candidate landform sites (worldgen.terrain_scour)"
+  }
+ ],
+ "retired": []
 }

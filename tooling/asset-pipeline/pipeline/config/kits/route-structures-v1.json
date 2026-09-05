@@ -1,0 +1,83 @@
+{
+ "id": "route-structures-v1",
+ "description": "Authored geometry for the route stretches terrain grading cannot fix (Phase 11 stream B). Where a way has to climb ground steeper than its class cap, the honest answer is a built flight, a stepped ascent, a ramped deck or a span over the gap \u2014 not a deeper cut into the hillside. Five authored sets, one per culture the routes pass through, and NOTHING is mixed between them: Whiterun terrain (wrcastlestairs01 + its own landing platform + the free-standing stone road bridge) for trunk roads and roads, which in this province are Imperial engineering; the farmhouse stone-terrace set (terrace stair, its up and down ramps, its retaining terrace) for the rural Imperial fringe; the Hlaalu Hammerfell masonry set (two flights, two span lengths) for the Dunmer north; the Black Marsh & Valenwood citebosmer passerelles, deck-only d01 variants, for Hist-heartland timber; and the vanilla stockade scaffold set for the pirate freeholds' lashed timber. Excluded on purpose: rail (i01) passerelle variants, whose bounds are driven by the rail and not the deck; the mwkeep ledge system, which is authored to hang off a curtain wall and has no ground-standing foot; and anything DLC (not in the vault). Consumed by worldgen.compile_route_structures.",
+ "culture": "mixed",
+ "output": "tooling/asset-pipeline/output/kits/route-structures-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "families": "Five culture-keyed families. A family names one straight (the piece a flight or deck chains), the rise that piece carries, the landing that breaks a long climb, and the deck used to span a gap. The compiler picks the family from the region a way runs through, never from a piece's name, and the piece from its MEASURED run and rise.",
+  "stone-civic": "Roads and trunk roads (Imperial engineering). Straight: wrcastlestairs01, a wide civic flight. Landing: wrstairsplatform01, the platform authored for that flight and matched to its width. Deck: wrbridgestone01, a free-standing stone road bridge, one piece per span.",
+  "stone-rural": "Imperial-fringe tracks and footpaths. Straight: stonewallterracestairs01, the stair cut into a farm terrace. Deck/ramp: stonewallterracerampup01 and its rampdown01 twin, for a graded lip rather than a step. Landing: stonewallterrace01, the retaining terrace of the same set, laid flat between flights.",
+  "dunmer-stone": "Dunmer north. Straight: trgmstairs01 (short flight); stairs01 is the wide flight for a broad approach. Deck: trgmbridge01 for a short span, trgmbridge02 for a long one. The short span doubles as the landing between flights: it is the same set, authored at the same deck height.",
+  "root-timber": "Hist heartland. Straight: passesc128h64d01, the passerelle stair segment (128-unit run, 64-unit rise). Flat runs and landings: passl128d01 and passl256d01. Rising deck: passl128h64d01. Start piece where a deck meets the ground: passl256h64startd01.",
+  "scaffold-timber": "Pirate freeholds. Straight: stockadescaffoldstairs01, base-anchored (its origin sits on the foot, unlike the dock steps). Decks: stockadescaffoldbridge01 short, bridge02 long, bridgenarrow for a footpath-width span.",
+  "unitScale": "Bethesda units at 0.014224 m/unit, as everywhere else in the pipeline. Piece names that encode length/rise (passl128h64 = 128-unit run, 64-unit rise) are a hint only; the compiler reads sizeM from the built kit.",
+  "anchoring": "Every piece is placed by its foot. Where originOffsetM puts the pivot above the base (the Whiterun stairs and the passerelle decks), the compiler subtracts the offset so the first tread meets the graded ground."
+ },
+ "assets": [
+  {
+   "asset": "vanilla:architecture/whiterun/wrterrain/wrcastlestairs01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrterrain/wrstairsplatform01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrterrain/wrbridgestone01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallterracestairs01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampup01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallterracerampdown01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallterrace01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmstairs01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/stairs01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmbridge02"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128h64d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256d01"
+  },
+  {
+   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64startd01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldstairs01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridge01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridge02"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadescaffoldbridgenarrow"
+  }
+ ]
+}
