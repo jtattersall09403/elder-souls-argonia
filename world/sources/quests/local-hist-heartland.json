@@ -77,7 +77,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.rootworm-station-helstrom"
       ],
-      "premise": "One stage of the passenger register carries a paid fare against a name the polers cannot place on any hull",
+      "premise": "One stage of the passenger register carries a paid fare against a name that no poler can place on any hull",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -188,7 +188,7 @@
         "place.hist-heartland.greenspring",
         "place.hist-heartland.helstrom"
       ],
-      "premise": "The city spring runs sour on a cycle the assembly declines to time in open session",
+      "premise": "The city spring runs sour on a cycle which the assembly declines to time in open session",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -411,7 +411,7 @@
         "place.hist-heartland.helstrom",
         "place.hist-heartland.rootworm-station-helstrom"
       ],
-      "premise": "The Waykeepers will carry the assembly's grain at a price the assembly cannot pay in coin",
+      "premise": "The Waykeepers will carry the assembly's grain at a price which the assembly cannot pay in coin",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -493,7 +493,7 @@
       "anchorPlaces": [
         "place.hist-heartland.helstrom"
       ],
-      "premise": "A market row's roofing is killing a grove limb, so the traders and the tree-minders each hold a case the assembly must hear",
+      "premise": "A market row's roofing is killing a grove limb, so the traders and the tree-minders each hold a case for the assembly to hear",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -767,7 +767,7 @@
       "anchorPlaces": [
         "place.hist-heartland.artisan-chime-makers"
       ],
-      "premise": "One frame in the field of two hundred rings without wind, on a pattern somebody has begun writing down",
+      "premise": "One frame in the field of two hundred rings without wind, on a pattern which somebody has begun to record",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -847,7 +847,7 @@
       "anchorPlaces": [
         "place.hist-heartland.bereaved-mnemic"
       ],
-      "premise": "The trunk the village refuses to leave has begun answering at night, in a voice the custodians will not describe",
+      "premise": "The trunk the village refuses to leave has begun answering at night, in a voice which the custodians will not describe",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -901,7 +901,7 @@
       "anchorPlaces": [
         "place.hist-heartland.boardwalk-branching-many-ways"
       ],
-      "premise": "Something has taken up residence beneath the deck that carries the shrine, at the arm the village uses least",
+      "premise": "Something has taken up residence beneath the deck that carries the shrine, at its least used arm",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -914,7 +914,7 @@
     {
       "id": "quest.local.lh34",
       "code": "LH34",
-      "title": "A Rate the Tribes Will Wear",
+      "title": "The Coordinated Tolls",
       "line": "quest.line.local",
       "group": "local",
       "tier": 3,
@@ -983,7 +983,7 @@
         "place.hist-heartland.cut-and-carried",
         "place.hist-heartland.harmed-hist-tapped"
       ],
-      "premise": "The replanted sapling is failing, which puts the soil it was carried in under suspicion two days back along the walk",
+      "premise": "The replanted sapling is failing, which puts the soil in which it was carried under suspicion two days back along the walk",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1444,7 +1444,7 @@
         "place.hist-heartland.nine-trunks",
         "place.hist-heartland.root-talk-ground"
       ],
-      "premise": "Goods move into the convocation inside delegation baggage the village is paid not to open",
+      "premise": "Goods move into the convocation inside delegation baggage which the village is paid to leave shut",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

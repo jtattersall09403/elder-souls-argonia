@@ -9,21 +9,27 @@ takes seconds.
 
 ## What to open
 
-| Exemplar | Map (PNG) | Design record (the reasoning, the questions) |
-|---|---|---|
-| Lilmoth (city) | `tooling/world-generation/output/blueprint-maps/place.mercantile-coast.lilmoth.png` | `world/sources/blueprints/place.mercantile-coast.lilmoth.md` |
-| Nine-Trunks (Hist village) | `…/place.hist-heartland.nine-trunks.png` | `world/sources/blueprints/place.hist-heartland.nine-trunks.md` |
-| Mazzatun (stone village on a slope) | `…/place.dunmer-north.mazzatun.png` | `world/sources/blueprints/place.dunmer-north.mazzatun.md` |
-| The Standing Charge (wamasu pond) | `…/place.naga-kur-deeps.wamasu-pond-adult.png` | `world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.md` |
-| The Licensed Stage (sap camp) | `…/place.hist-heartland.sap-tapping-licensed.png` | `world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.md` |
+**The interactive view (owner request 2026-09-05).** In World Studio tick
+**Blueprints** in the layer row, or open `?bp=1&blueprint=lilmoth` (also
+`nine-trunks`, `mazzatun`, `wamasu-pond-adult`, `sap-tapping-licensed`).
+Wheel zooms, drag pans, hover names a thing, click opens its details (a
+building's use, piece, ground fit, orientation and the reason for it; a
+district's kit set; a candidate siting's why). Layers can be hidden with the
+checklist; labels appear once you zoom past three pixels per metre. With
+nothing selected the side panel shows the place's causal model and budget.
 
-The maps are drawn over the real terrain: shaded relief, contours, water in
-blue, the place boundary as a white dashed line, districts as tinted areas
-(one colour per kit set), buildings as boxes coloured by how they sit on the
-ground (direct, plinth, pad, stilt, dug-in), doors as dots with an arrow for
-the way they face, landmarks as stars, quest sockets as crosses, fight spaces
-as red dashed boxes. Scale bar bottom left. The maps live in a gitignored
-output folder on this machine; open them from the IDE.
+Buildings are drawn as their real measured outlines, turned to the
+orientation the design record gives a reason for. The static PNG maps in
+`tooling/world-generation/output/blueprint-maps/` still exist as a
+by-product but are not the review medium.
+
+| Exemplar | Studio link | Design record (the reasoning, the questions) |
+|---|---|---|
+| Lilmoth (city) | `?bp=1&blueprint=lilmoth` | `world/sources/blueprints/place.mercantile-coast.lilmoth.md` |
+| Nine-Trunks (Hist village) | `?bp=1&blueprint=nine-trunks` | `world/sources/blueprints/place.hist-heartland.nine-trunks.md` |
+| Mazzatun (stone village on a slope) | `?bp=1&blueprint=mazzatun` | `world/sources/blueprints/place.dunmer-north.mazzatun.md` |
+| The Standing Charge (wamasu pond) | `?bp=1&blueprint=wamasu-pond-adult` | `world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.md` |
+| The Licensed Stage (sap camp) | `?bp=1&blueprint=sap-tapping-licensed` | `world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.md` |
 
 ## Where each one ended up, in one line
 
@@ -93,18 +99,30 @@ output folder on this machine; open them from the IDE.
 
 ## Things found on the way (no action needed from you unless you disagree)
 
-- **Sourcing gaps, shown as gaps:** no bare Hist trunk column that stands
-  alone (Nine-Trunks); no focal object for an Argonian underwater shrine
-  (Lilmoth's sunken shrine sits in an empty hollow-ruin cell for now).
-- **Catalogue records that should change** once you confirm the sitings
-  (positions, plot facts, a pool request for the pond, a rock-shelf request
-  for Mazzatun, asset plans that named kits which cannot serve the place):
-  listed at the end of each design record; not edited yet, because the text
-  reviewers were rewriting those files at the same time.
+- **Sourcing gaps: both filled** (2026-09-05) from assets we already hold: a
+  bare trunk column for the Nine-Trunks ring (Tropical Skyrim's giant trunk,
+  scaled to about five metres across) and a set of carved Argonian totems for
+  Lilmoth's sunken shrine. A sourcing-gap register with a status column now
+  exists so a gap can never be quietly left.
+- **The moved places have moved on the map** (positions, plot facts, the
+  minor paths and waterways re-run) via the new write-back tool; the other
+  catalogue changes the designs ask for (a pool request for the pond, a
+  rock-shelf request for Mazzatun, asset plans naming kits that cannot serve
+  the place) wait for your confirmation of the sitings.
 - **Compiler fixes made on the way:** door reachability was sampling the
   wrong grid cell (row and column swapped) and reading a coarse slope raster
   (a terrace lip read as 40°); parcels can now state their orientation; a
   district is one packaged kit set; every placed object has a stable id.
+
+## Orientation, in one paragraph
+
+Every building now has a stated reason for the way it faces, visible on
+click: a hut's long side along the contour behind it, a quay row facing the
+channel along its whole length, the Hist court turned to the tree, Mazzatun's
+courses running along the terrace risers, Nine-Trunks' huts on the ring's
+tangent with doors inward because the ring is the stockade. If a reason reads
+wrong to you, say so; the reasons are meant to become the rules for the
+long tail, so a correction on one building corrects the type.
 
 ## How to feed back
 

@@ -710,7 +710,7 @@
       "why": {
         "founding": "In 1E 2836 the Argonians stopped fighting the Blackwater War overnight. In the north they buried the proof: a whole district's weapons oiled, wrapped and put in one pit, so that stopping could not easily be undone.",
         "siteAdvantages": "A dry gravel lens under a low rise, chosen because it drains. That is why the contents are still recognisable.",
-        "occupantsMotive": "No guard stands over it. Four villages have known where it is for sixteen hundred years. Children are told about the pit the way they are told about the deep channel.",
+        "occupantsMotive": "No guard stands over it. Four villages have known where it is for sixteen hundred years. Children are told about the pit as they are told about the deep channel.",
         "pressures": "An-Xileel interest in the province's armament has made the pit awkward. One of the four villages has started asking what the other three would do.",
         "wouldChangeIf": "Would change the north's politics in a week if it were opened. It has stayed shut for sixteen centuries."
       },
@@ -1325,7 +1325,7 @@
       },
       "whySiteWon": "gorge in upland hills (danger band 3), 416 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
       "why": {
-        "founding": "The Stormhold ravine system has more wall than floor. The households the terraced city could not house cut their own dwellings into a side ravine's face, outside the walls and outside the rents.",
+        "founding": "The Stormhold ravine system has more wall than floor. The households left unhoused by the terraced city cut their own dwellings into a side ravine's face, outside the walls and outside the rents.",
         "siteAdvantages": "A soft band in the ravine wall, easy to cut and above the wet-season torrent, with the city's lights visible round the bend.",
         "occupantsMotive": "There is no rent here, which shapes everything else. The place calls itself a neighbourhood; the vicecanons' surveys call it an encroachment.",
         "pressures": "The vicecanons have twice sent surveyors to establish whether the cuttings are within the city's boundary; both surveyors were treated hospitably and both reports were inconclusive.",
@@ -1543,7 +1543,7 @@
         "siteAdvantages": "A warm seep in an ash-fall hollow where the ash keeps trees low, so the hollow is dark and quiet within twenty paces of the rim.",
         "occupantsMotive": "One keeper. She is wealthy, for which neither culture has forgiven her.",
         "pressures": "The holdings' elders disapprove and their children come anyway; the nearest Argonian village considers the whole arrangement a sale of something that should not be sold.",
-        "wouldChangeIf": "Would be closed by the village, not the holdings, the day the keeper took a Dunmer apprentice."
+        "wouldChangeIf": "Would be closed by the village, not the holdings, if the keeper took a Dunmer apprentice."
       },
       "hardConstraints": [
         "a warm seep in an ash hollow",
@@ -2150,7 +2150,7 @@
       },
       "whySiteWon": "spring head in firm lowland (danger band 2), 59 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
       "why": {
-        "founding": "The regional hatchery, rebuilt after Umbriel. It was rebuilt once before that, after a massacre the counting stones record but do not date. A depopulating province cannot let it lapse.",
+        "founding": "The regional hatchery, rebuilt after Umbriel. It was rebuilt once before that, after a massacre which the counting stones record but do not date. A depopulating province cannot let it lapse.",
         "siteAdvantages": "Warm spring-fed shallows at a constant temperature, screened on every side. The pools were found rather than dug.",
         "occupantsMotive": "The Keepers of the Shell stay because the alternative is that a generation is not born; they have died here rather than leave.",
         "pressures": "It has been attacked twice in living memory. It is defended accordingly. Outsiders are not welcome, but a woman with a name in the roll can vouch for one.",
@@ -2282,7 +2282,7 @@
         "founding": "A settlement that exists to receive comers it may not refuse. The Trials of the Burnished Scales reconnect the Hist-less. The trials are open to lukiul, exiles and those who are not Argonian at all.",
         "siteAdvantages": "Firm ground at the head of a pilgrim water route in Shadowfen, deliberately reachable, because the settlement's whole function depends on being easy to find.",
         "occupantsMotive": "Trial marshals and stewards, who administer rather than defend. The Zaht stones of Hist amber do the defending. The Hist has not made a new one in four hundred years.",
-        "pressures": "The lodging is built for a traffic the town no longer has. The Mages and Fighters Guild halls that housed pilgrims were dissolved in the Fourth Era. Their dormitories now hold people who came for a trial and stayed.",
+        "pressures": "The lodging is built for a traffic that the town no longer has. The Mages and Fighters Guild halls that housed pilgrims were dissolved in the Fourth Era. Their dormitories now hold people who came for a trial and stayed.",
         "wouldChangeIf": "If the An-Xileel declared the trials invalid, the province's only route back to a Hist would close. Every Hist-less settlement in the north would have nowhere to send its own."
       },
       "hardConstraints": [
@@ -2757,7 +2757,7 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 1), 27 m from the nearest route; its choice #2 landform; won on route, landform, region.",
       "why": {
-        "founding": "A rented upper floor over a Velothi factor's counting room on the Tear road, taken on a three-year lease by a party the landlord has not met. The Dominion keeps no post in Black Marsh. The Thalmor are still one of the standing explanations for the Accession War.",
+        "founding": "A rented upper floor over a Velothi factor's counting room on the Tear road, taken on a three-year lease by a party whom the landlord has not met. The Dominion keeps no post in Black Marsh. The Thalmor are still one of the standing explanations for the Accession War.",
         "siteAdvantages": "It overlooks the weighbridge where every cart off the Morrowind road is broken open and counted. A tenant who does not leave the room can count the northern traffic in ore, in saltrice and in people, through a shuttered window.",
         "occupantsMotive": "To know what the An-Xileel are moving north before Morrowind does. The room can be emptied in an hour if a step sounds on the stair.",
         "pressures": "The landlord's grandson resents a tenant who pays a year in advance and burns a lamp all night. He has tried the door twice.",
@@ -2950,25 +2950,25 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.27033,
-        "v": 0.19745
+        "u": 0.26921,
+        "v": 0.18187
       },
       "positionM": [
-        1993.3,
-        1455.9
+        1985.0,
+        1341.0
       ],
       "plotFacts": {
-        "landform": "ridge-end",
+        "landform": "pinned (Part 6 meso siting)",
         "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 246.5,
-        "distanceToWaterM": 88.6,
-        "score": 2.862
+        "distanceToRouteM": 297.4,
+        "distanceToWaterM": 12.3,
+        "score": null
       },
-      "whySiteWon": "ridge end in upland hills (danger band 3), 246 m from the nearest route; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.dunmer-north.mazzatun.json): The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
       "why": {
         "founding": "The Xit-Xaht built in stone against the Duskfall prohibition, under the direction of a Hist they had enslaved with sap.",
-        "siteAdvantages": "Deep in the north-east swamp on ground the surrounding tribes leave alone, screened by rootland and by what the neighbours say about the place.",
+        "siteAdvantages": "Deep in the north-east swamp on ground avoided by the surrounding tribes, screened by rootland and by what the neighbours say about the place.",
         "occupantsMotive": "Tsono-Xuhil has not woken from its convalescent sleep. Three and a half centuries later, the Amber Plasm seep has resumed. The building has restarted with it.",
         "pressures": "The neighbours say only 'the Hist is crazy' and stay away. Three centuries of that talk has not stopped the building.",
         "wouldChangeIf": "Would be a province-wide emergency the day another tribe accepted the Xit-Xaht's invitation to help."
@@ -3095,7 +3095,7 @@
       "why": {
         "founding": "A Hist coerced with sap into directing a city's construction. It was left in a convalescent sleep from which it has not woken.",
         "siteAdvantages": "It stands where it always stood; the city was built around it, not the other way round.",
-        "occupantsMotive": "The Xit-Xaht tend it the way a farmer tends a crop. They call it devotion.",
+        "occupantsMotive": "The Xit-Xaht tend it as a farmer tends a crop. They call it devotion.",
         "pressures": "The seep has resumed, slowly, which either means it is healing or that it is dreaming again.",
         "wouldChangeIf": "Would change the whole north if it woke. There is a mnemic egg here that might say which it is doing."
       },
@@ -3449,11 +3449,11 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 3), 307 m from the nearest route; its choice #3 landform; won on route, landform, region.",
       "why": {
-        "founding": "The northern villages hold their naming-day together, on one flat, once a year, because a name given in front of four villages is a name a fifth cannot later dispute.",
+        "founding": "The northern villages hold their naming-day together, on one flat, once a year, because a name given in front of four villages is a name that a fifth cannot later dispute.",
         "siteAdvantages": "A dry meadow equidistant from four villages with a single old tree at one end, under which every naming has happened.",
         "occupantsMotive": "It stands empty outside the fortnight. The ground belongs to the naming. Grazing it is rude rather than illegal, so it is grazed.",
-        "pressures": "The meadow is safe for the fortnight the moot sits in it. For the rest of the year it is open ground a long way from any village, which is why the moot posts a watch before it posts a speaker.",
-        "wouldChangeIf": "Would lose its whole point the year the registry started issuing the names instead of recording them."
+        "pressures": "The meadow is safe for the fortnight during which the moot sits in it. For the rest of the year it is open ground a long way from any village, which is why the moot posts a watch before it posts a speaker.",
+        "wouldChangeIf": "Would lose its whole point if the registry started issuing the names instead of recording them."
       },
       "hardConstraints": [
         "a dry meadow equidistant from four villages",
@@ -3545,10 +3545,10 @@
       "whySiteWon": "firm ground in upland hills (danger band 3), 292 m from the nearest route; no free 'ford' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.dunmer-north.the-drover-camp (+0.66).",
       "why": {
         "founding": "Nine shallow crossings within a kilometre. One family put a gate on the one that stays passable in the wet; the town grew around the gate until it outgrew the crossing.",
-        "siteAdvantages": "One crossing of the nine has a gravel bottom. For four months of the year it is the one a loaded cart can use.",
+        "siteAdvantages": "One crossing of the nine has a gravel bottom. For four months of the year it is the one which a loaded cart can use.",
         "occupantsMotive": "The toll. Then what attaches to a toll: stabling, warehousing, a tradehouse, a moneylender, two people who will move goods around the gate for a price.",
         "pressures": "The other eight fords are usable in the dry. The town is rich for four months and idle for eight. Debts here are written to fall due in the wet.",
-        "wouldChangeIf": "Would collapse into a village the day a bridge went up. Stormhold has proposed one twice; the town has bought the proposal off twice."
+        "wouldChangeIf": "Would collapse into a village if a bridge went up. Stormhold has proposed one twice; the town has bought the proposal off twice."
       },
       "hardConstraints": [
         "a gravel-bottomed ford passable in the wet",
@@ -3763,7 +3763,7 @@
       },
       "whySiteWon": "cliff bench in firm lowland (danger band 2), 186 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
       "why": {
-        "founding": "Small diggings and a polishing bench for the stones for which the province is famous, set up outside Crystalgate by a cutter the grading houses refused. She has worked the bench for nine years.",
+        "founding": "Small diggings and a polishing bench for the stones for which the province is famous, set up outside Crystalgate by a cutter whom the grading houses refused. She has worked the bench for nine years.",
         "siteAdvantages": "A gravel terrace with garnet and jasper in the wash. Clean spring water for the polishing wheel. Crystalgate's own water is too silty for cutting.",
         "occupantsMotive": "One cutter, two apprentices, a policy of selling ungraded stone to whoever wants it. Crystalgate calls that heresy. It is why buyers come here.",
         "pressures": "The grading houses have twice had the bench's output declared uncertified at Wolk Market. Both times it sold. The second time it sold for more.",
@@ -4260,7 +4260,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 402 m from the nearest route; its first-choice landform; won on landform, region, hinterland; site exchanged in the swap pass with place.dunmer-north.cut-and-stack (+1.06).",
       "why": {
         "founding": "A field village of Argonians and Dunmer working the same crop, founded when the estates broke up and the labour stayed.",
-        "siteAdvantages": "In the middle of the terraces, on the one rise the flood does not reach, equidistant from four banks.",
+        "siteAdvantages": "In the middle of the terraces, on the one rise that the flood does not reach, equidistant from four banks.",
         "occupantsMotive": "They farm together and marry separately. It has been that way for three generations.",
         "pressures": "Thorn's title court could dissolve their common holding with one ruling and they know it.",
         "wouldChangeIf": "Would split cleanly in two along a line both households can already name, if Thorn's title court ever forced the question."
@@ -4274,7 +4274,7 @@
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "safe-rest (real) + service-hub",
-      "hook": "Grass and dry beds on the one rise the flood leaves alone, with gossip from four banks running through it.",
+      "hook": "Grass and dry beds on the one rise that the flood does not cover, with gossip from four banks running through it.",
       "stance": "friendly",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -4380,7 +4380,7 @@
       "why": {
         "founding": "Every failed Silyanorn hopeful ends up on the rim: four unlicensed claims worked out of one camp above the cold root gallery, each convinced the seam runs north and holding no licence to prove it.",
         "siteAdvantages": "Exposed country rock on the rim's shoulder, with the gallery's first chamber below for a store and spring water in reach, far enough from the licensed diggings that the hoist master's men do not patrol it.",
-        "occupantsMotive": "Four independent prospectors. They cooperate on food. Each has marked a claim in a way the other three do not recognise.",
+        "occupantsMotive": "Four independent prospectors. They cooperate on food. Each has marked a claim in a way that the other three do not recognise.",
         "pressures": "The diggings' hoist master reports them annually while the vicecanons sit on the report; the four have started treating the approach as theirs, so strangers on the claim lines are driven off with tools first.",
         "wouldChangeIf": "Would become a licensed working within a month of a real strike, held by whichever office signs first. The four would not be named on that licence."
       },
@@ -4426,7 +4426,7 @@
       "underwaterAccess": "none",
       "contents": {
         "creatures": [
-          "apex-ambusher · D2 · few — hoarvor in the worked-out stopes the prospectors no longer enter",
+          "apex-ambusher · D2 · few — hoarvor in the worked-out stopes which the prospectors no longer enter",
           "pack-hunter · D3 · band — fellrunners working the rim ground above the camp"
         ],
         "npcs": [
@@ -4621,7 +4621,7 @@
       },
       "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 133 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "why": {
-        "founding": "The Panther basin's frogs have the chirp the vossa-satl copies. Three generations ago somebody worked out that the tone breeds true. The farm culls by ear.",
+        "founding": "The Panther basin's frogs have the chirp that the vossa-satl copies. Three generations ago somebody worked out that the tone breeds true. The farm culls by ear.",
         "siteAdvantages": "Six spring-fed ponds at slightly different temperatures, which is what lets the farm hold six different tones on one site.",
         "occupantsMotive": "The pipe-makers in Thorn pay by tone. A matched set of six carries the highest price of all.",
         "pressures": "The tone drifts if the pond temperature drifts, so the farm's craft is holding six ponds at six temperatures; a hot year ruins a decade of selection.",
@@ -5799,7 +5799,7 @@
       },
       "whySiteWon": "saddle in upland hills (danger band 3), 1132 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, remote.",
       "why": {
-        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors renamed it Tenmar Wall on their maps. The north kept the old name. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest the carters wanted to build.",
+        "founding": "A temple to Boethiah and Vaermina raised by Dunmer dissidents who fled the Tribunal, then abandoned by them. The Third Empire's surveyors renamed it Tenmar Wall on their maps. The north kept the old name. The market that carries the shortened form grew half a morning's walk away where the carters' tracks bend, the closest point at which the carters were willing to build.",
         "siteAdvantages": "Off the road, in a hollow that the tracks curve to avoid. Every carter in the north can point at the hollow from the bend.",
         "occupantsMotive": "Nobody occupies it. The marker posts around it are maintained.",
         "pressures": "The market town that borrowed its name lives off the road and pretends the ruin is somebody else's business; the second atrocity on this ground is the Dres slave road that ran past the district, not the dissidents' work.",
@@ -5903,7 +5903,7 @@
       "why": {
         "founding": "A stand of dead trees in shallow water where the north's wading birds nest in numbers that make the stand uninhabitable and the ground beneath it the richest fertiliser source in the region.",
         "siteAdvantages": "Dead standing timber over water, with no route in for predators. Forty years of guano beneath it.",
-        "occupantsMotive": "The villages take guano for the terraces in one licensed month and stay away for eleven, an arrangement the smell enforces more than any warden does.",
+        "occupantsMotive": "The villages take guano for the terraces in one licensed month and stay away for eleven, an arrangement which the smell enforces more than any warden does.",
         "pressures": "The saltrice growers want more than one month; the villages that eat the eggs want none at all; the stand itself is rotting and falling tree by tree.",
         "wouldChangeIf": "Would relocate entirely if the stand came down. Birds do; the licensors have never traced where."
       },
@@ -6200,7 +6200,7 @@
         "siteAdvantages": "The channel's narrowest point, where the causeway was built up to and then stopped.",
         "occupantsMotive": "The ferry family are the causeway gang's cousins. Neither side chose the arrangement; both inherited it.",
         "pressures": "Pilgrims arriving at dusk find the ferry on the far side more often than chance would explain.",
-        "wouldChangeIf": "Would be replaced by a span the day Stormhold decided to spend the money. It has been on the works list for sixty years."
+        "wouldChangeIf": "Would be replaced by a span as soon as Stormhold decided to spend the money. It has been on the works list for sixty years."
       },
       "hardConstraints": [
         "part of the Bogmother Causeway, at its last span",
@@ -6644,7 +6644,7 @@
         "founding": "A wamasu holds a deep pond and curses all the water around it to deadly convulsions.",
         "siteAdvantages": "Deep still water fed from below, with an outflow too weak to clear it.",
         "occupantsMotive": "The creature is here because the pond is deep and quiet; other creatures reach it only by accident, briefly.",
-        "pressures": "The villages' offerings have made the pond a place people approach on purpose, which is new and unwise.",
+        "pressures": "The villages' offerings have made the pond a place which people approach on purpose, which is new and unwise.",
         "wouldChangeIf": "Would not change. The pond stays lethal whatever arrives at it."
       },
       "hardConstraints": [
@@ -6850,7 +6850,7 @@
         "founding": "The failed Dres holding stood empty for years. The family's heir did not come to reclaim it. A fire went through the compound before any blackguard band arrived.",
         "siteAdvantages": "The walled square and the sealed tomb behind it give a defensible base with one door worth watching.",
         "occupantsMotive": "The band that moved in after the fire uses the standing half as a base for work on the Tear road, close enough to reach it and far enough to hide from it.",
-        "pressures": "The tomb door is still sealed and the band has left it alone. Even they will not touch a Dres ancestor tomb.",
+        "pressures": "The tomb door is still sealed and the band has not opened it. Even they will not touch a Dres ancestor tomb.",
         "wouldChangeIf": "A Dres heir arriving to reclaim the holding would have to deal with the band first."
       },
       "hardConstraints": [
@@ -7574,7 +7574,7 @@
         "siteAdvantages": "Between the fields and the water, exactly where a plantation puts its labour. Convenient for the work. Damp. Hard to leave in a hurry when the flood comes.",
         "occupantsMotive": "They stay because moving would mean building. The rows work. What it means to live in them gets talked about every winter but the talk goes nowhere.",
         "pressures": "The rows are Dunmer-built and every household has altered theirs, so the terrace is a two-hundred-year argument about how much of the original to keep.",
-        "wouldChangeIf": "Would be pulled down the year the field titles were settled. No household can get the Owings to settle it."
+        "wouldChangeIf": "Would be pulled down once the field titles were settled. No household can get the Owings to settle it."
       },
       "hardConstraints": [
         "a Dres-built quarters row",
@@ -7696,7 +7696,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 2), 16 m from the nearest route; no free 'ridge-end' site was left in the zone, so plain ground; won on route, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.dunmer-north.nine-fords (+0.66).",
       "why": {
         "founding": "Naga range further north in the wet season than the road wardens will put in writing. The Gideon-Stormhold caravan road through wet ground is a hunting lane.",
-        "siteAdvantages": "Where the Gideon-Stormhold road's delta section runs between two channels, a place a road cannot leave.",
+        "siteAdvantages": "Where the Gideon-Stormhold road's delta section runs between two channels, a place that no road can leave.",
         "occupantsMotive": "They camp for the season and take what passes; this is not banditry as the road understands it.",
         "pressures": "Thorn's levy sweeps the section twice a year and finds an empty camp both times.",
         "wouldChangeIf": "Would not be here at all in a dry year. The road forgets between them."
@@ -8198,7 +8198,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 2), 82 m from the nearest route; its choice #3 landform; won on landform, sightline, region.",
       "why": {
         "founding": "The first ground the Flu filled, in the first season, before the city understood what was happening.",
-        "siteAdvantages": "On the terrace below Stormhold's south gate. At the time the mowing gangs could carry the dead no further. The first season's dead went into a cut in the terrace rather than into graves. The cut goes down three levels.",
+        "siteAdvantages": "On the terrace below Stormhold's south gate. The mowing gangs could carry the dead no further. The first season's dead went into a cut in the terrace rather than into graves. The cut goes down three levels.",
         "occupantsMotive": "The city maintains it. The mowing gang works between the second and fourth hours; that slot has stood in their warrant for a century.",
         "pressures": "Kothringi dead are buried here alongside Argonian dead. Neither people's rite permits the mixing and both accepted it.",
         "wouldChangeIf": "Would be the north's central memorial if the city could bear to make it one."
@@ -8407,7 +8407,7 @@
         "siteAdvantages": "A ring drawn at a day's walk from the city, which on this side puts it up on the rim ground, which the rim villages never farmed.",
         "occupantsMotive": "The vicecanons pay a marker-walker who keeps the cellar swept; she sleeps in it four nights a month.",
         "pressures": "No Stormhold record admits that the line was drawn against Stormhold. The vicecanons' ledger calls it the northern works.",
-        "wouldChangeIf": "Would be a diplomatic incident if the vicecanons re-marked it, which is why they have left it alone."
+        "wouldChangeIf": "Would be a diplomatic incident if the vicecanons re-marked it. The markers stand unaltered for that reason."
       },
       "hardConstraints": [
         "a ring at a day's walk from the city"
@@ -8628,7 +8628,7 @@
         "siteAdvantages": "A shallow basin that holds a skin of water two months longer than the plain around it, with hard edges that hold a herd.",
         "occupantsMotive": "Two Dunmer holdings and one Argonian village use it in rotation. The Dres set the rotation. No holding has owned it since; the rotation still holds.",
         "pressures": "The guar and the wild herds want the same water in the same weeks. The holdings deal with that by killing whatever else arrives.",
-        "wouldChangeIf": "Would break the rotation the first year a holding brought more guar than the basin can water. One of the two is visibly building its herd to that size."
+        "wouldChangeIf": "Would break the rotation in the first year in which a holding brought more guar than the basin can water. One of the two is visibly building its herd to that size."
       },
       "hardConstraints": [
         "a basin holding water into the dry season",
@@ -8852,7 +8852,7 @@
         "siteAdvantages": "A rock sill across the channel. Deep water below it, boulders above. A bank on both sides.",
         "occupantsMotive": "The landing exists to change cargo from hull to back. Every trade here follows from that.",
         "pressures": "The porters and the boat crews price against each other twice a day, in public, loudly.",
-        "wouldChangeIf": "Would move upstream permanently the year the sill were blasted, which two generations have proposed."
+        "wouldChangeIf": "Would move upstream permanently if the sill were blasted, which two generations have proposed."
       },
       "hardConstraints": [
         "a rock sill ending navigation"
@@ -9191,7 +9191,7 @@
         "founding": "The low road out of Thorn goes under in the monsoon and Thorn closes it, because the alternative is losing caravans.",
         "siteAdvantages": "The lowest crossing of the terrace country, where the water backs up first.",
         "occupantsMotive": "The barrier is worked by the paddy gate-holders, who are already there for the gates.",
-        "pressures": "Dunmer caravans have ignored it twice. On one of those occasions the road held.",
+        "pressures": "Dunmer caravans have ignored it twice. The road held on one of those occasions.",
         "wouldChangeIf": "Would be unnecessary if the road were embanked, but Thorn's owners will not pay for a road they do not own."
       },
       "hardConstraints": [
@@ -9281,7 +9281,7 @@
         "siteAdvantages": "A dark upland flat with no light within four kilometres and a wall of rock to the north that kills the wind without blocking the sky.",
         "occupantsMotive": "Two resident alchemists. A rotation of Stormhold practitioners who book nights. They pay for the darkness. One spoiled night voids the booking.",
         "pressures": "Crystalgate's cutting sheds have begun burning lamps late and the court's northern sky is measurably worse than it was a decade ago.",
-        "wouldChangeIf": "Would be worthless the day a lit building went up on the ridge. The alchemists have started buying ridge land to prevent it."
+        "wouldChangeIf": "Would be worthless if a lit building went up on the ridge. The alchemists have started buying ridge land to prevent it."
       },
       "hardConstraints": [
         "no artificial light within four kilometres",
@@ -10468,10 +10468,10 @@
       "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on route, nearPoint, region.",
       "why": {
         "founding": "Cyrodilic Collections keeps an alcove at Stormhold. An alcove implies a dig somewhere it can defend as lawful.",
-        "siteAdvantages": "On Outer Silyanorn's edge, on the parcel the vicecanons agreed to licence.",
+        "siteAdvantages": "On Outer Silyanorn's edge, on the parcel that the vicecanons agreed to licence.",
         "occupantsMotive": "The Collections dig to return; the vicecanons licence it to keep an eye on it; the diggers dig for wages.",
         "pressures": "The parcel they were given is the least interesting ground on the site. The vicecanons chose it. The dig's own director says so in her letters home.",
-        "wouldChangeIf": "Would move onto the arcade the moment the licence was widened, which the city will not do."
+        "wouldChangeIf": "Would move onto the arcade as soon as the licence was widened, which the city will not do."
       },
       "hardConstraints": [
         "a licensed parcel beside a ruin"
@@ -11057,7 +11057,7 @@
         "siteAdvantages": "A ledge line running parallel to the pass a kilometre east. Wide enough for a person carrying a pack. Too narrow for a beast.",
         "occupantsMotive": "The carriers move salt north and, when the price is right, people. That is what the count was meant to stop.",
         "pressures": "Both provinces know it is there; neither wants the diplomatic cost of closing it.",
-        "wouldChangeIf": "Would close in a week if the head-count were dropped, which is the argument the smugglers make."
+        "wouldChangeIf": "Would close in a week if the head-count were dropped, which is the smugglers' argument."
       },
       "hardConstraints": [
         "a benched ledge line on the ravine wall, wide enough for a person and not a beast"
@@ -11559,7 +11559,7 @@
         "siteAdvantages": "Good dry ground with a spring, which was the void's doing too. The households made the connection only after the ground gave way.",
         "occupantsMotive": "No one lives here now; the households moved two hundred metres and rebuilt, the province's standard answer to subsidence.",
         "pressures": "The old and new hamlets are in sight of each other. The old one is still going down.",
-        "wouldChangeIf": "Would take the new hamlet too if the void runs the way the rim's geology suggests."
+        "wouldChangeIf": "Would take the new hamlet too if the void runs as the rim's geology suggests."
       },
       "hardConstraints": [
         "visible subsidence",
@@ -11792,7 +11792,7 @@
         "siteAdvantages": "The undercut is at the falls' centre, reachable along a ledge from the ravine's south side only.",
         "occupantsMotive": "The city knows about it. The Conclave uses it. There is no booking ledger.",
         "pressures": "No plan the city holds shows this room.",
-        "wouldChangeIf": "Would be sealed by the vicecanons the day they worked out who was using it."
+        "wouldChangeIf": "Would be sealed by the vicecanons once they worked out who was using it."
       },
       "hardConstraints": [
         "an undercut behind a major fall",
@@ -13109,7 +13109,7 @@
       "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 418 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on region, hinterland, danger.",
       "why": {
         "founding": "A wamasu of Shadowfen received offerings to stop the seasonal flooding; the shrine is where they were left.",
-        "siteAdvantages": "On the bank above the pond the creature is held to inhabit, at the highest point the flood reaches.",
+        "siteAdvantages": "On the bank above the pond which the creature is held to inhabit, at the highest point reached by the flood.",
         "occupantsMotive": "Four villages send offerings each wet season, in rotation. A headwoman asked why will say it is her turn.",
         "pressures": "The offerings are increasingly practical, tools and salt rather than symbols, which the older villagers find embarrassing.",
         "wouldChangeIf": "Would be abandoned in a dry decade and re-established within a week of the next bad flood."
@@ -13514,7 +13514,7 @@
         "founding": "A tribe took a xanmeer's walls and the defences in them that still work. They have lived there ever since. It is the best-fortified hold in the north.",
         "siteAdvantages": "A terraced stone mass on firm ground in the channels. The mechanisms on the lower terraces still work.",
         "occupantsMotive": "Sul-Xan and two later invasions have come through the north in four centuries. The walls held each time. That is why the tribe is still in them.",
-        "pressures": "Living in stone is a compromise their neighbours notice; their answer is that they did not build it.",
+        "pressures": "Living in stone is a compromise which their neighbours notice; their answer is that they did not build it.",
         "wouldChangeIf": "Would be the north's refuge of last resort in a real emergency. The tribe has said as much."
       },
       "hardConstraints": [
@@ -14152,7 +14152,7 @@
         "siteAdvantages": "One tree large enough to carry three walkway arms, off the walked tracks entirely.",
         "occupantsMotive": "A rope-and-lamp keeper. She lives in the trunk's first fork. All three lines pay her in food.",
         "pressures": "The tree is alive and growing. It is swallowing the walkway fixings. Every few years an arm has to be re-hung higher.",
-        "wouldChangeIf": "Would have to be rebuilt from scratch as a piled platform the day the tree dies. The rebuild's cost is not written down anywhere."
+        "wouldChangeIf": "Would have to be rebuilt from scratch as a piled platform when the tree dies. The rebuild's cost is not written down anywhere."
       },
       "hardConstraints": [
         "one large living trunk in water at a three-way meeting"
@@ -14333,7 +14333,7 @@
       "whySiteWon": "ravine in upland hills (danger band 2), 230 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
       "why": {
         "founding": "An Imperial warden worked penal labour into these galleries for crystal, on a promise of limited freedom. The warden died in office. The galleries are still worked.",
-        "siteAdvantages": "The deepest reachable level of the undercity, below the licensed diggings, where the seams the diggers will not risk still run.",
+        "siteAdvantages": "The deepest reachable level of the undercity, below the licensed diggings, where the seams that the diggers will not risk still run.",
         "occupantsMotive": "The people down here are working an Owing that has been transferred so many times the original creditor's name is lost.",
         "pressures": "The gallery floods on an unpredictable schedule. The licensed diggers above post the tide days at the shaft head now.",
         "wouldChangeIf": "Would empty in a day if the Owing ledgers above it were voided."
@@ -14434,11 +14434,11 @@
       },
       "whySiteWon": "firm ground in upland hills (danger band 3), 872 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
       "why": {
-        "founding": "The An-Xileel promised a clean province and a return of ground; these are the families from three villages the Xit-Xaht took, camped on the boundary of land that was theirs, waiting for the promise to be kept.",
+        "founding": "The An-Xileel promised a clean province and a return of ground; these are the families from three villages that the Xit-Xaht took, camped on the boundary of land that was theirs, waiting for the promise to be kept.",
         "siteAdvantages": "The boundary itself. They are camped exactly on the old line. Somebody else works the ground behind them.",
         "occupantsMotive": "No family here will move; moving is the argument lost. Every family present has a claim, a witness and a name. No court will hear any of it.",
         "pressures": "It is the fifth year; the camp has built a mud oven and a well, which the camp reads as a defeat.",
-        "wouldChangeIf": "Would end the day the An-Xileel gave a ruling either way. The camp is more afraid of the ruling than of the wait."
+        "wouldChangeIf": "Would end on the day when the An-Xileel gave a ruling either way. The camp is more afraid of the ruling than of the wait."
       },
       "hardConstraints": [
         "on a disputed boundary line",
@@ -15127,9 +15127,9 @@
       "whySiteWon": "firm ground in firm lowland (danger band 4), 449 m from the nearest route; at the water's edge; its choice #3 landform; won on nearPoint, landform, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "An outsider-facing trading station built where the southern water route met the Helstrom approach; the alten- prefix marks it as never Argonian.",
-        "siteAdvantages": "A landing on deep-enough water at the last point outsiders were tolerated.",
+        "siteAdvantages": "A landing on deep-enough water at the last point at which outsiders were tolerated.",
         "occupantsMotive": "A skeleton staff of two factors and whoever is sheltering in the warehouses. The two factors are paid a retainer by a company that no longer trades here, on the theory that a lapsed post is cheaper to hold than to re-license.",
-        "pressures": "The interior tolerates it but does not need it. The trade it was built for stopped. The warehouses now shelter people the factors are not allowed to register.",
+        "pressures": "The interior tolerates it but does not need it. The trade it was built for stopped. The warehouses now shelter people whom the factors are not allowed to register.",
         "wouldChangeIf": "A single busy season would refill it. The Helstrom assembly has decided there will not be one."
       },
       "hardConstraints": [
@@ -15141,7 +15141,7 @@
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "service-hub (real) + lore-reveal",
-      "hook": "An Imperial warehouse quarter the marsh has taken back to the knee, with the stock still on the racks, unclaimed since the Imperial factor stopped coming.",
+      "hook": "An Imperial warehouse quarter, taken back to the knee by the marsh, with the stock still on the racks, unclaimed since the Imperial factor stopped coming.",
       "stance": "neutral",
       "interior": null,
       "purposeDetail": {
@@ -15640,7 +15640,7 @@
       "why": {
         "founding": "Their Hist was killed in the Imperial century; the tribe recovered the Mnemic Egg and organised itself around keeping it.",
         "siteAdvantages": "They did not move. The dead trunk is still the centre of the village and the Egg is kept inside it.",
-        "occupantsMotive": "Custodians of a memory none of them can currently read.",
+        "occupantsMotive": "Custodians of a memory which none of them can currently read.",
         "pressures": "Three other tribes claim a share of the Egg. One has offered to buy it, publicly, so that refusing would look like hoarding.",
         "wouldChangeIf": "Reading the Egg, which the main quest's archivists could, would resolve or destroy them. Each claimant tribe has decided which outcome it wants."
       },
@@ -15653,7 +15653,7 @@
       "discovery": "rumour",
       "valueTier": "tier-3",
       "purpose": "safe-rest (real) + unique-item, lore-reveal",
-      "hook": "A village built around a dead trunk it refuses to leave, keeping a Mnemic Egg that three other tribes have claimed.",
+      "hook": "A village built around a dead trunk that it refuses to leave, keeping a Mnemic Egg that three other tribes have claimed.",
       "stance": "wary",
       "interior": null,
       "purposeDetail": {
@@ -15839,7 +15839,7 @@
         "founding": "A Blackguard crew hiding in the interior because nowhere else will have them.",
         "siteAdvantages": "Deep, off every route, with one boat exit.",
         "occupantsMotive": "Criminals with no ledger and no discipline, most of them three generations out of Blackrose and unable to work anywhere their descent is known.",
-        "pressures": "They cannot resupply and are starting to raid villages they need. Raiding the villages they depend on has ended other crews the same way.",
+        "pressures": "They cannot resupply and are starting to raid villages on which they depend. Raiding a supplying village has ended other crews the same way.",
         "wouldChangeIf": "A village retaliation would finish them within a year. The interior tribes have already agreed among themselves which village would lead it."
       },
       "hardConstraints": [
@@ -15851,7 +15851,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "combat-challenge (real)",
-      "hook": "A Blackguard crew living in the ribs of a barge they could not drag back to the water, with one boat and no friends.",
+      "hook": "A Blackguard crew living in the ribs of a barge that they could not drag back to the water, with one boat and no friends.",
       "stance": "hostile",
       "interior": null,
       "purposeDetail": {
@@ -15922,7 +15922,7 @@
         "founding": "A village that grew as a junction of walkways rather than around a centre.",
         "siteAdvantages": "Where four routes over soft ground have to meet, because there is nowhere else to put them. The junction is the village's whole capital.",
         "occupantsMotive": "Walkway-keepers who charge for maintenance and argue about who owes what.",
-        "pressures": "The walkways cost more to keep than the village earns. The keepers have begun charging tolls the tribes using the arms consider extortion.",
+        "pressures": "The walkways cost more to keep than the village earns. The keepers have begun charging tolls which the tribes on the arms consider extortion.",
         "wouldChangeIf": "Losing one arm of the junction would strand a whole tribe's route. That tribe has started surveying its own alternative rather than keep paying."
       },
       "hardConstraints": [
@@ -16155,10 +16155,10 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 62 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "why": {
         "founding": "A staging post on the route by which the bones of Argonians who died away from the Hist are brought back to the dirt.",
-        "siteAdvantages": "Where the river route meets the interior walking route, at the last point a bundle can be re-wrapped and re-labelled before the walk. Under the racks is a cold store cut into the bank, where unclaimed bundles have been stacked since the office opened.",
+        "siteAdvantages": "Where the river route meets the interior walking route, at the last point at which a bundle can be re-wrapped and re-labelled before the walk. Under the racks is a cold store cut into the bank, where unclaimed bundles have been stacked since the office opened.",
         "occupantsMotive": "Carriers, a recognised profession and a feared one. The family pays them, not the village, so their loyalty runs to the dead.",
         "pressures": "The 4E produced more distant dead than the route can carry.",
-        "wouldChangeIf": "A backlog is already visible in the racks. A second season of it would force the carriers to choose which families' dead go first, a power the families do not want them holding."
+        "wouldChangeIf": "A backlog is already visible in the racks. A second season of it would force the carriers to choose which families' dead go first. The families do not want the carriers holding that power."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -16254,7 +16254,7 @@
       },
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 84 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "A xanmeer the forest took: root has replaced stone in about half the structure.",
+        "founding": "A xanmeer that the forest has taken: root has replaced stone in about half the structure.",
         "siteAdvantages": "It went undefended on soft ground, so the roots won.",
         "occupantsMotive": "Whatever lives in a warm dry hollow. Twice a year the tenders from the clan-tended meer come to see what stone becoming root looks like.",
         "pressures": "It is still settling and floors give way. The treasure-hunting outfits price it as unworkable. The tribes have stopped arguing about it.",
@@ -16347,9 +16347,9 @@
       "whySiteWon": "firm ground in tropical jungle (danger band 4), 136 m from the nearest route; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "An older root tower that fell in and took its line with it.",
-        "siteAdvantages": "It stands on the route it used to serve, so it is still a landmark.",
+        "siteAdvantages": "It stands on the route that it used to serve, so it is still a landmark.",
         "occupantsMotive": "Unoccupied. A shrine at the base gets offerings anyway, left mostly by Waykeepers, who leave them on the outward leg rather than the inward.",
-        "pressures": "The line beyond it has been unreachable for a century. The villages it served have reorganised their trade around Helstrom.",
+        "pressures": "The line beyond it has been unreachable for a century. The villages once served by it have reorganised their trade around Helstrom.",
         "wouldChangeIf": "Clearing the tunnel would reopen the line. The Waykeepers last costed the work a hundred years ago."
       },
       "hardConstraints": [
@@ -16607,7 +16607,7 @@
       "discovery": "sightline",
       "valueTier": "tier-1",
       "purpose": "lore-reveal (mild) + vista-landmark",
-      "hook": "Charred pile stumps in a rectangle, with the grave-poles planted inside the burnt footprint rather than outside it. Under them, a root cellar the fire missed.",
+      "hook": "Charred pile stumps in a rectangle, with the grave-poles planted inside the burnt footprint rather than outside it. Under them lies a root cellar which the fire missed.",
       "stance": "hostile",
       "interior": "delve · root-cavern · S0 · wet 10%",
       "purposeDetail": {
@@ -17047,7 +17047,7 @@
         "siteAdvantages": "Close enough to the target root line and far enough from any village.",
         "occupantsMotive": "Cultists staging for work on a root line. Their doctrine is that a tree severed from the collective can be spoken to alone.",
         "pressures": "The nearest village has noticed the traffic and stayed quiet. The two households who noticed first are being paid.",
-        "wouldChangeIf": "Exposure moves them deeper. The gallery cell they supply would lose its method-testing site with a season's work still to do."
+        "wouldChangeIf": "Exposure moves them deeper. The gallery cell that they supply would lose its method-testing site with a season's work still to do."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -17130,7 +17130,7 @@
       "why": {
         "founding": "A tribe whose tree died carried a root fragment two days' walk and replanted it, on the Lilmoth precedent, done by villagers.",
         "siteAdvantages": "New ground chosen for the cutting's sake: spring water, shelter, no old roots to compete.",
-        "occupantsMotive": "A tribe raising a tree the way others raise a clutch, with a tending rota that has replaced every office the old tree supported.",
+        "occupantsMotive": "A tribe raising a tree in the way in which others raise a clutch, with a tending rota that has replaced every office the old tree supported.",
         "pressures": "The cutting speaks faintly and only to two of them. Those two are young and neither wanted the standing.",
         "wouldChangeIf": "If the cutting failed they would have no standing left. The Hist-less refuge two days away has offered to take them, which they find unbearable."
       },
@@ -17143,7 +17143,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "safe-rest (real) + lore-reveal",
-      "hook": "A tribe carried a cutting of their dead tree two days' walk and replanted it. The sapling stands under a cage the whole village re-weaves every year.",
+      "hook": "A tribe carried a cutting of their dead tree two days' walk and replanted it. The sapling stands under a cage re-woven by the whole village every year.",
       "stance": "wary",
       "interior": "building · dwelling · S1 · wet 20%",
       "purposeDetail": {
@@ -17541,7 +17541,7 @@
         "siteAdvantages": "Where a hero Hist's roots surface in a hollow and fill it.",
         "occupantsMotive": "A tender who controls dose and turn, appointed by the tree-minder and answerable to the grove rather than to the users.",
         "pressures": "Unlicensed users come at night. The tender knows and mostly allows it, on the calculation that a policed wallow becomes a starblossom hollow.",
-        "wouldChangeIf": "Overuse would produce another Miredance. That place is two days away and is the argument the tender uses on the users who want the dose raised."
+        "wouldChangeIf": "Overuse would produce another Miredance. That place is two days away. The tender cites it against the users who want the dose raised."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -18011,7 +18011,7 @@
       "discovery": "document",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + unique-item, hidden-secret, lore-reveal",
-      "hook": "An Ayleid tomb the marsh has kept sealed since before the Duskfall. Its own drainage still works.",
+      "hook": "An Ayleid tomb kept sealed by the marsh since before the Duskfall. Its own drainage still works.",
       "stance": "hostile",
       "interior": "dungeon · ayleid-nedic-ruin · S2 · wet 0%",
       "purposeDetail": {
@@ -18092,7 +18092,7 @@
         "founding": "Founded at the Panther fork on springs that can be drunk unboiled, rare enough here to found a village.",
         "siteAdvantages": "A channel bank where clean water rises from a stone lip, at the last firm ground before the Helstrom approach.",
         "occupantsMotive": "A tribe that has made itself indispensable as the interior's last friendly stop. It charges nothing for water and a great deal for beds and rope.",
-        "pressures": "Traffic for Helstrom comes through the village, including people the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
+        "pressures": "Traffic for Helstrom comes through the village, including people whom the tribe would rather not host: cult couriers, tappers and the Veiled Reed's factors.",
         "wouldChangeIf": "If the springs soured the village would move within a season. The Helstrom approach would then have no guaranteed clean water in a day's radius."
       },
       "hardConstraints": [
@@ -18344,7 +18344,7 @@
         "siteAdvantages": "Just outside the gate. Inside is the city's own ground and the guides are not welcome to loiter there.",
         "occupantsMotive": "Guides who price by the day and by the route. They will refuse a route outright rather than negotiate it.",
         "pressures": "Guides die. The camp's roster is shorter than it was. The basin has not got worse, but the traffic has got heavier and less experienced.",
-        "wouldChangeIf": "A hiring on the scale the deep-basin expedition needs would empty the camp of its competent guides for a season."
+        "wouldChangeIf": "A hiring on the scale required by the deep-basin expedition would empty the camp of its competent guides for a season."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -18480,8 +18480,8 @@
         "founding": "A dead standing grove that hackwings have used for generations.",
         "siteAdvantages": "Dead timber with clear flight lines, which is what a roost needs.",
         "occupantsMotive": "The flock, which has used this grove long enough that the beast-keepers' grandparents complained about the same birds.",
-        "pressures": "They take from the beast-keepers' young stock and the keepers want them gone. The tribe that owns the grove takes hackwing feathers for its rites and refuses.",
-        "wouldChangeIf": "Culling the roost would end a real nuisance, but it would also cost that tribe the feather source it recognises as legitimate."
+        "pressures": "They take from the beast-keepers' young stock and the keepers want them gone. The tribe owning the grove takes hackwing feathers for its rites and refuses.",
+        "wouldChangeIf": "Culling the roost would end a real nuisance, but it would also cost that tribe the feather source that it recognises as legitimate."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -18793,7 +18793,7 @@
         "founding": "A tribal Hist industrially tapped by an outside operation during the Imperial century and never allowed to close.",
         "siteAdvantages": "Close to a navigable channel, which is why it was chosen and why it is still worked.",
         "occupantsMotive": "A tapping crew who are not local and a village that has to watch, under a concession issued by an authority that has not existed for a century.",
-        "pressures": "The village feels every cut. The crew is armed and licensed by a lapsed authority. It sells to the same city fence the sap poachers use.",
+        "pressures": "The village feels every cut. The crew is armed and licensed by a lapsed authority. It sells to the same city fence as the sap poachers.",
         "wouldChangeIf": "Ending the tapping would leave the village owing a debt. It would also put the fence's whole interior supply on the poachers alone."
       },
       "hardConstraints": [
@@ -19338,7 +19338,7 @@
       "whySiteWon": "ridge end in upland hills (danger band 3), 182 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, route.",
       "why": {
         "founding": "A tribe that decided the Duskfall renunciation of stone was a mistake and began building again.",
-        "siteAdvantages": "An unfinished xanmeer terrace they did not have to quarry. The stone was cut and abandoned mid-build.",
+        "siteAdvantages": "An unfinished xanmeer terrace that they did not have to quarry. The stone was cut and abandoned mid-build.",
         "occupantsMotive": "Builders who believe permanence is owed to their descendants. Their naheesh says so publicly. He has been refused a place at the convocation twice for it.",
         "pressures": "Every neighbouring tribe treats them as heretics and the Nisswo have opinions. The village trades normally anyway; the same neighbours buy its cut stone.",
         "wouldChangeIf": "Completion would force the interior to decide whether the taboo is law. The assembly at Helstrom has no procedure for such a ruling."
@@ -19448,9 +19448,9 @@
       },
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 262 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, region, parent.",
       "why": {
-        "founding": "A tribal exile living precisely at the distance their sentence specifies.",
-        "siteAdvantages": "The measured edge of their tribe's territory, marked by a totem they may not pass.",
-        "occupantsMotive": "One exile serving a term with an end date they intend to reach. They cut a tally of the remaining days into the far face of the totem.",
+        "founding": "A tribal exile living precisely at the distance set by their sentence.",
+        "siteAdvantages": "The measured edge of their tribe's territory, marked by a totem which they may not pass.",
+        "occupantsMotive": "One exile serving a term with an end date that they intend to reach. They cut a tally of the remaining days into the far face of the totem.",
         "pressures": "Their family leaves food at the totem and does not cross it. The youngest of them crossed it twice this season.",
         "wouldChangeIf": "The sentence ends in four years and they are counting. The village that sentenced them has changed naheesh twice since and may not honour it."
       },
@@ -19544,7 +19544,7 @@
         "siteAdvantages": "A dry root hollow with water and no neighbours, which in the basin is a survivable site.",
         "occupantsMotive": "One person, in communion with something. Possibly a tree.",
         "pressures": "They are harder to talk to each year. What they say now is in the cadence of the sap-touched village, which they have never visited.",
-        "wouldChangeIf": "They will die here. What they know about the basin's routes is worth more than the caches they can name."
+        "wouldChangeIf": "They will die here. What they know about the basin's routes is worth more than the caches that they can name."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -19647,7 +19647,7 @@
         "founding": "One of the oldest trees of the deep basin. The Agaceph are its people and its shape.",
         "siteAdvantages": "Spring-head firm ground with landings on three channels.",
         "occupantsMotive": "Tree-minder, sap-speaker and root-herald, all hereditary. One family holds all three offices, which the neighbouring tribes have noticed.",
-        "pressures": "Pilgrim traffic it did not ask for and cannot refuse, camped at the sap road a half-day out and arriving faster than the grove can feed them.",
+        "pressures": "Pilgrim traffic that it did not ask for and cannot refuse, camped at the sap road a half-day out and arriving faster than the grove can feed them.",
         "wouldChangeIf": "Withdrawal would end its tribe as a culture. The Agaceph's three landings would close the district's fastest route with it."
       },
       "hardConstraints": [
@@ -19730,7 +19730,7 @@
         "founding": "Named in interior recitation as the tree that stood at the first rain after the Duskfall.",
         "siteAdvantages": "An island in still water, so the fire that took its northern half never crossed to the grove.",
         "occupantsMotive": "A very small vigil of tenders who expect to see it die. They have refused every offer of help that came with a condition attached.",
-        "pressures": "It is dying slowly. No cutting from it has taken, including the one the cut-and-carried tribe was given and could not raise.",
+        "pressures": "It is dying slowly. No cutting from it has taken, including the one given to the cut-and-carried tribe, which could not raise it.",
         "wouldChangeIf": "Its death would produce a Mnemic Egg larger than the interior has seen. Several factions want it. One has a camp within a day of the grove."
       },
       "hardConstraints": [
@@ -20093,7 +20093,7 @@
         "founding": "A tribe that has watched one thing for so long that watching it is now their whole identity.",
         "siteAdvantages": "A ridge-end overlooking a sealed xanmeer from which they turn visitors back.",
         "occupantsMotive": "Hereditary wardens who inherit a post rather than a trade. The tribe feeds them in exchange for the watch.",
-        "pressures": "No living warden knows what is inside the thing they guard. The last three generations of wardens each privately concluded something different.",
+        "pressures": "No living warden knows what is inside the thing that they guard. The last three generations of wardens each privately concluded something different.",
         "wouldChangeIf": "Opening it would end the tribe's reason to exist. The wardens will fight an antiquarian harder than they would fight a looter."
       },
       "hardConstraints": [
@@ -20416,7 +20416,7 @@
       "why": {
         "founding": "A marsh giant's range, which the tribes route around without discussion.",
         "siteAdvantages": "Water deep enough for standing, with shallows for feeding.",
-        "occupantsMotive": "One giant, the birds that follow it and a hunting pattern the tribes have mapped closely enough to route around without a guide.",
+        "occupantsMotive": "One giant, the birds that follow it and a hunting pattern which the tribes have mapped closely enough to route around without a guide.",
         "pressures": "Its range is expanding toward a walkway route. The walkway village has begun asking whether killing one is really the offence the tree-minders say it is.",
         "wouldChangeIf": "Moving the walkway costs a season's labour. The move would fall to be funded by the tribe that uses the arm least."
       },
@@ -20430,7 +20430,7 @@
       "discovery": "sightline",
       "valueTier": "tier-2",
       "purpose": "combat-challenge (real) + vista-landmark",
-      "hook": "The giant's range can be mapped from the channels it has trodden through the reeds. The newest one points at the walkway.",
+      "hook": "The giant's range can be mapped from the channels that it has trodden through the reeds. The newest one points at the walkway.",
       "stance": "hostile",
       "interior": "warren · burrow-warren · S1 · wet 0%",
       "purposeDetail": {
@@ -20698,7 +20698,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 4), 248 m from the nearest route; its choice #6 landform; won on route, region, danger.",
       "why": {
         "founding": "A guide who died bringing a party out of the basin; her clients paid for the stone.",
-        "siteAdvantages": "Where she stopped, on ground the guides walked that year.",
+        "siteAdvantages": "Where she stopped, on ground walked by the guides that year.",
         "occupantsMotive": "None. Passing guides touch it. The gate camp reads its roster against her name each season to count the year's losses.",
         "pressures": "The walking line has shifted east and fewer guides make the detour to touch the stone each season.",
         "wouldChangeIf": "It will be swallowed. The guides have discussed moving it and refused."
@@ -20713,7 +20713,7 @@
       "discovery": "sightline",
       "valueTier": "tier-1",
       "purpose": "lore-reveal (mild) + vista-landmark",
-      "hook": "An Imperial-cut stone in Cyrodiilic letters in the middle of the interior, paid for by the clients a guide died getting out.",
+      "hook": "An Imperial-cut stone in Cyrodiilic letters in the middle of the interior, paid for by the clients whom a guide died bringing out.",
       "stance": "neutral",
       "interior": null,
       "purposeDetail": {
@@ -20796,7 +20796,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "combat-challenge (real) + resource-source",
-      "hook": "One miregaunt on a fixed circuit, standing between the reed cutters and the best stand they know.",
+      "hook": "One miregaunt on a fixed circuit, standing between the reed cutters and the best stand that they know.",
       "stance": "hostile",
       "interior": null,
       "purposeDetail": {
@@ -20866,9 +20866,9 @@
       "why": {
         "founding": "A miregaunt has stood on the dry approach to Xal-Ussep for as long as the wardens' line has known the ruin behind it. It holds the approach.",
         "siteAdvantages": "The dry approach to a sealed xanmeer.",
-        "occupantsMotive": "One miregaunt, which is part of the land and returns when killed. It does not follow beyond the approach it holds.",
+        "occupantsMotive": "One miregaunt, which is part of the land and returns when killed. It does not follow beyond the approach that it holds.",
         "pressures": "It is unpressured. Its toll is paid in lives. The hereditary wardens on the ridge above regard it as an ally they did not have to feed.",
-        "wouldChangeIf": "It comes back. The cavity relic it carries goes to whoever kills it."
+        "wouldChangeIf": "It comes back. The cavity relic that it carries goes to whoever kills it."
       },
       "hardConstraints": [
         "culture zone: hist-heartland",
@@ -21064,7 +21064,7 @@
         "founding": "A tribeless Naga band worked the plantation roads until the roads emptied. They moved to the footpaths, which still carry couriers.",
         "siteAdvantages": "A thorn bank over a path narrow enough that a party has to walk it in single file.",
         "occupantsMotive": "They take the second walker in a line and let the first pass. The loss shows up when the party stops to count.",
-        "pressures": "The nearest village sends its couriers in fives now. That is four more meals a day the band has to win.",
+        "pressures": "The nearest village sends its couriers in fives now. That is four more meals a day for the band to win.",
         "wouldChangeIf": "Clearing the bank shortens the courier run by a day."
       },
       "hardConstraints": [
@@ -21148,9 +21148,9 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 378 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland.",
       "why": {
         "founding": "A village that exists to service the grave-pole fields of six neighbouring tribes.",
-        "siteAdvantages": "Firm ground with landings, central to the fields it serves and downwind of all of them.",
-        "occupantsMotive": "Grave-singers and pole-binders, paid in food and not invited to the feasts. Their children are not accepted as marriage partners in any of the six tribes they serve.",
-        "pressures": "Bog blights rise when a pole is pulled. Poles are pulled more often since Umbriel. The village is turning work away and being blamed for the risings it could not reach.",
+        "siteAdvantages": "Firm ground with landings, central to the fields that it serves and downwind of all of them.",
+        "occupantsMotive": "Grave-singers and pole-binders, paid in food and not invited to the feasts. Their children are not accepted as marriage partners in any of the six tribes that they serve.",
+        "pressures": "Bog blights rise when a pole is pulled. Poles are pulled more often since Umbriel. The village is turning work away and being blamed for the risings which it could not reach.",
         "wouldChangeIf": "If a neighbouring tribe learned to bind its own poles this village would starve. The binding is taught by demonstration and never described."
       },
       "hardConstraints": [
@@ -21389,28 +21389,28 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.66968,
-        "v": 0.48971
+        "u": 0.67443,
+        "v": 0.50938
       },
       "positionM": [
-        4937.9,
-        3610.9
+        4972.9,
+        3755.9
       ],
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "pinned (Part 6 meso siting)",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 240.8,
-        "distanceToWaterM": 66.3,
-        "score": 3.676
+        "distanceToRouteM": 164.6,
+        "distanceToWaterM": 29.5,
+        "score": null
       },
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 241 m from the nearest route; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.nine-trunks.json): A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg, and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and only the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
       "why": {
         "founding": "A village grown where nine root-joined trunks stand in one ring; one tree by the Hist's reckoning and nine by the tribes'.",
         "siteAdvantages": "The ring encloses firm ground and makes its own stockade.",
         "occupantsMotive": "A tribe that hosts the convocation's overflow and has grown rich on it, renting pitch-rights to delegations that cannot fit at the Tsoko camp.",
         "pressures": "Hosting a province's delegations one month a year has made them arrogant the other eleven. Two neighbouring tribes now camp at Greenspring instead, on principle.",
-        "wouldChangeIf": "A convocation held elsewhere would halve the village. The falling attendance the Root Talk ground counts publicly is already showing in their rents."
+        "wouldChangeIf": "A convocation held elsewhere would halve the village. The falling attendance counted publicly at the Root Talk ground is already showing in their rents."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -21776,7 +21776,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + lore-reveal, vista-landmark",
-      "hook": "A house built with two of every fitting to make solitary communion awkward, within earshot of the tree its occupant is not allowed to leave.",
+      "hook": "A house built with two of every fitting to make solitary communion awkward, within earshot of the tree that its occupant is not allowed to leave.",
       "stance": "wary",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -21876,7 +21876,7 @@
         "founding": "The delegation camp used during the convocation month and empty the rest of the year.",
         "siteAdvantages": "Four hundred metres from the convocation ground, on its landings.",
         "occupantsMotive": "Delegations, in season. Each brings its own cook, its own water and its own account of why its pitch is where it is.",
-        "pressures": "Precedence disputes about pitch positions are an annual institution. The overflow the nine-trunks village rents has begun to outrank the camp's own back rows.",
+        "pressures": "Precedence disputes about pitch positions are an annual institution. The overflow pitch rented out by the nine-trunks village has begun to outrank the camp's own back rows.",
         "wouldChangeIf": "A tribe losing its pitch is a real political event. Two pitches have gone unclaimed for three years without a reallocation being agreed."
       },
       "hardConstraints": [
@@ -22143,7 +22143,7 @@
       },
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 113 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "Illicit sap-tappers working trees the tree-minders do not visit.",
+        "founding": "Illicit sap-tappers working trees that the tree-minders do not visit.",
         "siteAdvantages": "Between three unattended wild Hist, on a creek that gets a boat out.",
         "occupantsMotive": "Tappers who sell to a city fence and know exactly what they are doing. They work only wild Hist, so no tribe has standing to complain.",
         "pressures": "The tree-minders have put a bounty on them, paid in licence-renewal favour. The licensed stage's own tappers are the ones hunting them.",
@@ -22369,10 +22369,10 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 4), 718 m from the nearest route; its choice #3 landform; won on remote, landform, region.",
       "why": {
-        "founding": "A shelter maintained on ground the tribes avoid, against the day the tribes have to run again, as they did in 4E 48.",
+        "founding": "A shelter maintained on ground that the tribes avoid, against the day the tribes have to run again, as they did in 4E 48.",
         "siteAdvantages": "High, dry and deliberately remote, with one maintained approach.",
         "occupantsMotive": "Two caretakers on an unenvied rotation, drawn by lot from the tribes that fund it, a year each, with no exemption accepted.",
-        "pressures": "Stores are rotated. The register of the year it was full is read aloud every Sun's Dusk. Fewer tribes attend it each year.",
+        "pressures": "Stores are rotated. The register of the year in which it was full is read aloud every Sun's Dusk. Fewer tribes attend it each year.",
         "wouldChangeIf": "Its use would mean something terrible had happened again. Two funding tribes have let their shares lapse and neither has said so at the reading."
       },
       "hardConstraints": [
@@ -22482,7 +22482,7 @@
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 82 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; site exchanged in the swap pass with place.hist-heartland.sap-touched-miredancer (+1.05).",
       "why": {
         "founding": "A trunk root that died and gave way.",
-        "siteAdvantages": "It is on a route people still use, which is why they still dig at it.",
+        "siteAdvantages": "It is on a route that people still use, which is why they still dig at it.",
         "occupantsMotive": "Unoccupied. The bone-carriers come once a year, because four families' dead are under the fall and cannot be recovered to be returned.",
         "pressures": "The route now goes the long way and costs a day. The porter relay charges for that day.",
         "wouldChangeIf": "Clearing it would restore the route and settle four families' claims. It would also cost the relay yard a quarter of its traffic."
@@ -22585,7 +22585,7 @@
       },
       "whySiteWon": "firm ground in tropical jungle (danger band 4), 548 m from the nearest route; its choice #5 landform; won on region, remote, landform.",
       "why": {
-        "founding": "A gallery taken by a cult cell because the roots here reach a tree they intend to sever.",
+        "founding": "A gallery taken by a cult cell because the roots here reach a tree which they intend to sever.",
         "siteAdvantages": "Isolated, deep and directly connected to their target.",
         "occupantsMotive": "Cultists testing a method, working from notes that came out of the staging camp and going back to it with results.",
         "pressures": "The tree above is beginning to withdraw and the village does not know why. They have begun consulting a tree-minder who will recognise the pattern.",
@@ -22774,7 +22774,7 @@
         "siteAdvantages": "It short-cuts a full day of surface travel for a courier who can hold their breath.",
         "occupantsMotive": "Uninhabited. Divers use it, mostly couriers. A message that takes a day on the surface takes an afternoon on four held breaths.",
         "pressures": "The water rises in the wet season and drowns the last two landings. Half the year the shortcut is a full dive and the couriers charge double.",
-        "wouldChangeIf": "A dry decade would make it an ordinary road. It would also end a courier trade three villages depend on for news."
+        "wouldChangeIf": "A dry decade would make it an ordinary road. It would also end a courier trade on which three villages depend for news."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -23521,7 +23521,7 @@
       "discovery": "road",
       "valueTier": "tier-3",
       "purpose": "faction-gateway (real) + quest-anchor",
-      "hook": "The interior terminus of the rootworm lines. A boarding stage, a passenger register and a second gate most travellers never pass.",
+      "hook": "The interior terminus of the rootworm lines. A boarding stage, a passenger register and a second gate which most travellers never pass.",
       "stance": "guarded",
       "interior": "warren · burrow-warren · S3 · wet 0%",
       "purposeDetail": {
@@ -23677,9 +23677,9 @@
       "why": {
         "founding": "A Daedric-worked facility built to harvest a Hist industrially, on the Haj Uxith pattern, in the interior.",
         "siteAdvantages": "Sited on a tree rather than on ground. The building is a machine wrapped around a trunk.",
-        "occupantsMotive": "Whatever the bargain left there, still working the machine on a schedule, in a building no tribe has authorised entry to for six hundred years.",
+        "occupantsMotive": "Whatever the bargain left there, still working the machine on a schedule, in a building that no tribe has authorised anyone to enter for six hundred years.",
         "pressures": "The tree is still alive and still connected. Its anguish is felt down the root line. The Agaceph sap-speaker can name the direction and has refused three times.",
-        "wouldChangeIf": "Ending it would be the largest thing the interior has done in a century. The convocation rarely reaches agreement, but it would agree to reward this."
+        "wouldChangeIf": "Ending it would be the largest thing that the interior has done in a century. The convocation rarely reaches agreement, but it would agree to reward this."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -23766,28 +23766,28 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.48153,
-        "v": 0.58342
+        "u": 0.4734,
+        "v": 0.59562
       },
       "positionM": [
-        3550.6,
-        4301.8
+        3490.6,
+        4391.8
       ],
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "pinned (Part 6 meso siting)",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 716.5,
-        "distanceToWaterM": 61.3,
-        "score": 4.22
+        "distanceToRouteM": 617.9,
+        "distanceToWaterM": 19.8,
+        "score": null
       },
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 717 m from the nearest route; its choice #3 landform; won on nearPoint, landform, sightline; placed from the homeless batch at stage 'spacing-1/2'.",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330) — the only water within 250 m that a loaded canoe can be poled along. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
       "why": {
         "founding": "Licensed tapping done to the tree-minders' rule: one stage, one season, one tree.",
-        "siteAdvantages": "On a tree the assembly designated for it.",
+        "siteAdvantages": "On a tree designated for it by the assembly.",
         "occupantsMotive": "Tappers whose licence is their livelihood. They police poachers themselves, because an unpoliced district loses its licences entirely.",
         "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage the previous year.",
-        "wouldChangeIf": "A licence lost would be worth violence. The last holder to lose one is now selling to the same city fence the poachers use."
+        "wouldChangeIf": "A licence lost would be worth violence. The last holder to lose one is now selling to the same city fence as the poachers."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -23887,7 +23887,7 @@
       },
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 318 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, remote, parent; site exchanged in the swap pass with place.hist-heartland.root-gallery-collapsed-nine (+1.05).",
       "why": {
-        "founding": "The sap-touched left together in one season, walking out in the slow shared rhythm they had kept for years.",
+        "founding": "The sap-touched left together in one season, walking out in the slow shared rhythm that they had kept for years.",
         "siteAdvantages": "The overflow pool's root system had already hollowed a gallery beneath the huts. The dancers only ever lived on top of it.",
         "occupantsMotive": "No household is kept here now. What moved into the root galleries came for the standing water and has not been driven out.",
         "pressures": "The tap-lines above ground still run when the tree weeps, feeding the pool that draws whatever lives below.",
@@ -24101,7 +24101,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "combat-challenge (real) + hidden-secret",
-      "hook": "Sloughed skins hang in the branches as range markers, at the size the snakes reach.",
+      "hook": "Sloughed skins hang in the branches as range markers, at the size which the snakes reach.",
       "stance": "hostile",
       "interior": "warren · burrow-warren · S1 · wet 0%",
       "purposeDetail": {
@@ -24177,7 +24177,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 4), 82 m from the nearest route; its choice #4 landform; won on landform, region, danger.",
       "why": {
         "founding": "The root mat over an old channel void gave way here in one night. The marsh has not filled the hollow.",
-        "siteAdvantages": "A collapse the hydrology has not closed up, in ground firm enough to hold a rim rather than slump into it.",
+        "siteAdvantages": "A collapse that the hydrology has not closed, in ground firm enough to hold a rim rather than slump into it.",
         "occupantsMotive": "Something that hunts by dropping. The rim is fenced. The fence stakes point outward.",
         "pressures": "The tribes fence the rim and the fence is broken from the inside every year. It has been rebuilt eleven times.",
         "wouldChangeIf": "A second collapse would open it into the root layer below. The Waykeepers' second junction is directly beneath it."
@@ -24366,7 +24366,7 @@
         "founding": "One household living in a xanmeer antechamber because it was empty and dry.",
         "siteAdvantages": "Dry stone floor above the flood in a region where dry floors are the scarce good.",
         "occupantsMotive": "A family with no tribe and no intention of explaining themselves. They trade at the walkway junction and have never been to the village that tends the ruin.",
-        "pressures": "The tribe that tends the xanmeer knows and has not decided what to do. Evicting them would mean admitting the antechamber was habitable.",
+        "pressures": "The tribe tending the xanmeer knows and has not decided what to do. Evicting them would mean admitting the antechamber was habitable.",
         "wouldChangeIf": "A decision either way ends the arrangement. A ruling that squatting is trespass would apply equally to the fort-dwelling tribe two days east."
       },
       "hardConstraints": [
@@ -25096,7 +25096,7 @@
         "founding": "A xanmeer with no surviving tribe, kept by the pilgrims who pass it on the way to Helstrom.",
         "siteAdvantages": "Directly on the pilgrim route to Helstrom.",
         "occupantsMotive": "No owner. A rota kept by strangers who will never meet each other, each doing a half-day's work because the last one did.",
-        "pressures": "The rota is slipping and the lower terraces are going back to the marsh, in step with the falling pilgrim traffic the sap road camp also reports.",
+        "pressures": "The rota is slipping and the lower terraces are going back to the marsh, in step with the falling pilgrim traffic which the sap road camp also reports.",
         "wouldChangeIf": "A tribe claiming it would end the arrangement and probably improve the building. No tribe will claim it, because the claim implies the dead here are theirs."
       },
       "hardConstraints": [
@@ -25316,7 +25316,7 @@
       },
       "whySiteWon": "firm ground in upland hills (danger band 3), 268 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, parent, route.",
       "why": {
-        "founding": "An expedition camp whose expedition did not return from the xanmeer it was working.",
+        "founding": "An expedition camp whose expedition did not return from the xanmeer that it was working.",
         "siteAdvantages": "Three hundred metres from a sealed xanmeer, on the dry ground. The second expedition will camp here too.",
         "occupantsMotive": "The dead and their notes.",
         "pressures": "Their notes are accurate up to the point where they stop. The living outfit has been trying to buy them from whoever brings them out.",
@@ -25500,7 +25500,7 @@
       "whySiteWon": "firm ground in upland hills (danger band 3), 508 m from the nearest route; its choice #2 landform; won on landform, remote, parent; site exchanged in the swap pass with place.hist-heartland.waiting-vigil-village (+0.49).",
       "why": {
         "founding": "A village under Umbriel's track in 4E 48. The organic matter was taken; the buildings were left.",
-        "siteAdvantages": "It stood under the track Umbriel took.",
+        "siteAdvantages": "It stood under the track that Umbriel took.",
         "occupantsMotive": "Unpeopled. The dead did not stay, unlike the walking village in the deep swamp. The local theology is mostly about why.",
         "pressures": "The neighbouring villages will not use the ground or the timber. The timber is good, seasoned and standing. No plank has been taken.",
         "wouldChangeIf": "It stays unbuilt. The heretic builders asked about the stone footings and were refused by four tribes at once."
@@ -25613,7 +25613,7 @@
       "discovery": "document",
       "valueTier": "tier-2",
       "purpose": "wonder-oddity (real) + lore-reveal, hidden-secret",
-      "hook": "The last book left in 3E 399 and antiquarians in Gideon are still asking after it. The chapel it left is half eaten.",
+      "hook": "The last book left in 3E 399 and antiquarians in Gideon are still asking after it. The chapel that it left is half eaten.",
       "stance": "hostile",
       "interior": "dungeon · root-cavern · S3 · wet 0%",
       "purposeDetail": {
@@ -25693,8 +25693,8 @@
         "founding": "A vault for the dead who may not be staked: heretics, the Hist-less and one whole tribe.",
         "siteAdvantages": "Dry stone, sealed, well away from any village.",
         "occupantsMotive": "A keeper who holds the register and not the key, so that no single person can be pressured into opening it.",
-        "pressures": "Families want their dead moved out and the register says no. The register's authority rests on an assembly ruling the register-keeper cannot now produce.",
-        "wouldChangeIf": "A ruling on the register would empty half of it. The Hist-less refuge has offered to receive the dead the register denies, which would make the refuge a burial authority."
+        "pressures": "Families want their dead moved out and the register says no. The register's authority rests on an assembly ruling which the register-keeper cannot now produce.",
+        "wouldChangeIf": "A ruling on the register would empty half of it. The Hist-less refuge has offered to receive the dead whom the register denies, which would make the refuge a burial authority."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -25993,7 +25993,7 @@
         "founding": "The vigil families kept faith for a hundred and fifty years until a sickness went through the settlement in one wet season and took most of them.",
         "siteAdvantages": "The enclosed clearing that once kept the vigil dry now keeps the root warren below it dark and undisturbed.",
         "occupantsMotive": "No household keeps the place now. Whatever moved into the collapsed cellars came up through the root-mouth once the houses emptied.",
-        "pressures": "The tally stones are still stacked at the swept ground, uncounted since the year the sickness came.",
+        "pressures": "The tally stones are still stacked at the swept ground, uncounted since the year in which the sickness came.",
         "wouldChangeIf": "Clearing the warren would let someone finish the tally. The tally-keeper has not entered the warren."
       },
       "hardConstraints": [
@@ -26087,7 +26087,7 @@
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 231 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "why": {
         "founding": "Four walkway routes forced to meet above ground that floods to chest height.",
-        "siteAdvantages": "The single place the four alignments can share a footing.",
+        "siteAdvantages": "The single place at which the four alignments can share a footing.",
         "occupantsMotive": "A keeper who collects for maintenance and sells rope. He knows the true condition of all four arms, which the tribes paying him do not.",
         "pressures": "Four tribes use it and two pay for it. The branching village a day away has the same problem and has started coordinating rates.",
         "wouldChangeIf": "One arm failing reroutes an entire tribe's traffic, most likely the Paatru's, who have no alternative that does not cross their own mire."
@@ -26382,7 +26382,7 @@
       "why": {
         "founding": "A spring bursting out of the root layer and falling into a chamber behind the curtain.",
         "siteAdvantages": "Twenty metres of vertical relief, rare in this country.",
-        "occupantsMotive": "Whatever wants a dry room behind water. In this district that has meant a cult cell, a smuggler and something the village downstream describes only as an animal.",
+        "occupantsMotive": "Whatever wants a dry room behind water. In this district that has meant a cult cell, a smuggler and something that the village downstream describes only as an animal.",
         "pressures": "The village downstream knows there is a chamber behind the fall. It stopped counting who came back two naheesh ago.",
         "wouldChangeIf": "A dry season halves the curtain and exposes the entrance. Whoever is using it then has to move."
       },
@@ -26475,7 +26475,7 @@
       "why": {
         "founding": "Where the Panther fork drops through a root-choked reach.",
         "siteAdvantages": "Fast water, in a province of still water.",
-        "occupantsMotive": "The reach is empty of fish. A portage crew works beside it, charging by the hull, with a registered salvage claim on the reach that the interior tribes leave alone.",
+        "occupantsMotive": "The reach is empty of fish. A portage crew works beside it, charging by the hull, with a registered salvage claim on the reach. The interior tribes do not fish it.",
         "pressures": "Boats are lost here regularly and the crew profits from it. Greenspring downstream receives the wreckage and the survivors and resents both.",
         "wouldChangeIf": "A cleared channel would end the portage trade. It would also put laden craft within a day of Helstrom's approach, which the escort service has costed and likes."
       },
@@ -26649,7 +26649,7 @@
         "siteAdvantages": "A burn scar that never regrew, so the tree stands alone in open ground.",
         "occupantsMotive": "Untended. Pilgrims come to sit rather than to speak. The sitting is a recognised alternative for pilgrims refused audience at a hero grove.",
         "pressures": "Sap-tappers know it cannot object. The poacher camp works it in preference to any tree with a tribe, which the tree-minders know and cannot prove.",
-        "wouldChangeIf": "If it woke, three villages would have to renegotiate where they belong. Two of them are paying the Agaceph grove for standing they would no longer need."
+        "wouldChangeIf": "If it woke, three villages would have to renegotiate where they belong. Two of them are paying the Agaceph grove for standing that they would no longer need."
       },
       "hardConstraints": [
         "culture zone: hist-heartland"
@@ -26727,7 +26727,7 @@
       "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 38 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "A stretch of basin where the lights lead travellers off the route.",
-        "siteAdvantages": "Between two safe rises, on the line the guides walk.",
+        "siteAdvantages": "Between two safe rises, on the line along which the guides walk.",
         "occupantsMotive": "Whatever the lights are, they keep to a line between two safe rises. Whether that is deliberate has not been tested.",
         "pressures": "Guides tell clients the lights are real and to ignore them, but clients follow them anyway. The far shelter's stock is what the survivors reach.",
         "wouldChangeIf": "The guides price the crossing on the assumption that one client in twenty will walk off the line regardless of what they were told."
@@ -27045,7 +27045,7 @@
       "why": {
         "founding": "A tribe that moved into its ancestors' xanmeer during the Imperial century and never moved out.",
         "siteAdvantages": "Stone walls and working vakka mechanisms, which make it the strongest fortification in the interior.",
-        "occupantsMotive": "A tribe living in a monument they are supposed only to maintain. They describe the residence as continuous tending.",
+        "occupantsMotive": "A tribe living in a monument which they are supposed only to maintain. They describe the residence as continuous tending.",
         "pressures": "Their neighbours consider inhabiting it close to the stone heresy. The mechanisms still kill people, mostly their own young. The deaths are recorded as falls.",
         "wouldChangeIf": "A mechanism failure would open the strongest position in the region. The vakka stones that drive it are the largest cache in the interior."
       },
@@ -27134,7 +27134,7 @@
         "siteAdvantages": "A ridge end with a line to the fort and a line down the road.",
         "occupantsMotive": "The two watchers are paid in food by four villages who want warning of raids, not of armies.",
         "pressures": "The fire code they use was written for legions. The watchers have given several of its signals new meanings.",
-        "wouldChangeIf": "Would be abandoned the day the villages decided the Sul-Xan were finished."
+        "wouldChangeIf": "Would be abandoned if the villages decided the Sul-Xan were finished."
       },
       "hardConstraints": [
         "a two-way sightline"
@@ -27576,7 +27576,7 @@
         "siteAdvantages": "A patch inside the burn where the peat burned out to mineral soil.",
         "occupantsMotive": "They stay to hold the claim. The smoke keeps raiders away.",
         "pressures": "Sinkholes open without warning where the peat has burned out below; two houses have gone.",
-        "wouldChangeIf": "Would relocate the day the underground fire reached their side of the scar. The fire moves a little each year."
+        "wouldChangeIf": "Would relocate when the underground fire reached their side of the scar. The fire moves a little each year."
       },
       "hardConstraints": [
         "inside the old burn",
@@ -27815,7 +27815,7 @@
         "siteAdvantages": "A dry loam shoulder above the flood line, with a barn built to keep vermin and damp out.",
         "occupantsMotive": "Sap-poachers use the staddle-stone barn to dry and cure what they take, safe from the things that climb.",
         "pressures": "Gideon still lists the grant as occupied. The heir has not told the tower clerk otherwise.",
-        "wouldChangeIf": "Would be cleared out the day a patrol actually rides the fringe road again."
+        "wouldChangeIf": "Would be cleared out on the day when a patrol actually rides the fringe road again."
       },
       "hardConstraints": [
         "dry loam above flood line",
@@ -27958,7 +27958,7 @@
       "contents": {
         "creatures": [
           "pack-hunter · D3 · band — swamp-bred hounds gone feral in the stable court",
-          "guardian-boss · D4 · single · named — the thing the last besiegers left sealed in the keep cellar"
+          "guardian-boss · D4 · single · named — the thing which the last besiegers sealed in the keep cellar"
         ],
         "npcs": [
           "rank-and-file · D3 · band — squatter freebooters holding the gatehouse"
@@ -28260,7 +28260,7 @@
         "siteAdvantages": "An hour's walk from the nearest market, on good water, with a hill between it and the road so that road traffic does not hear what goes on inside.",
         "occupantsMotive": "The keeper has done it herself and takes no fee. The house runs on what the families of those inside bring, usually food, often very little.",
         "pressures": "Two sap traders on the Gideon road consider the house a commercial threat and have said so. The villages would not forgive an attack on it.",
-        "wouldChangeIf": "Would close the day the keeper died. She has not trained a second keeper."
+        "wouldChangeIf": "Would close if the keeper died. She has not trained a second keeper."
       },
       "hardConstraints": [
         "an hour's walk from anywhere selling sap or drink",
@@ -29029,7 +29029,7 @@
       "why": {
         "founding": "Founded where the Blackwood Road out of Leyawiin crosses the low saddle in the western border belt, the province's land door.",
         "siteAdvantages": "A measured 46 m barrier gap flanked by 60–87 m ridges; firm lowland and drinkable spring water on the marsh side; the Onkobra's red clay downstream.",
-        "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority the city still recognises. Leyawiin trade pays for it.",
+        "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority that the city still recognises. Leyawiin trade pays for it.",
         "pressures": "Monsoon closes the road for months; the archive's writs are honoured nowhere east of the Onkobra; Cyrodilic Collections and the antiquities fences fight over the same crates.",
         "wouldChangeIf": "Would fail if the Blackwood Road silted permanently, or if the disputed Hist cutting in the city gardens took root and made Gideon an Argonian city."
       },
@@ -30037,7 +30037,7 @@
         "siteAdvantages": "It stands above Glenbridge on the glen's shoulder, so the whole town can watch the sermon progress.",
         "occupantsMotive": "The Nisswo read it; the Clutch below them leaves the fallen dust where it lies.",
         "pressures": "The voriplasm-sorcerer Rectavius is sealed in the lowest chamber. The seal is part of the structure being allowed to fail.",
-        "wouldChangeIf": "Would release Rectavius the day the sermon reaches the bottom course."
+        "wouldChangeIf": "Would release Rectavius when the sermon reaches the bottom course."
       },
       "hardConstraints": [
         "above Glenbridge, visible from its square",
@@ -30266,9 +30266,9 @@
       "why": {
         "founding": "When the Onkobra gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
         "siteAdvantages": "Dry rock at a constant temperature, on a face that has to be climbed to be reached.",
-        "occupantsMotive": "They net the fish the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
+        "occupantsMotive": "They net the fish that the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
         "pressures": "The galleries are reached by ladder and rope. Every year somebody falls. The village argues about cutting a stair, which would also let others up.",
-        "wouldChangeIf": "Would become an ordinary river village the day the stair was cut."
+        "wouldChangeIf": "Would become an ordinary river village if the stair were cut."
       },
       "hardConstraints": [
         "a gorge wall above the flood line",
@@ -30481,7 +30481,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 4), 66 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
         "founding": "The Onkobra's narrowest reach near the city was bridged in stone. The bridge has carried a toll since it was built.",
-        "siteAdvantages": "A rock nose on each bank, the landing a stone arch needed, with no piling.",
+        "siteAdvantages": "A rock nose on each bank, the landing that a stone arch needed, with no piling.",
         "occupantsMotive": "Gideon's council farms the toll out annually to the highest bidder. The rate moves every year.",
         "pressures": "The arch is hollow. The last toll farmer left the repair void unfilled. The current farmer has not filled it either.",
         "wouldChangeIf": "Would be bypassed by the ford upstream if the toll ever rose above the price of wet feet."
@@ -30688,7 +30688,7 @@
         "siteAdvantages": "A single very old fig with a straight bole, standing on firm ground within sight of the road, tall enough to break the canopy by six metres.",
         "occupantsMotive": "A lookout is paid by three villages to sit up there in the flood season and watch which lanes are open; the rest of the year the village children have it.",
         "pressures": "Every platform is younger than the one below it, so the bottom ladder is the oldest thing here. The tree is growing out of the fixings.",
-        "wouldChangeIf": "Would be abandoned the moment the tree died. There is no second tree of this height within two kilometres."
+        "wouldChangeIf": "Would be abandoned if the tree died. There is no second tree of this height within two kilometres."
       },
       "hardConstraints": [
         "a canopy-breaking tree on firm ground",
@@ -31071,7 +31071,7 @@
       "why": {
         "founding": "The western lake's level swings four metres a year, so its people stopped building on the shore and moored their houses out on the water instead.",
         "siteAdvantages": "Sheltered water behind a headland, deep enough to keep the rafts off the mud and shallow enough to pole.",
-        "occupantsMotive": "They stay out on the water because Gideon cannot evict a village that holds no land, a point the mooring-holder makes often.",
+        "occupantsMotive": "They stay out on the water because Gideon cannot evict a village that holds no land, a point which the mooring-holder makes often.",
         "pressures": "Gideon's council has tried to tax the lake twice and been told both times that the village keeps no shore to tax.",
         "wouldChangeIf": "Would come ashore if the sheltered moorings were lost."
       },
@@ -31415,10 +31415,10 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 38 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region.",
       "why": {
         "founding": "The fringe keeps the Argonian calendar on Imperial ground. For one month of the twelve the road villages between Gideon and the Onkobra empty out onto this flat and hold Moonmarch. The other eleven it is a field with post-holes in it.",
-        "siteAdvantages": "A wide dry flat the monsoon leaves alone, close enough to three villages that the dancers walk home the same night, far enough from Gideon that the magistracy does not attend.",
+        "siteAdvantages": "A wide dry flat that the monsoon does not reach, close enough to three villages that the dancers walk home the same night, far enough from Gideon that the magistracy does not attend.",
         "occupantsMotive": "The ground-keeper's family holds the flat in order to keep it unbuilt. Their claim is older than the Imperial title that governs it.",
         "pressures": "Gideon's clerks have tried twice to license the gathering. Both times they were told there is no roof here to license. A Nibenese landowner has started grazing the flat out of season to establish use.",
-        "wouldChangeIf": "Would become a permanent fairground the day a roof went up over it."
+        "wouldChangeIf": "Would become a permanent fairground if a roof went up over it."
       },
       "hardConstraints": [
         "a dry flat that does not flood",
@@ -31431,7 +31431,7 @@
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + lore-reveal",
-      "hook": "For one month a year the road villages keep the Argonian calendar on Imperial ground. Gideon's Imperial households are invited.",
+      "hook": "The road villages keep the Argonian calendar on Imperial ground for one month a year. Gideon's Imperial households are invited.",
       "stance": "friendly",
       "interior": null,
       "purposeDetail": {
@@ -31707,7 +31707,7 @@
         "siteAdvantages": "Halfway between fort and marsh edge, on a widened length of the Gideon–Soulrest road where a gate can stop a cart without blocking the ditch.",
         "occupantsMotive": "A toll gang holds the workshops now and charges for a road that stops two miles further east.",
         "pressures": "Fewer carts come through each season, so the toll on each one climbs.",
-        "wouldChangeIf": "Would empty the day the road trade dried up entirely."
+        "wouldChangeIf": "Would empty when the road trade dried up entirely."
       },
       "hardConstraints": [
         "mid-way on a metalled road",
@@ -31801,7 +31801,7 @@
         "founding": "Gideon sells red pottery, which means a red clay bank, a water source and a firing floor within a cart of the city.",
         "siteAdvantages": "A cut meander bank exposes the clay in a two-metre seam; the river takes the waste and brings the fuel.",
         "occupantsMotive": "Four potting families work it in rotation. The order of the rotation is disputed.",
-        "pressures": "The river is undercutting the seam. The wintertide worm road comes up through a root breach in the same bank, so the waykeepers want it left alone.",
+        "pressures": "The river is undercutting the seam. The wintertide worm road comes up through a root breach in the same bank, so the waykeepers want the bank undisturbed.",
         "wouldChangeIf": "Would move fifty metres upstream, as it has three times before."
       },
       "hardConstraints": [
@@ -31905,7 +31905,7 @@
         "siteAdvantages": "A double bend slows the current to polling speed. Both banks shelve gently.",
         "occupantsMotive": "The ferry family has held the crossing four generations and treats the rope as property.",
         "pressures": "The bonded warehouse opposite would rather load direct and cut them out.",
-        "wouldChangeIf": "Would end the day a bridge is built, which the council proposes every decade."
+        "wouldChangeIf": "Would end when a bridge is built, which the council proposes every decade."
       },
       "hardConstraints": [
         "slack water",
@@ -32140,7 +32140,7 @@
         "siteAdvantages": "A limestone shoulder above the Onkobra with dry galleries, the one ground in the west that will hold a kwama colony.",
         "occupantsMotive": "The mining family keeps the queen alive because the trade dies with her. The Owing hands work it because they were entered in a ledger.",
         "pressures": "Scribs get out. The colony has been pushed for two hundred years. The eggs are smaller than the ledgers say.",
-        "wouldChangeIf": "Would collapse the year the queen dies. The mine family's heir thinks that is close."
+        "wouldChangeIf": "Would collapse in the year of the queen's death. The mine family's heir thinks that is close."
       },
       "hardConstraints": [
         "dry gallery ground above the river"
@@ -33165,7 +33165,7 @@
       "why": {
         "founding": "The Kothringi buried their dead under stone. This hillside holds a whole community's worth from the last generation before the Flu.",
         "siteAdvantages": "A stony hill shoulder where cairn stone lay ready to hand.",
-        "occupantsMotive": "The neighbouring villages leave it alone; Argonian custom has no use for a cairn.",
+        "occupantsMotive": "The neighbouring villages do not disturb it; Argonian custom has no use for a cairn.",
         "pressures": "Treasure-hunters take the glass beads; the practice is old enough that some cairns have been opened twice.",
         "wouldChangeIf": "Would be protected if the Gideon magistracy had standing over a dead people's graves."
       },
@@ -33569,7 +33569,7 @@
         "founding": "Upland Argonians terrace, because these hills give the slope and the loose stone that terracing needs.",
         "siteAdvantages": "A south-facing slope above the ravine head, with spring water at the top and loose stone for building the terraces.",
         "occupantsMotive": "They stay because terraces are generational work and abandoning them wastes four lifetimes.",
-        "pressures": "Using stone for the terrace walls is a compromise the lowland villages needle them about constantly.",
+        "pressures": "Using stone for the terrace walls is a compromise about which the lowland villages needle them constantly.",
         "wouldChangeIf": "Would collapse, terraces and village both, if the spring at the top failed."
       },
       "hardConstraints": [
@@ -34080,7 +34080,7 @@
         "siteAdvantages": "A camp set on the boundary of the fields it is holding.",
         "occupantsMotive": "They are paid by the day to keep a household off ground the household worked.",
         "pressures": "The villages feed them, but hate them. The brokers deny they exist.",
-        "wouldChangeIf": "Would break up the day the debt is bought out, by whoever chooses to pay."
+        "wouldChangeIf": "Would break up when the debt is bought out, by whoever chooses to pay."
       },
       "hardConstraints": [
         "within 400 m of a live settlement",
@@ -34382,7 +34382,7 @@
         "siteAdvantages": "A stone shed with a dead furnace in it, one door and no windows, which holds heat and hides light. Daril ferments there and the road cannot smell it.",
         "occupantsMotive": "An Owing broker keeps a fermentary running here and pays the tower clerk to keep the site listed derelict.",
         "pressures": "The vats need constant tending. Whoever the broker trusts with that job knows enough to ruin him.",
-        "wouldChangeIf": "Would be burned out by the council the week it became embarrassing rather than useful."
+        "wouldChangeIf": "Would be burned out by the council in the week when it became embarrassing rather than useful."
       },
       "hardConstraints": [
         "a disused kiln structure",
@@ -34592,8 +34592,8 @@
         "founding": "An Imperial road villa emptied two centuries ago. One family has lived in three of its rooms for two generations.",
         "siteAdvantages": "It is dry and roofed, off the road behind a hedge that has become a wall.",
         "occupantsMotive": "They live here because it is free; they have built a reed house inside the atrium rather than live in the stone rooms.",
-        "pressures": "Living in dead stone is a compromise their neighbours mention. The reed house inside is their answer.",
-        "wouldChangeIf": "Would be abandoned without regret the day the roof went."
+        "pressures": "Living in dead stone is a compromise which their neighbours mention. The reed house inside is their answer.",
+        "wouldChangeIf": "Would be abandoned without regret when the roof went."
       },
       "hardConstraints": [
         "a roofed Imperial ruin"
@@ -34930,7 +34930,7 @@
         "siteAdvantages": "Beside the bog-iron workings and downwind of the village, because the neighbours insisted.",
         "occupantsMotive": "The smith is Imperial-trained and Argonian-born.",
         "pressures": "Working metal is a moral error to most of his neighbours, but they still bring him their tyres.",
-        "wouldChangeIf": "Would close the day the road stopped carrying carts."
+        "wouldChangeIf": "Would close once the road stopped carrying carts."
       },
       "hardConstraints": [
         "downwind of settlement",
@@ -35135,7 +35135,7 @@
       "whySiteWon": "firm ground in upland hills (danger band 3), 346 m from the nearest route; its first-choice landform; won on landform, route, region.",
       "why": {
         "founding": "A line of marker stones set across the western approaches during the Knahaten Flu, to mark which side of the line held the living.",
-        "siteAdvantages": "Follows the natural contour where the ground firms up, the line a fleeing population would take anyway.",
+        "siteAdvantages": "Follows the natural contour where the ground firms up, the line which a fleeing population would take anyway.",
         "occupantsMotive": "No stone has been moved in three hundred years. Villages still do not build across the line.",
         "pressures": "The stones are being lost one by one to root-heave. There is no record of where they stood.",
         "wouldChangeIf": "Would be forgotten entirely in another century."
@@ -35336,7 +35336,7 @@
       "whySiteWon": "firm ground in border mountains (danger band 3), 822 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region.",
       "why": {
         "founding": "A second grant, worked by a family who ploughed the way they had at home and drained nothing.",
-        "siteAdvantages": "The site was superb for eight months a year and under half a metre of water for four, until a season the water did not go back down.",
+        "siteAdvantages": "The site was superb for eight months a year and under half a metre of water for four, until a season in which the water did not go back down.",
         "occupantsMotive": "The grant-holders are long gone. Whatever moved into the flooded rooms has the sills and doorframes to itself.",
         "pressures": "The roof is the last dry surface left. The tiles are coming off it.",
         "wouldChangeIf": "Would be walkable again only if the channel that flooded it silted shut."
@@ -35438,7 +35438,7 @@
       },
       "whySiteWon": "firm ground in border mountains (danger band 3), 575 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "why": {
-        "founding": "A carters' house at the wet end of the road, named for the animal the flood took the year it opened.",
+        "founding": "A carters' house at the wet end of the road, named for the animal that the flood took in the year of its opening.",
         "siteAdvantages": "The last building on firm ground before the drowning gate; carters stop here because there is nowhere else.",
         "occupantsMotive": "The keeper survives on the wet season, when the road closes and forty carters are stuck for a week.",
         "pressures": "In a dry year it nearly starves, so the keeper prays for floods and says so.",
@@ -36056,7 +36056,7 @@
       "why": {
         "founding": "A gate opened on the Blackwood frontier in 4E 5–7 and the Argonians went through it rather than away from it.",
         "siteAdvantages": "The scar sits where the gate stood, on a bare shoulder of the rim above the burn country; gates did not choose their ground.",
-        "occupantsMotive": "The villages leave it alone; the ground has not grown back properly.",
+        "occupantsMotive": "The villages do not work it; the ground has not grown back properly.",
         "pressures": "The Synod wants to survey it, but the villages will not permit it. The argument is annual.",
         "wouldChangeIf": "Would be overgrown by now on any other ground in the fringe."
       },
@@ -36274,7 +36274,7 @@
         "siteAdvantages": "The saddle's lee side, in a natural hollow that breaks the wind from three directions.",
         "occupantsMotive": "Two keepers hold it on a season's rota from the villages below, for food and standing.",
         "pressures": "The path is used more each year by couriers and smugglers. The station is provisioned for neither.",
-        "wouldChangeIf": "Would be abandoned the year the rim path lost its traffic to a safer road."
+        "wouldChangeIf": "Would be abandoned in the year in which the rim path lost its traffic to a safer road."
       },
       "hardConstraints": [
         "a saddle crossing with exposure"
@@ -36496,7 +36496,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 4), 85 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland.",
       "why": {
         "founding": "A Merethic xanmeer at the province's western edge, tended by the nearest village as a monument.",
-        "siteAdvantages": "A rise above the flood with a terrace the flood has yet to reach.",
+        "siteAdvantages": "A rise above the flood with a terrace which the flood has yet to reach.",
         "occupantsMotive": "The village keeps it swept; that is their office. Entering it to loot is a serious offence. The village says so plainly.",
         "pressures": "Gideon's antiquities trade is two days away and getting closer every year.",
         "wouldChangeIf": "Would be sealed by its own keepers the first time a theft succeeded."
@@ -36513,7 +36513,7 @@
       "discovery": "sightline",
       "valueTier": "tier-2",
       "purpose": "lore-reveal (real) + safe-rest, dungeon-delve",
-      "hook": "A xanmeer the nearest village tends as a monument rather than a tomb; ask first and the rules on what not to touch are given.",
+      "hook": "A xanmeer that the nearest village tends as a monument rather than a tomb; ask first and the rules on what not to touch are given.",
       "stance": "hostile",
       "interior": "dungeon · xanmeer-complex · S2 · wet 20%",
       "purposeDetail": {
@@ -37017,7 +37017,7 @@
       "whySiteWon": "saddle in border mountains (danger band 3), 498 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
       "why": {
         "founding": "One legal crossing into Cyrodiil means the rest go over the rim.",
-        "siteAdvantages": "A cliff bench with a ravine below, a saddle above and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other the same way.",
+        "siteAdvantages": "A cliff bench with a ravine below, a saddle above and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other in the same way.",
         "occupantsMotive": "The carriers here are village men from both sides who have worked the same ledge for generations.",
         "pressures": "Fort Swampmoth's company has begun pricing the legal road so high that the ledge now carries more than the road does.",
         "wouldChangeIf": "Would be abandoned if the tolls ever dropped."
@@ -37351,7 +37351,7 @@
         "siteAdvantages": "A ravine wall where the seam is exposed by the water that cut it.",
         "occupantsMotive": "A family works the seam and sells to whichever side pays; they have no politics and say so.",
         "pressures": "The seam runs under the ravine floor, so they work waist-deep in water. It is ruining their health.",
-        "wouldChangeIf": "Would be taken over by an outside concession the day the family failed."
+        "wouldChangeIf": "Would be taken over by an outside concession if the family failed."
       },
       "hardConstraints": [
         "an exposed seam in a ravine wall"
@@ -37756,7 +37756,7 @@
         "siteAdvantages": "A dry storage pit at the back of a broker's yard, roofed and grated, invisible from the road.",
         "occupantsMotive": "The brokers hold debtors here for a day or two until the Owing is transferred. It is legal.",
         "pressures": "Somebody was held for eleven days last year. The village still talks about it.",
-        "wouldChangeIf": "Would be filled in the week a court ruled that waiting is imprisonment."
+        "wouldChangeIf": "Would be filled in during the week in which a court ruled that waiting is imprisonment."
       },
       "hardConstraints": [
         "a dry roofed pit",
@@ -38224,7 +38224,7 @@
       "why": {
         "founding": "The Second Empire tried to make the Onkobra navigable to the uplands with a staircase of stone locks.",
         "siteAdvantages": "At the reach where the river drops fastest.",
-        "occupantsMotive": "The villages downstream fish the pools the ruined chambers make.",
+        "occupantsMotive": "The villages downstream fish the pools formed by the ruined chambers.",
         "pressures": "The masonry is a millennium older than the Imperial work below, but it is visibly better. The downstream headmen agree, out of a Gideon clerk's hearing.",
         "wouldChangeIf": "Would be worth rebuilding the day upland freight paid for itself."
       },
@@ -38337,7 +38337,7 @@
         "siteAdvantages": "Close enough to Gideon for work, far enough that the settlers were not asked their business twice a day.",
         "occupantsMotive": "They rebuilt a mile off when the old ring flooded twice in one year and left the first houses standing rather than pull them down.",
         "pressures": "The new settlement will not send a party back for the timber. The speaker changes the subject when asked.",
-        "wouldChangeIf": "Would be stripped for materials the day the fear of what dens there wore off."
+        "wouldChangeIf": "Would be stripped for materials once the fear of what dens there wore off."
       },
       "hardConstraints": [
         "no Hist within a day"
@@ -38530,9 +38530,9 @@
       "why": {
         "founding": "A xanmeer deliberately closed by its own people, with its traps live and its contents undisturbed.",
         "siteAdvantages": "Low ground that has since half-drowned. The sealed door stands at the level of the standing water, with the terraces above it cut off for half the year.",
-        "occupantsMotive": "The nearest village knows it is there and leaves it alone.",
+        "occupantsMotive": "The nearest village knows it is there. Villagers do not approach it.",
         "pressures": "Water is getting in below the seal, which will eventually open it from underneath.",
-        "wouldChangeIf": "Would be open from below the day the water finished the job."
+        "wouldChangeIf": "Would be open from below when the water finished the job."
       },
       "hardConstraints": [
         "a sealed entrance",
@@ -38922,7 +38922,7 @@
         "siteAdvantages": "A scree bench above the fort road, screened from below by the slope, with a scramble down onto the road at two points.",
         "occupantsMotive": "The men holding it are paid by the week to sit on other people's goods and to be somewhere else when the fort asks.",
         "pressures": "Fort Swampmoth can see the smoke from a fire up here, so they keep no fire after dark and are cold all winter.",
-        "wouldChangeIf": "Would be given up the day the company were made to keep an honest weighbridge."
+        "wouldChangeIf": "Would be given up if the company were made to keep an honest weighbridge."
       },
       "hardConstraints": [
         "screened from the road below",
@@ -39028,7 +39028,7 @@
       "why": {
         "founding": "The Ca-Uxith were charged by their Hist with watching the Rockgrove xanmeer. The village stands beside the ruin for that reason. The tribe has held this ground for as long as the charge has existed.",
         "siteAdvantages": "The last firm shelf before the geyser field, close enough to see the xanmeer's upper courses and far enough that the ground does not vent under the houses.",
-        "occupantsMotive": "The stone-talkers do the actual work. They read the ruin's stone for the cracks the geysers open and pack them with clay before it comes apart.",
+        "occupantsMotive": "The stone-talkers do the actual work. They read the ruin's stone for the cracks which the geysers open and pack them with clay before it comes apart.",
         "pressures": "The Sul-Xan raid camp sits on the ruin the Ca-Uxith are sworn to keep. The tribe has no means to remove them. The geyser field is getting louder. The elders disagree about whose fault that is.",
         "wouldChangeIf": "If the xanmeer collapsed the charge would end and the tribe would have no reason to be here. Several of the young ones say so aloud."
       },
@@ -39682,7 +39682,7 @@
         "siteAdvantages": "Just over the ridge from the cairn field, out of sight of the valley track and upwind of the smell of their own camp.",
         "occupantsMotive": "They are here for glass beads: small, light and worth a season's wages in Leyawiin.",
         "pressures": "The Collections dig pays better and asks questions; two of this camp have already crossed over.",
-        "wouldChangeIf": "Would move to the next dead people the month the beads ran out."
+        "wouldChangeIf": "Would move to the next dead people in the month when the beads ran out."
       },
       "hardConstraints": [
         "out of sight of a route",
@@ -40626,7 +40626,7 @@
       },
       "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 452 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on bound, region, hinterland; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "why": {
-        "founding": "Versidue-Shaie was the Akaviri Potentate. The works his people left in this basin while building the Rose are not Cyrodilic in any detail.",
+        "founding": "Versidue-Shaie was the Akaviri Potentate. The works left in this basin by his people while building the Rose are not Cyrodilic in any detail.",
         "siteAdvantages": "On the quarry road between the Robbed City and the Rose, where the stone for a single day's building was handled.",
         "occupantsMotive": "Empty. Its stone-handling gear was designed for atronachs and makes no sense for people.",
         "pressures": "It is the best surviving Akaviri civil work south of Gideon. The quarry crews who pass it call it old Imperial work.",
@@ -41279,7 +41279,7 @@
         "founding": "Blackrose's Hist stands in the lake rather than in the city. The lake rose over it.",
         "siteAdvantages": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown.",
         "occupantsMotive": "Tenders dive to it. The city has no other tree. It has not planted a second, since that would be taken as a judgement on this one.",
-        "pressures": "An underwater Hist cannot be communed with in any of the usual ways. The tenders have improvised a practice no village upriver will recognise.",
+        "pressures": "An underwater Hist cannot be communed with in any of the usual ways. The tenders have improvised a practice which no village upriver will recognise.",
         "wouldChangeIf": "Lowering the lake would expose it, but it is not agreed whether that would save it or kill it."
       },
       "hardConstraints": [
@@ -41375,7 +41375,7 @@
         "founding": "Built by Potentate Versidue-Shaie's battlemage Pelladil Direnni out of the rubble of the ancient Lilmothiit city, by an army of stone atronachs, in a single day. It is named for the city from whose stone it is made.",
         "siteAdvantages": "Marsh on every side and one causeway, which is the Imperial siting rule for this province. The ground outside is quiet country. The danger is behind the gate and below it.",
         "occupantsMotive": "Prison-born families three generations deep who hold it as their inheritance, plus exiles and outlaws. They resent the word prison. By their argument the place has not been one for generations.",
-        "pressures": "Umbriel left something in the lower levels that two generations of bricked stair have held down; the Chainbreakers want the place opened; Blackrose wants the toll it takes on the south road.",
+        "pressures": "Umbriel left something in the lower levels that two generations of bricked stair have held down; the Chainbreakers want the place opened; Blackrose wants the toll that it takes on the south road.",
         "wouldChangeIf": "Clearing the lower levels would make the Rose a genuine settlement. The city's toll clerks and Third-Born Xeekh both know this."
       },
       "hardConstraints": [
@@ -42414,7 +42414,7 @@
           "priest · pair"
         ],
         "loot": [
-          "grave-goods · lore-fragment · tier-2 · three peoples' goods mixed, in the order they were buried"
+          "grave-goods · lore-fragment · tier-2 · three peoples' goods mixed, in the order in which they were buried"
         ]
       },
       "travelStation": null,
@@ -46245,7 +46245,7 @@
       "why": {
         "founding": "A First-Era warship from the fleet that chased Red Bramman, lost on the reef and settled upright in eleven metres.",
         "siteAdvantages": "Deep enough that the hull is intact. The stern is shallow enough for a single-breath dive.",
-        "occupantsMotive": "Four Soulrest families dispute an ownership no court has settled.",
+        "occupantsMotive": "Four Soulrest families dispute an ownership that no court has settled.",
         "pressures": "Two centuries of salvage have stripped the deck. The hold is silted to the coamings.",
         "wouldChangeIf": "One good season of settled water would let a diving team open the hold properly."
       },
@@ -46688,7 +46688,7 @@
       "whySiteWon": "firm ground in firm lowland (danger band 3), 368 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "The nearest Hist village to Soulrest. Argonian households remain in the burn country because it is here.",
-        "siteAdvantages": "A rise the peat fire did not cross. The tree's roots draw on water lying below the depth of the burn.",
+        "siteAdvantages": "A rise that the peat fire did not cross. The tree's roots draw on water lying below the depth of the burn.",
         "occupantsMotive": "They kept the tree alive through the Burn. The village dates its own history from that season.",
         "pressures": "The jungle edge here kills people who walk it alone. The village says so at the gate.",
         "wouldChangeIf": "Losing the tree would disperse the village into the city within a generation."
@@ -46823,7 +46823,7 @@
       "why": {
         "founding": "A village whose Hist died with its mnemic egg unrecovered. Its offices and rites are now organised around the loss.",
         "siteAdvantages": "Unchanged good ground. Villages that lose a Hist usually disperse, but this one remained.",
-        "occupantsMotive": "They maintain the empty enclosure and the grave offices. The memories the crown held are recited aloud instead.",
+        "occupantsMotive": "They maintain the empty enclosure and the grave offices. The memories once held by the crown are recited aloud instead.",
         "pressures": "The children are leaving for Lilmoth; the recitation takes six days and fewer people can do it each year.",
         "wouldChangeIf": "A recovered egg would restore the village at a stroke. Treasure-hunters across Murkmire know the reward stands."
       },
@@ -46836,7 +46836,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + safe-rest, quest-anchor, lore-reveal",
-      "hook": "A village that lost its tree and kept going; they will pay well for news of the egg.",
+      "hook": "A village that lost its tree and remains inhabited; they will pay well for news of the egg.",
       "stance": "wary",
       "interior": null,
       "purposeDetail": {
@@ -46955,7 +46955,7 @@
       "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 94 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, nearPoint; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "A burial ground where somebody pulled the grave-poles out of the ground. The bog blight came up afterwards.",
-        "siteAdvantages": "An old village burial ground on soft peat, which is the exact condition the blight needs.",
+        "siteAdvantages": "An old village burial ground on soft peat, which is the exact condition required by the blight.",
         "occupantsMotive": "No household holds it. The blight keeps to the field, which is fenced by common consent.",
         "pressures": "The pulled poles lie where they were dropped. The grave-warden cannot say from which grave each of them came.",
         "wouldChangeIf": "Driving the poles back in the right order would end it. A grave-singer must enter the field to do it."
@@ -47054,7 +47054,7 @@
         "founding": "The coast road crosses the river south of Soulrest where it is too deep to ford and too wide to bridge cheaply.",
         "siteAdvantages": "A narrows with firm banks on both sides and slack water for an hour either side of the turn.",
         "occupantsMotive": "The ferry family also hire out as guides upriver, but the guiding pays better.",
-        "pressures": "Guides are hired to go upriver far more often than the traffic justifies. Ask the eldest daughter which reach and she names a different one each time.",
+        "pressures": "Guides are hired to go upriver far more often than the traffic justifies. The eldest daughter, asked which reach, names a different one each time.",
         "wouldChangeIf": "A bridge here would end both trades. It has been proposed three times."
       },
       "hardConstraints": [
@@ -47565,7 +47565,7 @@
       "discovery": "road",
       "valueTier": "tier-1",
       "purpose": "safe-rest (mild) + navigation-aid, social-drama",
-      "hook": "A well, a roof and a meal on the coast road, at the price the Legion set two centuries ago.",
+      "hook": "A well, a roof and a meal on the coast road, at the price set by the Legion two centuries ago.",
       "stance": "friendly",
       "interior": null,
       "purposeDetail": {
@@ -47655,7 +47655,7 @@
       "why": {
         "founding": "Imperial harbour works lit the Topal approach for four centuries; the oil contract ended with the province.",
         "siteAdvantages": "The highest headland on the bay approach. Few structures in the province break the canopy line; this is one.",
-        "occupantsMotive": "Unmanned. A Soulrest chandler still bills the council for lamp oil he does not deliver.",
+        "occupantsMotive": "Unmanned. A Soulrest chandler still bills the council for lamp oil that he does not deliver.",
         "pressures": "The lantern glass is gone; the stair is sound; whoever relights it decides who profits from the bar.",
         "wouldChangeIf": "Relighting it would end the false light on the Long Bar and make the Soulrest approach safe."
       },
@@ -47766,7 +47766,7 @@
         "founding": "A still fen where the water plants light from below all year, which is why the pilgrim route runs through it at night.",
         "siteAdvantages": "A shallow, warm, flow-free basin. The glow needs those conditions and they are rare. A drowned channel runs out of the basin under the weed. The strongest glow comes from its mouth. The gatherers do not enter the channel.",
         "occupantsMotive": "Gatherers take the plants for lamp-jelly; pilgrims cross at night because the fen lights the way.",
-        "pressures": "Harvesting dims it; the villages ration the take by an argument they restage each season.",
+        "pressures": "Harvesting dims it; the villages ration the take by an argument that they restage each season.",
         "wouldChangeIf": "Over-harvest would end both the trade and the route in the same season."
       },
       "hardConstraints": [
@@ -47876,7 +47876,7 @@
       },
       "whySiteWon": "firm ground in fringe marsh (danger band 2), 35 m from the nearest route; at the water's edge; no free 'island' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "why": {
-        "founding": "A raised hammock's crown given over entirely to the ancestors of the villages around it. It stays dry in the worst floods the villages record.",
+        "founding": "A raised hammock's crown given over entirely to the ancestors of the villages around it. It stays dry in the worst floods on the villages' record.",
         "siteAdvantages": "The highest dry ground in a wide floodplain, which makes it the burial terrace for every village that can reach it.",
         "occupantsMotive": "Four villages bury here in four sectors. The sector boundaries are the oldest agreed lines in the district.",
         "pressures": "The hammock is running out of terrace, but no village will yield an inch of its sector.",
@@ -47992,7 +47992,7 @@
       "whySiteWon": "firm ground in fringe marsh (danger band 2), 64 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "A village on a wooded hammock, reached only by water, until a sickness went through the households in a single wet season.",
-        "siteAdvantages": "A dry wooded rise in permanent marsh, hard to reach and now harder to leave alone.",
+        "siteAdvantages": "A dry wooded rise in permanent marsh, hard to reach and now harder to keep undisturbed.",
         "occupantsMotive": "Empty. The hammocks that fed it are silent and the huts stand as they were left.",
         "pressures": "Bodies and stores were never moved out; a swarm has taken the granary huts and something larger dens under the canoe notch.",
         "wouldChangeIf": "A cleared and blessed hammock could be resettled, but no village has offered."
@@ -48084,7 +48084,7 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on nearPoint, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "why": {
-        "founding": "A river rises just south of Soulrest and runs north-east into the interior. This is the last point a sea-going hull can reach on it.",
+        "founding": "A river rises just south of Soulrest and runs north-east into the interior. This is the last point that a sea-going hull can reach on it.",
         "siteAdvantages": "A gravel sill across the channel: deep water below it, poling water above it and firm banks for transhipment.",
         "occupantsMotive": "Goods going inland are broken down into canoe loads here, by porters who charge by the bale.",
         "pressures": "Whoever controls this sill controls the interior trade of the south-west. Four parties are contesting it.",
@@ -48190,7 +48190,7 @@
       },
       "whySiteWon": "flood high in firm lowland (danger band 2), 47 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hist-less-fringe (+2.21).",
       "why": {
-        "founding": "A rice estate north of Lilmoth, one of the few places Bretons still live in Argonia. Rice works here because it wants the flood.",
+        "founding": "A rice estate north of Lilmoth, one of the few places in Argonia where Bretons still live. Rice works here because it wants the flood.",
         "siteAdvantages": "A river terrace that floods every year, which ruins any other crop and suits this one exactly.",
         "occupantsMotive": "A Breton family and Argonian tenant households, bound by a share arrangement that both sides describe differently.",
         "pressures": "Lilmoth depends on Hereguard rice, which gives the tenants more hold over the family every year.",
@@ -48326,7 +48326,7 @@
       "why": {
         "founding": "Four elevated walkways meet above the mangrove. The platform at the crossing has become a place in its own right.",
         "siteAdvantages": "Every walkway in the upper district meets here, twelve metres above the water.",
-        "occupantsMotive": "A tea-seller, a chime-relay peg board and a toll the deck-keepers have no right to collect.",
+        "occupantsMotive": "A tea-seller, a chime-relay peg board and a toll which the deck-keepers have no right to collect.",
         "pressures": "The junction's timbers carry more traffic than they were built for and the decks flex under a loaded porter.",
         "wouldChangeIf": "A collapse would sever the district's upper network into four dead ends."
       },
@@ -48420,8 +48420,8 @@
       "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on region, hinterland, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.hereguard-plantation (+2.21).",
       "why": {
         "founding": "Lilmoth's hist-less households built and rebuilt this quarter for two generations, until a Blackguards cell took it. The city did not contest the loss.",
-        "siteAdvantages": "Just outside the wall on ground the city does not tax or garrison.",
-        "occupantsMotive": "A Blackguards cell holds the shells the households left and runs a toll on porters crossing the swept circle.",
+        "siteAdvantages": "Just outside the wall on ground that the city does not tax or garrison.",
+        "occupantsMotive": "A Blackguards cell holds the shells that the households left behind and runs a toll on porters crossing the swept circle.",
         "pressures": "Lilmoth knows the gang is there. Clearing it would cost more guardsmen than the council keeps.",
         "wouldChangeIf": "A city sweep would clear the gang out in a day; the council has not ordered one."
       },
@@ -48528,7 +48528,7 @@
         "siteAdvantages": "A river terrace on the Keel-Sakka with deep root-water and a defensible bend, now grown over.",
         "occupantsMotive": "No household stays. The root system beneath the old ring kept growing after the village left and the galleries under it are open.",
         "pressures": "A pack has denned in the outer galleries; something larger holds the deep chamber near where the speaking-floor was.",
-        "wouldChangeIf": "A new speaking Hist elsewhere would settle the argument this village used to arbitrate."
+        "wouldChangeIf": "A new speaking Hist elsewhere would settle the argument which this village used to arbitrate."
       },
       "hardConstraints": [
         "channel bank or spring, always with a landing"
@@ -48654,7 +48654,7 @@
       "discovery": "sightline",
       "valueTier": "tier-3",
       "purpose": "faction-gateway (major) + combat-challenge, lore-reveal",
-      "hook": "A tribe holding a stone fort they did not build. Its walls still work.",
+      "hook": "A tribe holding a stone fort that they did not build. Its walls still work.",
       "stance": "hostile",
       "interior": "complex · xanmeer-complex · S3 · wet 15%",
       "purposeDetail": {
@@ -48738,8 +48738,8 @@
         "founding": "A village that refused every outside contact since 4E 48 and enforced the refusal at the boundary, until a fire took the huts behind the totem line.",
         "siteAdvantages": "A defensible rise with one approach, three days from Lilmoth and unreachable by water.",
         "occupantsMotive": "A Blackguards band moved into the burn scar because the village chose the rise for its single watchable approach.",
-        "pressures": "The gang's lookouts watch the same path the old boundary speakers did.",
-        "wouldChangeIf": "Driving the gang out would reopen the shortest route across the jungle belt, the thing the village itself once blocked."
+        "pressures": "The gang's lookouts watch the same path as the old boundary speakers.",
+        "wouldChangeIf": "Driving the gang out would reopen the shortest route across the jungle belt, the thing that the village itself once blocked."
       },
       "hardConstraints": [
         "defensible approach, often a single crossing"
@@ -48840,7 +48840,7 @@
       },
       "whySiteWon": "islet in lake & standing water (danger band 3), 846 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
       "why": {
-        "founding": "The xanmeer the An-Xileel pumped out room by room and held dry with magicks; with them gone the magicks lapsed and the silt returned.",
+        "founding": "The xanmeer that the An-Xileel pumped out room by room and held dry with magicks; with them gone the magicks lapsed and the silt returned.",
         "siteAdvantages": "Sits in standing water west of Lilmoth; only the topmost chamber stands above the silt, as it did when it was first found.",
         "occupantsMotive": "Untended. Divers go in for what the An-Xileel left behind when the water came back fast.",
         "pressures": "The lower rooms are silt rather than water. A diver who enters them may not find the way back.",
@@ -49169,7 +49169,7 @@
         "founding": "Lilmoth is built over shallow water and large ships cannot dock, so goods are lightered ashore. The lighter crews live aboard, at permanent moorings between the anchorage and the quay.",
         "siteAdvantages": "A permanent moored ground in the estuary, half a mile off the quay, out of the tariff line and inside the sheltered water.",
         "occupantsMotive": "The crews control the link between deep-water hulls and the city. They know what that is worth.",
-        "pressures": "A council attempt to license lightering triggered a two-week stoppage neither side wants to repeat.",
+        "pressures": "A council attempt to license lightering triggered a two-week stoppage which neither side wants to repeat.",
         "wouldChangeIf": "A dredged deep-water channel would end both the flotilla and the city's hold on its own trade."
       },
       "hardConstraints": [
@@ -49298,7 +49298,7 @@
       },
       "whySiteWon": "Owner-approved settlement anchor 'lilmoth' (world/sources/anchors, Phase 2 gate); position kept exactly.",
       "why": {
-        "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
+        "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city that it replaced.",
         "siteAdvantages": "The firm shelf at the head of the estuary, with the stilt quarters and the lighter quay stepping down off it into tidal water. Big hulls anchor out in Oliis Bay and their cargo is lightered ashore. The lightering is the city's living.",
         "occupantsMotive": "A reconstituted merchant council governs by tariff; it will not appoint a ruler. The last faction to hold sole power destroyed the city.",
         "pressures": "Hostile to the An-Xileel successor state and indispensable to a bay that must trade somewhere. It is also built over its own mass grave.",
@@ -49988,7 +49988,7 @@
       },
       "whySiteWon": "firm ground in upland hills (danger band 3), 594 m from the nearest route; its first-choice landform; won on landform, danger, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.sealed-meer-murkmire (+0.26).",
       "why": {
-        "founding": "One of the plantations the tribes destroyed in the 3E 427 uprisings, burned with its exports still in the yard.",
+        "founding": "One of the plantations destroyed by the tribes in the 3E 427 uprisings, burned with its exports still in the yard.",
         "siteAdvantages": "Firm lowland with river access to Soulrest, which is why it was worth burning.",
         "occupantsMotive": "The great house has not been reoccupied; the quarters behind it were dismantled for materials within a year.",
         "pressures": "The families who burned it live four miles away. They have not denied it.",
@@ -50492,7 +50492,7 @@
       "whySiteWon": "shallow marsh in interior swamp (danger band 4), 468 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "A village whose whole trade is the dead: driving the poles, tending them, keeping the register and repatriating for the whole southern coast.",
-        "siteAdvantages": "Firm peat that holds a driven pole, central to a dozen villages and set well apart from each.",
+        "siteAdvantages": "Firm peat, able to hold a driven pole, central to a dozen villages and set well apart from each.",
         "occupantsMotive": "Every household here holds a grave-office. Children learn the register before they learn to pole.",
         "pressures": "The village sits where the deep-marsh tribes begin, so its pole-drivers travel armed. The register is kept in duplicate for the same reason.",
         "wouldChangeIf": "A refusal to accept more dead would force a dozen villages to solve the problem themselves."
@@ -50650,7 +50650,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "traversal-puzzle (real) + wonder-oddity, safe-rest",
-      "hook": "A bench and a dry breath halfway along a swim few can do in one lungful.",
+      "hook": "A bench and a dry breath halfway along a swim that few can do in one lungful.",
       "stance": "hostile",
       "interior": "delve · flooded-cave · S0 · wet 45%",
       "purposeDetail": {
@@ -50908,7 +50908,7 @@
       "discovery": "rumour",
       "valueTier": "tier-4",
       "purpose": "combat-challenge (major) + dungeon-delve, unique-item",
-      "hook": "Forty metres down in the bay floor is a hole the fishers do not name at sea. Something lives in it.",
+      "hook": "Forty metres down in the bay floor is a hole which the fishers do not name at sea. Something lives in it.",
       "stance": "hostile",
       "interior": "delve · flooded-cave · S1 · wet 100%",
       "purposeDetail": {
@@ -51423,7 +51423,7 @@
       "why": {
         "founding": "Southern Sea crews, a large share of them Khajiit, keep out of sight of Altmer and Maormer warships, so they anchor where no state looks.",
         "siteAdvantages": "A deep lagoon cove behind a headland with two ways out, sand holding ground and a freshwater run at its head.",
-        "occupantsMotive": "Half the hulls here carry a Soulrest charter. All carry cargo the charter does not mention.",
+        "occupantsMotive": "Half the hulls here carry a Soulrest charter. All carry cargo that the charter does not mention.",
         "pressures": "Soulrest's council both licenses and disowns them; the arrangement is stable, but the captains resent it.",
         "wouldChangeIf": "A Dominion sweep of the Southern Sea would scatter it to the mangroves in a week."
       },
@@ -53006,7 +53006,7 @@
       "whySiteWon": "firm ground in fringe marsh (danger band 3), 225 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.tempering-ground (+0.96).",
       "why": {
         "founding": "Umbriel passed over this village on its way from Lilmoth in 4E 48 and took it with them; what stood up afterwards is still standing.",
-        "siteAdvantages": "Directly under the recorded track of the shadow, on ground good enough to hold a village. The ground is left alone now.",
+        "siteAdvantages": "Directly under the recorded track of the shadow, on ground good enough to hold a village. The ground is unworked now.",
         "occupantsMotive": "The dead here do not leave the village bounds. The district lives alongside it on that basis.",
         "pressures": "It sits between two working villages and forces every journey between them to take an extra half-day.",
         "wouldChangeIf": "Clearing it would restore a road that has been broken for a hundred and fifty years."
@@ -53247,7 +53247,7 @@
       "discovery": "road",
       "valueTier": "tier-2",
       "purpose": "social-drama (real) + faction-gateway, service-hub",
-      "hook": "The ball game the port pays to keep the tribes friendly; win a place on a side and doors open.",
+      "hook": "The ball game that the port pays for to keep the tribes friendly; win a place on a side and doors open.",
       "stance": "friendly",
       "interior": "building · civic-hall · S1 · wet 0%",
       "purposeDetail": {
@@ -53355,7 +53355,7 @@
       "whySiteWon": "summit in tropical jungle (danger band 4), 593 m from the nearest route; its first-choice landform; won on landform, region, route; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "The largest Sithis temple in Murkmire, tended by the Clutch of Nisswo though it no longer serves its original purpose.",
-        "siteAdvantages": "Deep in the marsh at the end of a pilgrim route, with a natural rock formation the temple was built to frame.",
+        "siteAdvantages": "Deep in the marsh at the end of a pilgrim route, with a natural rock formation which the temple was built to frame.",
         "occupantsMotive": "The Clutch maintain it precisely. They preach that the loss of its purpose is itself the teaching.",
         "pressures": "The original purpose is lost, but at least one faction claims to have found it out.",
         "wouldChangeIf": "A rediscovery of the temple's function would split the Clutch."
@@ -53559,7 +53559,7 @@
       },
       "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 33 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.alten-meerhleel (+0.89).",
       "why": {
-        "founding": "Salt is the export the burning of the mines did not touch. The bay's shore evaporates well.",
+        "founding": "Salt is the export that the burning of the mines did not touch. The bay's shore evaporates well.",
         "siteAdvantages": "A wide, gently shelving salt-marsh shore with a dry season long enough to crystallise.",
         "occupantsMotive": "Pan-holders who pay Soulrest a share and sell the rest to fish-curers along the whole south coast.",
         "pressures": "A wet-season overtop ruins a year; the sea walls are rebuilt by owed labour every spring.",
@@ -53796,8 +53796,8 @@
       },
       "whySiteWon": "flood high in firm lowland (danger band 4), 71 m from the nearest route; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.mercantile-coast.rockpark (+0.62).",
       "why": {
-        "founding": "One of the prisons the Empire built after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the Bogmother causeway, the road the Legion already had.",
-        "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Bogmother road that brought the convicts and carried the ore away.",
+        "founding": "One of the prisons built by the Empire after 1E 2837. The Imperial rule for this province was to put a prison where the marsh could be the wall. It stands off the Bogmother causeway, the road that the Legion already held.",
+        "siteAdvantages": "Firm ground with marsh water on every side and a single causeway, a short haul from the Bogmother road, which carried the convicts in and the ore out.",
         "occupantsMotive": "Empty of the living. Full of Argonian dead who died away from their Hist and whose bones were never brought to the dirt.",
         "pressures": "The Blackrose Chainbreakers want the dead repatriated; the structure is sound enough that somebody will eventually want it back.",
         "wouldChangeIf": "Reoccupation by any armed party would make the repatriation impossible and the grievance permanent."
@@ -53812,7 +53812,7 @@
       "discovery": "document",
       "valueTier": "tier-4",
       "purpose": "dungeon-delve (major) + stealth-challenge, lore-reveal",
-      "hook": "An Imperial prison the marsh sealed; the cordon cellars below it were never emptied.",
+      "hook": "An Imperial prison sealed by the marsh; the cordon cellars below it were never emptied.",
       "stance": "hostile",
       "interior": "complex · imperial-fort · S3 · wet 30%",
       "purposeDetail": {
@@ -54138,7 +54138,7 @@
         "founding": "Named for the extinct wraxu birds whose colonies covered this coast; the birds that nest here now are not them.",
         "siteAdvantages": "Vertical sea stacks off the islands, unclimbable from three sides, thick with guano and eggs.",
         "occupantsMotive": "Egg-takers come twice a year by rope and take the ledges in a fixed order.",
-        "pressures": "The clans here know what happened to the wraxu. The taking rules are stricter than any law Soulrest ever wrote.",
+        "pressures": "The clans here know what happened to the wraxu. The taking rules are stricter than any law that Soulrest ever wrote.",
         "wouldChangeIf": "The clans hold that a single greedy season would empty the ledges for a generation."
       },
       "hardConstraints": [
@@ -55010,7 +55010,7 @@
       "discovery": "rumour",
       "valueTier": "tier-2",
       "purpose": "dungeon-delve (real) + combat-challenge, lore-reveal",
-      "hook": "A dead-straight Imperial burial trench across two kilometres of swamp, cut deep and to a pattern the villages here do not use. It is open at both ends.",
+      "hook": "A dead-straight Imperial burial trench across two kilometres of swamp, cut deep and to a pattern that the villages here do not use. It is open at both ends.",
       "stance": "hostile",
       "interior": "delve · sinkhole-ruin · S1 · wet 20%",
       "purposeDetail": {
@@ -55044,7 +55044,7 @@
       "contents": {
         "creatures": [
           "swarm · D3 · swarm · on on-approach — trench-risen, packed as they were buried",
-          "apex-ambusher · D4 · single · on on-noise — the thing the cordon's own physician became"
+          "apex-ambusher · D4 · single · on on-noise — the thing which the cordon's own physician became"
         ],
         "npcs": [],
         "loot": [
@@ -55625,7 +55625,7 @@
         ],
         "npcs": [],
         "loot": [
-          "personal-effects · loot-cache · tier-2 · household goods left in place, in the order they were left",
+          "personal-effects · loot-cache · tier-2 · household goods left in place, in the order in which they were left",
           "ledger-or-document · quest-hook · tier-2 · the village's water-mark board, dated season by season"
         ]
       },
@@ -55774,7 +55774,7 @@
       "why": {
         "founding": "The stage where outsiders hire a poler, because the inner swamp cannot be crossed without one.",
         "siteAdvantages": "The last point reachable without local knowledge.",
-        "occupantsMotive": "Polers, a broker and a price list that is not the real price list. The broker has not poled in his life, but he takes a cut of each hire. The polers put up with him because he deals with the foreigners.",
+        "occupantsMotive": "Polers, a broker and a price list that is not the real price list. The broker has not poled in his life, but he takes a cut of each hire. The polers tolerate him because he deals with the foreigners.",
         "pressures": "Unguided travellers go in anyway and their craft come back empty. Every loss justifies the next rise in the hire price.",
         "wouldChangeIf": "A published chart would destroy the trade, so none exists. Two surveyors have tried. Both were poled home."
       },
@@ -56532,7 +56532,7 @@
       "underwaterAccess": "surface-swim",
       "contents": {
         "creatures": [
-          "apex-ambusher · D4 · single · on on-entry — the kaju the reach reliably holds"
+          "apex-ambusher · D4 · single · on on-entry — the kaju reliably held in this reach"
         ],
         "npcs": [
           "priest · single · named — the keeper who cuts the name into the skull",
@@ -56633,7 +56633,7 @@
         ],
         "npcs": [],
         "loot": [
-          "hidden-cache · unique-item · tier-3 · the ward-stone chamber the route it guarded used to reach"
+          "hidden-cache · unique-item · tier-3 · the ward-stone chamber reached by the route which it guarded"
         ]
       },
       "travelStation": null,
@@ -57006,7 +57006,7 @@
         "founding": "A settled Naga tribe with a tended Hist, villages, fields and a quarrel with their own tribeless relatives.",
         "siteAdvantages": "Firm ground on the inner swamp's main poling route, with a landing deep enough for laden craft.",
         "occupantsMotive": "People who want the road trade, but are undermined by kin who rob it.",
-        "pressures": "Outsiders arrive assuming they are brigands. The hold now pays the northern camp for quiet rather than fight a war it would win and could not afford.",
+        "pressures": "Outsiders arrive assuming they are brigands. The hold now pays the northern camp for quiet rather than fight a war which it would win and could not afford.",
         "wouldChangeIf": "A settlement with the tribeless would change how the whole southern interior travels. It would also cost the coastal escort trade its best market."
       },
       "hardConstraints": [
@@ -57593,7 +57593,7 @@
       "discovery": "road",
       "valueTier": "tier-1",
       "purpose": "social-drama (real) + quest-anchor, safe-rest",
-      "hook": "The tents are pitched in the street plan of the village the people left, house for house.",
+      "hook": "The tents are pitched in the street plan of the abandoned village, house for house.",
       "stance": "wary",
       "interior": null,
       "purposeDetail": {
@@ -57717,7 +57717,7 @@
       "contents": {
         "creatures": [
           "swarm · D4 · swarm · on on-entry — blight-risen moving along the root lines",
-          "guardian-boss · D5 · single · on on-noise — the thing the roots have been feeding",
+          "guardian-boss · D5 · single · on on-noise — the thing that the roots have been feeding",
           "scavenger · D3 · few · on on-approach"
         ],
         "npcs": [],
@@ -57821,7 +57821,7 @@
           "quest-giver · single — an outside scholar tolerated on sufferance"
         ],
         "loot": [
-          "shrine-offerings · power-boon · tier-4 · a gift the tree makes to anyone it has addressed",
+          "shrine-offerings · power-boon · tier-4 · a gift made by the tree to anyone whom it has addressed",
           "ledger-or-document · lore-fragment · tier-3 · the tribe's account of the Remnant of Argon and the return"
         ]
       },
@@ -58343,7 +58343,7 @@
       "contents": {
         "creatures": [
           "pack-hunter · D4 · band · on on-entry — villagers who did not lie down after the shadow passed",
-          "guardian-boss · D4 · single · on on-noise — the walker the ring was raised to hold"
+          "guardian-boss · D4 · single · on on-noise — the walker that the ring was raised to hold"
         ],
         "npcs": [],
         "loot": [
@@ -58391,22 +58391,22 @@
       "workflow": "plotted",
       "culture": "argonian",
       "position": {
-        "u": 0.3261,
-        "v": 0.60126
+        "u": 0.33444,
+        "v": 0.59714
       },
       "positionM": [
-        2404.5,
-        4433.4
+        2466.0,
+        4403.0
       ],
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
+        "landform": "pinned (Part 6 meso siting)",
+        "regionClass": "lake & standing water",
         "dangerBand": 5,
-        "distanceToRouteM": 334.7,
-        "distanceToWaterM": 45.2,
-        "score": 3.796
+        "distanceToRouteM": 277.7,
+        "distanceToWaterM": 0.0,
+        "score": null
       },
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 335 m from the nearest route; its choice #2 landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json): The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
       "why": {
         "founding": "An adult wamasu holds a pond on the zone's main poling route.",
         "siteAdvantages": "Deep still water a few hundred metres off the main poling line, close enough that the detour poles run past it for its whole length.",
@@ -58514,7 +58514,7 @@
       "whySiteWon": "island in interior swamp (danger band 4), 639 m from the nearest route; at the water's edge; its choice #3 landform; won on remote, landform, region; landform wishes taken from the type recipe (record had none).",
       "why": {
         "founding": "A wild Hist that has cut itself off from the collective. The tribes know of two other cases.",
-        "siteAdvantages": "Deep swamp, no tribe and no witnesses, so it has been left alone long enough to be studied.",
+        "siteAdvantages": "Deep swamp, no tribe and no witnesses, so it has stood undisturbed long enough to be studied.",
         "occupantsMotive": "No tribe speaks for it. The nearest village sends no minder and no offering.",
         "pressures": "No work has been attempted on it. One sap-taster watches from the far bank and writes down what he sees.",
         "wouldChangeIf": "Reconnection is possible in principle. No tree-minder has a method for it. The tribes that could try keep their distance."
@@ -58554,7 +58554,7 @@
       "underwaterAccess": "none",
       "contents": {
         "creatures": [
-          "something-old · D4 · single · on on-noise — what has come to live under a tree the collective cannot see"
+          "something-old · D4 · single · on on-noise — what has come to live under a tree that the collective cannot see"
         ],
         "npcs": [
           "hermit · single · named — a sap-taster studying it from the far bank"
@@ -59763,7 +59763,7 @@
         ],
         "loot": [
           "workshop-stock · gear · tier-2 · a bonded consignment the port held back",
-          "hidden-cache · loot-cache · tier-2 · behind the brick the water has loosened"
+          "hidden-cache · loot-cache · tier-2 · behind the brick that the water has loosened"
         ]
       },
       "travelStation": null,
@@ -60833,7 +60833,7 @@
       },
       "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; its first-choice landform; won on landform, bound, sightline; placed from the homeless batch at stage 'spacing-3/4'.",
       "why": {
-        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground the gang works.",
+        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground worked by the gang.",
         "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
         "pressures": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
@@ -60852,7 +60852,7 @@
       "discovery": "sightline",
       "valueTier": "tier-3",
       "purpose": "quest-anchor (province-changing) + social-drama, safe-rest, lore-reveal",
-      "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch they will not leave.",
+      "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch that they will not leave.",
       "stance": "wary",
       "interior": "building · dwelling · S1 · wet 0%",
       "purposeDetail": {
@@ -61111,7 +61111,7 @@
       "contents": {
         "creatures": [],
         "npcs": [
-          "boss · D3 · single · named — Gorrey, who bought a claim in a script he cannot read and enforces it with thirty men",
+          "boss · D3 · single · named — Gorrey, who bought a claim in a script which he cannot read and enforces it with thirty men",
           "patrol · D3 · band — hired garrison working the road and the gate",
           "official · D2 · pair — toll-takers with a tariff board and a strongroom key"
         ],
@@ -61173,7 +61173,7 @@
       "discovery": "none",
       "valueTier": "tier-3",
       "purpose": "dungeon-delve (real) + unique-item, lore-reveal, hidden-secret",
-      "hook": "Nine sockets cut for keystones lost since the Ayleids left, in a chamber the flood has not reached.",
+      "hook": "Nine sockets cut for keystones lost since the Ayleids left, in a chamber that the flood has not reached.",
       "stance": "hostile",
       "interior": "delve · ayleid-nedic-ruin · S1 · wet 0%",
       "purposeDetail": {
@@ -61969,7 +61969,7 @@
       },
       "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its first-choice landform; won on landform, nearPoint, sightline; placed from the homeless batch at stage 'spacing-1/2'.",
       "why": {
-        "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border they had crossed.",
+        "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border which they had crossed.",
         "siteAdvantages": "High firm ground on the flank above the pass, chosen for the sightline rather than the soil.",
         "occupantsMotive": "Veterans and their children, armed, keeping their own council.",
         "pressures": "Forty armed veterans in a zone whose other factions hire muscle by the day, so requests to them are put carefully.",
@@ -64301,7 +64301,7 @@
         "siteAdvantages": "A drowned lagoon deep enough to swallow six terraces and clear enough to read the geometry from a boat above it.",
         "occupantsMotive": "Unoccupied by any household. Divers who go down have brought back no account of what lives in it.",
         "pressures": "It is a tended monument the village cannot reach to tend.",
-        "wouldChangeIf": "If the water dropped a metre the tribe would reclaim it within a year."
+        "wouldChangeIf": "If the water dropped a metre, the tribe would reclaim it within a year."
       },
       "hardConstraints": [
         "fully submerged but for one chamber",
@@ -66017,7 +66017,7 @@
       "underwaterAccess": "none",
       "contents": {
         "creatures": [
-          "something-old · D2 · few · on on-interact — what Umbriel left in the bodies it did not finish"
+          "something-old · D2 · few · on on-interact — what Umbriel left in the bodies that it did not finish"
         ],
         "npcs": [],
         "loot": [

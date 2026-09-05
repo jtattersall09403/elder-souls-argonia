@@ -2,7 +2,8 @@
 
 Takes a settlement blueprint (schema: `worldgen.blueprint`) and renders a
 top-down annotated diagram over a hillshaded crop of the REAL province terrain:
-districts, routes/canals/boardwalks, parcels (coloured by ground fit), docks,
+districts, routes/canals/boardwalks, parcels (their REAL derived outlines,
+coloured by ground fit and labelled with the authored yaw), docks,
 doors (with facing), landmarks, combat spaces, quest sockets, water and
 contours — plus a legend and a title block carrying the id, seed and declared
 budget. Seconds to regenerate; that is the whole point.
@@ -97,7 +98,7 @@ def collect_uv(bp: dict) -> list[list[float]]:
     uv = _points(bp, "boundary")
     if uv:
         for p in bp.get("parcels", []):
-            uv += _points(p, "footprint", "position")
+            uv += _points(p, "footprint", "centreUV", "position")
         for lm in bp.get("landmarks", []):
             uv += _points(lm, "position")
         for dk in bp.get("docks", []):
@@ -111,7 +112,7 @@ def collect_uv(bp: dict) -> list[list[float]]:
         for w in bp.get(group, []):
             uv += _points(w, "points")
     for p in bp.get("parcels", []):
-        uv += _points(p, "footprint", "position")
+        uv += _points(p, "footprint", "centreUV", "position")
     for lm in bp.get("landmarks", []):
         uv += _points(lm, "position")
     for dk in bp.get("docks", []):
@@ -259,6 +260,9 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
             drawn["ways"] += 1
 
     # -- parcels ------------------------------------------------------------
+    # `footprint` is the DERIVED outline — the asset's measured ground hull,
+    # rotated by the authored yawDeg and placed at centreUV — so what is drawn
+    # here is the building's real plan, not a box (owner ruling 2026-09-05).
     for p in bp.get("parcels", []):
         fill = GROUND_FIT_FILL.get(p.get("groundFit"), "#cccccc")
         foot = p.get("footprint")
@@ -266,7 +270,7 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
             m = to_m(foot)
             _poly(ax, m, facecolor=fill, alpha=0.85, edgecolor="#20262e",
                   linewidth=0.9, zorder=5)
-            cx, cz = m.mean(axis=0)
+            cx, cz = to_m([p["centreUV"]])[0] if p.get("centreUV") else m.mean(axis=0)
         elif p.get("position"):
             cx, cz = to_m([p["position"]])[0]
             ax.plot(cx, cz, marker="s", markersize=7, color=fill,
@@ -274,7 +278,11 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         else:
             continue
         jitter = rng.uniform(-1.5, 1.5)
-        ax.text(cx, cz + jitter, f"{p.get('id')}\n{p.get('buildingFamily', '')}",
+        yaw = p.get("yawDeg")
+        label = f"{p.get('id')}\n{p.get('buildingFamily', '')}"
+        if isinstance(yaw, (int, float)):
+            label += f"  {float(yaw):.0f}\u00b0"
+        ax.text(cx, cz + jitter, label,
                 fontsize=5.8, color="#0d1218", ha="center", va="center", zorder=7)
         drawn["parcels"] += 1
 
@@ -293,6 +301,10 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         if not dr.get("thresholdUV"):
             continue
         cx, cz = to_m([dr["thresholdUV"]])[0]
+        # the threshold sits ON the parcel outline, so show it as a dot on the
+        # edge and let the arrow read as the way out of that wall
+        ax.plot(cx, cz, marker="o", markersize=3.2, color="#ff8f5e",
+                markeredgecolor="#0d1218", markeredgewidth=0.4, zorder=8)
         facing = math.radians(float(dr.get("facingDeg", 0.0)))
         # facingDeg is a compass bearing: 0 = north (−Z), clockwise.
         dx, dz = math.sin(facing) * 6.0, -math.cos(facing) * 6.0

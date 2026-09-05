@@ -150,23 +150,113 @@
         "use": "work",
         "buildingFamily": "works-tapping-stage",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
-        "groundFit": "pad",
+        "groundFit": "stilt",
+        "centreUV": [
+          0.473289062,
+          0.594425456
+        ],
+        "yawDeg": 316.0,
+        "orientationWhy": "Turned so the scaffold's one unrailed face looks along bearing 136 to the Hist trunk, where the tap lines run. The three railed faces stand outward.",
         "footprint": [
           [
-            0.473037,
-            0.594164
+            0.473012683,
+            0.59443406
           ],
           [
-            0.473541,
-            0.594164
+            0.473008073,
+            0.594423429
           ],
           [
-            0.473541,
-            0.594687
+            0.473010191,
+            0.594411956
           ],
           [
-            0.473037,
-            0.594687
+            0.473285303,
+            0.594146284
+          ],
+          [
+            0.473296842,
+            0.594144567
+          ],
+          [
+            0.473307306,
+            0.594149545
+          ],
+          [
+            0.473565441,
+            0.594416852
+          ],
+          [
+            0.473570051,
+            0.594427483
+          ],
+          [
+            0.473567933,
+            0.594438956
+          ],
+          [
+            0.473292821,
+            0.594704628
+          ],
+          [
+            0.473281282,
+            0.594706345
+          ],
+          [
+            0.473270818,
+            0.594701367
+          ]
+        ]
+      },
+      {
+        "id": "parcel.sap-tapping-licensed.stage-deck",
+        "districtId": "district.sap-tapping-licensed.stage",
+        "use": "work",
+        "buildingFamily": "works-tapping-stage",
+        "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
+        "groundFit": "stilt",
+        "centreUV": [
+          0.473289062,
+          0.594425456
+        ],
+        "yawDeg": 316.0,
+        "orientationWhy": "The deck carries the same bearing as the footing beneath it, so the matched three-sided rails line up and the open face stays toward the trunk.",
+        "footprint": [
+          [
+            0.472953436,
+            0.594421516
+          ],
+          [
+            0.473034542,
+            0.594335651
+          ],
+          [
+            0.473198539,
+            0.594171625
+          ],
+          [
+            0.473239546,
+            0.594130139
+          ],
+          [
+            0.473292127,
+            0.594085019
+          ],
+          [
+            0.473296871,
+            0.594087979
+          ],
+          [
+            0.473630341,
+            0.59443525
+          ],
+          [
+            0.473346889,
+            0.594739141
+          ],
+          [
+            0.473302013,
+            0.594782478
           ]
         ]
       },
@@ -176,23 +266,61 @@
         "use": "work",
         "buildingFamily": "works-scaffold-stair",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
-        "groundFit": "pad",
+        "groundFit": "stilt",
+        "centreUV": [
+          0.473668799,
+          0.594642449
+        ],
+        "yawDeg": 30.0,
+        "orientationWhy": "The flight is set on bearing 300 to the stage so the climb starts on the landward side at the head of the track, never over the water.",
         "footprint": [
           [
-            0.473425,
-            0.594408
+            0.473586347,
+            0.594345849
           ],
           [
-            0.473913,
-            0.594408
+            0.473595973,
+            0.594337313
           ],
           [
-            0.473913,
-            0.594877
+            0.473607585,
+            0.594336187
           ],
           [
-            0.473425,
-            0.594877
+            0.47397873,
+            0.594550468
+          ],
+          [
+            0.473983562,
+            0.594561087
+          ],
+          [
+            0.473980982,
+            0.594573692
+          ],
+          [
+            0.473765345,
+            0.594947186
+          ],
+          [
+            0.473755719,
+            0.594955722
+          ],
+          [
+            0.473744107,
+            0.594956848
+          ],
+          [
+            0.473372962,
+            0.594742567
+          ],
+          [
+            0.473368131,
+            0.594731948
+          ],
+          [
+            0.47337071,
+            0.594719343
           ]
         ]
       },
@@ -203,22 +331,60 @@
         "buildingFamily": "works-stock-line",
         "assetRef": "vanilla:clutter/horsetrough/horsetrough01",
         "groundFit": "pad",
+        "centreUV": [
+          0.473587427,
+          0.595374801
+        ],
+        "yawDeg": 253.0,
+        "orientationWhy": "The trough's long axis lies on bearing 343, along the track, so a tied line of mules stands beside the path rather than across it.",
         "footprint": [
           [
-            0.473316,
-            0.595239
+            0.473580711,
+            0.595505908
           ],
           [
-            0.473859,
-            0.595239
+            0.473512799,
+            0.595288418
           ],
           [
-            0.473859,
-            0.595511
+            0.47350923,
+            0.595276745
           ],
           [
-            0.473316,
-            0.595511
+            0.473508545,
+            0.595269864
+          ],
+          [
+            0.473515137,
+            0.595263594
+          ],
+          [
+            0.473578687,
+            0.595244165
+          ],
+          [
+            0.473594143,
+            0.595243694
+          ],
+          [
+            0.47359454,
+            0.595244991
+          ],
+          [
+            0.473663352,
+            0.595460788
+          ],
+          [
+            0.473666524,
+            0.595471163
+          ],
+          [
+            0.47366721,
+            0.595478045
+          ],
+          [
+            0.473666309,
+            0.595479738
           ]
         ]
       },
@@ -229,22 +395,80 @@
         "buildingFamily": "works-graded-stock",
         "assetRef": "vanilla:clutter/carts/handcart01",
         "groundFit": "plinth",
+        "centreUV": [
+          0.473044944,
+          0.595442611
+        ],
+        "yawDeg": 29.0,
+        "orientationWhy": "The cart's shafts point on bearing 29 toward the head of the track, so the season's stock is pulled out without turning it.",
         "footprint": [
           [
-            0.472869,
-            0.595266
+            0.47297126,
+            0.595390913
           ],
           [
-            0.473221,
-            0.595266
+            0.473097953,
+            0.595223894
           ],
           [
-            0.473221,
-            0.595619
+            0.473100983,
+            0.595224023
           ],
           [
-            0.472869,
-            0.595619
+            0.473102827,
+            0.595223495
+          ],
+          [
+            0.473200092,
+            0.59527741
+          ],
+          [
+            0.473199435,
+            0.595278596
+          ],
+          [
+            0.473201149,
+            0.595281097
+          ],
+          [
+            0.473127833,
+            0.595477703
+          ],
+          [
+            0.473118628,
+            0.595494309
+          ],
+          [
+            0.473083496,
+            0.59553531
+          ],
+          [
+            0.473059529,
+            0.595542182
+          ],
+          [
+            0.473022758,
+            0.5955218
+          ],
+          [
+            0.472976497,
+            0.595496157
+          ],
+          [
+            0.472967008,
+            0.595490897
+          ],
+          [
+            0.472951588,
+            0.59548235
+          ],
+          [
+            0.472948931,
+            0.595459168
+          ],
+          [
+            0.472962055,
+            0.595407519
           ]
         ]
       },
@@ -255,22 +479,68 @@
         "buildingFamily": "argonian-mud-tent",
         "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent01",
         "groundFit": "plinth",
+        "centreUV": [
+          0.475214875,
+          0.595917284
+        ],
+        "yawDeg": 135.0,
+        "orientationWhy": "The tent's open end looks south-west on bearing 225, down the track. Its blind back wall stands toward the channel, so a passing boat reads nothing of the camp.",
         "footprint": [
           [
-            0.474659,
-            0.595443
+            0.475783552,
+            0.595693841
           ],
           [
-            0.475771,
-            0.595443
+            0.475758618,
+            0.595843442
           ],
           [
-            0.475771,
-            0.596392
+            0.475661761,
+            0.595955643
           ],
           [
-            0.474659,
-            0.596392
+            0.475226383,
+            0.596245256
+          ],
+          [
+            0.475198572,
+            0.596250051
+          ],
+          [
+            0.475179393,
+            0.596248133
+          ],
+          [
+            0.474941565,
+            0.596209774
+          ],
+          [
+            0.474810184,
+            0.596183881
+          ],
+          [
+            0.474783333,
+            0.596170456
+          ],
+          [
+            0.474706614,
+            0.595984413
+          ],
+          [
+            0.474707573,
+            0.595970028
+          ],
+          [
+            0.474949237,
+            0.595651646
+          ],
+          [
+            0.475277209,
+            0.595323673
+          ],
+          [
+            0.475279127,
+            0.595323673
           ]
         ]
       },
@@ -281,22 +551,100 @@
         "buildingFamily": "argonian-plank-walk",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianbridge",
         "groundFit": "stilt",
+        "centreUV": [
+          0.472434651,
+          0.593950784
+        ],
+        "yawDeg": 228.0,
+        "orientationWhy": "The plank walk runs on bearing 318, square across the reed margin, so it crosses the soft ground by the shortest line and meets the landing squarely.",
         "footprint": [
           [
-            0.472666,
-            0.594209
+            0.473038406,
+            0.594524034
           ],
           [
-            0.472882,
-            0.594371
+            0.472933689,
+            0.594616497
           ],
           [
-            0.472204,
-            0.593693
+            0.472848723,
+            0.594680225
           ],
           [
-            0.471987,
-            0.59353
+            0.472839046,
+            0.594681639
+          ],
+          [
+            0.472837131,
+            0.594681538
+          ],
+          [
+            0.4727726,
+            0.594611896
+          ],
+          [
+            0.471823376,
+            0.593557676
+          ],
+          [
+            0.47176086,
+            0.593486218
+          ],
+          [
+            0.471760961,
+            0.593484303
+          ],
+          [
+            0.471763378,
+            0.593474827
+          ],
+          [
+            0.471825857,
+            0.593382071
+          ],
+          [
+            0.471837951,
+            0.593371182
+          ],
+          [
+            0.471920596,
+            0.593296768
+          ],
+          [
+            0.47193269,
+            0.593285878
+          ],
+          [
+            0.472017459,
+            0.593244227
+          ],
+          [
+            0.472028043,
+            0.593243821
+          ],
+          [
+            0.472029959,
+            0.593243921
+          ],
+          [
+            0.472217096,
+            0.593429464
+          ],
+          [
+            0.472929467,
+            0.594220632
+          ],
+          [
+            0.473106229,
+            0.594439241
+          ],
+          [
+            0.473106129,
+            0.594441156
+          ],
+          [
+            0.473104619,
+            0.594451641
           ]
         ]
       }
@@ -310,7 +658,8 @@
           0.595375
         ],
         "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histtree",
-        "notes": "The licensed tree. Measured bounds 64.0 x 45.3 m across the crown, 53.6 m tall, 17073 tris. The stage stands 9.8 m off the trunk centre on the channel face; trunk clearance is verified against the geometry at Round B before the stage is fixed."
+        "notes": "The licensed tree. Measured bounds 64.0 x 45.3 m across the crown, 53.6 m tall, 17073 tris. The stage stands 9.8 m off the trunk centre on the channel face; trunk clearance is verified against the geometry at Round B before the stage is fixed. Yaw 121 lays the crown's long axis (64.0 m) on bearing 211, across the channel, so the deepest shade falls over the stage and the landing rather than along the water.",
+        "yawDeg": 121.0
       },
       {
         "id": "landmark.sap-tapping-licensed.root-flare",
@@ -320,7 +669,8 @@
           0.594913
         ],
         "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histroots03",
-        "notes": "Root flare from the same author's set, laid between the trunk and the stage footing; 9.56 x 2.54 m, 4.71 m high."
+        "notes": "Root flare from the same author's set, laid between the trunk and the stage footing; 9.56 x 2.54 m, 4.71 m high. Yaw 46 lays its 9.56 m axis on the trunk-to-stage line (bearing 136), which is the line that a flare out of the root plate would follow.",
+        "yawDeg": 46.0
       }
     ],
     "docks": [
@@ -331,7 +681,9 @@
           0.593476
         ],
         "waterBodyId": "water.channel.licensed-stage",
-        "piledToBed": true
+        "piledToBed": true,
+        "yawDeg": 138.0,
+        "notes": "The landing faces bearing 138, back up the plank walk, so a poled canoe comes alongside with the channel's run and unloads toward the camp."
       }
     ],
     "combatSpaces": [
@@ -402,54 +754,55 @@
       {
         "id": "door.hist-heartland.sap-tapping-licensed.1",
         "parcelId": "parcel.sap-tapping-licensed.dwelling",
-        "facingDeg": 250,
+        "facingDeg": 225,
         "thresholdUV": [
-          0.4747,
-          0.595917
+          0.474767989,
+          0.596205938
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the licensed tapper"
-        }
+        },
+        "notes": "The door is the tent's open, tapered end (its local +x); the flat back wall stands opposite, to the channel."
       }
     ],
     "clearance": {
       "hardClear": [
         [
           [
-            0.472808,
-            0.593971
+            0.472814,
+            0.593964
           ],
           [
-            0.473824,
-            0.593971
+            0.474076,
+            0.593964
           ],
           [
-            0.473824,
-            0.594989
+            0.474076,
+            0.595049
           ],
           [
-            0.472808,
-            0.594989
+            0.472814,
+            0.595049
           ]
         ],
         [
           [
             0.474577,
-            0.595361
+            0.595239
           ],
           [
-            0.475852,
-            0.595361
+            0.475879,
+            0.595239
           ],
           [
-            0.475852,
-            0.596473
+            0.475879,
+            0.596351
           ],
           [
             0.474577,
-            0.596473
+            0.596351
           ]
         ],
         [
@@ -591,7 +944,7 @@
             4391.8
           ],
           "chosen": true,
-          "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330) — the only water within 250 m that a loaded canoe can be poled along. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
+          "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
         },
         {
           "id": "candidate.sap-tapping-licensed.c-east-shelf",
@@ -599,8 +952,8 @@
             3580.6,
             4361.8
           ],
-          "why": "Slope 2.75 deg, 10.3 m to shore, 3.98 m above the water table, canopy closure 0.99 — the most concealed of the three and the closest to the plotted point (67 m).",
-          "rejectedBecause": "The water at 10 m measures 0.4 m deep: a wading margin, not a channel. A licence hung to be read from the water reads to nobody, and the extraction route fails."
+          "why": "Slope 2.75 deg, 10.3 m to shore, 3.98 m above the water table, canopy closure 0.99. This is the most concealed of the three and the closest to the plotted point (67 m).",
+          "rejectedBecause": "The water at 10 m measures 0.4 m deep: a wading margin, not a channel. A licence hung to be read from the water reads to nobody. The extraction route fails as well."
         },
         {
           "id": "candidate.sap-tapping-licensed.d-west-flat",
@@ -609,7 +962,7 @@
             4376.8
           ],
           "why": "The flattest ground in the neighbourhood (slope 0.90 deg, delta 1.9 m across 20 m) and 10.3 m from water on the far bank of the same channel system.",
-          "rejectedBecause": "Only 0.32 m above the water table, and canopy closure drops to 0.77. The season's stock would stand in a wet-season hazard, and the camp would be visible on the open bank from both directions rather than from one track."
+          "rejectedBecause": "Only 0.32 m above the water table. Canopy closure drops to 0.77. The season's stock would stand in a wet-season hazard. The camp would be visible on the open bank from both directions rather than from one track."
         }
       ]
     },

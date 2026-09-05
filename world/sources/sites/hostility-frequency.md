@@ -7,10 +7,10 @@ Places only (roaming creatures and encounter sockets are Phase 13 and add to eve
 | band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|
 | D1 | 0.25 | 13 | 52.1 | 1 | **4.0** | 6 | 6 | 3.3/0.5/0.1/0 | 66 | 60 | 3 |
-| D2 | 3.28 | 113 | 34.4 | 45 | **13.7** | 13 | 21 | 10.3/2.9/3.3/0 | 116 | 143 | 5 |
-| D3 | 16.43 | 290 | 17.6 | 169 | **10.3** | 8 | 52 | 7.6/3.5/15.4/0 | 185 | 143 | 78 |
-| D4 | 6.45 | 89 | 13.8 | 60 | **9.3** | 7 | 11 | 7.5/1.9/3.0/0 | 69 | 180 | 37 |
-| D5 | 4.7 | 62 | 13.2 | 45 | **9.6** | 4 | 7 | 5.7/1.5/0.6/0 | 32 | 242 | 26 |
+| D2 | 3.28 | 113 | 34.4 | 45 | **13.7** | 13 | 21 | 10.3/2.9/3.3/0 | 117 | 142 | 5 |
+| D3 | 16.43 | 290 | 17.6 | 169 | **10.3** | 8 | 52 | 7.6/3.5/15.5/0 | 185 | 144 | 78 |
+| D4 | 6.45 | 89 | 13.8 | 60 | **9.3** | 7 | 11 | 7.5/1.9/3.0/0 | 67 | 185 | 37 |
+| D5 | 4.7 | 62 | 13.2 | 45 | **9.6** | 4 | 7 | 5.7/1.5/0.6/0 | 33 | 235 | 26 |
 
 ## Sparse ground (D3–D5)
 
@@ -24,7 +24,7 @@ Share of sampled land cells with no hostile place within 350 m, and the gap poin
 |---|---:|---:|---:|
 | D3 | 345 | 724 | 493 |
 | D3 | 5341 | 515 | 453 |
-| D3 | 2418 | 1519 | 416 |
+| D3 | 2374 | 1519 | 417 |
 | D3 | 384 | 4666 | 415 |
 | D3 | 570 | 3608 | 398 |
 | D3 | 784 | 2429 | 370 |
@@ -140,8 +140,8 @@ Share of sampled land cells with no hostile place within 350 m, and the gap poin
 | `route.boat.alten-corimont-helstrom` | boat | 3.45 | 16 | 216 |
 | `route.road.gideon-soulrest` | road | 5.4 | 28 | 193 |
 | `route.road.archon-gideon` | road | 5.45 | 29 | 188 |
-| `route.road.helstrom-blackrose` | road | 5.1 | 28 | 182 |
 | `track.dunmer-north.the-field-gate-garrison` | track | 1.8 | 10 | 180 |
+| `route.road.helstrom-blackrose` | road | 5.1 | 29 | 176 |
 | `route.road.gideon-blackwood-road` | road | 1.75 | 10 | 175 |
 | `route.boat.blackrose-lilmoth` | boat | 3.1 | 18 | 172 |
 | `route.road.soulrest-blackrose` | road | 2.1 | 14 | 150 |

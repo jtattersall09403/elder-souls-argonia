@@ -22,9 +22,9 @@ measured water depth of 0.00 m. A wamasu pond has to be sited on real water,
 so the meso pass moved it.
 
 The place already owns a compiled poling lane,
-`waterway.naga-kur-deeps.wamasu-pond-adult` (channel, 0.186 km, running from
-2499.9, 4555.7 to 2620.5, 4659.8). That lane is the detour the record
-describes, and every candidate below is measured against it.
+`waterway.naga-kur-deeps.wamasu-pond-adult` (channel, 0.186 km, running
+from 2499.9, 4555.7 to 2620.5, 4659.8). That lane is the detour the record
+describes; every candidate below is measured against it.
 
 ## Candidate sitings
 
@@ -43,20 +43,20 @@ describes, and every candidate below is measured against it.
 | canopy closure | 0.63 | 0.82 | 0.91 |
 | region class | lake & standing water | rootland deep marsh | rootland deep marsh |
 
-**`candidate.wamasu-pond-adult.pan` wins.** It is the only closed body of standing water within 300 m
+**`candidate.wamasu-pond-adult.pan` wins.** It is the sole closed body of standing water within 300 m
 of the plot; a flood fill from either of the other water bodies within 600 m
 runs out to the ocean, which makes them tidal channels rather than a held
 pond. The record's whole premise is still, avoided water that one animal can
-own, and only an isolated pan delivers that. It also sits 69 m from the
-plotted position, so the macro plot is barely disturbed; it keeps the lane at
-the same 156 m, so the detour still runs past for its whole length; its rim
+own. Only an isolated pan delivers that. It also sits 69 m from the
+plotted position, so the macro plot is barely disturbed; it keeps the lane
+at the same 156 m, so the detour still runs past for its whole length; its rim
 slopes of 1–4 deg give buildable bank without grading; and its canopy closure
 of 0.63 against 0.82 leaves a genuine hole in the canopy for the standing dead
 trees and for a lightning silhouette to be read from below.
 
-`candidate.wamasu-pond-adult.lane-head` was the tempting one — real depth, and on the lane — but a
-pond that sits *on* the through route is a blockage, not a hazard traffic is
-drawn around, and its water is the estuary at flood band 3.
+`candidate.wamasu-pond-adult.lane-head` was the tempting one, with real depth beside the lane. A
+pond that sits *on* the through route is a blockage rather than
+a hazard around which traffic is drawn. Its water is also the estuary at flood band 3.
 
 **The pond is too shallow as found (0.30 m).** That is a terrain request, not
 a reason to re-site: see "catalogue record should change" below.
@@ -72,8 +72,8 @@ then a totem, then the bone chime, then three grave-cairns stepped up the bank
 to the 10 m line. One lantern, maintained; nothing else on the bank is.
 
 **`district.wamasu-pond-adult.stand` — the knoll** (kit set `neutral-works`, 28 x 18 m). A rise
-north-west of the pond at 11.61 m, 2.4 m above the water and 22 m back from
-it, slope 2.8 deg. The hunter's abandoned stand is on it. From the deck the
+north-west of the pond at 11.61 m, 2.4 m above the water and 22 m back
+from it, slope 2.8 deg. The hunter's abandoned stand is on it. From the deck the
 whole pan is in view; that is the point of the piece and the reason the
 evidence socket is up there.
 
@@ -93,34 +93,62 @@ fraction 0.4, one entrance, no exterior shell. There is no door record, because
 there is no building.
 
 **The fight ground.** `combat.wamasu-pond-adult.pond` is 46 x 44 m over the pan and its rim,
-clearance class open, and it is also the hard-clear polygon: nothing but the
+clearance class open; it is also the hard-clear polygon: nothing but the
 three kept dead trees stands inside it. The wamasu build is a large rigged
 actor (below) with a body of roughly 5 m; the space gives it room to turn,
-charge and be circled, and the shallow water means the fight is fought *in*
+charge and be circled. The shallow water means the fight is fought *in*
 the pond rather than around it. `combat.wamasu-pond-adult.bank-shelf` (30 x 18 m, class broken) is
-the deliberate opposite: the cairn steps and offerings are bad ground to fight
-on and good ground to run through.
+the deliberate opposite: the cairn steps and offerings are bad ground for fighting
+and good ground for a retreat.
 
-**Approach and reveal.** The player meets the pole line first, on the water,
+**Approach and reveal.** A visitor meets the pole line first, on the water,
 and follows it; the pond is screened by the bank rise until roughly 40 m out,
 at which point the dead crowns and the cairn line come over the rim together.
 The dossier's concealment figure for the neighbourhood is 0.67, so this is not
 a place seen from far off — it is a place the poles announce.
 
+## Orientation and footprints
+
+Both parcels are authored as centre, piece, bearing and reason; the `footprint`
+polygon in the blueprint is derived from the piece's measured ground hull
+by `worldgen.blueprint_footprints --apply` and is never typed by hand. Bearings are
+degrees clockwise from north.
+
+| Parcel | centreUV | Piece | yawDeg | Why that bearing | Derived footprint |
+|---|---|---|---|---|---|
+| `parcel.wamasu-pond-adult.hunters-stand` | 0.331464, 0.592800 | `stockadescaffoldbase3sided01` | 146 | The open, unrailed face looks straight down the 146 deg line from the knoll to the centre of the pan, which leaves the three railed sides and the ramp on the landward flank | 12-vertex hull, 3.70 x 3.84 m, 9.04 m² |
+| `parcel.wamasu-pond-adult.offering-platform` | 0.335254, 0.600257 | `argonianplatform` | 345 | Square to the south waterline, so the deck's long axis runs out toward the water and the offerings laid on it face the pan, as the bank's practice requires | 16-vertex hull, 2.79 x 2.68 m, 7.27 m²; the pivot sits at the landward end, so the deck reaches into the shallows |
+
+The offering platform's hull is asymmetric about its pivot (local x from -0.12 m
+to 2.67 m), which is why its bearing decides where the deck lies and not merely
+how it is turned.
+
+Four landmarks carry a bearing of their own, each with the reason recorded
+in its `notes`: the cave mouth at 93 deg (due east along the waterline, the one
+line a swimmer can enter it on being that line), the totem at 337 deg (face
+to the water, standing behind the platform), the bone chime at 317 deg (frame
+broadside across the bank walk, so the empty drum ring is read against the
+water) and the bank lantern at 334 deg (hood to the bank, light thrown over the
+water rather than up the cairn steps). The dead trees and the three cairns carry
+no bearing, because none of them has a front. The two detour poles are round
+in plan and are repeated by the compiler along `route.wamasu-pond-adult.detour`,
+whose own bearing runs 166 deg at the landing and 184 deg at the lane head, so
+the line follows the lane without any authored facing.
+
 ## Asset picks (measured, `sizeM` x/y/height in metres)
 
 | Role | Asset | sizeM | Why |
 |---|---|---|---|
-| Hunter's stand footing | `vanilla:clutter/stockade/stockadescaffoldbase3sided01` | 3.70 x 3.84 x 2.73 | 3 railed faces, open toward the water |
+| Hunter's stand footing | `vanilla:clutter/stockade/stockadescaffoldbase3sided01` | 3.70 x 3.84 x 2.73 | 3 railed faces, open toward the water; measured ground hull 9.04 m², 12 vertices |
 | Stand deck | `vanilla:clutter/stockade/stockadescaffoldtop3sided01` | 3.54 x 3.77 x 0.96 | matching side count, per the kit's own snap rule |
 | Stand access | `vanilla:clutter/stockade/stockadescaffoldramp01` | 3.52 x 3.87 x 3.27 | landward side |
 | Stand prop | `vanilla:clutter/stockade/stockadescaffoldbasesupport01` | 1.92 x 2.95 x 2.72 | under the deck overhang |
-| Offering platform | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 x 2.68 x 0.35 | a low authored Argonian deck at the waterline |
+| Offering platform | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 x 2.68 x 0.34 | a low authored Argonian deck at the waterline; measured ground hull 7.27 m², 16 vertices, pivot at the landward end |
 | Totem | `mudmother:gv_meshes/argoniannest/argoniantotem01` | 0.75 x 0.49 x 1.95 | |
 | Bone chime | `mudmother:gv_meshes/argoniannest/argonianbonechime01` | 2.18 x 0.38 x 1.41 | the "drum frame with no drum in it" |
 | Cairns (3) | `rockcairn01` / `03` / `04` (`histtree:` set) | 2.49 x 2.51 x 2.65 · 1.75 x 2.60 x 2.56 · 1.39 x 1.88 x 2.56 | stepped up the bank, largest lowest |
 | Lantern | `mudmother:gv_meshes/argoniannest/argonianlanterns02` | 0.66 x 0.64 x 2.71 | the one maintained light |
-| Detour poles | `htbm:.../kothringi/tamu_woodpole01` | 0.23 x 0.22 x 1.92 | repeated at 12 m along `route.wamasu-pond-adult.detour` |
+| Detour poles | `htbm:.../kothringi/tamu_woodpole01` | 0.23 x 0.22 x 1.92 | repeated every 12 m along the detour route `route.wamasu-pond-adult.detour` |
 | Dead trees (3) | `bmv:landscape/trees/cypress1`, `cypress3`, `treewillow03a` | 20.2 x 22.7 x 32.0 · 24.8 x 22.2 x 26.5 · 11.6 x 10.2 x 17.2 | the tallest species in the local scatter, stripped by the material pass |
 
 The stand is the vanilla stockade-scaffold snap chain and only that chain,
@@ -129,18 +157,18 @@ matching deck, ramp, support. No set is blended across districts.
 
 **Ground fit.** The stand is `plinth`: terrain delta across its 3.70 x 3.84 m
 footprint at 2.8 deg is roughly 0.19 m, inside the 0.15–0.6 m band. The
-offering platform is `direct` at 0.8 deg. Nothing here needs grading and
-nothing approaches the 2.0 m never-grade line.
+offering platform is `direct` at 0.8 deg. No parcel here needs grading and
+none approaches the 2.0 m never-grade line.
 
-**Budget** (declared, and the compiler agrees): 420 instances, 14 unique
+**Budget** (declared; the compiler agrees): 420 instances, 14 unique
 materials, 24 MB textures, 120 colliders. The compile reports 3 placements,
 1250 triangles, 0 errors. This is a small place and its budget should stay
 small — the cost here is the creature and the water volume, not the props.
 
 ## What Phases 13 and 9 must deliver
 
-- **The animal (Phase 13).** The adult wamasu is the armoured daedroth build on
-  the vanilla werewolfbeast rig — the same decision 0030 took for the Xal-Krona
+- **The animal (Phase 13).** The adult wamasu is the armoured daedroth build
+  on the vanilla werewolfbeast rig — the same decision 0030 took for the Xal-Krona
   boss (`docs/research/creature-asset-availability.md`). The rig exists in the
   vault; **there is no sourcing gap**. Mihail's dedicated Wamasu mod stays
   deferred, needing a skeleton conversion spike and a replacement for audio
@@ -175,7 +203,7 @@ small — the cost here is the creature and the water volume, not the props.
    permitted `sitingPrefs.regionClasses`), `distanceToRouteM` 278,
    `distanceToWaterM` 0, `landform` reads as a pan rather than shallow marsh.
 2. **Add a `terrainRequests` entry**: `{kind: "pool", radiusM: 30, note: "the
-   pan must hold 2.5 m of standing water over a floor the player can dive to,
+   pan must hold 2.5 m of standing water over a floor to which a diver can descend,
    or an adult wamasu has nothing to hold and the pond-floor cache has nowhere
    to lie"}`. The found depth is 0.30 m; the meso compiler carves the basin
    and the blueprint is authored against the deepened result.
@@ -185,13 +213,13 @@ small — the cost here is the creature and the water volume, not the props.
 ## Open questions for the owner
 
 1. **How deep should the pond be?** Deepening to 2.5 m makes it a swimmable
-   fight with a dive to the cache and a proper flooded cave. Leaving it at
-   knee depth makes it a wading fight where you always see the animal's whole
-   body and can always run. Deep is more frightening and more Morrowind-ish;
+   fight with a dive to the cache and a proper flooded cave. Leaving it
+   at knee depth makes it a wading fight in which the animal's whole
+   body stays visible and retreat is open. Deep is more frightening and more Morrowind-ish;
    shallow is the clearer, fairer duel. The blueprint currently assumes deep.
 2. **Should the pond be lethal or merely dangerous while the animal lives?**
-   The lore says the water is cursed "to deadly convulsions", which argues for
-   water that will kill an under-levelled player outright and turn the fight
+   The lore says the water is cursed "to deadly convulsions", which argues
+   for water that will kill an under-levelled player outright and turn the fight
    into a bank fight with a swim as the risk. The gentler reading is heavy
    damage over time, so a strong swimmer can still take the cache mid-fight.
    This sets how every one of the 38 beast lairs handles environmental danger.
@@ -203,5 +231,5 @@ small — the cost here is the creature and the water volume, not the props.
 4. **Whose side is the place on?** As drafted, the offering-makers are right:
    the bank is tended and the hunter who built the stand failed. The record
    also allows the reverse reading, in which the offerings are a superstition
-   and the stand is simply old. The first gives the player a moral choice in
-   LN05; the second keeps the lair a clean hunt.
+   and the stand is simply old. The first offers a moral choice
+   in LN05; the second keeps the lair as a clean hunt.

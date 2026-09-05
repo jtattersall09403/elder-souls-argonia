@@ -1,0 +1,26 @@
+{
+  "id": "probe-gapfill",
+  "description": "Phase 11 Part 6 sourcing-gap probe (throwaway): measures the stand-alone trunk-column candidates (Tropical Skyrim's Anvil trunk-only pieces, BM&V bark/log/stump pieces, the Mud Mother Grove Hist tree) and the Argonian underwater-shrine focal candidates (HTBM's Xanmeer serpent-sigil and totem statics) so the pick is made on measured geometry, not on labels. Not a shipping kit.",
+  "output": "tooling/asset-pipeline/output/kits/probe-gapfill.glb",
+  "lodRatios": [0.35],
+  "assets": [
+    {"asset": "tropical:landscape/trees/anvilgianttrunk"},
+    {"asset": "tropical:landscape/trees/anvil_palm_trunk"},
+    {"asset": "tropical:landscape/trees/anvil_root01"},
+    {"asset": "bmv:landscape/trees/vurt1bark"},
+    {"asset": "bmv:landscape/trees/vurt2bark"},
+    {"asset": "bmv:landscape/trees/gkbtreeaspenlog1"},
+    {"asset": "bmv:landscape/trees/treepinestump"},
+    {"asset": "mudmother:gv_meshes/argoniannest/histtree"},
+    {"asset": "bmv:architecture/citebosmer/trees/treegiantrootbase01"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstone"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentstatue"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/statuegoddess"},
+    {"asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem01"}
+  ],
+  "inspect": true
+}

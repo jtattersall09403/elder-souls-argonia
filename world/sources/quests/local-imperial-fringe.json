@@ -20,7 +20,7 @@
       "anchorPlaces": [
         "place.imperial-fringe.gideon"
       ],
-      "premise": "The certified copy of a land grant goes missing from the Records Court the week its hearing is listed",
+      "premise": "The certified copy of a land grant goes missing from the Records Court in the week when its hearing is listed",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1152,7 +1152,7 @@
         "place.imperial-fringe.glenbridge",
         "place.imperial-fringe.the-sermon-road-camp"
       ],
-      "premise": "The pilgrim camp a mile short of the shrine has become a village the shrine will not feed",
+      "premise": "The pilgrim camp a mile short of the shrine has become a village that the shrine will not feed",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1474,7 +1474,7 @@
         "place.imperial-fringe.stonewastes",
         "place.imperial-fringe.the-leaning-watch"
       ],
-      "premise": "An abandoned watchtower lights its basket on the nights the village has a death",
+      "premise": "An abandoned watchtower lights its basket on the nights when the village has a death",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1687,7 +1687,7 @@
       "anchorPlaces": [
         "place.imperial-fringe.swampmoth-town"
       ],
-      "premise": "A body is found on the street at the hour the fort's shadow crosses it, for the third month running",
+      "premise": "A body is found on the street at the hour when the fort's shadow crosses it, for the third month running",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1714,7 +1714,7 @@
         "place.imperial-fringe.ashen-tower",
         "place.imperial-fringe.swampmoth-town"
       ],
-      "premise": "The signal tower's fire code is being answered from a station the code does not list",
+      "premise": "The signal tower's fire code is being answered from a station that the code does not list",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1979,7 +1979,7 @@
         "place.imperial-fringe.fenmarch-village",
         "place.imperial-fringe.the-kept-terrace"
       ],
-      "premise": "Someone has been tapping the westernmost Hist at night, in a way the tree's people can taste",
+      "premise": "Someone has been tapping the westernmost Hist at night, in a way that the tree's people can taste",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2293,7 +2293,7 @@
         "place.imperial-fringe.lowmere-raft-town",
         "place.imperial-fringe.rufios-landing"
       ],
-      "premise": "A Lowmere household's raft keeps drifting to a landing the town abandoned to crocodiles",
+      "premise": "A Lowmere household's raft keeps drifting to a landing that the town abandoned to crocodiles",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

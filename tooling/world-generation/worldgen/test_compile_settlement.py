@@ -48,13 +48,19 @@ def test_corrected_blueprint_compiles_clean(survey, shelf):
     assert result["errors"] == []
     assert all(d["reachable"] for d in result["doors"])
     assert result["budgetReport"]["withinBudget"]
-    # every placement carries provenance and a grid-snapped position
+    # every placement carries provenance, and sits at its parcel's AUTHORED
+    # centre and yaw (no grid snap since 2026-09-05: the author states why the
+    # building faces where it does, and snapping would overrule it)
+    parcels = {p["id"]: p for p in _corrected(_blueprint())["parcels"]}
     for p in result["placements"]:
         assert p["provenance"]["sourceBlueprintId"] == result["id"]
-        if p["kit"]:
-            for coord in (p["positionM"][0], p["positionM"][2]):
-                mod = coord % cs.GRID_M
-                assert min(mod, cs.GRID_M - mod) < 1e-6
+        parcel = parcels.get(p.get("parcelId"))
+        if parcel is None:
+            continue
+        cx, cz = survey.uv_to_m(*parcel["centreUV"])
+        assert abs(p["positionM"][0] - cx) < 1e-3
+        assert abs(p["positionM"][2] - cz) < 1e-3
+        assert p["yawDeg"] == parcel["yawDeg"]
 
 
 def test_deterministic(survey, shelf):

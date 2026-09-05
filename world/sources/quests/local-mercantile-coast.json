@@ -238,7 +238,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.naga-village-oliis"
       ],
-      "premise": "The road escorts Lilmoth pays for have started splitting the Naga toll rather than breaking it",
+      "premise": "The road escorts for which Lilmoth pays have started splitting the Naga toll rather than breaking it",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -594,7 +594,7 @@
         "place.mercantile-coast.ixtaxh-xanmeer",
         "place.mercantile-coast.lilmoth"
       ],
-      "premise": "A survey party has gone into the xanmeer the An-Xileel pumped dry, to see how far the returning silt has taken it",
+      "premise": "A survey party has gone into the xanmeer pumped dry by the An-Xileel, to see how far the returning silt has taken it",
       "costTier": "L",
       "milestone": 2,
       "touches": [],
@@ -707,7 +707,7 @@
         "place.mercantile-coast.lilmoth-divers-yard",
         "place.mercantile-coast.villa-cellars"
       ],
-      "premise": "A drowned villa is stripped clean before its living heirs can lodge a claim, on a route the yard had not licensed",
+      "premise": "A drowned villa is stripped clean before its living heirs can lodge a claim, on a route which the yard had not licensed",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -734,7 +734,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.naga-village-oliis"
       ],
-      "premise": "Escort contracts are being written for journeys the convoys did not make, over the Naga camp's own signatures",
+      "premise": "Escort contracts are being written for journeys never made by the convoys, over the Naga camp's own signatures",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -762,7 +762,7 @@
         "place.mercantile-coast.lilmoth",
         "place.mercantile-coast.oliis-air-station"
       ],
-      "premise": "The slate at Breathing-Stone lists a diver who went below eleven days ago, in a hand the reef cutters do not recognise",
+      "premise": "The slate at Breathing-Stone lists a diver who went below eleven days ago, in a hand that the reef cutters do not recognise",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1396,7 +1396,7 @@
         "place.mercantile-coast.soulrest",
         "place.mercantile-coast.wraxu-stacks"
       ],
-      "premise": "A licensed buyer has offered to break the egg-takers' rules at a scale no Soulrest law covers",
+      "premise": "A licensed buyer has offered to break the egg-takers' rules at a scale beyond any Soulrest law",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -1453,7 +1453,7 @@
         "place.mercantile-coast.soulrest-breaking-yard",
         "place.mercantile-coast.soulrest-divers-yard"
       ],
-      "premise": "The breaking yard has started buying Long Bar wrecks without asking, in ironwork the divers' yard recognises",
+      "premise": "The breaking yard has started buying Long Bar wrecks without asking, in ironwork recognised by the divers' yard",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1896,7 +1896,7 @@
         "place.mercantile-coast.alten-meerhleel",
         "place.mercantile-coast.keel-sakka-stilts"
       ],
-      "premise": "A cargo must go above the last supplied bed on the Keel-Sakka, on a reach the polers have refused",
+      "premise": "A cargo must go above the last supplied bed on the Keel-Sakka, on a reach that the polers have refused",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1923,7 +1923,7 @@
         "place.mercantile-coast.alten-meerhleel",
         "place.mercantile-coast.glowfen-murkmire"
       ],
-      "premise": "The fen has begun lighting in a pattern the night pilgrims can read, which each village reads differently",
+      "premise": "The fen has begun lighting in a pattern legible to the night pilgrims, which each village reads differently",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2165,7 +2165,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.hereguard-plantation"
       ],
-      "premise": "Lilmoth depends on Hereguard rice, which gives the tenants a hold the Breton family has begun to feel",
+      "premise": "Lilmoth depends on Hereguard rice, which gives the tenants a hold now felt by the Breton family",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -2218,7 +2218,7 @@
       "anchorPlaces": [
         "place.mercantile-coast.hereguard-plantation"
       ],
-      "premise": "The estate's oldest flood channel fills a fortnight before the river does, for reasons the Breton steward cannot name",
+      "premise": "The estate's oldest flood channel fills a fortnight before the river does, for reasons that the Breton steward cannot name",
       "costTier": "M",
       "milestone": 2,
       "touches": [],

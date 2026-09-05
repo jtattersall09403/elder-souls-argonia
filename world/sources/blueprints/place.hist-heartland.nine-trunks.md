@@ -10,10 +10,10 @@ villages), so every rule below is written to generalise.
 
 ## 1. Candidate sitings
 
-Plotted position 4937.9, 3610.9 m. The signature is a ring roughly 66 m across,
-so the test each candidate had to pass was relief measured **around that ring**,
+Plotted position 4937.9, 3610.9 m. The signature is a ring of trunks, so the test
+that each candidate had to pass was relief measured **around that ring**,
 not slope at a point: nine trunk footprints have to sit inside the ground-fit
-ladder, and the compiler never grades a delta of 2 m or more.
+ladder; the compiler never grades a delta of 2 m or more.
 
 | | `candidate.nine-trunks.knoll` (chosen) | `candidate.nine-trunks.bank` | `candidate.nine-trunks.plot` |
 |---|---|---|---|
@@ -29,143 +29,128 @@ ladder, and the compiler never grades a delta of 2 m or more.
 | region · soil · danger band | fringe marsh · firm lowland · 3 | fringe marsh · firm lowland · 3 | fringe marsh · firm lowland · 3 |
 
 **Why the knoll won.** The record's stated site advantage is that *the ring
-encloses firm ground*. `candidate.nine-trunks.bank` is the flattest and the nearest to the road,
-but its shoreline runs 10 m from the centre, so the western third of a 33 m ring
-would stand in water; it cannot deliver the one thing the place is for.
-`candidate.nine-trunks.plot` carries 4.33 m of relief across the ring, which puts several trunks
-past the no-grading limit — the macro plot chose at map resolution and could not
-see it. The knoll gives 2.17 m across the whole ring, which the compiler resolves
-as one dug-in flare (the elder trunk, delta 2.27 m over its 24.6 m footprint),
-six pads and four plinths, with water inside poling reach and the road close
-enough for the catalogue's `discovery: road`. Danger band, region class, culture
+encloses firm ground*. `candidate.nine-trunks.bank` is the flattest and the
+nearest to the road, but its shoreline runs 10 m from the centre, so the western
+third of a ring would stand in water; it cannot deliver what the
+place exists to provide. `candidate.nine-trunks.plot` carries 4.33 m of relief across the
+ring, which puts several trunks past the no-grading limit — the macro plot chose
+at map resolution and could not see it. Danger band, region class, culture
 territory and landform are unchanged from the plot, so nothing derived upstream
 moves.
 
-## 2. High-level design
+**Note on the numbers above (redraft, 2026-09-05).** Those figures were measured
+over a 66 m ring, the first draft's radius. The redrafted ring is 42 m wide
+on a 21 m radius; re-measuring the knoll on that circle gives 1.78 m of relief
+(2.89 m to 4.67 m, centre 3.77 m). Every ground fit falls out as a pad or a
+plinth; nothing needs a dug-in flare. The ranking of the three candidates
+does not change; the tighter ring makes the knoll a safer choice than it was.
 
-**Layout intent.** One ring, one clearing, one gate. The nine trunks stand on a
-33 m radius at 40° spacing, so adjacent crowns overlap and the ring reads as a
-single closed mass from outside — the approach the record asks for ("a single
-mass until you are inside it, then it opens"). The gate is the one gap kept
-open, on the south-south-west arc facing the road; the road spur runs 160 m from
-the Archon–Gideon road to it. The landing sits 40 m west on the channel, with a
-short path in through the ring wall. Everything a visitor is meant to see on the
-way in — the rented pitch ground — lies **outside** the ring on the road side,
-which is the whole social point: guests pay before they are let in.
+## 2. High-level design (redrafted 2026-09-05)
 
-**Districts** (one kit set each; two-culture rule respected):
+**What changed and why the ring is now buildable.** The record's original
+intent — low houses standing *between* nine trunks — was reported in the first
+draft as unbuildable, because no kit held a bare trunk column. That gap is now
+closed: `settlement-root-v1` carries `tropical:landscape/trees/anvilgianttrunk`,
+a crownless column of 10.53 × 10.53 × 56.39 m at scale 1, base-anchored,
+with `anvil_root01` as the root-flare skirt that its own author packaged with it
+(`docs/research/settlement-kit-sourcing-log.md`, gap G1). At a uniform scale
+of 0.45 the column measures 4.74 m across and 25.4 m tall, which is the brief the
+record always described. The blueprint is therefore redrafted as the record
+reads: nine trunks in a ring, low huts in the gaps between them.
+
+**Layout intent.** One ring, one clearing, one gate. Nine trunk columns stand
+on a 21 m radius at 40° spacing, so the chord between neighbours is 14.37 m and the
+clear gap between trunk faces is 9.63 m (9.11 m either side of the elder trunk,
+which is scaled to 0.55 and stands 5.79 m across and 31 m tall). A hut
+of 5.92 × 6.47 m sits in each of those gaps with roughly 1.8 m of ground either
+side, so the wall line reads as one closed mass from outside. Eight of the nine
+gaps are built; the ninth, on the south-west arc facing the road, is the gate,
+and holds only the stick arch. The naheesh's house is the exception: it stands
+inside the ring at the foot of the elder trunk, drawn back off the wall line so
+that the elder trunk is not hidden behind a gable. Root swells lie outside the
+wall line on a 27.5 m radius, one per gap, along the ring — the ground-level
+join that makes the tribe's argument visible from the approach.
+
+**Districts** (one kit set each; the two-culture rule holds):
 
 | District | Kit set | What |
 |---|---|---|
-| `district.nine-trunks.ring` | `argonian-root` (`settlement-root-v1`, `dungeon-root-v1`) | the nine trunk-houses, the ring walkway at balcony height, the tree-minder's deck, the nest, the chime frame, the root joins |
-| `district.nine-trunks.pitch` | `argonian-mud` (`settlement-mud-v1`) | the rented pitch ground: the delegations' own coastal canvas and their drying rack |
+| `district.nine-trunks.ring` | `argonian-mud` (`settlement-mud-v1`) | eight wall huts, the naheesh's house, the tree-minder's platform, the gate arch, the nest totem, the chime frame |
+| `district.nine-trunks.pitch` | `argonian-mud` (`settlement-mud-v1`) | the rented pitch ground: two delegation shelters and a drying rack |
 
-The interior kit rule (`world/sources/lore/topics/material-culture.md` §
-`settlement-root-v1`) forbids wattle-and-daub and reed weave inland *without a
-stated reason*. The stated reason here is diegetic and is the place's whole
-premise: the canvas is not the village's, it is borrowed, brought up from
-Shadowfen and the coast by delegations and struck again each year. It therefore
-stands outside the ring, never in it, and it is the only foreign material on the
-site. This is recorded as owner question Q2 below.
+The ring is now a **mud** district, not a root district; that is the honest
+consequence of the redraft. The trunk columns and their root flares are
+*landmarks*, not parcels: no piece is attached to them and none spans
+between them; no piece is asked to do work that its author never authored. The
+dwellings are the mud kit's own low huts, the one set holding a
+house that fits a 9.63 m gap. The interior kit rule
+in `world/sources/lore/topics/material-culture.md` reads on wattle-and-daub and reed
+weave inland; the huts here are mud over a stick frame; the ring's own timber
+is the Hist, which is never cut. That reading is put to the owner as Q2.
 
-**Signature feature.** Nine trunks in one ring, root-joined at ground level, with
-the dwellings *in* the trunks rather than between them — see §4, this is where
-the geometry forced a change.
+**Signature feature.** Nine trunks in one ring, root-joined at ground level,
+with the dwellings built in the gaps between them and no dwelling standing free of a
+trunk on either side.
 
-**What is kept.** All nine trunks are `kept` vegetation of kind `hist-tree`: the
-ring is the Hist and is never cleared or thinned. A reed bed is kept at the
-landing. Hard clearance is the 27 m inner clearing, the pitch ground and a 20 m
-corridor along the road spur; everything out to 95 m is thinned rather than
-cleared, so the ring stays hidden until the approach reaches it (dossier: the
-site sees 30% of its surroundings and is seen from 14% of nearby route points).
+**What is kept.** All nine trunks are `kept` vegetation of kind `hist-tree`. Hard
+clearance is a 27 m disc over the ring, the pitch ground and a corridor along the
+road spur; everything out to 95 m is thinned rather than cleared, so that the
+ring stays hidden until the approach reaches it.
 
-**Sockets and quest needs.** Nine sockets, each on ground a quest can use:
-
-- LH51 *Pitch-Rights* — `socket.nine-trunks.pitch-ledger` (station) and `socket.nine-trunks.pitch-taker` (npc) on
-  the pitch ground, at the gate, where the rent is argued in public.
-- LH52 *One Tree or Nine* — `socket.nine-trunks.root-join` (evidence) on the first root swell and
-  `socket.nine-trunks.felling-claim` (scene) inside the ring facing the disputed trunk. The
-  dispute is literally the geometry: nine footprints, one joined canopy.
-- LH53 *Under the Overflow* — `socket.nine-trunks.delegation-baggage` (container) inside the
-  larger pitch shelter.
-- LH37 *Water Without Ceremony* — `socket.nine-trunks.empty-pitches` (mark) on the two pitches
-  the tribes who now camp at Greenspring left standing empty.
-- MQ19 *The Child of Two Hist* — `socket.nine-trunks.tree-minder` (npc) on the tree-minder's deck.
-- `quest.provision.identity-case` — `socket.nine-trunks.identity-case` (evidence) in the elder
-  trunk, the naheesh's house.
-- The catalogue's `l1` provisions cache — `socket.nine-trunks.guest-cache` (container) in the
-  clearing, "what a village keeps for guests it half-trusts".
-
-**Variants.** `variant.nine-trunks.convocation` (the one month: pitches full, chimes raised, the
-boat hourly) and `variant.nine-trunks.off-season` (the other eleven: pitches struck, chimes stacked,
-boat on request). Two of the three slots used.
+**Sockets, variants and quest needs** are unchanged from the first draft,
+with three positions moved onto the redrafted geometry: `socket.nine-trunks.root-join`
+now sits on the root swell outside the eastern gap,
+`socket.nine-trunks.identity-case` moves to the naheesh's house; the pitch
+sockets sit on the pitch ground beside the gate.
 
 ## 3. Asset picks, on measured geometry
 
-All sizes are `sizeM` [x, y, height] in metres from
-`tooling/asset-pipeline/output/kits/*.kit.json`.
+Sizes are the measured `widthM × depthM × heightM`
+from `tooling/asset-pipeline/output/kits/*.footprints.json`, before scale.
 
-| Parcel(s) | Asset | Size (m) | Tris | Ground fit (measured Δ) |
+| Object | Asset | Measured (m) | Scale | Result (m) |
 |---|---|---|---|---|
-| `parcel.nine-trunks.trunk-1` (elder) | `bmv:architecture/citebosmer/houses/housetronc001` | 24.63 × 24.63 × 55.55 | 5516 | dug-in (2.27) |
-| `parcel.nine-trunks.trunk-2..9` | `bmv:architecture/citebosmer/houses/housechamp001` | 14.78 × 14.36 × 34.37 | 4490 | pad ×6 (0.68–1.20), plinth ×2 (0.26, 0.33) |
-| `parcel.nine-trunks.minder-deck` | `bmv:architecture/citebosmer/passerelles/kiosque/kiosk01` | 8.57 × 8.57 × 20.74 | 14048 | plinth (0.51) |
-| `parcel.nine-trunks.pitch-1` | `mudmother:gv_meshes/argoniannest/argoniantent01` | 8.20 × 7.00 × 5.96 | 2388 | plinth (0.60) |
-| `parcel.nine-trunks.pitch-2` | `mudmother:gv_meshes/argoniannest/argoniantent02` | 6.14 × 5.31 × 4.26 | 1509 | pad (1.07) |
-| `parcel.nine-trunks.pitch-rack` | `mudmother:gv_meshes/argoniannest/fishracksmall` | 2.48 × 2.65 × 2.53 | 1136 | plinth (0.19) |
-| `landmark.nine-trunks.root-join-1..9` | `htbm:…/trees/histroots02` / `histroots03` | 14.43 × 10.30 × 6.20 / 9.56 × 2.54 × 4.71 | 1494 / 666 | landmark |
-| `landmark.nine-trunks.gate` | `mudmother:gv_meshes/argoniannest/archwaysticks` | 5.10 × 4.60 × 2.73 | 422 | landmark |
-| `landmark.nine-trunks.uxith` | `mudmother:gv_meshes/argoniannest/argoniantotem01` | 0.75 × 0.49 × 1.95 | 836 | landmark |
-| `landmark.nine-trunks.chime-frame` | `mudmother:gv_meshes/argoniannest/argonianbonechime01` | 2.18 × 0.38 × 1.41 | 5132 | landmark |
+| `landmark.nine-trunks.trunk-1` (elder) | `tropical:landscape/trees/anvilgianttrunk` | 10.53 × 10.53 × 56.39 | 0.55 | 5.79 wide, 31.0 tall |
+| `landmark.nine-trunks.trunk-2..9` | `tropical:landscape/trees/anvilgianttrunk` | 10.53 × 10.53 × 56.39 | 0.45 | 4.74 wide, 25.4 tall |
+| `landmark.nine-trunks.root-join-1..9` | `tropical:landscape/trees/anvil_root01` | 14.44 × 10.29 × 6.20 | 0.45 | 6.50 × 4.63 × 2.79 |
+| `parcel.nine-trunks.house-1..8` | `mudmother:gv_meshes/argoniannest/mudhut01` | 5.92 × 6.47 × 5.09 | 1 | in a 9.63 m gap |
+| `parcel.nine-trunks.naheesh-house` | `bmv:architecture/huts/exterior/hutexterior` | 11.62 × 11.62 × 7.18 | 1 | inside the ring, 11 m from the centre |
+| `parcel.nine-trunks.minder-deck` | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 × 2.68 × 0.34 | 1 | a raised post, not a hall |
+| `parcel.nine-trunks.pitch-1` / `pitch-2` | `argoniantent01` / `argoniantent02` | 8.20 × 7.00 × 5.95 / 6.14 × 5.31 × 4.26 | 1 | on the pitch ground |
+| `parcel.nine-trunks.pitch-rack` | `mudmother:gv_meshes/argoniannest/fishracksmall` | 2.48 × 2.64 × 2.53 | 1 | at the pitch-ground mouth |
+| `landmark.nine-trunks.gate` | `mudmother:gv_meshes/argoniannest/archwaysticks` | 5.10 × 4.61 × 2.73 | 1 | 5.10 m of a 9.63 m gap |
 
-Ring arithmetic, all from those numbers: at a 33 m radius the trunk centres are
-22.6 m apart along the chord. Elder-to-neighbour clear gap is
-22.6 − (24.63 + 14.78)/2 = **2.9 m**; neighbour-to-neighbour is
-22.6 − 14.78 = **7.8 m**. The clearing inside the trunk faces is about 51 m
-across. The ring walkway spans balcony to balcony over those gaps: per the kit's
-own `snapLogic`, a run is a sum of `passl<len>` pieces (512 units = 7.28 m,
-64 units = 0.91 m), so a 7.8 m span is one `passl512h64` plus one `passl64`
-(8.19 m) trimmed at the balcony caps — no piece is invented and no form crosses
-its accessory family.
+Every rotated footprint was tested against every other, trunk columns and root
+flares included: no two objects on the site overlap. The compiler reports 14
+placements, 7 unique assets, 14 unique materials and 29,847 triangles, inside the
+declared budget of 700 instances and 300 colliders. The redraft costs roughly
+half the triangles of the first draft, because the 14,048-triangle kiosk and the
+55 m trunk-houses are gone.
 
-**Budget.** Declared 700 instances / 36 unique materials / 40 texture MB / 300
-colliders. The compiler reports 14 placements, 7 unique assets, 33 unique
-materials, 60,517 triangles, within budget. The trunks and the deck carry most of
-it; `kiosk01` alone is 14,048 triangles, which is the one thing to watch when
-this grammar is repeated across 27 villages.
+## 4. Orientation and footprints
 
-## 4. The geometry problem, and what changed
+Each parcel is authored as a centre, an asset, a `yawDeg` and an `orientationWhy`; its
+polygon is derived by `worldgen.blueprint_footprints --apply`. The door side
+of `mudhut01` and of `hutexterior` is taken as the piece's local north face, so a
+parcel's `yawDeg` is the bearing that its door faces; the same convention is
+recorded on both districts in the blueprint.
 
-The catalogue's signature reads: *"Houses built between the nine trunks with the
-trunks as their corner posts. No building here has four walls of its own."*
-Measured against the kits, that composition **cannot be built honestly**. There
-is no wall or roof panel in any kit authored to span from one trunk to another,
-and there is no bare mid-size trunk column authored to stand alone and take
-attachments: `settlement-root-v1` has only `treegiant01` (130 × 110 × 206 m, a
-whole host tree) and `treegiantrootbase01` (41.6 × 21.3 × 44.0 m, a root flare),
-and `housechamplianestronc` is an accessory liana drop for `housechamp001`, not a
-free-standing trunk. Jamming a mud hut into a gap and calling the trunk its
-corner post is exactly the composition the 2026-09-04 ruling forbids.
+| District | Orientation logic |
+|---|---|
+| `district.nine-trunks.ring`, wall huts | Each hut sits in the gap between two trunks and turns its long side to the ring's tangent there, so its yaw is the gap's bearing plus 180° and every door opens inward to the clearing. The ring is the stockade, so nothing opens outward. Eight gaps, eight distinct rotations: 200°, 240°, 280°, 320°, 0°, 80°, 120°, 160°. |
+| `district.nine-trunks.ring`, naheesh's house | Turned to 207°, the bearing from its own centre to the gate, so that the naheesh sees an arriving delegation the length of the clearing. |
+| `district.nine-trunks.ring`, tree-minder's platform | Turned to 140° to face the elder trunk across the clearing, because the post exists to watch that trunk. |
+| `district.nine-trunks.ring`, landmarks | Each trunk column carries the ring's tangent as its yaw so that its bark relief runs along the wall line; each root flare carries the same tangent, so the swell lies between two trunk bases rather than across the path. The gate arch is squared to the road spur at 220°. |
+| `district.nine-trunks.pitch` | The larger shelter opens down the road spur at 35°, the smaller one turns across the fall of the ground at 52° so that its canvas sheds run-off away from the road. The rack turns its open face to the approach so that what a delegation has paid for hangs in view of the next party up the road. |
 
-The nearest honest composition — and, on reflection, the better one — is to make
-the trunks **and** the houses the same objects. `settlement-root-v1` packages
-BM&V's tree-city as its authors built it: `housetronc001` and `housechamp001` are
-trunks that have been trained into dwellings, each with its own door, window,
-balcony and liana family. Nine of them in a ring gives nine trunks, nine houses,
-and no building with four walls of its own — because every wall is trunk. It is
-also the interior building idiom as `material-culture.md` states it: "the
-interior does not *build* a house, it *trains* one." The root joins between them
-are `htbm:…/histroots02`/`03`, packaged into the same kit set, so the
-ground-level "one tree" reading uses pieces already combined by our own kit
-build rather than by a reviewer's guess.
-
-**Sourcing gap, reported not faked:** no kit contains a bare Hist trunk column
-(roughly 3–8 m across, 15–30 m tall) that stands alone and accepts attachments.
-Every village that wants trunks *without* houses in them — a grove, a stake-field
-edge, a ruined ring — currently has to use a whole tree or a house form. That is
-a real gap for the 27-village rollout and is owner question Q1.
+Doors: nine, one per dwelling, each on the face that its reason claims. The eight
+wall doors sit 3.5 m inside the ring radius on the hut's inward face; the
+naheesh's door sits 5.9 m from its centre on the gate side. The validator checks
+each `facingDeg` against the nearest edge of the derived polygon, so a door
+cannot claim a side that the building does not have.
 
 ## 5. Lore grounding
+
 
 - Hist village form, the tree-minder's post and the naheesh who carries the Root
   Talk: `world/sources/lore/topics/hist-placement.md` § tribal Hist table and the
@@ -182,60 +167,59 @@ a real gap for the 27-village rollout and is owner question Q1.
 
 ## 6. Open questions for the owner
 
-**Q1 — the trunks are houses, not scenery.** The record says houses were built
-*between* nine trunks. No kit has a piece that spans between two trunks, so the
-blueprint instead makes each trunk a house grown into it (nine of them in a ring).
-*Implication:* the place still reads as nine trunks and a stockade, and no
-building has four walls of its own, but the houses are 34 m tall and one is 56 m,
-so the village has a real skyline instead of a low ring of huts. If you would
-rather have low huts, we would need to source a stand-alone Hist trunk mesh from
-the mod scene, which is a sourcing job and a delay.
+**Q1 — low huts between sourced trunk columns, or trunk-houses.** The draft is
+the record as written: nine bare trunk columns from the newly sourced tropical
+set, scaled to 4.7 m across and 25 m tall, with low mud huts of 5.9 × 6.5 m
+filling the gaps between them. *Implication:* the village reads as a ring
+of posts with a low wall of huts under it; the tallest thing on the site is a
+tree rather than a house. The alternative, which was the first draft, is BM&V's
+trunk-houses (`housetronc001` at 24.6 m across and 55.5 m tall, `housechamp001`
+at 14.8 m and 34.4 m): trunks that have been trained into dwellings, so that the
+trunks *are* the houses. That version gives the place a real skyline and a
+grown-root material culture, at the cost of nine 34 m towers in a 27-village
+family and roughly twice the triangles. The two readings cannot be mixed, because
+a district takes one kit set.
 
-**Q2 — foreign canvas outside the gate.** The rented pitch ground uses coastal
-tent pieces from a different building culture, on the reasoning that the tents
-belong to the visiting delegations and are carried in and struck each year.
-*Implication:* the contrast makes the convocation instantly readable and gives the
-pitch-rights quests something to point at, at the cost of one small patch of
-non-interior material on the site. The alternative is renting bare prepared
-decks from the interior kit — purer, but the "borrowed canvas" line in the
-record goes.
+**Q2 — a mud district inside a Hist ring.** Because the dwellings are mud-kit
+huts, the ring district is `argonian-mud` rather than `argonian-root`. The trunks
+stay as landmarks, so nothing is blended and nothing is jammed together.
+*Implication:* the ring is materially the same as every other inland village,
+and the trunks alone carry its distinctiveness. The alternative is Q1's
+trunk-house version, which is the single way to make the ring itself a root-kit
+district.
 
-**Q3 — how tight the ring is.** The trunks sit 22.6 m apart, which leaves 2.9 m
-between the elder trunk and its neighbours and 7.8 m elsewhere, and gives a 51 m
-clearing inside. *Implication:* tighter reads more like a stockade and makes the
-inside feel enclosed and cramped, but the clearing gets too small for the
-convocation crowd the place exists to host; wider opens the sightlines and the
-"single mass" approach weakens. This is the number most worth an opinion, because
-it becomes the default for all 27 villages.
+**Q3 — how tight the ring is.** The trunks stand 14.37 m apart along the chord,
+which leaves 9.63 m between trunk faces and a clearing roughly 35 m wide.
+*Implication:* tighter reads more like a stockade and hides the inside
+completely, but the clearing then cannot hold the convocation crowd that the
+place exists to host; wider opens the sightlines; the single-mass approach
+weakens. This is the number most worth an opinion, because it becomes the
+default for all 27 villages.
 
-**Q4 — 149 m off the plotted spot.** The chosen ground is a knoll 149 m from
-where the map plot put the village, because the plotted ground has 4.33 m of
-relief across the ring and would need grading we do not allow. *Implication:*
-nothing else moves — same region, same danger, same neighbours — but the village
-is now 160 m from the road instead of 241 m, so it is noticeably easier to
-stumble on from the highway.
+**Q4 — 149 m off the plotted spot.** Unchanged from the first draft: the chosen
+ground is a knoll 149 m from the map plot, because the plotted ground carries
+4.33 m of relief across the ring and would need grading that the rules forbid.
+*Implication:* the region, the danger band and the neighbours are unchanged, but
+the village now stands 160 m from the road instead of 241 m.
 
 ## 7. Catalogue record should change (not edited from here)
 
-1. `vibe.signatureFeature` — "Houses built between the nine trunks with the
-   trunks as their corner posts" is not buildable. Proposed: "Nine trunks trained
-   into nine houses, standing in one ring. No building here has four walls of its
-   own, because every wall is trunk." `playerPurpose.hook` needs the same change.
-2. `vibe.materials` — "houses framed between the trunks using bark and root grown
-   between them as walls" should become the trained-trunk idiom, and the
-   "delegation shelters of borrowed canvas" line should say explicitly that the
-   canvas is the visitors' own and stands outside the ring (it is currently the
-   only thing licensing a second kit set here).
-3. `assetPlan` — `vanilla-shackkit` and `fences-wattle` are coastal and should be
-   dropped; the plan is `settlement-root` plus `hist-tree`, `argonian-props`,
-   `totems-ritual` and `argonian-lights`, with `mud-mother-grove` retained only
-   for the visiting delegations' canvas.
-4. `positionM` / `position` — move to 4972.9, 3755.9 (uv 0.674, 0.510) if the
+1. `vibe.signatureFeature` and `vibe.materials` may now stand as written. The
+   redraft delivers houses between the nine trunks; the trunks carry the
+   wall line either side of every hut, so the record's own language is honest
+   against the geometry. One qualification: no hut is *framed into* a trunk, so
+   any phrasing that promises a shared structural wall should read as houses
+   filling the gaps between the trunks.
+2. `assetPlan` — `vanilla-shackkit` and `fences-wattle` are coastal and should be
+   dropped. The plan is `mud-mother-grove` for the huts, shelters, arch, totem
+   and chime, plus the tropical trunk set for the nine columns and their root
+   flares, plus `hist-tree` and `argonian-lights`.
+3. `positionM` / `position` — move to 4972.9, 3755.9 (uv 0.674, 0.510) if the
    owner approves Q4; `plotFacts.distanceToRouteM` becomes 162 and
    `distanceToWaterM` becomes 32.
-5. `sockets` is empty in the record while the blueprint now carries nine. If the
-   catalogue is meant to mirror them, the four scene/evidence/station/mark
-   sockets above should be listed there.
-6. `interior.kind` is `none`, but nine trunk-houses have doors and the blueprint
-   declares nine interior claims. This should become the appropriate
-   dwelling-interior kind for Phase 12.
+4. `sockets` is empty in the record while the blueprint carries nine. If the
+   catalogue is meant to mirror them, the scene, evidence, station and mark
+   sockets should be listed there.
+5. `interior.kind` is `none`, but the blueprint declares nine interior claims —
+   eight small huts and the naheesh's medium house. This should become the
+   appropriate dwelling-interior kind for Phase 12.

@@ -791,6 +791,13 @@ the pipeline's mesh measurements, the blueprint renderer shows the pieces at
 true scale before a choice is recorded, and a kit's own combination rules are
 data the compiler enforces, not prose a reviewer remembers.
 
+**Write-back rule (owner 2026-09-05).** A siting chosen here that differs
+from the plotted dot is written back with `worldgen.apply_sitings`: the
+blueprint's chosen candidate pins the record in `macro-plot-overrides.json`,
+the macro plot re-solves around it, and the minor routes, waterways,
+hostility measure and studio exports re-run. Now and for every future move.
+Process detail and lessons: [world/96-placement-playbook.md](../world/96-placement-playbook.md).
+
 ### Part 7 — MICRO, per exemplar: blueprint, build, iterate with the owner
 
 The steered visual loop, on one exemplar at a time. Each round = focused
@@ -1696,6 +1703,55 @@ focal object. Catalogue changes the designs need (positions, plot facts, a
 cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
 [research/phase11-part6-round-a.md](../research/phase11-part6-round-a.md).
+
+### Round A follow-up — the owner's list on the Part 6 packet (2026-09-05)
+
+**Rulings.** (1) A place moved after the plot moves its dot, its paths and
+its waterways too, now and always: `worldgen.apply_sitings` (incremental —
+the four sited records moved in place, plot facts re-measured, neighbours
+within 120 m reported, then minor routes, waterways, hostility measure and
+studio exports re-run). A full re-solve with the pins inside the greedy
+solver moved 106 other records, some by kilometres, so pins are applied
+*after* the solve (`macro_plot.pin_overrides`) and the committed plot stays
+byte-reproducible. Major-city anchors keep the owner's dot. (2) Blueprints
+show the **actual footprint** of each piece (convex hull of the lowest 1.5 m
+of the kit mesh, `pipeline/measure_footprints.py` → `<kit>.footprints.json`)
+and every building's **orientation is authored with a reason**: parcels are
+`centreUV` + `assetRef` + `yawDeg` + `orientationWhy` (+ optional uniform
+`scale` for natural pieces), the footprint polygon is DERIVED and the
+validator rejects a hand-edited or unexplained one. Doors must sit on the
+edge they claim. (3) Review happens in an **interactive view**: World Studio
+`?bp=1&blueprint=<slug>` (zoom, pan, hover, click for the why, layers,
+labels only when zoomed; export with `worldgen.export_blueprints`). Static
+PNGs remain a by-product. (4) **Sourcing gaps are jobs**: both Part 6 gaps
+were filled from the vault the same day (the Tropical Skyrim
+`anvilgianttrunk` column at ~0.45 scale for trunk rings; HTBM xanmeer
+totems for the underwater shrine), and a sourcing-gap register with a
+status column now lives in `docs/research/settlement-kit-sourcing-log.md`.
+(5) The workflow itself is recorded in **module 96, the placement
+playbook** (loop, write-back rule, lessons per round, automation-readiness
+checklist); process steers go there, taste steers stay in the ledger below.
+(6) Text: the construction the owner named ("ground the surrounding tribes
+leave alone") is a **zero relative clause**; banned on every surface with
+the soft-idiom class ("leave alone", "put up with"), style guide §2.8 rules
+8–9, linter `zero-relative` (precise heuristic) + `soft-idiom`; three agents
+cleared the 127 hits and ~80 more found by reading.
+
+**Delivery.** All five blueprints re-authored against the new parcel
+schema and compiling clean (Lilmoth 42 placements, 37 of 39 buildings off the
+compass axes, each with a reason; Nine-Trunks redrafted as nine sourced trunk
+columns at 0.45 scale with eight mud huts in the gaps and the gate in the
+ninth; Mazzatun's courses along the risers, five pieces dropped because their
+measured hulls sit metres from their pivots; the Licensed Stage's scaffold
+moved to stilts once its real Δ read 2.27 m). A third gap surfaced and is
+registered OPEN (G3, a nailed notice/licence board — every toll post and
+price list needs one). Blueprint prose is now linted like place prose and
+went through a separate text-review agent.
+
+**Root cause found on the way.** Kit GLB node names were truncated at
+Blender's 63-character limit, so 234 of 839 kit pieces shared a node name
+with another and could not be measured individually; fixed with short unique
+node names in `build_kit.py`, all thirteen kits rebuilt.
 
 ### Part 4 step 2, round 4 — touchpoint ③ feedback, second list (2026-09-04)
 

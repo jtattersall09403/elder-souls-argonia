@@ -31,7 +31,7 @@
         "siteAdvantages": "A ridge end with a line to the fort and a line down the road.",
         "occupantsMotive": "The two watchers are paid in food by four villages who want warning of raids, not of armies.",
         "pressures": "The fire code they use was written for legions. The watchers have given several of its signals new meanings.",
-        "wouldChangeIf": "Would be abandoned the day the villages decided the Sul-Xan were finished."
+        "wouldChangeIf": "Would be abandoned if the villages decided the Sul-Xan were finished."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -118,7 +118,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "The fire code is being answered from a station the code does not list.",
+        "opportunity": "The fire code is being answered from a station that the code does not list.",
         "tierOwnership": "LF64 · tier-3"
       },
       "rumourPoolKey": "rumour.blackwood-road",
@@ -989,7 +989,7 @@
         "siteAdvantages": "A patch inside the burn where the peat burned out to mineral soil.",
         "occupantsMotive": "They stay to hold the claim. The smoke keeps raiders away.",
         "pressures": "Sinkholes open without warning where the peat has burned out below; two houses have gone.",
-        "wouldChangeIf": "Would relocate the day the underground fire reached their side of the scar. The fire moves a little each year."
+        "wouldChangeIf": "Would relocate when the underground fire reached their side of the scar. The fire moves a little each year."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1495,7 +1495,7 @@
         "siteAdvantages": "A dry loam shoulder above the flood line, with a barn built to keep vermin and damp out.",
         "occupantsMotive": "Sap-poachers use the staddle-stone barn to dry and cure what they take, safe from the things that climb.",
         "pressures": "Gideon still lists the grant as occupied. The heir has not told the tower clerk otherwise.",
-        "wouldChangeIf": "Would be cleared out the day a patrol actually rides the fringe road again."
+        "wouldChangeIf": "Would be cleared out on the day when a patrol actually rides the fringe road again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -1800,7 +1800,7 @@
         "occasional treasure-hunters"
       ],
       "notableNpcSlots": [
-        "the ghost the city calls Tavia, whether or not she is"
+        "the ghost whom the city calls Tavia, whether or not she is"
       ],
       "dangerTier": "D4",
       "approachDanger": "D3",
@@ -1958,7 +1958,7 @@
             "danger": "D4",
             "count": "single",
             "named": true,
-            "note": "the thing the last besiegers left sealed in the keep cellar"
+            "note": "the thing which the last besiegers sealed in the keep cellar"
           }
         ],
         "npcs": [
@@ -2563,7 +2563,7 @@
         "siteAdvantages": "An hour's walk from the nearest market, on good water, with a hill between it and the road so that road traffic does not hear what goes on inside.",
         "occupantsMotive": "The keeper has done it herself and takes no fee. The house runs on what the families of those inside bring, usually food, often very little.",
         "pressures": "Two sap traders on the Gideon road consider the house a commercial threat and have said so. The villages would not forgive an attack on it.",
-        "wouldChangeIf": "Would close the day the keeper died. She has not trained a second keeper."
+        "wouldChangeIf": "Would close if the keeper died. She has not trained a second keeper."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -2910,7 +2910,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a vision scene with a physical venue — a rite the player can undergo · a fringe answer to a question no NPC will give straight",
+        "opportunity": "a vision scene with a physical venue — a rite that the player can undergo · a fringe answer to a question that no NPC answers directly",
         "tierOwnership": "LF46 · tier-3; tier-2 shared"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -3154,7 +3154,7 @@
         "silhouette": "A single vast pale-barked crown standing well above the marsh canopy, with roofs in a ring beneath it.",
         "palette": "Hist bark grey-white, canopy green, thatch gold, amber uxith lamps at night.",
         "materials": "Mud and reed houses with an uxith of grown rather than built material.",
-        "signatureFeature": "Houses sit exactly at the distance the roots permit, so the tree draws the village plan.",
+        "signatureFeature": "Houses sit exactly at the distance which the roots permit, so the tree draws the village plan.",
         "condition": "Constantly rebuilt at the edges, unchanged at the centre.",
         "mood": "Rooted. Cold towards Gideon.",
         "approach": "The crown breaks the canopy and shows from a long way off.",
@@ -4151,7 +4151,7 @@
       "why": {
         "founding": "Founded where the Blackwood Road out of Leyawiin crosses the low saddle in the western border belt, the province's land door.",
         "siteAdvantages": "A measured 46 m barrier gap flanked by 60–87 m ridges; firm lowland and drinkable spring water on the marsh side; the Onkobra's red clay downstream.",
-        "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority the city still recognises. Leyawiin trade pays for it.",
+        "occupantsMotive": "A civic council in the old Governor's Mansion keeps the courthouse and archive working. Paper is the authority that the city still recognises. Leyawiin trade pays for it.",
         "pressures": "Monsoon closes the road for months; the archive's writs are honoured nowhere east of the Onkobra; Cyrodilic Collections and the antiquities fences fight over the same crates.",
         "wouldChangeIf": "Would fail if the Blackwood Road silted permanently, or if the disputed Hist cutting in the city gardens took root and made Gideon an Argonian city."
       },
@@ -4812,7 +4812,7 @@
           "quest.provision.sa05-anchor"
         ],
         "tags": [],
-        "opportunity": "The Reckoning House commissions the survey the villages have refused for two centuries.",
+        "opportunity": "The Reckoning House commissions the survey which the villages have refused for two centuries.",
         "tierOwnership": "SA05 · tier-2; LF16 · tier-3"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -5071,7 +5071,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a legible battlefield the player can read without being told · evidence of a siege the archive records differently",
+        "opportunity": "a legible battlefield the player can read without being told · evidence of a siege that the archive records differently",
         "tierOwnership": "tier-2 shared"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -5514,7 +5514,7 @@
         "siteAdvantages": "It stands above Glenbridge on the glen's shoulder, so the whole town can watch the sermon progress.",
         "occupantsMotive": "The Nisswo read it; the Clutch below them leaves the fallen dust where it lies.",
         "pressures": "The voriplasm-sorcerer Rectavius is sealed in the lowest chamber. The seal is part of the structure being allowed to fail.",
-        "wouldChangeIf": "Would release Rectavius the day the sermon reaches the bottom course."
+        "wouldChangeIf": "Would release Rectavius when the sermon reaches the bottom course."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6015,9 +6015,9 @@
       "why": {
         "founding": "When the Onkobra gorge floods it fills to within a few metres of the rim, so the people who work the gorge live in it: cut chambers and built galleries on the wall, above the worst water and below the wind.",
         "siteAdvantages": "Dry rock at a constant temperature, on a face that has to be climbed to be reached.",
-        "occupantsMotive": "They net the fish the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
+        "occupantsMotive": "They net the fish that the narrows concentrate. Boats that need a hand through the rapid pay for a pilot.",
         "pressures": "The galleries are reached by ladder and rope. Every year somebody falls. The village argues about cutting a stair, which would also let others up.",
-        "wouldChangeIf": "Would become an ordinary river village the day the stair was cut."
+        "wouldChangeIf": "Would become an ordinary river village if the stair were cut."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -6687,7 +6687,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The Onkobra's narrowest reach near the city was bridged in stone. The bridge has carried a toll since it was built.",
-        "siteAdvantages": "A rock nose on each bank, the landing a stone arch needed, with no piling.",
+        "siteAdvantages": "A rock nose on each bank, the landing that a stone arch needed, with no piling.",
         "occupantsMotive": "Gideon's council farms the toll out annually to the highest bidder. The rate moves every year.",
         "pressures": "The arch is hollow. The last toll farmer left the repair void unfilled. The current farmer has not filled it either.",
         "wouldChangeIf": "Would be bypassed by the ford upstream if the toll ever rose above the price of wet feet."
@@ -7194,7 +7194,7 @@
         "siteAdvantages": "A single very old fig with a straight bole, standing on firm ground within sight of the road, tall enough to break the canopy by six metres.",
         "occupantsMotive": "A lookout is paid by three villages to sit up there in the flood season and watch which lanes are open; the rest of the year the village children have it.",
         "pressures": "Every platform is younger than the one below it, so the bottom ladder is the oldest thing here. The tree is growing out of the fixings.",
-        "wouldChangeIf": "Would be abandoned the moment the tree died. There is no second tree of this height within two kilometres."
+        "wouldChangeIf": "Would be abandoned if the tree died. There is no second tree of this height within two kilometres."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -7279,7 +7279,7 @@
         "condition": "Continuously repaired from the top down; the lower ladders are the least sound.",
         "mood": "Practical. Open sky at the top.",
         "approach": "Invisible from any distance, then suddenly overhead. Boats steer by the lamp at night.",
-        "senses": "Creak and sway; canopy insects loud below and wind alone above; a bell the lookout rings for open lanes."
+        "senses": "Creak and sway; canopy insects loud below and wind alone above; a bell that the lookout rings for open lanes."
       },
       "assetPlan": [
         "passerelles-walkway",
@@ -7718,7 +7718,7 @@
         "silhouette": "A dry river bed floored with pale sand, mats laid straight on it, water still running in one thread down the middle.",
         "palette": "Bleached sand, wet-green banks, dyed mats in every colour the villages have.",
         "materials": "Mats, poles and tethered boats hauled up the bank; no structure touches the bed.",
-        "signatureFeature": "A stake stands at the level the water reached last year, absurdly high above the mats.",
+        "signatureFeature": "A stake stands at the level which the water reached last year, absurdly high above the mats.",
         "condition": "Temporary. Kept immaculate.",
         "mood": "Festive and hurried.",
         "approach": "The fair lies down the bank, below the level of the surrounding ground.",
@@ -8092,7 +8092,7 @@
       "why": {
         "founding": "The western lake's level swings four metres a year, so its people stopped building on the shore and moored their houses out on the water instead.",
         "siteAdvantages": "Sheltered water behind a headland, deep enough to keep the rafts off the mud and shallow enough to pole.",
-        "occupantsMotive": "They stay out on the water because Gideon cannot evict a village that holds no land, a point the mooring-holder makes often.",
+        "occupantsMotive": "They stay out on the water because Gideon cannot evict a village that holds no land, a point which the mooring-holder makes often.",
         "pressures": "Gideon's council has tried to tax the lake twice and been told both times that the village keeps no shore to tax.",
         "wouldChangeIf": "Would come ashore if the sheltered moorings were lost."
       },
@@ -8193,7 +8193,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "A household's raft keeps drifting to the landing the town gave up, so the town will pay to have the landing made usable again.",
+        "opportunity": "A household's raft keeps drifting to the landing that the town gave up, so the town will pay to have the landing made usable again.",
         "tierOwnership": "LF86 · tier-3"
       },
       "rumourPoolKey": "rumour.lakeside",
@@ -8831,10 +8831,10 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "The fringe keeps the Argonian calendar on Imperial ground. For one month of the twelve the road villages between Gideon and the Onkobra empty out onto this flat and hold Moonmarch. The other eleven it is a field with post-holes in it.",
-        "siteAdvantages": "A wide dry flat the monsoon leaves alone, close enough to three villages that the dancers walk home the same night, far enough from Gideon that the magistracy does not attend.",
+        "siteAdvantages": "A wide dry flat that the monsoon does not reach, close enough to three villages that the dancers walk home the same night, far enough from Gideon that the magistracy does not attend.",
         "occupantsMotive": "The ground-keeper's family holds the flat in order to keep it unbuilt. Their claim is older than the Imperial title that governs it.",
         "pressures": "Gideon's clerks have tried twice to license the gathering. Both times they were told there is no roof here to license. A Nibenese landowner has started grazing the flat out of season to establish use.",
-        "wouldChangeIf": "Would become a permanent fairground the day a roof went up over it."
+        "wouldChangeIf": "Would become a permanent fairground if a roof went up over it."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -8926,7 +8926,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a festival the player can join, miss or ruin · a seasonal town that stands for one month a year and not otherwise",
+        "opportunity": "a festival that the player can join, miss or ruin · a seasonal town that stands for one month a year and not otherwise",
         "tierOwnership": "tier-3 dressing"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -9006,7 +9006,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "For one month a year the road villages keep the Argonian calendar on Imperial ground. Gideon's Imperial households are invited.",
+        "hook": "The road villages keep the Argonian calendar on Imperial ground for one month a year. Gideon's Imperial households are invited.",
         "reviewed": true
       },
       "interior": {
@@ -9519,7 +9519,7 @@
         "siteAdvantages": "Halfway between fort and marsh edge, on a widened length of the Gideon–Soulrest road where a gate can stop a cart without blocking the ditch.",
         "occupantsMotive": "A toll gang holds the workshops now and charges for a road that stops two miles further east.",
         "pressures": "Fewer carts come through each season, so the toll on each one climbs.",
-        "wouldChangeIf": "Would empty the day the road trade dried up entirely."
+        "wouldChangeIf": "Would empty when the road trade dried up entirely."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -9767,7 +9767,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A house built against a Legion milestone by a family who found it easier to name themselves after it than to name the place.",
-        "siteAdvantages": "Nine miles from the gate: the distance a loaded porter covers before wanting to stop.",
+        "siteAdvantages": "Nine miles from the gate: the distance which a loaded porter covers before wanting to stop.",
         "occupantsMotive": "Porters and pilgrims are the trade; the family sells water, shade and foot-binding.",
         "pressures": "The pilgrim traffic to Glenbridge has doubled and the well has not. Deferred 2026-09-03 (Part 4 step 2): repetitive road-house fill within a kilometre of three others, held in reserve against the province record budget.",
         "wouldChangeIf": "Would be replaced by a bigger house on the same spot, which is how every stop on this road grew."
@@ -9960,7 +9960,7 @@
         "founding": "Gideon sells red pottery, which means a red clay bank, a water source and a firing floor within a cart of the city.",
         "siteAdvantages": "A cut meander bank exposes the clay in a two-metre seam; the river takes the waste and brings the fuel.",
         "occupantsMotive": "Four potting families work it in rotation. The order of the rotation is disputed.",
-        "pressures": "The river is undercutting the seam. The wintertide worm road comes up through a root breach in the same bank, so the waykeepers want it left alone.",
+        "pressures": "The river is undercutting the seam. The wintertide worm road comes up through a root breach in the same bank, so the waykeepers want the bank undisturbed.",
         "wouldChangeIf": "Would move fifty metres upstream, as it has three times before."
       },
       "sitingPrefs": {
@@ -10196,7 +10196,7 @@
         "siteAdvantages": "A double bend slows the current to polling speed. Both banks shelve gently.",
         "occupantsMotive": "The ferry family has held the crossing four generations and treats the rope as property.",
         "pressures": "The bonded warehouse opposite would rather load direct and cut them out.",
-        "wouldChangeIf": "Would end the day a bridge is built, which the council proposes every decade."
+        "wouldChangeIf": "Would end when a bridge is built, which the council proposes every decade."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -10717,7 +10717,7 @@
         "siteAdvantages": "A limestone shoulder above the Onkobra with dry galleries, the one ground in the west that will hold a kwama colony.",
         "occupantsMotive": "The mining family keeps the queen alive because the trade dies with her. The Owing hands work it because they were entered in a ledger.",
         "pressures": "Scribs get out. The colony has been pushed for two hundred years. The eggs are smaller than the ledgers say.",
-        "wouldChangeIf": "Would collapse the year the queen dies. The mine family's heir thinks that is close."
+        "wouldChangeIf": "Would collapse in the year of the queen's death. The mine family's heir thinks that is close."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12675,7 +12675,7 @@
         "tags": [
           "WATER"
         ],
-        "opportunity": "Lowmere loses an hour of poling each way to this shelf, so clearing it is a favour the raft town can pay.",
+        "opportunity": "Lowmere loses an hour of poling each way to this shelf, so clearing it is a favour that the raft town can pay.",
         "tierOwnership": "LF86 · tier-3"
       },
       "rumourPoolKey": "rumour.lakeside",
@@ -12909,7 +12909,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "a claim the player can share, denounce to the licensing clerk, or simply outlast",
+        "opportunity": "a claim that the player can share, denounce to the licensing clerk, or simply outlast",
         "tierOwnership": "tier-3 dressing"
       },
       "rumourPoolKey": "rumour.gideon",
@@ -13523,7 +13523,7 @@
       "why": {
         "founding": "The Kothringi buried their dead under stone. This hillside holds a whole community's worth from the last generation before the Flu.",
         "siteAdvantages": "A stony hill shoulder where cairn stone lay ready to hand.",
-        "occupantsMotive": "The neighbouring villages leave it alone; Argonian custom has no use for a cairn.",
+        "occupantsMotive": "The neighbouring villages do not disturb it; Argonian custom has no use for a cairn.",
         "pressures": "Treasure-hunters take the glass beads; the practice is old enough that some cairns have been opened twice.",
         "wouldChangeIf": "Would be protected if the Gideon magistracy had standing over a dead people's graves."
       },
@@ -13591,7 +13591,7 @@
         "silhouette": "Two hundred stone mounds on an open hillside, a third of them opened and spilled downhill.",
         "palette": "Grey stone, pale grass and glints of blue-green glass in the spoil.",
         "materials": "Dry-stacked local stone; the glass beads are the worked part.",
-        "signatureFeature": "The opened cairns have spilled their stones downslope in fans. From a distance the hillside reads as damage.",
+        "signatureFeature": "The opened cairns have spilled their stones downslope in fans. The hillside reads as damage from a distance.",
         "condition": "Two thirds intact, one third robbed and left open.",
         "mood": "Exposed ground, worked over by thieves.",
         "approach": "The mounds break the skyline from the valley track.",
@@ -14254,7 +14254,7 @@
         "siteAdvantages": "On the landing, before the weighbridge. Nothing passes inland unlooked-at.",
         "occupantsMotive": "The inspectors keep it because the fee for release is theirs; nobody has been detained in living memory.",
         "pressures": "The forms still ask questions about a plague that ended two centuries ago, in a script most comers cannot read.",
-        "wouldChangeIf": "Would be repurposed as a store the day the excise lapsed."
+        "wouldChangeIf": "Would be repurposed as a store if the excise lapsed."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -14654,7 +14654,7 @@
         "founding": "Upland Argonians terrace, because these hills give the slope and the loose stone that terracing needs.",
         "siteAdvantages": "A south-facing slope above the ravine head, with spring water at the top and loose stone for building the terraces.",
         "occupantsMotive": "They stay because terraces are generational work and abandoning them wastes four lifetimes.",
-        "pressures": "Using stone for the terrace walls is a compromise the lowland villages needle them about constantly.",
+        "pressures": "Using stone for the terrace walls is a compromise about which the lowland villages needle them constantly.",
         "wouldChangeIf": "Would collapse, terraces and village both, if the spring at the top failed."
       },
       "sitingPrefs": {
@@ -15426,7 +15426,7 @@
         "siteAdvantages": "A camp set on the boundary of the fields it is holding.",
         "occupantsMotive": "They are paid by the day to keep a household off ground the household worked.",
         "pressures": "The villages feed them, but hate them. The brokers deny they exist.",
-        "wouldChangeIf": "Would break up the day the debt is bought out, by whoever chooses to pay."
+        "wouldChangeIf": "Would break up when the debt is bought out, by whoever chooses to pay."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -16151,7 +16151,7 @@
         "siteAdvantages": "A stone shed with a dead furnace in it, one door and no windows, which holds heat and hides light. Daril ferments there and the road cannot smell it.",
         "occupantsMotive": "An Owing broker keeps a fermentary running here and pays the tower clerk to keep the site listed derelict.",
         "pressures": "The vats need constant tending. Whoever the broker trusts with that job knows enough to ruin him.",
-        "wouldChangeIf": "Would be burned out by the council the week it became embarrassing rather than useful."
+        "wouldChangeIf": "Would be burned out by the council in the week when it became embarrassing rather than useful."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -16659,8 +16659,8 @@
         "founding": "An Imperial road villa emptied two centuries ago. One family has lived in three of its rooms for two generations.",
         "siteAdvantages": "It is dry and roofed, off the road behind a hedge that has become a wall.",
         "occupantsMotive": "They live here because it is free; they have built a reed house inside the atrium rather than live in the stone rooms.",
-        "pressures": "Living in dead stone is a compromise their neighbours mention. The reed house inside is their answer.",
-        "wouldChangeIf": "Would be abandoned without regret the day the roof went."
+        "pressures": "Living in dead stone is a compromise which their neighbours mention. The reed house inside is their answer.",
+        "wouldChangeIf": "Would be abandoned without regret when the roof went."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -16745,7 +16745,7 @@
           "quest.provision.lq13-anchor"
         ],
         "tags": [],
-        "opportunity": "The sealed cellar under a squatted ruin holds the evidence the eviction case lacks.",
+        "opportunity": "The sealed cellar under a squatted ruin holds the evidence that the eviction case lacks.",
         "tierOwnership": "LF22 · tier-3; LQ13 · tier-3"
       },
       "rumourPoolKey": "rumour.blackwood-road",
@@ -17362,7 +17362,7 @@
         "siteAdvantages": "Beside the bog-iron workings and downwind of the village, because the neighbours insisted.",
         "occupantsMotive": "The smith is Imperial-trained and Argonian-born.",
         "pressures": "Working metal is a moral error to most of his neighbours, but they still bring him their tyres.",
-        "wouldChangeIf": "Would close the day the road stopped carrying carts."
+        "wouldChangeIf": "Would close once the road stopped carrying carts."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -17830,7 +17830,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "A line of marker stones set across the western approaches during the Knahaten Flu, to mark which side of the line held the living.",
-        "siteAdvantages": "Follows the natural contour where the ground firms up, the line a fleeing population would take anyway.",
+        "siteAdvantages": "Follows the natural contour where the ground firms up, the line which a fleeing population would take anyway.",
         "occupantsMotive": "No stone has been moved in three hundred years. Villages still do not build across the line.",
         "pressures": "The stones are being lost one by one to root-heave. There is no record of where they stood.",
         "wouldChangeIf": "Would be forgotten entirely in another century."
@@ -18307,7 +18307,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "A second grant, worked by a family who ploughed the way they had at home and drained nothing.",
-        "siteAdvantages": "The site was superb for eight months a year and under half a metre of water for four, until a season the water did not go back down.",
+        "siteAdvantages": "The site was superb for eight months a year and under half a metre of water for four, until a season in which the water did not go back down.",
         "occupantsMotive": "The grant-holders are long gone. Whatever moved into the flooded rooms has the sills and doorframes to itself.",
         "pressures": "The roof is the last dry surface left. The tiles are coming off it.",
         "wouldChangeIf": "Would be walkable again only if the channel that flooded it silted shut."
@@ -18554,7 +18554,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A carters' house at the wet end of the road, named for the animal the flood took the year it opened.",
+        "founding": "A carters' house at the wet end of the road, named for the animal that the flood took in the year of its opening.",
         "siteAdvantages": "The last building on firm ground before the drowning gate; carters stop here because there is nowhere else.",
         "occupantsMotive": "The keeper survives on the wet season, when the road closes and forty carters are stuck for a week.",
         "pressures": "In a dry year it nearly starves, so the keeper prays for floods and says so.",
@@ -18892,7 +18892,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "The barrier must be opened early for a convoy the flood would otherwise strand.",
+        "opportunity": "The barrier must be opened early for a convoy that the flood would otherwise strand.",
         "tierOwnership": "LF49 · tier-3; LF52 · tier-3"
       },
       "rumourPoolKey": "rumour.blackwood-road",
@@ -20187,7 +20187,7 @@
       "why": {
         "founding": "A gate opened on the Blackwood frontier in 4E 5–7 and the Argonians went through it rather than away from it.",
         "siteAdvantages": "The scar sits where the gate stood, on a bare shoulder of the rim above the burn country; gates did not choose their ground.",
-        "occupantsMotive": "The villages leave it alone; the ground has not grown back properly.",
+        "occupantsMotive": "The villages do not work it; the ground has not grown back properly.",
         "pressures": "The Synod wants to survey it, but the villages will not permit it. The argument is annual.",
         "wouldChangeIf": "Would be overgrown by now on any other ground in the fringe."
       },
@@ -20653,7 +20653,7 @@
         "siteAdvantages": "The saddle's lee side, in a natural hollow that breaks the wind from three directions.",
         "occupantsMotive": "Two keepers hold it on a season's rota from the villages below, for food and standing.",
         "pressures": "The path is used more each year by couriers and smugglers. The station is provisioned for neither.",
-        "wouldChangeIf": "Would be abandoned the year the rim path lost its traffic to a safer road."
+        "wouldChangeIf": "Would be abandoned in the year in which the rim path lost its traffic to a safer road."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -21127,7 +21127,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "A Merethic xanmeer at the province's western edge, tended by the nearest village as a monument.",
-        "siteAdvantages": "A rise above the flood with a terrace the flood has yet to reach.",
+        "siteAdvantages": "A rise above the flood with a terrace which the flood has yet to reach.",
         "occupantsMotive": "The village keeps it swept; that is their office. Entering it to loot is a serious offence. The village says so plainly.",
         "pressures": "Gideon's antiquities trade is two days away and getting closer every year.",
         "wouldChangeIf": "Would be sealed by its own keepers the first time a theft succeeded."
@@ -21293,7 +21293,7 @@
           "dungeon-delve"
         ],
         "impact": "real",
-        "hook": "A xanmeer the nearest village tends as a monument rather than a tomb; ask first and the rules on what not to touch are given.",
+        "hook": "A xanmeer that the nearest village tends as a monument rather than a tomb; ask first and the rules on what not to touch are given.",
         "reviewed": true
       },
       "interior": {
@@ -21867,7 +21867,7 @@
         "siteAdvantages": "The ford is the only crossing for two kilometres and the banks are steep enough to hide it.",
         "occupantsMotive": "The keeper's family took on the lamp as a debt to a drowned cousin and has kept it eighty years.",
         "pressures": "Lamp oil is expensive here and the family is not rich; guests are expected to understand this. Deferred 2026-09-03 (Part 4 step 2): repetitive road-house fill within a kilometre of three others, held in reserve against the province record budget.",
-        "wouldChangeIf": "Would go dark the year the family fails, and the ford would start killing again."
+        "wouldChangeIf": "Would go dark if the family fails, and the ford would start killing again."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -22538,7 +22538,7 @@
       "confidence": "CANON_EXPLICIT",
       "why": {
         "founding": "One legal crossing into Cyrodiil means the rest go over the rim.",
-        "siteAdvantages": "A cliff bench with a ravine below, a saddle above and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other the same way.",
+        "siteAdvantages": "A cliff bench with a ravine below, a saddle above and a cave mouth in the face behind it deep enough to hold a season's goods. Loads come down from one province on rope and go up into the other in the same way.",
         "occupantsMotive": "The carriers here are village men from both sides who have worked the same ledge for generations.",
         "pressures": "Fort Swampmoth's company has begun pricing the legal road so high that the ledge now carries more than the road does.",
         "wouldChangeIf": "Would be abandoned if the tolls ever dropped."
@@ -22617,7 +22617,7 @@
         "palette": "Rock grey, rope brown, deep ravine shadow, one strip of sky.",
         "materials": "Pegged bollards, rope, hide covers and a plank stage over the drop. Every fixing is driven into a crack, which is all this rock will hold.",
         "signatureFeature": "A tally of scratched marks beside the bollard, one per load, generations deep. The oldest are nearly worn away.",
-        "condition": "Maintained where it bears weight, left alone elsewhere.",
+        "condition": "Maintained where it bears weight, untouched elsewhere.",
         "mood": "Tense and professional.",
         "approach": "It cannot be seen from the ravine or from the saddle. The way in is a climb.",
         "senses": "Rope under load; rock fall; wind in the ravine."
@@ -23254,7 +23254,7 @@
         "siteAdvantages": "A ravine wall where the seam is exposed by the water that cut it.",
         "occupantsMotive": "A family works the seam and sells to whichever side pays; they have no politics and say so.",
         "pressures": "The seam runs under the ravine floor, so they work waist-deep in water. It is ruining their health.",
-        "wouldChangeIf": "Would be taken over by an outside concession the day the family failed."
+        "wouldChangeIf": "Would be taken over by an outside concession if the family failed."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -24205,7 +24205,7 @@
         "siteAdvantages": "A dry storage pit at the back of a broker's yard, roofed and grated, invisible from the road.",
         "occupantsMotive": "The brokers hold debtors here for a day or two until the Owing is transferred. It is legal.",
         "pressures": "Somebody was held for eleven days last year. The village still talks about it.",
-        "wouldChangeIf": "Would be filled in the week a court ruled that waiting is imprisonment."
+        "wouldChangeIf": "Would be filled in during the week in which a court ruled that waiting is imprisonment."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -25185,7 +25185,7 @@
       "why": {
         "founding": "The Second Empire tried to make the Onkobra navigable to the uplands with a staircase of stone locks.",
         "siteAdvantages": "At the reach where the river drops fastest.",
-        "occupantsMotive": "The villages downstream fish the pools the ruined chambers make.",
+        "occupantsMotive": "The villages downstream fish the pools formed by the ruined chambers.",
         "pressures": "The masonry is a millennium older than the Imperial work below, but it is visibly better. The downstream headmen agree, out of a Gideon clerk's hearing.",
         "wouldChangeIf": "Would be worth rebuilding the day upland freight paid for itself."
       },
@@ -25418,7 +25418,7 @@
         "siteAdvantages": "Close enough to Gideon for work, far enough that the settlers were not asked their business twice a day.",
         "occupantsMotive": "They rebuilt a mile off when the old ring flooded twice in one year and left the first houses standing rather than pull them down.",
         "pressures": "The new settlement will not send a party back for the timber. The speaker changes the subject when asked.",
-        "wouldChangeIf": "Would be stripped for materials the day the fear of what dens there wore off."
+        "wouldChangeIf": "Would be stripped for materials once the fear of what dens there wore off."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -25742,7 +25742,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "The overflow camp has become a village the shrine will not feed.",
+        "opportunity": "The overflow camp has become a village that the shrine will not feed.",
         "tierOwnership": "LF43 · tier-3; LF50 · tier-3"
       },
       "rumourPoolKey": "rumour.pilgrim-way",
@@ -26072,9 +26072,9 @@
       "why": {
         "founding": "A xanmeer deliberately closed by its own people, with its traps live and its contents undisturbed.",
         "siteAdvantages": "Low ground that has since half-drowned. The sealed door stands at the level of the standing water, with the terraces above it cut off for half the year.",
-        "occupantsMotive": "The nearest village knows it is there and leaves it alone.",
+        "occupantsMotive": "The nearest village knows it is there. Villagers do not approach it.",
         "pressures": "Water is getting in below the seal, which will eventually open it from underneath.",
-        "wouldChangeIf": "Would be open from below the day the water finished the job."
+        "wouldChangeIf": "Would be open from below when the water finished the job."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -27051,7 +27051,7 @@
         "siteAdvantages": "A scree bench above the fort road, screened from below by the slope, with a scramble down onto the road at two points.",
         "occupantsMotive": "The men holding it are paid by the week to sit on other people's goods and to be somewhere else when the fort asks.",
         "pressures": "Fort Swampmoth can see the smoke from a fire up here, so they keep no fire after dark and are cold all winter.",
-        "wouldChangeIf": "Would be given up the day the company were made to keep an honest weighbridge."
+        "wouldChangeIf": "Would be given up if the company were made to keep an honest weighbridge."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -27306,7 +27306,7 @@
       "why": {
         "founding": "The Ca-Uxith were charged by their Hist with watching the Rockgrove xanmeer. The village stands beside the ruin for that reason. The tribe has held this ground for as long as the charge has existed.",
         "siteAdvantages": "The last firm shelf before the geyser field, close enough to see the xanmeer's upper courses and far enough that the ground does not vent under the houses.",
-        "occupantsMotive": "The stone-talkers do the actual work. They read the ruin's stone for the cracks the geysers open and pack them with clay before it comes apart.",
+        "occupantsMotive": "The stone-talkers do the actual work. They read the ruin's stone for the cracks which the geysers open and pack them with clay before it comes apart.",
         "pressures": "The Sul-Xan raid camp sits on the ruin the Ca-Uxith are sworn to keep. The tribe has no means to remove them. The geyser field is getting louder. The elders disagree about whose fault that is.",
         "wouldChangeIf": "If the xanmeer collapsed the charge would end and the tribe would have no reason to be here. Several of the young ones say so aloud."
       },
@@ -27918,7 +27918,7 @@
           "quest.provision.canon.the-owing"
         ],
         "tags": [],
-        "opportunity": "The evicted household on the verge holds a deed the estate steward will not read.",
+        "opportunity": "The evicted household on the verge holds a deed which the estate steward will not read.",
         "tierOwnership": "LF22 · tier-3; BC-line · tier-2"
       },
       "rumourPoolKey": "rumour.the-owing",
@@ -28808,7 +28808,7 @@
         "siteAdvantages": "Just over the ridge from the cairn field, out of sight of the valley track and upwind of the smell of their own camp.",
         "occupantsMotive": "They are here for glass beads: small, light and worth a season's wages in Leyawiin.",
         "pressures": "The Collections dig pays better and asks questions; two of this camp have already crossed over.",
-        "wouldChangeIf": "Would move to the next dead people the month the beads ran out."
+        "wouldChangeIf": "Would move to the next dead people in the month when the beads ran out."
       },
       "sitingPrefs": {
         "regionClasses": [

@@ -32,7 +32,9 @@ Two severities:
   and-closer heuristic over-reports, and that is the point — the reviewer
   decides, the tool makes sure the reviewer looks.
 
-The linter reads prose FIELDS of live catalogue records (the same set the
+The linter reads prose FIELDS of live catalogue records, the quest rows, the
+text catalogue and the settlement blueprints (causal model, orientation
+reasons, notes), (the same set the
 text-review brief names) and, with `--md`, the prose cells and paragraphs of
 markdown files. It never edits anything.
 """
@@ -128,6 +130,10 @@ RULES: list[Rule] = [
     Rule("wry-label", "soft", _r(r"^[A-Za-z][^,.;:]{2,40}, (?:priced|paid|measured|kept|used|sold|charged|counted|timed|on a scale|at a rate|by the|with cause|for a fee|whether|as long as|until|if you|once you)\b[^,.;:]{0,50}\.?$"),
          "label field as 'abstract noun, wry qualifier' (\"cheerful extortion, priced by the hull\"); one plain word or a plain fact",
          fields=("vibe.mood", "vibe.condition")),
+    Rule("zero-relative", "hard", _r(r"(?<![,;:.] )(?<!\bfrom )(?<!\bif )(?<!\bon )(?<!\bat )(?<!\bin )(?<!\bwith )(?<!\bby )(?<!\bfor )(?<!\bgive )(?<!\bgives )(?<!\bgave )(?<!\bcalls )(?<!\bcall )(?<!\bcalled )(?<!\bsends )(?<!\bsend )(?<!\bof )(?<!\bto )\b(?:the|a|an|its|their|his|her|this|these|those) (?!(?:that|which|who|whom|where|when|if|so|and|but|or|of|in|on|at|for|to|by|with|from|as|than)\b)[a-z-]+ (?:the|a|an|its|their|his|her|these|those|some|no|every) (?!(?:that|which|who|whom|where|when|if|so|and|but|or|to|of|in|on|at|for|by|with|from)\b)(?:(?!(?:to|of|in|on|at|for|by|with|from)\b)[a-z-]+ )?(?!(?:to|of|in|on|at|for|by|with|from)\b)[a-z-]+ (?:leave|leaves|left|keep|keeps|kept|use|uses|used|call|calls|called|know|knows|knew|hold|holds|held|want|wants|sell|sells|sold|pay|pays|paid|make|makes|made|carry|carries|carried|need|needs|own|owns|owned|trust|trusts|fear|fears|bring|brings|brought|take|takes|took|watch|watches|tend|tends|hunt|hunts|farm|farms|guard|guards|serve|serves|mind|minds|rent|rents|cross|crosses|pole|poles|walk|walks|work|works|fish|fishes|see|sees|hear|hears|remember|remembers|cut|dug|built|gave|give|gives|drink|drinks|eat|eats|read|reads|found|find|finds|lost|lose|loses|buy|buys|bought|send|sends|sent|do|does|did|cannot|will|would|could)\b(?! (?:that|which|who|whom|where)\b)"),
+         "zero relative clause (noun + a second subject + verb, no pronoun: 'ground the tribes leave alone') — write the pronoun or turn it round (owner 2026-09-05; style guide §2.8 rule 8)"),
+    Rule("soft-idiom", "hard", _r(r"\b(?:leaves?|left|leaving) (?:it |them |him |her |us |[a-z-]+ )?alone\b|\bputs? up with\b|\bmakes? do\b|\bkeeps? to (?:themselves|himself|herself|itself)\b|\bget(?:s)? by\b"),
+         "soft modern idiom for a plain fact — the concrete verb (style guide §2.8 rule 9)"),
     Rule("repeat-noun", "soft", _r(r"\b(?:the|a|an) (\w{4,}) (?:named|called|known)[^.]{0,40}\bas (?:the|a|an) \1\b"),
          "a noun repeated inside one sentence for effect (style guide §2.8 rule 5)"),
     Rule("the-only", "soft", _r(r"\bthe only\b"),
@@ -370,6 +376,35 @@ def lint_quests(res: LintResult) -> None:
                     res.add_text(scope, q.get("id") or q.get("code"), fld, q[fld])
 
 
+BLUEPRINT_DIR = catalogue.REPO_ROOT / "world" / "sources" / "blueprints"
+
+
+def lint_blueprints(res: LintResult) -> None:
+    """Prose inside settlement blueprints (Part 6+): the causal model, every
+    orientationWhy, notes and siting reasons. A building's stated reason is a
+    world record and is held to the place-record register."""
+    for p in sorted(BLUEPRINT_DIR.glob("place.*.json")):
+        bp = json.loads(p.read_text(encoding="utf-8")).get("blueprint", {})
+        scope = "blueprints"
+        bid = bp.get("id", p.stem)
+        for k, v in (bp.get("causalModel") or {}).items():
+            res.add_text(scope, bid, f"causalModel.{k}", v)
+        for key in ("districts", "parcels", "landmarks", "docks", "combatSpaces", "questSockets", "variants", "travelServices"):
+            for item in bp.get(key) or []:
+                if not isinstance(item, dict):
+                    continue
+                for fld in ("notes", "orientationWhy", "why", "rejectedBecause", "ambience"):
+                    if isinstance(item.get(fld), str):
+                        res.add_text(scope, item.get("id", bid), f"{key}.{fld}", item[fld])
+        for c in (bp.get("siting") or {}).get("candidates") or []:
+            for fld in ("why", "rejectedBecause"):
+                if isinstance(c.get(fld), str):
+                    res.add_text(scope, c.get("id", bid), f"siting.{fld}", c[fld])
+        for a in bp.get("assetConstraints") or []:
+            if isinstance(a, str):
+                res.add_text(scope, bid, "assetConstraints", a)
+
+
 def lint_text_catalogue(res: LintResult) -> None:
     """Player-visible strings in packages/text-catalogue (the `text:` values)."""
     if not TEXT_CATALOGUE.exists():
@@ -442,7 +477,7 @@ def render_report(res: LintResult, title: str) -> str:
     if len(hard) > 2000:
         lines.append(f"- … {len(hard) - 2000} more")
     lines += ["", "## Soft candidates (for the reviewer's eye)", ""]
-    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("stock-phrase", "and-closer", "and-for-but", "the-only", "will-not-say", "generaliser", "none-of", "zinger-tail", "repeat-noun", "design-voice", "wry-label", "field-echo")]
+    soft = [h for h in res.hits if h.severity == "soft" and h.rule in ("stock-phrase", "and-closer", "and-for-but", "the-only", "will-not-say", "generaliser", "none-of", "zinger-tail", "repeat-noun", "design-voice", "wry-label", "field-echo", "zero-relative", "soft-idiom")]
     for h in soft[:1500]:
         lines.append(f"- `{h.where}` · {h.fld} · {h.rule} — …{h.excerpt}…")
     if len(soft) > 1500:
@@ -470,6 +505,7 @@ def main(argv: list[str] | None = None) -> int:
         # text catalogue count toward the same province-wide ceilings
         lint_quests(res)
         lint_text_catalogue(res)
+        lint_blueprints(res)
     if a.quests:
         lint_quests(res)
     md_paths: list[Path] = []

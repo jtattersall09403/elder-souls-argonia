@@ -1,0 +1,38 @@
+{
+ "schemaVersion": 1,
+ "generatedBy": "worldgen.apply_sitings — do not hand-edit; the blueprint's chosen siting is the source",
+ "overrides": [
+  {
+   "id": "place.dunmer-north.mazzatun",
+   "u": 0.269207,
+   "v": 0.181867,
+   "why": "The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
+   "source": "world/sources/blueprints/place.dunmer-north.mazzatun.json",
+   "candidateId": "candidate.mazzatun.shelf"
+  },
+  {
+   "id": "place.hist-heartland.nine-trunks",
+   "u": 0.674428,
+   "v": 0.509378,
+   "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg, and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and only the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
+   "source": "world/sources/blueprints/place.hist-heartland.nine-trunks.json",
+   "candidateId": "candidate.nine-trunks.knoll"
+  },
+  {
+   "id": "place.hist-heartland.sap-tapping-licensed",
+   "u": 0.473398,
+   "v": 0.595619,
+   "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330) — the only water within 250 m that a loaded canoe can be poled along. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
+   "source": "world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json",
+   "candidateId": "candidate.sap-tapping-licensed.a-north-bank"
+  },
+  {
+   "id": "place.naga-kur-deeps.wamasu-pond-adult",
+   "u": 0.334441,
+   "v": 0.597138,
+   "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
+   "source": "world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json",
+   "candidateId": "candidate.wamasu-pond-adult.pan"
+  }
+ ]
+}

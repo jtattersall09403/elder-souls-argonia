@@ -561,7 +561,7 @@
         "silhouette": "a cargo hall twice the height of the reed roofs along the quay",
         "palette": "Company red gone pink, grey ashlar, black tar",
         "materials": "Imperial stone and iron; the most metal in one place on this coast",
-        "signatureFeature": "a wax seal the size of a plate on a door the harbour authority holds no writ to open",
+        "signatureFeature": "a wax seal the size of a plate on a door which the harbour authority holds no writ to open",
         "condition": "sound, swept, half-used",
         "mood": "officious",
         "approach": "the biggest gable on the quay front",
@@ -5528,7 +5528,7 @@
         "materials": "old track surface, bones, shed skin",
         "signatureFeature": "a length of shed skin across the old track, longer than the track is wide",
         "condition": "the track is abandoned and obviously was not always",
-        "mood": "the reason a route moved",
+        "mood": "the reason why a route moved",
         "approach": "you find the old track first and wonder why it is old",
         "senses": "birdsong stopping"
       },
@@ -5637,7 +5637,7 @@
         "founding": "Somebody came out from Archon to open a sealed xanmeer, and got as far as making camp.",
         "siteAdvantages": "Four hundred metres from the sealed terrace, on the last firm ground.",
         "occupantsMotive": "Nobody now. The camp is exactly as they left it, which is to say as they were taken from it.",
-        "pressures": "Everything they learned is in a notebook they did not take with them.",
+        "pressures": "Everything they learned is in a notebook which they did not take with them.",
         "wouldChangeIf": "If the notebook were read, somebody else makes the same attempt better informed."
       },
       "sitingPrefs": {
@@ -10574,7 +10574,7 @@
         "siteAdvantages": "A drowned lagoon deep enough to swallow six terraces and clear enough to read the geometry from a boat above it.",
         "occupantsMotive": "Unoccupied by any household. Divers who go down have brought back no account of what lives in it.",
         "pressures": "It is a tended monument the village cannot reach to tend.",
-        "wouldChangeIf": "If the water dropped a metre the tribe would reclaim it within a year."
+        "wouldChangeIf": "If the water dropped a metre, the tribe would reclaim it within a year."
       },
       "sitingPrefs": {
         "regionClasses": [
@@ -12244,7 +12244,7 @@
         "silhouette": "a line of shelters along a boundary, each facing inward at the fields",
         "palette": "grey canvas, mud, one good cooking pot per family",
         "materials": "salvaged canvas, hurdles, household goods stacked outside",
-        "signatureFeature": "every shelter faces the ground its household used to work, with its door turned away from the camp",
+        "signatureFeature": "every shelter faces the ground once worked by its household, with its door turned away from the camp",
         "condition": "settled far longer than a camp should be",
         "mood": "banked anger",
         "approach": "the shelters read from the boardwalk through the trees; the camp watches everyone who passes",
@@ -13173,7 +13173,7 @@
       "why": {
         "founding": "A cove under the pilot headland where privateers with two-century-old letters of marque still careen, because nobody has formally cancelled the letters.",
         "siteAdvantages": "Deep approach water hidden from the shipping lane by the headland itself, with a beach that dries at low tide.",
-        "occupantsMotive": "Crews who are lawful when it suits and are careful never to touch a hull the harbour authority would have to notice.",
+        "occupantsMotive": "Crews who are lawful when it suits and are careful never to touch a hull that the harbour authority would have to notice.",
         "pressures": "Archon knows and finds them convenient; one incident would end the arrangement.",
         "wouldChangeIf": "If the Reed formally revoked the marques, this becomes an outlaw anchorage and the whole coast's insurance changes."
       },
@@ -15049,7 +15049,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Boats that cannot run the falls must come out of the water and go back in above them, and hauling them is a trade with a charge board.",
-        "siteAdvantages": "A worn timber slipway on the one bank with a gradient a hauling gang can manage.",
+        "siteAdvantages": "A worn timber slipway on the one bank with a gradient that a hauling gang can manage.",
         "occupantsMotive": "Six haulers who charge by hull length and are not negotiable.",
         "pressures": "Cargo waits at both ends and theft from the top of the slip is the town's commonest crime.",
         "wouldChangeIf": "If a second slipway were cut on the far bank, the gang's monopoly ends."
@@ -15159,7 +15159,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "A worn timber slipway on the one bank with a gradient a hauling gang can manage",
+        "hook": "A worn timber slipway on the one bank with a gradient that a hauling gang can manage",
         "reviewed": false
       },
       "interior": {
@@ -16175,7 +16175,7 @@
         "silhouette": "a second pile line facing the first across open water",
         "palette": "the same greys, one different roof-dye the village insists on",
         "materials": "identical materials, deliberately different knots and dye",
-        "signatureFeature": "the village paints its roof-ridges a colour the rival does not use, and always has",
+        "signatureFeature": "the village paints its roof-ridges a colour which the rival does not use, and always has",
         "condition": "well kept, competitively so",
         "mood": "spiky pride",
         "approach": "seen across the lagoon from its rival's decks",
@@ -17615,7 +17615,7 @@
             "danger": "D2",
             "count": "few",
             "trigger": "on-interact",
-            "note": "what Umbriel left in the bodies it did not finish"
+            "note": "what Umbriel left in the bodies that it did not finish"
           }
         ],
         "npcs": [],

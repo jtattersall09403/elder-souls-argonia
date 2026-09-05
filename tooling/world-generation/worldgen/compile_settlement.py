@@ -10,8 +10,11 @@ owns already (because retrofitting them is the expensive version):
     0.6–2.0 (with falloff ring) · Δ≥2.0 NEVER graded → stilt/dug-in or the
     compile fails. Pad height from the MAX under the footprint; base buried
     0.25 m.
-  * kit placement by GRID TRANSFORM around a centred pivot (3.64 m module) —
-    never the flora bottom-anchor path (kit-vet finding, 0041 Part 0 notes).
+  * kit placement around the asset's own pivot at the parcel's authored
+    `centreUV` and `yawDeg` — never the flora bottom-anchor path (kit-vet
+    finding, 0041 Part 0 notes). Positions are NOT snapped to the 3.64 m
+    module: since 2026-09-05 the parcel centre and orientation are authored
+    with a stated reason, and snapping would silently overrule it.
   * graded vegetation clearing masks (hardClear / thinned polygons + affected
     chunk list) for the scatter compiler.
   * terrain grade patches as data (footprint, target height, falloff ring,
@@ -45,7 +48,6 @@ from .site_fields import ProvinceSurvey
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
 GENERATOR_VERSION = "0.1.0"
-GRID_M = 3.64  # the mined snap module (2 x 1.82 m)
 BURY_M = 0.25
 PAD_FALLOFF_RATIO = 2.5
 PAD_RESIDUAL_TILT_DEG = 0.7
@@ -69,16 +71,6 @@ FIT_MAX = {"direct": 0.15, "plinth": 0.6, "pad": 2.0, "stilt": float("inf"), "du
 
 def _seed_int(*parts: str) -> int:
     return int.from_bytes(hashlib.sha256("|".join(parts).encode()).digest()[:8], "big")
-
-
-def _centroid(poly: list[list[float]]) -> tuple[float, float]:
-    xs = [p[0] for p in poly]
-    ys = [p[1] for p in poly]
-    return sum(xs) / len(xs), sum(ys) / len(ys)
-
-
-def _snap(value_m: float) -> float:
-    return round(value_m / GRID_M) * GRID_M
 
 
 class KitShelf:
@@ -146,9 +138,14 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
     for parcel in sorted(bp["parcels"], key=lambda p: p["id"]):
         pid = parcel["id"]
         culture = culture_of[parcel["districtId"]]
+        # The parcel is authored as centre + yaw + assetRef; `footprint` is the
+        # asset's measured outline derived from those (worldgen.blueprint_
+        # footprints), so ground Δ is measured over the REAL outline's vertices
+        # and the piece is placed at the authored centre — not snapped to the
+        # module grid, which would fight the authored orientation reason.
         foot_m = [list(survey.uv_to_m(u, v)) for u, v in parcel["footprint"]]
         heights = [survey.height_at(x, z) for x, z in foot_m]
-        cx, cz = _centroid(foot_m)
+        cx, cz = survey.uv_to_m(*parcel["centreUV"])
         heights.append(survey.height_at(cx, cz))
         delta = max(heights) - min(heights)
 
@@ -176,16 +173,19 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf) -> dict
                 "falloffRatio": PAD_FALLOFF_RATIO,
                 "residualTiltDeg": PAD_RESIDUAL_TILT_DEG,
             })
-        # authored orientation wins; otherwise a seeded quarter turn (skeleton)
-        yaw = float(parcel["yawDeg"]) if isinstance(parcel.get("yawDeg"), (int, float)) else (_seed_int(seed, pid, "yaw") % 4) * 90.0
+        # orientation is authored, with a reason (orientationWhy) — the
+        # compiler never invents a turn (owner ruling 2026-09-05)
+        yaw = float(parcel["yawDeg"])
+        scale = float(parcel.get("scale", 1.0))   # uniform; a natural piece (a trunk) may be scaled, a kit piece rarely
         placements.append({
             "id": f"{bp_id}.{pid}.building",
             "parcelId": pid,
             "assetId": asset["id"],
             "kit": asset["kit"],
             # grid transform, centred pivot — never flora bottom-anchoring
-            "positionM": [_snap(cx), round(base_y + (asset["sizeM"][2] / 2 if fit != "dug-in" else 0.0), 3), _snap(cz)],
+            "positionM": [round(cx, 3), round(base_y + (asset["sizeM"][2] * scale / 2 if fit != "dug-in" else 0.0), 3), round(cz, 3)],
             "yawDeg": yaw,
+            "scale": scale,
             "groundFit": fit,
             "provenance": _provenance(bp_id, seed, f"parcel-building/{fit}", asset["id"], []),
         })

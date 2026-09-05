@@ -1,67 +1,72 @@
 {
-  "_": "Engineering standard 7. Runtime data the game reads must carry a top-level integer `schemaVersion`. New runtime data paths are registered here with enforced:true from birth. Existing bundles predate the standard: they are listed with enforced:false and an owning phase, they print as notes on every run so the debt stays visible, and the flag flips when that phase next touches them. Never delete an entry to silence a note.",
-  "paths": [
-    {
-      "path": "world/sources/catalogue",
-      "enforced": true
-    },
-    {
-      "path": "world/sources/catalogue/type-recipes.json",
-      "enforced": true
-    },
-    {
-      "path": "world/sources/placement/settlement-asset-inventory.json",
-      "enforced": true
-    },
-    {
-      "path": "apps/world-studio/public/province/places.json",
-      "enforced": true,
-      "_": "Plotted place catalogue for the studio map (worldgen.export_places); a projection of world/sources/catalogue, so NOT in id-registry (its IDs would duplicate the catalogue's)."
-    },
-    {
-      "path": "apps/world-studio/public/province/routes-minor.json",
-      "enforced": true,
-      "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json."
-    },
-    {
-      "path": "apps/world-studio/public/province/waterways-minor.json",
-      "enforced": true,
-      "_": "Minor water network — channels, rivers, ferry crossings (worldgen.compile_minor_waterways, Part 3c); same px frame and shape as routes-minor.json."
-    },
-    {
-      "path": "apps/world-studio/public/province/routes-index.json",
-      "enforced": true,
-      "_": "Route registry projection for the studio's routes/waterways layers (worldgen.export_routes); keyed by route id, joined to the geometry bundles."
-    },
-    {
-      "path": "world/sources/flora/palettes.json",
-      "enforced": false,
-      "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
-    },
-    {
-      "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",
-      "enforced": false,
-      "owner": "Phase 10b (moveset wiring adds the polearm families)"
-    },
-    {
-      "path": "packages/game-core/src/validation/visualScenarioExpectations.json",
-      "enforced": false,
-      "owner": "Phase 10b"
-    },
-    {
-      "path": "world/sources/routes/registry.json",
-      "enforced": true,
-      "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society)."
-    },
-    {
-      "path": "world/sources/registries",
-      "enforced": true,
-      "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044."
-    },
-    {
-      "path": "world/sources/quests",
-      "enforced": true,
-      "_": "Quest data (worldgen.quests): lines plus one packet file per group and per catalogue region. world/sources/registries/quests.json is now a GENERATED projection of this directory (worldgen.quests --sync), so the quest ids are registered here in id-registry.json and not there."
-    }
-  ]
+ "_": "Engineering standard 7. Runtime data the game reads must carry a top-level integer `schemaVersion`. New runtime data paths are registered here with enforced:true from birth. Existing bundles predate the standard: they are listed with enforced:false and an owning phase, they print as notes on every run so the debt stays visible, and the flag flips when that phase next touches them. Never delete an entry to silence a note.",
+ "paths": [
+  {
+   "path": "world/sources/catalogue",
+   "enforced": true
+  },
+  {
+   "path": "world/sources/catalogue/type-recipes.json",
+   "enforced": true
+  },
+  {
+   "path": "world/sources/placement/settlement-asset-inventory.json",
+   "enforced": true
+  },
+  {
+   "path": "apps/world-studio/public/province/places.json",
+   "enforced": true,
+   "_": "Plotted place catalogue for the studio map (worldgen.export_places); a projection of world/sources/catalogue, so NOT in id-registry (its IDs would duplicate the catalogue's)."
+  },
+  {
+   "path": "apps/world-studio/public/province/routes-minor.json",
+   "enforced": true,
+   "_": "Minor route network (worldgen.compile_minor_routes), derived from the plot; px frame of routes.json."
+  },
+  {
+   "path": "apps/world-studio/public/province/waterways-minor.json",
+   "enforced": true,
+   "_": "Minor water network — channels, rivers, ferry crossings (worldgen.compile_minor_waterways, Part 3c); same px frame and shape as routes-minor.json."
+  },
+  {
+   "path": "apps/world-studio/public/province/routes-index.json",
+   "enforced": true,
+   "_": "Route registry projection for the studio's routes/waterways layers (worldgen.export_routes); keyed by route id, joined to the geometry bundles."
+  },
+  {
+   "path": "world/sources/flora/palettes.json",
+   "enforced": false,
+   "owner": "Phase 10 (vegetation) — version when the palette schema next changes"
+  },
+  {
+   "path": "packages/game-core/src/anim/generated/rig-skyrim-humanoid.animations.json",
+   "enforced": false,
+   "owner": "Phase 10b (moveset wiring adds the polearm families)"
+  },
+  {
+   "path": "packages/game-core/src/validation/visualScenarioExpectations.json",
+   "enforced": false,
+   "owner": "Phase 10b"
+  },
+  {
+   "path": "world/sources/routes/registry.json",
+   "enforced": true,
+   "_": "Route registry (worldgen.route_registry): stable ids/names for roads, boat lanes and named tracks; routes.json/waterways.json carry the same ids (stamped by compile_society)."
+  },
+  {
+   "path": "world/sources/registries",
+   "enforced": true,
+   "_": "World registries (worldgen.registries): factions, quests, creatures, npcs, items, deeds, rumour pools. One framework, one schemaVersion; see the directory README and decision 0044."
+  },
+  {
+   "path": "world/sources/quests",
+   "enforced": true,
+   "_": "Quest data (worldgen.quests): lines plus one packet file per group and per catalogue region. world/sources/registries/quests.json is now a GENERATED projection of this directory (worldgen.quests --sync), so the quest ids are registered here in id-registry.json and not there."
+  },
+  {
+   "path": "apps/world-studio/public/province/blueprints.json",
+   "enforced": true,
+   "_": "Settlement blueprints projected to world metres for the studio's Blueprint view (worldgen.export_blueprints); a projection of world/sources/blueprints, so NOT in id-registry (its IDs would duplicate the blueprints')."
+  }
+ ]
 }

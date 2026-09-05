@@ -29,6 +29,12 @@ python3 -m pipeline.vet_kit   output/kits/settlement-mud-v1.kit.json
 python3 -m pipeline.vault_inventory                      # -> world/sources/assets/vault-inventory.md
 ```
 
+Kit asset roots are named `es|<10 hex of sha1(asset id)>|<last 40 chars of the
+id>` — short enough to survive Blender's 63-character object-name limit, unique
+by construction, and recorded verbatim in the manifest's `node` field; the full
+semantic id stays in the GLB's `extras.assetId`, which is what the runtime and
+`pipeline.measure_footprints` look assets up by.
+
 `vault_inventory` answers "what do we already own but have not packaged?" — it
 lists every mesh in every vault source (one `bsdtar -tf` per archive, `os.walk`
 per extracted mod, manifests for vanilla and BM&V), groups them by the author's

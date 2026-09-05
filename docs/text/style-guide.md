@@ -346,6 +346,26 @@ fact.** The rules that follow from it:
    in the place could have said. No abstract metaphors (a machine "setting the
    year", a count that "is a song").
 
+8. **No zero relative clauses** (owner ruling 2026-09-05). A relative clause
+   must carry its pronoun: *that, which, who, whom, where*. "Ground the
+   surrounding tribes leave alone" omits the *that* and reads as speech; write
+   "ground that the surrounding tribes avoid" or, better, turn it round:
+   "ground that is left untouched by the surrounding tribes". The grammar
+   name is the **zero relative** (also "contact clause": the relative
+   pronoun is omitted and the noun touches the clause's subject directly).
+   It is standard in both British and American English, but it is informal
+   register, and in reference text it stacks a second subject against the
+   noun, which is what reads badly. This is not a rule about *ending* on a
+   preposition (rule 6); it is the companion to it — the two together push
+   the sentence toward "the river through which he escaped" rather than
+   "the river he escaped through". Applies to every surface. Dialogue may
+   keep a zero relative only where the culture register calls for plain
+   speech and the line is short.
+9. **Prefer a concrete verb to a soft idiom.** "Leave alone", "put up
+   with", "get by", "make do", "keep to themselves" are modern soft
+   idioms; a place record says what actually happens: "the tribes do not
+   cross it", "no tribe hunts there", "the ground is untouched".
+
 **Register for place records (owner steer 2026-09-04, adopted).** The
 catalogue's prose fields (`why.*`, `vibe.*`, `playerPurpose.hook`, quest-row
 premises, siting notes) are written in **reference register**: the voice of a

@@ -24,7 +24,7 @@
       ],
       "confidence": "CANON_IMPLIED",
       "why": {
-        "founding": "Versidue-Shaie was the Akaviri Potentate. The works his people left in this basin while building the Rose are not Cyrodilic in any detail.",
+        "founding": "Versidue-Shaie was the Akaviri Potentate. The works left in this basin by his people while building the Rose are not Cyrodilic in any detail.",
         "siteAdvantages": "On the quarry road between the Robbed City and the Rose, where the stone for a single day's building was handled.",
         "occupantsMotive": "Empty. Its stone-handling gear was designed for atronachs and makes no sense for people.",
         "pressures": "It is the best surviving Akaviri civil work south of Gideon. The quarry crews who pass it call it old Imperial work.",
@@ -244,7 +244,7 @@
       "why": {
         "founding": "A karst chamber in the lake's limestone shore that holds a bubble of air above the water line, entered from below.",
         "siteAdvantages": "Three metres under the shore cliff, opening into a dry chamber the size of a room.",
-        "occupantsMotive": "Used as a cache by whoever currently needs a place no search will find.",
+        "occupantsMotive": "Used as a cache by whoever currently needs a place which no search will find.",
         "pressures": "The air is old and the chamber is silent enough to hear the lake through the rock.",
         "wouldChangeIf": "A rise in lake level would flood the bell and drown whatever is in it."
       },
@@ -846,7 +846,7 @@
           "lore-reveal"
         ],
         "impact": "mild",
-        "hook": "There is a kept fire halfway along eight kilometres of empty road, and the wall it is built against is a plague cordon stone.",
+        "hook": "There is a kept fire halfway along eight kilometres of empty road, and the wall against which it is built is a plague cordon stone.",
         "reviewed": true
       },
       "interior": {
@@ -1933,7 +1933,7 @@
         "founding": "Blackrose's Hist stands in the lake rather than in the city. The lake rose over it.",
         "siteAdvantages": "It grew on the island's old shore; three centuries of raised lake level put six metres of water over its crown.",
         "occupantsMotive": "Tenders dive to it. The city has no other tree. It has not planted a second, since that would be taken as a judgement on this one.",
-        "pressures": "An underwater Hist cannot be communed with in any of the usual ways. The tenders have improvised a practice no village upriver will recognise.",
+        "pressures": "An underwater Hist cannot be communed with in any of the usual ways. The tenders have improvised a practice which no village upriver will recognise.",
         "wouldChangeIf": "Lowering the lake would expose it, but it is not agreed whether that would save it or kill it."
       },
       "sitingPrefs": {
@@ -2169,7 +2169,7 @@
         "founding": "Built by Potentate Versidue-Shaie's battlemage Pelladil Direnni out of the rubble of the ancient Lilmothiit city, by an army of stone atronachs, in a single day. It is named for the city from whose stone it is made.",
         "siteAdvantages": "Marsh on every side and one causeway, which is the Imperial siting rule for this province. The ground outside is quiet country. The danger is behind the gate and below it.",
         "occupantsMotive": "Prison-born families three generations deep who hold it as their inheritance, plus exiles and outlaws. They resent the word prison. By their argument the place has not been one for generations.",
-        "pressures": "Umbriel left something in the lower levels that two generations of bricked stair have held down; the Chainbreakers want the place opened; Blackrose wants the toll it takes on the south road.",
+        "pressures": "Umbriel left something in the lower levels that two generations of bricked stair have held down; the Chainbreakers want the place opened; Blackrose wants the toll that it takes on the south road.",
         "wouldChangeIf": "Clearing the lower levels would make the Rose a genuine settlement. The city's toll clerks and Third-Born Xeekh both know this."
       },
       "sitingPrefs": {
@@ -4497,7 +4497,7 @@
       "why": {
         "founding": "An estate whose owning family died out in the rebellion and whose tenants, the city and a claimant from Cyrodiil have all claimed it since.",
         "siteAdvantages": "Good drained ground on the western feeder with a landing and a mill.",
-        "occupantsMotive": "The tenants farm it and pay rent into an escrow the arbiter holds, which is a legal fiction everyone finds convenient.",
+        "occupantsMotive": "The tenants farm it and pay rent into an escrow held by the arbiter, which is a legal fiction everyone finds convenient.",
         "pressures": "The escrow is now a substantial sum and at least two parties want the case settled for that reason alone.",
         "wouldChangeIf": "A ruling in any direction would end a hundred-year arrangement that currently works."
       },
@@ -5006,7 +5006,7 @@
       "vibe": {
         "silhouette": "A square timbered shaft mouth in a flat lake bed, its shoring still square, going straight down into dark.",
         "palette": "Silt brown at the mouth, black below, pale timber.",
-        "materials": "Imperial gallery shoring in waterlogged hardwood, perfectly preserved; rail and barrow iron on the floor; no plank laid since the day the lake came through the face.",
+        "materials": "Imperial gallery shoring in waterlogged hardwood, perfectly preserved; rail and barrow iron on the floor; no plank laid since the lake came through the face.",
         "signatureFeature": "A drowned Imperial drainage gallery with its shoring still square, its barrows still on the rail, the face still standing where the lake came through it.",
         "condition": "Preserved by the water that flooded it. Every timber sound, every tool where it was dropped.",
         "mood": "Interrupted.",
@@ -5381,7 +5381,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The western feeder drops through a limestone stair of six ledges, which is the reason the portage exists at all.",
+        "founding": "The western feeder drops through a limestone stair of six ledges, which is the reason why the portage exists at all.",
         "siteAdvantages": "A confined rock reach with six clean drops in three hundred metres.",
         "occupantsMotive": "Nobody. It is run empty by drag-crew apprentices as a rite and occasionally kills one.",
         "pressures": "It is the boundary between the basin's economy and eastern Blackwood's, and it is not negotiable.",
@@ -5677,7 +5677,7 @@
             "registerRef": null,
             "payoff": "lore-fragment",
             "valueTier": "tier-2",
-            "provenance": "three peoples' goods mixed, in the order they were buried"
+            "provenance": "three peoples' goods mixed, in the order in which they were buried"
           }
         ]
       },
@@ -6447,7 +6447,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "An Imperial survey camp for a canal that would have joined the lake to Oliis Bay, abandoned mid-season when the province was lost.",
-        "siteAdvantages": "On the saddle the canal would have crossed, which is still the only viable line.",
+        "siteAdvantages": "On the saddle which the canal would have crossed, which is still the only viable line.",
         "occupantsMotive": "Nobody. The instruments were carried away; the pegs and the levelling book were not.",
         "pressures": "The book proves the canal was feasible, which is a politically significant fact in a basin that lives on portage tolls.",
         "wouldChangeIf": "Anybody producing that book to a party with money would threaten the drag crew, the toll families and Threewater at once."
@@ -6559,7 +6559,7 @@
           "lore-reveal"
         ],
         "impact": "real",
-        "hook": "On the saddle the canal would have crossed, which is still the only viable line",
+        "hook": "On the saddle which the canal would have crossed, still the only viable line",
         "reviewed": false
       },
       "interior": {
@@ -7656,7 +7656,7 @@
           "LOOT",
           "WATER"
         ],
-        "opportunity": "A quest could send a dive after a document the living village needs from the drowned one.",
+        "opportunity": "A quest could send a dive after a document that the living village needs from the drowned one.",
         "tierOwnership": "MR09 · tier-2; LR34 · tier-3; LR56 · tier-3"
       },
       "rumourPoolKey": "rumour.under-longmont",
@@ -8922,7 +8922,7 @@
         "palette": "Pale foundation stone, black robbing trench, green lake edge.",
         "materials": "Pale dressed foundation stone in situ, black robbing trenches where the courses above it went, one unrobbed colonnade of blocks too large to move. What carving survives is on the faces that were laid downward. The carving is vulpine throughout.",
         "signatureFeature": "A city reduced to its footings and robbing trenches, the sockets of lifted blocks still square, one colonnade the quarry gangs left standing.",
-        "condition": "Dismantled in a single campaign and not touched since. The robbing trenches are as sharp as the day they were dug.",
+        "condition": "Dismantled in a single campaign and not touched since. The robbing trenches are as sharp as when they were dug.",
         "mood": "Systematically robbed.",
         "approach": "The pattern in the grass reads as streets only after several minutes of walking over it.",
         "senses": "Ground that rings differently underfoot where the footings run; lake wind coming across unbroken; the total absence of stone above knee height."
@@ -9333,7 +9333,7 @@
       "questHooks": {
         "provisions": [],
         "tags": [],
-        "opportunity": "A quest could set Longmont against the ferry concession over a crossing the village is not allowed to run.",
+        "opportunity": "A quest could set Longmont against the ferry concession over a crossing that the village is not allowed to run.",
         "tierOwnership": "LR56 · tier-3; LR57 · tier-3; LR58 · tier-3"
       },
       "rumourPoolKey": "rumour.longmont",
@@ -11240,7 +11240,7 @@
         "silhouette": "A new settlement built around a carefully finished empty enclosure. The shape of a hist-village with bare swept earth in the middle of it.",
         "palette": "Raw new timber, bare earth, marsh grey.",
         "materials": "Raw new timber throughout, unweathered plaster, a properly built tree-enclosure of dressed stakes, unplanted.",
-        "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting no village has agreed to give them.",
+        "signatureFeature": "A settlement with a carefully built empty tree-enclosure at its centre, waiting for a cutting which no village has agreed to give them.",
         "condition": "Newly built to an old standard. The enclosure is finished better than the houses.",
         "mood": "Determined.",
         "approach": "Two hours off the causeway by water. The enclosure is the first thing visible from the landing.",

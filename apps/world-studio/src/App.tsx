@@ -3,6 +3,8 @@ import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contrac
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
 import { PlacesLayer } from "./places/PlacesLayer";
+import { BlueprintView } from "./blueprints/BlueprintView";
+import { encodeBlueprintUrl, parseBlueprintUrl, type BlueprintUrlState } from "./blueprints/blueprintsData";
 import { encodePlacesUrl, parsePlacesUrl, type PlacesUrlState } from "./places/placesData";
 import { RoutesLayer } from "./routes/RoutesLayer";
 import { Minimap } from "./character/Minimap";
@@ -127,6 +129,10 @@ export function App() {
   // The layer's own filters/selection (pr, pt, pc, pd, pl, pq, place, tracks, sites)
   // — the layer owns the state, App owns the query string.
   const [placesUrl, setPlacesUrl] = useState<PlacesUrlState>(() => parsePlacesUrl(urlParams));
+  // Phase 11 Part 7 blueprint viewer (?bp=1&blueprint=<id>) — the interactive
+  // reading of a settlement blueprint the static PNG sheets could not give.
+  const [showBlueprints, setShowBlueprints] = useState(urlParams.get("bp") === "1" || urlParams.has("blueprint"));
+  const [blueprintUrl, setBlueprintUrl] = useState<BlueprintUrlState>(() => parseBlueprintUrl(urlParams));
   // Clickable road/lane/track lines and the waterways toggle (?water=1, ?route=)
   // — drawn under the places dots by RoutesLayer.
   const [routesUrl, setRoutesUrl] = useState<RoutesUrlState>(() => parseRoutesUrl(urlParams));
@@ -209,6 +215,10 @@ export function App() {
       const lat = getLatitudeOverrideDeg();
       if (lat !== null) q.set("lat", String(lat));
     }
+    if (showBlueprints) {
+      q.set("bp", "1");
+      for (const [k, v] of Object.entries(encodeBlueprintUrl(blueprintUrl))) q.set(k, v);
+    }
     if (showCatalogue) {
       q.set("cat", "1");
       for (const [k, v] of Object.entries(encodePlacesUrl(placesUrl))) q.set(k, v);
@@ -216,7 +226,7 @@ export function App() {
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -535,6 +545,11 @@ export function App() {
   // show ONLY the world (owner 2026-08-30: capture what needs judging).
   const hudHidden = new URLSearchParams(window.location.search).get("hud") === "0";
 
+  const blueprintOverlay = showBlueprints ? (
+    <BlueprintView baseUrl={import.meta.env.BASE_URL} initial={blueprintUrl}
+      onUrlState={setBlueprintUrl} onClose={() => setShowBlueprints(false)} />
+  ) : null;
+
   // The map canvas must STAY MOUNTED while flying — it is both the terrain
   // texture and the hover data source — so the 3D view overlays it.
   const flyOverlay = view === "fly3d" && meta && heightsRef.current && canvasRef.current && overlaysReady ? (
@@ -619,6 +634,7 @@ export function App() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
+      {blueprintOverlay}
       {view !== "map" && !hudHidden && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>
       <div style={{ display: "flex", gap: 16, alignItems: "center", flexWrap: "wrap", justifyContent: "center" }}>
@@ -666,6 +682,11 @@ export function App() {
           <input type="checkbox" checked={showCatalogue}
             onChange={(e) => setShowCatalogue(e.target.checked)} />{" "}
           Places (Phase 11 plot)
+        </label>
+        <label style={{ cursor: "pointer" }}>
+          <input type="checkbox" checked={showBlueprints}
+            onChange={(e) => setShowBlueprints(e.target.checked)} />{" "}
+          Blueprints (Phase 11 Part 7)
         </label>
       </div>
       <div style={{ display: "flex", gap: 8, alignItems: "center" }}>

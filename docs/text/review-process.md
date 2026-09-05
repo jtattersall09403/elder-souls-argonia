@@ -83,6 +83,11 @@ In order — stop-the-line failures first.
      effect, compressing two facts into one clever one: each is a finding
      with a plain two-sentence rewrite. Then read the record's **last
      sentence alone**: if it could be a tag-line, replace it with a fact.
+   - **The relative-pronoun test** (owner 2026-09-05). Wherever a noun is
+     followed directly by another subject and a verb ("ground the tribes
+     leave alone"), a *that / which / who / where* is missing: write it, or
+     turn the clause round. Also swap soft idiom ("leave alone") for the
+     concrete verb.
    - **The wiki test** (place records only). Could the paragraph be pasted
      into a UESP page about the place without an editor flagging tone?
 

@@ -15,6 +15,7 @@ summary_json.
 """
 
 import bpy
+import hashlib
 import json
 import math
 import os
@@ -451,6 +452,29 @@ def trunk_capsule(objects, lo, hi):
     return round(max(0.15, radius), 3), round(height, 3), base
 
 
+NODE_NAME_LIMIT = 63
+NODE_TAIL_CHARS = 40
+
+
+def asset_node_name(asset_id):
+    """Short, unique, truncation-proof node name for an asset root.
+
+    Blender caps object names at 63 characters, so long ids
+    (`bmv__architecture/citebosmer/passerelles/troncons/passl128i01`) used to
+    lose their tail and several assets collapsed onto ONE exported node —
+    234 of 839 assets were unmeasurable that way (`nodeAmbiguous`). The name
+    is `es|<10 hex of sha1(id)>|<last 40 chars of the id>`: 54 characters at
+    most, unique by construction, still readable in a GLB inspector. The full
+    id remains in `extras.assetId`, which is what the runtime looks up. The
+    `es|` prefix also keeps the name out of import_nif_meshes' re-namespacing.
+    """
+    digest = hashlib.sha1(asset_id.encode("utf-8")).hexdigest()[:10]
+    tail = asset_id.replace(":", "__").replace("/", "_")[-NODE_TAIL_CHARS:]
+    name = "es|%s|%s" % (digest, tail)
+    assert len(name) <= NODE_NAME_LIMIT
+    return name
+
+
 exported = []
 for asset in PLAN["assets"]:
     # Bake transforms and convert units in one step, then detach from any
@@ -497,13 +521,15 @@ for asset in PLAN["assets"]:
                 obj.name[:40], ohi.x - olo.x, ohi.y - olo.y, ohi.z - olo.z, olo.z))
     triangles = sum(len(o.data.loop_triangles) or len(o.data.polygons) for o in meshes)
 
-    root = bpy.data.objects.new(asset["id"].replace(":", "__"), None)
+    root = bpy.data.objects.new(asset_node_name(asset["id"]), None)
     bpy.context.scene.collection.objects.link(root)
     root.empty_display_size = 0.1
     # The semantic id travels as glTF `extras`, not as the node name: three.js
     # sanitises node names for its animation property paths and silently
     # strips the slashes out of `bmv__landscape/trees/cypress1`, so a
-    # name-based lookup finds nothing and the whole kit renders empty.
+    # name-based lookup finds nothing and the whole kit renders empty. The
+    # node NAME is the short unique handle from asset_node_name(), which the
+    # manifest records verbatim so offline tools can resolve it exactly.
     root["assetId"] = asset["id"]
     root["category"] = asset["category"]
     for obj in meshes:

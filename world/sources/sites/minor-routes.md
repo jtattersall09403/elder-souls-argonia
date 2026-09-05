@@ -2,8 +2,8 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **167 paths**, 60.56 km in total: track 35, footpath 92, boardwalk 40, causeway 0
-- 56 places were already on a road or landing (within 45 m)
+- **168 paths**, 60.61 km in total: track 35, footpath 92, boardwalk 41, causeway 0
+- 55 places were already on a road or landing (within 45 m)
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 2.6 km):
 
   - `place.mercantile-coast.alten-meerhleel` — no land within the snap; boat-served
@@ -19,8 +19,8 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 | `place.imperial-fringe.swampmoth-town` | track | 1.68 |
 | `place.dunmer-north.crystalgate` | track | 1.088 |
 | `place.pirate-freeholds.veterans-holding` | track | 1.0 |
-| `place.dunmer-north.rimfield` | footpath | 0.968 |
 | `place.dunmer-north.the-flu-cordon` | footpath | 0.961 |
+| `place.dunmer-north.rimfield` | footpath | 0.923 |
 | `place.imperial-fringe.stonewastes` | track | 0.913 |
 | `place.dunmer-north.stands-on-the-island` | boardwalk | 0.909 |
 | `place.dunmer-north.riverwalk` | track | 0.889 |
@@ -33,7 +33,7 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 
 Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 boat cost surface, land impassable); data in `apps/world-studio/public/province/waterways-minor.json`.
 
-- **169 channels**, 56.12 km in total: channel 105, river 52, crossing 12
+- **169 channels**, 56.15 km in total: channel 105, river 52, crossing 12
 - 43 water-bound places already sit on a lane or navigable river (within 45 m)
 - 12 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
 

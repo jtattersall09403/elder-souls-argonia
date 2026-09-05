@@ -37,7 +37,7 @@ WHAT IT WRITES
 The scoring weights below are the plot's "siting grammar" in one place; if a
 family of places keeps landing wrong, change the weight and re-run, never
 hand-move a dot (hand moves are a Part 6 blueprint concern and go on the
-record as `plotOverride` with a reason — see `apply_overrides`).
+record as `plotOverride` with a reason — see `pin_overrides` / `worldgen.apply_sitings`).
 """
 
 from __future__ import annotations
@@ -739,6 +739,23 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
 # --------------------------------------------------------------------------- #
 # assignment
 # --------------------------------------------------------------------------- #
+def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candidate:
+    """A Part 6 siting, measured off the survey at the pinned point (the plot
+    facts are real even though the choice was made by hand)."""
+    row, col = s.grid_px(x, z)
+    anchors = s.anchor_points_m
+    wm = float(s.dist_to_water_m[row, col])
+    return Candidate(
+        id=f"pinned.{rid.rsplit('.', 1)[-1]}", kind="pinned", landform="pinned (Part 6 meso siting)", x=x, z=z,
+        region=REGION_CLASSES[int(s.region_grid[row, col])][0], danger=int(s.danger[row, col]),
+        zone=s.culture_names.get(int(s.culture[row, col])),
+        route_m=float(s.dist_to_route_m[row, col]), water_m=wm, depth_m=0.0,
+        slope=float(s.slope_grid[row, col]), prominence=0.0, visibility=0.0, concealment=0.0,
+        water_relation=max(0.0, 1.0 - wm / 300.0),
+        anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
+        anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1])))
+
+
 def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
            anchors: dict[str, tuple[float, float]]) -> tuple[dict[str, dict], list[dict]]:
     """Tier by tier, best-pair-first. Returns {record id: assignment} and the
@@ -891,6 +908,7 @@ def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, De
     for rid, r in result.items():
         r.setdefault("demand", by_d[rid])
     movable = [rid for rid, r in result.items() if r.get("score") is not None and by_d[rid].tier > 0
+               and r["candidate"].kind not in ("anchor", "pinned")
                and not by_d[rid].bound_to and not by_d[rid].sightline_to]
     movable.sort(key=lambda rid: (result[rid]["score"], rid))
     worst = movable[: max(1, len(movable) // 4)]
@@ -988,17 +1006,44 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
                 "score": None if r["score"] is None else round(r["score"], 3),
             }
             rec["workflow"] = "plotted"
+            if c.kind == "pinned":
+                rec["plotOverride"] = {"source": "blueprint", "why": r["why"]}
+            else:
+                rec.pop("plotOverride", None)
             # sitingPrefs ordering must stay; nothing else on the record changes
 
 
-def apply_overrides(result: dict[str, dict], cands_by_id: dict[str, Candidate], s: ProvinceSurvey) -> list[dict]:
-    """Hand placements (Parts 4–6 may pin a dot). `macro-plot-overrides.json`:
-    {"overrides": [{"id": ..., "u":..., "v":..., "why": ...}]}. A pinned record
-    is removed from the automatic solve entirely."""
+def load_overrides() -> list[dict]:
+    """Part 6 sitings pinned from blueprints — written by `worldgen.apply_sitings`,
+    never by hand. `macro-plot-overrides.json`:
+    {"overrides": [{"id": ..., "u":..., "v":..., "why": ..., "source": ...}]}."""
     if not OVERRIDES_PATH.exists():
         return []
-    doc = json.loads(OVERRIDES_PATH.read_text())
-    return doc.get("overrides", [])
+    return json.loads(OVERRIDES_PATH.read_text()).get("overrides", [])
+
+
+def pin_overrides(result: dict[str, dict], cands: list[Candidate], s: ProvinceSurvey) -> int:
+    """AFTER the solve: replace each pinned record's candidate with the sited
+    point. Doing it after (not as a pre-placed anchor) keeps the greedy solve
+    byte-identical for every other record — pinning four records inside the
+    solve moved 106 others, some by kilometres (2026-09-05). The freed site
+    goes back to the pool for a future run. Anchors are never overridden."""
+    n = 0
+    for o in load_overrides():
+        r = result.get(o["id"])
+        if not r or r["candidate"].kind == "anchor":
+            continue
+        x, z = s.uv_to_m(float(o["u"]), float(o["v"]))
+        r["candidate"].used_by = None
+        c = pinned_candidate(s, o["id"], x, z)
+        c.used_by = o["id"]
+        cands.append(c)
+        r["candidate"] = c
+        r["score"] = None
+        r["parts"] = {}
+        r["why"] = f"Pinned by the Part 6 meso siting ({o.get('source', 'blueprint')}): {o.get('why', '').rstrip('.')}."
+        n += 1
+    return n
 
 
 # --------------------------------------------------------------------------- #
@@ -1305,6 +1350,7 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED):
     attach_anchor_ids(s, cands)
     result, unresolved = assign(demands, cands, s, s.anchor_points_m)
     swap_pass(demands, result, plotted_meta_of(result), s)
+    pin_overrides(result, cands, s)
     return demands, files, scour, free, result, unresolved
 
 

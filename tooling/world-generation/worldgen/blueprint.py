@@ -27,23 +27,36 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     the set's culture carries the two-culture rule),
                     wealth, notes}
   routes[]/canals[]/boardwalks[]   {id, kind, points [[u,v],...], widthM}
-  parcels[]         {id, districtId, use, footprint (UV polygon, required —
-                    as are district boundaries, waterway points and
-                    landmark/dock positions: no geometry-free blueprints),
-                    optional yawDeg (authored orientation, degrees clockwise
-                    from north; without it the compiler seeds a quarter turn
-                    — wall courses on risers need it, Mazzatun 2026-09-04),
-                    buildingFamily (asset-
-                    inventory family ref), groundFit ("direct"|"plinth"|
-                    "pad"|"stilt"|"dug-in" — the slope ladder; compiler may
-                    only relax DOWN this list, never grade Δ≥2 m)}
-                    optional assetRef: an exact kit asset id, chosen on
-                    measured geometry (Part 6 rule); the compiler uses it
-                    instead of the family pick when present
+  parcels[]         {id, districtId, use, centreUV, yawDeg, orientationWhy,
+                    assetRef, footprint (DERIVED), buildingFamily, groundFit}
+
+                    Authoring rule (owner ruling 2026-09-05): a parcel is
+                    authored as WHERE (`centreUV` [u,v]), WHICH PIECE
+                    (`assetRef` — an exact kit asset id, picked on measured
+                    geometry, never on its name), WHICH WAY (`yawDeg`, degrees
+                    clockwise from north — REQUIRED) and WHY THAT WAY
+                    (`orientationWhy`, one plain sentence: "aligned to the
+                    contour behind it", "door to the quay" — REQUIRED).
+                    `footprint` is then DERIVED from the asset's measured
+                    ground hull by `worldgen.blueprint_footprints --apply`
+                    and must never be hand-edited; the validator recomputes it
+                    and fails on any drift. Optional `outline` picks
+                    "footprintM" (ground contact, default) or "planOutlineM"
+                    (the full silhouette — stilt pieces whose ground band is
+                    only piles).
+                    groundFit is "direct"|"plinth"|"pad"|"stilt"|"dug-in" —
+                    the slope ladder; the compiler may only relax DOWN this
+                    list, never grade Δ≥2 m. buildingFamily stays as the
+                    asset-inventory family the pick belongs to.
   siting            optional (Part 6): {dossier, candidates[{id, positionM,
                     why, chosen?, rejectedBecause?}]} — >=2 candidates, one
                     chosen; the deliberation the macro plot could not do
   landmarks[]       {id, kind, position, assetRef, notes}
+                    (optional yawDeg + scale; scale is a UNIFORM factor 0.2–5
+                    for natural pieces only — the sourced anvilgianttrunk at
+                    ~0.45 is the Nine-Trunks case; kit architecture stays 1.
+                    Parcels may carry `scale` under the same rule; the derived
+                    footprint and the compiler honour it)
   docks[]           {id, position, waterBodyId, piledToBed: true}
   combatSpaces[]    {id, boundary, clearanceClass}
   questSockets[]    {id, kind ("scene"|"evidence"|"container"|"npc"|
@@ -52,7 +65,15 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
   doors[]           {id (door.<region>.<slug>.<n>), parcelId, facingDeg,
                     thresholdUV, interiorClaim {sizeClass, culture, owner?}}
                     — Phase 12's fill points AND the interior streaming
-                    boundary; reachability validated every compile
+                    boundary; reachability validated every compile.
+                    `facingDeg` is checked against geometry: the validator
+                    finds the footprint edge nearest the threshold and requires
+                    facingDeg within DOOR_FACING_TOLERANCE_DEG (±100°) of that
+                    edge's OUTWARD normal, so a door cannot claim a side the
+                    building does not have. The tolerance is deliberately loose
+                    — a hull edge is a chord of a curved wall and a threshold
+                    may sit at a corner — so this catches doors placed on the
+                    wrong face, not fine aiming.
   clearance         {hardClear: [polygon...], thinned: [polygon...],
                     kept: [{id, kind ("hist-tree"|"shade"|"reed-bed"|...),
                     position}]} — graded vegetation clearing; masks feed
@@ -83,10 +104,12 @@ Run: python -m worldgen.blueprint --check   (from tooling/world-generation/)
 from __future__ import annotations
 
 import json
+import math
 import re
 import sys
 from pathlib import Path
 
+from . import blueprint_footprints as fp
 from .catalogue import CATALOGUE_DIR, load_region_files
 
 SCHEMA_VERSION = 1
@@ -116,6 +139,7 @@ GROUND_FIT = {"direct", "plinth", "pad", "stilt", "dug-in"}
 SOCKET_KINDS = {"scene", "evidence", "container", "npc", "encounter", "boss", "station", "mark"}
 TRAVEL_KINDS = {"ferry", "boat", "root", "water-taxi"}
 MAX_VARIANTS = 3
+DOOR_FACING_TOLERANCE_DEG = 100.0
 
 REQUIRED = [
     "id", "seed", "causalModel", "boundary", "districts", "parcels",
@@ -146,6 +170,47 @@ def _polygon_ok(poly) -> bool:
         isinstance(poly, list) and len(poly) >= 3
         and all(isinstance(p, list) and len(p) == 2 for p in poly)
     )
+
+
+def _angle_delta(a: float, b: float) -> float:
+    """Smallest absolute difference between two compass bearings, degrees."""
+    return abs((a - b + 180.0) % 360.0 - 180.0)
+
+
+def _door_edge_bearing(parcel: dict, threshold_uv) -> float | None:
+    """Compass bearing of the OUTWARD normal of the footprint edge nearest the
+    threshold. UV is used directly: the province square is square, so bearings
+    are the same in UV and in metres. Returns None when the geometry is not
+    usable (no footprint, no threshold), because this check is pragmatic."""
+    poly = parcel.get("footprint")
+    if not _polygon_ok(poly) or not (isinstance(threshold_uv, list) and len(threshold_uv) == 2):
+        return None
+    tx, tz = float(threshold_uv[0]), float(threshold_uv[1])
+    cx = sum(p[0] for p in poly) / len(poly)
+    cz = sum(p[1] for p in poly) / len(poly)
+    best = None
+    for i in range(len(poly)):
+        ax, az = poly[i]
+        bx, bz = poly[(i + 1) % len(poly)]
+        ex, ez = bx - ax, bz - az
+        length_sq = ex * ex + ez * ez
+        if length_sq == 0:
+            continue
+        t = max(0.0, min(1.0, ((tx - ax) * ex + (tz - az) * ez) / length_sq))
+        px, pz = ax + t * ex, az + t * ez
+        dist_sq = (tx - px) ** 2 + (tz - pz) ** 2
+        # edge normal, flipped to point away from the centroid
+        nx, nz = ez, -ex
+        mx, mz = (ax + bx) / 2.0, (az + bz) / 2.0
+        if nx * (mx - cx) + nz * (mz - cz) < 0:
+            nx, nz = -nx, -nz
+        if best is None or dist_sq < best[0]:
+            best = (dist_sq, nx, nz)
+    if best is None:
+        return None
+    _, nx, nz = best
+    # world axes: x east, z south, so north is -z (same convention as yawDeg)
+    return math.degrees(math.atan2(nx, -nz)) % 360.0
 
 
 def catalogue_ids() -> set[str]:
@@ -192,19 +257,36 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None) -> lis
         if not _polygon_ok(d.get("boundary")):
             fail(f"district {d.get('id')}: boundary must be a polygon of >=3 [u,v] points")
 
+    library = fp.library()
     for p in bp.get("parcels", []):
+        pid = p.get("id")
         if p.get("districtId") not in district_ids:
-            fail(f"parcel {p.get('id')}: unknown districtId {p.get('districtId')}")
+            fail(f"parcel {pid}: unknown districtId {p.get('districtId')}")
         if p.get("groundFit") not in GROUND_FIT:
-            fail(f"parcel {p.get('id')}: groundFit must be one of {sorted(GROUND_FIT)}")
+            fail(f"parcel {pid}: groundFit must be one of {sorted(GROUND_FIT)}")
         if not p.get("buildingFamily"):
-            fail(f"parcel {p.get('id')}: needs buildingFamily (asset-inventory ref)")
+            fail(f"parcel {pid}: needs buildingFamily (asset-inventory ref)")
         if not _polygon_ok(p.get("footprint")):
-            fail(f"parcel {p.get('id')}: footprint must be a UV polygon of >=3 [u,v] points")
-        if "yawDeg" in p and not isinstance(p["yawDeg"], (int, float)):
-            fail(f"parcel {p.get('id')}: yawDeg must be a number (degrees, clockwise from north)")
-        if "assetRef" in p and not (isinstance(p["assetRef"], str) and p["assetRef"]):
-            fail(f"parcel {p.get('id')}: assetRef must be a kit asset id string (geometry-judged pick, 0041 Part 6)")
+            fail(f"parcel {pid}: footprint must be a UV polygon of >=3 [u,v] points")
+        if not (isinstance(p.get("centreUV"), list) and len(p.get("centreUV", [])) == 2):
+            fail(f"parcel {pid}: centreUV must be [u,v] (the parcel is authored by centre + yaw, not by polygon)")
+        if not isinstance(p.get("yawDeg"), (int, float)) or isinstance(p.get("yawDeg"), bool):
+            fail(f"parcel {pid}: yawDeg is required and must be a number (degrees clockwise from north)")
+        if "scale" in p and not (isinstance(p["scale"], (int, float)) and 0.2 <= p["scale"] <= 5.0):
+            fail(f"parcel {pid}: scale must be a uniform factor in 0.2–5 (natural pieces only; kit pieces stay 1)")
+        why = p.get("orientationWhy")
+        if not isinstance(why, str) or len(why.strip()) < 12:
+            fail(f"parcel {pid}: orientationWhy is required — one plain sentence saying why the building faces this way (owner ruling 2026-09-05)")
+        if not (isinstance(p.get("assetRef"), str) and p.get("assetRef")):
+            fail(f"parcel {pid}: assetRef is required — an exact kit asset id chosen on measured geometry (0041 Part 6)")
+        elif library and library.get(p["assetRef"]) is None:
+            fail(f"parcel {pid}: assetRef {p['assetRef']!r} has no measured footprint — run pipeline.measure_footprints, or pick a piece that exists")
+        elif library:
+            derived = fp.parcel_footprint(p, library)
+            if derived is None:
+                fail(f"parcel {pid}: footprint cannot be derived from assetRef + centreUV + yawDeg")
+            elif not fp.polygons_match(p.get("footprint"), derived):
+                fail(f"parcel {pid}: footprint is not the derived polygon — it is DERIVED, never hand-edited; run 'python3 -m worldgen.blueprint_footprints --apply <file>'")
 
     siting = bp.get("siting")
     if siting is not None:
@@ -231,13 +313,18 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None) -> lis
             pos = item.get("position")
             if not (isinstance(pos, list) and len(pos) == 2):
                 fail(f"{key} {item.get('id')}: position must be [u,v]")
+            if "scale" in item and not (isinstance(item["scale"], (int, float)) and 0.2 <= item["scale"] <= 5.0):
+                fail(f"{key} {item.get('id')}: scale must be a uniform factor in 0.2–5")
+            if key == "landmarks" and "yawDeg" in item and not isinstance(item["yawDeg"], (int, float)):
+                fail(f"landmark {item.get('id')}: yawDeg must be a number")
 
     for s in bp.get("questSockets", []):
         if s.get("kind") not in SOCKET_KINDS:
             fail(f"socket {s.get('id')}: kind must be one of {sorted(SOCKET_KINDS)}")
 
     door_prefix = "door." + bid.removeprefix("place.") + "."
-    parcel_ids = {p.get("id") for p in bp.get("parcels", [])}
+    parcels_by_id = {p.get("id"): p for p in bp.get("parcels", [])}
+    parcel_ids = set(parcels_by_id)
     for d in bp.get("doors", []):
         if not str(d.get("id", "")).startswith(door_prefix):
             fail(f"door {d.get('id')}: id must start {door_prefix}")
@@ -246,6 +333,13 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None) -> lis
         claim = d.get("interiorClaim", {})
         if not claim.get("sizeClass") or claim.get("culture") not in INTERIOR_CULTURES:
             fail(f"door {d.get('id')}: interiorClaim needs sizeClass + culture")
+        parcel = parcels_by_id.get(d.get("parcelId"))
+        bearing = _door_edge_bearing(parcel, d.get("thresholdUV")) if parcel else None
+        if bearing is not None and isinstance(d.get("facingDeg"), (int, float)):
+            off = _angle_delta(float(d["facingDeg"]), bearing)
+            if off > DOOR_FACING_TOLERANCE_DEG:
+                fail(f"door {d.get('id')}: facingDeg {d['facingDeg']:.0f}° faces away from the wall it sits on "
+                     f"(nearest footprint edge points {bearing:.0f}°, {off:.0f}° off) — put the door on the side it claims")
 
     cl = bp.get("clearance", {})
     if cl and not {"hardClear", "thinned", "kept"} <= set(cl):

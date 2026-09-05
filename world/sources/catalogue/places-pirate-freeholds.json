@@ -1590,7 +1590,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "The Company built a bonded store on the northern river when the trade was lawful; the free port opened it the year the charter died and has used it ever since.",
+        "founding": "The Company built a bonded store on the northern river when the trade was lawful; the free port opened it in the year when the charter died and has used it ever since.",
         "siteAdvantages": "The only cargo-bearing stone building in the zone, on the basin's firm bank.",
         "occupantsMotive": "The port captain's men, who store bonded goods in a store that is no longer bonded and find that funny.",
         "pressures": "The seals were cut, not forged, and the Company's manifest is still nailed inside naming a dead consignee.",
@@ -2177,7 +2177,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Above the free port the river shallows to a channel a laden hull cannot use, so cargo transfers to poled craft here — and the limit moves every season.",
+        "founding": "Above the free port the river shallows to a channel which a laden hull cannot use, so cargo transfers to poled craft here — and the limit moves every season.",
         "siteAdvantages": "A confluence at -6.5 m relative depth where three channels meet and the deep water ends.",
         "occupantsMotive": "Transfer crews and a board-keeper whose season line is the district's most argued-about number.",
         "pressures": "In a dry year the limit drops two kilometres and half the district's freight costs change.",
@@ -3037,7 +3037,7 @@
             "registerRef": null,
             "payoff": "loot-cache",
             "valueTier": "tier-2",
-            "provenance": "behind the brick the water has loosened"
+            "provenance": "behind the brick that the water has loosened"
           }
         ]
       },
@@ -5375,7 +5375,7 @@
       "confidence": "EXTRAPOLATED",
       "why": {
         "founding": "Everything that goes above the gorge has to come out of the water and go back in, and the men who drag it charge.",
-        "siteAdvantages": "The one bank with a gradient a hauling gang can work, immediately below the narrows.",
+        "siteAdvantages": "The one bank with a gradient which a hauling gang can work, immediately below the narrows.",
         "occupantsMotive": "Six haulers with a charge board and a monopoly.",
         "pressures": "Cargo waits at both ends and is occasionally taxed twice.",
         "wouldChangeIf": "If a second slip were cut, the price halves — which is why it never is."
@@ -5486,7 +5486,7 @@
           "service-hub"
         ],
         "impact": "real",
-        "hook": "The one bank with a gradient a hauling gang can work, immediately below the narrows",
+        "hook": "The one bank with a gradient which a hauling gang can work, immediately below the narrows",
         "reviewed": false
       },
       "interior": {
@@ -6683,7 +6683,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground the gang works.",
+        "founding": "A gang that works a channel has to sleep on land. The families follow it. The camp is forty years old and is still named for the ground worked by the gang.",
         "siteAdvantages": "Firm bank opposite the barge's mooring, with a hatching shed set back from the water where the ground stays dry.",
         "occupantsMotive": "Families whose people are on the roll, keeping a life going within walking distance of it.",
         "pressures": "The camp has a Hist a day upriver but no claim on it. The families stay because the clutch is in the shed.",
@@ -6855,7 +6855,7 @@
           "lore-reveal"
         ],
         "impact": "province-changing",
-        "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch they will not leave.",
+        "hook": "The gang's families live on this bank. The warm shed at the back holds the clutch that they will not leave.",
         "reviewed": true
       },
       "interior": {
@@ -7707,7 +7707,7 @@
             "danger": "D3",
             "count": "single",
             "named": true,
-            "note": "Gorrey, who bought a claim in a script he cannot read and enforces it with thirty men"
+            "note": "Gorrey, who bought a claim in a script which he cannot read and enforces it with thirty men"
           },
           {
             "slotId": "n2",
@@ -8601,7 +8601,7 @@
           "hidden-secret"
         ],
         "impact": "real",
-        "hook": "Nine sockets cut for keystones lost since the Ayleids left, in a chamber the flood has not reached.",
+        "hook": "Nine sockets cut for keystones lost since the Ayleids left, in a chamber that the flood has not reached.",
         "reviewed": true
       },
       "interior": {
@@ -9295,7 +9295,7 @@
         "silhouette": "a cut ramp ending in nothing, and a stone cistern mouth swallowing the ramp's own fill",
         "palette": "grey ashlar, lichen gold, rock",
         "materials": "Akaviri-era dressed stone, a vaulted cistern, an unfinished cutting",
-        "signatureFeature": "a road cutting that stops in mid-air where the embankment slumped into the cistern it was built over, with the tool marks still sharp above the slump",
+        "signatureFeature": "a road cutting that stops in mid-air where the embankment slumped into the cistern beneath it, with the tool marks still sharp above the slump",
         "condition": "unfinished and outlasting everything finished",
         "mood": "imperial ambition, filed and forgotten",
         "approach": "the cut line is visible against the skyline",
@@ -9544,7 +9544,7 @@
             "danger": "D4",
             "count": "single",
             "trigger": "on-entry",
-            "note": "denned in the cache undercut, and the reason the consignment is still there"
+            "note": "denned in the cache undercut, and the reason why the consignment is still there"
           }
         ],
         "npcs": [],
@@ -12125,7 +12125,7 @@
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
-        "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border they had crossed.",
+        "founding": "Argonians who went north into Morrowind in the 4E came back and would not settle in ordinary villages, so they made their own holding on the border which they had crossed.",
         "siteAdvantages": "High firm ground on the flank above the pass, chosen for the sightline rather than the soil.",
         "occupantsMotive": "Veterans and their children, armed, keeping their own council.",
         "pressures": "Forty armed veterans in a zone whose other factions hire muscle by the day, so requests to them are put carefully.",

@@ -28,7 +28,7 @@ From `tooling/world-generation`:
 ```
 python3 -m worldgen.lint_prose --region <zone> --json /tmp/lint-<zone>.json   # one catalogue region
 python3 -m worldgen.lint_prose --no-catalogue --md <file.md>                    # a markdown file
-python3 -m worldgen.lint_prose --strict                                          # whole body, the npm-test gate
+python3 -m worldgen.lint_prose --strict                                          # whole body (places, quests, strings, blueprints), the npm-test gate
 ```
 
 Fix every **hard** hit. Use the soft candidates (`and-closer`, `and-for-but`,
@@ -46,7 +46,8 @@ fact. Style guide §2.8 has nine worked examples with the plain rewrite.
 The fixes, in order of preference: split into two plain sentences; cut the
 flourish clause; replace the device with a number, a name, an object or a
 direction. Never add a new device to replace an old one. Place-record fields
-(`why.*`, `vibe.*`, `playerPurpose.hook`, quest premises) are **reference
+(`why.*`, `vibe.*`, `playerPurpose.hook`, quest premises) and blueprint prose
+(`causalModel`, every `orientationWhy`, `notes`, siting reasons) are **reference
 register** (a wiki page about the place): third person, no address to the
 reader, no closer, one marsh metaphor at most. Dialogue keeps its speaker's
 voice (§2.1, culture registers) but obeys every ban and the preposition rule.

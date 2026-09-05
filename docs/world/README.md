@@ -26,6 +26,7 @@ across the repo resolve via the map below.
 | Finding/reusing assets: vanilla families + vetted mod candidates (architecture, flora, boats, creatures, ruins) + ingestion order | [90-asset-strategy.md](90-asset-strategy.md) (§71–80) — check before hunting new sources |
 | Populations, cultures mix, demographic priors | [92-demographics.md](92-demographics.md) (§81–84) — read when deciding how many people live in a settlement (Phase 11) |
 | Phase deliverables in detail, three-scales model, sequencing rationale | [95-build-sequence.md](95-build-sequence.md) (§85–87) |
+| **Building a place** (Phase 11 Parts 6–8 and the Phase 15 long tail): the per-place loop, the write-back rule, lessons per round, the automation-readiness checklist | [96-placement-playbook.md](96-placement-playbook.md) |
 | Resolving [^..] citations from any module | [99-sources.md](99-sources.md) |
 
 Acceptance rules (old Part XIV, §88–92) live in **00-core** — they bind

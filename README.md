@@ -107,7 +107,11 @@ asset registry.
   meshes, but retextures the vanilla farmhouse/dock/bridge/city sets under
   vanilla filenames, so kits declare `textureOverlayPools: ["tropical"]` and
   the vanilla-backed settlement pieces build hot-and-wet instead of Nordic
-  grey (`settlement-imperial-v1`, `settlement-stilt-v1`).
+  grey (`settlement-imperial-v1`, `settlement-stilt-v1`). **Phase 11 Part 6:**
+  the same trunk-only pieces (`anvilgianttrunk`, `anvil_palm_trunk`,
+  `anvil_root01`) also join `settlement-root-v1` as the stand-alone Hist trunk
+  column — the one thing no other tree asset we hold could be, every other Hist
+  mesh being a whole tree with a crown.
 - **Project Rainforest SE** (Nexus SSE mod 20636, sa547; credits incl.
   LorSakyamuni's TW3 Landscape Resource and Vurt's SFO) — tropical ground
   textures in the terrain material library (owner-approved 2026-08-23).
@@ -153,7 +157,12 @@ asset registry.
   and wicker furniture, the Kothringi stilt platform and Tamu wood dock/plank
   family, and the xanmeer ruin ornament (mesoamerican pyramids, feathered
   serpent and serpent-sigil statues, goddess statue, gargoyle, runic stone,
-  totems). Its creature content is **not** ingested — that is a Phase 13 job.
+  totems). **Phase 11 Part 6:** four of those xanmeer statics — `Totem02`,
+  `Totem03`, `RunicStone` and `SerpentSigilStatue` — join `underwater-v1` as the
+  Argonian sunken-shrine set (the drowned shrine to Xhon-Mehl the Fisher at
+  Lilmoth); they were chosen over the mod's `StatueGoddess` and `Totem01`
+  because those two carry Call-of-Cthulhu textures and read as a different
+  culture. Its creature content is **not** ingested — that is a Phase 13 job.
 - **Morrowind Imperial Keep Set (Remodeled)** (Nexus SSE mod 133090,
   Tesak1243, v1.0; modder's resource, use with credit) — the Morrowind-Imperial
   civic and military language behind the `imperial-keep` kit (88 exterior

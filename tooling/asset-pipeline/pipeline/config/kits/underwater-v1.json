@@ -1,6 +1,6 @@
 {
  "id": "underwater-v1",
- "description": "The drowned layer — underwater POIs are a province acceptance criterion and the catalogue has drowned/submerged place families to feed. Reef and bed flora (coral at three scales, seaweed, algae, kelp, driftwood, water rock-grass) from Depths of Skyrim with the 174995 corrected meshes, its wreck family (Atmoran longship/rowboat/warship, Bretic carrack half-wrecks) for sunken structures, and SIRENROOT's free-standing broken/hollow ruin blocks and WALKABLE rubble floors, which give a submerged ruin a swimmable, standable interior. Culture-neutral: wrecks and reefs belong to no building culture, so this kit may be combined with any settlement kit at a shoreline. Depths of Skyrim's WRECK family is excluded wholesale: Depths of Skyrim references ship-wood and carving textures it does not ship and no pool we hold supplies, so every hull exports as a grey slab. Sunken-hull dressing therefore comes from the boat pools (SBOT wrecks, BM&V drowned shells) instead; what this kit takes from Depths is its reef and bed flora, which is the part that is genuinely unique and correctly textured.",
+ "description": "The drowned layer — underwater POIs are a province acceptance criterion and the catalogue has drowned/submerged place families to feed. Reef and bed flora (coral at three scales, seaweed, algae, kelp, driftwood, water rock-grass) from Depths of Skyrim with the 174995 corrected meshes, its wreck family (Atmoran longship/rowboat/warship, Bretic carrack half-wrecks) for sunken structures, and SIRENROOT's free-standing broken/hollow ruin blocks and WALKABLE rubble floors, which give a submerged ruin a swimmable, standable interior. Culture-neutral: wrecks and reefs belong to no building culture, so this kit may be combined with any settlement kit at a shoreline. Depths of Skyrim's WRECK family is excluded wholesale: Depths of Skyrim references ship-wood and carving textures it does not ship and no pool we hold supplies, so every hull exports as a grey slab. Sunken-hull dressing therefore comes from the boat pools (SBOT wrecks, BM&V drowned shells) instead; what this kit takes from Depths is its reef and bed flora, which is the part that is genuinely unique and correctly textured. Phase 11 Part 6 sourcing gap FILLED: a sunken Argonian shrine (Lilmoth's drowned quarter, the shrine to Xhon-Mehl the Fisher) had no focal object that reads Argonian - the mud kit's `sithisshrine` is the wrong Argonian culture for Murkmire, and everything else we hold is Imperial or Daedric. HTBM's xanmeer ruin ornament supplies it: `totem02` (0.40 x 0.49 x 2.07 m) is a standing carved totem, `totem03` (1.11 x 1.29 x 1.56 m) the squat altar-height idol block, `runicstone` (1.19 x 0.65 x 1.14 m) the inscribed marker, and `serpentsigilstatue` (1.38 x 0.44 x 0.63 m) the serpent-sigil plaque. All four carry the mod's own `architecture/xanmeer` textures, i.e. they are the Argonian ruin set rather than pieces borrowed from elsewhere - HTBM's `statuegoddess` and `totem01` were REJECTED for exactly that reason (they carry `here there be monsters - the call of cthulhu` textures, a different culture), and `serpentsigilstone` was rejected as a 0.14 m decal, too small to be a focal object. All four are opaque stone, so they survive submersion with no alpha/foliage problems. The same four are the right dry-land shrine dressing for `settlement-stilt-v1`.",
  "culture": "neutral-underwater",
  "output": "tooling/asset-pipeline/output/kits/underwater-v1.glb",
  "lodRatios": [
@@ -65,6 +65,18 @@
   },
   {
    "asset": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem03"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/runicstone"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/serpentsigilstatue"
   }
  ]
 }

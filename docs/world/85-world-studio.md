@@ -122,6 +122,27 @@ is not read by the browser: `python3 -m worldgen.export_routes` projects
 `test_export_routes` fails when it is stale) and the layer joins on `id`. URL:
 `water=1`, `route=<id>`.
 
+### 68c. Blueprint view (Phase 11 Part 7)
+
+`?bp=1` (or the tick beside the layer list) opens a full-screen viewer over one
+settlement blueprint — the interactive answer to the static `render_blueprint`
+sheets, which the owner read as "a lot of stuff jumbled on top of each other"
+(2026-09-05). Wheel zooms, drag pans, `+` / `-` zoom and `0` refits; the terrain
+crop is the backdrop, then clearance, districts (tinted by kit set), roads /
+canals / boardwalks at their real width, parcels as their real footprints with a
+door tick and a yaw stub, landmarks, docks, combat spaces, quest sockets and the
+siting candidates (chosen filled, rejected hollow). Hover names a thing; click
+opens every field it carries (a parcel's asset, ground fit and orientation
+reason; a candidate's why / rejectedBecause; with nothing selected, the
+blueprint's causal model, budget and quest provisions). Each class has a
+checkbox, and **labels only draw at or above 3 px per metre**, so nothing piles
+up when zoomed out. Feed: `python3 -m worldgen.export_blueprints` writes
+`apps/world-studio/public/province/blueprints.json` (everything in world metres)
+plus a hillshade crop per blueprint under `province/blueprints/<id>.png`;
+`test_export_blueprints` fails when the JSON is stale. URL: `bp=1`,
+`blueprint=<id or slug>`, `bpsel=<object id>`, `bphide=<layers>`. Code:
+`apps/world-studio/src/blueprints/`.
+
 ## 69. Agent-readable probes
 
 Coding agents should receive JSON, CSV and compact HTML reports. Useful probes include:

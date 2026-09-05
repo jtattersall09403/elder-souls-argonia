@@ -367,3 +367,55 @@ haynekhtnamet, `SeaDrake` for sea-drake).
 No House **Dres** architecture exists in the vault: BM&V's `trdata` tree is
 landscape only, and the Dunmer sets present are Telvanni, Redoran, Velothi and
 stronghold. Thorn's Dunmer quarter keeps `hlaalu-domestic`.
+
+
+## Sourcing-gap register
+
+Every asset gap found by any agent, in any phase, gets a row here the moment it
+is found — so a gap can never be quietly left. `OPEN` means nobody has looked
+yet or the search is unfinished; `SOURCED` means a piece is in a kit config,
+built, credited and hashed; `NO SOURCE FOUND` means the vault and Nexus were
+both searched and the thing genuinely does not exist as an asset, in which case
+the design must change to something we can deliver.
+
+| # | Gap | Found by | Candidate chosen | Status | Date |
+|---|---|---|---|---|---|
+| G1 | Stand-alone Hist **trunk column** (3–8 m across, 15–30 m tall, no dwelling built in) that stands alone and accepts walkways/tap lines — for Nine-Trunks and every future grove or ruined-trunk composition. Everything held was a whole tree with a crown (HTBM Hist 64 × 45 × 54 m, Mud Mother Grove Hist 27 × 28 × 22 m) or the 206 m `treegiant01` host with its 44 m `treegiantrootbase01` flare | Phase 11 Part 6 | **`tropical:landscape/trees/anvilgianttrunk`** — 10.52 × 10.52 × 56.39 m, 784 tris, crownless column; with `anvil_palm_trunk` (17.94 × 16.61 × 33.74 m) as the stouter buttressed form and `anvil_root01` (14.43 × 10.30 × 6.20 m) as the authored root-flare skirt. Same author, same set, already composited together in `flora-province-v1`. Rejected on measurement: BM&V `vurt1bark`/`vurt2bark` (20.9 × 9.2 × 13.6 / 14.3 × 22.8 × 17.9 m — fallen, not columns), `gkbtreeaspenlog1`, `treepinestump` (both under 5 m) | **SOURCED** — vault, no download needed; joined `settlement-root-v1` | 2026-09-05 |
+| G2 | Focal object for an **Argonian underwater shrine** (sunken shrine to Xhon-Mehl the Fisher, Lilmoth's drowned quarter): a statue/altar/idol reading Argonian — not Imperial, not Daedric, not Sithis (the mud kit's `sithisshrine` is the wrong Argonian culture for Murkmire) — that survives submersion | Phase 11 Part 6 | **`htbm:…/architecture/ruins/xanmeer/totem02`** — 0.40 × 0.49 × 2.07 m standing carved totem, the focal idol; plus `totem03` (1.11 × 1.29 × 1.56 m squat altar-height idol block), `runicstone` (1.19 × 0.65 × 1.14 m inscribed marker) and `serpentsigilstatue` (1.38 × 0.44 × 0.63 m serpent-sigil plaque). All four carry HTBM's own `architecture/xanmeer` textures, i.e. the Argonian ruin set. Rejected: `statuegoddess` and `totem01` carry `here there be monsters - the call of cthulhu` textures (different culture); `serpentsigilstone` is a 0.14 m decal; `serpentstatue` is a 0.62 m cube. All four picks are opaque stone, so submersion raises no alpha/foliage problem | **SOURCED** — vault, no download needed; joined `underwater-v1`, and they are also the dry-land shrine dressing for `settlement-stilt-v1` | 2026-09-05 |
+| G3 | A **nailed notice / licence board** readable at arm's length (the countersigned tapping licence on the Licensed Stage rail; every future toll post, price list and register board — Alten Corimont's nailed-up price list is the same need) | Round A follow-up 2026-09-05 (Licensed Stage redesign) | not yet searched: vanilla Skyrim has no notice board mesh; candidates are Nexus modders' resources (notice/bulletin boards, hanging signs with a paper panel) and the Skyrim `paper`/`letter` clutter pinned to a plank as an authored composite only if a modder built one | **OPEN** | 2026-09-05 |
+
+Neither gap needed a Nexus purchase: both mods were already in the vault, both
+already have `Pool` rows, and both are credited in the root README (Tropical
+Skyrim SSE-classic 33017, Soolie; Here There Be Monsters — Sign of Cipactli SSE
+35933, Araanim, v2.92 — archive sha256s recorded with those mods' original
+rows above and in `mod-sources/SOURCES.json`). The credit lines were extended in
+the same change to name the new files.
+
+**How the picks were made.** A throwaway probe kit,
+`pipeline/config/kits/probe-gapfill.json`, was built with every candidate from
+both gaps so each was measured as actual geometry — bounding box, triangle
+count, alpha mode — rather than judged on its filename. The rejections above are
+all measurement or texture-set findings, not guesses. Culture was decided by
+reading each NIF's own texture references: a mesh that asks for
+`architecture/xanmeer/…` belongs to the Argonian set; one that asks for
+`the call of cthulhu/…` is a borrowed piece from a different mod in the same
+author's series and does not read Argonian at all. Delete `probe-gapfill.json`
+if a later pass finds it unhelpful; it is documentation of the choice, not a
+shipping kit.
+
+**How a blueprint references them.** By registry `assetRef` id, exactly as
+written in the kit configs:
+
+| Purpose | `assetRef` | Kit | Placement note |
+|---|---|---|---|
+| Hist trunk column | `tropical:landscape/trees/anvilgianttrunk` | `settlement-root-v1` | uniform scale ≈ 0.35–0.5 for the 3–8 m × 15–30 m brief (0.45 → 4.7 m across × 25 m tall); origin at the base, +Z up, so it sits on the ground plane with no offset |
+| Stout/buttressed trunk | `tropical:landscape/trees/anvil_palm_trunk` | `settlement-root-v1` | ≈ 0.3 for a short heavy bole (5.4 m × 10 m) |
+| Root flare at a trunk base | `tropical:landscape/trees/anvil_root01` | `settlement-root-v1` | same scale as the trunk it skirts |
+| Shrine focal idol | `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/totem02` | `underwater-v1` | scale 1; 2.07 m tall reads at swimming eye height |
+| Altar block / secondary idol | `htbm:…/xanmeer/totem03` | `underwater-v1` | scale 1 |
+| Inscribed marker stone | `htbm:…/xanmeer/runicstone` | `underwater-v1` | scale 1 |
+| Serpent-sigil plaque | `htbm:…/xanmeer/serpentsigilstatue` | `underwater-v1` | flat piece; set against a wall or slab, not free-standing |
+
+The full snap and scaling rules live where a kit agent will look for them: the
+`trunkColumns` entry in `settlement-root-v1.json`'s `snapLogic`, and the
+`underwater-v1.json` description.

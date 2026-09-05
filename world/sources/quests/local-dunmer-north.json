@@ -836,7 +836,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-empty-socket"
       ],
-      "premise": "A keystone chamber's missing key was carried off by a thief the city knows by name",
+      "premise": "A keystone chamber's missing key was carried off by a thief whom the city knows by name",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -890,7 +890,7 @@
         "place.dunmer-north.stormhold",
         "place.dunmer-north.the-fish-boon-ground"
       ],
-      "premise": "The Fish Boon crowd no longer fits the ground the rite requires, so the rite must move or shrink",
+      "premise": "The Fish Boon crowd no longer fits the ground that the rite requires, so the rite must move or shrink",
       "costTier": "S",
       "milestone": 1,
       "touches": [],
@@ -1457,7 +1457,7 @@
         "place.dunmer-north.ten-maur-wolk",
         "place.dunmer-north.thorn"
       ],
-      "premise": "The white marker ring around a Daedric ruin is paid for out of a market fund, under an entry the clerk does not itemise",
+      "premise": "The white marker ring around a Daedric ruin is paid for out of a market fund, under an entry which the clerk does not itemise",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1808,7 +1808,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.silyanorn-diggings"
       ],
-      "premise": "Crystal lies beyond the boundary the licence draws; the boundary is a chalk line on rock",
+      "premise": "Crystal lies beyond the boundary which the licence draws; the boundary is a chalk line on rock",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1888,7 +1888,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.the-empty-socket"
       ],
-      "premise": "A keystone chamber was built around an object the town's records decline to describe",
+      "premise": "A keystone chamber was built around an object that the town's records decline to describe",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -1942,7 +1942,7 @@
         "place.dunmer-north.crystalgate",
         "place.dunmer-north.the-outer-silyanorn"
       ],
-      "premise": "Surface stone is being lifted from a compound the town has ignored for centuries",
+      "premise": "Surface stone is being lifted from a compound which the town has ignored for centuries",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -2531,7 +2531,7 @@
       "anchorPlaces": [
         "place.dunmer-north.tearmouth"
       ],
-      "premise": "A manifest lists a consignment the river crews do not remember loading",
+      "premise": "A manifest lists a consignment that the river crews do not remember loading",
       "costTier": "S",
       "milestone": 2,
       "touches": [],
@@ -3145,7 +3145,7 @@
         "place.dunmer-north.branchmont",
         "place.dunmer-north.the-borrowed-tomb"
       ],
-      "premise": "Somebody living in a Dunmer tomb can name the household whose tomb it is, which is why he is left alone",
+      "premise": "Somebody living in a Dunmer tomb can name the household whose tomb it is, which is why he is not turned out",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
@@ -3330,7 +3330,7 @@
       "anchorPlaces": [
         "place.dunmer-north.hutan-tzel"
       ],
-      "premise": "A visitor breaks a courtesy the totems enforce, then asks the village to undo it",
+      "premise": "A visitor breaks a courtesy that the totems enforce, then asks the village to undo it",
       "costTier": "S",
       "milestone": 1,
       "touches": [],

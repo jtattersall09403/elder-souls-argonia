@@ -5,8 +5,8 @@
     "seed": "place.naga-kur-deeps.wamasu-pond-adult",
     "causalModel": {
       "founding": "An adult wamasu grew into a small isolated pan of standing water beside the zone's poling line and has held it for years.",
-      "siteAdvantages": "The only still, closed water within 300 m: fed by the water table, cut off from the tidal channels, and shallow enough that the animal can stand in all of it. A low bank ring, one knoll above it, and a cave mouth at the west waterline that floods to the roof.",
-      "occupantsMotive": "The animal holds ground it can charge; the villages have stopped trying to take it back and now leave offerings on the south bank in the old Shadowfen manner.",
+      "siteAdvantages": "The one closed body of still water within 300 m: fed by the water table, cut off from the tidal channels and shallow enough that the animal can stand in all of it. A low bank ring, one knoll above it and a cave mouth at the west waterline that floods to the roof.",
+      "occupantsMotive": "The animal holds ground that it can charge; the villages have stopped trying to take it back and now leave offerings on the south bank in the old Shadowfen manner.",
       "pressures": "The poling detour costs two hours and runs within 30 m of the pond for its whole length; the pole line needs patching every season.",
       "wouldChangeIf": "Killing the animal reopens the direct line and ends the offerings; the tribes disagree about whether that is a gain."
     },
@@ -172,22 +172,60 @@
         "buildingFamily": "arch.neutral.scaffold-platform",
         "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
         "groundFit": "plinth",
+        "centreUV": [
+          0.331464,
+          0.5928
+        ],
+        "yawDeg": 146.0,
+        "orientationWhy": "Turned so the stand's open, unrailed face looks down the 146-degree line to the pond, which leaves the three railed sides and the ramp on the landward flank of the knoll.",
         "footprint": [
           [
-            0.331213,
-            0.592947
+            0.331737675,
+            0.59283952
           ],
           [
-            0.331715,
-            0.592947
+            0.331740369,
+            0.59285079
           ],
           [
-            0.331715,
-            0.593463
+            0.33173629,
+            0.59286172
           ],
           [
-            0.331213,
-            0.593463
+            0.331419224,
+            0.593075584
+          ],
+          [
+            0.331407562,
+            0.593075271
+          ],
+          [
+            0.331398122,
+            0.593068551
+          ],
+          [
+            0.331190325,
+            0.59276048
+          ],
+          [
+            0.331187631,
+            0.59274921
+          ],
+          [
+            0.33119171,
+            0.59273828
+          ],
+          [
+            0.331508776,
+            0.592524416
+          ],
+          [
+            0.331520438,
+            0.592524729
+          ],
+          [
+            0.331529878,
+            0.592531449
           ]
         ]
       },
@@ -198,22 +236,76 @@
         "buildingFamily": "prop.argonian.ritual-totem",
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
         "groundFit": "direct",
+        "centreUV": [
+          0.335254,
+          0.600257
+        ],
+        "yawDeg": 345.0,
+        "orientationWhy": "Set square to the waterline on the south bank so the deck's long axis runs out toward the pan and the offerings laid on it face the water, as the bank's practice requires.",
         "footprint": [
           [
-            0.335064,
-            0.600081
+            0.335254778,
+            0.600322782
           ],
           [
-            0.335444,
-            0.600081
+            0.33522239,
+            0.600196671
           ],
           [
-            0.335444,
-            0.600433
+            0.335205397,
+            0.600086093
           ],
           [
-            0.335064,
-            0.600433
+            0.335205397,
+            0.600086093
+          ],
+          [
+            0.335385124,
+            0.600033723
+          ],
+          [
+            0.335470273,
+            0.600010907
+          ],
+          [
+            0.335543633,
+            0.599991251
+          ],
+          [
+            0.33555133,
+            0.599999016
+          ],
+          [
+            0.335585259,
+            0.600099441
+          ],
+          [
+            0.335622723,
+            0.600234019
+          ],
+          [
+            0.335640487,
+            0.600331755
+          ],
+          [
+            0.335637704,
+            0.600342329
+          ],
+          [
+            0.335564345,
+            0.600361986
+          ],
+          [
+            0.335479195,
+            0.600384802
+          ],
+          [
+            0.335297363,
+            0.600429311
+          ],
+          [
+            0.335297363,
+            0.600429311
           ]
         ]
       }
@@ -236,7 +328,7 @@
             2404.5,
             4433.4
           ],
-          "rejectedBecause": "No standing water at all: 3.0 m above the water table, shore 33 m off, depth 0.00 m. A pond there would be carved from nothing, and canopy 0.82 closes the sky the lightning-scarred trees need.",
+          "rejectedBecause": "No standing water at all: 3.0 m above the water table, shore 33 m off, depth 0.00 m. A pond there would be carved from nothing. Canopy 0.82 closes the sky that the lightning-scarred trees need.",
           "why": "The plotted position itself, kept for the record: rootland deep marsh, elevation 10.15 m, slope 3.4 deg, 335 m from the nearest road, 155 m from the poling lane."
         },
         {
@@ -245,7 +337,7 @@
             2602.0,
             4652.0
           ],
-          "rejectedBecause": "Real water 1.60 m deep and 8 m from the lane, but it flood-fills to the ocean: an estuary arm at level 0.00 m, flood band 3, not a held pond. Sitting on the lane also makes the place a blockage rather than a hazard the detour is drawn around.",
+          "rejectedBecause": "Real water 1.60 m deep and 8 m from the lane, but it flood-fills to the ocean: an estuary arm at level 0.00 m, flood band 3, not a held pond. Sitting on the lane also makes the place a blockage rather than a hazard around which the detour is drawn.",
           "why": "The head of the place's own poling lane, where the water is genuinely deep: elevation -1.55 m, depth 1.60 m, slope 0.3 deg, 8 m from the lane, 198 m from the nearest road."
         }
       ]
@@ -259,7 +351,8 @@
           0.597002
         ],
         "assetRef": "terrain.cave-mouth.flooded",
-        "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell."
+        "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell. Opening bears 93 degrees, due east along the waterline into the pan, which is the line along which a swimmer enters.",
+        "yawDeg": 93.0
       },
       {
         "id": "landmark.wamasu-pond-adult.dead-tree-n",
@@ -299,7 +392,8 @@
           0.599715
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
-        "notes": "0.75 x 0.49 m, 1.95 m tall. Faces the water, behind the offering platform."
+        "notes": "0.75 x 0.49 m, 1.95 m tall. Faces the water, behind the offering platform. Carved face turned 337 degrees to the water, standing behind the offering platform and looking over it.",
+        "yawDeg": 337.0
       },
       {
         "id": "landmark.wamasu-pond-adult.bone-chime",
@@ -309,7 +403,8 @@
           0.599172
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
-        "notes": "2.18 x 0.38 m, 1.41 m tall. The drum frame with no drum in it reads from here."
+        "notes": "2.18 x 0.38 m, 1.41 m tall. The drum frame with no drum in it reads from here. Frame set broadside across the bank walk at 317 degrees, so the empty drum ring is read against the water from the platform.",
+        "yawDeg": 317.0
       },
       {
         "id": "landmark.wamasu-pond-adult.cairn-1",
@@ -349,7 +444,8 @@
           0.600122
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
-        "notes": "0.66 x 0.64 m, 2.71 m tall. The only maintained light on the bank."
+        "notes": "0.66 x 0.64 m, 2.71 m tall. The only maintained light on the bank. Hooded back to the bank at 334 degrees, throwing what light it has over the water rather than up the cairn steps.",
+        "yawDeg": 334.0
       },
       {
         "id": "landmark.wamasu-pond-adult.pole-head",
@@ -428,7 +524,7 @@
           ]
         ],
         "clearanceClass": "broken",
-        "notes": "The offering shelf and cairn steps: the retreat ground, deliberately cluttered so it is worse to fight on and better to run through."
+        "notes": "The offering shelf and cairn steps: the retreat ground, deliberately cluttered so it is worse for fighting and better for a retreat."
       }
     ],
     "questSockets": [

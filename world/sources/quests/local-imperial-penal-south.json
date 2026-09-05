@@ -217,7 +217,7 @@
         "place.imperial-penal-south.blackrose",
         "place.imperial-penal-south.manned-toll-tower"
       ],
-      "premise": "Cargo passes the Water Reckoning uncounted by a channel the toll-keepers helped cut",
+      "premise": "Cargo passes the Water Reckoning uncounted through a channel which the toll-keepers helped to cut",
       "costTier": "M",
       "milestone": 2,
       "touches": [],
