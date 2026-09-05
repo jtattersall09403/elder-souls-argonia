@@ -39,6 +39,9 @@ CHECKS (one function each, all pure over `Ctx`)
   danger     dangerTier vs the danger raster, occupants' D-levels vs tier
   discovery  discovery=sightline/road and entrance vs route and depth
   generic    homeless-batch relaxations and near-duplicate identity prose
+  situation  97 A1/G1 — an M4/M5 record with fewer than two network relations
+             and no travelStation: size follows situation, so a big place
+             standing off the network is a design error, not a big place
 
 OUTPUT
 ------
@@ -803,7 +806,39 @@ def check_discovery(ctx: Ctx, rec: dict) -> list[Finding]:
 
 
 # --------------------------------------------------------------------------- #
-# 8. GENERIC / RELAXATION / DUPLICATE PROSE
+# 8. SITUATION (97 A1 / G1) — size follows situation
+# --------------------------------------------------------------------------- #
+# 97 A1: site is the ground a place stands on, situation is its position in the
+# network, and SIZE FOLLOWS SITUATION — a hamlet on a superb site stays a hamlet
+# if nothing passes it. So a big record (M4/M5: a town, a city, a works-town)
+# has to be somewhere the network actually goes. In the catalogue, situation is
+# carried by the network edges of `relations` and by `travelStation`; sight
+# (`visibleFrom`) is a site fact, not a network one, so it does not count.
+SITUATION_MAGNITUDES = {"M4", "M5"}
+NETWORK_RELATION_KEYS = ("dependsOn", "supplies", "rivals", "patrols", "tolls",
+                         "reachedVia", "travelServiceEdges")
+SITUATION_MIN_EDGES = 2
+
+
+def check_situation(ctx: Ctx, rec: dict) -> list[Finding]:
+    mag = (rec.get("classification") or {}).get("magnitude")
+    if mag not in SITUATION_MAGNITUDES:
+        return []
+    rel = rec.get("relations") or {}
+    edges = sum(len(rel.get(k) or []) for k in NETWORK_RELATION_KEYS)
+    station = rec.get("travelStation")
+    if edges >= SITUATION_MIN_EDGES or station:
+        return []
+    return [Finding(rec["id"], ctx.region_of[rec["id"]], "situation", "med",
+                    f"magnitude {mag}",
+                    f"97 A1 — situation is {edges} network relation(s) and no travelStation; "
+                    f"a place this size has to be somewhere the network goes "
+                    f"(>= {SITUATION_MIN_EDGES} network relations or a travel station)",
+                    "rewrite")]
+
+
+# --------------------------------------------------------------------------- #
+# 9. GENERIC / RELAXATION / DUPLICATE PROSE
 # --------------------------------------------------------------------------- #
 RELAXATION_WORDS = re.compile(
     r"neighbouring zone|lower bar|region relaxed|homeless batch|relaxed", re.I)
@@ -864,6 +899,7 @@ CHECKS: tuple[tuple[str, Callable[[Ctx, dict], list[Finding]]], ...] = (
     ("danger", check_danger),
     ("discovery", check_discovery),
     ("generic", check_generic),
+    ("situation", check_situation),
 )
 
 

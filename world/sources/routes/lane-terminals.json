@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "_": "Lane terminal overrides (Phase 11 stream C). A Phase 4 boat lane is solved anchor-to-anchor, so it ends at the city's plotted anchor pixel, which is the settlement's centre of gravity on land rather than the place at which a boat can tie up. Where a blueprint has declared the berth the lane serves, this file names it: `worldgen.compile_society` routes that city's lanes to `terminalUV` instead of its anchor, so the published lane geometry ends ON the quay and a blueprint `networkTerminals[]` entry can stitch to it (97 C-stitch). The mechanism is general: one entry per city, applied to every WATER_EDGES lane touching that city, in either direction. A terminal must be on boatable water (boat_cost < BOAT_PORTAGE); compile_society asserts it and refuses to build otherwise. Roads are unaffected. `dockId` is the blueprint dock the terminal is the berth of, recorded so the two files can be checked against each other.",
+  "terminals": {
+    "lilmoth": {
+      "terminalUV": [0.529192, 0.863633],
+      "dockId": "dock.lilmoth.lighter-quay",
+      "why": "Lilmoth's anchor sits inland, on the firm ground that carries the city; no hull or lighter reaches it. The lighter quay at the pier head is the channel-head berth for which every lane into Lilmoth makes, so the lanes end there and the quay lane carries them into the city."
+    }
+  }
+}

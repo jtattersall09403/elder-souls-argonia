@@ -2,7 +2,7 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **175 paths**, 124.84 km in total: track 33, footpath 97, boardwalk 42, causeway 3
+- **175 paths**, 124.66 km in total: track 33, footpath 97, boardwalk 42, causeway 3
 - 50 places were already on a road or landing (within 45 m)
 - 2 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):

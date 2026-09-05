@@ -41,6 +41,7 @@ grading. Deterministic: no randomness; heap ties break by (cost, row, col).
 from __future__ import annotations
 
 import argparse
+import hashlib
 import heapq
 import json
 from pathlib import Path
@@ -201,6 +202,18 @@ def snapshot_natural_routes(province: Path) -> None:
         snap.write_text(src.read_text())
 
 
+def natural_sha256(province: Path) -> str:
+    """Content hash of `routes-natural.json` — the solver output this repair
+    was made from. `compile_society` re-solves the majors on every run and
+    compares its fresh natural roads against this field: equal means the
+    published `routes.json` repair still applies and must not be overwritten;
+    different means the natural state moved on and the repair is stale."""
+    snap = province / "routes-natural.json"
+    if not snap.exists():
+        return ""
+    return hashlib.sha256(snap.read_bytes()).hexdigest()
+
+
 def _stamp(province: Path, report: list[dict] | None = None) -> None:
     """Mark the snapshot as current and keep the per-road record of what was
     re-routed. `grade_routes` reads the record into its report, so the whole
@@ -208,6 +221,7 @@ def _stamp(province: Path, report: list[dict] | None = None) -> None:
     src = province / "routes.json"
     (province / "routes-repaired-by.json").write_text(json.dumps(
         {"size": src.stat().st_size, "mtime_ns": src.stat().st_mtime_ns,
+         "naturalSha256": natural_sha256(province),
          "roads": report or []}, indent=1))
 
 

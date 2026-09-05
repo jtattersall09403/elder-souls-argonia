@@ -6,8 +6,12 @@ Three published bundles carry the network geometry, all in pixels on the same
 
     apps/world-studio/public/province/routes.json        major roads
     apps/world-studio/public/province/waterways.json     boat lanes / channels
+    apps/world-studio/public/province/waterways-minor.json  poling channels
     apps/world-studio/public/province/routes-minor.json  tracks, footpaths,
                                                          boardwalks, causeways
+
+A boat lane whose endpoint is a declared berth (`world/sources/routes/lane-terminals.json`)
+carries `startsAtM` / `endsAtM` for the same reason, and is treated the same way.
 
 A minor path routed to a blueprint's `networkTerminals[]` entry also carries
 `endsAtM` — the exact terminal in world metres — because the traced line is a
@@ -99,8 +103,24 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
     water = province / "waterways.json"
     if water.exists():
         for lane in json.loads(water.read_text())["lanes"]:
+            pts = _px_to_m(lane["px"], px_m)
+            # a declared lane terminal is an exact berth, not the raster cell
+            # it falls in (compile_society; 97 C-stitch)
+            for key, index in (("startsAtM", 0), ("endsAtM", -1)):
+                end = lane.get(key)
+                if isinstance(end, list) and len(end) == 2 and pts:
+                    exact = (float(end[0]), float(end[1]))
+                    pts = ((exact,) + pts[1:]) if index == 0 else (pts[:-1] + (exact,))
             out[lane["id"]] = NetworkRoute(lane["id"], classes.get(lane["id"], lane.get("class") or "lane"),
-                                           "water", _px_to_m(lane["px"], px_m))
+                                           "water", pts)
+    # Poling channels (the derived minor waterway network): a marsh village may
+    # declare one as its `networkTerminals[].routeId`, so they are addressable
+    # too (Phase 11 stream C).
+    minor_water = province / "waterways-minor.json"
+    if minor_water.exists():
+        for ch in json.loads(minor_water.read_text())["channels"]:
+            out[ch["id"]] = NetworkRoute(ch["id"], classes.get(ch["id"], ch.get("class") or "channel"),
+                                         "water", _px_to_m(ch["px"], px_m))
     if minor_path.exists():
         for t in json.loads(minor_path.read_text())["tracks"]:
             pts = _px_to_m(t["px"], px_m)

@@ -251,6 +251,13 @@ export interface RegisteredRoute {
   notes?: string;
   sources: string[];
   aliases: string[];
+  /**
+   * A derived minor path the player's map must not draw (owner requirement
+   * 2026-09-05): the ground is routed, graded and painted, but the place it
+   * serves is still found by rumour and by walking, so the line is styled
+   * faint in the studio and omitted from the in-game map and minimap.
+   */
+  unmapped?: boolean;
 }
 
 export interface RoutesIndexBundle {
@@ -268,6 +275,16 @@ export interface RouteGeometry {
   to: string;
   lengthKm?: number;
   px: [number, number][];
+  /**
+   * Exact head point of the line in world metres, [X east, Z south] — the
+   * declared berth or gate the decimated `px` grid line only approximates.
+   * `province_network` substitutes it for the first grid point when it stitches
+   * a lane to a settlement's dock (owner 2026-09-05, lane-terminal rule).
+   */
+  startsAtM?: [number, number];
+  /** Exact tail point of the line in world metres, [X east, Z south]; see
+   * `startsAtM`. */
+  endsAtM?: [number, number];
 }
 
 export interface RoadsBundle {

@@ -54,6 +54,7 @@ import numpy as np
 
 from . import catalogue
 from .regions import REGION_CLASSES
+from . import plot_stats
 from .site_fields import ProvinceSurvey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -1332,7 +1333,26 @@ def digest(rep: dict, result: dict[str, dict], demands: list[Demand]) -> str:
             L.append(f"| {aid} | {c['purposeCount']} | {', '.join(c['missingCorePurposes']) or '—'} | {c['hostileWithin2km']} | {rings} |")
         if fc["restCadenceGaps"]:
             L += ["", "Rest-cadence gaps (add a rest or soften): " + ", ".join(f"`{g['id']}` ({g['nearestRestM']} m)" for g in fc["restCadenceGaps"][:40])]
+    if rep.get("clarkEvans"):
+        L += plot_stats.digest_section(rep["clarkEvans"])
     return "\n".join(L) + "\n"
+
+
+def positions_by_zone(by_id, demands) -> dict[str, list[tuple[float, float]]]:
+    """{zone: [(x, z), ...]} for the plotted records, for `plot_stats` (97 G3).
+
+    `by_id` maps a record id to anything with `.x` / `.z` (a Candidate) or to an
+    [x, z] pair (a committed `positionM`), so the same function serves the solve
+    and the report-only pass over the committed catalogue."""
+    zone_of = {d.id: d.zone for d in demands}
+    out: dict[str, list[tuple[float, float]]] = {}
+    for did, pos in by_id.items():
+        zone = zone_of.get(did)
+        if zone is None:
+            continue
+        x, z = (pos.x, pos.z) if hasattr(pos, "x") else (float(pos[0]), float(pos[1]))
+        out.setdefault(zone, []).append((x, z))
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -1361,6 +1381,9 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
     rep["feedbackChecks"] = feedback_checks(demands, result, s)
+    rep["clarkEvans"] = plot_stats.clark_evans(
+        positions_by_zone({did: r["candidate"] for did, r in result.items()}, demands),
+        plot_stats.zone_land_area_m2(s))
     if write:
         for rf in files.values():
             catalogue.dump_json(rf.path, {"schemaVersion": catalogue.PLACES_SCHEMA_VERSION, "region": rf.region,
@@ -1372,12 +1395,130 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
     return rep
 
 
+# --------------------------------------------------------------------------- #
+# 97 A8 / G5 — a navigable role needs navigable water
+# --------------------------------------------------------------------------- #
+# A8: "a place whose identity is a network role sits where the role exists or
+# is cut", and a port sits on NAVIGABLE water. The `navigable` hint says the
+# record's own prose claims deep water, a quay, a harbour, an anchorage or a
+# laden hull; this checks the published water raster agrees.
+#
+# The ladder is 97 B5's hull classes, one step per thing that floats:
+#   canoe / raft / lighter   >= 0.6 m
+#   small-draft boat station >= 1.2 m
+#   keeled hull berth        >= 3.0 m
+# Type -> class is a table, not a guess: a place is keel-class only when its
+# identity IS a seagoing hull tying up (a port, a harbour city, a shipyard, the
+# head of navigation — the point where keels stop). Lilmoth is deliberately
+# canoe-class: its living is lighters BECAUSE hulls cannot berth (B5).
+HULL_CLASS_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
+NAVIGABLE_HULL_CLASS = {
+    "port-town": "keeled", "legal-harbour-city": "keeled", "neutral-free-port": "keeled",
+    "shipyard": "keeled", "head-of-navigation": "keeled", "foreign-trading-station": "keeled",
+    "ferry-stage": "small-draft", "customs-town": "small-draft", "tradehouse": "small-draft",
+    "bonded-warehouse": "small-draft", "pirate-anchorage": "small-draft",
+    "salvage-divers-yard": "small-draft", "monsoon-barrier": "small-draft",
+}
+NAVIGABLE_DEFAULT_CLASS = "canoe"
+# a place's own waterfront: the deepest published water within this reach of the
+# dot. A port town's centre stands on land; its quay does not.
+NAVIGABLE_REACH_M = 150.0
+# Pinned violations (97 G5, 2026-09-05). Recorded, not moved: moving a plotted
+# record is `worldgen.apply_sitings`' job against a blueprint, never a
+# validation pass. Each line is the measured depth and what has to happen.
+NAVIGABLE_EXCEPTIONS = {
+    "place.hist-heartland.alten-markmont": "0.0 m within 150 m — the plot put a foreign trading station on dry ground; needs a re-plot or a re-write of its 'landing' identity",
+    "place.imperial-fringe.onkobra-ferry": "0.0 m within 150 m — a ferry stage whose Onkobra crossing the depth raster reads as marsh, not channel; re-plot onto the channel or re-class the crossing as a ford",
+    "place.imperial-fringe.rufios-landing": "0.0 m within 150 m — a ravine lair whose prose says 'deep water'; the honest fix is the prose, not the ground",
+    "place.pirate-freeholds.alten-corimont": "2.7 m within 150 m against 3.0 m for a keeled berth — an owner-pinned anchor, 0.3 m short; the Part 6 blueprint decides whether its hulls lie off",
+    "place.pirate-freeholds.half-chartered-anchorage": "0.0 m within 150 m — an anchorage on dry ground; re-plot or re-write",
+    "place.saxhleel-coast.seafalls": "2.1 m within 150 m against 3.0 m for the head of navigation — arguably correct (a head of navigation is where the keels STOP), but the ladder cannot tell that from the type alone",
+}
+
+
+def navigable_violations(s: ProvinceSurvey) -> list[dict]:
+    """97 A8/G5 over the COMMITTED plot: every record whose prose claims
+    navigable water but whose deepest water within `NAVIGABLE_REACH_M` is under
+    its hull class. Report-only — it moves nothing."""
+    from scipy import ndimage
+
+    demands, files = build_demand(load_recipes())
+    positions = {rec["id"]: rec.get("positionM")
+                 for rf in files.values() for rec in rf.places}
+    n = s.water_depth_m.shape[0]
+    px = s.extent_m / n
+    deep = ndimage.maximum_filter(s.water_depth_m, size=int(round(2 * NAVIGABLE_REACH_M / px)) + 1)
+    out: list[dict] = []
+    for d in sorted(demands, key=lambda d: d.id):
+        if not d.hints.get("navigable"):
+            continue
+        pos = positions.get(d.id)
+        if not isinstance(pos, list) or len(pos) != 2:
+            continue
+        row = min(n - 1, max(0, int(pos[1] / px)))
+        col = min(n - 1, max(0, int(pos[0] / px)))
+        depth = float(deep[row, col])
+        hull = NAVIGABLE_HULL_CLASS.get(d.type, NAVIGABLE_DEFAULT_CLASS)
+        need = HULL_CLASS_M[hull]
+        if depth + 1e-9 < need:
+            out.append({"id": d.id, "type": d.type, "hullClass": hull,
+                        "needM": need, "depthM": round(depth, 2)})
+    return out
+
+
+CLUSTER_HEADING = "## Clustering — Clark-Evans R per zone (97 A5 / G3)"
+
+
+def report_only() -> dict:
+    """Recompute the report-only statistics (97 G3) over the COMMITTED plot and
+    write them into `macro-plot.json` / `macro-plot.md`, without re-solving:
+    the plotted positions are read back out of the catalogue, so no record can
+    move. Returns the stats."""
+    s = ProvinceSurvey()
+    demands, files = build_demand(load_recipes())
+    live = {d.id for d in demands}
+    positions = {rec["id"]: rec["positionM"]
+                 for rf in files.values() for rec in rf.places
+                 if rec["id"] in live and isinstance(rec.get("positionM"), list)}
+    stats = plot_stats.clark_evans(positions_by_zone(positions, demands),
+                                   plot_stats.zone_land_area_m2(s))
+    rep = json.loads(REPORT_JSON.read_text(encoding="utf-8"))
+    rep["clarkEvans"] = stats
+    REPORT_JSON.write_text(json.dumps(rep, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    md = REPORT_MD.read_text(encoding="utf-8")
+    head = md.split(CLUSTER_HEADING)[0].rstrip("\n")
+    REPORT_MD.write_text(head + "\n" + "\n".join(plot_stats.digest_section(stats)) + "\n",
+                         encoding="utf-8")
+    return stats
+
+
 def main(argv: list[str] | None = None) -> None:
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED)
     ap.add_argument("--dry-run", action="store_true", help="do not touch the catalogue; report goes to --report-dir")
     ap.add_argument("--report-dir", type=Path, default=REPO_ROOT / "output" / "macro-plot")
+    ap.add_argument("--validate", action="store_true",
+                    help="97 G5: check every navigable-hint record against its hull class over the "
+                         "COMMITTED plot; exits non-zero on an unpinned violation")
+    ap.add_argument("--report-only", action="store_true",
+                    help="97 G3: recompute the Clark-Evans clustering stats over the COMMITTED "
+                         "plot and write them into the report; does not solve or move anything")
     a = ap.parse_args(argv)
+    if a.validate:
+        bad = navigable_violations(ProvinceSurvey())
+        for v in bad:
+            pin = NAVIGABLE_EXCEPTIONS.get(v["id"])
+            print(f"[macro-plot] 97 A8/G5 {v['id']} ({v['type']}, {v['hullClass']}): "
+                  f"{v['depthM']} m within {NAVIGABLE_REACH_M:.0f} m, needs {v['needM']} m"
+                  f"{' — PINNED: ' + pin if pin else ''}")
+        unpinned = [v for v in bad if v["id"] not in NAVIGABLE_EXCEPTIONS]
+        print(f"[macro-plot] {len(bad)} navigable-depth violations, {len(unpinned)} unpinned")
+        raise SystemExit(1 if unpinned else 0)
+    if a.report_only:
+        stats = report_only()
+        print(f"[macro-plot] Clark-Evans median R {stats['median']}; "
+              f"over target (>=1): {', '.join(stats['zonesOverTarget']) or 'none'}")
+        return
     if a.dry_run:
         a.report_dir.mkdir(parents=True, exist_ok=True)
     rep = run(a.seed, write=not a.dry_run, report_only_to=a.report_dir if a.dry_run else None)

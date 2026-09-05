@@ -123,14 +123,14 @@
     {
       "from": "soulrest",
       "to": "lilmoth",
-      "lengthKm": 4.29,
-      "waterFraction": 0.97
+      "lengthKm": 4.51,
+      "waterFraction": 0.99
     },
     {
       "from": "lilmoth",
       "to": "archon",
-      "lengthKm": 3.21,
-      "waterFraction": 0.97
+      "lengthKm": 2.41,
+      "waterFraction": 1.0
     },
     {
       "from": "archon",
@@ -147,8 +147,8 @@
     {
       "from": "blackrose",
       "to": "lilmoth",
-      "lengthKm": 3.07,
-      "waterFraction": 0.96
+      "lengthKm": 2.28,
+      "waterFraction": 0.98
     },
     {
       "from": "alten-corimont",

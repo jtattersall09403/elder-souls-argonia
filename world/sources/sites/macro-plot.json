@@ -4436,5 +4436,78 @@
       "place.saxhleel-coast.shell-beast-shallows",
       "place.saxhleel-coast.wall-hist-village"
     ]
+  },
+  "clarkEvans": {
+    "measure": "Clark-Evans nearest-neighbour ratio R = observed mean NN distance / (0.5*sqrt(A/n)), A = the zone's land area (culture territory ∧ authored land)",
+    "target": "R < 1 (clustered); hand-placed worlds measure about 0.5 (97 A5). Reported, not gated.",
+    "zonesOverTarget": [
+      "dunmer-north",
+      "hist-heartland",
+      "imperial-fringe",
+      "imperial-penal-south",
+      "mercantile-coast",
+      "naga-kur-deeps",
+      "pirate-freeholds",
+      "saxhleel-coast"
+    ],
+    "median": 1.78,
+    "byZone": {
+      "dunmer-north": {
+        "n": 127,
+        "areaKm2": 7.56,
+        "meanNearestM": 175.4,
+        "expectedM": 122.0,
+        "R": 1.438
+      },
+      "hist-heartland": {
+        "n": 116,
+        "areaKm2": 8.89,
+        "meanNearestM": 246.4,
+        "expectedM": 138.4,
+        "R": 1.78
+      },
+      "imperial-fringe": {
+        "n": 120,
+        "areaKm2": 6.92,
+        "meanNearestM": 178.5,
+        "expectedM": 120.1,
+        "R": 1.486
+      },
+      "imperial-penal-south": {
+        "n": 44,
+        "areaKm2": 0.87,
+        "meanNearestM": 149.1,
+        "expectedM": 70.4,
+        "R": 2.118
+      },
+      "mercantile-coast": {
+        "n": 65,
+        "areaKm2": 3.41,
+        "meanNearestM": 195.7,
+        "expectedM": 114.5,
+        "R": 1.71
+      },
+      "naga-kur-deeps": {
+        "n": 40,
+        "areaKm2": 2.5,
+        "meanNearestM": 285.3,
+        "expectedM": 124.9,
+        "R": 2.283
+      },
+      "pirate-freeholds": {
+        "n": 31,
+        "areaKm2": 0.77,
+        "meanNearestM": 161.6,
+        "expectedM": 79.0,
+        "R": 2.046
+      },
+      "saxhleel-coast": {
+        "n": 37,
+        "areaKm2": 1.72,
+        "meanNearestM": 165.2,
+        "expectedM": 107.8,
+        "R": 1.532
+      }
+    }
   }
 }

@@ -7,10 +7,21 @@ Reads the Phase 3 cache plus world/sources/anchors/settlement-anchors.json,
 computes least-cost road corridors for every suggested connection, then the
 fixed danger field and culture territories. Writes overlay PNGs, routes.json
 and society-meta.json into apps/world-studio/public/province/.
+
+Lane terminals: boat lanes are solved anchor-to-anchor, and a city's anchor is
+its centre of gravity on land — no boat can tie up there. Where
+``world/sources/routes/lane-terminals.json`` declares a terminal for a city
+(``{terminalUV, dockId, why}``, keyed by anchor id), every lane touching that
+city is routed to that pixel instead, so the published geometry ends at the
+berth and a blueprint ``networkTerminals[]`` entry can stitch to it (97
+C-stitch). A terminal must lie on boatable water; this module asserts it. The
+mechanism is general — add a city, get the same behaviour. Roads are never
+overridden: a road's terminal is its gate, declared in the blueprint.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -39,6 +50,56 @@ STEP = 3
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PREVIEW_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 ANCHORS_PATH = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors.json"
+LANE_TERMINALS_PATH = REPO_ROOT / "world" / "sources" / "routes" / "lane-terminals.json"
+
+
+def load_lane_terminal_uv(path: Path = LANE_TERMINALS_PATH) -> dict[str, tuple[float, float]]:
+    """{anchor id: (u, v)} — the declared boat terminal for each city."""
+    if not path.exists():
+        return {}
+    doc = json.loads(path.read_text())
+    if doc.get("schemaVersion") != 1:
+        raise ValueError(f"{path}: schemaVersion must be 1")
+    return {city: (float(spec["terminalUV"][0]), float(spec["terminalUV"][1]))
+            for city, spec in doc.get("terminals", {}).items()}
+
+
+def publish_roads(routes_out: list[dict], province: Path = PREVIEW_DIR) -> bool:
+    """Publish the society solve's roads without clobbering a live repair.
+
+    `reroute_majors` repairs the published `routes.json` in place and records
+    what it repaired FROM in `routes-repaired-by.json` (`naturalSha256`, the
+    hash of `routes-natural.json`). So this writes the solver output to
+    `routes-natural.json` — the file siting reads — and then:
+
+      * hash unchanged and a repaired `routes.json` on disk  -> leave it alone;
+      * anything else -> write `routes.json` and drop the repair marker, so the
+        chain knows `reroute_majors` has to run again.
+
+    Returns True if `routes.json` was rewritten.
+    """
+    natural = province / "routes-natural.json"
+    roads = province / "routes.json"
+    marker = province / "routes-repaired-by.json"
+    natural.write_text(json.dumps({"routes": routes_out}))
+    # stamp the registry ids/names onto the geometry files (worldgen.route_registry)
+    from .route_registry import attach as _attach_route_ids
+    _attach_route_ids()
+    fresh = hashlib.sha256(natural.read_bytes()).hexdigest()
+    stamped = json.loads(marker.read_text()) if marker.exists() else {}
+    if roads.exists() and stamped.get("naturalSha256") == fresh:
+        print("routes: natural roads unchanged - keeping the reroute_majors repair "
+              "in routes.json (routes-natural.json refreshed)")
+        return False
+    roads.write_text(natural.read_text())
+    if marker.exists():
+        marker.unlink()
+        print("routes: natural roads CHANGED - routes.json rewritten and the repair "
+              "marker cleared; re-run `python3 -m worldgen.reroute_majors`")
+    else:
+        print("routes: routes.json written from the society solve "
+              "(no repair marker; run `python3 -m worldgen.reroute_majors` next)")
+    return True
 
 
 def main() -> None:
@@ -95,29 +156,69 @@ def main() -> None:
     for a, b in WATER_EDGES:
         by_water_source.setdefault(a, []).append(b)
     portage_mask = np.zeros((h, w), dtype=bool)
-    waterway_paths = []
-    for source, targets in by_water_source.items():
-        result = routes_from(boat_cost, anchors_px[source],
-                             [anchors_px[t] for t in targets], metres_per_px)
-        for t in targets:
-            path, length_m = result[anchors_px[t]]
-            if not path:
-                continue
-            water_frac = sum(water[y, x] for x, y in path) / len(path)
-            if water_frac < 0.7:
-                continue
-            for x, y in path:
-                # land hops are portages — drawn amber so refinement passes
-                # know where to carve channels or place boardwalks (plan §45)
-                (water_mask if water[y, x] else portage_mask)[y, x] = True
-            water_routes.append({"from": source, "to": t,
-                                 "lengthKm": round(length_m / 1000.0, 2),
-                                 "waterFraction": round(float(water_frac), 2)})
-            # persist the ordered path with per-px land flags so watershed
-            # refinement can resolve each portage hop explicitly (plan §45)
-            waterway_paths.append({"from": source, "to": t,
-                                   "px": [[int(x), int(y)] for x, y in path],
-                                   "land": [0 if water[y, x] else 1 for x, y in path]})
+    # Declared berths win over the anchor pixel for lane endpoints (see the
+    # module docstring); a terminal that is not on boatable water is a data bug.
+    lane_terminal_uv = load_lane_terminal_uv()
+    lane_terminals = {c: (int(u * w), int(v * h)) for c, (u, v) in lane_terminal_uv.items()}
+    for city, (tx, ty) in lane_terminals.items():
+        if city not in anchors_px:
+            raise ValueError(f"lane-terminals.json: {city!r} is not a settlement anchor")
+        if not water[ty, tx]:
+            raise ValueError(f"lane-terminals.json: {city!r} terminal px ({tx}, {ty}) is not on "
+                             f"boatable water (boat_cost {boat_cost[ty, tx]:.1f} >= {BOAT_PORTAGE})")
+
+    def solve_lanes(endpoint_px, terminals, mark_masks):
+        """Solve every WATER_EDGES lane between `endpoint_px`; returns
+        (lane records, water-route stats). `mark_masks` paints the water /
+        portage overlays (only the published solve does)."""
+        paths, stats = [], []
+        for source, targets in by_water_source.items():
+            result = routes_from(boat_cost, endpoint_px[source],
+                                 [endpoint_px[t] for t in targets], metres_per_px)
+            for t in targets:
+                path, length_m = result[endpoint_px[t]]
+                if not path:
+                    continue
+                water_frac = sum(water[y, x] for x, y in path) / len(path)
+                if water_frac < 0.7:
+                    continue
+                if mark_masks:
+                    for x, y in path:
+                        # land hops are portages — drawn amber so refinement passes
+                        # know where to carve channels or place boardwalks (plan §45)
+                        (water_mask if water[y, x] else portage_mask)[y, x] = True
+                stats.append({"from": source, "to": t,
+                              "lengthKm": round(length_m / 1000.0, 2),
+                              "waterFraction": round(float(water_frac), 2)})
+                # persist the ordered path with per-px land flags so watershed
+                # refinement can resolve each portage hop explicitly (plan §45)
+                lane = {"from": source, "to": t,
+                        "px": [[int(x), int(y)] for x, y in path],
+                        "land": [0 if water[y, x] else 1 for x, y in path]}
+                # A declared terminal is an exact point; path[0]/path[-1] are only
+                # the raster cells it falls in. Publish the exact metres so the
+                # 97 C-stitch check measures the join against the real berth
+                # (the same trick compile_minor_routes uses for `endsAtM`).
+                for key, city in (("startsAtM", source), ("endsAtM", t)):
+                    if city in terminals:
+                        u, v = lane_terminal_uv[city]
+                        lane[key] = [round(u * w * metres_per_px, 3),
+                                     round(v * h * metres_per_px, 3)]
+                paths.append(lane)
+        return paths, stats
+
+    # The SITING SEAM (decision 0025 / the rebuild chain, the same rule the
+    # roads already follow): a place's siting score depends on how near a lane
+    # it is, so scoring on the terminal-corrected line would feed a berth back
+    # into the macro plot and move committed records. `waterways-natural.json`
+    # is the anchor-to-anchor solve that `site_fields.ProvinceSurvey` reads;
+    # `waterways.json` — ending at the declared berths — is what the world
+    # carries. With no terminals declared the two files are identical.
+    natural_paths, _natural_stats = solve_lanes(anchors_px, {}, mark_masks=False)
+    (PREVIEW_DIR / "waterways-natural.json").write_text(json.dumps({"lanes": natural_paths}))
+    lane_px = {a: lane_terminals.get(a, px) for a, px in anchors_px.items()}
+    waterway_paths, lane_stats = solve_lanes(lane_px, lane_terminals, mark_masks=True)
+    water_routes.extend(lane_stats)
     (PREVIEW_DIR / "waterways.json").write_text(json.dumps({"lanes": waterway_paths}))
 
     # Rootworm transit (speculative pass 1, AGENT_AUTHORED — plan §19).
@@ -158,10 +259,7 @@ def main() -> None:
         culture_img[soc.culture == ci + 1] = (*spec["colour"], 100)
     Image.fromarray(culture_img).save(PREVIEW_DIR / "soc-cultures.png")
 
-    (PREVIEW_DIR / "routes.json").write_text(json.dumps({"routes": routes_out}))
-    # stamp the registry ids/names onto both geometry files (worldgen.route_registry)
-    from .route_registry import attach as _attach_route_ids
-    _attach_route_ids()
+    publish_roads(routes_out)
     meta = {
         "dangerLegend": {str(b): {"name": name, "rgb": list(rgb)} for b, (name, rgb) in DANGER_BANDS.items()},
         "cultureLegend": {name: {"name": name, "rgb": list(spec["colour"])} for name, spec in CULTURES.items()},

@@ -63,3 +63,64 @@ def test_repair_is_deterministic_and_leaves_a_walkable_line_alone():
     flat = [[x, 1] for x in range(5, 25)]
     same, edits = rm.repair(flat, "road", cost, h, 5.5)
     assert same == flat and edits == []
+
+
+# --- the compile_society / reroute_majors hand-off -------------------------
+# compile_society re-solves the majors on every run; reroute_majors repairs
+# what it published. These pin the marker contract that stops the second from
+# being silently undone by the first.
+
+def _publish(tmp_path, routes):
+    from worldgen import compile_society as cs
+    return cs.publish_roads(routes, province=tmp_path)
+
+
+def _fake_repair(tmp_path):
+    """Stand in for a reroute_majors run: routes.json diverges from natural
+    and the marker records the hash it was repaired from."""
+    import json
+    (tmp_path / "routes.json").write_text(json.dumps({"routes": [{"id": "a", "px": [[9, 9]]}]}))
+    rm._stamp(tmp_path, [{"id": "a"}])
+
+
+def test_unchanged_natural_roads_keep_the_repair(tmp_path, monkeypatch, capsys):
+    import json
+    from worldgen import route_registry
+    monkeypatch.setattr(route_registry, "attach", lambda: None)
+    solve = [{"id": "a", "px": [[0, 0]]}]
+    _publish(tmp_path, solve)
+    _fake_repair(tmp_path)
+    repaired = (tmp_path / "routes.json").read_text()
+
+    assert _publish(tmp_path, solve) is False
+    assert (tmp_path / "routes.json").read_text() == repaired
+    assert (tmp_path / "routes-repaired-by.json").exists()
+    assert json.loads((tmp_path / "routes-natural.json").read_text())["routes"] == solve
+    assert "unchanged" in capsys.readouterr().out
+
+
+def test_changed_natural_roads_rewrite_and_invalidate(tmp_path, monkeypatch, capsys):
+    import json
+    from worldgen import route_registry
+    monkeypatch.setattr(route_registry, "attach", lambda: None)
+    _publish(tmp_path, [{"id": "a", "px": [[0, 0]]}])
+    _fake_repair(tmp_path)
+
+    moved = [{"id": "a", "px": [[1, 1]]}]
+    assert _publish(tmp_path, moved) is True
+    assert json.loads((tmp_path / "routes.json").read_text())["routes"] == moved
+    assert not (tmp_path / "routes-repaired-by.json").exists()
+    assert "CHANGED" in capsys.readouterr().out
+
+
+def test_marker_without_a_hash_is_treated_as_stale(tmp_path, monkeypatch):
+    """Backward compatibility: markers written before naturalSha256 existed."""
+    import json
+    from worldgen import route_registry
+    monkeypatch.setattr(route_registry, "attach", lambda: None)
+    solve = [{"id": "a", "px": [[0, 0]]}]
+    _publish(tmp_path, solve)
+    (tmp_path / "routes.json").write_text(json.dumps({"routes": [{"id": "a", "px": [[9, 9]]}]}))
+    (tmp_path / "routes-repaired-by.json").write_text(json.dumps({"size": 1, "mtime_ns": 1, "roads": []}))
+    assert _publish(tmp_path, solve) is True
+    assert not (tmp_path / "routes-repaired-by.json").exists()

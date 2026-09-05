@@ -238,7 +238,13 @@ class ProvinceSurvey:
             pts = np.asarray(r["px"], dtype=np.float32) * self.grid_px_m
             out.append(Route("road", r["from"], r["to"], float(r["lengthKm"]),
                              pts if pts.size else np.zeros((0, 2), np.float32)))
-        lanes = json.loads((self.province / "waterways.json").read_text())["lanes"]
+        # the same seam for boat lanes: `waterways-natural.json` is the
+        # anchor-to-anchor solve, `waterways.json` ends at the declared berths
+        # (world/sources/routes/lane-terminals.json). Siting reads the natural
+        # line so a berth cannot feed back into the plot (compile_society).
+        natural_lanes = self.province / "waterways-natural.json"
+        lanes_path = natural_lanes if natural_lanes.exists() else self.province / "waterways.json"
+        lanes = json.loads(lanes_path.read_text())["lanes"]
         lengths = {(w["from"], w["to"]): w["lengthKm"]
                    for w in self.society_meta.get("waterRoutes", [])}
         for lane in lanes:

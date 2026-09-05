@@ -167,3 +167,88 @@ def test_province_total_is_inside_the_corrected_envelope():
     )
     n = sum(_live_by_region().values())
     assert lo <= n <= hi, f"province holds {n} live records; the corrected envelope is {lo}-{hi}"
+
+
+# --- 97 A6 / G4 — two instances of one type within 2 km differ on >=3 axes ---
+# Soft ceiling, gated the same way as the region budgets above (owner touchpoint
+# ①, 2026-09-03: ceilings are SOFT, floors are HARD). The rule is 97 A6's
+# anti-sameyness clause; the measure is the pair count, so a repair pass can
+# see the number move. A pair may be excepted only with a written reason.
+VIBE_AXES = ("silhouette", "palette", "materials", "signatureFeature",
+             "condition", "mood", "approach", "senses")
+SAMEYNESS_PAIR_M = 2000.0
+SAMEYNESS_MIN_AXES = 3
+SAMEYNESS_CEILING = 0            # measured 0 on 2026-09-05 over 171 same-type pairs in range
+SAMEYNESS_EXCEPTIONS: dict[tuple[str, str], str] = {}   # none
+
+
+def _live_records() -> list[dict]:
+    return [p for rf in catalogue.load_region_files() for p in rf.places
+            if p.get("status") not in {"deferred", "cut"}]
+
+
+def _sameyness_pairs() -> list[tuple[str, str, int]]:
+    import collections
+    import math
+    by_type: dict[str, list[dict]] = collections.defaultdict(list)
+    for rec in _live_records():
+        if isinstance(rec.get("positionM"), list):
+            by_type[rec["classification"]["type"]].append(rec)
+    out = []
+    for recs in by_type.values():
+        for i in range(len(recs)):
+            for j in range(i + 1, len(recs)):
+                a, b = recs[i], recs[j]
+                if math.dist(a["positionM"], b["positionM"]) > SAMEYNESS_PAIR_M:
+                    continue
+                va, vb = a.get("vibe") or {}, b.get("vibe") or {}
+                differ = sum(1 for f in VIBE_AXES
+                             if (va.get(f) or "").strip() != (vb.get(f) or "").strip())
+                if differ < SAMEYNESS_MIN_AXES:
+                    out.append((a["id"], b["id"], differ))
+    return sorted(out)
+
+
+def test_same_type_neighbours_differ_on_three_axes():
+    bad = [p for p in _sameyness_pairs()
+           if tuple(sorted(p[:2])) not in SAMEYNESS_EXCEPTIONS]
+    assert len(bad) <= SAMEYNESS_CEILING, (
+        f"97 A6: {len(bad)} same-type pairs within {SAMEYNESS_PAIR_M:.0f} m differ on fewer than "
+        f"{SAMEYNESS_MIN_AXES} vibe axes (ceiling {SAMEYNESS_CEILING}): {bad[:8]}"
+    )
+
+
+# --- 97 A10 / G6 — the province's shape: wild, not a unified state ------------
+# Two live shares. The settlement+civic CEILING is soft (touchpoint ①: a ceiling
+# may be excepted with a recorded reason); the hostile-or-clearable FLOOR is
+# HARD — a province below it is not Black Marsh any more, and that is a real
+# finding, never an exception.
+SETTLEMENT_CIVIC_CEILING = 0.22
+HOSTILE_SHARE_FLOOR = 0.55
+SETTLEMENT_CIVIC_EXCEPTION: float | None = None   # measured 21.2 % on 2026-09-05: inside
+
+
+def _shares() -> tuple[float, float, int]:
+    from .hostility_frequency import is_hostile
+    recs = _live_records()
+    n = len(recs)
+    sc = sum(1 for r in recs if r["classification"]["class"] in {"settlement", "civic"})
+    hostile = sum(1 for r in recs if is_hostile(r))
+    return sc / n, hostile / n, n
+
+
+def test_settlement_and_civic_share_is_under_the_ceiling():
+    share, _hostile, n = _shares()
+    ceiling = SETTLEMENT_CIVIC_EXCEPTION or SETTLEMENT_CIVIC_CEILING
+    assert share <= ceiling, (
+        f"97 A10: settlement+civic is {share:.1%} of {n} live records, over the {ceiling:.0%} "
+        "ceiling — Black Marsh is wild, not a unified state"
+    )
+
+
+def test_hostile_or_clearable_share_is_over_the_floor():
+    _share, hostile, n = _shares()
+    assert hostile >= HOSTILE_SHARE_FLOOR, (
+        f"97 A10: hostile-or-clearable is {hostile:.1%} of {n} live records, under the HARD "
+        f"{HOSTILE_SHARE_FLOOR:.0%} floor (floors are hard, decision 0041 touchpoint ①)"
+    )

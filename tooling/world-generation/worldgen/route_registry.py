@@ -29,6 +29,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 ROADS_PATH = PROVINCE / "routes.json"
+NATURAL_ROADS_PATH = PROVINCE / "routes-natural.json"
 LANES_PATH = PROVINCE / "waterways.json"
 # Minor geometry (Part 3b/3c): a registry entry may instead be solved by a
 # single derived minor path, named by `geometryId`.
@@ -161,7 +162,9 @@ def attach() -> None:
     (deterministic, idempotent). Consumers (studio, road painting, fast travel)
     read the id from the geometry and never re-derive it from the pair."""
     routes = load()
-    for path, key, mode in ((ROADS_PATH, "routes", "road"), (LANES_PATH, "lanes", "boat")):
+    for path, key, mode in ((ROADS_PATH, "routes", "road"),
+                            (NATURAL_ROADS_PATH, "routes", "road"),
+                            (LANES_PATH, "lanes", "boat")):
         if not path.exists():
             continue
         same = [r for r in routes if r["mode"] == mode]

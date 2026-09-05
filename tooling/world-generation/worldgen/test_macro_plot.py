@@ -87,3 +87,19 @@ def test_resolve_reproduces_the_committed_plot():
     for did, r in result.items():
         c = r["candidate"]
         assert committed[did] == [round(c.x, 1), round(c.z, 1)], did
+
+
+def test_navigable_roles_sit_on_navigable_water():
+    """97 A8 / G5: a record whose prose claims navigable water (`navigable`
+    hint) must plot where the published depth within 150 m clears its hull
+    class. Violations are PINNED in `macro_plot.NAVIGABLE_EXCEPTIONS` with a
+    reason rather than moved — moving a plotted record is `apply_sitings`'
+    job. Slow: loads the survey."""
+    bad = macro_plot.navigable_violations(ProvinceSurvey())
+    unpinned = [v for v in bad if v["id"] not in macro_plot.NAVIGABLE_EXCEPTIONS]
+    assert not unpinned, (
+        "97 A8/G5 — navigable roles on water too shallow for their hull class: "
+        + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)" for v in unpinned)
+    )
+    stale = sorted(set(macro_plot.NAVIGABLE_EXCEPTIONS) - {v["id"] for v in bad})
+    assert not stale, f"pinned navigable exceptions that no longer violate — delete them: {stale}"

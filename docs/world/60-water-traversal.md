@@ -317,7 +317,10 @@ terrain fields (owner direction, 2026-08-23). Where a macro boat lane crosses
 land (portage hops, drawn amber in the studio), watershed refinement must
 resolve the hop explicitly: carve a navigable channel, or make it a real
 portage/boardwalk feature. (Mechanism exists since Phase 6 pass 2:
-compile_society persists lane paths in `waterways.json`;
+compile_society persists lane paths in `waterways.json` — ending at the berths
+declared in `world/sources/routes/lane-terminals.json`, with the
+anchor-to-anchor solve kept beside it as `waterways-natural.json` for siting
+(decision 0025);
 `refine_watershed.resolve_portages` applies decision 0012 and records
 outcomes in the basin's `portages.json` for Phase 11 feature placement.)
 

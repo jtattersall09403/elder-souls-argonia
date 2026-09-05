@@ -96,6 +96,15 @@ TERMINAL_BEARING_RUN_M = 15.0
 # on local +x — means its YAW runs parallel to the road's bearing.
 GATE_SQUARE_TOL_DEG = 15.0
 # how far out the approach arrow has to start, on the route itself
+# A WATER terminal is a berth, not a continuation. Boats come alongside, so a
+# lane may meet its quay at any angle and three lanes may share one berth —
+# the continuation/gate rules below are land rules and do not apply. What must
+# hold is that the berth is at an END of the lane (the lane terminates there,
+# it does not pass by) and that the way it hands onto is something you can
+# actually step out onto.
+TERMINAL_LANE_END_M = 8.0   # one raster cell and a half: the lane's last cell is the berth's
+LANDING_WAY_KINDS = {"pier", "boardwalk", "channel", "stair", "ramp"}
+# how far out the approach arrow has to start, on the route itself
 APPROACH_STANDOFF_M = 30.0
 APPROACH_ON_ROUTE_M = 3.0
 
@@ -366,6 +375,20 @@ def check_network_stitch(bp: dict, survey, network: dict | None = None) -> list[
             errors.append(f"network-stitch: terminal {tid} carries {route.cls} {route.id} onto "
                           f"{w.get('kind')} {w['id']} — a way may not be a lower class than the route it "
                           f"continues (97 C-stitch); widen the way or re-class the terminal")
+        if route is not None and route.is_water:
+            # a berth, not a junction: the lane ENDS here and hands onto a landing
+            if len(route.points_m) >= 2:
+                ends = (Point(route.points_m[0]), Point(route.points_m[-1]))
+                d_lane_end = min(e.distance(pt) for e in ends)
+                if d_lane_end > TERMINAL_LANE_END_M:
+                    errors.append(f"network-stitch: terminal {tid} sits {d_lane_end:.1f} m from either end of "
+                                  f"{route.cls} {route.id} (limit {TERMINAL_LANE_END_M} m) — a berth is where "
+                                  f"the lane ENDS; a lane that merely passes the place does not land there")
+            if (w.get("kind") or "") not in LANDING_WAY_KINDS:
+                errors.append(f"network-stitch: terminal {tid} lands {route.cls} {route.id} on "
+                              f"{w.get('kind')} {w['id']} — a boat is stepped out of onto a "
+                              f"{sorted(LANDING_WAY_KINDS)} way, not onto a street")
+            continue
         # (a) no oblique kink at the gate: the street continues the road's line
         if route_bearing is not None and len(coords) >= 2:
             near_start = Point(coords[0]).distance(pt) <= Point(coords[-1]).distance(pt)

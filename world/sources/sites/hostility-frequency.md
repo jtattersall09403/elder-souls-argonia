@@ -6,9 +6,9 @@ Places only (roaming creatures and encounter sockets are Phase 13 and add to eve
 
 | band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|
-| D1 | 0.25 | 13 | 52.1 | 1 | **4.0** | 6 | 6 | 4.5/0.5/0.1/0 | 67 | 77 | 3 |
-| D2 | 3.28 | 113 | 34.4 | 45 | **13.7** | 13 | 21 | 14.6/2.9/6.8/0 | 109 | 223 | 5 |
-| D3 | 16.43 | 290 | 17.6 | 169 | **10.3** | 8 | 52 | 12.6/3.5/44.1/0 | 201 | 300 | 78 |
+| D1 | 0.25 | 13 | 52.1 | 1 | **4.0** | 6 | 6 | 4.5/0.4/0.1/0 | 65 | 77 | 3 |
+| D2 | 3.28 | 113 | 34.4 | 45 | **13.7** | 13 | 21 | 14.6/2.2/6.8/0 | 105 | 224 | 5 |
+| D3 | 16.43 | 290 | 17.6 | 169 | **10.3** | 8 | 52 | 12.6/3.4/44.1/0 | 201 | 299 | 78 |
 | D4 | 6.45 | 89 | 13.8 | 60 | **9.3** | 7 | 11 | 10.0/1.9/2.2/0 | 51 | 275 | 37 |
 | D5 | 4.7 | 62 | 13.2 | 45 | **9.6** | 4 | 7 | 8.8/1.5/0.1/0 | 37 | 281 | 26 |
 
@@ -142,18 +142,18 @@ Share of sampled land cells with no hostile place within 350 m, and the gap poin
 | `track.dunmer-north.murkwater` | track | 2.4 | 6 | 400 |
 | `track.dunmer-north.crystalgate` | track | 5.75 | 15 | 383 |
 | `track.dunmer-north.riverwalk` | track | 1.9 | 5 | 380 |
+| `route.boat.soulrest-lilmoth` | boat | 4.55 | 12 | 379 |
 | `track.pirate-freeholds.dunmer-frontier-holding` | track | 5.85 | 16 | 366 |
 | `track.imperial-fringe.stonewastes` | track | 2.85 | 8 | 356 |
 | `route.boat.archon-thorn` | boat | 4.9 | 14 | 350 |
-| `route.boat.soulrest-lilmoth` | boat | 4.3 | 13 | 331 |
 | `track.dunmer-north.greylight-village` | track | 1.65 | 5 | 330 |
 | `track.dunmer-north.mazzatun` | track | 2.95 | 9 | 328 |
 | `track.pirate-freeholds.veterans-holding` | track | 3.85 | 12 | 321 |
 | `track.imperial-fringe.glenbridge` | track | 1.85 | 6 | 308 |
+| `route.boat.lilmoth-archon` | boat | 2.45 | 9 | 272 |
 | `route.road.alten-corimont-stormhold` | road | 3.25 | 12 | 271 |
 | `track.hist-heartland.heretic-stone-restarted` | track | 2.65 | 10 | 265 |
 | `route.road.stormhold-thorn` | road | 11.4 | 44 | 259 |
-| `route.boat.lilmoth-archon` | boat | 3.25 | 13 | 250 |
 | `route.road.archon-gideon` | road | 7.75 | 31 | 250 |
 | `route.road.gideon-blackwood-road` | road | 3.0 | 12 | 250 |
 | `track.naga-kur-deeps.dead-water-village` | track | 1.0 | 4 | 250 |

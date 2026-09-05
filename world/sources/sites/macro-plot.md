@@ -460,3 +460,18 @@ any-firm-ground 279, any-shallow-marsh 104, ridge-end 23, flood-high 17, ravine 
 | alten-corimont | 14 | — | 73 | 12 / 66 / 137 |
 
 Rest-cadence gaps (add a rest or soften): `place.mercantile-coast.rockpark` (666 m), `place.hist-heartland.tended-xanmeer-clan-north` (713 m), `place.imperial-fringe.sink-field` (605 m)
+
+## Clustering — Clark-Evans R per zone (97 A5 / G3)
+
+R < 1 (clustered); hand-placed worlds measure about 0.5 (97 A5). Reported, not gated. Median R 1.78; over target: dunmer-north, hist-heartland, imperial-fringe, imperial-penal-south, mercantile-coast, naga-kur-deeps, pirate-freeholds, saxhleel-coast.
+
+| zone | plotted | land km² | mean NN m | expected m | R |
+|---|---:|---:|---:|---:|---:|
+| dunmer-north | 127 | 7.56 | 175.4 | 122.0 | **1.438** |
+| hist-heartland | 116 | 8.89 | 246.4 | 138.4 | **1.78** |
+| imperial-fringe | 120 | 6.92 | 178.5 | 120.1 | **1.486** |
+| imperial-penal-south | 44 | 0.87 | 149.1 | 70.4 | **2.118** |
+| mercantile-coast | 65 | 3.41 | 195.7 | 114.5 | **1.71** |
+| naga-kur-deeps | 40 | 2.5 | 285.3 | 124.9 | **2.283** |
+| pirate-freeholds | 31 | 0.77 | 161.6 | 79.0 | **2.046** |
+| saxhleel-coast | 37 | 1.72 | 165.2 | 107.8 | **1.532** |
