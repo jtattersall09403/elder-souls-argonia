@@ -114,7 +114,7 @@ def test_live_catalogue_dir_validates():
 # is checked PER ZONE, not just province-wide — the coverage critique's finding
 # was that the province total can look fine while four small coastal zones hold
 # half the catalogue on a fifth of the land.
-# Source: docs/research/phase11-critique/coverage-density.md S1/S2.
+# Source: docs/research/phase11/phase11-critique/coverage-density.md S1/S2.
 REGION_BUDGETS = {
     # Re-based 2026-09-03 (Part 4 step 2, owner feedback round): the per-region
     # repair agents promoted reserves where a major city's region was thin
@@ -156,7 +156,7 @@ def test_every_region_is_inside_its_record_budget():
         ceiling = BUDGET_EXCEPTIONS.get(region, hi)
         assert lo <= n <= ceiling, (
             f"{region}: {n} live records against budget {lo}-{hi} "
-            "(docs/research/phase11-critique/coverage-density.md S2)"
+            "(docs/research/phase11/phase11-critique/coverage-density.md S2)"
         )
 
 

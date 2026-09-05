@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "domain": "creature",
- "_": "PLACEHOLDER register. Seeded from the canon bestiary so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/creature-asset-availability.md).",
+ "_": "PLACEHOLDER register. Seeded from the canon bestiary so contents.creatures[].registerRef has somewhere to point; Phase 13's creature register adds stats and spawn tables. assetAvailability records what asset can actually deliver each creature (docs/research/lore/creature-asset-availability.md).",
  "entries": [
   {
    "id": "creature.bog-blight",

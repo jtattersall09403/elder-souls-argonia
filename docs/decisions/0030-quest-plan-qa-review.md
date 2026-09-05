@@ -16,7 +16,7 @@ as originally written:
 - **A9 resolved by replacement, not a spike:** the Last Warden is now an
   ancient **Xal-Krona (Argonian Behemoth)** on the vanilla werewolfbeast rig
   with in-vault BM&V meshes — evidence in
-  `docs/research/last-warden-boss-options.md`; the Mihail wamasu is deferred
+  `docs/research/quests-and-cast/last-warden-boss-options.md`; the Mihail wamasu is deferred
   to an optional overworld legendary (FG03/LQ12 rows annotated).
 - **D23 exceeded:** owner raised the bar — the whole Many-Root line was
   redesigned, not two quests.

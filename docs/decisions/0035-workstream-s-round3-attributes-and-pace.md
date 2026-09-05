@@ -44,7 +44,7 @@ level-up multiplier, the **practice discount** (§120.4) — canon's ×1–×5
 expressed as a price rather than a minigame, so nothing can ever be "wasted"
 and there is nothing to spreadsheet.
 
-Evidence: `docs/research/stats-progression-reference-games.md` and the round-3
+Evidence: `docs/research/combat-and-systems/stats-progression-reference-games.md` and the round-3
 research; design: module 76 §116, §117, §117.1–117.3.
 
 ## 2. "19 hours to reach level 2–4?" — the design was fine; the simulation was not

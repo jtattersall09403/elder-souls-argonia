@@ -56,7 +56,7 @@ when touched substantially, not grown.
 The owner commissioned the full build-out systems audit the same day. Five
 parallel audits (architecture, quest-plan demands, stats-design demands,
 implemented stack, world-plan residue) → evidence doc
-[research/game-buildout-systems-audit.md](../research/game-buildout-systems-audit.md);
+[research/combat-and-systems/game-buildout-systems-audit.md](../research/combat-and-systems/game-buildout-systems-audit.md);
 the register was expanded to match (architecture-debt section, ~7 new system
 rows, per-kickoff pull-in list, keep/cut batch). Headline findings: `apps/game`
 is a stub and ~7.3k LOC of game-runtime renderer sits app-private in the

@@ -197,7 +197,7 @@ their authored look; only vanilla-backed pieces change. Live on
 "mountain" look is the same kit built **without** the key, not a second asset
 family. Files Tropical does not cover (`clutter/stockade`) are handled with the
 existing `textureAliases` key. See
-[settlement-kit-sourcing-log.md](../research/settlement-kit-sourcing-log.md)
+[settlement-kit-sourcing-log.md](../research/placement-settlements/settlement-kit-sourcing-log.md)
 entry 2.
 
 **Built kits (the current shelf).** A kit is *packaging*, never new art: a JSON
@@ -224,7 +224,7 @@ author intended; never interleave two sets piece-for-piece.
 Not built, still a Part 6 prerequisite: **`settlement-dunmer-v1`** (288 BM&V
 Velothi/Telvanni/Redoran pieces). Kit provenance and the two build fixes the
 root kits needed are in
-[settlement-kit-sourcing-log.md](../research/settlement-kit-sourcing-log.md)
+[settlement-kit-sourcing-log.md](../research/placement-settlements/settlement-kit-sourcing-log.md)
 entry 3.
 
 ### 74.1a-bis Morrowind-Imperial architecture — the Gideon civic language
@@ -344,7 +344,7 @@ tropical gaps (jungle insect choruses, tropical frogs) fill from
 **royalty-free/CC0 libraries** (Sonniss GDC bundles, CC0-filtered Freesound).
 Credits + hashes per §73 (root README Credits section). Research and candidate
 details:
-[research/ambient-audio-soundscape-threejs.md](../research/ambient-audio-soundscape-threejs.md).
+[research/rendering/ambient-audio-soundscape-threejs.md](../research/rendering/ambient-audio-soundscape-threejs.md).
 
 ## 75. High-priority architecture and settlement candidates
 
@@ -382,7 +382,7 @@ rather than downloaded. Do not re-derive this list.
 
 Vetted 2026-08-23 with permissions verified — full shortlist, vanilla keep-list
 and ruled-out list in
-[docs/research/black-marsh-ground-texture-sources.md](../research/black-marsh-ground-texture-sources.md)
+[docs/research/rendering/black-marsh-ground-texture-sources.md](../research/rendering/black-marsh-ground-texture-sources.md)
 (don't re-research; system design is decision 0011). Top sources: **ambientCG
 and Poly Haven CC0 PBR sets** (black mud, puddled shallows, wet clay, mud+leaf
 litter, moss), **A Cathedralist's PBR Landscape** (SSE 137333, open
@@ -434,14 +434,14 @@ The boat gameplay code should be original project code built around Rapier and `
 | [The Blackest Reaches](https://www.nexusmods.com/skyrimspecialedition/mods/35933) (owner lead, 2026-09-02) | quest mod that sends the player to Black Marsh to hunt monsters — evaluate for creature/predator/boss-monster assets (Phase 13) AND possible Argonia-setting environment/settlement pieces (Phase 11 sourcing pass is checking the latter) |
 | Vanilla slaughterfish, insects, fish, mudcrabs and chaurus families | baseline aquatic and invertebrate animation/material sources |
 | **BM&V vault creature roster (found 2026-09-04, directory read of `tooling/asset-pipeline/black-marsh-mod-source/manifest*.txt`)** | the pool is far richer than this table assumed and it closes most of the bestiary. `slaughterfish/character assets/mihailcrocodile.nif` (+SALT) = crocodile and sea-drake on the vanilla swim rig; `slaughterfish/rivnaga.nif` = naga/lamia/medusa; `slaughterfish/character assets/bloodsuckerfish.nif` = giant leech; `giant/character assets/treant.nif` + `treantskeleton.nif` = **the miregaunt** (own skeleton); `cliffracer/cliffracer.nif` = hackwing; `cow/Glyptodon` = haj mota; `gehenoth/gehenoth.nif` = swamp leviathan; `snakes/…/oldsnake.nif` = kaj-thux; `snail/slug.nif` + `slugskeleton.nif` = voriplasm and jassa red slug; `Chaurus Hunter/Giant Wasp/mihailgiantwasp.nif` = giant wasp; `mudcrab/character assets/parasite.nif` = hoarvor; `guars/` = the full guar and lizard-steed family incl. `histguar.nif` and a mount skeleton; `raven/`, `chicken/owl*` = marsh birds. All still inside `Data*.rar`; extraction and kit builds are the outstanding work |
-| **Only unfilled creature gap: the death hopper (giant frog)** | no frog rig in the vault. Candidate is Mihail's amphibian/frog pack (SSE, id to confirm from his author page); fallback is a rescaled chaurus. Insect swarms (kotu gava, fleshfly) and the feather serpent are **not** sourcing jobs — see [research/creature-asset-availability.md](../research/creature-asset-availability.md) |
+| **Only unfilled creature gap: the death hopper (giant frog)** | no frog rig in the vault. Candidate is Mihail's amphibian/frog pack (SSE, id to confirm from his author page); fallback is a rescaled chaurus. Insect swarms (kotu gava, fleshfly) and the feather serpent are **not** sourcing jobs — see [research/lore/creature-asset-availability.md](../research/lore/creature-asset-availability.md) |
 
 Creature assets provide models and animations. Habitat, behaviour, statistics, fixed danger and population rules remain game-owned data.
 
 Per-creature verdicts (`vanilla` / `sourced` / `sourceable` / `none`) are now
 recorded on every entry in `world/sources/registries/creatures.json` as
 `assetAvailability`, with the reasoning and the sourcing shortlist in
-[research/creature-asset-availability.md](../research/creature-asset-availability.md).
+[research/lore/creature-asset-availability.md](../research/lore/creature-asset-availability.md).
 Check it before writing a creature into a place record.
 
 **The rootworm is never seen on screen** (owner design rule, 2026-08-28) — do

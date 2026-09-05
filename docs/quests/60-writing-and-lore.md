@@ -133,7 +133,7 @@ Engineering standard 4 (one keyed text catalogue,
 ### 45e.1 Banned constructions (grows — add on sight)
 
 Evidence, examples and the reviewer's qualitative tests:
-[docs/research/ai-writing-tells.md](../research/ai-writing-tells.md). **Density is the
+[docs/research/text-and-voice/ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md). **Density is the
 tell, not any single instance** — these are checks, not a lint.
 
 | Don't | Do | Why |
@@ -158,7 +158,7 @@ tell, not any single instance** — these are checks, not a lint.
 | "everyone knows X and nobody does Y" as a closer | end at "everyone knows" | the owner's named tell |
 | The same label-field SHAPE across a whole set ("adjective pair, and appended judgement" in 77 of 134 moods) | vary the shape between records | convergence is a set property; fix the set, not the line |
 | Game or session references in `note` fields ("the game's first loss", "before the game does") | describe the thing | the in-world-prose row was being dodged via notes |
-| Contrast joined with *and* where the sense is *but* ("The bridge is new and no one uses it") | use **but** — it is allowed and usually better — or cut the second clause | the model avoids *but* (owner finding 2026-09-04); see the and/but test in [research/ai-writing-tells.md](../research/ai-writing-tells.md) §5 |
+| Contrast joined with *and* where the sense is *but* ("The bridge is new and no one uses it") | use **but** — it is allowed and usually better — or cut the second clause | the model avoids *but* (owner finding 2026-09-04); see the and/but test in [research/text-and-voice/ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md) §5 |
 | Sentence-final antithesis pair ("…the one thing everyone knows and nobody will talk about") | end at the first half | a balanced closer bolted to a finished sentence; the most distinctive AI beat in the Phase 11 catalogue |
 | Negative parallelism ("it is not a shrine, it is a warning"; "not just a ford but a boundary") | say the true half only | ~3× more frequent in post-2022 web text (Pew); reads as machine contrast |
 | Colon-reveal ("The garrison has one purpose: fear") | write it as a sentence | the colon doing a drum-roll |
@@ -378,7 +378,7 @@ unlock; a salary with a strategy attached; a base built in phases; consumables
 with a unique rule; a permanent change with real trade-offs; new abilities;
 prestige gear and a title at the finale; and recognition that changes how the
 world treats you — are catalogued with evidence in
-[../research/tes-quest-and-faction-rewards.md](../research/tes-quest-and-faction-rewards.md).
+[../research/quests-and-cast/tes-quest-and-faction-rewards.md](../research/quests-and-cast/tes-quest-and-faction-rewards.md).
 
 Two structural rules taken from that research:
 

@@ -65,7 +65,7 @@ entry rather than in a separate audit doc so it cannot drift from the id
 it describes, and so the Phase 13 registers inherit a verdict instead of
 re-deriving one. The full reasoning, the vault's creature roster and the
 sourcing shortlist are in
-[docs/research/creature-asset-availability.md](../research/creature-asset-availability.md).
+[docs/research/lore/creature-asset-availability.md](../research/lore/creature-asset-availability.md).
 
 ## Consequences
 

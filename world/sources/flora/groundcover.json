@@ -2,7 +2,7 @@
   "id": "argonia-groundcover-provisional-v1",
   "status": "PROVISIONAL — species choice and densities are the phase agent's proposal pending owner placement decisions. The schema is not provisional: it is Bethesda's GRAS field list, adopted as a checklist per module 95 §86.0b.",
   "grounding": {
-    "schema": "docs/research/shipped-world-placement-rules.md R10 — GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
+    "schema": "docs/research/placement-settlements/shipped-world-placement-rules.md R10 — GRAS carries density, slope limits, a distance-from-water rule with a mode enum, position jitter, height/colour variance and a wind wave period; LTEX.GNAM binds grasses to painted ground and never allows more than three",
     "observedValues": "world/sources/placement/groundcover-rules.json",
     "landCoverIds": "tooling/world-generation/worldgen/landcover.py — the same ids the ground-control raster stores in its red channel"
   },

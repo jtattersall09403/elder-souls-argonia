@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "seed": "phase11-part1-recipes-1",
-  "note": "Per-TYPE recipes for the province place taxonomy (Phase 11 Part 1, decision 0041). One row per taxonomy type; taxonomy.json is derived from this file. Digest: docs/research/settlement-type-recipes.md.",
+  "note": "Per-TYPE recipes for the province place taxonomy (Phase 11 Part 1, decision 0041). One row per taxonomy type; taxonomy.json is derived from this file. Digest: docs/research/placement-settlements/settlement-type-recipes.md.",
   "vocabularies": {
     "recordScope": [
       "poi",
@@ -78,7 +78,7 @@
     "class/family": "its taxonomy parents",
     "recordScope": "poi = its own catalogue record, counts toward the province total; district = authored inside a parent settlement's blueprint; dressing = placed in quantity by the compiler from a density rule. ONLY recordScope=poi countBands sum to the 600-740 province total.",
     "variants": "dressing/state deltas, never a different siting grammar",
-    "slots": "the five-slot POI recipe (docs/research/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
+    "slots": "the five-slot POI recipe (docs/research/placement-settlements/openworld-place-distribution-and-siting.md 3.1) as this type's deltas: cue, population, props, rewardFree + rewardGated, satellite (200-400 m). Cues must be tall, close, lit or AUDIBLE - the scour found no long sightlines below the mountain rim.",
     "siting": "meso-rung siting grammar (module 40 28b). landformClasses are terrain-scour classes plus the pseudo-classes any-firm-ground / any-shallow-marsh / any-channel-bank, and are RANKED PREFERENCES, not requirements - enclosed-clearing (6 province-wide) and sinkhole (11) are genuinely scarce and must be budgeted. regionClasses are worldgen regions.REGION_CLASSES names.",
     "magnitude": "SETTLEMENT SCALE ONLY (M1-M5). null means 'not a settlement', not 'unset' - a reef and a grave field have no magnitude by definition. Do not treat this as a universal size axis.",
     "cultures": "whose place this is. The two-culture KIT rule still binds (material-culture dossier): argonian and imperial kits never blend. dunmer places build from dunmer-telvanni; khajiit, altmer and nord from the imperial/market families; lost-peoples marks the five vanished cultures whose ruins are nobody's inheritance.",
@@ -24773,5 +24773,5 @@
       "lore": "uesp:Morrowind:Tarhiel (the Icarian Flight scrolls near Seyda Neen, 3E 427); docs/quests/36-cast-roster.md §58"
     }
   ],
-  "countBandNote": "countBand for every recordScope='poi' type was RE-DERIVED on 2026-09-02 (verify/wrap agent, critique round) from the ACTUAL live record count in places-*.json — live meaning status not 'deferred' and not 'cut'. The original bands were a pre-derivation forecast summing to 637-739 poi records against a province envelope the coverage critique has since corrected to 467-596 (docs/research/phase11-critique/coverage-density.md S1/S2), so they no longer described anything real. Slack rule: n=0 -> [0,1] (type enumerated but unspent, available to Part 3); n=1 -> [1,2] and n=2 -> [2,3] so genuine singulars stay singular; 3<=n<=5 -> n+/-1; n>5 -> n+/-2. Independent per-type slack sums to a far wider envelope than the province total, which is why the province check now lives where it belongs — on the catalogue's live record count, not on the sum of these bands (test_catalogue.py). The band is a Part 3 maintenance envelope: a type drifting outside it is a signal to re-derive, not a licence to force-fit."
+  "countBandNote": "countBand for every recordScope='poi' type was RE-DERIVED on 2026-09-02 (verify/wrap agent, critique round) from the ACTUAL live record count in places-*.json — live meaning status not 'deferred' and not 'cut'. The original bands were a pre-derivation forecast summing to 637-739 poi records against a province envelope the coverage critique has since corrected to 467-596 (docs/research/phase11/phase11-critique/coverage-density.md S1/S2), so they no longer described anything real. Slack rule: n=0 -> [0,1] (type enumerated but unspent, available to Part 3); n=1 -> [1,2] and n=2 -> [2,3] so genuine singulars stay singular; 3<=n<=5 -> n+/-1; n>5 -> n+/-2. Independent per-type slack sums to a far wider envelope than the province total, which is why the province check now lives where it belongs — on the catalogue's live record count, not on the sum of these bands (test_catalogue.py). The band is a Part 3 maintenance envelope: a type drifting outside it is a signal to re-derive, not a licence to force-fit."
 }

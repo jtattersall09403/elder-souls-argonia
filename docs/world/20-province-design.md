@@ -139,7 +139,7 @@ crossed early.
    with neither effort nor cause behind it.
 4. Discovery stays diegetic — no markers; the harder the find, the more it
    may rely on the terrain itself as the only pointer
-   ([morrowind-content-density.md](../research/morrowind-content-density.md) §5.3).
+   ([morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md) §5.3).
 
 ### 12.4 Natural unlocking
 
@@ -289,9 +289,9 @@ hydrology/soil/route fields, and each region's palette maps those classes to
 **concrete textures** from a global ~40–60-texture library — so the same land
 cover resolves differently north vs south, and palettes blend at region
 borders. Research grounding and the runtime representation live in
-[docs/research/](../research/skyrim-morrowind-landscape-texture-granularity.md)
-(granularity, [rendering](../research/webgl-terrain-many-material-splatting.md),
-[texture sources](../research/black-marsh-ground-texture-sources.md)).
+[docs/research/](../research/rendering/skyrim-morrowind-landscape-texture-granularity.md)
+(granularity, [rendering](../research/rendering/webgl-terrain-many-material-splatting.md),
+[texture sources](../research/rendering/black-marsh-ground-texture-sources.md)).
 
 ---
 

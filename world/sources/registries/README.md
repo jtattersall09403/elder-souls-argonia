@@ -30,7 +30,7 @@ Loader/validator: `tooling/world-generation/worldgen/registries.py`
   can deliver it as an actor, so it is staged as an effect or dropped).
   **No new animations, ever**: a creature needs a mesh that ships its own
   animation set or sits on a vanilla skeleton. Verdicts and the sourcing
-  shortlist: [docs/research/creature-asset-availability.md](../../../docs/research/creature-asset-availability.md).
+  shortlist: [docs/research/lore/creature-asset-availability.md](../../../docs/research/lore/creature-asset-availability.md).
 - **notes** — one line, always. Domain fields (`code`, `tier`, `milestone`,
   `line`, `faction`, `mergeCandidate`, …) sit alongside.
 

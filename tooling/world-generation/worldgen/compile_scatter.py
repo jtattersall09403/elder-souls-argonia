@@ -72,7 +72,7 @@ class ProvinceFields:
         self.depth_m = np.where(wet, depth, table - self.height_m).astype(np.float32)
         # Signed distance to the water's EDGE (+ land, − water): the meso
         # 'scene' field — reed belts, bank thickets and riparian galleries all
-        # band on it (research/openworld-vegetation-placement-architecture.md).
+        # band on it (research/vegetation/openworld-vegetation-placement-architecture.md).
         water_d = ndimage.distance_transform_edt(wet)
         self.shore_m = (np.where(wet, -water_d, land_d) * self.px_m).astype(np.float32)
         # Beyond a few metres the distinction stops meaning anything, and an
@@ -232,7 +232,7 @@ def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
     """Does the compiled scatter vary as much as the source does?
 
     The two numbers the reference was measured on
-    (research/vegetation-density-design.md): the coefficient of variation of
+    (research/vegetation/vegetation-density-design.md): the coefficient of variation of
     density between neighbouring cells (mined 2.3-3.1), and the open-space
     radius a player actually walks through (mined p50 ~10 m, p95 ~31 m).
     """

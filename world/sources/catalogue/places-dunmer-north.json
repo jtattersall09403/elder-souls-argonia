@@ -1985,7 +1985,7 @@
       "sources": [
         "uesp:Lore:Stormhold (crystals)",
         "uesp:Lore:Silyanorn",
-        "docs/research/morrowind-content-density.md (Gnisis, Caldera: the works-town rung)"
+        "docs/research/placement-settlements/morrowind-content-density.md (Gnisis, Caldera: the works-town rung)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
@@ -2461,7 +2461,7 @@
       "sources": [
         "uesp:Lore:Stormhold",
         "world/sources/lore/stormhold.md",
-        "docs/research/phase11-critique/coverage-density.md §S3"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S3"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2690,7 +2690,7 @@
         "uesp:Lore:Shadowfen",
         "world/sources/lore/topics/fauna-hazards.md",
         "docs/world/50-hydrology-climate.md",
-        "docs/research/phase11-critique/coverage-density.md §S6"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S6"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7444,7 +7444,7 @@
       "sources": [
         "world/sources/lore/tribes.md (naming and the office-holders)",
         "world/sources/lore/an-xileel.md",
-        "docs/research/phase11-critique/completeness.md §A4"
+        "docs/research/phase11/phase11-critique/completeness.md §A4"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -8633,7 +8633,7 @@
       "sources": [
         "world/sources/lore/topics/hist-and-sap.md",
         "world/sources/lore/stormhold.md",
-        "docs/research/phase11-critique/completeness.md §A4"
+        "docs/research/phase11/phase11-critique/completeness.md §A4"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -16913,7 +16913,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (drawdown-flat as a lake-distinctive anchor)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (drawdown-flat as a lake-distinctive anchor)",
         "docs/world/50-hydrology-climate.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -20290,7 +20290,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (head-of-navigation as a region-distinctive anchor)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (head-of-navigation as a region-distinctive anchor)",
         "uesp:Lore:Thorn"
       ],
       "confidence": "EXTRAPOLATED",
@@ -24742,7 +24742,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Shadowfen"
       ],
       "confidence": "EXTRAPOLATED",
@@ -25708,7 +25708,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Thorn",
         "uesp:Lore:Tear"
       ],
@@ -28176,7 +28176,7 @@
       "sources": [
         "uesp:Lore:Knahaten Flu",
         "uesp:Lore:Black Marsh",
-        "docs/research/settlement-type-recipes.md ('someone else moved in' is the province's characteristic condition)"
+        "docs/research/placement-settlements/settlement-type-recipes.md ('someone else moved in' is the province's characteristic condition)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -29206,7 +29206,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (audible cues are first-class wayfinding)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (audible cues are first-class wayfinding)",
         "world/sources/lore/topics/ecology-encounters-loot.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -29448,7 +29448,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Thorn",
         "uesp:Lore:Tear"
       ],

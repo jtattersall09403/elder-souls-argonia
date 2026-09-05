@@ -6,7 +6,7 @@ vault) plus retained vanilla Skyrim landscape textures from the BSA (some
 hue-shifted tropical per the canonical climate, module 50 §33.1). Emits
 512px albedo PNGs + `materials.json` manifest into the studio's public
 assets (runtime-versioned per owner policy). Source vetting lives in
-docs/research/black-marsh-ground-texture-sources.md; credits in
+docs/research/rendering/black-marsh-ground-texture-sources.md; credits in
 the root README Credits section. Supersedes export_terrain_textures.py.
 
 Usage:

@@ -39,10 +39,10 @@ Two targets are defined. **Milestone 1** is the smallest version of the game tha
 | Deep faction lines (Shadowscales, Night-Reed, Nisswo, Many-Root) | 4 lines, 10–12 substantial quests each | same | 12–18 hours per line |
 | Standard faction lines (Marsh Charter, Sunken Archive, Reed-Sail, League) | 4 lines, 6–8 quests each | 8–10 quests each | 8–14 hours per line |
 | Compact/regional/secret lines | 2 lines | 4 lines, 4–6 quests each | 4–8 hours per line |
-| Regional, city and standalone authored quests | 60–80 | 250–330 (raised 2026-08-26 to match Morrowind density on our larger land area — research/morrowind-content-density.md) | highly variable |
+| Regional, city and standalone authored quests | 60–80 | 250–330 (raised 2026-08-26 to match Morrowind density on our larger land area — research/placement-settlements/morrowind-content-density.md) | highly variable |
 | Mythic/artifact/Daedric-scale quests | 4–6 | 10–14 | 1–3 hours each |
 | Unmarked and micro chains | 15–25 | 40–60 | 10–45 minutes each |
-| **Finite journaled total** | **approximately 170–210** | **approximately 550–740** (Morrowind-density target: ~20 quests/km² over ~37 km² of land — the earlier 450–550 figure used the low end of the band and undercounted our settlements; corrected 2026-09-04 when the skeleton was authored as data; per-settlement ladder in research/morrowind-content-density.md §4) | **roughly 130–180 hours for a broad first run at maturity; more across incompatible paths** |
+| **Finite journaled total** | **approximately 170–210** | **approximately 550–740** (Morrowind-density target: ~20 quests/km² over ~37 km² of land — the earlier 450–550 figure used the low end of the band and undercounted our settlements; corrected 2026-09-04 when the skeleton was authored as data; per-settlement ladder in research/placement-settlements/morrowind-content-density.md §4) | **roughly 130–180 hours for a broad first run at maturity; more across incompatible paths** |
 
 The Milestone 1 core already exceeds Oblivion's base journal count and approaches Skyrim's, while the mature target now matches Morrowind GOTY's *density* — our land is 1.5–2× Vvardenfell's, so matching quests-per-km² and POIs-per-km² (owner directive 2026-08-26) means exceeding its raw count; the world build carries the matching POI budget (world 95 Phase 11). Playtime estimates should be treated as ceilings, not marketing: Morrowind's base main quest is commonly completed in 25–30 hours; the 24-quest main line targets the same band.
 
@@ -254,7 +254,7 @@ lines/places your brief touches. The four headline rules:
 - **every recurring character carries a contradiction *and* a cheap quirk** — a
   contradiction alone is a position paper, a quirk alone is a mascot;
 - **the Morrowind faction shape** (UESP-mined; evidence in
-  `docs/research/morrowind-cast-structure.md`): each line is 3–5 stationary
+  `docs/research/quests-and-cast/morrowind-cast-structure.md`): each line is 3–5 stationary
   **desks** — quest-givers fixed at one post each, distributed across the
   line's settlements, each with a distinct ethic — with one live argument
   between two named desks that the player must eventually resolve. Recurrence

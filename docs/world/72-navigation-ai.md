@@ -3,7 +3,7 @@
 > Module of the world-generation master plan — see [README](README.md) for the router
 > and [00-core.md](00-core.md) for the universal principles. Sections §113–115 are
 > newly allocated (decision 0022). Companions: technique + library verdicts —
-> [research/navmesh-ambient-ai-threejs.md](../research/navmesh-ambient-ai-threejs.md);
+> [research/combat-and-systems/navmesh-ambient-ai-threejs.md](../research/combat-and-systems/navmesh-ambient-ai-threejs.md);
 > encounter sockets — [70-dungeons-interiors.md](70-dungeons-interiors.md) §50;
 > NPC/creature capability — [75-combat-compatibility.md](75-combat-compatibility.md) §57;
 > the quest plan's deliberate AI ceiling — [../quests/20-world-provisions.md](../quests/20-world-provisions.md)

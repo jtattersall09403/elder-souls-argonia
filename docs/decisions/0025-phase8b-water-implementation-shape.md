@@ -4,7 +4,7 @@ Date: 2026-08-26 · Status: **CLOSED** (owner closed the phase 2026-08-28
 after round 7 — accepted as good-enough, explicitly *not perfect*; a full
 water-systems re-review + polish is queued in
 [docs/polish-backlog.md](../polish-backlog.md) for Phase P)
-Research: [docs/research/water-rendering-threejs.md](../research/water-rendering-threejs.md)
+Research: [docs/research/rendering/water-rendering-threejs.md](../research/rendering/water-rendering-threejs.md)
 Spec: module [60](../world/60-water-traversal.md) §38–42.
 
 ## PHASE CLOSED — this file is the institutional memory
@@ -217,8 +217,8 @@ verified by contact sheet, not by slot name.
 
 ## Owner playtest round 2 (2026-08-27) — defects → fixes
 
-Research this round: [tropical shoreline materials](../research/tropical-shoreline-materials.md)
-and [water edges & shore waves](../research/water-edges-and-shore-waves.md).
+Research this round: [tropical shoreline materials](../research/world-terrain/tropical-shoreline-materials.md)
+and [water edges & shore waves](../research/rendering/water-edges-and-shore-waves.md).
 
 1. **"TV static" on distant water** → specular aliasing: unfiltered
    procedural ripple normals + low roughness at 1 px/ripple. Fix: distance
@@ -279,7 +279,7 @@ a PNG alpha channel.** All water rasters are RGB; season+tannin ride
 (−0.34 m ↔ +0.40 m).
 
 **Integrated geography (owner grant: terrain edits allowed).** Research:
-[tropical-fluvial-geomorphology.md](../research/tropical-fluvial-geomorphology.md).
+[tropical-fluvial-geomorphology.md](../research/world-terrain/tropical-fluvial-geomorphology.md).
 New `worldgen/fluvial.py` stage in refine_province (own rng stream — the
 owner-approved 6b noise lattice is bit-identical):
 - **continuum channel carving**: Leopold–Maddock hydraulic geometry
@@ -419,9 +419,9 @@ Owner round-6 verdict: textures PASS (moss-cobble saga closed); slope
 water still broken (empty beds / blob staircases / solid foam crust /
 speed unreadable), waterfalls static, sea still not lapping, "barcode"
 foam recurs. Research first (3 new docs:
-[rivers-on-slopes-and-cascades](../research/rivers-on-slopes-and-cascades.md),
-[waterfalls-realtime](../research/waterfalls-realtime.md),
-[water-edges §5](../research/water-edges-and-shore-waves.md)), then:
+[rivers-on-slopes-and-cascades](../research/world-terrain/rivers-on-slopes-and-cascades.md),
+[waterfalls-realtime](../research/rendering/waterfalls-realtime.md),
+[water-edges §5](../research/rendering/water-edges-and-shore-waves.md)), then:
 
 1. **Slope rivers are a BAKE defect, not a shader defect** (research
    consensus: no shipped engine renders raw fill output on a slope — UE5

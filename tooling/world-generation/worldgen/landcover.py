@@ -1,7 +1,7 @@
 """Semantic land cover -> ground-material control map (decision 0011).
 
 Two-level ground texturing on the Bethesda pattern (research:
-docs/research/skyrim-morrowind-landscape-texture-granularity.md):
+docs/research/rendering/skyrim-morrowind-landscape-texture-granularity.md):
 
 - **micro**: each texel gets a semantic land-cover treatment derived from the
   hydrology fields — a contour-following water-edge gradient around every

@@ -1,1262 +1,1374 @@
 {
-  "schemaVersion": 1,
-  "blueprint": {
-    "id": "place.naga-kur-deeps.wamasu-pond-adult",
-    "seed": "place.naga-kur-deeps.wamasu-pond-adult",
-    "causalModel": {
-      "founding": "An adult wamasu grew into a small perched pan of standing water west of the zone's poling creeks and has held it for years.",
-      "siteAdvantages": "The one closed body of still water within 300 m: fed by the water table, cut off from the tidal creeks, some ten metres above the creek that carries them and shallow enough that the animal can stand in all of it. A low bank ring, a knoll above the north-west shore and a cave mouth at the west waterline that floods to the roof.",
-      "occupantsMotive": "The animal holds ground that it can charge; the villages have stopped trying to take it back and leave offerings on the south bank in the old Shadowfen manner.",
-      "pressures": "Boats keep to the pole-marked creek below the pond rather than the shorter line past it; the detour costs two hours and the pole line needs patching every season.",
-      "wouldChangeIf": "Killing the animal reopens the direct line and ends the offerings; the tribes disagree about whether that is a gain."
-    },
+ "schemaVersion": 1,
+ "blueprint": {
+  "id": "place.naga-kur-deeps.wamasu-pond-adult",
+  "seed": "place.naga-kur-deeps.wamasu-pond-adult",
+  "causalModel": {
+   "founding": "An adult wamasu grew into a small perched pan of standing water west of the zone's poling creeks and has held it for years.",
+   "siteAdvantages": "The one closed body of still water within 300 m: fed by the water table, cut off from the tidal creeks, some ten metres above the creek that carries them and shallow enough that the animal can stand in all of it. A low bank ring, a knoll above the north-west shore and a cave mouth at the west waterline that floods to the roof.",
+   "occupantsMotive": "The animal holds ground that it can charge; the villages have stopped trying to take it back and leave offerings on the south bank in the old Shadowfen manner.",
+   "pressures": "Boats keep to the pole-marked creek below the pond rather than the shorter line past it; the detour costs two hours and the pole line needs patching every season.",
+   "wouldChangeIf": "Killing the animal reopens the direct line and ends the offerings; the tribes disagree about whether that is a gain."
+  },
+  "boundary": [
+   [
+    0.32549,
+    0.583169
+   ],
+   [
+    0.344477,
+    0.583169
+   ],
+   [
+    0.344477,
+    0.610293
+   ],
+   [
+    0.363463,
+    0.626568
+   ],
+   [
+    0.363463,
+    0.642842
+   ],
+   [
+    0.351258,
+    0.642842
+   ],
+   [
+    0.341764,
+    0.61843
+   ],
+   [
+    0.32549,
+    0.61843
+   ]
+  ],
+  "scaleGrounding": {
+   "loreSource": "type-recipes.json#wamasu-pond (slots.population: one to three wamasu; the elevated member is a hunter's abandoned stand; countBand 4-7 lairs of this type), Lore:Wamasu, Lore:Haynekhtnamet.",
+   "population": 1,
+   "households": 0,
+   "buildingsPlanned": 3,
+   "npcsPlanned": 0,
+   "why": "A beast lair is sized by its creature count and its structure count, not by households: the adult variant of the recipe carries a single resident animal. Its two structures are the abandoned hunter's stand named in the recipe and the offering platform that Lore:Haynekhtnamet licenses. No dwelling, no door, no resident people. The count is three because the stand is authored as two stacked pieces, footing and deck, each of which the validator counts; the ground carries two structures."
+  },
+  "districts": [
+   {
+    "id": "district.wamasu-pond-adult.bank",
+    "kind": "lair-bank",
+    "cultureKit": "argonian-mud",
+    "wealth": "poor",
     "boundary": [
-      [
-        0.32549,
-        0.583169
-      ],
-      [
-        0.344477,
-        0.583169
-      ],
-      [
-        0.344477,
-        0.610293
-      ],
-      [
-        0.363463,
-        0.626568
-      ],
-      [
-        0.363463,
-        0.642842
-      ],
-      [
-        0.351258,
-        0.642842
-      ],
-      [
-        0.341764,
-        0.61843
-      ],
-      [
-        0.32549,
-        0.61843
-      ]
+     [
+      0.32983,
+      0.593476
+     ],
+     [
+      0.339323,
+      0.593476
+     ],
+     [
+      0.339323,
+      0.60297
+     ],
+     [
+      0.32983,
+      0.60297
+     ]
     ],
-    "scaleGrounding": {
-      "loreSource": "type-recipes.json#wamasu-pond (slots.population: one to three wamasu; the elevated member is a hunter's abandoned stand; countBand 4-7 lairs of this type), Lore:Wamasu, Lore:Haynekhtnamet.",
-      "population": 1,
-      "households": 0,
-      "buildingsPlanned": 2,
-      "npcsPlanned": 0,
-      "why": "A beast lair is sized by its creature count and its structure count, not by households: the adult variant of the recipe carries a single resident animal, and its two structures are the abandoned hunter's stand named in the recipe and the offering platform that Lore:Haynekhtnamet licenses. No dwelling, no door, no resident people."
-    },
-    "districts": [
-      {
-        "id": "district.wamasu-pond-adult.bank",
-        "kind": "lair-bank",
-        "cultureKit": "argonian-mud",
-        "wealth": "poor",
-        "boundary": [
-          [
-            0.32983,
-            0.593476
-          ],
-          [
-            0.339323,
-            0.593476
-          ],
-          [
-            0.339323,
-            0.60297
-          ],
-          [
-            0.32983,
-            0.60297
-          ]
-        ],
-        "notes": "The pond and its bank ring. Offering ground on the south shelf, grave-cairns stepped up the east bank, drift bone along the high line.",
-        "why": {
-          "what": "The pond itself with the shelf of level bank around it: the animal's water, the offering ground on the south shore and the cairn steps on the east.",
-          "whyHere": "The pan is the sole closed body of still water within 300 m, so it is the one piece of ground that a wamasu can hold against the tides of the creeks below.",
-          "whyNeighbours": "The knoll district stands above its north-west shore because that is the one rise from which the whole pan is in view; the landing district lies below its south-east side because the creek is the nearest water a boat can use.",
-          "playerPurpose": "The fight, the offerings, the shed charged bones on the bank and the cave mouth are all in this district; a visitor who reaches the water has reached the lair.",
-          "microGeography": "Water at 9.24 m held in a shallow pan 38 m across; the south shelf lies within 0.2 m of the water for 20 m back, the east bank climbs 0.3 m to the cairn line and the west bank is steeper at 6 deg where the cave opens."
-        }
-      },
-      {
-        "id": "district.wamasu-pond-adult.stand",
-        "kind": "works",
-        "cultureKit": "neutral-works",
-        "wealth": "poor",
-        "boundary": [
-          [
-            0.328473,
-            0.589679
-          ],
-          [
-            0.333356,
-            0.589679
-          ],
-          [
-            0.333356,
-            0.594019
-          ],
-          [
-            0.328473,
-            0.594019
-          ]
-        ],
-        "notes": "The knoll north-west of the pond, 2.5 m above the water, with the hunter's abandoned stand on it.",
-        "why": {
-          "what": "A low knoll north-west of the pond with an abandoned hunter's stand and its ramp on the top.",
-          "whyHere": "A hunter who meant to kill the animal from cover needed the one point of ground above the water with a clear line to all of it.",
-          "whyNeighbours": "It overlooks the bank district from 22 m back, close enough for a thrown spear yet above the reach of a charge out of the shallows.",
-          "playerPurpose": "The survey point: from the deck the pan, the cairns, the offering platform and the cave mouth are all in view before any of them is reached, and the evidence of the failed hunt lies on the deck.",
-          "microGeography": "The knoll top is at 11.7 m, slope 2.8 deg, with the ground rising to 16 m on the ridge behind it and falling 2.5 m over 22 m to the water in front."
-        }
-      },
-      {
-        "id": "district.wamasu-pond-adult.landing",
-        "kind": "waterfront",
-        "cultureKit": "argonian-stilt",
-        "wealth": "poor",
-        "boundary": [
-          [
-            0.344477,
-            0.61504
-          ],
-          [
-            0.350579,
-            0.61504
-          ],
-          [
-            0.360751,
-            0.637417
-          ],
-          [
-            0.360751,
-            0.641486
-          ],
-          [
-            0.355326,
-            0.641486
-          ],
-          [
-            0.345155,
-            0.621143
-          ]
-        ],
-        "notes": "The pole-marked poling creek east of the pond and the landing at its head. Poles and a landing only; the roots at the poles' feet are the signature.",
-        "why": {
-          "what": "The creek below the pond, marked for its length with poles that have stood long enough to root, with a small piled landing at its head.",
-          "whyHere": "This creek is the nearest water a boat can reach, eight metres below the pan at its head and 150 m south-east of it; the pond has no water link to anything, so every boat that comes here stops at this landing.",
-          "whyNeighbours": "It lies below the bank district and is joined to it by the bank path, which is the one worn line up the slope.",
-          "playerPurpose": "The arrival point by water and the start of the cue chain: the poles announce the lair for 180 m before any part of it can be seen.",
-          "microGeography": "A creek one to two boat-widths across running north into a dead end at 1 m elevation under a canopy of 0.93; the landing sits at the head where the water stops against the foot of the slope."
-        }
-      }
-    ],
-    "parcels": [
-      {
-        "id": "parcel.wamasu-pond-adult.hunters-stand",
-        "districtId": "district.wamasu-pond-adult.stand",
-        "use": "work",
-        "buildingFamily": "arch.neutral.scaffold-platform",
-        "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
-        "groundFit": "plinth",
-        "centreUV": [
-          0.331457,
-          0.592798
-        ],
-        "yawDeg": 146.0,
-        "orientationWhy": "Turned so that the stand's open, unrailed face looks down the 146-degree line to the pond, which leaves the three railed sides and the ramp on the landward flank of the knoll.",
-        "interior": {
-          "kind": "none"
-        },
-        "why": {
-          "what": "The footing of an abandoned hunter's stand: a railed scaffold platform with its ramp on the landward side.",
-          "whyHere": "Somebody tried to kill the animal from above the water before the villages settled for offerings; the stand is what that attempt left.",
-          "whySpot": "The knoll top is the one point within 40 m of the pond that stands 2.5 m above the water with the whole pan in view.",
-          "whyNeighbours": "It faces the pond across 22 m of open slope, so the deck reads the offering shelf, the cairns and the cave mouth in one look; the ramp faces the ridge, away from the water.",
-          "playerPurpose": "The survey point and the evidence socket: whoever climbs it sees the whole lair before entering it and finds what the hunter left on the deck.",
-          "microGeography": "Set on the knoll top at 11.7 m where the slope is 2.8 deg; the terrain falls 0.19 m across the footprint, which the plinth fit takes up."
-        },
-        "footprint": [
-          [
-            0.331730675,
-            0.59283752
-          ],
-          [
-            0.331733369,
-            0.59284879
-          ],
-          [
-            0.33172929,
-            0.59285972
-          ],
-          [
-            0.331412224,
-            0.593073584
-          ],
-          [
-            0.331400562,
-            0.593073271
-          ],
-          [
-            0.331391122,
-            0.593066551
-          ],
-          [
-            0.331183325,
-            0.59275848
-          ],
-          [
-            0.331180631,
-            0.59274721
-          ],
-          [
-            0.33118471,
-            0.59273628
-          ],
-          [
-            0.331501776,
-            0.592522416
-          ],
-          [
-            0.331513438,
-            0.592522729
-          ],
-          [
-            0.331522878,
-            0.592529449
-          ]
-        ]
-      },
-      {
-        "id": "parcel.wamasu-pond-adult.offering-platform",
-        "districtId": "district.wamasu-pond-adult.bank",
-        "use": "ritual",
-        "buildingFamily": "prop.argonian.ritual-totem",
-        "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
-        "groundFit": "direct",
-        "centreUV": [
-          0.335254,
-          0.600257
-        ],
-        "yawDeg": 345.0,
-        "orientationWhy": "Set square to the waterline on the south shelf so that the deck's long axis runs out toward the pan and the offerings laid on it face the water, as the bank's practice requires.",
-        "interior": {
-          "kind": "none"
-        },
-        "why": {
-          "what": "A low planked deck at the water's edge on which the villages leave their offerings to the animal.",
-          "whyHere": "Lore:Haynekhtnamet records offerings made to a wamasu to stay the floods; the villages here have carried that practice to an animal that closes a route.",
-          "whySpot": "The south shelf is the one stretch of bank level with the water for 20 m back, so a deck can be laid without piles and offerings can be set at the waterline.",
-          "whyNeighbours": "The totem stands behind it looking over it, the lantern beside it lights the water in front of it and the stake line behind marks the landward edge of the offering ground.",
-          "playerPurpose": "The scene socket for LN05 and the nearest safe ground to the water: a visitor reads the bank's whole practice from this deck before deciding whether to enter the pan.",
-          "microGeography": "The pivot sits at the landward end of the hull, so the deck reaches 2.7 m toward the shallows over ground at 9.24 m, level with the water."
-        },
-        "footprint": [
-          [
-            0.335254778,
-            0.600322782
-          ],
-          [
-            0.33522239,
-            0.600196671
-          ],
-          [
-            0.335205397,
-            0.600086093
-          ],
-          [
-            0.335205397,
-            0.600086093
-          ],
-          [
-            0.335385124,
-            0.600033723
-          ],
-          [
-            0.335470273,
-            0.600010907
-          ],
-          [
-            0.335543633,
-            0.599991251
-          ],
-          [
-            0.33555133,
-            0.599999016
-          ],
-          [
-            0.335585259,
-            0.600099441
-          ],
-          [
-            0.335622723,
-            0.600234019
-          ],
-          [
-            0.335640487,
-            0.600331755
-          ],
-          [
-            0.335637704,
-            0.600342329
-          ],
-          [
-            0.335564345,
-            0.600361986
-          ],
-          [
-            0.335479195,
-            0.600384802
-          ],
-          [
-            0.335297363,
-            0.600429311
-          ],
-          [
-            0.335297363,
-            0.600429311
-          ]
-        ]
-      }
-    ],
-    "routes": [
-      {
-        "id": "route.wamasu-pond-adult.bank-path",
-        "kind": "footpath",
-        "widthM": 1.5,
-        "routing": "terrain",
-        "via": [
-          [
-            0.346511,
-            0.61721
-          ],
-          [
-            0.343934,
-            0.614362
-          ],
-          [
-            0.340679,
-            0.607309
-          ],
-          [
-            0.337967,
-            0.602156
-          ],
-          [
-            0.336339,
-            0.601071
-          ]
-        ],
-        "endsAt": [
-          "parcel.wamasu-pond-adult.offering-platform",
-          "dock.wamasu-pond-adult.lane-landing"
-        ],
-        "why": "The one worn line from the landing up the slope to the offering shelf, climbing 8 m over 150 m with two bends around the toe of the slope, so that the pond stays hidden until the last bend.",
-        "points": [
-          [
-            0.347189,
-            0.617888
-          ],
-          [
-            0.34725712,
-            0.618091326
-          ],
-          [
-            0.34739274,
-            0.617955705
-          ],
-          [
-            0.34739274,
-            0.615243292
-          ],
-          [
-            0.346579016,
-            0.614429568
-          ],
-          [
-            0.344002223,
-            0.614429568
-          ],
-          [
-            0.343730982,
-            0.614293947
-          ],
-          [
-            0.340611706,
-            0.611174671
-          ],
-          [
-            0.340611706,
-            0.60493612
-          ],
-          [
-            0.338034913,
-            0.602359327
-          ],
-          [
-            0.337967,
-            0.602156
-          ],
-          [
-            0.337763672,
-            0.602088085
-          ],
-          [
-            0.336000603,
-            0.600325016
-          ],
-          [
-            0.335637704,
-            0.600342329
-          ]
-        ]
-      },
-      {
-        "id": "route.wamasu-pond-adult.stand-path",
-        "kind": "footpath",
-        "widthM": 1.2,
-        "routing": "terrain",
-        "via": [
-          [
-            0.334441,
-            0.601206
-          ],
-          [
-            0.332542,
-            0.599986
-          ],
-          [
-            0.330643,
-            0.597545
-          ],
-          [
-            0.329558,
-            0.594561
-          ],
-          [
-            0.330372,
-            0.592256
-          ],
-          [
-            0.330847,
-            0.591916
-          ]
-        ],
-        "endsAt": [
-          "parcel.wamasu-pond-adult.hunters-stand"
-        ],
-        "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the foot of the stand's ramp, which faces the ridge and is climbed from the landward side.",
-        "points": [
-          [
-            0.334441,
-            0.601206
-          ],
-          [
-            0.33342381,
-            0.601138741
-          ],
-          [
-            0.332474465,
-            0.600189396
-          ],
-          [
-            0.332542,
-            0.599986
-          ],
-          [
-            0.332338845,
-            0.600189396
-          ],
-          [
-            0.331796362,
-            0.600189396
-          ],
-          [
-            0.330575776,
-            0.59896881
-          ],
-          [
-            0.330575776,
-            0.595578293
-          ],
-          [
-            0.329558,
-            0.594561
-          ],
-          [
-            0.330304534,
-            0.593679603
-          ],
-          [
-            0.330372,
-            0.592256
-          ],
-          [
-            0.330575776,
-            0.592594638
-          ],
-          [
-            0.331332876,
-            0.59263634
-          ]
-        ]
-      }
-    ],
-    "canals": [
-      {
-        "id": "canal.wamasu-pond-adult.pole-lane",
-        "kind": "channel",
-        "widthM": 3.5,
-        "routing": "terrain",
-        "via": [
-          [
-            0.357767,
-            0.639587
-          ],
-          [
-            0.353292,
-            0.631992
-          ],
-          [
-            0.349901,
-            0.626568
-          ],
-          [
-            0.348274,
-            0.621821
-          ],
-          [
-            0.347189,
-            0.618159
-          ]
-        ],
-        "endsAt": [
-          "dock.wamasu-pond-adult.lane-landing"
-        ],
-        "why": "The pole-marked poling line up the creek from the estuary to the landing at its head, kept in the open water for its whole length because the creek is the nearest water a boat can use, 8 m below the pond at its head.",
-        "points": [
-          [
-            0.357767,
-            0.639587
-          ],
-          [
-            0.35525874,
-            0.637078222
-          ],
-          [
-            0.35525874,
-            0.633958946
-          ],
-          [
-            0.352139464,
-            0.63083967
-          ],
-          [
-            0.352139464,
-            0.628940981
-          ],
-          [
-            0.349969533,
-            0.62677105
-          ],
-          [
-            0.349901,
-            0.626568
-          ],
-          [
-            0.349155809,
-            0.625957326
-          ],
-          [
-            0.349155809,
-            0.62283805
-          ],
-          [
-            0.348206464,
-            0.621753084
-          ],
-          [
-            0.348206464,
-            0.620396878
-          ],
-          [
-            0.347121499,
-            0.619311912
-          ],
-          [
-            0.347189,
-            0.617888
-          ]
-        ]
-      }
-    ],
-    "boardwalks": [],
-    "fences": [
-      {
-        "id": "fence.wamasu-pond-adult.offering-line",
-        "kind": "fence",
-        "widthM": 0.3,
-        "routing": "straight",
-        "via": [
-          [
-            0.333898,
-            0.601749
-          ],
-          [
-            0.335797,
-            0.601478
-          ]
-        ],
-        "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path and gives the shelf an edge from the inside as well as the outside.",
-        "points": [
-          [
-            0.333898,
-            0.601749
-          ],
-          [
-            0.335797,
-            0.601478
-          ]
-        ]
-      }
-    ],
-    "siting": {
-      "dossier": "world/sources/sites/dossiers/standing-charge.json",
-      "candidates": [
-        {
-          "id": "candidate.wamasu-pond-adult.pan",
-          "positionM": [
-            2466.0,
-            4403.0
-          ],
-          "chosen": true,
-          "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held."
-        },
-        {
-          "id": "candidate.wamasu-pond-adult.plot",
-          "positionM": [
-            2404.5,
-            4433.4
-          ],
-          "rejectedBecause": "No standing water at all: 3.0 m above the water table, shore 33 m off, depth 0.00 m. A pond there would be carved from nothing. Canopy 0.82 closes the sky that the lightning-scarred trees need.",
-          "why": "The plotted position itself, kept for the record: rootland deep marsh, elevation 10.15 m, slope 3.4 deg, 335 m from the nearest road, 155 m from the poling lane."
-        },
-        {
-          "id": "candidate.wamasu-pond-adult.lane-head",
-          "positionM": [
-            2602.0,
-            4652.0
-          ],
-          "rejectedBecause": "Real water 1.60 m deep and 8 m from the lane, but it flood-fills to the ocean: an estuary arm at level 0.00 m, flood band 3, not a held pond. Sitting on the lane also makes the place a blockage rather than a hazard around which the detour is drawn.",
-          "why": "The head of the place's own poling lane, where the water is genuinely deep: elevation -1.55 m, depth 1.60 m, slope 0.3 deg, 8 m from the lane, 198 m from the nearest road."
-        }
-      ]
-    },
-    "landmarks": [
-      {
-        "id": "landmark.wamasu-pond-adult.cave-mouth",
-        "kind": "cave-mouth",
-        "position": [
-          0.331728,
-          0.597002
-        ],
-        "assetRef": "terrain.cave-mouth.flooded",
-        "yawDeg": 93.0,
-        "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell.",
-        "why": {
-          "what": "A cave mouth in the west bank at water level, flooded to the roof.",
-          "whyHere": "The record promises a delve entered by a surface swim; the pan's west bank is where the ground is steep enough to hold a roof.",
-          "whySpot": "The west bank slopes at 6.3 deg against 1 to 4 deg elsewhere, so the opening sits at the waterline with rock above it.",
-          "whyNeighbours": "It faces due east across the pan toward the offering shelf and lies beside the stand path, which passes 8 m west of it along the bank.",
-          "playerPurpose": "The encounter socket and the way into the delve: a swimmer enters along the 93-degree line from the open water.",
-          "microGeography": "The opening bears 93 deg, along the waterline into the pan, with the bank rising 2 m behind it over 15 m."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.dead-tree-n",
-        "kind": "dead-tree",
-        "position": [
-          0.333898,
-          0.594832
-        ],
-        "assetRef": "bmv:landscape/trees/cypress1",
-        "scale": 1.25,
-        "notes": "Standing dead, lightning-scarred, stripped of foliage by the material pass. Scaled 1.25 to 40 m so the bare crown stands 8 m above the live cypress canopy around the pan; kept, never cleared.",
-        "why": {
-          "what": "A dead cypress on the north rim, lightning-scarred and bare, the tallest thing at the pond.",
-          "whyHere": "A wamasu pond is cued by dead standing trees with lightning scarring, which is the type's recipe cue.",
-          "whySpot": "The north rim stands on the line from the ridge to the pan, so a walker coming down from the north-west sees this crown first.",
-          "whyNeighbours": "It stands 25 m from the stand and 40 m from the offering shelf, between the two, so it marks the pan from both.",
-          "playerPurpose": "The first-seen object of the overland approach: a bare crown above the live canopy that a journal line can name.",
-          "microGeography": "Rooted on the rim at 9.6 m with its crown at 40 m in the sky hole where canopy closure drops to 0.63."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.dead-tree-ne",
-        "kind": "dead-tree",
-        "position": [
-          0.336068,
-          0.595375
-        ],
-        "assetRef": "bmv:landscape/trees/cypress3",
-        "notes": "Standing dead, 24.8 x 22.2 m crown, 26.5 m tall, at the waterline.",
-        "why": {
-          "what": "A second dead cypress at the north-east waterline, its roots in the shallows.",
-          "whyHere": "The recipe cue calls for dead trees, plural; one scarred trunk reads as an accident, two read as a place.",
-          "whySpot": "The north-east corner of the pan is where the water reaches furthest into the tree line.",
-          "whyNeighbours": "It stands between the north dead tree and the cairn steps, closing the pan's north side.",
-          "playerPurpose": "The second beat of the reveal from the bank path: seen after the sky hole opens and before the water shows.",
-          "microGeography": "Rooted at the waterline at 9.3 m, leaning slightly out over the shallows."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.dead-tree-w",
-        "kind": "dead-tree",
-        "position": [
-          0.332271,
-          0.59863
-        ],
-        "assetRef": "bmv:landscape/trees/treewillow03a",
-        "notes": "Standing dead willow, 11.6 x 10.2 m, 17.2 m tall, leaning over the west shallows.",
-        "why": {
-          "what": "A dead willow leaning over the west shallows near the cave mouth.",
-          "whyHere": "The west shore needs its own mark, or the cave mouth is found by accident.",
-          "whySpot": "It leans from the bank 12 m south of the cave mouth, where the stand path comes closest to the water.",
-          "whyNeighbours": "Its trunk points at the cave mouth from the path, which is how a walker on the west bank finds the opening.",
-          "playerPurpose": "The pointer to the cave mouth, and cover on the west bank for anyone who leaves the water in a hurry.",
-          "microGeography": "Rooted at 9.5 m on the 6-deg west bank, leaning east over water 0.3 m deep."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.totem-bank",
-        "kind": "totem",
-        "position": [
-          0.335526,
-          0.599715
-        ],
-        "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
-        "yawDeg": 337.0,
-        "notes": "0.75 x 0.49 m, 1.95 m tall. Carved face turned 337 deg to the water, standing behind the offering platform and looking over it.",
-        "why": {
-          "what": "A carved totem post standing behind the offering platform with its face to the water.",
-          "whyHere": "The offering practice here is the Shadowfen one, in which the thing paid is addressed as well as fed.",
-          "whySpot": "Directly behind the platform, so the face looks over the offerings and out to the pan.",
-          "whyNeighbours": "It stands between the platform and the stake line, with the lantern to its east.",
-          "playerPurpose": "The mark that says the bank is tended: a visitor reads the totem before the platform.",
-          "microGeography": "On the level shelf at 9.24 m, 4 m back from the water."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.bone-chime",
-        "kind": "chime",
-        "position": [
-          0.336339,
-          0.599172
-        ],
-        "assetRef": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
-        "yawDeg": 317.0,
-        "notes": "2.18 x 0.38 m, 1.41 m tall. The drum frame with no drum in it. Set broadside across the bank walk at 317 deg, so the empty ring is read against the water.",
-        "why": {
-          "what": "A bone chime on a frame, the drum frame with no drum in it that the record names.",
-          "whyHere": "The frame is what remains of the drum-signal that once warned boats off this bank.",
-          "whySpot": "Broadside across the bank walk between the platform and the cairn steps, where the shelf narrows.",
-          "whyNeighbours": "It closes the offering ground on its east side, opposite the stake line on the south.",
-          "playerPurpose": "The sound cue: the chime is heard from the bank path before the water is seen.",
-          "microGeography": "On the shelf at 9.3 m where the bank begins to climb toward the cairns."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.cairn-1",
-        "kind": "cairn",
-        "position": [
-          0.336882,
-          0.598358
-        ],
-        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
-        "notes": "2.49 x 2.51 m, 2.65 m tall; the lowest of the stepped grave-cairns.",
-        "why": {
-          "what": "The lowest of three grave-cairns stepped up the east bank.",
-          "whyHere": "The bank has buried those the animal took; the cairns are the record's white grave-cairns stepped up the bank.",
-          "whySpot": "The first step above the shelf, at the foot of the east bank.",
-          "whyNeighbours": "Below the second cairn and east of the chime, closing the shelf's north-east corner.",
-          "playerPurpose": "The start of the retreat ground: broken footing behind which a fight in the water can be left.",
-          "microGeography": "On the east bank at 9.4 m, 0.2 m above the water."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.cairn-2",
-        "kind": "cairn",
-        "position": [
-          0.33756,
-          0.597545
-        ],
-        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
-        "notes": "1.75 x 2.60 m, 2.56 m tall.",
-        "why": {
-          "what": "The middle of the three grave-cairns.",
-          "whyHere": "The line of cairns is what makes the east bank read as a burial ground rather than a rock fall.",
-          "whySpot": "Halfway up the east bank between the first and third cairns.",
-          "whyNeighbours": "It continues the step from the first cairn toward the third, 7 m apart.",
-          "playerPurpose": "Cover on the retreat ground and the middle mark of the line read from the water.",
-          "microGeography": "On the east bank at 9.45 m."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.cairn-3",
-        "kind": "cairn",
-        "position": [
-          0.338102,
-          0.596595
-        ],
-        "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
-        "notes": "1.39 x 1.88 m, 2.56 m tall; the highest of the three, at the top of the east bank.",
-        "why": {
-          "what": "The highest and smallest of the three grave-cairns.",
-          "whyHere": "The stepped line ends at the top of the bank, where the shelf gives way to the trees.",
-          "whySpot": "The top of the east bank, at the tree line.",
-          "whyNeighbours": "It ends the line begun by the first cairn and stands 15 m south of the north-east dead tree.",
-          "playerPurpose": "The last piece of the retreat ground before the trees, and the cairn seen first from the bank path.",
-          "microGeography": "At 9.5 m on the east bank where the ground levels toward the tree line."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.lantern-bank",
-        "kind": "light",
-        "position": [
-          0.335932,
-          0.600122
-        ],
-        "assetRef": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
-        "yawDeg": 334.0,
-        "notes": "0.66 x 0.64 m, 2.71 m tall. The one maintained light on the bank. Hooded back to the bank at 334 deg, throwing its light over the water rather than up the cairn steps.",
-        "why": {
-          "what": "A hanging lantern on a post beside the offering platform, the one maintained light at the pond.",
-          "whyHere": "Offerings are laid at dusk, and under a closed canopy a light is the cue with the longest reach.",
-          "whySpot": "Beside the platform at the water's edge, so its light falls on the offerings and the water in front of them.",
-          "whyNeighbours": "East of the totem and the platform, west of the chime.",
-          "playerPurpose": "The beacon for the last 40 m of the bank path after dark, and the light that goes out in the cleared variant.",
-          "microGeography": "On the shelf at 9.24 m, 3 m from the water."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.stand-ramp",
-        "kind": "ramp",
-        "position": [
-          0.331172,
-          0.592378
-        ],
-        "assetRef": "vanilla:clutter/stockade/stockadescaffoldramp01",
-        "yawDeg": 326.0,
-        "notes": "3.52 x 3.87 x 3.27 m. The stockade-scaffold ramp of the stand's own snap chain, set against the landward face of the footing at 326 deg.",
-        "why": {
-          "what": "The ramp up to the hunter's stand, on its landward side.",
-          "whyHere": "A raised deck needs a visible means of ascent from the ground below it, or the deck is scenery.",
-          "whySpot": "Against the north-west face of the footing, opposite the open face that looks at the water.",
-          "whyNeighbours": "The stand path ends at its foot, so the way up is the end of the way there.",
-          "playerPurpose": "The way onto the deck, seen head-on by anyone coming down the ridge from the north-west.",
-          "microGeography": "Its foot rests on the knoll top at 11.7 m; the ramp climbs 2.7 m to the deck."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.pole-mouth",
-        "kind": "marker-pole",
-        "position": [
-          0.358174,
-          0.64013
-        ],
-        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
-        "notes": "0.23 x 0.22 m, 1.92 m tall. The first of the rooted poles, where the lane leaves the estuary.",
-        "why": {
-          "what": "The first marker pole of the poling lane, standing in the water where the creek leaves the estuary.",
-          "whyHere": "The villages mark the detour for its whole length; the mouth pole is where the marking begins.",
-          "whySpot": "At the creek mouth, where a poler coming along the estuary must choose to turn in.",
-          "whyNeighbours": "The next pole stands 60 m up the creek at the first bend, in sight of this one.",
-          "playerPurpose": "The first-seen object of the water approach and the start of the cue chain that leads to the landing.",
-          "microGeography": "Set in water 1.4 m deep at the creek mouth, with roots grown down the pole into the bed."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.pole-bend-s",
-        "kind": "marker-pole",
-        "position": [
-          0.353563,
-          0.632535
-        ],
-        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
-        "notes": "A pole at the lower bend of the creek.",
-        "why": {
-          "what": "A rooted marker pole at the creek's lower bend.",
-          "whyHere": "A pole line works by each pole being in sight of the last; the bend would break that sight.",
-          "whySpot": "On the outside of the bend, where the water turns from north-west to north.",
-          "whyNeighbours": "In sight of the mouth pole below it and the upper bend pole above it.",
-          "playerPurpose": "The pole that keeps the lane readable round the first turn.",
-          "microGeography": "In water 1.3 m deep at the outside of the bend."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.pole-bend-n",
-        "kind": "marker-pole",
-        "position": [
-          0.350173,
-          0.626839
-        ],
-        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
-        "notes": "A pole at the upper bend of the creek, where it narrows to a boat's width.",
-        "why": {
-          "what": "A rooted marker pole at the creek's upper bend.",
-          "whyHere": "Above this bend the creek narrows to a boat's width and the canopy closes to 0.93; without the pole the head reads as a dead end.",
-          "whySpot": "On the outside of the upper bend, where the water turns north toward the landing.",
-          "whyNeighbours": "In sight of the lower bend pole and of the head pole at the landing 70 m on.",
-          "playerPurpose": "The pole that promises there is something at the head of a narrowing creek.",
-          "microGeography": "In water 1.2 m deep where the creek narrows from two boat-widths to one."
-        }
-      },
-      {
-        "id": "landmark.wamasu-pond-adult.pole-head",
-        "kind": "marker-pole",
-        "position": [
-          0.346782,
-          0.61721
-        ],
-        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
-        "notes": "The last pole, beside the landing at the creek head.",
-        "why": {
-          "what": "The last marker pole of the lane, standing at the water's edge beside the landing.",
-          "whyHere": "The line ends where the water ends; the head pole says that the landing is the end and not a gap.",
-          "whySpot": "At the west edge of the creek head, beside the landing and at the foot of the bank path.",
-          "whyNeighbours": "Beside the landing, with the bank path leaving the bank behind it.",
-          "playerPurpose": "The threshold of the lair: from this pole onward the way is on foot.",
-          "microGeography": "Set at the waterline at 1 m elevation where the creek stops against the toe of the slope."
-        }
-      }
-    ],
-    "docks": [
-      {
-        "id": "dock.wamasu-pond-adult.lane-landing",
-        "position": [
-          0.347189,
-          0.617888
-        ],
-        "waterBodyId": "water.creek.pole-lane",
-        "piledToBed": true,
-        "why": {
-          "what": "A small piled landing at the head of the poling creek where boats stop.",
-          "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below.",
-          "whyNeighbours": "The pole lane ends at it and the bank path climbs west from it; the head pole stands beside it.",
-          "playerPurpose": "The arrival point by water and the threshold between the boat and the walk.",
-          "microGeography": "Piled in the dead-end head of the creek at 1 m elevation against the toe of the slope, in water a boat's width across."
-        }
-      }
-    ],
-    "combatSpaces": [
-      {
-        "id": "combat.wamasu-pond-adult.pond",
-        "boundary": [
-          [
-            0.330643,
-            0.59429
-          ],
-          [
-            0.337967,
-            0.59429
-          ],
-          [
-            0.337967,
-            0.599715
-          ],
-          [
-            0.330643,
-            0.599715
-          ]
-        ],
-        "clearanceClass": "open",
-        "why": "The lair is the fight: the adult wamasu holds the pan and charges anything that enters it, so the water and its rim are kept clear of everything but the three dead trees. The animal is the armoured daedroth build on the werewolfbeast rig with a body of roughly 5 m, which needs room to turn, charge and be circled; LN05 and the province hostility system both put the boss fight here."
-      },
-      {
-        "id": "combat.wamasu-pond-adult.bank-shelf",
-        "boundary": [
-          [
-            0.333627,
-            0.599443
-          ],
-          [
-            0.339052,
-            0.599443
-          ],
-          [
-            0.339052,
-            0.602427
-          ],
-          [
-            0.333627,
-            0.602427
-          ]
-        ],
-        "clearanceClass": "broken",
-        "why": "The retreat ground for the pond fight: the offering shelf, the chime and the cairn steps are deliberately cluttered so that they are worse ground for the animal to charge across and better ground for a fighter to fall back through."
-      }
-    ],
-    "questSockets": [
-      {
-        "id": "socket.wamasu-pond-adult.boss",
-        "kind": "boss",
-        "position": [
-          0.334441,
-          0.597138
-        ],
-        "ownerQuestTier": 3
-      },
-      {
-        "id": "socket.wamasu-pond-adult.offerings",
-        "kind": "scene",
-        "position": [
-          0.335254,
-          0.600257
-        ],
-        "parcelId": "parcel.wamasu-pond-adult.offering-platform",
-        "ownerQuestTier": 3
-      },
-      {
-        "id": "socket.wamasu-pond-adult.stand-evidence",
-        "kind": "evidence",
-        "position": [
-          0.331457,
-          0.592798
-        ],
-        "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
-        "ownerQuestTier": 3
-      },
-      {
-        "id": "socket.wamasu-pond-adult.pond-floor",
-        "kind": "container",
-        "position": [
-          0.333627,
-          0.597816
-        ],
-        "ownerQuestTier": 3
-      },
-      {
-        "id": "socket.wamasu-pond-adult.cave-mouth",
-        "kind": "encounter",
-        "position": [
-          0.331728,
-          0.597002
-        ],
-        "ownerQuestTier": 3
-      }
-    ],
-    "approaches": [
-      {
-        "id": "approach.wamasu-pond-adult.pole-lane",
-        "mode": "boat",
-        "fromRouteId": "canal.wamasu-pond-adult.pole-lane",
-        "firstSeen": "landmark.wamasu-pond-adult.pole-mouth",
-        "sequence": "The mouth pole shows first where the creek leaves the estuary; the poles then lead up the creek under a canopy of 0.93 while the water narrows to a boat's width and the pond stays out of sight; the head pole and the landing end the water; the bank path climbs west with the pond still hidden behind the slope; at the last bend the sky hole opens, the two dead cypresses show against it and then the water, with the lantern and the platform on its south shelf.",
-        "wayfinding": "Follow the poles up the creek to the landing, then the trodden path uphill toward the bare crowns; the offering bank is where the path meets the water again.",
-        "notes": "The survey has no water north of the pond, so the lane is approached from the estuary to the south-east rather than from the north; the poles run 180 m and the walk from the landing is 150 m with a climb of 8 m. Under this canopy the first-seen object is the first cue on the way, a pole, because no beacon can reach a boat on a 6 m creek."
-      },
-      {
-        "id": "approach.wamasu-pond-adult.knoll",
-        "mode": "walk",
-        "fromDirection": "north-west, down the ridge from 16 m",
-        "firstSeen": "landmark.wamasu-pond-adult.dead-tree-n",
-        "sequence": "From the ridge the bare scarred crown of the north dead tree stands 8 m above the live canopy; the live trees between the ridge and the knoll then hide the water as the ground drops from 16 m to 12 m; the stand's ramp comes into view head-on on the knoll top; from the deck the whole pan, the cairns, the platform and the cave mouth are seen at once; the stand path then drops past the dead willow and the cave mouth to the offering shelf.",
-        "wayfinding": "Walk toward the bare crown; the ramp of the stand faces the walker on the knoll top, and the path to the bank leaves from its foot.",
-        "notes": "The overland approach for anyone crossing the rootland from the north or west. The knoll is the one point from which the lair is surveyed before it is entered; the descent to the bank passes the cave mouth, so the swim entrance is found on the way down rather than searched for."
-      }
-    ],
-    "doors": [],
-    "clearance": {
-      "hardClear": [
-        [
-          [
-            0.330643,
-            0.59429
-          ],
-          [
-            0.337967,
-            0.59429
-          ],
-          [
-            0.337967,
-            0.599715
-          ],
-          [
-            0.330643,
-            0.599715
-          ]
-        ]
-      ],
-      "thinned": [
-        [
-          [
-            0.329287,
-            0.592934
-          ],
-          [
-            0.339594,
-            0.592934
-          ],
-          [
-            0.339594,
-            0.603241
-          ],
-          [
-            0.329287,
-            0.603241
-          ]
-        ],
-        [
-          [
-            0.336068,
-            0.600528
-          ],
-          [
-            0.348545,
-            0.600528
-          ],
-          [
-            0.348545,
-            0.619787
-          ],
-          [
-            0.344477,
-            0.619787
-          ],
-          [
-            0.336068,
-            0.604868
-          ]
-        ],
-        [
-          [
-            0.328202,
-            0.589272
-          ],
-          [
-            0.333627,
-            0.589272
-          ],
-          [
-            0.333627,
-            0.59429
-          ],
-          [
-            0.328202,
-            0.59429
-          ]
-        ]
-      ],
-      "kept": [
-        {
-          "id": "kept.wamasu-pond-adult.dead-tree-n",
-          "kind": "dead-tree",
-          "position": [
-            0.333898,
-            0.594832
-          ]
-        },
-        {
-          "id": "kept.wamasu-pond-adult.dead-tree-ne",
-          "kind": "dead-tree",
-          "position": [
-            0.336068,
-            0.595375
-          ]
-        },
-        {
-          "id": "kept.wamasu-pond-adult.dead-tree-w",
-          "kind": "dead-tree",
-          "position": [
-            0.332271,
-            0.59863
-          ]
-        },
-        {
-          "id": "kept.wamasu-pond-adult.pond",
-          "kind": "open-water",
-          "position": [
-            0.334441,
-            0.597138
-          ]
-        },
-        {
-          "id": "kept.wamasu-pond-adult.reed-margin",
-          "kind": "reed-bed",
-          "position": [
-            0.333356,
-            0.599986
-          ]
-        },
-        {
-          "id": "kept.wamasu-pond-adult.pole-roots",
-          "kind": "root-mat",
-          "position": [
-            0.34746,
-            0.61843
-          ]
-        }
-      ]
-    },
-    "variants": [
-      {
-        "id": "variant.wamasu-pond-adult.cleared",
-        "changedRefs": [
-          "socket.wamasu-pond-adult.boss",
-          "combat.wamasu-pond-adult.pond",
-          "landmark.wamasu-pond-adult.lantern-bank"
-        ],
-        "serviceOverrides": {
-          "canal.wamasu-pond-adult.pole-lane": "abandoned"
-        },
-        "ambience": "quiet-water"
-      }
-    ],
-    "travelServices": [],
-    "occupants": [
-      {
-        "slotId": "o.wamasu",
-        "ladderRef": "formidable-d5 beast",
-        "cultureRole": "resident adult wamasu"
-      }
-    ],
-    "assetConstraints": [
-      "district.wamasu-pond-adult.bank uses settlement-mud-v1 pieces only; district.wamasu-pond-adult.stand uses works-v1 only; district.wamasu-pond-adult.landing uses docks-v1 poles only. No set is blended.",
-      "The hunter's stand is the vanilla stockade-scaffold snap chain and nothing else: base3sided01 footing (the parcel), ramp01 on the landward face (the ramp landmark), top3sided01 deck of the matching side count and basesupport01 under the overhang (both to be placed by the compiler's snap rule; not yet authored). Side counts stay consistent around the platform.",
-      "The pole line is authored as its four load-bearing poles (mouth, two bends, head); the poles between them at roughly 15 m are a compiler rule along canal.wamasu-pond-adult.pole-lane that does not yet exist.",
-      "The pond's electrified water is a Phase 9 water-volume hazard, not a mesh and not a particle prop.",
-      "The wamasu actor is the armoured daedroth build on the vanilla werewolfbeast rig (creature-asset-availability.md); no new rig is requested."
-    ],
-    "ownership": {
-      "socket.wamasu-pond-adult.offerings": {
-        "owner": "the offering-makers of the deeps",
-        "valueTier": "modest"
-      }
-    },
-    "provision": {
-      "questIds": [
-        "quest.local.ln05"
-      ],
-      "needs": [
-        "a boss space that reads as owned before it is entered",
-        "evidence on the abandoned stand that someone tried this before",
-        "a container on the pond floor reachable only by swimming"
-      ],
-      "notes": "LN05 anchors here alongside the tidal gate and the village; the tier-1 province system also draws on the cleared/uncleared state."
-    },
-    "budget": {
-      "maxInstances": 420,
-      "maxUniqueMaterials": 14,
-      "maxTextureMB": 24,
-      "maxColliders": 120
+    "notes": "The pond and its bank ring. Offering ground on the south shelf, grave-cairns stepped up the east bank, drift bone along the high line.",
+    "why": {
+     "what": "The pond itself with the shelf of level bank around it: the animal's water, the offering ground on the south shore and the cairn steps on the east.",
+     "whyHere": "The pan is the sole closed body of still water within 300 m, so it is the piece of ground that a wamasu can hold against the tides of the creeks below.",
+     "whyNeighbours": "The knoll district stands above its north-west shore because that is the one rise from which the whole pan is in view; the landing district lies below its south-east side because the creek is the nearest water a boat can use.",
+     "playerPurpose": "The fight, the offerings, the shed charged bones on the bank and the cave mouth are all in this district; a visitor who reaches the water has reached the lair.",
+     "microGeography": "Water at 9.24 m held in a shallow pan 38 m wide; the south shelf lies within 0.2 m of the water for 20 m back, the east bank climbs 0.3 m to the cairn line and the west bank is steeper at 6 deg where the cave opens."
     }
-  }
+   },
+   {
+    "id": "district.wamasu-pond-adult.stand",
+    "kind": "works",
+    "cultureKit": "neutral-works",
+    "wealth": "poor",
+    "boundary": [
+     [
+      0.328473,
+      0.589679
+     ],
+     [
+      0.333356,
+      0.589679
+     ],
+     [
+      0.333356,
+      0.594019
+     ],
+     [
+      0.328473,
+      0.594019
+     ]
+    ],
+    "notes": "The knoll north-west of the pond, 2.5 m above the water, with the hunter's abandoned stand on it.",
+    "why": {
+     "what": "A low knoll north-west of the pond with an abandoned hunter's stand and its ramp on the top.",
+     "whyHere": "A hunter who meant to kill the animal from cover needed the point of ground above the water with a clear line to all of it.",
+     "whyNeighbours": "It overlooks the bank district from 22 m back, close enough for a thrown spear yet above the reach of a charge out of the shallows.",
+     "playerPurpose": "The survey point: from the deck the pan, the cairns, the offering platform and the cave mouth are all in view before any of them is reached. The evidence of the failed hunt lies on the deck.",
+     "microGeography": "The knoll top is at 11.7 m, slope 2.8 deg, with the ground rising to 16 m on the ridge behind it and falling 2.5 m over 22 m to the water in front."
+    }
+   },
+   {
+    "id": "district.wamasu-pond-adult.landing",
+    "kind": "waterfront",
+    "cultureKit": "argonian-stilt",
+    "wealth": "poor",
+    "boundary": [
+     [
+      0.344477,
+      0.61504
+     ],
+     [
+      0.350579,
+      0.61504
+     ],
+     [
+      0.360751,
+      0.637417
+     ],
+     [
+      0.360751,
+      0.641486
+     ],
+     [
+      0.355326,
+      0.641486
+     ],
+     [
+      0.345155,
+      0.621143
+     ]
+    ],
+    "notes": "The pole-marked poling creek east of the pond and the landing at its head. Poles and a landing only; the roots at the poles' feet are the signature.",
+    "why": {
+     "what": "The creek below the pond, marked for its length with poles that have stood long enough to root, with a small piled landing at its head.",
+     "whyHere": "This creek is the nearest water a boat can reach, eight metres below the pan at its head and 150 m south-east of it; the pond has no water link to anything, so every boat that comes here stops at this landing.",
+     "whyNeighbours": "It lies below the bank district and is joined to it by the bank path, which is the one worn line up the slope.",
+     "playerPurpose": "The arrival point by water and the start of the cue chain: the poles announce the lair for 180 m before any part of it can be seen.",
+     "microGeography": "A creek one to two boat-widths across running north into a dead end at 1 m elevation under a canopy of 0.93; the landing sits at the head where the water stops against the foot of the slope."
+    }
+   }
+  ],
+  "parcels": [
+   {
+    "id": "parcel.wamasu-pond-adult.hunters-stand",
+    "districtId": "district.wamasu-pond-adult.stand",
+    "use": "work",
+    "buildingFamily": "arch.neutral.scaffold-platform",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldbase3sided01",
+    "groundFit": "plinth",
+    "centreUV": [
+     0.331457,
+     0.592798
+    ],
+    "yawDeg": 146.0,
+    "orientationWhy": "Turned so that the stand's open, unrailed face looks down the 146-degree line to the pond, which leaves the three railed sides and the ramp on the landward flank of the knoll.",
+    "interior": {
+     "kind": "none"
+    },
+    "why": {
+     "what": "The footing of an abandoned hunter's stand: a railed scaffold platform with its ramp on the landward side.",
+     "whyHere": "Somebody tried to kill the animal from above the water before the villages settled for offerings; the stand is what that attempt left.",
+     "whySpot": "The knoll top is the only ground within 40 m of the pond that stands 2.5 m above the water with the whole pan in view.",
+     "whyNeighbours": "It faces the pond across 22 m of open slope, so the deck reads the offering shelf, the cairns and the cave mouth in one look; the ramp faces the ridge, away from the water.",
+     "playerPurpose": "The survey point and the evidence socket: whoever climbs it sees the whole lair before entering it and finds what the hunter left on the deck.",
+     "microGeography": "Set on the knoll top at 11.7 m where the slope is 2.8 deg; the terrain falls 0.19 m across the footprint, which the plinth fit takes up."
+    },
+    "footprint": [
+     [
+      0.331730675,
+      0.59283752
+     ],
+     [
+      0.331733369,
+      0.59284879
+     ],
+     [
+      0.33172929,
+      0.59285972
+     ],
+     [
+      0.331412224,
+      0.593073584
+     ],
+     [
+      0.331400562,
+      0.593073271
+     ],
+     [
+      0.331391122,
+      0.593066551
+     ],
+     [
+      0.331183325,
+      0.59275848
+     ],
+     [
+      0.331180631,
+      0.59274721
+     ],
+     [
+      0.33118471,
+      0.59273628
+     ],
+     [
+      0.331501776,
+      0.592522416
+     ],
+     [
+      0.331513438,
+      0.592522729
+     ],
+     [
+      0.331522878,
+      0.592529449
+     ]
+    ]
+   },
+   {
+    "id": "parcel.wamasu-pond-adult.offering-platform",
+    "districtId": "district.wamasu-pond-adult.bank",
+    "use": "ritual",
+    "buildingFamily": "prop.argonian.ritual-totem",
+    "assetRef": "mudmother:gv_meshes/argoniannest/argonianplatform",
+    "groundFit": "direct",
+    "centreUV": [
+     0.335254,
+     0.600257
+    ],
+    "yawDeg": 345.0,
+    "orientationWhy": "Set square to the waterline on the south shelf so that the deck's long axis runs out toward the pan and the offerings laid on it face the water, as the bank's practice requires.",
+    "interior": {
+     "kind": "none"
+    },
+    "why": {
+     "what": "A low planked deck at the water's edge on which the villages leave their offerings to the animal.",
+     "whyHere": "Lore:Haynekhtnamet records offerings made to a wamasu to stay the floods; the villages here have carried that practice to an animal that closes a route.",
+     "whySpot": "The south shelf is the stretch of bank level with the water for 20 m back, so a deck can be laid without piles and offerings can be set at the waterline.",
+     "whyNeighbours": "The totem stands behind it looking over it, the lantern beside it lights the water in front of it and the stake line behind marks the landward edge of the offering ground.",
+     "playerPurpose": "The scene socket for LN05 and the nearest safe ground to the water: a visitor reads the bank's whole practice from this deck before deciding whether to enter the pan.",
+     "microGeography": "The pivot sits at the landward end of the hull, so the deck reaches 2.7 m toward the shallows over ground at 9.24 m, level with the water."
+    },
+    "footprint": [
+     [
+      0.335254778,
+      0.600322782
+     ],
+     [
+      0.33522239,
+      0.600196671
+     ],
+     [
+      0.335205397,
+      0.600086093
+     ],
+     [
+      0.335205397,
+      0.600086093
+     ],
+     [
+      0.335385124,
+      0.600033723
+     ],
+     [
+      0.335470273,
+      0.600010907
+     ],
+     [
+      0.335543633,
+      0.599991251
+     ],
+     [
+      0.33555133,
+      0.599999016
+     ],
+     [
+      0.335585259,
+      0.600099441
+     ],
+     [
+      0.335622723,
+      0.600234019
+     ],
+     [
+      0.335640487,
+      0.600331755
+     ],
+     [
+      0.335637704,
+      0.600342329
+     ],
+     [
+      0.335564345,
+      0.600361986
+     ],
+     [
+      0.335479195,
+      0.600384802
+     ],
+     [
+      0.335297363,
+      0.600429311
+     ],
+     [
+      0.335297363,
+      0.600429311
+     ]
+    ]
+   },
+   {
+    "id": "parcel.wamasu-pond-adult.hunters-stand-deck",
+    "districtId": "district.wamasu-pond-adult.stand",
+    "use": "work",
+    "buildingFamily": "works-scaffold",
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldtop3sided01",
+    "groundFit": "plinth",
+    "centreUV": [
+     0.331457,
+     0.592798
+    ],
+    "yawDeg": 146.0,
+    "orientationWhy": "Turned with its footing, so its three rails sit over the footing's three railed sides and the open side matches.",
+    "interior": {
+     "kind": "none"
+    },
+    "why": {
+     "what": "The stand's deck: the railed three-sided top tier of the hunter's stand, stacked on its footing.",
+     "whyHere": "The works kit's own grammar: a three-sided top on a three-sided base, the tier that makes the footing a deck with rails.",
+     "whySpot": "On the footing on the knoll, so the deck's open side looks down the 146 degree line to the centre of the pan.",
+     "whyNeighbours": "It stands on its footing and nowhere else; the stair or ramp on the footing's landward face reaches it.",
+     "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises.",
+     "microGeography": "Carried on the footing's posts at 2.7 m; it touches no ground."
+    },
+    "stacksOn": "parcel.wamasu-pond-adult.hunters-stand",
+    "footprint": [
+     [
+      0.331786843,
+      0.592860161
+     ],
+     [
+      0.331692059,
+      0.592930638
+     ],
+     [
+      0.331502071,
+      0.593063694
+     ],
+     [
+      0.331454482,
+      0.593097429
+     ],
+     [
+      0.331394865,
+      0.593132733
+     ],
+     [
+      0.331390707,
+      0.593128994
+     ],
+     [
+      0.331122606,
+      0.592729093
+     ],
+     [
+      0.331454522,
+      0.592479039
+     ],
+     [
+      0.331506242,
+      0.592444153
+     ]
+    ]
+   }
+  ],
+  "routes": [
+   {
+    "id": "route.wamasu-pond-adult.bank-path",
+    "kind": "footpath",
+    "widthM": 1.5,
+    "routing": "terrain",
+    "via": [
+     [
+      0.346511,
+      0.61721
+     ],
+     [
+      0.343934,
+      0.614362
+     ],
+     [
+      0.340679,
+      0.607309
+     ],
+     [
+      0.337967,
+      0.602156
+     ],
+     [
+      0.336339,
+      0.601071
+     ]
+    ],
+    "endsAt": [
+     "parcel.wamasu-pond-adult.offering-platform",
+     "dock.wamasu-pond-adult.lane-landing"
+    ],
+    "why": "The one worn line from the landing up the slope to the offering shelf, climbing 8 m over 150 m with two bends around the toe of the slope, so that the pond stays hidden until the last bend.",
+    "points": [
+     [
+      0.347189,
+      0.617888
+     ],
+     [
+      0.34725712,
+      0.618091326
+     ],
+     [
+      0.34739274,
+      0.617955705
+     ],
+     [
+      0.34739274,
+      0.615243292
+     ],
+     [
+      0.346579016,
+      0.614429568
+     ],
+     [
+      0.344002223,
+      0.614429568
+     ],
+     [
+      0.343730982,
+      0.614293947
+     ],
+     [
+      0.340611706,
+      0.611174671
+     ],
+     [
+      0.340611706,
+      0.60493612
+     ],
+     [
+      0.338034913,
+      0.602359327
+     ],
+     [
+      0.337967,
+      0.602156
+     ],
+     [
+      0.337763672,
+      0.602088085
+     ],
+     [
+      0.336000603,
+      0.600325016
+     ],
+     [
+      0.335637704,
+      0.600342329
+     ]
+    ]
+   },
+   {
+    "id": "route.wamasu-pond-adult.stand-path",
+    "kind": "footpath",
+    "widthM": 1.2,
+    "routing": "terrain",
+    "via": [
+     [
+      0.334441,
+      0.601206
+     ],
+     [
+      0.332542,
+      0.599986
+     ],
+     [
+      0.330643,
+      0.597545
+     ],
+     [
+      0.329558,
+      0.594561
+     ],
+     [
+      0.330372,
+      0.592256
+     ],
+     [
+      0.330447,
+      0.594187
+     ],
+     [
+      0.330847,
+      0.591916
+     ]
+    ],
+    "endsAt": [
+     "parcel.wamasu-pond-adult.hunters-stand",
+     "parcel.wamasu-pond-adult.hunters-stand-deck"
+    ],
+    "why": "The hunter's own line from the offering shelf round the south and west banks, past the cave mouth and up the west slope to the foot of the stand's ramp, which faces the ridge and is climbed from the landward side.",
+    "points": [
+     [
+      0.334441,
+      0.601206
+     ],
+     [
+      0.33342381,
+      0.601138741
+     ],
+     [
+      0.332474465,
+      0.600189396
+     ],
+     [
+      0.332542,
+      0.599986
+     ],
+     [
+      0.332338845,
+      0.600189396
+     ],
+     [
+      0.331796362,
+      0.600189396
+     ],
+     [
+      0.330575776,
+      0.59896881
+     ],
+     [
+      0.330575776,
+      0.595578293
+     ],
+     [
+      0.329558,
+      0.594561
+     ],
+     [
+      0.330304534,
+      0.593679603
+     ],
+     [
+      0.330372,
+      0.592256
+     ],
+     [
+      0.330304534,
+      0.594086465
+     ],
+     [
+      0.330447,
+      0.594187
+     ],
+     [
+      0.330440155,
+      0.593408362
+     ],
+     [
+      0.331253879,
+      0.592594638
+     ],
+     [
+      0.331332876,
+      0.59263634
+     ]
+    ]
+   }
+  ],
+  "canals": [
+   {
+    "id": "canal.wamasu-pond-adult.pole-lane",
+    "kind": "channel",
+    "widthM": 3.5,
+    "routing": "terrain",
+    "via": [
+     [
+      0.357767,
+      0.639587
+     ],
+     [
+      0.353292,
+      0.631992
+     ],
+     [
+      0.349901,
+      0.626568
+     ],
+     [
+      0.348274,
+      0.621821
+     ],
+     [
+      0.347189,
+      0.618159
+     ]
+    ],
+    "endsAt": [
+     "dock.wamasu-pond-adult.lane-landing"
+    ],
+    "why": "The pole-marked poling line up the creek from the estuary to the landing at its head, kept in the open water for its whole length because the creek is the nearest water a boat can use, 8 m below the pond at its head.",
+    "points": [
+     [
+      0.357767,
+      0.639587
+     ],
+     [
+      0.35525874,
+      0.637078222
+     ],
+     [
+      0.35525874,
+      0.633958946
+     ],
+     [
+      0.352139464,
+      0.63083967
+     ],
+     [
+      0.352139464,
+      0.628940981
+     ],
+     [
+      0.349969533,
+      0.62677105
+     ],
+     [
+      0.349901,
+      0.626568
+     ],
+     [
+      0.349155809,
+      0.625957326
+     ],
+     [
+      0.349155809,
+      0.62283805
+     ],
+     [
+      0.348206464,
+      0.621753084
+     ],
+     [
+      0.348206464,
+      0.620396878
+     ],
+     [
+      0.347121499,
+      0.619311912
+     ],
+     [
+      0.347189,
+      0.617888
+     ]
+    ]
+   }
+  ],
+  "boardwalks": [],
+  "fences": [
+   {
+    "id": "fence.wamasu-pond-adult.offering-line",
+    "kind": "fence",
+    "widthM": 0.3,
+    "routing": "straight",
+    "via": [
+     [
+      0.333898,
+      0.601749
+     ],
+     [
+      0.335797,
+      0.601478
+     ]
+    ],
+    "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+    "why": "A stake line along the landward edge of the offering shelf, which marks where the offering ground begins for anyone coming up the bank path and gives the shelf an edge from the inside as well as the outside.",
+    "points": [
+     [
+      0.333898,
+      0.601749
+     ],
+     [
+      0.335797,
+      0.601478
+     ]
+    ]
+   }
+  ],
+  "siting": {
+   "dossier": "world/sources/sites/dossiers/standing-charge.json",
+   "candidates": [
+    {
+     "id": "candidate.wamasu-pond-adult.pan",
+     "positionM": [
+      2466.0,
+      4403.0
+     ],
+     "chosen": true,
+     "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held."
+    },
+    {
+     "id": "candidate.wamasu-pond-adult.plot",
+     "positionM": [
+      2404.5,
+      4433.4
+     ],
+     "rejectedBecause": "No standing water at all: 3.0 m above the water table, shore 33 m off, depth 0.00 m. A pond there would be carved from nothing. Canopy 0.82 closes the sky that the lightning-scarred trees need.",
+     "why": "The plotted position itself, kept for the record: rootland deep marsh, elevation 10.15 m, slope 3.4 deg, 335 m from the nearest road, 155 m from the poling lane."
+    },
+    {
+     "id": "candidate.wamasu-pond-adult.lane-head",
+     "positionM": [
+      2602.0,
+      4652.0
+     ],
+     "rejectedBecause": "Real water 1.60 m deep and 8 m from the lane, but it flood-fills to the ocean: an estuary arm at level 0.00 m, flood band 3, not a held pond. Sitting on the lane also makes the place a blockage rather than a hazard around which the detour is drawn.",
+     "why": "The head of the place's own poling lane, where the water is genuinely deep: elevation -1.55 m, depth 1.60 m, slope 0.3 deg, 8 m from the lane, 198 m from the nearest road."
+    }
+   ]
+  },
+  "landmarks": [
+   {
+    "id": "landmark.wamasu-pond-adult.cave-mouth",
+    "kind": "cave-mouth",
+    "position": [
+     0.331728,
+     0.597002
+    ],
+    "assetRef": "terrain.cave-mouth.flooded",
+    "yawDeg": 93.0,
+    "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell.",
+    "why": {
+     "what": "A cave mouth in the west bank at water level, flooded to the roof.",
+     "whyHere": "The record promises a delve entered by a surface swim; the pan's west bank is where the ground is steep enough to hold a roof.",
+     "whySpot": "The west bank slopes at 6.3 deg against 1 to 4 deg elsewhere, so the opening sits at the waterline with rock above it.",
+     "whyNeighbours": "It faces due east across the pan toward the offering shelf and lies beside the stand path, which passes 8 m west of it along the bank.",
+     "playerPurpose": "The encounter socket and the way into the delve: a swimmer enters along the 93-degree line from the open water.",
+     "microGeography": "The opening bears 93 deg, along the waterline into the pan, with the bank rising 2 m behind it over 15 m."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.dead-tree-n",
+    "kind": "dead-tree",
+    "position": [
+     0.333898,
+     0.594832
+    ],
+    "assetRef": "bmv:landscape/trees/cypress1",
+    "scale": 1.25,
+    "notes": "Standing dead, lightning-scarred, stripped of foliage by the material pass. Scaled 1.25 to 40 m so the bare crown stands 8 m above the live cypress canopy around the pan; kept, never cleared.",
+    "why": {
+     "what": "A dead cypress on the north rim, lightning-scarred and bare, the tallest thing at the pond.",
+     "whyHere": "A wamasu pond is cued by dead standing trees with lightning scarring, which is the type's recipe cue.",
+     "whySpot": "The north rim stands on the line from the ridge to the pan, so a walker coming down from the north-west sees this crown first.",
+     "whyNeighbours": "It stands 25 m from the stand and 40 m from the offering shelf, between the two, so it marks the pan from both.",
+     "playerPurpose": "The first-seen object of the overland approach: a bare crown above the live canopy that a journal line can name.",
+     "microGeography": "Rooted on the rim at 9.6 m with its crown at 40 m in the sky hole where canopy closure drops to 0.63."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.dead-tree-ne",
+    "kind": "dead-tree",
+    "position": [
+     0.336068,
+     0.595375
+    ],
+    "assetRef": "bmv:landscape/trees/cypress3",
+    "notes": "Standing dead, 24.8 x 22.2 m crown, 26.5 m tall, at the waterline.",
+    "why": {
+     "what": "A second dead cypress at the north-east waterline, its roots in the shallows.",
+     "whyHere": "The recipe cue calls for dead trees, plural; one scarred trunk reads as an accident, two read as a place.",
+     "whySpot": "The north-east corner of the pan is where the water reaches furthest into the tree line.",
+     "whyNeighbours": "It stands between the north dead tree and the cairn steps, closing the pan's north side.",
+     "playerPurpose": "The second beat of the reveal from the bank path: seen after the sky hole opens and before the water shows.",
+     "microGeography": "Rooted at the waterline at 9.3 m, leaning slightly out over the shallows."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.dead-tree-w",
+    "kind": "dead-tree",
+    "position": [
+     0.332271,
+     0.59863
+    ],
+    "assetRef": "bmv:landscape/trees/treewillow03a",
+    "notes": "Standing dead willow, 11.6 x 10.2 m, 17.2 m tall, leaning over the west shallows.",
+    "why": {
+     "what": "A dead willow leaning over the west shallows near the cave mouth.",
+     "whyHere": "The west shore needs its own mark, or the cave mouth is found by accident.",
+     "whySpot": "It leans from the bank 12 m south of the cave mouth, where the stand path comes closest to the water.",
+     "whyNeighbours": "Its trunk points at the cave mouth from the path, which is how a walker on the west bank finds the opening.",
+     "playerPurpose": "The pointer to the cave mouth. It is also cover on the west bank for anyone who leaves the water in a hurry.",
+     "microGeography": "Rooted at 9.5 m on the 6-deg west bank, leaning east over water 0.3 m deep."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.totem-bank",
+    "kind": "totem",
+    "position": [
+     0.335526,
+     0.599715
+    ],
+    "assetRef": "mudmother:gv_meshes/argoniannest/argoniantotem01",
+    "yawDeg": 337.0,
+    "notes": "0.75 x 0.49 m, 1.95 m tall. Carved face turned 337 deg to the water, standing behind the offering platform and looking over it.",
+    "why": {
+     "what": "A carved totem post standing behind the offering platform with its face to the water.",
+     "whyHere": "The offering practice here is the Shadowfen one, in which the thing paid is addressed as well as fed.",
+     "whySpot": "Directly behind the platform, so the face looks over the offerings and out to the pan.",
+     "whyNeighbours": "It stands between the platform and the stake line, with the lantern to its east.",
+     "playerPurpose": "The mark that says the bank is tended: a visitor reads the totem before the platform.",
+     "microGeography": "On the level shelf at 9.24 m, 4 m back from the water."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.bone-chime",
+    "kind": "chime",
+    "position": [
+     0.336339,
+     0.599172
+    ],
+    "assetRef": "mudmother:gv_meshes/argoniannest/argonianbonechime01",
+    "yawDeg": 317.0,
+    "notes": "2.18 x 0.38 m, 1.41 m tall. The drum frame with no drum in it. Set broadside across the bank walk at 317 deg, so the empty ring is read against the water.",
+    "why": {
+     "what": "A bone chime on a frame, the drum frame with no drum in it that the record names.",
+     "whyHere": "The frame is what remains of the drum-signal that once warned boats off this bank.",
+     "whySpot": "Broadside across the bank walk between the platform and the cairn steps, where the shelf narrows.",
+     "whyNeighbours": "It closes the offering ground on its east side, opposite the stake line on the south.",
+     "playerPurpose": "The sound cue: the chime is heard from the bank path before the water is seen.",
+     "microGeography": "On the shelf at 9.3 m where the bank begins to climb toward the cairns."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.cairn-1",
+    "kind": "cairn",
+    "position": [
+     0.336882,
+     0.598358
+    ],
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn01",
+    "notes": "2.49 x 2.51 m, 2.65 m tall; the lowest of the stepped grave-cairns.",
+    "why": {
+     "what": "The lowest of three grave-cairns stepped up the east bank.",
+     "whyHere": "The bank has buried those the animal took; the cairns are the record's white grave-cairns stepped up the bank.",
+     "whySpot": "The first step above the shelf, at the foot of the east bank.",
+     "whyNeighbours": "Below the second cairn and east of the chime, closing the shelf's north-east corner.",
+     "playerPurpose": "The start of the retreat ground: broken footing behind which a fight in the water can be left.",
+     "microGeography": "On the east bank at 9.4 m, 0.2 m above the water."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.cairn-2",
+    "kind": "cairn",
+    "position": [
+     0.33756,
+     0.597545
+    ],
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn03",
+    "notes": "1.75 x 2.60 m, 2.56 m tall.",
+    "why": {
+     "what": "The middle of the three grave-cairns.",
+     "whyHere": "The line of cairns is what makes the east bank read as a burial ground rather than a rock fall.",
+     "whySpot": "Halfway up the east bank between the first and third cairns.",
+     "whyNeighbours": "It continues the step from the first cairn toward the third, 7 m apart.",
+     "playerPurpose": "Cover on the retreat ground and the middle mark of the line read from the water.",
+     "microGeography": "On the east bank at 9.45 m."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.cairn-3",
+    "kind": "cairn",
+    "position": [
+     0.338102,
+     0.596595
+    ],
+    "assetRef": "histtree:skyfall/sleeping tree overhaul/rockcairn04",
+    "notes": "1.39 x 1.88 m, 2.56 m tall; the highest of the three, at the top of the east bank.",
+    "why": {
+     "what": "The highest and smallest of the three grave-cairns.",
+     "whyHere": "The stepped line ends at the top of the bank, where the shelf gives way to the trees.",
+     "whySpot": "The top of the east bank, at the tree line.",
+     "whyNeighbours": "It ends the line begun by the first cairn and stands 15 m south of the north-east dead tree.",
+     "playerPurpose": "The last piece of the retreat ground before the trees. It is the cairn seen first from the bank path.",
+     "microGeography": "At 9.5 m on the east bank where the ground levels toward the tree line."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.lantern-bank",
+    "kind": "light",
+    "position": [
+     0.335932,
+     0.600122
+    ],
+    "assetRef": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
+    "yawDeg": 334.0,
+    "notes": "0.66 x 0.64 m, 2.71 m tall. The one maintained light on the bank. Hooded back to the bank at 334 deg, throwing its light over the water rather than up the cairn steps.",
+    "why": {
+     "what": "A hanging lantern on a post beside the offering platform, the one maintained light at the pond.",
+     "whyHere": "Offerings are laid at dusk. Under a closed canopy a light is the cue with the longest reach.",
+     "whySpot": "Beside the platform at the water's edge, so its light falls on the offerings and the water in front of them.",
+     "whyNeighbours": "East of the totem and the platform, west of the chime.",
+     "playerPurpose": "The beacon for the last 40 m of the bank path after dark. It is the light that goes out in the cleared variant.",
+     "microGeography": "On the shelf at 9.24 m, 3 m from the water."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.stand-ramp",
+    "kind": "ramp",
+    "position": [
+     0.331172,
+     0.592378
+    ],
+    "assetRef": "vanilla:clutter/stockade/stockadescaffoldramp01",
+    "yawDeg": 326.0,
+    "notes": "3.52 x 3.87 x 3.27 m. The stockade-scaffold ramp of the stand's own snap chain, set against the landward face of the footing at 326 deg.",
+    "why": {
+     "what": "The ramp up to the hunter's stand, on its landward side.",
+     "whyHere": "A raised deck needs a visible means of ascent from the ground below it, or the deck is scenery.",
+     "whySpot": "Against the north-west face of the footing, opposite the open face that looks at the water.",
+     "whyNeighbours": "The stand path ends at its foot, so the way up is the end of the way there.",
+     "playerPurpose": "The way onto the deck, seen head-on by anyone coming down the ridge from the north-west.",
+     "microGeography": "Its foot rests on the knoll top at 11.7 m; the ramp climbs 2.7 m to the deck."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.pole-mouth",
+    "kind": "marker-pole",
+    "position": [
+     0.358174,
+     0.64013
+    ],
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+    "notes": "0.23 x 0.22 m, 1.92 m tall. The first of the rooted poles, where the lane leaves the estuary.",
+    "why": {
+     "what": "The first marker pole of the poling lane, standing in the water where the creek leaves the estuary.",
+     "whyHere": "The villages mark the detour for its whole length; the mouth pole is where the marking begins.",
+     "whySpot": "At the creek mouth, where a poler coming along the estuary must decide whether to enter.",
+     "whyNeighbours": "The next pole stands 60 m up the creek at the first bend, in sight of this one.",
+     "playerPurpose": "The first-seen object of the water approach and the start of the cue chain that leads to the landing.",
+     "microGeography": "Set in water 1.4 m deep at the creek mouth, with roots grown down the pole into the bed."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.pole-bend-s",
+    "kind": "marker-pole",
+    "position": [
+     0.353563,
+     0.632535
+    ],
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+    "notes": "A pole at the lower bend of the creek.",
+    "why": {
+     "what": "A rooted marker pole at the creek's lower bend.",
+     "whyHere": "A pole line works by each pole being in sight of the last; the bend would break that sight.",
+     "whySpot": "On the outside of the bend, where the water turns from north-west to north.",
+     "whyNeighbours": "In sight of the mouth pole below it and the upper bend pole above it.",
+     "playerPurpose": "The pole that keeps the lane readable round the first turn.",
+     "microGeography": "In water 1.3 m deep at the outside of the bend."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.pole-bend-n",
+    "kind": "marker-pole",
+    "position": [
+     0.350173,
+     0.626839
+    ],
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+    "notes": "A pole at the upper bend of the creek, where it narrows to a boat's width.",
+    "why": {
+     "what": "A rooted marker pole at the creek's upper bend.",
+     "whyHere": "Above this bend the creek narrows to one boat's width; the canopy closes to 0.93. Without the pole, the head reads as a dead end.",
+     "whySpot": "On the outside of the upper bend, where the water turns north toward the landing.",
+     "whyNeighbours": "In sight of the lower bend pole and of the head pole 70 m away at the landing.",
+     "playerPurpose": "The pole that promises there is something at the head of a narrowing creek.",
+     "microGeography": "In water 1.2 m deep where the creek narrows from two boat-widths to one."
+    }
+   },
+   {
+    "id": "landmark.wamasu-pond-adult.pole-head",
+    "kind": "marker-pole",
+    "position": [
+     0.346782,
+     0.61721
+    ],
+    "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01",
+    "notes": "The last pole, beside the landing at the creek head.",
+    "why": {
+     "what": "The last marker pole of the lane, standing at the water's edge beside the landing.",
+     "whyHere": "The line ends where the water ends; the head pole says that the landing is the end and not a gap.",
+     "whySpot": "At the west edge of the creek head, beside the landing and at the foot of the bank path.",
+     "whyNeighbours": "Beside the landing, with the bank path leaving the bank behind it.",
+     "playerPurpose": "The threshold of the lair: from this pole onward the way is on foot.",
+     "microGeography": "Set at the waterline at 1 m elevation where the creek stops against the toe of the slope."
+    }
+   }
+  ],
+  "docks": [
+   {
+    "id": "dock.wamasu-pond-adult.lane-landing",
+    "position": [
+     0.347189,
+     0.617888
+    ],
+    "waterBodyId": "water.creek.pole-lane",
+    "piledToBed": true,
+    "why": {
+     "what": "A small piled landing at the head of the poling creek where boats stop.",
+     "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below.",
+     "whyNeighbours": "The pole lane ends at it and the bank path climbs west from it; the head pole stands beside it.",
+     "playerPurpose": "The arrival point by water and the threshold between the boat and the walk.",
+     "microGeography": "Piled in the dead-end head of the creek at 1 m elevation against the toe of the slope, in water one boat's width wide."
+    }
+   }
+  ],
+  "combatSpaces": [
+   {
+    "id": "combat.wamasu-pond-adult.pond",
+    "boundary": [
+     [
+      0.330643,
+      0.59429
+     ],
+     [
+      0.337967,
+      0.59429
+     ],
+     [
+      0.337967,
+      0.599715
+     ],
+     [
+      0.330643,
+      0.599715
+     ]
+    ],
+    "clearanceClass": "open",
+    "why": "The lair is the fight: the adult wamasu holds the pan and charges anything that enters it, so the water and its rim are kept clear of everything but the three dead trees. The animal is the armoured daedroth build on the werewolfbeast rig with a body of roughly 5 m, which needs room to turn, charge and be circled; LN05 and the province hostility system both put the boss fight here."
+   },
+   {
+    "id": "combat.wamasu-pond-adult.bank-shelf",
+    "boundary": [
+     [
+      0.333627,
+      0.599443
+     ],
+     [
+      0.339052,
+      0.599443
+     ],
+     [
+      0.339052,
+      0.602427
+     ],
+     [
+      0.333627,
+      0.602427
+     ]
+    ],
+    "clearanceClass": "broken",
+    "why": "The retreat ground for the pond fight: the offering shelf, the chime and the cairn steps are deliberately cluttered, so that they are worse ground for the animal's charge and better ground for a fighter's retreat."
+   }
+  ],
+  "questSockets": [
+   {
+    "id": "socket.wamasu-pond-adult.boss",
+    "kind": "boss",
+    "position": [
+     0.334441,
+     0.597138
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.wamasu-pond-adult.offerings",
+    "kind": "scene",
+    "position": [
+     0.335254,
+     0.600257
+    ],
+    "parcelId": "parcel.wamasu-pond-adult.offering-platform",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.wamasu-pond-adult.stand-evidence",
+    "kind": "evidence",
+    "position": [
+     0.331457,
+     0.592798
+    ],
+    "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.wamasu-pond-adult.pond-floor",
+    "kind": "container",
+    "position": [
+     0.333627,
+     0.597816
+    ],
+    "ownerQuestTier": 3
+   },
+   {
+    "id": "socket.wamasu-pond-adult.cave-mouth",
+    "kind": "encounter",
+    "position": [
+     0.331728,
+     0.597002
+    ],
+    "ownerQuestTier": 3
+   }
+  ],
+  "approaches": [
+   {
+    "id": "approach.wamasu-pond-adult.pole-lane",
+    "mode": "boat",
+    "firstSeen": "landmark.wamasu-pond-adult.pole-mouth",
+    "sequence": "The mouth pole shows first where the creek leaves the estuary; the poles then lead up the creek under a canopy of 0.93 while the water narrows to a boat's width and the pond stays out of sight; the head pole and the landing end the water; the bank path climbs west with the pond still hidden behind the slope; at the last bend the sky hole opens, the two dead cypresses show against it and then the water, with the lantern and the platform on its south shelf.",
+    "wayfinding": "Follow the poles up the creek to the landing, then the trodden path uphill toward the bare crowns; the offering bank is where the path meets the water again.",
+    "notes": "The survey has no water north of the pond, so the lane is approached from the estuary to the south-east rather than from the north; the poles run 180 m and the walk from the landing is 150 m with a climb of 8 m. Under this canopy the first-seen object is the first cue on the way, a pole, because no beacon can reach a boat on a 6 m creek.",
+    "fromDirection": "south-east, up the creek from the estuary, following the pole line"
+   },
+   {
+    "id": "approach.wamasu-pond-adult.knoll",
+    "mode": "walk",
+    "firstSeen": "landmark.wamasu-pond-adult.dead-tree-n",
+    "sequence": "From the rise to the west the bare scarred crown of the north dead tree stands 8 m above the live canopy; the live trees between the rise and the knoll then hide the water as the ground climbs to 12 m; the stand's ramp comes into view head-on on the knoll top; from the deck the whole pan, the cairns, the platform and the cave mouth are seen at once; the stand path then drops past the dead willow and the cave mouth to the offering shelf.",
+    "wayfinding": "Walk east toward the bare crown; the ramp of the stand faces the walker on the knoll top. The path round the banks leaves from its foot.",
+    "notes": "The overland approach for anyone crossing the rootland from the north or west. The knoll is the ground from which the lair is surveyed before it is entered; the descent to the bank passes the cave mouth, so the swim entrance is found during the descent rather than sought.",
+    "fromRouteId": "track.naga-kur-deeps.wamasu-pond-adult",
+    "viaUV": [
+     [
+      0.319782,
+      0.602656
+     ],
+     [
+      0.323423,
+      0.598739
+     ],
+     [
+      0.326735,
+      0.596914
+     ],
+     [
+      0.328679,
+      0.595713
+     ]
+    ]
+   }
+  ],
+  "doors": [],
+  "clearance": {
+   "hardClear": [
+    [
+     [
+      0.330643,
+      0.59429
+     ],
+     [
+      0.337967,
+      0.59429
+     ],
+     [
+      0.337967,
+      0.599715
+     ],
+     [
+      0.330643,
+      0.599715
+     ]
+    ]
+   ],
+   "thinned": [
+    [
+     [
+      0.329287,
+      0.592934
+     ],
+     [
+      0.339594,
+      0.592934
+     ],
+     [
+      0.339594,
+      0.603241
+     ],
+     [
+      0.329287,
+      0.603241
+     ]
+    ],
+    [
+     [
+      0.336068,
+      0.600528
+     ],
+     [
+      0.348545,
+      0.600528
+     ],
+     [
+      0.348545,
+      0.619787
+     ],
+     [
+      0.344477,
+      0.619787
+     ],
+     [
+      0.336068,
+      0.604868
+     ]
+    ],
+    [
+     [
+      0.328202,
+      0.589272
+     ],
+     [
+      0.333627,
+      0.589272
+     ],
+     [
+      0.333627,
+      0.59429
+     ],
+     [
+      0.328202,
+      0.59429
+     ]
+    ]
+   ],
+   "kept": [
+    {
+     "id": "kept.wamasu-pond-adult.dead-tree-n",
+     "kind": "dead-tree",
+     "position": [
+      0.333898,
+      0.594832
+     ]
+    },
+    {
+     "id": "kept.wamasu-pond-adult.dead-tree-ne",
+     "kind": "dead-tree",
+     "position": [
+      0.336068,
+      0.595375
+     ]
+    },
+    {
+     "id": "kept.wamasu-pond-adult.dead-tree-w",
+     "kind": "dead-tree",
+     "position": [
+      0.332271,
+      0.59863
+     ]
+    },
+    {
+     "id": "kept.wamasu-pond-adult.pond",
+     "kind": "open-water",
+     "position": [
+      0.334441,
+      0.597138
+     ]
+    },
+    {
+     "id": "kept.wamasu-pond-adult.reed-margin",
+     "kind": "reed-bed",
+     "position": [
+      0.333356,
+      0.599986
+     ]
+    },
+    {
+     "id": "kept.wamasu-pond-adult.pole-roots",
+     "kind": "root-mat",
+     "position": [
+      0.34746,
+      0.61843
+     ]
+    }
+   ]
+  },
+  "variants": [
+   {
+    "id": "variant.wamasu-pond-adult.cleared",
+    "changedRefs": [
+     "socket.wamasu-pond-adult.boss",
+     "combat.wamasu-pond-adult.pond",
+     "landmark.wamasu-pond-adult.lantern-bank"
+    ],
+    "serviceOverrides": {
+     "canal.wamasu-pond-adult.pole-lane": "abandoned"
+    },
+    "ambience": "quiet-water"
+   }
+  ],
+  "travelServices": [],
+  "occupants": [
+   {
+    "slotId": "o.wamasu",
+    "ladderRef": "formidable-d5 beast",
+    "cultureRole": "resident adult wamasu"
+   }
+  ],
+  "assetConstraints": [
+   "district.wamasu-pond-adult.bank uses settlement-mud-v1 pieces only; district.wamasu-pond-adult.stand uses works-v1 only; district.wamasu-pond-adult.landing uses docks-v1 poles only. No set is blended.",
+   "The hunter's stand is the vanilla stockade-scaffold snap chain and nothing else: base3sided01 footing (the parcel), ramp01 on the landward face (the ramp landmark), top3sided01 deck of the matching side count and basesupport01 under the overhang (both to be placed by the compiler's snap rule; not yet authored). Side counts stay consistent around the platform.",
+   "The pole line is authored as its four load-bearing poles (mouth, two bends, head); the poles between them at roughly 15 m are a compiler rule along canal.wamasu-pond-adult.pole-lane that does not yet exist.",
+   "The pond's electrified water is a Phase 9 water-volume hazard, not a mesh and not a particle prop.",
+   "The wamasu actor is the armoured daedroth build on the vanilla werewolfbeast rig (creature-asset-availability.md); no new rig is requested."
+  ],
+  "ownership": {
+   "socket.wamasu-pond-adult.offerings": {
+    "owner": "the offering-makers of the deeps",
+    "valueTier": "modest"
+   }
+  },
+  "provision": {
+   "questIds": [
+    "quest.local.ln05"
+   ],
+   "needs": [
+    "a boss space that reads as owned before it is entered",
+    "evidence on the abandoned stand that someone tried this before",
+    "a container on the pond floor reachable only by swimming"
+   ],
+   "notes": "LN05 anchors here alongside the tidal gate and the village; the tier-1 province system also draws on the cleared/uncleared state."
+  },
+  "budget": {
+   "maxInstances": 420,
+   "maxUniqueMaterials": 14,
+   "maxTextureMB": 24,
+   "maxColliders": 120
+  },
+  "networkTerminals": [
+   {
+    "id": "terminal.wamasu-pond-adult.knoll-head",
+    "routeId": "track.naga-kur-deeps.wamasu-pond-adult",
+    "entryUV": [
+     0.331333,
+     0.592636
+    ],
+    "wayId": "route.wamasu-pond-adult.stand-path",
+    "kind": "footpath",
+    "why": "Hunters cross the rootland from the west and take the one dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
+   }
+  ]
+ }
 }

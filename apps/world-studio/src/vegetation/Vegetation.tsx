@@ -313,7 +313,7 @@ export function Vegetation({
             buckets.set(key, bucket);
           }
           // Anchor per the mined authoring conventions (bundle v2,
-          // docs/research/vegetation-composition-rules.md): terrain species
+          // docs/research/vegetation/vegetation-composition-rules.md): terrain species
           // put their PIVOT on the live streamed ground minus a baked sink —
           // never the bbox bottom, whose lowest point is often a hanging
           // frond tip and lifted whole trunks into the air ("tiptoe trees",

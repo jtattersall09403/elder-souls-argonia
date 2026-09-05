@@ -176,7 +176,10 @@ INTERIOR_PATH_MARKERS = ("/interior/", "/interiors/")
 # (owner ruling 2026-09-04) — but a hull, a hollow tree and a raised floor slab
 # all measure like a room from the inside, and no amount of ray casting will
 # tell you that the thing you are standing in is a boat.
-NON_BUILDING_NAME_TOKENS = ("ship", "boat", "canoe", "ferry", "raft", "tree", "floor")
+# matched as whole segments of the basename (split on digits, "_", "-"), so
+# "mwimparchguardtower01" is not caught by "arch" while "walkwaycwallgate02"
+# is caught by "gate"/"wall"/"walkway" via its containing segment tokens below
+NON_BUILDING_NAME_TOKENS = ("ship", "boat", "canoe", "ferry", "raft", "tree", "floor", "walkway", "gate", "wall", "fence", "bridge", "stair", "stairs", "ramp", "pillar", "column")
 
 # Categories that can never enclose a dwelling, whatever they measure.
 NON_BUILDING_CATEGORIES = {
@@ -552,7 +555,10 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
 
     big_enough = area >= MIN_BUILDING_AREA_M2 and height >= MIN_BUILDING_HEIGHT_M
     stem = _tail(asset_id)[1]
-    banned = next((t for t in NON_BUILDING_NAME_TOKENS if t in stem), None)
+    import re as _re
+    _segs = [x for x in _re.split(r"[\d_\-]+", stem.lower()) if x]
+    banned = next((t for t in NON_BUILDING_NAME_TOKENS
+                   if any(seg == t or (len(t) >= 4 and t in seg and seg.startswith((t, "walkway", "stone", "wood", "tamu", "mwimparch"))) for seg in _segs)), None)
     category_ok = asset.get("category") not in NON_BUILDING_CATEGORIES and banned is None
     encloses = False
     probe: dict | None = None

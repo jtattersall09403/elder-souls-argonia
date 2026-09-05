@@ -23,7 +23,7 @@ import { RIPPLE_PATCH_M } from "./RippleSim";
  *
  * Adapted from WaterThreeJS (MIT © achrefelouafi); flow advection after
  * three.js `Water2`/Valve; shore-wave formulas per
- * docs/research/water-edges-and-shore-waves.md.
+ * docs/research/rendering/water-edges-and-shore-waves.md.
  */
 
 export type WaterVariant = "above" | "below";

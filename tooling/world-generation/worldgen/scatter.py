@@ -1,5 +1,5 @@
 """Deterministic clustered scatter — the vegetation compiler pass (module 65
-§111), built on the mined placement rules (`docs/research/shipped-world-placement-rules.md`).
+§111), built on the mined placement rules (`docs/research/placement-settlements/shipped-world-placement-rules.md`).
 
 Two things drive the design, and both come from measurement rather than taste:
 
@@ -70,7 +70,7 @@ GLADE_WAVELENGTH_M = 90.0
 Measured, not guessed: in both mined worldspaces density correlation is half
 gone by ~58 m and nearly gone by ~175 m, and the median open space between
 plants is ~10 m with the largest gaps ~30 m
-(research/vegetation-density-design.md). A 90 m glade wavelength puts
+(research/vegetation/vegetation-density-design.md). A 90 m glade wavelength puts
 clearings at roughly that human scale."""
 
 STAND_WAVELENGTH_M = 190.0
@@ -171,7 +171,7 @@ class Layer:
     """Signed horizontal distance to the water's EDGE: positive on land,
     negative in water. This is the meso 'scene' control the open-world
     placement research says every engine expresses as distance-to-feature
-    fields (research/openworld-vegetation-placement-architecture.md): reed
+    fields (research/vegetation/openworld-vegetation-placement-architecture.md): reed
     belts hug the edge, shrub thickets band behind it, gallery forest ribbons
     follow watercourses through open country. Depth gates are the vertical
     relation; this is the horizontal one, and they compose."""
@@ -190,7 +190,7 @@ class Layer:
     of rule R2 emerges from the *gates* anyway — marsh species outnumber
     upland ones, so density peaks where they overlap."""
     slope_half_angle_deg: float = 12.0
-    # Riparian response (mined rule M2, research/mod-vegetation-micro-siting.md):
+    # Riparian response (mined rule M2, research/vegetation/mod-vegetation-micro-siting.md):
     # Black Marsh's density peaks at ~2.1x just OFF the shore and holds ~1.4x
     # for 40 m inland; Valenwood's dry forest inverts and stands back. A
     # signed, per-layer gaussian boost on the cell's shore distance —
@@ -201,7 +201,7 @@ class Layer:
     shore_boost_peak_m: float = 0.0
     """Where the boost peaks — negative is just off the bank, in the water."""
     shore_boost_half_width_m: float = 25.0
-    # Coastal gradient (Phase 10 round 4, research/mangrove-coastal-ecology.md
+    # Coastal gradient (Phase 10 round 4, research/world-terrain/mangrove-coastal-ecology.md
     # §4): salt exposure grades ~0.5-2 km inland from any coast, so coastal
     # influence is a graded FACTOR on every layer, not just the two thin
     # tidal region classes. `coast_m` is horizontal distance to the OCEAN

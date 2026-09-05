@@ -1004,7 +1004,7 @@
       {
         "id": "approach.mire-landing.west-road",
         "mode": "walk",
-        "fromRouteId": "route.mire-landing.approach",
+        "fromDirection": "west, along the approach road",
         "firstSeen": "landmark.mire-landing.hist-shoot",
         "sequence": "The hist shoot shows above the scrub first, then the roof of the store shed, and only at the yard does the water open out.",
         "wayfinding": "The road runs straight to the factor's door, and the fence on its right hand leads the eye into the yard and on to the boardwalk.",

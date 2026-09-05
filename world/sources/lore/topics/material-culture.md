@@ -259,7 +259,7 @@ Compounds: *kaj-thux* (ample serpent), *deek-beeko* (friend of youth),
 - **Boat kit brief**: native craft are rafts, canoes and twin-hulled
   platform-canoes — poled, paddled or tail-driven, no keels; sails mark a hull
   as foreign (Dunmer/Imperial) or Kothringi-derived. Design mapping to our
-  boat classes: docs/research/marsh-watercraft-and-argonian-boats.md.
+  boat classes: docs/research/lore/marsh-watercraft-and-argonian-boats.md.
 
 ## The three building kits — the never-blend rule, made interior-aware
 

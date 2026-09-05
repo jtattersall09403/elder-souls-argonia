@@ -16,7 +16,7 @@ export const INSTANCE_BYTES = 17;
 
 /**
  * How a species' instances meet the world, mirroring the mined authoring
- * conventions (docs/research/vegetation-composition-rules.md):
+ * conventions (docs/research/vegetation/vegetation-composition-rules.md):
  * pivot-on-terrain (minus sink), pinned to the water surface, or attached to
  * a host at an absolute baked height.
  */

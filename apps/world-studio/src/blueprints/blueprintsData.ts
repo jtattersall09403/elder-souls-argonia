@@ -150,10 +150,6 @@ export interface BpSiting {
   dossier: string | null;
   candidates: BpCandidate[];
 }
-export interface BpTerrain {
-  image: string; x0: number; z0: number; x1: number; z1: number; pxM: number;
-}
-
 export interface Blueprint {
   id: string;
   seed: string | null;
@@ -176,7 +172,6 @@ export interface Blueprint {
   budget: Record<string, number>;
   provision: { quests?: string[]; notes?: string };
   assetConstraints: string[];
-  terrain: BpTerrain | null;
   summary: Record<string, number>;
 }
 
@@ -288,7 +283,7 @@ export const LABEL_PX_PER_M = 3;
 
 export interface Bounds { x0: number; z0: number; x1: number; z1: number }
 
-/** Metre bounds of everything drawn for one blueprint (terrain crop included). */
+/** Metre bounds of everything drawn for one blueprint. */
 export function blueprintBounds(bp: Blueprint): Bounds {
   let x0 = Infinity, z0 = Infinity, x1 = -Infinity, z1 = -Infinity;
   const eat = (p: Pt | null | undefined) => {
@@ -311,10 +306,6 @@ export function blueprintBounds(bp: Blueprint): Bounds {
   bp.clearance.hardClear.forEach(eatPoly);
   bp.clearance.thinned.forEach(eatPoly);
   bp.clearance.kept.forEach((k) => eat(k.positionM));
-  if (bp.terrain) {
-    eat([bp.terrain.x0, bp.terrain.z0]);
-    eat([bp.terrain.x1, bp.terrain.z1]);
-  }
   if (!Number.isFinite(x0)) return { x0: 0, z0: 0, x1: 100, z1: 100 };
   const pad = Math.max(4, Math.max(x1 - x0, z1 - z0) * 0.03);
   return { x0: x0 - pad, z0: z0 - pad, x1: x1 + pad, z1: z1 + pad };

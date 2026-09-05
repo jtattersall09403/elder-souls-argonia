@@ -445,7 +445,7 @@ hardest to do well.
 
 ## 24b. Allegiance reward tracks — what each side pays you
 
-*(Owner directive 2026-08-26. Research: [../research/tes-quest-and-faction-rewards.md](../research/tes-quest-and-faction-rewards.md).
+*(Owner directive 2026-08-26. Research: [../research/quests-and-cast/tes-quest-and-faction-rewards.md](../research/quests-and-cast/tes-quest-and-faction-rewards.md).
 These are **not new factions or characters** — they are the four sides the main
 quest already contains. What is new is that each pays, escalating, so the
 player has skin in the game and is choosing with their build as well as their

@@ -4409,7 +4409,7 @@
       "underwaterAccess": "none",
       "name": "Sees-The-Estuary",
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -5168,7 +5168,7 @@
       "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "world/sources/catalogue/type-recipes.json#tradehouse",
         "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
       ],
@@ -5315,7 +5315,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Hist",
-        "docs/research/settlement-type-recipes.md (root-hollow-gallery is the province's cave answer)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (root-hollow-gallery is the province's cave answer)",
         "world/sources/catalogue/type-recipes.json#root-hollow-gallery",
         "lore: hist-placement dossier (the continuous root layer); Lore:Rootworm; the province has almost no rock, so roots must carry the cave role"
       ],
@@ -9210,7 +9210,7 @@
       "underwaterAccess": "none",
       "name": "Year-Of-Nine Shelter",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "sanctuary",
         "owner": null,
@@ -10200,7 +10200,7 @@
       "underwaterAccess": "none",
       "name": "Sees-The-Wall",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -10244,7 +10244,7 @@
       "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (lit cues are a first-class wayfinding channel here)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (lit cues are a first-class wayfinding channel here)",
         "world/sources/catalogue/type-recipes.json#bioluminescent-water",
         "lore: Lore:Wamasu (luminescent organs); Lore:Guar (Glowgill); module 55 (night is authored world state, so night-only places are legitimate)"
       ],
@@ -13753,7 +13753,7 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "docs/research/morrowind-content-density.md (the corner-club / tradehouse pattern)",
+        "docs/research/placement-settlements/morrowind-content-density.md (the corner-club / tradehouse pattern)",
         "uesp:Lore:Hissmir Fish-Eye Rye",
         "world/sources/catalogue/type-recipes.json#tradehouse",
         "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
@@ -14078,7 +14078,7 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Ceiling-Nobody-Built",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -17649,7 +17649,7 @@
       "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "world/sources/catalogue/type-recipes.json#tradehouse",
         "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
       ],
@@ -17887,7 +17887,7 @@
       "underwaterAccess": "surface-swim",
       "name": "Three-Ways",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -17931,7 +17931,7 @@
       "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/openworld-place-distribution-and-siting.md §3.2 (hermit: the approach cost is the gate)",
+        "docs/research/placement-settlements/openworld-place-distribution-and-siting.md §3.2 (hermit: the approach cost is the gate)",
         "world/sources/catalogue/type-recipes.json#hermit-hut",
         "lore: openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
       ],
@@ -18761,7 +18761,7 @@
       "underwaterAccess": "none",
       "name": "Two-Span Burrow",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "hostile",
         "owner": null,

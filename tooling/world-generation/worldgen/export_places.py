@@ -36,7 +36,7 @@ ANCHOR_PROVISION = re.compile(r"^quest\.provision\.([a-z]{2})(\d{2})-anchor$")
 KIND_GROUP = {"main-quest": "main", "faction-quest": "faction", "daedric-quest": "other",
               "local-quest": "minor", "proposed-quest": "minor"}
 # Settlement magnitude → rough count of enterable structures (world-plan rule:
-# 100 % of settlement structures enterable; docs/research/morrowind-content-density.md §4).
+# 100 % of settlement structures enterable; docs/research/placement-settlements/morrowind-content-density.md §4).
 MAGNITUDE_STRUCTURES = {"M1": "1–3", "M2": "3–8", "M3": "8–20", "M4": "20–60", "M5": "60+"}
 
 SCHEMA_VERSION = 2

@@ -72,7 +72,7 @@ Owner commissioned a UESP-mined audit of Morrowind's and Skyrim's game
 systems to complete the build-out picture (DS1 was already covered by
 workstream S), triaged three ways: (a) adopt, (b) cut on prior rulings,
 (c) owner steers. Evidence:
-[research/source-game-systems-crosscheck.md](../research/source-game-systems-crosscheck.md).
+[research/combat-and-systems/source-game-systems-crosscheck.md](../research/combat-and-systems/source-game-systems-crosscheck.md).
 
 ## Applied
 

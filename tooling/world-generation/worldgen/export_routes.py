@@ -8,7 +8,10 @@ read authoring files, so the studio joins the geometry bundles
 (``routes.json``, ``waterways.json``, ``routes-minor.json``) to this index on
 the route ``id`` and shows name / class / mode / endpoints / confidence /
 sources / notes in its details panel. Minor routes with no registry id simply
-fall back to their derived geometry fields.
+fall back to their derived geometry fields — except for the `unmapped` flag,
+which is copied here from ``routes-minor.json`` (owner requirement 2026-09-05).
+An unmapped path is routed, graded and painted ground that the player's map
+must not draw, so the one bundle every consumer already reads has to say so.
 
 Deterministic (standard 6) and byte-stable: sorted by id, ``indent=2``,
 ``ensure_ascii=False``, one trailing newline. The TypeScript view of this shape
@@ -35,12 +38,29 @@ def project(route: dict) -> dict:
     return out
 
 
-def build_bundle(registry_path: Path = route_registry.REGISTRY_PATH) -> dict:
+def unmapped_ids(province: Path = route_registry.PROVINCE) -> set[str]:
+    """Ids of derived minor paths flagged `unmapped` by `compile_minor_routes`."""
+    path = province / "routes-minor.json"
+    if not path.exists():
+        return set()
+    doc = json.loads(path.read_text())
+    return {t["id"] for t in doc.get("tracks", []) if t.get("unmapped") and t.get("id")}
+
+
+def build_bundle(registry_path: Path = route_registry.REGISTRY_PATH,
+                 province: Path = route_registry.PROVINCE) -> dict:
     routes = route_registry.load(registry_path)
+    out = {r["id"]: project(r) for r in sorted(routes, key=lambda r: r["id"])}
+    # an unmapped MINOR path stays in routes-minor.json (where the studio and
+    # the network join read tracks); only a REGISTRY route that is also flagged
+    # gets the flag here — the major index is keyed by registry ids alone
+    for rid in sorted(unmapped_ids(province)):
+        if rid in out:
+            out[rid]["unmapped"] = True
     return {
         "schemaVersion": SCHEMA_VERSION,
         "source": "world/sources/routes/registry.json via worldgen.export_routes",
-        "routes": {r["id"]: project(r) for r in sorted(routes, key=lambda r: r["id"])},
+        "routes": dict(sorted(out.items())),
     }
 
 

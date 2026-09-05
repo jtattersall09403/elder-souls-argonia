@@ -7,8 +7,8 @@
 >
 > Required companions: canon —
 > [world/sources/lore/topics/sky-moons-calendar.md](../../world/sources/lore/topics/sky-moons-calendar.md);
-> climate model — [research/black-marsh-climatology.md](../research/black-marsh-climatology.md);
-> technique + library verdicts — [research/natural-light-sky-atmosphere-threejs.md](../research/natural-light-sky-atmosphere-threejs.md).
+> climate model — [research/world-terrain/black-marsh-climatology.md](../research/world-terrain/black-marsh-climatology.md);
+> technique + library verdicts — [research/rendering/natural-light-sky-atmosphere-threejs.md](../research/rendering/natural-light-sky-atmosphere-threejs.md).
 
 ## 93. Why light is a first-class world system
 
@@ -339,7 +339,7 @@ the oversized sea plane (decision 0021 rounds 4–6). LAND horizons (N/NW
 Morrowind, W Blackwood) still need real continuation terrain — a
 pipeline-baked border apron continuing the province heightmap outward with
 lore-shaped ridges, coloured like the province, no shadows/colliders.
-Research + full spec: [docs/research/beyond-border-distant-lands.md]
-(../research/beyond-border-distant-lands.md). Schedule alongside the Phase
+Research + full spec: [docs/research/world-terrain/beyond-border-distant-lands.md]
+(../research/world-terrain/beyond-border-distant-lands.md). Schedule alongside the Phase
 10 asset/kit passes (it is scenery, not simulation); a quick round-5
 procedural ring was rejected by the owner and removed.

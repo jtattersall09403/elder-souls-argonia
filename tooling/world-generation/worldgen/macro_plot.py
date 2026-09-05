@@ -118,13 +118,13 @@ RING_EDGE_M = 350.0
 RING_HINTERLAND_M = 1200.0
 EDGE_OK_CLASSES = {"civic", "works", "transit", "martial", "sacred"}
 HINTERLAND_HOSTILE_PENALTY = 0.9
-# The opening ring around the start (Alten Corimont; docs/research/opening-hours-and-start-area.md):
+# The opening ring around the start (Alten Corimont; docs/research/quests-and-cast/opening-hours-and-start-area.md):
 # ring A 0–250 m danger ≤2, ring B 250–600 m danger ≤3 except the ONE telegraphed hostile quadrant.
 OPENING_ANCHOR = "alten-corimont"
 OPENING_RING_A_M, OPENING_RING_B_M = 250.0, 600.0
 OPENING_ALLOW = {"place.pirate-freeholds.the-wading-ground"}
 # Hostile places: a SHARE rule, not a fixed count (recalibrated 2026-09-04 for
-# the owner's hostile-mix ruling, docs/research/place-purpose-hostility-and-dungeon-balance.md
+# the owner's hostile-mix ruling, docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md
 # §8b). The old rule allowed 3 unrelated hostile-baseline places within 800 m.
 # That was calibrated when 85 of 576 records were hostile; once the province is
 # 55-65 % hostile-or-clearable, as Skyrim and Morrowind are, an 800 m circle

@@ -91,7 +91,7 @@ Owner feedback at touchpoint ② (decision 0041 Part 4 step 2): the records said
 *why a place exists* but not *why the player should go*, who starts a fight
 there, what is inside, or what you find. Four typed blocks were added to every
 record (vocabularies in `catalogue.py`; design and the reference-game research
-in [docs/research/place-purpose-hostility-and-dungeon-balance.md](../../../docs/research/place-purpose-hostility-and-dungeon-balance.md)):
+in [docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md](../../../docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md)):
 
 | block | what it answers | key fields |
 |---|---|---|

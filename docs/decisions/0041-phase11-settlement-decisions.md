@@ -53,7 +53,7 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 >   `bmv-settlement-form.json`, `bmv-valenwood-settlement-form.json`,
 >   `vanilla-tamriel-settlement-form.json`, `bmv-interior-assembly.json`
 >   (snap module ≈ 1.82 m, statistical); digest in
->   [mined-interior-assembly-and-settlement-form.md](../research/mined-interior-assembly-and-settlement-form.md);
+>   [mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md);
 >   miners `worldgen/mine_settlements.py` / `mine_interiors.py`.
 > - **Lore**: [settlement-register.md](../../world/sources/lore/extrapolation/settlement-register.md)
 >   (magnitude ladder M1–M5 *in structures*, the eight majors, secondaries,
@@ -67,10 +67,10 @@ owner directives 2026-09-01); owner decisions land here as the phase runs.
 >   (roads, boat lanes, danger bands, territories) — Phase 11 re-authors on
 >   top (docks, tolls, ferries, root transit; the 4-station rootworm net is
 >   a placeholder to replace).
-> - **Research**: [marsh-settlement-morphology.md](../research/marsh-settlement-morphology.md)
->   (siting menu), [kit-level-design-and-layout-generation.md](../research/kit-level-design-and-layout-generation.md)
->   (Bethesda kit craft), [xanmeer-mesoamerican-reference.md](../research/xanmeer-mesoamerican-reference.md),
->   [morrowind-content-density.md](../research/morrowind-content-density.md)
+> - **Research**: [marsh-settlement-morphology.md](../research/placement-settlements/marsh-settlement-morphology.md)
+>   (siting menu), [kit-level-design-and-layout-generation.md](../research/placement-settlements/kit-level-design-and-layout-generation.md)
+>   (Bethesda kit craft), [xanmeer-mesoamerican-reference.md](../research/placement-settlements/xanmeer-mesoamerican-reference.md),
+>   [morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md)
 >   (binding density numbers + diegetic-discovery rule).
 > - **New binding principle**: module 20 **§12.3b Reward for effort** —
 >   hard-to-reach places pay the player, approximately proportionately;
@@ -288,7 +288,7 @@ touchpoint wait on compiler work it doesn't need.
      inventing what we lack. This is a survey, cheap, parallelisable.
      **DELIVERED 2026-09-02:** `world/sources/placement/settlement-asset-inventory.json`
      (schemaVersion 1, registered) + digest
-     [settlement-asset-inventory.md](../research/settlement-asset-inventory.md).
+     [settlement-asset-inventory.md](../research/placement-settlements/settlement-asset-inventory.md).
      **Revised same day (round 2)** after owner feedback that round 1
      under-searched: a full-vault sweep plus Nexus research. Headline for
      Parts 1–2 — we can build stilt/boardwalk/dock/platform settlements and
@@ -359,7 +359,7 @@ baseline in the catalogue.
 
 **Derive counts, not just kinds — in three tiers, not one number.** A single
 POI-density figure is a design error
-([openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)):
+([openworld-place-distribution-and-siting.md](../research/placement-settlements/openworld-place-distribution-and-siting.md)):
 every successful open world runs a **fine tempo layer** (something every
 ~60–100 s of travel; Skyrim ~14/km², Vvardenfell ~18/km², BotW's Koroks
 ~15/km²) over a **much coarser destination layer** (BotW shrines ~2/km²,
@@ -368,7 +368,7 @@ separately, and check them separately. Work from the binding numbers in
 module 95 Phase 11 (18–22 named POIs/km² D0–D3, 8–12 D4–D5, something named
 within ≤300 m of every road and boat lane; quests per settlement by
 magnitude) and
-[morrowind-content-density.md](../research/morrowind-content-density.md).
+[morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md).
 The catalogue must be *large*: province-scale coverage at Morrowind density
 is thousands of entries, and that is the point. Fan out Opus subagents by
 region or family to get there.
@@ -461,7 +461,7 @@ parked for later packets), retypes and targeted top-ups.
 ### Critique round + repair directive (2026-09-02)
 
 Five adversarial critics, five PASS-WITH-FIXES verdicts; full findings in
-`docs/research/phase11-critique/` (coverage-density, variety-
+`docs/research/phase11/phase11-critique/` (coverage-density, variety-
 distinctiveness, lore-fidelity, feasibility, completeness). Schema
 hardening already landed (commit `d8669d7`): canon-named/canon-derived
 provenance split, season/eraLayers/densityLayer/entrance/underwaterAccess
@@ -836,11 +836,11 @@ not batch rounds.
   any place type, check `docs/research/` for design research on how the
   source games and other open-world RPGs build that type; if thin, fill the
   gap (Opus subagent) and record the doc *before* placing. Baseline reading:
-  [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md),
-  [kit-level-design-and-layout-generation.md](../research/kit-level-design-and-layout-generation.md),
-  [marsh-settlement-morphology.md](../research/marsh-settlement-morphology.md),
-  [xanmeer-mesoamerican-reference.md](../research/xanmeer-mesoamerican-reference.md),
-  [morrowind-content-density.md](../research/morrowind-content-density.md).
+  [openworld-place-distribution-and-siting.md](../research/placement-settlements/openworld-place-distribution-and-siting.md),
+  [kit-level-design-and-layout-generation.md](../research/placement-settlements/kit-level-design-and-layout-generation.md),
+  [marsh-settlement-morphology.md](../research/placement-settlements/marsh-settlement-morphology.md),
+  [xanmeer-mesoamerican-reference.md](../research/placement-settlements/xanmeer-mesoamerican-reference.md),
+  [morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md).
 - **The location-orphan validator** (module 40 §32, including the §12.3b
   reward clauses) runs in the compiler pipeline, not as advice.
 - **Then deliver autonomously**: the rest of the contrast set, the quest
@@ -950,7 +950,7 @@ settlements sit on ground that was *authored flat where it needed to be*,
 with foundation pieces, plinths and stilts hiding what is left. Our compiler
 must own this explicitly:
 
-**Read [openworld-place-distribution-and-siting.md](../research/openworld-place-distribution-and-siting.md)
+**Read [openworld-place-distribution-and-siting.md](../research/placement-settlements/openworld-place-distribution-and-siting.md)
 § on slopes before designing the ground-fitting stage** — it is prescriptive
 and researched. The load-bearing rules it establishes:
 
@@ -992,9 +992,10 @@ and researched. The load-bearing rules it establishes:
 
 ### Subagents
 
-> Model policy (owner 2026-09-03): choose the subagent model on judgment
-> (Fable 5.1 / Opus 5 / Sonnet 5), always at low effort. Older lines below
-> saying "Opus subagents" are superseded on the model, not on the shape.
+> Model policy (owner 2026-09-05, supersedes 2026-09-03 and 2026-09-01): the
+> orchestrating Fable 5.1 agent plans, architects and decides; Opus 5
+> subagents at LOW effort deliver what it scoped. Fable subagents only for
+> open design reasoning the owner asks for, sparingly (subscription limit).
 
 Fan out **Opus** subagents freely and in parallel wherever it helps —
 derivation by region or family, the critique/completeness passes, research
@@ -1023,7 +1024,7 @@ as load-bearing. Record the outcome here either way.
 - Items 1–3 + 6a/6b delivered (commits `e8a10c1`, `f3637cc`, `cc15ae4`,
   schema commits). Kits: `settlement-mud-v1` / `settlement-stilt-v1` /
   `settlement-imperial-v1` — three configs so the cultures cannot blend by
-  construction. Sourcing log: `docs/research/settlement-kit-sourcing-log.md`.
+  construction. Sourcing log: `docs/research/placement-settlements/settlement-kit-sourcing-log.md`.
 - **Compiler rule (from kit vetting):** architecture pieces snap to the
   3.64 m grid around a **centred pivot** — the settlement compiler places
   kit pieces by grid transform, NEVER the flora bottom-anchor path
@@ -1065,7 +1066,7 @@ is canon's named freehold and keeps the singular type). ID unchanged; `why`,
 **Filled**: Hissmir, the Loriasel lamia caverns, the Deepmire leviathan bone
 field, Still-Waiting, the Orma tactile ruin, and two collapsing pinnacles.
 **Consciously under-filled**: `port-town` at 1 of 2 (no honest homeless
-candidate). Details in `docs/research/settlement-type-recipes.md`.
+candidate). Details in `docs/research/placement-settlements/settlement-type-recipes.md`.
 
 **Hero Hist**: register closed at exactly **ten** power slots (roster in
 `world/sources/lore/topics/hist-placement.md` §3b). Five were added — the four
@@ -1198,7 +1199,7 @@ the actual nearest node once positions exist. And the two 5-key `vibe` files
 ## Touchpoint ① — owner rulings (2026-09-03)
 
 The owner reviewed the catalogue summary
-(`docs/research/phase11-catalogue-summary-touchpoint1.md`). Rulings, all
+(`docs/research/phase11/phase11-catalogue-summary-touchpoint1.md`). Rulings, all
 binding:
 
 1. **Catalogue size accepted, with headroom noted.** 527 live vs Skyrim's
@@ -1239,7 +1240,7 @@ binding:
       danger). One directive for Part 3: when thinning, **take
       proportionally more out of D4–D5 than D0–D3**, or the
       sparse-and-monumental contrast dilutes.
-    - **Asset gap check** (`docs/research/phase11-asset-gap-check.md`):
+    - **Asset gap check** (`docs/research/phase11/phase11-asset-gap-check.md`):
       nothing needs buying. Dunmer/Velothi is covered by 288 BM&V pieces
       already in the vault, but **no `settlement-dunmer-v1` kit is built
       yet** (43 northern records point at unpackaged pieces) — a Part 6
@@ -1347,7 +1348,7 @@ accepts `geometryId` as "solved by minor geometry".
 
 ## Part 4 step 1 — agent QA of the plot (2026-09-03)
 
-Cold review by a fresh agent: [`docs/research/phase11-plot-review.md`](../research/phase11-plot-review.md)
+Cold review by a fresh agent: [`docs/research/phase11/phase11-plot-review.md`](../research/phase11/phase11-plot-review.md)
 (eight findings, five owner decisions, eleven mechanical fixes). Mechanical
 fixes applied to `macro_plot.py` the same day and the province re-plotted
 (all 527 live records; determinism test green):
@@ -1401,7 +1402,7 @@ relation targets; the `sitingPrefs` wording edits the review lists (finding
    at any later stage. **Plotting is not set in stone**: places may be cut or
    moved at meso/micro when they don't work on the ground.
 2. *Minority enclaves* — lore says enclave, and the plot already is one
-   ([research](../research/minority-enclaves-lore.md)): 22/24 Imperial records
+   ([research](../research/lore/minority-enclaves-lore.md)): 22/24 Imperial records
    sit within 1.7 km of Gideon, 5/6 Dunmer at Thorn/Stormhold. Two Gideon
    estate records to pull back toward Gideon; four scattered outliers keep
    their stated personal reasons.
@@ -1425,9 +1426,9 @@ relation targets; the `sitingPrefs` wording edits the review lists (finding
 | item | done |
 |---|---|
 | Text review of all place prose | region text-review agents (0043 process) after the semantic repair — see the wrap note below |
-| Islands | [research](../research/offshore-islands-feasibility.md): use the 59 existing offshore landmasses (three canon-named) now; 2–4 authored lagoon islets feasible in the Part 6 window; no barrier chains or big offshore island (no shelf, 2.9 km to the world edge) |
-| Tropical vanilla assets; farmhouse in three regions; Imperial fort mod for Gideon | [audit](../research/phase11-vibe-sheet-asset-audit.md): Tropical Skyrim is a texture replacer, applied as an overlay to farmhouse/docks/bridges kits; `vanilla-farmhouse` was in 163 records across all eight regions (not intentional) — region pass rebalances; **Morrowind Imperial Keep Set (SSE 133090)** + **Hlaalu Architecture (SSE 157997)** sourced as `imperial-keep` / `hlaalu-domestic` kits for Gideon; `bmv-fort` stays Blackrose's |
-| Opening hours | [research](../research/opening-hours-and-start-area.md): ring principles A/B/C around Alten Corimont, enforced in the plot as a gate (`OPENING_*`); the start barge/camp records, a first trivial dungeon and a vantage are added by the pirate-freeholds region pass |
+| Islands | [research](../research/world-terrain/offshore-islands-feasibility.md): use the 59 existing offshore landmasses (three canon-named) now; 2–4 authored lagoon islets feasible in the Part 6 window; no barrier chains or big offshore island (no shelf, 2.9 km to the world edge) |
+| Tropical vanilla assets; farmhouse in three regions; Imperial fort mod for Gideon | [audit](../research/phase11/phase11-vibe-sheet-asset-audit.md): Tropical Skyrim is a texture replacer, applied as an overlay to farmhouse/docks/bridges kits; `vanilla-farmhouse` was in 163 records across all eight regions (not intentional) — region pass rebalances; **Morrowind Imperial Keep Set (SSE 133090)** + **Hlaalu Architecture (SSE 157997)** sourced as `imperial-keep` / `hlaalu-domestic` kits for Gideon; `bmv-fort` stays Blackrose's |
+| Opening hours | [research](../research/quests-and-cast/opening-hours-and-start-area.md): ring principles A/B/C around Alten Corimont, enforced in the plot as a gate (`OPENING_*`); the start barge/camp records, a first trivial dungeon and a vantage are added by the pirate-freeholds region pass |
 | Location semantics (Trunk Span, Chasecreek) | `worldgen.audit_place_semantics` → `world/sources/sites/semantic-audit.md` (832 findings over 399 places; both owner cases caught); region passes resolve each as move / rewrite / swap / cut |
 | Collections near cities; distance to city | plot now has **city rings** (edge ≤350 m: wards/docks/works/shrines only; hinterland ≤1.2 km: no hostile or D4 lairs, farms/works/villages rewarded), a **hard danger gate** (lived-in classes ±1 band, others ±2), **hostile clustering** (≤3 unrelated in 800 m), **purpose repetition** along a road, and a **swap-improvement pass** after the greedy solve (the anti-greedy step); the report lists each city's hinterland purpose coverage and ring mix |
 | Major cities may shift | `worldgen.anchor_nudge` scans every tolerance circle: **Soulrest** (pin was half in the sea) and **Lilmoth** nudged 234 / 153 m onto firm ground; Stormhold, Thorn and Gideon have no flatter ground in their circles (steep everywhere — a Part 6 terracing job, not an anchor job); Archon/Helstrom/AC gain nothing. Rebuild chain re-run (society → refine → chunks → web → water → landcover) |
@@ -1436,7 +1437,7 @@ relation targets; the `sitingPrefs` wording edits the review lists (finding
 | What you find there | `contents` block (creature / NPC / loot slots, `registerRef: null` until Phase 13) |
 | Point to the player | `playerPurpose` block (16 purposes, impact band, one-sentence hook) + typed `rewardProfile.kinds`; used by the plot (repetition, rings, reports) |
 | Falling mage easter egg | added by the hist-heartland region pass as a lone curiosity far from any road (cast roster §58) |
-| Dungeons | [research](../research/place-purpose-hostility-and-dungeon-balance.md): 197 of 527 strictly dungeon-like (37 %) vs Morrowind ~60–74 %; target **240–280** by converting low-value repetitive places and adding underwater entrances (≤25 % wet-majority interiors); `interior` block records kind/family/size/wet fraction/entrances |
+| Dungeons | [research](../research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md): 197 of 527 strictly dungeon-like (37 %) vs Morrowind ~60–74 %; target **240–280** by converting low-value repetitive places and adding underwater entrances (≤25 % wet-majority interiors); `interior` block records kind/family/size/wet fraction/entrances |
 | Underwater set dressing | homed: POI families in world 60, assets in 90 §76; the gap is submerged vegetation/groundcover — a submerged depth band added to module 65's tiers (Phase 15 deliverable) |
 
 **Outcome (end of round, 2026-09-03):** 566 live / 247 deferred / 1 cut
@@ -1476,7 +1477,7 @@ loop: 74/74 provisions placed, 18 proposed quests, 15 siting edits,
 (clearable-or-hostile 43 → 56 %, settlement+civic 29 → 22 %, 28 records
 converted, 19 deferred, 557 live); two more text passes. Then the **deliverability round**
 (owner: all place content must be buildable; engineering standard 12 added):
-[audit](../research/place-asset-deliverability-audit.md) over 237 types and
+[audit](../research/placement-settlements/place-asset-deliverability-audit.md) over 237 types and
 818 records → 96 records repaired in place by seven region agents, one type
 redefined (bubble spire → fused-root tower, retexture only), `causeway`
 re-specified as pile-borne, `kothringi-lilmothiit-site` redefined as reused
@@ -1702,7 +1703,7 @@ focal object. Catalogue changes the designs need (positions, plot facts, a
 `pool` and a `rock-shelf` terrain request, asset plans naming kits that
 cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
-[research/phase11-part6-round-a.md](../research/phase11-part6-round-a.md).
+[research/phase11/phase11-part6-round-a.md](../research/phase11/phase11-part6-round-a.md).
 
 ### Round A feedback — the owner's first look at the studio view (2026-09-05)
 
@@ -1722,7 +1723,7 @@ measures which pieces enclose a room and where their doorways are; a parcel
 with an interior must have a door on a real doorway side, with the interior
 kit named. (5) *Designed from the walking player's eye*: `approaches[]`
 (first-seen landmark, sequence, wayfinding) with a 16-item checklist in each
-design record; research in `docs/research/openworld-approach-and-wayfinding.md`.
+design record; research in `docs/research/placement-settlements/openworld-approach-and-wayfinding.md`.
 (6) *Full detail and honest scale*: every district parcelled; fences and
 walls drawn as ways; `scaleGrounding` derives the size from the settlement
 register and module 92 (Lilmoth 53 buildings, 190–230 people, 70 named NPCs).
@@ -1752,7 +1753,30 @@ courses along the risers with the tribe housed underground behind the
 stair-throat (a recorded deviation from the use mix); the Standing Charge's
 lane moved onto the only poleable water (a creek south-east, not the north);
 the Licensed Stage's board placed at the landing. All five compile clean
-after the audit against module 97 (`docs/research/phase11-round-a-audit.md`).
+after the audit against module 97 (`docs/research/phase11/phase11-round-a-audit.md`).
+
+**Next round (queued for the next session; owner asks 2026-09-05, late).**
+(1) **Assemblies**: buildings are multi-piece — a shell plus its door piece,
+platform, stairs, railings; wall and fence segments in chains; scaffold base
+plus top. Mine the source authors' co-placement templates
+(`worldgen.mine_assemblies` → `world/sources/placement/kit-assemblies-mined.json`,
+evidence in `docs/research/placement-settlements/kit-assemblies-evidence.md`),
+author them as composite kit assets (`compose.parts`, per each kit's
+`snapLogic`), rebuild the kits, and re-derive footprints and doorways; parcels
+then reference the composite. (2) **Doors where the piece has them**: the
+doorway is derived (door part offset in the assembly, or the measured opening)
+and drawn on the outline; a door may only sit on a derived doorway (the
+interiors index rule already exists, its coverage does not — 7 of 72 enclosed
+pieces have measured doorways); orientation and siting reason from it.
+(3) The 35 steep route survivors need authored geometry (stairs, bridge
+decks), listed in `world/sources/sites/route-grading.md`. (4) Module 97 §G
+open gaps (macro-level and the outdoor dressing pass). (5) Round B massing on
+the first approved place against the Round B rendering checklist. (6) Two
+network defects found by the stitch pass: Lilmoth's three boat lanes end at
+the plotted dot, 93 m short of the lighter quay (a Phase 4 lane endpoint;
+move the lane ends to the quay terminal), and `province_network` does not
+load `waterways-minor.json`, so a poling lane cannot yet be a terminal. Model
+policy: Fable plans and briefs, Opus 5 at low effort delivers.
 
 ### Round A follow-up — the owner's list on the Part 6 packet (2026-09-05)
 
@@ -1777,7 +1801,7 @@ PNGs remain a by-product. (4) **Sourcing gaps are jobs**: both Part 6 gaps
 were filled from the vault the same day (the Tropical Skyrim
 `anvilgianttrunk` column at ~0.45 scale for trunk rings; HTBM xanmeer
 totems for the underwater shrine), and a sourcing-gap register with a
-status column now lives in `docs/research/settlement-kit-sourcing-log.md`.
+status column now lives in `docs/research/placement-settlements/settlement-kit-sourcing-log.md`.
 (5) The workflow itself is recorded in **module 96, the placement
 playbook** (loop, write-back rule, lessons per round, automation-readiness
 checklist); process steers go there, taste steers stay in the ledger below.
@@ -1840,8 +1864,8 @@ network. A text agent ran `git checkout` on a region file mid-round and lost
 an uncommitted structural pass; it was re-applied from the pass's own report,
 and the briefs now forbid checkout/stash/reset outright.
 
-**Part 5 proposal** written: [research/phase11-part5-exemplar-proposal.md]
-(../research/phase11-part5-exemplar-proposal.md) — Alten Corimont
+**Part 5 proposal** written: [research/phase11/phase11-part5-exemplar-proposal.md]
+(../research/phase11/phase11-part5-exemplar-proposal.md) — Alten Corimont
 (recommended) or Helstrom as the city, plus Nine Bends, Keel-Sakka Landing,
 The Charged Pond, The Standing Corner and Fort Swampmoth. Owner picks.
 

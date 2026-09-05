@@ -2,7 +2,7 @@
 
 `place.mercantile-coast.lilmoth` · major city, rebuilt-stilt-city, M5, D1, mercantile coast · blueprint `place.mercantile-coast.lilmoth.json` · dossier `world/sources/sites/dossiers/lilmoth.{json,md}` · map `tooling/world-generation/output/blueprint-maps/place.mercantile-coast.lilmoth.png`
 
-This is the exemplar **city**, re-authored to the full v2 schema after the owner's Round A findings. Every district is fully parcelled (53 parcels, 37 doors, 21 ways, 9 landmarks, 3 docks); every district, parcel, landmark and dock carries a plain-English `why` block; every way is authored as waypoints with a `why` and routed over the ground; every building with an inside has a door; three approaches are designed from the walking (or boating) player's eye. `blueprint --check` passes, `compile_settlement` reports 56 placements, 0 errors and 37 of 37 doors reachable; the prose linter shows no hard hit on any Lilmoth id.
+This is the exemplar **city**, re-authored to the full v2 schema after the owner's Round A findings. Every district is fully parcelled (54 parcels, 37 doors, 21 ways, 9 landmarks, 3 docks); every district, parcel, landmark and dock carries a plain-English `why` block; every way is authored as waypoints with a `why` and routed over the ground; every building with an inside has a door; three approaches are designed from the walking (or boating) player's eye. `blueprint --check` passes, `compile_settlement` reports 56 placements, 0 errors and 37 of 37 doors reachable; the prose linter shows no hard hit on any Lilmoth id.
 
 ## 1. The ground, and the three candidates
 
@@ -24,7 +24,7 @@ The three candidates of Part 6 stand as recorded in `siting` (`candidate.lilmoth
 
 ## 2. The v2 design
 
-Seven districts, one kit set each.
+Eight districts, one kit set each.
 
 | District | Kit set | Ground | Parcels | What it is |
 |---|---|---|---|---|
@@ -35,6 +35,7 @@ Seven districts, one kit set each.
 | `lighter-quay` | argonian-stilt | 0–2 m shore | 6 | the deck, the lamp, the licence house, the lighter shed, the divers' shed, the salvage bench |
 | `shore-quarter` | argonian-stilt | 1.5–3 m south flat | 8 | seven fishers' huts in two rows and the boat awning, behind the pole wall |
 | `drowned-quarter` | neutral-underwater | 1–15 m of water | 7 | the ridge, two villa blocks, two floors, the hall, the shrine |
+| `dues-board` | neutral-works | 2.3 m flat | 1 | the roofed notice board (`bmv:advertising_board`, works-v1) on the east side of the quay lane, facing the licence house door; a district of one piece because a works-v1 prop needs its own kit set |
 
 **The walk.** Gate yard → the track over the southern shoulder of the crest, the Hist court on the left hand → the council bench, with the market deck on the right and the hall on the left → the bell on the lip → the bluff stair → the Pusbottom junction → the spine across the north of Pusbottom → the quay deck → the pier → the lighter berth. Cargo runs the other way, up. Authority (the council) is high and is reached before the quay, as the record's tiers require; commerce (the upper market) is the first node inside the court.
 
@@ -111,7 +112,7 @@ The two pieces ruled out in Part 6 stay ruled out (`composite:quay/stone-quay- w
 
 ### 5.1 By the gate road, on foot (`approach.lilmoth.gate-road`)
 
-First seen: `landmark.lilmoth.third-hist`. From the road on the flat west of the pond (3450, 6340; ground 2.3 m) the crown of the Hist reads over the crest at 46.8 m above sea level (22.4 m ground + 24.4 m tree), 190 m away and 44 m above the walker; bare-terrain line of sight from that point, from 3520, 6370 and from the first waypoint of the gate road (3575, 6377) is clear (measured with the survey, eye 1.7 m). The compile's B6 check confirms it from the road's first waypoint. Canopy: the flora kit's tallest firm-lowland tree is 36 m; on the 2–7 m flats along the road that puts treetops at 38–43 m above sea level, so the crown clears them by 4–9 m; the road corridor itself is cleared by the province route pass. As the road bends round the pond (3550–3560, 6355–6365) the gate tower (13 m on 15 m ground, top 28 m) and the standing curtain (13 m) hide the tree; the arch and the tower are what is seen, at 40–60 m. Through the arch the road runs 30 m to the lantern and ends; the track climbs the shoulder (15 → 19 m over 30 m) and the tree comes back on the left hand behind its ring of poles. At the top of the shoulder (3668, 6348; 18 m) the bell kiosk shows ahead (top 30 m) and the bay opens beyond it. First node inside: the gate yard at the lantern; second: the court opening; third: the market deck at the head of the bench walkway. Last 200 m: two bends (round the pond, over the shoulder).
+First seen: `landmark.lilmoth.third-hist`. From the road on the flat west of the pond (3450, 6340; ground 2.3 m) the crown of the Hist reads over the crest at 46.8 m above sea level (22.4 m ground + 24.4 m tree), 190 m away and 44 m above the walker; bare-terrain line of sight from that point, from 3520, 6370 and from the first waypoint of the gate road (3575, 6377) is clear (measured with the survey, eye 1.7 m). The compile's B6 check confirms it from the road's first waypoint. Canopy: the flora kit's tallest firm-lowland tree is 36 m; on the 2–7 m flats along the road that puts treetops at 38–43 m above sea level, so the crown clears them by 4–9 m; the road corridor itself is cleared by the province route pass. As the road bends round the pond (3550–3560, 6355–6365) the gate tower (13 m on 15 m ground, top 28 m) and the standing curtain (13 m) hide the tree; the arch and the tower are what is seen, at 40–60 m. The road holds its own bearing of 59° through the gate: `terminal.lilmoth.land-gate` sits on `route.road.blackrose-lilmoth` where the arch stands over it, the gate road runs the last 20 m up to it on that bearing and the gate yard carries it 28 m further to the lantern, so the Blackwood road and the city's first street are one line and the arch stands square across it (yaw 58.7°, 2° off the road's axis). The road ends at the lantern; the track climbs the shoulder (15 → 19 m over 30 m) and the tree comes back on the left hand behind its ring of poles. At the top of the shoulder (3668, 6348; 18 m) the bell kiosk shows ahead (top 30 m) and the bay opens beyond it. First node inside: the gate yard at the lantern; second: the court opening; third: the market deck at the head of the bench walkway. Last 200 m: two bends (round the pond, over the shoulder).
 
 ### 5.2 By lighter from the roadstead (`approach.lilmoth.roadstead`)
 
@@ -142,6 +143,19 @@ First seen: `parcel.lilmoth.tariff-bell`. From the south flat (3720, 6560; groun
 | 15 | Approach cue describable in one clause | "Keep the pond on the left and go through the arch"; "steer for the upper lamp"; "walk the shore to the pole wall". |
 | 16 | Any forced detour pays | The pond forces the road round the gate and pays with the view of the tower and curtain; the bluff forces the stair and pays with the bell's view over the quay; the channel forces the swimmer round the ridge and pays with the ridge itself. |
 
+### 5.5 Network terminal
+
+| terminal | province route | entry off the route | way end | join bearing | gate off square |
+|---|---|---|---|---|---|
+| `terminal.lilmoth.land-gate` (road) | `route.road.blackrose-lilmoth` | 0.4 m | 0.0 m | 2.2° | 2.2° |
+
+The three boat lanes that name Lilmoth (`route.boat.soulrest-lilmoth`,
+`route.boat.lilmoth-archon`, `route.boat.blackrose-lilmoth`) all end at the
+plotted dot inland of the gate yard rather than at the lighter quay. The
+compiled lighter channel is 93 m short of the nearest of them, so no water
+terminal is declared here. That is a Phase 4 defect in the lanes rather than a
+blueprint one; it is listed in the open questions.
+
 ## 6. What the integration checks made me change
 
 - A single road through the arch fails `parcel-on-way`; the gate is now two roads meeting at the arch, the outer one spanned.
@@ -163,7 +177,7 @@ First seen: `parcel.lilmoth.tariff-bell`. From the south flat (3720, 6560; groun
 2. **How deep is the drowned quarter?** Measured now: the ridge in 1 m, the villa hall in 10 m, the shrine in 12–15 m, all within 130 m of the quay. That is a swim-down from the stair, not a boat trip; the earlier "6.6 m plateau" was a mis-read. Is 12–15 m the right depth for the shrine dive with the breath system as planned?
 3. **Stilt-house interiors.** The two `stilthouseext` shells (council hall, tall block) have no interior tileset in any kit; the blueprint names `settlement-stilt-v1` so Phase 12 dresses them from HTBM's hut interiors. Source a stilt-house interior, or accept hut-interior dressing at hall scale?
 4. **Climbing.** The tiers are 9–20 m apart with one stair. Route all vertical movement through the stair and the piles (a gated city) or let the climbing system take the piles and house sides freely? This is the decision that most changes how Lilmoth plays and it is hard to reverse once quest gates are authored.
-5. **A notice board.** `bmv:advertising_board` (works-v1) is the piece for the licence house's posted dues, but works-v1 is not a built kit and the piece has no measured footprint, so it cannot be placed. Build works-v1 into the kit output, or leave the board to Phase 12 clutter?
+5. **A notice board — resolved.** works-v1 is built and measured (`works-v1.kit.json`, `works-v1.footprints.json` carry `bmv:advertising_board`, 1.57 × 1.39 m, 2.47 m high); `parcel.lilmoth.dues-board` stands at 3849, 6327 in its own works district opposite the licence house door. The open point is the district of one piece (see Deviations).
 
 ## 9. Catalogue record should change (not edited from here)
 
@@ -172,3 +186,12 @@ First seen: `parcel.lilmoth.tariff-bell`. From the south flat (3720, 6560; groun
 - `assetPlan` lists `bmv-stilthouse` and `vanilla-shackkit` but not the HTBM Black Marsh village set, the source of the dwellings, the platform and the Argonian boardwalk.
 - `vibe.approach` says "from the north road"; the road that exists arrives from the west-north-west (question 1).
 - Satellite places inside or against this ground: `high-junction` (3773, 6496) stands 15 m outside the pole wall; `slaughter-memorial` (3452, 6238) is on the road 200 m before the gate, so the city carries no second memorial; the divers' yard and the shrine exist as catalogue places of their own (`lilmoth-divers-yard`, `xhon-mehl-shrine`) as well as parcels here; one of the two should be the record.
+
+## 10. Deviations from module 97 (Round A review, 2026-09-05)
+
+- **97 C7, civic at 20 % against 5–10 %.** A capital: council floor, hall, record room, strongroom, bell, gate arch, gate tower, Hist court and dues board are each `civic`; the band is written for villages and towns; the register's M5 adds offices, a market and a foreign quarter, which are what push the share up.
+- **97 C4, the market between gate and Hist.** The walk runs gate → Hist court (passed on the left hand) → market deck at the head of the bench, so commerce is the first node on the bench rather than a deck between the gate and the tree. The Hist stands on the crest because C2 puts it on the highest dry ground; the crest is the ground nearest the gate; the two rules cannot both hold on this site. Owner check.
+- **Part F, argonian-stilt enclosure (none).** The pole wall facing the estuary is the lore's own detail (Lore:Lilmoth: Argonian walls facing the estuary); it stands.
+- **97 B4, dwellings in the flood band.** Pusbottom's fifteen huts stand on the −1 to 3 m flat, in flood band 1, on stilts. That is the quarter's name and its lore (the low criminal quarter, repopulated after the rebuild); the over-water share is not measured yet (97 G8).
+- **97 C1, a district of one piece.** The dues board is a works-v1 prop and the kit sets forbid it inside `argonian-stilt`, so it has a district of its own. A notice board is dressing, not architecture; the principle should say whether works props may stand in any district (see the Round A audit).
+- **97 C12, outdoor dressing.** No dressing pass exists (97 G18); nothing here is authored beyond the board.

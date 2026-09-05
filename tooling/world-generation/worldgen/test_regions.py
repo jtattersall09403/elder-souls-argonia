@@ -79,7 +79,7 @@ def test_real_hills_and_mountains_survive_the_rebalance():
 def test_mangrove_forest_takes_the_sheltered_saline_fringe():
     """Phase 10 round 4: the mangal (class 14) is the flat, strongly saline,
     sheltered tidal fringe — and it extends into the adjoining shallows
-    (research/mangrove-coastal-ecology.md §1)."""
+    (research/world-terrain/mangrove-coastal-ecology.md §1)."""
     z, metres = _terrain_with(height=0.5, slope_deg=0.0)
     z[:, 3] = -1.0                       # a shallow nearshore strip (< 2 m deep)
     hydro = compute(z, metres_per_px=metres)

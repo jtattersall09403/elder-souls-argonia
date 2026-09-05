@@ -5,7 +5,7 @@
 
 Why this exists. ``docs/quests/55-quest-index.md`` was a hand-maintained
 markdown table, and the province needs 450-550 quests at maturity (Morrowind
-density, docs/research/morrowind-content-density.md §4). One markdown table
+density, docs/research/placement-settlements/morrowind-content-density.md §4). One markdown table
 cannot be written by eight region agents at once without clobbering, and it
 cannot be checked. So the index is now generated from data:
 
@@ -69,7 +69,7 @@ SHAPE_BUDGET = 0.20          # 55 §47c: no primary shape above ~20% of a packet
 QUEST_ID_RE = re.compile(r"^quest\.[a-z0-9]+(-[a-z0-9]+)*\.[a-z0-9]+(-[a-z0-9]+)*$")
 CODE_RE = re.compile(r"^[A-Z]{2}\d{2}$")
 
-# The magnitude ladder from docs/research/morrowind-content-density.md §4:
+# The magnitude ladder from docs/research/placement-settlements/morrowind-content-density.md §4:
 # quests a settlement of each size should originate at maturity.
 DEMAND_BAND = {"M5": (35, 60), "M4": (10, 20), "M3": (3, 8), "M2": (1, 3), "M1": (0, 2)}
 PROVINCE_TARGET = (550, 740)   # Morrowind's ~20 quests/km² over our ~37 km² of land (research/morrowind-content-density §3–4; owner 2026-09-04: the larger province, not creep, is why the count exceeds the old 450–550)          # mature finite quests

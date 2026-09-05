@@ -28,7 +28,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -56,7 +56,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -84,7 +84,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "re-anchored 2026-09-04 (round 4): place.naga-kur-deeps.bone-carriers-camp-deeps was cut; the wrapped body now turns up on the racks at the nightbound necropolis, the zone's other bundle-handling site"
       ]
     },
@@ -113,7 +113,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -142,7 +142,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -171,7 +171,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -199,7 +199,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -228,7 +228,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -256,7 +256,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -284,7 +284,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -312,7 +312,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -340,7 +340,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -368,7 +368,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -395,7 +395,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     },
     {
@@ -423,7 +423,7 @@
       "sources": [
         "world/sources/catalogue/places-naga-kur-deeps.json",
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md"
+        "docs/research/phase11/phase11-critique/round3-region-brief.md"
       ]
     }
   ]

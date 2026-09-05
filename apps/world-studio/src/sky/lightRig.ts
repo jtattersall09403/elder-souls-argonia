@@ -12,7 +12,7 @@ import { preethamSky } from "./preethamCpu";
  * Physical units — directional intensities are lux (three r155+ lights are
  * physically based), and the 8-orders-of-magnitude sun→starlight range is
  * compressed by the exposure target computed here, not by faking light values.
- * Reference illuminance table: docs/research/natural-light-sky-atmosphere-threejs.md §4.
+ * Reference illuminance table: docs/research/rendering/natural-light-sky-atmosphere-threejs.md §4.
  */
 
 export interface LightRig {
@@ -414,7 +414,7 @@ export function computeLightRig(
   // coral/magenta spread, violet-indigo wash — is layered over the dome in
   // the shader; its luminance is anchored AGAINST the exposure curve so its
   // on-screen brightness follows one smooth authored bell (no flashes).
-  // Palette anchors: docs/research/natural-light-sky-atmosphere-threejs.md §8.
+  // Palette anchors: docs/research/rendering/natural-light-sky-atmosphere-threejs.md §8.
   const dawnBellAmount = Math.exp(-Math.pow((altDeg + 1) / 8.5, 2));
   const dawnLum = (0.58 / exposureTarget) * dawnBellAmount;
   const azLen = Math.hypot(sun.direction.x, sun.direction.z) || 1;

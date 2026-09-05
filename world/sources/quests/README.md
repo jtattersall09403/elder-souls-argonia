@@ -3,7 +3,7 @@
 The quest index used to be a markdown table
 ([docs/quests/55-quest-index.md](../../../docs/quests/55-quest-index.md)). The
 province needs **450–550 quests at maturity** (Morrowind density,
-[research §4](../../../docs/research/morrowind-content-density.md)), written by
+[research §4](../../../docs/research/placement-settlements/morrowind-content-density.md)), written by
 region agents working in parallel. One table cannot take eight writers at once
 and nothing checked it, so the index is data now and the markdown is generated.
 

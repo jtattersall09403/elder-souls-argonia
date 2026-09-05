@@ -3,7 +3,7 @@
 > Module of the world-generation master plan — see [README](README.md) for the router
 > and [00-core.md](00-core.md) for the universal principles. Sections §105–108 are
 > newly allocated (decision 0022). Companions: technique + library verdicts —
-> [research/ambient-audio-soundscape-threejs.md](../research/ambient-audio-soundscape-threejs.md);
+> [research/rendering/ambient-audio-soundscape-threejs.md](../research/rendering/ambient-audio-soundscape-threejs.md);
 > the clock/weather that drive it — [55-light-sky-time.md](55-light-sky-time.md);
 > region classes — [20-province-design.md](20-province-design.md) §16; fauna
 > voices — `world/sources/lore/topics/fauna-hazards.md`; Hist audio language —

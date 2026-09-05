@@ -7,7 +7,7 @@ Consumers: the world clock and natural-light system (plan module
 quests with timed or nocturnal beats, alchemy, festivals, naming.
 
 Companion: [material-culture.md](material-culture.md) (calendar as social
-practice), [../../../../docs/research/black-marsh-climatology.md](../../../../docs/research/black-marsh-climatology.md)
+practice), [../../../../docs/research/world-terrain/black-marsh-climatology.md](../../../../docs/research/world-terrain/black-marsh-climatology.md)
 (seasons as *climate*; this file is seasons as *sky*).
 
 ## Calendar — CANON_EXPLICIT

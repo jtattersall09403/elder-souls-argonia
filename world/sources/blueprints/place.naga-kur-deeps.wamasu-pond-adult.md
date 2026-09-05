@@ -64,7 +64,7 @@ The bank path climbs west from the landing. For its first 120 m the pond is hidd
 
 ### `approach.wamasu-pond-adult.knoll` — on foot, down the ridge
 
-A walker crossing the rootland from the north-west comes over a ridge at 16 m (2444, 4300) with canopy closure of 0.43–0.55. From there the north dead tree's bare crown, scaled to 40 m, stands 8 m above the live cypress canopy (32 m) in the sky hole; terrain line of sight from the ridge to the crown is open. It is the one object at the pond that reads over the trees, so it is the first-seen object of this approach.
+A walker crossing the rootland from the west comes over a rise with canopy closure of 0.43–0.55, on `track.naga-kur-deeps.wamasu-pond-adult` — a 692 m footpath the compiler now routes to this lair because the blueprint declares a terminal for it. The path is flagged `unmapped`: the ground is walkable, the map never draws it. The terminal `terminal.wamasu-pond-adult.knoll-head` sits on the route at 0.0 m; the stand path's end reaches it to within 0.0 m, on a bearing 5.0° off the path's own. From there the north dead tree's bare crown, scaled to 40 m, stands 8 m above the live cypress canopy (32 m) in the sky hole; terrain line of sight from the ridge to the crown is open. It is the one object at the pond that reads over the trees, so it is the first-seen object of this approach.
 
 Descending 100 m to the knoll (16 m to 11.7 m) the live trees hide the water. On the knoll top the stand's ramp faces the walker head-on (bearing 326, toward the ridge), so the means of ascent is in frame before the deck is. From the deck (eye at 4.4 m) the terrain line of sight to the pond is open: pan, cairns, platform, lantern and cave mouth are read at once, which is the survey for which the hunter built the stand. The stand path leaves from the ramp's foot, drops the west slope past the dead willow, whose lean points at the cave mouth, then arrives on the offering shelf at the stake line.
 
@@ -72,7 +72,7 @@ Descending 100 m to the knoll (16 m to 11.7 m) the live trees hide the water. On
 
 | # | Check | Answer |
 |---|---|---|
-| 1 | Every approach designed, each with a route or a direction | Yes: boat from the creek (`fromRouteId` the channel), walk from the north-west (`fromDirection`) |
+| 1 | Every approach designed, each with a route or a direction | Yes: walk from the west (`fromRouteId` the unmapped footpath), boat up the creek (`fromDirection`; `waterways-minor.json` is not in the network loader, so the compiled creek channel cannot yet be named as a terminal) |
 | 2 | Each approach names one first-seen object, a real id | Yes: `landmark…pole-mouth`, `landmark…dead-tree-n` |
 | 3 | First-seen object taller than the vegetation between it and the viewer, measured | Knoll approach yes: 40 m crown against a 32 m cypress canopy, ridge line of sight open. Lane approach no, by design: under a 0.93 canopy the first-seen object is the first cue on the way; the beacon rule is replaced by the breadcrumb rule (lair rule 2) |
 | 4 | Sequence of 3–5 beats with an occlusion | Yes, both: seen, lost behind the slope or the trees, re-found at the last bend or from the deck |
@@ -106,7 +106,8 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 |---|---|---|---|
 | Stand footing | `vanilla:clutter/stockade/stockadescaffoldbase3sided01` | 3.70 x 3.84 x 2.73 | 3 railed faces, open toward the water |
 | Stand ramp (landmark) | `vanilla:clutter/stockade/stockadescaffoldramp01` | 3.52 x 3.87 x 3.27 | the chain's own ramp, on the landward face |
-| Stand deck, prop | `stockadescaffoldtop3sided01`, `stockadescaffoldbasesupport01` | 3.54 x 3.77 x 0.96 · 1.92 x 2.95 x 2.72 | the rest of the snap chain; compiler rule, not yet authored |
+| Stand deck | `stockadescaffoldtop3sided01` | 3.54 x 3.77 x 0.96 | placed as `parcel.wamasu-pond-adult.hunters-stand-deck` with `stacksOn` the footing (Round A); the stand path ends at footing and deck |
+| Stand support, prop | `stockadescaffoldbasesupport01` | 1.92 x 2.95 x 2.72 | the rest of the snap chain; compiler rule, not yet authored |
 | Offering platform | `mudmother:gv_meshes/argoniannest/argonianplatform` | 2.79 x 2.68 x 0.34 | a low authored Argonian deck; pivot at the landward end |
 | Stake line | `mudmother:gv_meshes/argoniannest/argonianfence01` | 1.58 x 0.29 x 1.70 | the mud kit's fence panel, drawn as a `fences[]` way |
 | Totem, chime, lantern | `argoniantotem01`, `argonianbonechime01`, `argonianlanterns02` | 0.75 x 0.49 x 1.95 · 2.18 x 0.38 x 1.41 · 0.66 x 0.64 x 2.71 | the mud kit's ritual pieces |
@@ -116,7 +117,7 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 
 **Ground fit.** The stand is `plinth`: terrain delta across its footprint at 2.8 deg is roughly 0.19 m. The offering platform is `direct` at 0.8 deg. The dock is piled in the creek head at 1 m elevation.
 
-**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 3 placements, 0 errors.
+**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 4 placements, 0 errors. `buildingsPlanned` is 3 because the validator counts the stacked deck as a parcel; the ground carries two structures.
 
 ## Lair rules (what the other 37 beast lairs inherit)
 
@@ -129,7 +130,7 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 
 ## What Phases 13, 9 and 12 must deliver
 
-- **The animal (Phase 13).** The armoured daedroth build on the vanilla werewolfbeast rig, as decision 0030 took for the Xal-Krona boss (`docs/research/creature-asset-availability.md`). No sourcing gap. One resident actor, triggered on approach.
+- **The animal (Phase 13).** The armoured daedroth build on the vanilla werewolfbeast rig, as decision 0030 took for the Xal-Krona boss (`docs/research/lore/creature-asset-availability.md`). No sourcing gap. One resident actor, triggered on approach.
 - **The water (Phase 9).** Electrification is a water-volume hazard bound to the pond body, live while the animal lives, dead when the place is cleared.
 - **The delve (Phase 12).** Flooded-cave interior, S1, wet fraction 0.4, one entrance at the cave mouth, no exterior shell.
 
@@ -151,6 +152,13 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 1. **The lane comes from the south-east, not the north.** The round brief assumed a poling approach from the north; the survey has no water north of the pond. The blueprint follows the water. If a northern water approach is wanted, that is a hydrology change, not a blueprint one.
 2. **How deep should the pond be?** 2.5 m makes a swimmable fight with a dive to the cache and a real flooded cave; knee depth makes a wading fight with the animal always visible. The blueprint assumes deep.
 3. **Lethal or dangerous water while the animal lives?** This sets how every beast lair handles environmental danger.
-4. **Pole densification and the stand's snap chain are compiler rules that do not exist yet** (poles at ~15 m along a channel; deck and support placed from the footing). Until they are written the world shows four poles and a footing with a ramp.
+4. **Pole densification and the stand's support piece are compiler rules that do not exist yet** (poles at ~15 m along a channel; the support placed from the footing). The deck is authored with `stacksOn`; until the rules are written the world shows four poles and a footing with its deck and ramp.
 5. **The north dead tree is scaled to 40 m** so that a beacon exists on the overland approach. If a 40 m dead cypress reads wrong at eye level, the alternative is to accept that this lair has no beacon and rely on the cue chain alone.
 
+## Deviations from module 97 (Round A review, 2026-09-05)
+
+- **97 C6, 0.5 buildings/ha against the M2 band 15–33/ha.** A beast lair has two structures on a 5.9 ha boundary drawn round the pan, the creek and the knoll; the settlement density band does not describe a lair (lair rule 1).
+- **97 D2, the first-seen object on the creek is a 1.9 m pole.** Under a 0.91–0.95 canopy the beacon rule is replaced by the breadcrumb rule (lair rule 2); the overland approach keeps a beacon (the 40 m dead cypress).
+- **97 D3, no threshold spanned.** A lair has no gate; the threshold is the change of mode at the dock (lair rule 6).
+- **97 C1, three kit sets on a lair.** The bank, the stand and the landing are districts because each piece needs its kit set, not because the lair has three plan units; for lairs and camps a district is a kit-set container.
+- **97 B6, the knoll approach unmeasured.** It has a direction, not a route, so the compiler cannot run the line of sight; §Approach gives the measured ridge-to-crown line.

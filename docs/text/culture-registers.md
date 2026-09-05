@@ -11,7 +11,7 @@
 > **Why layered:** Morrowind's own dialogue engine filters every line by Race,
 > Class, Faction, Rank, Region/Cell and disposition at once — the game composes
 > a voice from conditions rather than storing one voice per town. Evidence and
-> quoted lines: [research/speech-register-model-morrowind.md](../research/speech-register-model-morrowind.md).
+> quoted lines: [research/text-and-voice/speech-register-model-morrowind.md](../research/text-and-voice/speech-register-model-morrowind.md).
 
 ## 0. The composition rule
 

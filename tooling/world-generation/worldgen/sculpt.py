@@ -3,7 +3,7 @@
 Runs ONCE on the conditioned full-resolution heightfield and writes the
 authoritative sculpted base (`heightfield-sculpted-f32.npy`) that hydrology,
 refinement and chunking then consume (condition.base_terrain). Two jobs
-(decision 0015; research: docs/research/mountain-terrain-synthesis.md):
+(decision 0015; research: docs/research/world-terrain/mountain-terrain-synthesis.md):
 
 1. **Orogeny** — dramatic-but-plausible border mountains. Uplift confined to
    a mask over the existing border belts (weighted toward the source prior's

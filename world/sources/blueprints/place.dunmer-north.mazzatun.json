@@ -35,7 +35,7 @@
    "households": 9,
    "buildingsPlanned": 27,
    "npcsPlanned": 12,
-   "why": "The Xit-Xaht who remain are a work gang and its shaper, about thirty in six households, and they live underground in the halls behind the stair-throat, so the exterior carries no dwellings of theirs. The taken labourers, twelve to fifteen, are housed in three mud shells of 30 m2. The other twenty-three structures are the works: courses, stairs, kiln, scaffolds, block face, hoist, gate and conduit."
+   "why": "The Xit-Xaht who remain are a work gang and its shaper, about thirty in six households. They live underground in the halls behind the stair-throat, so the exterior carries no dwellings of theirs. The taken labourers, twelve to fifteen, are housed in three mud shells of 30 m2. The other twenty-three structures are the works: courses, stairs, kiln, scaffolds, block face, hoist, gate and conduit."
   },
   "siting": {
    "dossier": "world/sources/sites/dossiers/mazzatun.json",
@@ -55,8 +55,8 @@
       1993.3,
       1455.9
      ],
-     "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and \u0394 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
-     "rejectedBecause": "\u0394 \u2265 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
+     "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+     "rejectedBecause": "Δ ≥ 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
     },
     {
      "id": "candidate.mazzatun.gorge",
@@ -141,7 +141,7 @@
       0.183020112
      ]
     ],
-    "notes": "The middle step, 198-206 m. The half-built quarter. The IGS Ayleid pieces and the Here There Be Monsters xanmeer pieces stand in separate parcels and never abut. Declared a surveyed line (97 C2/C8): a xanmeer is laid on a 90-degree grid (module 97 Part F, argonian-stone), the two risers are built straight walls, and every course and stair is squared to them, so the district's pieces share the cardinal bearing by design.",
+    "notes": "The middle step, 198-206 m. The half-built quarter. The IGS Ayleid pieces and the Here There Be Monsters xanmeer pieces stand in separate parcels and never abut. Declared a surveyed line (97 C2/C8): a xanmeer is laid on a 90-degree grid (module 97 Part F, argonian-stone); the two risers are built straight walls; every course and stair is squared to them, so the district's pieces share the cardinal bearing by design.",
     "why": {
      "what": "The works: the half-built stone quarter, its courses, statue wall, stair-throat, kiln, watch column and the conduit head.",
      "whyHere": "The stone heresy of the Xit-Xaht made visible: courses rising three centuries late, on the one shelf of the ridge wide enough to carry them.",
@@ -208,8 +208,8 @@
     "routing": "terrain",
     "via": [
      [
-      0.27964985,
-      0.183359164
+      0.281412918,
+      0.183766026
      ],
      [
       0.276666194,
@@ -228,7 +228,7 @@
      "landmark.mazzatun.hist",
      "parcel.mazzatun.haul-gate"
     ],
-    "why": "The haul road from the Hist court on the gorge floor up 40 m of escarpment to the gate: two traverses and two bends, the line worn by carts and gangs. It runs where the face is least steep and it keeps the conduit head on the skyline for the last bend.",
+    "why": "The haul road from the Hist court on the gorge floor up 40 m of escarpment to the gate: two traverses and two bends, the line worn by carts and gangs. It runs where the face is least steep and it keeps the conduit head on the skyline for the last bend. It begins on the east side of the Hist court, from which the conduit head shows whole on the lip; from the foot of the face itself the rock hides it.",
     "points": [
      [
       0.280734815,
@@ -390,14 +390,49 @@
     ]
    },
    {
+    "id": "route.mazzatun.terrace-head",
+    "kind": "track",
+    "widthM": 2.5,
+    "routing": "straight",
+    "via": [
+     [
+      0.266848,
+      0.182502
+     ],
+     [
+      0.268289,
+      0.182888
+     ]
+    ],
+    "endsAt": [
+     "parcel.mazzatun.gate-frontage",
+     "parcel.mazzatun.shelf-gate"
+    ],
+    "why": "The eleven metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
+    "points": [
+     [
+      0.266848078,
+      0.182501994
+     ],
+     [
+      0.268094417,
+      0.182766883
+     ]
+    ]
+   },
+   {
     "id": "route.mazzatun.terrace",
     "kind": "track",
-    "widthM": 2.2,
+    "widthM": 2.5,
     "routing": "terrain",
     "via": [
      [
-      0.267172747,
-      0.18247763
+      0.269075,
+      0.183099
+     ],
+     [
+      0.268551,
+      0.182958
      ],
      [
       0.269207057,
@@ -413,14 +448,22 @@
      ]
     ],
     "endsAt": [
-     "parcel.mazzatun.gate-frontage",
+     "parcel.mazzatun.shelf-gate",
      "parcel.mazzatun.tower"
     ],
-    "why": "The terrace track along the works, from the frontage dais at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. The one way on the middle step.",
+    "why": "The terrace track along the works, from the shelf gate at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. It is the way along the middle step. It begins on the gate's inner face so the ridge track runs on without a break.",
     "points": [
      [
-      0.266848055,
-      0.18250168
+      0.268608411,
+      0.182808574
+     ],
+     [
+      0.268551,
+      0.182958
+     ],
+     [
+      0.268732384,
+      0.183020113
      ],
      [
       0.269207057,
@@ -473,8 +516,8 @@
     "why": "The short worn line from the foot of the pens stair down to the terrace track, straight because it runs on the fall line between two stone pieces.",
     "points": [
      [
-      0.270189136,
-      0.181254357
+      0.270191234,
+      0.181251577
      ],
      [
       0.270156402,
@@ -498,11 +541,11 @@
      ],
      [
       0.269478298,
-      0.180484006
+      0.180416195
      ],
      [
-      0.271512609,
-      0.180307699
+      0.271037936,
+      0.180375509
      ]
     ],
     "endsAt": [
@@ -512,11 +555,11 @@
     "why": "The lane along the pens, from the rack at the west end past the three doors to the head of the pens stair and the east pen; the labourers' one street.",
     "points": [
      [
-      0.265351818,
-      0.180027227
+      0.265024177,
+      0.180022672
      ],
      [
-      0.265613108,
+      0.265341867,
       0.180307699
      ],
      [
@@ -528,16 +571,16 @@
       0.18044332
      ],
      [
-      0.269478298,
-      0.180484006
+      0.269410487,
+      0.18044332
      ],
      [
       0.26981735,
       0.180172078
      ],
      [
-      0.271611562,
-      0.180177497
+      0.271718752,
+      0.180132748
      ]
     ]
    },
@@ -567,7 +610,7 @@
     "endsAt": [
      "parcel.mazzatun.pen-rack"
     ],
-    "why": "The shoulder path from the ridge to the north-west down onto the upper step: the raiders' way in with the taken, and the only approach that does not pass the gate.",
+    "why": "The shoulder path from the ridge to the north-west down onto the upper step: the raiders' way in with the taken. It is the approach that avoids the gate.",
     "points": [
      [
       0.253339437,
@@ -622,8 +665,8 @@
       0.180036457
      ],
      [
-      0.265351818,
-      0.180027227
+      0.265024177,
+      0.180022672
      ]
     ]
    }
@@ -697,7 +740,7 @@
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock02",
     "via": [
      [
-      0.265274057,
+      0.265680919,
       0.183020112
      ],
      [
@@ -709,7 +752,7 @@
     "why": "The retaining course under the yard riser from the west end of the shelf to the kiln, under the frontage dais.",
     "points": [
      [
-      0.265274057,
+      0.265680919,
       0.183020112
      ],
      [
@@ -759,28 +802,20 @@
       0.178883682
      ],
      [
-      0.272461953,
+      0.272665384,
       0.178883682
-     ],
-     [
-      0.272461953,
-      0.179426164
      ]
     ],
     "endsAt": [],
-    "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane.",
+    "why": "The woven fence along the uphill side of the pens and down their east side to the lip, so the only way out of the pens is down the stair into the works or west along the lane. Its east side needs no leg: the east shell and the east course close it.",
     "points": [
      [
       0.264867195,
       0.178883682
      ],
      [
-      0.272461953,
+      0.272665384,
       0.178883682
-     ],
-     [
-      0.272461953,
-      0.179426164
      ]
     ]
    },
@@ -881,9 +916,9 @@
     "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
     "why": {
      "what": "A mud shell for four or five of the taken labourers, the westernmost of the three pens.",
-     "whyHere": "The Xit-Xaht raid their neighbours for labour and keep the taken apart from the tribe; the pens are where the taken sleep, and they are built in mud because the taken are not permitted stone.",
-     "whySpot": "The upper step is the one part of the shelf from which nothing leads away: rock rises behind it and the works terrace lies below, so a pen here is watched from below and walled by the hill above.",
-     "whyNeighbours": "It stands beside the racks and the oven, the two things the taken use before the shift, and its door faces the same lane as the other two shells.",
+     "whyHere": "The Xit-Xaht raid their neighbours for labour and keep the taken apart from the tribe; the pens are where the taken sleep. They are built in mud because the taken are not permitted stone.",
+     "whySpot": "The upper step is the part of the shelf from which nothing leads away: rock rises behind it and the works terrace lies below, so a pen here is watched from below and walled by the hill above.",
+     "whyNeighbours": "It stands beside the racks and the oven, the two things the taken use before the shift. Its door faces the same lane as the other two shells.",
      "playerPurpose": "The first interior a player reaches by the shoulder path; the labourer who has begun to remember sleeps here.",
      "microGeography": "A pad on the flat of the upper step at about 207 m, with its back 6 m from the rise to the ridge and its door 3 m from the lane."
     },
@@ -1016,7 +1051,7 @@
      "whyHere": "Three pens hold the labour that the resumed building needs; the record's taken labourers are housed here and nowhere else.",
      "whySpot": "The middle of the upper step, where the ground is flattest, so it is a pad and not a cut.",
      "whyNeighbours": "It sits between the first pen and the pens stair, so the gang that files down to the works each shift passes its door.",
-     "playerPurpose": "A second pen interior, and the shell into which the overseers can see most easily; a player learns the shift routine by watching it.",
+     "playerPurpose": "A second pen interior. It is the shell into which the overseers can see most easily; a player learns the shift routine by watching it.",
      "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace and 4 m from the lane."
     },
     "interior": {
@@ -1137,16 +1172,16 @@
     "buildingFamily": "argonian-mud-shell",
     "groundFit": "dug-in",
     "centreUV": [
-     0.271815616,
-     0.179849823
+     0.272122902,
+     0.179968647
     ],
     "yawDeg": 90.0,
     "orientationWhy": "Turned across the slope with its doorway wall to the west, behind the rise and out of sight of the works: the shell into which the overseers cannot see.",
     "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
     "why": {
      "what": "The eastern pen, a mud shell turned so that its door faces away from the works.",
-     "whyHere": "The taken labourers need one place where they are not watched, and the tribe has let one shell stand crosswise because the ground there falls too hard for a downhill door.",
-     "whySpot": "The east end of the upper step, where the shelf narrows toward the escarpment lip and the ground drops into the works in one step rather than two.",
+     "whyHere": "The taken labourers need one place where they are not watched. The tribe has let one shell stand crosswise because the ground there falls too hard for a downhill door.",
+     "whySpot": "At the east end of the pen lane in the fence corner, the last shell before the east course, drawn far enough from the pens stair that the stair head stays clear.",
      "whyNeighbours": "Its door faces the pens stair and the end of the lane, not the works; the fence returns down its east side.",
      "playerPurpose": "The pen in which a whispered conversation can happen; the LV28 labourer's confidences are staged here.",
      "microGeography": "Dug into the last flat of the upper step at about 205 m, with the escarpment lip 8 m to the east."
@@ -1157,108 +1192,108 @@
     "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 270.",
     "footprint": [
      [
-      0.271875289,
-      0.17944703
+      0.272182575,
+      0.179565854
      ],
      [
-      0.271886139,
-      0.179448386
+      0.272193425,
+      0.17956721
      ],
      [
-      0.271998704,
-      0.179467373
+      0.27230599,
+      0.179586197
      ],
      [
-      0.272137037,
-      0.179548745
+      0.272444323,
+      0.179667569
      ],
      [
-      0.272142462,
-      0.17955417
+      0.272449748,
+      0.179672994
      ],
      [
-      0.272256383,
-      0.179704709
+      0.272563669,
+      0.179823533
      ],
      [
-      0.272283507,
-      0.179848467
+      0.272590793,
+      0.179967291
      ],
      [
-      0.272256383,
-      0.179992225
+      0.272563669,
+      0.180111049
      ],
      [
-      0.272142462,
-      0.180142764
+      0.272449748,
+      0.180261588
      ],
      [
-      0.272137037,
-      0.180148189
+      0.272444323,
+      0.180267013
      ],
      [
-      0.271998704,
-      0.180229561
+      0.27230599,
+      0.180348385
      ],
      [
-      0.271886139,
-      0.180248548
+      0.272193425,
+      0.180367372
      ],
      [
-      0.271762724,
-      0.180248548
+      0.27207001,
+      0.180367372
      ],
      [
-      0.27161761,
-      0.180182094
+      0.271924896,
+      0.180300918
      ],
      [
-      0.271549799,
-      0.180130558
+      0.271857085,
+      0.180249382
      ],
      [
-      0.271534881,
-      0.180116996
+      0.271842167,
+      0.18023582
      ],
      [
-      0.271411466,
-      0.180013924
+      0.271718752,
+      0.180132748
      ],
      [
-      0.271407398,
-      0.179996293
+      0.271714684,
+      0.180115117
      ],
      [
-      0.271406042,
-      0.179981375
+      0.271713328,
+      0.180100199
      ],
      [
-      0.271406042,
-      0.179715559
+      0.271713328,
+      0.179834383
      ],
      [
-      0.271407398,
-      0.17970064
+      0.271714684,
+      0.179819464
      ],
      [
-      0.271411466,
-      0.17968301
+      0.271718752,
+      0.179801834
      ],
      [
-      0.271534881,
-      0.179579938
+      0.271842167,
+      0.179698762
      ],
      [
-      0.271549799,
-      0.179566376
+      0.271857085,
+      0.1796852
      ],
      [
-      0.27161761,
-      0.17951484
+      0.271924896,
+      0.179633664
      ],
      [
-      0.271762724,
-      0.179448386
+      0.27207001,
+      0.17956721
      ]
     ]
    },
@@ -1280,7 +1315,7 @@
      "whyHere": "The taken are fed in the pens, not at the works, so the oven is on the upper step with the shells.",
      "whySpot": "Beside the racks at the west end of the step, the end farthest from the pens stair and the works.",
      "whyNeighbours": "It stands between the racks and the first pen, so the west end of the lane is where the taken gather before the shift.",
-     "playerPurpose": "A place where labourers stand about, which is where a player hears them.",
+     "playerPurpose": "Labourers stand idle here, within earshot of a player.",
      "microGeography": "A pad on the flat of the step at about 207 m, 3 m from the lane."
     },
     "footprint": [
@@ -1345,14 +1380,14 @@
     "buildingFamily": "argonian-mud-shell",
     "groundFit": "pad",
     "centreUV": [
-     0.265398267,
-     0.179796895
+     0.265070626,
+     0.17979234
     ],
     "yawDeg": 325.7,
     "orientationWhy": "Racks laid along the contour so that the run drains one way.",
     "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
     "why": {
-     "what": "A drying rack for the fish and the reed that the pens live on.",
+     "what": "A drying rack for the fish and the reed on which the pens live.",
      "whyHere": "The taken are fed on what the swamp gives, dried on the step where the wind reaches it.",
      "whySpot": "The west end of the upper step, where the shoulder path arrives, so the rack is the first thing on that path.",
      "whyNeighbours": "It stands at the end of the lane and the head of the shoulder path, beside the oven.",
@@ -1361,68 +1396,68 @@
     },
     "footprint": [
      [
-      0.265351818,
-      0.180027227
+      0.265024177,
+      0.180022672
      ],
      [
-      0.265184801,
-      0.179779983
+      0.26485716,
+      0.179775428
      ],
      [
-      0.265185513,
-      0.179776214
+      0.264857872,
+      0.179771659
      ],
      [
-      0.265189231,
-      0.179772036
+      0.26486159,
+      0.179767481
      ],
      [
-      0.265199314,
-      0.179765158
+      0.264871673,
+      0.179760603
      ],
      [
-      0.265454096,
-      0.179599566
+      0.265126455,
+      0.179595011
      ],
      [
-      0.265459341,
-      0.179597629
+      0.2651317,
+      0.179593074
      ],
      [
-      0.265463111,
-      0.179598342
+      0.26513547,
+      0.179593787
      ],
      [
-      0.265629667,
-      0.179837691
+      0.265302026,
+      0.179833136
      ],
      [
-      0.265628955,
-      0.17984146
+      0.265301314,
+      0.179836905
      ],
      [
-      0.265626358,
-      0.179844873
+      0.265298717,
+      0.179840318
      ],
      [
-      0.265596516,
-      0.179868513
+      0.265268875,
+      0.179863958
      ],
      [
-      0.265458764,
-      0.179967406
+      0.265131123,
+      0.179962851
      ],
      [
-      0.265412065,
-      0.17999762
+      0.265084424,
+      0.179993065
      ],
      [
-      0.265359712,
-      0.180026766
+      0.265032071,
+      0.180022211
      ],
      [
-      0.265355587,
-      0.180027939
+      0.265027946,
+      0.180023384
      ]
     ]
    },
@@ -1433,84 +1468,84 @@
     "buildingFamily": "xanmeer-stone-course",
     "groundFit": "dug-in",
     "centreUV": [
-     0.270992927,
-     0.180064683
+     0.27099725,
+     0.180063582
     ],
     "yawDeg": 0.0,
     "orientationWhy": "The flight is set on the fall line so that it climbs the riser in the shortest run.",
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairs01",
     "why": {
      "what": "A short stone flight of two metres between the works terrace and the pens.",
-     "whyHere": "The gang goes down to the works and back every shift; the riser between the two steps needs a stair, and the Xit-Xaht cut it in stone.",
+     "whyHere": "The gang goes down to the works and back every shift; the riser between the two steps needs a stair. The Xit-Xaht cut it in stone.",
      "whySpot": "The riser is lowest here, at the east end of the middle step, so the flight is the shortest.",
      "whyNeighbours": "Its foot is beside the stair-throat and its head is at the end of the pens lane, so the two stairs of Mazzatun stand within 10 m of each other and are never confused: one climbs, one descends.",
-     "playerPurpose": "The visible way up to the pens from the works, and the way down for a labourer who runs.",
+     "playerPurpose": "The visible way up to the pens from the works. It is also the way down for a labourer who runs.",
      "microGeography": "Cut into the riser between about 204 m and 206 m at the east end of the middle step."
     },
     "footprint": [
      [
-      0.269814383,
-      0.180886544
+      0.269818706,
+      0.180885443
      ],
      [
-      0.269975772,
-      0.180769911
+      0.269980095,
+      0.18076881
      ],
      [
-      0.270057144,
-      0.18071295
+      0.270061467,
+      0.180711849
      ],
      [
-      0.270104612,
-      0.180680401
+      0.270108935,
+      0.1806793
      ],
      [
-      0.270141229,
-      0.180655989
+      0.270145552,
+      0.180654888
      ],
      [
-      0.270146654,
-      0.180651921
+      0.270150977,
+      0.18065082
      ],
      [
-      0.27018734,
-      0.180624796
+      0.270191663,
+      0.180623695
      ],
      [
-      0.270223958,
-      0.180600385
+      0.270228281,
+      0.180599284
      ],
      [
-      0.270481637,
-      0.180855352
+      0.27048596,
+      0.180854251
      ],
      [
-      0.270457225,
-      0.180890613
+      0.270461548,
+      0.180889512
      ],
      [
-      0.270430101,
-      0.180931299
+      0.270434424,
+      0.180930198
      ],
      [
-      0.270426033,
-      0.18093808
+      0.270430356,
+      0.180936979
      ],
      [
-      0.270199546,
-      0.181262214
+      0.270203869,
+      0.181261113
      ],
      [
-      0.270055788,
-      0.181153717
+      0.270060111,
+      0.181152616
      ],
      [
-      0.269926948,
-      0.18102759
+      0.269931271,
+      0.181026489
      ],
      [
-      0.269874056,
-      0.180961136
+      0.269878379,
+      0.180960035
      ]
     ]
    },
@@ -1521,8 +1556,8 @@
     "buildingFamily": "xanmeer-stone-course",
     "groundFit": "dug-in",
     "centreUV": [
-     0.264324712,
-     0.181867337
+     0.264189092,
+     0.181935147
     ],
     "yawDeg": 319.5,
     "orientationWhy": "One block dropped at the riser line and not yet squared to it: the western course is barely begun.",
@@ -1537,36 +1572,36 @@
     },
     "footprint": [
      [
-      0.264065403,
-      0.181849815
+      0.263929783,
+      0.181917625
      ],
      [
-      0.264065854,
-      0.181844079
+      0.263930234,
+      0.181911889
      ],
      [
-      0.264342234,
-      0.181608028
+      0.264206614,
+      0.181675838
      ],
      [
-      0.26434797,
-      0.181608479
+      0.26421235,
+      0.181676289
      ],
      [
-      0.264584021,
-      0.181884859
+      0.264448401,
+      0.181952669
      ],
      [
-      0.26458357,
-      0.181890595
+      0.26444795,
+      0.181958405
      ],
      [
-      0.26430719,
-      0.182126646
+      0.26417157,
+      0.182194456
      ],
      [
-      0.264301454,
-      0.182126195
+      0.264165834,
+      0.182194005
      ]
     ]
    },
@@ -1575,7 +1610,7 @@
     "districtId": "district.mazzatun.works",
     "use": "under-construction",
     "buildingFamily": "xanmeer-stone-course",
-    "groundFit": "pad",
+    "groundFit": "dug-in",
     "centreUV": [
      0.265274057,
      0.181392664
@@ -1585,7 +1620,7 @@
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01",
     "why": {
      "what": "The corner block of the wall course, a quad block turning north into west.",
-     "whyHere": "A stone building has corners, and this is the one the shaper has finished; it fixes the plan of the whole west wing.",
+     "whyHere": "A stone building has corners. This is the one the shaper has finished; it fixes the plan of the whole west wing.",
      "whySpot": "The north-west corner of the middle step, against the riser to the pens, so the course above has a footing.",
      "whyNeighbours": "It closes the north course begun by the arched bay and starts the west return of the single block; the frontage dais is 6 m to its south.",
      "playerPurpose": "The plan of the city, legible in one block: from here the walk reads which way the courses will run.",
@@ -1641,9 +1676,9 @@
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge01",
     "why": {
      "what": "An arched stone bay, the north course of the wall as far as it has risen.",
-     "whyHere": "The Xit-Xaht build in stone against the Duskfall prohibition, and the north course is the oldest of the resumed work.",
+     "whyHere": "The Xit-Xaht build in stone against the Duskfall prohibition. The north course is the oldest of the resumed work.",
      "whySpot": "Along the riser between the pens and the works, so the course is also the retaining wall of the pens above it.",
-     "whyNeighbours": "It runs from the corner block toward the statue wall, and the frontage dais stands in front of it.",
+     "whyNeighbours": "It runs from the corner block toward the statue wall. The frontage dais stands in front of it.",
      "playerPurpose": "The first stone that reads as building rather than ruin; the arch frames the pens above for a player on the terrace.",
      "microGeography": "Dug into the riser at about 204 m, its back against the pens step."
     },
@@ -1965,7 +2000,7 @@
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01",
     "why": {
      "what": "A covered stone flight descending into the rock: the one entrance to the interior beneath the shelf.",
-     "whyHere": "The Xit-Xaht live underground, in the twisted halls that gave Mazzatun its epithet; the exterior is the works, and this is the way into the home.",
+     "whyHere": "The Xit-Xaht live underground, in the twisted halls that gave Mazzatun its epithet; the exterior is the works. This is the way into the home.",
      "whySpot": "Where the conduit crosses the terrace: the conduit room below is reached by the shortest cut from the point at which the amber run arrives.",
      "whyNeighbours": "It stands between the statue wall and the pens stair, its door 3 m from the terrace track, so it is met on the walk from the great stair to the tower.",
      "playerPurpose": "The record's single interior entrance, the conduit-room scene and the door to the tier-4 loot of the record.",
@@ -2195,134 +2230,134 @@
     "districtId": "district.mazzatun.staging",
     "use": "kiln",
     "buildingFamily": "works-staging",
-    "groundFit": "pad",
+    "groundFit": "dug-in",
     "centreUV": [
-     0.267992031,
-     0.18295308
+     0.26974954,
+     0.184647561
     ],
-    "yawDeg": 18.4,
-    "orientationWhy": "Mouth to the terrace track, on the side from which the slaked lime is carried.",
+    "yawDeg": 354.0,
+    "orientationWhy": "The stoke hole faces north to the yard road, so the fuel comes to it off the carts without crossing the courses; its long axis lies along the stream lip.",
     "assetRef": "vanilla:clutter/smelter/smelter01",
     "why": {
      "what": "A lime kiln for the mortar of the courses.",
      "whyHere": "Stone building needs mortar and the swamp has no lime; the kiln burns shell and stream stone for it.",
-     "whySpot": "On the riser between the terrace and the yard, so the burnt lime is carried up to the courses and the fuel up from the yard.",
+     "whySpot": "On the stream lip at the east end of the yard, downwind and downstream of the courses and the pens, where its smoke and lime wash go over the escarpment.",
      "whyNeighbours": "It stands west of the great stair and below the frontage, out of the yard's traffic.",
      "playerPurpose": "Smoke by day and glow by night: the second beacon of the place from the gorge after the conduit head.",
      "microGeography": "A pad at about 202 m on the riser, its mouth uphill."
     },
     "footprint": [
      [
-      0.267811869,
-      0.182893148
+      0.269560711,
+      0.184667408
      ],
      [
-      0.267823004,
-      0.182868267
+      0.269560573,
+      0.184640149
      ],
      [
-      0.267823861,
-      0.182865693
+      0.26956029,
+      0.184637451
      ],
      [
-      0.267838857,
-      0.182842096
+      0.269564199,
+      0.184609767
      ],
      [
-      0.267880431,
-      0.182798755
+      0.269584155,
+      0.184553122
      ],
      [
-      0.267934881,
-      0.18277256
+      0.269622921,
+      0.184506774
      ],
      [
-      0.268029634,
-      0.182728329
+      0.269690939,
+      0.18442735
      ],
      [
-      0.268051075,
-      0.182724027
+      0.269708688,
+      0.184414575
      ],
      [
-      0.268083247,
-      0.182734729
+      0.269742407,
+      0.184411031
      ],
      [
-      0.268097839,
-      0.182751018
+      0.269762424,
+      0.184419836
      ],
      [
-      0.268147215,
-      0.182843195
+      0.269845469,
+      0.184483383
      ],
      [
-      0.268172551,
-      0.18289593
+      0.269890327,
+      0.184520942
      ],
      [
-      0.268184166,
-      0.182955536
+      0.269925529,
+      0.184570426
      ],
      [
-      0.268183738,
-      0.182956823
+      0.269925671,
+      0.184571774
      ],
      [
-      0.268172193,
-      0.183013012
+      0.269938369,
+      0.184627714
      ],
      [
-      0.26814349,
-      0.183064923
+      0.269933674,
+      0.184686846
      ],
      [
-      0.268101486,
-      0.183105262
+      0.269912086,
+      0.184740935
      ],
      [
-      0.268101486,
-      0.183105262
+      0.269912086,
+      0.184740935
      ],
      [
-      0.268079622,
-      0.183119428
+      0.269898027,
+      0.184762867
      ],
      [
-      0.268048322,
-      0.183131885
+      0.269874668,
+      0.184787141
      ],
      [
-      0.267990859,
-      0.183141355
+      0.26982625,
+      0.184819504
      ],
      [
-      0.267932527,
-      0.183131955
+      0.269769245,
+      0.184835041
      ],
      [
-      0.267880188,
-      0.183104539
+      0.269710255,
+      0.184831695
      ],
      [
-      0.267839849,
-      0.183062535
+      0.269656166,
+      0.184810107
      ],
      [
-      0.267827831,
-      0.183047103
+      0.269638847,
+      0.184801018
      ],
      [
-      0.267826972,
-      0.183045388
+      0.269637356,
+      0.184799811
      ],
      [
-      0.267811511,
-      0.18301023
+      0.269608753,
+      0.18477418
      ],
      [
-      0.267802469,
-      0.18295148
+      0.269576248,
+      0.184724413
      ]
     ]
    },
@@ -2341,7 +2376,7 @@
     "assetRef": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararchcolumn02",
     "why": {
      "what": "A watch column of 12 m at the escarpment lip, the shaper's station.",
-     "whyHere": "The shaper directs the building from the one point from which the gate, the yard, the terrace and the conduit are all seen.",
+     "whyHere": "The shaper directs the building from the point at which the gate, the yard, the terrace and the conduit are all seen.",
      "whySpot": "The north end of the gate wall, where the lip is highest, so the column overlooks the road climbing below it.",
      "whyNeighbours": "It anchors the gate wall's north end; the conduit passes between it and the gate; the arched bay of the east course stands north of it.",
      "playerPurpose": "The tallest built thing on the shelf: the first-seen object from the shoulder and the station socket of the shaper.",
@@ -2405,7 +2440,7 @@
     "buildingFamily": "xanmeer-stone-course",
     "groundFit": "dug-in",
     "centreUV": [
-     0.273140057,
+     0.273275677,
      0.180239888
     ],
     "yawDeg": 90.0,
@@ -2421,19 +2456,19 @@
     },
     "footprint": [
      [
-      0.273617442,
+      0.273753062,
       0.179374628
      ],
      [
-      0.273617442,
+      0.273753062,
       0.181105148
      ],
      [
-      0.272662672,
+      0.272798292,
       0.181105148
      ],
      [
-      0.272662672,
+      0.272798292,
       0.179374628
      ]
     ]
@@ -2453,7 +2488,7 @@
     "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05",
     "why": {
      "what": "A short xanmeer pillar carrying the amber conduit over the head of the yard.",
-     "whyHere": "The conduit has to cross the yard road above head height, and the tribe carries it on the ancestors' pillars.",
+     "whyHere": "The conduit has to cross the yard road above head height. The tribe carries it on the ancestors' pillars.",
      "whySpot": "Between the gate wall and the stair-throat, at the point at which the run turns from the lip toward the throat.",
      "whyNeighbours": "It stands 3 m south of the terrace track and 4 m inside the gate; the run continues to the throat door.",
      "playerPurpose": "The amber line overhead is the wayfinding line from the gate to the throat.",
@@ -2525,7 +2560,7 @@
     "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02",
     "why": {
      "what": "The conduit head: a xanmeer pillar of 9 m at the lip, where the amber run crests the escarpment.",
-     "whyHere": "The sap climbs 55 m from the Hist to the works, and the head is where it arrives; the signature feature of the record is made visible by this one piece.",
+     "whyHere": "The sap climbs 55 m from the Hist to the works. The head is where it arrives; the signature feature of the record is made visible by this one piece.",
      "whySpot": "The lowest point of the lip above the road's last bend, so that the run climbs the face in one line.",
      "whyNeighbours": "It stands at the gate wall's outer end, so the road passes beneath the head before it reaches the gate.",
      "playerPurpose": "The first-seen object from the haul road: a thin thing on the skyline with the amber running down it.",
@@ -2665,14 +2700,14 @@
     "assetRef": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
     "why": {
      "what": "A timber gate and wall of 15 m with a walkway on top, across the haul road at the head of the climb.",
-     "whyHere": "The taken must be kept in and the neighbours out; the gate is the one point at which the escarpment can be closed.",
+     "whyHere": "The taken must be kept in and the neighbours out; the gate is the point at which the escarpment can be closed.",
      "whySpot": "Where the road crests the lip and the shelf is narrowest, between the tower and the stream lip.",
      "whyNeighbours": "The tower anchors its north end; the cart stands inside it; the conduit passes over its north end.",
      "playerPurpose": "The threshold of Mazzatun: the road is spanned, not passed. The watch's room under the walkway is the gatehouse interior.",
      "microGeography": "Dug into the lip between about 197 m and 201 m across the full width of the shelf."
     },
     "interior": {
-     "kind": "shell"
+     "kind": "none"
     },
     "spans": "route.mazzatun.gateway",
     "notes": "Gatehouse door on the inner face beside the opening.",
@@ -2737,7 +2772,7 @@
      "whyHere": "Blocks and lime move on carts between the block face, the hoist and the great stair.",
      "whySpot": "Just inside the gate, off the road, where the carts wait for the gang.",
      "whyNeighbours": "It stands between the road and the scaffold stair.",
-     "playerPurpose": "A prop that says a working day is in progress, and cover in the yard fight.",
+     "playerPurpose": "A prop that says a working day is in progress. It gives cover in the yard fight.",
      "microGeography": "A pad at about 199 m on the yard floor beside the road."
     },
     "footprint": [
@@ -2816,72 +2851,76 @@
     "districtId": "district.mazzatun.staging",
     "use": "scaffold",
     "buildingFamily": "works-staging",
-    "groundFit": "pad",
+    "groundFit": "stilt",
     "centreUV": [
-     0.269877457,
-     0.184243321
+     0.267905098,
+     0.184566188
     ],
     "yawDeg": 341.2,
     "orientationWhy": "The scaffold stair climbs against the fall, its foot on the lower step.",
     "assetRef": "vanilla:clutter/stockade/stockadescaffoldstairs01",
     "why": {
      "what": "A timber scaffold stair, the walkway keeper's post.",
-     "whyHere": "The scaffolds are climbed by their stairs, and the keeper of the walkways stands at the foot of the one nearest the gate.",
-     "whySpot": "South of the yard road, between the cart and the cutting floor.",
+     "whyHere": "The scaffolds are climbed by their stairs. The keeper of the walkways stands at the foot of the stair nearest the gate.",
+     "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road.",
      "whyNeighbours": "It stands beside the cart and the block face; the keeper watches the gate from here.",
      "playerPurpose": "The LV30 npc socket: the keeper whose route knowledge exists nowhere else.",
      "microGeography": "A pad at about 199 m on the yard floor."
     },
     "footprint": [
      [
-      0.269599981,
-      0.184109992
+      0.267627622,
+      0.184432859
      ],
      [
-      0.269599899,
-      0.184097126
+      0.26762754,
+      0.184419993
      ],
      [
-      0.2696067,
-      0.184087648
+      0.267634341,
+      0.184410515
      ],
      [
-      0.270012398,
-      0.183949537
+      0.268040039,
+      0.184272404
      ],
      [
-      0.27002357,
-      0.183952897
+      0.268051211,
+      0.184275764
      ],
      [
-      0.270031355,
-      0.18396314
+      0.268058996,
+      0.184286007
      ],
      [
-      0.27017034,
-      0.184371405
+      0.268197981,
+      0.184694272
      ],
      [
-      0.270170422,
-      0.184384271
+      0.268198063,
+      0.184707138
      ],
      [
-      0.27016362,
-      0.18439375
+      0.268191261,
+      0.184716617
      ],
      [
-      0.269757923,
-      0.18453186
+      0.267785564,
+      0.184854727
      ],
      [
-      0.26974675,
-      0.184528501
+      0.267774391,
+      0.184851368
      ],
      [
-      0.269738965,
-      0.184518257
+      0.267766606,
+      0.184841124
      ]
-    ]
+    ],
+    "abuts": [
+     "parcel.mazzatun.scaffold-b"
+    ],
+    "abutsWhy": "The stockade stair is the kit's own flight onto a stockade base and stands against the base it climbs."
    },
    {
     "id": "parcel.mazzatun.cutting-floor",
@@ -2890,88 +2929,88 @@
     "buildingFamily": "works-staging",
     "groundFit": "dug-in",
     "centreUV": [
-     0.268734818,
-     0.184468077
+     0.264528143,
+     0.184105078
     ],
     "yawDeg": 42.8,
     "orientationWhy": "The working floor is opened along the block face, which follows the contour of the lower lip.",
     "assetRef": "vanilla:dungeons/mines/ore/mineoreiron01",
     "why": {
      "what": "The block face: the cutting floor from which the shelf's own stone is taken.",
-     "whyHere": "The shelf is the quarry; the city is built from the rock it stands on, and the face is at the southern lip where the stream slakes the cut.",
-     "whySpot": "The southern lip of the yard, where the rock is exposed above the stream.",
+     "whyHere": "The shelf is the quarry; the city is built from the rock beneath it. The face is at the southern lip where the stream slakes the cut.",
+     "whySpot": "Against the western rise, where the shelf runs out into rock and the face can be cut back without touching the courses.",
      "whyNeighbours": "The hoist stands over it; the scaffolds and the half-cut blocks are up-slope of it.",
      "playerPurpose": "The carver's npc socket for LV29 and the place from which the sound of stone being cut carries into the swamp.",
      "microGeography": "Dug into the lip at about 200 m, the headwater stream 3 to 8 m south of it."
     },
     "footprint": [
      [
-      0.268217101,
-      0.18425668
+      0.264010426,
+      0.183893681
      ],
      [
-      0.268332835,
-      0.18417162
+      0.26412616,
+      0.183808621
      ],
      [
-      0.268465524,
-      0.184078231
+      0.264258849,
+      0.183715232
      ],
      [
-      0.268596108,
-      0.184054981
+      0.264389433,
+      0.183691982
      ],
      [
-      0.269037794,
-      0.184160853
+      0.264831119,
+      0.183797854
      ],
      [
-      0.269173829,
-      0.184229523
+      0.264967154,
+      0.183866524
      ],
      [
-      0.269274849,
-      0.184336007
+      0.265068174,
+      0.183973008
      ],
      [
-      0.269277055,
-      0.184443408
+      0.26507038,
+      0.184080409
      ],
      [
-      0.26923894,
-      0.184550438
+      0.265032265,
+      0.184187439
      ],
      [
-      0.269170014,
-      0.184654813
+      0.264963339,
+      0.184291814
      ],
      [
-      0.268765947,
-      0.184803732
+      0.264559272,
+      0.184440733
      ],
      [
-      0.26862766,
-      0.184801367
+      0.264420985,
+      0.184438368
      ],
      [
-      0.268413118,
-      0.184787536
+      0.264206443,
+      0.184424537
      ],
      [
-      0.268270448,
-      0.184745992
+      0.264063773,
+      0.184382993
      ],
      [
-      0.268173629,
-      0.184648944
+      0.263966954,
+      0.184285945
      ],
      [
-      0.26810888,
-      0.184487325
+      0.263902205,
+      0.184124326
      ],
      [
-      0.268154036,
-      0.184338757
+      0.263947361,
+      0.183975758
      ]
     ]
    },
@@ -2982,8 +3021,8 @@
     "buildingFamily": "works-staging",
     "groundFit": "pad",
     "centreUV": [
-     0.267009598,
-     0.18435665
+     0.265341867,
+     0.18444413
     ],
     "yawDeg": 208.2,
     "orientationWhy": "The hoist beam overhangs down the fall, out over the block face below.",
@@ -2991,61 +3030,66 @@
     "why": {
      "what": "A timber hoist over the block face.",
      "whyHere": "Blocks are lifted out of the cut and onto the carts; the hoist is how the tribe raises what it cannot carry.",
-     "whySpot": "At the lip above the west end of the block face.",
+     "whySpot": "Between the cut face and the pile of half-cut blocks, so a block comes off the face, up the hoist and onto the pile in one movement.",
      "whyNeighbours": "It stands between the cutting floor and the half-cut blocks.",
      "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
      "microGeography": "A pad at about 202 m on the lip."
     },
     "footprint": [
      [
-      0.267102278,
-      0.184617169
+      0.265434547,
+      0.184704649
      ],
      [
-      0.267093565,
-      0.184624808
+      0.265425834,
+      0.184712288
      ],
      [
-      0.267081994,
-      0.184626298
+      0.265414263,
+      0.184713778
      ],
      [
-      0.267071237,
-      0.18462053
+      0.265403506,
+      0.18470801
      ],
      [
-      0.267066075,
-      0.184610068
+      0.265398344,
+      0.184697548
      ],
      [
-      0.267067616,
-      0.184598583
+      0.265399885,
+      0.184686063
      ],
      [
-      0.267243216,
-      0.18427109
+      0.265575485,
+      0.18435857
      ],
      [
-      0.267251929,
-      0.184263451
+      0.265584198,
+      0.184350931
      ],
      [
-      0.2672635,
-      0.184261961
+      0.265595769,
+      0.184349441
      ],
      [
-      0.267274257,
-      0.184267729
+      0.265606526,
+      0.184355209
      ],
      [
-      0.267279419,
-      0.184278191
+      0.265611688,
+      0.184365671
      ],
      [
-      0.267277878,
-      0.184289676
+      0.265610147,
+      0.184377156
      ]
-    ]
+    ],
+    "abuts": [
+     "parcel.mazzatun.cutting-floor",
+     "parcel.mazzatun.half-cut-blocks"
+    ],
+    "abutsWhy": "The mine scaffold support is authored to stand against the mine rock face that it serves. The hoist lifts the blocks out of the cut onto the pile beside it; the three pieces are one working face."
    },
    {
     "id": "parcel.mazzatun.scaffold-a",
@@ -3054,8 +3098,8 @@
     "buildingFamily": "works-staging",
     "groundFit": "dug-in",
     "centreUV": [
-     0.265138436,
-     0.183223544
+     0.265206247,
+     0.183155733
     ],
     "yawDeg": 320.5,
     "orientationWhy": "Scaffold bay squared to the course that it serves, so its decks run along the riser.",
@@ -3070,52 +3114,52 @@
     },
     "footprint": [
      [
-      0.264862234,
-      0.183210437
+      0.264930045,
+      0.183142626
      ],
      [
-      0.264858472,
-      0.183199477
+      0.264926283,
+      0.183131666
      ],
      [
-      0.264861484,
-      0.183188206
+      0.264929295,
+      0.183120395
      ],
      [
-      0.265156592,
-      0.182944937
+      0.265224403,
+      0.182877126
      ],
      [
-      0.265168231,
-      0.182944131
+      0.265236042,
+      0.18287632
      ],
      [
-      0.265178271,
-      0.182949915
+      0.265246082,
+      0.182882104
      ],
      [
-      0.265414638,
-      0.183236651
+      0.265482449,
+      0.18316884
      ],
      [
-      0.2654184,
-      0.183247611
+      0.265486211,
+      0.1831798
      ],
      [
-      0.265415388,
-      0.183258882
+      0.265483199,
+      0.183191071
      ],
      [
-      0.26512028,
-      0.183502151
+      0.265188091,
+      0.18343434
      ],
      [
-      0.265108641,
-      0.183502957
+      0.265176452,
+      0.183435146
      ],
      [
-      0.265098601,
-      0.183497173
+      0.265166412,
+      0.183429362
      ]
     ]
    },
@@ -3126,8 +3170,8 @@
     "buildingFamily": "works-staging",
     "groundFit": "dug-in",
     "centreUV": [
-     0.267443988,
-     0.183426975
+     0.267376178,
+     0.184037268
     ],
     "yawDeg": 9.2,
     "orientationWhy": "Two-sided bay opened toward the yard road, its decks still on the riser line.",
@@ -3135,61 +3179,66 @@
     "why": {
      "what": "A two-sided scaffold bay below the kiln and the frontage.",
      "whyHere": "The frontage dais and the kiln are served from this bay.",
-     "whySpot": "In the middle of the yard below the riser.",
+     "whySpot": "Joined to the four-sided base as one deck at the head of the yard, between the block pile and the great stair.",
      "whyNeighbours": "It stands between the half-cut blocks and the great stair.",
      "playerPurpose": "Cover in the yard and a frame under the dais.",
      "microGeography": "Dug into the yard floor at about 201 m where it breaks toward the riser."
     },
     "footprint": [
      [
-      0.267271541,
-      0.183210823
+      0.267203731,
+      0.183821116
      ],
      [
-      0.267277292,
-      0.183200764
+      0.267209482,
+      0.183811057
      ],
      [
-      0.267287747,
-      0.183195588
+      0.267219937,
+      0.183805881
      ],
      [
-      0.267665278,
-      0.183256734
+      0.267597468,
+      0.183867027
      ],
      [
-      0.267673565,
-      0.183264946
+      0.267605755,
+      0.183875239
      ],
      [
-      0.267675847,
-      0.183276306
+      0.267608037,
+      0.183886599
      ],
      [
-      0.267616435,
-      0.183643127
+      0.267548625,
+      0.18425342
      ],
      [
-      0.267610684,
-      0.183653186
+      0.267542874,
+      0.184263479
      ],
      [
-      0.267600229,
-      0.183658362
+      0.267532419,
+      0.184268655
      ],
      [
-      0.267222698,
-      0.183597216
+      0.267154888,
+      0.184207509
      ],
      [
-      0.267214411,
-      0.183589004
+      0.267146601,
+      0.184199297
      ],
      [
-      0.267212129,
-      0.183577644
+      0.267144319,
+      0.184187937
      ]
-    ]
+    ],
+    "abuts": [
+     "parcel.mazzatun.scaffold-b",
+     "parcel.mazzatun.scaffold-stair"
+    ],
+    "abutsWhy": "A two-sided stockade base is authored to join a neighbouring base on its unrailed sides; with the four-sided base it forms one wider scaffold deck."
    },
    {
     "id": "parcel.mazzatun.scaffold-b",
@@ -3198,8 +3247,8 @@
     "buildingFamily": "works-staging",
     "groundFit": "dug-in",
     "centreUV": [
-     0.267579609,
-     0.184308509
+     0.267905098,
+     0.184037268
     ],
     "yawDeg": 12.1,
     "orientationWhy": "Scaffold bay squared to the block face, decks along the same riser line.",
@@ -3214,52 +3263,121 @@
     },
     "footprint": [
      [
-      0.267418319,
-      0.184083909
+      0.267743808,
+      0.183812668
      ],
      [
-      0.267424571,
-      0.184074154
+      0.26775006,
+      0.183802913
      ],
      [
-      0.267435275,
-      0.184069513
+      0.267760764,
+      0.183798272
      ],
      [
-      0.267809229,
-      0.184149682
+      0.268134718,
+      0.183878441
      ],
      [
-      0.26781709,
-      0.184158302
+      0.268142579,
+      0.183887061
      ],
      [
-      0.267818794,
-      0.184169764
+      0.268144283,
+      0.183898523
      ],
      [
-      0.267740899,
-      0.184533109
+      0.268066388,
+      0.184261868
      ],
      [
-      0.267734647,
-      0.184542864
+      0.268060136,
+      0.184271623
      ],
      [
-      0.267723943,
-      0.184547505
+      0.268049432,
+      0.184276264
      ],
      [
-      0.267349989,
-      0.184467336
+      0.267675478,
+      0.184196095
      ],
      [
-      0.267342128,
-      0.184458716
+      0.267667617,
+      0.184187475
      ],
      [
-      0.267340424,
-      0.184447254
+      0.267665913,
+      0.184176013
+     ]
+    ]
+   },
+   {
+    "id": "parcel.mazzatun.shelf-gate",
+    "districtId": "district.mazzatun.staging",
+    "use": "gate",
+    "buildingFamily": "works-staging",
+    "groundFit": "dug-in",
+    "centreUV": [
+     0.268289,
+     0.182888
+    ],
+    "yawDeg": 121.9,
+    "orientationWhy": "The wall stands square across the ridge track where it reaches the shelf, so a cart off the shoulder comes through the opening without a turn.",
+    "assetRef": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+    "why": {
+     "what": "A timber gate and wall across the ridge track at the west head of the shelf, the twin of the haul gate at the east end.",
+     "whyHere": "The Xit-Xaht close both ends of the shelf: a works built on taken labour is shut at the ridge as well as at the climb. The ridge is the side from which a neighbour arrives.",
+     "whySpot": "Eleven metres inside the shelf head, where the shoulder narrows between the pens above and the fall to the yard below and a wall of one bay closes the whole width.",
+     "whyNeighbours": "The frontage dais stands eleven metres west of it, outside; the pen lane runs behind it; the terrace begins on its inner face.",
+     "playerPurpose": "The western threshold: the ridge track is spanned, not passed, so an arriving player is stopped and read before entering the works.",
+     "microGeography": "Dug into the shelf head between about 196 m and 199 m, across the full width of the shoulder."
+    },
+    "interior": {
+     "kind": "none"
+    },
+    "spans": "route.mazzatun.terrace-head",
+    "notes": "No gatehouse room: the walkway over the opening is reached from the terrace side, as at the haul gate.",
+    "footprint": [
+     [
+      0.269007094,
+      0.1821193
+     ],
+     [
+      0.269015354,
+      0.182154793
+     ],
+     [
+      0.268212682,
+      0.18344434
+     ],
+     [
+      0.267998279,
+      0.183724631
+     ],
+     [
+      0.267911186,
+      0.183815789
+     ],
+     [
+      0.26762334,
+      0.183636622
+     ],
+     [
+      0.267666681,
+      0.183518229
+     ],
+     [
+      0.267823515,
+      0.183202105
+     ],
+     [
+      0.268626187,
+      0.181912558
+     ],
+     [
+      0.26866168,
+      0.181904298
      ]
     ]
    }
@@ -3294,7 +3412,7 @@
     "notes": "Where the amber run crests the escarpment lip and turns into the works. The parcel parcel.mazzatun.conduit-pillar places the piece; this landmark names the point.",
     "why": {
      "what": "The point at which the amber run crests the lip: the top of the conduit-pillar.",
-     "whyHere": "The signature feature of the record needs one readable point, and it is the moment the sap arrives.",
+     "whyHere": "The signature feature of the record needs one readable point. That point is the moment at which the sap arrives.",
      "whySpot": "The lowest point of the lip above the road's last bend.",
      "whyNeighbours": "The gate wall's outer end and the tower are beside it; the road passes beneath it.",
      "playerPurpose": "The first-seen object from the haul road and the LV28 encounter socket.",
@@ -3347,7 +3465,7 @@
      ]
     ],
     "clearanceClass": "cluttered",
-    "why": "The carver's quarrel with the overseers in LV29 comes to blows among the scaffolds, and the first fight after the hostility flip is here, inside the gate."
+    "why": "The carver's quarrel with the overseers in LV29 comes to blows among the scaffolds; the first fight after the hostility flip is here, inside the gate."
    },
    {
     "id": "combat.mazzatun.pens",
@@ -3393,7 +3511,7 @@
      ]
     ],
     "clearanceClass": "tight",
-    "why": "The hostility flip closes the gate; the watch fights on the road head with the escarpment at the player's back and the gate wall in front."
+    "why": "The hostility flip closes the gate; the watch fights on the road head with the escarpment behind the defender and the gate wall in front."
    }
   ],
   "questSockets": [
@@ -3480,21 +3598,38 @@
    {
     "id": "approach.mazzatun.haul-road",
     "mode": "walk",
-    "fromRouteId": "route.mazzatun.haul",
     "firstSeen": "landmark.mazzatun.conduit-head",
     "sequence": "From the Hist court on the gorge floor the conduit-head pillar reads on the lip 40 m above, with the amber line running down the face to the tree; the first traverse turns away and the face hides it; the second bend brings the gate wall across the road with the pillar beside it; through the gate the yard opens and the great stair stands ahead; at its head the statue wall.",
-    "wayfinding": "Follow the amber conduit up the face; it leads to the gate, and inside the gate the road runs straight to the foot of the great stair.",
-    "notes": "The only approach for a cart. The climb costs 40 m and pays at the gate with the view back down onto the crown of the Hist."
+    "wayfinding": "Follow the amber conduit up the face; it leads to the gate. Inside the gate the road runs straight to the foot of the great stair.",
+    "notes": "The only approach for a cart. The climb costs 40 m and pays at the gate with the view back down onto the crown of the Hist.",
+    "fromDirection": "east, up the escarpment from the Hist court on the gorge floor"
    },
    {
     "id": "approach.mazzatun.shoulder",
     "mode": "walk",
-    "fromRouteId": "route.mazzatun.shoulder",
-    "fromDirection": "north-west, along the ridge shoulder",
+    "fromRouteId": "track.dunmer-north.mazzatun",
     "firstSeen": "parcel.mazzatun.tower",
-    "sequence": "From the shoulder at 240 m the watch column reads first, a thin stone thing against the void of the gorge with the grey crown of the Hist behind it; the descent drops behind the western rise and loses it; the rack and the pen fence appear at the foot of the path; then the three shells and their lane, and the column again at the lane's far end above the stair.",
-    "wayfinding": "Keep the column ahead and the fence on the left hand; the lane runs to the pens stair, and the stair drops onto the terrace track beside the throat door.",
-    "notes": "The raiders' way in and the taken labourers' only way out that avoids the gate. It arrives at the pens, not the works, so a player meets the taken before the tribe."
+    "sequence": "From the shoulder at 240 m the watch column reads first, a thin stone thing against the void of the gorge with the grey crown of the Hist behind it; the ridge track drops behind the western rise and loses it; the frontage dais and the pen fence appear at the shelf head; then the shelf gate comes across the track, 15 m of timber with a walkway over the opening; through it the terrace runs east past the great stair head to the column at the lip.",
+    "wayfinding": "Follow the ridge track along the shoulder to the dais at the shelf head; the gate beyond it is the entrance. The terrace inside runs to the great stair and the column.",
+    "notes": "The raiders' way in and the taken labourers' only way out that avoids the gate. It arrives at the pens, not the works, so a player meets the taken before the tribe.",
+    "viaUV": [
+     [
+      0.265351,
+      0.187549
+     ],
+     [
+      0.265172,
+      0.184855
+     ],
+     [
+      0.263347,
+      0.181542
+     ],
+     [
+      0.263416,
+      0.180124
+     ]
+    ]
    }
   ],
   "doors": [
@@ -3548,29 +3683,14 @@
     "parcelId": "parcel.mazzatun.pen-c",
     "facingDeg": 270,
     "thresholdUV": [
-     0.271367616,
-     0.179848467
+     0.271674902,
+     0.179967291
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
      "owner": "the taken labourers"
-    }
-   },
-   {
-    "id": "door.dunmer-north.mazzatun.5",
-    "parcelId": "parcel.mazzatun.haul-gate",
-    "facingDeg": 246,
-    "thresholdUV": [
-     0.271110299,
-     0.183065738
-    ],
-    "interiorClaim": {
-     "sizeClass": "medium",
-     "culture": "argonian",
-     "interiorRef": "vanilla-farmhouse-int",
-     "owner": "faction.xit-xaht"
     }
    }
   ],
@@ -3842,6 +3962,19 @@
    "maxUniqueMaterials": 60,
    "maxTextureMB": 128,
    "maxColliders": 80
-  }
+  },
+  "networkTerminals": [
+   {
+    "id": "terminal.mazzatun.terrace-head",
+    "routeId": "track.dunmer-north.mazzatun",
+    "entryUV": [
+     0.266848,
+     0.182502
+    ],
+    "wayId": "route.mazzatun.terrace-head",
+    "kind": "track",
+    "why": "The ridge track from the rimfield reaches the shelf at its west end, where a cart can leave the shoulder without crossing the pens; the terrace carries it east past the frontage dais to the tower, so track and terrace are one line."
+   }
+  ]
  }
 }

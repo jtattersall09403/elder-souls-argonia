@@ -348,7 +348,7 @@ def main() -> None:
             "seasonalAmplitudeM": WET_RISE_M, "tidalAmplitudeM": 0.5,
             "surgeProfile": "monsoon-pulse-lagged",
             "inundationMask": "flood-wet.png",
-            "note": "flood pulse lags the rains 1-2 months (docs/research/black-marsh-climatology.md)",
+            "note": "flood pulse lags the rains 1-2 months (docs/research/world-terrain/black-marsh-climatology.md)",
         }],
         "wetSeasonNewlyFloodedFracOfLand": round(float(newly.sum() / max((~current_water).sum(), 1)), 4),
     }, indent=1))

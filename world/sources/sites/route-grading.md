@@ -7,15 +7,15 @@ grading; the shoulder is benched so no blend face exceeds 30 deg.
 | class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |
 | --- | --- | --- | --- | --- | --- | --- |
 | boardwalk | 42 | n/a (not graded) | 67.3 | 67.3 | 0 | 0 |
-| causeway | 3 | 12 | 51.4 | 8.2 | 135 | 205 |
-| footpath | 95 | 17 | 84.9 | 38.3 | 39352 | 5638 |
-| road | 7 | 8 | 59.1 | 12.2 | 31643 | 4035 |
-| track | 33 | 12 | 68.2 | 46.6 | 49529 | 11697 |
-| trunk_road | 3 | 8 | 71.6 | 17.5 | 11061 | 5007 |
+| causeway | 3 | 12 | 51.4 | 8.2 | 129 | 208 |
+| footpath | 97 | 17 | 84.9 | 38.3 | 40966 | 5597 |
+| road | 7 | 8 | 59.1 | 12.2 | 31612 | 4067 |
+| track | 33 | 12 | 68.2 | 46.6 | 49504 | 11694 |
+| trunk_road | 3 | 8 | 71.6 | 17.5 | 11069 | 5000 |
 
-Heightfield samples changed: 763995.
+Heightfield samples changed: 771502.
 
-Ways still over their cap: 35 of 141. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
+Ways still over their cap: 35 of 143. Routing now holds the gradient itself — both solvers wall off any step over the class cap (`routes.grade_factor`), so a line climbs a spur by switchback or contour instead of head-on. What survives is not a line that could have gone round: it is ground that has to be climbed to reach the place at the end of it, and the honest remedy is authored geometry (a stair, a ramped terrace, a boardwalk or a bridge over the gap), not a deeper cut.
 
 ## Survivors and what each one needs
 
@@ -27,11 +27,11 @@ Ways still over their cap: 35 of 141. Routing now holds the gradient itself — 
 | `track.imperial-fringe.stonefoot-terrace-village` | footpath | 36.4 | 41 of 1977 | mid-way (49%) | boardwalk or bridge deck over the step |
 | `track.dunmer-north.the-flu-cordon` | footpath | 35.4 | 100 of 1589 | mid-way (80%) | boardwalk or bridge deck over the step |
 | `track.imperial-fringe.lowmere-raft-town` | footpath | 34.7 | 210 of 6834 | mid-way (78%) | stepped ascent (authored flight) over the climb |
-| `track.dunmer-north.rimfield` | footpath | 34.7 | 240 of 3654 | mid-way (81%) | stepped ascent (authored flight) over the climb |
+| `track.dunmer-north.rimfield` | footpath | 34.6 | 240 of 3654 | mid-way (81%) | stepped ascent (authored flight) over the climb |
 | `track.dunmer-north.crystalgate` | track | 31.8 | 135 of 5734 | the place end | stepped ascent (authored flight) over the climb |
 | `track.pirate-freeholds.dunmer-frontier-holding` | track | 31.8 | 111 of 5839 | the place end | stair or ramped terrace on the approach |
 | `track.pirate-freeholds.veterans-holding` | track | 30.3 | 201 of 3829 | mid-way (18%) | stepped ascent (authored flight) over the climb |
-| `track.dunmer-north.mazzatun` | track | 30.2 | 199 of 2959 | the place end | stepped ascent (authored flight) over the climb |
+| `track.dunmer-north.mazzatun` | track | 30.0 | 203 of 2945 | the place end | stepped ascent (authored flight) over the climb |
 | `track.imperial-fringe.onkobra-kwama-mine` | footpath | 28.8 | 25 of 1067 | mid-way (24%) | boardwalk or bridge deck over the step |
 | `track.dunmer-north.the-shut-village` | footpath | 28.5 | 43 of 1076 | mid-way (33%) | boardwalk or bridge deck over the step |
 | `track.dunmer-north.the-divers-landing` | footpath | 26.3 | 44 of 770 | mid-way (22%) | boardwalk or bridge deck over the step |
@@ -84,7 +84,7 @@ Ways still over their cap: 35 of 141. Routing now holds the gradient itself — 
 | track.imperial-fringe.stonefoot-terrace-village | footpath | 36.4 | 0.64 | 2.96 |
 | track.dunmer-north.the-flu-cordon | footpath | 35.4 | 1.39 | 0.92 |
 | track.imperial-fringe.lowmere-raft-town | footpath | 34.7 | 1.17 | 2.13 |
-| track.dunmer-north.rimfield | footpath | 34.7 | 1.75 | 1.34 |
+| track.dunmer-north.rimfield | footpath | 34.6 | 1.75 | 1.34 |
 | track.dunmer-north.crystalgate | track | 31.8 | 4.13 | 0.44 |
 | track.pirate-freeholds.dunmer-frontier-holding | track | 31.8 | 4.13 | 0.44 |
 | track.pirate-freeholds.veterans-holding | track | 30.3 | 4.57 | 0.88 |

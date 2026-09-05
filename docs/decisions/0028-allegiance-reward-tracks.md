@@ -13,7 +13,7 @@ the player skin in the game, and nothing like the Sixth House's dark gifts.
 
 UESP mined for how all three reference games reward faction and main-quest
 progress — evidence in
-[../research/tes-quest-and-faction-rewards.md](../research/tes-quest-and-faction-rewards.md).
+[../research/quests-and-cast/tes-quest-and-faction-rewards.md](../research/quests-and-cast/tes-quest-and-faction-rewards.md).
 The reward genres proven there: signature gear at a named rank; a drip of
 unique enchanted items roughly one per quest (Oblivion's Dark Brotherhood);
 economic access (rank-ordered fences, half-price bounty relief, members-only

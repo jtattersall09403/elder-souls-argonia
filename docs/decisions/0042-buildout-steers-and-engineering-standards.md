@@ -1,7 +1,7 @@
 # 0042 — Build-out steers, the §4 ambitions batch, and eleven engineering standards
 
 Date: 2026-09-01. Owner rulings, given in one round against the build-out
-register and the [systems audit](../research/game-buildout-systems-audit.md).
+register and the [systems audit](../research/combat-and-systems/game-buildout-systems-audit.md).
 This record closes every item the register listed as *awaiting a ruling*, moves
 two pieces of work into named phases, and establishes eleven standing
 engineering standards (their live statement is

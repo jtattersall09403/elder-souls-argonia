@@ -62,7 +62,7 @@ rest become required as `workflow` advances):
   workflow        *workflow (derived|plotted|authored|frozen)
 
   --- schemaVersion 2 (Part 4 step 2, owner feedback 2026-09-03; research:
-      docs/research/place-purpose-hostility-and-dungeon-balance.md) ---
+      docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md) ---
   player purpose  *playerPurpose {primary, secondary[], impact, hook} — WHY the
                   player's experience is changed by going here (PURPOSES),
                   impact ∈ mild|real|major|province-changing; hook = one

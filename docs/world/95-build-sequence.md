@@ -173,7 +173,7 @@ landscape (90 §74.1b). Generalise it:
   mine *rules*, never their authored places.
 
 **Done for vegetation (Phase 10, 2026-08-30):**
-[shipped-world-placement-rules.md](../research/shipped-world-placement-rules.md)
+[shipped-world-placement-rules.md](../research/placement-settlements/shipped-world-placement-rules.md)
 — 14 rules from 186k placed references across BM&V's Black Marsh and
 Valenwood plus Bethesda's grass schema. The readers are
 `worldgen/esp_index.py` (base objects, worldspace cells, references, LAND
@@ -252,7 +252,7 @@ Deliverables:
   reference watershed;
 - physical materials (the scree/gravel ground material deferred from 6b
   landed 2026-08-31: material slot 37 + the talus-apron rule in
-  `landcover.py`, see docs/research/black-marsh-ground-texture-sources.md);
+  `landcover.py`, see docs/research/rendering/black-marsh-ground-texture-sources.md);
 - LOD and collision generation;
 - source/credits reference check in CI.
 
@@ -302,7 +302,7 @@ Deliverables:
   first live test of §65b (does brief-driven placement work?), not just of
   the compilers;
 - **content-density budget** (numbers + evidence in
-  [../research/morrowind-content-density.md](../research/morrowind-content-density.md)):
+  [../research/placement-settlements/morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md)):
   match Morrowind — **18–22 named POIs per km²** of authored land in D0–D3
   regions (8–12 in D4–D5, landmark-heavy and quest-light), **something named
   within ≤300 m of travel along every road and boat lane**, quests per

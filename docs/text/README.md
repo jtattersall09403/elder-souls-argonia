@@ -29,13 +29,13 @@ owner 2026-09-03; scope and rationale in decision
   Khajiit in a verb-clause-named town still speaks as a Khajiit.
 - `packages/text-catalogue` — where every string actually lives (engineering
   standard 4).
-- [research/ai-writing-tells.md](../research/ai-writing-tells.md) — the evidence
+- [research/text-and-voice/ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md) — the evidence
   behind the AI-voice rules: what readers actually notice as machine prose
   (lexical, syntactic, structural, qualitative), with sources, plus the five
   tests a reviewer runs on the qualitative ones. Read it if you are *adding* a
   rule; the rules themselves are in the style guide and §45e.1.
 
-- [research/speech-register-model-morrowind.md](../research/speech-register-model-morrowind.md)
+- [research/text-and-voice/speech-register-model-morrowind.md](../research/text-and-voice/speech-register-model-morrowind.md)
   — the evidence behind the layered model: how Morrowind's own dialogue engine
   conditions lines on race, class, faction, rank and region at once.
 

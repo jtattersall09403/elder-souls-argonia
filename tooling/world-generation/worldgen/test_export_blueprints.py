@@ -47,12 +47,12 @@ def test_uv_becomes_metres(tmp_path):
 
 @pytest.mark.skipif(not HAVE_FIXTURE, reason="no blueprint committed")
 def test_bundle_shape_and_counts(tmp_path):
-    bundle = build_bundle(_fixture_dir(tmp_path), terrain=False)
+    bundle = build_bundle(_fixture_dir(tmp_path))
     assert bundle["schemaVersion"] == SCHEMA_VERSION
     assert bundle["layers"] == LAYERS
     (entry,) = bundle["blueprints"]
     assert entry["id"] == json.loads(FIXTURE.read_text(encoding="utf-8"))["blueprint"]["id"]
-    assert entry["terrain"] is None          # --no-terrain writes no backdrop
+    assert "terrain" not in entry            # no hillshade backdrop is exported
     s = entry["summary"]
     assert s["parcels"] == len(entry["parcels"]) and s["parcels"] > 0
     assert s["doors"] == len(entry["doors"])
@@ -71,22 +71,19 @@ def test_bundle_shape_and_counts(tmp_path):
 def test_export_is_deterministic(tmp_path):
     src = _fixture_dir(tmp_path)
     out = tmp_path / "blueprints.json"
-    export(out, terrain=False, src_dir=src, crop_dir=tmp_path / "crops")
+    export(out, src_dir=src)
     first = out.read_bytes()
-    export(out, terrain=False, src_dir=src, crop_dir=tmp_path / "crops")
+    export(out, src_dir=src)
     assert out.read_bytes() == first
     assert first.endswith(b"\n")
-    assert render(build_bundle(src, terrain=False)).encode("utf-8") == first
+    assert render(build_bundle(src)).encode("utf-8") == first
 
 
 @pytest.mark.skipif(not OUT_PATH.exists(), reason="blueprints.json not exported yet")
 def test_committed_export_is_current():
     """Fails when a blueprint changed and nobody re-ran the exporter."""
     on_disk = json.loads(OUT_PATH.read_text(encoding="utf-8"))
-    fresh = build_bundle(terrain=False)
-    # terrain records are only written by a full (raster) run; compare the rest.
-    for e in on_disk["blueprints"]:
-        e["terrain"] = None
+    fresh = build_bundle()
     assert on_disk == fresh, "run python3 -m worldgen.export_blueprints"
 
 

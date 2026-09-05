@@ -64,7 +64,7 @@ asset registry.
   vault (2026-08-31) and never redistributed. Read offline only, for asset
   names/dimensions and for *statistics* about placement (`REGN`, `GRAS`,
   reference distributions — see
-  [the cross-check](docs/research/vanilla-skyrim-esm-placement-crosscheck.md));
+  [the cross-check](docs/research/placement-settlements/vanilla-skyrim-esm-placement-crosscheck.md));
   no plugin content or authored location is copied, and the only Bethesda data
   that reaches a build is what the pipeline bakes from the owner's copy.
 - Full runtime npm dependency licences: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
@@ -267,12 +267,12 @@ asset registry.
   and named Eye-interpretation contributors, per
   [docs/quests/99-sources-credits.md](docs/quests/99-sources-credits.md).
 - **Ground-texture mod pool** (vetted in
-  [docs/research/black-marsh-ground-texture-sources.md](docs/research/black-marsh-ground-texture-sources.md)):
+  [docs/research/rendering/black-marsh-ground-texture-sources.md](docs/research/rendering/black-marsh-ground-texture-sources.md)):
   A Cathedralist's PBR Landscape (SSE 137333), Cathedral Landscapes (SSE
   21954, share-alike) — candidates for PBR-map upgrades in Phase 8+.
 - Water rendering reference held for a later tier (MIT): ABYSSAL ocean
   (spectral FFT open-sea) — see
-  [docs/research/water-rendering-threejs.md](docs/research/water-rendering-threejs.md).
+  [docs/research/rendering/water-rendering-threejs.md](docs/research/rendering/water-rendering-threejs.md).
 - **Sound sources** (module 57/90 §74.4): vanilla Skyrim sound library;
   Skyrim sound-mod packs credited per mod as ingested; Sonniss GDC
   royalty-free bundles and CC0 Freesound for tropical ambience gaps.

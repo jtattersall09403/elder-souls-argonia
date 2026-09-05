@@ -343,9 +343,9 @@
     "notes": "A one-piece works district: the roofed dues board beside the quay lane. The board is a works-v1 prop and the kit-set rule (one set per district) gives it a district of its own, three metres by seven, inside the quay's ground.",
     "why": {
      "what": "The dues board: the roofed notice board on which the licence house posts the lightering dues and the lot prices.",
-     "whyHere": "Lilmoth lives by lightering, and the dues are read by every crew before they go to the licence house window; the record's price list belongs in the open, not behind a door.",
+     "whyHere": "Lilmoth lives by lightering. The dues are read by every crew before they go to the licence house window; the record's price list belongs in the open, not behind a door.",
      "whyNeighbours": "It stands across the quay lane from the licence house door and south of the quay lamp, on the line every lighter crew walks from the deck to the stair.",
-     "playerPurpose": "The prices and dues of Cargo Off the Ledger are read here, and the board is where a forged notice can be pinned.",
+     "playerPurpose": "The prices and dues of Cargo Off the Ledger are read here. The board is where a forged notice can be pinned.",
      "microGeography": "Two driven posts on the dry flat at 2.3 m, a stride east of the lane planks and clear of the flood band."
     }
    }
@@ -358,10 +358,10 @@
     "buildingFamily": "imperial-keep-wall",
     "groundFit": "pad",
     "centreUV": [
-     0.486607,
-     0.866345
+     0.486879,
+     0.866617
     ],
-    "yawDeg": 109.2,
+    "yawDeg": 58.7,
     "orientationWhy": "The arch is set square to the Blackwood-side road so the carriageway passes through its opening.",
     "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
     "interior": {
@@ -378,36 +378,36 @@
     "spans": "route.lilmoth.gate-road",
     "footprint": [
      [
-      0.48698836,
-      0.865955068
+      0.486820693,
+      0.866074706
      ],
      [
-      0.486948378,
-      0.866090498
+      0.486899763,
+      0.866191701
      ],
      [
-      0.486716453,
-      0.866756498
+      0.487266142,
+      0.866794289
      ],
      [
-      0.486663664,
-      0.866887468
+      0.487333624,
+      0.866918329
      ],
      [
-      0.48622564,
-      0.866734932
+      0.486937307,
+      0.867159294
      ],
      [
-      0.486265622,
-      0.866599502
+      0.486858237,
+      0.867042299
      ],
      [
-      0.486497547,
-      0.865933502
+      0.486491858,
+      0.866439711
      ],
      [
-      0.486550336,
-      0.865802532
+      0.486424376,
+      0.866315671
      ]
     ]
    },
@@ -418,10 +418,10 @@
     "buildingFamily": "imperial-keep-tower",
     "groundFit": "dug-in",
     "centreUV": [
-     0.486919,
-     0.865448
+     0.486385,
+     0.865806
     ],
-    "yawDeg": 109.2,
+    "yawDeg": 58.7,
     "orientationWhy": "The tower shares the arch\u2019s bearing, so its faces sit flush with the gate piers and the curtain beyond.",
     "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
     "interior": {
@@ -441,132 +441,132 @@
     "abutsWhy": "The Morrowind Imperial keep set is authored so a guard tower butts the pier of its wall gate; the two pieces share a face.",
     "footprint": [
      [
-      0.487051019,
-      0.865068892
+      0.486176446,
+      0.865462988
      ],
      [
-      0.487122628,
-      0.865102445
+      0.486247885,
+      0.865429076
      ],
      [
-      0.487185488,
-      0.865148749
+      0.486323598,
+      0.865410024
      ],
      [
-      0.487238765,
-      0.865206076
+      0.486401721,
+      0.865405379
      ],
      [
-      0.487279897,
-      0.865273535
+      0.486479938,
+      0.86541655
      ],
      [
-      0.487307215,
-      0.865347673
+      0.48655452,
+      0.865442628
      ],
      [
-      0.487319049,
-      0.865425034
+      0.486621742,
+      0.865482704
      ],
      [
-      0.487316292,
-      0.865503059
+      0.486680193,
+      0.865534461
      ],
      [
-      0.487298108,
-      0.865580019
+      0.486728012,
+      0.865597446
      ],
      [
-      0.487264555,
-      0.865651628
+      0.486761924,
+      0.865668885
      ],
      [
-      0.487218251,
-      0.865714488
+      0.486780976,
+      0.865744598
      ],
      [
-      0.487160924,
-      0.865767765
+      0.486785621,
+      0.865822721
      ],
      [
-      0.487093465,
-      0.865808897
+      0.48677445,
+      0.865900938
      ],
      [
-      0.487019327,
-      0.865836215
+      0.486748372,
+      0.86597552
      ],
      [
-      0.486941966,
-      0.865848049
+      0.486708296,
+      0.866042742
      ],
      [
-      0.486863941,
-      0.865845292
+      0.486656539,
+      0.866101193
      ],
      [
-      0.486786981,
-      0.865827108
+      0.486593554,
+      0.866149012
      ],
      [
-      0.486715372,
-      0.865793555
+      0.486522115,
+      0.866182924
      ],
      [
-      0.486652512,
-      0.865747251
+      0.486446402,
+      0.866201976
      ],
      [
-      0.486599235,
-      0.865689924
+      0.486368279,
+      0.866206621
      ],
      [
-      0.486558103,
-      0.865622465
+      0.486290062,
+      0.86619545
      ],
      [
-      0.486530785,
-      0.865548327
+      0.48621548,
+      0.866169372
      ],
      [
-      0.486518951,
-      0.865470966
+      0.486148258,
+      0.866129296
      ],
      [
-      0.486521708,
-      0.865392941
+      0.486089807,
+      0.866077539
      ],
      [
-      0.486539892,
-      0.865315981
+      0.486041988,
+      0.866014554
      ],
      [
-      0.486573445,
-      0.865244372
+      0.486008076,
+      0.865943115
      ],
      [
-      0.486619749,
-      0.865181512
+      0.485989024,
+      0.865867402
      ],
      [
-      0.486677076,
-      0.865128235
+      0.485984379,
+      0.865789279
      ],
      [
-      0.486744535,
-      0.865087103
+      0.48599555,
+      0.865711062
      ],
      [
-      0.486818673,
-      0.865059785
+      0.486021628,
+      0.86563648
      ],
      [
-      0.486896034,
-      0.865047951
+      0.486061704,
+      0.865569258
      ],
      [
-      0.486974059,
-      0.865050708
+      0.486113461,
+      0.865510807
      ]
     ]
    },
@@ -577,10 +577,10 @@
     "buildingFamily": "imperial-keep-wall",
     "groundFit": "pad",
     "centreUV": [
-     0.487214,
-     0.864603
+     0.485921,
+     0.865041
     ],
-    "yawDeg": 109.2,
+    "yawDeg": 58.7,
     "orientationWhy": "It continues the line of the tower northward, on the bearing of the old curtain.",
     "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed01",
     "interior": {
@@ -600,28 +600,28 @@
     "abutsWhy": "A curtain segment is authored to butt the tower face in the Imperial keep set.",
     "footprint": [
      [
-      0.487523338,
-      0.864242559
+      0.485839638,
+      0.864573038
      ],
      [
-      0.487576181,
-      0.864268141
+      0.48589299,
+      0.864548535
      ],
      [
-      0.487270664,
-      0.865145468
+      0.486375624,
+      0.865342329
      ],
      [
-      0.48683264,
-      0.864992932
+      0.485979307,
+      0.865583294
      ],
      [
-      0.487106937,
-      0.864205259
+      0.485545993,
+      0.864870618
      ],
      [
-      0.487466035,
-      0.864229784
+      0.485793331,
+      0.864609129
      ]
     ]
    },
@@ -632,10 +632,10 @@
     "buildingFamily": "imperial-keep-wall",
     "groundFit": "pad",
     "centreUV": [
-     0.486277,
-     0.867293
+     0.4874,
+     0.867475
     ],
-    "yawDeg": 109.2,
+    "yawDeg": 58.7,
     "orientationWhy": "It continues the line of the south pier of the arch, on the bearing of the old curtain.",
     "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01destroyed02",
     "interior": {
@@ -655,28 +655,28 @@
     "abutsWhy": "A curtain segment is authored to butt the gate pier in the Imperial keep set.",
     "footprint": [
      [
-      0.48665836,
-      0.866903068
+      0.487341693,
+      0.866932706
      ],
      [
-      0.486351058,
-      0.867785518
+      0.487827146,
+      0.867731135
      ],
      [
-      0.486298489,
-      0.86777152
+      0.487782907,
+      0.867762795
      ],
      [
-      0.486248596,
-      0.867749837
+      0.48773444,
+      0.867787501
      ],
      [
-      0.485941133,
-      0.867552294
+      0.48738644,
+      0.867899094
      ],
      [
-      0.486220336,
-      0.866750532
+      0.486945376,
+      0.867173671
      ]
     ]
    },
@@ -1674,7 +1674,7 @@
      0.85585
     ],
     "yawDeg": 74.0,
-    "orientationWhy": "The stone ring is set to the fall of the bench edge on which it is dug in, a few degrees off the walk, because a ring of stones follows its ground and not a survey.",
+    "orientationWhy": "The stone ring is set to the fall of the bench edge into which it is dug, a few degrees off the walk, because a ring of stones follows its ground and not a survey.",
     "assetRef": "histtree:skyfall/sleeping tree overhaul/rune circle",
     "interior": {
      "kind": "none"
@@ -5619,12 +5619,12 @@
     "routing": "straight",
     "via": [
      [
-      0.484844,
-      0.864853
+      0.484561,
+      0.868026
      ],
      [
-      0.486607,
-      0.866345
+      0.486879,
+      0.866617
      ]
     ],
     "why": "The last stretch of the Imperial road from Blackrose, surveyed straight to the gate arch, which stands across it.",
@@ -5633,12 +5633,12 @@
     ],
     "points": [
      [
-      0.484844,
-      0.864853
+      0.484561,
+      0.868026
      ],
      [
-      0.486832416,
-      0.866423498
+      0.487082953,
+      0.866492995
      ]
     ]
    },
@@ -5649,12 +5649,12 @@
     "routing": "straight",
     "via": [
      [
-      0.486607,
-      0.866345
+      0.486879,
+      0.866617
      ],
      [
-      0.490676,
-      0.866887
+      0.490135,
+      0.864637
      ]
     ],
     "why": "The Imperial road inside the arch, running straight to the lantern at the foot of the crest, where Imperial Lilmoth ended and the Argonian track begins.",
@@ -5663,12 +5663,12 @@
     ],
     "points": [
      [
-      0.486832416,
-      0.866423498
+      0.487082953,
+      0.866492995
      ],
      [
-      0.490676,
-      0.866887
+      0.490135,
+      0.864637
      ]
     ]
    },
@@ -5679,8 +5679,8 @@
     "routing": "terrain",
     "via": [
      [
-      0.490676,
-      0.866887
+      0.490135,
+      0.864637
      ],
      [
       0.494473,
@@ -5702,20 +5702,16 @@
     "why": "The worn track from the gate yard over the southern shoulder of the crest, passing the Hist court on its left hand, down to the council bench.",
     "points": [
      [
-      0.490676,
-      0.866887
+      0.490135,
+      0.864637
      ],
      [
-      0.490743913,
-      0.866684327
+      0.490337051,
+      0.864785637
      ],
      [
-      0.4919645,
-      0.86546374
-     ],
-     [
-      0.493456327,
-      0.86546374
+      0.49399881,
+      0.864785637
      ],
      [
       0.494473,
@@ -6561,8 +6557,8 @@
     "id": "landmark.lilmoth.gate-lantern",
     "kind": "lamp",
     "position": [
-     0.490404,
-     0.867701
+     0.489863,
+     0.865451
     ],
     "assetRef": "mudmother:gv_meshes/argoniannest/argonianlanterns02",
     "why": {
@@ -6959,11 +6955,25 @@
    {
     "id": "approach.lilmoth.gate-road",
     "mode": "walk",
-    "fromRouteId": "route.lilmoth.gate-road",
+    "fromRouteId": "route.road.blackrose-lilmoth",
     "firstSeen": "landmark.lilmoth.third-hist",
-    "sequence": "From the road on the flat west of the pond the crown of the Hist shows over the trees on the crest, 40 m above the traveller. The road bends round the pond and the gate tower and the standing curtain hide the tree; the arch and the tower are what is seen. Through the arch the track climbs the shoulder and the tree comes back on the left hand behind its ring of poles; at the top of the shoulder the bell kiosk shows ahead and the bay opens beyond it.",
-    "wayfinding": "Keep the pond on the left, go through the arch to the lantern and follow the track uphill with the pole ring on the left until the bell shows ahead.",
-    "notes": "The road arrives from the west-north-west; the city calls it the north gate because the road is the road north to Blackrose. The last 200 m bend twice, round the pond and over the shoulder."
+    "sequence": "From the road on the flat west of the pond the crown of the Hist shows over the trees on the crest, 40 m above the traveller. The road bends round the pond and the gate tower and the standing curtain hide the tree; the arch and the tower are what is seen. The road runs straight through the arch into the gate yard, holding its own bearing; the track then climbs the shoulder and the tree comes back on the left hand behind its ring of poles; at the top of the shoulder the bell kiosk shows ahead and the bay opens beyond it.",
+    "wayfinding": "Keep the pond on the left and hold the road's line through the arch to the lantern, then follow the track uphill with the pole ring on the left until the bell shows ahead.",
+    "notes": "The road arrives from the west-north-west; the city calls it the north gate because the road is the road north to Blackrose. The last 200 m bend twice, round the pond and over the shoulder.",
+    "viaUV": [
+     [
+      0.481022,
+      0.864155
+     ],
+     [
+      0.482718,
+      0.864828
+     ],
+     [
+      0.48462,
+      0.867615
+     ]
+    ]
    },
    {
     "id": "approach.lilmoth.roadstead",
@@ -6988,10 +6998,10 @@
    {
     "id": "door.mercantile-coast.lilmoth.1",
     "parcelId": "parcel.lilmoth.gate-tower",
-    "facingDeg": 186.6,
+    "facingDeg": 136.1,
     "thresholdUV": [
-     0.486867,
-     0.865893
+     0.486695,
+     0.866129
     ],
     "interiorClaim": {
      "sizeClass": "small",
@@ -7825,6 +7835,19 @@
    "maxUniqueMaterials": 110,
    "maxTextureMB": 260,
    "maxColliders": 1800
-  }
+  },
+  "networkTerminals": [
+   {
+    "id": "terminal.lilmoth.land-gate",
+    "routeId": "route.road.blackrose-lilmoth",
+    "entryUV": [
+     0.487083,
+     0.866493
+    ],
+    "wayId": "route.lilmoth.gate-road",
+    "kind": "road",
+    "why": "The Blackrose road runs in along the pond's north shore and reaches the bluff foot here, on the one line of firm ground between the pond and the tidal flat; the city walls its gate across that line, so the road and the gate yard inside are one street."
+   }
+  ]
  }
 }

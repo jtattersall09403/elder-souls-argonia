@@ -3,7 +3,7 @@
 > Module of the world-generation master plan — see [README](README.md) for the router
 > and [00-core.md](00-core.md) for the universal principles. Sections §109–112 are
 > newly allocated (decision 0022). Companions: technique + library verdicts —
-> [research/vegetation-scatter-instancing-threejs.md](../research/vegetation-scatter-instancing-threejs.md);
+> [research/rendering/vegetation-scatter-instancing-threejs.md](../research/rendering/vegetation-scatter-instancing-threejs.md);
 > asset sources — [90-asset-strategy.md](90-asset-strategy.md) §76 (incl. the
 > BM&V tree meshes and grass/reed billboard families already catalogued);
 > land-cover classes — decision 0011 + [20-province-design.md](20-province-design.md) §16.
@@ -44,7 +44,7 @@ default).
 ## 111. Deterministic scatter, wind, and constraints
 
 - **Scatter is a compiler pass**, and it is **clustered, not jittered**
-  (corrected 2026-08-30 by the Phase 10 mining — [research](../research/shipped-world-placement-rules.md)
+  (corrected 2026-08-30 by the Phase 10 mining — [research](../research/placement-settlements/shipped-world-placement-rules.md)
   rule R1). Every species in both mined worldspaces sits at a Clark-Evans R of
   ~0.45: neighbours half as far apart as random. A plain jittered grid scores
   *above* 1.0 — more even than random, the opposite of hand placement. The

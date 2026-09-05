@@ -1,7 +1,6 @@
 """Export the settlement blueprints for World Studio's interactive Blueprint view.
 
     python3 -m worldgen.export_blueprints            # from tooling/world-generation
-    python3 -m worldgen.export_blueprints --no-terrain   # JSON only, no backdrops
 
 Writes:
 
@@ -9,9 +8,11 @@ Writes:
     ``world/sources/blueprints/place.*.json``, with **every coordinate already
     in world metres** (X east, Z south, origin at the province's north-west
     corner — module 00-core §8). The browser never converts UV.
-  * ``apps/world-studio/public/province/blueprints/<id>.png`` — a small
-    hillshade + water crop per blueprint, the viewer's terrain backdrop, with
-    its metre extent recorded in the JSON.
+
+The viewer draws the blueprint geometry straight onto the coloured province map
+(the ``map`` layer, from the same rasters the map screen uses) inside the
+exported ``contextM`` box. There is no separate hillshade backdrop: the greyscale
+crop it used to export painted a square over the province map (owner, 2026-09-05).
 
 Why this exists (owner, 2026-09-05): the static ``render_blueprint`` PNGs put
 everything on one sheet, and at village density that reads as "a lot of stuff
@@ -30,29 +31,24 @@ is optional on the way in: the live blueprints are being re-authored and a
 missing field exports as ``null`` (the viewer shows it in red as "not yet
 written") rather than failing the export.
 
-Determinism (standard 6): sorted keys, ``indent=2``, one trailing newline; the
-PNGs are written by PIL from a deterministic float pipeline and carry no
-timestamp, so a clean re-run is byte-identical.
+Determinism (standard 6): sorted keys, ``indent=2``, one trailing newline, and
+geometry that is a pure function of the source blueprints, so a clean re-run is
+byte-identical.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
-import math
 from pathlib import Path
-
-import numpy as np
 
 from .blueprint import BLUEPRINT_DIR
 from .render_blueprint import PROVINCE_EXTENT_M, crop_box
-from .site_fields import PROVINCE, REPO_ROOT
+from .site_fields import REPO_ROOT
 
 SCHEMA_VERSION = 2
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 OUT_PATH = OUT_DIR / "blueprints.json"
-CROP_DIR = OUT_DIR / "blueprints"
-CROP_PX = 600
 PAD_M = 60.0
 # How far beyond the blueprint's own crop the viewer shows the province map and
 # its neighbouring places / routes (owner 2026-09-05 item 1: the blueprint must
@@ -61,8 +57,8 @@ CONTEXT_PAD_M = 1500.0
 
 # Object classes the viewer can toggle; the order is the checklist order.
 # "map" is the main 2D province map, painted in the browser from the SAME
-# rasters App.tsx uses; "terrain" is the hillshade crop written below it.
-LAYERS = ["map", "context", "terrain", "boundary", "clearance", "districts",
+# rasters App.tsx uses — the blueprint is drawn directly on it.
+LAYERS = ["map", "context", "boundary", "clearance", "districts",
           "ways", "fences", "parcels", "doors", "landmarks", "docks",
           "combatSpaces", "approaches", "questSockets", "siting"]
 
@@ -328,7 +324,6 @@ def project(doc: dict, extent_m: float) -> dict:
         "budget": bp.get("budget") or {},
         "provision": bp.get("provision") or {},
         "assetConstraints": list(bp.get("assetConstraints") or []),
-        "terrain": None,
         "summary": {},
     }
     entry["summary"] = {
@@ -344,50 +339,6 @@ def project(doc: dict, extent_m: float) -> dict:
 
 
 # --------------------------------------------------------------------------- #
-# terrain backdrop
-# --------------------------------------------------------------------------- #
-def _shade_rgb(height: np.ndarray, depth: np.ndarray, px_m: float) -> np.ndarray:
-    """Hillshade in grey, open water tinted blue by depth. Pure float maths, so
-    the same crop always yields the same bytes."""
-    gz, gx = np.gradient(height.astype(np.float64), px_m)
-    slope = np.arctan(np.hypot(gx, gz))
-    aspect = np.arctan2(-gz, gx)
-    az, alt = math.radians(315.0), math.radians(45.0)
-    shade = np.clip(np.sin(alt) * np.cos(slope)
-                    + np.cos(alt) * np.sin(slope) * np.cos(az - aspect), 0.0, 1.0)
-    grey = 0.18 + 0.72 * shade
-    rgb = np.repeat(grey[..., None], 3, axis=2)
-    wet = np.clip(depth / 4.0, 0.0, 1.0)
-    water = np.stack([0.16 + 0.10 * (1 - wet), 0.36 + 0.18 * (1 - wet),
-                      0.55 + 0.20 * (1 - wet)], axis=2)
-    a = np.where(depth > 0.05, 0.70, 0.0)[..., None]
-    return np.clip(rgb * (1 - a) + water * a, 0.0, 1.0)
-
-
-def write_crop(bp: dict, fields, extent_m: float, out_dir: Path) -> dict:
-    """Write ``<id>.png`` for one blueprint; return its metre extent record."""
-    from PIL import Image
-
-    from .render_blueprint import TerrainCrop
-
-    crop = TerrainCrop(crop_box(bp, extent_m, PAD_M), fields)
-    rgb = _shade_rgb(crop.height, crop.depth, crop.px_m)
-    if rgb.shape[0] < 2 or rgb.shape[1] < 2:
-        return {}
-    img = Image.fromarray(np.round(rgb * 255).astype(np.uint8), mode="RGB")
-    img = img.resize((CROP_PX, CROP_PX), Image.BILINEAR)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    img.save(out_dir / f"{bp['id']}.png", format="PNG", optimize=True)
-    x0, x1, z1, z0 = crop.extent      # imshow extent, z down
-    return {
-        "image": f"province/blueprints/{bp['id']}.png",
-        "x0": round(float(x0), 3), "z0": round(float(z0), 3),
-        "x1": round(float(x1), 3), "z1": round(float(z1), 3),
-        "pxM": round(float(crop.px_m), 6),
-    }
-
-
-# --------------------------------------------------------------------------- #
 # bundle
 # --------------------------------------------------------------------------- #
 def load_docs(src_dir: Path) -> list[dict]:
@@ -399,26 +350,10 @@ def load_docs(src_dir: Path) -> list[dict]:
     return docs
 
 
-def build_bundle(src_dir: Path = BLUEPRINT_DIR, *, terrain: bool = True,
-                 crop_dir: Path = CROP_DIR, province: Path = PROVINCE) -> dict:
+def build_bundle(src_dir: Path = BLUEPRINT_DIR) -> dict:
     docs = load_docs(src_dir)
-    fields = None
-    crop_extent_m = PROVINCE_EXTENT_M
-    if terrain and docs:
-        from .compile_scatter import ProvinceFields
-        fields = ProvinceFields(province)
-        # The raster's own extent (7373.507 m) crops the backdrop pixel-exactly;
-        # the geometry always uses the published province extent, so the JSON is
-        # identical with or without the rasters (the staleness test relies on it —
-        # the two differ by 3 mm across the whole province).
-        crop_extent_m = float(fields.height_m.shape[0] * fields.px_m)
     extent_m = PROVINCE_EXTENT_M
-    entries = []
-    for doc in docs:
-        entry = project(doc, extent_m)
-        if fields is not None:
-            entry["terrain"] = write_crop(doc["blueprint"], fields, crop_extent_m, crop_dir) or None
-        entries.append(entry)
+    entries = [project(doc, extent_m) for doc in docs]
     entries.sort(key=lambda e: e["id"])
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -434,9 +369,8 @@ def render(bundle: dict) -> str:
     return json.dumps(bundle, indent=2, ensure_ascii=False, sort_keys=True) + "\n"
 
 
-def export(out_path: Path = OUT_PATH, *, terrain: bool = True,
-           src_dir: Path = BLUEPRINT_DIR, crop_dir: Path = CROP_DIR) -> dict:
-    bundle = build_bundle(src_dir, terrain=terrain, crop_dir=crop_dir)
+def export(out_path: Path = OUT_PATH, *, src_dir: Path = BLUEPRINT_DIR) -> dict:
+    bundle = build_bundle(src_dir)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(render(bundle), encoding="utf-8")
     return bundle
@@ -444,10 +378,9 @@ def export(out_path: Path = OUT_PATH, *, terrain: bool = True,
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--no-terrain", action="store_true", help="skip the backdrop PNGs")
     ap.add_argument("--out", type=Path, default=OUT_PATH)
     args = ap.parse_args(argv)
-    bundle = export(args.out, terrain=not args.no_terrain)
+    bundle = export(args.out)
     print(f"{len(bundle['blueprints'])} blueprints → {args.out}")
     for e in bundle["blueprints"]:
         s = e["summary"]

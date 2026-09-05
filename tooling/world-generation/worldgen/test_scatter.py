@@ -209,7 +209,7 @@ def test_density_varies_across_a_landscape_as_much_as_the_source_does():
     """The owner's brief: 'even within an area there should be sensible
     variation so it's not all just samey'. The reference mod's density varies
     with a standard deviation 2.3-3.1x its mean between neighbouring cells
-    (research/vegetation-density-design.md); an evenly spread scatter would be
+    (research/vegetation/vegetation-density-design.md); an evenly spread scatter would be
     far flatter than that."""
     palette = Palette("p", [Layer(species="fern", instances_per_hectare=60)])
     size = 1000.0

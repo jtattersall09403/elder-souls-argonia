@@ -1,5 +1,5 @@
 """Composition passes over the scattered instances — the mined C-rules
-(docs/research/vegetation-composition-rules.md, machine form
+(docs/research/vegetation/vegetation-composition-rules.md, machine form
 world/sources/placement/composition-rules.json).
 
 Four things the plain sampler cannot know, because they are about how the

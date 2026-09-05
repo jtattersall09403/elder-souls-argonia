@@ -129,7 +129,7 @@ rounds** (0031 shape, 0033 design and numbers, 0035 the round-3 corrections,
 pick wear, poise reinstated, pace target restated).
 
 **One evidence packet is still live**:
-[reference games](../research/stats-progression-reference-games.md) — Morrowind's
+[reference games](../research/combat-and-systems/stats-progression-reference-games.md) — Morrowind's
 real formulas, the Souls layer, Skyrim's lessons and the mod-scene sourcing
 facts. Everything else the workstream produced is a **closed working paper,
 kept for provenance only**, in
@@ -853,7 +853,7 @@ hooks this pool instead.
 
 Round 2 cut poise; the owner reinstated it at round 4, on **Dark Souls 1's
 model** (researched at implementation level:
-[research/dark-souls-poise-mechanics.md](../research/dark-souls-poise-mechanics.md)).
+[research/combat-and-systems/dark-souls-poise-mechanics.md](../research/combat-and-systems/dark-souls-poise-mechanics.md)).
 One system, shared by the player and every NPC/enemy.
 
 **The pool.** Every character has a hidden poise pool. Each incoming hit

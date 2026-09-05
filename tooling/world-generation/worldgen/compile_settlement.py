@@ -188,8 +188,11 @@ def _first_seen_warnings(bp: dict, survey, shelf: "KitShelf") -> list[str]:
             out.append(f"{bid}: 97 D1 — approach {ap.get('id')} names firstSeen {seen!r}, which is not a "
                        f"parcel, landmark or dock in this blueprint")
             continue
+        # The approach's own arrow first (97 C-stitch: `fromRouteId` names a
+        # PROVINCE route, so the walked line is `viaUV`); the blueprint way it
+        # used to name is the fallback for anything not yet migrated.
         way = ways.get(ap.get("fromRouteId"))
-        via = (way or {}).get("via") or (way or {}).get("points")
+        via = ap.get("viaUV") or (way or {}).get("via") or (way or {}).get("points")
         if not via:
             out.append(f"{bid}: 97 B6 — approach {ap.get('id')} has no fromRouteId with waypoints, so the "
                        f"line of sight to {seen} cannot be measured; it rests on the checklist alone")

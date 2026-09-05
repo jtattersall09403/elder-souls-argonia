@@ -9,9 +9,9 @@ belongs to the **next goal** — building the world and its proven systems out
 into the full game — whose master plan will be drafted when the world build
 closes and the owner resets CLAUDE.md § GOAL. Policy: decision
 [0038](decisions/0038-world-build-vs-game-buildout-seam.md). Evidence base:
-the [build-out systems audit](research/game-buildout-systems-audit.md)
+the [build-out systems audit](research/combat-and-systems/game-buildout-systems-audit.md)
 (2026-08-30) **plus the
-[Morrowind/Skyrim cross-check](research/source-game-systems-crosscheck.md)**
+[Morrowind/Skyrim cross-check](research/combat-and-systems/source-game-systems-crosscheck.md)**
 (triage + owner rulings: decision
 [0039](decisions/0039-source-game-crosscheck-triage.md) — **all steers RULED
 2026-08-30**; read its Rulings section before touching any cross-check item).

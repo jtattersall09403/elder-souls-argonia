@@ -42,6 +42,13 @@ The overall goal at this point is to build the province-scale world, in a way th
 
 - **Plan for scaling**. The game that we are building within this repo will be very big, with many systems, objects, playable races, animations, quests, factions, stats, UI screens, etc etc etc - on the scale of Skyrim or Morrowind. So whatever you are doing, do it in a way that will scale *effectively*, *efficiently* and with *minimal context bloat* for future agents. You may inherit poor previous decisions on this - you can fix them as you go. e.g. if you're working on weapons and you find that the current way of architecting weapons data will scale poorly to Morrowind/Skyrim level, don't just continue with it because it's there - rearchitect it and improve it as you go.
 - **Check the build-out skeleton/plan and make your work support it.** Look at the 'build out' skeleton, which is a rough outline for what we'll do after world build is complete, on the remaining systems we're going to build for the real game. (It's a start, it might be incomplete). Think about if there is anything you need to be doing/structuring/setting up data structures or contracts or anything else for in the work you're doing now, that will be important to make our lives easier later. We don't want to have to do any big refactors later on. There are usually sensible things we should be putting in place now that will later be extended/required by other systems/phases/whatever. I'm not sure what. Think about it and incorporate in your work (and record wherever sensible per the rest of CLAUDE.md and the docs).
+- **Model policy for agents (owner 2026-09-05).** Fable 5.1 is the planner and
+  architect: it scopes, decides the high-level shape, weighs breadth and
+  interdependence, writes the briefs and judges the results. Delivery of what
+  Fable has scoped goes to **Opus 5 subagents at low effort** (research,
+  sourcing, mechanical passes, implementation against a clear brief). Fable
+  subagents only for genuinely open design reasoning the owner has asked for,
+  and sparingly: the owner's subscription limit is the constraint.
 - **Plan for agentic coding.** Assume that this repo will be almost entirely coded by coding agents, most of whom will be starting from fresh context. It is essential that we make our repo(s) modular, easy and *efficient* to navigate for coding agents. This goes for **docs as well as code**. We need to ensure we don't have lots of clashing documents or instructions, and that agents neither need to read huge amounts of context to work effectively nor miss important context they genuinely need for their task. I don't know what else to think of so you should do the thinking - "how do I do my work in such a way as to maximise the chances that future work will be able to continue smoothly and efficiently for other agents picking up bits of this project?"
 - **Ground decisions in lore.** Any world/design decision (places, cultures, danger, routes, names, history) must be grounded in canon. Check the dossiers in `world/sources/lore/` first; if they're thin for your topic, extract more from the vault UESP extract (`../elder-scrolls-asset-pipeline/skyrim-source/mod-sources/lore/uesp_morrowind_blackmarsh_extract.jsonl.xz`) or the UESP MediaWiki API (`en.uesp.net/w/api.php`, works with a project user-agent; plain page fetches get 403), and record a new dossier *before* deciding. Cite UESP page names; respect the era policy (decision 0002). Community/fan material is a prior, never canon.
 - **Fix root causes.** If you're fixing bugs, find the root cause and fix it, don't do sticking plasters.
@@ -60,7 +67,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   a pipeline audit doc is a gap the next credits review has to re-find.
   **Fill gaps when you find them** (owner 2026-09-05): a sourcing gap is a job
   done in the same session, not a row on a list; the register in
-  `docs/research/settlement-kit-sourcing-log.md` records the outcome, and an
+  `docs/research/placement-settlements/settlement-kit-sourcing-log.md` records the outcome, and an
   OPEN row needs a written reason for the deferral. Take
   mods' *assets*, not their Papyrus/SKSE code — that we cannot run, and it is
   only a design reference. Procedural motion (IK, physics) drives sourced
@@ -84,7 +91,7 @@ The overall goal at this point is to build the province-scale world, in a way th
   composition, app-only tooling and debug UI. Don't couple via new
   module-level singletons or `__STUDIO_*` globals — inject, or put debug
   hooks behind a dev-only export. Pre-existing app-private runtime code is
-  recorded debt (audit §1, docs/research/game-buildout-systems-audit.md):
+  recorded debt (audit §1, docs/research/combat-and-systems/game-buildout-systems-audit.md):
   when you touch such a file substantially, extract it rather than growing it.
 - **Don't casually retune gameplay** (damage, stamina, i-frames, hit/parry windows,
   speeds) unless asked to. Fix visual/animation timing on the animation side instead.

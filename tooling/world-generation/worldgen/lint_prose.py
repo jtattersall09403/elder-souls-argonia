@@ -172,7 +172,7 @@ GENERALISER_RECORD_MAX = 2
 # not a per-record one). Checked over the whole run, all scopes together.
 GLOBAL_DENSITY_MAX = {"generaliser": 4.0, "the-only": 0.8, "never": 2.5, "none-of": 0.3, "zinger-tail": 0.8}
 # Design-voice fields: not player-visible, so the provenance/session-voice rule does not apply.
-DESIGN_FIELDS = {"questHooks.opportunity"}
+DESIGN_FIELDS = {"questHooks.opportunity"} | {f"{k}.why.playerPurpose" for k in ("districts", "parcels", "landmarks", "docks")}
 DESIGN_EXEMPT_RULES = {"canon-marker"}
 
 
@@ -389,13 +389,21 @@ def lint_blueprints(res: LintResult) -> None:
         bid = bp.get("id", p.stem)
         for k, v in (bp.get("causalModel") or {}).items():
             res.add_text(scope, bid, f"causalModel.{k}", v)
-        for key in ("districts", "parcels", "landmarks", "docks", "combatSpaces", "questSockets", "variants", "travelServices"):
+        sg = bp.get("scaleGrounding") or {}
+        if isinstance(sg.get("why"), str):
+            res.add_text(scope, bid, "scaleGrounding.why", sg["why"])
+        for key in ("districts", "parcels", "landmarks", "docks", "combatSpaces", "questSockets", "variants", "travelServices",
+                    "routes", "canals", "boardwalks", "fences", "approaches", "networkTerminals"):
             for item in bp.get(key) or []:
                 if not isinstance(item, dict):
                     continue
-                for fld in ("notes", "orientationWhy", "why", "rejectedBecause", "ambience"):
+                for fld in ("notes", "orientationWhy", "why", "rejectedBecause", "ambience", "abutsWhy", "sequence", "wayfinding"):
                     if isinstance(item.get(fld), str):
                         res.add_text(scope, item.get("id", bid), f"{key}.{fld}", item[fld])
+                if isinstance(item.get("why"), dict):        # the v2 why block
+                    for k, v in item["why"].items():
+                        if isinstance(v, str):
+                            res.add_text(scope, item.get("id", bid), f"{key}.why.{k}", v)
         for c in (bp.get("siting") or {}).get("candidates") or []:
             for fld in ("why", "rejectedBecause"):
                 if isinstance(c.get(fld), str):

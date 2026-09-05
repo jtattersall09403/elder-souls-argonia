@@ -15,7 +15,8 @@
  *     Caveat, stated plainly in the legend: the province map is a 1345-px
  *     raster at ~5.5 m per pixel, so at settlement zoom it is coarse — it says
  *     where the place sits, not what the ground does under one house. The
- *     exported hillshade crop (`terrain`) stays as the finer read underneath.
+ *     blueprint geometry is drawn directly on it; there is no separate crop
+ *     backdrop (the greyscale square was removed, owner 2026-09-05).
  *  2. CLICK → THE WHYS. The details panel leads with the plain-English `why`
  *     block, under the owner's headings, then orientation and its reason, and
  *     only then the dense fields, collapsed. A missing why shows in red.
@@ -51,7 +52,7 @@ const PANEL: React.CSSProperties = {
 };
 
 const LAYER_LABEL: Record<string, string> = {
-  map: "province map", context: "neighbours + routes", terrain: "terrain crop",
+  map: "province map", context: "neighbours + routes",
   boundary: "boundary", clearance: "clearance", districts: "districts",
   ways: "roads / canals / boardwalks", fences: "fences / walls", parcels: "parcels",
   doors: "doors", landmarks: "landmarks", docks: "docks", combatSpaces: "combat spaces",
@@ -452,13 +453,6 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
               </g>
             )}
 
-            {/* terrain backdrop, placed by its recorded metre extent */}
-            {on("terrain") && bp.terrain && (
-              <image href={`${baseUrl}${bp.terrain.image}`} x={bp.terrain.x0} y={bp.terrain.z0}
-                width={bp.terrain.x1 - bp.terrain.x0} height={bp.terrain.z1 - bp.terrain.z0}
-                preserveAspectRatio="none" opacity={on("map") ? 0.75 : 0.95} />
-            )}
-
             {/* clearance: hard clear solid-ish, thinned hatched-light, kept trees */}
             {on("clearance") && (
               <g>
@@ -750,8 +744,7 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
             </div>
             <div style={{ marginTop: 4, opacity: 0.55 }}>
               The province map is the same picture as the map screen, at ~5.5 m per pixel —
-              coarse this close in. It shows where the place sits and what is around it;
-              the terrain crop under it reads the ground.
+              coarse this close in. It shows where the place sits and what is around it.
             </div>
           </>
         )}

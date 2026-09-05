@@ -28,6 +28,9 @@ default.
 What re-runs after a move (the plot's dependants):
   [--replot only] worldgen.macro_plot → whole-province solve with the sitings pinned
   worldgen.compile_minor_routes  → tracks/footpaths/boardwalks from the plot
+                                   (and, where a blueprint declares
+                                   `networkTerminals[]`, ending at the declared
+                                   gate/landing rather than the plotted dot — 97 C-stitch)
   worldgen.compile_minor_waterways
   worldgen.hostility_frequency   → the travel measure
   worldgen.export_places / export_routes → the studio layers

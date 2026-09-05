@@ -14,15 +14,15 @@
 
 **How each rule is written.** A one-line statement; the why; evidence tags;
 enforcement. Tags: **E** measured evidence
-([settlement-form-evidence](../research/settlement-form-evidence.md),
-[shipped-world-placement-rules](../research/shipped-world-placement-rules.md),
-[vegetation-composition-rules](../research/vegetation-composition-rules.md));
+([settlement-form-evidence](../research/placement-settlements/settlement-form-evidence.md),
+[shipped-world-placement-rules](../research/placement-settlements/shipped-world-placement-rules.md),
+[vegetation-composition-rules](../research/vegetation/vegetation-composition-rules.md));
 **S** source review
-([settlement-design-principles-sources](../research/settlement-design-principles-sources.md),
-[openworld-place-distribution-and-siting](../research/openworld-place-distribution-and-siting.md),
-[openworld-approach-and-wayfinding](../research/openworld-approach-and-wayfinding.md),
-[marsh-settlement-morphology](../research/marsh-settlement-morphology.md),
-[kit-level-design-and-layout-generation](../research/kit-level-design-and-layout-generation.md));
+([settlement-design-principles-sources](../research/placement-settlements/settlement-design-principles-sources.md),
+[openworld-place-distribution-and-siting](../research/placement-settlements/openworld-place-distribution-and-siting.md),
+[openworld-approach-and-wayfinding](../research/placement-settlements/openworld-approach-and-wayfinding.md),
+[marsh-settlement-morphology](../research/placement-settlements/marsh-settlement-morphology.md),
+[kit-level-design-and-layout-generation](../research/placement-settlements/kit-level-design-and-layout-generation.md));
 **O** owner ruling with date (0041, CLAUDE.md, module 96); **L** lore
 ([material-culture](../../world/sources/lore/topics/material-culture.md),
 [settlement-register](../../world/sources/lore/extrapolation/settlement-register.md),
@@ -372,6 +372,28 @@ a camp's a soft one; attachment species are not free-standing. *E*
 Slopes. **Enforced by** the `clearance` block (`hardClear`/`thinned`/`kept`)
 consumed by `compile_scatter`; route corridor clearance in `routes_raster`.
 
+**C-stitch. The network into a place and the streets inside it are ONE
+network.** A blueprint declares `networkTerminals[]` — for each place the
+province network reaches, the real route id, the `entryUV` where it meets the
+boundary, the blueprint way that carries it inside as well as the reason
+for its arrival at that point.
+Required wherever the catalogue record is reached by road (`discovery: "road"`
+or a `reachedVia` list). The route must pass within 3 m of the entry point and
+the way must start or end within 1.5 m of it; the way may not be a lower class
+than the route (a road does not shrink to a footpath at the gate); the way's
+end segment runs within 20° of the route's bearing over its last 15 m, so the
+street continues the road rather than meeting it obliquely; a `spans` gate on a
+road or track terminal stands square (±15°) to that bearing; every
+`approaches[].fromRouteId` names a terminal's route and starts its `viaUV`
+arrow on that route at least 30 m out; and no road or track way crosses the
+boundary anywhere else (an unplanned second entrance). *O* owner requirement
+2026-09-05 (at Lilmoth the road arrives at the gate from the south-west and the
+blueprint's gate way leaves it to the north-west, 69° apart). **Enforced by**
+`blueprint.validate_blueprint` (schema, HARD), `blueprint_integration.
+check_network_stitch` (geometry, HARD, reported in metres and degrees), and
+`compile_minor_routes`, which ends a place's derived path at the declared
+terminal instead of the plotted dot.
+
 **C14. Verticality carries its own ascent: every raised deck has its stair,
 ramp or ladder visible from the node below; ramps run ≤30°; a passerelle run
 is a sum of the kit's own lengths and rises.** *S* (Bethesda 30–45°
@@ -482,7 +504,7 @@ by** `KIT_SETS` (set level) and `assetConstraints` bans; the piece-level
 **E4. A sourcing gap is a job with an owner and a status, filled in the
 session it is found; it is shown as a gap, not faked.** *O* 2026-09-05.
 **Enforced by** the register
-in [settlement-kit-sourcing-log](../research/settlement-kit-sourcing-log.md);
+in [settlement-kit-sourcing-log](../research/placement-settlements/settlement-kit-sourcing-log.md);
 engineering standard 13 (playbook moves with the work).
 
 **E5. Everything with an interior has a door; what is inside is derived
@@ -541,15 +563,16 @@ message, so a failure sends the reader to one rule above.
 | G9 | B5 | dock depth by hull class | `docks[].hullClass` + compiler sample of depth 100 m off the dock at the water raster  | OPEN (needs `docks[].hullClass` + a depth sample) |
 | G10 | B6/D2 | first-seen height vs canopy not computed | compiler line-of-sight from each approach's start to `firstSeen` using the dossier heights + palette canopy height along the ray  | **PART-CLOSED** — `compile_settlement._first_seen_warnings` runs bare-terrain line of sight from the approach's first waypoint to the `firstSeen` piece and reports the piece's height against the region palette's measured canopy (WARN). Canopy is not in the survey, so the ray itself is bare-terrain only |
 | G11 | B7 | `terrainRequests` not carved | Part 6 carve job in the chunk rebuild; validator warns while a request is unfulfilled  | OPEN (Part 6 carve job) |
-| G12 | C3/D8 | spine width and 1.3 m passage not checked | integration: spine `widthM` > every other way in the blueprint; min gap between neighbouring footprints along a way ≥ 1.3 m  | **CLOSED** — `blueprint_integration` `passage` (a way between two hulls needs 1.3 m of clear gap, HARD) + width classes in `_placement_warnings` (road 4.3 m, track 2.5, path 1.2, and no rank inversion, WARN) |
+| G12 | C3/D8 | spine width and 1.3 m passage not checked | integration: spine `widthM` > every other way in the blueprint; min gap between neighbouring footprints along a way ≥ 1.3 m  | **CLOSED** — `blueprint_integration` `passage` (a way between two hulls needs 1.3 m of clear gap, HARD) + width classes in `_placement_warnings` (road 4.3 m, track 2.5, path 1.2, plus no rank inversion, WARN) |
 | G13 | C4 | first-node-is-commerce not checked | checklist item; later an integration rule that the first `endsAt` on the spine after the `spans` parcel is a market/deck/hall `use`  | OPEN (reviewer checklist) |
-| G14 | C5 | 8 m nearest-neighbour floor | integration `parcel-gap` (centre distance ≥ 8 m unless `stacksOn`)  | **CLOSED** — `blueprint_integration` `parcel-gap` (8 m between centres, HARD), with the designed-contact exceptions `stacksOn`, `spans`, enclosure `use`, and the new parcel flag `abuts` + `abutsWhy` |
+| G14 | C5 | 8 m nearest-neighbour floor | integration `parcel-gap` (centre distance ≥ 8 m unless `stacksOn`)  | **CLOSED** — `blueprint_integration` `parcel-gap` (8 m between centres, HARD), with the designed-contact exceptions `stacksOn`, `spans`, enclosure `use` plus the new parcel flag `abuts` + `abutsWhy` |
 | G15 | C6 | density band by magnitude | compiler report: parcels/ha of `boundary` vs the magnitude band; warning outside it  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C6: buildings per hectare of the boundary against the size class's band, with the number |
 | G16 | C7 | `use` mix | compiler report of the `use` histogram per blueprint  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C7: the `use` histogram against the band, once ≥8 parcels are classified |
 | G17 | C8 | yaw diversity | validator: ≤10 % of a district's parcels within 5° of one yaw  | **CLOSED** — `blueprint.validate_blueprint` 97 C8 (HARD): at most max(2, 10 %) of a district's parcels within ±5° of one bearing, from 8 parcels up, unless the district declares `routing: "straight"` |
 | G18 | C12 | no outdoor dressing pass | `compile_settlement` dressing rule per `use` with count bands and a rotating vocabulary; report counts  | OPEN (no outdoor dressing pass) |
 | G19 | C14/E3 | kit `snapLogic` is prose | per-kit connector table (`connectors.json`: entry/exit faces, lengths, rises, radii, side counts) checked when two pieces touch  | OPEN (needs `connectors.json`) |
 | G20 | D9 | `combatSpaces` not required | add to REQUIRED for magnitude ≥ M3  | **CLOSED** — `combatSpaces` is in `REQUIRED`; each needs a boundary, a `clearanceClass` and a why (HARD) |
+| G21 | C-stitch | approach roads and inside streets were separate layers | terminals named against the province network, checked in metres and degrees | **CLOSED** — `networkTerminals[]` + `blueprint_integration` `network-stitch`; `compile_minor_routes` ends at the terminal |
 
 ---
 

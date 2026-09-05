@@ -6,7 +6,7 @@
 
 > **Before authoring any interior or kit assembler (Phases 11–12), read the
 > measured evidence, not just this plan:**
-> [research/mined-interior-assembly-and-settlement-form.md](../research/mined-interior-assembly-and-settlement-form.md)
+> [research/placement-settlements/mined-interior-assembly-and-settlement-form.md](../research/placement-settlements/mined-interior-assembly-and-settlement-form.md)
 > — per-kit snap module (128 units ≈ 1.82 m, but *statistical*: town kits lift
 > 14–23×, cave shells 0.9× i.e. not snapped at all), yaw quantised to 90°,
 > chamber sizes (p50 ≈ 20 × 14 m), clutter density (lived interiors carry

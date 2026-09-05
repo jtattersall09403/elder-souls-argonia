@@ -46,7 +46,7 @@ surfaced. Six rulings:
    medium > light); poise and block stability are effect-stack fields
    (potions, spells, enchanted rings/amulets). Player and enemies share the
    system; bosses may be `staggerable: false`. Research:
-   `docs/research/dark-souls-poise-mechanics.md`. All constants provisional
+   `docs/research/combat-and-systems/dark-souls-poise-mechanics.md`. All constants provisional
    until sandbox calibration at 10c; the balance harness does not model
    stagger and is unaffected.
 

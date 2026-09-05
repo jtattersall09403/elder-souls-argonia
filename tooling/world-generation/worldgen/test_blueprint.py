@@ -483,3 +483,79 @@ def test_the_use_histogram_reports_the_share_it_measured():
         _bp(parcels=parcels, doors=[],
             scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10}), KNOWN)
     assert any("97 C7" in w and "storage" in w for w in warns)
+
+
+# --- 97 C-stitch: networkTerminals ---------------------------------------
+# The Part 0 fixture details no catalogue record (it is compiled
+# --skip-catalogue), so it is exempt from the "terminals required" rule the
+# same way it is exempt from `siting`; the rule is tested on synthetic
+# records instead, which keeps the fixture free of a made-up province route.
+
+def _terminal(**over):
+    t = {"id": "terminal.reed-cut-camp.path-head", "routeId": "track.testreg.reed-cut-camp",
+         "entryUV": [0.131, 0.129], "wayId": "route.reed-cut-camp.bank",
+         "kind": "footpath",
+         "why": "The only dry line off the marsh reaches the camp at the head of the cut."}
+    t.update(over)
+    return t
+
+
+def _with_way(**over):
+    way = {"id": "route.reed-cut-camp.bank", "kind": "footpath", "widthM": 1.2,
+           "via": [[0.131, 0.129], [0.132, 0.130]], "routing": "straight",
+           "points": [[0.131, 0.129], [0.132, 0.130]],
+           "why": "The bank path carries the marsh line from the path head to the hut."}
+    over.setdefault("networkTerminals", [_terminal()])
+    return _bp(routes=[way], **over)
+
+
+def test_terminal_schema_is_checked():
+    errs = blueprint.validate_blueprint(
+        _with_way(networkTerminals=[_terminal(kind="highway", wayId="route.reed-cut-camp.nope",
+                                              why="short", entryUV=[0.1])]), KNOWN)
+    assert any("kind must be one of" in e for e in errs)
+    assert any("wayId" in e for e in errs)
+    assert any("entryUV" in e for e in errs)
+    assert any("why is required" in e and "C-stitch" in e for e in errs)
+
+
+def test_terminal_id_follows_the_standard():
+    errs = blueprint.validate_blueprint(
+        _with_way(networkTerminals=[_terminal(id="terminal.wrong.head")]), KNOWN)
+    assert any("standard 2" in e for e in errs)
+
+
+def test_approach_from_route_must_name_a_terminal():
+    ap = [{"id": "approach.reed-cut-camp.marsh-track", "mode": "walk",
+           "fromRouteId": "route.road.invented-by-the-designer",
+           "viaUV": [[0.140, 0.140]],
+           "firstSeen": "parcel.reed-cut-camp.hut",
+           "sequence": "The hut's roof shows over the reeds a hundred paces out, and nothing else does.",
+           "wayfinding": "The cut itself leads to the door, because the only dry line runs along its bank."}]
+    errs = blueprint.validate_blueprint(_with_way(approaches=ap), KNOWN)
+    assert any("names no networkTerminal's routeId" in e for e in errs)
+
+
+def test_approach_from_route_needs_a_via_arrow():
+    ap = [{"id": "approach.reed-cut-camp.marsh-track", "mode": "walk",
+           "fromRouteId": "track.testreg.reed-cut-camp",
+           "firstSeen": "parcel.reed-cut-camp.hut",
+           "sequence": "The hut's roof shows over the reeds a hundred paces out, and nothing else does.",
+           "wayfinding": "The cut itself leads to the door, because the only dry line runs along its bank."}]
+    errs = blueprint.validate_blueprint(_with_way(approaches=ap), KNOWN)
+    assert any("viaUV is required" in e for e in errs)
+
+
+def test_terminals_required_when_the_record_is_reached_by_road(monkeypatch):
+    monkeypatch.setattr(blueprint, "catalogue_records",
+                        lambda: {"place.testreg.reed-cut-camp": {"id": "place.testreg.reed-cut-camp",
+                                                                 "discovery": "road"}})
+    errs = blueprint.validate_blueprint(_bp(), KNOWN)
+    assert any("needs at least one networkTerminal" in e for e in errs)
+
+
+def test_terminals_not_required_for_a_hidden_place(monkeypatch):
+    monkeypatch.setattr(blueprint, "catalogue_records",
+                        lambda: {"place.testreg.reed-cut-camp": {"id": "place.testreg.reed-cut-camp",
+                                                                 "discovery": "rumour"}})
+    assert not [e for e in blueprint.validate_blueprint(_bp(), KNOWN) if "C-stitch" in e]

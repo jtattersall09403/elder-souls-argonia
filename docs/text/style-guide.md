@@ -240,7 +240,7 @@ it uses (quests 60 §45e.1).
 
 The banned-constructions table catches phrases. These catch the *shape*, and
 they are what a reviewer judges by eye. Evidence and worked examples:
-[docs/research/ai-writing-tells.md](../research/ai-writing-tells.md).
+[docs/research/text-and-voice/ai-writing-tells.md](../research/text-and-voice/ai-writing-tells.md).
 
 - **Not every paragraph ends on a resonant line.** Most records should end on a
   plain fact. Aphoristic closers are the loudest structural tell we have.

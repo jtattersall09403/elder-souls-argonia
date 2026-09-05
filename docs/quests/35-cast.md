@@ -42,7 +42,7 @@ Sources are listed in [99-sources-credits.md](99-sources-credits.md).
 
 **The structural model is Morrowind's, mined from UESP** (owner directive
 2026-08-26; evidence with citations in
-[../research/morrowind-cast-structure.md](../research/morrowind-cast-structure.md)).
+[../research/quests-and-cast/morrowind-cast-structure.md](../research/quests-and-cast/morrowind-cast-structure.md)).
 The five inferred principles, which §53 turns into rules:
 
 1. **Desks, not companions.** Every Morrowind faction is 3–7 quest-givers, each
@@ -143,7 +143,7 @@ principle is not):
 
 This is Morrowind's actual anti-sameiness mechanism, and it replaces the
 earlier relationship-type quota (2026-08-26; evidence in
-[../research/morrowind-cast-structure.md](../research/morrowind-cast-structure.md)).
+[../research/quests-and-cast/morrowind-cast-structure.md](../research/quests-and-cast/morrowind-cast-structure.md)).
 Every major faction line has:
 
 - **3–5 stationary patrons ("desks")**, each fixed at one post in one

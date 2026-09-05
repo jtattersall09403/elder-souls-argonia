@@ -63,7 +63,7 @@ been judged under.
 - 00-core acceptance gains: darkness/weather/tides are calendared world state,
   and nothing visual is approved under placeholder light.
 - Library verdicts (recorded in
-  [research/natural-light-sky-atmosphere-threejs.md](../research/natural-light-sky-atmosphere-threejs.md)):
+  [research/rendering/natural-light-sky-atmosphere-threejs.md](../research/rendering/natural-light-sky-atmosphere-threejs.md)):
   adopt three.js `Sky` (Preetham) and bundled CSM; port SunCalc's *math* rather
   than depend on it (our calendar is fictional); reject
   `@takram/three-atmosphere` for now (Lambertian-only, incompatible with our

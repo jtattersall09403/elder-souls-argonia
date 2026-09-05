@@ -64,14 +64,14 @@ until then this plan's job is to tell the world build what to provide.
   local-quest briefs before placement freeze.
 - Content density is pinned to Morrowind's (decision
   [0027](../decisions/0027-morrowind-density-targets.md), evidence in
-  `docs/research/morrowind-content-density.md`): 18–22 named POIs/km² in
+  `docs/research/placement-settlements/morrowind-content-density.md`): 18–22 named POIs/km² in
   settled regions, ≤300 m route spacing, quests-per-settlement by magnitude
   class, mature quest target raised to ≈450–550, all settlement structures
   enterable — and the co-design loop is a **phase completion gate**, runnable
   by one agent wearing both hats.
 - Each side of the main quest now pays (decision
   [0028](../decisions/0028-allegiance-reward-tracks.md), research in
-  `docs/research/tes-quest-and-faction-rewards.md`): four **allegiance reward
+  `docs/research/quests-and-cast/tes-quest-and-faction-rewards.md`): four **allegiance reward
   tracks** of five tiers each (30 §24b) — cult power with corprus-style
   trade-offs, Reed access and informants, the tribes' welcome and safe routes,
   and the Eye-and-crown; stack tiers 1–3, lock 4–5; one phased stronghold

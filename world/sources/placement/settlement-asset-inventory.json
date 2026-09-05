@@ -19,9 +19,9 @@
   "registry": "world/sources/assets/registry-{bmv,vanilla,tropical,xanmeer}.jsonl - query, never read whole (world/sources/assets/README.md)",
   "moduleRef": "docs/world/90-asset-strategy.md S71/S74/S75/S79/S80",
   "loreRef": "world/sources/lore/topics/material-culture.md (the two never-blended Argonian building cultures)",
-  "morphologyRef": "docs/research/marsh-settlement-morphology.md",
-  "digest": "docs/research/settlement-asset-inventory.md",
-  "sourcingLog": "docs/research/settlement-kit-sourcing-log.md - item 6b's own record of what was downloaded, registered, kitted and SKIPPED. Read it before proposing any new download; it lists 11 mods already evaluated and rejected."
+  "morphologyRef": "docs/research/placement-settlements/marsh-settlement-morphology.md",
+  "digest": "docs/research/placement-settlements/settlement-asset-inventory.md",
+  "sourcingLog": "docs/research/placement-settlements/settlement-kit-sourcing-log.md - item 6b's own record of what was downloaded, registered, kitted and SKIPPED. Read it before proposing any new download; it lists 11 mods already evaluated and rejected."
  },
  "vaultState": {
   "root": "$ELDER_SOULS_ASSET_ROOT -> /home/analyticalplatform/skyrim-source (symlinked as tooling/asset-pipeline/skyrim-source)",
@@ -2000,7 +2000,7 @@
     "destroyed (wall/gate/corner/guardtower)",
     "rubble"
    ],
-   "gapFlag": "CLOSES the Gideon/imperial-fringe gap found by the Phase 11 vibe-sheet audit (docs/research/phase11-vibe-sheet-asset-audit.md §4): the catalogue had been using the Nordic vanilla farmhouse as its 'Imperial-ish building', and arch.imperial.fort-wall is medieval-European castle. This is the Morrowind-Imperial language a Black Marsh/Morrowind border province should read as. Kit: imperial-keep (88 exterior pieces)."
+   "gapFlag": "CLOSES the Gideon/imperial-fringe gap found by the Phase 11 vibe-sheet audit (docs/research/phase11/phase11-vibe-sheet-asset-audit.md §4): the catalogue had been using the Nordic vanilla farmhouse as its 'Imperial-ish building', and arch.imperial.fort-wall is medieval-European castle. This is the Morrowind-Imperial language a Black Marsh/Morrowind border province should read as. Kit: imperial-keep (88 exterior pieces)."
   },
   {
    "id": "arch.imperial.hlaalu-domestic",
@@ -2399,7 +2399,7 @@
   {
    "rank": 5,
    "target": "Nothing else is outstanding",
-   "why": "mud variety, xanmeer massing and ornament, Argonian props, Hist trees, rafts, canoes and the drowned layer are all closed. Read docs/research/settlement-kit-sourcing-log.md before proposing any new download - it lists 11 mods already evaluated and rejected with reasons."
+   "why": "mud variety, xanmeer massing and ornament, Argonian props, Hist trees, rafts, canoes and the drowned layer are all closed. Read docs/research/placement-settlements/settlement-kit-sourcing-log.md before proposing any new download - it lists 11 mods already evaluated and rejected with reasons."
   }
  ],
  "breadthWeOwn": {
@@ -2753,7 +2753,7 @@
    ],
    "ownerRuling": "RESOLVED 2026-09-02: 'no porting to other games' clauses are APPROVED - standalone Skyrim conversion, private personal use, credited as such. This unblocked the Ayleid Ruins Building Kit and the canoe. Does NOT cover Darkwater Den's blanket public-work prohibition - see gap.darkwater-conflict."
   },
-  "statusAfterRound3": "SUPERSEDED WHERE IT DISAGREES with docs/research/settlement-kit-sourcing-log.md. Item 6b acted on this research, downloaded and OPENED the credible candidates, and its mesh-level verdicts beat this research's description-level ones. Corrections: (a) Here There Be Monsters was listed here as 'index, not source' - WRONG, it was taken and is the biggest win of the phase; (b) Sailboats EXPANDED (40057) does NOT contain the canoe in v2.0 - the canoe is in 67727, which was taken; (c) the 'no porting' clause concern was resolved by owner ruling in our favour; (d) 11 further mods were evaluated and rejected - see the log's skip table before re-proposing any of them.",
+  "statusAfterRound3": "SUPERSEDED WHERE IT DISAGREES with docs/research/placement-settlements/settlement-kit-sourcing-log.md. Item 6b acted on this research, downloaded and OPENED the credible candidates, and its mesh-level verdicts beat this research's description-level ones. Corrections: (a) Here There Be Monsters was listed here as 'index, not source' - WRONG, it was taken and is the biggest win of the phase; (b) Sailboats EXPANDED (40057) does NOT contain the canoe in v2.0 - the canoe is in 67727, which was taken; (c) the 'no porting' clause concern was resolved by owner ruling in our favour; (d) 11 further mods were evaluated and rejected - see the log's skip table before re-proposing any of them.",
   "equipmentFinds": "Argonian equipment candidates found during the sweep were recorded to docs/world/90-asset-strategy.md S75.1 (recorded, NOT sourced - out of Phase 11 scope). Cross-reference it; do not duplicate it here."
  },
  "round3Corrections": [

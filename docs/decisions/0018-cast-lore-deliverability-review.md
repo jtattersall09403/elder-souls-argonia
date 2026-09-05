@@ -143,7 +143,7 @@ the *content* of the "informal bondage" Q7 already established.
 ## Addendum 2026-08-26 — cast model realigned to Morrowind's actual structure
 
 Owner directive: infer Morrowind's cast principles from UESP and use those.
-Findings recorded in `docs/research/morrowind-cast-structure.md` (desks not
+Findings recorded in `docs/research/quests-and-cast/morrowind-cast-structure.md` (desks not
 companions; the line's story is the disagreement between its desks; nothing
 friendly recurs across lines — shared places, both-sides conflicts and shadow
 networks do; the main quest is a relay whose handler is removed mid-game;

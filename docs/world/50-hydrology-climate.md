@@ -72,7 +72,7 @@ there when those regions are built, but never frost at the marsh floor.
   amplitude, storm exposure, flood pulse with downstream lag) — the full
   model, canon citations, seasonal calendar (Argonian season names) and
   per-area expectations live in
-  [docs/research/black-marsh-climatology.md](../research/black-marsh-climatology.md).
+  [docs/research/world-terrain/black-marsh-climatology.md](../research/world-terrain/black-marsh-climatology.md).
   First implemented slice: the basin ground-tint colormap (palette drift by
   coast/wetness/latitude). Weather frequencies, foliage and flood states must
   consume the same fields when they land (Phases 8a/8c/13, module 55).

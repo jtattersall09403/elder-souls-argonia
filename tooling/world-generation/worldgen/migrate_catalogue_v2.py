@@ -6,7 +6,7 @@
 
 What it adds to every record (owner feedback round, decision 0041 Part 4
 step 2; vocabularies in worldgen.catalogue and the research doc
-docs/research/place-purpose-hostility-and-dungeon-balance.md):
+docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md):
 
 * `playerPurpose`  — a first guess from class/family/type/reward, marked
   `"reviewed": false` so the per-region review agents know it is a guess.

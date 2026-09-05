@@ -1,6 +1,6 @@
 """Fluvial continuum carving (Phase 8b round 3, owner-approved terrain edits).
 
-Research: docs/research/tropical-fluvial-geomorphology.md. Channel geometry
+Research: docs/research/world-terrain/tropical-fluvial-geomorphology.md. Channel geometry
 follows Leopold–Maddock hydraulic geometry (W ∝ A^0.40, D ∝ A^0.29) with the
 game-scale width multiplier (§0), valley form follows Montgomery–Buffington
 slope classes (steep reaches narrow/deepen, no floodplain), lowland majors

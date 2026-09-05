@@ -256,3 +256,96 @@ def test_passage_passes_when_the_gap_fits_a_character(survey):
              routes=[way("route.stub.path", [(60, 100.5), (140, 100.5)], width=1.0,
                          kind="footpath")])
     assert not any("97 C3" in e for e in check_integration(bp, survey))
+
+
+# --- network-stitch (97 C-stitch, owner requirement 2026-09-05) ------------
+# The province network is stubbed so the geometry stays readable: one road
+# running due east along z = 300 m, ending at the gate at x = 300 m.
+
+from .blueprint_integration import check_network_stitch          # noqa: E402
+from .province_network import NetworkRoute                       # noqa: E402
+
+GATE_M = (300.0, 300.0)
+
+
+def net(cls="road", pts=((100.0, 300.0), (300.0, 300.0))):
+    return {"route.road.stub": NetworkRoute("route.road.stub", cls, "major", tuple(pts))}
+
+
+def terminal(**over):
+    t = {"id": "terminal.landing.gate", "routeId": "route.road.stub",
+         "entryUV": uv(*GATE_M), "wayId": "w1", "kind": "road",
+         "why": "The road ends at the gate, and the yard road carries it in."}
+    t.update(over)
+    return t
+
+
+def stitch_bp(**over):
+    bp = _bp(boundary=[uv(280, 280), uv(400, 280), uv(400, 400), uv(280, 400)],
+             routes=[way("w1", [GATE_M, (360.0, 300.0)], kind="road")],
+             parcels=[parcel("gate", 300.0, 300.0, half=4.0, spans="w1", yawDeg=90.0)],
+             networkTerminals=[terminal()])
+    bp.update(over)
+    return bp
+
+
+def test_stitch_passes_when_the_street_continues_the_road(survey):
+    assert check_network_stitch(stitch_bp(), survey, net()) == []
+
+
+def test_stitch_flags_a_terminal_off_the_route(survey):
+    off = uv(300.0, 320.0)
+    errs = check_network_stitch(stitch_bp(networkTerminals=[terminal(entryUV=off)]), survey, net())
+    assert any("20.0 m from route" in e for e in errs)
+
+
+def test_stitch_flags_a_way_that_does_not_reach_the_terminal(survey):
+    bp = stitch_bp(routes=[way("w1", [(310.0, 300.0), (360.0, 300.0)], kind="road")])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("does not start or end at terminal" in e for e in errs)
+
+
+def test_stitch_flags_a_road_that_shrinks_to_a_footpath(survey):
+    bp = stitch_bp(routes=[way("w1", [GATE_M, (360.0, 300.0)], kind="footpath")])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("lower class than the route" in e for e in errs)
+
+
+def test_stitch_flags_an_oblique_kink_at_the_gate(survey):
+    # the way leaves the gate north-east instead of continuing due east
+    bp = stitch_bp(routes=[way("w1", [GATE_M, (340.0, 260.0)], kind="road")])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("obliquely at the gate" in e for e in errs)
+
+
+def test_stitch_flags_a_gate_that_is_not_square_to_its_road(survey):
+    # the road runs due east, so the gate faces 90; 0 lays the wall run down the
+    # carriageway instead of across it
+    bp = stitch_bp(parcels=[parcel("gate", 300.0, 300.0, half=4.0, spans="w1", yawDeg=0.0)])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("off square" in e for e in errs)
+
+
+def test_stitch_flags_a_road_terminal_with_no_gate(survey):
+    bp = stitch_bp(parcels=[parcel("shed", 340.0, 340.0)])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("no parcel `spans`" in e for e in errs)
+
+
+def test_stitch_flags_an_unplanned_second_entrance(survey):
+    bp = stitch_bp(routes=[way("w1", [GATE_M, (360.0, 300.0)], kind="road"),
+                           way("w2", [(340.0, 380.0), (340.0, 420.0)], kind="track")])
+    errs = check_network_stitch(bp, survey, net())
+    assert any("unplanned second entrance" in e for e in errs)
+
+
+def test_stitch_checks_the_approach_arrow(survey):
+    good = [{"id": "a1", "fromRouteId": "route.road.stub", "viaUV": [uv(200.0, 300.0)]}]
+    assert not [e for e in check_network_stitch(stitch_bp(approaches=good), survey, net())
+                if "approach" in e]
+    near = [{"id": "a1", "fromRouteId": "route.road.stub", "viaUV": [uv(290.0, 300.0)]}]
+    assert any("at least 30 m out" in e for e in check_network_stitch(stitch_bp(approaches=near), survey, net()))
+    offline = [{"id": "a1", "fromRouteId": "route.road.stub", "viaUV": [uv(200.0, 340.0)]}]
+    assert any("off route" in e for e in check_network_stitch(stitch_bp(approaches=offline), survey, net()))
+    missing = [{"id": "a1", "fromRouteId": "route.road.stub"}]
+    assert any("no viaUV" in e for e in check_network_stitch(stitch_bp(approaches=missing), survey, net()))

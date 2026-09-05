@@ -1226,7 +1226,7 @@
       "provenance": "geography-derived",
       "sources": [
         "uesp:Lore:Gideon (the Blackwood Road)",
-        "docs/research/morrowind-content-density.md"
+        "docs/research/placement-settlements/morrowind-content-density.md"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2555,7 +2555,7 @@
       "sources": [
         "world/sources/lore/topics/hist-and-sap.md (sap dependence)",
         "world/sources/lore/topics/magic-practice.md",
-        "docs/research/phase11-critique/completeness.md §A4 (healing outside the cities)"
+        "docs/research/phase11/phase11-critique/completeness.md §A4 (healing outside the cities)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -3336,7 +3336,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md (Suran, Balmora: the M4 rung)",
+        "docs/research/placement-settlements/morrowind-content-density.md (Suran, Balmora: the M4 rung)",
         "uesp:Lore:Gideon",
         "world/sources/lore/extrapolation/settlement-register.md §1"
       ],
@@ -6009,7 +6009,7 @@
       "sources": [
         "uesp:Lore:Onkobra River",
         "world/sources/lore/regions/waters.md",
-        "docs/research/phase11-critique/coverage-density.md §S3 (the under-produced vertical types)"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S3 (the under-produced vertical types)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7186,7 +7186,7 @@
       "sources": [
         "world/sources/sites/candidate-sites.md (no long sightlines below the rim; landmarks must be tall-or-close)",
         "world/sources/lore/topics/material-culture.md (lashed timber, no nails)",
-        "docs/research/phase11-critique/coverage-density.md §S3"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S3"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7637,7 +7637,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Black Marsh"
       ],
       "confidence": "EXTRAPOLATED",
@@ -8584,7 +8584,7 @@
       "sources": [
         "uesp:Lore:Gideon (the Blackwood Road)",
         "uesp:Lore:Black Marsh (Imperial roads and fortifications)",
-        "docs/research/openworld-place-distribution-and-siting.md §3.1"
+        "docs/research/placement-settlements/openworld-place-distribution-and-siting.md §3.1"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -8826,7 +8826,7 @@
       "sources": [
         "world/sources/lore/topics/sky-moons-calendar.md (Moonmarch; the festival calendar)",
         "world/sources/lore/topics/material-culture.md",
-        "docs/research/phase11-critique/completeness.md §A1, §A4"
+        "docs/research/phase11/phase11-critique/completeness.md §A1, §A4"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -9761,7 +9761,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Gideon (the Blackwood Road)"
       ],
       "confidence": "EXTRAPOLATED",
@@ -10431,7 +10431,7 @@
       "sources": [
         "uesp:Lore:Cyrodilic Collections",
         "world/sources/lore/topics/guilds-and-orders.md",
-        "docs/research/phase11-critique/completeness.md §A4 (the learning gap outside the cities)"
+        "docs/research/phase11/phase11-critique/completeness.md §A4 (the learning gap outside the cities)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -12811,7 +12811,7 @@
       "sources": [
         "uesp:Lore:Black Marsh (the province's gem trade)",
         "world/sources/lore/topics/material-culture.md",
-        "docs/research/phase11-critique/coverage-density.md §S3 (prospectors-camp under band)"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S3 (prospectors-camp under band)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -13056,7 +13056,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Gideon",
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "world/sources/lore/extrapolation/argonia-4e201-state.md §4"
       ],
       "confidence": "EXTRAPOLATED",
@@ -15153,7 +15153,7 @@
       "provenance": "lore-implied",
       "sources": [
         "uesp:Lore:Fort Swampmoth",
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "world/sources/lore/extrapolation/argonia-4e201-state.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -15661,7 +15661,7 @@
       "provenance": "lore-implied",
       "sources": [
         "world/sources/lore/topics/foreign-powers.md (the failed Imperial freight works)",
-        "docs/research/phase11-critique/feasibility.md §F10",
+        "docs/research/phase11/phase11-critique/feasibility.md §F10",
         "world/sources/lore/gideon.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -17585,7 +17585,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (lit cues; sound and light as wayfinding)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (lit cues; sound and light as wayfinding)",
         "docs/world/20-province-design.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -18549,7 +18549,7 @@
       ],
       "provenance": "lore-implied",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "uesp:Lore:Gideon (the Blackwood Road)"
       ],
       "confidence": "EXTRAPOLATED",
@@ -19744,7 +19744,7 @@
       ],
       "provenance": "lore-implied",
       "sources": [
-        "docs/research/morrowind-content-density.md (the corner-club pattern)",
+        "docs/research/placement-settlements/morrowind-content-density.md (the corner-club pattern)",
         "uesp:Lore:Gideon"
       ],
       "confidence": "EXTRAPOLATED",
@@ -20881,7 +20881,7 @@
       "sources": [
         "world/sources/lore/topics/hist-placement.md (the continuous root layer)",
         "uesp:Lore:Bestiary R#Rootworm",
-        "docs/research/settlement-type-recipes.md (the province's cave answer)"
+        "docs/research/placement-settlements/settlement-type-recipes.md (the province's cave answer)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -21858,7 +21858,7 @@
       ],
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/openworld-place-distribution-and-siting.md (lit cues)",
+        "docs/research/placement-settlements/openworld-place-distribution-and-siting.md (lit cues)",
         "world/sources/sites/candidate-sites.md (no long sightlines below the rim)"
       ],
       "confidence": "EXTRAPOLATED",
@@ -23959,7 +23959,7 @@
       "sources": [
         "world/sources/lore/topics/foreign-powers.md (Imperial road works)",
         "docs/world/50-hydrology-climate.md",
-        "docs/research/phase11-critique/completeness.md §A1 (seasonal places)"
+        "docs/research/phase11/phase11-critique/completeness.md §A1 (seasonal places)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -24442,7 +24442,7 @@
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.md (21 gorges, 36 ravines in this zone)",
-        "docs/research/settlement-type-recipes.md (gorge-wall-dwelling as a region-distinctive anchor)"
+        "docs/research/placement-settlements/settlement-type-recipes.md (gorge-wall-dwelling as a region-distinctive anchor)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -26576,7 +26576,7 @@
       "sources": [
         "world/sources/sites/candidate-sites.md (border mountains, 260 sites)",
         "uesp:Lore:Black Marsh (the province's northern and western rim)",
-        "docs/research/settlement-type-recipes.md (region-distinctive anchors)"
+        "docs/research/placement-settlements/settlement-type-recipes.md (region-distinctive anchors)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -27585,7 +27585,7 @@
       "provenance": "geography-derived",
       "sources": [
         "world/sources/sites/candidate-sites.md (11 sinkholes province-wide — spend sparingly)",
-        "docs/research/settlement-type-recipes.md (scarcity budget)"
+        "docs/research/placement-settlements/settlement-type-recipes.md (scarcity budget)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -29041,7 +29041,7 @@
       "sources": [
         "uesp:Online:Twyllbek Ruins",
         "uesp:Lore:Barsaebic Ayleids",
-        "docs/research/phase11-critique/coverage-density.md §S3 (climbable-ruin-roof under band)"
+        "docs/research/phase11/phase11-critique/coverage-density.md §S3 (climbable-ruin-roof under band)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {

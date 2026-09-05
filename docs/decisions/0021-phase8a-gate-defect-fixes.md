@@ -194,7 +194,7 @@ defects lived entirely in its own canvas wiring.
 - **Round-5 DistantLands REMOVED** (owner: crude — no continuity with the
   real border, sea gap, flat grey, stopped short of horizon). Proper
   pipeline-baked border apron is specced in
-  `docs/research/beyond-border-distant-lands.md` + module 55 §98b, deferred.
+  `docs/research/world-terrain/beyond-border-distant-lands.md` + module 55 §98b, deferred.
 - **CityMarkers shared** (`src/CityMarkers.tsx`): now also in walk mode
   behind an on-by-default "markers" checkbox. **Top bars** stop 360 px short
   of the fixed time panel (compass was hidden under it).

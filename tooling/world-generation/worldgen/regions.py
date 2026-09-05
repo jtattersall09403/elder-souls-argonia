@@ -54,7 +54,7 @@ MOUNTAIN_MIN_HEIGHT_M = 150.0     # was 40 m, which made a quarter of the land a
 # (lore/regions/murkmire.md; lore/topics/fauna-hazards.md § Flora) and
 # mangrove-screened estuaries at Soulrest and Bramman's river
 # (lore/regions/waters.md; topics/history-timeline.md, 1E 1033).
-# Real-world grounding: docs/research/mangrove-coastal-ecology.md — a mangal
+# Real-world grounding: docs/research/world-terrain/mangrove-coastal-ecology.md — a mangal
 # is the INTERTIDAL fringe of SHELTERED, low-energy saline coasts and estuary
 # mouths, on fine mud, in belts typically tens to hundreds of metres deep.
 # Salinity here is geodesic-through-water (hydrology.py), which already
@@ -243,7 +243,7 @@ def compute_regions(z: np.ndarray, hydro: HydrologyResult, metres_per_px: float,
     # Mangrove forest: the seaward, strongly saline, flat, SHELTERED mud
     # fringe of the tidal band — a wall read from the sea (canon: the Lilmoth
     # mangrove wall, Bramman's screened river mouth; real siting rules in
-    # docs/research/mangrove-coastal-ecology.md §1). Takes the fringe from
+    # docs/research/world-terrain/mangrove-coastal-ecology.md §1). Takes the fringe from
     # salt marsh AND from delta mouths (mangroves line estuary channels), but
     # never wave-beaten open-sea fronts or rocky ground.
     land_over_ocean_m = ndimage.distance_transform_edt(hydro.ocean) * metres_per_px

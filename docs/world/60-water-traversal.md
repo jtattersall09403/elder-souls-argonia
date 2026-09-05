@@ -40,7 +40,7 @@ Rapier and gameplay systems use this CPU-accessible query. The renderer consumes
 The advanced water repositories already contain valuable buoyancy, wake, interaction and underwater techniques. Those algorithms can be adapted while Rapier remains the authoritative rigid-body system. This prevents duplicate object simulation and GPU-readback coupling.
 
 > **As shipped (Phase 8b, decision 0025 — see
-> [research](../research/water-rendering-threejs.md)):** `WorldWaterQuery` +
+> [research](../research/rendering/water-rendering-threejs.md)):** `WorldWaterQuery` +
 > `WaterSample` live in `packages/contracts`; the CPU model (wave table with
 > GLSL twin, moon tide, season level, raster samplers, buoyancy) in
 > `packages/game-core/src/water/`; the compile in

@@ -29,8 +29,8 @@ candidate carries relief past the no-grading limit. The knoll is the one site
 at which the ring encloses firm ground, which is the record's stated site
 advantage.
 
-Measured on the chosen ring (`street_router` survey): trunk footings run from
-3.5 m (south) to 5.0 m (west and north-west); the clearing floor is 3.8–4.3 m;
+Measured on the chosen ring (`street_router` survey): trunk footings run
+from 3.5 m (south) to 5.0 m (west and north-west); the clearing floor is 3.8–4.3 m;
 the poleable water is a pool 58–65 m west-north-west of the centre with its
 surface about 1.2 m and its eastern bank at 3.4 m.
 
@@ -39,7 +39,7 @@ surface about 1.2 m and its eastern bank at 3.4 m.
 **One ring, one clearing, one gate, one spine.** Nine trunk columns stand on a
 21 m radius at 40° spacing (chord 14.37 m, clear gap between trunk faces
 9.63 m). A mud hut of 5.92 × 6.47 m sits in each of eight gaps, leaving 1.9 m
-each side to the trunk face, and that 1.9 m is closed with a woven panel, so
+each side to the trunk face; that 1.9 m is closed with a woven panel, so
 the wall line is unbroken. The ninth gap, south-west at 220°, holds the stick
 arch and is the gate; both approaches arrive at it. Inside, the naheesh's
 round house stands at the foot of the elder trunk (north), drawn 8.5 m off the
@@ -86,8 +86,8 @@ rented huts and two pitches.
 
 ## 3. Asset picks, on measured geometry
 
-Sizes are the measured `widthM × depthM × heightM` from
-`tooling/asset-pipeline/output/kits/*.footprints.json`, before scale.
+Sizes are the measured `widthM × depthM × heightM`
+from `tooling/asset-pipeline/output/kits/*.footprints.json`, before scale.
 
 | Object | Asset | Measured (m) | Scale | Result |
 |---|---|---|---|---|
@@ -95,7 +95,7 @@ Sizes are the measured `widthM × depthM × heightM` from
 | `trunk-2..9` | same | same | 0.45 | 4.7 wide, 25 tall |
 | `root-join-1..8` | `tropical:landscape/trees/anvil_root01` | 14.44 × 10.29 × 6.20 | 0.45 | 6.5 × 4.6 × 2.8 |
 | eight huts | `mudmother:gv_meshes/argoniannest/mudhut01` | 5.92 × 6.47 × 5.09; hull 5.91 × 6.47; matched interior `mudhut01intnew`, doorway side 180° local | 1 | in a 9.63 m gap, 1.9 m each side |
-| `naheesh-house` | `bmv:architecture/huts/exterior/hutexterior` | hull 9.6 m across, 7.18 tall; shell, 101 m² | 1 | inside the ring |
+| `naheesh-house` | `bmv:architecture/huts/exterior/hutexterior` | round hull 9.6 m wide, 7.18 m high, shell of 101 square metres | 1 | inside the ring |
 | `minder-deck` | `mudmother:…/argonianplatform` | 2.79 × 2.68 × 0.34 | 1 | no interior, no door |
 | `gate` | `mudmother:…/archwaysticks` | 5.10 × 4.61 × 2.73; hull centred 9.6 m from the mesh origin | 1 | the parcel's `centreUV` is the mesh origin, so it is set back from the ring so that the hull lands on it |
 | `pitch-1`, `pitch-2` | `mudmother:…/argoniantent02` | 6.14 × 5.31 × 4.26; interior none | 1 | open shelters, no door |
@@ -104,7 +104,7 @@ Sizes are the measured `widthM × depthM × heightM` from
 | pitch line (×2) | `mudmother:…/snakefence01` | 0.22 × 2.12 × 1.75 | 1 | two runs with a 10 m opening |
 
 The closed tent `argoniantent01` was dropped: the interiors index reads it as a
-shell, so the validator demands a door, and a canvas cannot honour an interior
+shell, so the validator demands a door; a canvas cannot honour an interior
 claim. The compiler reports 15 placements, 0 errors, inside the budget.
 
 ## 4. Orientation, doors and footprints
@@ -117,7 +117,7 @@ The first draft had this the wrong way round (yaw = bearing + 180, doors
 facing out through the stockade); the index caught it.
 
 Doors: nine. Eight hut doors face the clearing and stand 2.2–2.4 m from the
-ring walk; the round house's door faces 209°, the bearing of the arch, and the
+ring walk; the round house's door faces 209°, the bearing of the arch; the
 talk path ends on its threshold. The deck, the arch, the shelters and the rack
 have no interior and so no door. Interior claims: the eight huts carry the
 matched `mudhut01intnew`; the round house is a shell and claims
@@ -137,8 +137,8 @@ matched `mudhut01intnew`; the round house is a shell and claims
 | `fence.nine-trunks.pitch-line-south/north` | fence 0.3 m | straight | — | 15 m and 12 m |
 
 What the integration checks changed against the first draft: the dock moved
-from dry ground 36 m south-west (the first draft's "landing" stood at 3.9 m on
-land) to the pool 65 m west-north-west, with a pier and a landing path in place
+from dry ground 36 m south-west (the first draft's "landing" stood at 3.9 m
+on land) to the pool 65 m west-north-west, with a pier and a landing path in place
 of a boardwalk drawn over dry ground; the gate became a parcel with `spans`, so
 the spur is checked to pass through its footprint; the ring walk radius was set
 so its buffer clears every hut hull (inner faces at 17.8 m) and the round house
@@ -149,14 +149,21 @@ them within reach of a way. `compile_settlement` runs all six checks: 0 errors.
 
 ### `approach.nine-trunks.road-spur` (walk, from the Archon–Gideon road)
 
-The spur leaves the road 160 m south-west of the ring at 3.8 m. From the fork
+`terminal.nine-trunks.gate-head` sits on `track.hist-heartland.nine-trunks`
+where the arch stands over it; the compiled track leaves the Archon–Gideon road
+116 m south-west of the ring and `route.nine-trunks.spur` is that same line
+named where the village keeps it, from the boundary to the arch (entry on the
+route 0.0 m, way end 0.0 m, join bearing 11.2° off the track's, arch 6.8° off
+square). The spur is no longer a second track drawn beside the compiled one.
+
+The track leaves the road 116 m south-west of the ring at 3.8 m. From the fork
 the elder trunk's top reads above the canopy: the trunk is 31 m tall on 4.0 m
 ground; the mangrove canopy between (`mangrovereachtree0gkb3`) measures
-10.6 m tall, closure 0.31, and the ground at the fork is level with the knoll
+10.6 m tall, closure 0.31; the ground at the fork is level with the knoll
 within half a metre, so the upper 15 m of the elder trunk and the tops of the
 25 m ring trunks stand clear. The spur then drops into low ground at 1.7–2.4 m
-for its middle 65 m and the canopy closes the view (**lost**). It climbs onto
-the pitch shelf at 3.0 m, 50 m from the ring, and from there the whole ring
+for its middle 65 m and the canopy closes the view (**lost**). It climbs
+onto the pitch shelf at 3.0 m, 50 m from the ring; from there the whole ring
 reads as one grey wall: nine columns with hut roofs and panels between them
 (**re-found**). The pitch line and the rack are on the left hand, the ledger
 station at the arch ahead. The arch is the single gap in the wall; the chime
@@ -169,10 +176,10 @@ roof: the threshold and the first node in one view.
 From the water the nine trunks stand above the reeds (`vurt_reeds`, 0.7 m)
 like the teeth of a comb; the elder trunk is the tallest tooth and marks the
 north end of the ring. As the boat noses to the pier the eastern bank, 2 m above
-the water, and its mangroves take the trunks one by one (**lost**). From the
+the water, with its mangroves, takes the trunks one by one (**lost**). From the
 pier head the western huts and the wall read together above the bank; the
 landing path rises under a metre over 51 m, bends round the water-side trunk
-(240°), and the arch opens on the left hand (**re-found**). The first node
+(240°); the arch opens on the left hand (**re-found**). The first node
 inside is the same: the talk path and the round house door.
 
 ### The checklist (research §5)
@@ -181,18 +188,18 @@ inside is the same: the talk path and the round house door.
 |---|---|---|
 | 1 | Every approach designed, ≥2 for M3 | **yes** — road spur (walk, `fromRouteId`) and landing (boat, `fromDirection`) |
 | 2 | One first-seen object, a real id | **yes** — `landmark.nine-trunks.trunk-1` on both |
-| 3 | Taller than what stands between, measured | **yes** — 31 m trunk on 4.0 m ground against 10.6 m mangroves; from the water, 25–31 m against 0.7 m reeds and 10.6 m bank mangroves |
+| 3 | Taller than what stands between viewer and object, measured | **yes** — 31 m trunk on 4.0 m ground against 10.6 m mangroves; from the water, 25–31 m against 0.7 m reeds and 10.6 m bank mangroves |
 | 4 | Three to five beats with an occlusion | **yes** — trunk / lost in the low ground / wall / arch / door; comb / lost behind the bank / wall / arch |
 | 5 | Last stretch bends twice | **yes** — the spur has five bends over 20°, the landing path four |
 | 6 | Centre visible from arrival, or a landmark at the bend | **yes** — the round house door is seen through the arch from the pitch shelf; from the landing the water-side trunk marks the bend |
 | 7 | Threshold spanned | **yes** — `parcel.nine-trunks.gate` `spans` `route.nine-trunks.spur`, checked |
 | 8 | One spine, no duplicated movement | **yes** — the spur (3 m) is the spine outside, the talk path inside; the ring walk serves doors, the landing path serves the pier; way-overlap passes |
-| 9 | Landmark hierarchy | **partly** — beacon: the elder trunk at 31 m; mid-place: the arch and the chime frame. The eight 25 m trunks are the beacon's near-rivals; the 6 m difference is what separates them, and Q3 asks whether it is enough |
+| 9 | Landmark hierarchy | **partly** — beacon: the elder trunk at 31 m; mid-place: the arch and the chime frame. The eight 25 m trunks are the beacon's near-rivals; the 6 m difference is what separates them; Q3 asks whether it is enough |
 | 10 | Quest and service doors present to a way and are visible from it | **yes** — every socketed parcel's door faces the ring walk or the talk path; the pitch sockets sit on the spur side of the arch |
 | 11 | No way ends at a blank wall | **yes** — spur → arch; talk path → the naheesh's door; landing path → arch; pitch path → the first shelter; pier → dock |
 | 12 | Every raised level shows its ascent | **yes** — the deck is 0.34 m; nothing else is raised |
 | 13 | The edge reads from inside and outside | **yes** — trunks, huts and panels make one closed wall; the root swells outside and the ring walk inside both follow it |
-| 14 | Building count within ±25 % of the stated population, lore source named | **yes** — 14 parcels against 14 planned; type recipe and settlement register cited in `scaleGrounding` |
+| 14 | Building count within ±25 % of the stated population, lore source named | **yes** — 14 parcels against 14 planned; `scaleGrounding` cites the type recipe and the settlement register |
 | 15 | Each cue fits one signpost clause | **yes** — "keep the tallest trunk ahead; the arch is the one gap in the wall"; "from the pier, climb towards the gap in the trunks" |
 | 16 | Forced detours pay | **yes** — the spur's dip into low ground buys the wall's re-appearance from the pitch shelf; the landing path's bend round the trunk buys the arch opening on the left |
 
@@ -218,7 +225,7 @@ inside is the same: the talk path and the round house door.
 6. **The office-holder's house is inside the ring, off centre, at the foot of
    the elder trunk**, drawn far enough in that the ring walk's buffer clears it.
 7. **Size from the recipe.** 3–8 villagers in 3–5 households; the count of
-   huts is households plus rented or store huts, and every hut has a use named
+   huts is households plus rented or store huts; every hut has a use named
    in its `why`. Guests are a variant, not the baseline.
 8. **A rented or hosting village keeps its guests outside the stockade** on a
    pitch ground along the approach, marked with a snake-fence line.
@@ -277,3 +284,11 @@ for 27 villages; tighter reads more like a stockade and holds a smaller crowd.
    not 29.5; `entrance: gate` stands.
 4. `sockets` is empty while the blueprint carries nine.
 5. `interior.kind` is `none` while the blueprint declares nine interior claims.
+
+## 11. Deviations from module 97 (Round A review, 2026-09-05)
+
+- **97 C6, 3.3 buildings/ha against 7–16/ha.** The blueprint boundary (4.26 ha) carries the spur, the pool, the pier and the pitch ground; the built ring itself is 0.14 ha with fourteen structures. Nearest-neighbour spacing, the rule behind the band, is met exactly: hut centres sit on a 14.4 m chord (97 C5, p50 13–16 m). The band should be measured over the built hull, not the boundary.
+- **97 C7, work 7 % and civic 21 %.** Fourteen parcels make each one 7 %; a Hist village's three civic pieces (round house, minder's deck, arch) and its one work piece (the rack) are what the type recipe names. Hamlet counts are too small for a percentage band.
+- **97 C10 and Part F, argonian-mud enclosure (pens only).** The ring of trunks, huts and woven panels is a closed wall by design: it is the catalogue's signature feature and the reason the tribe counts nine trees. The panels are the mud kit's own fence piece. Owner check whether a closed ring is the village's edge or an enclosure the grammar forbids.
+- **97 D2, the elder trunk (31 m) against the region's 36.1 m canopy.** The compiler compares against the palette's tallest species; the sightline measured in §6 crosses mangroves of 10.6 m; the trunk clears them by 20 m. The local canopy on the ray, not the regional maximum, is the honest test.
+- **97 C7, the uxith.** The egg-tending place is the east family hut, not a separate structure; the recipe allows it, the principle's wording does not say.

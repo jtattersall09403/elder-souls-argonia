@@ -220,7 +220,7 @@ data unless writing it *starts* from the data and a check reads it back.
 names the fields it must be written against); mechanical where a lexicon
 exists — `worldgen.audit_place_semantics` (prose vs ground) and the
 built-form/creature noun scan of
-[research/place-asset-deliverability-audit.md](research/place-asset-deliverability-audit.md)
+[research/placement-settlements/place-asset-deliverability-audit.md](research/placement-settlements/place-asset-deliverability-audit.md)
 (prose vs kits and registries), both run in the Phase 11 QA gate; the text
 review (docs/text/review-process.md §3) checks fact-against-record as its
 last step.

@@ -1,13 +1,13 @@
 # 0027 — Content density matched to Morrowind; co-design loop hardened into a gate
 
 **Date:** 2026-08-26 · **Status:** accepted · **Scope:** `docs/quests/`,
-`docs/world/95-build-sequence.md`, `docs/research/morrowind-content-density.md`
+`docs/world/95-build-sequence.md`, `docs/research/placement-settlements/morrowind-content-density.md`
 
 ## 1. Density targets (owner directive: same quests/km², POIs/km² and quests-per-city as Morrowind)
 
 Researched from UESP (category-member counts via the API, faction/city pages,
 OpenMW cell measurements) — evidence and derivation in
-[../research/morrowind-content-density.md](../research/morrowind-content-density.md).
+[../research/placement-settlements/morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md).
 Headline numbers: Vvardenfell ≈ 20 km² of land carrying **≈ 410 named places
 (~20 POIs/km²)** and **≈ 400 base-game quests (~20/km²)**, with quests
 concentrated at settlements (Vivec ~90–100, Balmora/Ald'ruhn ~45–55 each,

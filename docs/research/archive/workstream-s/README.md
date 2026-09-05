@@ -12,7 +12,7 @@ The **live** design is, in this order:
 | The decided design | [module 76 §116–129](../../../world/76-stats-progression.md) |
 | Why it is like that | decisions [0019](../../../decisions/0019-stats-system-workstream-and-placement.md) (placement), [0031](../../../decisions/0031-workstream-s-round1-shape.md) (round-1 shape), [0033](../../../decisions/0033-workstream-s-design-and-numbers.md) (design + numbers, incl. the round-2 amendments) |
 | The canonical numbers, and the balance harness | [`tooling/stats-sim/`](../../../../tooling/stats-sim/README.md) — `data/` is the numbers; [FINDINGS.md](../../../../tooling/stats-sim/FINDINGS.md) is the tuning history |
-| Live evidence that is **not** archived | [stats-progression-reference-games.md](../../stats-progression-reference-games.md) — Morrowind's real formula constants and the mod-sourcing permission facts |
+| Live evidence that is **not** archived | [stats-progression-reference-games.md](../../combat-and-systems/stats-progression-reference-games.md) — Morrowind's real formula constants and the mod-sourcing permission facts |
 
 **These papers contain superseded drafts.** Among the things they propose that
 the finished design does **not** have: a two-layer stamina/fatigue system,

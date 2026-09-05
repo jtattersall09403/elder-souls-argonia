@@ -80,7 +80,7 @@ culture rules. Outputs are deterministic (fixed noise seed).
 - `worldgen/sculpt.py` / `sculpt_province.py` — Phase 6b base-terrain
   sculpting: uplift + stream-power erosion mountains (Braun & Willett),
   talus, cliff benching, pass/anchor protection, province-wide de-terracing
-  and micro-undulation (research: docs/research/mountain-terrain-synthesis.md).
+  and micro-undulation (research: docs/research/world-terrain/mountain-terrain-synthesis.md).
 - `worldgen/hydrology.py` — ocean/sea geodesics, priority-flood + G&M flat
   resolution, noised D8 routing, rivers/lakes/watersheds, wetness, salinity.
 - `worldgen/regions.py` — HAND/flood, soils, ecological region classes,

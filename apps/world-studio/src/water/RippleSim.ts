@@ -9,7 +9,7 @@ import * as THREE from "three";
  *
  * The update rule is Evan Wallace's classic WebGL water simulation, as
  * ported by jeantimex/threejs-water (MIT, © 2011 Evan Wallace, © 2026
- * Yong Su) — see docs/research/water-edges-and-shore-waves.md §4. RG16F
+ * Yong Su) — see docs/research/rendering/water-edges-and-shore-waves.md §4. RG16F
  * (height, velocity): linear-filterable and renderable in core WebGL2 +
  * EXT_color_buffer_float, sidestepping the float32-filtering trap.
  * Skyrim ships the same architecture (a ~29 m ripple quad around actors),

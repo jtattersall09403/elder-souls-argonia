@@ -12,7 +12,7 @@
 > and as a decision record, then the design is detailed axis-by-axis (step 5),
 > the numbers + simulation packets run (steps 6–7), and round 2 confirms.
 > Analysis behind each: [mapping inventory](stats-progression-mapping-inventory.md);
-> evidence: [reference games](../../stats-progression-reference-games.md),
+> evidence: [reference games](../../combat-and-systems/stats-progression-reference-games.md),
 > [repo/quest inputs](stats-progression-repo-baseline-and-quest-inputs.md).
 > Minor calls are not asked here — they are proposed defaults (inventory §5),
 > vetoable at round 2.

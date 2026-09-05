@@ -23,7 +23,7 @@
         "docs/world/92-demographics.md §82 (Stormhold/northern zone: 75% Argonian, 22% Dunmer, 7% Nord)",
         "world/sources/catalogue/type-recipes.json#neutral-free-port",
         "lore: Lore:Alten Corimont; Lore:All Flags Navy",
-        "docs/research/opening-hours-and-start-area.md (the start hub)"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md (the start hub)"
       ],
       "confidence": "CANON_EXPLICIT",
       "why": {
@@ -911,7 +911,7 @@
         "uesp:Lore:Alten Corimont",
         "world/sources/lore/alten-corimont.md",
         "docs/quests/40-factions.md §43 (the Salt-Teeth arc)",
-        "docs/research/place-purpose-hostility-and-dungeon-balance.md §2 (pirate-freeholds: zero hostile camps)"
+        "docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md §2 (pirate-freeholds: zero hostile camps)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -1772,7 +1772,7 @@
       "sources": [
         "uesp:Lore:Alten Corimont",
         "world/sources/lore/alten-corimont.md",
-        "docs/research/opening-hours-and-start-area.md §6.4 (a vantage inside 250 m)"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §6.4 (a vantage inside 250 m)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2363,7 +2363,7 @@
         "docs/quests/20-world-provisions.md §12b (The Owing — owed-labour gangs, ledger offices, hiring halls)",
         "world/sources/catalogue/type-recipes.json#owing-eviction-camp",
         "lore: labour-and-bondage dossier (owings extendable, transferable, heritable in fact)",
-        "docs/research/opening-hours-and-start-area.md §6.1"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §6.1"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -2852,8 +2852,8 @@
       "status": "abandoned",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/opening-hours-and-start-area.md §6.3 (a trivial first dungeon at 150-400 m)",
-        "docs/research/place-purpose-hostility-and-dungeon-balance.md §2 (minor delve band)",
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §6.3 (a trivial first dungeon at 150-400 m)",
+        "docs/research/placement-settlements/place-purpose-hostility-and-dungeon-balance.md §2 (minor delve band)",
         "world/sources/lore/topics/labour-and-bondage.md"
       ],
       "confidence": "EXTRAPOLATED",
@@ -3089,7 +3089,7 @@
       "status": "active",
       "provenance": "lore-implied",
       "sources": [
-        "docs/research/morrowind-content-density.md (the corner-club / tradehouse pattern)",
+        "docs/research/placement-settlements/morrowind-content-density.md (the corner-club / tradehouse pattern)",
         "uesp:Lore:Hissmir Fish-Eye Rye",
         "world/sources/catalogue/type-recipes.json#tradehouse",
         "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
@@ -3331,7 +3331,7 @@
         "world/sources/lore/topics/labour-and-bondage.md",
         "world/sources/catalogue/type-recipes.json#slaver-apparatus",
         "lore: Lore:House Dres; Lore:Archein; labour-and-bondage dossier (slavery ended; only the apparatus remains)",
-        "docs/research/opening-hours-and-start-area.md §4 (the opening's first story site)"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §4 (the opening's first story site)"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -5644,7 +5644,7 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -6374,7 +6374,7 @@
         "docs/quests/30-main-quest.md MQ01 (LOC opening.work_barge)",
         "docs/quests/20-world-provisions.md",
         "world/sources/lore/topics/labour-and-bondage.md",
-        "docs/research/opening-hours-and-start-area.md §1"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §1"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -6661,7 +6661,7 @@
         "distanceToWaterM": 50.6,
         "score": 3.03
       },
-      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered."
+      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered."
     },
     {
       "id": "place.pirate-freeholds.opening-work-camp",
@@ -6679,7 +6679,7 @@
         "docs/quests/30-main-quest.md MQ01 (LOC opening.work_camp; the egg clutch dies that night)",
         "docs/quests/20-world-provisions.md",
         "world/sources/lore/topics/labour-and-bondage.md",
-        "docs/research/opening-hours-and-start-area.md §1"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md §1"
       ],
       "confidence": "EXTRAPOLATED",
       "why": {
@@ -7098,7 +7098,7 @@
       "status": "deferred",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/openworld-place-distribution-and-siting.md §3.2 (the approach cost is the gate)",
+        "docs/research/placement-settlements/openworld-place-distribution-and-siting.md §3.2 (the approach cost is the gate)",
         "world/sources/catalogue/type-recipes.json#hermit-hut",
         "lore: openworld research §3.2 (hermit: approach cost is the gate; the reward is knowledge, not loot)"
       ],
@@ -8210,7 +8210,7 @@
       "name": "Green Seam",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): crystal-diggings sat at its band floor while prospectors-camp was under (1/3-3). The record is a spoil heap, a lookout and washing water on the rim - a prospectors' camp working a seam, not an established works.",
       "deferredFromStatus": "active",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "wary",
         "owner": null,
@@ -9347,7 +9347,7 @@
       "name": "Reman Cut",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): failed-roadworks was under band (2/4-4) and its recipe is 'defeated by water'. This record IS that: a Reman road cutting that stops in mid-air above a cistern, on the wettest approach to the rim.",
       "deferredFromStatus": "ruined",
-      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
+      "deferredWhy": "Verify/wrap round rebalance: this region ran over its coverage-doc record budget (docs/research/phase11/phase11-critique/coverage-density.md S2) after its executor pass. Lowest-value fine-tempo fill in an over-dense zone, chosen so no type falls under-band; the record is intact and Part 3's homeless-batch review may restore it.",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -9811,7 +9811,7 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/settlement-type-recipes.md (snowline-hermitage: a border-mountains-distinctive anchor)",
+        "docs/research/placement-settlements/settlement-type-recipes.md (snowline-hermitage: a border-mountains-distinctive anchor)",
         "world/sources/catalogue/type-recipes.json#snowline-hermitage",
         "lore: region grammar: border mountains; scour: the rim is the only ground with genuine sightlines"
       ],
@@ -11109,7 +11109,7 @@
       "status": "active",
       "provenance": "geography-derived",
       "sources": [
-        "docs/research/morrowind-content-density.md",
+        "docs/research/placement-settlements/morrowind-content-density.md",
         "world/sources/catalogue/type-recipes.json#tradehouse",
         "lore: Morrowind's corner club / tradehouse pattern (morrowind-content-density.md); Lore:Hissmir Fish-Eye Rye"
       ],

@@ -56,7 +56,8 @@ on the stage, a mule line. A licence is one stage on one tree for one season
 (`hist-placement.md` §75); one stage needs a tapper on the deck and two hands
 on the ground. The blueprint's `scaleGrounding` is therefore three people, one
 household, three NPCs and **six pieces**: stage, stair, mule line, cart, tent
-and licence board. Nothing here is permanent enough to be called a building;
+and licence board (seven parcels, because the stage's deck is a stacked
+parcel of its own). Nothing here is permanent enough to be called a building;
 the count is what a season leaves standing.
 
 ## The design
@@ -81,11 +82,12 @@ face to the trunk where the tap lines run. `stockadescaffoldstairs01` (3.58 ×
 3.46 m, 11.6 m², 3.45 m rise) climbs to it from the landward side, at the head
 of the track. Both stand on posts (`groundFit: stilt`): measured ground delta
 is 2.27 m under the footing and 2.08 m under the stair; the ladder forbids
-grading 2 m or more. The matching `stockadescaffoldtop3sided01` tier is
-**not placed**: the compiler sets every parcel on the ground
-and the integration pass fails two parcels that share a footprint, so
-a stacked piece cannot yet be expressed. That is a tooling gap (a `stacksOn`
-field), recorded below, not a design choice.
+grading 2 m or more. The matching `stockadescaffoldtop3sided01` tier is placed as
+`parcel.sap-tapping-licensed.stage-deck` with `stacksOn` the footing (the
+field added at Round A), so the stage is footing and railed deck as the kit's
+grammar stacks them; the deck declares `abuts` the stair, whose top tread
+meets its rail line. The stair was moved 0.6 m landward so the two ground
+hulls stop overlapping.
 
 **The rest is four objects.** `horsetrough01` (1.85 × 0.69 m) makes the mule
 line at (3492.0, 4390.0), beside the track; `handcart01` (1.32 × 2.21 m) is
@@ -181,7 +183,14 @@ the fix is the yaw, not the layout.
 
 ### `approach.sap-tapping-licensed.track-from-road` (walk)
 
-From the Helstrom–Blackrose road, 615 m out, the Hist's crown (53.6 m) shows
+The compiled line disagrees with the Part 6 draft about where the road is. `track.hist-heartland.sap-tapping-licensed` is 870 m long and reaches the camp from the **west** across the flat, not from the south-east: the heartland network is cheaper to that side by the survey's own cost surface. The blueprint follows the ground, so the worn track now meets the camp at its lower head and bends twice in the last 30 m. The path is flagged `unmapped`, because the stage is found by rumour: it is routed, graded and painted like any other way. The map never draws it.
+
+| terminal | province route | entry off the route | way end | join bearing |
+|---|---|---|---|---|
+| `terminal.sap-tapping-licensed.track-head` (footpath) | `track.hist-heartland.sap-tapping-licensed` | 0.0 m | 0.0 m | 19.0° |
+
+
+From the flat to the west, 870 m out, the Hist's crown (53.6 m) shows
 over the jungle canopy (42.4 m at its tallest; that species is 3.4 %
 of the scatter): the first-seen object is the tree. The track goes
 under closed canopy (closure 0.92) and the crown is lost overhead
@@ -253,14 +262,8 @@ from it to the stage foot.
 
 ## Open questions for the owner
 
-1. **A stacked scaffold tier.** The works kit's own rule stacks `top3sided01`
-   on `base3sided01`, but the compiler places every parcel on the ground
-   and the integration pass forbids two parcels on one footprint. The stage
-   ships as the footing alone (a deck at 2.73 m with three railed sides).
-   Adding a `stacksOn: <parcel id>` field (skip the overlap check; base
-   the piece on the parent's deck height) would let this and every other
-   stacked kit combination be authored. Is that worth a tooling round
-   before Round B?
+1. **A stacked scaffold tier — resolved.** `stacksOn` exists and the deck
+   is placed on the footing (`parcel.sap-tapping-licensed.stage-deck`).
 2. **A walk-in tent as an interior.** The tent is a shell with an open front;
    the door names `settlement-mud-v1` as its interior kit, meaning the shell's
    own volume dressed, no separate cell. If Phase 12 wants every door to lead
@@ -292,3 +295,9 @@ from it to the stage foot.
   `quest.provision.mr04-anchor`. The four sockets above should be written back
   once the quest agents have finished with the file.
 
+## Deviations from module 97 (Round A review, 2026-09-05)
+
+- **97 C6, 34.6 buildings/ha against the M2 band 15–33/ha.** An M1 camp judged on the M2 band, over a 0.20 ha boundary, with a stacked deck counted as a building; the six pieces stand where the tree, the water and the track put them.
+- **97 D3, no threshold spanned.** A camp has no gate; the threshold is the track dying at the stair and the dock at the water (checklist item 7).
+- **97 B6, the canoe approach unmeasured.** It has no route with waypoints, so the compiler cannot run the line of sight; the checklist carries it (the Hist at 53.6 m over a 42.4 m canopy).
+- **97 C12, a camp of three with no hearth.** The dressing pass (97 G18) does not exist; when it does, a fire and 4–8 pieces round it belong here.

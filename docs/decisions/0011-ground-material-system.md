@@ -7,7 +7,7 @@ gate: draft splat too coarse and too vanilla-Skyrim; supersedes the flat
 ## Decision
 
 Terrain ground texturing is restructured on the Bethesda pattern (research:
-[skyrim-morrowind-landscape-texture-granularity](../research/skyrim-morrowind-landscape-texture-granularity.md)):
+[skyrim-morrowind-landscape-texture-granularity](../research/rendering/skyrim-morrowind-landscape-texture-granularity.md)):
 
 1. **Semantic land-cover raster (micro).** Worldgen compiles a per-texel land
    cover class from fields it already produces (region class, TWI wetness,
@@ -30,12 +30,12 @@ Terrain ground texturing is restructured on the Bethesda pattern (research:
    map + KTX2 texture arrays (512² albedo+normal), hex-tiling, world tint
    colormap, distance detail fade — the BotW/Terrain3D architecture; constant
    shader cost at any material count
-   ([webgl-terrain-many-material-splatting](../research/webgl-terrain-many-material-splatting.md)).
+   ([webgl-terrain-many-material-splatting](../research/rendering/webgl-terrain-many-material-splatting.md)).
 4. **Texture sources**: primarily CC0 PBR (ambientCG, Poly Haven) for the
    Black Marsh mud/wetland surfaces + open-permission Skyrim mods (A
    Cathedralist's PBR Landscape, Cathedral Landscapes) + the retained vanilla
    wet/mossy set, some hue-shifted
-   ([black-marsh-ground-texture-sources](../research/black-marsh-ground-texture-sources.md)).
+   ([black-marsh-ground-texture-sources](../research/rendering/black-marsh-ground-texture-sources.md)).
    Owner rulings 2026-08-23: **Project Rainforest approved** (provenance
    caveat accepted; use it wherever an agent judges it the best fit, with CC0
    + open mods tried first). **Vanaheimr – Marsh rejected** — cold-climate

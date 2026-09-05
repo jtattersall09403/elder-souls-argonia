@@ -18,7 +18,7 @@
   16,
   16
  ],
- "sourceSha256": "2f68eb7e8600ae8eeb39f2e32f22e7c498cefc1d9b6a11f895c67398ae96dc88",
+ "sourceSha256": "cafee7598ca48e16b9ffe5abde7dd359ba06f5eb946d828e08752ac95027c3e7",
  "chunks": [
   {
    "cx": 0,
@@ -2116,7 +2116,7 @@
      ],
      "metresPerSample": 1.828,
      "minM": 10.021,
-     "maxM": 244.822
+     "maxM": 244.915
     },
     "2": {
      "file": "chunk_4_3_lod2.png",
@@ -2126,7 +2126,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": 10.968,
-     "maxM": 244.736
+     "maxM": 244.826
     },
     "4": {
      "file": "chunk_4_3_lod4.png",
@@ -2136,7 +2136,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": 11.684,
-     "maxM": 244.342
+     "maxM": 244.426
     }
    }
   },
@@ -6046,7 +6046,7 @@
      ],
      "metresPerSample": 3.656,
      "minM": -1.585,
-     "maxM": 26.79
+     "maxM": 26.789
     },
     "4": {
      "file": "chunk_6_9_lod4.png",
@@ -6056,7 +6056,7 @@
      ],
      "metresPerSample": 7.311,
      "minM": -1.396,
-     "maxM": 26.666
+     "maxM": 26.722
     }
    }
   },

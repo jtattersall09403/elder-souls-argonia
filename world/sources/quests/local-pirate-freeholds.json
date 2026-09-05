@@ -27,9 +27,9 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json",
-        "docs/research/opening-hours-and-start-area.md"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md"
       ]
     },
     {
@@ -56,9 +56,9 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json",
-        "docs/research/opening-hours-and-start-area.md"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md"
       ]
     },
     {
@@ -85,9 +85,9 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json",
-        "docs/research/opening-hours-and-start-area.md"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md"
       ]
     },
     {
@@ -114,9 +114,9 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json",
-        "docs/research/opening-hours-and-start-area.md"
+        "docs/research/quests-and-cast/opening-hours-and-start-area.md"
       ]
     },
     {
@@ -143,7 +143,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -171,7 +171,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -199,7 +199,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -227,7 +227,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -255,7 +255,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -282,7 +282,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -310,7 +310,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -338,7 +338,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -366,7 +366,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -393,7 +393,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -420,7 +420,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -448,7 +448,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -476,7 +476,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -503,7 +503,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -531,7 +531,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     },
@@ -559,7 +559,7 @@
       "touches": [],
       "sources": [
         "docs/quests/index/coverage.md",
-        "docs/research/phase11-critique/round3-region-brief.md",
+        "docs/research/phase11/phase11-critique/round3-region-brief.md",
         "world/sources/catalogue/places-pirate-freeholds.json"
       ]
     }

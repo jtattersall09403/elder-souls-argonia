@@ -18,8 +18,9 @@ inside it has its own `<kind>.<slug>.<name>` id — standard 2).
 | `tooling/world-generation/output/blueprint-maps/<place-id>.png` | the rendered map (`worldgen.render_blueprint`); derived, gitignored, regenerate in seconds |
 
 Reading one interactively (Part 7): `python3 -m worldgen.export_blueprints`
-(from `tooling/world-generation/`) writes the studio's `blueprints.json` and a
-terrain crop per blueprint; then open World Studio at
+(from `tooling/world-generation/`) writes the studio's `blueprints.json` (the
+geometry is drawn on the coloured province map, no backdrop crop); then open
+World Studio at
 `?bp=1&blueprint=<place-id>` — zoom, pan, toggle each object class, hover for a
 name and click for the record and its *why*. The static PNG stays as the print
 sheet; the studio view is the review medium.
@@ -56,7 +57,7 @@ threshold, and the first node reached inside. The prose says the same thing as
 (heights, distances, canopy height at the sightline) that justify it.
 
 **Part 2 — the checklist.** The sixteen yes/no items of
-[docs/research/openworld-approach-and-wayfinding.md](../../../docs/research/openworld-approach-and-wayfinding.md)
+[docs/research/placement-settlements/openworld-approach-and-wayfinding.md](../../../docs/research/placement-settlements/openworld-approach-and-wayfinding.md)
 §5, reproduced with an answer each. A "no" is either fixed before the round or
 carried into the record's open questions with the reason it stands.
 

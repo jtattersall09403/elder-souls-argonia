@@ -2,7 +2,7 @@
   "source": {
     "label": "Composition + anchoring mining over BM&V (BlackMarsh, BlackMarsh2, BlackMarshNorth; Valenwood) with Tropical Skyrim edid aliases",
     "plugins": ["Black Marsh.esm", "Black Marsh North.esp", "Valenwood.esp"],
-    "doc": "docs/research/vegetation-composition-rules.md",
+    "doc": "docs/research/vegetation/vegetation-composition-rules.md",
     "minedBy": "ad-hoc script over worldgen.mine_placement.collect, 2026-08-31",
     "signConvention": "pivotOffsetM = placed pivot Z minus terrain Z at XY, metres; negative = sunk below terrain"
   },

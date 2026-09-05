@@ -11,7 +11,7 @@
 > creates. Each entry: draft position + tag — **[R1]** = owner round 1 question
 > (see [stats-progression-owner-round1.md](stats-progression-owner-round1.md)),
 > **[default]** = proposed default, vetoable at round 2. Evidence:
-> [reference-games](../../stats-progression-reference-games.md) (§refs "RG"),
+> [reference-games](../../combat-and-systems/stats-progression-reference-games.md) (§refs "RG"),
 > [repo/quest inputs](stats-progression-repo-baseline-and-quest-inputs.md) ("RQ").
 > Skeleton stress-test verdict: **the prior holds.** No seam forced a breakage;
 > every Morrowind pathology maps to a part we were deleting anyway (RG §1.10).

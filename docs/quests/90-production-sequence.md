@@ -55,7 +55,7 @@ quest-brief set is incomplete, and world plan 95 Phase 11 states this as a
 completion gate.
 
 **Per-packet quotas** (owner directive 2026-08-26; derivation in
-[../research/morrowind-content-density.md](../research/morrowind-content-density.md)):
+[../research/placement-settlements/morrowind-content-density.md](../research/placement-settlements/morrowind-content-density.md)):
 brief counts follow the settlement magnitude ladder — M5 ≈ 35–60 quests
 originating at maturity (staged across waves; Milestone 1 share per the
 content targets), M4 10–20, M3 3–8, M2 1–3, M1 0–2 — and the packet's POI set

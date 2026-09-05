@@ -59,6 +59,33 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     the door they want), notes}. The design is judged from
                     the ground, never from the air (owner 2026-09-05; the
                     research is docs/research/…/openworld-approach-and-wayfinding.md).
+  networkTerminals[] REQUIRED (>=1) for any blueprint whose catalogue record is
+                    reached by the province network (`discovery: "road"`, or a
+                    `reachedVia` route list): the points where the PROVINCE
+                    network meets this place's boundary — the gate, the
+                    landing, the path head. Owner requirement 2026-09-05: the
+                    roads and paths into a place must be one continuous network
+                    with the streets inside it, so a blueprint may not invent a
+                    gate and an approach road at odds with the plotted network.
+                      {id terminal.<slug>.<name>,
+                       routeId  a REAL province route id — a major road
+                                (`route.road.*`), a lane/channel
+                                (`route.boat.*`) or a minor path
+                                (`track.<region>.<slug>`), as published in
+                                routes.json / waterways.json / routes-minor.json,
+                       entryUV  [u,v] where the network meets the boundary,
+                       wayId    the blueprint way that CONTINUES it inside,
+                       kind     road|track|footpath|boardwalk|lane,
+                       why      why the network arrives here and not elsewhere}
+                    Every `approaches[].fromRouteId` must name a terminal's
+                    `routeId`: an approach arrives along a route the province
+                    actually has. Geometry is checked by the `network-stitch`
+                    pass in `blueprint_integration` (97 C-stitch): the route
+                    passes within 3 m of `entryUV`, the named way starts or
+                    ends within 1.5 m of it, the way's class is not lower than
+                    the route's, a `spans` gate stands on a road/track
+                    terminal's way, and no road/track way crosses the boundary
+                    anywhere else (an unplanned second entrance).
   scaleGrounding    REQUIRED: {loreSource, population (int or "a–b"),
                     households, buildingsPlanned, npcsPlanned, why} — the
                     place's size derived from the lore/demographics, with the
@@ -197,10 +224,12 @@ import json
 import math
 import re
 import sys
+from functools import lru_cache
 from pathlib import Path
 
 from . import blueprint_footprints as fp
 from . import blueprint_interiors as bi
+from . import province_network as pn
 from .catalogue import CATALOGUE_DIR, load_region_files
 
 SCHEMA_VERSION = 1
@@ -288,6 +317,9 @@ ROUTING = {"terrain", "straight", "arc"}
 WHY_KEYS_FULL = ("what", "whyHere", "whySpot", "whyNeighbours", "playerPurpose", "microGeography")
 WHY_KEYS_AREA = ("what", "whyHere", "whyNeighbours", "playerPurpose", "microGeography")
 APPROACH_MODES = {"walk", "boat", "swim"}
+# 97 C-stitch — the kinds a network terminal may declare. `lane` is the water
+# case: a boat lane ends at a landing, not at a gate.
+TERMINAL_KINDS = {"road", "track", "footpath", "boardwalk", "lane"}
 INTERIOR_KINDS = {"dwelling", "shop", "hall", "shell", "none"}
 MIN_WHY_CHARS = 20
 BUDGET_KEYS = {"maxInstances", "maxUniqueMaterials", "maxTextureMB", "maxColliders"}
@@ -301,6 +333,7 @@ ID_KINDS = {
     "boardwalks": "boardwalk", "fences": "fence", "landmarks": "landmark", "docks": "dock",
     "combatSpaces": "combat", "questSockets": "socket", "variants": "variant",
     "travelServices": "travel", "approaches": "approach",
+    "networkTerminals": "terminal",
 }
 CATALOGUE_SOCKET_RE = re.compile(r"^(?:scene|evidence|station|marks)\.[a-z0-9-]+\.[a-z0-9-]+$")
 ID_NAME_RE = r"[a-z0-9]+(?:-[a-z0-9]+)*"
@@ -452,6 +485,22 @@ def _placement_warnings(bp: dict) -> list[str]:
 
 def catalogue_ids() -> set[str]:
     return {p["id"] for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+
+
+@lru_cache(maxsize=1)
+def catalogue_records() -> dict[str, dict]:
+    """{place id: record} — the validator reads `discovery` / `reachedVia` off
+    the record to know whether the place is reached by the province network,
+    and so whether `networkTerminals` is required (97 C-stitch)."""
+    return {p["id"]: p for rf in load_region_files(CATALOGUE_DIR) for p in rf.places if "id" in p}
+
+
+def needs_terminals(record: dict | None) -> bool:
+    """True when the place is reached by the province network: the catalogue
+    says it is found by road, or it names the routes it is reached via."""
+    if not record:
+        return False
+    return record.get("discovery") == "road" or bool(record.get("reachedVia"))
 
 
 def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey=None,
@@ -678,6 +727,42 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if key == "fences" and not w.get("assetRef"):
                 fail(f"fences {wid}: assetRef (the kit's fence/wall piece) is required")
 
+    # 97 C-stitch (owner requirement 2026-09-05) — the network into the place
+    # and the streets inside it are ONE network. A blueprint declares where the
+    # province network reaches its boundary; the geometry of that join is
+    # checked by `blueprint_integration.check_network_stitch`.
+    terminals = bp.get("networkTerminals") or []
+    way_ids = {w.get("id") for key in ("routes", "boardwalks", "canals") for w in bp.get(key, []) or []}
+    known_routes = pn.route_ids()
+    terminal_routes = set()
+    for t in terminals:
+        tid = t.get("id")
+        rid = t.get("routeId")
+        if not isinstance(rid, str) or not rid:
+            fail(f"networkTerminal {tid}: 97 C-stitch — routeId must name a real province route "
+                 f"(routes.json / waterways.json / routes-minor.json)")
+        else:
+            terminal_routes.add(rid)
+            if known_routes and rid not in known_routes:
+                fail(f"networkTerminal {tid}: 97 C-stitch — routeId {rid!r} is not a published province "
+                     f"route; a blueprint may not invent the road it is reached by")
+        entry = t.get("entryUV")
+        if not (isinstance(entry, list) and len(entry) == 2
+                and all(isinstance(c, (int, float)) for c in entry)):
+            fail(f"networkTerminal {tid}: 97 C-stitch — entryUV must be [u,v], the point where the "
+                 f"network meets the boundary (the gate, the landing, the path head)")
+        if t.get("kind") not in TERMINAL_KINDS:
+            fail(f"networkTerminal {tid}: 97 C-stitch — kind must be one of {sorted(TERMINAL_KINDS)}")
+        if t.get("wayId") not in way_ids:
+            fail(f"networkTerminal {tid}: 97 C-stitch — wayId {t.get('wayId')!r} must name a way in this "
+                 f"blueprint (the street that continues the route inside the place)")
+        if not isinstance(t.get("why"), str) or len(t["why"].strip()) < MIN_WHY_CHARS:
+            fail(f"networkTerminal {tid}: 97 C-stitch — why is required (why the network arrives here)")
+    if not terminals and known_place_ids is not None and needs_terminals(catalogue_records().get(bid)):
+        fail("97 C-stitch — this place is reached by the province network (discovery 'road' or a "
+             "reachedVia list), so it needs at least one networkTerminal: the route id, the point "
+             "where it meets the boundary and the way that carries it inside")
+
     approaches = bp.get("approaches") or []
     mag = str(bp.get("magnitude") or "")
     if len(approaches) < 1:
@@ -687,6 +772,17 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             fail(f"approach {ap_.get('id')}: mode must be one of {sorted(APPROACH_MODES)}")
         if not (ap_.get("fromRouteId") or ap_.get("fromDirection")):
             fail(f"approach {ap_.get('id')}: needs fromRouteId or fromDirection")
+        if ap_.get("fromRouteId"):
+            via = ap_.get("viaUV")
+            if not (isinstance(via, list) and via
+                    and all(isinstance(q, list) and len(q) == 2 for q in via)):
+                fail(f"approach {ap_.get('id')}: 97 C-stitch — viaUV is required with fromRouteId "
+                     f"(>=1 [u,v] point, the first ON that route at least 30 m out from the terminal), "
+                     f"so the approach sequence is described along the road the player is on")
+        if ap_.get("fromRouteId") and ap_["fromRouteId"] not in terminal_routes:
+            fail(f"approach {ap_.get('id')}: 97 C-stitch — fromRouteId {ap_['fromRouteId']!r} names no "
+                 f"networkTerminal's routeId; an approach arrives along a province route the place "
+                 f"declares a terminal for (declared: {sorted(terminal_routes) or 'none'})")
         if not ap_.get("firstSeen"):
             fail(f"approach {ap_.get('id')}: firstSeen (the id of the first thing that reads on the horizon) is required")
         for k in ("sequence", "wayfinding"):

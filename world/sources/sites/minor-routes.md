@@ -2,8 +2,9 @@
 
 Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/world-studio/public/province/routes-minor.json`.
 
-- **173 paths**, 123.3 km in total: track 33, footpath 95, boardwalk 42, causeway 3
+- **175 paths**, 124.84 km in total: track 33, footpath 97, boardwalk 42, causeway 3
 - 50 places were already on a road or landing (within 45 m)
+- 2 of the paths are **unmapped** (batch 4): routed, graded and painted ground that the player's map never draws, so a rumoured place is still found by walking
 - 2 places have **no land path** (boat-, guide- or root-served — a design fact to check, not a failure; longest allowed path 4.0 km):
 
   - `place.mercantile-coast.alten-meerhleel` — no land within the snap; boat-served
@@ -23,7 +24,7 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 | `place.pirate-freeholds.veterans-holding` | track | 3.829 |
 | `place.dunmer-north.rimfield` | footpath | 3.654 |
 | `place.imperial-fringe.the-stone-talkers-watch` | track | 3.321 |
-| `place.dunmer-north.mazzatun` | track | 2.959 |
+| `place.dunmer-north.mazzatun` | track | 2.945 |
 | `place.imperial-fringe.stonewastes` | track | 2.823 |
 | `place.dunmer-north.saltmarch-village` | track | 2.656 |
 | `place.hist-heartland.heretic-stone-restarted` | track | 2.646 |

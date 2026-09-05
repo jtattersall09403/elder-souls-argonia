@@ -63,7 +63,7 @@
 > | rivers too bare / too walled | `RIPARIAN_WET`/`RIPARIAN_DRY` gains (M2) and the `gallery()` ribbons |
 > | trees too big / small | archetype `scale_range`; giants are the `role: landmark-giant` layers |
 > | wrong plants somewhere | swap species ids — query the registry first, then rebuild the kit (step 3) |
-> | can't navigate / can't see landmarks | giant density and `clearance_radius_m`; the design case is in [vegetation-density-design.md](../research/vegetation-density-design.md) §(a) |
+> | can't navigate / can't see landmarks | giant density and `clearance_radius_m`; the design case is in [vegetation-density-design.md](../research/vegetation/vegetation-density-design.md) §(a) |
 > | plants pop/vanish at distance | `maxDrawDistance`/`lodDistances` in `floraKit.ts`; billboard tier is the kit's `_lod_flat` levels |
 >
 > ### Probing and screenshots (round 2)
@@ -563,7 +563,7 @@
 >   off painted textures only, which settles rule R11 and confirms module 65's
 >   two-tier split. Deltas are RECORDED, NOT APPLIED (the plan's instruction),
 >   and are the obvious next round's work; full list and confidences in
->   `docs/research/vanilla-skyrim-esm-placement-crosscheck.md`. The three
+>   `docs/research/placement-settlements/vanilla-skyrim-esm-placement-crosscheck.md`. The three
 >   worth acting on first: **(D1)** our zero-tilt/uniform-yaw habits are the
 >   *mod's*, not Bethesda's (vanilla tilt median 5.8°, p95 28.7°) — this
 >   round's rock alignment moves the right way and the same should reach
@@ -590,7 +590,7 @@
 >   no generator retune needed. Jungle chunks still peak ~8.2k instances
 >   (pre-existing; the module-65 budget probe remains the open risk).
 > - **Mangrove forest = region class 14** (owner-approved; real-world rules
->   in [mangrove-coastal-ecology.md](../research/mangrove-coastal-ecology.md),
+>   in [mangrove-coastal-ecology.md](../research/world-terrain/mangrove-coastal-ecology.md),
 >   canon wall near Lilmoth in lore/regions/murkmire.md): the flat
 >   (<8°), strongly saline (≥0.30), SHELTERED (open-sea exposure < 0.55,
 >   the 0032 storm construction), non-rock tidal fringe within 700 m of the
@@ -618,7 +618,7 @@
 >   Owner's bare bank (~2.72 km E / 5.25 km S): chunk 5,12 reeds 8→209,
 >   5,11 336→531.
 > - **Composition passes (rules C1–C5) + bundle v2** (mining doc
->   [vegetation-composition-rules.md](../research/vegetation-composition-rules.md),
+>   [vegetation-composition-rules.md](../research/vegetation/vegetation-composition-rules.md),
 >   machine form `world/sources/placement/composition-rules.json`; new module
 >   `worldgen/composition.py`, wired into `compile_scatter`):
 >   - **Pivot anchoring + sink (C1/C2)** — bbox-min anchoring is dead. Per
@@ -885,7 +885,7 @@ layers with genuinely tall species (query the registry for the tallest
 suitable jungle/tropical trees in the kit — add species and rebuild the kit
 if the current list tops out short), raise canopy density and scale toward
 closure, and check the strata targets in
-[tropical-vegetation-ecology-targets.md](../research/tropical-vegetation-ecology-targets.md)
+[tropical-vegetation-ecology-targets.md](../research/vegetation/tropical-vegetation-ecology-targets.md)
 — the aim is undergrowth beneath a mostly-closed roof of tall trees, with
 the existing treefall-gap band providing the light wells. Watch the budget:
 jungle chunks already peak ~8.2k instances; prefer taller/larger canopy
@@ -908,7 +908,7 @@ build.
 **B1 — wind sway.** Owner: yes. The weather system
 already publishes `windDirXZ` + `windSpeedMS`
 (`packages/world-weather/src/express.ts:112-113`). Recipe is already
-researched: [vegetation-scatter-instancing-threejs.md](../research/vegetation-scatter-instancing-threejs.md)
+researched: [vegetation-scatter-instancing-threejs.md](../research/rendering/vegetation-scatter-instancing-threejs.md)
 §wind (two sines + shared scrolling noise, amplitude by height above base so
 trunks stay planted, distance fade). Implement as a vertex-shader injection
 via `onBeforeCompile` — and **the shadow-sync trap is the whole game**:
@@ -1005,8 +1005,8 @@ then to be involved in "finalising key decisions about actual placement".
 The machinery was built and the numbers taken; these were the calls it waited
 on.
 
-Evidence behind every number: [the mined placement rules](../research/shipped-world-placement-rules.md),
-[the density research](../research/vegetation-density-design.md),
+Evidence behind every number: [the mined placement rules](../research/placement-settlements/shipped-world-placement-rules.md),
+[the density research](../research/vegetation/vegetation-density-design.md),
 `world/sources/placement/`, `world/sources/assets/`, `world/sources/flora/`.
 
 ## Answers at a glance
@@ -1046,7 +1046,7 @@ That reframed the question from one multiplier to two properties, and both
 are now grounded in the three things the owner named — open-world design
 practice, what the reference mod does, and what is realistic for our climate
 and hydrology. The full working is
-[vegetation-density-design.md](../research/vegetation-density-design.md);
+[vegetation-density-design.md](../research/vegetation/vegetation-density-design.md);
 the short version:
 
 - **Graded by geography, from our own fields.** A region's density is

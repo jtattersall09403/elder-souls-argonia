@@ -136,9 +136,10 @@ there is one map, not a copy — cropped to the blueprint's exported `contextM`
 box, with the neighbouring plotted places and the road / boat-lane / track /
 channel network drawn over it from the same bundles PlacesLayer and RoutesLayer
 read. It is a 1345-px raster at ~5.5 m per pixel, so at settlement zoom it is
-coarse *by construction*: it answers "where is this and what is around it", and
-the exported hillshade crop (`terrain`) stays underneath as the finer read of
-the ground. Then clearance, districts (tinted by kit set), roads /
+coarse *by construction*: it answers "where is this and what is around it". The
+blueprint geometry is drawn directly on it — the old exported hillshade crop
+(`terrain` layer) was removed on 2026-09-05 because it painted a grey square
+over the province map. Then clearance, districts (tinted by kit set), roads /
 canals / boardwalks at their real width, parcels as their real footprints with a
 door tick and a yaw stub, landmarks, docks, combat spaces, quest sockets and the
 siting candidates (chosen filled, rejected hollow). Fences, walls, palisades and

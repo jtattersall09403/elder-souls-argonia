@@ -5,10 +5,10 @@ mistakes repeated in every one (dry species hard-gated to the water table,
 one flat stratum, no scenes). v2 has ~140 layers across 13 regions built from
 a small set of ARCHETYPES that encode the evidence once:
 
-* **Strata** (research/tropical-vegetation-ecology-targets.md §7): landmark
+* **Strata** (research/vegetation/tropical-vegetation-ecology-targets.md §7): landmark
   giants (owner 0036 Q2) / emergents / canopy / understory / shrubs, with
   per-landscape densities from the game-translation table.
-* **Four water postures** (research/mod-vegetation-micro-siting.md M1):
+* **Four water postures** (research/vegetation/mod-vegetation-micro-siting.md M1):
   depth-sorted aquatics, waterline-committed trees, bimodal drowned trees,
   and a WADING terrestrial matrix (dry species run ~0.35 m into the water —
   this, not the aquatics, is what makes a marsh read flooded).
@@ -791,7 +791,7 @@ REGIONS[1] = {
 }
 
 
-# --- coastal gradient (round 4; research/mangrove-coastal-ecology.md §4) -----
+# --- coastal gradient (round 4; research/world-terrain/mangrove-coastal-ecology.md §4) -----
 #
 # Salt exposure grades ~0.5-2 km inland from the OCEAN (the compiler's
 # `coast_m` field), so coastal influence is a factor on every region's
@@ -842,9 +842,9 @@ def build() -> dict:
                   "owner decisions 0036 Q1-Q4 still bind (landmark giants, "
                   "five exemplar areas, region rebalance).",
         "grounding": {
-            "ecology": "docs/research/tropical-vegetation-ecology-targets.md "
+            "ecology": "docs/research/vegetation/tropical-vegetation-ecology-targets.md "
                        "§7 — per-landscape strata targets and spatial rules",
-            "microSiting": "docs/research/mod-vegetation-micro-siting.md — "
+            "microSiting": "docs/research/vegetation/mod-vegetation-micro-siting.md — "
                            "M1 four water postures, M2 signed riparian, M3 "
                            "pool guilds, M5 groundcover carries the look",
             "architecture": "docs/research/openworld-vegetation-placement-"
@@ -874,7 +874,7 @@ def build() -> dict:
             "coast_m / coast_boost_gain": "distance to the OCEAN (salt "
                     "exposure, round 4): salt-tolerant species mix in near "
                     "any coast, salt-intolerant fade out over ~0.5-2 km "
-                    "(research/mangrove-coastal-ecology.md §4); applied per "
+                    "(research/world-terrain/mangrove-coastal-ecology.md §4); applied per "
                     "species by apply_coastal_gradient",
             "tier": "T1 hero statics, T2 instanced mid. Herb layer is "
                     "groundcover.json (T3 ring) — most of the 'dense' read "

@@ -24,11 +24,11 @@ section is the route through them.
 | 4. Design | districts as **kit sets**, layout intent, signature feature, every socket placed, clearance | written in the design record `<id>.md` before any geometry |
 | 5. Pieces on geometry | `assetRef` per parcel from `kit.json` sizes and the kit's `footprints.json`; kit `snapLogic` obeyed | no piece chosen from its name; no two kits blended in a district |
 | 6. Orientation with a why | `centreUV` + `yawDeg` + `orientationWhy` on every parcel; footprint derived (`worldgen.blueprint_footprints --apply`) | the validator rejects an unexplained orientation |
-| 6b. **Approach and wayfinding** | walk each `approaches[]` entry on the ground: `firstSeen`, the occlusion, the threshold, the sightline from the gate to the centre, the door of every socket building | the design record carries the "Approach and wayfinding" section and the 16-item checklist of [research/openworld-approach-and-wayfinding.md](../research/openworld-approach-and-wayfinding.md) §5, answered |
+| 6b. **Approach and wayfinding** | walk each `approaches[]` entry on the ground: `firstSeen`, the occlusion, the threshold, the sightline from the gate to the centre, the door of every socket building | the design record carries the "Approach and wayfinding" section and the 16-item checklist of [research/placement-settlements/openworld-approach-and-wayfinding.md](../research/placement-settlements/openworld-approach-and-wayfinding.md) §5, answered |
 | 7. Validate, compile, render, export | `blueprint --check` → `compile_settlement` (0 errors) → `render_blueprint` → `export_blueprints` (studio view) | 0 errors; budget declared honestly |
 | 8. **Write the siting back** | `worldgen.apply_sitings` → overrides → `macro_plot` (pinned) → minor routes, waterways, hostility measure, studio exports | the dot, the paths and the waterways describe the place where it now is |
 | 9. Owner Round A | the interactive blueprint view in World Studio + the design record's 2–4 questions | steers written to the Taste ledger as general rules |
-| 10. Rounds B–C | massing renders, then the dressed walk | owner declares the exemplar good, explicitly |
+| 10. Rounds B–C | massing renders, then the dressed walk. **Before Round B**: the 30-item building-rendering checklist in [research/rendering/building-placement-rendering-treatments.md](../research/rendering/building-placement-rendering-treatments.md) §3 (anchoring depth, LOD tiers with matched atlases, fade with haze, shadow pair sync, contact AO, base skirt, foundation clutter, collider budget, navmesh cut, door transitions, night windows, wetness) — the vegetation rounds' mistakes must not repeat on buildings | owner declares the exemplar good, explicitly |
 
 **The write-back rule (owner 2026-09-05).** A place moved after the plot is
 not moved until step 8 has run. The blueprint's chosen siting is the source
@@ -54,7 +54,7 @@ sourcing rule); the register only records outcomes.
 | Part 6 | A piece is chosen on measured size, never on its label; the record's `assetPlan` can name kits that cannot serve the place (a 55 m root house for a three-person camp) | `assetRef`; the design record's "catalogue should change" list |
 | Round A | Axis-aligned squares with south doors are not a layout. Real footprints, authored orientation, a why per building | `centreUV`/`yawDeg`/`orientationWhy`, `measure_footprints` |
 | Round A | A static map with everything printed on it cannot be read. Review happens in an interactive view: zoom, hover, click, layers | World Studio blueprint view (`?bp=1`) |
-| Round A | A sourcing gap is a job with an owner and a status, never a note | sourcing-gap register in `docs/research/settlement-kit-sourcing-log.md` |
+| Round A | A sourcing gap is a job with an owner and a status, never a note | sourcing-gap register in `docs/research/placement-settlements/settlement-kit-sourcing-log.md` |
 | Part 6 | Door reachability read a transposed grid cell and a 5.5 m slope raster; a compiler check nobody has watched fail is a check nobody has tested | `compile_settlement` door test on a 2 m local gradient |
 | Round A | A kit piece's measured hull is about its PIVOT, and some source meshes put the pivot metres from the geometry (Mazzatun found HTBM/Ayleid hulls 4.6 m to 1,788 m off); such a piece cannot be placed by centre and is dropped, like a `nodeAmbiguous` one | `measure_footprints` flags; the design record says which pieces were dropped and why |
 | Round A | Kit GLB node names were truncated at Blender's 63-char limit, so pieces shared nodes and could not be measured; short unique node names + extras-id matching | `build_kit.asset_node_name`, `measure_footprints.glb_asset_id_nodes` |
@@ -62,11 +62,24 @@ sourcing rule); the register only records outcomes.
 | Round A feedback | Static maps could not be read; the studio view reuses the main map; every placed thing carries a plain-English why block (what, why here, why this spot, why with its neighbours, what it gives the player, how it uses the ground) that the click shows | blueprint `why` blocks; standard 13 keeps this file current |
 | Round A feedback | Layers must be integrated, not stacked: a way may only touch a building it ends at, ways may not run twice, a gate stands across its road, a door opens onto a way, a canal lies in water | `blueprint_integration` (compile-time errors) |
 | Round A feedback | Streets are routed over the ground (A* on slope/water/buildings) unless the culture builds straight; ways are authored as waypoints with a why | `street_router --apply` |
-| Round A feedback | A place is designed from the walking player's eye: approaches, first-seen landmarks, wayfinding, the door visible from the way. A plan that reads on the map can be illegible on the ground — no first-seen object, a gate beside the road, a door facing the swamp, a beacon shorter than the canopy | `approaches[]` (schema); [research/openworld-approach-and-wayfinding.md](../research/openworld-approach-and-wayfinding.md) and its 16-item pre-Round-A checklist (§5) |
+| Round A feedback | A place is designed from the walking player's eye: approaches, first-seen landmarks, wayfinding, the door visible from the way. A plan that reads on the map can be illegible on the ground — no first-seen object, a gate beside the road, a door facing the swamp, a beacon shorter than the canopy | `approaches[]` (schema); [research/placement-settlements/openworld-approach-and-wayfinding.md](../research/placement-settlements/openworld-approach-and-wayfinding.md) and its 16-item pre-Round-A checklist (§5) |
 | Round A feedback | Anything with an interior has a door, derived from what the kit ships; size is derived from lore (`scaleGrounding`) | interiors index + door rules; `scaleGrounding` |
 | Round A feedback | The rules themselves are now one set: module 97, evidence-tagged, each with its enforcement; the loop applies 97, this file records how the loop went | `docs/world/97-placement-principles.md` |
 | Round A feedback | Grading cannot fix a wrong line: routes are costed on gradient (a wall above the cap) and steep survivors get authored geometry (a stair, a bridge deck), listed in the grading report | `routes.grade_factor`, `reroute_majors`, `grade_routes`, `route-grading.md` |
+| Round A feedback | Buildings will make every mistake plants made unless the rules are written first: per-asset anchoring mode, absolute LOD floors, matched atlases, fade with haze, shadow-pair sync, collider BUDGET, the CSM onBeforeCompile contract | research/rendering/building-placement-rendering-treatments.md §1 and its Round B checklist |
+| Round A feedback | Streets inside a place are the province network continued: terminals name the real route, bearings match at the gate, the minor-route compiler ends at the declared entrance | `networkTerminals[]`, `network-stitch` |
 | Part 6 | Blueprint-internal ids must be `<kind>.<slug>.<name>`; a blueprint *references* its catalogue id | standard 2 `references` option |
+
+## 2b. Queued lessons not yet built (next session starts here)
+
+- Buildings are assemblies, not single pieces: mine co-placement templates,
+  author composites per `snapLogic`, re-measure. Until then a single-piece
+  parcel is a placeholder, and the design record should say so.
+- Doors sit only on derived doorways (door part in the assembly, or the
+  measured opening); the doorway is drawn on the outline and drives yaw.
+- 35 routes over their gradient cap need authored geometry (stair pieces,
+  bridge decks) — `world/sources/sites/route-grading.md`.
+- Module 97 §G: the macro-level gaps and the outdoor dressing pass.
 
 ## 3. Automation-readiness checklist (Phase 15 gate)
 

@@ -36,7 +36,7 @@ delivered by no phase:
    (howler.js/Resonance rejected). Sourcing: Skyrim Sounds BSA first (not yet
    in the vault), Sonniss/CC0 for tropical gaps, sound mods as reference only.
    The no-new-art rule now explicitly covers audio. Research:
-   [ambient-audio-soundscape-threejs.md](../research/ambient-audio-soundscape-threejs.md).
+   [ambient-audio-soundscape-threejs.md](../research/rendering/ambient-audio-soundscape-threejs.md).
 2. **Vegetation/scatter density at scale** → new module
    [65-vegetation-scatter.md](../world/65-vegetation-scatter.md) (§109–112),
    implemented inside existing Phases 10/13/14 (no new phase). Four render
@@ -46,7 +46,7 @@ delivered by no phase:
    wind uniforms; adopt `@three.ez/instanced-mesh` (pinned+wrapped), vendor
    octahedral impostors with cross-billboards as fallback; alpha-test overdraw
    on mobile named the #1 risk. Research:
-   [vegetation-scatter-instancing-threejs.md](../research/vegetation-scatter-instancing-threejs.md).
+   [vegetation-scatter-instancing-threejs.md](../research/rendering/vegetation-scatter-instancing-threejs.md).
 3. **Navigation data + ambient movement** → new module
    [72-navigation-ai.md](../world/72-navigation-ai.md) (§113–115), implemented
    inside Phases 10b/12/13. Bake offline in the compiler, adopt
@@ -56,7 +56,7 @@ delivered by no phase:
    swim-surface meshes + depth volumes, no 3D voxel nav. Ambient ceiling is
    deliberately Morrowind-leaning (marks, wander radii, patrol splines, daily
    band rotation) — matching the quest plan's no-chase/no-escort cap. Research:
-   [navmesh-ambient-ai-threejs.md](../research/navmesh-ambient-ai-threejs.md).
+   [navmesh-ambient-ai-threejs.md](../research/combat-and-systems/navmesh-ambient-ai-threejs.md).
 
 ## Consequences
 

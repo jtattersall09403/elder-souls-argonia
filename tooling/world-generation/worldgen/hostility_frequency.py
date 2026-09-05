@@ -278,7 +278,7 @@ def render(rep: dict) -> str:
          f"A hostile place counts when it is hostile on arrival, clearable, or a dungeon-like interior; "
          f"\"met\" = within {rep['encounterM']:.0f} m of the route. Morrowind yardstick: "
          f"≈ {rep['morrowind']['hostilePerKm2']:.0f} hostile places / km² of land and a fight every "
-         f"≈ {rep['morrowind']['spacingM']:.0f} m of road (docs/research/morrowind-content-density.md §1–2).", "",
+         f"≈ {rep['morrowind']['spacingM']:.0f} m of road (docs/research/placement-settlements/morrowind-content-density.md §1–2).", "",
          "| band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) |",
          "|---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|"]
     for r in rep["bands"]:

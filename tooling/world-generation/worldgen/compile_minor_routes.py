@@ -23,6 +23,16 @@ batches so paths chain rather than each running to the highway:
     2. settlements M1–M2          → the network incl. batch-1 tracks
     3. road-discovered places     → the network incl. batches 1–2
        (discovery == road, not a lair or camp — hidden places get no path)
+    4. UNMAPPED heads             → a place found by rumour that nevertheless
+       has a blueprint `networkTerminals[]` entry (owner requirement
+       2026-09-05). Its design says a way arrives — the worn track to a sap
+       camp, the bank path up from a poling landing — and the network has to
+       carry that way, or the blueprint's terminal joins nothing. The path is
+       routed, graded and painted exactly like any other, and flagged
+       `unmapped: true`: it is real ground, but it is not drawn on the player's
+       map or minimap, so the place is still found by rumour and by walking.
+       The flag rides through `export_routes` into `routes-index.json` so the
+       studio (and later the map UI) can style it faint or hide it.
 
 Each path is classed by the ground it crosses and the size of what it serves:
 `track` (cart-width, M3+ or serving many), `footpath` (everything smaller),
@@ -37,6 +47,23 @@ Every step of the search carries its own longitudinal gradient
 off above ROUTING_CAP_DEG: a track to a hill village switchbacks up the spur
 instead of running straight at it and leaving `grade_routes` a climb no cut or
 fill can hold (owner requirement 2026-09-05 — every way walkable end to end).
+
+BLUEPRINT TERMINALS (owner requirement 2026-09-05)
+--------------------------------------------------
+Where a place has a Part 6 blueprint with `networkTerminals[]`, the minor path
+ends at the terminal's `entryUV` — the gate, the landing, the path head the
+blueprint designed — and not at the plotted dot in the middle of the place.
+The major-route side of the line is untouched: the search still starts from the
+network, so the track into the village and the street inside it are one line
+with no jog at the boundary. A place with several terminals uses the one whose
+`kind` is walkable (road/track/footpath/boardwalk), highest class first, so the
+derived path meets the entrance the design treats as the main way in. That
+terminal's KIND also caps the derived path's class: a path may not arrive
+grander than the entrance it was designed to meet.
+
+This is part of the plot's dependant chain: `worldgen.apply_sitings` re-runs
+this module after any siting move, so a blueprint that moves its gate re-draws
+its own approach.
 
 Deterministic: no randomness; ties in the heap break by (cost, row, col).
 
@@ -58,7 +85,9 @@ from pathlib import Path
 import numpy as np
 from scipy import ndimage
 
+from . import blueprint as bp_mod
 from . import catalogue
+from . import province_network as pn
 from .routes import EDGE_MARGIN, EDGE_PENALTY, NEIGHBOR_OFFSETS, grade_factor
 from .site_fields import ProvinceSurvey
 
@@ -98,6 +127,36 @@ COST_JUNGLE = 1.8
 # what `ProvinceSurvey` reads and what `grade_routes` grades from.
 ROUTING_CAP_DEG = 12.0
 MARSH_REGIONS = (3, 4, 6, 7, 14)   # tidal delta, lagoon/salt marsh, rootland, interior swamp, mangrove
+# Which terminal a derived path aims at when a blueprint declares several: the
+# highest-class WALKABLE entrance (a lane terminal is a boat landing, not the
+# end of a track).
+TERMINAL_PRIORITY = {"road": 0, "track": 1, "boardwalk": 2, "footpath": 3}
+
+
+def blueprint_terminals() -> dict[str, tuple[tuple[float, float], str]]:
+    """{place id: ((u, v), kind)} — the entry point each blueprint's walkable
+    network terminal declares, and the kind of entrance it is. The minor path
+    to that place ends there, and may not arrive grander than that entrance."""
+    out: dict[str, tuple[tuple[float, float], str]] = {}
+    if not bp_mod.BLUEPRINT_DIR.exists():
+        return out
+    for path in sorted(bp_mod.BLUEPRINT_DIR.glob("*.json")):
+        try:
+            bp = json.loads(path.read_text()).get("blueprint") or {}
+        except (OSError, json.JSONDecodeError):
+            continue
+        best = None
+        for t in bp.get("networkTerminals") or []:
+            rank = TERMINAL_PRIORITY.get(t.get("kind"))
+            entry = t.get("entryUV")
+            if rank is None or not (isinstance(entry, list) and len(entry) == 2):
+                continue
+            key = (rank, str(t.get("id")))
+            if best is None or key < best[0]:
+                best = (key, ((float(entry[0]), float(entry[1])), str(t["kind"])))
+        if best and bp.get("id"):
+            out[bp["id"]] = best[1]
+    return out
 
 
 def cost_surface(s: ProvinceSurvey) -> np.ndarray:
@@ -186,7 +245,22 @@ def trace(prev: np.ndarray, row: int, col: int, w: int) -> list[tuple[int, int]]
     return path
 
 
-def classify(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | None, cls: str) -> str:
+def classify(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | None, cls: str,
+             terminal_kind: str | None = None) -> str:
+    """The class of a derived path, from the ground it crosses and the size of
+    what it serves — then capped by the blueprint's declared entrance. A path
+    may not arrive grander than the terminal it is designed to meet (owner
+    requirement 2026-09-05): a rumoured lair whose blueprint designs a footpath
+    head does not get a boardwalk driven up to it because the rootland it
+    crosses is wet."""
+    kind = _classify_ground(s, path, magnitude, cls)
+    rank = pn.CLASS_RANK.get(terminal_kind or "")
+    if rank is not None and rank < pn.CLASS_RANK.get(kind, 0):
+        return terminal_kind          # type: ignore[return-value]
+    return kind
+
+
+def _classify_ground(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | None, cls: str) -> str:
     cells = np.array([(r, c) for c, r in path])
     reg = s.region_grid[cells[:, 0], cells[:, 1]]
     marsh = float((np.isin(reg, MARSH_REGIONS) | s.wetlands[cells[:, 0], cells[:, 1]]).mean())
@@ -200,8 +274,13 @@ def classify(s: ProvinceSurvey, path: list[tuple[int, int]], magnitude: str | No
     return "footpath"
 
 
-def demand(files: list[catalogue.RegionFile]) -> list[list[dict]]:
-    b1, b2, b3 = [], [], []
+def demand(files: list[catalogue.RegionFile],
+           terminal_places: set[str] | None = None) -> list[list[dict]]:
+    """The four batches, in the order they are solved. `terminal_places` is the
+    set of place ids whose blueprint declares a walkable network terminal; a
+    hidden place in that set earns batch 4, the unmapped heads."""
+    terminal_places = terminal_places or set()
+    b1, b2, b3, b4 = [], [], [], []
     for rf in files:
         for rec in rf.places:
             if rec.get("status") in {"cut", "deferred"} or "position" not in rec:
@@ -212,8 +291,12 @@ def demand(files: list[catalogue.RegionFile]) -> list[list[dict]]:
                 (b1 if MAGNITUDE_RANK.get(mag or "", 0) >= 3 else b2).append(rec)
             elif rec.get("discovery") == "road" and cls not in {"lair", "camp"}:
                 b3.append(rec)
+            elif rec["id"] in terminal_places:
+                # found by rumour, but its blueprint designed a way in: route it
+                # and keep it off the drawn map (batch 4, owner 2026-09-05)
+                b4.append(rec)
     key = lambda r: (-MAGNITUDE_RANK.get(r["classification"].get("magnitude") or "", 0), r["importanceTier"], r["id"])
-    return [sorted(b1, key=key), sorted(b2, key=key), sorted(b3, key=key)]
+    return [sorted(b1, key=key), sorted(b2, key=key), sorted(b3, key=key), sorted(b4, key=key)]
 
 
 def run(write: bool = True) -> dict:
@@ -227,12 +310,19 @@ def run(write: bool = True) -> dict:
     tracks: list[dict] = []
     unconnected: list[dict] = []
     on_road = 0
-    batches = demand(files)
+    terminals = blueprint_terminals()
+    batches = demand(files, set(terminals))
     for bi, batch in enumerate(batches, start=1):
         dist, prev = multi_source_field(cost, network, px_m, height, ROUTING_CAP_DEG)
         new_cells = np.zeros_like(network)
         for rec in batch:
             x, z = rec["positionM"]
+            # A blueprint's declared gate/landing wins over the plotted dot: the
+            # path must end where the place lets you in (owner 2026-09-05).
+            terminal = terminals.get(rec["id"])
+            entry_uv = terminal[0] if terminal else None
+            if entry_uv is not None:
+                x, z = s.uv_to_m(*entry_uv)
             row, col = s.grid_px(float(x), float(z))
             if not s.land[row, col]:
                 # a submerged / island record: walk to the nearest land cell first
@@ -260,14 +350,29 @@ def run(write: bool = True) -> dict:
             # than a long one, and since the solver holds the gradient cap the
             # long line is the honest length of a walkable approach to a hill
             # village. Listed in the digest so the length stays visible.
-            kind = classify(s, path, rec["classification"].get("magnitude"), rec["classification"]["class"])
+            kind = classify(s, path, rec["classification"].get("magnitude"), rec["classification"]["class"],
+                            terminal[1] if terminal else None)
             end_c, end_r = path[-1]
-            tracks.append({
+            track = {
                 "id": "track." + rec["id"].split(".", 1)[1],
-                "kind": kind, "from": rec["id"], "to": "network",
+                "kind": kind,
+                "endsAtTerminal": entry_uv is not None, "from": rec["id"], "to": "network",
                 "batch": bi, "lengthKm": round(length_m / 1000.0, 3),
                 "px": [[int(c), int(r)] for c, r in path],
-            })
+            }
+            if entry_uv is not None:
+                # the EXACT terminal, in world metres. The traced path is a
+                # chain of 5.48 m raster cells, so its first vertex is the cell
+                # the gate falls in, up to a cell-diagonal from the gate itself;
+                # `province_network` puts this point back on the head of the
+                # line so a blueprint's terminal check measures against the
+                # place the path actually ends, not the pixel it rounded to.
+                tx, tz = s.uv_to_m(*entry_uv)
+                track["endsAtM"] = [round(float(tx), 3), round(float(tz), 3)]
+            if bi == 4:
+                # real ground, off the drawn map: the place stays found by rumour
+                track["unmapped"] = True
+            tracks.append(track)
             for c, r in path:
                 new_cells[r, c] = True
         network |= new_cells
@@ -283,6 +388,7 @@ def run(write: bool = True) -> dict:
                                   for k in ("track", "footpath", "boardwalk", "causeway")},
                        "totalKm": round(sum(t["lengthKm"] for t in tracks), 2)},
            "unconnected": unconnected, "tracks": tracks}
+    doc["summary"]["unmapped"] = sum(1 for t in tracks if t.get("unmapped"))
     if write:
         OUT_JSON.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
         # keep any Part 3c (minor waterways) section that follows ours
@@ -301,6 +407,8 @@ def digest(doc: dict) -> str:
          f"- **{sm['tracks']} paths**, {sm['totalKm']} km in total: " +
          ", ".join(f"{k} {v}" for k, v in sm["byKind"].items()),
          f"- {sm['onRoadAlready']} places were already on a road or landing (within {doc['arrivalM']:.0f} m)",
+         f"- {sm.get('unmapped', 0)} of the paths are **unmapped** (batch 4): routed, graded and painted "
+         f"ground that the player's map never draws, so a rumoured place is still found by walking",
          f"- {sm['unconnected']} places have **no land path** (boat-, guide- or root-served — a design fact to check, "
          f"not a failure; longest allowed path {doc['maxTrackM'] / 1000:.1f} km):", ""]
     for u in doc["unconnected"]:

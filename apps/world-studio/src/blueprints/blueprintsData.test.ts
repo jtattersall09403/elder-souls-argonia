@@ -80,7 +80,6 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
     budget: { maxInstances: 700 },
     provision: { quests: ["quest.local.lh51"] },
     assetConstraints: ["grown-root kit only inside the ring"],
-    terrain: { image: "province/blueprints/place.hist-heartland.nine-trunks.png", x0: 90, z0: 190, x1: 150, z1: 250, pxM: 3.65568 },
     summary: { districts: 1, parcels: 1 },
   };
 }
@@ -88,7 +87,7 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
 function makeBundle(): BlueprintBundle {
   return {
     schemaVersion: 2, source: "worldgen.export_blueprints", units: "world metres",
-    provinceExtentM: 7373.51, layers: ["map", "context", "terrain", "districts", "parcels"],
+    provinceExtentM: 7373.51, layers: ["map", "context", "districts", "parcels"],
     blueprints: [makeBlueprint("place.a.alpha"), makeBlueprint()],
   };
 }
@@ -140,12 +139,15 @@ describe("findBlueprint", () => {
 });
 
 describe("bounds and paths", () => {
-  it("covers every drawn class, terrain included, with padding", () => {
+  it("covers every drawn class, with padding", () => {
     const b = blueprintBounds(makeBlueprint());
-    expect(b.x0).toBeLessThan(90);      // terrain crop is the outermost thing
-    expect(b.x1).toBeGreaterThan(150);
-    expect(b.z0).toBeLessThan(190);
-    expect(b.z1).toBeGreaterThan(250);
+    const bp = makeBlueprint();
+    const xs = bp.boundary!.map((p) => p[0]);
+    const zs = bp.boundary!.map((p) => p[1]);
+    expect(b.x0).toBeLessThan(Math.min(...xs));
+    expect(b.x1).toBeGreaterThan(Math.max(...xs));
+    expect(b.z0).toBeLessThan(Math.min(...zs));
+    expect(b.z1).toBeGreaterThan(Math.max(...zs));
   });
 
   it("survives a blueprint with no geometry at all", () => {
@@ -163,7 +165,7 @@ describe("bounds and paths", () => {
       buildingsPlanned: 1, npcsPlanned: 24, why: "one ring of root houses, no outliers",
     },
     contextM: { x0: -1400, z0: -1300, x1: 1640, z1: 1740 },
-    clearance: { hardClear: [], thinned: [], kept: [] }, siting: null, terrain: null };
+    clearance: { hardClear: [], thinned: [], kept: [] }, siting: null };
     expect(blueprintBounds(empty)).toEqual({ x0: 0, z0: 0, x1: 100, z1: 100 });
   });
 
@@ -206,13 +208,13 @@ describe("URL round-trip", () => {
     const state = {
       blueprintId: "place.hist-heartland.nine-trunks",
       selectedId: "parcel.nine-trunks.trunk-1",
-      hidden: new Set(["terrain", "clearance"]),
+      hidden: new Set(["context", "clearance"]),
     };
     const q = new URLSearchParams(encodeBlueprintUrl(state));
     const back = parseBlueprintUrl(q);
     expect(back.blueprintId).toBe(state.blueprintId);
     expect(back.selectedId).toBe(state.selectedId);
-    expect([...back.hidden].sort()).toEqual(["clearance", "terrain"]);
+    expect([...back.hidden].sort()).toEqual(["clearance", "context"]);
   });
 
   it("reads an empty query as everything shown", () => {
@@ -221,11 +223,11 @@ describe("URL round-trip", () => {
   });
 
   it("toggles a layer without mutating the old set", () => {
-    const a = new Set(["terrain"]);
+    const a = new Set(["context"]);
     const b = toggleIn(a, "parcels");
-    expect([...a]).toEqual(["terrain"]);
-    expect([...b].sort()).toEqual(["parcels", "terrain"]);
-    expect([...toggleIn(b, "terrain")]).toEqual(["parcels"]);
+    expect([...a]).toEqual(["context"]);
+    expect([...b].sort()).toEqual(["context", "parcels"]);
+    expect([...toggleIn(b, "context")]).toEqual(["parcels"]);
   });
 });
 
