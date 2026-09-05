@@ -2,7 +2,7 @@
  * Wind sway for instanced vegetation — a vertex-shader injection shared by
  * every plant material in the world.
  *
- * The recipe is the standard one (research/vegetation-scatter-instancing-threejs.md
+ * The recipe is the standard one (research/rendering/vegetation-scatter-instancing-threejs.md
  * §4, after GPU Gems 3 ch. 16): displace along the wind direction, weighted by
  * height above the instance's own base so trunks stay planted while crowns
  * move; two sines plus a scrolled noise term for gusts; a per-instance phase

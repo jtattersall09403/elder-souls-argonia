@@ -2,7 +2,7 @@
 
 The rule that decides if a blow plays a reaction. Design is module 76 §121.3
 (owner ruling, decision 0037); DS1's mechanics are researched at
-[docs/research/dark-souls-poise-mechanics.md](../../../../docs/research/dark-souls-poise-mechanics.md);
+[docs/research/combat-and-systems/dark-souls-poise-mechanics.md](../../../../docs/research/combat-and-systems/dark-souls-poise-mechanics.md);
 the implementation and its seams are `packages/game-core/src/combat/poise.ts`,
 which is commented to be read.
 

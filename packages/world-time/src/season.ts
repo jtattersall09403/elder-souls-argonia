@@ -1,7 +1,7 @@
 /**
  * The province season scalar s(t) ∈ [−1 dry … +1 wet] promised by the climate
  * model (module 50 §33.1, produced here per module 55 §94), plus the named
- * monsoon season. Curve shape follows docs/research/black-marsh-climatology.md
+ * monsoon season. Curve shape follows docs/research/world-terrain/black-marsh-climatology.md
  * §3: dry trough mid-Xeech, monsoon rise from Rain's Hand, flood peak at the
  * Hearthfire–Frostfall turn, recession with heavy dawn mist to year's end.
  */

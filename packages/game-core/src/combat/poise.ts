@@ -6,7 +6,7 @@ import type { AttackId, WeaponClass } from "../equipment/types";
  *
  * Dark Souls 1's model, adopted by the owner at workstream S round 4
  * (module 76 §121.3, decision 0037; mechanics research in
- * `docs/research/dark-souls-poise-mechanics.md`). One system, shared by the
+ * `docs/research/combat-and-systems/dark-souls-poise-mechanics.md`). One system, shared by the
  * player and every NPC:
  *
  * - Every character has a hidden pool. Each incoming hit subtracts that
