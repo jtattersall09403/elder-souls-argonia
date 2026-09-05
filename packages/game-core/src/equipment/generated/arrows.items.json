@@ -12,6 +12,12 @@
         0.05908,
         0.0675,
         0.75
+      ],
+      "quiver": "quivers/iron-arrow.glb",
+      "quiverSizeMeters": [
+        0.22151,
+        0.11313,
+        0.72
       ]
     },
     "steel-arrow": {
@@ -25,6 +31,12 @@
         0.04878,
         0.05005,
         0.75
+      ],
+      "quiver": "quivers/steel-arrow.glb",
+      "quiverSizeMeters": [
+        0.17506,
+        0.08471,
+        0.72
       ]
     },
     "elven-arrow": {
@@ -38,6 +50,12 @@
         0.05195,
         0.05195,
         0.75
+      ],
+      "quiver": "quivers/elven-arrow.glb",
+      "quiverSizeMeters": [
+        0.2127,
+        0.0645,
+        0.72
       ]
     },
     "glass-arrow": {
@@ -51,6 +69,12 @@
         0.07072,
         0.04894,
         0.75
+      ],
+      "quiver": "quivers/glass-arrow.glb",
+      "quiverSizeMeters": [
+        0.18848,
+        0.08981,
+        0.72
       ]
     },
     "orcish-arrow": {
@@ -64,6 +88,12 @@
         0.04789,
         0.04761,
         0.75
+      ],
+      "quiver": "quivers/orcish-arrow.glb",
+      "quiverSizeMeters": [
+        0.28103,
+        0.0548,
+        0.71984
       ]
     },
     "dwarven-arrow": {
@@ -77,6 +107,12 @@
         0.05909,
         0.03911,
         0.75
+      ],
+      "quiver": "quivers/dwarven-arrow.glb",
+      "quiverSizeMeters": [
+        0.1344,
+        0.09492,
+        0.72
       ]
     },
     "ebony-arrow": {
@@ -90,6 +126,12 @@
         0.02013,
         0.08475,
         0.75
+      ],
+      "quiver": "quivers/ebony-arrow.glb",
+      "quiverSizeMeters": [
+        0.29594,
+        0.11508,
+        0.72
       ]
     },
     "daedric-arrow": {
@@ -103,6 +145,12 @@
         0.04957,
         0.06619,
         0.75
+      ],
+      "quiver": "quivers/daedric-arrow.glb",
+      "quiverSizeMeters": [
+        0.15799,
+        0.06859,
+        0.71883
       ]
     },
     "nordhero-arrow": {
@@ -116,6 +164,12 @@
         0.04664,
         0.04046,
         0.75
+      ],
+      "quiver": "quivers/nordhero-arrow.glb",
+      "quiverSizeMeters": [
+        0.1366,
+        0.08723,
+        0.72
       ]
     },
     "forsworn-arrow": {
@@ -129,6 +183,12 @@
         0.05731,
         0.01306,
         0.75
+      ],
+      "quiver": "quivers/forsworn-arrow.glb",
+      "quiverSizeMeters": [
+        0.15572,
+        0.06518,
+        0.71887
       ]
     },
     "falmer-arrow": {
@@ -142,6 +202,12 @@
         0.07051,
         0.07228,
         0.75
+      ],
+      "quiver": "quivers/falmer-arrow.glb",
+      "quiverSizeMeters": [
+        0.19902,
+        0.1132,
+        0.72
       ]
     },
     "draugr-arrow": {
@@ -155,6 +221,12 @@
         0.04664,
         0.04046,
         0.75
+      ],
+      "quiver": "quivers/draugr-arrow.glb",
+      "quiverSizeMeters": [
+        0.1366,
+        0.0878,
+        0.72
       ]
     }
   }

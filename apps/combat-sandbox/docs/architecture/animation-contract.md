@@ -207,6 +207,16 @@ each enemy use it. This is what stops an enemy dropping out of a run mid-
 approach from reading as a stutter: its gait speed halves, and without cadence
 matching the clip does not.
 
+### Two locomotion sets per bow
+
+A bow carries two: `BOW_*` for a bow in the hand with the string at rest, and
+`BOW_DRAWN_*` (vanilla `bowdrawn_walkforward/backward/left/right`) for moving
+with it up. The profile names both (`locomotion`, `drawnLocomotion`) and
+`bowLocomotionClip` chooses, so nothing downstream decides. There is no drawn
+run: vanilla authors none, and a raised bow that runs plays the drawn walk.
+While aiming, the actor's *speed* is the drawn clip's own
+`authoredGroundSpeed` rather than a fixed number, so the clip runs at rate 1.
+
 ## Moving landings
 
 Touchdown records controller planar velocity and peak downward velocity.

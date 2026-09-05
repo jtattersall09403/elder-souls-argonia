@@ -17,6 +17,7 @@ export { ArmourAttachments } from "./ArmourAttachments";
 export { OffHandItem } from "./OffHandItem";
 export { FirstPersonBow, type FirstPersonBowState } from "./FirstPersonBow";
 export { NockedArrow } from "./NockedArrow";
+export { QuiverAttachment } from "./QuiverAttachment";
 export { PlayerBody } from "./PlayerBody";
 export { useStanceCapsule } from "./useStanceCapsule";
 export { EcctrlAdapter } from "./EcctrlAdapter";

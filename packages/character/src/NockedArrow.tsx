@@ -83,10 +83,14 @@ export function NockedArrow({
 
   useFrame(() => {
     if (visibleRef) model.visible = visible && visibleRef.current;
-    if (!model.visible || !socket || !model.parent) return;
+    if (!socket || !model.parent) return;
     socket.updateWorldMatrix(true, false);
     socket.getWorldPosition(tmp.current.worldPosition);
+    // Published whether or not the shaft is drawn yet: the string hand is
+    // where the shot comes from, and the aim solve needs it from the moment
+    // the bow is up — before the arrow is pulled out of the quiver.
     if (nockWorld) nockWorld.current.copy(tmp.current.worldPosition);
+    if (!model.visible) return;
     model.parent.worldToLocal(model.position.copy(tmp.current.worldPosition));
     model.parent.getWorldQuaternion(tmp.current.parentQuaternion);
     tmp.current.desired.setFromUnitVectors(FORWARD, aimDirection.current);

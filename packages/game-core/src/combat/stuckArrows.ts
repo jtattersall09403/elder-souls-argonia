@@ -32,10 +32,14 @@ function actorRootOf(bone: THREE.Object3D) {
 /**
  * The hurtbox segment nearest a world-space point.
  *
- * Combat asks "what did this hit" and the answer has to be a *bone*, because
- * every skeletal hurtbox capsule reports the same rigid-body name. The nearest
- * capsule centre is enough to tell a head from a thigh, which is all the
- * question needs.
+ * Which body part a hit *counts* as — head, thigh, torso — for damage and the
+ * reaction it provokes. Nearest capsule centre, radius allowed for, so a thin
+ * forearm passing near the point does not beat the torso behind it.
+ *
+ * Deliberately not the same question as *where the shaft ends up*: that is
+ * `resolveArrowPlant`, which walks the flight line onto the body's surface.
+ * Keeping the two apart is what lets the shaft be planted properly without
+ * quietly re-deciding what an arrow through a shoulder does to a fighter.
  */
 export function nearestHurtboxBone(
   segments: readonly HurtboxBone[] | null,
@@ -52,8 +56,6 @@ export function nearestHurtboxBone(
     from.copy(segment.from).applyMatrix4(segment.bone.matrixWorld);
     to.copy(segment.to).applyMatrix4(segment.bone.matrixWorld);
     centre.addVectors(from, to).multiplyScalar(0.5);
-    // Capsule radius counts: a thin forearm passing near the point should not
-    // beat the torso the shaft is actually buried in.
     const distance = centre.distanceTo(point) - segment.radius;
     if (distance < bestDistance) {
       bestDistance = distance;
@@ -66,8 +68,12 @@ export function nearestHurtboxBone(
 /**
  * Leave `object` standing in `bone`, at the world pose it arrived with.
  *
- * The shaft is pushed a little further along its own axis than it stopped, so
- * the head disappears into the target rather than floating against the skin.
+ * `worldPoint` is a point on the target's *surface* — `resolveArrowPlant`
+ * works it out from the flight line, because the sensor overlap that reports
+ * the hit arrives a step late and the arrow's own position by then can be a
+ * good way clear of the body. The shaft is then pushed a little further along
+ * its own axis so the head disappears into the target rather than floating
+ * against the skin.
  */
 export function stickArrow(
   bone: THREE.Object3D,

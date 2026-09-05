@@ -8,7 +8,10 @@ import {
   IDLE_BOW_CYCLE,
   advanceBowCycle,
   aimBlend,
+  bowPose,
   isAiming,
+  nockedArrowVisible,
+  NOCK_REVEAL_FRACTION,
   type BowCycle,
   type BowInput,
 } from "./bowShot";
@@ -179,5 +182,78 @@ describe("player-stat hooks", () => {
   it("caps a weak archer short of full draw however long they hold", () => {
     const weak = drawWith({ ...NEUTRAL_RANGED_MODIFIERS, drawStrength: 0.6 }, BOW.drawSeconds * 3);
     expect(weak.shots[0].drawFraction).toBeCloseTo(0.6, 5);
+  });
+});
+
+describe("death outranks the aim", () => {
+  it("lowers a drawn bow the moment the archer is interrupted", () => {
+    const drawn = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : HOLDING), 400).cycle;
+    expect(isAiming(drawn)).toBe(true);
+    const killed = advanceBowCycle(
+      drawn,
+      { aimPressed: false, aimHeld: true, exitPressed: false, interrupted: true },
+      BOW,
+      1000,
+      1 / 60,
+    );
+    expect(isAiming(killed.cycle)).toBe(false);
+    expect(killed.exited).toBe(true);
+    // And the aim cannot re-open while the interruption stands, however hard
+    // the button is held: this is what stopped a dead archer shooting.
+    const after = advanceBowCycle(
+      killed.cycle,
+      { aimPressed: true, aimHeld: true, exitPressed: false, interrupted: true },
+      BOW,
+      1000,
+      1 / 60,
+    );
+    expect(isAiming(after.cycle)).toBe(false);
+    expect(after.shot).toBeNull();
+  });
+});
+
+describe("the shaft comes out of the quiver", () => {
+  it("shows nothing on the string until the hand has been back for it", () => {
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(false);
+    expect(nockedArrowVisible({
+      ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: NOCK_REVEAL_FRACTION * 0.5,
+    })).toBe(false);
+    expect(nockedArrowVisible({
+      ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: 1,
+    })).toBe(true);
+  });
+});
+
+describe("moving with the bow up", () => {
+  const PROFILE = {
+    idle: "BOW_IDLE", draw: "BOW_DRAW", drawn: "BOW_DRAWN", release: "BOW_RELEASE",
+    locomotion: {
+      walk: "BOW_WALK", walkBack: "BOW_WALK_BACK",
+      strafeLeft: "BOW_STRAFE_LEFT", strafeRight: "BOW_STRAFE_RIGHT", run: "BOW_RUN",
+    },
+    drawnLocomotion: {
+      walk: "BOW_DRAWN_WALK", walkBack: "BOW_DRAWN_WALK_BACK",
+      strafeLeft: "BOW_DRAWN_STRAFE_LEFT", strafeRight: "BOW_DRAWN_STRAFE_RIGHT",
+    },
+  } as const;
+
+  it("strides on the drawn set while the bow is raised", () => {
+    const ready: BowCycle = { ...IDLE_BOW_CYCLE, phase: "ready" };
+    expect(bowPose(ready, PROFILE, "strafeLeft").animation).toBe("BOW_DRAWN_STRAFE_LEFT");
+    expect(bowPose(ready, PROFILE, "walkBack").animation).toBe("BOW_DRAWN_WALK_BACK");
+    // No drawn run exists in vanilla, and an archer at draw does not run.
+    expect(bowPose(ready, PROFILE, "run").animation).toBe("BOW_DRAWN_WALK");
+  });
+
+  it("keeps the carry set when the bow is down", () => {
+    expect(bowPose(IDLE_BOW_CYCLE, PROFILE, "run").animation).toBe("BOW_RUN");
+    expect(bowPose(IDLE_BOW_CYCLE, PROFILE, "strafeRight").animation).toBe("BOW_STRAFE_RIGHT");
+  });
+
+  it("holds the draw pose standing still, where its clip time is the draw", () => {
+    const drawing: BowCycle = { ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: 0.5 };
+    const pose = bowPose(drawing, PROFILE, "still");
+    expect(pose.animation).toBe("BOW_DRAW");
+    expect(pose.clipTime).toBeGreaterThan(0);
   });
 });

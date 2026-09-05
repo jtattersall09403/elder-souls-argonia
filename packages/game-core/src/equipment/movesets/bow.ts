@@ -23,6 +23,12 @@ export const BOW_SHOOTING: BowAnimationProfile = {
     strafeRight: "BOW_STRAFE_RIGHT",
     run: "BOW_RUN",
   },
+  drawnLocomotion: {
+    walk: "BOW_DRAWN_WALK",
+    walkBack: "BOW_DRAWN_WALK_BACK",
+    strafeLeft: "BOW_DRAWN_STRAFE_LEFT",
+    strafeRight: "BOW_DRAWN_STRAFE_RIGHT",
+  },
 };
 
 export const BOW_ANIMATIONS: WeaponAnimationProfile = {

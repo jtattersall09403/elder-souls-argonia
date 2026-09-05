@@ -42,6 +42,18 @@ cp output/rig-skyrim-first-person.bow.*.glb ../../packages/character-assets/file
 cp output/rig-skyrim-first-person.bow.json  ../../packages/game-core/src/anim/generated/
 ```
 
+Arrows build their **worn quiver** in the same pass: Skyrim ships it as
+`meshes/weapons/<material>/<material>arrow.nif` beside the projectile
+`...arrowflight.nif`, so `config/weapons/arrows.json` names both and the
+manifest gains `quiver` per arrow.
+
+```bash
+python3 -m pipeline.build_weapons --set arrows      # 12 arrows + 12 quivers
+cp output/arrows/*.glb        ../../packages/character-assets/files/arrows/
+cp output/quivers/*.glb       ../../packages/character-assets/files/quivers/
+cp output/arrows.items.json   ../../packages/game-core/src/equipment/generated/
+```
+
 **The build is byte-for-byte deterministic**, and that is the check to run after
 any animation-config change: `md5sum` the pack GLBs before and after, and every
 pack whose clips you did not touch must be identical. A pack that changes when

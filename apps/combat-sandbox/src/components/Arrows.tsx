@@ -18,6 +18,8 @@ import {
   impactObliquity,
 } from "@elder-souls/game-core/combat/arrowFlight";
 import { useArrowStore, type LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
+import { useGameStore } from "@elder-souls/game-core/core/store";
+import { DEFAULT_ARROW } from "@elder-souls/game-core/equipment/arrows";
 import { isActorCapsuleName, isActorHurtboxName } from "@elder-souls/game-core/combat/stuckArrows";
 import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
 
@@ -53,8 +55,49 @@ export type ArrowHit = {
   object: THREE.Object3D | null;
 };
 
+/**
+ * Dev-only flight probe.
+ *
+ * A headless run (`scripts/probe-arrow-flight.mjs`) sets `__arrowProbe` and
+ * fires one shot; every physics step appends what the *live* body is doing, so
+ * a report of arrows "floating down" can be answered with the same numbers the
+ * offline integrator produces instead of by reading the code. Off unless the
+ * probe object is installed, so it costs a null check per step in the game.
+ */
+type ArrowProbeSample = {
+  t: number;
+  y: number;
+  vx: number;
+  vy: number;
+  vz: number;
+  massKg: number;
+  gravityScale: number;
+  linearDamping: number;
+  dragY: number;
+};
+declare global {
+  interface Window {
+    __arrowProbe?: { samples: ArrowProbeSample[]; steps: number; shaftLengthMeters?: number };
+    __fireProbeArrow?: (speed: number, angleDeg: number) => number;
+  }
+}
+
 export function Arrows({ onHit }: { onHit: (hit: ArrowHit) => void }) {
   const arrows = useArrowStore((state) => state.arrows);
+  const fire = useArrowStore((state) => state.fire);
+  useEffect(() => {
+    window.__fireProbeArrow = (speed, angleDeg) => {
+      const angle = (angleDeg * Math.PI) / 180;
+      window.__arrowProbe = { samples: [], steps: 0 };
+      return fire({
+        arrow: DEFAULT_ARROW,
+        origin: [0, 20, 0],
+        velocity: [0, speed * Math.sin(angle), speed * Math.cos(angle)],
+        shooter: "probe",
+      });
+    };
+    return () => { delete window.__fireProbeArrow; };
+  }, [fire]);
   return (
     <>
       {arrows.map((live) => <Arrow key={live.id} live={live} onHit={onHit} />)}
@@ -64,6 +107,9 @@ export function Arrows({ onHit }: { onHit: (hit: ArrowHit) => void }) {
 
 function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => void }) {
   const retire = useArrowStore((state) => state.retire);
+  // Owner comparison knob (round 9): real gravity measured correct; this only
+  // exaggerates the drop, Skyrim-style, so the two can be judged side by side.
+  const gravityScale = useGameStore((state) => state.arrowGravityScale);
   const { rapier } = useRapier();
   const body = useRef<RapierRigidBody>(null);
   const gltf = useGLTF(`${import.meta.env.BASE_URL}${live.arrow.asset}`);
@@ -78,6 +124,7 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
     // z = -0.75). The body flies along +Z, so the model needs no turn, only
     // centring on the body origin.
     const bounds = new THREE.Box3().setFromObject(instance);
+    if (window.__arrowProbe) window.__arrowProbe.shaftLengthMeters = bounds.max.z - bounds.min.z;
     const group = new THREE.Group();
     group.add(instance);
     instance.position.z = -(bounds.min.z + bounds.max.z) / 2;
@@ -144,6 +191,21 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
     const drag = aerodynamicDrag(velocity, live.arrow.physics);
     rigid.resetForces(true);
     rigid.addForce(forceTmp.current.set(drag.x, drag.y, drag.z), true);
+    const probe = window.__arrowProbe;
+    if (probe) {
+      probe.steps += 1;
+      probe.samples.push({
+        t: probe.steps / 60,
+        y: rigid.translation().y,
+        vx: velocity.x,
+        vy: velocity.y,
+        vz: velocity.z,
+        massKg: rigid.mass(),
+        gravityScale: rigid.gravityScale(),
+        linearDamping: rigid.linearDamping(),
+        dragY: drag.y,
+      });
+    }
     const attitude = flightAttitude(velocity);
     if (!attitude) return;
     forwardTmp.current.set(attitude.x, attitude.y, attitude.z);
@@ -211,6 +273,7 @@ function Arrow({ live, onHit }: { live: LiveArrow; onHit: (hit: ArrowHit) => voi
       // as the shot simply not working.
       ccd
       canSleep={false}
+      gravityScale={gravityScale}
       // Attitude is set from the velocity each step; the solver must not add
       // its own spin on top of it.
       lockRotations

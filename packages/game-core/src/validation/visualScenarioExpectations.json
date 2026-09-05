@@ -2527,7 +2527,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2673,7 +2673,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -3125,6 +3125,54 @@
       "followsCameraWithinRadians": 0.15,
       "note": "Held at full draw the body faces the camera yaw: the bow follows the crosshair (round 7)."
     }
+  },
+  "bow-drawn-locomotion": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE",
+      "BOW_DRAWN_WALK",
+      "BOW_DRAWN_WALK_BACK",
+      "BOW_DRAWN_STRAFE_LEFT",
+      "BOW_DRAWN_STRAFE_RIGHT"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_DRAWN_WALK",
+        "BOW_DRAWN",
+        "BOW_DRAWN_WALK_BACK",
+        "BOW_DRAWN",
+        "BOW_DRAWN_STRAFE_LEFT",
+        "BOW_DRAWN",
+        "BOW_DRAWN_STRAFE_RIGHT",
+        "BOW_DRAWN",
+        "BOW_RELEASE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAWN_WALK",
+        "BOW_DRAWN_STRAFE_LEFT"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
   },
   "archer-shot": {
     "playerActions": [

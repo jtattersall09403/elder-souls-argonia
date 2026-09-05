@@ -776,7 +776,7 @@ the implementation follows it except for the kinematic attitude.
 
 `aimView`: `firstPerson` (round 7's Skyrim arms rig), `shoulder` (new: stay
 third person, camera behind the right shoulder sighting along the aim, the
-Tears of the Kingdom framing — `docs/research/third-person-bow-aim-camera.md`)
+Tears of the Kingdom framing — `docs/research/combat-and-systems/third-person-bow-aim-camera.md`)
 and `eye` (the original third-person eye camera). A scene can pin its own.
 
 ## 45. The archer's body is pinned to its facing
@@ -812,3 +812,103 @@ The clock, the clip and the track advance together, so the body covers ground
 faster without the feet coming unstuck. Crouch stays at 1×.
 
 Also: an FPS counter in the debug panel.
+
+## 48. Arrow gravity is right; the hang time is the physics (round 9)
+
+Owner (round 8): arrows fall "like a balloon", and it is "not the 50 m/s flat
+arc". Rather than argue from the code, a headless probe
+(`apps/combat-sandbox/scripts/probe-arrow-flight.mjs`) now fires a shot in
+the *built* app and logs the live Rapier body each step. Measured: a slow shot
+falls at 9.83 m/s² and traces a symmetric parabola; a full-draw shot loses
+2.5 m/s of horizontal speed over 2.5 s against 2.4 predicted by
+`integrateTrajectory` (drag within 5 %); body mass 0.097 kg, gravity scale 1,
+no damping, one drag application per step, the accumulator catches up on slow
+frames, the shaft renders at 0.75 m. Gravity and the calibrated drag are
+correct. What reads as floating is real ballistics: a 45 m/s shot at 30°
+climbs 25 m and hangs for ~4.5 s, which looks wrong next to Skyrim, whose
+arrows drop far harder than g. Per the no-casual-retune rule nothing was
+changed; a debug slider `arrowGravityScale` (1–3×, default 1) lets the owner
+judge the two side by side. The archers' elevation solver assumes 1, so at any
+other value they miss — if the owner picks a harder drop, the solver and
+`integrateTrajectory` take the same scale (one constant in `ballistics.ts`).
+The round-8 body test moved into the package as `arrowBody.test.ts` and now
+also tracks the offline integrator.
+
+## 49. A shaft is planted on the body's surface, not where the sensor spoke
+
+Arrows "stuck in empty air" beside a body: the shaft was planted at the
+arrow's own position when the hurtbox *sensor* reported, a step late, and the
+capsules are generous (clavicle radius 0.157 m), so the point could be 15 cm
+off the skin. `arrowPlant.ts` backs the flight line up 2 m from the report and
+takes the first analytic ray/capsule surface crossing; if the line misses
+(the body moved on) it snaps to the nearest capsule surface. Player and enemy
+share the call. Where a shaft sticks and what zone a shot *counts as* are kept
+separate on purpose: letting the ray choose the zone turned `archer-shot`'s
+body hits into headshots, i.e. it retuned combat by the back door.
+
+## 50. Moving while drawn has its own strides
+
+The flicker while strafing in bow view: a raised bow that moved fell back to
+the bow-*carry* locomotion set, so every step crossfaded the aim pose away and
+back, while the body slid at a hand-set speed. Vanilla's `bowdrawn_walk*`
+(forward, back, left, right) are now in the bow pack (only that pack changed —
+determinism check), chosen by one function (`bowLocomotionClip`, player and
+archer), and the aim's move speed is the drawn clip's measured ground speed at
+rate 1. There is no drawn *run* in vanilla, so a raised bow walks. New scene
+`bow-drawn-locomotion`.
+
+## 51. Quivers, and the arrow is drawn from one
+
+Vanilla ships the worn quiver next to each projectile mesh
+(`<material>arrow.nif` beside `<material>arrowflight.nif`); `build_weapons.py`
+builds both from one entry, twelve quiver GLBs, and each arrow definition
+carries `quiver: { asset, socket }`. `QuiverAttachment` mounts it on the
+rig's `Quiver` node whenever arrows are equipped (player and archers; hidden
+in first person). The nocked shaft is hidden until the draw clip's hand comes
+back off the shoulder (`NOCK_REVEAL_FRACTION` 0.35), so a ready bow has an
+empty string and the arrow visibly comes out of the quiver. Vanilla assets,
+covered by the existing generic Skyrim credit.
+
+## 52. The shot converges on the crosshair
+
+Low-and-left: the shot left the nock *parallel* to the camera, and the nock is
+~0.3 m off the camera's line (more in the shoulder view), so the two never
+met. `aimConvergence.ts`: the crosshair is a Rapier ray from the aim camera
+(sensors and the player's own body filtered; 120 m far point, 3 m near clamp),
+and the shot, the body yaw and the spine lean all aim at the point it hits.
+`aimErrorDegrees` is in the debug panel. Not done: any residual is the bow
+mesh's grip axis inside the hand, which wants an eyes-on check before a number
+is applied.
+
+## 53. Death wins over the bow
+
+The bow cycle lives outside the melee action FSM, so `startPlayerAction("dead")`
+was overwritten by the aim action on the next frame — the owner could not die
+in bow view. The reducer takes `interrupted`: it lowers the bow and refuses to
+re-open it; the scene passes death in and never finishes an action it no
+longer owns. Unit-tested.
+
+## 54. Locked-on strides: forward is the ordinary run; the rest run 2×, analogue
+
+Owner: forward under lock-on uses the normal run; strafes 50 % faster again;
+analogue on a pad. `lockedStride.ts`: forward (and the dead zone) returns
+null so the ordinary locomotion selection and speed apply; back and lateral
+keep their locked clips at `LOCKED_STRIDE_RATE = 1.35 × 1.5 ≈ 2.03` (debug
+slider), clock, clip and ground track advancing together; the rate scales with
+stick magnitude (`strideRateForMagnitude`: 0 below 0.08, else
+max × clamp(m, 0.35, 1)), crouch included at max 1. The magnitude was never
+being lost — unlocked movement was already analogue; only the clip-driven path
+ignored it. `greatsword-locomotion` fails its ground-correction bound by 4 %
+independent of these values (see § 55).
+
+## 55. `greatsword-locomotion` fails its ground bound before this round
+
+The scene reports a blended-pose ground correction of 0.1090 against a bound
+of 0.105. The value is identical (to four figures) at the round-7 rate, the
+round-8 rate, the round-9 rate with and without analogue scaling, and on a
+clean build of the committed HEAD in a separate worktree — so it was left by
+round 8's pack rebuild (the anchor rule, § 46), not by anything here. Its
+strafe cues also push the stick to 0.42, which under the analogue rule now
+strafes at ~0.85× rather than full pace. Both are for the next locomotion
+pass: re-measure the greatsword strafe's ground track under the new anchor
+rule, and raise the cue to full stick so the recording shows top speed.

@@ -3,6 +3,7 @@ import type { AimView, CombatAction, GameSnapshot } from "./types";
 import { DEFAULT_ENEMY_COUNT } from "../combat/tuning";
 import { COMBAT_TUNING } from "../combat/weapon";
 import { DEFAULT_ENEMY_ARCHETYPE } from "../actors/enemyArchetypes";
+import { LOCKED_STRIDE_RATE } from "../locomotion/lockedStride";
 
 type GameStore = GameSnapshot & {
   patch: (patch: Partial<GameSnapshot>) => void;
@@ -31,6 +32,8 @@ export const initialSnapshot: GameSnapshot = {
   showBackstabZones: false,
   footDrivenMotion: true,
   lockedSpeedFollowsClip: true,
+  lockedStrideRate: LOCKED_STRIDE_RATE,
+  arrowGravityScale: 1,
   aimView: "firstPerson" as AimView,
   enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,
@@ -39,6 +42,12 @@ export const initialSnapshot: GameSnapshot = {
   drawFraction: 0,
   arrowsLeft: 0,
   aimZoom: 0,
+  /**
+   * Angle between the crosshair ray and the line the shot actually leaves on,
+   * degrees. Zero at the convergence point; the residual is parallax from the
+   * offset between the camera and the string hand. Debug panel only.
+   */
+  aimErrorDegrees: 0,
   playerMaxHealth: COMBAT_TUNING.maxHealth,
   playerMaxStamina: COMBAT_TUNING.maxStamina,
   playerPoise: 0,
@@ -61,6 +70,8 @@ export const useGameStore = create<GameStore>((set) => ({
     showBackstabZones: state.showBackstabZones,
     footDrivenMotion: state.footDrivenMotion,
     lockedSpeedFollowsClip: state.lockedSpeedFollowsClip,
+    lockedStrideRate: state.lockedStrideRate,
+    arrowGravityScale: state.arrowGravityScale,
     aimView: state.aimView,
     enemyArchetypeId: state.enemyArchetypeId,
     poiseEnabled: state.poiseEnabled,

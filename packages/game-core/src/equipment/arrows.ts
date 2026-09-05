@@ -63,7 +63,16 @@ export const ARROW_SHAFTS: Readonly<Record<ArrowShaftId, ArrowShaftProfile>> = {
   },
 };
 
-type BuiltArrow = { material: string; asset: string; icon: string; lengthMeters: number };
+type BuiltArrow = {
+  material: string;
+  asset: string;
+  icon: string;
+  lengthMeters: number;
+  /** The worn quiver GLB the pipeline built beside the projectile. */
+  quiver?: string;
+  /** Rig node the quiver hangs on. Data, so a future back-slot rig can move it. */
+  sheathSocket?: string;
+};
 
 const BUILT = manifest.items as unknown as Record<string, BuiltArrow>;
 
@@ -78,6 +87,12 @@ export type ArrowDefinition = {
   requirements: AttributeMap;
   /** In-flight GLB, relative to the deployment base URL. */
   asset: string;
+  /**
+   * The worn quiver, and the rig node it hangs on. Equipping arrows puts this
+   * on the wearer's back — it is the same item seen from outside, so it is a
+   * property of the arrow rather than a separate piece of kit to equip.
+   */
+  quiver: { asset: string; socket: string } | null;
   icon: string;
   description: string;
 };
@@ -95,6 +110,7 @@ export function defineArrow(
   materialId: MaterialId,
   asset: string,
   icon: string,
+  quiver: { asset: string; socket: string } | null = null,
 ): ArrowDefinition {
   const shaft = ARROW_SHAFTS[shaftId];
   if (!shaft) throw new RangeError(`arrow "${id}" has unknown shaft ${shaftId}`);
@@ -124,6 +140,7 @@ export function defineArrow(
     value: Math.max(1, Math.round(material.valuePerKg * 0.35)),
     requirements: {},
     asset,
+    quiver,
     icon,
     description: `${shaft.description} ${ARROWHEADS[shaft.head].description}`,
   };
@@ -141,7 +158,10 @@ export const ARROWS: Readonly<Record<string, ArrowDefinition>> = Object.fromEntr
   Object.values(BUILT).flatMap((built) =>
     (Object.keys(ARROW_SHAFTS) as ArrowShaftId[]).map((shaftId) => {
       const id = `${built.material}-${shaftId}-arrow`;
-      return [id, defineArrow(id, shaftId, built.material as MaterialId, built.asset, built.icon)];
+      const quiver = built.quiver
+        ? { asset: built.quiver, socket: built.sheathSocket ?? "Quiver" }
+        : null;
+      return [id, defineArrow(id, shaftId, built.material as MaterialId, built.asset, built.icon, quiver)];
     })),
 );
 

@@ -497,6 +497,34 @@
       "provenance": "vanilla bow-carry run",
       "tailSource": "mt_runforward"
     },
+    "BOW_DRAWN_WALK": {
+      "pack": "bow",
+      "source": "bowdrawn_walkforward",
+      "looping": true,
+      "provenance": "vanilla bowdrawn_walkforward (walking with the string at full draw)",
+      "tailSource": "mt_walkforward"
+    },
+    "BOW_DRAWN_WALK_BACK": {
+      "pack": "bow",
+      "source": "bowdrawn_walkbackward",
+      "looping": true,
+      "provenance": "vanilla bowdrawn_walkbackward (retreating at full draw)",
+      "tailSource": "mt_walkbackward"
+    },
+    "BOW_DRAWN_STRAFE_LEFT": {
+      "pack": "bow",
+      "source": "bowdrawn_walkleft",
+      "looping": true,
+      "provenance": "vanilla bowdrawn_walkleft (left strafe at full draw)",
+      "tailSource": "mt_walkleft"
+    },
+    "BOW_DRAWN_STRAFE_RIGHT": {
+      "pack": "bow",
+      "source": "bowdrawn_walkright",
+      "looping": true,
+      "provenance": "vanilla bowdrawn_walkright (right strafe at full draw)",
+      "tailSource": "mt_walkright"
+    },
     "BOW_DRAW": {
       "pack": "bow",
       "source": "bow_drawlight",

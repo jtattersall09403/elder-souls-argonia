@@ -382,6 +382,28 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           Locked-on speed follows the strafe clips
         </label>
         <label className="enemy-picker">
+          Locked stride rate: {state.lockedStrideRate.toFixed(2)}&times;
+          <input
+            type="range"
+            min={1}
+            max={2.5}
+            step={0.05}
+            value={state.lockedStrideRate}
+            onChange={(event) => state.patch({ lockedStrideRate: Number(event.target.value) })}
+          />
+        </label>
+        <label className="enemy-picker">
+          Arrow gravity: {state.arrowGravityScale.toFixed(2)}&times; (1 = real; archers aim for 1)
+          <input
+            type="range"
+            min={1}
+            max={3}
+            step={0.25}
+            value={state.arrowGravityScale}
+            onChange={(event) => state.patch({ arrowGravityScale: Number(event.target.value) })}
+          />
+        </label>
+        <label className="enemy-picker">
           Bow view:
           <select
             value={state.aimView}
@@ -392,6 +414,14 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
             <option value="eye">Third person body, eye camera (original)</option>
           </select>
         </label>
+        {state.aiming && (
+          <div className="aim-error">
+            {/* How far the shot's line is from the crosshair ray, in degrees.
+                Zero where the crosshair lands; the rest is the parallax of a
+                bow held beside the camera rather than behind it. */}
+            Aim error: {state.aimErrorDegrees.toFixed(2)}&deg;
+          </div>
+        )}
         <FpsCounter />
 
         <label>

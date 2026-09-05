@@ -64,6 +64,17 @@ export type BowInput = {
   aimHeld: boolean;
   /** Lower the bow. */
   exitPressed: boolean;
+  /**
+   * Something took the actor out of the aim that is not an input: death, a
+   * stagger, the bow leaving the hand.
+   *
+   * It is here rather than in the caller because the cycle is not part of the
+   * melee action machine, so a caller that merely stops *asking* for the aim
+   * leaves it raised. A killing blow landing mid-draw used to do exactly that:
+   * the death action was set and the aim, still running, overwrote it on the
+   * next frame — the archer kept moving and shooting and could not die.
+   */
+  interrupted?: boolean;
 };
 
 /** Seconds the camera takes to travel between third and first person. */
@@ -104,7 +115,9 @@ export function advanceBowCycle(
     exited: cycle.phase !== "lowered",
   });
 
-  if (cycle.phase !== "lowered" && input.exitPressed) return lower();
+  if (cycle.phase !== "lowered" && (input.exitPressed || input.interrupted)) return lower();
+  // Nothing raises a bow that has just been interrupted, either.
+  if (input.interrupted) return { ...step, cycle: { ...IDLE_BOW_CYCLE } };
 
   switch (cycle.phase) {
     case "lowered": {
@@ -224,12 +237,18 @@ export function bowPose(
   /** Clip seconds to hold, or null to let the clip run on its own clock. */
   clipTime: number | null;
 } {
-  // Walking with the string at rest gets real feet. Walking *at draw* keeps the
-  // draw, because the pose is what the player is looking down in first person
-  // and this actor has one animation track to spend. Correct feet under a drawn
-  // bow needs upper/lower-body blending, which the rig does not have yet.
-  if (travel !== "still" && cycle.phase !== "drawing") {
-    return { animation: bow.locomotion[travel], clipTime: null };
+  // Moving with the bow *up* plays the drawn-bow stride (Skyrim's `bowdrawn_*`
+  // set): the bow stays raised and the feet are real. It used to fall back to
+  // the bow-*carry* stride, which drops the bow to the side, so every step
+  // taken while aiming crossfaded the aim away and back — the flicker the
+  // owner reported. Vanilla authors no drawn run, so a run at the aim walks.
+  //
+  // Standing at draw still holds the draw pose, because there its clip time is
+  // the draw fraction and the pose *is* the state. Moving at draw, the string
+  // is read off the rigged bow itself (which is scrubbed by the same fraction),
+  // so nothing about the draw is lost by giving the legs the clip.
+  if (travel !== "still") {
+    return { animation: bowLocomotionClip(bow, travel, isAiming(cycle)), clipTime: null };
   }
   switch (cycle.phase) {
     case "drawing":
@@ -241,6 +260,44 @@ export function bowPose(
     default:
       return { animation: bow.idle, clipTime: null };
   }
+}
+
+/**
+ * The stride an archer walks on, drawn or carrying.
+ *
+ * One place, so the player's aim, an NPC's reposition and any future actor all
+ * pick the same clip for the same situation. Vanilla authors no drawn run, so
+ * a raised bow that runs walks instead — which is also the behaviour a drawn
+ * bow should have.
+ */
+export function bowLocomotionClip(
+  bow: BowAnimationProfile,
+  travel: Exclude<BowTravel, "still">,
+  drawn: boolean,
+): AnimationState {
+  if (!drawn) return bow.locomotion[travel];
+  return bow.drawnLocomotion[travel === "run" ? "walk" : travel];
+}
+
+/**
+ * How far into the draw the shaft has been pulled clear of the quiver.
+ *
+ * The vanilla `bow_drawlight` clip spends its first third reaching over the
+ * shoulder; before that the hand is nowhere near the string, and an arrow
+ * shown there hangs in mid-air. Measured against the clip: the hand arrives at
+ * the string at ~0.35 of the draw.
+ */
+export const NOCK_REVEAL_FRACTION = 0.35;
+
+/**
+ * Whether a shaft should be visible on the string.
+ *
+ * Only during the pull, and only once the hand has been to the quiver and
+ * back. A bow held ready shows an empty string, as Skyrim's does — the arrow
+ * the owner saw in the idle hand was this returning true for `ready`.
+ */
+export function nockedArrowVisible(cycle: BowCycle) {
+  return cycle.phase === "drawing" && cycle.drawFraction >= NOCK_REVEAL_FRACTION;
 }
 
 /** How the archer is moving, as the locomotion set names it. */

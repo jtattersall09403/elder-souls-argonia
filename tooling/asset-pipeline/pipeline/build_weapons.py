@@ -30,6 +30,8 @@ from .models import ROOT
 
 WEAPON_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_weapons.py"
 CONFIG = Path(__file__).resolve().parent / "config" / "weapons"
+#: Plan-item id suffix for the worn half of an item (an arrow set's quiver).
+QUIVER_SUFFIX = "--quiver"
 
 
 def resolve_set(set_id: str, only: list[str] | None) -> dict:
@@ -57,6 +59,13 @@ def resolve_set(set_id: str, only: list[str] | None) -> dict:
             "nif": entry["nif"],
             "sheathSocket": entry.get("sheathSocket", profile["sheathSocket"]),
             "target_length": float(entry.get("lengthMeters", profile["lengthMeters"])),
+            # A quiver is the *worn* half of the same item: Skyrim ships the
+            # back-mounted quiver as `<material>arrow.nif` beside the single
+            # projectile `...arrowflight.nif`, so an arrow set builds both from
+            # one entry rather than needing a parallel set with its own ids.
+            "quiver_nif": entry.get("quiverNif", profile.get("quiverNif")),
+            "quiver_target_length": float(entry.get(
+                "quiverLengthMeters", profile.get("quiverLengthMeters", 0.0))),
         })
     missing = wanted - seen
     if missing:
@@ -84,6 +93,12 @@ def assemble_data_root(set_id: str, items: list[dict]) -> Path:
         mesh_bsa.extract([item["nif"]], data_root)
         item["nif_path"] = data_root / item["nif"]
         wanted |= _referenced_textures(item["nif_path"])
+        if item["quiver_nif"]:
+            if not mesh_bsa.contains(item["quiver_nif"]):
+                raise KeyError(f"{item['id']}: {item['quiver_nif']} not in the mesh archive")
+            mesh_bsa.extract([item["quiver_nif"]], data_root)
+            item["quiver_nif_path"] = data_root / item["quiver_nif"]
+            wanted |= _referenced_textures(item["quiver_nif_path"])
 
     filled, absent = [], []
     for texture in sorted(wanted):
@@ -105,6 +120,9 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
     work = assemble_data_root(set_id, items)
 
     output_dir = (ROOT / config["outputDir"]).resolve()
+    quiver_dir = (ROOT / config["quiverDir"]).resolve() if config.get("quiverDir") else None
+    if quiver_dir:
+        quiver_dir.mkdir(parents=True, exist_ok=True)
     icon_dir = (ROOT / config["iconDir"]).resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     icon_dir.mkdir(parents=True, exist_ok=True)
@@ -120,6 +138,19 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
             "output_glb": to_windows(output_dir / f"{item['id']}.glb"),
             "icon_png": to_windows(icon_dir / f"{item['id']}.png"),
         })
+        if item.get("quiver_nif_path") and quiver_dir:
+            # Built through the same session and the same class rules; the icon
+            # goes to scratch because a quiver is never an inventory row of its
+            # own — it is what wearing the arrows looks like.
+            scratch = work / "quiver-icons"
+            scratch.mkdir(parents=True, exist_ok=True)
+            plan_items.append({
+                "id": f"{item['id']}{QUIVER_SUFFIX}",
+                "nif": to_windows(item["quiver_nif_path"]),
+                "target_length": item["quiver_target_length"],
+                "output_glb": to_windows(quiver_dir / f"{item['id']}.glb"),
+                "icon_png": to_windows(scratch / f"{item['id']}.png"),
+            })
     plan_path = work / "weapons-plan.json"
     plan_path.write_text(json.dumps({
         "addon": TOOLCHAIN["addon"],
@@ -153,7 +184,7 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
     built = summary.get("items", {})
     for warning in summary.get("warnings", []):
         print(f"[weapons] WARNING {warning}")
-    missing = [item["id"] for item in items if item["id"] not in built]
+    missing = [entry["id"] for entry in plan_items if entry["id"] not in built]
     if missing:
         raise RuntimeError(f"items missing from the build: {missing}")
 
@@ -170,6 +201,10 @@ def build(set_id: str = "arsenal", only: list[str] | None = None) -> dict:
                 "icon": f"{Path(config['iconDir']).name}/{item['id']}.png",
                 "lengthMeters": item["target_length"],
                 "sizeMeters": built[item["id"]]["sizeMeters"],
+                **({
+                    "quiver": f"{Path(config['quiverDir']).name}/{item['id']}.glb",
+                    "quiverSizeMeters": built[f"{item['id']}{QUIVER_SUFFIX}"]["sizeMeters"],
+                } if item.get("quiver_nif_path") and quiver_dir else {}),
             }
             for item in items
         },

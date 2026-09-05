@@ -387,6 +387,18 @@ export type BowAnimationProfile = {
     strafeRight: AnimationState;
     run: AnimationState;
   };
+  /**
+   * Moving with the bow *up*: Skyrim's `bowdrawn_*` set. A raised bow that
+   * travels on the carry clips drops the aim for a stride and snaps back to it
+   * on stopping, which is the flicker the owner reported. Walk-speed only —
+   * vanilla authors no drawn run, and an archer at full draw does not run.
+   */
+  drawnLocomotion: {
+    walk: AnimationState;
+    walkBack: AnimationState;
+    strafeLeft: AnimationState;
+    strafeRight: AnimationState;
+  };
 };
 
 export type WeaponAnimationProfile = {

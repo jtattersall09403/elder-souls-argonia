@@ -169,6 +169,9 @@ for (const [id, shaft] of shafts) {
   }
   await assertBinaryGltf(shaft.asset);
   await assertReadable(shaft.icon);
+  // The worn half. A missing quiver is an archer drawing arrows out of thin
+  // air, which is exactly the defect the quiver was added to fix.
+  if (typeof shaft.quiver === "string") await assertBinaryGltf(shaft.quiver);
 }
 
 console.log(

@@ -45,6 +45,7 @@ import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
 import { ArmourAttachments } from "./ArmourAttachments";
 import { NockedArrow } from "./NockedArrow";
+import { QuiverAttachment } from "./QuiverAttachment";
 import { OffHandItem, type BowDrawRefs } from "./OffHandItem";
 import { createRiggedBow } from "./riggedBow";
 import type { HurtboxBone, HurtboxRigRef } from "./SkeletalHurtbox";
@@ -249,6 +250,7 @@ function PosedActor({
   bowDraw,
   offHandRef,
   armour = NO_ARMOUR,
+  quiver = null,
   nockedArrow = null,
   firstPerson = false,
   hidden = false,
@@ -295,6 +297,12 @@ function PosedActor({
   bowDraw?: BowDrawRefs;
   /** Worn armour. Each piece is skinned to the shared rig and hides what it covers. */
   armour?: readonly ArmourDefinition[];
+  /**
+   * The worn quiver, or null when no arrows are equipped. Comes straight off
+   * the equipped arrow definition — the socket included — so nothing here
+   * knows what a quiver looks like or where a back is.
+   */
+  quiver?: { asset: string; socket: string; visible?: boolean } | null;
   /**
    * Arrow to show on the string, or null for none. Mounted on the drawing hand
    * so the authored draw carries it from the quiver to the anchor.
@@ -1140,6 +1148,16 @@ function PosedActor({
       {offHandProfile && (
         <Suspense fallback={null}>
           <OffHandItem model={model} profile={offHandProfile} sheathed={!equipped} objectRef={offHandRef} bowDraw={bowDraw} />
+        </Suspense>
+      )}
+      {quiver && (
+        <Suspense fallback={null}>
+          <QuiverAttachment
+            model={model}
+            asset={quiver.asset}
+            socket={quiver.socket}
+            visible={quiver.visible ?? true}
+          />
         </Suspense>
       )}
       {nockedArrow && (

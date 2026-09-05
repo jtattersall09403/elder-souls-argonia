@@ -82,6 +82,12 @@ export type AnimationState =
   | "BOW_STRAFE_LEFT"
   | "BOW_STRAFE_RIGHT"
   | "BOW_RUN"
+  // Moving with the string at full draw (vanilla `bowdrawn_*`). Walk speeds
+  // only: vanilla authors no drawn run, and neither does a real archer.
+  | "BOW_DRAWN_WALK"
+  | "BOW_DRAWN_WALK_BACK"
+  | "BOW_DRAWN_STRAFE_LEFT"
+  | "BOW_DRAWN_STRAFE_RIGHT"
   | "BOW_DRAW"
   | "BOW_DRAWN"
   | "BOW_RELEASE"
@@ -208,6 +214,22 @@ export type GameSnapshot = {
    */
   lockedSpeedFollowsClip: boolean;
   /**
+   * Top playback rate of a locked strafe or back-walk (`LOCKED_STRIDE_RATE`).
+   * Clip, clock and measured ground track advance together, so this scales
+   * the stride's *speed* by the same factor without unsticking the feet.
+   * Exposed as a debug value so round 7's 1.35 can be compared against round
+   * 8's default of 1.35 × 1.5 in one session.
+   */
+  lockedStrideRate: number;
+  /**
+   * Gravity multiplier on arrows in flight. 1 is real gravity, which the
+   * round-9 probe measured on the live body (`scripts/probe-arrow-flight.mjs`);
+   * Skyrim-style arrows drop harder than that. A comparison knob for the owner
+   * only: the archers' elevation solver assumes 1, so they miss at any other
+   * value.
+   */
+  arrowGravityScale: number;
+  /**
    * How a raised bow is viewed. `eye`: the third-person body's eye view (the
    * original); `firstPerson`: Skyrim's first-person arms rig on the camera;
    * `shoulder`: stay third person, over-the-shoulder camera with the
@@ -227,6 +249,8 @@ export type GameSnapshot = {
   arrowsLeft: number;
   /** 0 = wide aim view, 1 = fully zoomed. Only meaningful while `aiming`. */
   aimZoom: number;
+  /** Crosshair-ray to shot-line angle while aiming, degrees. Debug telemetry. */
+  aimErrorDegrees: number;
   /**
    * Poise left in the player's pool, and its size (module 76 §121.3).
    *

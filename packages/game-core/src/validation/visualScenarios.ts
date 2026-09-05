@@ -40,6 +40,7 @@ export const VISUAL_SCENARIO_IDS = [
   "bow-aim-turn",
   "bow-drawn-hold",
   "bow-drawn-hold-shoulder",
+  "bow-drawn-locomotion",
   "archer-shot",
   "riposte-queued",
   "crouch-locomotion",
@@ -820,6 +821,32 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [
       { from: 0.15, to: 0.24, actions: ["light"] },
       { from: 0.6, to: 6.4, actions: ["light"] },
+    ],
+  },
+  "bow-drawn-locomotion": {
+    id: "bow-drawn-locomotion",
+    label: "Bow \u2192 hold at full draw and walk, retreat and strafe: the drawn strides",
+    warmup: 0.5,
+    duration: 9.6,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+      aimView: "shoulder",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      // Held all the way through: every stride below happens at full draw.
+      // Held throughout, and ending before the arm gives out: a draw that
+      // collapses for stamina drops back to the nock, which is a different
+      // scene from this one.
+      { from: 0.6, to: 9.2, actions: ["light"] },
+      { from: 4.8, to: 5.7, actions: ["light"], move: [0, 0.6] },
+      { from: 5.9, to: 6.8, actions: ["light"], move: [0, -0.6] },
+      { from: 7.0, to: 7.9, actions: ["light"], move: [-0.6, 0] },
+      { from: 8.1, to: 9.0, actions: ["light"], move: [0.6, 0] },
     ],
   },
   "archer-shot": {

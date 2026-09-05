@@ -49,13 +49,24 @@ import {
   advanceBowCycle,
   aimBlend,
   bowPose,
+  bowLocomotionClip,
   bowTravelFor,
   isAiming,
+  NOCK_REVEAL_FRACTION,
+  nockedArrowVisible,
   type BowCycle,
 } from "@elder-souls/game-core/combat/bowShot";
+import {
+  AIM_CONVERGENCE_FAR_METERS,
+  aimAngles,
+  aimConvergencePoint,
+  angleBetweenDegrees,
+  directionTo,
+} from "@elder-souls/game-core/combat/aimConvergence";
 import { launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
 import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
 import { nearestHurtboxBone, stickArrow } from "@elder-souls/game-core/combat/stuckArrows";
+import { poseHurtbox, resolveArrowPlant } from "@elder-souls/game-core/combat/arrowPlant";
 import { totalArmourRating } from "@elder-souls/game-core/equipment/armour";
 import { clearArrows, fireArrow, useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
 import { ActorHealthBar } from "./ActorHealthBar";
@@ -84,7 +95,7 @@ import {
   resetPoise,
   type PoiseState,
 } from "@elder-souls/game-core/combat/poise";
-import { locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
+import { MIN_AUTHORED_GROUND_SPEED, locomotionSpeedMultiplier } from "@elder-souls/game-core/anim/locomotionCadence";
 import {
   CHARACTER_CAPSULE_HALF_HEIGHT,
   CHARACTER_CAPSULE_RADIUS,
@@ -146,6 +157,7 @@ import {
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
 import { footAnchoredLoopVelocity, footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
+import { lockedStrideClip, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
 import {
   executionAnchor,
   executionBladeIntersectsVictim,
@@ -190,6 +202,14 @@ const ARROW_SPAWN_AHEAD_METERS = 0.85;
  * circle-strafe at full pace while drawing has no reason to ever lower it.
  */
 const AIM_MOVE_SPEED = 2.1;
+/**
+ * Ceiling on the drawn stride's own speed, m/s.
+ *
+ * The aim moves at the speed the *clip* moves at (its measured ground track),
+ * so the feet stay the anchor — but a drawn stride is still a commitment, so
+ * the clip's speed is capped rather than trusted blindly.
+ */
+const AIM_MOVE_SPEED_CEILING = AIM_MOVE_SPEED;
 /**
  * How long a riposte pressed during the parry stays queued.
  *
@@ -247,7 +267,7 @@ const AIM_EYE_RIGHT_METERS = 0.14;
  * The over-the-shoulder aim (`aimView: "shoulder"`): camera behind the right
  * shoulder, slightly above the eye, close enough that the crosshair still
  * reads as the arrow's line. Tears of the Kingdom sits at roughly this offset
- * (see docs/research/third-person-bow-aim-camera.md).
+ * (see docs/research/combat-and-systems/third-person-bow-aim-camera.md).
  */
 const SHOULDER_AIM_RIGHT_METERS = 0.55;
 const SHOULDER_AIM_UP_METERS = 0.22;
@@ -306,8 +326,6 @@ function aimFieldOfView(zoom: number) {
  * with the other handedness is a one-line change.
  */
 const TRACK_LATERAL_SIGN = 1;
-/** Playback rate of the locked-on strides (clip and feet together). */
-const LOCKED_STRIDE_RATE = 1.35;
 /**
  * Two navigation capsules in contact, plus a solver's worth of softness. An
  * enemy whose swing walks it forward on its own feet stops here instead of
@@ -948,6 +966,9 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           hurtboxRef={runtime.hurtbox}
           aimPitchRef={runtime.archetype.loadout.mainHand.stats.ranged ? runtime.aimPitch : undefined}
           bowDraw={{ fraction: runtime.bowDrawFraction, release: runtime.bowRelease }}
+          quiver={runtime.archetype.loadout.mainHand.stats.ranged && DEFAULT_ARROW.quiver
+            ? { asset: DEFAULT_ARROW.quiver.asset, socket: DEFAULT_ARROW.quiver.socket }
+            : null}
           nockedArrow={runtime.archetype.loadout.mainHand.stats.ranged
             ? {
               asset: DEFAULT_ARROW.asset,
@@ -1029,6 +1050,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const playerLoadout = useEquippedLoadout();
   const playerArmour = useWornArmour();
   const playerQuiver = useEquippedArrow();
+  // The physics world, for the crosshair ray: where the sight line lands is
+  // what the shot is aimed at.
+  const { rapier, world } = useRapier();
   // Validation runs a fixed, deterministic scene; background fetches would only
   // add noise to it.
   useCarriedAssetWarmup(!visualScenario);
@@ -1130,6 +1154,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   useStanceCapsule(player, playerStance);
   const footDrivenMotion = useGameStore((state) => state.footDrivenMotion);
   const lockedSpeedFollowsClip = useGameStore((state) => state.lockedSpeedFollowsClip);
+  const lockedStrideRate = useGameStore((state) => state.lockedStrideRate);
   /**
    * Clip-driven locomotion (locked-on and crouched): the stride playing, how
    * far into it we are — kept here rather than read back from the mixer, at
@@ -1192,6 +1217,18 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const aimPitch = useRef(0);
   /** 0 = wide, 1 = fully zoomed. Reset whenever the bow comes down. */
   const aimZoom = useRef(0);
+  /** Last frame's aim-camera position: the crosshair ray starts here. */
+  const aimCameraOrigin = useRef(new THREE.Vector3());
+  /** Reused crosshair ray; allocating one per frame in a hot loop is waste. */
+  const aimRay = useRef(new rapier.Ray({ x: 0, y: 0, z: 0 }, { x: 0, y: 0, z: 1 }));
+  /** Yaw the body is turned to while aiming: the converged shot's, not the camera's. */
+  const playerAimBodyYaw = useRef(0);
+  /** Lean the spine takes while aiming, radians; positive is up. */
+  const playerAimSpinePitch = useRef(0);
+  /** Angle between the crosshair ray and the shot, degrees. Telemetry only. */
+  const playerAimErrorDegrees = useRef(0);
+  /** How fast the drawn stride currently showing carries the body, m/s. */
+  const aimMoveSpeed = useRef(AIM_MOVE_SPEED);
   const aimBlendAmount = useRef(0);
   const playerHeadBone = useRef<THREE.Object3D | null>(null);
   /** Where the shot is going, shared with anything that has to point along it. */
@@ -1227,6 +1264,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const cameraLook = useRef(new THREE.Vector3());
   const tmp = useRef({
     aimDirection: new THREE.Vector3(),
+    aimLook: new THREE.Vector3(),
+    aimRayFallback: new THREE.Vector3(),
     arrowOrigin: new THREE.Vector3(),
     toEnemy: new THREE.Vector3(),
     flat: new THREE.Vector3(),
@@ -1258,7 +1297,6 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const aimingSnapshot = useGameStore((state) => state.aiming);
   const firstPersonActive = aimingSnapshot && aimView === "firstPerson" && Boolean(playerWeapon.visual.rig);
   const shoulderAim = aimView === "shoulder";
-  const bowPhaseSnapshot = useGameStore((state) => state.bowPhase);
   /**
    * The shaft on the string. Present whenever the bow is up and an arrow is
    * nocked, and gone the instant it is loosed — which is the moment the real
@@ -1266,9 +1304,23 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
    */
   const playerNockedArrow = useMemo(() => {
     if (!aimingSnapshot || !playerQuiver) return null;
-    const nocked = bowPhaseSnapshot === "ready" || bowPhaseSnapshot === "drawing";
-    return { asset: playerQuiver.arrow.asset, visible: nocked, aimDirection: playerAimDirection, nockWorld: playerNockWorld };
-  }, [aimingSnapshot, bowPhaseSnapshot, playerQuiver]);
+    // Present whenever the bow is up; *shown* by the frame ref, which follows
+    // the draw clip (`nockedArrowVisible`). A bow held ready has an empty
+    // string — the shaft comes out of the quiver as the hand goes back for it.
+    return {
+      asset: playerQuiver.arrow.asset,
+      visible: true,
+      visibleRef: playerNockVisible,
+      aimDirection: playerAimDirection,
+      nockWorld: playerNockWorld,
+    };
+  }, [aimingSnapshot, playerQuiver]);
+  /** The quiver on the player's back: whatever arrows are equipped, worn. */
+  const playerQuiverMount = useMemo(() => {
+    const worn = playerQuiver?.arrow.quiver;
+    if (!worn) return null;
+    return { asset: worn.asset, socket: worn.socket, visible: !firstPersonActive };
+  }, [firstPersonActive, playerQuiver]);
   const resetToken = useGameStore((state) => state.resetToken);
   const patch = useGameStore((state) => state.patch);
   const hudTimer = useRef(0);
@@ -1549,6 +1601,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         || playerAction.current === "riposte";
       if (invulnerable) return;
       const struck = nearestHurtboxBone(playerHurtbox.current, hit.point);
+      // Where the shaft ends up is a separate question from what it counts as
+      // hitting: the sensor reports a step late, so the arrow's own position
+      // can be clear of the body and a shaft left there stands in mid-air.
+      const plant = resolveArrowPlant(
+        poseHurtbox(playerHurtbox.current ?? []),
+        hit.point,
+        new THREE.Vector3(0, 0, 1).applyQuaternion(hit.quaternion),
+      );
       const zone = hitZoneForBone(struck?.bone.name ?? null);
       const impact = resolveArrowImpact(hit.arrow.physics, hit.speed, {
         armourRating: totalArmourRating(playerArmour),
@@ -1582,7 +1642,10 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         }
         return;
       }
-      if (struck && hit.object) stickArrow(struck.bone, hit.object, hit.point, hit.quaternion);
+      // Planted where the flight line meets the body, not where the sensor
+      // reported: the overlap arrives a step late, and a shaft left at that
+      // position stands in the air beside the target.
+      if (plant && hit.object) stickArrow(plant.segment.bone, hit.object, plant.point, hit.quaternion);
       playerHealth.current = Math.max(0, playerHealth.current - damage);
       triggerDamageVignette();
       triggerShake(zone.heavyReaction ? "playerHeavyHit" : "playerHit", { x: flightForward.x, z: flightForward.z });
@@ -1608,9 +1671,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     if (!victim || victim.fighter.health <= 0) return;
     const f = victim.fighter;
 
-    // Which part of the body it found. The same answer serves the damage, the
-    // reaction, and where the shaft is left standing.
+    // Which part of the body it found: the damage and the reaction.
     const struck = nearestHurtboxBone(victim.hurtbox.current, hit.point);
+    // And where on the body the shaft is left standing — the flight line's
+    // first crossing of a capsule surface, not the late sensor's report.
+    // Identical call for the player above and every enemy here.
+    const plant = resolveArrowPlant(
+      poseHurtbox(victim.hurtbox.current ?? []),
+      hit.point,
+      new THREE.Vector3(0, 0, 1).applyQuaternion(hit.quaternion),
+    );
     const zone = hitZoneForBone(struck?.bone.name ?? null);
     const impact = resolveArrowImpact(hit.arrow.physics, hit.speed, {
       armourRating: totalArmourRating(wornArmourFor(f.archetype.armour)),
@@ -1647,7 +1717,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       return;
     }
 
-    if (struck && hit.object) stickArrow(struck.bone, hit.object, hit.point, hit.quaternion);
+    if (plant && hit.object) stickArrow(plant.segment.bone, hit.object, plant.point, hit.quaternion);
     f.health = Math.max(0, f.health - damage);
     triggerShake(zone.heavyReaction ? "enemyHeavyHit" : "enemyHit", {
       x: victim.position.x,
@@ -2244,6 +2314,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // quiver loses.
     const ranged = playerWeapon.stats.ranged;
     const bowAnimations = playerWeapon.animations.bow;
+    // Death outranks the aim. The cycle is not part of the melee action FSM, so
+    // a killing blow landing mid-aim used to set the action to "dead" and then
+    // have this block overwrite it with "aim" on the very next frame — the
+    // player stayed up, kept moving and kept shooting, and could not die.
+    const playerDead = playerAction.current === "dead" || playerHealth.current <= 0;
     if (ranged && bowAnimations && equipped.current) {
       const raised = isAiming(bowCycle.current);
       const bowStep = advanceBowCycle(
@@ -2254,6 +2329,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           // An empty quiver lowers the bow: there is nothing to nock, and
           // standing in a first-person aim with no arrow is a dead end.
           exitPressed: intent.aimExitPressed || !playerQuiver,
+          interrupted: playerDead,
         },
         ranged,
         playerStamina.current,
@@ -2271,13 +2347,54 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       // Kept current every frame the bow is up: the nocked shaft points along
       // it, and the shot leaves along it.
+      //
+      // The line is solved, not copied from the camera. The crosshair is a ray
+      // out of the camera; the shot starts at the nock, which is off to one
+      // side of it and lower — so a shot fired *parallel* to the camera runs
+      // beside the sight line forever, low and to the left by exactly that
+      // offset. Both are now aimed at the point the ray hits, and the body and
+      // spine are turned onto the same point, so the bow visibly points where
+      // the shot goes. See `combat/aimConvergence.ts`.
       if (isAiming(bowStep.cycle)) {
-        aimDirectionInto(playerAimDirection.current, cameraYaw.current, aimPitch.current);
+        aimDirectionInto(tmp.current.aimLook, cameraYaw.current, aimPitch.current);
+        const rayOrigin = aimCameraOrigin.current.lengthSq() > 0
+          ? aimCameraOrigin.current
+          : tmp.current.aimRayFallback.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z);
+        aimRay.current.origin = rayOrigin;
+        aimRay.current.dir = tmp.current.aimLook;
+        const crosshairHit = world.castRay(
+          aimRay.current,
+          AIM_CONVERGENCE_FAR_METERS,
+          true,
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+          // Sensors are hurtboxes, parry volumes and arrow probes; the
+          // crosshair lands on solid geometry, not on the measuring kit. The
+          // archer's own body is skipped for the same reason.
+          (collider) => !collider.isSensor() && collider.parent()?.handle !== body.handle,
+        );
+        const point = aimConvergencePoint(
+          rayOrigin,
+          tmp.current.aimLook,
+          crosshairHit ? crosshairHit.timeOfImpact : null,
+        );
+        const converged = directionTo(playerNockWorld.current, point);
+        playerAimDirection.current.set(converged.x, converged.y, converged.z);
         tmp.current.aimDirection.copy(playerAimDirection.current);
+        const angles = aimAngles(converged);
+        playerAimBodyYaw.current = angles.yaw;
+        // The spine leans onto the shot's own line, which is not the camera's
+        // pitch once the camera sits above the eye.
+        playerAimSpinePitch.current = angles.pitch;
+        playerAimErrorDegrees.current = angleBetweenDegrees(converged, {
+          x: tmp.current.aimLook.x, y: tmp.current.aimLook.y, z: tmp.current.aimLook.z,
+        });
       }
       playerBowDrawFraction.current = bowStep.cycle.phase === "drawing" ? bowStep.cycle.drawFraction : 0;
       if (bowStep.shot) playerBowRelease.current += 1;
-      playerNockVisible.current = bowStep.cycle.phase === "ready" || bowStep.cycle.phase === "drawing";
+      playerNockVisible.current = nockedArrowVisible(bowStep.cycle);
       {
         const view = firstPersonState.current;
         view.rootPosition.set(playerPos.x, playerPos.y - CHARACTER_BODY_CENTER_HEIGHT, playerPos.z);
@@ -2313,13 +2430,25 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       if (bowStep.exited) {
         aimPitch.current = 0;
         aimZoom.current = 0;
-        finishPlayerAction();
+        playerAimSpinePitch.current = 0;
+        playerNockVisible.current = false;
+        // Not when the archer died holding it: the death action owns the actor
+        // from the moment it is set, and finishing "aim" would put it back on
+        // its feet — which is precisely the bug this closes.
+        if (playerAction.current === "aim") finishPlayerAction();
       } else if (isAiming(bowStep.cycle)) {
         const pose = bowPose(bowStep.cycle, bowAnimations, bowTravelFor(intent.move, moveMagnitude));
         if (pose.animation !== playerAnimationCommand.current.state) {
           startPlayerAction("aim", pose.animation);
         }
-        // A bow-carry stride is timed by the ground it covers, like any other.
+        // A bow stride is timed by the ground it covers, like any other — and
+        // the aim's own move speed comes from that same measurement, so the
+        // drawn stride plays at rate 1 with its feet planted instead of being
+        // scrubbed to chase a hand-set number.
+        const authored = clipAuthoredGroundSpeed(pose.animation);
+        aimMoveSpeed.current = authored && authored >= MIN_AUTHORED_GROUND_SPEED
+          ? Math.min(authored, AIM_MOVE_SPEED_CEILING)
+          : AIM_MOVE_SPEED;
         playerAnimationSpeed.current = locomotionSpeedMultiplier(
           pose.animation,
           playerMoveSpeed.current,
@@ -2329,11 +2458,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       }
       aimBlendAmount.current = aimBlend(bowCycle.current);
     } else if (isAiming(bowCycle.current)) {
-      // The bow was unequipped, swapped or dropped mid-aim.
+      // The bow was unequipped, swapped or dropped mid-aim — or the archer
+      // died holding it. Either way the aim closes and the camera comes back.
       bowCycle.current = IDLE_BOW_CYCLE;
       aimBlendAmount.current = 0;
       aimPitch.current = 0;
       aimZoom.current = 0;
+      playerAimSpinePitch.current = 0;
+      playerNockVisible.current = false;
       if (playerAction.current === "aim") finishPlayerAction();
     }
 
@@ -2775,13 +2907,17 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const aiming = playerAction.current === "aim";
     const movementAllowed = playerAction.current === "idle" || aiming;
     movementAllowedRef.current = movementAllowed;
-    // Locked-on movement plays WALK / WALK_BACK / the strafes, and by default
-    // moves at the speed those clips were authored for — the same rule as the
+    // Locked-on movement plays WALK_BACK / the strafes, and by default moves
+    // at the speed those clips were authored for — the same rule as the
     // crouch: the speed follows the animation, so the planted foot is the
     // anchor and nothing scrubs. The fixed locked-on walk (with the clip's
     // cadence scaled to chase it) is kept behind the debug switch.
+    // Forward is deliberately *not* one of these (owner round 8): pushing
+    // towards the target falls through to the ordinary locomotion selection
+    // and the ordinary free-roam speed, so a locked-on advance is the normal
+    // run. `lockedStrideClip` returns null there.
     const lockedClip = lockedOn.current && moveMagnitude > 0.08 && playerAction.current === "idle"
-      ? lockOnLocomotionAnimation(intent.move, moveMagnitude, playerLocomotionReversing.current)
+      ? lockedStrideClip(intent.move, moveMagnitude, playerLocomotionReversing.current)
       : null;
     const crouchMoving = crouching && moveMagnitude > 0.08 && playerAction.current === "idle";
     // Foot-anchored locomotion: locked-on strides and the crouch play their
@@ -2792,7 +2928,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const clipDriven = lockedSpeedFollowsClip && movementAllowed && !aiming && handle.isOnGround
       && (lockedClip !== null || crouchMoving);
     const lockOnMoveScale = aiming
-      ? AIM_MOVE_SPEED / PLAYER_WALK_SPEED
+      // The drawn stride's own measured ground speed, not a hand-set number:
+      // the clip plays at rate 1 and the body keeps up with its feet.
+      ? aimMoveSpeed.current / PLAYER_WALK_SPEED
       : clipDriven
         ? 0
         : crouching
@@ -2849,7 +2987,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         : null;
       playerLocomotionReversing.current = lockWarp?.reversing ?? false;
       const lockedStandard = lockWarp
-        ? lockOnLocomotionAnimation(intent.move, moveMagnitude, lockWarp.reversing)
+        ? lockedStrideClip(intent.move, moveMagnitude, lockWarp.reversing)
         : null;
       // The lock-on selector answers in core clips; a weapon that overrides its
       // locomotion answers for the same directions in its own.
@@ -2903,11 +3041,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       setAnim(locomotion);
       if (drivenByFeet) {
         // The stride's own feet move the body. The clock restarts with the
-        // clip (a new command starts its action at 0). Locked-on strides run a
-        // little quick (owner: the authored pace is "a bit too slow"); the
-        // clock and the track advance at the same rate, so the feet stay the
-        // anchor and the body simply covers ground faster.
-        const rate = lockedClip ? LOCKED_STRIDE_RATE : 1;
+        // clip (a new command starts its action at 0). Locked strafes and the
+        // back-walk run quick (the debug `lockedStrideRate`, default 1.35×1.5
+        // — owner round 8); the crouch stays at its authored pace. The rate is
+        // analogue: it follows how far the stick is pushed, floored so a light
+        // push steps rather than crawls. Clock, clip and measured track all
+        // advance at that same rate, so the feet stay the anchor and the body
+        // simply covers ground faster or slower.
+        const rate = strideRateForMagnitude(moveMagnitude, lockedClip ? lockedStrideRate : 1);
         playerAnimationSpeed.current = rate;
         if (clipDrivenState.current !== locomotion) {
           clipDrivenState.current = locomotion;
@@ -3143,9 +3284,20 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         }
       } else if (f.state === "strafe") {
         enemyMoveX = f.strafeSide;
-        setEnemyAnim(e, f.strafeSide < 0
+        // An archer strafes on its own set: the bow-carry strafe with the
+        // string at rest, the drawn strafe if it is repositioning mid-draw.
+        // It used to strafe on the shared (sword) clips, which put the bow
+        // through the body.
+        const bowStrafe = weapon.animations.bow
+          ? bowLocomotionClip(
+            weapon.animations.bow,
+            f.strafeSide < 0 ? "strafeLeft" : "strafeRight",
+            e.bowDrawFraction.current > 0,
+          )
+          : null;
+        setEnemyAnim(e, bowStrafe ?? (f.strafeSide < 0
           ? archetype.locomotion.strafeAnimations.left
-          : archetype.locomotion.strafeAnimations.right);
+          : archetype.locomotion.strafeAnimations.right));
         if (f.actionTime > archetype.stateDurations.strafe) {
           setEnemyMode(e, "watching", weapon.animations.combatIdle);
         }
@@ -3173,10 +3325,14 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           const step = advanceEnemyBow(elapsed, elapsed - delta, ranged);
           setEnemyAnim(e, step.animation);
           aimEnemyBow(e, ranged, playerPos, distance);
-          e.nockVisible.current = step.phase === "draw" || step.phase === "hold";
           e.bowDrawFraction.current = step.phase === "draw"
             ? THREE.MathUtils.clamp(elapsed / Math.max(1e-3, ranged.drawSeconds), 0, 1)
             : step.phase === "hold" ? 1 : 0;
+          // The shaft appears when the hand comes back off the quiver, the
+          // same point in the same clip the player's does — before that the
+          // archer was holding an arrow that had not been drawn yet.
+          e.nockVisible.current = step.phase === "hold"
+            || (step.phase === "draw" && e.bowDrawFraction.current >= NOCK_REVEAL_FRACTION);
           if (step.loosed) {
             e.bowRelease.current += 1;
             looseEnemyArrow(e, ranged, distance, Boolean(visualScenario));
@@ -3194,7 +3350,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // decides `shoot` or `withdraw` almost every time, and neither branch
         // existed, so nothing ever set its joystick.
         enemyMoveY = -1;
-        setEnemyAnim(e, weapon.animations.bow?.locomotion.walkBack ?? "BOW_WALK_BACK");
+        setEnemyAnim(e, weapon.animations.bow
+          ? bowLocomotionClip(weapon.animations.bow, "walkBack", e.bowDrawFraction.current > 0)
+          : "BOW_WALK_BACK");
         // Stop as soon as the standoff the weapon itself asks for is restored,
         // rather than backing away for a fixed time regardless.
         const standoff = loadoutTactics(archetype.loadout).standoffRange;
@@ -3570,7 +3728,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // torque proved not to move a standing archer at all (measured in the
         // bow-aim-turn scene: the camera swung 2.2 rad, the body 0).
         body.setAngvel({ x: 0, y: 0, z: 0 }, true);
-        tmp.current.quaternion.setFromAxisAngle(UP, cameraYaw.current + Math.PI);
+        // Onto the *shot's* yaw, not the camera's. In the over-the-shoulder
+        // view the camera is off to the right of the body, so facing the
+        // camera's yaw pointed the bow parallel to the sight line instead of
+        // at what the crosshair was on.
+        tmp.current.quaternion.setFromAxisAngle(UP, playerAimBodyYaw.current + Math.PI);
         body.setRotation(tmp.current.quaternion, true);
       }
     } else {
@@ -3659,6 +3821,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         tmp.current.flat.z += tmp.current.aimDirection.x * SHOULDER_AIM_RIGHT_METERS;
         tmp.current.flat.addScaledVector(tmp.current.aimDirection, -SHOULDER_AIM_BACK_METERS);
       }
+      // The crosshair ray starts here. Published so the shot can be aimed at
+      // what the crosshair is actually on rather than at a parallel line.
+      aimCameraOrigin.current.copy(tmp.current.flat);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
       // direction exactly rather than approximately.
@@ -3744,6 +3909,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         drawFraction: bowCycle.current.drawFraction,
         arrowsLeft: playerQuiver?.count ?? 0,
         aimZoom: aimZoom.current,
+        aimErrorDegrees: Number(playerAimErrorDegrees.current.toFixed(2)),
         playerPoise: playerPoise.current.current,
         playerMaxPoise: playerPoise.current.max,
       });
@@ -3849,6 +4015,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           offHandProfile={playerLoadout.offHand?.visual ?? null}
           animationPacks={playerAnimationPacks}
           armour={playerArmour}
+          quiver={playerQuiverMount}
           nockedArrow={playerNockedArrow}
           bowDraw={playerBowDraw}
           firstPerson={aimingSnapshot && aimView === "eye"}
@@ -3862,7 +4029,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           offHandRef={playerOffHandObject}
           hurtboxRef={playerHurtbox}
           headBoneRef={playerHeadBone}
-          aimPitchRef={aimPitch}
+          // The lean follows the *shot*, not the camera: the converged aim's
+          // own pitch, so the bow points along the line the arrow leaves on.
+          aimPitchRef={playerAimSpinePitch}
           visualProbe={visualScenario ? playerVisualProbe.current : undefined}
           visualSupportY={0}
         />
