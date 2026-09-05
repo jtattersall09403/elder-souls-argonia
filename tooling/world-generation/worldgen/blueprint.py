@@ -150,8 +150,11 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     "encounter"|"boss"|"station"|"mark"), position?,
                     parcelId?, ownerQuestTier?}
   doors[]           {id (door.<region>.<slug>.<n>), parcelId, facingDeg,
-                    thresholdUV, interiorClaim {sizeClass, culture, interiorRef,
-                    owner?}}
+                    thresholdUV, doorwayRef (DERIVED — the index of the
+                    doorway in the piece's interiors-index `doorways[]` the
+                    door sits on; written by
+                    `worldgen.blueprint_footprints --doors`),
+                    interiorClaim {sizeClass, culture, interiorRef, owner?}}
                     — Phase 12's fill points AND the interior streaming
                     boundary; reachability validated every compile.
                     `facingDeg` is checked against geometry: the validator
@@ -172,6 +175,12 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                       * a parcel whose assetRef has interior matched/tileset/
                         shell MUST have >=1 door; interior "none" must have
                         none (a door onto a deck opens onto nothing);
+                      * a door must sit on a DERIVED doorway — a door part's
+                        offset in a mined composite assembly, or an opening
+                        measured off the shell; a piece with an inside but no
+                        derived doorway may not carry a door at all (that is a
+                        sourcing gap, recorded in
+                        docs/research/placement-settlements/settlement-kit-sourcing-log.md);
                       * `interiorClaim.interiorRef` must be the index's
                         interiorAssetRef (a matched interior mesh) or its
                         tileset (the interior kit Phase 12 builds it from);
@@ -391,6 +400,29 @@ def _door_edge_bearing(parcel: dict, threshold_uv) -> float | None:
     return math.degrees(math.atan2(nx, -nz)) % 360.0
 
 
+def _parcel_centre_m(parcel: dict, extent_m: float = fp.PROVINCE_EXTENT_M):
+    c = parcel.get("centreUV")
+    if not (isinstance(c, list) and len(c) == 2):
+        poly = parcel.get("footprint")
+        if not _polygon_ok(poly):
+            return None
+        c = [sum(q[0] for q in poly) / len(poly), sum(q[1] for q in poly) / len(poly)]
+    return (float(c[0]) * extent_m, float(c[1]) * extent_m)
+
+
+def _match_parcel_doorway(parcel: dict, door: dict, record: dict | None,
+                          extent_m: float = fp.PROVINCE_EXTENT_M):
+    """`(doorway index or None, reason)` for this door on this parcel."""
+    centre = _parcel_centre_m(parcel, extent_m)
+    th = door.get("thresholdUV")
+    threshold = (float(th[0]) * extent_m, float(th[1]) * extent_m) \
+        if isinstance(th, list) and len(th) == 2 else None
+    facing = door.get("facingDeg")
+    return bi.match_doorway(record, float(parcel.get("yawDeg") or 0.0),
+                            float(facing) if isinstance(facing, (int, float)) else None,
+                            threshold, centre)
+
+
 def size_class(bp: dict) -> str:
     """The blueprint's size class: its declared magnitude if it carries one,
     else the module 92 ladder read off the planned building count."""
@@ -480,6 +512,77 @@ def _placement_warnings(bp: dict) -> list[str]:
             if lo_k in widest and hi_k in widest and widest[lo_k] > widest[hi_k]:
                 out.append(f"{bid}: 97 C3 — a {lo_k} ({widest[lo_k]:.1f} m) is wider than a {hi_k} "
                            f"({widest[hi_k]:.1f} m); width is how a player reads rank")
+    return out
+
+
+DOOR_ON_WAY_TOLERANCE_DEG = 60.0
+DOOR_ON_WAY_RANGE_M = 30.0
+
+
+def _ways(bp: dict):
+    for key in ("routes", "canals", "boardwalks"):
+        for w in bp.get(key, []) or []:
+            pts = w.get("points") or w.get("via") or []
+            if len(pts) >= 2:
+                yield w, pts
+
+
+def _nearest_way(bp: dict, point_uv):
+    """(way, nearest point on it, distance in UV) for the closest way to a point."""
+    best = None
+    px, pz = float(point_uv[0]), float(point_uv[1])
+    for w, pts in _ways(bp):
+        for i in range(len(pts) - 1):
+            ax, az = float(pts[i][0]), float(pts[i][1])
+            bx, bz = float(pts[i + 1][0]), float(pts[i + 1][1])
+            ex, ez = bx - ax, bz - az
+            l2 = ex * ex + ez * ez
+            if l2 == 0:
+                continue
+            s = max(0.0, min(1.0, ((px - ax) * ex + (pz - az) * ez) / l2))
+            qx, qz = ax + s * ex, az + s * ez
+            dist = math.hypot(px - qx, pz - qz)
+            if best is None or dist < best[2]:
+                best = (w, (qx, qz), dist)
+    return best
+
+
+def _door_way_warnings(bp: dict) -> list[str]:
+    """The orientation reason, read off the geometry: a door's derived doorway
+    should look at the way it opens onto. WARN, not HARD — the owner wants the
+    reason surfaced, not a fight with the designer (97 §G)."""
+    out: list[str] = []
+    bid = bp.get("id", "<missing id>")
+    lib = bi.library()
+    if not lib:
+        return out
+    parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
+    for d in bp.get("doors", []) or []:
+        parcel = parcels.get(d.get("parcelId"))
+        th = d.get("thresholdUV")
+        if not parcel or not (isinstance(th, list) and len(th) == 2):
+            continue
+        record = lib.get(parcel.get("assetRef"))
+        idx, _ = _match_parcel_doorway(parcel, d, record)
+        if idx is None:
+            continue
+        ways = bi.doorways(record)
+        if bi.is_radial(ways[idx]):
+            continue
+        bearing = (float(ways[idx]["sideDeg"]) + float(parcel.get("yawDeg") or 0.0)) % 360.0
+        near = _nearest_way(bp, th)
+        if near is None:
+            continue
+        way, (qx, qz), dist_uv = near
+        if dist_uv * fp.PROVINCE_EXTENT_M > DOOR_ON_WAY_RANGE_M:
+            continue
+        to_way = math.degrees(math.atan2(qx - float(th[0]), -(qz - float(th[1])))) % 360.0
+        off = _angle_delta(bearing, to_way)
+        if off > DOOR_ON_WAY_TOLERANCE_DEG:
+            out.append(f"{bid}: door-on-way — {d.get('id')} sits on a doorway looking {bearing:.0f}°, but the "
+                       f"way it opens onto ({way.get('id')}, {dist_uv * fp.PROVINCE_EXTENT_M:.1f} m off) lies "
+                       f"{to_way:.0f}° — {off:.0f}° away; turn the parcel or move the door to a doorway that "
+                       f"faces the street")
     return out
 
 
@@ -868,14 +971,23 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                  f"{(d.get('interiorClaim') or {}).get('sizeClass')!r}, but the piece measures {area:.0f} m² — "
                  f"small is under {bi.SIZE_CLASS_SMALL_MAX_M2:.0f} m², medium under "
                  f"{bi.SIZE_CLASS_MEDIUM_MAX_M2:.0f} m², large above that, so it is {measured_class!r}")
-        sides = bi.doorway_bearings(record, parcel.get("yawDeg") or 0.0)
-        if sides and isinstance(d.get("facingDeg"), (int, float)):
-            off = min(_angle_delta(float(d["facingDeg"]), s) for s in sides)
-            if off > DOORWAY_TOLERANCE_DEG:
-                shown = ", ".join(f"{s:.0f}°" for s in sides)
-                fail(f"door {d.get('id')}: facingDeg {d['facingDeg']:.0f}° is {off:.0f}° off the nearest doorway "
-                     f"the mesh actually has (sides at {shown} after yaw {parcel.get('yawDeg')}°, tolerance "
-                     f"±{DOORWAY_TOLERANCE_DEG:.0f}°) — a door cannot be claimed on a blank wall")
+        # A door may only sit on a DERIVED doorway (owner ruling 2026-09-05):
+        # a door part's offset in a mined composite assembly, or an opening
+        # measured off the shell's own geometry. Never a bearing a designer
+        # liked the look of.
+        idx, why = _match_parcel_doorway(parcel, d, record)
+        if not bi.doorways(record):
+            fail(f"door {d.get('id')}: parcel {parcel.get('id')} uses {parcel.get('assetRef')}, which has an "
+                 f"inside but no derived doorway ({why}), so it may not carry a door — use the composite that "
+                 f"ships the door, or record a sourcing gap")
+        elif idx is None:
+            fail(f"door {d.get('id')}: facingDeg {d.get('facingDeg')}° sits on no derived doorway of "
+                 f"{parcel.get('assetRef')} after yaw {parcel.get('yawDeg')}° ({why}, tolerance "
+                 f"±{DOORWAY_TOLERANCE_DEG:.0f}° / ±{bi.RADIAL_TOLERANCE_M:.1f} m) — a door cannot be claimed "
+                 f"on a blank wall; use the composite that ships the door, or record a sourcing gap")
+        elif isinstance(d.get("doorwayRef"), int) and d["doorwayRef"] != idx:
+            fail(f"door {d.get('id')}: doorwayRef is {d['doorwayRef']}, but the door sits on doorway {idx} "
+                 f"({why}) — run `python3 -m worldgen.blueprint_footprints --doors <blueprint>` to derive it")
 
     if interiors:
         for p in bp.get("parcels", []):
@@ -884,6 +996,16 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 continue
             if record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id")):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
+                if not bi.doorways(record):
+                    # No derived doorway exists, so a door here would be invented.
+                    # That is a SOURCING gap (settlement-kit-sourcing-log.md), and
+                    # the blueprint records it rather than faking an entrance.
+                    if warnings is not None:
+                        warnings.append(
+                            f"{bid}: parcel {p.get('id')}: {p.get('assetRef')} has an inside "
+                            f"({record.get('interior')}) but the kit derives no doorway, so it has no "
+                            f"entrance — use the composite that ships the door, or record a sourcing gap")
+                    continue
                 fail(f"parcel {p.get('id')}: {p.get('assetRef')} has an inside "
                      f"({record.get('interior')} → {want}) but no door in doors[] — every building "
                      f"intended to have an interior must have an entrance (owner ruling 2026-09-05); "

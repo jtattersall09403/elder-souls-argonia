@@ -55,8 +55,8 @@
       1993.3,
       1455.9
      ],
-     "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
-     "rejectedBecause": "Δ ≥ 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
+     "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and \u0394 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+     "rejectedBecause": "\u0394 \u2265 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
     },
     {
      "id": "candidate.mazzatun.gorge",
@@ -3634,56 +3634,43 @@
   ],
   "doors": [
    {
-    "id": "door.dunmer-north.mazzatun.1",
-    "parcelId": "parcel.mazzatun.stair-throat",
-    "facingDeg": 180,
-    "thresholdUV": [
-     0.270970126,
-     0.181957912
-    ],
-    "interiorClaim": {
-     "sizeClass": "small",
-     "culture": "argonian",
-     "interiorRef": "xanmeer-interior-v1",
-     "owner": "faction.xit-xaht"
-    }
-   },
-   {
     "id": "door.dunmer-north.mazzatun.2",
     "parcelId": "parcel.mazzatun.pen-a",
-    "facingDeg": 188,
+    "facingDeg": 187.6,
     "thresholdUV": [
-     0.26726834,
-     0.179976366
+     0.267290564,
+     0.179811953
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
      "owner": "the taken labourers"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.dunmer-north.mazzatun.3",
     "parcelId": "parcel.mazzatun.pen-b",
-    "facingDeg": 157,
+    "facingDeg": 156.8,
     "thresholdUV": [
-     0.269656331,
-     0.180141765
+     0.269591103,
+     0.179989216
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
      "owner": "the taken labourers"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.dunmer-north.mazzatun.4",
     "parcelId": "parcel.mazzatun.pen-c",
-    "facingDeg": 270,
+    "facingDeg": 270.0,
     "thresholdUV": [
-     0.271674902,
+     0.271840811,
      0.179967291
     ],
     "interiorClaim": {
@@ -3691,7 +3678,8 @@
      "culture": "argonian",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
      "owner": "the taken labourers"
-    }
+    },
+    "doorwayRef": 0
    }
   ],
   "clearance": {

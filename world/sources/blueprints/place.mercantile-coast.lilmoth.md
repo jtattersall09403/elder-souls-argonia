@@ -195,3 +195,31 @@ blueprint one; it is listed in the open questions.
 - **97 B4, dwellings in the flood band.** Pusbottom's fifteen huts stand on the −1 to 3 m flat, in flood band 1, on stilts. That is the quarter's name and its lore (the low criminal quarter, repopulated after the rebuild); the over-water share is not measured yet (97 G8).
 - **97 C1, a district of one piece.** The dues board is a works-v1 prop and the kit sets forbid it inside `argonian-stilt`, so it has a district of its own. A notice board is dressing, not architecture; the principle should say whether works props may stand in any district (see the Round A audit).
 - **97 C12, outdoor dressing.** No dressing pass exists (97 G18); nothing here is authored beyond the board.
+
+## Doors and assemblies (stream A2, 2026-09-05)
+
+Thirty-two of Lilmoth's dwellings and sheds were bare HTBM bamboo huts whose
+doors sat on whichever wall faced the street. They now use
+`composite:stilt/bamboohut01-with-door` and `...bamboohut02-with-door`: the same
+huts carrying the `bamboohutdoor01` that their own author fitted to them, seven
+and nine placements deep in the mined assemblies. Each hut's doorway sits on its
+local 299.6 deg side, which is fixed, so the parcels were turned instead of the
+doors. Every one of the thirty-two now carries a yaw derived from the way its
+door serves. Its `orientationWhy` names that way. Some are canted a few degrees
+off their neighbours, because aiming a whole lane at one street read as a
+surveyed grid, which module 97 C8 refuses. Footprints did not change:
+the composite measures the same 6.5 x 6.7 m as the bare hut.
+
+Five doors came off. Each is a recorded sourcing gap rather than a quiet
+deletion. The north gate tower (`mwimparchguardtower01`), the council hall and
+the Pus-house tower (both `stilthouseext`) plus the two kiosks that carry the
+tariff bell and the quay lamp (`kiosk01`) all have an inside that the design
+wants. No shell among them has a door part in any assembly we have mined, and
+no opening is measurable off the shell itself. Rows G5 to G7 in the settlement kit sourcing
+log carry them with the reason. The parcels keep their `interior` intent, so the
+day a piece is found the door goes back onto a measured opening.
+
+Two sheds moved. The composite fixes the side that carries the door. For the
+divers' shed and the salvage bench that side looked at open water, so both were
+turned to face the deck behind them. The salvage bench then stepped 3.5 m west,
+clear of the loop walk that its hull would otherwise have crossed.

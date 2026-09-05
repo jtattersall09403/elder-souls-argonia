@@ -55,6 +55,20 @@ export interface BpDistrict {
   centreM: Pt | null;
 }
 
+/** A DERIVED way into a building: the offset of a door part in a mined kit
+ * assembly (`source: "assembly"`) or an opening measured off the shell's own
+ * geometry (`source: "geometry"`). A radial doorway is a ring — any bearing is
+ * a way in, so it carries `radiusM` and no `bearingDeg`. Doors may only sit on
+ * one of these (owner ruling 2026-09-05). */
+export interface BpDoorway {
+  worldM: Pt | null;
+  bearingDeg: number | null;
+  source: string | null;
+  arcM: number | null;
+  radial?: boolean;
+  radiusM?: number | null;
+}
+
 export interface BpParcel {
   id: string;
   districtId: string | null;
@@ -67,6 +81,8 @@ export interface BpParcel {
   /** A gate or arch stands ACROSS this way — highlighted when the parcel is picked. */
   spans: string | null;
   interior: { kind: string | null; assetRef?: string | null } | null;
+  /** Derived doorways of the piece, drawn on the outline. */
+  doorways: BpDoorway[];
   why: BpWhy | null;
   notes: string | null;
   polygon: Poly | null;
@@ -116,6 +132,8 @@ export interface BpDoor {
   id: string;
   parcelId: string | null;
   facingDeg: number | null;
+  /** Index into the parcel's `doorways[]` — which derived doorway this door sits on. */
+  doorwayRef: number | null;
   thresholdM: Pt | null;
   interiorClaim: { sizeClass: string | null; culture: string | null; owner: string | null };
 }
@@ -264,6 +282,26 @@ export function compassDeg(text: string | null): number | null {
 }
 
 export const SOCKET_FILL = "#ffd166";
+
+/** Doorway tick colour by where the opening was derived from: gold for a door
+ * part in a mined kit assembly, blue-green for an opening measured off the
+ * shell's geometry. The distinction is the point — an assembly doorway is one
+ * the kit's own author placed a door in. */
+export const DOORWAY_COLOUR: Record<string, string> = {
+  assembly: "#f2b134", geometry: "#5fc9c1",
+};
+
+export function doorwayColour(source: string | null | undefined): string {
+  return (source && DOORWAY_COLOUR[source]) || "#9aa3ad";
+}
+
+/** One doorway as a line of text for the click panel. */
+export function doorwayLabel(dw: BpDoorway, i: number): string {
+  const src = dw.source ?? "measured";
+  if (dw.radial) return `#${i} radial ring, ${dw.radiusM?.toFixed(1) ?? "?"} m out (${src})`;
+  const arc = dw.arcM ? `, ${dw.arcM.toFixed(1)} m wide` : "";
+  return `#${i} facing ${dw.bearingDeg?.toFixed(0) ?? "?"}°${arc} (${src})`;
+}
 
 export function kitFill(kit: string | null): string {
   return (kit && KIT_FILL[kit]) || "#6b7280";

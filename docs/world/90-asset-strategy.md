@@ -90,6 +90,16 @@ composite. The one exception already on the books is *foliage*: tree and shrub
 composites (§76) stack crowns and trunks that nobody sees join, are
 owner-approved, and are judged on silhouette, not on joinery.
 
+Building composites are the same rule read the other way, not a loosening of
+it: a kit may pre-assemble pieces **only where the source authors themselves
+placed them at one repeated offset**, which is a measurement, not a guess.
+Those offsets are mined in
+[kit-assemblies-evidence.md](../research/placement-settlements/kit-assemblies-evidence.md)
+and authored as `compose` entries in the kit configs (see its `## Composites`
+section for which exist and why); anything the evidence does not support — and
+anything whose length or bearing is a siting decision, like a walkway run —
+stays a separate placement.
+
 For this personal total-conversion-style project, the asset-management rule should be simple: **retain a source link and the credits that need to appear in the final credits list**. Avoid creating a legal/permissions bureaucracy inside the codebase.
 
 ## 72. Asset registry

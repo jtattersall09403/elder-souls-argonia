@@ -69,17 +69,11 @@ sourcing rule); the register only records outcomes.
 | Round A feedback | Buildings will make every mistake plants made unless the rules are written first: per-asset anchoring mode, absolute LOD floors, matched atlases, fade with haze, shadow-pair sync, collider BUDGET, the CSM onBeforeCompile contract | research/rendering/building-placement-rendering-treatments.md §1 and its Round B checklist |
 | Round A feedback | Streets inside a place are the province network continued: terminals name the real route, bearings match at the gate, the minor-route compiler ends at the declared entrance | `networkTerminals[]`, `network-stitch` |
 | Part 6 | Blueprint-internal ids must be `<kind>.<slug>.<name>`; a blueprint *references* its catalogue id | standard 2 `references` option |
-
-## 2b. Queued lessons not yet built (next session starts here)
-
-- Buildings are assemblies, not single pieces: mine co-placement templates,
-  author composites per `snapLogic`, re-measure. Until then a single-piece
-  parcel is a placeholder, and the design record should say so.
-- Doors sit only on derived doorways (door part in the assembly, or the
-  measured opening); the doorway is drawn on the outline and drives yaw.
-- 35 routes over their gradient cap need authored geometry (stair pieces,
-  bridge decks) — `world/sources/sites/route-grading.md`.
-- Module 97 §G: the macro-level gaps and the outdoor dressing pass.
+| Assemblies round | A building is an assembly, not a piece: the source authors' co-placement templates say which pieces snap together and where the door sits. Composites are authored per each kit's `snapLogic`, using only combinations the source authors made. The single pieces stay for ruins; a composite's doorway is inherited from its anchor part | `compose.parts` in the kit configs; `interiors_index` doorway join (`doorwaySource`); `kit-assemblies-evidence.md` § Composites |
+| Assemblies round | A door may only sit on a DERIVED doorway (assembly offset or measured opening); a shell with neither cannot carry a door and is recorded as a sourcing gap rather than given a faked entrance. The doorway is drawn on the outline and drives the yaw reason | `blueprint.validate_blueprint` door rules (HARD); `export_blueprints` doorways; studio outline ticks |
+| Assemblies round | Grading cannot climb what the ground refuses: a route still over its cap after gradient routing gets authored geometry as DATA (stair, stepped ascent, deck, bridge, lip step) compiled from measured piece rise/run. The grader exempts that span as it exempts a bridge | `route-structures.json`, `compile_route_structures`, `grade_routes` exemption, `route-structures-v1` kit |
+| Assemblies round | A lane ends at the berth, not the plotted dot; the survey keeps the anchor-to-anchor lanes for siting so a moved berth does not re-plot the province. A water terminal is checked as "lands here" not "continues the bearing" | `lane-terminals.json`, `waterways-natural.json`, `network-stitch` water rule; minor waterways loaded as terminals |
+| Assemblies round | The macro plot is more even than random (Clark–Evans R ≈ 1.8 per zone, target < 1): a report can only say so; fixing it is a re-solve that the owner must call | `plot_stats`, 0041 § Assemblies round |
 
 ## 3. Automation-readiness checklist (Phase 15 gate)
 

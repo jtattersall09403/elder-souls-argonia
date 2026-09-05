@@ -23,7 +23,8 @@
   "mine-timbers": "`minewoodbeam01-03` + `minewoodbeamshort01/02` + `minewoodplanks01-04` are vanilla's shoring vocabulary and are placed as a repeating rib along a tunnel or trench; `minescaffoldsupport01`/`minescaffoldbasesupport01(w)` are the vertical props.",
   "reads": "Documented substitutions this kit is the answer to: kiln = `smelter01` + `smelter01coal01` + firewood stacks + drying racks; sluice gate = `walkwaycwallgate01/02` set in a compiler-cut channel; slipway/hull-on-stocks = stockade scaffold + `minewoodbeam` rollers + dock steps, with an SBoT hull raised on them (hull comes from the boat pools, not this kit); winding gear = mine scaffold and a shored tunnel mouth; saltern = terrain pans dressed with `saltpile`, baskets, rakes (`pitchfork01`), `shovel01` and a `horsetrough01` store; water-wheel works = `lumbermill01waterwheel01/02`.",
   "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in works-v1.kit.json.",
-  "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length."
+  "notice-board": "`bmv:advertising_board` is freestanding and self-supporting (two posts, shingled roof, papers nailed to the pane by its author). Place it standing on its own base, pane facing the approach, at the head of a quay, stage rail or toll post; never mount it on a wall or fuse it to a rail — nothing authored it to snap. Pane centre sits ~1.6 m up, i.e. eye height, which is what makes it readable at arm's length.",
+  "assemblies": "Composites in this kit: `composite:works/stockade-scaffold-2stage` and `-3stage` freeze the one rule the vanilla scaffold family actually has — a base carries the next stage 2.73 m above itself, unrotated (template vanilla:t0019, 28 placements). Nothing else here is composited: bridges, ramps, stairs and props join platforms, and what they join is a site decision. Every single piece stays in the kit."
  },
  "assets": [
   {
@@ -283,6 +284,58 @@
   },
   {
    "asset": "bmv:advertising_board"
+  },
+  {
+   "asset": "composite:works/stockade-scaffold-2stage",
+   "compose": {
+    "note": "Vanilla's stockade scaffold, two stages. Template vanilla:t0019 (28 placements): a `stockadescaffoldbase4sided01` footing carries the next identical stage exactly 2.73 m above itself, unrotated. That is the same rule this kit's `stockade-scaffold` prose states in words, measured. The bridges, ramps, stairs and props stay separate placements: what they join is a site decision, not a module.",
+    "parts": [
+     {
+      "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01"
+     },
+     {
+      "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+      "offsetM": [
+       0.0,
+       0.0,
+       2.73
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:works/stockade-scaffold-3stage",
+   "compose": {
+    "note": "The same 2.73 m stage rule (vanilla:t0019, 28 placements) run to three stages, ~8.2 m of staging in one parcel, with the railed deck top on the head of the stack (vanilla:t0061, 17 placements, puts a `stockadescaffoldtop0sided01` 2.73 m above its base for exactly this reason). Used where a slipway or hull-on-stocks needs height rather than footprint.",
+    "parts": [
+     {
+      "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01"
+     },
+     {
+      "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+      "offsetM": [
+       0.0,
+       0.0,
+       2.73
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:clutter/stockade/stockadescaffoldbase4sided01",
+      "offsetM": [
+       0.0,
+       0.0,
+       5.46
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

@@ -1,6 +1,6 @@
 {
  "id": "hlaalu-domestic",
- "description": "The domestic tier under the Imperial keep masonry (Phase 11 vibe-sheet audit \u00a74, source S2): premade and modular Hlaalu houses, a base/middle/top tower stack, yard and street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Built ON the Imperial Keep set (SSE 133090) and retextured, so it shares that pool's texture paths \u2014 the keep pool is declared as its texture sibling in build_kit. Ruins/Winterhold/Seaview/Sheogorad/Redoran folders in the mod are Nordic or interior filler and are excluded. NOT tropicalised, for the same reason as imperial-keep.",
+ "description": "The domestic tier under the Imperial keep masonry (Phase 11 vibe-sheet audit §4, source S2): premade and modular Hlaalu houses, a base/middle/top tower stack, yard and street walls with broken variants, steps, awnings, fences, stone blocks, small bridges, dockside cranes and lamp posts. Built ON the Imperial Keep set (SSE 133090) and retextured, so it shares that pool's texture paths — the keep pool is declared as its texture sibling in build_kit. Ruins/Winterhold/Seaview/Sheogorad/Redoran folders in the mod are Nordic or interior filler and are excluded. NOT tropicalised, for the same reason as imperial-keep.",
  "culture": "imperial",
  "output": "tooling/asset-pipeline/output/kits/hlaalu-domestic.glb",
  "lodRatios": [
@@ -8,6 +8,9 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "snapLogic": {
+  "assemblies": "Composites in this kit: `composite:phitt/marsh-house-03` is BM&V's Aldredanyia `house03` with its `overhang05` and its four `window` pieces at the offsets its authors used 27 times each (templates bmv-blackmarsh:t0011-t0015). The rule is that this house form is a bare box until its overhang and windows are hung on it, and neither piece is ever placed alone. The bare `house03`, `overhang05` and `window` stay in the kit for ruined and half-built variants. The Hlaalu and Hammerfell pieces are NOT composited with the phitt pieces: they are separate authored systems and only share this kit's Dunmer-domestic register."
+ },
  "assets": [
   {
    "asset": "hlaalu:hlaaluarchitecture/custom/house01"
@@ -212,6 +215,76 @@
   },
   {
    "asset": "hlaalu:hlaaluarchitecture/objects/sbigplanter02t"
+  },
+  {
+   "asset": "bmv:architecture/phitt/aldredanyia/house03"
+  },
+  {
+   "asset": "bmv:architecture/phitt/aldredanyia/overhang05"
+  },
+  {
+   "asset": "bmv:architecture/phitt/aldredanyia/window"
+  },
+  {
+   "asset": "composite:phitt/marsh-house-03",
+   "compose": {
+    "note": "Phitt's Aldredanyia marsh house, whole. `house03` is a bare box: its overhang and every one of its windows are separate meshes, and the mine shows all five placed against it identically 27 times — `overhang05` at -0.21, -5.16, -1.24 m yawed 183.35 deg (bmv-blackmarsh:t0011) and four `window` pieces at -3.13, -2.82, -0.97 (t0012), -1.76, 4.01, -0.71 (t0013), 1.94, 4.06, -0.71 (t0014) and 2.8, -3.0, -0.97 (t0015), yawed 275.02, 91.67, 91.67 and 275.02 deg. `overhang05` and `window` are never placed alone anywhere in the set. Six pieces, one house.",
+    "parts": [
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/house03"
+     },
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/overhang05",
+      "offsetM": [
+       -0.21,
+       -5.16,
+       -1.24
+      ],
+      "yawDeg": 183.35,
+      "scale": 1.0
+     },
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/window",
+      "offsetM": [
+       -3.13,
+       -2.82,
+       -0.97
+      ],
+      "yawDeg": 275.02,
+      "scale": 1.0
+     },
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/window",
+      "offsetM": [
+       -1.76,
+       4.01,
+       -0.71
+      ],
+      "yawDeg": 91.67,
+      "scale": 1.0
+     },
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/window",
+      "offsetM": [
+       1.94,
+       4.06,
+       -0.71
+      ],
+      "yawDeg": 91.67,
+      "scale": 1.0
+     },
+     {
+      "asset": "bmv:architecture/phitt/aldredanyia/window",
+      "offsetM": [
+       2.8,
+       -3.0,
+       -0.97
+      ],
+      "yawDeg": 275.02,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

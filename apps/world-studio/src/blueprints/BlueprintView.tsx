@@ -33,7 +33,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  AREA_WHY_KEYS, blueprintBounds, compassDeg, findBlueprint, groundFitFill, kitFill,
+  AREA_WHY_KEYS, blueprintBounds, compassDeg, doorwayColour, doorwayLabel, findBlueprint, groundFitFill, kitFill,
   LABEL_PX_PER_M, loadBlueprints, polyPath, scaleBarMetres, shortName, SOCKET_FILL,
   toggleIn, wayStyle, WHY_HEADINGS,
   type Blueprint, type BlueprintBundle, type BlueprintUrlState, type BpApproach,
@@ -130,6 +130,15 @@ function nearestEdgePoint(poly: Poly, p: Pt): Pt {
     if (d < bestD) { bestD = d; best = q; }
   }
   return best;
+}
+
+/** A shallow arc in front of a doorway, so the opening reads as a swing and not
+ * just a gap in the wall. `f` is the outward unit heading. */
+function arcPath(at: Pt, f: Pt, r: number): string {
+  const a: Pt = [at[0] - f[1] * r, at[1] + f[0] * r];
+  const b: Pt = [at[0] + f[1] * r, at[1] - f[0] * r];
+  const m: Pt = [at[0] + f[0] * r * 0.55, at[1] + f[1] * r * 0.55];
+  return `M${a[0].toFixed(2)} ${a[1].toFixed(2)} Q${m[0].toFixed(2)} ${m[1].toFixed(2)} ${b[0].toFixed(2)} ${b[1].toFixed(2)}`;
 }
 
 function dist2(a: Pt, b: Pt): number {
@@ -354,12 +363,28 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
     if (d) return rec(d as unknown as Record<string, unknown>, "district",
       ["kind", "cultureKit", "wealth", "notes"], { areaOnly: true });
     const p = find(bp.parcels);
-    if (p) return rec(p as unknown as Record<string, unknown>, "parcel",
-      ["use", "districtId", "buildingFamily", "assetRef", "groundFit", "spans", "interior", "notes", "centreM"],
-      { orientation: {
-        facing: typeof p.yawDeg === "number" ? `${p.yawDeg}° clockwise from north` : "no yaw authored",
-        why: p.orientationWhy,
-      } });
+    if (p) {
+      const keys = ["use", "districtId", "buildingFamily", "assetRef", "groundFit", "spans", "interior", "notes", "centreM"];
+      // Every derived doorway, and the door (if any) that sits on it: a door
+      // may only stand on a doorway the kit actually has.
+      const doorways = (p.doorways ?? []).map((dw, i) => {
+        const user = bp.doors.find((d) => d.parcelId === p.id && d.doorwayRef === i);
+        return `${doorwayLabel(dw, i)}${user ? ` — ${shortName(user.id)}` : " — no door"}`;
+      });
+      const orphans = bp.doors
+        .filter((d) => d.parcelId === p.id && d.doorwayRef === null)
+        .map((d) => `${shortName(d.id)} sits on no derived doorway`);
+      const extra: [string, unknown][] = doorways.length || orphans.length
+        ? [["doorways", [...doorways, ...orphans]]]
+        : [["doorways", "none derived — this piece may not carry a door"]];
+      return rec(p as unknown as Record<string, unknown>, "parcel", keys, {
+        fields: [...fieldsOf(p as unknown as Record<string, unknown>, keys), ...extra],
+        orientation: {
+          facing: typeof p.yawDeg === "number" ? `${p.yawDeg}° clockwise from north` : "no yaw authored",
+          why: p.orientationWhy,
+        },
+      });
+    }
     const w = find(bp.ways);
     if (w) return rec(w as unknown as Record<string, unknown>, w.group === "fences" ? "fence" : w.group,
       ["kind", "widthM", "routing", "assetRef", "endsAt", "notes"],
@@ -368,7 +393,7 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
     if (dr) return rec(dr as unknown as Record<string, unknown>, "door",
       ["parcelId", "facingDeg", "thresholdM"], {
         wantsWhy: false,
-        fields: [...fieldsOf(dr as unknown as Record<string, unknown>, ["parcelId", "facingDeg", "thresholdM"]),
+        fields: [...fieldsOf(dr as unknown as Record<string, unknown>, ["parcelId", "facingDeg", "doorwayRef", "thresholdM"]),
           ...fieldsOf(dr.interiorClaim as unknown as Record<string, unknown>, ["sizeClass", "culture", "owner"])],
       });
     const lm = find(bp.landmarks);
@@ -580,6 +605,36 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
                 </g>
               );
             })}
+
+            {/* doorways: the ways in the KIT actually has, drawn on the outline —
+                a short tick across the opening plus its arc, gold for a doorway
+                taken from a mined assembly, blue-green for one measured off the
+                shell, a dashed ring for a radial way in. */}
+            {on("parcels") && bp.parcels.map((p) => (p.doorways ?? []).map((dw, i) => {
+              const colour = doorwayColour(dw.source);
+              if (dw.radial) {
+                const c = p.centreM;
+                if (!c || !dw.radiusM) return null;
+                return (
+                  <circle key={`${p.id}-dw${i}`} cx={c[0]} cy={c[1]} r={dw.radiusM}
+                    fill="none" stroke={colour} strokeOpacity={0.75}
+                    strokeWidth={Math.max(px(1.2), 0.2)} strokeDasharray={`${px(4)} ${px(3)}`}
+                    pointerEvents="none" />
+                );
+              }
+              if (!dw.worldM || dw.bearingDeg === null) return null;
+              const at = dw.worldM, f = heading(dw.bearingDeg);
+              const half = Math.max((dw.arcM ?? 1.2) / 2, 0.4);
+              return (
+                <g key={`${p.id}-dw${i}`} pointerEvents="none">
+                  <line x1={at[0] - f[1] * half} y1={at[1] + f[0] * half}
+                    x2={at[0] + f[1] * half} y2={at[1] - f[0] * half}
+                    stroke={colour} strokeWidth={Math.max(px(2), 0.35)} strokeLinecap="round" />
+                  <path d={arcPath(at, f, half * 1.6)} fill="none" stroke={colour}
+                    strokeOpacity={0.6} strokeWidth={Math.max(px(1), 0.18)} />
+                </g>
+              );
+            }))}
 
             {/* doors: a tick ON the parcel edge the door sits in, plus its facing */}
             {on("doors") && bp.doors.map((d) => {

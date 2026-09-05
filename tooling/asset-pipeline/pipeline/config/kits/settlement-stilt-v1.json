@@ -1,6 +1,6 @@
 {
  "id": "settlement-stilt-v1",
- "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only \u2014 it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
+ "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) — the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only — it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
  "culture": "argonian-stilt",
  "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
  "lodRatios": [
@@ -16,6 +16,9 @@
   "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
   "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
   "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+ },
+ "snapLogic": {
+  "assemblies": "Composites in this kit: `composite:stilt/bamboohut01-with-door` and `composite:stilt/bamboohut02-with-door` are the HTBM bamboo hut shells with `bamboohutdoor01` hung at the offset its authors used every time (templates htbm:t0027 and htbm:t0016). The rule they encode is that a bamboo hut is never placed without its door — the shell alone has no opening at all. Both bare shells and the loose door remain in the kit for ruined and derelict placements. The passerelles walkways are deliberately NOT composited: a run's length is chosen by the router, so freezing two segments together would fix a length the site has to choose."
  },
  "assets": [
   {
@@ -173,6 +176,48 @@
   },
   {
    "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
+  },
+  {
+   "asset": "composite:stilt/bamboohut01-with-door",
+   "compose": {
+    "note": "HTBM's bamboo hut with its own door leaf hung in the wall. The hut shell ships doorless — bamboohutdoor01 is a separate NIF — so the bare shell has no opening for the interiors probe to find and reads as a windowless drum. Template htbm:t0027 (7 placements): the authors put the door at -2.45, 1.4, 0.0 m in the hut's own z-up frame, yawed 120 deg against it, every time. bamboohut02 takes the same door at the same offset (htbm:t0016), which is what makes this a kit rule and not one copied building.",
+    "parts": [
+     {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
+     },
+     {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+      "offsetM": [
+       -2.45,
+       1.4,
+       0.0
+      ],
+      "yawDeg": 120,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:stilt/bamboohut02-with-door",
+   "compose": {
+    "note": "The second bamboo hut form with the same door piece at the same authored offset (template htbm:t0016, 9 placements): -2.47, 1.4, 0.0 m, yawed 120 deg. Two shells, one door, one offset — the strongest evidence in the HTBM set that this is how the family is meant to be built.",
+    "parts": [
+     {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02"
+     },
+     {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+      "offsetM": [
+       -2.47,
+       1.4,
+       0.0
+      ],
+      "yawDeg": 120,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

@@ -726,3 +726,43 @@ Offsets go into `compose.parts[].offsetM` unchanged: both this module and `compo
 * Unresolved references (a base object in a master not loaded) are lost from the pair search entirely, so counts are floors.
 * All lengths carry the 0.45 % `UNITS_PER_METRE` bias recorded in the companion placement docs.
 
+
+## Composites
+
+Authored 2026-09-05 (stream A1) from the templates above. Offsets went
+into `compose.parts[].offsetM` unchanged. Every `note` names its template
+ids and counts; each kit's `snapLogic.assemblies` states the rule that the
+composite encodes. **The single pieces all stay in their kits**, because a
+bare shell is still the right piece for a ruin.
+
+| Composite | Kit | From |
+|---|---|---|
+| `composite:stilt/bamboohut01-with-door` | `settlement-stilt-v1` | htbm:t0027 (7) |
+| `composite:stilt/bamboohut02-with-door` | `settlement-stilt-v1` | htbm:t0016 (9) |
+| `composite:mud/hut-with-entrance` | `settlement-mud-v1` | bmv-blackmarsh:t0037 (22), t0091 (11) |
+| `composite:works/stockade-scaffold-2stage` | `works-v1` | vanilla:t0019 (28) |
+| `composite:works/stockade-scaffold-3stage` | `works-v1` | vanilla:t0019 (28), t0061 (17) |
+| `composite:docks/quay-run-2` | `docks-v1` | bmv-blackmarsh:t0003 (47) |
+| `composite:docks/quay-run-3` | `docks-v1` | bmv-blackmarsh:t0003 (47), t0001 (52) |
+| `composite:farmhouse/farmhouse01-with-door` | `settlement-imperial-v1` | vanilla:t0173 (10) |
+| `composite:farmhouse/farmhouse02-with-door` | `settlement-imperial-v1` | vanilla:t0335 (7) |
+| `composite:farmhouse/stonewall-run-3` | `settlement-imperial-v1` | group on `stonewall01` (43); t0002 (59), t0004 (54) |
+| `composite:farmhouse/stonewall-run-5` | `settlement-imperial-v1` | as run-3 + t0003 (55) for the 7.27 m pillar spacing |
+| `composite:ayleid/arblock-mass-2x2x2` | `ruin-monumental-v1` | bmv-valenwood:t0000/t0001 (448), t0006 (384) |
+| `composite:ayleid/arblock-mass-3x1x3` | `ruin-monumental-v1` | as above |
+| `composite:phitt/marsh-house-03` | `hlaalu-domestic` | bmv-blackmarsh:t0011–t0015 (27 each) |
+
+Not composited, with the reason in each case: the passerelles walkways, the
+root-house accessories and the tree kits, per the rules above; the
+`kioskbarrierei01` railing chain (93 placements) for the same reason as the
+walkways, since it is a run whose length is a siting decision; the farmhouse
+wall and roof MODULES, which are a tileset, so a shell built from them is a
+building design rather than a kit rule; and the farmhouse02 loft leaf
+at 3.18 m (vanilla:t0420, 6), which many placements of that form omit.
+
+Measured after building: every composite has a footprint. Every
+shell-with-door composite now carries a doorway. Doorway coverage across all
+built kits went from 9 of 67 enclosed pieces to 22 of 75. The one composite
+still without a doorway is `composite:phitt/marsh-house-03`: `house03` has no
+repeated door placement anywhere in the source, so there is nothing to measure
+(recorded in the sourcing log).

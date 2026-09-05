@@ -8,6 +8,9 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "snapLogic": {
+  "assemblies": "Composites in this kit: `composite:mud/hut-with-entrance` is `hutexterior` + `doorframe01` + the wood door leaf at the offsets BM&V used 22 times (templates bmv-blackmarsh:t0037 and t0091). The rule is that the mud hut shell is an unbroken drum — its entrance is three separate pieces, and a hut placed without them cannot be entered. The bare `hutexterior` stays in the kit for ruins and abandoned shells."
+ },
  "assets": [
   {
    "asset": "mudmother:gv_meshes/argoniannest/mudhut01"
@@ -140,6 +143,37 @@
   },
   {
    "asset": "ferryraft:snt/ferry/ferryraft01"
+  },
+  {
+   "asset": "composite:mud/hut-with-entrance",
+   "compose": {
+    "note": "BM&V's mud hut with the entrance it is never shipped with. Template bmv-blackmarsh:t0037 (22 placements) puts `doorframe01` at 3.22, -5.98, -3.91 m in the hut's own z-up frame, yawed 153.74 deg; bmv-blackmarsh:t0091 (11) hangs `ruinswooddoorload01` in that frame at 3.19, -5.91, -3.84 m, yawed 245.41 deg. Two further frame offsets in the mine (3.04, -5.57 and 3.42, -6.35) are the same doorway shifted a little along the same wall, so the commonest is taken and the variants left. The door mesh is the vanilla Nordic ruins wood door the BM&V plugin references by path.",
+    "parts": [
+     {
+      "asset": "bmv:architecture/huts/exterior/hutexterior"
+     },
+     {
+      "asset": "bmv:architecture/huts/exterior/doorframe01",
+      "offsetM": [
+       3.22,
+       -5.98,
+       -3.91
+      ],
+      "yawDeg": 153.74,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:dungeons/nordic/doors/animated/wooddoor/ruinswooddoorload01",
+      "offsetM": [
+       3.19,
+       -5.91,
+       -3.84
+      ],
+      "yawDeg": 245.41,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

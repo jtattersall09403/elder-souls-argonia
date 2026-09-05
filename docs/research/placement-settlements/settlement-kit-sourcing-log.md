@@ -386,6 +386,10 @@ the design must change to something we can deliver.
 | G1 | Stand-alone Hist **trunk column** (3–8 m across, 15–30 m tall, no dwelling built in) that stands alone and accepts walkways/tap lines — for Nine-Trunks and every future grove or ruined-trunk composition. Everything held was a whole tree with a crown (HTBM Hist 64 × 45 × 54 m, Mud Mother Grove Hist 27 × 28 × 22 m) or the 206 m `treegiant01` host with its 44 m `treegiantrootbase01` flare | Phase 11 Part 6 | **`tropical:landscape/trees/anvilgianttrunk`** — 10.52 × 10.52 × 56.39 m, 784 tris, crownless column; with `anvil_palm_trunk` (17.94 × 16.61 × 33.74 m) as the stouter buttressed form and `anvil_root01` (14.43 × 10.30 × 6.20 m) as the authored root-flare skirt. Same author, same set, already composited together in `flora-province-v1`. Rejected on measurement: BM&V `vurt1bark`/`vurt2bark` (20.9 × 9.2 × 13.6 / 14.3 × 22.8 × 17.9 m — fallen, not columns), `gkbtreeaspenlog1`, `treepinestump` (both under 5 m) | **SOURCED** — vault, no download needed; joined `settlement-root-v1` | 2026-09-05 |
 | G2 | Focal object for an **Argonian underwater shrine** (sunken shrine to Xhon-Mehl the Fisher, Lilmoth's drowned quarter): a statue/altar/idol reading Argonian — not Imperial, not Daedric, not Sithis (the mud kit's `sithisshrine` is the wrong Argonian culture for Murkmire) — that survives submersion | Phase 11 Part 6 | **`htbm:…/architecture/ruins/xanmeer/totem02`** — 0.40 × 0.49 × 2.07 m standing carved totem, the focal idol; plus `totem03` (1.11 × 1.29 × 1.56 m squat altar-height idol block), `runicstone` (1.19 × 0.65 × 1.14 m inscribed marker) and `serpentsigilstatue` (1.38 × 0.44 × 0.63 m serpent-sigil plaque). All four carry HTBM's own `architecture/xanmeer` textures, i.e. the Argonian ruin set. Rejected: `statuegoddess` and `totem01` carry `here there be monsters - the call of cthulhu` textures (different culture); `serpentsigilstone` is a 0.14 m decal; `serpentstatue` is a 0.62 m cube. All four picks are opaque stone, so submersion raises no alpha/foliage problem | **SOURCED** — vault, no download needed; joined `underwater-v1`, and they are also the dry-land shrine dressing for `settlement-stilt-v1` | 2026-09-05 |
 | G3 | A **nailed notice / licence board** readable at arm's length (the countersigned tapping licence on the Licensed Stage rail; every future toll post, price list and register board — Alten Corimont's nailed-up price list is the same need) | Round A follow-up 2026-09-05 (Licensed Stage redesign) | **`bmv:advertising_board`** — 1.56 × 1.39 × 2.47 m, 1,894 tris: a freestanding roofed notice pane on two posts, whose posted papers are part of the authored mesh (`infopanel_papers` / `advertising_board_papers.dds`), so no paper has to be jammed onto a blank board. Pane centre sits ~1.6 m up — eye height, readable at arm's length. Its `meshes/architecture/Advertising Board readme.txt` records it as built from scratch (inspired by Stroti's Oblivion miscellaneous resource), panel/paper/metal/post textures by its author, roof from vanilla Riften shingles, window/wood-end/stall-roof from Beyond Skyrim: Bruma — i.e. a bundled modder's resource inside the already-credited BM&V pool. Rejected on measurement: `bmv:manny_gf/alikr/manny_gf_cont_alikrnoticeboard` is a 0.68 × 0.46 × 2.19 m single-`Box001` container proxy with no board geometry; `bmv:architecture/phitt/additional/board` (3.39 × 0.24 × 2.91 m) is a Dunmer painted broadsheet hoarding (`TamikaVineyards01`), wrong culture and too large for arm's length; the Jokerine blank inn signs (0.25 × 1.40 × 1.43 m panel, 0.28 × 1.87 × 3.98 m on-post) are hanging *shop* signs with no paper — nailing a `note01` to one would be a composite nobody authored; vanilla `clutter/signage` is shop/road signs only and `roadsignpost` (0.26 × 0.24 × 3.64 m) is a bare post. | **SOURCED** — vault, no download needed; joined `works-v1` (assetRef `bmv:advertising_board`) | 2026-09-05 |
+| G4 | A **covered Ayleid stair or gateway that ships a door** — Mazzatun's stair throat, the way down into the xanmeer and every future stepped-pyramid entrance. `ayleidkit:…/exterior/arstairscenter01` measures as an enclosed flight with an inside, but no mined assembly in any of Skyrim, BM&V, Valenwood or HTBM puts a door part against it. `ruin-monumental-v1` ships no composite that does. The interiors index therefore derives no doorway. Under the 2026-09-05 ruling the throat may not carry a door at all | Stream A2, Phase 11 Part 7 doors pass 2026-09-05 | none yet | **OPEN** — deferred with reason: filling it means either mining a new assembly set or downloading and kitting an Ayleid/xanmeer door piece, while stream A1 held the asset pipeline and the kit configs for the whole of this session. The blueprint records the gap in place (the parcel keeps its `interior` intent and no door), so it cannot be lost | 2026-09-05 |
+| G5 | An **Imperial keep guard tower with a shipped door** — Lilmoth's north gate tower and every future Imperial gatehouse that a player is meant to enter. `mwkeep:…/mwimparchguardtower01` is a tileset piece with an inside; the MW Imperial Architecture set was mined with no door part placed against it in any worldspace we hold | Stream A2, 2026-09-05 | none yet | **OPEN** — same deferral as G4 (pipeline held by A1). The tower stands and reads as a gate; it simply cannot be entered until a door piece is sourced | 2026-09-05 |
+| G6 | A **BM&V stilt-house shell with a shipped door** — Lilmoth's council hall and the Pus-house tower, plus the whole stilt-village family beyond them: `bmv:architecture/stilthouse/stilthouseext` is the only large stilt hall we hold and it derives no doorway | Stream A2, 2026-09-05 | none yet | **OPEN** — deferred with reason as G4. Swapping the two halls to the bamboo-hut composite would deliver an entrance but would shrink a council hall to a medium hut, which is a design change beyond a doors pass and one the owner should see first | 2026-09-05 |
+| G7 | A **Bosmer kiosk or market stall with a shipped door**, or a decision that a kiosk has no interior at all — Lilmoth's tariff bell and quay lamp both use `bmv:…/passerelles/kiosque/kiosk01`, which the index reads as enclosed but to which no assembly fits a door | Stream A2, 2026-09-05 | none yet | **OPEN** — deferred with reason as G4. The likelier fix is a design one: a kiosk is a booth, so the two parcels may want `interior: none` rather than a sourced door. That is an owner-visible call, not a doors-pass edit | 2026-09-05 |
 
 G3 needed no purchase either: BM&V is already a registered pool and already
 credited, and its README credit line was extended in the same change to name the
@@ -429,3 +433,31 @@ written in the kit configs:
 The full snap and scaling rules live where a kit agent will look for them: the
 `trunkColumns` entry in `settlement-root-v1.json`'s `snapLogic`, and the
 `underwater-v1.json` description.
+
+## Later rows
+
+### 2026-09-05 — phitt Aldredanyia marsh house (BM&V), stream A1
+
+**Outcome: CLOSED, no download needed.** The kit-assembly mine
+([kit-assemblies-evidence.md](kit-assemblies-evidence.md)) found the strongest
+authored assembly in the whole mod set on a house form no kit of ours carried:
+`house03` with `overhang05` and four `window` pieces, all placed at the same
+offsets 27 times. Checked against the registry first, per the asset-aware rule:
+all three meshes are already in the `bmv` pool
+(`bmv:architecture/phitt/aldredanyia/{house03,overhang05,window}`), from Black
+Marsh and Valenwood, which is already downloaded, hashed and credited in the
+root README. Nothing to source.
+
+Kit chosen by reading the kit descriptions against the pieces' own culture:
+`hlaalu-domestic` (the Dunmer/Imperial-fringe domestic tier under the Imperial
+keep masonry). `settlement-imperial-v1` was rejected — it is the vanilla
+farmhouse and Solitude dock layer, whereas Phitt's Aldredanyia set is neither. The
+three pieces are added as single assets and as
+`composite:phitt/marsh-house-03`; the kit's `snapLogic.assemblies` records that
+they are never composited with the Hlaalu or Hammerfell pieces, which are
+separate authored systems.
+
+**Left open:** `house03` has no door piece in the mine, so the composite still
+reads as a shell with no doorway. Its entrance is not a repeated authored
+placement anywhere in Black Marsh, so there is nothing to measure; a door will
+have to be chosen by design when the form is first placed.

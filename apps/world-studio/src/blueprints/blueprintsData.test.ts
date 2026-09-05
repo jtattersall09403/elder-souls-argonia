@@ -1,6 +1,7 @@
 /** The Blueprint view's parsing, drawing conventions and URL round-trip. */
 import { describe, expect, it } from "vitest";
 import {
+  doorwayColour, doorwayLabel,
   AREA_WHY_KEYS, blueprintBounds, compassDeg, encodeBlueprintUrl, findBlueprint,
   groundFitFill, kitFill, loadBlueprints, parseBlueprintUrl, polyPath, scaleBarMetres,
   shortName, toggleIn, wayStyle, WHY_HEADINGS,
@@ -35,6 +36,10 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
       buildingFamily: "argonian-trunk-house", assetRef: "bmv:architecture/housetronc001",
       groundFit: "dug-in", yawDeg: 180, orientationWhy: "door onto the clearing", notes: null,
       spans: null, interior: { kind: "dwelling", assetRef: "bmv:interior/tronc01" }, why: why(),
+      doorways: [
+        { worldM: [116, 220], bearingDeg: 180, source: "assembly", arcM: 1.2 },
+        { worldM: null, bearingDeg: null, source: "geometry", arcM: null, radial: true, radiusM: 4 },
+      ],
       polygon: [[112, 212], [120, 212], [120, 220], [112, 220]], centreM: [116, 216],
     }],
     ways: [{
@@ -52,7 +57,8 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
     docks: [{ id: "dock.nine-trunks.landing", waterBodyId: "water.channel.nine-trunks", piledToBed: true, why: why(), notes: null, positionM: [104, 222] }],
     doors: [{
       id: "door.hist-heartland.nine-trunks.1", parcelId: "parcel.nine-trunks.trunk-1", facingDeg: 180,
-      thresholdM: [116, 220], interiorClaim: { sizeClass: "large", culture: "argonian", owner: "the naheesh" },
+      thresholdM: [116, 220], doorwayRef: 0,
+      interiorClaim: { sizeClass: "large", culture: "argonian", owner: "the naheesh" },
     }],
     combatSpaces: [{ id: "combat.nine-trunks.clearing", clearanceClass: "open",
       why: "the night attack in the local quest happens in the ring", notes: null, polygon: [[118, 218], [126, 218], [126, 226], [118, 226]] }],
@@ -262,6 +268,29 @@ describe("the why block", () => {
     const partial: BpWhy = { ...why(), whySpot: null };
     expect(partial.what).toBeTruthy();
     expect(partial.whySpot).toBeNull();     // the view shows this one in red
+  });
+});
+
+describe("derived doorways", () => {
+  it("colours an assembly doorway apart from one measured off the shell", () => {
+    expect(doorwayColour("assembly")).not.toBe(doorwayColour("geometry"));
+    expect(doorwayColour(null)).toBeTruthy();
+  });
+
+  it("labels a fixed doorway by its bearing and a radial one by its radius", () => {
+    const bp = makeBlueprint();
+    const [fixed, ring] = bp.parcels[0].doorways;
+    expect(doorwayLabel(fixed, 0)).toContain("180");
+    expect(doorwayLabel(fixed, 0)).toContain("assembly");
+    expect(doorwayLabel(ring, 1)).toContain("radial");
+    expect(doorwayLabel(ring, 1)).toContain("4.0 m");
+  });
+
+  it("keeps a door pointed at the doorway it sits on", () => {
+    const bp = makeBlueprint();
+    const door = bp.doors[0];
+    expect(door.doorwayRef).toBe(0);
+    expect(bp.parcels[0].doorways[door.doorwayRef!].bearingDeg).toBe(door.facingDeg);
   });
 });
 

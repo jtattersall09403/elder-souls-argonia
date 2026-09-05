@@ -1287,11 +1287,11 @@
     "groundFit": "pad",
     "centreUV": [
      0.6744281,
-     0.5065975
+     0.506936553
     ],
     "yawDeg": 208.8,
-    "orientationWhy": "Turned to the gate so the naheesh's door looks down the path to the arch and an arriving delegation is seen the length of the clearing.",
-    "assetRef": "bmv:architecture/huts/exterior/hutexterior",
+    "orientationWhy": "The composite carries its doorframe on one side, so the house is turned until that side opens onto the ring rather than onto the back of the guest huts.",
+    "assetRef": "composite:mud/hut-with-entrance",
     "interior": {
      "kind": "hall",
      "assetRef": "dungeon-root-v1"
@@ -1307,115 +1307,115 @@
     "footprint": [
      [
       0.674948902,
-      0.507001434
+      0.507340487
      ],
      [
       0.674798308,
-      0.507143052
+      0.507482105
      ],
      [
       0.674643489,
-      0.507252942
+      0.507591995
      ],
      [
       0.674637311,
-      0.507255736
+      0.507594789
      ],
      [
       0.67463125,
-      0.507255499
+      0.507594552
      ],
      [
       0.674407844,
-      0.507256492
+      0.507595545
      ],
      [
       0.674204811,
-      0.507217613
+      0.507556666
      ],
      [
       0.674024166,
-      0.507118302
+      0.507457355
      ],
      [
       0.673882548,
-      0.506967708
+      0.507306761
      ],
      [
       0.67377753,
-      0.506812473
+      0.507151526
      ],
      [
       0.673774083,
-      0.506807482
+      0.507146535
      ],
      [
       0.673774319,
-      0.506801422
+      0.507140475
      ],
      [
       0.673769108,
-      0.506577244
+      0.506916297
      ],
      [
       0.673807987,
-      0.506374211
+      0.506713264
      ],
      [
       0.673907298,
-      0.506193566
+      0.506532619
      ],
      [
-      0.674057892,
-      0.506051948
+      0.674322321,
+      0.505898745
      ],
      [
-      0.674248657,
-      0.505938605
+      0.674326658,
+      0.505896486
      ],
      [
-      0.674252994,
-      0.505936346
+      0.674347926,
+      0.505880321
      ],
      [
-      0.674259708,
-      0.505935394
+      0.674349768,
+      0.505879786
      ],
      [
-      0.674448356,
-      0.505938508
+      0.674350957,
+      0.505880439
      ],
      [
-      0.674651389,
-      0.505977387
+      0.674369555,
+      0.505886021
      ],
      [
-      0.674832034,
-      0.506076698
+      0.67438447,
+      0.505892673
      ],
      [
       0.674973652,
-      0.506227292
+      0.506566345
      ],
      [
       0.675091214,
-      0.506418828
+      0.506757881
      ],
      [
       0.675094008,
-      0.506425007
+      0.50676406
      ],
      [
       0.675095613,
-      0.506430533
+      0.506769586
      ],
      [
       0.675087092,
-      0.506617756
+      0.506956809
      ],
      [
       0.675048213,
-      0.506820789
+      0.507159842
      ]
     ]
    },
@@ -2039,12 +2039,12 @@
       0.509669356
      ],
      [
-      0.674089089,
-      0.508224913
+      0.673953468,
+      0.508360534
      ],
      [
-      0.674114493,
-      0.50716796
+      0.673930724,
+      0.50735799
      ]
     ]
    },
@@ -3352,135 +3352,144 @@
     "parcelId": "parcel.nine-trunks.hut-family-east",
     "facingDeg": 200.0,
     "thresholdUV": [
-     0.6752482,
-     0.5054971
+     0.675304445,
+     0.505338615
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "the eastern tribe family",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.2",
     "parcelId": "parcel.nine-trunks.guest-hut-1",
     "facingDeg": 240.0,
     "thresholdUV": [
-     0.6765047,
-     0.5065514
+     0.676649624,
+     0.506466171
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "a paying delegation",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.3",
     "parcelId": "parcel.nine-trunks.guest-hut-2",
     "facingDeg": 280.0,
     "thresholdUV": [
-     0.6767895,
-     0.5081667
+     0.67695533,
+     0.50819458
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "an absent delegation",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.4",
     "parcelId": "parcel.nine-trunks.guest-hut-3",
     "facingDeg": 320.0,
     "thresholdUV": [
-     0.6759694,
-     0.5095871
+     0.676078514,
+     0.509715034
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "an absent delegation",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.5",
     "parcelId": "parcel.nine-trunks.store-hut",
     "facingDeg": 0.0,
     "thresholdUV": [
-     0.6744281,
-     0.510148
+     0.674429456,
+     0.510316209
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "the tribe",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.6",
     "parcelId": "parcel.nine-trunks.hut-pitch-taker",
     "facingDeg": 80.0,
     "thresholdUV": [
-     0.6720667,
-     0.5081667
+     0.671901341,
+     0.508197251
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "the pitch-rights taker",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.7",
     "parcelId": "parcel.nine-trunks.hut-family-west",
     "facingDeg": 120.0,
     "thresholdUV": [
-     0.6723515,
-     0.5065514
+     0.67220522,
+     0.50646852
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "the western tribe family",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.8",
     "parcelId": "parcel.nine-trunks.hut-tree-minder",
     "facingDeg": 160.0,
     "thresholdUV": [
-     0.673608,
-     0.5054971
+     0.673549206,
+     0.505339543
     ],
     "interiorClaim": {
      "sizeClass": "small",
      "culture": "argonian",
      "owner": "the tree-minder",
      "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
-    }
+    },
+    "doorwayRef": 0
    },
    {
     "id": "door.hist-heartland.nine-trunks.9",
     "parcelId": "parcel.nine-trunks.naheesh-house",
-    "facingDeg": 208.8,
+    "facingDeg": 0.5,
     "thresholdUV": [
-     0.6740949,
-     0.5072036
+     0.674436531,
+     0.505958437
     ],
     "interiorClaim": {
      "sizeClass": "medium",
      "culture": "argonian",
      "owner": "the naheesh who carries the Root Talk",
      "interiorRef": "dungeon-root-v1"
-    }
+    },
+    "doorwayRef": 2
    }
   ],
   "clearance": {

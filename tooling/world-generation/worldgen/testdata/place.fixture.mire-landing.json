@@ -31,7 +31,7 @@
     ],
     "scaleGrounding": {
       "loreSource": "Fixture only: a five-building landing, sized as the smallest trading stop in module 92's ladder.",
-      "population": "12\u201316",
+      "population": "12–16",
       "households": 4,
       "buildingsPlanned": 5,
       "npcsPlanned": 6,
@@ -111,12 +111,12 @@
         "buildingFamily": "argonian-stilt-hut",
         "groundFit": "stilt",
         "centreUV": [
-          0.718382761,
-          0.600799628
+          0.719256243,
+          0.601312303
         ],
         "yawDeg": 20.0,
-        "orientationWhy": "The long axis lies along the bank, so the entry deck faces the boardwalk and the open bay.",
-        "assetRef": "bmv:architecture/stilthouse/stilthouseext",
+        "orientationWhy": "Turned so the door this composite ships with faces the landing, which is the only made ground anyone walks on here.",
+        "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
         },
@@ -130,60 +130,80 @@
         },
         "footprint": [
           [
-            0.717919112,
-            0.600213776
+            0.718855279,
+            0.601117294
           ],
           [
-            0.718095839,
-            0.599728223
+            0.718983607,
+            0.600911433
           ],
           [
-            0.718098851,
-            0.599727876
+            0.718989749,
+            0.600906453
           ],
           [
-            0.719066134,
-            0.600079938
+            0.718991023,
+            0.600906917
           ],
           [
-            0.719528748,
-            0.600248316
+            0.719133665,
+            0.600883785
           ],
           [
-            0.719530369,
-            0.600251792
+            0.719413498,
+            0.600848527
           ],
           [
-            0.718899533,
-            0.601985
+            0.719433888,
+            0.600855949
           ],
           [
-            0.718612499,
-            0.602472259
+            0.71962559,
+            0.601062831
           ],
           [
-            0.718609022,
-            0.60247388
+            0.71963497,
+            0.601080678
           ],
           [
-            0.71800321,
-            0.602254825
+            0.719691883,
+            0.601400144
           ],
           [
-            0.717973898,
-            0.602244157
+            0.719688748,
+            0.601420652
           ],
           [
-            0.717465696,
-            0.601467456
+            0.719579987,
+            0.601679818
           ],
           [
-            0.717464075,
-            0.601463979
+            0.719562834,
+            0.601695223
           ],
           [
-            0.71763941,
-            0.600982249
+            0.71928786,
+            0.601756784
+          ],
+          [
+            0.719267699,
+            0.601756662
+          ],
+          [
+            0.718961839,
+            0.601645338
+          ],
+          [
+            0.718946316,
+            0.601632472
+          ],
+          [
+            0.718775244,
+            0.601408564
+          ],
+          [
+            0.718772007,
+            0.601385737
           ]
         ]
       },
@@ -194,12 +214,12 @@
         "buildingFamily": "argonian-stilt-hut",
         "groundFit": "stilt",
         "centreUV": [
-          0.718789623,
-          0.597680353
+          0.71969073,
+          0.597313588
         ],
         "yawDeg": 115.0,
-        "orientationWhy": "The doorway is turned inland, away from the wet-season wind that comes up the bay.",
-        "assetRef": "bmv:architecture/huts/exterior/hutexterior",
+        "orientationWhy": "Turned so the door this composite ships with faces the landing, which is the only made ground anyone walks on here.",
+        "assetRef": "composite:mud/hut-with-entrance",
         "interior": {
           "kind": "shell"
         },
@@ -213,118 +233,119 @@
         },
         "footprint": [
           [
-            0.719158153,
-            0.597133925
+            0.72005926,
+            0.59676716
           ],
           [
-            0.71930944,
-            0.597274803
+            0.720210547,
+            0.596908038
           ],
           [
-            0.71942935,
-            0.597421998
+            0.720330457,
+            0.597055233
           ],
           [
-            0.719432547,
-            0.597427978
+            0.720333654,
+            0.597061213
           ],
           [
-            0.719432712,
-            0.597434041
+            0.720333819,
+            0.597067276
           ],
           [
-            0.719448509,
-            0.59765689
+            0.720349616,
+            0.597290125
           ],
           [
-            0.719423171,
-            0.597862054
+            0.720324278,
+            0.597495289
           ],
           [
-            0.719336051,
-            0.598048883
+            0.720237158,
+            0.597682118
           ],
           [
-            0.719195173,
-            0.59820017
+            0.72009628,
+            0.597833405
           ],
           [
-            0.719047239,
-            0.598315246
+            0.719948346,
+            0.597948481
           ],
           [
-            0.719042488,
-            0.598319016
+            0.719943595,
+            0.597952251
           ],
           [
-            0.719036425,
-            0.598319182
+            0.719937532,
+            0.597952417
           ],
           [
-            0.718813086,
-            0.598339239
+            0.719714193,
+            0.597972474
           ],
           [
-            0.718607922,
-            0.598313901
+            0.719509029,
+            0.597947136
           ],
           [
-            0.718421093,
-            0.598226781
+            0.7193222,
+            0.597860016
           ],
           [
-            0.718269806,
-            0.598085903
+            0.718662214,
+            0.597487914
           ],
           [
-            0.718144069,
-            0.597903069
+            0.718659673,
+            0.597483736
           ],
           [
-            0.718141528,
-            0.597898891
+            0.718642134,
+            0.597463586
           ],
           [
-            0.718140133,
-            0.597892255
+            0.718641478,
+            0.597461784
           ],
           [
-            0.718130737,
-            0.597703816
+            0.718642051,
+            0.597460555
           ],
           [
-            0.718156075,
-            0.597498652
+            0.718646387,
+            0.597441627
           ],
           [
-            0.718243195,
-            0.597311823
+            0.718652036,
+            0.597426304
           ],
           [
-            0.718384073,
-            0.597160536
+            0.71928518,
+            0.596793771
           ],
           [
-            0.718567397,
-            0.597030538
+            0.719468504,
+            0.596663773
           ],
           [
-            0.718573377,
-            0.597027341
+            0.719474484,
+            0.596660576
           ],
           [
-            0.718578784,
-            0.597025373
+            0.719479891,
+            0.596658608
           ],
           [
-            0.71876616,
-            0.597021467
+            0.719667267,
+            0.596654702
           ],
           [
-            0.718971324,
-            0.597046805
+            0.719872431,
+            0.59668004
           ]
-        ]
+        ],
+        "stacksOn": "parcel.mire-landing.quay-deck"
       },
       {
         "id": "parcel.mire-landing.quay-deck",
@@ -484,8 +505,8 @@
           0.60107087
         ],
         "yawDeg": 0.0,
-        "orientationWhy": "The long wall is square to the yard, so a cart can be unloaded along its whole length.",
-        "assetRef": "vanilla:architecture/farmhouse/farmhouse01",
+        "orientationWhy": "Turned so the door this composite ships with faces the landing, which is the only made ground anyone walks on here.",
+        "assetRef": "composite:farmhouse/farmhouse01-with-door",
         "interior": {
           "kind": "hall"
         },
@@ -611,12 +632,12 @@
         "buildingFamily": "imperial-townhouse",
         "groundFit": "plinth",
         "centreUV": [
-          0.715805968,
-          0.60513949
+          0.714494021,
+          0.604784608
         ],
         "yawDeg": 0.0,
-        "orientationWhy": "The front is turned to the road, so the factor sees who arrives from the west.",
-        "assetRef": "vanilla:architecture/farmhouse/farmhouse02",
+        "orientationWhy": "Turned so the door this composite ships with faces the landing, which is the only made ground anyone walks on here.",
+        "assetRef": "composite:farmhouse/farmhouse02-with-door",
         "interior": {
           "kind": "dwelling"
         },
@@ -630,36 +651,36 @@
         },
         "footprint": [
           [
-            0.71458945,
-            0.604626844
+            0.713277503,
+            0.604271962
           ],
           [
-            0.714615218,
-            0.604602432
+            0.713303271,
+            0.60424755
           ],
           [
-            0.716565444,
-            0.604602432
+            0.715253497,
+            0.60424755
           ],
           [
-            0.716591212,
-            0.604626844
+            0.715279265,
+            0.604271962
           ],
           [
-            0.716591212,
-            0.60608341
+            0.715279265,
+            0.605728528
           ],
           [
-            0.716565444,
-            0.606109178
+            0.715253497,
+            0.605754296
           ],
           [
-            0.714615218,
-            0.606109178
+            0.713303271,
+            0.605754296
           ],
           [
-            0.71458945,
-            0.60608341
+            0.713277503,
+            0.605728528
           ]
         ]
       }
@@ -694,8 +715,12 @@
             0.606224456
           ],
           [
-            0.71458945,
-            0.605275111
+            0.712008589,
+            0.605817594
+          ],
+          [
+            0.714449761,
+            0.605754296
           ]
         ]
       },
@@ -712,10 +737,6 @@
           [
             0.71417852,
             0.603512042
-          ],
-          [
-            0.713907278,
-            0.604732628
           ]
         ],
         "endsAt": [
@@ -730,10 +751,6 @@
           [
             0.71417852,
             0.603512042
-          ],
-          [
-            0.713907278,
-            0.604732628
           ]
         ]
       },
@@ -744,8 +761,8 @@
         "routing": "straight",
         "via": [
           [
-            0.719332106,
-            0.60120649
+            0.71900895,
+            0.601020241
           ],
           [
             0.72028145,
@@ -758,8 +775,8 @@
         "why": "The short path that carries the poling family from their door to the boardwalk.",
         "points": [
           [
-            0.719200343,
-            0.601158532
+            0.718941853,
+            0.600978414
           ],
           [
             0.72028145,
@@ -792,16 +809,16 @@
             0.600121525
           ],
           [
-            0.719535537,
-            0.59910437
+            0.718586192,
+            0.598155025
           ],
           [
-            0.719535537,
+            0.718586192,
             0.597476922
           ],
           [
-            0.719233825,
-            0.597204391
+            0.719063287,
+            0.59701545
           ]
         ]
       }
@@ -1015,61 +1032,65 @@
       {
         "id": "door.fixture.mire-landing.1",
         "parcelId": "parcel.mire-landing.hut-1",
-        "facingDeg": 110,
+        "facingDeg": 319.7,
         "thresholdUV": [
-          0.719214951,
-          0.601118396
+          0.71900895,
+          0.601020241
         ],
         "interiorClaim": {
-          "sizeClass": "large",
+          "sizeClass": "medium",
           "culture": "argonian",
           "owner": "a poler family",
           "interiorRef": "vanilla-farmhouse-int"
-        }
+        },
+        "doorwayRef": 0
       },
       {
         "id": "door.fixture.mire-landing.2",
         "parcelId": "parcel.mire-landing.warehouse",
-        "facingDeg": 180,
+        "facingDeg": 207.0,
         "thresholdUV": [
-          0.714042899,
-          0.601751686
+          0.713796069,
+          0.60155368
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
           "owner": "the factor",
           "interiorRef": "vanilla-farmhouse-int"
-        }
+        },
+        "doorwayRef": 0
       },
       {
         "id": "door.fixture.mire-landing.3",
         "parcelId": "parcel.mire-landing.factor-house",
-        "facingDeg": 270,
+        "facingDeg": 180.3,
         "thresholdUV": [
-          0.71458945,
-          0.605355127
+          0.714491309,
+          0.605282336
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
           "interiorRef": "vanilla-farmhouse-int"
-        }
+        },
+        "doorwayRef": 1
       },
       {
         "id": "door.fixture.mire-landing.4",
         "parcelId": "parcel.mire-landing.hut-2",
-        "facingDeg": 43.0,
+        "facingDeg": 266.4,
         "thresholdUV": [
-          0.719242615,
-          0.597194951
+          0.718771147,
+          0.597366623
         ],
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
           "interiorRef": "dungeon-root-v1",
           "owner": "a reed-cutter"
-        }
+        },
+        "doorwayRef": 1
       }
     ],
     "clearance": {
@@ -1254,7 +1275,7 @@
     },
     "budget": {
       "maxInstances": 900,
-      "maxUniqueMaterials": 40,
+      "maxUniqueMaterials": 56,
       "maxTextureMB": 48,
       "maxColliders": 260
     }

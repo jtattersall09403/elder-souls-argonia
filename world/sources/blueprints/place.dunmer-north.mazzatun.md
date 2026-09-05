@@ -200,3 +200,14 @@ Each line is a check the compiler or the validator reports and the reason the de
 ## 14. What the integration checks caught in the first v2 draft
 
 Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the gatehouse door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening). The final compile is 27 placements, 0 errors, budget OK.
+
+## Doors and assemblies (stream A2, 2026-09-05)
+
+The three pens keep `mudhut01` and their doors sit on its one measured doorway.
+The stair throat lost its door. `arstairscenter01` is a covered Ayleid flight
+with an inside, but no mined assembly puts a door part against it and no
+composite in `ruin-monumental-v1` ships one, so a door there would have been a
+chosen bearing rather than an opening that the mesh carries. The throat is now
+a recorded sourcing gap (row G4 in the settlement kit sourcing log). The
+validator reports it every run until a piece is found. The parcel keeps its
+`interior: hall` intent. What is in doubt is the entrance.

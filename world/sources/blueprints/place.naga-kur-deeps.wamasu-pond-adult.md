@@ -162,3 +162,11 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 - **97 D3, no threshold spanned.** A lair has no gate; the threshold is the change of mode at the dock (lair rule 6).
 - **97 C1, three kit sets on a lair.** The bank, the stand and the landing are districts because each piece needs its kit set, not because the lair has three plan units; for lairs and camps a district is a kit-set container.
 - **97 B6, the knoll approach unmeasured.** It has a direction, not a route, so the compiler cannot run the line of sight; §Approach gives the measured ridge-to-crown line.
+
+## Doors and assemblies (stream A2, 2026-09-05)
+
+Nothing here has an inside, so nothing here has a door. The hunters' stand is
+an open scaffold; its top is a deck, as is the offering platform. The
+interiors index measures all three as open geometry. The pond is overlooked
+from the stand and the platform, so the absence of any door is the correct
+outcome rather than a sourcing gap.

@@ -2,7 +2,7 @@
 
 import pytest
 
-from . import blueprint, blueprint_footprints, street_router
+from . import blueprint, blueprint_footprints, blueprint_interiors, street_router
 
 # A real, measured kit asset: parcels are picked on geometry, so the tests are
 # too (the validator recomputes the derived footprint from this piece).
@@ -91,6 +91,26 @@ def _threshold():
 def _door_facing():
     parcel = {"footprint": _derived()}
     return round(blueprint._door_edge_bearing(parcel, _threshold()))
+
+
+class _StubLibrary(blueprint_interiors.InteriorLibrary):
+    def __init__(self, record):
+        self.by_asset = {ASSET_REF: record}
+        self.kit_of = {ASSET_REF: "settlement-stilt-v1"}
+
+
+@pytest.fixture(autouse=True)
+def default_index(monkeypatch):
+    """Every test runs against an interiors index that DOES derive a doorway for
+    the fixture's piece, on the side the fixture's door sits: the door-on-a-
+    derived-doorway rule (owner 2026-09-05) is exercised on purpose by the tests
+    below, not incidentally by every other one. Tests that want a different
+    index install it over this with `stub_index`."""
+    record = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94,
+              "doorways": [{"sideDeg": (_door_facing() - YAW_DEG) % 360.0, "arcM": 1.3,
+                            "offsetM": [0.0, 3.2], "doorwaySource": "assembly"}]}
+    monkeypatch.setattr(blueprint_interiors, "library",
+                        lambda *a, **k: _StubLibrary(record))
 
 
 def test_valid_blueprint_passes():
@@ -300,15 +320,6 @@ def test_parcel_spans_and_interior_are_typed():
 # pieces happen to measure enclosed today — what is under test is the rule, not
 # the measurement (that is pipeline/test_interiors_index.py's job).
 # --------------------------------------------------------------------------- #
-from . import blueprint_interiors  # noqa: E402
-
-
-class _StubLibrary(blueprint_interiors.InteriorLibrary):
-    def __init__(self, record):
-        self.by_asset = {ASSET_REF: record}
-        self.kit_of = {ASSET_REF: "settlement-stilt-v1"}
-
-
 @pytest.fixture
 def stub_index(monkeypatch):
     def install(record):
@@ -333,12 +344,20 @@ def _door(**over):
 SHELL = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94, "doorways": []}
 MATCHED = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
            "interiorAssetRef": "pool:arch/hut01_int", "doorways": [{"sideDeg": 180.0, "arcM": 1.3}]}
+ASSEMBLY = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
+            "interiorAssetRef": "pool:arch/hut01_int",
+            "doorways": [{"sideDeg": 180.0, "arcM": 1.3, "offsetM": [0.0, 3.2],
+                          "doorwaySource": "assembly"}]}
+RADIAL = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
+          "interiorAssetRef": "pool:arch/hut01_int",
+          "doorways": [{"radial": True, "radiusM": 4.0, "arcM": 1.3,
+                        "doorwaySource": "assembly"}]}
 OPEN = {"interior": "none", "sizeClass": "large", "planAreaM2": 186.94, "doorways": [],
         "why": "open to the sky"}
 
 
 def test_a_building_with_an_inside_must_have_a_door(stub_index):
-    stub_index(SHELL)
+    stub_index(ASSEMBLY)
     errs = blueprint.validate_blueprint(_bp(doors=[]), KNOWN)
     assert any("has an inside" in e and "no door in doors[]" in e for e in errs)
 
@@ -379,15 +398,61 @@ def test_a_door_may_not_be_claimed_on_a_blank_wall(stub_index):
     stub_index(MATCHED)
     errs = blueprint.validate_blueprint(_bp(doors=[_door(
         facingDeg=YAW_DEG, interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
-    assert any("off the nearest doorway the mesh actually has" in e for e in errs)
+    assert any("sits on no derived doorway" in e for e in errs)
 
 
-def test_a_door_on_the_measured_doorway_passes(stub_index):
-    stub_index(MATCHED)
+def test_a_door_on_an_assembly_doorway_passes(stub_index):
+    """The doorway a mined kit assembly puts a door part in is the one place a
+    door may stand (owner ruling 2026-09-05)."""
+    stub_index(ASSEMBLY)
     errs = blueprint.validate_blueprint(_bp(doors=[_door(
         facingDeg=(180.0 + YAW_DEG) % 360.0,
         interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
     assert not any("doorway" in e for e in errs)
+
+
+def test_a_piece_with_no_derived_doorway_may_not_carry_a_door(stub_index):
+    stub_index(SHELL)
+    errs = blueprint.validate_blueprint(_bp(), KNOWN)
+    message = next(e for e in errs if "no derived doorway" in e)
+    assert "use the composite that ships the door, or record a sourcing gap" in message
+
+
+def test_a_piece_with_no_derived_doorway_is_a_sourcing_gap_not_a_missing_door(stub_index):
+    """A shell whose kit derives no doorway owes a SOURCING job, not an invented
+    entrance, so the door rule warns instead of failing."""
+    stub_index(SHELL)
+    warnings = []
+    errs = blueprint.validate_blueprint(_bp(doors=[]), KNOWN, warnings=warnings)
+    assert not any("no door in doors[]" in e for e in errs)
+    assert any("record a sourcing gap" in w for w in warnings)
+
+
+def _radial_threshold(radius_m: float):
+    """A threshold `radius_m` due east of the parcel centre."""
+    cx, cz = CENTRE_UV
+    return [round(cx + radius_m / blueprint_footprints.PROVINCE_EXTENT_M, 9), cz]
+
+
+def test_a_radial_doorway_passes_on_the_ring_and_fails_off_it(stub_index):
+    stub_index(RADIAL)
+    ok = _door(facingDeg=90.0, thresholdUV=_radial_threshold(4.0),
+               interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))
+    assert not any("doorway" in e for e in
+                   blueprint.validate_blueprint(_bp(doors=[ok]), KNOWN))
+    off = _door(facingDeg=90.0, thresholdUV=_radial_threshold(6.5),
+                interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))
+    errs = blueprint.validate_blueprint(_bp(doors=[off]), KNOWN)
+    assert any("sits on no derived doorway" in e and "radial ring" in e for e in errs)
+
+
+def test_the_derived_doorway_ref_is_written_back(stub_index):
+    stub_index(ASSEMBLY)
+    bp = _bp(doors=[_door(facingDeg=(180.0 + YAW_DEG) % 360.0,
+                          interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))])
+    problems = blueprint_footprints.apply_doors_to_blueprint(bp)
+    assert problems == []
+    assert bp["doors"][0]["doorwayRef"] == 0
 
 
 def test_the_report_lists_what_each_parcel_owes(stub_index):
@@ -559,3 +624,17 @@ def test_terminals_not_required_for_a_hidden_place(monkeypatch):
                         lambda: {"place.testreg.reed-cut-camp": {"id": "place.testreg.reed-cut-camp",
                                                                  "discovery": "rumour"}})
     assert not [e for e in blueprint.validate_blueprint(_bp(), KNOWN) if "C-stitch" in e]
+
+
+def test_minor_waterways_are_addressable_as_terminal_routes():
+    """97 C-stitch: a marsh village's landing may be a poling channel from
+    `waterways-minor.json`, not only a major lane — so those ids are part of
+    the province network the validator accepts (Phase 11 stream C)."""
+    from . import province_network as pn
+    ids = pn.route_ids()
+    if not ids:
+        pytest.skip("no published province network in this checkout")
+    assert any(rid.startswith("waterway.") for rid in ids), (
+        "no minor waterway ids in the network: province_network is not reading "
+        "waterways-minor.json, so a poling lane cannot be a networkTerminals[] routeId"
+    )

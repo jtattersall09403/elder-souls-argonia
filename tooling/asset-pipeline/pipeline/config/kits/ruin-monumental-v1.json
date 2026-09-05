@@ -8,6 +8,9 @@
   0.12
  ],
  "textureMaxSize": 512,
+ "snapLogic": {
+  "assemblies": "Composites in this kit: `composite:ayleid/arblock-mass-2x2x2` and `-3x1x3` are pre-stacked masses of `arblock01` on the 2.65 m / 0.87 m lattice its authors tile it on (templates bmv-valenwood:t0000, t0001, t0006 — hundreds of placements each). The rule they encode is that the block is never a building on its own: it is a masonry unit, and a ruin terrace is a mass of them. Everything else — stairs, statue walls, bridges, columns, rings — stays a single piece, because what a ruin does with them is a design decision, not a lattice."
+ },
  "assets": [
   {
    "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01"
@@ -140,6 +143,178 @@
   },
   {
    "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/blockslargepile"
+  },
+  {
+   "asset": "composite:ayleid/arblock-mass-2x2x2",
+   "compose": {
+    "note": "Eight `arblock01` blocks pre-stacked on the lattice the Ayleid kit's own authors tile it on: 2.65 m in x and y, 0.87 m in z (templates bmv-valenwood:t0001, t0000 and t0006 — 448, 448 and 384 placements). A ruin terrace is hundreds of these blocks; composing the mass lets a ruin be placed in a few parcels instead of a few hundred. ~5.3 x 5.3 x 1.74 m.",
+    "parts": [
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01"
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       0.0,
+       0.0,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       0.0,
+       2.65,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       0.0,
+       2.65,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       0.0,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       2.65,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       2.65,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:ayleid/arblock-mass-3x1x3",
+   "compose": {
+    "note": "The same 2.65/0.87 m lattice as a low wall block: three blocks along x, one deep, three courses high (~7.95 x 2.65 x 2.61 m). Same templates as the 2x2x2 mass. Used for terrace edges and stub walls, where a solid cube is too heavy a read.",
+    "parts": [
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01"
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       0.0,
+       0.0,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       0.0,
+       0.0,
+       1.74
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       0.0,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       2.65,
+       0.0,
+       1.74
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       5.3,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       5.3,
+       0.0,
+       0.87
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arblock01",
+      "offsetM": [
+       5.3,
+       0.0,
+       1.74
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

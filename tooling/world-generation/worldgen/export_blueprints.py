@@ -42,6 +42,7 @@ import argparse
 import json
 from pathlib import Path
 
+from . import blueprint_interiors as bi
 from .blueprint import BLUEPRINT_DIR
 from .render_blueprint import PROVINCE_EXTENT_M, crop_box
 from .site_fields import REPO_ROOT
@@ -172,8 +173,42 @@ def _parcels(bp: dict, extent_m: float) -> list[dict]:
             "notes": p.get("notes"),
             "polygon": poly,
             "centreM": centre,
+            "doorways": parcel_doorways(p, extent_m),
         })
     out.sort(key=lambda p: str(p["id"]))
+    return out
+
+
+def parcel_doorways(parcel: dict, extent_m: float,
+                    interiors: "bi.InteriorLibrary | None" = None) -> list[dict]:
+    """The DERIVED doorways of a parcel's piece, in world metres — what the
+    studio draws on the building's outline (owner ruling 2026-09-05). A doorway
+    is a measured thing: a door part's offset in a mined assembly, or an opening
+    read off the shell's geometry, never an authored bearing."""
+    interiors = interiors if interiors is not None else bi.library()
+    record = interiors.get(parcel.get("assetRef")) if isinstance(parcel.get("assetRef"), str) else None
+    centre = _point_m(parcel.get("centreUV"), extent_m)
+    yaw = float(parcel.get("yawDeg") or 0.0)
+    out = []
+    for dw in bi.doorways(record):
+        radial = bi.is_radial(dw)
+        world = None
+        off = bi.doorway_offset_m(dw, yaw)
+        if centre and off:
+            world = [round(centre[0] + off[0], 3), round(centre[1] + off[1], 3)]
+        entry = {
+            "worldM": world,
+            "bearingDeg": None if radial else round((float(dw["sideDeg"]) + yaw) % 360.0, 1),
+            # older index rows carry no `doorwaySource`: those were all measured
+            # off the shell's own geometry, which is what "geometry" means here.
+            "source": dw.get("doorwaySource") or "geometry",
+            "arcM": dw.get("arcM"),
+        }
+        if radial:
+            radius = bi.doorway_radius_m(dw)
+            entry["radial"] = True
+            entry["radiusM"] = round(radius, 3) if radius is not None else None
+        out.append(entry)
     return out
 
 
@@ -185,6 +220,7 @@ def _doors(bp: dict, extent_m: float) -> list[dict]:
             "id": d.get("id"),
             "parcelId": d.get("parcelId"),
             "facingDeg": d.get("facingDeg"),
+            "doorwayRef": d.get("doorwayRef") if isinstance(d.get("doorwayRef"), int) else None,
             "thresholdM": _point_m(d.get("thresholdUV"), extent_m),
             "interiorClaim": {
                 "sizeClass": claim.get("sizeClass"),

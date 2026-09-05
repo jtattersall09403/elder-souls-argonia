@@ -292,3 +292,18 @@ for 27 villages; tighter reads more like a stockade and holds a smaller crowd.
 - **97 C10 and Part F, argonian-mud enclosure (pens only).** The ring of trunks, huts and woven panels is a closed wall by design: it is the catalogue's signature feature and the reason the tribe counts nine trees. The panels are the mud kit's own fence piece. Owner check whether a closed ring is the village's edge or an enclosure the grammar forbids.
 - **97 D2, the elder trunk (31 m) against the region's 36.1 m canopy.** The compiler compares against the palette's tallest species; the sightline measured in §6 crosses mangroves of 10.6 m; the trunk clears them by 20 m. The local canopy on the ray, not the regional maximum, is the honest test.
 - **97 C7, the uxith.** The egg-tending place is the east family hut, not a separate structure; the recipe allows it, the principle's wording does not say.
+
+## Doors and assemblies (stream A2, 2026-09-05)
+
+A door may only stand on a doorway the kit actually has: either the offset of a
+door part inside an assembly mined off a shipped worldspace, or an opening
+measured from the shell's own geometry. Nine-Trunks needed one change to meet
+that. The eight family and guest huts keep `mudhut01`, whose measured geometry
+puts a single doorway on its local 180 deg side, so each hut's door sits on that
+opening and faces `yaw + 180`. The naheesh's round house moved from the bare
+BM&V hut shell to `composite:mud/hut-with-entrance` — the same hut with the
+`doorframe01` that its own author set against it in twenty-two placements. The
+composite is 1.8 m deeper than the bare shell, so the parcel moved 2.5 m south
+of its Part 7 centre; without that the doorframe stood in the ring walk. The
+deck, the arch, the two shelters and the rack have no inside and so carry no
+door. No parcel here is a sourcing gap.

@@ -170,8 +170,8 @@
       0.596134277
      ],
      [
-      0.474783333,
-      0.596170456
+      0.474895534,
+      0.596161825
      ]
     ]
    }
@@ -581,71 +581,119 @@
     "id": "parcel.sap-tapping-licensed.dwelling",
     "districtId": "district.sap-tapping-licensed.camp",
     "use": "dwelling",
-    "buildingFamily": "argonian-mud-tent",
-    "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent01",
+    "buildingFamily": "argonian-mud-hut",
+    "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
     "groundFit": "plinth",
     "centreUV": [
      0.475214875,
      0.595917284
     ],
     "yawDeg": 135.0,
-    "orientationWhy": "The tent's open end looks south-west on bearing 225, down the track. Its blind back wall stands toward the channel, so a passing boat reads nothing of the camp.",
+    "orientationWhy": "Turned so the hut's own doorway looks down the stage path, which the tapper walks twice a day.",
     "footprint": [
      [
-      0.475783552,
-      0.595693841
+      0.475541888,
+      0.595674661
      ],
      [
-      0.475758618,
-      0.595843442
+      0.475548601,
+      0.595683292
      ],
      [
-      0.475661761,
-      0.595955643
+      0.475614771,
+      0.595776313
      ],
      [
-      0.475226383,
-      0.596245256
+      0.475655048,
+      0.595931669
      ],
      [
-      0.475198572,
-      0.596250051
+      0.475655048,
+      0.595939341
      ],
      [
-      0.475179393,
-      0.596248133
+      0.475629156,
+      0.596126342
      ],
      [
-      0.474941565,
-      0.596209774
+      0.475546683,
+      0.596247174
      ],
      [
-      0.474810184,
-      0.596183881
+      0.475425851,
+      0.596329647
      ],
      [
-      0.474783333,
-      0.596170456
+      0.47523885,
+      0.596355539
      ],
      [
-      0.474706614,
-      0.595984413
+      0.475231178,
+      0.596355539
      ],
      [
-      0.474707573,
-      0.595970028
+      0.475075822,
+      0.596315262
      ],
      [
-      0.474949237,
-      0.595651646
+      0.474982801,
+      0.596249092
      ],
      [
-      0.475277209,
-      0.595323673
+      0.474895534,
+      0.596161825
      ],
      [
-      0.475279127,
-      0.595323673
+      0.474839913,
+      0.596012223
+     ],
+     [
+      0.474828405,
+      0.595927833
+     ],
+     [
+      0.474827446,
+      0.595907694
+     ],
+     [
+      0.474813061,
+      0.595747544
+     ],
+     [
+      0.474822651,
+      0.5957322
+     ],
+     [
+      0.474832241,
+      0.595720692
+     ],
+     [
+      0.475020201,
+      0.595532732
+     ],
+     [
+      0.475031709,
+      0.595523142
+     ],
+     [
+      0.475047053,
+      0.595513552
+     ],
+     [
+      0.475207203,
+      0.595527937
+     ],
+     [
+      0.475227342,
+      0.595528896
+     ],
+     [
+      0.475311732,
+      0.595540404
+     ],
+     [
+      0.475461334,
+      0.595596025
      ]
     ],
     "interior": {
@@ -917,18 +965,19 @@
    {
     "id": "door.hist-heartland.sap-tapping-licensed.1",
     "parcelId": "parcel.sap-tapping-licensed.dwelling",
-    "facingDeg": 225,
+    "facingDeg": 315.0,
     "thresholdUV": [
-     0.474767989,
-     0.596205938
+     0.475016366,
+     0.595716857
     ],
     "interiorClaim": {
-     "sizeClass": "medium",
+     "sizeClass": "small",
      "culture": "argonian",
-     "interiorRef": "settlement-mud-v1",
+     "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
      "owner": "the licensed tapper"
     },
-    "notes": "The door is the tent's open, tapered end (its local +x); the flat back wall stands opposite, to the channel. The kit ships the tent as a shell with an open front wider than 5 m, so the interior is the shell's own volume dressed from settlement-mud-v1, not a separate cell."
+    "notes": "The door sits on the hut's measured doorway; the blank wall stands opposite, to the channel. The interior is the hut's own volume, dressed from settlement-mud-v1 rather than held as a separate cell.",
+    "doorwayRef": 0
    }
   ],
   "clearance": {

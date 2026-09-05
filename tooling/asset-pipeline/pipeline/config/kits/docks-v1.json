@@ -16,7 +16,8 @@
   "dagonfel": "BM&V's Morrowind jetty system: `dockscentre` is the straight, `dockscentrealt` its variant, `dockscentresmall` the narrow straight and `dockscentrenopost` the post-free straight for running under a building; `docks3way`/`docks4way` are the junctions, `dockscorner` the turn, `docksend`/`docksendnopost` the terminations, `dockssteps` the water stair. `dockspilings` and `dockspilingsdamage` are the free-standing pile clusters (the damaged one is our ruined-jetty piece) and `cleat` the mooring cleat.",
   "jets": "Extension pieces only, authored against BM&V's own quays: `dockextension`, `dockpostextension`, `dockramp`, `dockwsteps`, `dockstepsfree` (free-standing steps) and `dockracked02` (a racked/sagging deck section). They have no start piece; use them to finish or damage a run begun in another system.",
   "tamu": "HTBM's lashed-plank boardwalk, the Argonian-reading system: `tamu_wooddock01/02` the deck sections, `tamu_wooddockshort01` the short section, `tamu_woodplank01-04` the loose walkway planks with `tamu_woodplankbroken01-03` as their broken twins, `tamu_woodpole01` the driven pole. Deliberately irregular — these are laid, not gridded.",
-  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in docks-v1.kit.json."
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in docks-v1.kit.json.",
+  "assemblies": "Composites in this kit: `composite:docks/quay-run-2` and `-run-3` are the vanilla shore-entry straight with one or two deck bays already attached, at the offsets BM&V used 47 and 52 times (templates bmv-blackmarsh:t0003 and t0001). The rule is that an entry piece is never the whole quay — it always carries deck away from the shore. Nothing crosses systems: the Dagon Fel, jets and tamu families have their own post spacing and are never composited against these, and mooring columns, ropes and cleats stay loose because they are placed against the waterline, not against a neighbouring deck."
  },
  "assets": [
   {
@@ -159,6 +160,58 @@
   },
   {
    "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
+  },
+  {
+   "asset": "composite:docks/quay-run-2",
+   "compose": {
+    "note": "BM&V's shore entry as a two-piece quay module: `dockstrent01` with `dockstrent02` at 0.02, -7.1, -0.07 m, unrotated (template bmv-blackmarsh:t0003, 47 placements — the plugin references the vanilla dock meshes by path, so these are the same NIFs this kit already packages). The columns, ropes and cleats stay separate: `snapLogic.vanilla` places them against the deck at the waterline, not against a neighbouring deck.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/docks/dockstrent01"
+     },
+     {
+      "asset": "vanilla:architecture/docks/dockstrent02",
+      "offsetM": [
+       0.02,
+       -7.1,
+       -0.07
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:docks/quay-run-3",
+   "compose": {
+    "note": "The same run carried one bay further: `dockstrent02` chains to itself at 7.21 m along the deck line (template bmv-blackmarsh:t0001, 52 placements), so the third piece sits at -14.31 m from the entry. Roughly 21 m of quay in one parcel, which is what a small landing is; longer runs are still laid piece by piece.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/docks/dockstrent01"
+     },
+     {
+      "asset": "vanilla:architecture/docks/dockstrent02",
+      "offsetM": [
+       0.02,
+       -7.1,
+       -0.07
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/docks/dockstrent02",
+      "offsetM": [
+       -0.26,
+       -14.31,
+       0.07
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

@@ -408,21 +408,8 @@
       "docks": [],
       "doors": [
         {
-          "facingDeg": 180,
-          "id": "door.dunmer-north.mazzatun.1",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": "faction.xit-xaht",
-            "sizeClass": "small"
-          },
-          "parcelId": "parcel.mazzatun.stair-throat",
-          "thresholdM": [
-            1998.001,
-            1341.668
-          ]
-        },
-        {
-          "facingDeg": 188,
+          "doorwayRef": 0,
+          "facingDeg": 187.6,
           "id": "door.dunmer-north.mazzatun.2",
           "interiorClaim": {
             "culture": "argonian",
@@ -431,12 +418,13 @@
           },
           "parcelId": "parcel.mazzatun.pen-a",
           "thresholdM": [
-            1970.706,
-            1327.058
+            1970.87,
+            1325.845
           ]
         },
         {
-          "facingDeg": 157,
+          "doorwayRef": 0,
+          "facingDeg": 156.8,
           "id": "door.dunmer-north.mazzatun.3",
           "interiorClaim": {
             "culture": "argonian",
@@ -445,12 +433,13 @@
           },
           "parcelId": "parcel.mazzatun.pen-b",
           "thresholdM": [
-            1988.314,
-            1328.277
+            1987.833,
+            1327.152
           ]
         },
         {
-          "facingDeg": 270,
+          "doorwayRef": 0,
+          "facingDeg": 270.0,
           "id": "door.dunmer-north.mazzatun.4",
           "interiorClaim": {
             "culture": "argonian",
@@ -459,7 +448,7 @@
           },
           "parcelId": "parcel.mazzatun.pen-c",
           "thresholdM": [
-            2003.198,
+            2004.421,
             1326.991
           ]
         }
@@ -512,6 +501,7 @@
             1347.301
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.conduit-column",
           "interior": null,
@@ -587,6 +577,7 @@
             1345.001
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.conduit-pillar",
           "interior": null,
@@ -646,6 +637,7 @@
             1329.001
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.course-e1",
           "interior": null,
@@ -689,6 +681,7 @@
             1336.501
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.course-n1",
           "interior": null,
@@ -732,6 +725,7 @@
             1337.501
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.course-n2",
           "interior": null,
@@ -791,6 +785,7 @@
             1341.501
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.course-w1",
           "interior": null,
@@ -850,6 +845,7 @@
             1357.501
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.cutting-floor",
           "interior": null,
@@ -945,6 +941,7 @@
             1346.001
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.gate-frontage",
           "interior": null,
@@ -1116,6 +1113,7 @@
             1354.321
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.great-stair",
           "interior": null,
@@ -1219,6 +1217,7 @@
             1357.199
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.half-cut-blocks",
           "interior": null,
@@ -1306,6 +1305,7 @@
             1356.777
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.haul-cart",
           "interior": null,
@@ -1401,6 +1401,7 @@
             1352.562
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.haul-gate",
           "interior": {
@@ -1470,6 +1471,7 @@
             1360.001
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.hoist",
           "interior": null,
@@ -1545,6 +1547,7 @@
             1361.501
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.kiln",
           "interior": null,
@@ -1684,6 +1687,17 @@
             1323.785
           ],
           "districtId": "district.mazzatun.pens",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 187.6,
+              "source": "geometry",
+              "worldM": [
+                1970.87,
+                1325.845
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.mazzatun.pen-a",
           "interior": {
@@ -1817,6 +1831,17 @@
             1325.237
           ],
           "districtId": "district.mazzatun.pens",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 156.8,
+              "source": "geometry",
+              "worldM": [
+                1987.832,
+                1327.153
+              ]
+            }
+          ],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.pen-b",
           "interior": {
@@ -1950,6 +1975,17 @@
             1327.001
           ],
           "districtId": "district.mazzatun.pens",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 270.0,
+              "source": "geometry",
+              "worldM": [
+                2004.421,
+                1326.991
+              ]
+            }
+          ],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.pen-c",
           "interior": {
@@ -2083,6 +2119,7 @@
             1325.992
           ],
           "districtId": "district.mazzatun.pens",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.pen-oven",
           "interior": null,
@@ -2162,6 +2199,7 @@
             1325.701
           ],
           "districtId": "district.mazzatun.pens",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.mazzatun.pen-rack",
           "interior": null,
@@ -2253,6 +2291,7 @@
             1327.701
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.pens-stair",
           "interior": null,
@@ -2344,6 +2383,7 @@
             1350.501
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-a",
           "interior": null,
@@ -2419,6 +2459,7 @@
             1357.001
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-b",
           "interior": null,
@@ -2494,6 +2535,7 @@
             1357.001
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.scaffold-c",
           "interior": null,
@@ -2569,6 +2611,7 @@
             1360.901
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.mazzatun.scaffold-stair",
           "interior": null,
@@ -2644,6 +2687,7 @@
             1348.526
           ],
           "districtId": "district.mazzatun.staging",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.shelf-gate",
           "interior": {
@@ -2713,6 +2757,7 @@
             1318.888
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.stair-throat",
           "interior": {
@@ -2854,6 +2899,7 @@
             1344.651
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.statue-court",
           "interior": null,
@@ -2973,6 +3019,7 @@
             1337.054
           ],
           "districtId": "district.mazzatun.works",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.tower",
           "interior": null,
@@ -3197,7 +3244,7 @@
         "combatSpaces": 4,
         "districts": 3,
         "docks": 0,
-        "doors": 4,
+        "doors": 3,
         "fences": 6,
         "keptTrees": 3,
         "landmarks": 2,
@@ -4627,6 +4674,7 @@
       ],
       "doors": [
         {
+          "doorwayRef": 0,
           "facingDeg": 200.0,
           "id": "door.hist-heartland.nine-trunks.1",
           "interiorClaim": {
@@ -4636,11 +4684,12 @@
           },
           "parcelId": "parcel.nine-trunks.hut-family-east",
           "thresholdM": [
-            4978.949,
-            3727.288
+            4979.364,
+            3726.119
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 240.0,
           "id": "door.hist-heartland.nine-trunks.2",
           "interiorClaim": {
@@ -4650,11 +4699,12 @@
           },
           "parcelId": "parcel.nine-trunks.guest-hut-1",
           "thresholdM": [
-            4988.214,
-            3735.062
+            4989.283,
+            3734.433
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 280.0,
           "id": "door.hist-heartland.nine-trunks.3",
           "interiorClaim": {
@@ -4664,11 +4714,12 @@
           },
           "parcelId": "parcel.nine-trunks.guest-hut-2",
           "thresholdM": [
-            4990.314,
-            3746.972
+            4991.537,
+            3747.178
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 320.0,
           "id": "door.hist-heartland.nine-trunks.4",
           "interiorClaim": {
@@ -4678,11 +4729,12 @@
           },
           "parcelId": "parcel.nine-trunks.guest-hut-3",
           "thresholdM": [
-            4984.267,
-            3757.446
+            4985.072,
+            3758.389
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 0.0,
           "id": "door.hist-heartland.nine-trunks.5",
           "interiorClaim": {
@@ -4692,11 +4744,12 @@
           },
           "parcelId": "parcel.nine-trunks.store-hut",
           "thresholdM": [
-            4972.902,
-            3761.581
+            4972.912,
+            3762.822
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 80.0,
           "id": "door.hist-heartland.nine-trunks.6",
           "interiorClaim": {
@@ -4706,11 +4759,12 @@
           },
           "parcelId": "parcel.nine-trunks.hut-pitch-taker",
           "thresholdM": [
-            4955.491,
-            3746.972
+            4954.271,
+            3747.198
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 120.0,
           "id": "door.hist-heartland.nine-trunks.7",
           "interiorClaim": {
@@ -4720,11 +4774,12 @@
           },
           "parcelId": "parcel.nine-trunks.hut-family-west",
           "thresholdM": [
-            4957.591,
-            3735.062
+            4956.512,
+            3734.451
           ]
         },
         {
+          "doorwayRef": 0,
           "facingDeg": 160.0,
           "id": "door.hist-heartland.nine-trunks.8",
           "interiorClaim": {
@@ -4734,12 +4789,13 @@
           },
           "parcelId": "parcel.nine-trunks.hut-tree-minder",
           "thresholdM": [
-            4966.855,
-            3727.288
+            4966.422,
+            3726.126
           ]
         },
         {
-          "facingDeg": 208.8,
+          "doorwayRef": 2,
+          "facingDeg": 0.5,
           "id": "door.hist-heartland.nine-trunks.9",
           "interiorClaim": {
             "culture": "argonian",
@@ -4748,8 +4804,8 @@
           },
           "parcelId": "parcel.nine-trunks.naheesh-house",
           "thresholdM": [
-            4970.445,
-            3739.871
+            4972.965,
+            3730.69
           ]
         }
       ],
@@ -5107,6 +5163,7 @@
             3749.681
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.gate",
           "interior": {
@@ -5168,6 +5225,17 @@
             3733.402
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 240.0,
+              "source": "geometry",
+              "worldM": [
+                4989.283,
+                3734.433
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.guest-hut-1",
           "interior": {
@@ -5301,6 +5369,17 @@
             3747.549
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 280.0,
+              "source": "geometry",
+              "worldM": [
+                4991.537,
+                3747.178
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.guest-hut-2",
           "interior": {
@@ -5434,6 +5513,17 @@
             3759.989
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 320.0,
+              "source": "geometry",
+              "worldM": [
+                4985.072,
+                3758.389
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.guest-hut-3",
           "interior": {
@@ -5567,6 +5657,17 @@
             3724.168
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 200.0,
+              "source": "geometry",
+              "worldM": [
+                4979.364,
+                3726.119
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.hut-family-east",
           "interior": {
@@ -5700,6 +5801,17 @@
             3733.402
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 120.0,
+              "source": "geometry",
+              "worldM": [
+                4956.512,
+                3734.451
+              ]
+            }
+          ],
           "groundFit": "plinth",
           "id": "parcel.nine-trunks.hut-family-west",
           "interior": {
@@ -5833,6 +5945,17 @@
             3747.549
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 80.0,
+              "source": "geometry",
+              "worldM": [
+                4954.271,
+                3747.198
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.hut-pitch-taker",
           "interior": {
@@ -5966,6 +6089,17 @@
             3724.168
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 160.0,
+              "source": "geometry",
+              "worldM": [
+                4966.422,
+                3726.126
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.hut-tree-minder",
           "interior": {
@@ -6099,6 +6233,7 @@
             3753.299
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.minder-deck",
           "interior": {
@@ -6185,13 +6320,42 @@
           "yawDeg": 6.0
         },
         {
-          "assetRef": "bmv:architecture/huts/exterior/hutexterior",
+          "assetRef": "composite:mud/hut-with-entrance",
           "buildingFamily": "argonian-round-house",
           "centreM": [
             4972.902,
-            3735.402
+            3737.902
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 0.5,
+              "source": "assembly",
+              "worldM": [
+                4972.961,
+                3731.11
+              ]
+            },
+            {
+              "arcM": null,
+              "bearingDeg": 0.2,
+              "source": "assembly",
+              "worldM": [
+                4972.921,
+                3731.556
+              ]
+            },
+            {
+              "arcM": null,
+              "bearingDeg": 0.5,
+              "source": "assembly",
+              "worldM": [
+                4972.964,
+                3730.69
+              ]
+            }
+          ],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.naheesh-house",
           "interior": {
@@ -6199,119 +6363,119 @@
             "kind": "hall"
           },
           "notes": null,
-          "orientationWhy": "Turned to the gate so the naheesh's door looks down the path to the arch and an arriving delegation is seen the length of the clearing.",
+          "orientationWhy": "The composite carries its doorframe on one side, so the house is turned until that side opens onto the ring rather than onto the back of the guest huts.",
           "polygon": [
             [
               4976.742,
-              3738.38
+              3740.88
             ],
             [
               4975.632,
-              3739.424
+              3741.924
             ],
             [
               4974.491,
-              3740.235
+              3742.735
             ],
             [
               4974.445,
-              3740.255
+              3742.755
             ],
             [
               4974.4,
-              3740.253
+              3742.754
             ],
             [
               4972.753,
-              3740.261
+              3742.761
             ],
             [
               4971.256,
-              3739.974
+              3742.474
             ],
             [
               4969.924,
-              3739.242
+              3741.742
             ],
             [
               4968.88,
-              3738.131
+              3740.631
             ],
             [
               4968.105,
-              3736.987
+              3739.487
             ],
             [
               4968.08,
-              3736.95
+              3739.45
             ],
             [
               4968.082,
-              3736.905
+              3739.405
             ],
             [
               4968.043,
-              3735.252
+              3737.752
             ],
             [
               4968.33,
-              3733.755
+              3736.255
             ],
             [
               4969.062,
-              3732.423
+              3734.923
             ],
             [
-              4970.173,
-              3731.379
+              4972.122,
+              3730.249
             ],
             [
-              4971.579,
-              3730.543
+              4972.154,
+              3730.233
             ],
             [
-              4971.611,
-              3730.527
+              4972.311,
+              3730.114
             ],
             [
-              4971.661,
-              3730.52
+              4972.325,
+              3730.11
             ],
             [
-              4973.052,
-              3730.543
+              4972.334,
+              3730.114
             ],
             [
-              4974.549,
-              3730.829
+              4972.471,
+              3730.156
             ],
             [
-              4975.881,
-              3731.562
+              4972.581,
+              3730.205
             ],
             [
               4976.925,
-              3732.672
+              3735.172
             ],
             [
               4977.792,
-              3734.084
+              3736.584
             ],
             [
               4977.812,
-              3734.13
+              3736.63
             ],
             [
               4977.824,
-              3734.171
+              3736.671
             ],
             [
               4977.761,
-              3735.551
+              3738.051
             ],
             [
               4977.475,
-              3737.048
+              3739.548
             ]
           ],
           "spans": null,
@@ -6334,6 +6498,7 @@
             3795.902
           ],
           "districtId": "district.nine-trunks.pitch",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.pitch-1",
           "interior": {
@@ -6407,6 +6572,7 @@
             3811.902
           ],
           "districtId": "district.nine-trunks.pitch",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.nine-trunks.pitch-2",
           "interior": {
@@ -6480,6 +6646,7 @@
             3774.404
           ],
           "districtId": "district.nine-trunks.pitch",
+          "doorways": [],
           "groundFit": "direct",
           "id": "parcel.nine-trunks.pitch-rack",
           "interior": {
@@ -6573,6 +6740,17 @@
             3764.902
           ],
           "districtId": "district.nine-trunks.ring",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 0.0,
+              "source": "geometry",
+              "worldM": [
+                4972.912,
+                3762.822
+              ]
+            }
+          ],
           "groundFit": "plinth",
           "id": "parcel.nine-trunks.store-hut",
           "interior": {
@@ -7842,12 +8020,12 @@
               3758.052
             ],
             [
-              4970.403,
-              3747.401
+              4969.403,
+              3748.401
             ],
             [
-              4970.59,
-              3739.608
+              4969.235,
+              3741.009
             ]
           ],
           "routing": "terrain",
@@ -8209,17 +8387,18 @@
       ],
       "doors": [
         {
-          "facingDeg": 225,
+          "doorwayRef": 0,
+          "facingDeg": 315.0,
           "id": "door.hist-heartland.sap-tapping-licensed.1",
           "interiorClaim": {
             "culture": "argonian",
             "owner": "the licensed tapper",
-            "sizeClass": "medium"
+            "sizeClass": "small"
           },
           "parcelId": "parcel.sap-tapping-licensed.dwelling",
           "thresholdM": [
-            3500.707,
-            4396.13
+            3502.538,
+            4392.524
           ]
         }
       ],
@@ -8264,76 +8443,135 @@
       ],
       "parcels": [
         {
-          "assetRef": "mudmother:gv_meshes/argoniannest/argoniantent01",
-          "buildingFamily": "argonian-mud-tent",
+          "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+          "buildingFamily": "argonian-mud-hut",
           "centreM": [
             3504.002,
             4394.002
           ],
           "districtId": "district.sap-tapping-licensed.camp",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 315.0,
+              "source": "geometry",
+              "worldM": [
+                3502.538,
+                4392.524
+              ]
+            }
+          ],
           "groundFit": "plinth",
           "id": "parcel.sap-tapping-licensed.dwelling",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The tent's open end looks south-west on bearing 225, down the track. Its blind back wall stands toward the channel, so a passing boat reads nothing of the camp.",
+          "orientationWhy": "Turned so the hut's own doorway looks down the stage path, which the tapper walks twice a day.",
           "polygon": [
             [
-              3508.195,
-              4392.354
+              3506.413,
+              4392.213
             ],
             [
-              3508.011,
-              4393.458
+              3506.462,
+              4392.277
             ],
             [
-              3507.297,
-              4394.285
+              3506.95,
+              4392.963
             ],
             [
-              3504.086,
-              4396.42
+              3507.247,
+              4394.108
             ],
             [
-              3503.881,
-              4396.456
+              3507.247,
+              4394.165
             ],
             [
-              3503.74,
-              4396.442
+              3507.056,
+              4395.544
             ],
             [
-              3501.986,
-              4396.159
+              3506.448,
+              4396.434
             ],
             [
-              3501.018,
-              4395.968
+              3505.557,
+              4397.043
             ],
             [
-              3500.82,
-              4395.869
+              3504.178,
+              4397.234
             ],
             [
-              3500.254,
-              4394.497
+              3504.122,
+              4397.234
             ],
             [
-              3500.261,
-              4394.391
+              3502.976,
+              4396.937
             ],
             [
-              3502.043,
-              4392.043
+              3502.29,
+              4396.449
             ],
             [
-              3504.461,
-              4389.625
+              3501.647,
+              4395.805
             ],
             [
-              3504.475,
-              4389.625
+              3501.237,
+              4394.702
+            ],
+            [
+              3501.152,
+              4394.08
+            ],
+            [
+              3501.145,
+              4393.931
+            ],
+            [
+              3501.039,
+              4392.75
+            ],
+            [
+              3501.11,
+              4392.637
+            ],
+            [
+              3501.18,
+              4392.552
+            ],
+            [
+              3502.566,
+              4391.167
+            ],
+            [
+              3502.651,
+              4391.096
+            ],
+            [
+              3502.764,
+              4391.025
+            ],
+            [
+              3503.945,
+              4391.131
+            ],
+            [
+              3504.094,
+              4391.138
+            ],
+            [
+              3504.716,
+              4391.223
+            ],
+            [
+              3505.819,
+              4391.633
             ]
           ],
           "spans": null,
@@ -8356,6 +8594,7 @@
             4375.002
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.sap-tapping-licensed.licence-board",
           "interior": {
@@ -8417,6 +8656,7 @@
             4402.804
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.sap-tapping-licensed.mule-line",
           "interior": {
@@ -8494,6 +8734,7 @@
             4383.002
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.sap-tapping-licensed.stage",
           "interior": {
@@ -8571,6 +8812,7 @@
             4383.002
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.sap-tapping-licensed.stage-deck",
           "interior": {
@@ -8636,6 +8878,7 @@
             4384.902
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.sap-tapping-licensed.stage-stair",
           "interior": {
@@ -8713,6 +8956,7 @@
             4393.502
           ],
           "districtId": "district.sap-tapping-licensed.stage",
+          "doorways": [],
           "groundFit": "plinth",
           "id": "parcel.sap-tapping-licensed.stock",
           "interior": {
@@ -9023,8 +9267,8 @@
               4395.602
             ],
             [
-              3500.82,
-              4395.869
+              3501.647,
+              4395.805
             ]
           ],
           "routing": "terrain",
@@ -9805,35 +10049,8 @@
       ],
       "doors": [
         {
-          "facingDeg": 136.1,
-          "id": "door.mercantile-coast.lilmoth.1",
-          "interiorClaim": {
-            "culture": "imperial",
-            "owner": null,
-            "sizeClass": "small"
-          },
-          "parcelId": "parcel.lilmoth.gate-tower",
-          "thresholdM": [
-            3588.65,
-            6386.411
-          ]
-        },
-        {
-          "facingDeg": 41.8,
-          "id": "door.mercantile-coast.lilmoth.10",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": null,
-            "sizeClass": "large"
-          },
-          "parcelId": "parcel.lilmoth.pus-tower",
-          "thresholdM": [
-            3794.652,
-            6334.221
-          ]
-        },
-        {
-          "facingDeg": 102.6,
+          "doorwayRef": 0,
+          "facingDeg": 74.0,
           "id": "door.mercantile-coast.lilmoth.11",
           "interiorClaim": {
             "culture": "argonian",
@@ -9842,12 +10059,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-vault-house",
           "thresholdM": [
-            3792.727,
-            6362.786
+            3792.801,
+            6361.229
           ]
         },
         {
-          "facingDeg": 284.6,
+          "doorwayRef": 0,
+          "facingDeg": 284.0,
           "id": "door.mercantile-coast.lilmoth.12",
           "interiorClaim": {
             "culture": "argonian",
@@ -9856,12 +10074,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-slaughter-house",
           "thresholdM": [
-            3799.304,
-            6361.098
+            3799.201,
+            6361.32
           ]
         },
         {
-          "facingDeg": 73.0,
+          "doorwayRef": 0,
+          "facingDeg": 90.0,
           "id": "door.mercantile-coast.lilmoth.13",
           "interiorClaim": {
             "culture": "argonian",
@@ -9870,12 +10089,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-broker-house",
           "thresholdM": [
-            3792.661,
-            6375.94
+            3792.801,
+            6377.0
           ]
         },
         {
-          "facingDeg": 256.0,
+          "doorwayRef": 0,
+          "facingDeg": 270.0,
           "id": "door.mercantile-coast.lilmoth.14",
           "interiorClaim": {
             "culture": "argonian",
@@ -9884,12 +10104,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-agent-room",
           "thresholdM": [
-            3799.29,
-            6377.88
+            3799.201,
+            6377.0
           ]
         },
         {
-          "facingDeg": 84.2,
+          "doorwayRef": 0,
+          "facingDeg": 82.0,
           "id": "door.mercantile-coast.lilmoth.15",
           "interiorClaim": {
             "culture": "argonian",
@@ -9898,12 +10119,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-reed-cutter",
           "thresholdM": [
-            3792.816,
-            6391.631
+            3792.801,
+            6391.609
           ]
         },
         {
-          "facingDeg": 273.4,
+          "doorwayRef": 0,
+          "facingDeg": 284.0,
           "id": "door.mercantile-coast.lilmoth.16",
           "interiorClaim": {
             "culture": "argonian",
@@ -9912,12 +10134,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-lot-family",
           "thresholdM": [
-            3799.179,
-            6391.786
+            3799.201,
+            6391.316
           ]
         },
         {
-          "facingDeg": 92.4,
+          "doorwayRef": 0,
+          "facingDeg": 98.0,
           "id": "door.mercantile-coast.lilmoth.17",
           "interiorClaim": {
             "culture": "argonian",
@@ -9926,12 +10149,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-poler",
           "thresholdM": [
-            3792.83,
-            6407.153
+            3792.801,
+            6407.397
           ]
         },
         {
-          "facingDeg": 265.2,
+          "doorwayRef": 0,
+          "facingDeg": 263.0,
           "id": "door.mercantile-coast.lilmoth.18",
           "interiorClaim": {
             "culture": "argonian",
@@ -9940,12 +10164,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-dice-runner",
           "thresholdM": [
-            3799.179,
-            6407.307
+            3799.201,
+            6407.347
           ]
         },
         {
-          "facingDeg": 94.4,
+          "doorwayRef": 0,
+          "facingDeg": 106.0,
           "id": "door.mercantile-coast.lilmoth.19",
           "interiorClaim": {
             "culture": "argonian",
@@ -9954,12 +10179,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-south-corner",
           "thresholdM": [
-            3792.823,
-            6421.28
+            3792.801,
+            6421.78
           ]
         },
         {
-          "facingDeg": 191.4,
+          "doorwayRef": 0,
+          "facingDeg": 191.9,
           "id": "door.mercantile-coast.lilmoth.2",
           "interiorClaim": {
             "culture": "argonian",
@@ -9968,12 +10194,13 @@
           },
           "parcelId": "parcel.lilmoth.minder-lodge",
           "thresholdM": [
-            3607.283,
-            6330.564
+            3607.415,
+            6329.763
           ]
         },
         {
-          "facingDeg": 273.4,
+          "doorwayRef": 0,
+          "facingDeg": 270.0,
           "id": "door.mercantile-coast.lilmoth.20",
           "interiorClaim": {
             "culture": "argonian",
@@ -9982,12 +10209,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-cross-a",
           "thresholdM": [
-            3817.178,
-            6359.792
+            3817.2,
+            6360.009
           ]
         },
         {
-          "facingDeg": 252.9,
+          "doorwayRef": 0,
+          "facingDeg": 277.0,
           "id": "door.mercantile-coast.lilmoth.21",
           "interiorClaim": {
             "culture": "argonian",
@@ -9996,12 +10224,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-cross-b",
           "thresholdM": [
-            3817.03,
-            6376.162
+            3817.2,
+            6374.658
           ]
         },
         {
-          "facingDeg": 263.0,
+          "doorwayRef": 0,
+          "facingDeg": 277.0,
           "id": "door.mercantile-coast.lilmoth.22",
           "interiorClaim": {
             "culture": "argonian",
@@ -10010,12 +10239,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-cross-c",
           "thresholdM": [
-            3817.215,
-            6390.444
+            3817.2,
+            6389.658
           ]
         },
         {
-          "facingDeg": 263.4,
+          "doorwayRef": 0,
+          "facingDeg": 263.0,
           "id": "door.mercantile-coast.lilmoth.23",
           "interiorClaim": {
             "culture": "argonian",
@@ -10024,12 +10254,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-cross-d",
           "thresholdM": [
-            3816.868,
-            6405.457
+            3817.2,
+            6405.341
           ]
         },
         {
-          "facingDeg": 12.2,
+          "doorwayRef": 0,
+          "facingDeg": 360.0,
           "id": "door.mercantile-coast.lilmoth.24",
           "interiorClaim": {
             "culture": "argonian",
@@ -10038,12 +10269,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-south-a",
           "thresholdM": [
-            3804.834,
-            6430.947
+            3803.998,
+            6431.205
           ]
         },
         {
-          "facingDeg": 351.4,
+          "doorwayRef": 0,
+          "facingDeg": 0.0,
           "id": "door.mercantile-coast.lilmoth.25",
           "interiorClaim": {
             "culture": "argonian",
@@ -10052,26 +10284,13 @@
           },
           "parcelId": "parcel.lilmoth.pus-south-b",
           "thresholdM": [
-            3818.409,
-            6430.888
+            3819.001,
+            6431.205
           ]
         },
         {
-          "facingDeg": 255.1,
-          "id": "door.mercantile-coast.lilmoth.26",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": null,
-            "sizeClass": "medium"
-          },
-          "parcelId": "parcel.lilmoth.quay-lamp",
-          "thresholdM": [
-            3849.85,
-            6338.579
-          ]
-        },
-        {
-          "facingDeg": 89.8,
+          "doorwayRef": 0,
+          "facingDeg": 88.0,
           "id": "door.mercantile-coast.lilmoth.27",
           "interiorClaim": {
             "culture": "argonian",
@@ -10080,12 +10299,13 @@
           },
           "parcelId": "parcel.lilmoth.licence-house",
           "thresholdM": [
-            3843.464,
-            6329.989
+            3843.007,
+            6329.878
           ]
         },
         {
-          "facingDeg": 89.8,
+          "doorwayRef": 0,
+          "facingDeg": 88.0,
           "id": "door.mercantile-coast.lilmoth.28",
           "interiorClaim": {
             "culture": "argonian",
@@ -10094,12 +10314,13 @@
           },
           "parcelId": "parcel.lilmoth.lighter-shed",
           "thresholdM": [
-            3843.464,
-            6345.989
+            3843.574,
+            6345.863
           ]
         },
         {
-          "facingDeg": 269.8,
+          "doorwayRef": 0,
+          "facingDeg": 294.1,
           "id": "door.mercantile-coast.lilmoth.29",
           "interiorClaim": {
             "culture": "argonian",
@@ -10108,12 +10329,13 @@
           },
           "parcelId": "parcel.lilmoth.divers-shed",
           "thresholdM": [
-            3832.64,
-            6400.015
+            3833.2,
+            6398.846
           ]
         },
         {
-          "facingDeg": 134.5,
+          "doorwayRef": 0,
+          "facingDeg": 131.9,
           "id": "door.mercantile-coast.lilmoth.3",
           "interiorClaim": {
             "culture": "argonian",
@@ -10122,12 +10344,13 @@
           },
           "parcelId": "parcel.lilmoth.second-tender-lodge",
           "thresholdM": [
-            3642.448,
-            6302.404
+            3642.115,
+            6301.895
           ]
         },
         {
-          "facingDeg": 269.8,
+          "doorwayRef": 0,
+          "facingDeg": 90.0,
           "id": "door.mercantile-coast.lilmoth.30",
           "interiorClaim": {
             "culture": "argonian",
@@ -10136,12 +10359,13 @@
           },
           "parcelId": "parcel.lilmoth.salvage-bench",
           "thresholdM": [
-            3832.64,
-            6414.017
+            3828.2,
+            6418.5
           ]
         },
         {
-          "facingDeg": 5.8,
+          "doorwayRef": 0,
+          "facingDeg": 359.5,
           "id": "door.mercantile-coast.lilmoth.31",
           "interiorClaim": {
             "culture": "argonian",
@@ -10150,12 +10374,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-a",
           "thresholdM": [
-            3716.397,
-            6459.062
+            3715.967,
+            6459.092
           ]
         },
         {
-          "facingDeg": 353.5,
+          "doorwayRef": 0,
+          "facingDeg": 8.5,
           "id": "door.mercantile-coast.lilmoth.32",
           "interiorClaim": {
             "culture": "argonian",
@@ -10164,12 +10389,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-b",
           "thresholdM": [
-            3730.554,
-            6459.069
+            3731.41,
+            6458.961
           ]
         },
         {
-          "facingDeg": 15.2,
+          "doorwayRef": 0,
+          "facingDeg": 350.5,
           "id": "door.mercantile-coast.lilmoth.33",
           "interiorClaim": {
             "culture": "argonian",
@@ -10178,12 +10404,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-c",
           "thresholdM": [
-            3747.033,
-            6459.195
+            3745.526,
+            6458.841
           ]
         },
         {
-          "facingDeg": 344.1,
+          "doorwayRef": 0,
+          "facingDeg": 17.5,
           "id": "door.mercantile-coast.lilmoth.34",
           "interiorClaim": {
             "culture": "argonian",
@@ -10192,12 +10419,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-d",
           "thresholdM": [
-            3759.922,
-            6459.224
+            3761.735,
+            6458.697
           ]
         },
         {
-          "facingDeg": 186.8,
+          "doorwayRef": 0,
+          "facingDeg": 179.5,
           "id": "door.mercantile-coast.lilmoth.35",
           "interiorClaim": {
             "culture": "argonian",
@@ -10206,12 +10434,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-e",
           "thresholdM": [
-            3722.531,
-            6452.935
+            3723.037,
+            6452.632
           ]
         },
         {
-          "facingDeg": 173.4,
+          "doorwayRef": 0,
+          "facingDeg": 179.5,
           "id": "door.mercantile-coast.lilmoth.36",
           "interiorClaim": {
             "culture": "argonian",
@@ -10220,12 +10449,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-f",
           "thresholdM": [
-            3738.451,
-            6452.935
+            3738.029,
+            6452.505
           ]
         },
         {
-          "facingDeg": 197.2,
+          "doorwayRef": 0,
+          "facingDeg": 186.5,
           "id": "door.mercantile-coast.lilmoth.37",
           "interiorClaim": {
             "culture": "argonian",
@@ -10234,26 +10464,13 @@
           },
           "parcelId": "parcel.lilmoth.fisher-g",
           "thresholdM": [
-            3751.834,
-            6452.772
+            3752.685,
+            6452.38
           ]
         },
         {
-          "facingDeg": 129.1,
-          "id": "door.mercantile-coast.lilmoth.4",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": null,
-            "sizeClass": "large"
-          },
-          "parcelId": "parcel.lilmoth.council-hall",
-          "thresholdM": [
-            3728.165,
-            6305.287
-          ]
-        },
-        {
-          "facingDeg": 170.0,
+          "doorwayRef": 0,
+          "facingDeg": 169.4,
           "id": "door.mercantile-coast.lilmoth.5",
           "interiorClaim": {
             "culture": "argonian",
@@ -10262,12 +10479,13 @@
           },
           "parcelId": "parcel.lilmoth.record-room",
           "thresholdM": [
-            3699.434,
-            6310.735
+            3699.439,
+            6310.599
           ]
         },
         {
-          "facingDeg": 89.1,
+          "doorwayRef": 0,
+          "facingDeg": 87.3,
           "id": "door.mercantile-coast.lilmoth.6",
           "interiorClaim": {
             "culture": "argonian",
@@ -10276,12 +10494,13 @@
           },
           "parcelId": "parcel.lilmoth.strongroom",
           "thresholdM": [
-            3726.447,
-            6287.971
+            3725.352,
+            6287.897
           ]
         },
         {
-          "facingDeg": 355.8,
+          "doorwayRef": 0,
+          "facingDeg": 326.8,
           "id": "door.mercantile-coast.lilmoth.7",
           "interiorClaim": {
             "culture": "argonian",
@@ -10290,12 +10509,13 @@
           },
           "parcelId": "parcel.lilmoth.elders-house",
           "thresholdM": [
-            3737.935,
-            6310.272
+            3736.65,
+            6311.526
           ]
         },
         {
-          "facingDeg": 182.0,
+          "doorwayRef": 0,
+          "facingDeg": 169.4,
           "id": "door.mercantile-coast.lilmoth.8",
           "interiorClaim": {
             "culture": "argonian",
@@ -10304,22 +10524,8 @@
           },
           "parcelId": "parcel.lilmoth.factor-house",
           "thresholdM": [
-            3744.679,
-            6302.538
-          ]
-        },
-        {
-          "facingDeg": 284.6,
-          "id": "door.mercantile-coast.lilmoth.9",
-          "interiorClaim": {
-            "culture": "argonian",
-            "owner": null,
-            "sizeClass": "medium"
-          },
-          "parcelId": "parcel.lilmoth.tariff-bell",
-          "thresholdM": [
-            3764.251,
-            6301.549
+            3745.316,
+            6301.676
           ]
         }
       ],
@@ -10497,6 +10703,7 @@
             6456.002
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.boat-awning",
           "interior": {
@@ -10594,6 +10801,7 @@
             6310.619
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.council-floor",
           "interior": {
@@ -10755,6 +10963,7 @@
             6301.63
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.council-hall",
           "interior": {
@@ -10833,92 +11042,107 @@
           "yawDeg": 259.8
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3836.599,
+            3835.775,
             6400.0
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 294.1,
+              "source": "assembly",
+              "worldM": [
+                3833.2,
+                6398.846
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.divers-shed",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "Its opening faces the east lane, with the pier to the diving stair leaving its back.",
+          "orientationWhy": "The shipped doorway of this composite looked out over open water, where no threshold can stand. The shed is turned so its door opens onto the made deck behind it.",
           "polygon": [
             [
-              3836.259,
-              6403.27
+              3832.488,
+              6399.981
             ],
             [
-              3836.109,
-              6403.24
+              3832.685,
+              6398.203
             ],
             [
-              3834.039,
-              6402.04
+              3832.71,
+              6398.15
             ],
             [
-              3833.939,
-              6401.93
+              3832.72,
+              6398.15
             ],
             [
-              3832.989,
-              6400.08
+              3833.595,
+              6397.541
             ],
             [
-              3832.989,
-              6399.92
+              3835.343,
+              6396.415
             ],
             [
-              3833.939,
-              6398.07
+              3835.502,
+              6396.4
             ],
             [
-              3834.039,
-              6397.96
+              3837.436,
+              6397.165
             ],
             [
-              3836.109,
-              6396.76
+              3837.556,
+              6397.253
             ],
             [
-              3836.259,
-              6396.73
+              3838.952,
+              6399.196
             ],
             [
-              3838.329,
-              6396.83
+              3838.996,
+              6399.343
             ],
             [
-              3838.479,
-              6396.91
+              3839.099,
+              6401.413
             ],
             [
-              3839.599,
-              6398.66
+              3839.034,
+              6401.57
             ],
             [
-              3839.649,
-              6398.8
+              3837.401,
+              6402.855
             ],
             [
-              3839.649,
-              6401.2
+              3837.267,
+              6402.919
             ],
             [
-              3839.599,
-              6401.34
+              3834.878,
+              6403.153
             ],
             [
-              3838.479,
-              6403.09
+              3834.734,
+              6403.117
             ],
             [
-              3838.329,
-              6403.17
+              3832.883,
+              6402.173
+            ],
+            [
+              3832.789,
+              6402.031
             ]
           ],
           "spans": null,
@@ -10931,7 +11155,7 @@
             "whyNeighbours": "The salvage bench is south of it; the east lane of the loop runs past its door.",
             "whySpot": "It stands at the water’s edge south of the deck, where the diving stair drops into the channel."
           },
-          "yawDeg": 270.0
+          "yawDeg": 354.4
         },
         {
           "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
@@ -10941,6 +11165,7 @@
             6350.0
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.drowned-ridge",
           "interior": {
@@ -10986,6 +11211,7 @@
             6392.0
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.drowned-villa-hall",
           "interior": {
@@ -11031,6 +11257,7 @@
             6327.003
           ],
           "districtId": "district.lilmoth.dues-board",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.dues-board",
           "interior": {
@@ -11085,116 +11312,107 @@
           "yawDeg": 270.0
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3738.207,
             6313.9
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 326.8,
+              "source": "assembly",
+              "worldM": [
+                3736.65,
+                6311.526
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.elders-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its door is on the walkway side, opposite the hall.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces strongroom path.",
           "polygon": [
             [
-              3737.963,
-              6310.621
+              3735.454,
+              6312.103
             ],
             [
-              3738.055,
-              6310.625
+              3736.566,
+              6310.706
             ],
             [
-              3738.116,
-              6310.624
+              3736.611,
+              6310.684
             ],
             [
-              3740.366,
-              6311.439
+              3736.624,
+              6310.68
             ],
             [
-              3740.484,
-              6311.529
+              3737.707,
+              6310.652
             ],
             [
-              3741.746,
-              6313.182
+              3739.786,
+              6310.652
             ],
             [
-              3741.774,
-              6313.339
+              3739.929,
+              6310.726
             ],
             [
-              3741.743,
-              6313.558
+              3741.14,
+              6312.416
             ],
             [
-              3741.167,
-              6315.328
+              3741.192,
+              6312.555
             ],
             [
-              3741.12,
-              6315.408
+              3741.313,
+              6314.945
             ],
             [
-              3741.088,
-              6315.454
+              3741.271,
+              6315.092
             ],
             [
-              3739.263,
-              6317.002
+              3740.236,
+              6316.887
             ],
             [
-              3739.121,
-              6317.058
+              3740.096,
+              6316.984
             ],
             [
-              3737.066,
-              6317.326
+              3738.028,
+              6317.181
             ],
             [
-              3736.904,
-              6317.274
+              3737.881,
+              6317.161
             ],
             [
-              3736.736,
-              6317.131
+              3735.746,
+              6316.064
             ],
             [
-              3735.492,
-              6315.75
+              3735.644,
+              6315.955
             ],
             [
-              3735.447,
-              6315.667
+              3734.6,
+              6314.159
             ],
             [
-              3735.418,
-              6315.621
-            ],
-            [
-              3734.993,
-              6313.259
-            ],
-            [
-              3735.017,
-              6313.112
-            ],
-            [
-              3735.702,
-              6311.384
-            ],
-            [
-              3735.81,
-              6311.191
-            ],
-            [
-              3735.943,
-              6311.086
+              3734.597,
+              6313.989
             ]
           ],
           "spans": null,
@@ -11207,95 +11425,110 @@
             "whyNeighbours": "The market deck is west of it and the council floor east.",
             "whySpot": "It stands on the walkway between the market deck and the council floor, in the middle of civic ground."
           },
-          "yawDeg": 79.8
+          "yawDeg": 27.2
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3744.799,
             6298.902
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 169.4,
+              "source": "assembly",
+              "worldM": [
+                3745.316,
+                6301.676
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.factor-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Set six degrees off the bench walk on its own piles, turned toward the 2 m fall to the south; its door still opens to the walk.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces bench walk.",
           "polygon": [
             [
-              3744.688,
-              6302.188
+              3746.655,
+              6301.616
             ],
             [
-              3744.536,
-              6302.168
+              3745.081,
+              6302.466
             ],
             [
-              3742.388,
-              6301.116
+              3745.023,
+              6302.475
             ],
             [
-              3742.28,
-              6301.013
+              3745.017,
+              6302.467
             ],
             [
-              3741.204,
-              6299.234
+              3744.019,
+              6302.094
             ],
             [
-              3741.192,
-              6299.074
+              3742.098,
+              6301.298
             ],
             [
-              3742.011,
-              6297.162
+              3741.994,
+              6301.176
             ],
             [
-              3742.103,
-              6297.046
+              3741.522,
+              6299.151
             ],
             [
-              3744.084,
-              6295.704
+              3741.527,
+              6299.002
             ],
             [
-              3744.232,
-              6295.664
+              3742.33,
+              6296.748
             ],
             [
-              3746.304,
-              6295.619
+              3742.425,
+              6296.628
             ],
             [
-              3746.459,
-              6295.688
+              3744.068,
+              6295.365
             ],
             [
-              3747.698,
-              6297.356
+              3744.235,
+              6295.329
             ],
             [
-              3747.758,
-              6297.492
+              3746.221,
+              6295.94
             ],
             [
-              3747.926,
-              6299.886
+              3746.349,
+              6296.014
             ],
             [
-              3747.885,
-              6300.029
+              3747.902,
+              6297.845
             ],
             [
-              3746.89,
-              6301.853
+              3747.954,
+              6297.984
             ],
             [
-              3746.746,
-              6301.944
+              3748.232,
+              6300.043
+            ],
+            [
+              3748.169,
+              6300.201
             ]
           ],
           "spans": null,
@@ -11308,7 +11541,7 @@
             "whyNeighbours": "The hall is on its west and the bell kiosk on its east.",
             "whySpot": "It fills the gap between the hall and the bell, on the north side of the walkway."
           },
-          "yawDeg": 266.0
+          "yawDeg": 229.7
         },
         {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepile01",
@@ -11318,6 +11551,7 @@
             6403.871
           ],
           "districtId": "district.lilmoth.north-gate",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.fallen-south-tower",
           "interior": {
@@ -11456,92 +11690,107 @@
           "yawDeg": 129.2
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3715.998,
-            6462.999
+            3715.989,
+            6461.914
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 359.5,
+              "source": "assembly",
+              "worldM": [
+                3715.967,
+                6459.092
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-a",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 6° off the shore lane, as its household set its own piles; the opening is turned north onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "Turned to put the shipped doorway on shore lane.",
           "polygon": [
             [
-              3712.782,
-              6462.32
+              3714.638,
+              6458.917
             ],
             [
-              3712.827,
-              6462.174
+              3716.337,
+              6458.356
             ],
             [
-              3714.237,
-              6460.24
+              3716.395,
+              6458.357
             ],
             [
-              3714.357,
-              6460.152
+              3716.4,
+              6458.366
             ],
             [
-              3716.296,
-              6459.401
+              3717.317,
+              6458.908
             ],
             [
-              3716.455,
-              6459.418
+              3719.069,
+              6460.029
             ],
             [
-              3718.196,
-              6460.556
+              3719.149,
+              6460.167
             ],
             [
-              3718.295,
-              6460.667
+              3719.259,
+              6462.244
             ],
             [
-              3719.272,
-              6462.851
+              3719.228,
+              6462.39
             ],
             [
-              3719.286,
-              6463.003
+              3718.042,
+              6464.468
             ],
             [
-              3718.97,
-              6465.051
+              3717.928,
+              6464.569
             ],
             [
-              3718.875,
-              6465.192
+              3716.089,
+              6465.524
             ],
             [
-              3717.017,
-              6466.123
+              3715.919,
+              6465.53
             ],
             [
-              3716.873,
-              6466.158
+              3714.07,
+              6464.581
             ],
             [
-              3714.486,
-              6465.907
+              3713.957,
+              6464.486
             ],
             [
-              3714.352,
-              6465.843
+              3712.749,
+              6462.411
             ],
             [
-              3712.729,
-              6464.546
+              3712.722,
+              6462.265
             ],
             [
-              3712.665,
-              6464.389
+              3712.81,
+              6460.189
+            ],
+            [
+              3712.899,
+              6460.045
             ]
           ],
           "spans": null,
@@ -11554,119 +11803,110 @@
             "whyNeighbours": "The boat awning is west of it and the second fisher’s hut east.",
             "whySpot": "It is the westernmost hut of the row, beside the boat awning."
           },
-          "yawDeg": 6.0
+          "yawDeg": 59.8
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3731.003,
-            6462.999
+            3730.993,
+            6461.77
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 8.5,
+              "source": "assembly",
+              "worldM": [
+                3731.41,
+                6458.962
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-b",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 8° off the shore lane, as its household set its own piles; the opening is turned north onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces shore lane. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3727.718,
-              6463.118
+              3730.133,
+              6458.597
             ],
             [
-              3727.725,
-              6463.026
+              3731.892,
+              6458.293
             ],
             [
-              3727.727,
-              6462.965
+              3731.94,
+              6458.307
             ],
             [
-              3728.627,
-              6460.748
+              3731.953,
+              6458.312
             ],
             [
-              3728.722,
-              6460.634
+              3732.78,
+              6459.012
             ],
             [
-              3730.422,
-              6459.436
+              3734.332,
+              6460.395
             ],
             [
-              3730.58,
-              6459.413
+              3734.39,
+              6460.545
             ],
             [
-              3730.798,
-              6459.454
+              3734.169,
+              6462.613
             ],
             [
-              3732.544,
-              6460.097
+              3734.116,
+              6462.751
             ],
             [
-              3732.622,
-              6460.146
+              3732.617,
+              6464.616
             ],
             [
-              3732.667,
-              6460.18
+              3732.487,
+              6464.698
             ],
             [
-              3734.144,
-              6462.063
+              3730.52,
+              6465.35
             ],
             [
-              3734.194,
-              6462.208
+              3730.351,
+              6465.329
             ],
             [
-              3734.383,
-              6464.271
+              3728.677,
+              6464.1
             ],
             [
-              3734.325,
-              6464.431
+              3728.579,
+              6463.987
             ],
             [
-              3734.176,
-              6464.593
+              3727.715,
+              6461.748
             ],
             [
-              3732.748,
-              6465.784
+              3727.712,
+              6461.6
             ],
             [
-              3732.663,
-              6465.826
+              3728.127,
+              6459.564
             ],
             [
-              3732.616,
-              6465.853
-            ],
-            [
-              3730.24,
-              6466.187
-            ],
-            [
-              3730.094,
-              6466.157
-            ],
-            [
-              3728.393,
-              6465.406
-            ],
-            [
-              3728.205,
-              6465.291
-            ],
-            [
-              3728.105,
-              6465.154
+              3728.238,
+              6459.435
             ]
           ],
           "spans": null,
@@ -11679,95 +11919,110 @@
             "whyNeighbours": "Fishers live on both sides of it.",
             "whySpot": "It is the second hut of the south row."
           },
-          "yawDeg": 352.0
+          "yawDeg": 68.9
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3746.001,
-            6462.999
+            3745.989,
+            6461.625
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 350.5,
+              "source": "assembly",
+              "worldM": [
+                3745.525,
+                6458.842
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-c",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 17° off the shore lane, as its household set its own piles; the opening is turned north onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces shore lane. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3742.973,
-              6461.718
+              3744.186,
+              6458.876
             ],
             [
-              3743.046,
-              6461.584
+              3745.776,
+              6458.057
             ],
             [
-              3744.799,
-              6459.955
+              3745.834,
+              6458.048
             ],
             [
-              3744.933,
-              6459.891
+              3745.84,
+              6458.056
             ],
             [
-              3746.98,
-              6459.524
+              3746.831,
+              6458.448
             ],
             [
-              3747.133,
-              6459.571
+              3748.736,
+              6459.281
             ],
             [
-              3748.625,
-              6461.02
+              3748.838,
+              6459.405
             ],
             [
-              3748.7,
-              6461.148
+              3749.271,
+              6461.439
             ],
             [
-              3749.243,
-              6463.478
+              3749.263,
+              6461.588
             ],
             [
-              3749.228,
-              6463.63
+              3748.417,
+              6463.826
             ],
             [
-              3748.527,
-              6465.581
+              3748.32,
+              6463.944
             ],
             [
-              3748.406,
-              6465.701
+              3746.652,
+              6465.175
             ],
             [
-              3746.405,
-              6466.26
+              3746.486,
+              6465.208
             ],
             [
-              3746.257,
-              6466.267
+              3744.512,
+              6464.559
             ],
             [
-              3743.962,
-              6465.565
+              3744.384,
+              6464.483
             ],
             [
-              3743.843,
-              6465.477
+              3742.867,
+              6462.623
             ],
             [
-              3742.497,
-              6463.894
+              3742.818,
+              6462.483
             ],
             [
-              3742.464,
-              6463.727
+              3742.58,
+              6460.419
+            ],
+            [
+              3742.645,
+              6460.262
             ]
           ],
           "spans": null,
@@ -11780,119 +12035,110 @@
             "whyNeighbours": "The rack stands behind it; fishers live either side.",
             "whySpot": "It is the third hut of the south row, with the rack on its south side."
           },
-          "yawDeg": 17.0
+          "yawDeg": 50.8
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3760.999,
-            6462.999
+            3760.884,
+            6461.406
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 17.5,
+              "source": "assembly",
+              "worldM": [
+                3761.735,
+                6458.697
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-d",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 19° off the shore lane, as its household set its own piles; the opening is turned north onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto shore lane. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3757.796,
-              6463.743
+              3760.531,
+              6458.137
             ],
             [
-              3757.786,
-              6463.651
+              3762.316,
+              6458.113
             ],
             [
-              3757.776,
-              6463.591
+              3762.361,
+              6458.134
             ],
             [
-              3758.237,
-              6461.243
+              3762.373,
+              6458.141
             ],
             [
-              3758.308,
-              6461.113
+              3763.08,
+              6458.961
             ],
             [
-              3759.748,
-              6459.612
+              3764.397,
+              6460.571
             ],
             [
-              3759.899,
-              6459.56
+              3764.431,
+              6460.727
             ],
             [
-              3760.121,
-              6459.558
+              3763.89,
+              6462.735
             ],
             [
-              3761.958,
-              6459.856
+              3763.815,
+              6462.864
             ],
             [
-              3762.043,
-              6459.89
+              3762.042,
+              6464.471
             ],
             [
-              3762.094,
-              6459.915
+              3761.902,
+              6464.532
             ],
             [
-              3763.903,
-              6461.481
+              3759.857,
+              6464.868
             ],
             [
-              3763.98,
-              6461.613
+              3759.694,
+              6464.821
             ],
             [
-              3764.559,
-              6463.603
+              3758.232,
+              6463.345
             ],
             [
-              3764.533,
-              6463.771
+              3758.153,
+              6463.219
             ],
             [
-              3764.417,
-              6463.959
+              3757.65,
+              6460.872
             ],
             [
-              3763.243,
-              6465.4
+              3757.67,
+              6460.725
             ],
             [
-              3763.167,
-              6465.457
+              3758.398,
+              6458.779
             ],
             [
-              3763.126,
-              6465.493
-            ],
-            [
-              3760.857,
-              6466.274
-            ],
-            [
-              3760.709,
-              6466.272
-            ],
-            [
-              3758.896,
-              6465.86
-            ],
-            [
-              3758.689,
-              6465.783
-            ],
-            [
-              3758.565,
-              6465.667
+              3758.528,
+              6458.669
             ]
           ],
           "spans": null,
@@ -11905,119 +12151,110 @@
             "whyNeighbours": "The pole wall is east of it and the third fisher’s hut west.",
             "whySpot": "It is the last hut of the south row, 20 m from the water."
           },
-          "yawDeg": 341.0
+          "yawDeg": 77.9
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3723.003,
-            6449.005
+            3723.01,
+            6449.793
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 179.5,
+              "source": "assembly",
+              "worldM": [
+                3723.038,
+                6452.632
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-e",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 7° off the shore lane, as its household set its own piles; the opening is turned south onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto shore lane, the way that runs past the plot.",
           "polygon": [
             [
-              3726.207,
-              6449.741
+              3724.356,
+              6452.793
             ],
             [
-              3726.177,
-              6449.827
+              3722.666,
+              6453.368
             ],
             [
-              3726.159,
-              6449.886
+              3722.616,
+              6453.362
             ],
             [
-              3724.716,
-              6451.794
+              3722.603,
+              6453.358
             ],
             [
-              3724.595,
-              6451.88
+              3721.676,
+              6452.797
             ],
             [
-              3722.643,
-              6452.597
+              3719.927,
+              6451.673
             ],
             [
-              3722.484,
-              6452.578
+              3719.847,
+              6451.534
             ],
             [
-              3722.284,
-              6452.483
+              3719.741,
+              6449.457
             ],
             [
-              3720.763,
-              6451.41
+              3719.772,
+              6449.312
             ],
             [
-              3720.701,
-              6451.341
+              3720.961,
+              6447.236
             ],
             [
-              3720.666,
-              6451.297
+              3721.076,
+              6447.135
             ],
             [
-              3719.728,
-              6449.096
+              3722.917,
+              6446.183
             ],
             [
-              3719.716,
-              6448.944
+              3723.087,
+              6446.177
             ],
             [
-              3720.068,
-              6446.901
+              3724.933,
+              6447.129
             ],
             [
-              3720.165,
-              6446.762
+              3725.047,
+              6447.225
             ],
             [
-              3720.351,
-              6446.644
+              3726.25,
+              6449.302
             ],
             [
-              3722.039,
-              6445.864
+              3726.277,
+              6449.448
             ],
             [
-              3722.132,
-              6445.845
+              3726.186,
+              6451.524
             ],
             [
-              3722.184,
-              6445.831
-            ],
-            [
-              3724.566,
-              6446.124
-            ],
-            [
-              3724.699,
-              6446.19
-            ],
-            [
-              3726.148,
-              6447.355
-            ],
-            [
-              3726.299,
-              6447.515
-            ],
-            [
-              3726.36,
-              6447.674
+              3726.096,
+              6451.668
             ]
           ],
           "spans": null,
@@ -12030,95 +12267,110 @@
             "whyNeighbours": "The south row faces it across the lane.",
             "whySpot": "It stands north of the lane opposite the first two south huts."
           },
-          "yawDeg": 187.0
+          "yawDeg": 239.9
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3738.001,
-            6449.005
+            3738.007,
+            6449.683
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 179.5,
+              "source": "assembly",
+              "worldM": [
+                3738.029,
+                6452.505
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-f",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 8° off the shore lane, as its household set its own piles; the opening is turned south onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "Turned to put the shipped doorway on shore lane.",
           "polygon": [
             [
-              3741.286,
-              6448.886
+              3739.358,
+              6452.68
             ],
             [
-              3741.278,
-              6449.039
+              3737.659,
+              6453.241
             ],
             [
-              3740.377,
-              6451.256
+              3737.601,
+              6453.24
             ],
             [
-              3740.282,
-              6451.37
+              3737.596,
+              6453.231
             ],
             [
-              3738.583,
-              6452.568
+              3736.679,
+              6452.689
             ],
             [
-              3738.424,
-              6452.591
+              3734.927,
+              6451.568
             ],
             [
-              3736.46,
-              6451.907
+              3734.846,
+              6451.43
             ],
             [
-              3736.337,
-              6451.824
+              3734.737,
+              6449.353
             ],
             [
-              3734.861,
-              6449.941
+              3734.768,
+              6449.208
             ],
             [
-              3734.81,
-              6449.796
+              3735.953,
+              6447.129
             ],
             [
-              3734.621,
-              6447.733
+              3736.068,
+              6447.028
             ],
             [
-              3734.679,
-              6447.573
+              3737.907,
+              6446.073
             ],
             [
-              3736.256,
-              6446.22
+              3738.077,
+              6446.067
             ],
             [
-              3736.388,
-              6446.151
+              3739.925,
+              6447.016
             ],
             [
-              3738.765,
-              6445.817
+              3740.039,
+              6447.112
             ],
             [
-              3738.91,
-              6445.847
+              3741.246,
+              6449.186
             ],
             [
-              3740.799,
-              6446.713
+              3741.274,
+              6449.332
             ],
             [
-              3740.899,
-              6446.85
+              3741.186,
+              6451.408
+            ],
+            [
+              3741.096,
+              6451.553
             ]
           ],
           "spans": null,
@@ -12131,119 +12383,110 @@
             "whyNeighbours": "Fishers live on either side; the bluff rises 60 m to the north.",
             "whySpot": "It is the middle hut of the north side."
           },
-          "yawDeg": 172.0
+          "yawDeg": 239.8
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3752.999,
-            6449.005
+            3753.003,
+            6449.559
           ],
           "districtId": "district.lilmoth.shore-quarter",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 186.5,
+              "source": "assembly",
+              "worldM": [
+                3752.684,
+                6452.38
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.fisher-g",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 19° off the shore lane, as its household set its own piles; the opening is turned south onto the planks, as the fishers set their piles to the drainage of the flat.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces shore lane. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3755.98,
-              6450.391
+              3753.974,
+              6452.7
             ],
             [
-              3755.932,
-              6450.469
+              3752.227,
+              6453.065
             ],
             [
-              3755.903,
-              6450.523
+              3752.178,
+              6453.053
             ],
             [
-              3754.094,
-              6452.089
+              3752.165,
+              6453.048
             ],
             [
-              3753.957,
-              6452.148
+              3751.314,
+              6452.378
             ],
             [
-              3751.899,
-              6452.444
+              3749.714,
+              6451.049
             ],
             [
-              3751.748,
-              6452.392
+              3749.651,
+              6450.902
             ],
             [
-              3751.572,
-              6452.257
+              3749.799,
+              6448.828
             ],
             [
-              3750.308,
-              6450.891
+              3749.848,
+              6448.687
             ],
             [
-              3750.261,
-              6450.812
+              3751.281,
+              6446.771
             ],
             [
-              3750.236,
-              6450.761
+              3751.408,
+              6446.685
             ],
             [
-              3749.776,
-              6448.413
+              3753.351,
+              6445.965
             ],
             [
-              3749.796,
-              6448.261
+              3753.52,
+              6445.979
             ],
             [
-              3750.565,
-              6446.337
+              3755.237,
+              6447.15
             ],
             [
-              3750.689,
-              6446.221
+              3755.338,
+              6447.259
             ],
             [
-              3750.895,
-              6446.144
+              3756.28,
+              6449.466
             ],
             [
-              3752.708,
-              6445.732
+              3756.289,
+              6449.615
             ],
             [
-              3752.803,
-              6445.733
+              3755.945,
+              6451.664
             ],
             [
-              3752.857,
-              6445.73
-            ],
-            [
-              3755.126,
-              6446.511
-            ],
-            [
-              3755.242,
-              6446.604
-            ],
-            [
-              3756.417,
-              6448.045
-            ],
-            [
-              3756.532,
-              6448.233
-            ],
-            [
-              3756.559,
-              6448.401
+              3755.838,
+              6451.796
             ]
           ],
           "spans": null,
@@ -12256,7 +12499,7 @@
             "whyNeighbours": "The fourth south hut is opposite; the mangrove wall is beyond the pole wall.",
             "whySpot": "It stands where the shore lane turns north-east toward the loop corner."
           },
-          "yawDeg": 199.0
+          "yawDeg": 246.9
         },
         {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01",
@@ -12266,6 +12509,7 @@
             6390.009
           ],
           "districtId": "district.lilmoth.north-gate",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.lilmoth.gate-arch",
           "interior": {
@@ -12327,6 +12571,7 @@
             6384.029
           ],
           "districtId": "district.lilmoth.north-gate",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.gate-tower",
           "interior": {
@@ -12477,116 +12722,107 @@
           "yawDeg": 58.7
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3839.505,
-            6330.003
+            3840.17,
+            6329.98
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 88.0,
+              "source": "assembly",
+              "worldM": [
+                3843.007,
+                6329.878
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.licence-house",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "Its opening faces the quay lane, so a lighter master steps from the planks to the counter.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto quay lane.",
           "polygon": [
             [
-              3839.845,
-              6326.733
+              3843.133,
+              6328.556
             ],
             [
-              3839.935,
+              3843.752,
+              6330.23
+            ],
+            [
+              3843.747,
+              6330.28
+            ],
+            [
+              3843.744,
+              6330.294
+            ],
+            [
+              3843.207,
+              6331.234
+            ],
+            [
+              3842.129,
+              6333.013
+            ],
+            [
+              3841.993,
+              6333.097
+            ],
+            [
+              3839.92,
+              6333.257
+            ],
+            [
+              3839.774,
+              6333.229
+            ],
+            [
+              3837.667,
+              6332.095
+            ],
+            [
+              3837.563,
+              6331.983
+            ],
+            [
+              3836.563,
+              6330.167
+            ],
+            [
+              3836.553,
+              6329.998
+            ],
+            [
+              3837.456,
+              6328.127
+            ],
+            [
+              3837.549,
+              6328.011
+            ],
+            [
+              3839.594,
               6326.753
             ],
             [
-              3839.995,
-              6326.763
+              3839.739,
+              6326.723
             ],
             [
-              3842.065,
-              6327.963
+              3841.816,
+              6326.76
             ],
             [
-              3842.165,
-              6328.073
-            ],
-            [
-              3843.115,
-              6329.923
-            ],
-            [
-              3843.115,
-              6330.083
-            ],
-            [
-              3843.045,
-              6330.293
-            ],
-            [
-              3842.165,
-              6331.933
-            ],
-            [
-              3842.105,
-              6332.003
-            ],
-            [
-              3842.065,
-              6332.043
-            ],
-            [
-              3839.995,
-              6333.243
-            ],
-            [
-              3839.845,
-              6333.273
-            ],
-            [
-              3837.775,
-              6333.173
-            ],
-            [
-              3837.625,
-              6333.093
-            ],
-            [
-              3837.485,
-              6332.923
-            ],
-            [
-              3836.505,
-              6331.343
-            ],
-            [
-              3836.475,
-              6331.253
-            ],
-            [
-              3836.455,
-              6331.203
-            ],
-            [
-              3836.455,
-              6328.803
-            ],
-            [
-              3836.505,
-              6328.663
-            ],
-            [
-              3837.485,
-              6327.083
-            ],
-            [
-              3837.625,
-              6326.913
-            ],
-            [
-              3837.775,
-              6326.833
+              3841.963,
+              6326.845
             ]
           ],
           "spans": null,
@@ -12599,95 +12835,110 @@
             "whyNeighbours": "The lighter shed is south of it and the lamp across the lane.",
             "whySpot": "It is the northernmost building on the quay lane, the first door a crew reaches from the deck."
           },
-          "yawDeg": 90.0
+          "yawDeg": 148.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3839.505,
-            6346.004
+            3840.753,
+            6345.96
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 88.0,
+              "source": "assembly",
+              "worldM": [
+                3843.573,
+                6345.864
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.lighter-shed",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "The shed opens onto the quay lane so cargo is carried straight from the deck.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto quay lane, the way that runs past the plot.",
           "polygon": [
             [
-              3839.845,
+              3843.714,
+              6344.531
+            ],
+            [
+              3844.319,
+              6346.214
+            ],
+            [
+              3844.32,
+              6346.272
+            ],
+            [
+              3844.311,
+              6346.278
+            ],
+            [
+              3843.793,
+              6347.209
+            ],
+            [
+              3842.719,
+              6348.989
+            ],
+            [
+              3842.582,
+              6349.073
+            ],
+            [
+              3840.509,
+              6349.237
+            ],
+            [
+              3840.363,
+              6349.21
+            ],
+            [
+              3838.254,
+              6348.079
+            ],
+            [
+              3838.15,
+              6347.967
+            ],
+            [
+              3837.147,
+              6346.154
+            ],
+            [
+              3837.137,
+              6345.984
+            ],
+            [
+              3838.037,
+              6344.111
+            ],
+            [
+              3838.13,
+              6343.995
+            ],
+            [
+              3840.172,
               6342.734
             ],
             [
-              3839.995,
-              6342.764
+              3840.317,
+              6342.703
             ],
             [
-              3842.065,
-              6343.964
+              3842.395,
+              6342.737
             ],
             [
-              3842.165,
-              6344.074
-            ],
-            [
-              3843.115,
-              6345.924
-            ],
-            [
-              3843.115,
-              6346.084
-            ],
-            [
-              3842.165,
-              6347.934
-            ],
-            [
-              3842.065,
-              6348.044
-            ],
-            [
-              3839.995,
-              6349.244
-            ],
-            [
-              3839.845,
-              6349.274
-            ],
-            [
-              3837.775,
-              6349.174
-            ],
-            [
-              3837.625,
-              6349.094
-            ],
-            [
-              3836.505,
-              6347.344
-            ],
-            [
-              3836.455,
-              6347.204
-            ],
-            [
-              3836.455,
-              6344.804
-            ],
-            [
-              3836.505,
-              6344.664
-            ],
-            [
-              3837.625,
-              6342.914
-            ],
-            [
-              3837.775,
-              6342.834
+              3842.542,
+              6342.822
             ]
           ],
           "spans": null,
@@ -12700,95 +12951,110 @@
             "whyNeighbours": "The deck is a few steps south; the licence house is north.",
             "whySpot": "It is between the licence house and the deck, on the west side of the quay lane."
           },
-          "yawDeg": 90.0
+          "yawDeg": 148.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3607.999,
             6327.002
           ],
           "districtId": "district.lilmoth.hist-court",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 191.9,
+              "source": "assembly",
+              "worldM": [
+                3607.415,
+                6329.763
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.minder-lodge",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The lodge is turned to face the Hist, so its opening looks across the court to the trunk.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces court path.",
           "polygon": [
             [
-              3609.322,
-              6323.993
-            ],
-            [
-              3609.456,
-              6324.067
-            ],
-            [
-              3611.06,
-              6325.843
-            ],
-            [
-              3611.121,
-              6325.978
-            ],
-            [
-              3611.46,
-              6328.03
-            ],
-            [
-              3611.411,
-              6328.182
-            ],
-            [
-              3609.941,
-              6329.653
-            ],
-            [
-              3609.812,
-              6329.727
-            ],
-            [
-              3607.475,
-              6330.237
-            ],
-            [
-              3607.323,
+              3608.674,
               6330.22
             ],
             [
-              3605.382,
-              6329.492
+              3606.895,
+              6330.403
             ],
             [
-              3605.264,
-              6329.37
+              3606.838,
+              6330.389
             ],
             [
-              3604.733,
-              6327.361
+              3606.835,
+              6330.38
             ],
             [
-              3604.728,
-              6327.213
+              3606.056,
+              6329.653
             ],
             [
-              3605.461,
-              6324.928
+              3604.586,
+              6328.182
             ],
             [
-              3605.552,
-              6324.81
+              3604.537,
+              6328.03
             ],
             [
-              3607.153,
+              3604.876,
+              6325.978
+            ],
+            [
+              3604.937,
+              6325.843
+            ],
+            [
+              3606.542,
+              6324.067
+            ],
+            [
+              3606.675,
+              6323.993
+            ],
+            [
+              3608.677,
+              6323.455
+            ],
+            [
+              3608.844,
               6323.486
             ],
             [
-              3607.32,
-              6323.455
+              3610.445,
+              6324.81
+            ],
+            [
+              3610.536,
+              6324.928
+            ],
+            [
+              3611.269,
+              6327.213
+            ],
+            [
+              3611.265,
+              6327.361
+            ],
+            [
+              3610.733,
+              6329.37
+            ],
+            [
+              3610.615,
+              6329.492
             ]
           ],
           "spans": null,
@@ -12801,95 +13067,110 @@
             "whyNeighbours": "The second tender’s lodge sits on the opposite side of the court, so the two watchers are never in the same house.",
             "whySpot": "It stands on the crest west of the court ring, 28 m from the trunk, outside the poles but facing the opening."
           },
-          "yawDeg": 107.8
+          "yawDeg": 252.2
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3802.799,
+            3802.023,
             6377.002
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 270.0,
+              "source": "assembly",
+              "worldM": [
+                3799.201,
+                6377.0
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-agent-room",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 7° off the west lane, as its household set its own piles; the opening is turned west onto the planks, toward the bluff-side huts.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
           "polygon": [
             [
-              3803.535,
-              6373.798
+              3799.014,
+              6378.327
             ],
             [
-              3803.681,
-              6373.846
+              3798.468,
+              6376.624
             ],
             [
-              3805.589,
-              6375.289
+              3798.469,
+              6376.565
             ],
             [
-              3805.675,
-              6375.411
+              3798.478,
+              6376.56
             ],
             [
-              3806.392,
-              6377.363
+              3799.028,
+              6375.648
             ],
             [
-              3806.373,
-              6377.522
+              3800.165,
+              6373.906
             ],
             [
-              3805.204,
-              6379.242
+              3800.304,
+              6373.827
             ],
             [
-              3805.092,
-              6379.339
+              3802.381,
+              6373.735
             ],
             [
-              3802.891,
-              6380.278
+              3802.526,
+              6373.768
             ],
             [
-              3802.738,
-              6380.289
+              3804.594,
+              6374.971
             ],
             [
-              3800.696,
-              6379.938
+              3804.695,
+              6375.087
             ],
             [
-              3800.557,
-              6379.84
+              3805.633,
+              6376.934
             ],
             [
-              3799.658,
-              6377.967
+              3805.638,
+              6377.104
             ],
             [
-              3799.626,
-              6377.822
+              3804.673,
+              6378.944
             ],
             [
-              3799.918,
-              6375.439
+              3804.576,
+              6379.057
             ],
             [
-              3799.985,
-              6375.307
+              3802.492,
+              6380.246
             ],
             [
-              3801.31,
-              6373.706
+              3802.345,
+              6380.272
             ],
             [
-              3801.469,
-              6373.645
+              3800.27,
+              6380.166
+            ],
+            [
+              3800.126,
+              6380.076
             ]
           ],
           "spans": null,
@@ -12902,119 +13183,110 @@
             "whyNeighbours": "The broker’s house faces it across the lane.",
             "whySpot": "It is on the east side of the west lane, one door south of the slaughter-list house."
           },
-          "yawDeg": 97.0
+          "yawDeg": 330.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3789.203,
+            3789.962,
             6377.002
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 90.0,
+              "source": "assembly",
+              "worldM": [
+                3792.801,
+                6376.999
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-broker-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 4° off the west lane, as its household set its own piles; the opening is turned east onto the planks, with its back to the bluff.",
+          "orientationWhy": "Turned to put the shipped doorway on pusbottom loop.",
           "polygon": [
             [
-              3788.635,
-              6380.241
+              3792.973,
+              6375.683
             ],
             [
-              3788.547,
-              6380.214
+              3793.533,
+              6377.377
             ],
             [
-              3788.488,
-              6380.2
+              3793.527,
+              6377.427
             ],
             [
-              3786.506,
-              6378.859
+              3793.523,
+              6377.44
             ],
             [
-              3786.414,
-              6378.742
+              3792.954,
+              6378.362
             ],
             [
-              3785.596,
-              6376.83
+              3791.814,
+              6380.102
             ],
             [
-              3785.607,
-              6376.671
+              3791.675,
+              6380.181
             ],
             [
-              3785.691,
-              6376.466
+              3789.598,
+              6380.268
             ],
             [
-              3786.684,
-              6374.891
+              3789.452,
+              6380.236
             ],
             [
-              3786.748,
-              6374.826
+              3787.387,
+              6379.029
             ],
             [
-              3786.791,
-              6374.789
+              3787.286,
+              6378.913
             ],
             [
-              3788.94,
-              6373.736
+              3786.351,
+              6377.064
             ],
             [
-              3789.091,
-              6373.716
+              3786.346,
+              6376.894
             ],
             [
-              3791.149,
-              6373.961
+              3787.315,
+              6375.056
             ],
             [
-              3791.294,
-              6374.051
+              3787.412,
+              6374.943
             ],
             [
-              3791.421,
-              6374.23
+              3789.499,
+              6373.758
             ],
             [
-              3792.289,
-              6375.875
+              3789.645,
+              6373.732
             ],
             [
-              3792.312,
-              6375.967
+              3791.72,
+              6373.841
             ],
             [
-              3792.329,
-              6376.018
-            ],
-            [
-              3792.161,
-              6378.412
-            ],
-            [
-              3792.102,
-              6378.548
-            ],
-            [
-              3791.014,
-              6380.056
-            ],
-            [
-              3790.862,
-              6380.216
-            ],
-            [
-              3790.707,
-              6380.285
+              3791.864,
+              6373.932
             ]
           ],
           "spans": null,
@@ -13027,119 +13299,110 @@
             "whyNeighbours": "The vault house is north of it and the reed-cutter’s house south.",
             "whySpot": "It is the second hut on the west side of the loop, under the bluff."
           },
-          "yawDeg": 274.0
+          "yawDeg": 150.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3820.805,
+            3820.039,
             6360.006
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 270.0,
+              "source": "assembly",
+              "worldM": [
+                3817.2,
+                6360.009
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-cross-a",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 28° off the cross lane, as its household set its own piles; the opening is turned west onto the planks.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces pusbottom cross.",
           "polygon": [
             [
-              3822.641,
-              6357.279
+              3817.028,
+              6361.326
             ],
             [
-              3822.711,
-              6357.339
+              3816.468,
+              6359.631
             ],
             [
-              3822.759,
-              6357.376
+              3816.474,
+              6359.582
             ],
             [
-              3824.023,
-              6359.407
+              3816.478,
+              6359.568
             ],
             [
-              3824.06,
-              6359.551
+              3817.047,
+              6358.647
             ],
             [
-              3824.03,
-              6361.63
+              3818.186,
+              6356.907
             ],
             [
-              3823.955,
-              6361.772
+              3818.325,
+              6356.828
             ],
             [
-              3823.795,
-              6361.924
+              3820.403,
+              6356.74
             ],
             [
-              3822.248,
-              6362.959
+              3820.548,
+              6356.773
             ],
             [
-              3822.162,
-              6362.993
+              3822.614,
+              6357.98
             ],
             [
-              3822.108,
-              6363.009
+              3822.714,
+              6358.095
             ],
             [
-              3819.717,
-              6363.097
+              3823.65,
+              6359.945
             ],
             [
-              3819.57,
-              6363.053
+              3823.654,
+              6360.115
             ],
             [
-              3817.79,
-              6361.993
+              3822.686,
+              6361.953
             ],
             [
-              3817.695,
-              6361.852
+              3822.589,
+              6362.066
             ],
             [
-              3817.651,
-              6361.636
+              3820.502,
+              6363.251
             ],
             [
-              3817.527,
-              6359.781
+              3820.356,
+              6363.277
             ],
             [
-              3817.543,
-              6359.687
+              3818.281,
+              6363.167
             ],
             [
-              3817.549,
-              6359.634
-            ],
-            [
-              3818.676,
-              6357.515
-            ],
-            [
-              3818.786,
-              6357.415
-            ],
-            [
-              3820.393,
-              6356.48
-            ],
-            [
-              3820.596,
-              6356.395
-            ],
-            [
-              3820.766,
-              6356.395
+              3818.137,
+              6363.076
             ]
           ],
           "spans": null,
@@ -13152,95 +13415,110 @@
             "whyNeighbours": "The spine passes its north side; the next porter’s hut is south.",
             "whySpot": "It is the first hut on the cross lane, just south of the spine."
           },
-          "yawDeg": 118.0
+          "yawDeg": 330.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3820.805,
+            3820.0,
             6375.004
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 277.0,
+              "source": "assembly",
+              "worldM": [
+                3817.2,
+                6374.658
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-cross-b",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 41° off the cross lane, as its household set its own piles; the opening is turned west onto the planks.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto pusbottom cross. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3823.207,
-              6372.759
+              3816.852,
+              6375.952
             ],
             [
-              3823.301,
-              6372.88
+              3816.518,
+              6374.195
             ],
             [
-              3824.076,
-              6375.144
+              3816.527,
+              6374.137
             ],
             [
-              3824.079,
-              6375.293
+              3816.536,
+              6374.133
             ],
             [
-              3823.582,
-              6377.312
+              3817.193,
+              6373.295
             ],
             [
-              3823.477,
-              6377.433
+              3818.533,
+              6371.705
             ],
             [
-              3821.547,
-              6378.206
+              3818.681,
+              6371.643
             ],
             [
-              3821.399,
-              6378.223
+              3820.754,
+              6371.805
             ],
             [
-              3819.05,
-              6377.771
+              3820.894,
+              6371.855
             ],
             [
-              3818.917,
-              6377.695
+              3822.8,
+              6373.302
             ],
             [
-              3817.42,
-              6376.261
+              3822.886,
+              6373.428
             ],
             [
-              3817.359,
-              6376.103
+              3823.592,
+              6375.377
             ],
             [
-              3817.662,
-              6374.047
+              3823.576,
+              6375.546
             ],
             [
-              3817.716,
-              6373.909
+              3822.394,
+              6377.255
             ],
             [
-              3819.291,
-              6372.097
+              3822.284,
+              6377.355
             ],
             [
-              3819.42,
-              6372.025
+              3820.07,
+              6378.281
             ],
             [
-              3821.414,
-              6371.439
+              3819.922,
+              6378.289
             ],
             [
-              3821.579,
-              6371.477
+              3817.875,
+              6377.931
+            ],
+            [
+              3817.743,
+              6377.823
             ]
           ],
           "spans": null,
@@ -13253,119 +13531,110 @@
             "whyNeighbours": "Porters live on both sides of it; the east lane runs behind it.",
             "whySpot": "It is the second hut on the cross lane."
           },
-          "yawDeg": 131.0
+          "yawDeg": 337.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3820.805,
+            3820.018,
             6390.002
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 277.0,
+              "source": "assembly",
+              "worldM": [
+                3817.2,
+                6389.659
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-cross-c",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 14° off the cross lane, as its household set its own piles; the opening is turned west onto the planks.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto pusbottom cross, the way that runs past the plot. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3821.926,
-              6386.911
+              3816.868,
+              6390.944
             ],
             [
-              3822.009,
-              6386.952
+              3816.519,
+              6389.194
             ],
             [
-              3822.065,
-              6386.977
+              3816.531,
+              6389.146
             ],
             [
-              3823.783,
-              6388.642
+              3816.537,
+              6389.133
             ],
             [
-              3823.853,
-              6388.773
+              3817.214,
+              6388.288
             ],
             [
-              3824.328,
-              6390.797
+              3818.557,
+              6386.7
             ],
             [
-              3824.289,
-              6390.953
+              3818.705,
+              6386.638
             ],
             [
-              3824.17,
-              6391.14
+              3820.778,
+              6386.804
             ],
             [
-              3822.919,
-              6392.518
+              3820.918,
+              6386.854
             ],
             [
-              3822.844,
-              6392.571
+              3822.821,
+              6388.304
             ],
             [
-              3822.796,
-              6392.6
+              3822.906,
+              6388.431
             ],
             [
-              3820.497,
-              6393.264
+              3823.609,
+              6390.381
             ],
             [
-              3820.344,
-              6393.257
+              3823.593,
+              6390.55
             ],
             [
-              3818.36,
-              6392.659
+              3822.408,
+              6392.256
             ],
             [
-              3818.234,
-              6392.545
+              3822.298,
+              6392.356
             ],
             [
-              3818.139,
-              6392.346
+              3820.082,
+              6393.279
             ],
             [
-              3817.57,
-              6390.576
+              3819.934,
+              6393.286
             ],
             [
-              3817.563,
-              6390.482
+              3817.888,
+              6392.925
             ],
             [
-              3817.556,
-              6390.428
-            ],
-            [
-              3818.136,
-              6388.1
-            ],
-            [
-              3818.219,
-              6387.976
-            ],
-            [
-              3819.552,
-              6386.68
-            ],
-            [
-              3819.729,
-              6386.549
-            ],
-            [
-              3819.894,
-              6386.507
+              3817.756,
+              6392.817
             ]
           ],
           "spans": null,
@@ -13378,95 +13647,110 @@
             "whyNeighbours": "Porters live north of it; the last cross-lane hut is south.",
             "whySpot": "It is the third hut on the cross lane, level with the divers’ shed on the quay."
           },
-          "yawDeg": 104.0
+          "yawDeg": 337.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3820.805,
+            3820.001,
             6404.999
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 263.0,
+              "source": "assembly",
+              "worldM": [
+                3817.2,
+                6405.341
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-cross-d",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 53° off the cross lane, as its household set its own piles; the opening is turned west onto the planks.",
+          "orientationWhy": "Turned to put the shipped doorway on pusbottom cross. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3823.622,
-              6403.303
+              3817.176,
+              6406.681
             ],
             [
-              3823.688,
-              6403.441
+              3816.426,
+              6405.057
             ],
             [
-              3823.975,
-              6405.816
+              3816.421,
+              6404.999
             ],
             [
-              3823.948,
-              6405.962
+              3816.429,
+              6404.993
             ],
             [
-              3823.042,
-              6407.834
+              3816.864,
+              6404.02
             ],
             [
-              3822.914,
-              6407.931
+              3817.779,
+              6402.153
             ],
             [
-              3820.865,
-              6408.285
+              3817.907,
+              6402.057
             ],
             [
-              3820.717,
-              6408.272
+              3819.958,
+              6401.713
             ],
             [
-              3818.513,
-              6407.341
+              3820.106,
+              6401.728
             ],
             [
-              3818.398,
-              6407.239
+              3822.306,
+              6402.67
             ],
             [
-              3817.233,
-              6405.526
+              3822.419,
+              6402.773
             ],
             [
-              3817.206,
-              6405.358
+              3823.576,
+              6404.492
             ],
             [
-              3817.93,
-              6403.41
+              3823.602,
+              6404.66
             ],
             [
-              3818.012,
-              6403.286
+              3822.868,
+              6406.604
             ],
             [
-              3819.928,
-              6401.841
+              3822.786,
+              6406.728
             ],
             [
-              3820.07,
-              6401.797
+              3820.861,
+              6408.162
             ],
             [
-              3822.142,
-              6401.638
+              3820.719,
+              6408.206
             ],
             [
-              3822.296,
-              6401.71
+              3818.647,
+              6408.353
+            ],
+            [
+              3818.493,
+              6408.281
             ]
           ],
           "spans": null,
@@ -13479,95 +13763,110 @@
             "whyNeighbours": "The diver’s hut is north of it; the south-lane huts are round the corner.",
             "whySpot": "It is the southern end of the cross lane, near the south corner of the loop."
           },
-          "yawDeg": 143.0
+          "yawDeg": 323.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3802.799,
+            3802.002,
             6407.005
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 263.0,
+              "source": "assembly",
+              "worldM": [
+                3799.201,
+                6407.347
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-dice-runner",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 18° off the west lane, as its household set its own piles; the opening is turned west onto the planks, toward the bluff-side huts.",
+          "orientationWhy": "Turned to put the shipped doorway on pusbottom loop. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3804.133,
-              6404.0
+              3799.177,
+              6408.687
             ],
             [
-              3804.267,
-              6404.075
+              3798.428,
+              6407.062
             ],
             [
-              3805.864,
-              6405.856
+              3798.422,
+              6407.004
             ],
             [
-              3805.926,
-              6405.992
+              3798.43,
+              6406.998
             ],
             [
-              3806.257,
-              6408.045
+              3798.865,
+              6406.026
             ],
             [
-              3806.208,
-              6408.197
+              3799.78,
+              6404.158
             ],
             [
-              3804.733,
-              6409.663
+              3799.909,
+              6404.063
             ],
             [
-              3804.604,
-              6409.736
+              3801.96,
+              6403.719
             ],
             [
-              3802.264,
-              6410.238
+              3802.108,
+              6403.733
             ],
             [
-              3802.112,
-              6410.22
+              3804.307,
+              6404.676
             ],
             [
-              3800.174,
-              6409.485
+              3804.421,
+              6404.778
             ],
             [
-              3800.056,
-              6409.363
+              3805.577,
+              6406.498
             ],
             [
-              3799.532,
-              6407.352
+              3805.603,
+              6406.666
             ],
             [
-              3799.528,
-              6407.204
+              3804.869,
+              6408.61
             ],
             [
-              3800.269,
-              6404.921
+              3804.787,
+              6408.733
             ],
             [
-              3800.36,
-              6404.804
+              3802.863,
+              6410.168
             ],
             [
-              3801.966,
-              6403.485
+              3802.72,
+              6410.211
             ],
             [
-              3802.134,
-              6403.456
+              3800.648,
+              6410.359
+            ],
+            [
+              3800.494,
+              6410.287
             ]
           ],
           "spans": null,
@@ -13580,119 +13879,110 @@
             "whyNeighbours": "The lot-family house is north of it; the cross-lane huts are behind it.",
             "whySpot": "It is the fourth hut on the east side of the west lane, nearest the south corner."
           },
-          "yawDeg": 108.0
+          "yawDeg": 323.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3802.799,
+            3801.956,
             6392.0
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 284.0,
+              "source": "assembly",
+              "worldM": [
+                3799.201,
+                6391.316
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-lot-family",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 19° off the west lane, as its household set its own piles; the opening is turned west onto the planks, toward the bluff-side huts.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto pusbottom loop. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3802.056,
-              6388.797
+              3798.715,
+              6392.552
             ],
             [
-              3802.148,
-              6388.787
+              3798.582,
+              6390.772
             ],
             [
-              3802.208,
-              6388.777
+              3798.6,
+              6390.726
             ],
             [
-              3804.556,
-              6389.238
+              3798.607,
+              6390.713
             ],
             [
-              3804.686,
-              6389.309
+              3799.382,
+              6389.957
             ],
             [
-              3806.187,
-              6390.749
+              3800.909,
+              6388.544
             ],
             [
-              3806.239,
-              6390.9
+              3801.063,
+              6388.501
             ],
             [
-              3806.241,
-              6391.122
+              3803.1,
+              6388.919
             ],
             [
-              3805.943,
-              6392.959
+              3803.233,
+              6388.986
             ],
             [
-              3805.909,
-              6393.045
+              3804.945,
+              6390.657
             ],
             [
-              3805.884,
-              6393.095
+              3805.015,
+              6390.793
             ],
             [
-              3804.317,
-              6394.904
+              3805.475,
+              6392.814
             ],
             [
-              3804.185,
-              6394.981
+              3805.438,
+              6392.98
             ],
             [
-              3802.196,
-              6395.56
+              3804.054,
+              6394.529
             ],
             [
-              3802.028,
-              6395.534
+              3803.932,
+              6394.615
             ],
             [
-              3801.84,
-              6395.419
+              3801.621,
+              6395.26
             ],
             [
-              3800.399,
-              6394.244
+              3801.473,
+              6395.25
             ],
             [
-              3800.341,
-              6394.168
+              3799.486,
+              6394.642
             ],
             [
-              3800.306,
-              6394.128
-            ],
-            [
-              3799.525,
-              6391.858
-            ],
-            [
-              3799.526,
-              6391.71
-            ],
-            [
-              3799.939,
-              6389.897
-            ],
-            [
-              3800.016,
-              6389.69
-            ],
-            [
-              3800.131,
-              6389.566
+              3799.368,
+              6394.519
             ]
           ],
           "spans": null,
@@ -13705,119 +13995,110 @@
             "whyNeighbours": "The agent’s room is north of it and the dice-runner’s hut south.",
             "whySpot": "It is the third hut on the east side of the west lane."
           },
-          "yawDeg": 71.0
+          "yawDeg": 344.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3789.203,
+            3789.989,
             6407.005
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 98.0,
+              "source": "assembly",
+              "worldM": [
+                3792.801,
+                6407.397
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-poler",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 20° off the west lane, as its household set its own piles; the opening is turned east onto the planks, with its back to the bluff.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto pusbottom loop, the way that runs past the plot. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3790.001,
-              6410.194
+              3793.155,
+              6406.117
             ],
             [
-              3789.91,
-              6410.206
+              3793.473,
+              6407.873
             ],
             [
-              3789.85,
-              6410.217
+              3793.46,
+              6407.922
             ],
             [
-              3787.495,
-              6409.798
+              3793.455,
+              6407.935
             ],
             [
-              3787.363,
-              6409.728
+              3792.763,
+              6408.768
             ],
             [
-              3785.838,
-              6408.315
+              3791.392,
+              6410.332
             ],
             [
-              3785.783,
-              6408.165
+              3791.244,
+              6410.391
             ],
             [
-              3785.777,
-              6407.943
+              3789.174,
+              6410.189
             ],
             [
-              3786.043,
-              6406.101
+              3789.035,
+              6410.136
             ],
             [
-              3786.075,
-              6406.015
+              3787.157,
+              6408.653
             ],
             [
-              3786.099,
-              6405.964
+              3787.074,
+              6408.525
             ],
             [
-              3787.634,
-              6404.128
+              3786.405,
+              6406.564
             ],
             [
-              3787.765,
-              6404.049
+              3786.424,
+              6406.395
             ],
             [
-              3789.744,
-              6403.435
+              3787.639,
+              6404.709
             ],
             [
-              3789.912,
-              6403.458
+              3787.75,
+              6404.611
             ],
             [
-              3790.102,
-              6403.57
+              3789.982,
+              6403.727
             ],
             [
-              3791.563,
-              6404.72
+              3790.131,
+              6403.722
             ],
             [
-              3791.622,
-              6404.794
+              3792.17,
+              6404.12
             ],
             [
-              3791.658,
-              6404.834
-            ],
-            [
-              3792.479,
-              6407.09
-            ],
-            [
-              3792.48,
-              6407.238
-            ],
-            [
-              3792.099,
-              6409.058
-            ],
-            [
-              3792.026,
-              6409.266
-            ],
-            [
-              3791.912,
-              6409.392
+              3792.3,
+              6404.23
             ]
           ],
           "spans": null,
@@ -13830,95 +14111,110 @@
             "whyNeighbours": "The reed-cutter is north of it and the south-corner hut beyond.",
             "whySpot": "It is the fourth hut on the west side of the loop."
           },
-          "yawDeg": 250.0
+          "yawDeg": 158.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3789.203,
+            3790.006,
             6392.0
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 82.0,
+              "source": "assembly",
+              "worldM": [
+                3792.801,
+                6391.609
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-reed-cutter",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 17° off the west lane, as its household set its own piles; the opening is turned east onto the planks, with its back to the bluff.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces pusbottom loop. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3787.921,
-              6395.028
+              3792.802,
+              6390.269
             ],
             [
-              3787.787,
-              6394.955
+              3793.579,
+              6391.88
             ],
             [
-              3786.158,
-              6393.202
+              3793.586,
+              6391.938
             ],
             [
-              3786.094,
-              6393.068
+              3793.578,
+              6391.944
             ],
             [
-              3785.727,
-              6391.021
+              3793.16,
+              6392.924
             ],
             [
-              3785.774,
-              6390.868
+              3792.277,
+              6394.807
             ],
             [
-              3787.223,
-              6389.377
+              3792.151,
+              6394.905
             ],
             [
-              3787.351,
-              6389.301
+              3790.106,
+              6395.285
             ],
             [
-              3789.681,
-              6388.758
+              3789.958,
+              6395.273
             ],
             [
-              3789.833,
-              6388.773
+              3787.742,
+              6394.369
             ],
             [
-              3791.784,
-              6389.474
+              3787.627,
+              6394.269
             ],
             [
-              3791.904,
-              6389.595
+              3786.44,
+              6392.57
             ],
             [
-              3792.463,
-              6391.596
+              3786.412,
+              6392.402
             ],
             [
-              3792.47,
-              6391.744
+              3787.111,
+              6390.446
             ],
             [
-              3791.768,
-              6394.039
+              3787.192,
+              6390.321
             ],
             [
-              3791.68,
-              6394.159
+              3789.091,
+              6388.853
             ],
             [
-              3790.097,
-              6395.505
+              3789.232,
+              6388.807
             ],
             [
-              3789.93,
-              6395.537
+              3791.301,
+              6388.623
+            ],
+            [
+              3791.457,
+              6388.693
             ]
           ],
           "spans": null,
@@ -13931,119 +14227,110 @@
             "whyNeighbours": "The broker’s house is north of it and the poler’s hut south.",
             "whySpot": "It is the third hut on the west side, where the bluff begins to draw back from the lane."
           },
-          "yawDeg": 287.0
+          "yawDeg": 142.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3802.799,
+            3801.956,
             6362.005
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 284.0,
+              "source": "assembly",
+              "worldM": [
+                3799.201,
+                6361.321
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-slaughter-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 6° off the west lane, as its household set its own piles; the opening is turned west onto the planks, toward the bluff-side huts.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto pusbottom loop, the way that runs past the plot. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
           "polygon": [
             [
-              3802.796,
-              6358.717
+              3798.715,
+              6362.556
             ],
             [
-              3802.887,
-              6358.727
+              3798.582,
+              6360.777
             ],
             [
-              3802.948,
-              6358.731
+              3798.6,
+              6360.73
             ],
             [
-              3805.132,
-              6359.708
+              3798.607,
+              6360.718
             ],
             [
-              3805.243,
-              6359.807
+              3799.382,
+              6359.962
             ],
             [
-              3806.381,
-              6361.548
+              3800.909,
+              6358.549
             ],
             [
-              3806.398,
-              6361.707
+              3801.063,
+              6358.506
             ],
             [
-              3806.35,
-              6361.923
+              3803.1,
+              6358.923
             ],
             [
-              3805.646,
-              6363.646
+              3803.233,
+              6358.99
             ],
             [
-              3805.594,
-              6363.722
+              3804.945,
+              6360.661
             ],
             [
-              3805.559,
-              6363.766
+              3805.015,
+              6360.798
             ],
             [
-              3803.625,
-              6365.176
+              3805.475,
+              6362.818
             ],
             [
-              3803.479,
-              6365.221
+              3805.438,
+              6362.984
             ],
             [
-              3801.41,
-              6365.338
+              3804.054,
+              6364.534
             ],
             [
-              3801.253,
-              6365.274
+              3803.932,
+              6364.619
             ],
             [
-              3801.096,
-              6365.12
+              3801.621,
+              6365.265
             ],
             [
-              3799.956,
-              6363.651
+              3801.473,
+              6365.254
             ],
             [
-              3799.917,
-              6363.564
+              3799.486,
+              6364.646
             ],
             [
-              3799.891,
-              6363.517
-            ],
-            [
-              3799.641,
-              6361.13
-            ],
-            [
-              3799.676,
-              6360.985
-            ],
-            [
-              3800.485,
-              6359.312
-            ],
-            [
-              3800.607,
-              6359.128
-            ],
-            [
-              3800.747,
-              6359.033
+              3799.368,
+              6364.523
             ]
           ],
           "spans": null,
@@ -14056,119 +14343,110 @@
             "whyNeighbours": "The vault house faces it; the agent’s room is two doors south.",
             "whySpot": "It stands on the east side of the west lane, opposite the vault house."
           },
-          "yawDeg": 84.0
+          "yawDeg": 344.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3804.001,
-            6434.803
+            6434.044
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 360.0,
+              "source": "assembly",
+              "worldM": [
+                3803.998,
+                6431.205
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-south-a",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 14° off the south lane, as its household set its own piles; the opening is turned north onto the planks.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
           "polygon": [
             [
-              3800.911,
-              6433.682
+              3802.682,
+              6431.033
             ],
             [
-              3800.952,
-              6433.6
+              3804.376,
+              6430.473
             ],
             [
-              3800.976,
-              6433.544
+              3804.426,
+              6430.479
             ],
             [
-              3802.641,
-              6431.826
+              3804.439,
+              6430.483
             ],
             [
-              3802.772,
-              6431.755
+              3805.361,
+              6431.052
             ],
             [
-              3804.797,
-              6431.281
+              3807.101,
+              6432.191
             ],
             [
-              3804.952,
-              6431.32
+              3807.18,
+              6432.33
             ],
             [
-              3805.139,
-              6431.439
+              3807.267,
+              6434.408
             ],
             [
-              3806.517,
-              6432.689
+              3807.235,
+              6434.553
             ],
             [
-              3806.571,
-              6432.764
+              3806.028,
+              6436.619
             ],
             [
-              3806.6,
-              6432.813
+              3805.912,
+              6436.719
             ],
             [
-              3807.263,
-              6435.112
+              3804.063,
+              6437.655
             ],
             [
-              3807.256,
-              6435.264
+              3803.893,
+              6437.659
             ],
             [
-              3806.658,
-              6437.249
+              3802.055,
+              6436.691
             ],
             [
-              3806.545,
-              6437.375
+              3801.942,
+              6436.594
             ],
             [
-              3806.346,
-              6437.47
+              3800.756,
+              6434.507
             ],
             [
-              3804.576,
-              6438.038
+              3800.731,
+              6434.361
             ],
             [
-              3804.481,
-              6438.046
+              3800.84,
+              6432.286
             ],
             [
-              3804.428,
-              6438.053
-            ],
-            [
-              3802.099,
-              6437.472
-            ],
-            [
-              3801.975,
-              6437.39
-            ],
-            [
-              3800.679,
-              6436.057
-            ],
-            [
-              3800.548,
-              6435.88
-            ],
-            [
-              3800.507,
-              6435.715
+              3800.931,
+              6432.142
             ]
           ],
           "spans": null,
@@ -14181,95 +14459,110 @@
             "whyNeighbours": "The south-corner hut is west of it and the second south hut east.",
             "whySpot": "It stands south of the lane between the west corner and the cross lane."
           },
-          "yawDeg": 14.0
+          "yawDeg": 60.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3818.999,
-            6434.803
+            6434.027
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 0.0,
+              "source": "assembly",
+              "worldM": [
+                3819.001,
+                6431.205
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-south-b",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 10° off the south lane, as its household set its own piles; the opening is turned north onto the planks.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces pusbottom loop.",
           "polygon": [
             [
-              3815.72,
-              6435.036
+              3817.674,
+              6431.018
             ],
             [
-              3815.723,
-              6434.883
+              3819.378,
+              6430.472
             ],
             [
-              3816.545,
-              6432.636
+              3819.436,
+              6430.473
             ],
             [
-              3816.636,
-              6432.519
+              3819.441,
+              6430.482
             ],
             [
-              3818.293,
-              6431.262
+              3820.353,
+              6431.032
             ],
             [
-              3818.451,
-              6431.234
+              3822.095,
+              6432.169
             ],
             [
-              3820.438,
-              6431.848
+              3822.174,
+              6432.307
             ],
             [
-              3820.563,
-              6431.928
+              3822.266,
+              6434.385
             ],
             [
-              3822.105,
-              6433.758
+              3822.233,
+              6434.53
             ],
             [
-              3822.16,
-              6433.901
+              3821.03,
+              6436.598
             ],
             [
-              3822.421,
-              6435.956
+              3820.914,
+              6436.699
             ],
             [
-              3822.368,
-              6436.118
+              3819.067,
+              6437.637
             ],
             [
-              3820.839,
-              6437.525
+              3818.897,
+              6437.642
             ],
             [
-              3820.71,
-              6437.598
+              3817.057,
+              6436.677
             ],
             [
-              3818.347,
-              6438.015
+              3816.944,
+              6436.58
             ],
             [
-              3818.2,
-              6437.99
+              3815.755,
+              6434.495
             ],
             [
-              3816.282,
-              6437.191
+              3815.729,
+              6434.349
             ],
             [
-              3816.177,
-              6437.057
+              3815.835,
+              6432.274
+            ],
+            [
+              3815.926,
+              6432.13
             ]
           ],
           "spans": null,
@@ -14282,95 +14575,110 @@
             "whyNeighbours": "The first south hut is west of it; the salvage bench is round the corner to the north-east.",
             "whySpot": "It stands south of the lane near the south-east corner of the loop."
           },
-          "yawDeg": 350.0
+          "yawDeg": 60.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3789.203,
+            3790.089,
             6421.0
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 106.0,
+              "source": "assembly",
+              "worldM": [
+                3792.801,
+                6421.78
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-south-corner",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 29° off the west lane, as its household set its own piles; the opening is turned east onto the planks, with its back to the bluff.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3787.32,
-              6423.695
+              3793.347,
+              6420.556
             ],
             [
-              3787.203,
-              6423.596
+              3793.402,
+              6422.344
             ],
             [
-              3785.975,
-              6421.543
+              3793.384,
+              6422.399
             ],
             [
-              3785.94,
-              6421.398
+              3793.375,
+              6422.402
             ],
             [
-              3786.006,
-              6419.32
+              3792.594,
+              6423.127
             ],
             [
-              3786.084,
-              6419.18
+              3791.022,
+              6424.488
             ],
             [
-              3787.812,
-              6418.022
+              3790.866,
+              6424.526
             ],
             [
-              3787.953,
-              6417.975
+              3788.844,
+              6424.041
             ],
             [
-              3790.345,
-              6417.929
+              3788.713,
+              6423.97
             ],
             [
-              3790.491,
-              6417.975
+              3787.057,
+              6422.243
             ],
             [
-              3792.252,
-              6419.066
+              3786.993,
+              6422.105
             ],
             [
-              3792.345,
-              6419.209
+              3786.6,
+              6420.07
             ],
             [
-              3792.476,
-              6421.282
+              3786.642,
+              6419.905
             ],
             [
-              3792.452,
-              6421.429
+              3788.077,
+              6418.403
             ],
             [
-              3791.288,
-              6423.528
+              3788.201,
+              6418.321
             ],
             [
-              3791.177,
-              6423.626
+              3790.533,
+              6417.753
             ],
             [
-              3789.349,
-              6424.614
+              3790.68,
+              6417.768
             ],
             [
-              3789.179,
-              6424.611
+              3792.646,
+              6418.442
+            ],
+            [
+              3792.759,
+              6418.568
             ]
           ],
           "spans": null,
@@ -14383,7 +14691,7 @@
             "whyNeighbours": "The poler’s hut is north of it; the shore lane to the fishers leaves at the corner.",
             "whySpot": "It is where the west lane turns east, on the edge of the district."
           },
-          "yawDeg": 299.0
+          "yawDeg": 166.3
         },
         {
           "assetRef": "bmv:architecture/stilthouse/stilthouseext",
@@ -14393,6 +14701,7 @@
             6340.002
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-tower",
           "interior": {
@@ -14471,92 +14780,107 @@
           "yawDeg": 8.0
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3789.203,
+            3790.088,
             6362.005
           ],
           "districtId": "district.lilmoth.pusbottom",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 74.0,
+              "source": "assembly",
+              "worldM": [
+                3792.801,
+                6361.229
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-vault-house",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut stands 8° off the west lane, as its household set its own piles; the opening is turned east onto the planks, with its back to the bluff.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto pusbottom loop. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
           "polygon": [
             [
-              3789.321,
-              6365.29
+              3792.615,
+              6359.902
             ],
             [
-              3789.168,
-              6365.281
+              3793.609,
+              6361.389
             ],
             [
-              3786.951,
-              6364.381
+              3793.624,
+              6361.445
             ],
             [
-              3786.837,
-              6364.286
+              3793.617,
+              6361.452
             ],
             [
-              3785.639,
-              6362.586
+              3793.34,
+              6362.481
             ],
             [
-              3785.617,
-              6362.428
+              3792.727,
+              6364.469
             ],
             [
-              3786.3,
-              6360.464
+              3792.616,
+              6364.583
             ],
             [
-              3786.384,
-              6360.341
+              3790.644,
+              6365.244
             ],
             [
-              3788.266,
-              6358.864
+              3790.495,
+              6365.252
             ],
             [
-              3788.411,
-              6358.814
+              3788.176,
+              6364.666
             ],
             [
-              3790.475,
-              6358.625
+              3788.047,
+              6364.582
             ],
             [
-              3790.634,
-              6358.683
+              3786.636,
+              6363.065
             ],
             [
-              3791.987,
-              6360.26
+              3786.584,
+              6362.903
             ],
             [
-              3792.056,
-              6360.392
+              3787.005,
+              6360.868
             ],
             [
-              3792.39,
-              6362.768
+              3787.067,
+              6360.733
             ],
             [
-              3792.36,
-              6362.914
+              3788.743,
+              6359.016
             ],
             [
-              3791.494,
-              6364.803
+              3788.877,
+              6358.95
             ],
             [
-              3791.357,
-              6364.903
+              3790.9,
+              6358.48
+            ],
+            [
+              3791.064,
+              6358.528
             ]
           ],
           "spans": null,
@@ -14569,7 +14893,7 @@
             "whyNeighbours": "The tall block is to its north; the slaughter-list house is across the lane.",
             "whySpot": "It is the first hut on the west side of the loop, hard against the bluff foot where the vault roof is shallowest."
           },
-          "yawDeg": 262.0
+          "yawDeg": 134.3
         },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
@@ -14579,6 +14903,7 @@
             6368.007
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.quay-deck",
           "interior": {
@@ -14676,6 +15001,7 @@
             6338.004
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.quay-lamp",
           "interior": {
@@ -14730,92 +15056,107 @@
           "yawDeg": 90.0
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01",
+          "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3698.796,
-            6307.153
+            3698.922,
+            6307.825
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 169.4,
+              "source": "assembly",
+              "worldM": [
+                3699.439,
+                6310.599
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.record-room",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "Set six degrees off the bench walk on its own piles, turned toward the 1 m fall to the north; its door still opens to the walk.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto bench walk, the way that runs past the plot.",
           "polygon": [
             [
-              3699.37,
-              6310.39
+              3700.778,
+              6310.539
             ],
             [
-              3699.218,
-              6310.403
+              3699.204,
+              6311.389
             ],
             [
-              3696.897,
-              6309.82
+              3699.146,
+              6311.398
             ],
             [
-              3696.771,
-              6309.741
+              3699.14,
+              6311.391
             ],
             [
-              3695.348,
-              6308.225
+              3698.142,
+              6311.018
             ],
             [
-              3695.304,
-              6308.071
+              3696.221,
+              6310.221
             ],
             [
-              3695.707,
-              6306.031
+              3696.117,
+              6310.099
             ],
             [
-              3695.773,
-              6305.898
+              3695.645,
+              6308.074
             ],
             [
-              3697.432,
-              6304.174
+              3695.65,
+              6307.925
             ],
             [
-              3697.568,
-              6304.103
+              3696.453,
+              6305.671
             ],
             [
-              3699.585,
-              6303.629
+              3696.548,
+              6305.551
             ],
             [
-              3699.751,
-              6303.664
+              3698.191,
+              6304.289
             ],
             [
-              3701.31,
-              6305.038
+              3698.357,
+              6304.253
             ],
             [
-              3701.397,
-              6305.159
+              3700.343,
+              6304.863
             ],
             [
-              3702.059,
-              6307.466
+              3700.472,
+              6304.937
             ],
             [
-              3702.049,
-              6307.614
+              3702.024,
+              6306.768
             ],
             [
-              3701.455,
-              6309.605
+              3702.077,
+              6306.907
             ],
             [
-              3701.333,
-              6309.723
+              3702.354,
+              6308.966
+            ],
+            [
+              3702.292,
+              6309.124
             ]
           ],
           "spans": null,
@@ -14828,119 +15169,110 @@
             "whyNeighbours": "The hall is its neighbour to the east; the strongroom is behind both.",
             "whySpot": "It is the first building on the bench west of the hall, where the spine arrives from the court."
           },
-          "yawDeg": 254.0
+          "yawDeg": 229.7
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
-            3836.599,
-            6414.003
+            3825.361,
+            6418.503
           ],
           "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 90.0,
+              "source": "assembly",
+              "worldM": [
+                3828.2,
+                6418.5
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.salvage-bench",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "It faces the east lane like the divers’ shed beside it.",
+          "orientationWhy": "The shipped doorway looked out over open water, where no threshold can stand. The bench is turned so its door opens onto the deck behind it, clear of the loop walk.",
           "polygon": [
             [
-              3836.259,
-              6417.273
+              3828.372,
+              6417.183
             ],
             [
-              3836.169,
-              6417.253
+              3828.932,
+              6418.877
             ],
             [
-              3836.109,
-              6417.243
+              3828.926,
+              6418.927
             ],
             [
-              3834.039,
-              6416.043
+              3828.922,
+              6418.941
             ],
             [
-              3833.939,
-              6415.933
+              3828.353,
+              6419.862
             ],
             [
-              3832.989,
-              6414.083
+              3827.214,
+              6421.602
             ],
             [
-              3832.989,
-              6413.923
+              3827.075,
+              6421.681
             ],
             [
-              3833.059,
-              6413.713
+              3824.997,
+              6421.769
             ],
             [
-              3833.939,
-              6412.073
+              3824.852,
+              6421.736
             ],
             [
-              3833.999,
-              6412.003
+              3822.786,
+              6420.529
             ],
             [
-              3834.039,
-              6411.963
+              3822.686,
+              6420.413
             ],
             [
-              3836.109,
-              6410.763
+              3821.75,
+              6418.564
             ],
             [
-              3836.259,
-              6410.733
+              3821.746,
+              6418.394
             ],
             [
-              3838.329,
-              6410.833
+              3822.714,
+              6416.556
             ],
             [
-              3838.479,
-              6410.913
+              3822.811,
+              6416.443
             ],
             [
-              3838.619,
-              6411.083
+              3824.898,
+              6415.258
             ],
             [
-              3839.599,
-              6412.663
+              3825.044,
+              6415.232
             ],
             [
-              3839.629,
-              6412.753
+              3827.119,
+              6415.342
             ],
             [
-              3839.649,
-              6412.803
-            ],
-            [
-              3839.649,
-              6415.203
-            ],
-            [
-              3839.599,
-              6415.343
-            ],
-            [
-              3838.619,
-              6416.923
-            ],
-            [
-              3838.479,
-              6417.093
-            ],
-            [
-              3838.329,
-              6417.173
+              3827.263,
+              6415.432
             ]
           ],
           "spans": null,
@@ -14953,119 +15285,110 @@
             "whyNeighbours": "The divers’ shed is north of it; the south corner of the loop is beyond.",
             "whySpot": "It is the last building on the east lane, at the south end of the quay."
           },
-          "yawDeg": 270.0
+          "yawDeg": 150.4
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3640.0,
             6300.001
           ],
           "districtId": "district.lilmoth.hist-court",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 131.9,
+              "source": "assembly",
+              "worldM": [
+                3642.115,
+                6301.895
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.second-tender-lodge",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The lodge faces the Hist from the north, so the tender sees the trunk from the doorway.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto tender path.",
           "polygon": [
             [
-              3643.213,
-              6300.697
+              3643.122,
+              6301.029
             ],
             [
-              3643.183,
-              6300.785
+              3642.407,
+              6302.665
             ],
             [
-              3643.166,
-              6300.843
+              3642.369,
+              6302.697
             ],
             [
-              3641.746,
-              6302.769
+              3642.358,
+              6302.705
             ],
             [
-              3641.626,
-              6302.856
+              3641.319,
+              6303.011
             ],
             [
-              3639.683,
-              6303.598
+              3639.309,
+              6303.545
             ],
             [
-              3639.524,
-              6303.58
+              3639.152,
+              6303.511
             ],
             [
-              3639.323,
-              6303.487
+              3637.547,
+              6302.188
             ],
             [
-              3637.789,
-              6302.433
+              3637.461,
+              6302.067
             ],
             [
-              3637.726,
-              6302.366
+              3636.73,
+              6299.789
             ],
             [
-              3637.691,
-              6302.321
+              3636.732,
+              6299.636
             ],
             [
-              3636.725,
-              6300.132
+              3637.271,
+              6297.635
             ],
             [
-              3636.712,
-              6299.98
+              3637.381,
+              6297.506
             ],
             [
-              3637.039,
-              6297.933
+              3639.329,
+              6296.784
             ],
             [
-              3637.135,
-              6297.793
+              3639.477,
+              6296.765
             ],
             [
-              3637.319,
-              6297.672
+              3641.822,
+              6297.276
             ],
             [
-              3638.997,
-              6296.872
+              3641.948,
+              6297.355
             ],
             [
-              3639.09,
-              6296.852
+              3643.419,
+              6298.822
             ],
             [
-              3639.142,
-              6296.837
-            ],
-            [
-              3641.527,
-              6297.101
-            ],
-            [
-              3641.661,
-              6297.166
-            ],
-            [
-              3643.124,
-              6298.313
-            ],
-            [
-              3643.277,
-              6298.471
-            ],
-            [
-              3643.34,
-              6298.629
+              3643.465,
+              6298.986
             ]
           ],
           "spans": null,
@@ -15078,119 +15401,110 @@
             "whyNeighbours": "It is placed across the court from the minder’s lodge; the two doors face each other over the tree.",
             "whySpot": "It stands on the northern edge of the crest, 36 m from the trunk, where the ground begins to fall toward the bench."
           },
-          "yawDeg": 186.3
+          "yawDeg": 192.3
         },
         {
-          "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02",
+          "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
             3722.517,
             6288.033
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 87.3,
+              "source": "assembly",
+              "worldM": [
+                3725.353,
+                6287.897
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.strongroom",
           "interior": {
             "kind": "shop"
           },
           "notes": null,
-          "orientationWhy": "Turned a few degrees off the bench line toward the strongroom path, so its door faces the path that serves it alone.",
+          "orientationWhy": "Turned to put the shipped doorway on strongroom path.",
           "polygon": [
             [
-              3722.628,
-              6284.748
+              3725.462,
+              6286.574
             ],
             [
-              3722.719,
-              6284.761
+              3726.101,
+              6288.24
             ],
             [
-              3722.779,
-              6284.767
+              3726.098,
+              6288.29
             ],
             [
-              3724.928,
-              6285.82
+              3726.094,
+              6288.303
             ],
             [
-              3725.035,
-              6285.923
+              3725.569,
+              6289.251
             ],
             [
-              3726.112,
-              6287.702
+              3724.513,
+              6291.042
             ],
             [
-              3726.123,
-              6287.861
+              3724.378,
+              6291.128
             ],
             [
-              3726.068,
-              6288.076
+              3722.307,
+              6291.313
             ],
             [
-              3725.305,
-              6289.773
+              3722.16,
+              6291.287
             ],
             [
-              3725.25,
-              6289.847
+              3720.04,
+              6290.179
             ],
             [
-              3725.213,
-              6289.89
+              3719.934,
+              6290.068
             ],
             [
-              3723.231,
-              6291.231
+              3718.913,
+              6288.265
             ],
             [
-              3723.084,
-              6291.272
+              3718.9,
+              6288.096
             ],
             [
-              3721.012,
-              6291.316
+              3719.781,
+              6286.214
             ],
             [
-              3720.857,
-              6291.247
+              3719.872,
+              6286.097
             ],
             [
-              3720.705,
-              6291.087
+              3721.901,
+              6284.814
             ],
             [
-              3719.617,
-              6289.579
+              3722.046,
+              6284.782
             ],
             [
-              3719.581,
-              6289.492
+              3724.124,
+              6284.793
             ],
             [
-              3719.558,
-              6289.443
-            ],
-            [
-              3719.39,
-              6287.049
-            ],
-            [
-              3719.43,
-              6286.906
-            ],
-            [
-              3720.298,
-              6285.261
-            ],
-            [
-              3720.426,
-              6285.082
-            ],
-            [
-              3720.57,
-              6284.992
+              3724.272,
+              6284.877
             ]
           ],
           "spans": null,
@@ -15203,7 +15517,7 @@
             "whyNeighbours": "The hall screens it from the market; the north curtain ruin lies beyond it.",
             "whySpot": "It stands behind the hall on the north edge of the bench, out of sight of the walkway."
           },
-          "yawDeg": 86.0
+          "yawDeg": 147.7
         },
         {
           "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
@@ -15213,6 +15527,7 @@
             6302.006
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.tariff-bell",
           "interior": {
@@ -15274,6 +15589,7 @@
             6319.865
           ],
           "districtId": "district.lilmoth.council-crown",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.upper-market-deck",
           "interior": {
@@ -15371,6 +15687,7 @@
             6348.002
           ],
           "districtId": "district.lilmoth.hist-court",
+          "doorways": [],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.vigil-awning",
           "interior": {
@@ -15468,6 +15785,7 @@
             6412.004
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.villa-collapsed-block",
           "interior": {
@@ -15513,6 +15831,7 @@
             6350.0
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.villa-floor-north",
           "interior": {
@@ -15594,6 +15913,7 @@
             6394.006
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.villa-floor-south",
           "interior": {
@@ -15655,6 +15975,7 @@
             6346.999
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.villa-north-block",
           "interior": {
@@ -15700,6 +16021,7 @@
             6378.388
           ],
           "districtId": "district.lilmoth.north-gate",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.lilmoth.wall-stub-north",
           "interior": {
@@ -15753,6 +16075,7 @@
             6396.336
           ],
           "districtId": "district.lilmoth.north-gate",
+          "doorways": [],
           "groundFit": "pad",
           "id": "parcel.lilmoth.wall-stub-south",
           "interior": {
@@ -15806,6 +16129,7 @@
             6402.006
           ],
           "districtId": "district.lilmoth.drowned-quarter",
+          "doorways": [],
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.xhon-mehl-shrine",
           "interior": {
@@ -16039,7 +16363,7 @@
         "combatSpaces": 4,
         "districts": 8,
         "docks": 3,
-        "doors": 37,
+        "doors": 32,
         "fences": 4,
         "keptTrees": 4,
         "landmarks": 9,
@@ -16094,8 +16418,8 @@
           "notes": null,
           "points": [
             [
-              3839.599,
-              6401.34
+              3839.099,
+              6401.413
             ],
             [
               3852.998,
@@ -16727,12 +17051,12 @@
               6354.506
             ],
             [
-              3607.505,
-              6338.506
+              3606.505,
+              6337.506
             ],
             [
-              3607.323,
-              6330.22
+              3606.895,
+              6330.403
             ]
           ],
           "routing": "terrain",
@@ -16933,8 +17257,12 @@
               6296.004
             ],
             [
-              3726.123,
-              6287.861
+              3733.505,
+              6295.506
+            ],
+            [
+              3726.101,
+              6288.24
             ]
           ],
           "routing": "terrain",
@@ -16990,8 +17318,8 @@
               6303.506
             ],
             [
-              3642.179,
-              6302.182
+              3642.407,
+              6302.665
             ]
           ],
           "routing": "terrain",
@@ -17705,6 +18033,7 @@
             4371.002
           ],
           "districtId": "district.wamasu-pond-adult.stand",
+          "doorways": [],
           "groundFit": "plinth",
           "id": "parcel.wamasu-pond-adult.hunters-stand",
           "interior": {
@@ -17782,6 +18111,7 @@
             4371.002
           ],
           "districtId": "district.wamasu-pond-adult.stand",
+          "doorways": [],
           "groundFit": "plinth",
           "id": "parcel.wamasu-pond-adult.hunters-stand-deck",
           "interior": {
@@ -17847,6 +18177,7 @@
             4426.001
           ],
           "districtId": "district.wamasu-pond-adult.bank",
+          "doorways": [],
           "groundFit": "direct",
           "id": "parcel.wamasu-pond-adult.offering-platform",
           "interior": {

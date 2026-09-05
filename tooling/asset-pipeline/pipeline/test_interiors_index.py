@@ -8,6 +8,7 @@ answer we know exactly.
 
 from __future__ import annotations
 
+import json
 import math
 
 import numpy as np
@@ -248,3 +249,117 @@ def test_the_local_doorway_bearing_rotates_with_yaw_the_way_the_validator_assume
     spun, _ = ix.doorways_from_probe(turned, (0.0, 0.0), 0.0, 3.0)
     delta = (spun[0]["sideDeg"] - plain[0]["sideDeg"]) % 360.0
     assert min(delta, 360.0 - delta) == pytest.approx(yaw, abs=5.0)
+
+
+# --------------------------------------------------------------------------- #
+# the join: doorways mined from source placements (kit-assemblies-mined.json)
+# --------------------------------------------------------------------------- #
+def _mined_fixed(count: int = 16) -> dict:
+    """One mined door: a separate leaf placed at x -2.45, y 1.4 in the shell's
+    own z-up frame, which is bearing 299.7 deg and plan offset [-2.45, -1.4]."""
+    return {
+        "kind": "fixed",
+        "doorAsset": "htbm:architecture/villages/argonian/bamboohutdoor01",
+        "doorPiece": "bamboohutdoor01",
+        "offsetLocalM": [-2.45, 1.4, 0.0],
+        "radiusM": 2.82,
+        "yawDeg": 120.0,
+        "sideDeg": 299.75,
+        "count": count,
+    }
+
+
+def _mined_radial() -> dict:
+    return {
+        "kind": "radial",
+        "doorAsset": "vanilla:dungeons/nordic/doors/animated/mediumdoor/ruinsmediumdoorload01",
+        "doorPiece": "ruinsmediumdoorload01",
+        "offsetLocalM": None,
+        "radiusM": 0.48,
+        "yawDeg": 358.7,
+        "sideDeg": None,
+        "count": 4,
+    }
+
+
+def test_a_mined_door_converts_to_the_index_plan_frame():
+    entry = ix.assembly_doorway_entries([_mined_fixed()])[0]
+    # z-up (x, y) -> GLB plan (x, -y); the bearing is the same angle either way.
+    assert entry["offsetM"] == [-2.45, -1.4]
+    assert entry["sideDeg"] == pytest.approx(299.75)
+    assert entry["doorwaySource"] == "assembly"
+    assert entry["count"] == 16
+    assert "arcM" not in entry
+
+
+def test_a_radial_mined_door_commits_to_a_radius_but_not_a_bearing():
+    entry = ix.assembly_doorway_entries([_mined_radial()])[0]
+    assert entry["radial"] is True
+    assert entry["radiusM"] == pytest.approx(0.48)
+    assert "sideDeg" not in entry
+    assert "offsetM" not in entry
+
+
+def test_mined_doors_are_sorted_by_how_often_the_authors_placed_them():
+    doors = [_mined_fixed(4), _mined_fixed(30)]
+    counts = [e["count"] for e in ix.assembly_doorway_entries(doors)]
+    assert counts == [30, 4]
+
+
+def test_a_blank_shell_takes_its_doorway_from_the_mined_assembly():
+    record = ix.classify_asset(
+        {"id": "htbm:architecture/villages/argonian/bamboohut01", "category": "architecture"},
+        "settlement-stilt-v1",
+        _verts(room()), room(), {},
+        [_mined_fixed()],
+    )
+    assert record["interior"] == "shell"
+    assert record["doorwaySource"] == "assembly"
+    assert record["doorways"][0]["offsetM"] == [-2.45, -1.4]
+    assert "bamboohutdoor01" in record["doorwaysWhy"]
+
+
+def test_a_measured_opening_beats_the_mined_one_and_keeps_it_as_corroboration():
+    record = ix.classify_asset(
+        {"id": "htbm:architecture/villages/argonian/bamboohut01", "category": "architecture"},
+        "settlement-stilt-v1",
+        _verts(room(door_at_x=3.5)), room(door_at_x=3.5), {},
+        [_mined_fixed()],
+    )
+    assert record["doorwaySource"] == "geometry"
+    assert record["doorways"][0].get("arcM")            # the measured one
+    assert record["doorwaysCorroboration"][0]["count"] == 16
+
+
+def test_a_walkway_never_takes_a_mined_door():
+    record = ix.classify_asset(
+        {"id": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01",
+         "category": "architecture"},
+        "settlement-stilt-v1",
+        _verts(room(roof=False)), room(roof=False), {},
+        [_mined_fixed()],
+    )
+    assert record["interior"] == "none"
+    assert record["doorways"] == []
+    assert record.get("doorwaySource") is None
+
+
+def test_a_composite_takes_the_doors_its_anchor_was_mined_with(tmp_path):
+    (tmp_path / "settlement-stilt-v1.json").write_text(json.dumps({"assets": [
+        {"asset": "htbm:hut01"},
+        {"asset": "composite:stilt/hut01-with-door", "compose": {"parts": [
+            {"asset": "htbm:hut01"}, {"asset": "htbm:hutdoor01"}]}},
+    ]}))
+    parts = ix.composite_parts("settlement-stilt-v1", tmp_path)
+    assert parts["composite:stilt/hut01-with-door"] == ["htbm:hut01", "htbm:hutdoor01"]
+    mined = {"htbm:hut01": [
+        {**_mined_fixed(), "doorAsset": "htbm:hutdoor01"},
+        {**_mined_fixed(), "doorAsset": "htbm:someotherdoor"},
+    ]}
+    doors = ix.composite_doorways(parts["composite:stilt/hut01-with-door"], mined)
+    assert [d["doorAsset"] for d in doors] == ["htbm:hutdoor01"]
+
+
+def test_a_composite_that_carries_no_door_piece_gets_no_doorway(tmp_path):
+    mined = {"vanilla:block01": [_mined_fixed()]}
+    assert ix.composite_doorways(["vanilla:block01", "vanilla:block01"], mined) == []

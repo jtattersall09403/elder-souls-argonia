@@ -1705,6 +1705,84 @@ cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
 [research/phase11/phase11-part6-round-a.md](../research/phase11/phase11-part6-round-a.md).
 
+### Assemblies round — the queued list, delivered (2026-09-05, Fable planned, Opus delivered)
+
+The six items queued at the end of Round A feedback, minus Round B massing,
+which stays gated on the owner approving a place. Nothing here needed a
+taste steer; every rule is a mechanism.
+
+**(1) Buildings as assemblies.** Fourteen composites authored in seven kit
+configs from the mined templates, each citing its template ids and counts,
+each inside its kit's `snapLogic` (`assemblies` paragraph added per kit):
+the HTBM bamboo huts with their door (stilt), the mud hut with its frame and
+door (mud), farmhouse 01/02 with their doors and 3- and 5-piece capped
+stone-wall runs (imperial), 2- and 3-stage scaffold towers (works), 2- and
+3-piece quay runs (docks), two pre-stacked Ayleid block masses (ruin) and
+the phitt marsh house with overhang and windows (hlaalu-domestic, a BM&V
+family already in the pool, filed there as the Dunmer/fringe domestic tier).
+Nothing on the evidence doc's keep-separate list was composited; the one
+extra never-alone candidate (`kioskbarrierei01`, 93) was rejected as a
+railing run whose length is a siting decision. Single pieces stay in the
+kits for ruins. Kits rebuilt, footprints and interiors re-measured.
+
+**(2) Doorways derived, doors only on them.** `interiors_index` joins the
+mined `doorwaysFromAssemblies`: geometry first, mined doors as the doorway
+where the rays found none (`doorwaySource: assembly`, count carried, radial
+doors as a ring), a composite inheriting its anchor's doors. Coverage 9 → 22
+of 75 enclosed pieces. Validator HARD rule: a door sits on a derived doorway
+(fixed: within ±45° of the side; radial: threshold on the ring ±0.5 m) or
+not at all; a piece with an inside and no doorway carries no door; it is
+reported as a WARN and recorded as a sourcing gap rather than given an
+invented entrance. `doorwayRef` is derived by `blueprint_footprints --doors`. Doorways are
+exported and drawn on the outline in the studio (gold assembly, blue-green
+geometry, dashed radial). Clicking a parcel lists them. All five blueprints re-authored: Lilmoth's 32 huts on the door
+composites, each turned so the shipped door serves its way; Nine-Trunks'
+naheesh house on the mud composite; the Licensed Stage's tent swapped for a
+hut with a doorway. Six doors removed and recorded as gaps (register rows G4–G7:
+Ayleid stair block, the Imperial guard tower, two BM&V stilt houses, two
+Bosmer kiosks — no door part in any source placement and no measurable
+opening; the kiosks may simply want `interior: none`, the owner's call).
+
+**(3) Steep routes.** New kit `route-structures-v1` (20 pieces, five
+culture families, all from credited pools; the mwkeep ledge system rejected
+on measured geometry). `author_route_structures` derives the over-cap
+windows from the grader; `compile_route_structures` lays measured pieces
+(landings where the ground outruns the piece's rise; flight cap 35°, ramp
+deck 12°). 162 structures, 2,151 pieces, 36 ways (lip-step 46, stair 46,
+stepped ascent 37, deck 27, bridge 6). Grader exempts the spans like bridges;
+survivors 35 → 0, residual 0 m everywhere. Terrain chain rebuilt end to end,
+byte-stable on a second run. Studio routes layer hatches the spans with a
+hover label; 3D pieces wait for Round B.
+
+**(4) Lilmoth's lanes.** `world/sources/routes/lane-terminals.json` (general
+mechanism, one entry) makes `compile_society` end a city's lanes at its
+declared berth (asserted boatable); the three lanes now join the lighter quay
+at 0.0 m (the anchor pixel was 295 m off on the published grid; the "93 m"
+was the stitch pass's measure to the boundary). The survey keeps
+`waterways-natural.json` for siting, so the move did not re-plot the province
+(the same natural/published split that the roads use, 0025). Water terminals are
+checked as "lands at the lane's end onto a landing kind", not "continues the
+bearing" — three lanes converge on one berth. `province_network` loads the
+169 minor poling channels as addressable terminals. Root-cause fix on the
+way: `compile_society` no longer clobbers `reroute_majors`' repaired
+`routes.json` (natural-hash marker).
+
+**(5) Module 97 §G macro gaps, all five CLOSED** (mechanisms in the table).
+Live numbers: G1 all 22 M4/M5 records pass; G4 0 of 171 same-type pairs
+fail; G6 settlement+civic 21.2 % (ceiling 22), hostile-or-clearable 55.5 %
+against the HARD 55 % floor, about three records of headroom, so any cut on the
+hostile side breaks it; G5 six navigable records pinned with reasons
+(four at 0.0 m depth, two just under the keeled 3.0 m). **G3 is a real
+finding for the owner:** Clark–Evans R is 1.44–2.28 per zone (median 1.78);
+the target is < 1 and hand-placed worlds measure about 0.5. The plot is more
+even than random: this is the lattice spread against which A5 warns. It reads
+as procedural. Closing it is a re-solve that moves records rather than a
+report. It is queued as an owner question.
+
+**Not delivered:** Round B massing (gated on a Round A approval). The
+outdoor dressing pass (G18) and `connectors.json` (G19) remain OPEN and are
+the next meso-level items.
+
 ### Round A feedback — the owner's first look at the studio view (2026-09-05)
 
 **Rulings and what they became.** (1) *Whys on click*: every district, parcel,

@@ -64,7 +64,42 @@ convention as a parcel's ``yawDeg``, so the world facing is
 ``sideDeg + yawDeg``); ``offsetM`` is the ``[x, z]`` point on the wall, in
 metres, in the pivot-centred local frame ``measure_footprints`` uses.
 
-Where the geometry yields no opening the record carries ``doorways: []`` and a
+**Doorways from assemblies.** A shell whose door is a SEPARATE mesh has no
+opening in its own geometry, so the ray pass can never find one. For those the
+second source is ``world/sources/placement/kit-assemblies-mined.json``
+(``doorwaysFromAssemblies``, keyed by the shell's asset id): the offset at which
+the source authors repeatedly placed a door piece against that shell, measured
+from their own placements. The join, in order:
+
+  1. the ray pass runs first and always;
+  2. where it found an opening, that opening stands — the mesh's own geometry is
+     the stronger evidence — and the mined doors are recorded alongside it under
+     ``doorwaysCorroboration``;
+  3. where it found none, the mined doors become the ``doorways``, each carrying
+     ``doorwaySource: "assembly"``, the template ``count`` and ``doorAsset``,
+     with no ``arcM`` (the placement says where the door is, not how wide the
+     hole is);
+  4. ``doorwaySource`` on the record says which pass produced the doorways
+     (``"geometry"`` or ``"assembly"``), and ``doorwaysWhy`` names the door
+     piece.
+
+A mined door is either ``fixed`` — one repeated offset, so ``sideDeg`` and
+``offsetM`` are known — or ``radial``: the authors placed the door at a constant
+RADIUS but on any bearing (a round shell, a stronghold entrance turned to face
+the street). A radial door is emitted as ``{radial: true, radiusM, ...}`` with
+NO ``sideDeg`` and no ``offsetM``: the distance from the pivot is evidence, the
+bearing is a siting decision the placer makes.
+
+A COMPOSITE (a shell built with its door as one assembly, ``compose`` in the kit
+config) has an id the mine has never seen. Its doors are its ANCHOR part's mined
+doors, filtered to the door pieces the composite actually carries — the same
+placement evidence that put the door in the composite in the first place.
+
+Mined doorways are only ever attached to a piece the geometry already calls a
+building (a matched, tileset or shell interior). A walkway that happened to have
+a door placed at its end is still a walkway.
+
+Where neither pass yields an opening the record carries ``doorways: []`` and a
 ``doorwaysWhy`` saying so — a piece can be a genuine shell whose door is a
 separate mesh (HTBM ships ``bamboohutdoor01`` as its own NIF), whose front is
 open wider than a doorway, or whose walls are modular pieces measured one at a
@@ -102,6 +137,8 @@ from .measure_footprints import (
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
+ASSEMBLIES_PATH = (REPO_ROOT / "world" / "sources" / "placement"
+                   / "kit-assemblies-mined.json")
 SCHEMA_VERSION = 1
 
 # --- enclosure / doorway measurement constants ----------------------------- #
@@ -523,11 +560,161 @@ def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
 
 
 # --------------------------------------------------------------------------- #
+# doorways from mined assemblies
+# --------------------------------------------------------------------------- #
+#: Interior classes whose piece is a building, and so may take a mined door.
+BUILDING_INTERIORS = ("matched", "tileset", "shell")
+
+
+KIT_CONFIG_DIR = Path(__file__).resolve().parent / "config" / "kits"
+
+
+def composite_parts(kit_name: str, config_dir: Path = KIT_CONFIG_DIR) -> dict[str, list[str]]:
+    """composite asset id -> the registry ids of its parts, in order.
+
+    A composite is authored in the kit config, not in the built manifest, so
+    the config is the only place that still knows which real asset each part
+    is. The join needs it because ``doorwaysFromAssemblies`` is keyed by the
+    SHELL's id: a `hut + door` composite has a new id of its own and would
+    otherwise fall through both passes.
+    """
+    path = config_dir / f"{kit_name}.json"
+    if not path.exists():
+        return {}
+    config = json.loads(path.read_text())
+    out: dict[str, list[str]] = {}
+    for entry in config.get("assets", []):
+        compose = entry.get("compose")
+        if compose:
+            out[entry["asset"]] = [p["asset"] for p in compose.get("parts", [])]
+    return out
+
+
+def composite_doorways(parts: list[str],
+                       mined: dict[str, list[dict]]) -> list[dict]:
+    """The mined doors of a composite's ANCHOR that this composite actually
+    contains.
+
+    The anchor (part 0) is the shell, and the composite exists precisely
+    because the authors hang a separate door on it — so the doors worth
+    reporting are the ones whose door piece IS one of the composite's parts.
+    A composite that stacks blocks or chains deck sections has none, and gets
+    none.
+    """
+    if not parts:
+        return []
+    present = set(parts[1:])
+    return [d for d in mined.get(parts[0], ()) if d.get("doorAsset") in present]
+
+
+def load_assembly_doorways(path: Path = ASSEMBLIES_PATH) -> dict[str, list[dict]]:
+    """asset id -> the mined door placements against that shell.
+
+    Missing file is not an error: the index still builds from geometry alone
+    (the mine is a separate, re-runnable pass over the source plugins).
+    """
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text())
+    out: dict[str, list[dict]] = {}
+    for shell, record in sorted((data.get("doorwaysFromAssemblies") or {}).items()):
+        doors = record.get("doorways") or []
+        if doors:
+            out[shell] = doors
+    return out
+
+
+def assembly_doorway_entries(doors: list[dict]) -> list[dict]:
+    """Mined door placements as ``doorways`` entries in the index's own frame.
+
+    The mine measures ``offsetLocalM`` as ``[x, y, z]`` metres in the shell's
+    own Z-UP local frame (Blender/NIF source space); this index reports plan
+    offsets in the GLB frame the kit is exported to, where the same point is
+    ``[x, -y]`` (glTF y-up export maps ``(x, y, z) -> (x, z, -y)``). ``sideDeg``
+    needs no conversion at all: the mine's bearing is ``atan2(x, y)`` in the
+    z-up frame and this module's is ``atan2(x, -z)`` in the GLB frame, which is
+    the same angle about the same axis.
+
+    No ``arcM`` is emitted — a placement says where the door stands, not how
+    wide the hole in the wall is.
+    """
+    out: list[dict] = []
+    for door in doors:
+        entry: dict = {
+            "doorwaySource": "assembly",
+            "doorAsset": door.get("doorAsset"),
+            "count": door.get("count"),
+        }
+        if door.get("kind") == "radial" or door.get("offsetLocalM") is None:
+            entry["radial"] = True
+            entry["radiusM"] = round(float(door.get("radiusM") or 0.0), 2)
+        else:
+            x, y, _z = door["offsetLocalM"]
+            entry["sideDeg"] = round(float(door["sideDeg"]), 2)
+            entry["offsetM"] = [round(float(x), 2), round(-float(y), 2)]
+            entry["radiusM"] = round(float(door.get("radiusM") or 0.0), 2)
+        out.append(entry)
+    out.sort(key=lambda e: (-(e.get("count") or 0), e.get("sideDeg", 999.0)))
+    return out[:MAX_DOORWAYS]
+
+
+def _door_piece_names(doors: list[dict]) -> str:
+    seen: list[str] = []
+    for door in doors:
+        piece = door.get("doorPiece") or door.get("doorAsset") or "a door piece"
+        if piece not in seen:
+            seen.append(piece)
+    return ", ".join(seen)
+
+
+def apply_assembly_doorways(record: dict, doors: list[dict]) -> None:
+    """Fold the mined doors into a finished record, geometry first.
+
+    Only ever called for a piece the geometry already calls a building.
+    """
+    entries = assembly_doorway_entries(doors)
+    if not entries:
+        return
+    pieces = _door_piece_names(doors)
+    if record.get("doorways"):
+        record["doorwaySource"] = "geometry"
+        record["doorwaysCorroboration"] = entries
+        return
+    record["doorways"] = entries
+    record["doorwaySource"] = "assembly"
+    record.pop("doorwaysWhy", None)
+    top = entries[0]
+    where = ("at a constant radius but on no fixed bearing"
+             if top.get("radial") else f"at {top['sideDeg']:.0f} deg in the piece's own frame")
+    record["doorwaysWhy"] = (
+        f"the shell's own mesh has no opening — its door is a separate piece "
+        f"({pieces}), which the source authors placed against it "
+        f"{top['count']} times {where}; measured from placements, not geometry")
+
+
+# --------------------------------------------------------------------------- #
 # per-kit derivation
 # --------------------------------------------------------------------------- #
 def classify_asset(asset: dict, kit: str, verts, triangles,
-                   pool_ids: dict[str, list[str]]) -> dict:
-    """One asset's interior record. ``verts``/``triangles`` may be None."""
+                   pool_ids: dict[str, list[str]],
+                   assembly_doors: list[dict] | None = None) -> dict:
+    """One asset's interior record, geometry first and assemblies second.
+
+    ``verts``/``triangles`` may be None. ``assembly_doors`` is this asset's
+    entry from ``doorwaysFromAssemblies`` (see ``apply_assembly_doorways``);
+    it is only consulted for a piece the geometry calls a building.
+    """
+    record = _classify_geometry(asset, kit, verts, triangles, pool_ids)
+    if assembly_doors and record.get("interior") in BUILDING_INTERIORS:
+        apply_assembly_doorways(record, assembly_doors)
+    elif record.get("doorways"):
+        record["doorwaySource"] = "geometry"
+    return record
+
+
+def _classify_geometry(asset: dict, kit: str, verts, triangles,
+                       pool_ids: dict[str, list[str]]) -> dict:
+    """The geometric pass: everything measured from the asset's own mesh."""
     asset_id = asset["id"]
     record: dict = {"category": asset.get("category"), "doorways": []}
 
@@ -632,13 +819,21 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     node_names = set(scene.graph.nodes)
     by_asset_id = glb_asset_id_nodes(kits_dir / f"{kit_name}.glb")
     pool_ids = load_pool_ids(registry_dir)
+    mined_doors = load_assembly_doorways()
+    parts_of = composite_parts(kit_name)
 
     assets: dict[str, dict] = {}
     for asset in sorted(manifest["assets"], key=lambda a: a["id"]):
         node = _resolve_node(asset, node_names, by_asset_id)
         verts = _asset_vertices(scene, node) if node else None
         triangles = asset_triangles(scene, node) if node else None
-        assets[asset["id"]] = classify_asset(asset, kit_name, verts, triangles, pool_ids)
+        # A composite has an id of its own that the mine has never seen, so its
+        # doors come from its ANCHOR part's mined record, filtered to the door
+        # pieces the composite actually carries.
+        doors = (composite_doorways(parts_of[asset["id"]], mined_doors)
+                 if asset["id"] in parts_of else mined_doors.get(asset["id"]))
+        assets[asset["id"]] = classify_asset(
+            asset, kit_name, verts, triangles, pool_ids, doors)
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -651,6 +846,9 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
             "doorwayArcM": [DOORWAY_MIN_ARC_M, DOORWAY_MAX_ARC_M],
             "sizeClassMaxM2": {"small": SIZE_CLASS_SMALL_MAX_M2,
                                "medium": SIZE_CLASS_MEDIUM_MAX_M2},
+            "doorwaySources": ["geometry (the shell's own opening, measured by ray)",
+                               "assembly (where the source authors placed a separate "
+                               "door piece; kit-assemblies-mined.json)"],
         },
     }
 
@@ -675,11 +873,15 @@ def main() -> int:
         data = json.loads(out.read_text())
         tally: dict[str, int] = {}
         doors = 0
+        from_assembly = 0
         for record in data["assets"].values():
             tally[record["interior"]] = tally.get(record["interior"], 0) + 1
-            doors += 1 if record.get("doorways") else 0
+            if record.get("doorways"):
+                doors += 1
+                from_assembly += 1 if record.get("doorwaySource") == "assembly" else 0
         summary = ", ".join(f"{k} {tally[k]}" for k in sorted(tally))
-        print(f"interiors_index: {out.name} — {summary}; {doors} with derived doorways")
+        print(f"interiors_index: {out.name} — {summary}; {doors} with derived doorways "
+              f"({from_assembly} from mined assemblies)")
     return 0
 
 

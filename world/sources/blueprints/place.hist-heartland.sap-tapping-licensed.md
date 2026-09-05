@@ -301,3 +301,14 @@ from it to the stage foot.
 - **97 D3, no threshold spanned.** A camp has no gate; the threshold is the track dying at the stair and the dock at the water (checklist item 7).
 - **97 B6, the canoe approach unmeasured.** It has no route with waypoints, so the compiler cannot run the line of sight; the checklist carries it (the Hist at 53.6 m over a 42.4 m canopy).
 - **97 C12, a camp of three with no hearth.** The dressing pass (97 G18) does not exist; when it does, a fire and 4–8 pieces round it belong here.
+
+## Doors and assemblies (stream A2, 2026-09-05)
+
+The tapper's dwelling was `argoniantent01`, a tent shell with no doorway in any
+assembly and none measurable off its geometry, so the door on it was invented.
+It is now `mudhut01`, the small Argonian mud hut already used at Nine-Trunks:
+it has one measured doorway and a matched interior of its own. It is also the
+form that a licensed tapper working a three-month season would keep. The door sits on that
+doorway. The hut is turned so the doorway looks down the stage path.
+Nothing else in the camp has an inside: the stage, the stair, the mule line, the
+stock cart and the licence board are all open pieces.

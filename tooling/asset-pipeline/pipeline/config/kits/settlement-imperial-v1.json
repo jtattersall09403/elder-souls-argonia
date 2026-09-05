@@ -11,6 +11,9 @@
  "textureOverlayPools": [
   "tropical"
  ],
+ "snapLogic": {
+  "assemblies": "Composites in this kit: `composite:farmhouse/farmhouse01-with-door` and `-farmhouse02-with-door` hang `farmhouseldoor01` at the offsets vanilla uses (templates vanilla:t0173 and t0335) — the rule that a farmhouse shell ships without its leaf. `composite:farmhouse/stonewall-run-3` and `-run-5` are the farmyard wall with its end pillars, on vanilla's own 7.27 m pillar spacing (group on stonewall01, 43 placements; templates vanilla:t0002, t0004, t0003) — the rule that `stonewallendl01`/`endr01` are caps and are never placed alone. The farmhouse wall and roof MODULES are not composited yet: they are a tileset, and a shell built from them is a building design, not a kit rule. Every single piece stays in the kit."
+ },
  "assets": [
   {
    "asset": "vanilla:architecture/farmhouse/farmhouse01"
@@ -59,6 +62,142 @@
   },
   {
    "asset": "vanilla:architecture/farmhouse/fencewoven02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewall02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01"
+  },
+  {
+   "asset": "composite:farmhouse/farmhouse01-with-door",
+   "compose": {
+    "note": "The vanilla farmhouse shell with its door leaf. `farmhouse01` carries `farmhouseldoor01` at -1.82, -3.56, 0.0 m in the shell's own z-up frame, unrotated (template vanilla:t0173, 10 placements). The shell's own mesh has the opening but not the leaf, so a farmhouse placed bare reads as a hole in a wall.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouse01"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+      "offsetM": [
+       -1.82,
+       -3.56,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:farmhouse/farmhouse02-with-door",
+   "compose": {
+    "note": "The second farmhouse form with the same door piece at 0.0, -3.11, -0.01 m, unrotated (template vanilla:t0335, 7 placements). The mine also records a second, raised leaf at 3.18 m for the loft (vanilla:t0420, 6) — that is a loft hatch on a hayloft form and is left as a separate placement, since not every farmhouse02 has one.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouse02"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/farmhouseldoor01",
+      "offsetM": [
+       0.0,
+       -3.11,
+       -0.01
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:farmhouse/stonewall-run-3",
+   "compose": {
+    "note": "The vanilla farmyard wall as its authors build it: a `stonewall01` span with an end pillar at each end — `stonewallendr01` at 3.64, 0.0, 0.0 and `stonewallendl01` at -3.63, 0.0, 0.01 m (group anchored on stonewall01, 43 placements; templates vanilla:t0002, 59, and vanilla:t0004, 54). Neither pillar is ever placed on its own: they are the caps that close a run.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+      "offsetM": [
+       3.64,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+      "offsetM": [
+       -3.63,
+       0.0,
+       0.01
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
+  },
+  {
+   "asset": "composite:farmhouse/stonewall-run-5",
+   "compose": {
+    "note": "Two spans of the same wall on one parcel: the pillar spacing is 7.27 m (template vanilla:t0003, 55 placements, measures `stonewallendl01` at -7.27 m from `stonewallendr01` — one span between two caps), so the second span sits at 7.27 m and its far cap at 10.91 m. About 14.5 m of yard wall in one placement, capped at both ends; longer runs repeat the module.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01"
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendl01",
+      "offsetM": [
+       -3.63,
+       0.0,
+       0.01
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+      "offsetM": [
+       3.64,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewall01",
+      "offsetM": [
+       7.27,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/farmhouse/stonewall/stonewallendr01",
+      "offsetM": [
+       10.91,
+       0.0,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     }
+    ]
+   }
   }
  ]
 }

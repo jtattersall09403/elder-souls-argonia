@@ -8,9 +8,20 @@ import pytest
 from .blueprint import BLUEPRINT_DIR
 from .export_blueprints import (
     LAYERS, OUT_PATH, PAD_M, SCHEMA_VERSION, WHY_KEYS_AREA, WHY_KEYS_FULL,
-    build_bundle, context_box, export, project, render,
+    build_bundle, context_box, export, parcel_doorways, project, render,
 )
 from .render_blueprint import PROVINCE_EXTENT_M, crop_box
+
+class _StubInteriors:
+    """The interiors index, stubbed: this test is about the PROJECTION, not the
+    measurement (that is pipeline/test_interiors_index.py's job)."""
+
+    def __init__(self, by_asset):
+        self.by_asset = by_asset
+
+    def get(self, asset_id):
+        return self.by_asset.get(asset_id)
+
 
 FIXTURE = BLUEPRINT_DIR / "place.hist-heartland.nine-trunks.json"
 HAVE_FIXTURE = FIXTURE.exists()
@@ -186,3 +197,42 @@ def test_context_box_contains_the_crop_and_is_deterministic():
     assert box["x1"] > crop[2] and box["z1"] > crop[3]
     assert box == context_box(doc["blueprint"], PROVINCE_EXTENT_M)
     assert all(isinstance(v, float) for v in box.values())   # JSON-serialisable
+
+
+# --- derived doorways on the outline (owner ruling 2026-09-05) --------------
+
+def test_doorways_are_exported_per_parcel_in_metres():
+    """A doorway is drawn on the building's outline, so it exports as a world
+    point + a world bearing, with the source it was derived from."""
+    parcel = {"id": "parcel.x.hut", "assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 90.0}
+    lib = _StubInteriors({"kit:hut01": {"doorways": [
+        {"sideDeg": 0.0, "offsetM": [0.0, -3.0], "arcM": 1.2, "doorwaySource": "assembly"},
+        {"radial": True, "radiusM": 4.5, "arcM": 1.0, "doorwaySource": "geometry"},
+    ]}})
+    fixed, radial = parcel_doorways(parcel, PROVINCE_EXTENT_M, lib)
+    centre = 0.5 * PROVINCE_EXTENT_M
+    # local north, turned 90° clockwise, is due east of the centre
+    assert fixed["bearingDeg"] == 90.0
+    assert fixed["source"] == "assembly"
+    assert fixed["worldM"] == [round(centre + 3.0, 3), round(centre, 3)]
+    assert radial["radial"] is True and radial["radiusM"] == 4.5
+    assert radial["bearingDeg"] is None
+
+
+def test_a_piece_with_no_derived_doorway_exports_an_empty_list():
+    lib = _StubInteriors({"kit:hut01": {"doorways": []}})
+    assert parcel_doorways({"assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 0.0},
+                           PROVINCE_EXTENT_M, lib) == []
+
+
+@pytest.mark.skipif(not HAVE_FIXTURE, reason="no blueprint committed")
+def test_every_parcel_carries_a_doorways_list_and_doors_carry_their_ref():
+    doc = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    entry = project(doc, PROVINCE_EXTENT_M)
+    doorways = {p["id"]: p["doorways"] for p in entry["parcels"]}
+    assert all(isinstance(v, list) for v in doorways.values())
+    for door in entry["doors"]:
+        assert "doorwayRef" in door
+        ref = door["doorwayRef"]
+        if ref is not None:
+            assert 0 <= ref < len(doorways[door["parcelId"]])

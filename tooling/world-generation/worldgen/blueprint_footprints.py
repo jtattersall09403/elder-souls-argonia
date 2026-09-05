@@ -21,6 +21,12 @@ z runs south.
 Run (from tooling/world-generation/):
   python3 -m worldgen.blueprint_footprints --apply <blueprint.json> [...]
   python3 -m worldgen.blueprint_footprints --check <blueprint.json> [...]
+  python3 -m worldgen.blueprint_footprints --doors <blueprint.json> [...]
+
+`--doors` derives the other half of the same contract (owner ruling
+2026-09-05): each door's `doorwayRef`, the index of the DERIVED doorway it
+sits on in its piece's interiors-index `doorways[]`. It writes footprints too,
+because a doorway is only meaningful against the outline it was measured on.
 """
 
 from __future__ import annotations
@@ -30,6 +36,8 @@ import json
 import math
 import sys
 from pathlib import Path
+
+from . import blueprint_interiors as bi
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
@@ -145,6 +153,43 @@ def apply_to_blueprint(bp: dict, lib: FootprintLibrary | None = None,
     return problems
 
 
+def parcel_centre_m(parcel: dict, extent_m: float = PROVINCE_EXTENT_M):
+    """The parcel pivot in world metres — what a doorway offset is measured from."""
+    c = parcel.get("centreUV")
+    if not (isinstance(c, list) and len(c) == 2):
+        return None
+    return (float(c[0]) * extent_m, float(c[1]) * extent_m)
+
+
+def apply_doors_to_blueprint(bp: dict, interiors: "bi.InteriorLibrary | None" = None,
+                             extent_m: float = PROVINCE_EXTENT_M) -> list[str]:
+    """Write each door's derived `doorwayRef`; report the doors that sit on no
+    derived doorway (the validator fails those, this only reports)."""
+    interiors = interiors if interiors is not None else bi.library()
+    parcels = {p.get("id"): p for p in bp.get("parcels", [])}
+    problems: list[str] = []
+    for door in bp.get("doors", []) or []:
+        parcel = parcels.get(door.get("parcelId"))
+        if parcel is None:
+            continue
+        record = interiors.get(parcel.get("assetRef"))
+        centre = parcel_centre_m(parcel, extent_m)
+        th = door.get("thresholdUV")
+        threshold = (float(th[0]) * extent_m, float(th[1]) * extent_m) \
+            if isinstance(th, list) and len(th) == 2 else None
+        facing = door.get("facingDeg")
+        idx, why = bi.match_doorway(record, float(parcel.get("yawDeg") or 0.0),
+                                    float(facing) if isinstance(facing, (int, float)) else None,
+                                    threshold, centre)
+        if idx is None:
+            door.pop("doorwayRef", None)
+            problems.append(f"{door.get('id')}: sits on no derived doorway of "
+                            f"{parcel.get('assetRef')} ({why})")
+        else:
+            door["doorwayRef"] = idx
+    return problems
+
+
 def _indent_of(text: str) -> int:
     """The file's own indent, so --apply does not reformat the whole blueprint
     (the live files are indent 1, the fixture is indent 2)."""
@@ -155,10 +200,14 @@ def _indent_of(text: str) -> int:
     return 1
 
 
-def apply_to_file(path: Path, lib: FootprintLibrary | None = None) -> list[str]:
+def apply_to_file(path: Path, lib: FootprintLibrary | None = None,
+                  doors: bool = False) -> list[str]:
     text = path.read_text()
     data = json.loads(text)
-    problems = apply_to_blueprint(data.get("blueprint", {}), lib)
+    bp = data.get("blueprint", {})
+    problems = apply_to_blueprint(bp, lib)
+    if doors:
+        problems += apply_doors_to_blueprint(bp)
     path.write_text(json.dumps(data, indent=_indent_of(text)) + "\n")
     return problems
 
@@ -167,10 +216,14 @@ def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--apply", action="store_true", help="rewrite footprints in place")
     ap.add_argument("--check", action="store_true", help="report mismatches only")
+    ap.add_argument("--doors", action="store_true",
+                    help="also derive each door's doorwayRef (implies --apply)")
     ap.add_argument("paths", nargs="+")
     args = ap.parse_args()
+    if args.doors:
+        args.apply = True
     if args.apply == args.check:
-        ap.error("choose exactly one of --apply / --check")
+        ap.error("choose exactly one of --apply / --check / --doors")
 
     lib = library()
     if not lib:
@@ -185,7 +238,7 @@ def main() -> int:
         data = json.loads(path.read_text())
         bp = data.get("blueprint", {})
         if args.apply:
-            problems = apply_to_file(path, lib)
+            problems = apply_to_file(path, lib, doors=args.doors)
             for p in problems:
                 print(f"blueprint_footprints: {path.name}: {p}", file=sys.stderr)
             failures += len(problems)
