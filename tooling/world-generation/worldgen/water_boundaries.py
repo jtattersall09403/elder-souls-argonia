@@ -104,7 +104,7 @@ class ChannelOwnership:
     """Continuous reach ownership, independent of connected-basin identity."""
 
     def __init__(self, points, links, levels, owners, standing_levels=None, ground=None, terrain_flips=None,
-                 marine_ground=None):
+                 marine_ground=None, pool_domain=None):
         self.points = np.asarray(points)
         self.ends = self.points[np.maximum(links, 0)].copy()
         self.ends[np.asarray(links) < 0] = self.points[np.asarray(links) < 0]
@@ -119,6 +119,7 @@ class ChannelOwnership:
         self.ground = ground
         self.terrain_flips = terrain_flips
         self.marine_ground = marine_ground
+        self.pool_domain = pool_domain
 
     def compatible(self, positions, source, level, anchor=None):
         positions = np.asarray(positions)
@@ -158,7 +159,8 @@ class ChannelOwnership:
                 # only genuine competing heads need geometric shoreline tests.
                 if possible.any():
                     from .water_geometry import sample_standing_levels
-                    pool = sample_standing_levels(self.ground, self.standing_levels, positions[possible], self.terrain_flips)
+                    pool = sample_standing_levels(self.ground, self.standing_levels, positions[possible], self.terrain_flips,
+                                                  self.pool_domain)
                     compatible[possible] &= ~np.isfinite(pool) | (np.abs(pool - level) <= .04)
             else:
                 pool = ndimage.map_coordinates(self.standing_levels, positions.T, order=0, mode="nearest")
@@ -178,7 +180,8 @@ class ChannelOwnership:
             return abs(level) <= .04 and sample_marine_mask(self.ground, self.marine_ground,
                                                            [position], self.terrain_flips)[0]
         from .water_geometry import sample_standing_levels
-        pool = sample_standing_levels(self.ground, self.standing_levels, np.asarray(position)[None, :], self.terrain_flips)[0]
+        pool = sample_standing_levels(self.ground, self.standing_levels, np.asarray(position)[None, :], self.terrain_flips,
+                                     self.pool_domain)[0]
         return np.isfinite(pool) and abs(pool - level) <= .04
 
 

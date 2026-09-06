@@ -129,7 +129,8 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
-            immutable_potential=None, close_reference_domains=False) -> dict:
+            immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
+            retaining_lower_bounds=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     mpp1 = RAW_M * STEP
     ocean = npz["ocean"]
@@ -267,6 +268,16 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                       ndimage.minimum(filled2, lbl2, kept_ids))
             standing_pool_range = float(np.max(ranges))
 
+    # Set retained source heads BEFORE growing their shoreline domains.
+    # Growing a temporary80mm head first can claim a neighbour's fringe,
+    # creating an artificial merged owner even though original pools agree.
+    immutable_pool_labels=frozenset()
+    reference_pool_changes=[]
+    if reference_pool_levels is not None:
+        from .water_pool_domains import preserve_reference_pool_heads
+        pool_lvl,immutable_pool_labels,reference_pool_changes=preserve_reference_pool_heads(
+            pool_lvl,lbl2,filled2,reference_pool_levels,immutable_potential,g2)
+        w2[np.isfinite(pool_lvl)]=pool_lvl[np.isfinite(pool_lvl)]
     pool_fringe_count = 0
     if close_reference_domains:
         immutable_potential = filled2
@@ -277,6 +288,16 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             maximum_head=(g2 if bank_ground is None else bank_ground) +
                 up_lin(np.where(rivulets,.08,np.select([rivers == b for b in (1,2,3)], [.30,.55,.85], default=.30))))
         comp(np.isfinite(pool_lvl), pool_lvl)
+
+    # Fractional ownership obeys the same retained spill as native domains.
+    pool_spill_values = np.r_[np.inf, ndimage.minimum(filled2,lbl2,np.arange(1,int(lbl2.max())+1))]
+    pool_spills = pool_spill_values[lbl2].astype(np.float32)
+    pool_potential = filled2 if immutable_potential is None else np.minimum(filled2,immutable_potential)
+    pool_domain = (pool_spills,pool_potential)
+    if reference_pool_levels is not None and retaining_lower_bounds is None:
+        from .water_spill_preservation import immutable_retaining_lower_bounds
+        retaining_lower_bounds=immutable_retaining_lower_bounds(
+            g2 if bank_ground is None else bank_ground,reference_pool_levels,immutable_potential,terrain_flips)
 
     # Channel profiles use the carved bed and connected pools as constraints.
     # Linear projection along each segment keeps every cross-section level.
@@ -372,6 +393,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     geometry_points, geometry_ds, geometry_levels, geometry_radius, geometry_owners = refine_channel_stations(
         g2, np.column_stack([py, px]), dsk, w_st, r_st, pool_levels=pool_lvl,
         routing_ground=routing_ground, minimum_depth=film_st, terrain_flips=terrain_flips, marine_ground=ocean2,
+        pool_domain=pool_domain,
         routing_overrides=({source: routing_overrides[int(cell)] for source, cell in enumerate(idx_st)
                             if int(cell) in routing_overrides} if routing_overrides else None))
     desired_geometry_levels = geometry_levels.copy()
@@ -381,10 +403,11 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         g2, geometry_points, geometry_ds, geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
         bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
         diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
-        metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2)
+        metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain)
     pool_head_changes = []
     while conflicts:
-        changes = contain_pool_freeboards(pool_lvl, lbl2, filled2, geometry_points, conflicts)
+        changes = contain_pool_freeboards(pool_lvl, lbl2, filled2, geometry_points, conflicts,
+                                          immutable_labels=immutable_pool_labels)
         if not changes:
             break
         pool_head_changes.extend(changes)
@@ -392,11 +415,13 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
             bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
             diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
-            metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2)
+            metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain)
     if pool_head_changes:
         # Replace the entire original plane, not just the constrained node.
         w2[keep2[lbl2]] = pool_lvl[keep2[lbl2]]
     topology_stats['bankContainedFlowPoolCount'] = len({change['poolLabel'] for change in pool_head_changes})
+    topology_stats['preservedOriginalPoolPlaneCount'] = len(immutable_pool_labels)
+    topology_stats['preventedRepairDrivenPoolHeadChanges'] = reference_pool_changes
     maximum_pool_reduction = {}
     for change in pool_head_changes:
         label = change['poolLabel']
@@ -408,6 +433,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                 "desired_levels": desired_geometry_levels, "original_links": dsk,
                 "radius": geometry_radius, "diagnostics": profile_diagnostics,
                 "pool_levels": pool_lvl, "marine_ground": ocean2, "filled_levels": filled2,
+                "pool_spills": pool_spills, "pool_potential": pool_potential,
+                "retaining_lower_bounds": retaining_lower_bounds,
                 "semantic_depth_targets": geometry_depths}
     w_st = geometry_levels[:n_st].copy()
     current_downstream = downhill_graph(w_st, accepted_links, orientation_levels)
@@ -603,6 +630,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "wetland_rivulets": rivulet_st,
         "standing_detail": np.where(standing_pool, pool_lvl, -np.inf), "all_channels": True,
         "marine_ground": ocean2,
+        "pool_domain": pool_domain,
         "terrain_flips": terrain_flips, "orientation_levels": orientation_levels,
         # Original station owners supply level response; interpolation is
         # longitudinal only and never samples another bank/reach at an edge.
@@ -678,6 +706,7 @@ def main() -> None:
                         help="Continue bounded repairs from the supplied overlay")
     parser.add_argument("--routing-overrides", type=Path,
                         help="Audited residual-only native routes, validated against original anchors/corridor/saddle")
+    parser.add_argument("--orientation",type=Path,help="Explicit frozen immutable-source intent; never silently reorient repairs")
     parser.add_argument("--bed-index-audit", type=Path,
                         help="Explicit reviewed original/proposed support-corner exceptions, at most5m")
     parser.add_argument("--max-bed-lowering", type=float, default=1.0,
@@ -709,7 +738,15 @@ def main() -> None:
     reference = compute(z, original, npz, profiles_only=True, bank_ground=original,
                         terrain_flips=terrain_flips, close_reference_domains=True)
     orientation_levels = reference['desired_levels'][:len(reference['original_links'])].copy()
+    if args.orientation:
+        frozen=np.load(args.orientation)
+        if frozen.shape!=orientation_levels.shape or not np.isfinite(frozen).all():
+            raise ValueError('Frozen orientation does not match the authored channel graph')
+        orientation_levels=frozen
     immutable_potential = reference['filled_levels']
+    reference_pool_levels = reference['pool_levels']
+    from .water_spill_preservation import immutable_retaining_lower_bounds
+    retaining_lower_bounds=immutable_retaining_lower_bounds(original,reference_pool_levels,immutable_potential,terrain_flips)
     if args.cache:
         np.save(args.cache.with_suffix('.orientation.npy'), orientation_levels)
     del reference
@@ -722,6 +759,10 @@ def main() -> None:
     restoration_audit = []
     wetland_restoration_audit = []
     wetland_anchor_restoration_audit = None
+    spill_restoration_audit = []
+    pool_floor_restoration_audit = []
+    retaining_support_restoration_audit = []
+    revoked_indexed_authority = []
     indexed_repair_audit = json.loads(args.bed_index_audit.read_text()) if args.bed_index_audit else []
     indexed_limits = {}
     if args.bed_overlay and not indexed_repair_audit:
@@ -740,6 +781,10 @@ def main() -> None:
         restoration_audit = overlay_input.get('retainingBankRestorationAudit', [])
         wetland_restoration_audit = overlay_input.get('wetlandRegimeRestorationAudit', [])
         wetland_anchor_restoration_audit = overlay_input.get('wetlandAnchorRestorationAudit')
+        spill_restoration_audit = overlay_input.get('retainingSpillRestorationAudit', [])
+        pool_floor_restoration_audit = overlay_input.get('poolFloorRestorationAudit', [])
+        retaining_support_restoration_audit = overlay_input.get('retainingSupportRestorationAudit', [])
+        revoked_indexed_authority = overlay_input.get('revokedIndexedRepairAuthority', [])
         if any(not isinstance(i,int) or not 0<=i<original.size for i in protected_bank_indices):
             raise ValueError('Invalid retaining bank protection indices')
         if any(i in indexed_limits and indexed_limits[i]>args.max_bed_lowering for i in protected_bank_indices):
@@ -768,7 +813,8 @@ def main() -> None:
         iteration += 1
         profiles = compute(z, refined, npz, profiles_only=True, bank_ground=original,
                            terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-                           routing_overrides=routing_overrides, immutable_potential=immutable_potential)
+                           routing_overrides=routing_overrides, immutable_potential=immutable_potential,
+                           reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds)
         exceptional_sources = {source for source, cell in enumerate(profiles["cell_indices"])
                                if (int(cell // z.shape[1]), int(cell % z.shape[1])) in exception_cells}
         changes = repair_channel_beds(original, refined, profiles["points"], profiles["conflicts"],
@@ -778,7 +824,7 @@ def main() -> None:
                                       pinned=profiles['diagnostics']['pinned'],
                                       links=profiles['links'], radius=profiles['diagnostics']['bankRadius'],
                                       bank_normals=profiles['diagnostics']['bankNormals'],
-                                      indexed_limits=indexed_limits)
+                                      indexed_limits=indexed_limits,retaining_lower_bounds=retaining_lower_bounds)
         print(f"Bounded channel repair {iteration}: {changes} native samples; "
               f'{len(profiles["conflicts"])} constrained reaches', flush=True)
         if args.cache:
@@ -791,6 +837,10 @@ def main() -> None:
                         "indexedRepairAudit": indexed_repair_audit,
                         "wetlandRegimeRestorationAudit": wetland_restoration_audit,
                         "wetlandAnchorRestorationAudit": wetland_anchor_restoration_audit,
+                        "retainingSpillRestorationAudit": spill_restoration_audit,
+                        "poolFloorRestorationAudit": pool_floor_restoration_audit,
+                        "retainingSupportRestorationAudit": retaining_support_restoration_audit,
+                        "revokedIndexedRepairAuthority": revoked_indexed_authority,
                         "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                         "changes": [[int(index), round(float(refined.flat[index]), 6),
                                      round(float(original.flat[index]), 6)] for index in progress_indices]}
@@ -805,7 +855,9 @@ def main() -> None:
             break
     r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-        routing_overrides=routing_overrides, immutable_potential=immutable_potential), args.web_step)
+        routing_overrides=routing_overrides, immutable_potential=immutable_potential,
+        reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds), args.web_step)
+    r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
 
     out_dir = args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -821,6 +873,10 @@ def main() -> None:
                "indexedRepairAudit": indexed_repair_audit,
                "wetlandRegimeRestorationAudit": wetland_restoration_audit,
                "wetlandAnchorRestorationAudit": wetland_anchor_restoration_audit,
+               "retainingSpillRestorationAudit": spill_restoration_audit,
+               "poolFloorRestorationAudit": pool_floor_restoration_audit,
+               "retainingSupportRestorationAudit": retaining_support_restoration_audit,
+               "revokedIndexedRepairAuthority": revoked_indexed_authority,
                "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                "changes": [[int(index), round(float(refined.flat[index]), 6),
                             round(float(original.flat[index]), 6)] for index in changed]}

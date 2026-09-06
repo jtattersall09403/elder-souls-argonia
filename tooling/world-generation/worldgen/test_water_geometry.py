@@ -332,6 +332,24 @@ def test_pool_pin_cannot_cross_a_zero_weight_native_owner_boundary():
     assert levels[2]==2.
 
 
+def test_subpixel_pool_owner_stops_at_spill_not_downstream_triangle_corner():
+    from .water_geometry import sample_standing_levels
+    ground=np.array([[1.,1.],[1.,1.]])
+    pools=np.array([[3.08,3.08],[-np.inf,-np.inf]])
+    spills=np.full((2,2),3.)
+    potential=np.array([[3.,3.],[1.,1.]])
+    points=np.array([[0.,.5],[.25,.25],[.5,.5]])
+    # Original positive-corner rule falsely pinned both downhill points.
+    assert np.all(np.isfinite(sample_standing_levels(ground,pools,points)))
+    levels=sample_standing_levels(ground,pools,points,pool_domain=(spills,potential))
+    assert np.isclose(levels[0],3.08)
+    assert not np.isfinite(levels[1:]).any()
+    # An actual impoundment interior retains its plane, including subpixels.
+    potential[:]=3.
+    assert np.allclose(sample_standing_levels(ground,pools,points,
+        pool_domain=(spills,potential)),3.08)
+
+
 def test_sea_along_actual_diagonal_does_not_invent_a_bilinear_headland():
     from .terrain_triangles import sample_terrain
     ground = np.array([[-1., -1.], [-1., 108.]])

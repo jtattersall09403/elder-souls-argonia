@@ -15,6 +15,7 @@ def main():
     parser.add_argument('audit',type=Path);parser.add_argument('--out',type=Path,required=True)
     args=parser.parse_args()
     original=np.load(DEFAULT_HEIGHTS);ground=original.copy();state=dict(np.load(args.state))
+    if 'retaining_lower_bounds' not in state:raise ValueError('Rebuild the solver cache with immutable retaining bounds before proposing cuts')
     overlay=json.loads(args.overlay.read_text())
     for i,h,_ in overlay['changes']:ground.flat[i]=h
     n=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
@@ -45,7 +46,7 @@ def main():
             updates=repair_channel_beds(original,trial,state['points'],relevant,max_lowering=3.,
                 terrain_flips=flips,depth_targets=diagnostics['depthTargets'],pinned=diagnostics['pinned'],
                 links=state['links'],radius=diagnostics['bankRadius'],bank_normals=diagnostics['bankNormals'],
-                indexed_limits=proposed)
+                indexed_limits=proposed,retaining_lower_bounds=state['retaining_lower_bounds'])
             rounds+=1
             if not updates or float(np.max(old-trial))<.0001:break
         remaining,_=solve(trial,state,flips)

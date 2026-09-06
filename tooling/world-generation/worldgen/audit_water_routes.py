@@ -65,8 +65,10 @@ def solve(ground, state, flips):
         state['radius'],len(state['original_links']),state['original_links'],state['pool_levels'],
         terrain_flips=flips,orientation_levels=state['orientation_levels'],diagnostics=diagnostics,
         minimum_depth=state.get('semantic_depth_targets',state['diagnostic_depthTargets']),strict_banks=True,metres_per_pixel=RAW_M,
-        allow_freefall=True,marine_ground=state['marine_ground'])
+        allow_freefall=True,marine_ground=state['marine_ground'],
+        pool_domain=(state['pool_spills'],state['pool_potential']) if 'pool_spills' in state else None)
     diagnostics['solvedHeads']=result[0]
+    diagnostics['rejectedSources']=frozenset(result[-1])
     return result[-1], diagnostics
 
 
@@ -81,6 +83,7 @@ def main():
     protected={i:0. for i in overlay.get('protectedRetainingBankIndices',[])}
     for i,h,_ in overlay['changes']:ground.flat[i]=h
     state=dict(np.load(args.state))
+    if 'retaining_lower_bounds' not in state:raise ValueError('Rebuild the solver cache with immutable retaining bounds before proposing cuts')
     hydrology=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
     flips,_=derive_channel_diagonal_flips(original,hydrology['rivers'],hydrology['flow_to'])
     conflicts,_=solve(ground,state,flips)
@@ -112,7 +115,7 @@ def main():
             changes=repair_channel_beds(original,trial,geometry['points'],relevant,max_lowering=3.,
                 terrain_flips=flips,depth_targets=diagnostics['depthTargets'],pinned=diagnostics['pinned'],
                 links=geometry['links'],radius=diagnostics['bankRadius'],bank_normals=diagnostics['bankNormals'],
-                indexed_limits=protected)
+                indexed_limits=protected,retaining_lower_bounds=state['retaining_lower_bounds'])
             rounds+=1
             if not changes or float(np.max(old_ground-trial))<1e-4:break
         failed,_=solve(trial,geometry,flips)

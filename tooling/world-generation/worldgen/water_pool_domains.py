@@ -5,6 +5,37 @@ from scipy import ndimage
 from .terrain_triangles import TERRAIN_NEIGHBOURS
 
 
+def preserve_reference_pool_heads(levels,labels,potential,reference_levels,reference_potential,ground=None):
+    """Repairs cannot retune a retained original pool's optional flow head."""
+    if ground is not None:
+        # A repaired component's size/shape cannot delete an originally
+        # retained wet seed and let a new neighbour claim it. Positive raw
+        # labels restrict this to real impoundments, not downstream fringes.
+        recovered=((labels>0)&np.isfinite(reference_levels)&(reference_levels>ground+.01)&
+                   (abs(potential-reference_potential)<1e-4))
+        levels=np.where(recovered,reference_levels,levels)
+    mask=(np.isfinite(levels)&np.isfinite(reference_levels)&
+          (abs(potential-reference_potential)<1e-4))
+    pairs=np.unique(np.column_stack([labels[mask],reference_levels[mask]]),axis=0)
+    locked={};changes=[]
+    for label,head in pairs:
+        label=int(label)
+        if label in locked and abs(locked[label]-head)>1e-4:
+            sample=np.argwhere(mask&(labels==label)&(reference_levels==head))[0].tolist()
+            raise ValueError(f'Corrected pool {label} merged original planes {locked[label]} and {head} at {sample}')
+        locked[label]=float(head)
+    indices=np.asarray(sorted(locked),int)
+    previous_heads=ndimage.maximum(levels,labels,indices) if len(indices) else []
+    lookup=np.full(int(labels.max())+1,np.nan,np.float32)
+    for label,previous in zip(indices,previous_heads):
+        head=locked[int(label)];lookup[label]=head
+        if abs(previous-head)>1e-5:
+            changes.append({'poolLabel':int(label),'fromM':float(previous),'toM':head})
+    reference=lookup[labels]
+    result=np.where(np.isfinite(levels)&np.isfinite(reference),reference,levels)
+    return result,frozenset(locked),changes
+
+
 def close_pool_domains(ground, levels, labels, filled, immutable_potential, terrain_flips=None, maximum_head=None):
     """Extend unchanged planes, never downstream into a lower-potential reach.
 

@@ -23,9 +23,14 @@ def connected_reach_path(state,source,diagnostics):
     while True:
         end=path[-1]
         caps=[diagnostics['bankCap'][node] for node in path if not diagnostics['falling'][node]]
-        if (not caps or diagnostics['solvedHeads'][end]<=min(caps)+1e-4 or diagnostics['pinned'][end]
-                or degree.get(end)!=2 or len(downstream.get(end,[]))!=1):break
+        if (not caps or diagnostics['pinned'][end] or degree.get(end)!=2
+                or len(downstream.get(end,[]))!=1):break
         edge,next_end=downstream[end][0]
+        # A rejected outgoing record has no valid solved incident head.
+        # Its low fallback value cannot terminate a coupled physical reach;
+        # include it until a real, feasible degree-two anchor is reached.
+        if (diagnostics['solvedHeads'][end]<=min(caps)+1e-4 and
+                edge not in diagnostics.get('rejectedSources',())):break
         if edge in members:break
         following=path_indices(state,edge)
         if following[0]!=end:following.reverse()
@@ -49,7 +54,7 @@ def best_reach_proposal(original,ground,state,path,diagnostics,protected):
             diagnostics['depthTargets'][path],diagnostics['bankNormals'][path],diagnostics['bankRadius'][path],
             pinned=diagnostics['pinned'][path],falling=diagnostics['falling'][path],
             protected=protected,terrain_flips=state['_terrain_flips'],crest_budget_fraction=fraction,
-            external_banks=external)
+            external_banks=external,retaining_lower_bounds=state['retaining_lower_bounds'])
         if proposal is not None:proposals.append(proposal)
     return min(proposals,key=lambda item:item['maximumOriginalLoweringM']) if proposals else None
 
@@ -60,6 +65,7 @@ def main():
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--source',type=int,action='append')
     args=parser.parse_args();state=dict(np.load(args.state));overlay=json.loads(args.overlay.read_text())
+    if 'retaining_lower_bounds' not in state:raise ValueError('Rebuild the solver cache with immutable retaining bounds before proposing cuts')
     original=np.load(DEFAULT_HEIGHTS);ground=original.copy()
     for i,h,_ in overlay['changes']:ground.flat[i]=h
     n=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')

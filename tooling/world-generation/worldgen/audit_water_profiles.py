@@ -1,5 +1,6 @@
 """Read-only audit of unresolved reaches against a native repair overlay."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import numpy as np
@@ -11,7 +12,8 @@ from .scale import RAW_M
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("overlay")
+    parser.add_argument("overlay",nargs='?')
+    parser.add_argument("--original",action="store_true",help="Build the immutable-source reference once, without repairs")
     parser.add_argument("--summary", action="store_true")
     parser.add_argument("--details", action="store_true")
     parser.add_argument("--orientation", help="Matching immutable pre-repair orientation cache")
@@ -19,29 +21,43 @@ def main():
     parser.add_argument("--solver-cache", type=Path, help="Save matching geometry and physical pool planes for bounded route audits")
     parser.add_argument("--immutable-potential", type=Path)
     parser.add_argument("--routing-overrides", type=Path)
+    parser.add_argument("--reference-pools",type=Path,help="Immutable-source solver cache supplying retained pool planes")
     args = parser.parse_args()
+    if bool(args.overlay)==bool(args.original):
+        parser.error('Supply either a repair overlay or --original')
     original = np.load(DEFAULT_HEIGHTS)
     corrected = original.copy()
-    overlay = json.load(open(args.overlay))
+    overlay = json.load(open(args.overlay)) if args.overlay else {'changes':[]}
     for index, height, _ in overlay["changes"]:
         corrected.flat[index] = height
     npz = np.load(DEFAULT_HEIGHTS.parent.parent / "hydrology-pass1.npz")
     flips, _ = derive_channel_diagonal_flips(original, npz['rivers'], npz['flow_to'])
-    if args.orientation:
+    reference_pools=np.load(args.reference_pools) if args.reference_pools else None
+    if args.original:
+        result=compute(npz['conditioned'].astype(np.float32),original,npz,profiles_only=True,
+                       bank_ground=original,terrain_flips=flips,close_reference_domains=True)
+        intent=result['desired_levels'][:len(result['original_links'])].copy()
+    elif args.orientation:
         intent = np.load(args.orientation)
     else:
         reference = compute(npz['conditioned'].astype(np.float32), original, npz,
                             profiles_only=True, bank_ground=original, terrain_flips=flips, close_reference_domains=True)
         intent = reference['desired_levels'][:len(reference['original_links'])].copy()
         del reference
-    result = compute(npz["conditioned"].astype(np.float32), corrected, npz,
+    if not args.original:
+        result = compute(npz["conditioned"].astype(np.float32), corrected, npz,
                      profiles_only=True, bank_ground=original, terrain_flips=flips, orientation_levels=intent,
-                     immutable_potential=np.load(args.immutable_potential) if args.immutable_potential else None,
+                     immutable_potential=(np.load(args.immutable_potential) if args.immutable_potential else
+                                          reference_pools['filled_levels'] if reference_pools is not None else None),
+                     reference_pool_levels=reference_pools['pool_levels'] if reference_pools is not None else None,
                      routing_overrides=({int(k):v for k,v in json.loads(args.routing_overrides.read_text())['overrides'].items()}
                                         if args.routing_overrides else None))
     if args.solver_cache:
+        provenance={'terrain_source_sha256':hashlib.sha256(DEFAULT_HEIGHTS.read_bytes()).hexdigest()}
+        if args.overlay:provenance['terrain_overlay_sha256']=hashlib.sha256(Path(args.overlay).read_bytes()).hexdigest()
         np.savez_compressed(args.solver_cache, **{key: value for key, value in result.items()
             if isinstance(value, np.ndarray)}, orientation_levels=intent,
+            **provenance,
             **{'diagnostic_' + key: value for key, value in result['diagnostics'].items()})
     rows = []
     for source, conflict in result["conflicts"].items():

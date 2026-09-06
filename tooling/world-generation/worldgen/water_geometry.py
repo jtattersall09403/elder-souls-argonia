@@ -103,7 +103,7 @@ def select_channel_anchors(ground, centres, directions, radii, depths, terrain_f
     return selected
 
 
-def sample_standing_levels(ground, pool_levels, points, terrain_flips=None):
+def sample_standing_levels(ground, pool_levels, points, terrain_flips=None, pool_domain=None):
     """Continue an exact pool plane to its real subpixel shoreline.
 
 Nearest-label sampling wrongly made a wet midpoint into a dry bank whenever
@@ -114,6 +114,7 @@ corner's exact level; never average different standing-water elevations.
     bed = sample_terrain(ground, points.T, terrain_flips)
     rows, cols, weights = terrain_weights(ground.shape, points.T, terrain_flips)
     result = np.full(len(points), -np.inf, np.float32)
+    potential = None if pool_domain is None else sample_terrain(pool_domain[1], points.T, terrain_flips)
     for corner in range(3):
         level = pool_levels[rows[corner], cols[corner]]
         # Only positive-weight vertices of the actual native triangle own
@@ -122,11 +123,15 @@ corner's exact level; never average different standing-water elevations.
         # Along a real triangle edge, linear terrain has no hidden saddle.
         connected = (np.isfinite(level) & (weights[corner] > 1e-9) &
                      (level > bed + .01) & (level > ground[rows[corner],cols[corner]]))
+        if pool_domain is not None:
+            # Corner presence cannot project a pool downhill past its spill.
+            connected &= potential >= pool_domain[0][rows[corner],cols[corner]]-1e-5
         result = np.where(connected, np.maximum(result, level), result)
     return result
 
 
-def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts, minimum_head=.015):
+def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts, minimum_head=.015,
+                            immutable_labels=()):
     """Reduce only optional whole-pool flow head, never its physical sill.
 
     The nominal80mm flowing-pool head is not permission to spill sideways
@@ -145,6 +150,7 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
             cell = tuple(np.clip(base + offset, 0, np.array(pool_levels.shape) - 1))
             old = float(pool_levels[cell])
             label = int(pool_labels[cell])
+            if label in immutable_labels:continue
             cap = float(conflict['bankCapM'])
             if label and np.isfinite(old) and abs(old - required) <= .0001 and cap < old:
                 if cap >= float(filled[cell]) + minimum_head:
@@ -287,7 +293,8 @@ Returns surface, ribbon mask and nearest segment indices for flow/semantics.
 
 
 def refine_channel_stations(ground, points, downstream, levels, radius, minimum_depth=0.2, pool_levels=None,
-                            routing_ground=None, terrain_flips=None, marine_ground=None, routing_overrides=None):
+                            routing_ground=None, terrain_flips=None, marine_ground=None, routing_overrides=None,
+                            pool_domain=None):
     """Resolve sub-station bed obstructions as narrow longitudinal riffles.
 
 The source drainage grid is three terrain pixels apart. A native sample on
@@ -313,7 +320,7 @@ Only channel-centre constraints change; cross-sections remain level.
             if maximum(candidate) < maximum(path) - .02:
                 path = candidate
         if pool_levels is not None:
-            endpoint_pool = sample_standing_levels(ground, pool_levels, points[[source, target]], terrain_flips)
+            endpoint_pool = sample_standing_levels(ground, pool_levels, points[[source, target]], terrain_flips, pool_domain)
             if np.all(np.isfinite(endpoint_pool)) and abs(endpoint_pool[0] - endpoint_pool[1]) <= .0001:
                 # Two points in one actual pool need no artificial chord
                 # over an intervening mound. Search the authored channel's
@@ -324,7 +331,7 @@ Only channel-centre constraints change; cross-sections remain level.
                         points[source], points[target], max_deviation=wider, terrain_flips=terrain_flips,
                         allowed=lambda y,x: abs(float(pool_levels[y,x])-endpoint_pool[0]) <= .0001)
                     probes = np.vstack([candidate, (candidate[:-1] + candidate[1:]) * .5])
-                    candidate_pools = sample_standing_levels(ground, pool_levels, probes, terrain_flips)
+                    candidate_pools = sample_standing_levels(ground, pool_levels, probes, terrain_flips, pool_domain)
                     if (np.all(sample_terrain(ground, probes.T, terrain_flips) < endpoint_pool.min() - .015)
                             and np.all(abs(candidate_pools-endpoint_pool[0]) <= .0001)):
                         path = candidate
@@ -358,6 +365,8 @@ Only channel-centre constraints change; cross-sections remain level.
         samples = np.asarray(samples)
         sample_beds = sample_terrain(ground, samples.T, terrain_flips)
         marine_samples = sample_marine_mask(ground, marine_ground, samples, terrain_flips)
+        pool_samples = (sample_standing_levels(ground, pool_levels, samples, terrain_flips, pool_domain)
+                        if pool_levels is not None else np.full(len(samples),-np.inf))
         distances = np.r_[0, np.cumsum(np.linalg.norm(np.diff(samples, axis=0), axis=1))]
         total = max(float(distances[-1]), 1e-6)
         previous = source
@@ -369,7 +378,7 @@ Only channel-centre constraints change; cross-sections remain level.
                 float(levels[source] * (1 - fraction) + levels[target] * fraction),
                 bed + depths[source] * (1 - fraction) + depths[target] * fraction))
             if pool_levels is not None:
-                pool = float(ndimage.map_coordinates(pool_levels, point[:, None], order=0, mode="nearest")[0])
+                pool = float(pool_samples[step])
                 if np.isfinite(pool) and pool > bed + 0.01:
                     level = pool
             index = len(refined_points)
@@ -467,7 +476,7 @@ reach. Minimise the highest bed obstruction, then distance. No terrain edits.
 def condition_channel_profiles(ground, points, links, levels, radius, original_count,
                                original_links, pool_levels=None, bank_ground=None, terrain_flips=None,
                                orientation_levels=None, diagnostics=None, minimum_depth=.03, strict_banks=False,
-                               metres_per_pixel=1., allow_freefall=False, marine_ground=None):
+                               metres_per_pixel=1., allow_freefall=False, marine_ground=None, pool_domain=None):
     """Globally monotone reaches with shared junctions and measured bank caps.
 
 Each coarse reach keeps one endpoint-to-endpoint flow direction. Native bed
@@ -518,7 +527,7 @@ reach is returned as an explicit terrain mismatch and excluded from water.
         cap = np.maximum(lower, cap)
     pinned = np.zeros(len(points), bool)
     if pool_levels is not None:
-        pool = sample_standing_levels(ground, pool_levels, points, terrain_flips)
+        pool = sample_standing_levels(ground, pool_levels, points, terrain_flips, pool_domain)
         pinned = np.isfinite(pool) & (pool > bed + 0.01)
         levels[pinned] = pool[pinned]
         lower[pinned] = pool[pinned]
@@ -782,7 +791,8 @@ def bounded_bank_correction(current_bed, weights, remaining, bank_heights, coeff
 
 def repair_channel_beds(original, corrected, points, conflicts, max_lowering=1.0,
                         exceptional_sources=(), terrain_flips=None, depth_targets=None, pinned=None,
-                        links=None, radius=None, bank_normals=None, indexed_limits=None):
+                        links=None, radius=None, bank_normals=None, indexed_limits=None,
+                        retaining_lower_bounds=None):
     """Condition routed bed support, respecting the resulting actual banks.
 
 Only the native corners supporting a routed channel-centre sample may move.
@@ -826,6 +836,9 @@ solver measures explicitly; this is not a claim of mathematically minimal cuts.
             remaining = np.array([max(0., float(corrected[cell] - original[cell]) +
                 (indexed_limits.get(cell[0]*original.shape[1]+cell[1], limit) if indexed_limits else limit))
                 for cell in cells])
+            if retaining_lower_bounds is not None:
+                remaining=np.minimum(remaining,[max(0.,float(corrected[cell]-retaining_lower_bounds[cell]))
+                                                for cell in cells])
             required = current_bed - target
             if conflict.get('localBankConstraint') and links is not None and radius is not None:
                 # Lowering a centre's supporting corner also changes bank

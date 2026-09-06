@@ -1,5 +1,41 @@
 import numpy as np
-from .water_pool_domains import close_pool_domains
+from .water_pool_domains import close_pool_domains,preserve_reference_pool_heads
+
+
+def test_original_pool_plane_cannot_drift_with_repaired_channel_freeboard():
+    levels=np.full((2,2),3.08);labels=np.ones((2,2),int);potential=np.full((2,2),3.)
+    reference=np.full((2,2),3.045)
+    result,locked,changes=preserve_reference_pool_heads(levels,labels,potential,reference,potential)
+    assert np.allclose(result,3.045) and locked==frozenset([1])
+    assert changes[0]['fromM']==3.08
+
+
+def test_original_pool_plane_is_not_forced_onto_a_changed_outlet():
+    levels=np.full((2,2),2.08);labels=np.ones((2,2),int)
+    result,locked,changes=preserve_reference_pool_heads(levels,labels,np.full((2,2),2.),
+        np.full((2,2),3.045),np.full((2,2),3.))
+    assert np.array_equal(result,levels) and not locked and not changes
+
+
+def test_original_head_is_set_before_shore_domain_growth():
+    g=np.full((5,5),2.,np.float32);g[2,1]=.2;g[2,2]=.57;g[2,3]=.2
+    levels=np.full(g.shape,-np.inf);levels[2,1]=.603332
+    reference=levels.copy();reference[2,1]=.549202
+    labels=np.zeros(g.shape,int);labels[2,1]=1
+    potential=np.full(g.shape,.6);potential[2,1]=.523332
+    fixed,_,_=preserve_reference_pool_heads(levels,labels,potential,reference,potential)
+    wrong,_,_=close_pool_domains(g,levels,labels,potential,potential)
+    correct,_,_=close_pool_domains(g,fixed,labels,potential,potential)
+    assert np.isfinite(wrong[2,3])
+    assert not np.isfinite(correct[2,2:4]).any()
+
+
+def test_original_retained_seed_survives_new_component_size_selection():
+    levels=np.full((2,2),-np.inf);labels=np.ones((2,2),int)
+    reference=np.full((2,2),.549202);potential=np.full((2,2),.523332)
+    result,locked,_=preserve_reference_pool_heads(levels,labels,potential,reference,potential,
+                                                ground=np.full((2,2),.48))
+    assert np.allclose(result,.549202) and locked==frozenset([1])
 
 
 def fixture():

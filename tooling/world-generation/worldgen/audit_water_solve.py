@@ -23,6 +23,7 @@ def main():
     overlay=json.loads(args.overlay.read_text())
     for i,h,_ in overlay['changes']:ground.flat[i]=h
     state=dict(np.load(args.state));n=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
+    if 'retaining_lower_bounds' not in state:raise ValueError('Rebuild the solver cache with immutable retaining bounds before proposing cuts')
     if 'semantic_depth_targets' not in state:
         bands=n['rivers'].ravel()[state['cell_indices']]
         depths=np.select([bands==2,bands==3],[.55,.85],default=.3)
@@ -46,7 +47,7 @@ def main():
         updates=repair_channel_beds(original,ground,state['points'],conflicts,max_lowering=3.,
             terrain_flips=flips,depth_targets=diagnostics['depthTargets'],pinned=diagnostics['pinned'],
             links=state['links'],radius=diagnostics['bankRadius'],bank_normals=diagnostics['bankNormals'],
-            indexed_limits=limits)
+            indexed_limits=limits,retaining_lower_bounds=state['retaining_lower_bounds'])
         delta=(old-ground).ravel();changed=delta[delta>0]
         row={'pass':len(passes)+1,'constraints':len(conflicts),'updates':updates,
              'maximumNewCutM':float(np.max(changed,initial=0)),

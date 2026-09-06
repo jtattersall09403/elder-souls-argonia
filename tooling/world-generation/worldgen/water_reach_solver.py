@@ -6,7 +6,7 @@ from .terrain_triangles import terrain_weights,sample_terrain
 
 def coupled_reach_correction(original,ground,points,heads,depths,normals,radii,
                              pinned=None,falling=None,protected=(),maximum_lowering=5.,terrain_flips=None,
-                             crest_budget_fraction=1.,external_banks=()):
+                             crest_budget_fraction=1.,external_banks=(),retaining_lower_bounds=None):
     """Return minimal indexed cuts, or None when this actual reach cannot fit.
 
 Only corners supporting existing routed centre stations may change. Water
@@ -24,6 +24,8 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
     protected=set(protected)
     existing=original.ravel()[indices].astype(float)-ground.ravel()[indices]
     upper=np.maximum(0.,maximum_lowering-existing)
+    if retaining_lower_bounds is not None:
+        upper=np.minimum(upper,np.maximum(0.,ground.ravel()[indices]-retaining_lower_bounds.ravel()[indices]))
     upper[[int(index) in protected for index in indices]]=0.
     bounds=[(0.,float(limit)) for limit in upper]+[(None,None)]*count+[(0.,maximum_lowering)]
     bounds[variables]=(float(heads[0]),float(heads[0]))

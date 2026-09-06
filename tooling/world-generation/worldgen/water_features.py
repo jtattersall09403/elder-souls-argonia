@@ -28,7 +28,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      bands, metres_per_pixel, max_cascades=256,
                      ground_detail=None, detail_scale=1, body_detail=None, standing_detail=None, all_channels=False,
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
-                     marine_ground=None, wetland_rivulets=None):
+                     marine_ground=None, wetland_rivulets=None, pool_domain=None):
     ribbons, cascades = [], []
     intent = levels if orientation_levels is None else orientation_levels
     ground = np.asarray(ground)
@@ -41,7 +41,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
             owners[cursor] = source
             cursor = links[cursor]
     ownership = ChannelOwnership(np.asarray(points) * detail_scale, links, levels, owners,
-                                 standing_detail, detail, terrain_flips, marine_ground)
+                                 standing_detail, detail, terrain_flips, marine_ground, pool_domain)
     shared_normals = shared_section_normals(points, links, original_count, original_links)
     shared_profiles = {}
 

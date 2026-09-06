@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "status": "repair-checkpoint-not-release",
+  "gridSize": 4033,
+  "metresPerPixel": 1.82784,
+  "inputs": {
+    "bed-overlay.json": "55d3c0e92acc759d7b0f3b6fa22603ca0be589ba16cda07285916de607e688c0",
+    "routing-audit.json": "63d0a507311b0c6096b9ac4612034dd1bfe047abafb35dc4dd9ad72d34a413b3",
+    "orientation.npy": "72059e032813a4d4ed6769320dbc99b462eb7bd2cd1a8c834f03479adaa4f11b"
+  },
+  "source": {
+    "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
+    "refined-height-f32.npy": "fd28deee038574c73ea35cc17fc8a6254ed8a4b6e6d56e4d822521f57be43135",
+    "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
+  },
+  "checkpoint": {
+    "retainedCorrections": 15482,
+    "unresolvedChannels": 356,
+    "originalWetSamples": 423268,
+    "maximumOriginalSpillDifferenceM": 0.0,
+    "missingOriginalWetSamples": 0,
+    "shiftedOriginalPlanesOver0_1mm": 0,
+    "restoredRetainingSupports": 244,
+    "restoredUnnecessaryPoolFloorVertices": 1103
+  },
+  "orientationReview": "Frozen original intent is deliberately retained.25 links differ from the later corrected immutable pool-domain reference; reconcile explicitly, never from repaired ground."
+}
