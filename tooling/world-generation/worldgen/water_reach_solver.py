@@ -6,7 +6,8 @@ from .terrain_triangles import terrain_weights,sample_terrain
 
 def coupled_reach_correction(original,ground,points,heads,depths,normals,radii,
                              pinned=None,falling=None,protected=(),maximum_lowering=5.,terrain_flips=None,
-                             crest_budget_fraction=1.,external_banks=(),retaining_lower_bounds=None):
+                             crest_budget_fraction=1.,external_banks=(),retaining_lower_bounds=None,
+                             head_links=None,incident_heads=(),fix_endpoints=True):
     """Return minimal indexed cuts, or None when this actual reach cannot fit.
 
 Only corners supporting existing routed centre stations may change. Water
@@ -15,6 +16,7 @@ the incident end heads remain fixed. Existing protected retaining crests
 cannot change. A caller must subsequently validate the full hydraulic graph.
 """
     points=np.asarray(points,float);heads=np.asarray(heads,float)
+    normals=np.asarray(normals,float)
     count=len(points)
     rows,cols,weights=terrain_weights(ground.shape,points.T,terrain_flips)
     flat=rows*ground.shape[1]+cols
@@ -28,8 +30,9 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
         upper=np.minimum(upper,np.maximum(0.,ground.ravel()[indices]-retaining_lower_bounds.ravel()[indices]))
     upper[[int(index) in protected for index in indices]]=0.
     bounds=[(0.,float(limit)) for limit in upper]+[(None,None)]*count+[(0.,maximum_lowering)]
-    bounds[variables]=(float(heads[0]),float(heads[0]))
-    bounds[variables+count-1]=(float(heads[-1]),float(heads[-1]))
+    if fix_endpoints:
+        bounds[variables]=(float(heads[0]),float(heads[0]))
+        bounds[variables+count-1]=(float(heads[-1]),float(heads[-1]))
     pinned=np.zeros(count,bool) if pinned is None else np.asarray(pinned,bool)
     falling=np.zeros(count,bool) if falling is None else np.asarray(falling,bool)
     for i in np.flatnonzero(pinned):bounds[variables+i]=(float(heads[i]),float(heads[i]))
@@ -75,9 +78,12 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
         if constrain_banks(np.asarray(neighbor['point']),np.asarray(neighbor['normal']),
                            neighbor['radius'],fixed_head=neighbor['head']):
             fixed_neighbors.append(neighbor['node'])
-    for node in range(count-1):
-        row=np.zeros(total);row[variables+node+1]=1.;row[variables+node]=-1.
+    for upstream,downstream in ([(i,i+1) for i in range(count-1)] if head_links is None else head_links):
+        row=np.zeros(total);row[variables+downstream]=1.;row[variables+upstream]=-1.
         matrix.append(row);rhs.append(0.)
+    for node,head,is_upstream in incident_heads:
+        row=np.zeros(total);row[variables+node]=1. if is_upstream else -1.
+        matrix.append(row);rhs.append(float(head)*(1. if is_upstream else -1.))
     objective=np.r_[np.full(variables,1e-6),np.zeros(count),1.]
     solved=linprog(objective,A_ub=np.asarray(matrix),b_ub=np.asarray(rhs),bounds=bounds,method='highs')
     if not solved.success:return None

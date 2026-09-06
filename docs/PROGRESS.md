@@ -93,7 +93,7 @@ Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
 Strict preservation retains all423,268 original wet samples, identical spill
 potential/coverage and original planes. Durable accepted repair checkpoint
-has349 channel constraints after restoring retaining supports, unnecessary
+has311 channel constraints after restoring retaining supports, unnecessary
 pool-floor cuts and a cut-created artificial anchor. The repair-input manifest
 and linked compiler handoff identify the latest exact hashes and next groups.
 
@@ -101,8 +101,9 @@ Local rendering follow-up fixes finest-LOD owner strips using exact partitions
 and one-sided vertex fields; zigzag equal/different-head coverage tests pass.
 The artifact gate now checks actual vertex-interpolated heights and all three
 named repro neighbourhoods. Shared edge stitching, stage-aware refinement and
-accurate mixed-batch memory accounting are in progress; production budget
-regressed during development and must pass before promotion. Exact ownership
+accurate mixed-batch memory accounting pass the water checkpoint suite (332
+tests); legacy production budgets pass again. Final native-data budgets and
+appearance remain unverified. Exact ownership
 requires the final native-coverage data contract, not legacy continuous rasters.
 Following the owner's usage request, use focused tests and short failure
 summaries during iteration; reserve full gates for a coherent release candidate.

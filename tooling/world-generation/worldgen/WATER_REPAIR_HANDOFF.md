@@ -16,7 +16,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay: 15,379 corrections; 349 unresolved channels
+Current overlay: 15,415 corrections; 311 unresolved channels
 (19 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -26,6 +26,9 @@ resolved sources 885,898,10480,10481,13114 with zero new failures.
 Two reviewed joint reach repairs subsequently resolved 245 and 2691 with fresh
 domains, zero new failures and exact original-pool preservation. Their 12
 changed vertices retain indexed evidence; maximum original lowering 4.838562 m.
+The next shared-support local proposal resolved 38 more with fresh domains and
+the same preservation gates: 68 changed vertices, maximum additional cut
+2.451859 m, maximum original cut at those vertices 2.997326 m (no new exception).
 Tide/season amplitudes are unchanged. Routine cuts are at most 3 m; any existing
 indexed exception is at most 5 m and cannot override an immutable retaining bound.
 
@@ -34,7 +37,8 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-349-state.npz` | Matching 349-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-311-state.npz` | Matching 311-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
 | `/tmp/water-immutable-retaining-bounds.npy` | Derived bounds, not terrain edits |
@@ -94,7 +98,7 @@ reconfirm unchanged caches; use the existing matching cache where valid.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-349-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
@@ -104,18 +108,36 @@ input overlay hash, and rejects the whole proposal on any new global failure
 or no resolved constraints. It does not establish fresh-domain acceptance:
 
 ```sh
-python3 -m worldgen.audit_water_solve /tmp/water-accepted-349-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
 ```
 
 Never use repeated cached proposals to justify moving-bank millimetre tails.
-The one authorized routine local-bank trial at this checkpoint was rejected:
+The one authorized routine local-bank trial at the preceding 349 checkpoint was rejected:
 91 old constraints resolved but 16 new neighbouring failures appeared (435
 updates, maximum new cut 1.673485 m). The accepted overlay remains unchanged.
 `/tmp/water-local-bank-proposal.convergence.json` records that rejection;
-the proposal JSON is byte-identical to the accepted overlay. Do not rerun the
+the proposal JSON is byte-identical to that earlier overlay. Do not rerun the
 same trial. Next work needs bounded shared-bank/fixed-neighbour constraints,
 not an independent-cut iteration. Later CLI runs retain exact proposed support
 indices even when rejected; this first rejected trial predates that addition.
+
+The shared-support successor (`audit_water_local_components`) jointly constrains
+bed, banks, fixed incident graph heads and valid neighbouring bank heads under
+the same routine 3 m and immutable bounds. Its first combined proposal exposed
+two failures, both caused by component/source 10244: fixing its first local
+obstruction exposed a different unresolved downstream obstruction 54593, whose
+30.278061 m requirement propagated back into an unchanged 29.869982 m pool.
+The entire causal component was omitted with `audit_water_component_subset`,
+without rerunning any LP or changing its terrain. Remaining independent cuts
+passed one global check and fresh domains, producing the accepted 311 state.
+Exact component/support evidence is in the durable overlay's
+`coupledLocalProposalAudit`. Sources 10223/10256 remain valid, and 10244 remains
+explicitly unresolved. No cached tail pass is pending or authorised.
+
+For a newly diagnosed bounded proposal, these tools require a matching state
+and overlay hash. They emit provisional artifacts only; do not replay the
+already accepted 349-state proposal against the 311 checkpoint. Investigate
+remaining components' fixed incident/retaining constraints before another solve.
 
 ## Tests and eventual export
 
