@@ -4,8 +4,8 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "f94bf4f497d219e9f734972ec26feead6b72304204c80d6ec7719d75c1e20d3e",
-    "routing-audit.json": "26be0cbf7b1182f300e689e6140107f224ceddde2a5c67160d65eabcdf6fd2e8",
+    "bed-overlay.json": "7f227e4cc253b98469dd2f15544c1a0d8f0fb057e8e72795f991002f1231b123",
+    "routing-audit.json": "f99113186991488bf37c3bad0e234c48e4bec47e9cb18d883da325fea6befa35",
     "orientation.npy": "72059e032813a4d4ed6769320dbc99b462eb7bd2cd1a8c834f03479adaa4f11b"
   },
   "source": {
@@ -14,8 +14,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15503,
-    "unresolvedChannels": 224,
+    "retainedCorrections": 15507,
+    "unresolvedChannels": 204,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -23,11 +23,12 @@
     "restoredRetainingSupports": 345,
     "restoredArtificialAnchorSupports": 6,
     "restoredUnnecessaryPoolFloorVertices": 1103,
-    "restoredRetainingBoundSupports": 11,
-    "remainingRetainingBoundViolations": 240,
-    "reviewedOriginalPoolAnchorRelocations": 2,
+    "restoredRetainingBoundSupports": 131,
+    "remainingRetainingBoundViolations": 120,
+    "reviewedOriginalPoolAnchorRelocations": 57,
     "restoredCutCreatedMarineSupports": 15,
-    "reviewedBankAwareRoutes": 15
+    "reviewedBankAwareRoutes": 15,
+    "protectedOriginalWetFringeVertices": 5
   },
   "orientationReview": "Frozen original intent is deliberately retained.25 links differ from the later corrected immutable pool-domain reference; reconcile explicitly, never from repaired ground."
 }

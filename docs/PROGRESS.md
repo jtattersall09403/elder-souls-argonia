@@ -96,19 +96,15 @@ occupancy must not justify further cutting. Preserve original retaining banks,
 existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
 Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
-Strict preservation retains all423,268 original wet samples, identical spill
-potential/coverage and original planes. Durable accepted repair checkpoint
-has224 channel constraints and240 retaining-bound violations after eleven further
-verified bank restorations and two original-pool sampling-anchor corrections;
-previous repairs restored retaining supports, unnecessary
-pool-floor cuts and artificial anchors. Restoring15 cuts that had incorrectly
-turned positive riverbeds into sea-level water resolved another channel failure
-and preserved all original marine coverage. Fifteen bank-aware route changes
-and three further false-pool support restorations resolve18 more constraints
-without new failures or original pool/spill changes. Solving complete affected
-reaches resolves68 further failures after a fresh rebuild, preserving original
-wet fringes as well as impoundments. The repair-input manifest
-and linked compiler handoff identify the latest exact hashes and next groups.
+The durable accepted repair checkpoint has204 channel constraints,120
+retaining-bound violations and15,507 terrain corrections. Original impoundment
+spill potential/planes, marine coverage and previously accepted original wet
+fringes are preserved. Complete-reach solving and original-pool sampling
+corrections replaced ineffective single-obstruction repairs; the latest group
+restores120 bank supports and resolves20 channels. Twenty removed wet samples
+were originally dry and belonged to extensions created by earlier repairs.
+Exact input hashes, indexed evidence and next work are in the repair-input
+manifest and [water handoff](research/rendering/water-handoff.md).
 
 Local rendering follow-up fixes finest-LOD owner strips using exact partitions
 and one-sided vertex fields; zigzag equal/different-head coverage tests pass.

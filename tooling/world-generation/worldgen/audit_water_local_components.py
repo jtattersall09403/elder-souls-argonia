@@ -50,10 +50,19 @@ def local_obstruction_owners(conflicts):
     return owners
 
 
-def local_reach_owners(state,conflicts):
+def local_reach_owners(state,conflicts,include_longitudinal=False):
     """Include intervening sills instead of freezing a rejected fallback head."""
     obstructions=local_obstruction_owners(conflicts)
     sources=set().union(*obstructions.values()) if obstructions else set()
+    if include_longitudinal:
+        sources.update(conflicts)
+        # A downstream reach can be valid alone yet force too much head
+        # into its upstream receiving bank. Include the complete recorded
+        # obstruction corridor; actual standing pools remain pinned by LP.
+        drainage={int(node) for conflict in conflicts.values()
+                  for node in conflict.get('drainageNodes',())}
+        sources.update(source for source,target in enumerate(state['original_links'])
+                       if target>=0 and drainage.intersection(path_indices(state,source)))
     owners={}
     for source in sorted(sources):
         for node in path_indices(state,source):
@@ -65,6 +74,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('state',type=Path);parser.add_argument('overlay',type=Path)
     parser.add_argument('--out',type=Path,required=True)
+    parser.add_argument('--include-longitudinal',action='store_true',
+                        help='Also solve complete reported downstream obstruction corridors')
     args=parser.parse_args();state=dict(np.load(args.state))
     if str(state.get('terrain_overlay_sha256',''))!=hashlib.sha256(args.overlay.read_bytes()).hexdigest():
         raise ValueError('State/overlay hash mismatch')
@@ -74,7 +85,7 @@ def main():
     hydrology=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
     flips,_=derive_channel_diagonal_flips(original,hydrology['rivers'],hydrology['flow_to'])
     failed,diagnostics=solve(ground,state,flips)
-    owners=local_reach_owners(state,failed)
+    owners=local_reach_owners(state,failed,args.include_longitudinal)
     nodes=sorted(owners)
     supports=[station_support(ground.shape,state['points'][i],diagnostics['bankNormals'][i],
                              diagnostics['bankRadius'][i],flips) for i in nodes]
@@ -128,7 +139,8 @@ def main():
                           'proposedM':float(trial.flat[i])} for i in changed])
         records.append(record)
     remaining,_=solve(trial,state,flips);eligible,new,resolved=proposal_gate(failed,remaining)
-    summary={'baselineCount':len(failed),'componentCount':len(groups),'proposedComponents':sum(r['status']=='proposed' for r in records),
+    summary={'baselineCount':len(failed),'includeLongitudinal':args.include_longitudinal,
+        'componentCount':len(groups),'proposedComponents':sum(r['status']=='proposed' for r in records),
         'proposedRemaining':len(remaining),'newFailures':new,'resolvedSources':resolved,
         'newFailureDetails':{int(source):remaining[source] for source in new},
         'status':'proposal-requires-fresh-domains' if eligible else 'rejected-whole-proposal','components':records}

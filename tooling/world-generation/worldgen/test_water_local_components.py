@@ -50,3 +50,14 @@ def test_two_obstructions_on_one_reach_are_repaired_together():
     corrected=ground.copy()
     corrected.ravel()[proposal['indices']]-=proposal['reductions'].astype(np.float32)
     assert check(corrected)[-1]=={}
+
+
+def test_longitudinal_corridor_includes_valid_downstream_reach_that_backwaters_pool():
+    # Source0 is rejected by an obstruction on source1. Source1 is locally
+    # valid; fixing only source0 would freeze the very obstruction to repair.
+    state=dict(original_links=np.array([1,2,-1]),links=np.array([3,4,-1,1,2]))
+    conflicts={0:dict(node=0,obstructionPinned=False,drainageNodes=[0,3,1,4])}
+    assert local_reach_owners(state,conflicts)=={}
+    owners=local_reach_owners(state,conflicts,include_longitudinal=True)
+    assert set(owners)=={0,1,2,3,4}
+    assert owners[4]=={1} and owners[1]=={0,1}
