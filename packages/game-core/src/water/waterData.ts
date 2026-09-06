@@ -260,6 +260,17 @@ export class WaterData {
     return this.support && klass === 0 ? 4 : klass;
   }
 
+  /** Discrete hydraulic owner for raster geometry; never a basin identity. */
+  rasterBodyIndexAt(x: number, z: number): number {
+    if (this.outside(x, z)) return 65535;
+    if (!this.support) return this.rasterClassAt(x, z);
+    const m = this.meta.surface, origin = m.gridOriginM ?? m.metresPerPixel * .5;
+    const ix = Math.min(m.size - 1, Math.max(0, Math.round((x - origin) / m.metresPerPixel)));
+    const iz = Math.min(m.size - 1, Math.max(0, Math.round((z - origin) / m.metresPerPixel)));
+    const i = (iz * m.size + ix) * 4;
+    return this.support[i + 1] * 256 + this.support[i + 2];
+  }
+
   /** Minimal static support/depth path. Optional current reuses the ribbon
    * query and skips wave/normal/chemistry evaluation; geometry-only callers
    * do not pay for raster flow decoding.

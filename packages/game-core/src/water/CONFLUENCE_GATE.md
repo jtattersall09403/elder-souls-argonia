@@ -80,7 +80,11 @@ the falling-sheet exclusion described below.
 - Inland standing heights likewise come from barycentric interpolation of
   actual uploaded mesh vertex samples and authored stage coefficients—not
   the exact raster height at the probe position. Unsupported vertices retain
-  their shader sampling values. Fragment support/access and exact native-bed
+  their shader sampling values. Vertices whose uploaded `waterLevelResponse.z`
+  exceeds 0.5 instead use explicit `waterOverride.x` base, `waterGround` signed
+  proxy bed and `waterLevelResponse.xy` coefficients; other vertices in the
+  same triangle still use raster sampling. Missing explicit binding attributes
+  fail the gate. Fragment support/access and exact native-bed
   clipping then determine which interpolated faces actually survive.
 - A separate failure if a physically wet standing raster owner has been
   removed by dry native geometry, even if CPU and rendered geometry both

@@ -13,6 +13,7 @@ import { boundedPhysicalLighting } from './boundedPhysicalLighting';
 import { NATIVE_WATER_GROUND_GLSL } from './NativeWaterAtlas';
 import { WATER_SSR_GLSL } from './waterSsr';
 import { RIPPLE_ISOLATION_GLSL } from './rippleIsolation';
+import { MARINE_DATUM_GLSL } from './marineDatum';
 
 /**
  * The Phase 8b water material (decision 0025, reworked in owner round 2):
@@ -395,6 +396,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   varying float vEsFlowY;
   varying float vEsAccess;
   varying float vWaterBodyIndex;
+  varying float vRasterExplicit;
   varying vec3 vOceanDetail;
   ${SPECTRAL_OCEAN_GLSL}
   ${LOCAL_WATER_SURFACE_GLSL}
@@ -474,6 +476,7 @@ attribute float waterBodyIndex;
 attribute float waterNative;
 attribute float waterCellSize;
 varying float vWaterBodyIndex;
+varying float vRasterExplicit;
 varying vec3 vOceanDetail;
 varying float vRibbon;
 varying float vEsFlowY;
@@ -484,6 +487,7 @@ varying vec3 vEsFlow;
 varying vec3 vEsNormalW;
 varying vec3 vEsSurf;
 ${SAMPLER_GLSL}
+${MARINE_DATUM_GLSL}
 ${gerstnerGlsl(tier.waveBands)}
 ${SPECTRAL_OCEAN_GLSL}
 ${LOCAL_WATER_SURFACE_GLSL}
@@ -494,15 +498,19 @@ ${surfGlsl()}`,
         "#include <beginnormal_vertex>",
         /* glsl */ `
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
-vec2 esSurf = esSurfaceAt(esRestW.xz);
+// Explicit raster vertices share a geometric edge but sample their own
+// side's semantics. Native/hero overrides retain current velocity in yz.
+vec2 esDataXZ = (waterOverride.w < 0.5 && waterLevelResponse.z > 0.5) ? waterOverride.yz : esRestW.xz;
+vec2 esSurf = esMarineDatumSurface(esSurfaceAt(esDataXZ), waterOverride.w);
 vRibbon = waterOverride.w;
 vWaterBodyIndex = waterBodyIndex;
+vRasterExplicit = waterLevelResponse.z;
 vEsFlowY = waterFlowY;
-if (waterOverride.w > 0.5) esSurf = vec2(waterOverride.x, waterOverride.x - waterGround);
+if (waterOverride.w > 0.5 || waterLevelResponse.z > 0.5) esSurf = vec2(waterOverride.x, waterOverride.x - waterGround);
 if (uNativeGroundActive > 0.5 && waterOverride.w > 0.5 && waterOverride.w < 1.5) esSurf.y = esSurf.x - esNativeGroundAt(esRestW.xz);
-vec2 esDataUv = esFlowUv(esRestW.xz);
+vec2 esDataUv = esFlowUv(esDataXZ);
 vec4 esKl = texture2D(uKlassTex, esDataUv);
-esKl.r = esClassAt(esRestW.xz) / 255.0;
+esKl.r = esClassAt(esDataXZ) / 255.0;
 if (waterOverride.w > 0.5 && waterOverride.w < 1.5) esKl.r = 3.0 / 255.0;
 vec4 esFl = texture2D(uFlowTex, esDataUv);
 vec3 esCharacter = texture2D(uCharacterTex, esDataUv).rgb;
@@ -511,9 +519,9 @@ float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
 esKl = mix(esKl, vec4(1.0 / 255.0, 0.25, 1.0, 1.0), esOutside);
 esCharacter.b = mix(esCharacter.b, 1.0, esOutside);
 esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
-vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
-vec3 esStage = esStageAt(esRestW.xz, esKl.b, esSS.y);
-if (waterOverride.w > 0.5 && waterLevelResponse.z > 0.5) esStage.yz = waterLevelResponse.xy;
+vec3 esSS = esShoreAt(esDataXZ);   // shore dist, season response, tannin
+vec3 esStage = esStageAt(esDataXZ, esKl.b, esSS.y);
+if (waterLevelResponse.z > 0.5) esStage.yz = waterLevelResponse.xy;
 float esLevelOffset = uLevelTide * esStage.y + uLevelSeason * esStage.z;
 vEsAccess = (waterOverride.w > 0.5 ? waterAccessOffset : esStage.x) - esLevelOffset;
 float esStill = esSurf.x + esLevelOffset;
@@ -528,12 +536,12 @@ vec2 esShoreDir = vec2(0.0);
 if (esShore < 90.0) {
   float eG = uSurfMpp * 2.0;
   vec2 esGradD = vec2(
-    esShoreAt(esRestW.xz + vec2(eG, 0.0)).x - esShore,
-    esShoreAt(esRestW.xz + vec2(0.0, eG)).x - esShore) / eG;
+    esShoreAt(esDataXZ + vec2(eG, 0.0)).x - esShore,
+    esShoreAt(esDataXZ + vec2(0.0, eG)).x - esShore) / eG;
   float esGL = length(esGradD);
   vec2 esSeaDir = esGL > 0.05 ? esGradD / esGL : vec2(0.0);
   esShoreDir = -esSeaDir;
-  float esSeaD = esGL > 0.05 ? esShoreAt(esRestW.xz + esSeaDir * 30.0).x : esShore;
+  float esSeaD = esGL > 0.05 ? esShoreAt(esDataXZ + esSeaDir * 30.0).x : esShore;
   esFetch = esFetchExp(max(esSeaD, esShore), esTurbV);
 } else {
   esFetch = esFetchExp(esShore, esTurbV);
@@ -589,12 +597,12 @@ if (waterOverride.w > 1.5) {
 vEsSurf = vec3(esFetch, esShoreDir);
 vEsData = vec4(esStill, max(esSurf.y + esStill + esW.disp.y - esSurf.x, 0.0), esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
-vec2 esFlowV = waterOverride.w > 0.5 ? waterOverride.yz : esFlowAt(esRestW.xz);
+vec2 esFlowV = waterOverride.w > 0.5 ? waterOverride.yz : esFlowAt(esDataXZ);
 // surface drop along the current → cascades/rapids where water descends
 float esDropSlope = 0.0;
 float esFlowSp = length(esFlowV);
 if (esFlowSp > 0.15) {
-  vec2 esDownAt = esSurfaceAt(esRestW.xz + (esFlowV / esFlowSp) * 7.0);
+  vec2 esDownAt = esSurfaceAt(esDataXZ + (esFlowV / esFlowSp) * 7.0);
   esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
 }
 if (waterOverride.w > 0.5) esDropSlope = length(normal.xz) / max(normal.y, 0.001);
@@ -633,7 +641,7 @@ uniform float uVerticalScale;`,
   if (vRibbon > 1.5 && localMask < 0.5) discard;
   if (vRibbon < 1.5 && localMask > 0.5) {
     vec3 support = esSupportAt(vEsWorldPos.xz);
-    float owner = vRibbon > 0.5 ? vWaterBodyIndex : floor(support.g * 255.0 + 0.5) * 256.0 + floor(support.b * 255.0 + 0.5);
+    float owner = (vRibbon > 0.5 || vRasterExplicit > 0.5) ? vWaterBodyIndex : floor(support.g * 255.0 + 0.5) * 256.0 + floor(support.b * 255.0 + 0.5);
     if (abs(owner - uLocalWaterBody) < 0.5) discard;
   }
   if (vRibbon > 0.5 && vRibbon < 1.5 && vEsAccess > 0.001) discard;

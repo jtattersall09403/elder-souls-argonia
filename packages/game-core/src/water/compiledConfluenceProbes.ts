@@ -9,6 +9,25 @@ export const CONFLUENCE_REPRO_SITES = [
 
 export interface CompiledConfluenceProbe { x: number; z: number; label: string; site?: string }
 
+export interface InlandVertexBinding {
+  waterOverrideX: number;
+  waterGround: number;
+  waterLevelResponse: readonly [number, number, number];
+  waterBodyIndex: number;
+}
+type InlandStillVertex = Pick<WaterBoundaryStaticSample, 'surfaceBase' | 'depthProxy' | 'tideResponse' | 'seasonResponse'>;
+
+/** Shader binding discriminator, not support/wetness: z=1 makes even a dry
+ * explicit boundary vertex authoritative. z=0 retains raster sampling. */
+export function resolveInlandStillVertex(sampled: InlandStillVertex, binding?: InlandVertexBinding): InlandStillVertex {
+  return binding && binding.waterLevelResponse[2] > 0.5 ? {
+    surfaceBase: binding.waterOverrideX,
+    depthProxy: binding.waterOverrideX - binding.waterGround,
+    tideResponse: binding.waterLevelResponse[0],
+    seasonResponse: binding.waterLevelResponse[1],
+  } : sampled;
+}
+
 /** Exact owner coordinates plus three fixed eight-direction rings. Never
  * relocate a reported dry/excluded point to the nearest convenient water. */
 export function confluenceReproProbes(): CompiledConfluenceProbe[] {
@@ -23,7 +42,7 @@ export function confluenceReproProbes(): CompiledConfluenceProbe[] {
 /** Still-water vertex shader oracle: heights and level responses are sampled
  * at uploaded vertex XZ then barycentrically interpolated by the GPU. Do not
  * replace this with the raster value at the fragment or omit dry vertices. */
-export function interpolateInlandStillFace(vertices: readonly WaterBoundaryStaticSample[], weights: readonly number[]) {
+export function interpolateInlandStillFace(vertices: readonly InlandStillVertex[], weights: readonly number[]) {
   if (vertices.length !== 3 || weights.length !== 3) throw Error('Inland oracle requires one triangle');
   return vertices.reduce((out, sample, i) => ({
     height: out.height + weights[i] * sample.surfaceBase,

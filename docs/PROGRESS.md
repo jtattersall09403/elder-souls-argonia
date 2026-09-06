@@ -61,6 +61,10 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
+**Fresh agent continuing water work: start with [water-handoff.md](research/rendering/water-handoff.md).**
+It identifies the live version, local checkpoints, complete checklist, next
+actions, verification gaps and release safeguards. Update it alongside work.
+
 Water completion pass is active: owner requests all deferred water upgrades,
 including open-sea quality and bounded near/far runtime costs, implemented and
 deployed before review. The earlier candidate is not the completion gate.
@@ -87,6 +91,21 @@ occupancy must not justify further cutting. Preserve original retaining banks,
 authored tidal/seasonal ranges and every actual carved channel.
 Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
+Strict preservation audit restored244 breached original rims and1,103
+unnecessary submerged floor cuts: all423,268 originally wet impoundment samples
+retain identical spill potential/coverage and their original planes. Latest
+coherent checkpoint still has356 channel constraints. See the handoff for
+authoritative inputs and the retaining-support/artificial-anchor work next.
+
+Local rendering follow-up fixes finest-LOD owner strips using exact partitions
+and one-sided vertex fields; zigzag equal/different-head coverage tests pass.
+The artifact gate now checks actual vertex-interpolated heights and all three
+named repro neighbourhoods. Shared edge stitching, stage-aware refinement and
+accurate mixed-batch memory accounting are in progress; production budget
+regressed during development and must pass before promotion. Exact ownership
+requires the final native-coverage data contract, not legacy continuous rasters.
+Following the owner's usage request, use focused tests and short failure
+summaries during iteration; reserve full gates for a coherent release candidate.
 
 Latest deployed runtime checkpoint: matched sparse terrain-gradient support; real-time transport
 separate from accelerated wave phase; bounded full-interval ripple/particle

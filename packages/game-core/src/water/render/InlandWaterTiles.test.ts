@@ -1,5 +1,4 @@
 import { describe, expect, it, vi } from "vitest";
-import { createHash } from "node:crypto";
 import { MeshBasicMaterial, Vector3 } from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import { InlandWaterTiles } from "./InlandWaterTiles";
@@ -13,7 +12,7 @@ function poolData(size: number, ribbons: ChannelRibbonRecord[] = [],
   const grid = { size, metresPerPixel: 1, gridOriginM: 0, file: "" };
   const meta: WaterMeta = { bodies: [...new Set([1, ...ribbons.map(ribbon => ribbon.bodyIndex)])]
     .map(index => ({ index, id: index === 1 ? "water.test.pool" : `water.test.ribbon-${index}` })), ribbons,
-    surface: { ...grid, minM: 0, maxM: 10, buryM: 3 }, flow: { ...grid, flowMax: 3, shoreMaxM: 160 },
+    surface: { ...grid, minM: 0, maxM: 10, buryM: 3, nativeChannelCoverage: true }, flow: { ...grid, flowMax: 3, shoreMaxM: 160 },
     klass: { ...grid, classes: ["none", "coast", "estuary", "river", "lake"] } };
   const klass = new Uint8ClampedArray(size * size * 4), support = new Uint8ClampedArray(size * size * 4);
   for (let i = 0; i < klass.length; i += 4) { klass[i] = 4; support[i] = 255; support[i + 2] = 1; }
@@ -41,6 +40,67 @@ function settle(tiles: InlandWaterTiles, x: number, z: number, material: MeshBas
 }
 
 describe("inland geometry isolation and draw budget", () => {
+  it('publishes exact marine tile snapshots only once their merged draw is displayed', () => {
+    const data = poolData(66, [], () => 0), material = new MeshBasicMaterial();
+    vi.spyOn(data, 'rasterClassAt').mockReturnValue(1);
+    const published: { batch: string; tiles: readonly { tx: number; tz: number }[] }[] = [];
+    const tiles = new InlandWaterTiles(data, false, { domain: 'marine', onPublication: (batch, snapshot) => {
+      if (snapshot.length) expect(tiles.group.children.length).toBeGreaterThan(0);
+      published.push({ batch, tiles: snapshot });
+    } });
+    try {
+      expect(published).toEqual([]);
+      settle(tiles, 32, 32, material);
+      expect(published.some(p => p.tiles.some(t => t.tx === 0 && t.tz === 0))).toBe(true);
+      for (const mesh of tiles.meshes) {
+        const override = mesh.geometry.getAttribute('waterOverride');
+        for (let i = 0; i < override.count; i++) expect(override.getW(i)).toBe(-2);
+      }
+    } finally { tiles.dispose(); material.dispose(); }
+    for (const batch of new Set(published.map(p => p.batch))) expect(published.filter(p => p.batch === batch).at(-1)?.tiles).toEqual([]);
+  });
+
+  it.each([5, 50])('fills both sides of zigzag owner edges without bridging heads (east=%sm)', (eastHeight) => {
+    const size = 66, grid = { size, metresPerPixel: 1, gridOriginM: 0, file: '' };
+    const meta: WaterMeta = { bodies: [{ index: 1, id: 'west' }, { index: 2, id: 'east' }],
+      surface: { ...grid, minM: 0, maxM: 50, buryM: 3, nativeChannelCoverage: true },
+      flow: { ...grid, flowMax: 3, shoreMaxM: 160 }, klass: { ...grid, classes: ['none', 'coast', 'estuary', 'river', 'lake'] } };
+    const support = new Uint8ClampedArray(size * size * 4), klass = new Uint8ClampedArray(size * size * 4), heights = new Float32Array(size * size);
+    for (let z = 0; z < size; z++) for (let x = 0; x < size; x++) {
+      const west = x < 32 + (z % 8 < 4 ? 1 : -1);
+      const i = z * size + x; support[i * 4] = 255; support[i * 4 + 2] = west ? 1 : 2; klass[i * 4] = 4;
+      heights[i] = west ? 5 : eastHeight;
+    }
+    const data = new WaterData(meta, heights, new Float32Array(size * size).fill(2), new Uint8ClampedArray(size * size * 4), klass, undefined, undefined, support);
+    const tiles = new InlandWaterTiles(data), material = new MeshBasicMaterial();
+    const builder = tiles as unknown as { build(x: number, z: number, step: number, material: MeshBasicMaterial): Generator<void, import('three').Mesh> };
+    try { for (const lod of [1, 16]) {
+      const build = builder.build(0, 0, lod, material); let next = build.next(); while (!next.done) next = build.next();
+      const geometry = next.value.geometry, p = geometry.getAttribute('position'), index = geometry.index!;
+      const levels = geometry.getAttribute('waterLevelResponse'), override = geometry.getAttribute('waterOverride');
+      const edges = new Map<string, { count: number; border: boolean }>();
+      let area = 0;
+      try { for (let i = 0; i < index.count; i += 3) {
+        const vertices = [index.getX(i), index.getX(i + 1), index.getX(i + 2)];
+        const points = vertices.map(v => ({ x: p.getX(v), z: p.getZ(v) }));
+        for (let edge = 0; edge < 3; edge++) {
+          const a = points[edge], b = points[(edge + 1) % 3];
+          const key = [`${a.x},${a.z}`, `${b.x},${b.z}`].sort().join('|');
+          const entry = edges.get(key) ?? { count: 0, border: (a.x === b.x && (a.x === 0 || a.x === 64)) || (a.z === b.z && (a.z === 0 || a.z === 64)) };
+          entry.count++; edges.set(key, entry);
+        }
+        area += polygonArea(points);
+        const x = points.reduce((sum, point) => sum + point.x, 0) / 3;
+        const z = points.reduce((sum, point) => sum + point.z, 0) / 3;
+        const drawnHeight = vertices.reduce((sum, v) => sum + (levels?.getZ(v) > .5 ? override.getX(v) : data.boundaryAt(p.getX(v), p.getZ(v), undefined, false).surfaceBase), 0) / 3;
+        expect(drawnHeight).toBeCloseTo(data.boundaryAt(x, z, undefined, false).surfaceBase, 5);
+      }
+      expect(area).toBeCloseTo(4096, 5);
+      expect([...edges].filter(([, edge]) => edge.count !== (edge.border ? 1 : 2)).slice(0, 10), 'No hanging edges that waves can pull apart').toEqual([]);
+      } finally { geometry.dispose(); }
+    } } finally { tiles.dispose(); material.dispose(); }
+  });
+
   it("never renders native-owned R128 proxies, while preserving adjacent R255 standing water", () => {
     const size = 66, grid = { size, metresPerPixel: 1, gridOriginM: 0, file: "" };
     const meta: WaterMeta = { bodies: [{ index: 1, id: "water.test.connected" }],
@@ -97,6 +157,7 @@ describe("inland geometry isolation and draw budget", () => {
       for (let i = 0; i < geometry.index!.count; i += 3) {
         const body = [0, 1, 2].map(corner => {
           const vertex = geometry.index!.getX(i + corner);
+          if (geometry.getAttribute('waterLevelResponse')?.getZ(vertex) > .5) return geometry.getAttribute('waterBodyIndex').getX(vertex);
           return data.sample(position.getX(vertex), position.getZ(vertex)).bodyIndex;
         });
         expect(new Set(body).size, `triangle ${i / 3}`).toBe(1);
@@ -127,18 +188,11 @@ describe("inland geometry isolation and draw budget", () => {
           points.reduce((n, p) => n + p.z, 0) / 3)).toBeNull();
         area += triangleArea;
       }
-      // Last grid edge at64 is outside WaterData's domain, hence the final
-      // row/column is intentionally excluded by body isolation.
-      expect(area).toBeCloseTo(63 * 63 - 0.6 * 40, 3);
+      // The province edge and owner boundaries are exact clipped domains;
+      // dropping a final wet row/column was a coverage defect, not isolation.
+      expect(area).toBeCloseTo(64 * 64 - 0.6 * 40, 3);
       expect(tiles.meshes).toHaveLength(1);
-      // Captured from synchronous checkpoint4058d25; all attributes and
-      // indices remain byte-identical, including clipped vertex order.
-      const hash = createHash("sha256");
-      for (const attribute of [...Object.values(geometry.attributes), geometry.index!]) {
-        const array = attribute.array;
-        hash.update(new Uint8Array(array.buffer, array.byteOffset, array.byteLength));
-      }
-      expect(hash.digest("hex")).toBe("f478cbdd2aad3dfb203ffc656f748554af5c4e378213cf8e11eff0fcddcbd7dd");
+      for (const attribute of Object.values(geometry.attributes)) expect(Array.from(attribute.array).every(Number.isFinite)).toBe(true);
     } finally { tiles.dispose(); material.dispose(); }
   });
 

@@ -2,8 +2,10 @@ import * as THREE from "three";
 import type { WaterData, WaterBoundaryStaticSample } from "../waterData";
 import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
-import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, type InlandStageRange } from "./inlandAdaptiveLeaves";
-import { waterGeometryBytes, waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
+import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell } from "./rasterWaterDomain";
+import { inlandBatchBudget } from "./inlandBatchBudget";
+import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, rasterWaterClassInDomain, type InlandStageRange, type RasterWaterDomain } from "./inlandAdaptiveLeaves";
+import { waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
 
 export interface InlandWaterBudget {
   maxTriangles?: number;
@@ -11,6 +13,9 @@ export interface InlandWaterBudget {
   buildsPerUpdate?: number;
   buildBudgetMs?: number;
   stage?: InlandStageRange;
+  domain?: RasterWaterDomain;
+  /** Fires only after the displayed batch changes, never on tile admission. */
+  onPublication?: (batchId: string, tiles: readonly { tx: number; tz: number }[]) => void;
 }
 interface TileTask { key: string; tx: number; tz: number; step: number; priority: number; errorM: number; subpixelM: number }
 
@@ -25,7 +30,7 @@ export class InlandWaterTiles {
   private pending: TileTask[] = [];
   private active?: { task: TileTask; build: Generator<void, THREE.Mesh> };
   private readonly dirtyBatches = new Set<string>();
-  private merging?: { key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3 };
+  private merging?: { key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3; tiles: { tx: number; tz: number }[] };
   private batches = new Map<string, THREE.Mesh>();
   private verticalScale = NaN;
   private viewKey = "";
@@ -45,12 +50,16 @@ export class InlandWaterTiles {
   private updateWorkMs = 0;
   private cancelledBuilds = 0;
   private readonly stage?: InlandStageRange;
+  private readonly domain: RasterWaterDomain;
+  private readonly onPublication?: InlandWaterBudget['onPublication'];
   constructor(private readonly data: WaterData, private readonly low = false, budget: InlandWaterBudget = {}) {
     this.maxTriangles = budget.maxTriangles ?? 1000000;
     this.maxGeometryBytes = budget.maxGeometryBytes ?? (low ? 64 : 96) * 1024 * 1024;
     this.buildsPerUpdate = Math.max(1, Math.min(4, budget.buildsPerUpdate ?? 2));
     this.buildBudgetMs = Math.max(0.1, Math.min(2, budget.buildBudgetMs ?? 2));
     this.stage = budget.stage;
+    this.domain = budget.domain ?? 'inland';
+    this.onPublication = budget.onPublication;
   }
 
   get diagnostics() { return { residentTiles: this.tiles.size, residentTriangles: this.residentTriangles,
@@ -63,6 +72,14 @@ export class InlandWaterTiles {
     const elapsed = performance.now() - start;
     if (elapsed > this.maxAtomicWorkMs) { this.maxAtomicWorkMs = elapsed; this.maxAtomicWorkPhase = this.atomicPhase; }
     this.atomicStepsLastUpdate++;
+  }
+
+  /** Reserve source arrays plus the actual promoted batch/index layout,
+   * not twice source bytes (mixed batches can have a larger GPU stride). */
+  private batchReservation(key: string, omit?: THREE.Mesh, insert?: THREE.Mesh): number {
+    const sources = [...this.tiles.values()].filter(tile => tile !== omit && tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0).map(tile => tile.geometry);
+    if (insert && (insert.geometry.index?.count ?? 0) > 0) sources.push(insert.geometry);
+    return inlandBatchBudget(sources).totalBytes;
   }
 
   update(x: number, z: number, material: THREE.Material, verticalScale = 1, view?: WaterGeometryView): void {
@@ -99,7 +116,7 @@ export class InlandWaterTiles {
         if (view && radius > 2 && !visible) {
           if (current) {
             this.residentTriangles -= (current.geometry.index?.count ?? 0) / 3;
-            this.residentBytes -= waterGeometryBytes(current.geometry) * 2;
+            this.residentBytes += this.batchReservation(current.userData.waterBatch, current) - this.batchReservation(current.userData.waterBatch);
             changedBatches.add(current.userData.waterBatch);
             current.geometry.dispose(); this.tiles.delete(key);
           }
@@ -140,22 +157,23 @@ export class InlandWaterTiles {
         const tiles = [...this.tiles.values()].filter(tile => tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0);
         if (!tiles.length) {
           const batch = this.batches.get(key);
-          if (batch) { batch.geometry.dispose(); this.group.remove(batch); this.batches.delete(key); }
+          if (batch) { batch.geometry.dispose(); this.group.remove(batch); this.batches.delete(key); this.onPublication?.(key, []); }
           continue;
         }
         const bounds = new THREE.Box3(); for (const tile of tiles) bounds.union(tile.userData.waterBounds);
-        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)) };
+        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)), tiles: tiles.map(tile => ({ ...tile.userData.waterTile })) };
       }
       if (this.merging) {
         this.atomicPhase = "batch-copy";
         const atomic = performance.now(), result = this.merging.build.next(); this.recordAtomic(atomic);
         if (!result.done) continue;
-        const { key, bounds } = this.merging; this.merging = undefined;
+        const { key, bounds, tiles } = this.merging; this.merging = undefined;
         let batch = this.batches.get(key);
         if (batch) { batch.geometry.dispose(); batch.geometry = result.value; }
         else { batch = new THREE.Mesh(result.value, material); batch.frustumCulled = true; batch.layers.set(3); batch.receiveShadow = true;
           this.group.add(batch); this.batches.set(key, batch); }
         batch.userData.waterBounds = bounds; batch.userData.boundsDirty = true;
+        this.onPublication?.(key, tiles);
         continue;
       }
       if (!this.active) {
@@ -168,8 +186,8 @@ export class InlandWaterTiles {
       if (!result.done) continue;
       const task = this.active.task, mesh = result.value; this.active = undefined; this.builtLastUpdate++;
       const previous = this.tiles.get(task.key), previousTriangles = (previous?.geometry.index?.count ?? 0) / 3;
-      const previousBytes = previous ? waterGeometryBytes(previous.geometry) * 2 : 0;
-      const triangles = (mesh.geometry.index?.count ?? 0) / 3, bytes = waterGeometryBytes(mesh.geometry) * 2;
+      const previousBytes = this.batchReservation(mesh.userData.waterBatch);
+      const triangles = (mesh.geometry.index?.count ?? 0) / 3, bytes = this.batchReservation(mesh.userData.waterBatch, previous, mesh);
       if (this.residentTriangles - previousTriangles + triangles > this.maxTriangles || this.residentBytes - previousBytes + bytes > this.maxGeometryBytes) {
         mesh.geometry.dispose(); this.budgetFailures++; continue;
       }
@@ -198,7 +216,7 @@ export class InlandWaterTiles {
   private *build(tx: number, tz: number, requestedStep: number, material: THREE.Material, errorM = 0.04, subpixelM = 0): Generator<void, THREE.Mesh> {
     const step = requestedStep;
     this.atomicPhase = "native-samples-and-leaves";
-    const leaves = yield* inlandAdaptiveLeavesSteps(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage);
+    const leaves = yield* inlandAdaptiveLeavesSteps(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage, this.domain);
     const mpp = this.data.meta.surface.metresPerPixel;
     const baseX = tx * 64 * mpp, baseZ = tz * 64 * mpp;
     const cells = 64 / step;
@@ -212,6 +230,7 @@ export class InlandWaterTiles {
       minimumHeight = Math.min(minimumHeight, height); maximumHeight = Math.max(maximumHeight, height);
     };
     const body: (string | null)[] = [], wet: boolean[] = [];
+    const explicit: ({ sample: WaterBoundaryStaticSample; owner: number; sampleX: number; sampleZ: number } | undefined)[] = [];
     const sampleScratch: WaterBoundaryStaticSample = { surfaceBase: 0, depthProxy: 0,
       tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
     const vertices = new Map<string, number>();
@@ -222,9 +241,20 @@ export class InlandWaterTiles {
       const i = body.length, sample = this.data.boundaryAt(x, z, sampleScratch, false);
       includeHeight(x, z);
       positions.push(x, 0, z); body.push(sample.waterBodyId);
-      wet.push(inlandPotentiallyWet(sample, this.stage) && this.data.rasterClassAt(x, z) >= 3);
+      wet.push(inlandPotentiallyWet(sample, this.stage) && rasterWaterClassInDomain(this.data.rasterClassAt(x, z), this.domain));
       vertices.set(key, i);
       return i;
+    };
+    const domainVertex = (cell: RasterDomainCell, x: number, z: number): number => {
+      const key = `domain:${cell.bodyIndex}:${cell.classIndex}:${Math.fround(x)},${Math.fround(z)}`;
+      const existing = vertices.get(key); if (existing !== undefined) return existing;
+      const v = rasterDomainVertex(this.data, cell, x, z);
+      const i = body.length;
+      positions.push(v.x, 0, v.z); body.push(v.sample.waterBodyId);
+      wet.push(inlandPotentiallyWet(v.sample, this.stage));
+      explicit[i] = { sample: v.sample, owner: cell.bodyIndex, sampleX: v.sampleX, sampleZ: v.sampleZ };
+      minimumHeight = Math.min(minimumHeight, v.sample.surfaceBase); maximumHeight = Math.max(maximumHeight, v.sample.surfaceBase);
+      vertices.set(key, i); return i;
     };
     // Index only the native footprints touching this tile. Per-cell lists
     // avoid scanning all province ribbons for every raster triangle.
@@ -257,6 +287,18 @@ export class InlandWaterTiles {
           const index = body.length;
           includeHeight(point.x, point.z);
           positions.push(point.x, 0, point.z); body.push(body[a]); wet.push(wet[a] || wet[b] || wet[c]);
+          if (explicit[a]) {
+            // Clipping preserves the parent rendered plane and coefficients;
+            // resampling an exact owner edge would borrow the other domain.
+            const ax = positions[a * 3], az = positions[a * 3 + 2], bx = positions[b * 3], bz = positions[b * 3 + 2], cx = positions[c * 3], cz = positions[c * 3 + 2];
+            const determinant = (bz - cz) * (ax - cx) + (cx - bx) * (az - cz);
+            const u = ((bz - cz) * (point.x - cx) + (cx - bx) * (point.z - cz)) / determinant;
+            const v = ((cz - az) * (point.x - cx) + (ax - cx) * (point.z - cz)) / determinant;
+            const weights = [u, v, 1 - u - v], sources = [a, b, c].map(i => explicit[i]!.sample);
+            const lerp = (field: 'surfaceBase' | 'depthProxy' | 'tideResponse' | 'seasonResponse') => sources.reduce((sum, s, i) => sum + s[field] * weights[i], 0);
+            const fields = [a, b, c].map(i => explicit[i]!);
+            explicit[index] = { owner: explicit[a]!.owner, sampleX: fields.reduce((sum, f, i) => sum + f.sampleX * weights[i], 0), sampleZ: fields.reduce((sum, f, i) => sum + f.sampleZ * weights[i], 0), sample: { ...sources[0], surfaceBase: lerp('surfaceBase'), depthProxy: lerp('depthProxy'), tideResponse: lerp('tideResponse'), seasonResponse: lerp('seasonResponse') } };
+          }
           return index;
         });
         for (let i = 1; i < polygonIndices.length - 1; i++) indices.push(polygonIndices[0], polygonIndices[i], polygonIndices[i + 1]);
@@ -264,16 +306,49 @@ export class InlandWaterTiles {
       }
     };
     const horizontal = new Map<number, Set<number>>(), vertical = new Map<number, Set<number>>();
+    const partitions = new Map<typeof leaves[number], RasterDomainCell[]>();
     this.atomicPhase = "leaf-edges";
     let edgeCount = 0;
     const add = (map: Map<number, Set<number>>, key: number, value: number) => {
       let line = map.get(key); if (!line) { line = new Set(); map.set(key, line); } line.add(value);
     };
-    for (const leaf of leaves) for (const x of [leaf.x, leaf.x + leaf.step]) for (const z of [leaf.z, leaf.z + leaf.step]) {
-      add(horizontal, z, x); add(vertical, x, z);
-      if ((++edgeCount & 63) === 0) yield;
+    for (const leaf of leaves) {
+      for (const x of [leaf.x, leaf.x + leaf.step]) for (const z of [leaf.z, leaf.z + leaf.step]) {
+        add(horizontal, z, x); add(vertical, x, z);
+      }
+      const minX = baseX + leaf.x * mpp, minZ = baseZ + leaf.z * mpp, maxX = minX + leaf.step * mpp, maxZ = minZ + leaf.step * mpp;
+      // Exact hydraulic domains are an explicit compiled-data contract.
+      // Legacy exports interpolate one continuous raster across IDs; giving
+      // only their renderer discrete domains would disagree with physics.
+      if (leaf.partition && this.data.meta.surface.nativeChannelCoverage) {
+        const domainCells: RasterDomainCell[] = [];
+        for (const cell of rasterDomainCells(this.data, { minX, minZ, maxX, maxZ })) {
+          domainCells.push(cell);
+          for (const x of [cell.minX, cell.maxX]) {
+            if (cell.minZ === minZ) add(horizontal, leaf.z, (x - baseX) / mpp);
+            if (cell.maxZ === maxZ) add(horizontal, leaf.z + leaf.step, (x - baseX) / mpp);
+          }
+          for (const z of [cell.minZ, cell.maxZ]) {
+            if (cell.minX === minX) add(vertical, leaf.x, (z - baseZ) / mpp);
+            if (cell.maxX === maxX) add(vertical, leaf.x + leaf.step, (z - baseZ) / mpp);
+          }
+          yield;
+        }
+        partitions.set(leaf, domainCells);
+      }
+      if ((++edgeCount & 7) === 0) yield;
     }
     for (let i = 0; i <= 64; i++) { add(horizontal, 0, i); add(horizontal, 64, i); add(vertical, 0, i); add(vertical, 64, i); }
+    if (this.data.meta.surface.nativeChannelCoverage) {
+      // Adjacent tiles must share partition knots even when only one has
+      // a boundary leaf; otherwise waves open cross-tile T-junctions.
+      for (const x of rasterDomainAxis(this.data, baseX, baseX + 64 * mpp)) {
+        add(horizontal, 0, (x - baseX) / mpp); add(horizontal, 64, (x - baseX) / mpp);
+      }
+      for (const z of rasterDomainAxis(this.data, baseZ, baseZ + 64 * mpp)) {
+        add(vertical, 0, (z - baseZ) / mpp); add(vertical, 64, (z - baseZ) / mpp);
+      }
+    }
     let leafCount = 0;
     for (const leaf of leaves) {
       this.atomicPhase = "leaf-clip";
@@ -281,9 +356,15 @@ export class InlandWaterTiles {
       const x0 = baseX + leaf.x * mpp, z0 = baseZ + leaf.z * mpp;
       const x1 = baseX + (leaf.x + leaf.step) * mpp, z1 = baseZ + (leaf.z + leaf.step) * mpp;
       const cutters = clips.get(Math.floor(leaf.z / step) * cells + Math.floor(leaf.x / step));
-      if (leaf.step === 1) {
-        const a = vertex(x0, z0), b = vertex(x0, z1), c = vertex(x1, z0), d = vertex(x1, z1);
-        yield* triangle(a, b, c, cutters); yield* triangle(c, b, d, cutters); continue;
+      const partition = partitions.get(leaf);
+      if (partition) {
+        for (const cell of partition) {
+          if (!cell.sample.supported || !cell.sample.waterBodyId || !rasterWaterClassInDomain(cell.classIndex, this.domain)) { yield; continue; }
+          const a = domainVertex(cell, cell.minX, cell.minZ), b = domainVertex(cell, cell.minX, cell.maxZ);
+          const c = domainVertex(cell, cell.maxX, cell.minZ), d = domainVertex(cell, cell.maxX, cell.maxZ);
+          yield* triangle(a, b, c, cutters); yield* triangle(c, b, d, cutters); yield;
+        }
+        continue;
       }
       const edgePoints = (map: Map<number, Set<number>>, key: number, start: number, end: number) =>
         [...map.get(key)!].filter(v => v >= start && v <= end).sort((a, b) => a - b);
@@ -310,7 +391,7 @@ export class InlandWaterTiles {
     // Raster vertices carry no per-vertex override and start with an up
     // normal. Byte attributes encode those exact constants; duplicated
     // Float32 zero vectors previously dominated persistent far-water memory.
-    const remap = new Int32Array(body.length).fill(-1), usedPositions: number[] = [];
+    const remap = new Int32Array(body.length).fill(-1), usedPositions: number[] = [], usedSource: number[] = [];
     this.atomicPhase = "compact-vertices";
     const compactIndices: number[] = [];
     for (let i = 0; i < indices.length; i++) {
@@ -318,6 +399,7 @@ export class InlandWaterTiles {
       if (remap[index] < 0) {
         remap[index] = usedPositions.length / 3;
         usedPositions.push(positions[index * 3], 0, positions[index * 3 + 2]);
+        usedSource.push(index);
       }
       compactIndices.push(remap[index]);
       if ((i & 255) === 255) yield;
@@ -328,10 +410,30 @@ export class InlandWaterTiles {
     this.atomicPhase = "tile-buffer-finalize";
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(usedPositions, 3));
     geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3, true));
-    geometry.setAttribute("waterOverride", new THREE.BufferAttribute(new Int8Array(count * 4), 4));
+    const enhanced = usedSource.some(i => explicit[i] !== undefined);
+    const overrides = enhanced ? new Float32Array(count * 4) : new Int8Array(count * 4);
+    if (this.domain === 'marine') for (let i = 3; i < overrides.length; i += 4) overrides[i] = -2;
+    geometry.setAttribute("waterOverride", new THREE.BufferAttribute(overrides, 4));
+    if (enhanced) {
+      const levels = new Float32Array(count * 3), grounds = new Float32Array(count), owners = new Uint16Array(count);
+      for (let i = 0; i < count; i++) {
+        const field = explicit[usedSource[i]];
+        if (field) {
+          overrides[i * 4] = this.domain === 'marine' ? 0 : field.sample.surfaceBase;
+          overrides[i * 4 + 1] = field.sampleX; overrides[i * 4 + 2] = field.sampleZ;
+          levels.set([field.sample.tideResponse, field.sample.seasonResponse, 1], i * 3);
+          grounds[i] = field.sample.surfaceBase - field.sample.depthProxy; owners[i] = field.owner;
+        }
+        if ((i & 255) === 255) yield;
+      }
+      geometry.setAttribute('waterLevelResponse', new THREE.BufferAttribute(levels, 3));
+      geometry.setAttribute('waterGround', new THREE.BufferAttribute(grounds, 1));
+      geometry.setAttribute('waterBodyIndex', new THREE.BufferAttribute(owners, 1));
+    }
     geometry.setIndex(compactIndices);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.userData.waterStep = requestedStep;
+    mesh.userData.waterTile = { tx, tz };
     mesh.userData.effectiveWaterStep = Math.min(requestedStep, ...leaves.map(leaf => leaf.step));
     mesh.userData.errorTier = Math.max(0, Math.floor(Math.log2(errorM / 0.04)));
     mesh.userData.waterBatch = `${Math.floor(tx / 4)},${Math.floor(tz / 4)}`;
@@ -350,11 +452,22 @@ export class InlandWaterTiles {
     const indexCount = sources.reduce((sum, geometry) => sum + geometry.index!.count, 0);
     const position = new Float32Array(count * 3); yield;
     const normal = new Int8Array(count * 3); yield;
-    const override = new Int8Array(count * 4); yield;
+    const enhanced = sources.some(source => source.hasAttribute('waterLevelResponse'));
+    const override = enhanced ? new Float32Array(count * 4) : new Int8Array(count * 4); yield;
+    const levels = enhanced ? new Float32Array(count * 3) : undefined; yield;
+    const ground = enhanced ? new Float32Array(count) : undefined; yield;
+    const owner = enhanced ? new Uint16Array(count) : undefined; yield;
     const indices = count > 65535 ? new Uint32Array(indexCount) : new Uint16Array(indexCount); yield;
     let vertices = 0, cursor = 0;
     for (const source of sources) {
       for (const [name, target, width] of [["position", position, 3], ["normal", normal, 3], ["waterOverride", override, 4]] as const) {
+        const values = source.getAttribute(name).array;
+        for (let i = 0; i < values.length; i += 4096) {
+          target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
+        }
+      }
+      for (const [name, target, width] of [['waterLevelResponse', levels, 3], ['waterGround', ground, 1], ['waterBodyIndex', owner, 1]] as const) {
+        if (!target || !source.hasAttribute(name)) continue;
         const values = source.getAttribute(name).array;
         for (let i = 0; i < values.length; i += 4096) {
           target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
@@ -371,13 +484,18 @@ export class InlandWaterTiles {
     geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
     geometry.setAttribute("normal", new THREE.BufferAttribute(normal, 3, true));
     geometry.setAttribute("waterOverride", new THREE.BufferAttribute(override, 4));
+    if (levels && ground && owner) {
+      geometry.setAttribute('waterLevelResponse', new THREE.BufferAttribute(levels, 3));
+      geometry.setAttribute('waterGround', new THREE.BufferAttribute(ground, 1));
+      geometry.setAttribute('waterBodyIndex', new THREE.BufferAttribute(owner, 1));
+    }
     geometry.setIndex(new THREE.BufferAttribute(indices, 1));
     return geometry;
   }
   dispose(): void {
     this.active?.build.return(undefined as never); this.active = undefined;
     this.merging?.build.return(undefined as never); this.merging = undefined; this.dirtyBatches.clear();
-    for (const batch of this.batches.values()) batch.geometry.dispose();
+    for (const [key, batch] of this.batches) { batch.geometry.dispose(); this.onPublication?.(key, []); }
     this.batches.clear(); this.verticalScale = NaN;
     for (const mesh of this.tiles.values()) mesh.geometry.dispose();
     this.tiles.clear(); this.meshes.length = 0; this.group.clear(); this.pending = [];

@@ -12,7 +12,7 @@ import { PackedCrossSections } from './packedCrossSections';
 import { NativeWaterGround } from './nativeWaterGround';
 import { InlandWaterTiles } from './render/InlandWaterTiles';
 import { validateWaterMeta } from './render/loadWaterAssets';
-import { confluenceReproProbes, CONFLUENCE_REPRO_SITES, interpolateInlandStillFace, standingEdgeStageUnion,
+import { confluenceReproProbes, CONFLUENCE_REPRO_SITES, interpolateInlandStillFace, resolveInlandStillVertex, standingEdgeStageUnion,
   type CompiledConfluenceProbe, type OwnershipEdgeProbe } from './compiledConfluenceProbes';
 
 const enabled = !!process.env.WATER_CONFLUENCE_EDGE_PROBES;
@@ -131,6 +131,8 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
       const [tx, tz] = tile.split(',').map(Number), build = builder.build(tx, tz, lod, material);
       let next = build.next(); while (!next.done) next = build.next();
       const geometry = next.value.geometry, p = geometry.getAttribute('position'), index = geometry.index!;
+      const explicitLevel = geometry.getAttribute('waterLevelResponse'), override = geometry.getAttribute('waterOverride');
+      const proxyGround = geometry.getAttribute('waterGround'), bodyIndex = geometry.getAttribute('waterBodyIndex');
       try { for (const point of points) {
         const { x, z } = point;
         const site = point.site ? sites[point.site] : undefined;
@@ -160,8 +162,14 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
         for (let i = 0; i < index.count; i += 3) {
           const a = index.getX(i), b = index.getX(i + 1), c = index.getX(i + 2);
           const w = weights(x, z, p.getX(a), p.getZ(a), p.getX(b), p.getZ(b), p.getX(c), p.getZ(c));
-          if (w) rasterFaces.push(interpolateInlandStillFace([a, b, c].map(vertex =>
-            data.boundaryAt(p.getX(vertex), p.getZ(vertex), undefined, false)), w));
+          if (w) rasterFaces.push(interpolateInlandStillFace([a, b, c].map(vertex => {
+            const sampled = data.boundaryAt(p.getX(vertex), p.getZ(vertex), undefined, false);
+            if (!explicitLevel || explicitLevel.getZ(vertex) <= 0.5) return sampled;
+            if (!override || !proxyGround || !bodyIndex) throw Error('Explicit inland vertex missing uploaded binding attributes');
+            return resolveInlandStillVertex(sampled, { waterOverrideX: override.getX(vertex), waterGround: proxyGround.getX(vertex),
+              waterLevelResponse: [explicitLevel.getX(vertex), explicitLevel.getY(vertex), explicitLevel.getZ(vertex)],
+              waterBodyIndex: bodyIndex.getX(vertex) });
+          }), w));
         }
         for (const stage of stages) {
           levelSpy.mockReturnValue(stage);

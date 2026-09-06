@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { confluenceReproProbes, CONFLUENCE_REPRO_SITES, interpolateInlandStillFace, standingEdgeStageUnion, type OwnershipEdgeProbe } from './compiledConfluenceProbes';
+import { confluenceReproProbes, CONFLUENCE_REPRO_SITES, interpolateInlandStillFace, resolveInlandStillVertex, standingEdgeStageUnion, type OwnershipEdgeProbe } from './compiledConfluenceProbes';
 import type { WaterBoundaryStaticSample } from './waterData';
 
 const stages = [{ tide: 0, season: 0 }, { tide: -.5, season: -.28 }, { tide: .5, season: -.28 },
@@ -34,6 +34,19 @@ it('uses actual vertex-level interpolation even for unsupported corners, never a
   expect(plane).toEqual({ height: 20, tide: 0.625, season: 0.3125 });
   expect(plane.height + 0.5 * plane.tide + 1.4 * plane.season).toBe(20.75);
   expect(interpolateInlandStillFace(vertices, [0, 1, 0]).height).toBe(20); // unsupported shader vertex is not zeroed
+});
+
+it('matches mixed explicit and raster-sampled vertices without losing signed proxy depth', () => {
+  const sampled = { ...baseline, surfaceBase: 40, depthProxy: 3, tideResponse: 0.2, seasonResponse: 0.4 };
+  const explicit = resolveInlandStillVertex(sampled, { waterOverrideX: 10, waterGround: 12,
+    waterLevelResponse: [1, 0.5, 1], waterBodyIndex: 7 });
+  expect(explicit).toEqual({ surfaceBase: 10, depthProxy: -2, tideResponse: 1, seasonResponse: 0.5 });
+  const fallback = resolveInlandStillVertex(sampled, { waterOverrideX: -999, waterGround: 999,
+    waterLevelResponse: [0, 0, 0], waterBodyIndex: 0 });
+  expect(fallback).toBe(sampled);
+  expect(resolveInlandStillVertex(sampled)).toBe(sampled);
+  const plane = interpolateInlandStillFace([explicit, fallback, sampled], [0.5, 0.25, 0.25]);
+  expect(plane.height).toBe(25); expect(plane.tide).toBeCloseTo(0.6); expect(plane.season).toBeCloseTo(0.45);
 });
 
 describe('compiled standing-boundary stage union', () => {
