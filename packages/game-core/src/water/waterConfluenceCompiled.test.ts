@@ -52,15 +52,18 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
     shore[i] = shoreBytes[p] / 255 * sm.shoreMaxM!; season[i] = shoreBytes[p + 1] / 255; tannin[i] = shoreBytes[p + 2] / 255;
   }
   const flood = JSON.parse(readFileSync(resolve(process.env.WATER_COMPILED_FLOOD_STATES!), 'utf8'));
-  const amplitudes = flood.floodBasins?.[0] ?? flood.basins?.[0] ?? flood;
+  const amplitudes = meta.stageRange ?? flood.floodBasins?.[0] ?? flood.basins?.[0] ?? flood;
   // The shipped flood file is a single record; reject unrelated schemas.
   const tidalAmplitudeM = amplitudes.tidalAmplitudeM, seasonalAmplitudeM = amplitudes.seasonalAmplitudeM;
   if (![tidalAmplitudeM, seasonalAmplitudeM].every(v => Number.isFinite(v) && v >= 0)) throw Error('Explicit preserved flood amplitudes required');
+  const lowTideAmplitudeM = amplitudes.lowTideAmplitudeM ?? tidalAmplitudeM;
+  const drySeasonAmplitudeM = amplitudes.drySeasonAmplitudeM ?? .2 * seasonalAmplitudeM;
   const data = new WaterData(meta, surface, depth, png(meta.flow.file, meta.flow.size), png(meta.klass.file, meta.klass.size),
     shore, season, png(sm.supportFile!, sm.size), png(meta.klass.characterFile!, meta.klass.size), tannin, png(sm.accessFile!, sm.size), ground,
     tidalAmplitudeM + seasonalAmplitudeM);
-  const world = new WaterWorld(data, { tidalAmplitudeM, seasonalAmplitudeM, seasonScalar: () => 0, groundHeight: (x, z) => ground.sample(x, z) });
-  const stages = [{ tide: 0, season: 0 }, ...[-1, 1].flatMap(sign => [-.2, 1].map(s => ({ tide: sign * tidalAmplitudeM, season: s * seasonalAmplitudeM })))];
+  const world = new WaterWorld(data, { tidalAmplitudeM, seasonalAmplitudeM, lowTideAmplitudeM, drySeasonAmplitudeM, seasonScalar: () => 0, groundHeight: (x, z) => ground.sample(x, z) });
+  const stages = [{ tide: 0, season: 0 }, ...[-lowTideAmplitudeM, tidalAmplitudeM].flatMap(tide =>
+    [-drySeasonAmplitudeM, seasonalAmplitudeM].map(season => ({ tide, season })))];
   const levelSpy = vi.spyOn(world, 'levelOffsets');
   const key = (x: number, z: number) => `${x.toFixed(4)},${z.toFixed(4)}`;
   const junctions = new Map<string, { x: number; z: number; neighbours: Set<string> }>();
@@ -96,7 +99,7 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
     x: j.x + Math.cos(i * Math.PI / 4) * radius, z: j.z + Math.sin(i * Math.PI / 4) * radius, label: `degree${j.neighbours.size}:${key(j.x, j.z)}` }))));
   for (const e of edges) for (const [x, z] of [e.inside, e.outside]) probes.push({ x, z, label: `${e.id}:${e.point}` });
   probes.push(...confluenceReproProbes());
-  const material = new MeshBasicMaterial(), inland = new InlandWaterTiles(data, false, { stage: { tidalAmplitudeM, seasonalAmplitudeM } });
+  const material = new MeshBasicMaterial(), inland = new InlandWaterTiles(data, false, { stage: { tidalAmplitudeM, seasonalAmplitudeM, lowTideAmplitudeM, drySeasonAmplitudeM } });
   // Exercise the production generator one local tile at a time, without
   // admitting a province view or waiting on animation-frame scheduling.
   const builder = inland as unknown as { build(tx: number, tz: number, step: number, material: MeshBasicMaterial): Generator<void, Mesh> };

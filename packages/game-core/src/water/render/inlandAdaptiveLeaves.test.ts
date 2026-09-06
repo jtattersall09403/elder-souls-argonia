@@ -71,3 +71,12 @@ it('publishes partition flags from cached actual support and owner changes, incl
   expect(leaves.find(leaf => leaf.x === 40 && leaf.z === 40)?.partition ?? false).toBe(false);
   expect(boundaryAt).toHaveBeenCalledTimes(65 * 65);
 });
+
+it.each(['tide', 'season'] as const)('refines independent low-%s limits even with zero upper amplitudes', coefficient => {
+  const { data } = fixture(x => ({ tide: coefficient === 'tide' ? tent(x) : 0,
+    season: coefficient === 'season' ? tent(x) : 0 }));
+  const leaves = inlandAdaptiveLeaves(data, 0, 0, 16, .04, 0,
+    { tidalAmplitudeM: 0, seasonalAmplitudeM: 0, lowTideAmplitudeM: .5, drySeasonAmplitudeM: .28 });
+  expect(leaves.length).toBeGreaterThan(16);
+  expect(leaves.every(leaf => leaf.step <= 8)).toBe(true);
+});

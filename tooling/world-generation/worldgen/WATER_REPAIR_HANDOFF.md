@@ -29,7 +29,9 @@ changed vertices retain indexed evidence; maximum original lowering 4.838562 m.
 The next shared-support local proposal resolved 38 more with fresh domains and
 the same preservation gates: 68 changed vertices, maximum additional cut
 2.451859 m, maximum original cut at those vertices 2.997326 m (no new exception).
-Tide/season amplitudes are unchanged. Routine cuts are at most 3 m; any existing
+This checkpoint retains the original amplitudes. Owner correction 2026-09-06
+allows higher upper stages while preserving lows; see the main handoff
+for the bankfull investigation and matching stage contract. Routine cuts are at most 3 m; any existing
 indexed exception is at most 5 m and cannot override an immutable retaining bound.
 
 Useful disposable caches on this VM:
@@ -162,3 +164,26 @@ native proxy128): a coarse marine class1/2 must not select any elevated base
 plane beyond encoding precision. Report counts/coordinates; if nonzero, export
 a coherent fine marine ownership/class selector rather than guessing from
 height in the renderer. This requires no additional hydraulic flood solve.
+
+
+## Peak-stage contract
+
+`compile_water --stage-range <json>` accepts four nonnegative magnitudes:
+`tidalAmplitudeM`, `seasonalAmplitudeM`, `lowTideAmplitudeM`,
+`drySeasonAmplitudeM`. Omission retains .5/1.4/.5/.28 m. The compiler exports
+these bounds in metadata and uses them for flood access, ribbon cross-sections
+and access encoding. Runtime and adaptive terrain use that same record.
+Recompile the whole matching bundle when changing it; metadata-only edits
+cannot grow a previously truncated water domain. No new production bounds
+have yet been selected.
+
+The read-only bankfull diagnostic requires matching cache/overlay/source
+hashes and writes only the requested report:
+
+```sh
+python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
+```
+
+Its river-station sections are diagnostic, not the final whole-area gate.
+Standing ponds/swamps, connected ownership, inter-station terrain and actual
+compiled response fields remain to check. See [the findings](../../../docs/research/rendering/water-bankfull.md).

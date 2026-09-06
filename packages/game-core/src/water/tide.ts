@@ -27,9 +27,10 @@ export function springFactor(epochMinutes: number): number {
 }
 
 /** Tide level offset (m) for a surface with tide response 1. */
-export function tideOffset(epochMinutes: number, tidalAmplitudeM: number): number {
-  const amp = tidalAmplitudeM * (0.5 + 0.5 * springFactor(epochMinutes));
-  return amp * Math.sin((epochMinutes / SEMIDIURNAL_MINUTES) * 2 * Math.PI);
+export function tideOffset(epochMinutes: number, tidalAmplitudeM: number, lowTideAmplitudeM = tidalAmplitudeM): number {
+  const phase = Math.sin((epochMinutes / SEMIDIURNAL_MINUTES) * 2 * Math.PI);
+  const amp = (phase >= 0 ? tidalAmplitudeM : lowTideAmplitudeM) * (0.5 + 0.5 * springFactor(epochMinutes));
+  return amp * phase;
 }
 
 /**
@@ -39,8 +40,8 @@ export function tideOffset(epochMinutes: number, tidalAmplitudeM: number): numbe
  * draws it slightly down, exposing mudflats without stranding the shorelines
  * the land-cover grammar painted at y≈0.
  */
-export function seasonOffset(seasonScalar: number, seasonalAmplitudeM: number): number {
+export function seasonOffset(seasonScalar: number, seasonalAmplitudeM: number, drySeasonAmplitudeM = 0.2 * seasonalAmplitudeM): number {
   return seasonScalar >= 0
     ? seasonScalar * seasonalAmplitudeM
-    : seasonScalar * 0.2 * seasonalAmplitudeM;
+    : seasonScalar * drySeasonAmplitudeM;
 }

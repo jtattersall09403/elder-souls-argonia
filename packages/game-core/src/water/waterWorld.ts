@@ -18,6 +18,8 @@ export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
+  lowTideAmplitudeM?: number;
+  drySeasonAmplitudeM?: number;
   /** Accurate terrain height (chunk store); falls back to the depth proxy. */
   groundHeight?: (x: number, z: number) => number | null;
   /** Season scalar s(t) ∈ [−1..1] (world clock, or the studio wet toggle). */
@@ -74,8 +76,8 @@ export class WaterWorld implements WorldWaterQuery {
     const season = this.opts.seasonScalar();
     if (epochMinutes !== this.levelEpoch || season !== this.levelSeason) {
       this.cachedLevels = Object.freeze({
-        tide: epochMinutes === this.levelEpoch ? this.cachedLevels.tide : tideOffset(epochMinutes, this.opts.tidalAmplitudeM),
-        season: seasonOffset(season, this.opts.seasonalAmplitudeM),
+        tide: epochMinutes === this.levelEpoch ? this.cachedLevels.tide : tideOffset(epochMinutes, this.opts.tidalAmplitudeM, this.opts.lowTideAmplitudeM),
+        season: seasonOffset(season, this.opts.seasonalAmplitudeM, this.opts.drySeasonAmplitudeM),
       });
       this.levelEpoch = epochMinutes;
       this.levelSeason = season;

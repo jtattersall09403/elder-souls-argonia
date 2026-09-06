@@ -1,7 +1,7 @@
 import type { WaterBoundaryStaticSample, WaterData } from "../waterData";
 
 export interface InlandLeaf { x: number; z: number; step: number; partition?: boolean }
-export interface InlandStageRange { tidalAmplitudeM: number; seasonalAmplitudeM: number }
+export interface InlandStageRange { tidalAmplitudeM: number; seasonalAmplitudeM: number; lowTideAmplitudeM?: number; drySeasonAmplitudeM?: number }
 export type RasterWaterDomain = 'inland' | 'marine';
 export function rasterWaterClassInDomain(klass: number, domain: RasterWaterDomain): boolean {
   return domain === 'marine' ? klass >= 1 && klass < 3 : klass >= 3;
@@ -32,7 +32,7 @@ export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: numb
   errorM = 0.04, subpixelM = 0, stage?: InlandStageRange, domain: RasterWaterDomain = 'inland'): Generator<void, InlandLeaf[]> {
   const size = 65, mpp = data.meta.surface.metresPerPixel;
   const height = new Float64Array(size * size);
-  const stageVaries = !!stage && (stage.tidalAmplitudeM !== 0 || stage.seasonalAmplitudeM !== 0);
+  const stageVaries = !!stage && (stage.tidalAmplitudeM !== 0 || stage.seasonalAmplitudeM !== 0 || (stage.lowTideAmplitudeM ?? 0) !== 0 || (stage.drySeasonAmplitudeM ?? 0) !== 0);
   // Cache the same one-time boundary samples: extrema never reread World or
   // allocate five complete stage-height fields for each incremental tile.
   const tide = stageVaries ? new Float64Array(size * size) : undefined;
@@ -75,12 +75,15 @@ export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: numb
       if (Math.abs(height[i] - interpolated) > errorM * 0.5) refine = true;
       if (tide && season && stage) {
         const baseError = height[i] - interpolated;
-        const tideError = Math.abs(fieldInterpolationError(tide, i, a, b, c, d, fx, fz) * stage.tidalAmplitudeM);
-        const seasonError = fieldInterpolationError(season, i, a, b, c, d, fx, fz) * stage.seasonalAmplitudeM;
-        // Error is affine in stage. These endpoints are exactly the four
-        // tide±amplitude / season[-.2,+1] extrema; base was checked above.
-        const low = baseError + Math.min(-0.2 * seasonError, seasonError) - tideError;
-        const high = baseError + Math.max(-0.2 * seasonError, seasonError) + tideError;
+        const tideError = fieldInterpolationError(tide, i, a, b, c, d, fx, fz);
+        const seasonError = fieldInterpolationError(season, i, a, b, c, d, fx, fz);
+        const tideLow = -tideError * (stage.lowTideAmplitudeM ?? stage.tidalAmplitudeM);
+        const tideHigh = tideError * stage.tidalAmplitudeM;
+        const seasonLow = -seasonError * (stage.drySeasonAmplitudeM ?? .2 * stage.seasonalAmplitudeM);
+        const seasonHigh = seasonError * stage.seasonalAmplitudeM;
+        // Affine interpolation error reaches its extrema at stage corners.
+        const low = baseError + Math.min(tideLow, tideHigh) + Math.min(seasonLow, seasonHigh);
+        const high = baseError + Math.max(tideLow, tideHigh) + Math.max(seasonLow, seasonHigh);
         if (Math.max(Math.abs(low), Math.abs(high)) > errorM * 0.5) refine = true;
       }
       if (((dz * (step + 1) + dx) & 63) === 63) yield;

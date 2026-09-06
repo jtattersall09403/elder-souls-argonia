@@ -57,6 +57,37 @@ function browserFixture(wrongSize = false, meta = metadata()) {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("water bundle loader", () => {
+  it("uses compiled peak bounds and preserves lows despite the older basin file", async () => {
+    const meta = metadata();
+    meta.stageRange = { tidalAmplitudeM: 1.2, seasonalAmplitudeM: 4, lowTideAmplitudeM: .5, drySeasonAmplitudeM: .28 };
+    browserFixture(false, meta);
+    let season = 1;
+    const assets = await loadWaterAssets({ baseUrl: '/game/', seasonScalar: () => season });
+    expect(assets.seasonalAmplitudeM).toBe(4);
+    expect(assets.lowTideAmplitudeM).toBe(.5);
+    expect(assets.world.levelOffsets(0).season).toBe(4);
+    season = -1;
+    expect(assets.world.levelOffsets(0).season).toBe(-.28);
+    disposeWaterAssets(assets);
+  });
+
+  it("rejects raised stages encoded with the old inaccessible sentinel", () => {
+    const meta = metadata();
+    meta.stageRange = { tidalAmplitudeM: .5, seasonalAmplitudeM: 4, lowTideAmplitudeM: .5, drySeasonAmplitudeM: .28 };
+    Object.assign(meta.surface, { accessFile: 'water-access.png', accessMinOffsetM: -2, accessSpanM: 4 });
+    expect(() => validateWaterMeta(meta)).toThrow(/peak stage/);
+    meta.surface.accessSpanM = 6.6;
+    expect(() => validateWaterMeta(meta)).not.toThrow();
+  });
+
+  it("rejects incomplete or invalid compiled stage bounds", () => {
+    const meta = metadata();
+    for (const stageRange of [{ seasonalAmplitudeM: 4 },
+      { tidalAmplitudeM: .5, seasonalAmplitudeM: 4, lowTideAmplitudeM: -.5, drySeasonAmplitudeM: .28 }]) {
+      expect(() => validateWaterMeta({ ...meta, stageRange })).toThrow(/stage range/);
+    }
+  });
+
   it('loads compact bank profiles before sampling without expanding serializable metadata', async () => {
     const meta = metadata();
     meta.crossSections = { schemaVersion: 1, file: 'water-cross-sections.bin', encoding: 'float32-le-offset-ground-access', sampleCount: 6 };

@@ -35,6 +35,18 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 - Keep water-only reversible commits. `?water=legacy` is a renderer fallback,
   not a bit-exact rollback of shared physics changes. Never reset combat work.
 
+## Peak coverage correction (2026-09-06)
+
+[Bankfull findings](water-bankfull.md): 1,589/2,970 active upland river stations
+cannot reach even their lower retaining bank at the current maximum; lowlands
+541/6,133. Stored hydric paint also extends onto valley sides far above some
+channels. Do not choose a global upper level from the most extreme paint.
+Independent high/low `stageRange` is implemented through compilation, runtime,
+adaptive water and terrain protection. Defaults and public assets are unchanged.
+Next: combine actual carved footprint targets with connected peak coverage and
+correct unrelated slope paint; include standing ponds/swamps, not just stations.
+The 311 base constraints below still require resolution before final export.
+
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
@@ -89,6 +101,13 @@ loading experience remain unverified**. Do not claim variable-stage horizon
 fallback is geometrically exact before coarse geometry becomes resident.
 
 ## Verification and next release
+
+- Independent-stage checkpoint (2026-09-06): 38 focused runtime tests and
+  39 compiler/boundary/stage tests pass, including a full synthetic compile
+  with higher peak reach and identical base channel levels. All workspace
+  tests passed after rerunning the existing child-process test outside its
+  sandbox restriction (7 tests); root typecheck passes. No production
+  amplitudes, accepted terrain corrections or public water assets changed.
 
 - Water runtime checkpoint `7296f17`: all332 water tests pass across65 files
   (19:45UTC,16.3s); one final-artifact gate is intentionally skipped without

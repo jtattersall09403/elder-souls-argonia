@@ -21,6 +21,8 @@ export interface WaterAssets {
   accessTex?: THREE.DataTexture;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
+  lowTideAmplitudeM?: number;
+  drySeasonAmplitudeM?: number;
 }
 
 export interface LocalWaterSurfaceState {

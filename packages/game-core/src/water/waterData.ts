@@ -14,6 +14,8 @@ import type { NativeWaterGround, NativeWaterGroundDescriptor } from './nativeWat
 import { isPhysicalWaterBody, type WaterBodyIdentity, type WaterBodyRecord } from './waterBodies';
 
 export interface WaterMeta {
+  /** Bounds used to compile connected flood geometry; authoritative when present. */
+  stageRange?: import("./waterStage").WaterStageRange;
   schemaVersion?: number;
   /** Index identifies a hydraulic surface owner; connected basin membership
    * is separate and must never imply a shared standing head. */

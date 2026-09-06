@@ -126,6 +126,17 @@ describe("waves", () => {
 // ---------------------------------------------------------------------------
 
 describe("tide", () => {
+  it("higher peaks preserve every old low-water phase when lower bounds are explicit", () => {
+    for (let m = 0; m < SEMIDIURNAL_MINUTES * 4; m += 15) {
+      const old = tideOffset(m, .5);
+      const raised = tideOffset(m, 1.2, .5);
+      expect(raised).toBeCloseTo(old <= 0 ? old : old * 1.2 / .5);
+    }
+    for (let scalar = -1; scalar <= 1; scalar += .1) {
+      expect(seasonOffset(scalar, 4, .28)).toBeCloseTo(scalar < 0 ? seasonOffset(scalar, 1.4) : scalar * 4);
+    }
+  });
+
   it("oscillates on the semidiurnal period within amplitude bounds", () => {
     let min = Infinity;
     let max = -Infinity;

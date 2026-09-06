@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import { WaterWorld, type WaterWorldOptions } from "../waterWorld";
+import { validateWaterStageRange } from "../waterStage";
 import { SpectralOcean } from "../spectralOcean";
 import { PackedCrossSections, fetchPackedCrossSections, validatePackedCrossSectionMeta } from '../packedCrossSections';
 import { fetchNativeWaterGround, validateNativeWaterGroundMeta } from '../nativeWaterGroundLoader';
@@ -29,6 +30,7 @@ function finite(value: unknown): value is number { return typeof value === "numb
 /** Validate before decoding/allocating. Flow and class share shader UVs. */
 export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
   const meta = record(value, "metadata");
+  if (meta.stageRange !== undefined) validateWaterStageRange(meta.stageRange);
   if (meta.schemaVersion !== 2) throw new Error("Water loader requires schemaVersion 2");
   if (meta.crossSections !== undefined) validatePackedCrossSectionMeta(meta.crossSections);
   if (meta.nativeGround !== undefined) validateNativeWaterGroundMeta(meta.nativeGround);
@@ -68,6 +70,11 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
   if (surface.accessFile !== undefined && (typeof surface.accessFile !== "string" || !surface.accessFile.trim()
     || !finite(surface.accessMinOffsetM) || !finite(surface.accessSpanM) || surface.accessSpanM <= 0)) {
     throw new Error("Water access encoding requires a file, finite minimum and positive span");
+  }
+  if (meta.stageRange && surface.accessFile !== undefined
+    && (surface.accessMinOffsetM as number) + (surface.accessSpanM as number)
+      <= meta.stageRange.tidalAmplitudeM + meta.stageRange.seasonalAmplitudeM + .04) {
+    throw new Error("Water access encoding cannot represent the compiled peak stage and dry guard");
   }
   if (surface.accessFile === undefined && (surface.accessMinOffsetM !== undefined || surface.accessSpanM !== undefined)) {
     throw new Error("Water access encoding requires its raster file");
@@ -179,12 +186,14 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     validateWaterMeta(meta);
     const basins = record(floodStates, "flood states").basins;
     const basin = record(Array.isArray(basins) ? basins[0] : undefined, "flood basin");
-    const { tidalAmplitudeM, seasonalAmplitudeM } = basin;
+    const { tidalAmplitudeM, seasonalAmplitudeM } = meta.stageRange ?? basin;
     // Never silently retune tide/season ranges if the authored source fails.
     if (!finite(tidalAmplitudeM) || tidalAmplitudeM < 0
       || !finite(seasonalAmplitudeM) || seasonalAmplitudeM < 0) {
       throw new Error("Water flood basin has invalid tidal or seasonal amplitude");
     }
+    const lowTideAmplitudeM = meta.stageRange?.lowTideAmplitudeM ?? tidalAmplitudeM;
+    const drySeasonAmplitudeM = meta.stageRange?.drySeasonAmplitudeM ?? seasonalAmplitudeM * .2;
     const [surfaceImage, flowImage, classImage, shoreImage, supportImage, characterImage, accessImage, packedSections, nativeGround] = await Promise.all([
       fetchRaster(`${waterBase}${meta.surface.file}`, meta.surface.size, controller.signal),
       fetchRaster(`${waterBase}${meta.flow.file}`, meta.flow.size, controller.signal),
@@ -221,7 +230,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     packWaterAuxiliaries(surfaceImage.data, shoreImage.data, supportImage.data,
       classImage.data, characterImage.data, accessImage?.data);
     const world = new WaterWorld(data, {
-      tidalAmplitudeM, seasonalAmplitudeM, groundHeight: options.groundHeight,
+      tidalAmplitudeM, seasonalAmplitudeM, lowTideAmplitudeM, drySeasonAmplitudeM, groundHeight: options.groundHeight,
       seasonScalar: options.seasonScalar, waveTimeS: options.waveTimeS,
       spectralOcean: new SpectralOcean(),
     });
@@ -231,7 +240,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       return result;
     };
     return {
-      data, world, meta, tidalAmplitudeM, seasonalAmplitudeM,
+      data, world, meta, tidalAmplitudeM, seasonalAmplitudeM, lowTideAmplitudeM, drySeasonAmplitudeM,
       surfaceTex: texture(surfaceImage, THREE.NearestFilter),
       flowTex: texture(flowImage, THREE.LinearFilter),
       klassTex: texture(classImage, THREE.LinearFilter),

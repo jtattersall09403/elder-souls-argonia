@@ -9,7 +9,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | --- | --- | --- |
 | Continuous source-to-sea rivers, slopes, confluences; owner/backlog | Native monotone solve and ribbons tested; flood margins and terrain-LOD agreement need further work | open |
 | Flat lakes/pools, no domes or floating edges; owner | Native flat-pool gates pass; continuous body-aware shore domains unfinished | open |
-| Preserve tides and wet/dry ranges; owner | Existing constants retained; recheck extremes with new boundaries | open |
+| Peak water fills terrain-shaped/painted water areas; owner correction 2026-09-06 | Preserve lows; upper tide/season limits may increase. Independent stage bounds implemented; [bankfull investigation](water-bankfull.md) identifies remaining coverage/paint work | open |
 | Streams/creeks/major rivers, gradients and regional chemistry; owner | Shared semantic shading exists; systematic contrasting-scene evidence missing | open |
 | Oxbows, eddy pools, bogs, black/greenwater, mangroves; owner/module60 | Chemistry/shelter fields exist; local current/eddy response and body records incomplete | open |
 | High-quality open-sea swell / FFT tier; backlog/module60 §39.4 | Three deterministic spectral cascades implemented locally; weather transitions, marine shader/physics parity and performance/visual gates remain | open |

@@ -49,7 +49,7 @@ from .water_geometry import repair_channel_beds, repair_channel_films
 from .water_regimes import authored_rivulet_mask, channel_depth_expectations
 from .terrain_triangles import (sample_terrain, fill_terrain_depressions, label_terrain_components,
                                derive_channel_diagonal_flips)
-from .water_boundaries import spill_connected_access, hydraulic_plane_owners, ACCESS_MIN_M, ACCESS_MAX_M
+from .water_boundaries import spill_connected_access, hydraulic_plane_owners
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water" / "v2"
@@ -130,8 +130,11 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
-            retaining_lower_bounds=None) -> dict:
+            retaining_lower_bounds=None, stage=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
+    from .water_stage import stage_range
+    stage = stage_range(stage)
+    maximum_offset = stage["tidalAmplitudeM"] + stage["seasonalAmplitudeM"]
     mpp1 = RAW_M * STEP
     ocean = npz["ocean"]
     filled = npz["filled"]
@@ -495,7 +498,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     # Native cross-sections now own ALL flowing reaches. Only a standing
     # pool/sea head can inundate raster margins: extrapolating a high river
     # profile onto a lower outer slope is not a valid standing water table.
-    access2, support2 = spill_connected_access(g2, w2, wet2, bodies2, can_flood=flat_owner, terrain_flips=terrain_flips)
+    access2, support2 = spill_connected_access(g2, w2, wet2, bodies2, can_flood=flat_owner, terrain_flips=terrain_flips, maximum_offset=maximum_offset)
     support_kind2 = np.where(support2, np.where(flat_owner, 255, 128), 0).astype(np.uint8)
     bodies2[~support2] = 0
     fringe = support2 & ~wet2
@@ -635,6 +638,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         # Original station owners supply level response; interpolation is
         # longitudinal only and never samples another bank/reach at an edge.
         "season_response": season2[sy, sx], "tide_response": tidal2[sy, sx],
+        "maximum_offset": maximum_offset,
     }
     ribbons, cascades = compile_features(g2, w2, support2, bodies2,
                                          **feature_inputs, metres_per_pixel=mpp2)
@@ -713,7 +717,11 @@ def main() -> None:
                         help="Maximum cumulative lowering in metres, limited to native channel centres")
     parser.add_argument("--bed-exception-cell", action="append", default=[],
                         help="Explicit coarse row,col channel-sill exception permitting at most 5m lowering")
+    parser.add_argument("--stage-range", type=Path, help="JSON with independent high/low tide and wet/dry season amplitudes")
     args = parser.parse_args()
+    from .water_stage import stage_range, access_bounds
+    stage = stage_range(json.loads(args.stage_range.read_text()) if args.stage_range else None)
+    access_min, access_max = access_bounds(stage)
     routing_audit = json.loads(args.routing_overrides.read_text()) if args.routing_overrides else None
     if routing_audit and routing_audit.get('schemaVersion') != 1:
         parser.error('Unsupported native route audit schema')
@@ -856,7 +864,7 @@ def main() -> None:
     r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
         routing_overrides=routing_overrides, immutable_potential=immutable_potential,
-        reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds), args.web_step)
+        reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage), args.web_step)
     r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
 
     out_dir = args.out_dir
@@ -919,7 +927,7 @@ def main() -> None:
     Image.fromarray(
         np.dstack([shore8, enc(r["season2"]), enc(up2(r["tannin"]))]), mode="RGB",
     ).save(out_dir / "water-shore.png")
-    access_rg = np.asarray(encode_rg16(r["access2"], ACCESS_MIN_M, ACCESS_MAX_M))
+    access_rg = np.asarray(encode_rg16(r["access2"], access_min, access_max))
     Image.fromarray(np.dstack([access_rg[..., 0], access_rg[..., 1], enc(r["tidal2"])]),
                    mode="RGB").save(out_dir / "water-access.png")
 
@@ -956,6 +964,7 @@ def main() -> None:
         default=0.), 6)
     meta = {
         "schemaVersion": 2,
+        "stageRange": stage,
         "surface": {
             "file": "water-surface.png", "size": int(w2.shape[0]),
             "metresPerPixel": RAW_M * args.web_step,
@@ -971,8 +980,8 @@ def main() -> None:
             "terrainTopologyFile": "water-terrain-topology.json",
             "nativeChannelCoverage": True,
             "supportEncoding": "R = 0 outside, 128 native-channel proxy only, 255 standing/sea raster; G,B = 16-bit hydraulic owner (body metadata basinIndex preserves connectivity)",
-            "accessFile": "water-access.png", "accessMinOffsetM": ACCESS_MIN_M,
-            "accessSpanM": ACCESS_MAX_M - ACCESS_MIN_M,
+            "accessFile": "water-access.png", "accessMinOffsetM": access_min,
+            "accessSpanM": access_max - access_min,
             "accessEncoding": "R,G = RG16 minimum connected level offset; B = fine tidal response",
         },
         "flow": {"file": "water-flow.png", "size": int(z.shape[0]),

@@ -64,8 +64,13 @@ def spill_connected_access(ground, surface, wet, bodies, maximum_offset=MAX_LEVE
     IDs and discontinuous hydraulic heads are barriers, not values to blend.
     The search ends at physical barriers, never an arbitrary distance ring.
     """
+    if not np.isfinite(maximum_offset) or maximum_offset < 0:
+        raise ValueError('Maximum stage must be finite and nonnegative')
     gap = (ground - surface).astype(np.float32)
-    access = np.where(wet, np.clip(gap, ACCESS_MIN_M, ACCESS_MAX_M), ACCESS_MAX_M).astype(np.float32)
+    # Unvisited terrain must remain inaccessible even above the old2m
+    # encoding ceiling. Otherwise increasing peak stage wets every owner.
+    inaccessible = max(ACCESS_MAX_M, maximum_offset + .1)
+    access = np.where(wet, gap, inaccessible).astype(np.float32)
     edge = wet & ~ndimage.binary_erosion(wet, structure=TERRAIN_CONNECTIVITY)
     queue = [(float(access[y, x]), int(y), int(x)) for y, x in zip(*np.nonzero(edge))]
     heapq.heapify(queue)
@@ -219,6 +224,8 @@ def channel_cross_section(ground, point, normal, half_extent, level, metres_per_
     beyond a bank only floods after the intervening bank is overtopped. This
     is deliberately NOT an unconstrained nearest-height flood fill.
     """
+    if not np.isfinite(maximum_offset) or maximum_offset < 0:
+        raise ValueError('Maximum stage must be finite and nonnegative')
     point, normal = np.asarray(point), np.asarray(normal)
     profiles, base_widths = [], []
     boundary_kinds = []

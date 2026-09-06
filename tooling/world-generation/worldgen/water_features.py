@@ -2,7 +2,7 @@
 
 import numpy as np
 from scipy import ndimage
-from .water_boundaries import ChannelOwnership, channel_cross_section
+from .water_boundaries import ChannelOwnership, channel_cross_section, MAX_LEVEL_OFFSET_M
 from .terrain_triangles import sample_terrain
 from .water_geometry import shared_section_normals
 
@@ -28,7 +28,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      bands, metres_per_pixel, max_cascades=256,
                      ground_detail=None, detail_scale=1, body_detail=None, standing_detail=None, all_channels=False,
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
-                     marine_ground=None, wetland_rivulets=None, pool_domain=None):
+                     marine_ground=None, wetland_rivulets=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M):
     ribbons, cascades = [], []
     intent = levels if orientation_levels is None else orientation_levels
     ground = np.asarray(ground)
@@ -77,7 +77,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                 detail, point * detail_scale, perpendicular,
                 float(radius[index]) * 2 * correction * detail_scale,
                 round(float(levels[index]), 4), metres_per_pixel / detail_scale, ownership=ownership, source=source,
-                close_domain=True, diagnostics=closure, terrain_flips=terrain_flips)
+                close_domain=True, diagnostics=closure, terrain_flips=terrain_flips, maximum_offset=maximum_offset)
             if cache_key is not None:
                 shared_profiles[cache_key] = (cross_section, widths, closure)
         else:

@@ -2,7 +2,7 @@
 
 2026-09-06. Owner commissioned a comprehensive water rework and allowed implementation choices to supersede earlier water prescriptions. The quality contract is [water-quality.md](../research/rendering/water-quality.md); this does not close the owner's visual review.
 
-“First class” means water belongs to its geography, reads coherently from walking height and underwater, responds proportionately to weather and contact, and agrees with physics. A feature checklist or a particular ocean algorithm is not the acceptance criterion. Preserve the existing tidal and seasonal ranges, light-stack integration, reflections, light shafts and underwater surface optics.
+“First class” means water belongs to its geography, reads coherently from walking height and underwater, responds proportionately to weather and contact, and agrees with physics. A feature checklist or a particular ocean algorithm is not the acceptance criterion. Preserve existing low-water limits, light-stack integration, reflections, light shafts and underwater surface optics. Owner correction (2026-09-06): upper tidal/seasonal limits may increase to fill the full terrain-authored water footprint at peak stage.
 
 The principal defects were structural: dry-ground heights blended into the water field; coarse drainage climbing over refined terrain; incompatible raster origins; a camera-following grid joining unrelated inland levels; and interaction displacement crossing land. The replacement separates supported water from ground, solves flat standing water and nonascending channel profiles on native terrain, and uses body-isolated inland tiles plus explicit channel ribbons. A sparse, bounded channel-bed overlay repairs existing bed sills without overwriting source terrain. Rendering, terrain queries and colliders consume the same corrected grid. Routing intention is frozen from the original terrain; physical bank caps must be measured on the corrected triangles. Reusing original heights for both roles can overestimate a bank after a neighbouring bed corner is lowered.
 
@@ -30,3 +30,22 @@ the same native terrain authority. Capacity bounds must not silently remove
 visible water. [Local fluid and GPU notes](../research/rendering/water-local-fluid-and-gpu-budgets.md)
 record the optical/compatibility choices; final data, performance, visual and
 deployment gates remain open.
+
+
+### Independent high/low stages (2026-09-06)
+
+Previously the wet-season amplitude also determined dry-season drawdown and
+high tide also set low tide. A larger upper bound therefore changed both
+ends. Optional compiled `stageRange` now records four positive magnitudes:
+`tidalAmplitudeM`, `seasonalAmplitudeM`, `lowTideAmplitudeM`,
+`drySeasonAmplitudeM`. It takes precedence over the legacy flood-state file
+and is shared by the CPU clock, renderer bounds and terrain-shore protection.
+Legacy bundles retain their previous behaviour. Geometry compilation uses the
+same maximum stage and an inaccessible access value above that maximum;
+the old fixed 2 m sentinel would incorrectly admit unreachable terrain when
+upper stages increased. No new amplitudes have been selected for production.
+
+The [bankfull investigation](../research/rendering/water-bankfull.md) separates
+underfilled native channels from distance-only mud painting on valley sides.
+Final acceptance needs connected whole-area coverage, including standing water;
+river-station statistics alone cannot establish that result.

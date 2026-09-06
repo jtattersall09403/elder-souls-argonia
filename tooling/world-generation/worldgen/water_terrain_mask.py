@@ -11,9 +11,11 @@ from .scale import RAW_METRES_PER_SAMPLE
 from .water_cross_sections import load_water_metadata
 
 
-def moving_shore_mask(gap, support, season, tide):
-    return ((support == 255) & (gap >= -.28 * season - .5 * tide - .10)
-            & (gap <= 1.4 * season + .5 * tide + .10))
+def moving_shore_mask(gap, support, season, tide, stage=None):
+    from .water_stage import stage_range
+    stage = stage_range(stage)
+    return ((support == 255) & (gap >= -stage['drySeasonAmplitudeM'] * season - stage['lowTideAmplitudeM'] * tide - .10)
+            & (gap <= stage['seasonalAmplitudeM'] * season + stage['tidalAmplitudeM'] * tide + .10))
 
 
 def interval_hull(first, second):
@@ -101,9 +103,9 @@ def main():
                                    output_shape=ground.shape, order=0, mode='nearest')
     # Protect actual moving shore, not every submerged ocean vertex within
     # the global freshwater season range. Fully submerged interiors may
-    # retain adaptive LOD; tidal/seasonal amplitudes themselves are unchanged.
+    # retain adaptive LOD; use the bounds that built this water bundle.
     gap = ground - nearest_surface
-    protect = moving_shore_mask(gap, native_support, season, tide)
+    protect = moving_shore_mask(gap, native_support, season, tide, meta.get("stageRange"))
     protect |= ribbon_vertex_mask(ground.shape, meta['ribbons'], RAW_METRES_PER_SAMPLE)
     topology = json.loads((args.water_dir / spec['terrainTopologyFile']).read_text())
     for index in topology['flippedCells']:

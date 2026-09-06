@@ -21,7 +21,7 @@ These are a review matrix, not a claim of full fluid simulation. Geometry and se
 
 ## Engineering acceptance
 
-- Original flood-state data remains authoritative: unchanged tide amplitude and wet/dry season responses. Never compensate for bad topology by reducing these ranges.
+- Preserve existing low-water limits. Owner correction (2026-09-06): upper tide/season limits may increase so peak water fills the terrain-shaped and painted water footprint. Never shrink the intended footprint to conceal underfilling. Compiled `stageRange`, when present, binds geometry, rendering and physics; legacy bundles retain their flood-state values.
 - Compiled standing surfaces are flat. Exported channel stations are nonascending, supported and wet against their recorded native bed. Native ground samples accompany ribbons; coarse exported depth must not decide narrow-channel geometry.
 - The sparse terrain overlay records original and corrected heights and never raises terrain. It affects the shared cache before any renderer, collider or query receives heights. Original files remain unchanged. Audit maximum lowering and any rejected/unresolved drainage links in compiler metadata.
 - Grid origins are explicit. Support and body IDs are discrete; physical flow and optical fields interpolate consistently. Inland triangles cannot bridge different body IDs. CPU ribbon queries resolve the same topmost triangles as rendering.
