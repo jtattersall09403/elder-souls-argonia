@@ -20,6 +20,7 @@ import { WaterFlowContacts } from "../flowContacts";
 import { HeroPoolSurface } from './HeroPoolSurface';
 import { oceanAxisCoords, oceanGridCentre } from './oceanGrid';
 import { NativeWaterAtlas } from './NativeWaterAtlas';
+import { MarineWaterSurface } from './MarineWaterSurface';
 import {
   WATER_LAYER,
   MAX_CONTACT_BODIES,
@@ -132,7 +133,11 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   const meshRef = useRef<THREE.Mesh>(null);
   const inland = useMemo(() => new InlandWaterTiles(assets.data, tier.name === "low", { stage: assets }), [assets, tier]);
   const allMeshes = useMemo<THREE.Mesh[]>(() => [], [assets]);
-  const nativeAtlas = useMemo(() => new NativeWaterAtlas(assets.data.nativeGround), [assets]);
+  const nativeAtlas = useMemo(() => new NativeWaterAtlas(assets.data.nativeGround,
+    assets.meta.surface.nativeChannelCoverage ? Math.ceil(assets.meta.surface.size / 64) ** 2 : 0), [assets]);
+  const marine = useMemo(() => assets.meta.surface.nativeChannelCoverage
+    ? new MarineWaterSurface(assets.data, tier.name === 'low', assets, nativeAtlas, uniforms) : null, [assets, tier.name, nativeAtlas, uniforms]);
+  useEffect(() => () => marine?.dispose(), [marine]);
   const renderer = useThree(state => state.gl);
   useEffect(() => {
     const restore = () => nativeAtlas.invalidate();
@@ -223,8 +228,11 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     const geometryView = geometryCamera.update(camera, size.height * gl.getPixelRatio());
     inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale, geometryView);
     ribbons.update(geometryView, mesh.material as THREE.Material, verticalScale);
-    allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes, ...inland.meshes);
     const surfaceFocus = runtime.surfaceFocus?.();
+    marine?.update(camera.position.x, camera.position.z, surfaceFocus ?? {
+      x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
+    }, mesh.material as THREE.Material, verticalScale, geometryView);
+    allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes, ...inland.meshes, ...(marine?.meshes ?? []));
     mesh.position.set(
       oceanGridCentre(surfaceFocus?.x ?? camera.position.x),
       0,
@@ -349,6 +357,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     <primitive object={hero.mesh} />
     <primitive object={ribbons.group} />
     <primitive object={inland.group} />
+    {marine && <primitive object={marine.group} />}
     <mesh
       ref={meshRef}
       geometry={geometry}

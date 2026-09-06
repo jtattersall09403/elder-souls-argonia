@@ -25,6 +25,10 @@ it('accounts for mixed-batch promotion instead of doubling tile bytes', () => {
     expect(result.totalBytes - result.sourceBytes * 2).toBe(20 * 30);
     expect(result.enhanced).toBe(true);
     expect(inlandBatchBudget([plain]).totalBytes).toBe(2 * (20 * 19 + 12));
+    enhanced.setAttribute('waterCellSize', new BufferAttribute(new Float32Array(4), 1));
+    const marine = inlandBatchBudget([plain, enhanced]);
+    expect(marine.vertexBytes).toBe(53);
+    expect(marine.totalBytes - result.totalBytes).toBe(4 * 4 + 24 * 4);
   } finally { plain.dispose(); enhanced.dispose(); }
 });
 

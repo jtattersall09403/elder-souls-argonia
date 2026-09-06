@@ -2,21 +2,26 @@ import * as THREE from 'three';
 import type { NativeWaterGround, NativeGroundAtlasLayout } from '../nativeWaterGround';
 
 export const HERO_FIELD_SCALARS = 128 * 128 * 4;
-/** One sampler for immutable sparse ground and the bounded mutable pool.
- * Only the first256KiB changes after initialization, using eight row uploads
- * for the province atlas. No render target, readback or generated artwork. */
+/** One sampler for immutable sparse ground and a bounded mutable prefix.
+ * Hero updates use eight province-atlas rows; optional marine readiness rows
+ * are unioned with them, never replacing pending writes from another owner.
+ * No render target, readback or generated artwork. */
 export class NativeWaterAtlas {
   readonly field: THREE.DataTexture;
   readonly layout: NativeGroundAtlasLayout | null;
   readonly diagnostics = { gpuUpdates: 0, fullUploads: 0, partialUploads: 0, pendingUploadBytes: 0, residentBytes: 0 };
   private uploaded = false;
-  constructor(ground?: NativeWaterGround) {
-    this.layout = ground?.gpuLayout(HERO_FIELD_SCALARS) ?? null;
+  private readonly dirtyRows = new Set<number>();
+  readonly auxiliaryOffset = HERO_FIELD_SCALARS;
+  constructor(ground?: NativeWaterGround, readonly auxiliaryScalars = 0) {
+    if (!Number.isSafeInteger(auxiliaryScalars) || auxiliaryScalars < 0 || auxiliaryScalars > 65536) throw new RangeError('Bounded auxiliary water atlas prefix required');
+    const prefix = HERO_FIELD_SCALARS + auxiliaryScalars;
+    this.layout = ground?.gpuLayout(prefix) ?? null;
     const width = ground ? 2048 : 128;
-    const height = Math.ceil((this.layout?.scalarCount ?? HERO_FIELD_SCALARS) / (width * 4));
+    const height = Math.ceil((this.layout?.scalarCount ?? prefix) / (width * 4));
     if (height > 2048 || (this.layout?.scalarCount ?? 0) >= 2 ** 24) throw new Error('Native water atlas exceeds bounded2048² texture capacity');
     const pixels = new Float32Array(width * height * 4);
-    ground?.writeGpuAtlas(pixels, HERO_FIELD_SCALARS);
+    ground?.writeGpuAtlas(pixels, prefix);
     this.field = new THREE.DataTexture(pixels, width, height, THREE.RGBAFormat, THREE.FloatType);
     this.field.minFilter = this.field.magFilter = THREE.NearestFilter;
     this.field.generateMipmaps = false; this.field.colorSpace = THREE.NoColorSpace;
@@ -27,20 +32,34 @@ export class NativeWaterAtlas {
       this.diagnostics.gpuUpdates++;
       if (this.uploaded) this.diagnostics.partialUploads++; else this.diagnostics.fullUploads++;
       this.uploaded = true; this.diagnostics.pendingUploadBytes = 0;
+      this.dirtyRows.clear();
     };
   }
   markHeroDirty(): void {
+    this.markMutableDirty(0, HERO_FIELD_SCALARS);
+  }
+  /** Coarse marine readiness shares this sampler; it cannot overwrite ground. */
+  writeAuxiliary(offset: number, values: Float32Array): void {
+    if (!Number.isSafeInteger(offset) || offset < 0 || offset + values.length > this.auxiliaryScalars) throw new RangeError('Auxiliary water write outside reserved prefix');
+    if (!values.length) return;
+    (this.field.image.data as Float32Array).set(values, this.auxiliaryOffset + offset);
+    this.markMutableDirty(this.auxiliaryOffset + offset, values.length);
+  }
+  private markMutableDirty(start: number, count: number): void {
     this.field.clearUpdateRanges();
     if (this.uploaded) {
       const row = this.field.image.width * 4;
-      for (let start = 0; start < HERO_FIELD_SCALARS; start += row) this.field.addUpdateRange(start, Math.min(row, HERO_FIELD_SCALARS - start));
+      for (let i = Math.floor(start / row); i <= Math.floor((start + count - 1) / row); i++) this.dirtyRows.add(i);
+      for (const i of [...this.dirtyRows].sort((a, b) => a - b)) this.field.addUpdateRange(i * row, row);
+      this.diagnostics.pendingUploadBytes = this.dirtyRows.size * row * 4;
+    } else {
+      this.diagnostics.pendingUploadBytes = this.diagnostics.residentBytes;
     }
-    this.diagnostics.pendingUploadBytes = this.uploaded ? HERO_FIELD_SCALARS * 4 : this.diagnostics.residentBytes;
     this.field.needsUpdate = true;
   }
   /** Context restoration must upload immutable ground again, not only hero. */
   invalidate(): void {
-    this.uploaded = false; this.field.clearUpdateRanges(); this.field.needsUpdate = true;
+    this.uploaded = false; this.dirtyRows.clear(); this.field.clearUpdateRanges(); this.field.needsUpdate = true;
     this.diagnostics.pendingUploadBytes = this.diagnostics.residentBytes;
   }
   dispose(): void { this.field.dispose(); }

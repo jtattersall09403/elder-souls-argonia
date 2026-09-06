@@ -48,6 +48,26 @@ function atlasGround(atlas: NativeWaterAtlas, x: number, z: number): number | nu
 }
 
 describe('unified native ground / local water atlas', () => {
+  it.each([false, true])('unions hero and marine prefix uploads without touching ground (hero first=%s)', heroFirst => {
+    const ground = groundFixture(), atlas = new NativeWaterAtlas(ground, 1024);
+    const pixels = atlas.field.image.data as Float32Array, immutable = pixels.slice(HERO_FIELD_SCALARS + 1024);
+    atlas.field.onUpdate!(atlas.field);
+    const ready = new Float32Array(1024); ready[17] = 1;
+    if (heroFirst) atlas.markHeroDirty();
+    atlas.writeAuxiliary(0, ready);
+    if (!heroFirst) atlas.markHeroDirty();
+    expect(atlas.field.updateRanges).toEqual(Array.from({ length: 9 }, (_, i) => ({ start: i * 8192, count: 8192 })));
+    expect(atlas.diagnostics.pendingUploadBytes).toBe(9 * 8192 * 4);
+    expect(pixels[HERO_FIELD_SCALARS + 17]).toBe(1);
+    expect(pixels.subarray(HERO_FIELD_SCALARS + 1024)).toEqual(immutable);
+    expect(atlasGround(atlas, 20, 20)).toBe(ground.sample(20, 20));
+    expect(() => atlas.writeAuxiliary(1024, new Float32Array(1))).toThrow('outside reserved');
+    atlas.field.onUpdate!(atlas.field); atlas.markHeroDirty();
+    expect(atlas.field.updateRanges).toHaveLength(8);
+    atlas.invalidate(); expect(atlas.field.updateRanges).toEqual([]);
+    atlas.dispose();
+  });
+
   it('preserves steep native triangles, bit-15 flips, sparse coverage and exact Float32 axes at kilometre coordinates', () => {
     const ground = groundFixture(), atlas = new NativeWaterAtlas(ground);
     for (let z = 0; z < 32; z++) for (let x = 0; x < 32; x++) for (const [u, v] of [[0, 0], [0.2, 0.7], [0.8, 0.3], [0.5, 0.5]]) {

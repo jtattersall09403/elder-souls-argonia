@@ -6,6 +6,8 @@ export interface MarineTileSpec {
 }
 export interface MarineTileData {
   positions: Float32Array;
+  /** One-sided semantic coordinates for explicit waterOverride.yz. */
+  samplePositions: Float32Array;
   /** Authored tide/season coefficients, not an owner-wide replacement. */
   levelResponses: Float32Array;
   groundHeights: Float32Array;
@@ -28,7 +30,7 @@ export function* marineTileSteps(data: WaterData, spec: MarineTileSpec): Generat
   if (![spec.x, spec.z, spec.sizeM, spec.maximumCellM].every(Number.isFinite)
     || spec.sizeM <= 0 || spec.sizeM > 32 || spec.maximumCellM < .125 || spec.maximumCellM > 8)
     throw new RangeError('Marine tile requires finite extent <=32m and cell size 0.125–8m');
-  const positions: number[] = [], levels: number[] = [], ground: number[] = [], owners: number[] = [], indices: number[] = [];
+  const positions: number[] = [], samples: number[] = [], levels: number[] = [], ground: number[] = [], owners: number[] = [], indices: number[] = [];
   const vertices = new Map<string, number>();
   let rectangles = 0, visited = 0, maximumCellM = 0, maximumCoordinateRoundoffM = 0;
   for (const cell of rasterDomainCells(data, { minX: spec.x, minZ: spec.z, maxX: spec.x + spec.sizeM, maxZ: spec.z + spec.sizeM }, spec.maximumCellM)) {
@@ -41,9 +43,10 @@ export function* marineTileSteps(data: WaterData, spec: MarineTileSpec): Generat
       const existing = vertices.get(key); if (existing !== undefined) return existing;
       // A vanishing interior offset chooses the intended one-sided owner;
       // output XZ is still the common exact Float32 edge, without cracks.
-      const edge = rasterDomainVertex(data, cell, x, z).sample;
+      const vertexSample = rasterDomainVertex(data, cell, x, z), edge = vertexSample.sample;
       const index = owners.length;
       positions.push(fx, 0, fz); levels.push(edge.tideResponse, edge.seasonResponse);
+      samples.push(vertexSample.sampleX, vertexSample.sampleZ);
       maximumCoordinateRoundoffM = Math.max(maximumCoordinateRoundoffM, Math.abs(fx - x), Math.abs(fz - z));
       ground.push(edge.surfaceBase - edge.depthProxy); owners.push(owner);
       vertices.set(key, index); return index;
@@ -52,7 +55,7 @@ export function* marineTileSteps(data: WaterData, spec: MarineTileSpec): Generat
     indices.push(a, c, b, b, c, d); rectangles++;
     maximumCellM = Math.max(maximumCellM, x1 - x0, z1 - z0);
   }
-  const result = { positions: new Float32Array(positions), levelResponses: new Float32Array(levels),
+  const result = { positions: new Float32Array(positions), samplePositions: new Float32Array(samples), levelResponses: new Float32Array(levels),
     groundHeights: new Float32Array(ground), bodyIndices: new Uint16Array(owners), indices: new Uint32Array(indices) };
   return { ...result, diagnostics: { rectangles, triangles: indices.length / 3, vertices: owners.length,
     bytes: Object.values(result).reduce((sum, array) => sum + array.byteLength, 0), maximumCellM, maximumCoordinateRoundoffM } };

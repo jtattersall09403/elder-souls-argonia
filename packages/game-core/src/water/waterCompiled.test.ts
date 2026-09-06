@@ -44,6 +44,9 @@ describe("shipped water topology", () => {
     expect(meta.stats?.standingPoolCount).toBeGreaterThan(0);
     expect(meta.stats?.standingPoolMaxLevelRangeM).toBe(0);
     expect(meta.stats?.nativeAscendingSegmentCount).toBe(0);
+    if (meta.surface.nativeChannelCoverage) {
+      expect(meta.stats?.immutableRetainingBoundViolationCount, 'Native repairs must preserve every original retaining support').toBe(0);
+    }
   });
   it("contains downstream, wetted ribbons and finite cascade endpoints attached to real bodies", () => {
     expect(meta.schemaVersion).toBe(2);

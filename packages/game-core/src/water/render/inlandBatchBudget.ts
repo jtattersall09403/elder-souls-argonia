@@ -13,7 +13,7 @@ export function inlandBatchBudget(sources: readonly BufferGeometry[]) {
     indices += source.index?.count ?? 0;
   }
   const indexBytes = vertices > 65535 ? 4 : 2;
-  const vertexBytes = enhanced ? 49 : 19;
+  const vertexBytes = (enhanced ? 49 : 19) + (sources.some(source => source.hasAttribute('waterCellSize')) ? 4 : 0);
   const mergedBytes = vertices * vertexBytes + indices * indexBytes;
   return { sourceBytes, mergedBytes, totalBytes: sourceBytes + mergedBytes,
     vertices, indices, enhanced, vertexBytes, indexBytes };

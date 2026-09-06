@@ -44,17 +44,29 @@ describe("inland geometry isolation and draw budget", () => {
     const data = poolData(66, [], () => 0), material = new MeshBasicMaterial();
     vi.spyOn(data, 'rasterClassAt').mockReturnValue(1);
     const published: { batch: string; tiles: readonly { tx: number; tz: number }[] }[] = [];
+    const nearBounds = { minX: 20, minZ: 20, maxX: 40, maxZ: 40 }, nearRevisions: string[] = [];
     const tiles = new InlandWaterTiles(data, false, { domain: 'marine', onPublication: (batch, snapshot) => {
       if (snapshot.length) expect(tiles.group.children.length).toBeGreaterThan(0);
       published.push({ batch, tiles: snapshot });
+      const displayed = tiles.displayedSnapshot(nearBounds);
+      if (displayed) nearRevisions.push(displayed.revision);
     } });
     try {
       expect(published).toEqual([]);
+      expect(tiles.displayedSnapshot(nearBounds)).toBeNull();
       settle(tiles, 32, 32, material);
+      const snapshot = tiles.displayedSnapshot(nearBounds);
+      expect(snapshot?.sources).toEqual([tiles.meshes[0].geometry]);
+      expect(snapshot?.revision).toBeTruthy();
+      expect(new Set(nearRevisions).size, 'Unrelated tiles joining a batch must not invalidate near seams').toBe(1);
+      expect(tiles.displayedSnapshot({ ...nearBounds, minX: -1 })).toBeNull();
       expect(published.some(p => p.tiles.some(t => t.tx === 0 && t.tz === 0))).toBe(true);
       for (const mesh of tiles.meshes) {
         const override = mesh.geometry.getAttribute('waterOverride');
         for (let i = 0; i < override.count; i++) expect(override.getW(i)).toBe(-2);
+        const footprint = mesh.geometry.getAttribute('waterCellSize');
+        expect(footprint.count).toBe(override.count);
+        expect(Array.from(footprint.array).every(value => value >= 1)).toBe(true);
       }
     } finally { tiles.dispose(); material.dispose(); }
     for (const batch of new Set(published.map(p => p.batch))) expect(published.filter(p => p.batch === batch).at(-1)?.tiles).toEqual([]);

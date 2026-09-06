@@ -2,7 +2,7 @@ import * as THREE from "three";
 import type { WaterData, WaterBoundaryStaticSample } from "../waterData";
 import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
-import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell } from "./rasterWaterDomain";
+import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell, type RasterDomainBounds } from "./rasterWaterDomain";
 import { inlandBatchBudget } from "./inlandBatchBudget";
 import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, rasterWaterClassInDomain, type InlandStageRange, type RasterWaterDomain } from "./inlandAdaptiveLeaves";
 import { waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
@@ -30,7 +30,9 @@ export class InlandWaterTiles {
   private pending: TileTask[] = [];
   private active?: { task: TileTask; build: Generator<void, THREE.Mesh> };
   private readonly dirtyBatches = new Set<string>();
-  private merging?: { key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3; tiles: { tx: number; tz: number }[] };
+  private merging?: { key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3; tiles: { tx: number; tz: number; step: number; generation: number }[] };
+  private publicationVersion = 0;
+  private sourceVersion = 0;
   private batches = new Map<string, THREE.Mesh>();
   private verticalScale = NaN;
   private viewKey = "";
@@ -80,6 +82,32 @@ export class InlandWaterTiles {
     const sources = [...this.tiles.values()].filter(tile => tile !== omit && tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0).map(tile => tile.geometry);
     if (insert && (insert.geometry.index?.count ?? 0) > 0) sources.push(insert.geometry);
     return inlandBatchBudget(sources).totalBytes;
+  }
+
+  /** A near overlay may copy only displayed, native-step coarse triangles.
+   * Pending replacement/source geometries confer no seam or readiness proof. */
+  displayedSnapshot(bounds: RasterDomainBounds): { revision: string; sources: THREE.BufferGeometry[] } | null {
+    const tileM = 64 * this.data.meta.surface.metresPerPixel, limit = Math.ceil(this.data.meta.surface.size / 64);
+    if (!Object.values(bounds).every(Number.isFinite) || bounds.maxX <= bounds.minX || bounds.maxZ <= bounds.minZ
+      || bounds.maxX - bounds.minX > tileM * 2 || bounds.maxZ - bounds.minZ > tileM * 2) return null;
+    const wanted = new Set<string>();
+    for (let tz = Math.floor(bounds.minZ / tileM); tz < Math.ceil(bounds.maxZ / tileM); tz++)
+      for (let tx = Math.floor(bounds.minX / tileM); tx < Math.ceil(bounds.maxX / tileM); tx++) {
+        if (tx < 0 || tz < 0 || tx >= limit || tz >= limit) return null;
+        wanted.add(`${tx},${tz}`);
+      }
+    const sources: THREE.BufferGeometry[] = [], revisions: string[] = [];
+    for (const batch of this.batches.values()) {
+      let relevant = false;
+      for (const tile of (batch.userData.waterTiles ?? []) as { tx: number; tz: number; step: number; generation: number }[]) {
+        const id = `${tile.tx},${tile.tz}`;
+        if (!wanted.has(id)) continue;
+        if (tile.step !== 1) return null;
+        wanted.delete(id); relevant = true; revisions.push(`${id}:${tile.generation}`);
+      }
+      if (relevant) sources.push(batch.geometry);
+    }
+    return wanted.size || !sources.length ? null : { revision: revisions.sort().join('|'), sources };
   }
 
   update(x: number, z: number, material: THREE.Material, verticalScale = 1, view?: WaterGeometryView): void {
@@ -161,7 +189,7 @@ export class InlandWaterTiles {
           continue;
         }
         const bounds = new THREE.Box3(); for (const tile of tiles) bounds.union(tile.userData.waterBounds);
-        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)), tiles: tiles.map(tile => ({ ...tile.userData.waterTile })) };
+        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)), tiles: tiles.map(tile => ({ ...tile.userData.waterTile, step: tile.userData.waterStep })) };
       }
       if (this.merging) {
         this.atomicPhase = "batch-copy";
@@ -173,6 +201,7 @@ export class InlandWaterTiles {
         else { batch = new THREE.Mesh(result.value, material); batch.frustumCulled = true; batch.layers.set(3); batch.receiveShadow = true;
           this.group.add(batch); this.batches.set(key, batch); }
         batch.userData.waterBounds = bounds; batch.userData.boundsDirty = true;
+        batch.userData.waterTiles = tiles; batch.userData.waterRevision = ++this.publicationVersion;
         this.onPublication?.(key, tiles);
         continue;
       }
@@ -230,6 +259,8 @@ export class InlandWaterTiles {
       minimumHeight = Math.min(minimumHeight, height); maximumHeight = Math.max(maximumHeight, height);
     };
     const body: (string | null)[] = [], wet: boolean[] = [];
+    const footprintsM: number[] = [];
+    let activeFootprintM = mpp;
     const explicit: ({ sample: WaterBoundaryStaticSample; owner: number; sampleX: number; sampleZ: number } | undefined)[] = [];
     const sampleScratch: WaterBoundaryStaticSample = { surfaceBase: 0, depthProxy: 0,
       tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
@@ -237,20 +268,22 @@ export class InlandWaterTiles {
     const vertex = (x: number, z: number): number => {
       const key = `${x},${z}`;
       const existing = vertices.get(key);
-      if (existing !== undefined) return existing;
+      if (existing !== undefined) { footprintsM[existing] = Math.max(footprintsM[existing], activeFootprintM); return existing; }
       const i = body.length, sample = this.data.boundaryAt(x, z, sampleScratch, false);
       includeHeight(x, z);
       positions.push(x, 0, z); body.push(sample.waterBodyId);
+      footprintsM[i] = activeFootprintM;
       wet.push(inlandPotentiallyWet(sample, this.stage) && rasterWaterClassInDomain(this.data.rasterClassAt(x, z), this.domain));
       vertices.set(key, i);
       return i;
     };
     const domainVertex = (cell: RasterDomainCell, x: number, z: number): number => {
       const key = `domain:${cell.bodyIndex}:${cell.classIndex}:${Math.fround(x)},${Math.fround(z)}`;
-      const existing = vertices.get(key); if (existing !== undefined) return existing;
+      const existing = vertices.get(key); if (existing !== undefined) { footprintsM[existing] = Math.max(footprintsM[existing], activeFootprintM); return existing; }
       const v = rasterDomainVertex(this.data, cell, x, z);
       const i = body.length;
       positions.push(v.x, 0, v.z); body.push(v.sample.waterBodyId);
+      footprintsM[i] = activeFootprintM;
       wet.push(inlandPotentiallyWet(v.sample, this.stage));
       explicit[i] = { sample: v.sample, owner: cell.bodyIndex, sampleX: v.sampleX, sampleZ: v.sampleZ };
       minimumHeight = Math.min(minimumHeight, v.sample.surfaceBase); maximumHeight = Math.max(maximumHeight, v.sample.surfaceBase);
@@ -287,6 +320,7 @@ export class InlandWaterTiles {
           const index = body.length;
           includeHeight(point.x, point.z);
           positions.push(point.x, 0, point.z); body.push(body[a]); wet.push(wet[a] || wet[b] || wet[c]);
+          footprintsM[index] = Math.max(footprintsM[a], footprintsM[b], footprintsM[c]);
           if (explicit[a]) {
             // Clipping preserves the parent rendered plane and coefficients;
             // resampling an exact owner edge would borrow the other domain.
@@ -352,6 +386,7 @@ export class InlandWaterTiles {
     let leafCount = 0;
     for (const leaf of leaves) {
       this.atomicPhase = "leaf-clip";
+      activeFootprintM = leaf.step * mpp;
       if ((++leafCount & 15) === 0) yield;
       const x0 = baseX + leaf.x * mpp, z0 = baseZ + leaf.z * mpp;
       const x1 = baseX + (leaf.x + leaf.step) * mpp, z1 = baseZ + (leaf.z + leaf.step) * mpp;
@@ -414,6 +449,18 @@ export class InlandWaterTiles {
     const overrides = enhanced ? new Float32Array(count * 4) : new Int8Array(count * 4);
     if (this.domain === 'marine') for (let i = 3; i < overrides.length; i += 4) overrides[i] = -2;
     geometry.setAttribute("waterOverride", new THREE.BufferAttribute(overrides, 4));
+    if (this.domain === 'marine') {
+      const footprints = new Float32Array(count);
+      for (let i = 0; i < count; i++) {
+        const x = usedPositions[i * 3], z = usedPositions[i * 3 + 2];
+        // Tile borders always use the shared native lattice, independent
+        // of either tile's current interior LOD or replacement timing.
+        const border = Math.fround(x) === Math.fround(baseX) || Math.fround(x) === Math.fround(baseX + 64 * mpp)
+          || Math.fround(z) === Math.fround(baseZ) || Math.fround(z) === Math.fround(baseZ + 64 * mpp);
+        footprints[i] = border ? mpp : footprintsM[usedSource[i]];
+      }
+      geometry.setAttribute('waterCellSize', new THREE.BufferAttribute(footprints, 1));
+    }
     if (enhanced) {
       const levels = new Float32Array(count * 3), grounds = new Float32Array(count), owners = new Uint16Array(count);
       for (let i = 0; i < count; i++) {
@@ -433,7 +480,7 @@ export class InlandWaterTiles {
     geometry.setIndex(compactIndices);
     const mesh = new THREE.Mesh(geometry, material);
     mesh.userData.waterStep = requestedStep;
-    mesh.userData.waterTile = { tx, tz };
+    mesh.userData.waterTile = { tx, tz, generation: ++this.sourceVersion };
     mesh.userData.effectiveWaterStep = Math.min(requestedStep, ...leaves.map(leaf => leaf.step));
     mesh.userData.errorTier = Math.max(0, Math.floor(Math.log2(errorM / 0.04)));
     mesh.userData.waterBatch = `${Math.floor(tx / 4)},${Math.floor(tz / 4)}`;
@@ -457,6 +504,7 @@ export class InlandWaterTiles {
     const levels = enhanced ? new Float32Array(count * 3) : undefined; yield;
     const ground = enhanced ? new Float32Array(count) : undefined; yield;
     const owner = enhanced ? new Uint16Array(count) : undefined; yield;
+    const footprint = sources.some(source => source.hasAttribute('waterCellSize')) ? new Float32Array(count) : undefined; yield;
     const indices = count > 65535 ? new Uint32Array(indexCount) : new Uint16Array(indexCount); yield;
     let vertices = 0, cursor = 0;
     for (const source of sources) {
@@ -466,7 +514,7 @@ export class InlandWaterTiles {
           target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
         }
       }
-      for (const [name, target, width] of [['waterLevelResponse', levels, 3], ['waterGround', ground, 1], ['waterBodyIndex', owner, 1]] as const) {
+      for (const [name, target, width] of [['waterLevelResponse', levels, 3], ['waterGround', ground, 1], ['waterBodyIndex', owner, 1], ['waterCellSize', footprint, 1]] as const) {
         if (!target || !source.hasAttribute(name)) continue;
         const values = source.getAttribute(name).array;
         for (let i = 0; i < values.length; i += 4096) {
@@ -484,6 +532,7 @@ export class InlandWaterTiles {
     geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
     geometry.setAttribute("normal", new THREE.BufferAttribute(normal, 3, true));
     geometry.setAttribute("waterOverride", new THREE.BufferAttribute(override, 4));
+    if (footprint) geometry.setAttribute('waterCellSize', new THREE.BufferAttribute(footprint, 1));
     if (levels && ground && owner) {
       geometry.setAttribute('waterLevelResponse', new THREE.BufferAttribute(levels, 3));
       geometry.setAttribute('waterGround', new THREE.BufferAttribute(ground, 1));

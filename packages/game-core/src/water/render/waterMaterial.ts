@@ -11,6 +11,7 @@ import { CONNECTED_STAGE_GLSL } from "./connectedStage";
 import { LOCAL_WATER_SURFACE_GLSL } from '../localPatchPresentation';
 import { boundedPhysicalLighting } from './boundedPhysicalLighting';
 import { NATIVE_WATER_GROUND_GLSL } from './NativeWaterAtlas';
+import { MARINE_COVERAGE_GLSL } from './marineCoverage';
 import { WATER_SSR_GLSL } from './waterSsr';
 import { RIPPLE_ISOLATION_GLSL } from './rippleIsolation';
 import { MARINE_DATUM_GLSL } from './marineDatum';
@@ -98,6 +99,9 @@ export interface WaterUniforms {
   uNativeGroundActive: { value: number };
   uNativeGroundInfo: { value: THREE.Vector4 };
   uNativeGroundOffsets: { value: THREE.Vector3 };
+  uMarineCoverageInfo: { value: THREE.Vector4 };
+  uMarineNearRects: { value: THREE.Vector4[] };
+  uMarineNearCount: { value: number };
   uLocalWaterField: { value: THREE.Texture | null };
   uLocalWaterInfo: { value: THREE.Vector4 };
   uLocalWaterEdge: { value: number };
@@ -163,6 +167,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
   return {
     uNativeGroundActive: { value: 0 }, uNativeGroundInfo: { value: new THREE.Vector4() }, uNativeGroundOffsets: { value: new THREE.Vector3() },
+    uMarineCoverageInfo: { value: new THREE.Vector4() }, uMarineNearRects: { value: Array.from({ length: 4 }, () => new THREE.Vector4()) }, uMarineNearCount: { value: 0 },
     uLocalWaterField: { value: null }, uLocalWaterInfo: { value: new THREE.Vector4(0, 0, 0.25, 128) },
     uLocalWaterEdge: { value: 2 }, uLocalWaterActive: { value: 0 }, uLocalWaterBody: { value: 0 },
     uAccessTex: { value: assets.accessTex ?? assets.supportTex },
@@ -401,6 +406,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   ${SPECTRAL_OCEAN_GLSL}
   ${LOCAL_WATER_SURFACE_GLSL}
   ${NATIVE_WATER_GROUND_GLSL}
+  ${MARINE_COVERAGE_GLSL}
   ${flowAdvectionGlsl()}
   float esFallingNoise(vec3 p, vec3 n, int octaves) {
     vec2 weights = abs(n.xz);
@@ -656,6 +662,7 @@ uniform float uVerticalScale;`,
   bool insideProvince = all(greaterThanEqual(vEsWorldPos.xz, vec2(0.0))) && all(lessThan(vEsWorldPos.xz, vec2(uFlowExtentM)));
   if (vRibbon < -0.5 && insideProvince && waterClass >= 2.5) discard;
   if (vRibbon > -0.5 && vRibbon < 0.5 && (!insideProvince || waterClass < 2.5)) discard;
+  if (esMarineReplaced(vEsWorldPos.xz, vRibbon)) discard;
   vec2 esScreenUV = gl_FragCoord.xy / uResolution;
   ${variant === "above" ? /* glsl */ `
   float esFragEye = -(viewMatrix * vec4(vEsWorldPos, 1.0)).z;

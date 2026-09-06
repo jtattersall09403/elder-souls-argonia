@@ -91,11 +91,11 @@ occupancy must not justify further cutting. Preserve original retaining banks,
 authored tidal/seasonal ranges and every actual carved channel.
 Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
-Strict preservation audit restored244 breached original rims and1,103
-unnecessary submerged floor cuts: all423,268 originally wet impoundment samples
-retain identical spill potential/coverage and their original planes. Latest
-coherent checkpoint still has356 channel constraints. See the handoff for
-authoritative inputs and the retaining-support/artificial-anchor work next.
+Strict preservation retains all423,268 original wet samples, identical spill
+potential/coverage and original planes. Durable accepted repair checkpoint
+has349 channel constraints after restoring retaining supports, unnecessary
+pool-floor cuts and a cut-created artificial anchor. The repair-input manifest
+and linked compiler handoff identify the latest exact hashes and next groups.
 
 Local rendering follow-up fixes finest-LOD owner strips using exact partitions
 and one-sided vertex fields; zigzag equal/different-head coverage tests pass.

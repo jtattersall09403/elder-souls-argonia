@@ -63,7 +63,7 @@ describe('bounded conforming marine tile prototype', () => {
     expect(nearAudit.maximumStageErrorM).toBeLessThan(.0001);
     expect(coarseAudit.maximumStageErrorM).toBeLessThan(.01);
     expect(near.mesh.diagnostics.triangles).toBe(18432);
-    expect(near.mesh.diagnostics.bytes).toBeLessThan(500000);
+    expect(near.mesh.diagnostics.bytes).toBeLessThan(600000);
     expect(near.yields).toBeGreaterThan(200);
     console.info('marine tile prototype', { near: near.mesh.diagnostics, coarse: coarse.mesh.diagnostics, nearAudit, coarseAudit });
   });

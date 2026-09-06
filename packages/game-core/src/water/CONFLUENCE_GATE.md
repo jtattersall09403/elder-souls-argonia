@@ -46,6 +46,9 @@ the existing exhaustive topology/record gate and is intentionally separate;
 do not run it merely to iterate this focused check. Its indexed deep-cut audit
 allowlist must independently match the owner-approved final exception manifest.
 Do not loosen that assertion to make a provisional export pass.
+The native-data gate also requires `stats.immutableRetainingBoundViolationCount`
+to be present and zero; emitted channel validity cannot waive a damaged
+original retaining support.
 
 After the small gate passes, add `WATER_CONFLUENCE_FULL=1` to its command to
 visit every detected branched junction and every standing-edge probe wet in
