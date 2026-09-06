@@ -1,4 +1,5 @@
 import { BufferAttribute, BufferGeometry } from "three";
+import { validateTerrainGradientPatch,type TerrainGradientPatchMeta } from "./terrainGradient";
 
 interface AdaptiveAsset { file: string; bytes: number; vertices: number; triangles: number; sha256: string; minM: number; maxM: number;
   compression?: "gzip"; downloadBytes?: number;
@@ -13,6 +14,7 @@ export interface AdaptiveTerrainManifest {
   sources: { nativeManifest: { file: string; sha256: string }; bedOverlay: { file: string; sha256: string };
     topology: { file: string; sha256: string }; protectionMaskSha256: string };
   chunks: AdaptiveTerrainChunk[];
+  gradientPatch?:TerrainGradientPatchMeta;
 }
 export interface AdaptiveTerrainData {
   chunk: AdaptiveTerrainChunk; lod: string; metresPerSample: number;
@@ -33,6 +35,7 @@ export function validateAdaptiveTerrainManifest(value: unknown): AdaptiveTerrain
     if (!source || !safeFile(source.file) || !hash(source.sha256)) throw new Error("Invalid adaptive terrain source dependency");
   }
   if (!hash(m.sources.protectionMaskSha256)) throw new Error("Missing adaptive protection hash");
+  if(m.gradientPatch!==undefined)validateTerrainGradientPatch(m.gradientPatch,m.gridSize,m.sources);
   const keys = new Set<string>();
   for (const chunk of m.chunks) {
     const key = `${chunk.cx},${chunk.cy}`;

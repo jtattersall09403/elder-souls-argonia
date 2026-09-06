@@ -274,7 +274,9 @@ export function Fly3D(props: Fly3DProps) {
             }>
               <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
                 matSet={props.matSet} tintStrength={props.tintStrength}
-                verticalScale={props.exaggeration} />
+                verticalScale={props.exaggeration}
+                loadingFallback={<Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
+                  textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />} />
             </Suspense>
             {/* Phase 10 vegetation: the scatter compiler's chunk bundles,
                 instanced from the compiled flora kit. Only the exemplar and

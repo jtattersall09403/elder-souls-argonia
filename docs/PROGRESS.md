@@ -106,7 +106,19 @@ entry/wakes/crown, live HDR inputs and in-frustum spray/mist/foam are observed;
 newborn lifetime is corrected. Subsequent local confluence-stage selection
 and underwater bubbles pass root gates16:03 (674 game-core tests), actual
 bubble GPU readback and16-sampler app checks. Final river-domain/coverage
-validation remains active; these later additions are not yet deployed.
+validation remains active. These additions deployed as `b7948d6`: Actions
+`34044417460` passed and live studio bundle `index-ALToYCdb.js` matches.
+Public water metadata remains unchanged; the final hydraulic export is not live.
+The expanded solve now includes all carver-authored shallow wetland rivulets
+with their own depth/footprint regime, rather than promoting them to full rivers.
+Connected-reach feasibility and standing-pool boundaries remain active blockers.
+Matched sparse terrain-gradient corrections are implemented locally to keep
+bank lighting/triplanar slopes consistent with corrected beds and diagonals;
+they must ship with the same hashed terrain/water export, not independently.
+Root gates16:30 pass (676 game-core tests; final-artifact test intentionally
+skipped without a final bundle), with airborne checks passing again. Actual
+browser gradient comparison is byte-identical before correction at full/mip
+resolution, exact after sparse correction, and releases all owned GPU textures.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

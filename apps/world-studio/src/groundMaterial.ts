@@ -49,6 +49,7 @@ export function useGroundManifest(base: string, requested?: string): { set: stri
 }
 
 export interface GroundUniforms {
+  uGrad: { value: THREE.Texture };
   uVerticalScale: { value: number };
   uTintStrength: { value: number };
   /** Canopy sky-visibility darkening strength (module 55 §96), 0..1. */
@@ -103,6 +104,7 @@ export function createGroundMaterial(
   const img = ctrl.image as { width: number; height: number };
 
   const groundUniforms: GroundUniforms = {
+    uGrad: { value: gradTex },
     uVerticalScale: { value: verticalScale },
     uTintStrength: { value: 1.0 },
     uCanopyStrength: { value: 0.7 },
@@ -111,7 +113,6 @@ export function createGroundMaterial(
     uTex: { value: tex },
     uCtrl: { value: ctrl },
     uTint: { value: tintTex },
-    uGrad: { value: gradTex },
     uGradClamp: { value: 8.0 }, // must match export_web_chunks.GRADIENT_CLAMP (signed-sqrt encoding)
     uCtrlSize: { value: new THREE.Vector2(img.width, img.height) },
     uTileM: { value: new Float32Array(manifest.materials.map((m) => m.tileM)) },

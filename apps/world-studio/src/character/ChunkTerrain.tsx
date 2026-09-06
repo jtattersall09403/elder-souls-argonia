@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useLoader } from "@react-three/fiber";
 import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
@@ -8,6 +8,7 @@ import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeo
 import { AdaptiveTerrainLoader, buildAdaptiveTerrainGeometry, type AdaptiveTerrainData, type AdaptiveTerrainManifest } from "@elder-souls/game-core/terrain/adaptiveTerrain";
 import { TerrainViewResidency, type TerrainViewEntry } from "@elder-souls/game-core/terrain/viewResidency";
 import { hasTerrainAuthority, selectTerrainDisplay } from '@elder-souls/game-core/terrain/displaySelection';
+import { loadTerrainGradient } from '@elder-souls/game-core/terrain/terrainGradient';
 
 /**
  * Chunked terrain renderer: visible/buffer chunks each have their own mesh,
@@ -43,7 +44,7 @@ function AdaptiveChunkMesh({ data, material, verticalScale, uvExtentM }: {
   return <mesh geometry={geometry} material={material} receiveShadow />;
 }
 
-export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap }: {
+export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap, loadingFallback }: {
   store: ChunkStore;
   manifest: ChunksManifest;
   focusRef: React.MutableRefObject<{ x: number; z: number }>;
@@ -55,6 +56,8 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   verticalScale?: number;
   /** Diagnostic callback: chunk cell of the focus + the lod rendered there. */
   onLodMap?: (focusCell: [number, number]) => void;
+  /** Keep the caller's existing macro/loading terrain during async validation. */
+  loadingFallback?: React.ReactNode;
 }) {
   const base = import.meta.env.BASE_URL;
   const adaptive = useMemo(() => new URLSearchParams(window.location.search).get("water") === "legacy"
@@ -74,7 +77,24 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
   const ctrl = useLoader(THREE.TextureLoader, `${base}province/refined/ground-control.png`);
   const tintTex = useLoader(THREE.TextureLoader, `${base}province/refined/ground-tint.png`);
-  const gradTex = useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`);
+  const [gradientState,setGradientState]=useState<{texture:THREE.DataTexture;owner:AdaptiveTerrainLoader|null;base:string}|null>(null);
+  // Reject the previous dataset synchronously, before passive effect cleanup
+  // can run after a route/base change. Its texture still gets disposed once.
+  const gradient=gradientState?.owner===adaptive&&gradientState.base===base?gradientState.texture:null;
+  const [gradientError,setGradientError]=useState<Error|null>(null);
+  const gradTex=useMemo(()=>new THREE.DataTexture(new Uint8Array([128,128,0,255]),1,1),[]);
+  useEffect(()=>()=>gradTex.dispose(),[gradTex]);
+  useEffect(()=>{
+    const controller=new AbortController();let owned:THREE.DataTexture|null=null;
+    setGradientState(null);setGradientError(null);
+    // Reuse the stable dependency-validation promise; this is not a new
+    // Suspense dependency and cannot recreate the fly scene loading loop.
+    (adaptive?adaptive.manifest():Promise.resolve(null))
+      .then(metadata=>loadTerrainGradient(`${base}province/`,metadata?.gradientPatch??null,{signal:controller.signal}))
+      .then(texture=>{if(controller.signal.aborted){texture.dispose();return;}owned=texture;setGradientState({texture,owner:adaptive,base});})
+      .catch(error=>{if(!controller.signal.aborted){console.error("Matched terrain gradient unavailable:",error);setGradientError(error);}});
+    return()=>{controller.abort();owned?.dispose();};
+  },[adaptive,base]);
   const { csm } = useContext(SkyContext);
   const material = useMemo(
     () => createGroundMaterial(images, ctrl, tintTex, gradTex, ground,
@@ -83,6 +103,11 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     [images, ctrl, tintTex, gradTex, ground, csm],
   );
   const groundUniforms = material.userData.groundUniforms as GroundUniforms;
+  const gradientInfo=useRef({ready:false,error:null as string|null});
+  gradientInfo.current={ready:!!gradient,error:gradientError?.message??null};
+  // Bind before the first committed canvas frame: passive effects can run
+  // after r3f draws newly admitted chunks with the placeholder still bound.
+  useLayoutEffect(()=>{groundUniforms.uGrad.value=gradient??gradTex;},[groundUniforms,gradient,gradTex]);
   useEffect(() => {
     groundUniforms.uVerticalScale.value =
       verticalScale ?? manifest.verticalScaleAtGeometry;
@@ -96,6 +121,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     w.__GROUND_MATERIAL__ = material;
     w.__GROUND_DEBUG__ = () => ({
       patchInfo: material.userData.patchInfo ?? { compiled: false },
+      gradientReady:gradientInfo.current.ready,gradientError:gradientInfo.current.error,
       hasCsm: !!csm,
       type: material.type,
     });
@@ -193,6 +219,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [store, manifest, focusCell, viewEntries, adaptive, adaptiveAvailable]);
 
+  // Keep the existing macro/loading terrain until the one authoritative
+  // gradient is ready. Never show corrected chunks with stale slope data.
+  if(!gradient)return <>{loadingFallback??null}</>;
   return (
     <group>
       {viewEntries.map(({ chunk, lod: want }) => {

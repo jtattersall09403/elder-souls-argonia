@@ -63,3 +63,25 @@ decoded bytes, render-buffer bytes, triangles and the original LOD triangle coun
 
 Publish terrain only together with its matching water overlay and topology.
 The legacy comparison must bypass both the overlays and adaptive bundle.
+
+Corrected beds/diagonals also need matching slope data for ground lighting and
+triplanar weights. After the terrain export, run:
+
+```sh
+python3 -m worldgen.water_terrain_gradient --province <province-root> \
+  --water-dir <matching-water-directory> --terrain-dir <staging-terrain-directory>
+```
+
+This adds an optional schema-1 `gradientPatch` descriptor: original-gradient,
+native-manifest, overlay and topology hashes bind a sparse RG8 replacement
+sidecar to exactly one terrain build. `ESGRAD01` has a 24-byte header followed by
+sorted unique six-byte records (uint32 native index, two replacement bytes).
+The exporter adds the native area-weighted face-gradient change to the original
+smoothed field; it does not replace the original terrain's styling or claim
+per-face normals. Unaffected pixels remain byte-identical.
+
+`loadTerrainGradient` verifies and patches one owned texture before upload,
+preserving its UV orientation, filters and colour-space settings. It uses the
+existing ground sampler. The caller disposes the texture and keeps its loading
+terrain visible until verification finishes; invalid data must not silently mix
+corrected geometry with stale slopes. Legacy mode loads the untouched original.

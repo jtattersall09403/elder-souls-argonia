@@ -17,7 +17,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Hero-pool full interactive simulation; backlog/module60 §39.3 | Persistent owner-selected128² finite-volume patch, displaced object volumes and incremental admission implemented locally; visual and deployed evidence missing | open |
 | Ripples must not cross between disconnected pools; backlog follow-up | Existing masks/body identity require final nearby-unconnected-pool interaction regression, including seasonal separation | open |
 | Waterfalls, mist, plunge splash and foam; backlog | Cascade geometry and bounded emitters exist; silhouettes and connected plunge behaviour need review | open |
-| Underwater entrained particles; module60 §42 / interaction audit | Bounded impact/entry bubbles implemented with current/rise/owner barriers and fog-correct isolated HDR pass; actual GPU pixels/lifecycle pass, deployed and experiential evidence remains | open |
+| Underwater entrained particles; module60 §42 / interaction audit | Bounded impact/entry bubbles deployed in b7948d6 with current/rise/owner barriers and fog-correct isolated HDR pass; actual GPU pixels/lifecycle pass, experiential evidence remains | open |
 | No barcode/static/specular aliasing or mixed shaders; backlog/owner | Specific regressions fixed; final moving-scene sweep missing | open |
 | Object/player impacts, wakes, displacement and ripples; owner | Contact crossings, independent readers, priority, crowns, mist and immersed-volume proxies implemented/tested locally; quiet body replay and stable admission prevent artificial startup waves; in-scene evidence remains | open |
 | Float/sink, drag, angular response, mass units; owner/backlog | Reusable fixed-step driver and explicit mass-unit contract implemented/tested; final fixture experiential validation remains | open |
@@ -29,7 +29,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Walk-mode SSR/DPR/capture costs; backlog | Shared capture exists; per-pixel SSR cost and measured pass budgets need improvement | open |
 | High framerate in walk/fly/future game; owner | Whole-province detail residency and uncullable ribbon draw found; bounded streaming/LOD in progress | open |
 | Reversibility; owner | Original assets + legacy switch + separate water commit; maintain through completion | open |
-| Deployed studio with all changes; owner | New completion pass not deployed; require successful Actions deployment and live version/asset checks | open |
+| Deployed studio with all changes; owner | Runtime completion checkpoints through b7948d6 deployed and bundle verified; final hydraulic/native/adaptive/gradient data not deployed | open |
 | Hard straight/square edges where water meets land; owner follow-up | Widespread, including close range; test continuous terrain intersections, ownership boundaries and seasonal extremes, not only distant LOD | open |
 | Wet-season waterways underfill painted beds; owner follow-up | Widespread asymmetric-width and boundary-extent defects; verify both banks throughout the full network | open |
 | Dry walkable hollow below apparent river surface; owner follow-up | Repro near 1.96km E / 0.22km S; rendered surface, native terrain and physical wet query must agree | open |
@@ -84,8 +84,11 @@ matches `1af32a3`. This does not close the completion-pass deployment row.
 Runtime checkpoint `4809880` deployed15:47UTC: Actions `34043295645` passed
 build/tests/types/Pages. Live studio loads the matching `index-CBqmJVeS.js`;
 v2 metadata still has the exact hash above. This delivers the checked runtime
-changes through that commit, not the unfinished hydraulic data or subsequent
-underwater-particle work. Completion/deployment acceptance remains open.
+changes through that commit, not the unfinished hydraulic data.
+Subsequent `b7948d6` deployed successfully through Actions `34044417460`;
+live bundle `index-ALToYCdb.js` matches. It includes underwater bubbles and
+wet-candidate confluence selection, with the same unchanged water-data hash.
+Completion/deployment acceptance remains open.
 
 ## Additional evidence from the owner repro
 
