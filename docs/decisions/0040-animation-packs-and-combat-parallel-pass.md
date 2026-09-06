@@ -912,3 +912,54 @@ strafe cues also push the stick to 0.42, which under the analogue rule now
 strafes at ~0.85× rather than full pace. Both are for the next locomotion
 pass: re-measure the greatsword strafe's ground track under the new anchor
 rule, and raise the cue to full stick so the recording shows top speed.
+
+# Round 10 (2026-09-06): bow production-path repairs
+
+Supersedes the round-9 conclusions in §48–52. A correct isolated gravity test
+was insufficient evidence for the whole projectile. The comparison with
+Skyrim's gravity was not established. The historical force/energy/drag model
+is retained; gravity remains 9.81 m/s² at the default setting.
+
+- **Flight and contact:** ignoring a collision callback did not prevent Rapier
+  from applying contact impulses against navigation capsules. The shared
+  `character/Arrows` runtime uses a centred, sensor-only mass under gravity and
+  drag. It sweeps the arrow tip between physics steps. World geometry stops
+  flight; actor capsules only shortlist posed skin for triangle intersection.
+  There is no nearest-capsule fallback and no attachment on a near miss.
+  The centre-to-tip offset is accounted for at launch and when embedding.
+  Previously the shaft centre was placed as though it were the tip. Launch
+  skipped 85 cm ahead of the drawing hand. Surface contact supplies the bone
+  and impact obliquity. App code supplies actors, storage and the debug probe.
+- **Aiming:** `camera/bowCamera` owns the shoulder framing and production
+  default. The crosshair ray uses the rendered camera, including camera
+  smoothing. Lock-on sights the target's chest from the offset camera.
+  `solveBowAim` compensates drag and gravity to a reachable sighted surface,
+  including the initial nock-to-tip offset. Player and enemy use this solver;
+  downhill targets and the gravity comparison slider now work in the solver.
+  An unreachable weak shot remains a physical miss, rather than gaining speed.
+- **Draw geometry:** `riggedBow` locates the nock on the animated string mesh.
+  The sourced upper-body pose is aimed along the string-to-grip axis. A
+  two-joint constraint brings the drawing hand to the string. Constraint
+  transitions and the nearly straight elbow are eased; legs remain sourced.
+  The fixed 75 cm shaft now starts at the string rather than at the wrist
+  behind it. Fetching and pulling occupy separate parts of the sourced draw
+  clip. During the fetch the shaft follows the hand; after nocking it follows
+  the string. Absolute charge pose time is separate from rebased action time.
+- **Movement and idle:** drawn strides were missing from the self-timed
+  locomotion set, so the external combat clock clamped them at the last frame.
+  They now loop and use their measured foot tracks to drive body motion.
+  Bow carry uses the bow locomotion profile. Animated body meshes do not use
+  stale rest-pose frustum bounds, removing that source of idle disappearance.
+- **Backward running:** vanilla `1hm_runbackward`, `bow_runbackward` and
+  `2hm_runbackward` supply semantic backward runs, with generated ground tracks.
+  The locked stride rate is 1.55×; the clock, pose and travel share that rate.
+  Only core, bow and greatsword packs changed; other pack bytes were identical.
+  Generated rig and roster hashes ship with the binaries. Existing vanilla
+  Skyrim credits cover these clips.
+
+Regression coverage includes posed-skin misses/hits, centred-shaft embedding,
+low-power flight through a navigation capsule, downhill ballistics, repeating
+bow-stride classification and the production ranged/locked locomotion scenes.
+The extended bow locomotion scene holds one direction across multiple loops;
+short direction snippets alone could not expose the reported freeze.
+The owner reviews the deployed sandbox for visual acceptance.

@@ -15,7 +15,7 @@ describe("lockedStrideClip", () => {
   it("keeps the locked clips for lateral and backward movement", () => {
     expect(lockedStrideClip({ x: -1, y: 0 }, 1)).toBe("STRAFE_LEFT");
     expect(lockedStrideClip({ x: 1, y: 0 }, 1)).toBe("STRAFE_RIGHT");
-    expect(lockedStrideClip({ x: 0, y: -1 }, 1, true)).toBe("WALK_BACK");
+    expect(lockedStrideClip({ x: 0, y: -1 }, 1, true)).toBe("RUN_BACK");
   });
 
   it("stands still inside the dead zone", () => {
@@ -44,7 +44,7 @@ describe("strideRateForMagnitude", () => {
     expect(strideRateForMagnitude(0.6, 1)).toBeCloseTo(0.6);
   });
 
-  it("runs the strafes half again as fast as round 7's 1.35", () => {
-    expect(LOCKED_STRIDE_RATE).toBeCloseTo(2.025);
+  it("uses the owner's 1.55 stride rate", () => {
+    expect(LOCKED_STRIDE_RATE).toBeCloseTo(1.55);
   });
 });

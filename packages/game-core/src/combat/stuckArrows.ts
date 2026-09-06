@@ -86,7 +86,7 @@ export function stickArrow(
   const inverse = new THREE.Matrix4().copy(bone.matrixWorld).invert();
 
   const forward = new THREE.Vector3(0, 0, 1).applyQuaternion(worldQuaternion);
-  const embedded = worldPoint.clone().addScaledVector(forward, embedMeters);
+  const embedded = worldPoint.clone().addScaledVector(forward, embedMeters - 0.375);
 
   const pose = new THREE.Matrix4().compose(embedded, worldQuaternion, ONE);
   pose.premultiply(inverse);

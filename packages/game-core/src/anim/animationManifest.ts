@@ -321,6 +321,9 @@ export const LOCOMOTION_STATES: ReadonlySet<AnimationState> = new Set<AnimationS
   "STRAFE_LEFT",
   "STRAFE_RIGHT",
   "RUN",
+  "RUN_BACK",
+  "BOW_RUN_BACK",
+  "GREATSWORD_RUN_BACK",
   "SPRINT",
   "GUARD",
   "JUMP_IDLE",
@@ -341,6 +344,10 @@ export const LOCOMOTION_STATES: ReadonlySet<AnimationState> = new Set<AnimationS
   // further into the source idle the longer the string is held, which is how a
   // three-second hold ends up somewhere the clip never meant to be.
   "BOW_DRAWN",
+  "BOW_DRAWN_WALK",
+  "BOW_DRAWN_WALK_BACK",
+  "BOW_DRAWN_STRAFE_LEFT",
+  "BOW_DRAWN_STRAFE_RIGHT",
   // Crouched movement is ordinary locomotion that happens to be low: self-timed
   // and cadence-matched to the actor's ground speed like any other stride.
   "CROUCH_IDLE",

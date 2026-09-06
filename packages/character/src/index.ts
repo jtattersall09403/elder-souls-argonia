@@ -22,3 +22,5 @@ export { PlayerBody } from "./PlayerBody";
 export { useStanceCapsule } from "./useStanceCapsule";
 export { EcctrlAdapter } from "./EcctrlAdapter";
 export { assetUrl } from "./assetBase";
+
+export { Arrows, type ArrowHit, type ArrowTrace, type FlightSample } from "./Arrows";

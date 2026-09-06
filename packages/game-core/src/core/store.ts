@@ -1,3 +1,4 @@
+import { DEFAULT_BOW_VIEW } from "../camera/bowCamera";
 import { create } from "zustand";
 import type { AimView, CombatAction, GameSnapshot } from "./types";
 import { DEFAULT_ENEMY_COUNT } from "../combat/tuning";
@@ -34,7 +35,7 @@ export const initialSnapshot: GameSnapshot = {
   lockedSpeedFollowsClip: true,
   lockedStrideRate: LOCKED_STRIDE_RATE,
   arrowGravityScale: 1,
-  aimView: "firstPerson" as AimView,
+  aimView: DEFAULT_BOW_VIEW as AimView,
   enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,
   aiming: false,

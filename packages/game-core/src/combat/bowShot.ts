@@ -232,6 +232,7 @@ export function bowPose(
   bow: BowAnimationProfile,
   /** Which way the archer is walking, if at all. */
   travel: BowTravel = STANDING,
+  nockSeconds = 1.7,
 ): {
   animation: AnimationState;
   /** Clip seconds to hold, or null to let the clip run on its own clock. */
@@ -247,14 +248,18 @@ export function bowPose(
   // the draw fraction and the pose *is* the state. Moving at draw, the string
   // is read off the rigged bow itself (which is scrubbed by the same fraction),
   // so nothing about the draw is lost by giving the legs the clip.
-  if (travel !== "still") {
+  if (travel !== "still" && cycle.phase !== "nocking") {
     return { animation: bowLocomotionClip(bow, travel, isAiming(cycle)), clipTime: null };
   }
   switch (cycle.phase) {
+    case "nocking":
+      return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime / nockSeconds) * NOCK_SOURCE_END_SECONDS };
+    case "ready":
+      return { animation: bow.draw, clipTime: NOCK_SOURCE_END_SECONDS };
     case "drawing":
       return cycle.drawFraction >= 1
         ? { animation: bow.drawn, clipTime: null }
-        : { animation: bow.draw, clipTime: cycle.drawFraction * drawClipSeconds(bow) };
+        : { animation: bow.draw, clipTime: NOCK_SOURCE_END_SECONDS + cycle.drawFraction * (drawClipSeconds(bow) - NOCK_SOURCE_END_SECONDS) };
     case "loosed":
       return { animation: bow.release, clipTime: null };
     default:
@@ -287,7 +292,8 @@ export function bowLocomotionClip(
  * shown there hangs in mid-air. Measured against the clip: the hand arrives at
  * the string at ~0.35 of the draw.
  */
-export const NOCK_REVEAL_FRACTION = 0.35;
+export const NOCK_REVEAL_FRACTION = 0.18;
+export const NOCK_SOURCE_END_SECONDS = 0.95;
 
 /**
  * Whether a shaft should be visible on the string.
@@ -297,7 +303,8 @@ export const NOCK_REVEAL_FRACTION = 0.35;
  * the owner saw in the idle hand was this returning true for `ready`.
  */
 export function nockedArrowVisible(cycle: BowCycle) {
-  return cycle.phase === "drawing" && cycle.drawFraction >= NOCK_REVEAL_FRACTION;
+  return cycle.phase === "drawing" || cycle.phase === "ready"
+    || (cycle.phase === "nocking" && cycle.phaseTime >= 0.3);
 }
 
 /** How the archer is moving, as the locomotion set names it. */

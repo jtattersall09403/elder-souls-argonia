@@ -58,7 +58,7 @@
     },
     "bow": {
       "label": "Bow",
-      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung — see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
+      "description": "The shooting cycle and bow-carry locomotion. Depends on the one-handed pack because a bow borrows that moveset for the clumsy bash it makes when swung \u2014 see the polish-backlog item about giving a bow its own melee, or none at all, so an archer stops downloading a sword's moveset for a fallback swing.",
       "requires": [
         "oneHanded"
       ]
@@ -306,7 +306,7 @@
       "playbackEndTime": 1.3,
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
-      "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667–1.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
+      "provenance": "Rim Parry and Execution 1.1, one-handed sword execution attacker (2130000018)/1.hkx, CQC02 lunge selected from source 0.1667\u20131.3s; exhaustive production-paired review rejected the source 0.10s stray blade pass and established 0.1667s as the first robust anticipation frame, retaining the authored source 0.5667s contact and 0.7s withdrawal; production-audited 0.18s entry and 0.24s exit blends",
       "tailSource": null
     },
     "RIPOSTE_STAB": {
@@ -349,7 +349,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction, selected by production render audit as one authored impact-to-fall-to-supine-to-get-up recovery; intentional flight is source 0.82–0.95s, upward-only penetration prevention protects the impact/rebound through 1.10s, then visible body contact is floor-bound through early get-up",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction, selected by production render audit as one authored impact-to-fall-to-supine-to-get-up recovery; intentional flight is source 0.82\u20130.95s, upward-only penetration prevention protects the impact/rebound through 1.10s, then visible body contact is floor-bound through early get-up",
       "tailSource": null
     },
     "CRITICAL_DEATH": {
@@ -370,7 +370,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction ending at the full-frame-audited 1.9s stable prone pose for lethal criticals; intentional flight is source 0.82–0.95s, followed by upward-only impact protection until floor contact at 1.10s",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX victim reaction ending at the full-frame-audited 1.9s stable prone pose for lethal criticals; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection until floor contact at 1.10s",
       "tailSource": null
     },
     "BACKSTAB": {
@@ -450,7 +450,7 @@
           "mode": "floor-contact"
         }
       ],
-      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82–0.95s, followed by upward-only impact protection and floor contact from 1.10s",
+      "provenance": "Rim Parry and Execution 1.1, (6254014) Knockdown/modernstaggerlock/1.HKX complete lethal reaction ending at the audited stable 1.9s prone pose; intentional flight is source 0.82\u20130.95s, followed by upward-only impact protection and floor contact from 1.10s",
       "tailSource": null
     },
     "BOW_IDLE": {
@@ -756,7 +756,7 @@
       "rootMotion": "consume",
       "crossFadeDuration": 0.06,
       "crossFadeOutDuration": 0.05,
-      "provenance": "Rim Parry and Execution 1.1, OAR (9900420) two-handed blade block-bash intro (2HM BP/9900420GSbbi/2hm_blockbashintro.HKX). Was vanilla 2hm_blockbashintro: the owner asked for the parry mod’s own motion on every family that has one, and this family does.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900420) two-handed blade block-bash intro (2HM BP/9900420GSbbi/2hm_blockbashintro.HKX). Was vanilla 2hm_blockbashintro: the owner asked for the parry mod\u2019s own motion on every family that has one, and this family does.",
       "tailSource": "2hm_blockbash"
     },
     "GREATSWORD_PARRY_FOLLOW_THROUGH": {
@@ -829,7 +829,7 @@
       "rootMotion": "consume",
       "crossFadeDuration": 0.06,
       "crossFadeOutDuration": 0.05,
-      "provenance": "Rim Parry and Execution 1.1, OAR (9900440) two-handed haft block-bash intro (2HW BP/9900440BWbbi/2hw_blockbashintro.HKX). Skyrim authors 2hw separately from 2hm and so does the mod; a battleaxe should not parry with a greatsword’s hands.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (9900440) two-handed haft block-bash intro (2HW BP/9900440BWbbi/2hw_blockbashintro.HKX). Skyrim authors 2hw separately from 2hm and so does the mod; a battleaxe should not parry with a greatsword\u2019s hands.",
       "tailSource": "2hm_blockbash"
     },
     "GREATAXE_PARRY_FOLLOW_THROUGH": {
@@ -848,7 +848,7 @@
       "playbackEndTime": 3.708,
       "crossFadeDuration": 0.18,
       "crossFadeOutDuration": 0.24,
-      "provenance": "Rim Parry and Execution 1.1, greatsword execution attacker (1Execution/(2130000022)greatsword/1.HKX). Trim and separation measured by scripts/measure-contact-windows.mjs --critical against the visual gate’s own measure: the blade passes 0.23 m from a victim’s spine at source 2.9750s with the pair 1.00 m apart. Earlier phases of the sequence only graze a shoulder.",
+      "provenance": "Rim Parry and Execution 1.1, greatsword execution attacker (1Execution/(2130000022)greatsword/1.HKX). Trim and separation measured by scripts/measure-contact-windows.mjs --critical against the visual gate\u2019s own measure: the blade passes 0.23 m from a victim\u2019s spine at source 2.9750s with the pair 1.00 m apart. Earlier phases of the sequence only graze a shoulder.",
       "tailSource": null
     },
     "GREATAXE_RIPOSTE": {
@@ -870,8 +870,29 @@
       "crossFadeDuration": 0.08,
       "crossFadeOutDuration": 0.2,
       "supportMode": "penetration",
-      "provenance": "Rim Parry and Execution 1.1, OAR (6135054) \"noshield hit back\" forward stagger — the victim pitching forward from a blow in the back. The victim half of a two-handed backstab: the attacker plays its own weapon execution, which is what makes the critical weapon-specific, and this is the reaction to it. Weapon-independent on purpose — what being run through from behind does to you does not depend on what did it.",
+      "provenance": "Rim Parry and Execution 1.1, OAR (6135054) \"noshield hit back\" forward stagger \u2014 the victim pitching forward from a blow in the back. The victim half of a two-handed backstab: the attacker plays its own weapon execution, which is what makes the critical weapon-specific, and this is the reaction to it. Weapon-independent on purpose \u2014 what being run through from behind does to you does not depend on what did it.",
       "tailSource": null
+    },
+    "RUN_BACK": {
+      "pack": "core",
+      "source": "1hm_runbackward",
+      "looping": true,
+      "provenance": "Vanilla 1hm_runbackward; backward running with motion measured from planted feet",
+      "tailSource": "mt_walkbackward"
+    },
+    "BOW_RUN_BACK": {
+      "pack": "bow",
+      "source": "bow_runbackward",
+      "looping": true,
+      "provenance": "Vanilla bow_runbackward; backward running with motion measured from planted feet",
+      "tailSource": "mt_walkbackward"
+    },
+    "GREATSWORD_RUN_BACK": {
+      "pack": "greatsword",
+      "source": "2hm_runbackward",
+      "looping": true,
+      "provenance": "Vanilla 2hm_runbackward; backward running with motion measured from planted feet",
+      "tailSource": "mt_walkbackward"
     }
   }
 }

@@ -1,4 +1,4 @@
-import { integrateTrajectory, type ArrowPhysics } from "../combat/ballistics";
+import { dragDeceleration, GRAVITY, type ArrowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 import type { RangedStats } from "../equipment/types";
 
@@ -66,33 +66,34 @@ export function aimElevation(
   arrow: ArrowPhysics,
   horizontalRange: number,
   heightDifference: number,
+  gravityScale = 1,
 ): number | null {
   if (!(speed > 0) || !(horizontalRange > 0)) return null;
-  let low = 0;
-  let high = Math.PI / 4;
-  if (dropAt(speed, arrow, horizontalRange, high) < heightDifference) return null;
-  for (let step = 0; step < AIM_BISECTION_STEPS; step += 1) {
+  let low = -Math.PI / 2 + 0.001;
+  let high = Math.PI / 4 + Math.atan2(heightDifference, horizontalRange) / 2;
+  if (dropAt(speed, arrow, horizontalRange, high, gravityScale) < heightDifference) return null;
+  for (let step = 0; step < 18; step += 1) {
     const middle = (low + high) / 2;
-    if (dropAt(speed, arrow, horizontalRange, middle) < heightDifference) low = middle;
+    if (dropAt(speed, arrow, horizontalRange, middle, gravityScale) < heightDifference) low = middle;
     else high = middle;
   }
   return (low + high) / 2;
 }
 
-/** Bisection depth. Twelve halvings of 45 degrees is under a hundredth of one. */
-const AIM_BISECTION_STEPS = 12;
-
-/** Height of the shot when it has travelled `range` horizontally. */
-function dropAt(speed: number, arrow: ArrowPhysics, range: number, angle: number) {
-  const flight = integrateTrajectory(speed, angle, arrow, { maxSeconds: 6, sampleEvery: 0.01 });
-  let previous = flight.samples[0];
-  for (const sample of flight.samples) {
-    if (sample.x >= range) {
-      const span = sample.x - previous.x;
-      const alpha = span > 1e-9 ? (range - previous.x) / span : 0;
-      return previous.y + (sample.y - previous.y) * alpha;
-    }
-    previous = sample;
+/** Integrate to the target plane, including targets below the launch height. */
+function dropAt(speed: number, arrow: ArrowPhysics, range: number, angle: number, gravityScale: number) {
+  let vx = speed * Math.cos(angle), vy = speed * Math.sin(angle);
+  let x = 0, y = 0;
+  const dt = 1 / 240;
+  for (let t = 0; t < 8 && vx > 1e-5; t += dt) {
+    const v = Math.hypot(vx, vy);
+    const drag = dragDeceleration(v, arrow) / Math.max(v, 1e-9);
+    vx -= drag * vx * dt;
+    vy -= (drag * vy + GRAVITY * gravityScale) * dt;
+    const nextX = x + vx * dt;
+    if (nextX >= range) return y + vy * dt * (range - x) / (nextX - x);
+    x = nextX;
+    y += vy * dt;
   }
   return -Infinity;
 }

@@ -1,3 +1,4 @@
+import { constrainDrawingHand } from "./bowConstraints";
 import { assetUrl } from "./assetBase";
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
@@ -244,6 +245,7 @@ function PosedActor({
   headBoneRef,
   aimPitchRef,
   animationTimeRef,
+  animationPoseTimeRef,
   speedMultiplierRef,
   weaponProfile,
   offHandProfile = null,
@@ -288,6 +290,8 @@ function PosedActor({
    */
   aimPitchRef?: MutableRefObject<number>;
   animationTimeRef?: MutableRefObject<number>;
+  /** Absolute source time for charge-driven poses; independent of action rebasing. */
+  animationPoseTimeRef?: MutableRefObject<number | null>;
   /** Extra multiplier on top of the manifest playbackRate for self-timed (locomotion) clips. */
   speedMultiplierRef?: MutableRefObject<number>;
   weaponProfile: WeaponVisualProfile;
@@ -568,6 +572,8 @@ function PosedActor({
       if (!(object instanceof THREE.Mesh)) return;
       object.castShadow = true;
       object.receiveShadow = true;
+      // Animated skin leaves its cached rest bounds, including bow idle sway.
+      if (object instanceof THREE.SkinnedMesh) object.frustumCulled = false;
     });
   }, [model]);
 
@@ -618,6 +624,7 @@ function PosedActor({
       return bone
         ? [{
           bone,
+          surfaceRoot: model,
           from: new THREE.Vector3().fromArray(segment.from),
           to: new THREE.Vector3().fromArray(segment.to),
           radius: segment.radius,
@@ -735,7 +742,13 @@ function PosedActor({
     };
   }, [handSocket, healingFlask, model, weaponProfile.held.localPosition, weaponProfile.held.localRotation]);
 
+  const constrainedBones = useRef(new Map<THREE.Object3D, THREE.Quaternion>());
+  const bowAlignment = useRef(new THREE.Quaternion());
+  const drawConstraintWeight = useRef(0);
+  const drawingJointRotations = useRef(new Map<THREE.Object3D, THREE.Quaternion>());
   useFrame((_, delta) => {
+    for (const [bone, pose] of constrainedBones.current) bone.quaternion.copy(pose);
+    constrainedBones.current.clear();
     const command = animationCommandRef.current;
 
     // Consume a new command: cross-fade into the semantic action.
@@ -798,7 +811,9 @@ function PosedActor({
     if (externallyTimed && action) {
       // Combat owns timing: drive clip time from the gameplay action clock so
       // the visual never runs ahead of the combat state machine.
-      elapsed.current = Math.max(0, animationTimeRef!.current - externalClockOrigin.current) + command.startAt;
+      elapsed.current = animationPoseTimeRef?.current != null
+        ? animationPoseTimeRef.current / clipRate(config, command)
+        : Math.max(0, animationTimeRef!.current - externalClockOrigin.current) + command.startAt;
       const clip = action.getClip();
       action.time = Math.min(
         clip.duration,
@@ -837,6 +852,43 @@ function PosedActor({
       (aimPitchRef?.current ?? 0) - appliedAimPitch.current
     ) * (1 - Math.exp(-mixerDelta / AIM_PITCH_SMOOTHING_SECONDS));
     applyAimPitch(appliedAimPitch.current);
+    if (riggedWeapon && drawHandSocket && nockedArrow) {
+      const spine = model.getObjectByName("NPC_Spine2_Spn2");
+      const grip = model.getObjectByName("Shield");
+      if (spine && grip) {
+        model.updateWorldMatrix(true, true);
+        const nock = riggedWeapon.nock.getWorldPosition(new THREE.Vector3());
+        const axis = grip.getWorldPosition(new THREE.Vector3()).sub(nock);
+        constrainedBones.current.set(spine, spine.quaternion.clone());
+        const active = (bowDraw?.fraction.current ?? 0) > 0;
+        const desired = active ? new THREE.Quaternion().setFromUnitVectors(axis.normalize(), nockedArrow.aimDirection.current)
+          : new THREE.Quaternion();
+        const blend = 1 - Math.exp(-renderMixerDelta / 0.12);
+        bowAlignment.current.slerp(desired, blend);
+        drawConstraintWeight.current += ((active ? 1 : 0) - drawConstraintWeight.current) * blend;
+        const parentWorld = spine.parent!.getWorldQuaternion(new THREE.Quaternion());
+        spine.quaternion.premultiply(parentWorld.clone().invert().multiply(bowAlignment.current).multiply(parentWorld));
+        model.updateWorldMatrix(true, true);
+        let joint: THREE.Object3D | null = drawHandSocket;
+        while (joint && joint !== spine) {
+          constrainedBones.current.set(joint, joint.quaternion.clone());
+          joint = joint.parent;
+        }
+        const handTarget = drawHandSocket.getWorldPosition(new THREE.Vector3())
+          .lerp(riggedWeapon.nock.getWorldPosition(new THREE.Vector3()), drawConstraintWeight.current);
+        constrainDrawingHand(drawHandSocket, handTarget);
+        // Analytic IK is ill-conditioned near a straight elbow. Ease its
+        // joint rotations, not the gameplay draw or the string position.
+        for (const [bone, authored] of constrainedBones.current) {
+          if (!/Forearm_Lar|UpperArm_Uar/.test(bone.name)) continue;
+          const previous = drawingJointRotations.current.get(bone) ?? authored.clone();
+          previous.slerp(bone.quaternion, 1 - Math.exp(-renderMixerDelta / 0.08));
+          bone.quaternion.copy(previous);
+          drawingJointRotations.current.set(bone, previous);
+        }
+        model.updateWorldMatrix(true, true);
+      }
+    }
     if (action && config.playbackEndTime != null && action.time > config.playbackEndTime) {
       // Clamp the currently playing action as soon as it reaches its authored
       // out-point. Waiting until the next state consumes a command allowed the
@@ -1164,6 +1216,8 @@ function PosedActor({
         <Suspense fallback={null}>
           <NockedArrow
             socket={drawHandSocket}
+            stringSocket={riggedWeapon?.nock}
+            onString={bowDraw?.fraction}
             parent={model}
             asset={nockedArrow.asset}
             visible={nockedArrow.visible}

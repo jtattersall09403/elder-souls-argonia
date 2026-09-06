@@ -393,7 +393,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           />
         </label>
         <label className="enemy-picker">
-          Arrow gravity: {state.arrowGravityScale.toFixed(2)}&times; (1 = real; archers aim for 1)
+          Arrow gravity: {state.arrowGravityScale.toFixed(2)}&times; (1 = real)
           <input
             type="range"
             min={1}

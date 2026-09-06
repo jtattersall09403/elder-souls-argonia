@@ -37,4 +37,5 @@ export const BOW_ANIMATIONS: WeaponAnimationProfile = {
   equip: "BOW_EQUIP",
   unequip: "BOW_UNEQUIP",
   bow: BOW_SHOOTING,
+  locomotion: BOW_SHOOTING.locomotion,
 };

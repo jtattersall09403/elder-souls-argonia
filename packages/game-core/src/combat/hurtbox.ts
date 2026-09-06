@@ -10,6 +10,8 @@ import type { MutableRefObject } from "react";
  */
 export type HurtboxBone = {
   bone: THREE.Object3D;
+  /** Actor scene containing the posed skin used by projectile narrow phase. */
+  surfaceRoot?: THREE.Object3D;
   from: THREE.Vector3;
   to: THREE.Vector3;
   radius: number;

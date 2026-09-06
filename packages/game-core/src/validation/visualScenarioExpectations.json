@@ -45,7 +45,7 @@
     "playerAnimations": [
       "SWORD_IDLE",
       "WALK",
-      "WALK_BACK",
+      "RUN_BACK",
       "STRAFE_LEFT",
       "STRAFE_RIGHT"
     ],
@@ -68,7 +68,7 @@
         "SWORD_IDLE",
         "WALK",
         "SWORD_IDLE",
-        "WALK_BACK",
+        "RUN_BACK",
         "SWORD_IDLE",
         "STRAFE_LEFT",
         "SWORD_IDLE",
@@ -82,7 +82,7 @@
     "evidenceAnimations": {
       "player": [
         "WALK",
-        "WALK_BACK",
+        "RUN_BACK",
         "STRAFE_LEFT",
         "STRAFE_RIGHT"
       ]
@@ -2012,7 +2012,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_IDLE"
+        "BOW_DRAW"
       ]
     },
     "evidenceAnimations": {
@@ -2071,6 +2071,7 @@
         "BOW_IDLE",
         "BOW_DRAW",
         "BOW_RELEASE",
+        "BOW_DRAW",
         "BOW_IDLE"
       ]
     },
@@ -2108,7 +2109,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_IDLE"
+        "BOW_DRAW"
       ]
     },
     "evidenceAnimations": {
@@ -2427,7 +2428,7 @@
       "GREATSWORD_STRAFE_RIGHT",
       "GREATSWORD_UNEQUIP",
       "GREATSWORD_WALK",
-      "GREATSWORD_WALK_BACK",
+      "GREATSWORD_RUN_BACK",
       "IDLE"
     ],
     "enemyActions": [],
@@ -2452,7 +2453,7 @@
         "GREATSWORD_SPRINT",
         "GREATSWORD_RUN",
         "GREATSWORD_IDLE",
-        "GREATSWORD_WALK_BACK",
+        "GREATSWORD_RUN_BACK",
         "GREATSWORD_IDLE",
         "GREATSWORD_STRAFE_LEFT",
         "GREATSWORD_IDLE",
@@ -2469,7 +2470,7 @@
         "GREATSWORD_WALK",
         "GREATSWORD_RUN",
         "GREATSWORD_SPRINT",
-        "GREATSWORD_WALK_BACK",
+        "GREATSWORD_RUN_BACK",
         "GREATSWORD_STRAFE_LEFT",
         "GREATSWORD_STRAFE_RIGHT",
         "GREATSWORD_EQUIP",
@@ -2527,7 +2528,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -2673,7 +2674,7 @@
     "groundingLimits": {
       "maxGroundCorrectionMeters": 0.1,
       "maxBlendedGroundCorrectionMeters": 0.22,
-      "note": "A two-handed swing drops its stance further than a one-handed one — the whole reason it reads as heavy — so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
+      "note": "A two-handed swing drops its stance further than a one-handed one \u2014 the whole reason it reads as heavy \u2014 so the blend between the carriage and the swing carries a larger, and real, height difference than the sword chain's. Measured from this passing run; the penetration gate is unchanged. The correction *rate* is allowed the same headroom for the same reason: the stance drop is larger and the swing that causes it is not slower in proportion, so the solve has to cover more ground in a comparable time.",
       "maxGroundCorrectionSpeedMetersPerSecond": 4.6
     }
   },
@@ -3110,7 +3111,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_IDLE"
+        "BOW_DRAW"
       ]
     },
     "evidenceAnimations": {
@@ -3135,7 +3136,6 @@
       "BOW_IDLE",
       "BOW_DRAW",
       "BOW_DRAWN",
-      "BOW_RELEASE",
       "BOW_DRAWN_WALK",
       "BOW_DRAWN_WALK_BACK",
       "BOW_DRAWN_STRAFE_LEFT",
@@ -3161,8 +3161,7 @@
         "BOW_DRAWN_STRAFE_LEFT",
         "BOW_DRAWN",
         "BOW_DRAWN_STRAFE_RIGHT",
-        "BOW_DRAWN",
-        "BOW_RELEASE"
+        "BOW_DRAWN"
       ]
     },
     "evidenceAnimations": {
@@ -3319,5 +3318,66 @@
     },
     "motionChecks": [],
     "transitionMotionChecks": []
+  },
+  "bow-lock-on-shot": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_RELEASE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE",
+        "BOW_DRAW"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_RELEASE"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "BOW_IDLE",
+          "BOW_DRAW",
+          "BOW_DRAWN",
+          "BOW_RELEASE"
+        ],
+        "bones": [
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxBoneAngularStepDegrees": 35,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000,
+        "maxBonePositionStepMeters": 0.25,
+        "maxBoneVerticalSpeedMetersPerSecond": 8
+      }
+    ],
+    "transitionMotionChecks": [],
+    "enemyHealthLessThan": 150
   }
 }

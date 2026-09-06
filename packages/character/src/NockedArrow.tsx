@@ -22,6 +22,8 @@ import * as THREE from "three";
  */
 export function NockedArrow({
   socket,
+  stringSocket,
+  onString,
   parent,
   asset,
   visible,
@@ -31,6 +33,8 @@ export function NockedArrow({
 }: {
   /** The drawing hand's attach node; the nock sits here. */
   socket: THREE.Object3D | null;
+  stringSocket?: THREE.Object3D | null;
+  onString?: MutableRefObject<number>;
   /** Where the shaft lives in the scene graph. Not the hand: it does not spin. */
   parent: THREE.Object3D | null;
   /** Arrow GLB, relative to the deployment base URL. */
@@ -69,6 +73,7 @@ export function NockedArrow({
     worldPosition: new THREE.Vector3(),
     parentQuaternion: new THREE.Quaternion(),
     desired: new THREE.Quaternion(),
+    grasp: null as THREE.Quaternion | null,
   });
 
   useLayoutEffect(() => {
@@ -84,16 +89,25 @@ export function NockedArrow({
   useFrame(() => {
     if (visibleRef) model.visible = visible && visibleRef.current;
     if (!socket || !model.parent) return;
-    socket.updateWorldMatrix(true, false);
-    socket.getWorldPosition(tmp.current.worldPosition);
+    const activeSocket = stringSocket && (onString?.current ?? 0) > 0 ? stringSocket : socket;
+    activeSocket.updateWorldMatrix(true, false);
+    activeSocket.getWorldPosition(tmp.current.worldPosition);
     // Published whether or not the shaft is drawn yet: the string hand is
     // where the shot comes from, and the aim solve needs it from the moment
     // the bow is up — before the arrow is pulled out of the quiver.
     if (nockWorld) nockWorld.current.copy(tmp.current.worldPosition);
-    if (!model.visible) return;
+    if (!model.visible) { tmp.current.grasp = null; return; }
     model.parent.worldToLocal(model.position.copy(tmp.current.worldPosition));
     model.parent.getWorldQuaternion(tmp.current.parentQuaternion);
-    tmp.current.desired.setFromUnitVectors(FORWARD, aimDirection.current);
+    if (activeSocket === socket) {
+      socket.getWorldQuaternion(tmp.current.desired);
+      if (!tmp.current.grasp) {
+        tmp.current.grasp = tmp.current.desired.clone().invert()
+          .multiply(new THREE.Quaternion().setFromUnitVectors(FORWARD, new THREE.Vector3(0, 1, 0)));
+      }
+      tmp.current.desired.multiply(tmp.current.grasp);
+    }
+    else tmp.current.desired.setFromUnitVectors(FORWARD, aimDirection.current);
     model.quaternion
       .copy(tmp.current.parentQuaternion.invert())
       .multiply(tmp.current.desired);

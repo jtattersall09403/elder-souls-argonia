@@ -89,3 +89,21 @@ describe("an arrow body under the solver's gravity", () => {
     expect(Math.hypot(velocity.x, velocity.y, velocity.z)).toBeCloseTo(reference.speed, 0);
   });
 });
+
+
+it("a low-power arrow cannot receive an impulse from an actor navigation capsule", async () => {
+  await RAPIER.init();
+  const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
+  world.timestep = 1 / 60;
+  const actor = world.createRigidBody(RAPIER.RigidBodyDesc.fixed().setTranslation(0, 1, 0));
+  world.createCollider(RAPIER.ColliderDesc.capsule(.6, .4), actor);
+  const body = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 1, 0).lockRotations());
+  world.createCollider(RAPIER.ColliderDesc.ball(.005).setMass(.097).setSensor(true), body);
+  body.setLinvel({ x: 0, y: 5, z: .5 }, true);
+  for (let i = 0; i < 60; i++) world.step();
+  expect(body.linvel().y).toBeCloseTo(5 - 9.81, 2);
+  expect(body.linvel().z).toBeCloseTo(.5, 4);
+  // Up ~1.27 m, back near launch height after a second, already falling fast.
+  expect(body.translation().y).toBeCloseTo(1.095, 1);
+  world.free();
+});

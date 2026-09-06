@@ -24,7 +24,7 @@ import type { AnimationState, Vec2 } from "../core/types";
  */
 
 /** The locked clips this module owns. Forward is not one of them. */
-export type LockedStrideClip = Extract<AnimationState, "WALK_BACK" | "STRAFE_LEFT" | "STRAFE_RIGHT">;
+export type LockedStrideClip = Extract<AnimationState, "RUN_BACK" | "STRAFE_LEFT" | "STRAFE_RIGHT">;
 
 /**
  * The locked strafe/back clip for a movement input, or `null` when the input
@@ -37,16 +37,16 @@ export function lockedStrideClip(
   reversing?: boolean,
 ): LockedStrideClip | null {
   const clip = lockOnLocomotionAnimation(movement, magnitude, reversing);
-  return clip === "WALK_BACK" || clip === "STRAFE_LEFT" || clip === "STRAFE_RIGHT" ? clip : null;
+  if (clip === "WALK_BACK") return "RUN_BACK";
+  return clip === "STRAFE_LEFT" || clip === "STRAFE_RIGHT" ? clip : null;
 }
 
 /**
  * Top playback rate of a locked strafe/back stride.
  *
- * Round 7 set 1.35×; round 8's owner note asks for "a further 50%" on the
- * strafes, so 1.35 × 1.5. Written as the product so the provenance is legible.
+ * Owner round 10: 1.55×. Forward still uses ordinary locomotion.
  */
-export const LOCKED_STRIDE_RATE = 1.35 * 1.5;
+export const LOCKED_STRIDE_RATE = 1.55;
 
 /** Below this the stick is treated as centred and the actor stands. */
 export const MOVE_DEAD_ZONE = 0.08;

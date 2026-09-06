@@ -214,10 +214,12 @@ describe("death outranks the aim", () => {
 
 describe("the shaft comes out of the quiver", () => {
   it("shows nothing on the string until the hand has been back for it", () => {
-    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(false);
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.1 })).toBe(false);
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.5 })).toBe(true);
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(true);
     expect(nockedArrowVisible({
       ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: NOCK_REVEAL_FRACTION * 0.5,
-    })).toBe(false);
+    })).toBe(true);
     expect(nockedArrowVisible({
       ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: 1,
     })).toBe(true);

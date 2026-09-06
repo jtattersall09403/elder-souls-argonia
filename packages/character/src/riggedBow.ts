@@ -14,6 +14,7 @@ import type { BowRigProfile } from "@elder-souls/game-core/equipment/types";
  */
 export type RiggedBow = {
   object: THREE.Object3D;
+  nock: THREE.Object3D;
   /** Advance with the archer's state. `release` is a per-loose counter. */
   update: (fraction: number, release: number, delta: number) => void;
 };
@@ -48,6 +49,32 @@ export function createRiggedBow(
     release.setLoop(THREE.LoopOnce, 1);
     release.clampWhenFinished = true;
   }
+  // The string's centre is its furthest-back vertex at full draw. Track that
+  // same skinned vertex, rather than guessing from limb-tip bone origins.
+  const nock = new THREE.Object3D();
+  object.add(nock);
+  let nockMesh: THREE.SkinnedMesh | null = null;
+  let nockIndex = 0;
+  let furthest = -Infinity;
+  if (draw) { draw.time = rig.drawDurationSeconds - 0.001; mixer.update(0); }
+  object.updateWorldMatrix(true, true);
+  object.traverse(child => {
+    if (!(child instanceof THREE.SkinnedMesh)) return;
+    child.skeleton.update();
+    for (let i = 0; i < child.geometry.getAttribute("position").count; i++) {
+      const point = child.getVertexPosition(i, new THREE.Vector3()).applyMatrix4(child.matrixWorld);
+      if (point.x > furthest) { furthest = point.x; nockMesh = child; nockIndex = i; }
+    }
+  });
+  const nockPoint = new THREE.Vector3();
+  const updateNock = () => {
+    if (!nockMesh) return;
+    object.updateWorldMatrix(true, true);
+    nockMesh.skeleton.update();
+    nockMesh.getVertexPosition(nockIndex, nockPoint).applyMatrix4(nockMesh.matrixWorld);
+    nock.position.copy(object.worldToLocal(nockPoint));
+    nock.updateWorldMatrix(false, false);
+  };
   let seenRelease: number | null = null;
   let releasing = false;
   const span = Math.max(1e-3, rig.drawDurationSeconds - rig.drawOnsetSeconds);
@@ -64,6 +91,7 @@ export function createRiggedBow(
     }
     if (releasing && release) {
       mixer.update(delta);
+      updateNock();
       if (release.time >= rig.releaseDurationSeconds - 1e-3 || !release.isRunning()) {
         releasing = false;
         release.stop();
@@ -77,6 +105,7 @@ export function createRiggedBow(
     if (!draw) return;
     draw.time = rig.drawOnsetSeconds + THREE.MathUtils.clamp(fraction, 0, 1) * span;
     mixer.update(0);
+    updateNock();
   };
-  return { object, update };
+  return { object, nock, update };
 }

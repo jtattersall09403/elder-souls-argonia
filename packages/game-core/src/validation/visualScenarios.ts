@@ -35,6 +35,7 @@ export const VISUAL_SCENARIO_IDS = [
   "stationary-landing",
   "moving-landing",
   "bow-shot",
+  "bow-lock-on-shot",
   "bow-partial-draw",
   "bow-aim-tracking",
   "bow-aim-turn",
@@ -708,7 +709,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   },
   "bow-shot": {
     id: "bow-shot",
-    label: "Bow → raise to first person, draw to full, and loose",
+    label: "Bow: raise, draw and loose",
     warmup: 0.5,
     // A longbow is 1.7 s to nock and 2.4 s to full draw, and the scene has to
     // show the follow-through as well.
@@ -721,6 +722,27 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     },
     enemy: { ...FACING_ENEMY, holdInitialState: true },
     cues: [
+      // Tap to raise, release, then hold all the way to full draw and let go.
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.6, to: 5.2, actions: ["light"] },
+    ],
+  },
+  "bow-lock-on-shot": {
+    id: "bow-lock-on-shot",
+    label: "Bow: lock on, draw and hit the target",
+    warmup: 0.5,
+    // A longbow is 1.7 s to nock and 2.4 s to full draw, and the scene has to
+    // show the follow-through as well.
+    duration: 8.2,
+    player: {
+      position: [0, Y, 6],
+      yaw: Math.PI,
+      weaponId: "steel-longbow",
+      ammoId: "steel-war-arrow",
+    },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.02, to: 0.12, actions: ["lockOn"] },
       // Tap to raise, release, then hold all the way to full draw and let go.
       { from: 0.15, to: 0.24, actions: ["light"] },
       { from: 0.6, to: 5.2, actions: ["light"] },
@@ -802,7 +824,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [
       { from: 0.15, to: 0.24, actions: ["light"] },
       // Held past the end: the longbow's full draw arrives at about 4.6 s.
-      { from: 0.6, to: 6.4, actions: ["light"] },
+      { from: 0.6, to: 7.4, actions: ["light"] },
     ],
   },
   "bow-drawn-hold-shoulder": {
@@ -820,18 +842,18 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     enemy: { ...FACING_ENEMY, holdInitialState: true },
     cues: [
       { from: 0.15, to: 0.24, actions: ["light"] },
-      { from: 0.6, to: 6.4, actions: ["light"] },
+      { from: 0.6, to: 7.4, actions: ["light"] },
     ],
   },
   "bow-drawn-locomotion": {
     id: "bow-drawn-locomotion",
     label: "Bow \u2192 hold at full draw and walk, retreat and strafe: the drawn strides",
     warmup: 0.5,
-    duration: 9.6,
+    duration: 11.9,
     player: {
       position: [0, Y, 6],
       yaw: Math.PI,
-      weaponId: "steel-longbow",
+      weaponId: "wood-shortbow",
       ammoId: "steel-war-arrow",
       aimView: "shoulder",
     },
@@ -842,11 +864,11 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       // Held throughout, and ending before the arm gives out: a draw that
       // collapses for stamina drops back to the nock, which is a different
       // scene from this one.
-      { from: 0.6, to: 9.2, actions: ["light"] },
-      { from: 4.8, to: 5.7, actions: ["light"], move: [0, 0.6] },
-      { from: 5.9, to: 6.8, actions: ["light"], move: [0, -0.6] },
-      { from: 7.0, to: 7.9, actions: ["light"], move: [-0.6, 0] },
-      { from: 8.1, to: 9.0, actions: ["light"], move: [0.6, 0] },
+      { from: 0.6, to: 13.0, actions: ["light"] },
+      { from: 4.8, to: 8.2, actions: ["light"], move: [0, 1] },
+      { from: 8.4, to: 9.3, actions: ["light"], move: [0, -0.6] },
+      { from: 9.5, to: 10.4, actions: ["light"], move: [-0.6, 0] },
+      { from: 10.6, to: 11.5, actions: ["light"], move: [0.6, 0] },
     ],
   },
   "archer-shot": {
@@ -932,7 +954,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     // of a locomotion review. Still close enough to lock onto.
     enemy: { ...FACING_ENEMY, position: [3.4, Y, -1] as const },
     cues: [
-      { from: 0.15, to: 1.55, move: [0, 0.45] },
+      { from: 0.4, to: 1.55, move: [0, 0.45] },
       { from: 1.7, to: 2.6, move: [0, 1] },
       { from: 2.75, to: 3.8, actions: ["dodge"], move: [0, 1] },
       { from: 3.8, to: 4.25, move: [0, 1] },
