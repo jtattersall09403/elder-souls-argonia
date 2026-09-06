@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from .water_route_alternatives import bank_aware_route, route_peak, validate_route_override
+from .water_route_alternatives import bank_aware_route, route_peak, validate_route_override, bounded_route_deficit
 
 
 def test_routes_preserve_original_saddle_corridor_and_determinism():
@@ -12,6 +12,47 @@ def test_routes_preserve_original_saddle_corridor_and_determinism():
     assert np.array_equal(first, second)
     assert route_peak(ground, first) <= route_peak(ground, previous)
     assert np.array_equal(first[[0,-1]], previous[[0,-1]])
+
+
+def test_fixed_pool_head_routes_around_a_crest_that_cannot_be_excavated():
+    from .terrain_triangles import sample_terrain
+    ground=np.full((13,13),10.,np.float32)
+    floor=ground-3.
+    floor[6,6]=10.  # Immutable retaining crest; every other support has room.
+    previous=np.array([[6.,x] for x in range(3,10)])
+    default=bank_aware_route(ground,previous,1.,.3)
+    assert any(np.array_equal(p,[6,6]) for p in default)
+    def deficit(point,normal,distances):
+        return bounded_route_deficit(point,normal,distances,ground,floor,.3,
+                                     minimum_head=9.,maximum_head=9.)
+    candidate=bank_aware_route(ground,previous,1.,.3,deficit_at=deficit)
+    probes=np.vstack([candidate,(candidate[:-1]+candidate[1:])*.5])
+    assert np.max(sample_terrain(floor,probes.T))+.3<=9.
+    assert route_peak(ground,candidate)==route_peak(ground,previous)
+    assert np.array_equal(candidate[[0,-1]],previous[[0,-1]])
+
+
+def test_bounded_route_cost_keeps_shallow_pool_plane_and_rejects_incompatible_heads():
+    ground=np.full((5,5),7.,np.float32)
+    pools=np.full_like(ground,7.08)
+    args=(np.array([2.,2.]),np.array([1.,0.]),np.array([.5,1.]),ground,ground-3.,.3)
+    assert bounded_route_deficit(*args,pool_levels=pools)==0.
+    assert bounded_route_deficit(*args,pool_levels=pools,minimum_head=7.5)>.4
+    assert bounded_route_deficit(*args,pool_levels=pools,maximum_head=7.)>.07
+
+
+def test_reviewed_override_can_use_existing_channel_width_but_cannot_leave_it():
+    from .water_geometry import refine_channel_stations
+    ground=np.full((9,11),10.,np.float32)
+    anchors=np.array([[4.,2.],[4.,8.]])
+    inside=np.array([[4,2],[3,2],[2,3],[1,4],[1,5],[2,6],[3,7],[4,8]],float)
+    points,*_=refine_channel_stations(ground,anchors,np.array([1,-1]),
+        [10.3,10.3],[3.,3.],routing_ground=ground,routing_overrides={0:inside})
+    assert any(np.array_equal(point,[1,4]) for point in points)
+    outside=np.insert(inside,4,[0,4],axis=0)
+    with pytest.raises(ValueError,match='corridor'):
+        refine_channel_stations(ground,anchors,np.array([1,-1]),
+            [10.3,10.3],[3.,3.],routing_ground=ground,routing_overrides={0:outside})
 
 
 def test_override_rejects_higher_bank_and_remote_corridor():

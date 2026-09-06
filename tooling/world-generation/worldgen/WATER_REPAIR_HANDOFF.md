@@ -16,7 +16,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay: 15,507 corrections; 204 unresolved channels
+Current overlay: 15,521 corrections; 196 unresolved channels
 (10 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -39,12 +39,12 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-204-state.npz` | Matching 204-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-196-state.npz` | Matching 196-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
 | `/tmp/water-immutable-retaining-bounds.npy` | Derived bounds, not terrain edits |
-| `/tmp/water-retaining-bound-violations.json` | Earlier 352-support audit; 232 since restored, 120 remain to resolve |
+| `/tmp/water-retaining-bound-violations.json` | Earlier 352-support audit; 281 since restored, 71 remain to resolve |
 
 The matching state carries `terrain_overlay_sha256`; it must equal the durable
 overlay hash. Older `/tmp/water-*` variants are historical diagnostics, not
@@ -194,12 +194,43 @@ same original pool. Most obstructions are protected pool-exit crests; routing
 must account for fixed receiving heads and immutable cut floors. These indices
 belong to that candidate, not the current204 cache. Do not replay it wholesale.
 
+### Bounded route costs and reviewed drainage
+
+The route candidate cost now measures immutable excavation floors, actual banks
+and fixed pool heads. It leaves original saddle/endpoints/corridor guards intact;
+only the joint solve plus fresh domains can accept a route. Four focused tests
+cover retaining-crest avoidance, shallow fixed pools, deterministic defaults and
+semantic channel width. Reviewed overrides may use the existing channel radius,
+matching automatic routing, rather than an unrelated two-pixel cap. Anchor
+relocations still require original-wet evidence within two native intervals.
+No accepted route in this checkpoint depended on that wider override allowance;
+the next candidate investigation can use it explicitly.
+
+A fresh bounded subset accepts49 more retaining restorations,11 anchor moves
+and29 route changes. The original raw-reference direction comparison would have
+introduced4328/4329/11861. Reviewing immutable drainage resolves the distinction:
+24 discrepancies restore authored flow_to (mostly flat original pools);4328
+already follows authored inflow into pool4329. Its lower raw film target requires
+backwatering, not reversing drainage. Its orientation marker is raised to the
+receiving original pool's ordering value; no physical plane is retuned. Five
+bounded outlet support adjustments handle11861. The combined fresh rebuild has
+196 constraints,71 retaining violations,15,521 corrections,68 anchor overrides,
+and64 route overrides. It resolves6898,6944,9363,11251,11496,13468,15499,15503,
+with no new failures or any original wet coverage/plane/spill changes.
+
+Evidence: `/tmp/water-bounded-retaining-subset.audit.json`,
+`/tmp/water-reviewed-orientation.json`, `/tmp/water-combined-reviewed-fresh.json`,
+`/tmp/water-combined-reviewed-preservation.json`. Durable audits retain exact
+support, routing and original-drainage evidence. `--source` on the component
+helper scopes a proposal to reviewed current failures, while still checking
+all neighbours globally. No old prototype cache is authoritative.
+
 ## Immediate next work
 
 1. Immutable lower bounds are now enforced by routine and joint/indexed cut
    helpers. Their 187,399 support vertices exposed 352 earlier cuts
-   below a bound; 232 now meet their bound without new global failures. Classify the
-   remaining 120 and restore only diagnosed
+   below a bound; 281 now meet their bound without new global failures. Classify the
+   remaining 71 and restore only diagnosed
    unnecessary retaining/fringe cuts, retaining exact indexed evidence and
    checking valid channel/receiving support before acceptance.
    `audit_water_restore_retaining` produces an explicitly unaccepted proposal;
@@ -211,10 +242,11 @@ belong to that candidate, not the current204 cache. Do not replay it wholesale.
    domains now contain no pool at that anchor and its head is 4.521438 m again.
    Apply this causal diagnosis to other actual cases; never deepen adjacent
    channels merely to accommodate a pool created by our repair.
-3. Reconcile 25 stale orientation links only against the immutable reference.
-   Many former false pool holes are now one flat pool. A diagnostic switch
-   resolved 11496 but exposed 4328,4329,11861; no switch was accepted. Never
-   derive orientation from corrected terrain or silently replace the file.
+3. The25 orientation discrepancies are reconciled. Use the durable reviewed
+   orientation; do not substitute raw reference film levels.24 directions now
+   follow original drainage.4328 retains original inflow/backwatering into
+   pool4329; the ordering marker is not a surface level. Exact review evidence
+   is in `routing-audit.json.orientationReconciliation`.
 4. Continue bounded connected-reach proposals; fixed real junction/pool
    authority, no-new-neighbour-failure checks, and strict original-pool
    preservation remain required. A cached geometry solve is not a fresh
@@ -223,7 +255,7 @@ belong to that candidate, not the current204 cache. Do not replay it wholesale.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-204-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-196-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
@@ -233,7 +265,7 @@ input overlay hash, and rejects the whole proposal on any new global failure
 or no resolved constraints. It does not establish fresh-domain acceptance:
 
 ```sh
-python3 -m worldgen.audit_water_solve /tmp/water-accepted-204-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-196-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
 ```
 
 Never use repeated cached proposals to justify moving-bank millimetre tails.
@@ -304,7 +336,7 @@ The read-only bankfull diagnostic requires matching cache/overlay/source
 hashes and writes only the requested report:
 
 ```sh
-python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-204-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
+python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-196-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
 ```
 
 Its river-station sections are diagnostic, not the final whole-area gate.

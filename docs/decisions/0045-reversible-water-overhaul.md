@@ -49,3 +49,19 @@ The [bankfull investigation](../research/rendering/water-bankfull.md) separates
 underfilled native channels from distance-only mud painting on valley sides.
 Final acceptance needs connected whole-area coverage, including standing water;
 river-station statistics alone cannot establish that result.
+
+### Original drainage and route feasibility (2026-09-06)
+
+Raw local film heights do not determine flow direction at a receiving pool:
+an upstream reach may need to backwater before entering it. The25 recorded
+direction discrepancies were reviewed against immutable pool planes and
+authored drainage.24 restore authored flow;4328 retains authored inflow into
+pool4329. Its orientation ordering marker never supplies a physical height.
+Exact evidence lives in the durable routing audit.
+
+Route proposals may use the existing semantic channel radius, as automatic
+routing already does, while preserving endpoints and not crossing a higher
+original saddle. Original-pool sampling relocations remain limited to two
+native intervals. Candidate costs can consider immutable excavation floors and
+fixed receiving heads; they never authorise a cut or waive fresh global
+geometry and original-water preservation checks.

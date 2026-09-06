@@ -35,12 +35,37 @@ def validate_route_override(ground, previous, candidate, start, end, deviation, 
     return path
 
 
-def bank_aware_route(ground, previous, radius, depth, deviation=2., terrain_flips=None):
+def bounded_route_deficit(point, normal, distances, ground, minimum_bed, depth,
+                          terrain_flips=None, minimum_head=-np.inf, maximum_head=np.inf,
+                          pool_levels=None, pool_domain=None):
+    """Optimistic route feasibility under actual banks and immutable cut floors.
+
+This only ranks candidates. It cannot authorise cuts, retune a standing pool,
+or replace the joint bank/longitudinal solve and fresh flood-domain check.
+"""
+    required=max(float(minimum_head),
+                 float(sample_terrain(minimum_bed,point[:,None],terrain_flips)[0])+depth)
+    cap=min(float(np.max(sample_terrain(ground,
+        point[:,None]+sign*normal[:,None]*distances,terrain_flips))) for sign in (-1,1))-.005
+    if pool_levels is not None:
+        from .water_geometry import sample_standing_levels
+        pool=float(sample_standing_levels(ground,pool_levels,point[None,:],terrain_flips,pool_domain)[0])
+        bed=float(sample_terrain(ground,point[:,None],terrain_flips)[0])
+        if np.isfinite(pool) and pool>bed+.01:
+            required=max(float(minimum_head),pool)
+            cap=pool
+    return max(0.,required-cap,required-float(maximum_head))
+
+
+def bank_aware_route(ground, previous, radius, depth, deviation=2., terrain_flips=None,
+                     deficit_at=None):
     """Minimise bank deficit, then distance, below the old immutable saddle.
 
 Two separate scalar searches avoid the non-isotonic lexicographic-max trap:
 a later high obstruction must not erase the ordering of earlier path costs.
 Actual shared-section bank feasibility is deliberately left to the conditioner.
+An optional measured deficit callback can account for immutable excavation
+floors and fixed receiving heads. Original saddle/corridor guards still apply.
 """
     previous = np.asarray(previous, float)
     start, end = previous[[0, -1]]
@@ -75,6 +100,9 @@ Actual shared-section bank feasibility is deliberately left to the conditioner.
             probes = np.vstack([edge, edge.mean(axis=0)])
             deficit = 0.
             for point in probes:
+                if deficit_at is not None:
+                    deficit = max(deficit, float(deficit_at(point, normal, distances)))
+                    continue
                 bed = float(sample_terrain(ground, point[:, None], terrain_flips)[0])
                 banks = [np.max(sample_terrain(ground,
                     point[:, None] + sign * normal[:, None] * distances, terrain_flips)) for sign in (-1, 1)]

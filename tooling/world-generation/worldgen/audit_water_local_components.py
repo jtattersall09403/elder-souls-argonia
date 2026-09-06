@@ -76,6 +76,8 @@ def main():
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--include-longitudinal',action='store_true',
                         help='Also solve complete reported downstream obstruction corridors')
+    parser.add_argument('--source',type=int,action='append',
+                        help='Limit proposal generation to reviewed failing source IDs')
     args=parser.parse_args();state=dict(np.load(args.state))
     if str(state.get('terrain_overlay_sha256',''))!=hashlib.sha256(args.overlay.read_bytes()).hexdigest():
         raise ValueError('State/overlay hash mismatch')
@@ -85,7 +87,10 @@ def main():
     hydrology=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
     flips,_=derive_channel_diagonal_flips(original,hydrology['rivers'],hydrology['flow_to'])
     failed,diagnostics=solve(ground,state,flips)
-    owners=local_reach_owners(state,failed,args.include_longitudinal)
+    if args.source and not set(args.source).issubset(failed):
+        raise ValueError('Every selected source must be an actual current constraint')
+    selected=failed if not args.source else {source:failed[source] for source in sorted(set(args.source))}
+    owners=local_reach_owners(state,selected,args.include_longitudinal)
     nodes=sorted(owners)
     supports=[station_support(ground.shape,state['points'][i],diagnostics['bankNormals'][i],
                              diagnostics['bankRadius'][i],flips) for i in nodes]
@@ -140,6 +145,7 @@ def main():
         records.append(record)
     remaining,_=solve(trial,state,flips);eligible,new,resolved=proposal_gate(failed,remaining)
     summary={'baselineCount':len(failed),'includeLongitudinal':args.include_longitudinal,
+        'selectedSources':sorted(set(args.source)) if args.source else None,
         'componentCount':len(groups),'proposedComponents':sum(r['status']=='proposed' for r in records),
         'proposedRemaining':len(remaining),'newFailures':new,'resolvedSources':resolved,
         'newFailureDetails':{int(source):remaining[source] for source in new},

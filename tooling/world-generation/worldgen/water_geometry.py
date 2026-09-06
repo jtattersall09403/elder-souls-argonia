@@ -338,7 +338,7 @@ Only channel-centre constraints change; cross-sections remain level.
         if routing_overrides and source in routing_overrides:
             from .water_route_alternatives import validate_route_override
             path = validate_route_override(routing, path, routing_overrides[source],
-                points[source], points[target], min(float(radius[source]), float(radius[target]), 2.), terrain_flips)
+                points[source], points[target], min(float(radius[source]), float(radius[target])), terrain_flips)
         # A diagonal between two sea vertices can cross a high dry corner
         # under bilinear terrain. Take the existing orthogonal sea corridor
         # when one exists; never draw a sea-to-rock-to-sea hump or excavate
