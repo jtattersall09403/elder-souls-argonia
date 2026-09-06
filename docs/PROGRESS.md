@@ -91,19 +91,22 @@ acceptance remain open. Root tests/types passed again14:23 (623 game-core
 tests); airborne probes passed again14:25. Browser checks confirm16-fragment-sampler
 compatibility, bounded native-atlas updates and nonblack noon splash pixels.
 Shared river-section joins and fly-view ribbon residency remain active fixes.
-Runtime checkpoint `7ede446` and compiler/body-record checkpoint `4058d25`
-are committed locally, not deployed. The clean
-immutable-source compiler solve and final matching assets remain in progress;
+Runtime checkpoint `7ede446`, compiler/body-record checkpoint `4058d25`,
+performance/ripple checkpoint `795e93c` and contact checkpoint `4809880`
+are deployed: Actions `34043295645` passed; live studio bundle
+`index-CBqmJVeS.js` matches that release and water metadata remains unchanged.
+The immutable-source compiler solve and final matching assets remain in progress;
 never substitute older diagnostic bundles. Physical body records now derive
 from actual owner fields; final export and performance gates remain open.
 Further local work: current-transported isolated ripples (GPU centroid check),
 view-bounded terrain residency, half-pixel bank LOD and adaptive arrival fixes.
-Performance/ripple checkpoint `795e93c` is also local: inland geometry is
-byte-identical and moving-view admission passes. Root gates passed15:42
+Inland geometry is byte-identical and moving-view admission passes. Root gates passed15:42
 (664 game-core tests), with airborne checks passing again. Real J-jump
 entry/wakes/crown, live HDR inputs and in-frustum spray/mist/foam are observed;
-newborn lifetime is corrected. Final river-domain validation and the missing
-underwater entrained-particle path remain active before final release.
+newborn lifetime is corrected. Subsequent local confluence-stage selection
+and underwater bubbles pass root gates16:03 (674 game-core tests), actual
+bubble GPU readback and16-sampler app checks. Final river-domain/coverage
+validation remains active; these later additions are not yet deployed.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

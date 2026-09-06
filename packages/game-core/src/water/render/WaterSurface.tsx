@@ -10,6 +10,7 @@ import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 
 import type { WaterAssets, WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
+import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { WaterCascadeSources } from "./WaterCascadeSources";
 import { InlandWaterTiles } from "./InlandWaterTiles";
 import { WaterRibbonTiles } from "./WaterRibbonTiles";
@@ -97,6 +98,7 @@ export interface WaterSurfaceHandle {
   meshes: THREE.Mesh[];
   materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial };
   effects: WaterEffects;
+  bubbles?: UnderwaterBubbles;
 }
 
 export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady, runtime }: {
@@ -148,11 +150,13 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     onReentry: e => ripple?.addDrop(e.position.x, e.position.z, e.radius ?? 0.1, 0.006),
   }), [tier, ripple]);
   useEffect(() => () => effects.dispose(), [effects]);
+  const bubbles = useMemo(() => new UnderwaterBubbles(tier.name === "low"), [tier.name]);
+  useEffect(() => () => bubbles.dispose(), [bubbles]);
   useEffect(() => {
-    const visibility = () => effects.setSuspended(document.hidden);
+    const visibility = () => { effects.setSuspended(document.hidden); bubbles.setSuspended(document.hidden); };
     visibility(); document.addEventListener('visibilitychange', visibility);
     return () => document.removeEventListener('visibilitychange', visibility);
-  }, [effects]);
+  }, [effects, bubbles]);
   /** Splash events become decaying, spreading foam rings (world-time secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
   const stampTimer = useRef(0);
@@ -171,9 +175,9 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
       allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes);
-      onReadyRef.current?.({ uniforms, mesh, meshes: allMeshes, materials, effects });
+      onReadyRef.current?.({ uniforms, mesh, meshes: allMeshes, materials, effects, bubbles });
     }
-  }, [materials, uniforms, effects, ribbons]);
+  }, [materials, uniforms, effects, bubbles, ribbons]);
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();
@@ -234,6 +238,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     runtime.onLocalSurface?.(hero.state);
     for (const e of assets.world.drainInteractions()) {
       effects.emit(e);
+      bubbles.emit(e);
       hero.emit(e);
       if (e.kind === "splash" || e.kind === "enter" || e.kind === "wake") {
         splashes.current.push({
@@ -327,6 +332,10 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
       x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
     }, runtime.windVelocity());
     effects.object3d.scale.y = verticalScale;
+    bubbles.setIllumination(light, runtime.sunLight.value, runtime.sunDirection.value.y);
+    bubbles.setView(geometryView.frustum, verticalScale);
+    bubbles.update(delta, assets.world, epoch, {x:camera.position.x,y:camera.position.y/verticalScale,z:camera.position.z});
+    bubbles.object3d.scale.y = verticalScale;
   });
 
   return (

@@ -17,7 +17,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Hero-pool full interactive simulation; backlog/module60 §39.3 | Persistent owner-selected128² finite-volume patch, displaced object volumes and incremental admission implemented locally; visual and deployed evidence missing | open |
 | Ripples must not cross between disconnected pools; backlog follow-up | Existing masks/body identity require final nearby-unconnected-pool interaction regression, including seasonal separation | open |
 | Waterfalls, mist, plunge splash and foam; backlog | Cascade geometry and bounded emitters exist; silhouettes and connected plunge behaviour need review | open |
-| Underwater entrained particles; module60 §42 / interaction audit | Surface effects suppress submerged events and hide underwater; bounded impact/entry bubbles with current, buoyant rise and correct fog-pass placement remain to implement and verify | open |
+| Underwater entrained particles; module60 §42 / interaction audit | Bounded impact/entry bubbles implemented with current/rise/owner barriers and fog-correct isolated HDR pass; actual GPU pixels/lifecycle pass, deployed and experiential evidence remains | open |
 | No barcode/static/specular aliasing or mixed shaders; backlog/owner | Specific regressions fixed; final moving-scene sweep missing | open |
 | Object/player impacts, wakes, displacement and ripples; owner | Contact crossings, independent readers, priority, crowns, mist and immersed-volume proxies implemented/tested locally; quiet body replay and stable admission prevent artificial startup waves; in-scene evidence remains | open |
 | Float/sink, drag, angular response, mass units; owner/backlog | Reusable fixed-step driver and explicit mass-unit contract implemented/tested; final fixture experiential validation remains | open |
@@ -80,6 +80,12 @@ First-overhaul deployment verified 11:26 UTC: release head `6576849`,
 Actions run `34030145090` succeeded (tests, types, credits, build and Pages).
 Live metadata SHA-256 `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`
 matches `1af32a3`. This does not close the completion-pass deployment row.
+
+Runtime checkpoint `4809880` deployed15:47UTC: Actions `34043295645` passed
+build/tests/types/Pages. Live studio loads the matching `index-CBqmJVeS.js`;
+v2 metadata still has the exact hash above. This delivers the checked runtime
+changes through that commit, not the unfinished hydraulic data or subsequent
+underwater-particle work. Completion/deployment acceptance remains open.
 
 ## Additional evidence from the owner repro
 
@@ -171,12 +177,27 @@ Further completion-pass findings, not closed by the first candidate:
   regular mesh with the same LOD label; that fallback cannot suppress loading
   the corrected banks. Resolution/manifest changes are covered by integration
   tests, including unchanged native collider rings.
+- Confluence sampling selected the highest base ribbon before applying its
+  access/stage gate. A blocked upper face could therefore hide a rendered,
+  wet lower face from physics. Candidate ordering now uses actual stage and
+  the same explicit/fallback access and native bed gates; exported-mesh oracle
+  tests cover order reversal and seasonal changes without mixing owners.
+  Standing water beneath a dry native envelope remains a separate final-data
+  gate: static inland subtraction cannot be repaired by inventing CPU-only
+  wetness under a missing rendered face.
 
 Browser GPU upload check on the diagnostic native-ground atlas: one initial
 2048×958 upload (31,391,744 bytes), then exactly eight2048×1 rows
 (262,144 bytes) for a hero update. Explicit invalidation correctly restores
 the full atlas; WebGL error0. This proves the upload path, not final geometry
 or target-device framerate.
+
+Underwater bubble GPU check:32 particles after a0.8s preceding frame render
+185 positive-radiance/alpha pixels into a128² RGBA16F target (131,072bytes),
+with no nonfinite values or GL errors. Returning above water releases the
+target immediately. Full-app shader check retains16 active fragment samplers
+for water/terrain and8 for the updated blit; all programs link. This is
+numerical rendering evidence, not an ingested appearance review.
 
 Particle framebuffer check (256², no image ingestion): an actual splash with
 12 droplets, one mist particle, six foam patches and one crown, lit with the

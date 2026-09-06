@@ -85,18 +85,19 @@ export class WaterWorld implements WorldWaterQuery {
 
   /** Still-water surface height at (x, z) including tide/season, no waves. */
   stillSurfaceAt(x: number, z: number, epochMinutes: number): number {
-    const s = this.data.sample(x, z, { excludeFallingSheets: true });
     const { tide, season } = this.levelOffsets(epochMinutes);
+    const groundHeight = this.opts.groundHeight?.(x, z) ?? undefined;
+    const s = this.data.sample(x, z, { excludeFallingSheets: true, stage: { tide, season, groundHeight } });
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
   }
 
   /** Cheap still-water boundary query for local wave barriers and emitters. */
   sampleBoundary(x: number, z: number, epochMinutes: number) {
-    const s = this.data.boundaryAt(x, z, this.boundaryScratch, true, true, true);
     const { tide, season } = this.levelOffsets(epochMinutes);
+    const ground = this.opts.groundHeight?.(x, z) ?? null;
+    const s = this.data.boundaryAt(x, z, this.boundaryScratch, true, true, true, { tide, season, groundHeight: ground ?? undefined });
     const offset = tide * s.tideResponse + season * s.seasonResponse;
     const surfaceHeight = s.surfaceBase + offset;
-    const ground = this.opts.groundHeight?.(x, z) ?? null;
     const accessible = (s.floodAccessOffsetM ?? -Infinity) <= offset + 0.001;
     const depth = s.supported && accessible ? Math.max(0, ground === null ? s.depthProxy + offset : surfaceHeight - ground) : 0;
     const wetMarginM = Math.min(depth - 0.004, offset + 0.001 - (s.floodAccessOffsetM ?? -Infinity));
@@ -105,11 +106,12 @@ export class WaterWorld implements WorldWaterQuery {
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {
-    const s = this.data.sample(position.x, position.z, { excludeFallingSheets: true });
     const { tide, season } = this.levelOffsets(epochMinutes);
+    const ground = this.opts.groundHeight?.(position.x, position.z) ?? null;
+    const s = this.data.sample(position.x, position.z, { excludeFallingSheets: true,
+      stage: { tide, season, groundHeight: ground ?? undefined } });
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
 
-    const ground = this.opts.groundHeight?.(position.x, position.z) ?? null;
     const depth = ground !== null ? still - ground : s.depthProxy + tide * s.tideResponse + season * s.seasonResponse;
 
     const canRunup = (s.className === "coast" || s.className === "estuary") && s.shoreDistM < 26 && depth > -0.6;

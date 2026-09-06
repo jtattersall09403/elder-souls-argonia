@@ -4,6 +4,8 @@ import type { WaterData, WaterMeta } from "../waterData";
 import type { WaterWorld } from "../waterWorld";
 import type { Vec3 } from "@elder-souls/contracts";
 import type { WaterEffectsDiagnostics } from "./WaterEffects";
+import type { UnderwaterBubbleDiagnostics } from "./UnderwaterBubbles";
+import type { UnderwaterBubblePassDiagnostics } from "./UnderwaterBubblePass";
 
 export interface WaterAssets {
   data: WaterData;
@@ -59,4 +61,6 @@ export interface WaterDebugState {
   tideOffsetM: number; seasonOffsetM: number; cameraDepthM: number;
   rtSamples: number; frames: number; contextLost: boolean;
   effects?: WaterEffectsDiagnostics;
+  bubbles?: UnderwaterBubbleDiagnostics;
+  bubblePass?: UnderwaterBubblePassDiagnostics;
 }

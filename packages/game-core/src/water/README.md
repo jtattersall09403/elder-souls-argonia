@@ -23,6 +23,7 @@ The gameplay boundary is `WorldWaterQuery` in `@elder-souls/contracts`. Position
 | Shared opaque capture and underwater composition | `render/WaterPipeline.tsx` |
 | Material, receiving-terrain wetness and caustics | `render/waterMaterial.ts`, `render/groundWetness.ts`, `render/caustics.ts` |
 | Bounded local ripples and spray/foam | `render/RippleSim.ts`, `render/WaterEffects.ts` |
+| Impact-entrained underwater air and fog-correct HDR composition | `render/UnderwaterBubbles.ts`, `render/UnderwaterBubblePass.ts` |
 
 Inject `WaterRuntime` from `render/types.ts`; do not import a studio singleton. Use the surface handle's complete `meshes` collection when switching capture/underwater visibility. Call resource disposers on unmount. A consumer that applies caustics in its opaque terrain pass must set `causticsInOpaque` to prevent the refracted/composite fallback applying them twice.
 
@@ -40,9 +41,29 @@ a different material per body.
 
 Expanded channel cross-sections carry actual lateral ground and the upstream access barrier at each signed offset. The sampler lazily retains at most 256 records and 16,384 triangles. Streaming renderers use `sampler.meshDataFor(records)`, so current retains the whole graph's upstream momentum across mesh boundaries. Base-stage connected cross-sections supply hydraulic radius; resistance approaches Manning flow on gradual beds and transitions to gravitational jet acceleration on steep falls, with an explicit 12 m/s safety bound. Legacy records retain the prior current model. All foam/detail scales must advect through `flowAdvectionGlsl()` with full world-space velocity, including vertical fall speed; changing texture frequency must not change physical feature speed.
 
+Physical overlap queries pass current tide/season and ground authority into
+the ribbon sampler. Access and bed gates precede height ordering, including
+fine-raster fallback coefficients/access for legacy records. One wet winner
+supplies identity/current; no cross-owner interpolation. Static geometry
+queries keep base-plane ordering. Do not introduce standing-water fallback
+beneath a dry native envelope without fixing its rendered inland subtraction.
+
 New floating objects supply actual displaced volume, sample positions, mass and optional drag coefficients. `WaterRigidBodyDriver` applies point impulses before each fixed physics step and emits surface contacts from the rotated collision envelope. Pass the same `PhysicsMassUnits` to the driver and collider mass/density conversion; SI is the default. The studio uses 0.01 mass units/kg to preserve calibrated player/prop collisions. `forceScale` remains the lower-level unit adapter, never a density or displaced-volume adjustment. Dense objects sink naturally; shallow bottoms limit displaced volume. Hull displacement uses equal-volume sampled columns, not an exact clipped hull. See `rigidBody.test.ts`, `buoyancy.test.ts` and the studio crate fixture.
 
 Feed world-space contact velocity into interaction events; renderers subtract current once. `WaterContactEmitter` tracks entry, complete submersion, resurfacing, exit and distance-spaced wakes; call `reset` on known teleports or pooled-object reuse. Projectiles or other impacts can emit their own radius and magnitude. The renderer retains its legacy drain; audio/gameplay call `world.subscribeInteractions()`, drain their own reader and dispose it on teardown. Readers share a 256-event ring, with at most 16 subscribers; lag drops oldest events and reports `droppedEvents`. No reader steals another's events. Swimming controls, boat steering and sound content are separate consumers, not implemented by this package.
+
+Contact position and elapsed time must come from the same actual physics step,
+not discarded render-wall time. Use explicit suspension/reset lifecycle for
+hidden tabs; low FPS is not a teleport. Existing effects advance before new
+births, so a long preceding frame cannot consume a newborn's lifetime.
+Underwater bubbles entrain air only on real impact/entry events, with a32-event
+queue and64/192-particle tier caps. They follow current, rise and terminate at
+surface, bed or owner barriers; no periodic breathing source is invented.
+Only in-frustum submerged bubbles allocate their separate half-resolution
+RGBA16F target (maximum512² low /1024² high). It samples the completed opaque
+depth, applies absorption at each particle's true distance and composites
+premultiplied HDR before tone mapping. Inactive targets are disposed. Do not
+sample an attachment of the current target or fog particles at the bed depth.
 
 Authored `fallingToNext` intervals are finite falling sheets, never filled water columns. Free-surface queries exclude them and retain any real underlying standing/nonfalling water. `sampleSheetContact(position, radius, epoch)` separately tests the closest point on the actual stage-shifted triangle (radius ≤4 m), with real sheet current and no buoyancy/immersion. Player and rigid-body contact emitters use three bounded capsule-axis probes and at most one spray event per 120 ms; sheet metadata bypasses volume-only effect gates but never creates horizontal crowns/foam on the curtain. `waterVelocity` is an explicit current override, not a redefinition of actor world velocity. No air column below a lip becomes swimmable or triggers underwater fog.
 

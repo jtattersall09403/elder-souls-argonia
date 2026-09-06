@@ -8,7 +8,7 @@
  * records each raster's grid origin explicitly; legacy defaults to mpp/2.
  */
 
-import { ChannelRibbonSampler, type ChannelRibbonRecord } from "./channelRibbons";
+import { ChannelRibbonSampler, type ChannelRibbonRecord, type ChannelRibbonSampleOptions } from "./channelRibbons";
 import type { PackedCrossSectionMeta } from './packedCrossSections';
 import type { NativeWaterGround, NativeWaterGroundDescriptor } from './nativeWaterGround';
 import { isPhysicalWaterBody, type WaterBodyIdentity, type WaterBodyRecord } from './waterBodies';
@@ -264,7 +264,8 @@ export class WaterData {
    * query and skips wave/normal/chemistry evaluation; geometry-only callers
    * do not pay for raster flow decoding.
    * An optional output avoids tens of thousands of allocations per refresh. */
-  boundaryAt(x: number, z: number, out?: WaterBoundaryStaticSample, includeRibbons = true, excludeFallingSheets = false, includeCurrent = false): WaterBoundaryStaticSample {
+  boundaryAt(x: number, z: number, out?: WaterBoundaryStaticSample, includeRibbons = true, excludeFallingSheets = false, includeCurrent = false,
+    stage?: ChannelRibbonSampleOptions['stage']): WaterBoundaryStaticSample {
     const result = out ?? { surfaceBase: 0, depthProxy: 0, tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
     result.floodAccessOffsetM = undefined;
     result.flowX = 0; result.flowZ = 0;
@@ -283,7 +284,9 @@ export class WaterData {
     const levels = this.fineLevelsAt(x, z);
     // Raster mesh construction excludes native footprints separately; its
     // support/body tests must not inherit the overlaid ribbon's identity.
-    const ribbon = includeRibbons && this.meta.ribbons?.length ? this.ribbons.sample(x, z, { excludeFallingSheets }) : null;
+    const ribbon = includeRibbons && this.meta.ribbons?.length ? this.ribbons.sample(x, z, { excludeFallingSheets,
+      stage: stage && { ...stage, fallbackTideResponse: levels.tide, fallbackSeasonResponse: levels.season,
+        fallbackAccessOffsetM: levels.accessOffset } }) : null;
     result.seasonResponse = ribbon?.seasonResponse ?? levels.season;
     result.surfaceBase = ribbon?.height ?? surface;
     result.floodAccessOffsetM = ribbon?.floodAccessOffsetM ?? levels.accessOffset;
@@ -317,7 +320,7 @@ export class WaterData {
     return Math.abs(value - 127.5) <= 0.5 ? 0 : ((value / 255 - 0.5) * 2) * this.meta.flow.flowMax;
   }
 
-  sample(x: number, z: number, options: { excludeFallingSheets?: boolean } = {}): WaterStaticSample {
+  sample(x: number, z: number, options: ChannelRibbonSampleOptions = {}): WaterStaticSample {
     if (this.outside(x, z)) {
       return {
         supported: true, bodyIndex: 65535, waterBodyId: "water.province.open-sea",
@@ -341,7 +344,10 @@ export class WaterData {
     const kx = Math.min(Math.max(Math.round((x - (km.gridOriginM ?? km.metresPerPixel * 0.5)) / km.metresPerPixel), 0), km.size - 1);
     const kz = Math.min(Math.max(Math.round((z - (km.gridOriginM ?? km.metresPerPixel * 0.5)) / km.metresPerPixel), 0), km.size - 1);
     const ki = (kz * km.size + kx) * 4;
-    const ribbon = this.ribbons.sample(x, z, options);
+    const levels = this.fineLevelsAt(x, z);
+    const ribbon = this.ribbons.sample(x, z, options.stage ? { ...options,
+      stage: { ...options.stage, fallbackTideResponse: levels.tide, fallbackSeasonResponse: levels.season,
+        fallbackAccessOffsetM: levels.accessOffset } } : options);
     const classIndex = ribbon ? 3 : this.rasterClassAt(x, z);
     const className = km.classes[classIndex] ?? "none";
     const sm = this.meta.surface;
@@ -350,7 +356,6 @@ export class WaterData {
     const si = (sz * sm.size + sx) * 4;
     const supported = !!ribbon || this.rasterSupported(si);
     const bodyIndex = ribbon?.bodyIndex ?? (this.support ? this.support[si + 1] * 256 + this.support[si + 2] : classIndex);
-    const levels = this.fineLevelsAt(x, z);
     const plane = this.rasterPlaneAt(x, z);
     return {
       supported, bodyIndex, fallingSheet: ribbon?.fallingSheet,

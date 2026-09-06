@@ -9,15 +9,18 @@ import { createWaterUniforms, SAMPLER_GLSL, OVERLAY_LAYER, PRECIP_LAYER, WATER_L
 
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
+import { UnderwaterBubblePass, UNDERWATER_BUBBLE_COMPOSITE_GLSL } from "./UnderwaterBubblePass";
 
 /**
  * The shared render-pass architecture (module 60 §41, decision 0025) — ONE
- * scene render per frame:
+ * main scene render per frame, plus an optional isolated bubble draw:
  *
  * 1. opaques + sky (water hidden; when submerged, the water underside too)
  *    → half-float RT with a depth texture, tone mapping off (linear HDR);
  * 2. tone-mapped fullscreen blit → screen (the blit material also carries
  *    the underwater pass: per-channel Beer–Lambert fog + god rays);
+ *    live entrained bubbles use a separate half-resolution HDR target and
+ *    particle-distance fog, composited here before tone mapping;
  * 3. above water only: the water surface renders on top, sampling the RT for
  *    refraction, thickness, SSR and manual depth occlusion.
  *
@@ -55,6 +58,8 @@ export function WaterPipeline({ assets, tier, verticalScale, handle, ripple, run
 }) {
   const { gl } = useThree();
   const frames = useRef(0);
+  const bubblePass = useMemo(() => new UnderwaterBubblePass(tier.name === "low"), [tier.name]);
+  useEffect(() => () => bubblePass.dispose(), [bubblePass]);
 
   const rt = useMemo(() => {
     const size = gl.getDrawingBufferSize(new THREE.Vector2());
@@ -85,6 +90,8 @@ export function WaterPipeline({ assets, tier, verticalScale, handle, ripple, run
       uUwSurfaceY: { value: 0 },
       uUwTime: { value: 0 },
       uGodRays: { value: tier.godRays ? 1 : 0 },
+      uBubbleColor: { value: null as THREE.Texture | null },
+      uBubbleActive: { value: 0 },
     };
     // The blit also WRITES the scene depth to the canvas depth buffer, so the
     // water pass gets hardware z-culling of buried surface (perf) and the
@@ -114,6 +121,8 @@ uniform float uVerticalScale;
 uniform vec3 uSunDirection;
 uniform float uDirectSun;
 uniform float uCausticsInOpaque;
+uniform sampler2D uBubbleColor;
+uniform float uBubbleActive;
 ${SAMPLER_GLSL}
 ${WATER_CAUSTICS_GLSL}
 ${CAUSTICS_GLSL}`,
@@ -182,11 +191,12 @@ if (uUnderwater > 0.5) {
   float esGrain = fract(sin(dot(vMapUv * vec2(1723.0, 1093.0), vec2(12.9898, 78.233)) + uUwTime * 7.0) * 43758.5453);
   outgoingLight *= 1.0 + (esGrain - 0.5) * 0.05;
 }
+${UNDERWATER_BUBBLE_COMPOSITE_GLSL}
 #include <opaque_fragment>
 gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
         );
     };
-    material.customProgramCacheKey = () => "es-water-blit-caustics-v2";
+    material.customProgramCacheKey = () => "es-water-blit-caustics-bubbles-v3";
     const scene = new THREE.Scene();
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     quad.frustumCulled = false;
@@ -341,6 +351,11 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
         Math.max(amb.y, 1e-4) * tint.y * 24.0,
         Math.max(amb.z, 1e-4) * tint.z * 24.0,
       );
+      // Isolated linear-HDR particles get their OWN fog distance, then join
+      // scene fog before the blit's tone mapping. No screen-space overlay.
+      bu.uBubbleColor.value = bubblePass.render(renderer, cam, h?.bubbles, underwater,
+        rt.depthTexture!, rw, rh, bu.uUwAbsorb.value, bu.uUwFog.value);
+      bu.uBubbleActive.value = bu.uBubbleColor.value ? 1 : 0;
       renderer.setRenderTarget(null);
       renderer.render(blit.scene, blit.camera);
 
@@ -389,6 +404,8 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       frames: frames.current,
       contextLost: contextLost.current,
       effects: h?.effects.diagnostics,
+      bubbles: h?.bubbles?.diagnostics,
+      bubblePass: bubblePass.diagnostics,
     });
   }, 1);
 

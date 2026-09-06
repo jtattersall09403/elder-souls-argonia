@@ -54,6 +54,18 @@ export interface ChannelRibbonSample {
   ribbonId: string;
 }
 
+export interface ChannelRibbonSampleOptions {
+  excludeFallingSheets?: boolean;
+  /** Physical overlap selection uses the same still-stage access/bed gates
+   * as rendering. Omit for static geometry/metadata queries. */
+  stage?: {
+    tide: number; season: number;
+    groundHeight?: number;
+    fallbackTideResponse?: number; fallbackSeasonResponse?: number;
+    fallbackAccessOffsetM?: number;
+  };
+}
+
 type Point = { x: number; y: number; z: number; groundM?: number; accessOffsetM?: number; tideResponse?: number; seasonResponse?: number };
 /** Optional compiled native terrain authority. Both CPU and GPU geometry
  * are refined through this same instance; raster-subtraction envelopes are
@@ -601,12 +613,15 @@ export class ChannelRibbonSampler {
     return result;
   }
 
-  sample(x: number, z: number, options: { excludeFallingSheets?: boolean } = {}): ChannelRibbonSample | null {
+  sample(x: number, z: number, options: ChannelRibbonSampleOptions = {}): ChannelRibbonSample | null {
     if (!Number.isFinite(x) || !Number.isFinite(z)) return null;
     const candidates = this.buckets.get(`${Math.floor(x / this.bucketSizeM)},${Math.floor(z / this.bucketSizeM)}`);
     if (!candidates) return null;
     let closest = Infinity;
     let sample: ChannelRibbonSample | null = null;
+    let selectedHeight = -Infinity, selectedWet = false;
+    const nativeBed = this.nativeGround?.sample?.(x, z);
+    if (nativeBed === null) return null;
     for (const triangle of this.sampleTriangles(candidates, x, z)) {
       if (options.excludeFallingSheets && triangle.fallingSheet) continue;
       const { a, b, c, start, end } = triangle;
@@ -620,23 +635,32 @@ export class ChannelRibbonSampler {
       const t = Math.min(1, Math.max(0, ((x - start.x) * dx + (z - start.z) * dz) / (dx * dx + dz * dz)));
       const distance2 = (x - start.x - t * dx) ** 2 + (z - start.z - t * dz) ** 2;
       const height = a.y * u + b.y * v + c.y * w;
-      const nativeBed = this.nativeGround?.sample?.(x, z);
-      if (nativeBed === null) continue;
-      // Where reaches meet, physics follows the visible upper surface just
-      // as the depth test does; nearest-centre selection could pick a hidden
-      // sheet tens of centimetres underneath it.
-      if (sample && (height < sample.height - 1e-7 ||
-          (Math.abs(height - sample.height) <= 1e-7 && distance2 >= closest))) continue;
+      const tideResponse = a.tideResponse === undefined || b.tideResponse === undefined || c.tideResponse === undefined
+        ? undefined : a.tideResponse * u + b.tideResponse * v + c.tideResponse * w;
+      const seasonResponse = a.seasonResponse === undefined || b.seasonResponse === undefined || c.seasonResponse === undefined
+        ? undefined : a.seasonResponse * u + b.seasonResponse * v + c.seasonResponse * w;
+      const groundHeight = nativeBed ?? (a.groundM === undefined || b.groundM === undefined || c.groundM === undefined
+        ? undefined : a.groundM * u + b.groundM * v + c.groundM * w);
+      const floodAccessOffsetM = a.accessOffsetM === undefined || b.accessOffsetM === undefined || c.accessOffsetM === undefined
+        ? undefined : a.accessOffsetM * u + b.accessOffsetM * v + c.accessOffsetM * w;
+      const stage = options.stage;
+      const offset = stage ? stage.tide * (tideResponse ?? stage.fallbackTideResponse ?? 0)
+        + stage.season * (seasonResponse ?? stage.fallbackSeasonResponse ?? 0) : 0;
+      const physicalHeight = height + offset;
+      const bed = stage?.groundHeight ?? groundHeight;
+      const wet = !stage || ((floodAccessOffsetM ?? stage.fallbackAccessOffsetM ?? -Infinity) <= offset + 0.001
+        && (bed === undefined || physicalHeight - bed > 0.004));
+      // A higher but access-blocked face is discarded by the GPU. It must
+      // not hide a lower wet confluence face from physical queries. Retain
+      // the highest dry candidate only when all candidates are dry, so
+      // callers still receive meaningful local level/access diagnostics.
+      if (sample && ((selectedWet && !wet) || (selectedWet === wet
+        && (physicalHeight < selectedHeight - 1e-7
+          || (Math.abs(physicalHeight - selectedHeight) <= 1e-7 && distance2 >= closest))))) continue;
       closest = distance2;
+      selectedHeight = physicalHeight; selectedWet = wet;
       sample = { height, fallingSheet: triangle.fallingSheet,
-        tideResponse: a.tideResponse === undefined || b.tideResponse === undefined || c.tideResponse === undefined
-          ? undefined : a.tideResponse * u + b.tideResponse * v + c.tideResponse * w,
-        seasonResponse: a.seasonResponse === undefined || b.seasonResponse === undefined || c.seasonResponse === undefined
-          ? undefined : a.seasonResponse * u + b.seasonResponse * v + c.seasonResponse * w,
-        groundHeight: nativeBed ?? (a.groundM === undefined || b.groundM === undefined || c.groundM === undefined
-          ? undefined : a.groundM * u + b.groundM * v + c.groundM * w),
-        floodAccessOffsetM: a.accessOffsetM === undefined || b.accessOffsetM === undefined || c.accessOffsetM === undefined
-          ? undefined : a.accessOffsetM * u + b.accessOffsetM * v + c.accessOffsetM * w,
+        tideResponse, seasonResponse, groundHeight, floodAccessOffsetM,
         flowX: triangle.flowX, flowY: triangle.flowY, flowZ: triangle.flowZ,
         surfaceNormal: { ...triangle.surfaceNormal },
         bodyIndex: triangle.bodyIndex, riverBand: triangle.riverBand, ribbonId: triangle.ribbonId };
