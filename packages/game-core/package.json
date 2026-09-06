@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "type": "module",
   "exports": {
+    "./water/render/WaterSurface": "./src/water/render/WaterSurface.tsx",
+    "./water/render/WaterPipeline": "./src/water/render/WaterPipeline.tsx",
     "./*": "./src/*.ts"
   },
   "scripts": {
@@ -11,6 +13,7 @@
     "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
+    "@react-three/fiber": "^9.7.0",
     "@elder-souls/contracts": "^0.1.0",
     "@elder-souls/world-time": "^0.1.0",
     "react": "^19.2.7",

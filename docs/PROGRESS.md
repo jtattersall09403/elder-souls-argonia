@@ -55,14 +55,22 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water overhaul commissioned 2026-09-06: continuous level/flow geometry, semantic behaviour, caustics, bounded interactions, splash FX and buoyancy; preserve tide/season ranges and provide legacy rollback. Other polish remains queued in [polish-backlog.md](polish-backlog.md). |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water review candidate implemented 2026-09-06 ([0045](decisions/0045-reversible-water-overhaul.md)): terrain-constrained channels/pools, semantic optics, caustics, interactions/FX and reusable buoyancy; original tide/season ranges preserved. 104 water/terrain tests + 39 Python tests pass; owner visual gate remains open in [water-quality.md](research/rendering/water-quality.md). Other polish stays in [polish-backlog.md](polish-backlog.md). |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
 ## Waiting on user
 
-Water work is proceeding; no water decision is waiting on the owner. Review
-will cover representative rivers, pools, marsh, coast and underwater views.
+Water implementation is ready for the owner visual gate after deployment:
+mountain river/pool joins first, then marsh, coast, weather, underwater and
+the three buoyancy crates. See [the review guide](research/rendering/water-quality.md).
+Release coordination: the water agent will commit only water-owned paths and
+will not start a competing push/deployment; the combat agent can include the
+completed water commit in its release after the shared gates pass.
+Latest shared check (10:54 UTC): typecheck and all water/studio tests pass;
+root test/build are blocked by the concurrently rebuilt humanoid GLB not yet
+matching its character-assets manifest. Combat release owns that asset pair;
+do not bypass verification or restore its working files to unblock water.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

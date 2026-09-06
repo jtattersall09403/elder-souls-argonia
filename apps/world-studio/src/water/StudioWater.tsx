@@ -1,6 +1,14 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { RippleSim } from "./RippleSim";
-import { sharedWaterAssets, type WaterAssets } from "./waterAssets";
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
+import { sharedWaterAssets, LEGACY_WATER, type WaterAssets } from "./waterAssets";
+import { StudioWater as LegacyStudioWater } from "./legacy/StudioWater";
+import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
+import { applyAerialPerspective } from "../sky/aerial";
+import { worldClock } from "../sky/timeState";
+import { waterTimeS, advanceWaterClock } from "./waterClock";
+import { lastWeatherSample } from "../weather/weatherState";
+import { wetnessUniforms } from "./groundWetness";
+import type { WaterRuntime } from "@elder-souls/game-core/water/render/types";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
 import { WaterPipeline } from "./WaterPipeline";
 import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "./WaterSurfaceMesh";
@@ -24,7 +32,11 @@ export function pickWaterTier(): WaterTier {
   return coarse || weak ? WATER_TIERS.low : WATER_TIERS.high;
 }
 
-export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: {
+export function StudioWater(props: Parameters<typeof CurrentStudioWater>[0]) {
+  return LEGACY_WATER ? <LegacyStudioWater {...props} /> : <CurrentStudioWater {...props} />;
+}
+
+function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies }: {
   base: string;
   verticalScale: number;
   /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */
@@ -32,6 +44,29 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: 
   /** Live churn sources (e.g. the wading player), read every frame. */
   contactBodies?: () => ContactBody[];
 }) {
+  const { csm } = useContext(SkyContext);
+  const runtime = useMemo<WaterRuntime>(() => ({
+    csm, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
+    advanceClock: dt => advanceWaterClock(dt, worldClock.rate),
+    rainIntensity: () => lastWeatherSample()?.rainIntensity ?? 0,
+    windVelocity: () => {
+      const w = lastWeatherSample();
+      return { x: (w?.windDirXZ[0] ?? 0) * (w?.windSpeedMS ?? 0), y: 0,
+        z: (w?.windDirXZ[1] ?? 0) * (w?.windSpeedMS ?? 0) };
+    },
+    applyAerial: material => applyAerialPerspective(material, sharedAerialUniforms),
+    sunDirection: sharedAerialUniforms.uSunDirW,
+    ambient: sharedAerialUniforms.uHazeAmbient,
+    sunLight: sharedAerialUniforms.uHazeSunLight,
+    causticsInOpaque: true,
+    onLevels: (tide, season, wind) => {
+      wetnessUniforms.uWetLevels.value.set(tide, season);
+      wetnessUniforms.uWetWind.value = wind;
+      wetnessUniforms.uWetTime.value = waterTimeS();
+      wetnessUniforms.uWetSun.value.copy(sharedAerialUniforms.uSunDirW.value);
+    },
+    onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
+  }), [csm]);
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);
@@ -40,6 +75,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: 
   }, []);
   const ripple = useMemo(() => (tier.ripples ? new RippleSim() : null), [tier]);
   useEffect(() => () => ripple?.dispose(), [ripple]);
+  useEffect(() => { if (assets) ripple?.configureBoundary(assets.world, runtime.epochMinutes); }, [ripple, assets, runtime]);
 
   useEffect(() => {
     let alive = true;
@@ -55,6 +91,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: 
   return (
     <>
       <WaterSurfaceMesh
+        runtime={runtime}
         assets={assets}
         tier={tier}
         verticalScale={verticalScale}
@@ -64,6 +101,7 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies }: 
         onReady={onSurfaceReady}
       />
       <WaterPipeline
+        runtime={runtime}
         assets={assets}
         tier={tier}
         verticalScale={verticalScale}

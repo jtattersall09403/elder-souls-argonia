@@ -39,20 +39,21 @@ Rapier and gameplay systems use this CPU-accessible query. The renderer consumes
 
 The advanced water repositories already contain valuable buoyancy, wake, interaction and underwater techniques. Those algorithms can be adapted while Rapier remains the authoritative rigid-body system. This prevents duplicate object simulation and GPU-readback coupling.
 
-> **As shipped (Phase 8b, decision 0025 — see
-> [research](../research/rendering/water-rendering-threejs.md)):** `WorldWaterQuery` +
+> **Current water architecture (Phase P, decision [0045](../decisions/0045-reversible-water-overhaul.md); supersedes the implementation shape in 0025):** `WorldWaterQuery` +
 > `WaterSample` live in `packages/contracts`; the CPU model (wave table with
 > GLSL twin, moon tide, season level, raster samplers, buoyancy) in
 > `packages/game-core/src/water/`; the compile in
-> `worldgen/compile_water.py` (province W surface + flow + class rasters,
-> standing probes in `test_water.py`); the renderer in
-> `apps/world-studio/src/water/` (one continuous camera-following surface,
+> `worldgen/compile_water.py` (native terrain-constrained standing surfaces,
+> channel ribbons, supported domains and a reversible bed overlay; probes in
+> `test_water_geometry.py`); the renderer in
+> `packages/game-core/src/water/render/` (ocean grid, body-isolated inland tiles and channel geometry,
 > `MeshPhysicalMaterial` + `onBeforeCompile` on the 8a CSM/PMREM/aerial
 > stack, scene-RT refraction/SSR, underwater blit pass, two quality tiers,
 > browser probes in `scripts/probe-water.mjs`). Deferred to later phases:
-> per-body `WaterBody` records (§40 — Phase 11 needs them for POIs), hero
-> pools (§39.3), FFT open-sea tier (§39.4), projected caustics on the bed,
-> per-body `rendererProfile` beyond the class rasters.
+> full authored `WaterBody` records (§40 — compiled stable body IDs and semantic
+> fields already exist), swimming and boat controllers. Bed caustics, bounded
+> interactive ripples and spray/foam are implemented. FFT (§39.4) is an optional
+> technique, not a quality gate. See the [quality contract and owner review](../research/rendering/water-quality.md).
 
 ## 39. Rendering stack
 
@@ -355,4 +356,3 @@ The world compiler should generate and validate:
 Rain, wetness, equipment load, skill and spells can modify grip and stamina.
 
 ---
-

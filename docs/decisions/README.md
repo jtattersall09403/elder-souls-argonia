@@ -46,3 +46,4 @@ record and marking the old one superseded — don't rewrite history.
 - [0040 — animation packs (the rig split per weapon family), poise made switchable while it is judged, contact windows left unmeasured rather than guessed](0040-animation-packs-and-combat-parallel-pass.md)
 - [0042 — build-out steers: Hist powers kept, the §4 ambitions batch ruled, renderer extraction moved to Phase 14, polearms to 10b, a 10c combat proving round, TES-voice review, and eleven engineering standards with checks](0042-buildout-steers-and-engineering-standards.md)
 - [0043 — text quality workstream: the Morrowind-derived style guide, the eight culture registers and the text-review process](0043-text-quality-workstream.md)
+- [0045 — reversible, terrain-constrained water and its acceptance contract](0045-reversible-water-overhaul.md)

@@ -126,10 +126,13 @@ try {
   });
 
   for (const s of RUN) {
+    console.log(`Checking water: ${s.id}`);
     const errBefore = pageErrors.length;
-    await page.goto(`${BASE}?${s.q}&smsize=512`);
+    const testedQuery = `${s.q}&smsize=512&w=clear&lanes=0&markers=0&hud=0`;
+    await page.goto(`${BASE}?${testedQuery}`);
     await page.waitForFunction(
-      () => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames > 5,
+      // Inland geometry streams in bounded batches; judge the settled view.
+      () => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames > 70,
       undefined,
       { timeout: 180_000 },
     );
@@ -218,7 +221,7 @@ try {
     else fail("sky exposure did not converge under the water pipeline");
 
     report.push(
-      `## ${s.id}\nurl: ?${s.q}\n` +
+      `## ${s.id}\nurl: ?${testedQuery}\n` +
         checks.join("\n") +
         `\nsurface@cam ${dbg.surfaceAtCameraM?.toFixed?.(2)} m · camDepth ${dbg.cameraDepthM?.toFixed?.(2)} m` +
         ` · tide ${dbg.tideOffsetM?.toFixed?.(3)} m · season ${dbg.seasonOffsetM?.toFixed?.(2)} m` +

@@ -6,4 +6,6 @@ export { tideOffset, seasonOffset, springFactor, SEMIDIURNAL_MINUTES } from "./t
 export { WaterWorld } from "./waterWorld";
 export type { WaterWorldOptions } from "./waterWorld";
 export { computeBuoyancy } from "./buoyancy";
-export type { BuoyancyParams, BuoyancyResult } from "./buoyancy";
+export type { BuoyancyParams, BuoyancyResult, BuoyancyMotion } from "./buoyancy";
+export { WaterContactEmitter } from "./contactEmitter";
+export { WaterFlowContacts } from "./flowContacts";

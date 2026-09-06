@@ -189,7 +189,7 @@ function tinyWorld() {
 
 describe("WaterWorld", () => {
   it("samples sea water with sane fields", () => {
-    const w = tinyWorld().sample({ x: 5, y: -1, z: 15 }, 0);
+    const w = tinyWorld().sample({ x: 5, y: -3, z: 15 }, 0);
     expect(w.waterBodyId).toBe("coast");
     expect(w.depth).toBeGreaterThan(4);
     expect(w.immersion).toBe(1);

@@ -1,0 +1,54 @@
+import { describe, expect, it } from "vitest";
+import { causticVisibility, type CausticVisibilityInput } from "./caustics";
+
+const CLEAR: CausticVisibilityInput = {
+  depthM: 1, turbidity: 0, tannin: 0, sunElevation: 1,
+  receiverIncidence: 1, directLightVisibility: 1, waveActivity: 1,
+};
+const visibility = (overrides: Partial<CausticVisibilityInput> = {}) => causticVisibility({ ...CLEAR, ...overrides });
+
+describe("projected caustics visibility", () => {
+  it("requires a submerged, directly lit receiver and an active water surface", () => {
+    expect(visibility()).toBeGreaterThan(0.8);
+    for (const overrides of [
+      { depthM: 0 }, { depthM: -2 }, { sunElevation: -1 },
+      { directLightVisibility: 0 }, { receiverIncidence: 0 }, { waveActivity: 0 },
+    ]) expect(visibility(overrides)).toBe(0);
+  });
+
+  it("obeys Beer–Lambert attenuation with actual light-path length", () => {
+    expect(visibility()).toBeCloseTo(Math.exp(-0.1));
+    expect(visibility({ depthM: 2 })).toBeCloseTo(Math.exp(-0.2));
+    expect(visibility({ sunElevation: 0.3 })).toBeLessThan(visibility());
+  });
+
+  it("suppresses caustics in silt and tannin rather than brightening dark swamps", () => {
+    const clear = visibility({ depthM: 2 });
+    expect(visibility({ depthM: 2, turbidity: 0.8 })).toBeLessThan(clear * 0.03);
+    expect(visibility({ depthM: 2, tannin: 0.8 })).toBeLessThan(clear * 0.002);
+  });
+
+  it("tracks shadow and receiver incidence continuously", () => {
+    expect(visibility({ directLightVisibility: 0.3 })).toBeCloseTo(visibility() * 0.3);
+    expect(visibility({ receiverIncidence: 0.4 })).toBeCloseTo(visibility() * 0.4);
+    expect(visibility({ waveActivity: 0.2 })).toBeCloseTo(visibility() * 0.2);
+  });
+
+  it("fades gently at the waterline, horizon and deep-water cutoff", () => {
+    expect(visibility({ depthM: 0.015 })).toBeLessThan(visibility({ depthM: 0.04 }));
+    expect(visibility({ sunElevation: 0.02 })).toBeLessThan(visibility({ sunElevation: 0.15 }));
+    expect(visibility({ depthM: 23.99 })).toBeLessThan(0.00001);
+    expect(visibility({ depthM: 24 })).toBe(0);
+    expect(visibility({ depthM: 1000 })).toBe(0);
+  });
+
+  it("remains bounded for valid finite world data and out-of-range controls", () => {
+    for (const depthM of [-1, 0, 0.02, 0.5, 3, 12, 24]) {
+      for (const sunElevation of [-1, 0, 0.05, 0.3, 1, 2]) {
+        const value = visibility({ depthM, sunElevation, receiverIncidence: 2, directLightVisibility: 3, waveActivity: 4 });
+        expect(value).toBeGreaterThanOrEqual(0);
+        expect(value).toBeLessThanOrEqual(1);
+      }
+    }
+  });
+});

@@ -119,7 +119,7 @@ export const SWASH = {
   amplitudeM: 0.22, // vertical; ~5–8 m horizontal runup on a beach apron
   bandM: 26.0, // swash influence fades out this far from shore
   omega: 0.9, // rad/s (shared with the swell so one wave feeds one uprush)
-  k: 0.35, // rad/m of shore distance (bands travel shoreward)
+  k: 0.45, // same arriving wavefront as shore swell and breaking foam
   skew: 0.6, // asymmetric oscillator: fast uprush, slow gravity backwash
   phase: 0.8, // uprush peaks just after the swell crest arrives at d=0
   groupOmega: 0.15, // surf-beat: wave sets, one wave runs visibly farther
@@ -145,7 +145,7 @@ const sstep = (e0: number, e1: number, x: number) => {
 /** Surf-beat group envelope 0.1..1 — modulates swell, swash and shore foam
  * together so successive waves differ (the anti-"barcode" ingredient). */
 export function surfGroup(shoreDistM: number, timeS: number): number {
-  return 0.55 + 0.45 * Math.sin(SWASH.groupOmega * timeS - SWASH.groupK * shoreDistM);
+  return 0.55 + 0.45 * Math.sin(SWASH.groupOmega * timeS + SWASH.groupK * shoreDistM);
 }
 
 /** Fetch-only exposure for shore effects — pass the shore distance sampled
@@ -159,7 +159,7 @@ export function fetchExposure(seawardShoreDistM: number, turbidity = 0): number 
 export function swashAt(shoreDistM: number, fetchExp: number, timeS: number): number {
   const envelope = Math.max(1 - shoreDistM / SWASH.bandM, 0) * clamp01(fetchExp * 1.6);
   if (envelope <= 0) return 0;
-  const th = SWASH.omega * timeS - SWASH.k * shoreDistM - SWASH.phase;
+  const th = SWASH.omega * timeS + SWASH.k * shoreDistM - SWASH.phase;
   const skewed = Math.cos(th - SWASH.skew * Math.sin(th));
   return (skewed * 0.5 + 0.25) * SWASH.amplitudeM * surfWindScale() * envelope * surfGroup(shoreDistM, timeS);
 }
@@ -244,16 +244,18 @@ export function gerstnerAt(x: number, z: number, timeS: number, exposure: number
   if (exposure > 1e-4) {
     for (const b of waveBands()) {
       const a = b.amp * exposure;
+      // The sum q*k*A must stay below one at EVERY weather strength.
+      const q = b.q / Math.max(1, exposure);
       const arg = b.freq * (b.dirX * x + b.dirZ * z) + timeS * b.phaseSpeed + b.phase0;
       const s = Math.sin(arg);
       const c = Math.cos(arg);
       const wa = b.freq * a;
-      dx += b.q * a * b.dirX * c;
-      dz += b.q * a * b.dirZ * c;
+      dx += q * a * b.dirX * c;
+      dz += q * a * b.dirZ * c;
       h += a * s;
       nx -= b.dirX * wa * c;
       nz -= b.dirZ * wa * c;
-      ny -= b.q * wa * s;
+      ny -= q * wa * s;
     }
   }
   const inv = 1 / Math.hypot(nx, ny, nz);
@@ -298,7 +300,7 @@ const f = (v: number) => {
 export function surfGlsl(): string {
   return /* glsl */ `
   float esSurfGroup(float d, float t) {
-    return 0.55 + 0.45 * sin(${f(SWASH.groupOmega)} * t - ${f(SWASH.groupK)} * d);
+    return 0.55 + 0.45 * sin(${f(SWASH.groupOmega)} * t + ${f(SWASH.groupK)} * d);
   }
   float esFetchExp(float seawardD, float turb) {
     return clamp(seawardD / ${f(SHORE_SWELL.fetchM)}, 0.0, 1.0)
@@ -308,7 +310,7 @@ export function surfGlsl(): string {
   float esSwash(float d, float fetchExp, float t, float windAmp) {
     float envelope = max(1.0 - d / ${f(SWASH.bandM)}, 0.0) * clamp(fetchExp * 1.6, 0.0, 1.0);
     if (envelope <= 0.0) return 0.0;
-    float th = ${f(SWASH.omega)} * t - ${f(SWASH.k)} * d - ${f(SWASH.phase)};
+    float th = ${f(SWASH.omega)} * t + ${f(SWASH.k)} * d - ${f(SWASH.phase)};
     float skewed = cos(th - ${f(SWASH.skew)} * sin(th));
     return (skewed * 0.5 + 0.25) * ${f(SWASH.amplitudeM)} * windAmp * envelope * esSurfGroup(d, t);
   }
@@ -370,6 +372,7 @@ export function gerstnerGlsl(bandCount: number = WAVES.bands): string {
   EsWave esWaveBand(vec2 pos, float exposure, float t, vec2 d,
                     float freq, float amp, float phaseSpeed, float q, float phase0, EsWave w) {
     float a = amp * exposure;
+    q /= max(1.0, exposure);
     float arg = freq * dot(d, pos) + t * phaseSpeed + phase0;
     float s = sin(arg);
     float c = cos(arg);

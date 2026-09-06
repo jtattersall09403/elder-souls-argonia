@@ -29,6 +29,8 @@ import { StudioWater } from "../water/StudioWater";
 import { FloatTestCrates } from "../water/FloatTestCrates";
 import { setWaterGroundHeight, sharedWaterAssets } from "../water/waterAssets";
 import type { WaterWorld } from "@elder-souls/game-core/water/index";
+import { WaterContactEmitter } from "@elder-souls/game-core/water/contactEmitter";
+import { worldClock } from "../sky/timeState";
 import { CityMarkers } from "../CityMarkers";
 import { BlueprintGround } from "./BlueprintGround";
 import { loadBlueprints, type Blueprint } from "../blueprints/blueprintsData";
@@ -166,47 +168,12 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }, [world]);
   /** Buoyancy demo (💧 crates button): spawn origin for three test crates. */
   const [crateOrigin, setCrateOrigin] = useState<Vec3 | null>(null);
-  const prevWaterDepth = useRef(0);
-  const lastWakeAt = useRef(0);
-  const onWaterContact = useCallback((x: number, z: number, depth: number, speed: number, vy: number) => {
+  const waterContact = useRef(new WaterContactEmitter("actor.player"));
+  const onWaterContact = useCallback((x: number, y: number, z: number, vy: number, dt: number) => {
     const ww = waterWorldRef.current;
-    if (!ww) return;
-    // landing hard while ALREADY standing in water also splashes
-    // (owner round 6: jumping in shallow water gave no ripple)
-    const now0 = performance.now();
-    if (depth > 0.08 && vy < -3.2 && now0 - lastWakeAt.current > 550) {
-      lastWakeAt.current = now0;
-      ww.emitInteraction({
-        kind: "splash",
-        position: { x, y: 0, z },
-        magnitude: Math.min(-vy * 18 + 15, 120),
-        radius: 0.9,
-      });
-    }
-    // ANY entry splashes — walking in, jumping in, or dropping in
-    // (round 4: jump-ins were missed and the old ring read as static)
-    if (depth > 0.12 && prevWaterDepth.current <= 0.03) {
-      ww.emitInteraction({
-        kind: "splash",
-        position: { x, y: 0, z },
-        magnitude: Math.min(Math.max(-vy, speed, 1.2) * 22 + 20, 130),
-        radius: 1.1,
-      });
-      lastWakeAt.current = performance.now();
-    }
-    // wading leaves a TRAIL of expanding wake rings (like the crates do),
-    // which keep spreading after you stop, instead of a glued-on disc
-    const now = performance.now();
-    if (depth > 0.08 && speed > 0.55 && now - lastWakeAt.current > 220) {
-      lastWakeAt.current = now;
-      ww.emitInteraction({
-        kind: "wake",
-        position: { x, y: 0, z },
-        magnitude: 28 + speed * 14,
-        radius: 0.7,
-      });
-    }
-    prevWaterDepth.current = depth;
+    if (ww) waterContact.current.update(ww, worldClock.epochMinutes(), {
+      x, y: (y - CHARACTER_BODY_CENTER_HEIGHT) / verticalScaleRef.current, z,
+    }, vy / verticalScaleRef.current, dt);
   }, []);
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
@@ -383,7 +350,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
               accumulator, which is why it never showed there. */}
           <Physics key={verticalScale} gravity={[0, -9.81, 0]} timeStep={1 / 60} paused>
             {crateOrigin && (
-              <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} />
+              <FloatTestCrates origin={crateOrigin} waterWorld={() => waterWorldRef.current} verticalScale={verticalScale} />
             )}
             <ChunkColliders store={store} manifest={manifest} focusRef={focusRef}
               verticalScale={verticalScale} onReady={() => setCollidersReady(true)} />
@@ -572,7 +539,7 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
   onHud: (state: CharacterHudState) => void;
   onPositionKm: (xKm: number, zKm: number) => void;
   /** Live water contact for churn foam + splash events (Phase 8b). */
-  onWaterContact?: (x: number, z: number, depthM: number, speed: number, verticalVel: number) => void;
+  onWaterContact?: (x: number, y: number, z: number, verticalVel: number, delta: number) => void;
 }) {
   const adapter = useMemo(() => new EcctrlAdapter(handleRef), [handleRef]);
   // Sky look-up is the shared default (owner 2026-08-25) — no override needed.
@@ -709,18 +676,12 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
 
     // Wall-clock timers (rawDelta): the HUD must stay live even when the
     // render loop runs slower than the physics clamp.
+    onWaterContact?.(position.x, position.y, position.z, adapter.verticalVelocity(), rawDelta);
     hudTimer.current -= rawDelta;
     if (hudTimer.current <= 0) {
       hudTimer.current = 0.15;
       camera.getWorldDirection(cameraDir);
       const contact = world.queryEnvironment({ x: position.x, y: position.y, z: position.z });
-      onWaterContact?.(
-        position.x,
-        position.z,
-        contact.water?.depth ?? 0,
-        adapter.moveSpeed(),
-        adapter.verticalVelocity(),
-      );
       onHud({
         xKm: position.x / 1000,
         zKm: position.z / 1000,

@@ -4,11 +4,20 @@
  * arrays — PNG decoding is the app's job (needs a canvas) — so this stays
  * portable between the studio and the game.
  *
- * Conventions: world metres, X east / Z south, sea level y = 0; raster (0,0)
- * texel centre sits at world (mpp/2, mpp/2) of the province's NW corner.
+ * Conventions: world metres, X east / Z south, sea level y = 0. Schema 2
+ * records each raster's grid origin explicitly; legacy defaults to mpp/2.
  */
 
+import { ChannelRibbonSampler, type ChannelRibbonRecord } from "./channelRibbons";
+
 export interface WaterMeta {
+  schemaVersion?: number;
+  bodies?: { index: number; id: string }[];
+  ribbons?: ChannelRibbonRecord[];
+  cascades?: { id: string; lip: { x: number; y: number; z: number };
+    plunge: { x: number; y: number; z: number }; direction: { x: number; z: number };
+    widthM: number; dropM: number; riverBand: number; bodyIndex: number }[];
+  terrainMismatches?: { id: string; x: number; z: number; status: string; reason: string }[];
   surface: {
     file: string;
     size: number;
@@ -16,24 +25,37 @@ export interface WaterMeta {
     minM: number;
     maxM: number;
     buryM: number;
+    gridOriginM?: number;
+    supportFile?: string;
+    bedOverlayFile?: string;
+    depthMinM?: number;
     /** Hi-res shore-distance field (own grayscale PNG) + its saturation. */
     shoreFile?: string;
     shoreMaxM?: number;
   };
-  flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number };
-  klass: { file: string; size: number; metresPerPixel: number; classes: string[] };
+  flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number; gridOriginM?: number };
+  klass: { file: string; size: number; metresPerPixel: number; classes: string[]; gridOriginM?: number; characterFile?: string };
   stats?: Record<string, unknown>;
 }
 
 export interface WaterStaticSample {
-  /** Still-water surface height before tide/season/waves (m). Over dry land
-   * this is the buried surface (ground − buryM) — callers use `depthProxy`
-   * or a real ground height to decide wetness. */
+  supported: boolean;
+  bodyIndex: number;
+  waterBodyId: string | null;
+  riverBand: number;
+  region: number;
+  waveShelter: number;
+  tannin: number;
+  /** Still-water surface height before tide/season/waves (m). Schema 2
+   * extends nearby planes into dry margins; supported + depth decides wetness. */
   surfaceBase: number;
-  /** clamp(surface − ground, 0, 25.5) from the compile — 0 means dry. */
+  /** Signed surface − ground in schema 2 (legacy unsigned). */
   depthProxy: number;
   flowX: number;
+  /** Ribbons follow their actual sloping plane; raster currents are level. */
+  flowY?: number;
   flowZ: number;
+  surfaceNormal?: { x: number; y: number; z: number };
   shoreDistM: number;
   classIndex: number;
   className: string;
@@ -47,12 +69,23 @@ export interface WaterStaticSample {
   tideResponse: number;
 }
 
+export interface WaterBoundaryStaticSample {
+  surfaceBase: number;
+  depthProxy: number;
+  tideResponse: number;
+  seasonResponse: number;
+  supported: boolean;
+  waterBodyId: string | null;
+}
+
 export function tideResponseOf(salinity: number): number {
   const t = Math.min(Math.max((salinity - 0.02) / (0.15 - 0.02), 0), 1);
   return t * t * (3 - 2 * t);
 }
 
 export class WaterData {
+  private readonly bodyIds: Map<number, string>;
+  readonly ribbons: ChannelRibbonSampler;
   constructor(
     readonly meta: WaterMeta,
     /** Dequantised W (m), surface.size², row 0 = north. */
@@ -70,11 +103,18 @@ export class WaterData {
      * channel — canvas decoding premultiplies and destroys the RGB (the
      * round-3 tide bug). */
     private readonly season?: Float32Array,
-  ) {}
+    private readonly support?: Uint8ClampedArray,
+    private readonly character?: Uint8ClampedArray,
+    private readonly tannin?: Float32Array,
+  ) {
+    this.bodyIds = new Map(meta.bodies?.map(b => [b.index, b.id]));
+    this.ribbons = new ChannelRibbonSampler(meta.ribbons ?? []);
+  }
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
-    const fx = Math.min(Math.max(x / mpp - 0.5, 0), size - 1.001);
-    const fz = Math.min(Math.max(z / mpp - 0.5, 0), size - 1.001);
+    const origin = this.meta.surface.gridOriginM ?? mpp * 0.5;
+    const fx = Math.min(Math.max((x - origin) / mpp, 0), size - 1.001);
+    const fz = Math.min(Math.max((z - origin) / mpp, 0), size - 1.001);
     const x0 = Math.floor(fx);
     const z0 = Math.floor(fz);
     const tx = fx - x0;
@@ -90,6 +130,16 @@ export class WaterData {
     return x < 0 || z < 0 || x >= extent || z >= extent;
   }
 
+  private channel(a: Uint8ClampedArray, meta: { size: number; metresPerPixel: number; gridOriginM?: number }, x: number, z: number, channel: number): number {
+    const origin = meta.gridOriginM ?? meta.metresPerPixel * 0.5;
+    const fx = Math.min(meta.size - 1.001, Math.max(0, (x - origin) / meta.metresPerPixel));
+    const fz = Math.min(meta.size - 1.001, Math.max(0, (z - origin) / meta.metresPerPixel));
+    const ix = Math.floor(fx), iz = Math.floor(fz), tx = fx - ix, tz = fz - iz;
+    const i = (iz * meta.size + ix) * 4 + channel;
+    return (a[i] * (1 - tx) + a[i + 4] * tx) * (1 - tz)
+      + (a[i + meta.size * 4] * (1 - tx) + a[i + meta.size * 4 + 4] * tx) * tz;
+  }
+
   /** Still-water surface height (m) — open sea (0) outside the province. */
   surfaceBase(x: number, z: number): number {
     if (this.outside(x, z)) return 0;
@@ -101,44 +151,123 @@ export class WaterData {
     return this.bilinear(this.depth, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
+  /** Discrete raster classification without flow/chemistry/ribbon sampling.
+   * Useful when selecting the raster mesh's LOD; ribbons own their own mesh. */
+  rasterClassAt(x: number, z: number): number {
+    if (this.outside(x, z)) return 1;
+    const m = this.meta.klass, origin = m.gridOriginM ?? m.metresPerPixel * 0.5;
+    const ix = Math.min(m.size - 1, Math.max(0, Math.round((x - origin) / m.metresPerPixel)));
+    const iz = Math.min(m.size - 1, Math.max(0, Math.round((z - origin) / m.metresPerPixel)));
+    const klass = this.klass[(iz * m.size + ix) * 4];
+    return this.support && klass === 0 ? 4 : klass;
+  }
+
+  /** Minimal static support/depth path for local ripple masks. Reuses one
+   * surface-grid interpolation stencil and never decodes flow or chemistry.
+   * An optional output avoids tens of thousands of allocations per refresh. */
+  boundaryAt(x: number, z: number, out?: WaterBoundaryStaticSample, includeRibbons = true): WaterBoundaryStaticSample {
+    const result = out ?? { surfaceBase: 0, depthProxy: 0, tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
+    if (this.outside(x, z)) {
+      result.surfaceBase = 0; result.depthProxy = 25.5;
+      result.tideResponse = 1; result.seasonResponse = 0;
+      result.supported = true; result.waterBodyId = "water.province.open-sea";
+      return result;
+    }
+    const sm = this.meta.surface;
+    const origin = sm.gridOriginM ?? sm.metresPerPixel * 0.5;
+    const gx = (x - origin) / sm.metresPerPixel;
+    const gz = (z - origin) / sm.metresPerPixel;
+    const fx = Math.min(sm.size - 1.001, Math.max(0, gx));
+    const fz = Math.min(sm.size - 1.001, Math.max(0, gz));
+    const ix = Math.floor(fx), iz = Math.floor(fz), tx = fx - ix, tz = fz - iz;
+    const i = iz * sm.size + ix;
+    const w00 = (1 - tx) * (1 - tz), w10 = tx * (1 - tz), w01 = (1 - tx) * tz, w11 = tx * tz;
+    const surface = this.surface[i] * w00 + this.surface[i + 1] * w10 + this.surface[i + sm.size] * w01 + this.surface[i + sm.size + 1] * w11;
+    const depth = this.depth[i] * w00 + this.depth[i + 1] * w10 + this.depth[i + sm.size] * w01 + this.depth[i + sm.size + 1] * w11;
+    result.seasonResponse = this.season
+      ? this.season[i] * w00 + this.season[i + 1] * w10 + this.season[i + sm.size] * w01 + this.season[i + sm.size + 1] * w11 : 0;
+    // Raster mesh construction excludes native footprints separately; its
+    // support/body tests must not inherit the overlaid ribbon's identity.
+    const ribbon = includeRibbons && this.meta.ribbons?.length ? this.ribbons.sample(x, z) : null;
+    result.surfaceBase = ribbon?.height ?? surface;
+    const ground = ribbon?.groundHeight;
+    result.depthProxy = ground !== undefined && ribbon ? ribbon.height - ground : depth + (ribbon ? ribbon.height - surface : 0);
+    const sx = Math.min(sm.size - 1, Math.max(0, Math.round(gx)));
+    const sz = Math.min(sm.size - 1, Math.max(0, Math.round(gz)));
+    const si = (sz * sm.size + sx) * 4;
+    result.supported = ribbon !== null || !this.support || this.support[si] > 127;
+    const km = this.meta.klass;
+    if (!result.supported) result.waterBodyId = null;
+    else if (ribbon) result.waterBodyId = this.bodyIds.get(ribbon.bodyIndex) ?? (this.support ? null : "river");
+    else if (this.support) result.waterBodyId = this.bodyIds.get(this.support[si + 1] * 256 + this.support[si + 2]) ?? null;
+    else {
+      const kOrigin = km.gridOriginM ?? km.metresPerPixel * 0.5;
+      const kx = Math.min(km.size - 1, Math.max(0, Math.round((x - kOrigin) / km.metresPerPixel)));
+      const kz = Math.min(km.size - 1, Math.max(0, Math.round((z - kOrigin) / km.metresPerPixel)));
+      const klass = this.klass[(kz * km.size + kx) * 4];
+      result.waterBodyId = this.bodyIds.get(klass) ?? km.classes[klass] ?? "none";
+    }
+    result.tideResponse = tideResponseOf(this.channel(this.klass, km, x, z, 2) / 255);
+    return result;
+  }
+
   sample(x: number, z: number): WaterStaticSample {
     if (this.outside(x, z)) {
       return {
+        supported: true, bodyIndex: 65535, waterBodyId: "water.province.open-sea",
+        riverBand: 0, region: 0, waveShelter: 1, tannin: 0,
         surfaceBase: 0, depthProxy: 25.5, flowX: 0, flowZ: 0,
         shoreDistM: this.meta.flow.shoreMaxM, classIndex: 1, className: "coast",
         turbidity: 0.25, salinity: 1, seasonResponse: 0, tideResponse: tideResponseOf(1),
       };
     }
     const fm = this.meta.flow;
-    const fx = Math.min(Math.max(Math.round(x / fm.metresPerPixel - 0.5), 0), fm.size - 1);
-    const fz = Math.min(Math.max(Math.round(z / fm.metresPerPixel - 0.5), 0), fm.size - 1);
+    const fx = Math.min(Math.max(Math.round((x - (fm.gridOriginM ?? fm.metresPerPixel * 0.5)) / fm.metresPerPixel), 0), fm.size - 1);
+    const fz = Math.min(Math.max(Math.round((z - (fm.gridOriginM ?? fm.metresPerPixel * 0.5)) / fm.metresPerPixel), 0), fm.size - 1);
     const fi = (fz * fm.size + fx) * 4;
-    const flowX = ((this.flow[fi] / 255 - 0.5) * 2) * fm.flowMax;
-    const flowZ = ((this.flow[fi + 1] / 255 - 0.5) * 2) * fm.flowMax;
+    const decodeFlow = (v: number) => Math.abs(v - 127.5) <= 0.5 ? 0 : ((v / 255 - 0.5) * 2) * fm.flowMax;
+    const flowX = decodeFlow(this.channel(this.flow, fm, x, z, 0));
+    const flowZ = decodeFlow(this.channel(this.flow, fm, x, z, 1));
     // prefer the hi-res shore field (surface alpha) — same data the GPU uses
     const shoreDistM = this.shore
       ? this.bilinear(this.shore, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
       : (this.flow[fi + 3] / 255) * fm.shoreMaxM;
     const km = this.meta.klass;
-    const kx = Math.min(Math.max(Math.round(x / km.metresPerPixel - 0.5), 0), km.size - 1);
-    const kz = Math.min(Math.max(Math.round(z / km.metresPerPixel - 0.5), 0), km.size - 1);
+    const kx = Math.min(Math.max(Math.round((x - (km.gridOriginM ?? km.metresPerPixel * 0.5)) / km.metresPerPixel), 0), km.size - 1);
+    const kz = Math.min(Math.max(Math.round((z - (km.gridOriginM ?? km.metresPerPixel * 0.5)) / km.metresPerPixel), 0), km.size - 1);
     const ki = (kz * km.size + kx) * 4;
-    const classIndex = this.klass[ki];
+    const ribbon = this.ribbons.sample(x, z);
+    const classIndex = ribbon ? 3 : this.rasterClassAt(x, z);
     const className = km.classes[classIndex] ?? "none";
+    const sm = this.meta.surface;
+    const sx = Math.min(sm.size - 1, Math.max(0, Math.round((x - (sm.gridOriginM ?? sm.metresPerPixel * 0.5)) / sm.metresPerPixel)));
+    const sz = Math.min(sm.size - 1, Math.max(0, Math.round((z - (sm.gridOriginM ?? sm.metresPerPixel * 0.5)) / sm.metresPerPixel)));
+    const si = (sz * sm.size + sx) * 4;
+    const supported = !!ribbon || !this.support || this.support[si] > 127;
+    const bodyIndex = ribbon?.bodyIndex ?? (this.support ? this.support[si + 1] * 256 + this.support[si + 2] : classIndex);
     return {
-      surfaceBase: this.surfaceBase(x, z),
-      depthProxy: this.depthProxy(x, z),
-      flowX,
-      flowZ,
+      supported, bodyIndex,
+      waterBodyId: supported ? (this.bodyIds.get(bodyIndex) ?? (this.support ? null : className)) : null,
+      riverBand: ribbon?.riverBand ?? this.character?.[ki] ?? (className === "river" ? 2 : 0),
+      region: this.character?.[ki + 1] ?? 0,
+      waveShelter: this.character ? this.character[ki + 2] / 255 : 1,
+      tannin: this.tannin ? this.bilinear(this.tannin, sm.size, sm.metresPerPixel, x, z) : 0,
+      surfaceBase: ribbon?.height ?? this.surfaceBase(x, z),
+      depthProxy: ribbon?.groundHeight !== undefined ? ribbon.height - ribbon.groundHeight
+        : this.depthProxy(x, z) + (ribbon ? ribbon.height - this.surfaceBase(x, z) : 0),
+      flowX: ribbon?.flowX ?? flowX,
+      flowY: ribbon?.flowY ?? 0,
+      flowZ: ribbon?.flowZ ?? flowZ,
+      surfaceNormal: ribbon?.surfaceNormal,
       shoreDistM,
       classIndex,
       className,
-      turbidity: this.klass[ki + 1] / 255,
-      salinity: this.klass[ki + 2] / 255,
+      turbidity: this.channel(this.klass, km, x, z, 1) / 255,
+      salinity: this.channel(this.klass, km, x, z, 2) / 255,
       seasonResponse: this.season
         ? this.bilinear(this.season, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)
         : 0,
-      tideResponse: tideResponseOf(this.klass[ki + 2] / 255),
+      tideResponse: tideResponseOf(this.channel(this.klass, km, x, z, 2) / 255),
     };
   }
 }
