@@ -88,3 +88,9 @@ Existing indexed deeper cuts do not make a routine proposal infeasible merely
 by remaining present: the per-vertex limit still forbids additional excavation
 there, and no old exception grants deeper cuts elsewhere. Fresh domains and
 original-water preservation remain the acceptance authority.
+
+Route search can include the bisector bank section and miter expansion at
+each bend. Straight-edge feasibility is insufficient there. The directed-edge
+search retains immutable corridor/saddle/endpoints and deterministic two-stage
+minimax/shortest-path ordering; it is only a candidate generator. The accepted
+group resolves seven more sources after fresh global and original-water checks.

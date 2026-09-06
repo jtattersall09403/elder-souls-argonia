@@ -41,6 +41,27 @@ def test_bounded_route_cost_keeps_shallow_pool_plane_and_rejects_incompatible_he
     assert bounded_route_deficit(*args,pool_levels=pools,maximum_head=7.)>.07
 
 
+def test_turn_search_detects_bank_deficit_missed_by_both_straight_edges():
+    ground=np.zeros((6,6),np.float32)
+    previous=np.array([[1.,1.],[1.,2.],[2.,3.]])
+    measured=[]
+    def deficit(point,normal,distances):
+        # Neither an axis-aligned nor a45-degree section detects this bank.
+        bent=(abs(normal[0])>.9 and .3<abs(normal[1])<.5)
+        if np.array_equal(point,[1.,2.]) and bent:
+            measured.append(float(distances[-1]))
+            return 1.
+        return 0.
+    ordinary=bank_aware_route(ground,previous,1.,.3,deviation=1.,deficit_at=deficit)
+    assert np.array_equal(ordinary,previous)
+    candidate=bank_aware_route(ground,previous,1.,.3,deviation=1.,deficit_at=deficit,turn_aware=True)
+    assert np.array_equal(candidate,[[1.,1.],[2.,2.],[2.,3.]])
+    assert measured and max(measured)>2.  # actual miter-expanded bank section
+    repeated=bank_aware_route(ground,previous,1.,.3,deviation=1.,deficit_at=deficit,turn_aware=True)
+    assert np.array_equal(candidate,repeated)
+    assert route_peak(ground,candidate)==route_peak(ground,previous)
+
+
 def test_reviewed_override_can_use_existing_channel_width_but_cannot_leave_it():
     from .water_geometry import refine_channel_stations
     ground=np.full((9,11),10.,np.float32)

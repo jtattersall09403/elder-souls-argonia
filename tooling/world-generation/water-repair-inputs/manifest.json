@@ -4,8 +4,8 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "0e40605c48bae4d316072a97a702695b571e965737285c46853b0998bb411e8f",
-    "routing-audit.json": "84c2e02894168031b7c05c71ab8c0aa9c8e1f9c2899e7f1240ac1474bf24985c",
+    "bed-overlay.json": "a5fd4e9a76804e7f55b1d3aafeaf60cf285d2fd08320eef6c9738f199aff9823",
+    "routing-audit.json": "9b51c112c57c6d5da513399bcb2ddbeab3c1b63a973200e902e3cd7a0c58b6b4",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f"
   },
   "source": {
@@ -14,8 +14,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15613,
-    "unresolvedChannels": 162,
+    "retainedCorrections": 15619,
+    "unresolvedChannels": 155,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -27,7 +27,7 @@
     "remainingRetainingBoundViolations": 69,
     "reviewedOriginalPoolAnchorRelocations": 69,
     "restoredCutCreatedMarineSupports": 15,
-    "reviewedBankAwareRoutes": 111,
+    "reviewedBankAwareRoutes": 139,
     "protectedOriginalWetFringeVertices": 364,
     "reconciledFlowDirections": 25
   },

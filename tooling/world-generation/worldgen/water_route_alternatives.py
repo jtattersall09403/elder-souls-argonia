@@ -58,14 +58,16 @@ or replace the joint bank/longitudinal solve and fresh flood-domain check.
 
 
 def bank_aware_route(ground, previous, radius, depth, deviation=2., terrain_flips=None,
-                     deficit_at=None):
+                     deficit_at=None, turn_aware=False):
     """Minimise bank deficit, then distance, below the old immutable saddle.
 
 Two separate scalar searches avoid the non-isotonic lexicographic-max trap:
 a later high obstruction must not erase the ordering of earlier path costs.
 Actual shared-section bank feasibility is deliberately left to the conditioner.
 An optional measured deficit callback can account for immutable excavation
-floors and fixed receiving heads. Original saddle/corridor guards still apply.
+    floors and fixed receiving heads. Original saddle/corridor guards still apply.
+    Optional turn-aware search also measures the actual bisector section at
+    bends; testing only each straight edge misses those intermediate normals.
 """
     previous = np.asarray(previous, float)
     start, end = previous[[0, -1]]
@@ -109,6 +111,9 @@ floors and fixed receiving heads. Original saddle/corridor guards still apply.
                 deficit = max(deficit, bed + depth + .005 - min(banks))
             choices.append((other, deficit, float(np.hypot(dy, dx))))
         edges[vertex] = choices
+    if turn_aware:
+        return _turn_aware_route(ground, previous, radius, depth, deviation,
+                                 terrain_flips, deficit_at, edges, origin, destination)
     best = {origin: 0.}
     queue = [(0., origin)]
     while queue:
@@ -142,4 +147,88 @@ floors and fixed receiving heads. Original saddle/corridor guards still apply.
             if deficit <= bound + 1e-9 and candidate < best.get(other, np.inf):
                 best[other], parents[other] = candidate, vertex
                 heapq.heappush(queue, (candidate, other))
+    return previous.copy()
+
+
+def _turn_aware_route(ground, previous, radius, depth, deviation, terrain_flips,
+                      deficit_at, edges, origin, destination):
+    """Directed-edge states preserve the incoming direction at each bend."""
+    transitions = {}
+
+    def choices(state):
+        if state in transitions:
+            return transitions[state]
+        before, vertex = state
+        result = []
+        for other, deficit, distance in edges.get(vertex, ()):
+            if other == before:
+                continue
+            if before is not None:
+                incoming = np.asarray(vertex, float) - before
+                outgoing = np.asarray(other, float) - vertex
+                incoming /= np.linalg.norm(incoming)
+                outgoing /= np.linalg.norm(outgoing)
+                tangent = incoming + outgoing
+                tangent /= np.linalg.norm(tangent)
+                normal = np.array([-tangent[1], tangent[0]])
+                correction = min(2., 1. / max(.5, abs(float(tangent @ outgoing))))
+                extent = 2. * radius * correction
+                distances = np.minimum(extent, np.arange(.25, extent + .25, .25))
+                point = np.asarray(vertex, float)
+                if deficit_at is not None:
+                    turn_deficit = float(deficit_at(point, normal, distances))
+                else:
+                    bed = float(sample_terrain(ground, point[:, None], terrain_flips)[0])
+                    banks = [np.max(sample_terrain(ground,
+                        point[:, None] + sign * normal[:, None] * distances, terrain_flips))
+                        for sign in (-1, 1)]
+                    turn_deficit = max(0., bed + depth + .005 - min(banks))
+                deficit = max(deficit, turn_deficit)
+            result.append(((vertex, other), deficit, distance))
+        transitions[state] = result
+        return result
+
+    start = (None, origin)
+    # Queue counters keep None/tuple state components out of heap comparisons.
+    serial = 0
+    best, queue = {start: 0.}, [(0., serial, start)]
+    bound = None
+    while queue:
+        cost, _, state = heapq.heappop(queue)
+        if cost != best.get(state):
+            continue
+        if state[1] == destination:
+            bound = cost
+            break
+        for other, deficit, _ in choices(state):
+            candidate = max(cost, deficit)
+            if candidate < best.get(other, np.inf):
+                best[other] = candidate
+                serial += 1
+                heapq.heappush(queue, (candidate, serial, other))
+    if bound is None:
+        return previous.copy()
+    best, parents, queue = {start: 0.}, {}, [(0., serial, start)]
+    while queue:
+        distance, _, state = heapq.heappop(queue)
+        if distance != best.get(state):
+            continue
+        if state[1] == destination:
+            path = [state[1]]
+            while state != start:
+                state = parents[state]
+                path.append(state[1])
+            path.reverse()
+            # A hydraulic course cannot revisit a junction at a new head.
+            if len(path) != len(set(path)):
+                return previous.copy()
+            path = np.asarray(path, float)
+            path[0], path[-1] = previous[[0, -1]]
+            return validate_route_override(ground, previous, path, path[0], path[-1], deviation, terrain_flips)
+        for other, deficit, step in choices(state):
+            candidate = distance + step
+            if deficit <= bound + 1e-9 and candidate < best.get(other, np.inf):
+                best[other], parents[other] = candidate, state
+                serial += 1
+                heapq.heappush(queue, (candidate, serial, other))
     return previous.copy()
