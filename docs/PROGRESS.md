@@ -73,6 +73,11 @@ Actions `34030145090` passed tests/typecheck/build and Pages at 11:26 UTC;
 live v2 metadata SHA-256 matches the committed file. The completion pass is
 still uncommitted/in progress and is not in that deployment. Combat's working
 asset changes remain separately owned; never bypass their verification.
+Fly-mode loading follow-up: isolate terrain, trees and groundcover loading;
+retain macro ground while terrain materials load. Deployed high/low probes
+eventually compile terrain without errors; permanent disappearance is not yet
+reproduced. Water completion remains open, including all follow-up defects in
+[the acceptance checklist](research/rendering/water-completion-audit.md).
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

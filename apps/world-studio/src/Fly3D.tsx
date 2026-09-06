@@ -264,26 +264,37 @@ export function Fly3D(props: Fly3DProps) {
           hemisphere+directional pair and hand-tuned fog are gone. */}
       <WorldSky mode="fly" extentM={extentM} verticalScale={props.exaggeration}>
         {chunkManifest ? (
-          <Suspense fallback={null}>
+          <>
             <FocusTracker focusRef={focusRef} />
-            <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
-              matSet={props.matSet} tintStrength={props.tintStrength}
-              verticalScale={props.exaggeration} />
+            {/* Independent loading boundaries: a streaming flora asset must
+                never hide already-ready terrain (including mode switches). */}
+            <Suspense fallback={
+              <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
+                textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
+            }>
+              <ChunkTerrain store={store} manifest={chunkManifest} focusRef={focusRef}
+                matSet={props.matSet} tintStrength={props.tintStrength}
+                verticalScale={props.exaggeration} />
+            </Suspense>
             {/* Phase 10 vegetation: the scatter compiler's chunk bundles,
                 instanced from the compiled flora kit. Only the exemplar and
                 contrast areas are compiled so far (decision 0036 Q3), so most
                 of the province still has none. */}
             {props.showVegetation !== false && (
               <>
-                <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                  verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+                <Suspense fallback={null}>
+                  <Vegetation focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                    verticalScale={props.exaggeration} onStats={props.onVegetationStats} />
+                </Suspense>
                 {/* T3 groundcover ring: runtime grass keyed on the painted
                     ground, province-wide (it needs no compiled bundles). */}
-                <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
-                  verticalScale={props.exaggeration} />
+                <Suspense fallback={null}>
+                  <Groundcover focusRef={focusRef} baseUrl={import.meta.env.BASE_URL}
+                    verticalScale={props.exaggeration} />
+                </Suspense>
               </>
             )}
-          </Suspense>
+          </>
         ) : (
           <Terrain heights={props.heights} size={props.size} metresPerPixel={props.metresPerPixel}
             textureCanvas={props.textureCanvas} exaggeration={props.exaggeration} />
