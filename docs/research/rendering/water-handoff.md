@@ -45,23 +45,23 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The 311 base constraints below still require resolution before final export.
+The 292 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-311-retaining-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-292-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
-coverage, and their original planes within0.1mm. Restored345 retaining supports plus10 minimum-bound restorations,
+coverage, and their original planes within0.1mm. Restored345 retaining supports plus11 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,415 corrections remain. **311 channel constraints remain**, not completed
+15,400 corrections remain. **292 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
 resolved38 with no new failures after omitting the causally unsafe component10244;
 fresh pool/domain checks passed. Next: diagnose remaining infeasible connected
-components and241 inherited retaining-bound violations, not another tail loop.
+components and240 inherited retaining-bound violations, not another tail loop.
 
 Do not reuse stale pool occupancy after terrain changes. Original retaining
 banks and spill planes take precedence over making a constraint count smaller.
@@ -77,9 +77,15 @@ disposable and reconstructible. Never promote a diagnostic `/tmp` bundle.
 A fresh-domain repair now restores10 more retaining vertices, with no new
 channel failures or original impoundment-plane/spill changes. One reviewed
 sampling anchor moves1.82784m from originally dry bank into its original pool,
-with both incident paths updated. Remaining retaining-bound violations:241.
+with both incident paths updated. Remaining retaining-bound violations:240.
+A second verified pool-exit component restores one more retaining vertex
+with seven bounded support adjustments (maximum0.362m) and no new failures.
 The compiler handoff records why the larger127-new-failure proposal was rejected
-and identifies pool-exit bank-aware routing as the next bounded investigation.
+and records15 accepted bank-aware routes plus three false-pool support
+restorations. Their combined fresh rebuild resolves18 further failures.
+The local proposal helper now includes every obstruction on a reach; the old
+summary-node selection omitted181 obstructions. Its corrected bounded
+proposal is in progress;11 focused regression tests pass.
 
 ## Immediate rendering work
 

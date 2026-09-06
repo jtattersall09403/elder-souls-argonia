@@ -39,6 +39,28 @@ def station_support(shape,point,normal,radius,flips):
     return set((rows*shape[1]+cols)[weights>1e-6].tolist())
 
 
+def local_obstruction_owners(conflicts):
+    """Keep every measured obstruction, not only the summary's lowest bank."""
+    owners={}
+    for source,conflict in conflicts.items():
+        if not conflict.get('localBankConstraint') or conflict.get('obstructionPinned'):
+            continue
+        for node in conflict['nodeBankCaps']:
+            owners.setdefault(int(node),set()).add(int(source))
+    return owners
+
+
+def local_reach_owners(state,conflicts):
+    """Include intervening sills instead of freezing a rejected fallback head."""
+    obstructions=local_obstruction_owners(conflicts)
+    sources=set().union(*obstructions.values()) if obstructions else set()
+    owners={}
+    for source in sorted(sources):
+        for node in path_indices(state,source):
+            owners.setdefault(int(node),set()).add(source)
+    return owners
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('state',type=Path);parser.add_argument('overlay',type=Path)
@@ -52,10 +74,14 @@ def main():
     hydrology=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
     flips,_=derive_channel_diagonal_flips(original,hydrology['rivers'],hydrology['flow_to'])
     failed,diagnostics=solve(ground,state,flips)
-    selected={source:c for source,c in failed.items() if c.get('localBankConstraint') and not c.get('obstructionPinned')}
-    nodes=sorted({int(c['node']) for c in selected.values()})
+    owners=local_reach_owners(state,failed)
+    nodes=sorted(owners)
     supports=[station_support(ground.shape,state['points'][i],diagnostics['bankNormals'][i],
                              diagnostics['bankRadius'][i],flips) for i in nodes]
+    # Native supports are nonnegative. Negative source tokens also couple
+    # separate obstructions on one reach, so one cannot be accepted alone.
+    for node,support in zip(nodes,supports):
+        support.update(-1-source for source in owners[node])
     groups=support_components(supports)
     valid=np.zeros(len(state['points']),bool);edges=set()
     for source,target in enumerate(state['original_links']):
@@ -90,7 +116,7 @@ def main():
                 crest_budget_fraction=fraction,external_banks=external,retaining_lower_bounds=state['retaining_lower_bounds'],
                 head_links=links,incident_heads=incident,fix_endpoints=False)
             if proposal is not None:proposals.append(proposal)
-        record={'nodes':chosen,'sources':[int(s) for s,c in selected.items() if c['node'] in lookup],
+        record={'nodes':chosen,'sources':sorted(set().union(*(owners[node] for node in chosen))),
                 'status':'infeasible-under-fixed-incident-banks-and-routine-bounds'}
         if proposals:
             proposal=min(proposals,key=lambda p:p['maximumOriginalLoweringM']);ii=proposal['indices']

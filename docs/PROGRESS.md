@@ -98,10 +98,14 @@ Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
 Strict preservation retains all423,268 original wet samples, identical spill
 potential/coverage and original planes. Durable accepted repair checkpoint
-has311 channel constraints and241 retaining-bound violations after ten further
-verified bank restorations and one original-pool sampling-anchor correction;
+has292 channel constraints and240 retaining-bound violations after eleven further
+verified bank restorations and two original-pool sampling-anchor corrections;
 previous repairs restored retaining supports, unnecessary
-pool-floor cuts and a cut-created artificial anchor. The repair-input manifest
+pool-floor cuts and artificial anchors. Restoring15 cuts that had incorrectly
+turned positive riverbeds into sea-level water resolved another channel failure
+and preserved all original marine coverage. Fifteen bank-aware route changes
+and three further false-pool support restorations resolve18 more constraints
+without new failures or original pool/spill changes. The repair-input manifest
 and linked compiler handoff identify the latest exact hashes and next groups.
 
 Local rendering follow-up fixes finest-LOD owner strips using exact partitions

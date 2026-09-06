@@ -1,5 +1,5 @@
 import numpy as np
-from .audit_water_local_components import support_components
+from .audit_water_local_components import support_components, local_obstruction_owners, local_reach_owners
 from .water_reach_solver import coupled_reach_correction
 from .audit_water_component_subset import partition_components
 
@@ -22,3 +22,31 @@ def test_local_head_obeys_fixed_graph_incident_heads_and_valid_neighbor_bank():
     ground[1,2]=9.
     neighbor={'node':5,'point':[1.,2.],'normal':[1.,0.],'radius':.5,'head':10.9}
     assert coupled_reach_correction(*args,**kwargs,external_banks=[neighbor]) is None
+
+
+def test_two_obstructions_on_one_reach_are_repaired_together():
+    from .water_geometry import condition_channel_profiles
+    ground=np.full((7,11),12.,np.float32)
+    ground[3,2:9]=10.
+    ground[3,[4,6]]=12.
+    points=np.array([[3.,x] for x in (2,8,3,4,5,6,7)])
+    links=np.array([2,-1,3,4,5,6,1]);original_links=np.array([1,-1])
+    def check(terrain):
+        return condition_channel_profiles(terrain,points,links,np.full(7,10.5),
+            np.ones(7),2,original_links,minimum_depth=.3,strict_banks=True)
+    conflicts=check(ground)[-1]
+    assert set(conflicts)=={0}
+    owners=local_obstruction_owners(conflicts)
+    assert set(owners)=={3,5}
+    state=dict(links=links,original_links=original_links)
+    assert set(local_reach_owners(state,conflicts))==set(range(7))
+    # The intervening high sill is bank-contained locally, but still needs
+    # lowering when both endpoints keep their original physical head.
+    ground[3,5]=11.4
+    nodes=[0,2,3,4,5,6,1]
+    proposal=coupled_reach_correction(ground,ground,points[nodes],[10.5]*7,
+        [.3]*7,[[1.,0.]]*7,[1.]*7,maximum_lowering=3.)
+    assert proposal is not None
+    corrected=ground.copy()
+    corrected.ravel()[proposal['indices']]-=proposal['reductions'].astype(np.float32)
+    assert check(corrected)[-1]=={}
