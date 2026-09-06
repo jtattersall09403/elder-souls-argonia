@@ -138,9 +138,11 @@ Further completion-pass findings, not closed by the first candidate:
   mistook low FPS for tab suspension. Contacts now follow actual substeps;
   explicit visibility lifecycle clears suspended state. A real studio J-jump
   at2344.2048m E /264.1229m S generated entry/exit, three wakes, spray/mist and
-  one crown, with live exposed daylight RGB≈(0.396,0.295,0.238). This proves
-  event delivery/lighting inputs, not peak in-frustum visibility or final
-  appearance. Fresh-particle lifetime across slow frames is being checked.
+  one crown, with live exposed daylight RGB≈(0.396,0.295,0.238). After correcting
+  newborn ageing, a repeated real J-jump reaches in-frustum peaks of17 spray,
+  11 mist,10 foam and one crown across207 observations. Newborns retain the
+  same full lifetime after0ms and400ms preceding frames. This proves event
+  delivery, lighting inputs and visible candidates, not final appearance.
 - Degree-two river joins used independently oriented cross-sections, leaving
   wedges even at identical station centres and heads. Shared graph-derived
   sections are in progress; confluences require their own coverage check.

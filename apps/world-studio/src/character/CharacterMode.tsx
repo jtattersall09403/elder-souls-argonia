@@ -177,9 +177,14 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   const [crateOrigin, setCrateOrigin] = useState<Vec3 | null>(null);
   const waterContact = useRef(new WaterContactEmitter("actor.player", CHARACTER_CAPSULE_RADIUS));
   useEffect(() => () => waterContact.current.dispose(), []);
+  useEffect(() => {
+    const reset = () => waterContact.current.reset();
+    document.addEventListener('visibilitychange', reset);
+    return () => document.removeEventListener('visibilitychange', reset);
+  }, []);
   const onWaterContact = useCallback((x: number, y: number, z: number, vy: number, dt: number) => {
     const ww = waterWorldRef.current;
-    if (!ww) return;
+    if (!ww || document.hidden) return;
     const scale = verticalScaleRef.current;
     let radius = CHARACTER_CAPSULE_RADIUS, halfHeight = CHARACTER_CAPSULE_HALF_HEIGHT;
     let bottom = y - halfHeight - radius;
@@ -188,7 +193,9 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
       const collider = body.collider(i);
       if (collider.shape.type !== ShapeType.Capsule) continue;
       radius = collider.radius(); halfHeight = collider.halfHeight();
-      bottom = collider.translation().y - radius - halfHeight;
+      const centre = collider.translation();
+      x = centre.x; z = centre.z;
+      bottom = centre.y - radius - halfHeight;
       break;
     }
     const volume = (Math.PI * radius ** 2 * 2 * halfHeight + 4 / 3 * Math.PI * radius ** 3) / scale;
@@ -211,6 +218,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   useEffect(() => {
     if (!scaleInitialised.current) { scaleInitialised.current = true; return; }
     if (!manifest) return;
+    waterContact.current.reset();
     world.setVerticalScale(verticalScale);
     const { x, z } = focusRef.current;
     const ground = world.groundHeight(x, z) ?? 50;
@@ -632,6 +640,13 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
       while (stepAccum.current >= DT) {
         rapier.step(DT);
         stepAccum.current -= DT;
+        // Contacts follow simulated time and actual substeps. Discarded
+        // wall time must neither dilute current-relative speed nor turn
+        // a low-FPS frame into a false teleport/suspended contact.
+        if (adapter.ready) {
+          adapter.position(position);
+          onWaterContact?.(position.x, position.y, position.z, adapter.verticalVelocity(), DT);
+        }
       }
     }
     input.update();
@@ -697,7 +712,6 @@ function CharacterDriver({ handleRef, world, active, spawn, locomotion, animatio
 
     // Wall-clock timers (rawDelta): the HUD must stay live even when the
     // render loop runs slower than the physics clamp.
-    onWaterContact?.(position.x, position.y, position.z, adapter.verticalVelocity(), rawDelta);
     hudTimer.current -= rawDelta;
     if (hudTimer.current <= 0) {
       hudTimer.current = 0.15;

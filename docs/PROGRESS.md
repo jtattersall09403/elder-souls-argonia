@@ -98,10 +98,12 @@ never substitute older diagnostic bundles. Physical body records now derive
 from actual owner fields; final export and performance gates remain open.
 Further local work: current-transported isolated ripples (GPU centroid check),
 view-bounded terrain residency, half-pixel bank LOD and adaptive arrival fixes.
-Incremental inland construction is geometry-identical and passes moving-view
-admission tests. Root gates passed15:35 (663 game-core tests), with airborne
-checks passing again. Real J-jump event delivery and live HDR inputs are now
-observed; fresh-particle lifetime and final river-domain validation remain active.
+Performance/ripple checkpoint `795e93c` is also local: inland geometry is
+byte-identical and moving-view admission passes. Root gates passed15:42
+(664 game-core tests), with airborne checks passing again. Real J-jump
+entry/wakes/crown, live HDR inputs and in-frustum spray/mist/foam are observed;
+newborn lifetime is corrected. Final river-domain validation and the missing
+underwater entrained-particle path remain active before final release.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

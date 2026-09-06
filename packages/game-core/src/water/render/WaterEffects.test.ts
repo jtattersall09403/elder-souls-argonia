@@ -239,13 +239,57 @@ describe("water effects", () => {
     expect(simulate(120)).toBe(6);
   });
 
-  it("clears delayed spray after a paused frame and disposes idempotently", () => {
+  it("clears delayed spray on explicit suspension and disposes idempotently", () => {
     const fx = new WaterEffects();
     fx.emit(impact);
+    fx.setSuspended(true);
     fx.update(1, 1, waterQuery(), 0, camera);
+    expect(fx.activeCount).toBe(0);
+    expect(fx.pendingCount).toBe(0);
+    fx.emit(impact);
+    expect(fx.pendingCount).toBe(0);
+    fx.setSuspended(false);
+    fx.update(1 / 60, 2, waterQuery(), 0, camera);
     expect(fx.activeCount).toBe(0);
     fx.dispose(); fx.dispose();
     fx.emit(impact);
     expect(fx.pendingCount).toBe(0);
+  });
+
+  it('retains newly emitted spray on a slow visible frame rather than treating low FPS as suspension', () => {
+    const fx = new WaterEffects();
+    fx.emit(impact);
+    fx.update(0.8, 0.8, waterQuery(), 0, camera);
+    expect(fx.activeCount).toBeGreaterThan(0);
+    expect(fx.diagnostics.active.crown).toBeGreaterThan(0);
+    expect(fx.diagnostics.visibleCandidates.spray).toBeGreaterThan(0);
+    expect(fx.diagnostics.suppressed.pausedFrame).toBeUndefined();
+    fx.dispose();
+  });
+
+  it('gives a fresh impact its full initial lifetime even after a 400 ms preceding frame', () => {
+    const fresh = new WaterEffects({ seed: 42 }), stalled = new WaterEffects({ seed: 42 });
+    const query = waterQuery();
+    fresh.emit(impact); stalled.emit(impact);
+    fresh.update(0, 0, query, 0, camera);
+    stalled.update(0.4, 0.4, query, 0, camera);
+    expect(stalled.diagnostics.visibleCandidates.spray).toBeGreaterThan(0);
+    expect(stalled.diagnostics.visibleCandidates.crown).toBe(1);
+    const compare = () => {
+      expect(stalled.diagnostics.active).toEqual(fresh.diagnostics.active);
+      expect(stalled.object3d.geometry.getAttribute('particlePosition').array)
+        .toEqual(fresh.object3d.geometry.getAttribute('particlePosition').array);
+      expect(stalled.object3d.geometry.getAttribute('particleStyle').array)
+        .toEqual(fresh.object3d.geometry.getAttribute('particleStyle').array);
+    };
+    compare();
+    // Matching all subsequent samples demonstrates that no age, ballistic
+    // travel or crown lifetime was silently consumed before the first draw.
+    for (let frame = 1; frame <= 40; frame++) {
+      fresh.update(0.05, frame * 0.05, query, 0, camera);
+      stalled.update(0.05, 0.4 + frame * 0.05, query, 0, camera);
+      compare();
+    }
+    fresh.dispose(); stalled.dispose();
   });
 });

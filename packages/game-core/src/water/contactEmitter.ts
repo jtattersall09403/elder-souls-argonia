@@ -1,7 +1,9 @@
 import type { Vec3, WorldWaterQuery, WaterDisplacementSphere } from "@elder-souls/contracts";
 
 /** Surface crossings and distance-spaced wakes for any moving actor/hull.
- * Pass the object's lowest point in metres, independently of render cadence. */
+ * Pass the object's lowest point in metres after each physics substep, with
+ * that step's simulated dt (not wall time discarded by a catch-up cap).
+ * Explicit suspension/teleport lifecycle calls reset(), independently of FPS. */
 export class WaterContactEmitter {
   private previous: Vec3 | null = null;
   private wet = false;

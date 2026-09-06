@@ -88,8 +88,10 @@ export class WaterCrowns {
       if (water.waterBodyId !== p.bodyId || water.depth < 0.02) continue;
       p.position.x += water.flowVelocity.x * dt; p.position.z += water.flowVelocity.z * dt;
       p.position.y = water.surfaceHeight + 0.012;
-      const age = p.age / p.life, opacity = Math.min(1, p.age / 0.035) * (1 - age) * 0.6;
-      const radius = p.radius * (0.6 + age * 1.5), height = p.lift * 0.22 * Math.sin(Math.PI * age);
+      const age = p.age / p.life, opacity = Math.min(1, 0.25 + p.age / 0.035) * (1 - age) * 0.6;
+      // A finite contact lip avoids a zero-area newborn draw; it decays with
+      // the same lifetime and does not consume the preceding frame's time.
+      const radius = p.radius * (0.6 + age * 1.5), height = Math.max(0.015 * (1 - age), p.lift * 0.22 * Math.sin(Math.PI * age));
       this.positions.setXYZ(write, p.position.x, p.position.y, p.position.z);
       this.shapes.setXYZW(write, radius, height, opacity, p.phase);
       this.sphere.center.set(p.position.x, p.position.y * scale, p.position.z);

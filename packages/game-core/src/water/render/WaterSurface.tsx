@@ -148,6 +148,11 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     onReentry: e => ripple?.addDrop(e.position.x, e.position.z, e.radius ?? 0.1, 0.006),
   }), [tier, ripple]);
   useEffect(() => () => effects.dispose(), [effects]);
+  useEffect(() => {
+    const visibility = () => effects.setSuspended(document.hidden);
+    visibility(); document.addEventListener('visibilitychange', visibility);
+    return () => document.removeEventListener('visibilitychange', visibility);
+  }, [effects]);
   /** Splash events become decaying, spreading foam rings (world-time secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
   const stampTimer = useRef(0);

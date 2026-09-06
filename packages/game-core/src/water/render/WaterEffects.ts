@@ -96,6 +96,7 @@ export class WaterEffects {
   private randomState: number;
   private time = 0;
   private disposed = false;
+  private suspended = false;
   private frustum?: Frustum;
   private viewScale = 1;
   private sphere = new Sphere(new Vector3(), 1);
@@ -218,6 +219,7 @@ export class WaterEffects {
   private queue(event: WaterInteractionEvent, options: WaterEmissionOptions, continuous: boolean): void {
     this.stats.received++; this.stats.eventsByKind[event.kind]++;
     if (this.disposed) { this.suppress("disposed"); return; }
+    if (this.suspended) { this.suppress('suspended'); return; }
     if (event.actorId === REENTRY_ACTOR) { this.suppress("reentry"); return; }
     if (!validVector(event.position)) { this.suppress("invalidPosition"); return; }
     if (event.kind === "submerge") { this.suppress("submerge"); return; }
@@ -258,6 +260,15 @@ export class WaterEffects {
     u.resolution.value.set(Math.max(1, width), Math.max(1, height));
   }
 
+  /** Explicit tab/canvas lifecycle, not inferred from a slow rendered frame. */
+  setSuspended(suspended: boolean): void {
+    if (this.suspended === suspended) return;
+    this.suspended = suspended;
+    this.particles.length = 0; this.pending.length = 0; this.sources.clear();
+    this.crowns.clear(); this.object3d.geometry.instanceCount = 0;
+    this.stats.active = counts(); this.stats.visibleCandidates = counts(); this.stats.submittedInstances = 0;
+  }
+
   /** Inject the same sky/sun/moon illumination used by the water foam. */
   setLighting(color: ColorRepresentation): void { this.object3d.material.uniforms.lightColor.value.set(color); }
   setIllumination(ambient: Vec3, direct: Vec3, sunY: number, exposure: number): void {
@@ -276,19 +287,20 @@ export class WaterEffects {
   }
 
   update(dt: number, time: number, query: WorldWaterQuery, epochMinutes: number, camera: Vec3, wind?: Vec3): void {
-    if (this.disposed || !validVector(camera) || !Number.isFinite(dt) || dt < 0) return;
+    if (this.disposed || this.suspended || !validVector(camera) || !Number.isFinite(dt) || dt < 0) return;
     this.time = finite(time, this.time + dt);
     for (const [id, source] of this.sources) if (this.time - source.lastTime > 2) this.sources.delete(id);
     const cameraWater = query.sample(camera, epochMinutes);
     const underwater = cameraWater.waterBodyId !== null && camera.y < cameraWater.surfaceHeight - 0.08;
     this.object3d.visible = !underwater;
-    // A paused tab should expire its local spray, not release a catch-up storm.
+    // Expire old spray across long gaps, but preserve contacts freshly queued
+    // by the current frame's bounded physics steps. Hidden tabs are handled
+    // explicitly by setSuspended, not by guessing from frame duration.
     if (dt > 0.5 || underwater) {
-      this.suppress(underwater ? "cameraUnderwater" : "pausedFrame", this.pending.length);
-      this.particles.length = 0; this.pending.length = 0;
+      if (underwater) { this.suppress("cameraUnderwater", this.pending.length); this.pending.length = 0; }
+      this.particles.length = 0;
       this.crowns.clear();
     }
-    while (this.pending.length) this.spawn(this.pending.shift()!, query, epochMinutes, camera);
     const step = Math.min(dt, 0.1);
     const wx = wind && validVector(wind) ? wind.x : 0;
     const wz = wind && validVector(wind) ? wind.z : 0;
@@ -336,13 +348,21 @@ export class WaterEffects {
       this.particles[write++] = p;
     }
     this.particles.length = write;
+    // Events were produced during this frame's physics callbacks, after the
+    // elapsed interval. Advance old state first; newborns get their complete
+    // lifetime and are never ballistically advanced through preceding time.
+    this.crowns.update(dt, query, epochMinutes, camera, this.frustum, this.viewScale);
+    while (this.pending.length) this.spawn(this.pending.shift()!, query, epochMinutes, camera);
+    write = this.particles.length;
     // Alpha sprites are drawn back-to-front; bounded sort, no per-particle draw calls.
     this.particles.sort((a, b) => this.distanceSq(b.position, camera) - this.distanceSq(a.position, camera));
     this.stats.active = counts(); this.stats.visibleCandidates = counts();
     for (let i = 0; i < write; i++) {
       const p = this.particles[i];
       const age = p.age / p.life;
-      const fade = Math.min(1, p.age / 0.04) * Math.pow(1 - age, p.kind === 1 ? 1.3 : 0.7);
+      // Emission is already a physical contact: publish a finite first-frame
+      // silhouette without borrowing time from its lifetime for a fade-in.
+      const fade = Math.min(1, 0.25 + p.age / 0.04) * Math.pow(1 - age, p.kind === 1 ? 1.3 : 0.7);
       const distanceFade = clamp((this.maxDistance - Math.sqrt(this.distanceSq(p.position, camera))) / (this.maxDistance * 0.25), 0, 1);
       this.offsets.setXYZ(i, p.position.x, p.position.y, p.position.z);
       this.appearance.setXYZW(i, p.size * (1 + age * (p.kind === 1 ? 1.8 : p.kind === 2 ? 0.6 : 0)), p.opacity * fade * distanceFade, p.kind, p.phase);
@@ -356,7 +376,7 @@ export class WaterEffects {
     this.appearance.needsUpdate = true;
     this.object3d.geometry.instanceCount = write;
     this.stats.submittedInstances = write;
-    this.crowns.update(step, query, epochMinutes, camera, this.frustum, this.viewScale);
+    this.crowns.update(0, query, epochMinutes, camera, this.frustum, this.viewScale);
     this.stats.spawned.crown = this.crowns.spawned;
     this.stats.active.crown = this.crowns.activeCount;
     this.stats.visibleCandidates.crown = this.stats.illumination.visibility > 0.01 ? this.crowns.visibleCandidates : 0;
