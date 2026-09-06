@@ -1,223 +1,263 @@
 {
- "id": "settlement-stilt-v1",
- "description": "Murkmire reed/stilt building culture — the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) — the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only — it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
- "culture": "argonian-stilt",
- "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
- "lodRatios": [
-  0.35,
-  0.12
- ],
- "textureMaxSize": 512,
- "textureOverlayPools": [
-  "tropical"
- ],
- "textureAliases": {
-  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
-  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
-  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
-  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
- },
- "snapLogic": {
-  "assemblies": "Composites in this kit: `composite:stilt/bamboohut01-with-door` and `composite:stilt/bamboohut02-with-door` are the HTBM bamboo hut shells with `bamboohutdoor01` hung at the offset its authors used every time (templates htbm:t0027 and htbm:t0016). The rule they encode is that a bamboo hut is never placed without its door — the shell alone has no opening at all. Both bare shells and the loose door remain in the kit for ruined and derelict placements. The passerelles walkways are deliberately NOT composited: a run's length is chosen by the router, so freezing two segments together would fix a length the site has to choose."
- },
- "assets": [
-  {
-   "asset": "bmv:architecture/stilthouse/stilthouseext"
+  "id": "settlement-stilt-v1",
+  "description": "Murkmire reed/stilt building culture \u2014 the BM&V passerelles walkway system (curving, climbing, branching), stilt house shells, the vanilla plank/thatch shack kit with its broken variants, waterside work props and poled rafts. Only plank_ferry_swamp_01/03 and rowboat_ferry_swamp_01 carry real hull geometry in the Skyrim Ferries pool; swamp_02/04/05/06 are editor markers and are excluded. Second sourcing pass adds the Skyfall Hist tree, Hist flowers, cairns/rune circle as grave-stake stand-ins, a real dugout canoe and a poled ferry raft. Round 5 adds Here There Be Monsters' Black Marsh village set: two bamboo hut forms with a door, the wicker furniture family, and the Kothringi stilt platform and Tamu wood dock/plank family (with broken variants) \u2014 the first purpose-built Black Marsh dwelling forms we own beyond a single shell. TROPICALISED: `textureOverlayPools: [\"tropical\"]` puts Tropical Skyrim's retextures (vanilla filenames, architecture-TEXTURE-only \u2014 it ships no architecture meshes) ahead of the vanilla texture fallback, so the vanilla-backed pieces read hot and wet instead of Nordic grey. A pool's own textures still win, so the sourced-mod pieces keep their authored look. Drop the key to rebuild the un-overlaid variant.",
+  "culture": "argonian-stilt",
+  "output": "tooling/asset-pipeline/output/kits/settlement-stilt-v1.glb",
+  "lodRatios": [
+    0.35,
+    0.12
+  ],
+  "textureMaxSize": 512,
+  "textureOverlayPools": [
+    "tropical"
+  ],
+  "textureAliases": {
+    "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+    "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+    "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+    "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
   },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01"
+  "snapLogic": {
+    "assemblies": "Composites in this kit: `composite:stilt/bamboohut01-with-door` and `composite:stilt/bamboohut02-with-door` are the HTBM bamboo hut shells with `bamboohutdoor01` hung at the offset its authors used every time (templates htbm:t0027 and htbm:t0016). The rule they encode is that a bamboo hut is never placed without its door \u2014 the shell alone has no opening at all. Both bare shells and the loose door remain in the kit for ruined and derelict placements. The passerelles walkways are deliberately NOT composited: a run's length is chosen by the router, so freezing two segments together would fix a length the site has to choose. Added in the doors pass 2026-09-05: `composite:stilt/stilthouse-with-door` is the BM&V stilt hall with `stilthousedooranim`, the only other architectural mesh in `architecture/stilthouse/`, composed at the shared origin the mod authored them in; `composite:stilt/kiosk-with-access` is `kiosk01` with the two access thresholds its own folder ships, whose plan centres measure into the kiosk's two ring gaps to within 0.11 m and 0.02 m of its wall radius. Both keep their bare shells in the kit."
   },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passend01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01"
-  },
-  {
-   "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackwalll01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackwallr01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackroofmid01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackroofcorner01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackframelmid01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackframelend01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackbrokewall01"
-  },
-  {
-   "asset": "vanilla:architecture/shackkit/shackbrokepole01"
-  },
-  {
-   "asset": "mudmother:gv_meshes/argoniannest/fishracksmall"
-  },
-  {
-   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
-  },
-  {
-   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02"
-  },
-  {
-   "asset": "mudmother:gv_meshes/argoniannest/histtree"
-  },
-  {
-   "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
-  },
-  {
-   "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/histflower01"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/histflower02"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn02"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/rune circle"
-  },
-  {
-   "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
-  },
-  {
-   "asset": "canoe:actors/sfss/canoe/canoe1"
-  },
-  {
-   "asset": "ferryraft:snt/ferry/ferryraft01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01"
-  },
-  {
-   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
-  },
-  {
-   "asset": "composite:stilt/bamboohut01-with-door",
-   "compose": {
-    "note": "HTBM's bamboo hut with its own door leaf hung in the wall. The hut shell ships doorless — bamboohutdoor01 is a separate NIF — so the bare shell has no opening for the interiors probe to find and reads as a windowless drum. Template htbm:t0027 (7 placements): the authors put the door at -2.45, 1.4, 0.0 m in the hut's own z-up frame, yawed 120 deg against it, every time. bamboohut02 takes the same door at the same offset (htbm:t0016), which is what makes this a kit rule and not one copied building.",
-    "parts": [
-     {
+  "assets": [
+    {
+      "asset": "bmv:architecture/stilthouse/stilthouseext"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl128i01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl256h64i01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passl512h64i01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passend01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjunctd01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passjuncxd01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc90r448h256ldd01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passcirc45r1280h0ldi01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/troncons/passesc128h64d01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskbarrierei01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackwalll01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackwallr01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackroofmid01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackroofcorner01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackframelmid01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackframelend01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackbrokewall01"
+    },
+    {
+      "asset": "vanilla:architecture/shackkit/shackbrokepole01"
+    },
+    {
+      "asset": "mudmother:gv_meshes/argoniannest/fishracksmall"
+    },
+    {
+      "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+    },
+    {
+      "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns02"
+    },
+    {
+      "asset": "mudmother:gv_meshes/argoniannest/histtree"
+    },
+    {
+      "asset": "ferries:yamadori/ferries/plank_ferry_swamp_03"
+    },
+    {
+      "asset": "ferries:yamadori/ferries/rowboat_ferry_swamp_01"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/ancient sleeping tree"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/histflower01"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/histflower02"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn01"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn02"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn03"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/rockcairn04"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/rune circle"
+    },
+    {
+      "asset": "histtree:skyfall/sleeping tree overhaul/windchimehavok"
+    },
+    {
+      "asset": "canoe:actors/sfss/canoe/canoe1"
+    },
+    {
+      "asset": "ferryraft:snt/ferry/ferryraft01"
+    },
+    {
       "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
-     },
-     {
-      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
-      "offsetM": [
-       -2.45,
-       1.4,
-       0.0
-      ],
-      "yawDeg": 120,
-      "scale": 1.0
-     }
-    ]
-   }
-  },
-  {
-   "asset": "composite:stilt/bamboohut02-with-door",
-   "compose": {
-    "note": "The second bamboo hut form with the same door piece at the same authored offset (template htbm:t0016, 9 placements): -2.47, 1.4, 0.0 m, yawed 120 deg. Two shells, one door, one offset — the strongest evidence in the HTBM set that this is how the family is meant to be built.",
-    "parts": [
-     {
+    },
+    {
       "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02"
-     },
-     {
-      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
-      "offsetM": [
-       -2.47,
-       1.4,
-       0.0
-      ],
-      "yawDeg": 120,
-      "scale": 1.0
-     }
-    ]
-   }
-  }
- ]
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock02"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddockshort01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplank01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodplankbroken01"
+    },
+    {
+      "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_woodpole01"
+    },
+    {
+      "asset": "composite:stilt/bamboohut01-with-door",
+      "compose": {
+        "note": "HTBM's bamboo hut with its own door leaf hung in the wall. The hut shell ships doorless \u2014 bamboohutdoor01 is a separate NIF \u2014 so the bare shell has no opening for the interiors probe to find and reads as a windowless drum. Template htbm:t0027 (7 placements): the authors put the door at -2.45, 1.4, 0.0 m in the hut's own z-up frame, yawed 120 deg against it, every time. bamboohut02 takes the same door at the same offset (htbm:t0016), which is what makes this a kit rule and not one copied building.",
+        "parts": [
+          {
+            "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01"
+          },
+          {
+            "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+            "offsetM": [
+              -2.45,
+              1.4,
+              0.0
+            ],
+            "yawDeg": 120,
+            "scale": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "asset": "composite:stilt/bamboohut02-with-door",
+      "compose": {
+        "note": "The second bamboo hut form with the same door piece at the same authored offset (template htbm:t0016, 9 placements): -2.47, 1.4, 0.0 m, yawed 120 deg. Two shells, one door, one offset \u2014 the strongest evidence in the HTBM set that this is how the family is meant to be built.",
+        "parts": [
+          {
+            "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02"
+          },
+          {
+            "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01",
+            "offsetM": [
+              -2.47,
+              1.4,
+              0.0
+            ],
+            "yawDeg": 120,
+            "scale": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "asset": "bmv:architecture/stilthouse/stilthousedooranim"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01"
+    },
+    {
+      "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01"
+    },
+    {
+      "asset": "composite:stilt/stilthouse-with-door",
+      "compose": {
+        "note": "BM&V's stilt house with the door leaf its own folder ships. stilthouseext is a closed shell whose deck-level room the ray probe reads as walled all the way round; architecture/stilthouse/ contains exactly one other architectural mesh, stilthousedooranim, the animated door authored for it in the same local frame. Composed at the shared origin, which is how the mod places it.",
+        "parts": [
+          {
+            "asset": "bmv:architecture/stilthouse/stilthouseext"
+          },
+          {
+            "asset": "bmv:architecture/stilthouse/stilthousedooranim"
+          }
+        ]
+      }
+    },
+    {
+      "asset": "composite:stilt/kiosk-with-access",
+      "compose": {
+        "note": "BM&V's walkway kiosk with its own access piece set in the gap in its wall. The kiosk pod ships as a closed drum with two gaps in the ring at 1.6 m above its deck and no opening at door or lintel height, because the way in is a step-up threshold the set ships separately. kioskaccesd01 and kioskaccesi01 are modelled in kiosk01's own frame \u2014 measured, their plan centres sit in those two gaps to within 0.11 m and 0.02 m of the wall radius, and their heads stand 2.61 m above the kiosk floor. The set was authored to combine at the shared origin, so the composite carries no offset.",
+        "parts": [
+          {
+            "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01"
+          },
+          {
+            "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesd01"
+          },
+          {
+            "asset": "bmv:architecture/citebosmer/passerelles/kiosque/kioskaccesi01"
+          }
+        ]
+      }
+    }
+  ]
 }

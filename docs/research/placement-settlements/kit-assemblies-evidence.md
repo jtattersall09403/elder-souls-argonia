@@ -639,93 +639,33 @@ The join, for the agent who wires it (this module does not edit `interiors_index
 3. Carry `doorwaySource: "assembly"` and the template's `count`, so a doorway measured from placements is never confused with one measured from geometry, and set `doorwaysWhy` to name the door piece.
 4. Where both passes fire, keep the geometric one and record the mined one as corroboration — the mesh's own opening is the stronger evidence.
 
-## Enclosed shells with no door, from either pass
+## Enclosed shells with no door — closed 2026-09-05
 
-Honest gaps: the piece measures as something you can stand inside, its geometry yields no opening, and no source placement puts a door piece on it. Each one needs a sourced door piece, a different shell, or an authored composite before it can carry an interior claim.
+This section used to list 53 pieces that the interiors pass called buildings
+with no way in. It is now empty; it emptied in three ways rather
+than one, all of them re-measurements of the same meshes:
 
-| asset | kit | interior | size | plan m2 |
-| --- | --- | --- | --- | ---: |
-| `ayleidkit:igsresources/dungeons/ayleidruins/exterior/arbridge03` | ruin-monumental-v1 | tileset | medium | 64.3 |
-| `ayleidkit:igsresources/dungeons/ayleidruins/exterior/arcolumn02` | ruin-monumental-v1 | tileset | small | 17.21 |
-| `ayleidkit:igsresources/dungeons/ayleidruins/exterior/aroutercircle01` | ruin-monumental-v1 | tileset | small | 32.23 |
-| `ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstairscenter01` | ruin-monumental-v1 | tileset | small | 22.84 |
-| `ayleidkit:igsresources/dungeons/ayleidruins/exterior/arstatuebase01` | ruin-monumental-v1 | tileset | medium | 110.36 |
-| `bmv:architecture/citebosmer/passerelles/kiosque/kiosk01` | settlement-root-v1 | tileset | medium | 53.33 |
-| `bmv:architecture/stilthouse/stilthouseext` | settlement-stilt-v1 | shell | large | 186.94 |
-| `hlaalu:hlaaluarchitecture/custom/baseentrance00` | hlaalu-domestic | tileset | medium | 53.39 |
-| `hlaalu:hlaaluarchitecture/custom/baseentrance01` | hlaalu-domestic | tileset | medium | 53.39 |
-| `hlaalu:hlaaluarchitecture/custom/dome` | hlaalu-domestic | tileset | large | 224.66 |
-| `hlaalu:hlaaluarchitecture/custom/entrance00` | hlaalu-domestic | tileset | small | 19.89 |
-| `hlaalu:hlaaluarchitecture/custom/house01base` | hlaalu-domestic | tileset | medium | 79.83 |
-| `hlaalu:hlaaluarchitecture/custom/housebase00` | hlaalu-domestic | tileset | medium | 49.67 |
-| `hlaalu:hlaaluarchitecture/custom/housebase01` | hlaalu-domestic | tileset | medium | 49.7 |
-| `hlaalu:hlaaluarchitecture/custom/housetall01` | hlaalu-domestic | tileset | medium | 61.15 |
-| `hlaalu:hlaaluarchitecture/custom/toptower00` | hlaalu-domestic | tileset | medium | 49.63 |
-| `hlaalu:hlaaluarchitecture/custom/toptower01` | hlaalu-domestic | tileset | medium | 49.73 |
-| `hlaalu:hlaaluarchitecture/custom/tower00` | hlaalu-domestic | tileset | medium | 49.6 |
-| `hlaalu:hlaaluarchitecture/custom/tower02` | hlaalu-domestic | tileset | medium | 49.72 |
-| `hlaalu:hlaaluarchitecture/custom/tower03` | hlaalu-domestic | tileset | medium | 49.73 |
-| `hlaalu:hlaaluarchitecture/custom/tower05` | hlaalu-domestic | tileset | medium | 49.56 |
-| `hlaalu:hlaaluarchitecture/custom/tower06` | hlaalu-domestic | tileset | medium | 49.73 |
-| `hlaalu:hlaaluarchitecture/custom/tower07` | hlaalu-domestic | tileset | medium | 49.73 |
-| `hlaalu:hlaaluarchitecture/hammerfell/trgmcoverstairs` | hlaalu-domestic | tileset | small | 29.35 |
-| `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding1` | ruin-monumental-v1 | tileset | large | 4179.63 |
-| `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding3redone` | ruin-monumental-v1 | tileset | large | 4226.06 |
-| `htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/1mjyaztecbuilding7` | ruin-monumental-v1 | tileset | large | 708.47 |
-| `mudmother:gv_meshes/argoniannest/argoniantent01` | settlement-mud-v1 | shell | medium | 43.18 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/docks/mwimparchdock02` | imperial-keep | tileset | small | 37.36 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfoundation01` | imperial-keep | tileset | small | 29.03 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchfreeplat01` | imperial-keep | tileset | medium | 53.0 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01` | imperial-keep | tileset | small | 29.44 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01destroyed01` | imperial-keep | tileset | small | 27.29 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower02` | imperial-keep | tileset | medium | 52.44 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep01` | imperial-keep | tileset | large | 145.44 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchkeep02` | imperial-keep | tileset | large | 167.96 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchplaza01` | imperial-keep | tileset | large | 688.91 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchpool01` | imperial-keep | tileset | medium | 86.17 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendl01` | imperial-keep | tileset | small | 27.96 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstableendr01` | imperial-keep | tileset | small | 27.96 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stables/mwimparchstablestraight01` | imperial-keep | tileset | small | 25.44 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgbase01` | imperial-keep | tileset | medium | 58.03 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop01` | imperial-keep | tileset | medium | 67.24 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowerbgtop02` | imperial-keep | tileset | medium | 67.24 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmbase01` | imperial-keep | tileset | small | 15.81 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/towers/mwimparchtowersmtop01` | imperial-keep | tileset | small | 20.79 |
-| `mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/rubbles/mwimparchrubblepiece02` | imperial-keep | tileset | small | 12.55 |
-| `sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokena` | underwater-v1 | shell | medium | 53.0 |
-| `sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreebrokenb` | underwater-v1 | shell | medium | 53.0 |
+* **35 were never buildings.** The probe stood inside a closed prop — a
+  plinth, a pool basin, a stair block, a foundation, a plaza deck, a solid
+  tower mass — and read the outside of a lump as a ring of walls. The
+  front-face criterion in `interiors_index.py` catches this: an interior wall
+  shows the stander its front face, a closed shell shows only backs. Those
+  pieces are now `interior: none` with a `why` that names the criterion and
+  reports their `frontFaceFraction` (0.00 in nearly every case).
+* **16 had their entrance in the mesh all along.** An `open-front` (a stable
+  mouth, a veranda, a tent flap) is wider than a door leaf and was being
+  discarded as "an open front, not a doorway"; a `leaf` (the shut door
+  modelled into the shell, as the Morrowind Imperial keeps and towers model
+  it) leaves no ray to escape and needed a different measurement — the
+  door-sized patch standing proud of the wall behind it.
+* **2 needed the door piece their own family ships**, fitted to the shell's
+  measured wall line rather than matched by name: BM&V's `kioskaccesd01` and
+  `kioskaccesi01` for `kiosk01`, plus `stilthousedooranim` for
+  `stilthouseext`.
 
-## How to author the composites
-
-Which mined templates should become `compose.parts` entries in a kit config, and which must stay separate placements. The authored `snapLogic` prose in each kit config is the ruling authority on what may combine (kits-only-combine-designed-pieces, owner ruling 2026-09-04); a template is evidence that the source authors used a combination, and it supplies the offset, but it never licenses a combination the piece authors did not intend.
-
-**Author as composites.**
-
-1. `settlement-stilt-v1` — the HTBM bamboo hut. `bamboohut01` takes `bamboohutdoor01` at -2.45, 1.4, 0.0 and `bamboohut02` at -2.47, 1.4, 0.0, both with the door yawed 120 degrees against the hut, sixteen placements between them. One offset, two shells, and the composite that turns a doorless shell into an enterable building: it comes first.
-2. `settlement-mud-v1` — the mud hut's entrance. `hutexterior` takes `doorframe01` at 3.22, -5.98, -3.91, twenty-two times, with `ruinswooddoorload01` hung in that frame. Three pieces, one building: the hut is not shipped with its entrance. Two further frame offsets (3.04, -5.57 and 3.42, -6.35) are the same doorway shifted along the wall, so pick the commonest and leave the variants.
-3. The phitt marsh house — the strongest evidence in the mod sets, and a family no kit of ours yet carries, so it is a sourcing decision before it is a composite. `house03` carries `overhang05` at -0.21, -5.16, -1.24 and four `window` pieces (-3.13, -2.82, -0.97; -1.76, 4.01, -0.71; 1.94, 4.06, -0.71; 2.8, -3.0, -0.97), all twenty-seven times, and the overhang carries four more windows of its own. Six pieces, one house, one composite — and the clearest case of a piece (`overhang05`, `window`) that is never placed alone.
-4. `works-v1` — the stockade scaffold. `stockadescaffoldbase4sided01` carries the next stage exactly 2.73 m above itself, twenty-eight times, which is the same rule the kit's `stockade-scaffold` prose states in words. Author the two-stage and three-stage towers as composites and leave the bridges, ramps and props as separate placements — they join platforms, and what they join is a site decision.
-5. `docks-v1` — BM&V's shore entry. `dockstrent01` takes `dockstrent02` at 0.02, -7.1, -0.07 forty-seven times, and the three-piece run appears as a group. Author a two-piece and a three-piece quay module; the columns, ropes and cleats stay separate, because `snapLogic` places them against the deck at the waterline, not against a neighbouring deck.
-6. `settlement-imperial-v1` — the vanilla farmhouse. `farmhouse01` takes `farmhouseldoor01` at -1.82, -3.56, 0.0 and `farmhouse02` at 0.0, -3.11, -0.01, with a second, raised door at 3.18 m for the loft. The farmhouse family is the densest source of wall/roof module templates in the vanilla set; author the shell-plus-door pair first and treat the modules as a later pass.
-7. `ruin-monumental-v1` — the Ayleid `arblock01` lattice. The block tiles at 2.65 m in x and y and 0.87 m in z, hundreds of times. Author a small number of pre-stacked block masses as composites so a ruin is placed in three or four parcels rather than three hundred.
-
-**Keep as separate placements.**
-
-* Every walkway family in `settlement-root-v1`. Its `passerelles` prose encodes length, rise and handrail side in the file names, and a run is a sum of those; freezing two segments into a composite would fix a length the router needs to choose. The mined `passl*` templates are a record of runs, not of modules.
-* `settlement-root-v1` house accessories. The prose is explicit that each house form takes its OWN balcony, access and window family and that forms must not be crossed; the mined `housegland001` + `casexfreelgdoor01` templates give the radius but the bearing follows the walkway that reaches the house, which is a siting decision.
-* `dungeon-root-v1` and the tree kits. `trees` and `trunkColumns` state there are no snap points and that boughs are matched by hand against the geometry; a mined offset there reproduces one authored layout rather than a rule.
-* Anything whose template count is 3 or 4 on a single worldspace. That is a copied-and-pasted building, not a kit rule.
-
-Offsets go into `compose.parts[].offsetM` unchanged: both this module and `compose` measure metres in the anchor's own z-up local frame, and `yawDeg` is likewise the part's yaw against the anchor. Re-measure the footprint and the interiors index after building a composite — a hut with its door is a different silhouette and, for the first time, a shell with an opening.
-
-## Reading this evidence
-
-* A template is evidence of an authored relation, not proof of one. Two pieces placed identically thirty times were snapped together by a rule; two placed identically three times may have been copied and pasted.
-* The anchor is chosen by bulk, so a template between two similar-sized modules (two wall segments) reads in whichever direction the lexicographic tie-break fell. Chains are marked `selfChain`.
-* `neverAlone` is measured within one source set. A piece with few instances can read as never-alone on a thin sample; the instance count is in the table for that reason.
-* Unresolved references (a base object in a master not loaded) are lost from the pair search entirely, so counts are floors.
-* All lengths carry the 0.45 % `UNITS_PER_METRE` bias recorded in the companion placement docs.
-
+Every enclosed piece in every built kit now carries at least one derived
+doorway. Every one links to an interior kit that exists. The check is a
+test (`pipeline/test_interiors_index.py`), not a list to re-audit.
 
 ## Composites
 
@@ -751,6 +691,18 @@ bare shell is still the right piece for a ruin.
 | `composite:ayleid/arblock-mass-2x2x2` | `ruin-monumental-v1` | bmv-valenwood:t0000/t0001 (448), t0006 (384) |
 | `composite:ayleid/arblock-mass-3x1x3` | `ruin-monumental-v1` | as above |
 | `composite:phitt/marsh-house-03` | `hlaalu-domestic` | bmv-blackmarsh:t0011–t0015 (27 each) |
+| `composite:root/kiosk-with-access` | `settlement-root-v1` | measured fit, not a template (see below) |
+| `composite:stilt/kiosk-with-access` | `settlement-stilt-v1` | measured fit, not a template |
+| `composite:stilt/stilthouse-with-door` | `settlement-stilt-v1` | measured fit, not a template |
+
+The last three came from a different kind of evidence, added 2026-09-05 in the
+doors pass. No source plugin places these parts — BM&V's own exteriors put no
+door near `stilthouseext` at all — but the parts are modelled in the shell's
+OWN local frame, which is how a modular set is authored to combine. The fit is
+the evidence and it is measured: `kioskaccesd01` and `kioskaccesi01` sit in
+`kiosk01`'s two ring gaps to within 0.11 m and 0.02 m of its wall radius, with
+their heads 2.61 m above its floor. All three compose at the shared origin,
+with no offset, because that is where their authors put them.
 
 Not composited, with the reason in each case: the passerelles walkways, the
 root-house accessories and the tree kits, per the rules above; the

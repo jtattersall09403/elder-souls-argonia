@@ -1,0 +1,216 @@
+{
+ "id": "vanilla-imperial-int",
+ "description": "The vanilla Skyrim IMPERIAL FORT INTERIOR tileset, packaged as the linked inside for Imperial and Hlaalu-domestic exteriors (interiors_index TILESET_RULES names this kit for `vanilla:architecture/imperial/`, `mwkeep:` and `hlaalu:`, none of which ship an interior). Judged on geometry, not on the folder label: Skyrim files this set under `meshes/dungeons/imperial/` but it is not a cave or a crypt: `smallroom`/`largeroom` are square walkable chambers with floors, ceilings, corner and doorway bays, `smallhall`/`largehall` are the corridors that join them, and `door/` holds the actual hinged and load doors. It is the set that the game itself uses for the walkable insides of Imperial forts, keeps and their guardhouses, which is the building type of the exteriors above. The Solitude interior set was the alternative and was rejected: it is a Nordic city-house grammar tied to Solitude's arch silhouette that would read as the wrong province behind an Imperial or Hlaalu front. `dungeons/imperial/exterior*`, `tower`, `portcullis*`, `stablekit` and `clutterkits` are deliberately NOT packaged here: they are outside massing and dressing, belonging to whatever exterior kit places them.",
+ "culture": "imperial-colonial",
+ "output": "tooling/asset-pipeline/output/kits/vanilla-imperial-int.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "small-room": "`improom*` is the small chamber grid. `improommid01` is the floor-and-ceiling bay; `improomwall01-04` the four wall faces; `improomcorner01-04` the outside and `improomicorner01-04` the inside corners; `improomdoor01-04` the wall bays carrying a doorway and `improomdoorb01-04` the same with the blocked/barred back; `improombrace01` the timber prop. Bays butt face-to-face on a 4.55 m (320-unit) module with the origin on the floor plane. A small room is one `mid` plus four walls and four corners.",
+  "large-room": "`implroom*` is the same grammar one tier up and does NOT mix with `improom*` except through a hall run. `implroommid01/02` floor bays, `implroomwall01-04` walls, `implroomcorner01-04` and `implroomicorner01-04` the corners, `implroomdoor01-04` the doorway bays, `implroompillar01` the free-standing pillar that carries the wider ceiling. Two `mid` bays and eight walls make the medium room; four `mid` bays with pillars make the large hall.",
+  "small-hall": "`imphall*` corridors, same 320-unit run. `imphall1way01` straight, `imphall2way01` bend, `imphall3way01`/`imphall4way01` junctions, `imphalldeadend01` terminator, `imphall1way128u01`/`128d01` the quarter-height rises, `imphallstairs01/02` the full storey change. Join a corridor to a room at the room's `door` bay, never through a wall bay.",
+  "large-hall": "`implhall*` is the wide corridor for the large-room tier: `implhall1way01` straight, `implhall2way01` bend, `implhall4way01` junction, `implhalldoorl01` the doorway insert, `implhallstairs01` the storey change. Chain only within its own tier.",
+  "doors": "`impwooddoorsingle01`, `impwooddoordouble01` and `impwooddoorsinglesmall01` are the in-cell leaves that hang in a room's doorway bay; the `*load01` variants are the LOAD doors — the piece that carries the teleport link from an exterior shell into this kit, and the reason this kit exists. `trapdoorladder01` is the vertical link to a cellar. `impjaildoor01`, `impjaildoorframe01` and `impjailwall01` are the barred lock-up, placed against a room wall bay.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/vanilla-imperial-int.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoordouble01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoordoubleload01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoorsingle01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoorsingleload01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoorsinglesmall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/impwooddoorsinglesmallload01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/door/trapdoorladder01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/jail/impjaildoor01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/jail/impjaildoorframe01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/jail/impjailwall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largehall/implhall1way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largehall/implhall2way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largehall/implhall4way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largehall/implhalldoorl01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largehall/implhallstairs01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomcorner01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomcorner02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomcorner03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomcorner04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomdoor01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomdoor02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomdoor03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomdoor04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomicorner01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomicorner02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomicorner03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomicorner04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroommid01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroommid02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroompillar01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomwall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomwall02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomwall03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/largeroom/implroomwall04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall1way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall1way128d01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall1way128u01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall2way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall3way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphall4way01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphalldeadend01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphallstairs01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallhall/imphallstairs02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improombrace01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomcorner01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomcorner02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomcorner03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomcorner04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoor01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoor02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoor03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoor04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoorb01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoorb02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoorb03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomdoorb04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomicorner01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomicorner02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomicorner03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomicorner04"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improommid01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomwall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomwall02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomwall03"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/smallroom/improomwall04"
+  }
+ ]
+}

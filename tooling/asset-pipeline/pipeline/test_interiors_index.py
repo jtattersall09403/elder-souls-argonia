@@ -363,3 +363,183 @@ def test_a_composite_takes_the_doors_its_anchor_was_mined_with(tmp_path):
 def test_a_composite_that_carries_no_door_piece_gets_no_doorway(tmp_path):
     mined = {"vanilla:block01": [_mined_fixed()]}
     assert ix.composite_doorways(["vanilla:block01", "vanilla:block01"], mined) == []
+
+
+# --------------------------------------------------------------------------- #
+# criterion 5: a closed prop is not a room (front faces)
+# --------------------------------------------------------------------------- #
+def closed_box(half: float = 3.0, top: float = 4.0) -> np.ndarray:
+    """A solid-looking prop: a box wound so every face points OUTWARD, which is
+    what every closed game mesh is. An eye dropped inside it sees only back
+    faces — a plinth, a pool basin, a stair block, a tower mass."""
+    tris: list = []
+    tris += _quad([-half, 0.0, -half], [half, 0.0, -half], [half, top, -half], [-half, top, -half])
+    tris += _quad([half, 0.0, half], [-half, 0.0, half], [-half, top, half], [half, top, half])
+    tris += _quad([-half, 0.0, half], [-half, 0.0, -half], [-half, top, -half], [-half, top, half])
+    tris += _quad([half, 0.0, -half], [half, 0.0, half], [half, top, half], [half, top, -half])
+    tris += _quad([-half, top, -half], [half, top, -half], [half, top, half], [-half, top, half])
+    tris += _quad([-half, 0.0, half], [half, 0.0, half], [half, 0.0, -half], [-half, 0.0, -half])
+    # wound so the normals point AWAY from the middle: `_quad` builds its
+    # triangles the other way round, so the whole box is flipped once here.
+    return _flip(np.asarray(tris, dtype=np.float64))
+
+
+def _flip(tris: np.ndarray) -> np.ndarray:
+    """The same surface wound the other way."""
+    return tris[:, ::-1, :].copy()
+
+
+def test_a_closed_prop_read_from_inside_is_not_an_enclosure():
+    probe = ix.probe_from_inside(closed_box(), (0.0, 0.0), 1.6)
+    assert probe["ringFraction"] == 1.0          # it has the SHAPE of a room
+    assert probe["frontFaceFraction"] == 0.0     # ...but every face looks away
+    assert not ix.is_enclosure(probe)
+    assert ix.encloses_shape(probe)
+
+
+def test_the_same_box_wound_inward_is_a_room():
+    probe = ix.probe_from_inside(_flip(closed_box()), (0.0, 0.0), 1.6)
+    assert probe["frontFaceFraction"] == 1.0
+    assert ix.is_enclosure(probe)
+
+
+def test_a_closed_prop_is_demoted_with_a_why_that_names_the_criterion():
+    verts = closed_box().reshape(-1, 3)
+    record = ix.classify_asset({"id": "mwkeep:keep/exterior/mwimparchpool01",
+                                "category": "architecture"},
+                               "imperial-keep", verts, closed_box(), {})
+    assert record["interior"] == "none"
+    assert record["frontFaceFraction"] == 0.0
+    assert "closed prop seen from inside" in record["why"]
+
+
+def test_a_closed_shell_with_a_door_piece_placed_on_it_is_still_a_building():
+    """Criterion 5 demotes a closed shell only when NOTHING says it has a door.
+    A shell the source authors repeatedly hung a door on is a building whose
+    door happens to be a separate mesh."""
+    verts = closed_box().reshape(-1, 3)
+    doors = [{"kind": "fixed", "doorAsset": "mwkeep:door01", "doorPiece": "door01",
+              "offsetLocalM": [3.0, 0.0, 0.0], "radiusM": 3.0, "riseM": 0.0, "sideDeg": 90.0,
+              "yawDeg": 0.0, "count": 7}]
+    record = ix.classify_asset({"id": "mwkeep:keep/exterior/mwimparchkeep01",
+                                "category": "architecture"},
+                               "imperial-keep", verts, closed_box(), {}, doors)
+    assert record["interior"] == "tileset"
+    assert record["closedShellPromotedBy"] == "door-piece"
+    assert record["doorways"]
+
+
+# --------------------------------------------------------------------------- #
+# mechanism 2: open fronts
+# --------------------------------------------------------------------------- #
+def open_fronted_shed(half: float = 4.0, ceiling: float = 3.0) -> np.ndarray:
+    """Three walls and a roof, with the whole +z side open: a stable, a cart
+    shed, a veranda. Wider than a door, and still the way in."""
+    tris: list = []
+    tris += _wall(half, -half, -half, -half, 0.0, ceiling)
+    tris += _wall(-half, -half, -half, half, 0.0, ceiling)
+    tris += _wall(half, half, half, -half, 0.0, ceiling)
+    tris += _slab(ceiling, half)
+    tris += _slab(0.0, half)
+    return np.asarray(tris, dtype=np.float64)
+
+
+def test_an_open_front_wider_than_a_door_is_still_an_entrance():
+    tris = open_fronted_shed()
+    doors, why = ix.doorways_from_probe(tris, (0.0, 0.0), 0.0, 3.0)
+    assert why is None
+    assert doors, "the open side must be reported as a way in"
+    front = doors[0]
+    assert front["kind"] == "open-front"
+    assert front["arcM"] > ix.DOORWAY_MAX_ARC_M
+    assert abs(front["sideDeg"] - 180.0) <= 15.0     # +z is bearing 180
+
+
+# --------------------------------------------------------------------------- #
+# mechanism 3: a door leaf modelled into the shell
+# --------------------------------------------------------------------------- #
+def shell_with_baked_leaf(half: float = 4.0, ceiling: float = 3.2,
+                          proud: float = 0.25) -> np.ndarray:
+    """A closed room whose door is modelled shut: a door-sized panel standing
+    `proud` metres in front of the +x wall, from the floor to 2.1 m."""
+    tris = list(_flip(room(half=half, ceiling=ceiling)))
+    x = half - proud
+    tris += _wall(x, -0.5, x, 0.5, 0.0, 2.1)
+    return np.asarray(tris, dtype=np.float64)
+
+
+def test_the_leaf_pass_finds_a_door_modelled_shut_into_the_wall():
+    doors = ix.leaf_doorways(shell_with_baked_leaf(), (0.0, 0.0), 0.0, 3.2)
+    assert doors, "a leaf standing proud of its wall must read as a doorway"
+    leaf = doors[0]
+    assert leaf["kind"] == "leaf"
+    assert ix.LEAF_MIN_ARC_M <= leaf["arcM"] <= ix.LEAF_MAX_ARC_M
+    assert abs(leaf["sideDeg"] - 90.0) <= 15.0       # +x is bearing 90
+
+
+def test_a_blank_wall_has_no_leaf():
+    assert ix.leaf_doorways(_flip(room(half=4.0, ceiling=3.2)), (0.0, 0.0), 0.0, 3.2) == []
+
+
+# --------------------------------------------------------------------------- #
+# mechanism 4: the door piece the family authored for the shell
+# --------------------------------------------------------------------------- #
+def test_a_door_piece_fitted_to_the_shell_wall_becomes_the_doorway():
+    record = {"interior": "tileset",
+              "_probe": {"centre": [0.0, 0.0], "floorY": 0.0, "roomH": 3.0,
+                         "ring": [4.0] * ix.BINS}}
+    bounds = {"pool:set/doorpiece01": ((-0.6, 0.0, 3.8), (0.6, 2.2, 4.1)),
+              "pool:set/roofpiece01": ((-4.0, 3.0, -4.0), (4.0, 3.4, 4.0))}
+    doors = ix.door_piece_doorways(record, "pool:set/shell01", bounds)
+    assert len(doors) == 1
+    assert doors[0]["doorAsset"] == "pool:set/doorpiece01"
+    assert doors[0]["fitM"] <= ix.DOOR_PIECE_FIT_M
+    assert abs(doors[0]["sideDeg"] - 180.0) <= 10.0
+
+
+def test_a_door_piece_that_does_not_reach_the_wall_is_not_this_shell_s_door():
+    record = {"interior": "tileset",
+              "_probe": {"centre": [0.0, 0.0], "floorY": 0.0, "roomH": 3.0,
+                         "ring": [4.0] * ix.BINS}}
+    bounds = {"pool:set/doorpiece01": ((-0.6, 0.0, 8.0), (0.6, 2.2, 8.3))}
+    assert ix.door_piece_doorways(record, "pool:set/shell01", bounds) == []
+
+
+# --------------------------------------------------------------------------- #
+# the interior link has to resolve to a kit we can actually build
+# --------------------------------------------------------------------------- #
+def test_every_tileset_rule_names_a_kit_config_that_exists():
+    """Owner ruling 2026-09-05: the door teleports the player into the interior,
+    so a building's interior link is only real if the kit behind it exists."""
+    missing = sorted({tileset for _, tileset, _ in ix.TILESET_RULES
+                      if not (ix.KIT_CONFIG_DIR / f"{tileset}.json").exists()})
+    assert not missing, f"tileset rules name kits with no config: {missing}"
+
+
+def test_every_tileset_a_built_kit_records_resolves_to_a_kit_config():
+    from pipeline.measure_footprints import KITS_DIR
+    missing: dict[str, str] = {}
+    for path in sorted(KITS_DIR.glob("*.interiors.json")):
+        for asset_id, record in json.loads(path.read_text())["assets"].items():
+            tileset = record.get("tileset")
+            if tileset and not (ix.KIT_CONFIG_DIR / f"{tileset}.json").exists():
+                missing[asset_id] = tileset
+    assert not missing, f"interior links with no kit config: {missing}"
+
+
+def test_no_built_kit_leaves_a_building_without_a_doorway_or_an_interior():
+    """The owner's finish line: an enclosed piece has a way in AND somewhere to
+    go. `shell` is not an answer — it means nobody has claimed the interior."""
+    from pipeline.measure_footprints import KITS_DIR
+    doorless: list[str] = []
+    unlinked: list[str] = []
+    for path in sorted(KITS_DIR.glob("*.interiors.json")):
+        for asset_id, record in json.loads(path.read_text())["assets"].items():
+            if record.get("interior") not in ix.BUILDING_INTERIORS:
+                continue
+            if not record.get("doorways"):
+                doorless.append(asset_id)
+            if not (record.get("tileset") or record.get("interiorAssetRef")):
+                unlinked.append(asset_id)
+    assert not doorless, f"enclosed pieces with no doorway: {doorless}"
+    assert not unlinked, f"enclosed pieces with no interior kit: {unlinked}"

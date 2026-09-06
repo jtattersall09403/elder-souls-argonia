@@ -224,6 +224,8 @@ author intended; never interleave two sets piece-for-piece.
 | `settlement-root-v1` | 140 | argonian-root | no | bmv, htbm, mudmother | grown-root canopy settlement: trunk-houses + the **complete** modular elevated walkway |
 | `dungeon-root-v1` | 124 | argonian-root | no | bmv, htbm, mudmother | walkable **root interiors** — `root-cavern`, `hist-sanctum` |
 | `settlement-imperial-v1` | 11 | imperial | **yes** | vanilla | Imperial stone-timber |
+| `vanilla-farmhouse-int` | 76 | imperial-colonial | no | vanilla | walkable **farmhouse interiors** — the linked inside for `vanilla:architecture/farmhouse/` shells (cottage, inn, longhouse, cellar) |
+| `vanilla-imperial-int` | 65 | imperial-colonial | no | vanilla | walkable **Imperial fort/keep interiors** — the linked inside for Imperial, `mwkeep` and `hlaalu` shells (rooms, halls, load doors) |
 | `imperial-keep` | 88 | imperial | no | mwkeep | Imperial civic/military tier |
 | `hlaalu-domestic` | 68 | imperial | no | hlaalu, mwkeep | Morrowind-Imperial domestic tier |
 | `ruin-monumental-v1` | — | xanmeer-ancient | no | ayleidkit, ayleidcc | monumental dressed stone |

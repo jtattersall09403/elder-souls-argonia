@@ -44,9 +44,37 @@ that escapes found open sky. The piece encloses a volume when
   * ``ringFraction`` >= 0.75 — three quarters of the horizontal rays hit a wall;
   * the upward ray hits — something is overhead (this is what rejects docks,
     decks, platforms, boats and free-standing wall segments, which all have a
-    ring but no roof); and
+    ring but no roof);
   * ``medianWallM`` >= 1.5 m — there is room to stand. A solid block (a stone
-    plinth, a pier, a rubble mass) hits in every direction at nearly zero range.
+    plinth, a pier, a rubble mass) hits in every direction at nearly zero range;
+    and
+  * ``frontFaceFraction`` >= 0.6 — the walls FACE the stander.
+
+The last one is the one that stops the measurement lying. Game meshes are
+hollow shells, so an eye dropped inside a closed prop — a plinth, a pool basin,
+a stair block, a foundation, a plaza deck, a solid tower mass — measures a
+perfect ring with a roof over it and metres of air, and reads as a room. It is
+not a room; it is a lump seen from the wrong side. The difference is which way
+the surfaces point: a real interior wall faces INWARD and shows the stander its
+FRONT face, while a closed prop's faces all point outward and show only backs.
+Measured across the built kits the two populations do not overlap — a piece
+scores 0.00 or 1.00, hardly ever between — and it demotes 35 pieces the older
+four criteria called buildings, each with a ``why`` that names the criterion and
+a reported ``frontFaceFraction``.
+
+The up and down rays are measured the same way and reported as ``roofFront``
+and ``floorFront``, but they do NOT gate: most exterior shells ship no floor
+mesh at all (the ground is the terrain), so a floor test would demote every
+open-fronted stable and shed along with the props.
+
+A closed shell is not automatically massing, though. A shell whose door is a
+SEPARATE mesh is a real building that reads exactly like a prop from inside —
+Morrowind Imperial keeps and HTBM's bamboo huts both do. So a piece that has
+the shape of a room but fails the front-face test is promoted back to a
+building when, and only when, something says it has a door: an opening or leaf
+measured in its own mesh, a door piece the source authors placed against it, or
+a door piece the kit composes onto it. No door evidence, no building
+(``closedShellPromotedBy`` records which it was).
 
 The floor is searched over a ladder of offsets above the piece's base (0–8 m)
 and the storey that reads most enclosed wins, which is what lets a stilt house —
@@ -63,6 +91,47 @@ doorway face in the asset's local frame (north = 0, clockwise, the same
 convention as a parcel's ``yawDeg``, so the world facing is
 ``sideDeg + yawDeg``); ``offsetM`` is the ``[x, z]`` point on the wall, in
 metres, in the pivot-centred local frame ``measure_footprints`` uses.
+
+There are four ways a doorway is derived, tried in this order, and every one of
+them is a measurement:
+
+  1. **opening** — a contiguous arc, 0.8–5.0 m wide and at most 60 deg, where a
+     ray fired from inside at 1.1 m escapes while the ring above the lintel
+     holds, or where the door band comes back materially nearer than the wall
+     above it (a leaf or blocking panel set into the wall).
+  2. **open-front** — the same escaping arc, but wider than a door or with
+     nothing overhead at all: a stable mouth, a cart shed, a veranda, a tent
+     flap, a hall front. Accepted up to 120 deg so long as the rest of the ring
+     is still wall. A 6 m stable mouth is an entrance a player walks through,
+     and calling it "no door" was the older pass's mistake.
+  3. **leaf** — the shut door modelled INTO the shell, so nothing escapes
+     anywhere. Found by its plane: probe the ring at a ladder of heights, take
+     each bin's farthest hit as the bare wall behind, and look for a patch that
+     stands 0.02–0.3 m in front of that wall, 0.8–2.0 m wide and 1.8–3.0 m
+     tall, standing on the floor. Validated against a case the placements also
+     answer: on vanilla ``farmhouse02`` the leaf pass reads the door at
+     bearing 170.0 deg and the 13 mined placements of its door piece put it at
+     180.0-180.3 deg — 10 deg apart, inside the 15 deg the check allows. A
+     shape name containing "door" is corroboration that may be recorded, never
+     the evidence.
+  4. **door-piece** — the entrance the family authored as its own mesh, when
+     the shell's geometry and the placement mine both come back empty. The
+     candidate is a sibling in the shell's own pool directory; the evidence is
+     the FIT, measured in the shell's own frame: the piece's plan centre sits
+     on the shell's measured wall line (or in the gap in it) within 0.4 m, its
+     head stands 1.5-4.5 m above the shell's floor, and its foot is on that
+     floor. BM&V's ``kioskaccesd01``/``kioskaccesi01`` land in ``kiosk01``'s
+     two ring gaps to within 0.11 m and 0.02 m, which is what makes them that
+     kiosk's way in and not a fence.
+
+If the centroid pass finds no doorway at all, the probe stands again on a
+one-metre lattice across the plan and keeps the reading that opens the widest
+arc (``doorwayProbeCentreM`` records where it stood). The eye goes at the plan
+centroid, and for a compact hut that is the middle of the room — but for a
+piece whose plan takes in a veranda or a wing, BM&V's stilt house among them,
+the centroid lands on the deck, outside the room, with the way in behind it.
+The retry only ever runs when the first pass came back empty, so it can add a
+doorway and never remove one.
 
 **Doorways from assemblies.** A shell whose door is a SEPARATE mesh has no
 opening in its own geometry, so the ray pass can never find one. For those the
@@ -146,6 +215,7 @@ BINS = 72                      # 5° rays around the horizon
 EYE_HEIGHT_M = 1.6             # where the stander's eye sits above the floor
 ENCLOSURE_MIN_RING = 0.75      # share of horizontal rays that must hit a wall
 ENCLOSURE_MIN_ROOM_M = 1.5     # median wall distance: a room, not a solid block
+ENCLOSURE_MIN_FRONT_FACE = 0.6  # share of ring hits whose triangle faces the eye
 DOOR_BAND_M = 1.1              # eye height for the door probe (below any lintel)
 LINTEL_BAND_M = 2.4            # eye height for the wall probe (above any lintel)
 DOOR_RECESS_RATIO = 0.8        # door bin: <= this share of the wall's distance
@@ -155,6 +225,15 @@ DOORWAY_MIN_ARC_M = 0.8
 DOORWAY_MAX_ARC_M = 5.0
 DOORWAY_MAX_BINS = BINS // 6   # 60°
 MAX_DOORWAYS = 4
+OPEN_FRONT_MAX_BINS = BINS // 3   # 120°: a stable front, a veranda, a hall mouth
+LEAF_MIN_ARC_M = 0.8              # a baked-in door leaf is door-width, not wall-width
+LEAF_MAX_ARC_M = 2.0
+LEAF_MIN_TALL_M = 1.8             # ...and door-height
+LEAF_MAX_TALL_M = 3.0
+LEAF_MIN_PROUD_M = 0.02           # set into, or standing proud of, its frame
+LEAF_MAX_PROUD_M = 0.3
+LEAF_BAND_STEP_M = 0.3
+LEAF_SILL_MAX_M = 0.6             # a door starts at the floor, not halfway up
 
 # Pieces smaller than this are never buildings; skipped before any geometry
 # work (an urn cannot have an interior).
@@ -200,10 +279,28 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
     ("bmv:telvanni/",
      "dungeon-root-v1",
      "grown/organic exteriors; the root dungeon kit is the interior grammar that matches them"),
+    ("mudmother:gv_meshes/argoniannest/",
+     "vanilla-farmhouse-int",
+     "Argonian nest exteriors are one-room mud dwellings; the farmhouse interior tileset is the "
+     "single-room rustic grammar we own that fits them"),
+    ("mudmother:gv_meshes/argoniannest/histtree",
+     "dungeon-root-v1",
+     "a hollow Hist trunk, not a built room: the root dungeon kit is the grown interior grammar for it"),
+    ("bmv:architecture/huts/",
+     "vanilla-farmhouse-int",
+     "BM&V marsh hut exteriors ship no interior; the farmhouse interior tileset is the nearest "
+     "single-room grammar we own"),
+    ("bmv:architecture/stilthouse/",
+     "vanilla-farmhouse-int",
+     "the BM&V stilt house exterior ships no interior; its deck-level room is dressed from the "
+     "farmhouse interior tileset"),
+    ("bmv:architecture/ships/",
+     "vanilla-imperial-int",
+     "an Imperial ship's below-decks cabin: the Imperial interior tileset is the matching grammar"),
 )
 
 # Kits that ARE interiors: their modules are the inside, so they never claim one.
-INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1")
+INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1", "vanilla-farmhouse-int", "vanilla-imperial-int")
 
 # Path fragments that mark a piece as an interior module wherever it lives.
 INTERIOR_PATH_MARKERS = ("/interior/", "/interiors/")
@@ -354,20 +451,30 @@ def _bearing_deg(x: float, z: float) -> float:
     return math.degrees(math.atan2(x, -z)) % 360.0
 
 
-def _ray_distances(triangles, origin, directions):
-    """Nearest forward intersection distance per direction, or +inf.
+def _ray_hits(triangles, origin, directions):
+    """Nearest forward intersection per direction: (distance, front-face flag).
 
     Vectorised Moller-Trumbore, chunked over triangles so a 20k-triangle piece
     against 74 rays stays inside a few MB. Culling is two-sided on purpose:
-    kit meshes are single-sided and often wound inconsistently, and we only
-    care THAT a wall is there, not which way it faces.
+    kit meshes are single-sided and often wound inconsistently, and for the
+    *enclosure* question we care THAT a wall is there.
+
+    The second return says which way the surface we hit was facing. A real
+    interior wall faces INWARD, so the stander sees its front face
+    (``normal . direction < 0``). A closed prop — a plinth, a pool basin, a
+    solid tower mass — is a hollow shell whose faces all point OUTWARD, so an
+    eye placed inside it sees only BACK faces. That is the measurable
+    difference between "a room" and "the inside of a lump" (see
+    ``frontFaceFraction``).
     """
     import numpy as np
 
     v0 = triangles[:, 0, :]
     edge1 = triangles[:, 1, :] - v0
     edge2 = triangles[:, 2, :] - v0
+    normals = np.cross(edge1, edge2)
     out = np.full(len(directions), np.inf, dtype=np.float64)
+    front = np.zeros(len(directions), dtype=bool)
     for i, direction in enumerate(directions):
         pvec = np.cross(direction, edge2)
         det = np.einsum("ij,ij->i", edge1, pvec)
@@ -383,8 +490,15 @@ def _ray_distances(triangles, origin, directions):
         t = np.einsum("ij,ij->i", edge2, qvec) * inv
         hit = ok & (u >= -1e-6) & (v >= -1e-6) & (u + v <= 1.0 + 1e-6) & (t > 1e-4)
         if hit.any():
-            out[i] = float(t[hit].min())
-    return out
+            index = int(np.flatnonzero(hit)[np.argmin(t[hit])])
+            out[i] = float(t[index])
+            front[i] = bool(float(normals[index] @ direction) < 0.0)
+    return out, front
+
+
+def _ray_distances(triangles, origin, directions):
+    """Distances only — kept for callers that do not need face orientation."""
+    return _ray_hits(triangles, origin, directions)[0]
 
 
 def _horizontal_directions():
@@ -421,15 +535,21 @@ def probe_from_inside(triangles, centre: tuple[float, float], eye_y: float) -> d
     up_down = np.asarray([[0.0, 1.0, 0.0], [0.0, -1.0, 0.0]], dtype=np.float64)
     origin = np.asarray([centre[0], eye_y, centre[1]], dtype=np.float64)
     all_dirs = np.vstack([dirs, up_down])
-    dist = _ray_distances(triangles, origin, all_dirs)
+    dist, front = _ray_hits(triangles, origin, all_dirs)
     ring = dist[:BINS]
-    finite = ring[np.isfinite(ring)]
+    hit = np.isfinite(ring)
+    finite = ring[hit]
+    ring_front = front[:BINS][hit]
     return {
         "ring": [float(d) for d in ring],
+        "ringFront": [bool(f) for f in front[:BINS]],
         "ringFraction": float(len(finite)) / BINS,
+        "frontFaceFraction": (float(ring_front.sum()) / len(finite)) if len(finite) else 0.0,
         "medianWallM": float(np.median(finite)) if len(finite) else 0.0,
         "roof": bool(np.isfinite(dist[BINS])),
+        "roofFront": bool(np.isfinite(dist[BINS]) and front[BINS]),
         "floor": bool(np.isfinite(dist[BINS + 1])),
+        "floorFront": bool(np.isfinite(dist[BINS + 1]) and front[BINS + 1]),
         "headroomM": float(dist[BINS]) if np.isfinite(dist[BINS]) else float("inf"),
         "eyeY": eye_y,
     }
@@ -452,18 +572,69 @@ def best_floor(triangles, centre: tuple[float, float], base_y: float, height_m: 
         probe["floorOffsetM"] = offset
         if is_enclosure(probe):
             return probe
-        if best is None or probe["ringFraction"] > best["ringFraction"]:
+        # A storey that has the SHAPE of a room but whose faces point outward
+        # (a closed prop, or a shell whose door is a separate mesh) is still the
+        # best storey to report: the door-evidence join decides which it is.
+        rank = (encloses_shape(probe), probe["ringFraction"])
+        if best is None or rank > (encloses_shape(best), best["ringFraction"]):
             best = probe
-    return best or {"ring": [math.inf] * BINS, "ringFraction": 0.0, "medianWallM": 0.0,
-                    "roof": False, "floor": False, "headroomM": float("inf"),
-                    "eyeY": base_y, "floorOffsetM": 0.0}
+    return best or {"ring": [math.inf] * BINS, "ringFront": [False] * BINS,
+                    "ringFraction": 0.0, "frontFaceFraction": 0.0, "medianWallM": 0.0,
+                    "roof": False, "roofFront": False, "floor": False, "floorFront": False,
+                    "headroomM": float("inf"), "eyeY": base_y, "floorOffsetM": 0.0}
 
 
 def is_enclosure(probe: dict) -> bool:
+    """All five criteria: a ring of walls, a roof, headroom, room to stand, and
+    the walls/roof/floor FACING the stander (criterion 5 — see ``_ray_hits``).
+
+    Criterion 5 is what separates a room from the inside of a closed prop. Game
+    meshes are hollow shells, so an eye dropped inside a plinth, a pool basin,
+    a stair block or a solid tower mass measures a perfect ring with a roof
+    over it. It is not a room; it is a lump seen from the wrong side, and its
+    faces all point away. A real interior shows its front faces inward."""
+    return encloses_shape(probe) and faces_inward(probe)
+
+
+def encloses_shape(probe: dict) -> bool:
+    """Criteria 1-4: a ring of walls, a roof, headroom, and room to stand."""
     return (probe["ringFraction"] >= ENCLOSURE_MIN_RING
             and probe["roof"]
             and probe["headroomM"] + EYE_HEIGHT_M >= MIN_CEILING_M
             and probe["medianWallM"] >= ENCLOSURE_MIN_ROOM_M)
+
+
+def faces_inward(probe: dict) -> bool:
+    """Criterion 5: the surfaces around the stander are turned TOWARDS them.
+
+    Only the RING gates. The up and down rays are measured and reported
+    (``roofFront``, ``floorFront``) but cannot gate: measured across the built
+    kits, most exterior shells ship no floor mesh at all (the ground is the
+    terrain), so a down-ray floor test would demote every open-fronted stable
+    and shed along with the props, and plenty of genuine single-sided kit roofs
+    show their back face to a stander underneath. The ring is 72 samples and
+    separates the two populations cleanly (0.00 or 1.00 in almost every case).
+    """
+    return probe.get("frontFaceFraction", 1.0) >= ENCLOSURE_MIN_FRONT_FACE
+
+
+def _contiguous_runs(flags) -> list[list[int]]:
+    """Contiguous runs of True around the ring, wrapping at 360 degrees."""
+    if not flags.any() or flags.all():
+        return []
+    start = next(i for i in range(BINS) if flags[i] and not flags[(i - 1) % BINS])
+    runs: list[list[int]] = []
+    current: list[int] = []
+    for step in range(BINS):
+        index = (start + step) % BINS
+        if flags[index]:
+            current.append(index)
+        elif current:
+            runs.append(current)
+            current = []
+    if current:
+        runs.append(current)
+    return runs
 
 
 def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
@@ -501,27 +672,198 @@ def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
     w = np.asarray(wall["ring"])
 
     is_door = np.zeros(BINS, dtype=bool)
+    is_open_front = np.zeros(BINS, dtype=bool)
     for i in range(BINS):
         if not np.isfinite(w[i]):
-            continue                       # no wall above: nothing to be a door in
+            # Nothing overhead in this direction. Under a lintel that would be
+            # a doorway; with no lintel it is the piece's OPEN FRONT — a stable
+            # mouth, a veranda, a tent flap, a hall front — open from the floor
+            # to the eaves. Still the way in, so it is collected separately and
+            # emitted as `kind: "open-front"`.
+            if not np.isfinite(d[i]):
+                is_open_front[i] = True
+            continue
         if not np.isfinite(d[i]):
             is_door[i] = True              # an open hole under a solid lintel
         elif d[i] <= DOOR_RECESS_RATIO * w[i]:
             is_door[i] = True              # a leaf or blocker set into the wall
 
-    if not is_door.any():
+    if not is_door.any() and not is_open_front.any():
         return [], ("no direction reads as a doorway — the ring at 1.1 m matches the wall above the "
                     "lintel all the way round, so the door is a separate mesh or the piece is a "
                     "modular wall segment; place the door on the side the design wants")
     if is_door.all():
         return [], "every direction reads as a doorway, so the measurement is not trustworthy here"
 
-    start = next(i for i in range(BINS) if is_door[i] and not is_door[(i - 1) % BINS])
+    # A run that escapes the wall is ONE entrance whether or not it keeps a
+    # lintel for its whole width: a stable mouth is open under its gable in the
+    # middle and under a header at its jambs. So the runs are cut on the union,
+    # and a run is an OPEN FRONT if any of its bins has nothing overhead.
+    escape = is_door | is_open_front
+    runs = _contiguous_runs(escape)
+
+    out = []
+    bin_rad = 2.0 * math.pi / BINS
+    wall_hits = int(np.isfinite(w).sum())
+    ring = np.where(np.isfinite(d), d, np.nan)
+    ring_median = float(np.nanmedian(ring)) if np.isfinite(ring).any() else 0.0
+    for run in runs:
+        open_front = bool(is_open_front[run].any())
+        wall_r = [float(w[i]) for i in run if np.isfinite(w[i])]
+        if wall_r:
+            radius = sum(wall_r) / len(wall_r)
+        else:
+            # nothing overhead anywhere across the run: measure the entrance at
+            # the wall line the rest of the ring stands on
+            radius = ring_median
+        if radius <= 0.0:
+            continue
+        arc = radius * bin_rad * len(run)
+        if arc < DOORWAY_MIN_ARC_M:
+            continue
+        face = [float(d[i]) for i in run if np.isfinite(d[i])]
+        face_r = sum(face) / len(face) if face else radius
+        mid = (run[0] + (len(run) - 1) / 2.0) % BINS
+        side_deg = ((mid + 0.5) * (360.0 / BINS)) % 360.0
+        rad = math.radians(side_deg)
+        entry = {
+            "sideDeg": round(side_deg, 2),
+            "offsetM": [round(centre[0] + face_r * math.sin(rad), 2),
+                        round(centre[1] - face_r * math.cos(rad), 2)],
+            "arcM": round(arc, 2),
+        }
+        if not open_front and len(run) <= DOORWAY_MAX_BINS and arc <= DOORWAY_MAX_ARC_M:
+            entry["kind"] = "opening"
+            out.append(entry)
+            continue
+        # An OPEN FRONT: a stable, a veranda, a tent mouth, a xanmeer hall. It
+        # is wider than a door leaf, but it is still the way in — the rest of
+        # the ring is wall and a player walks straight through it. Emitted as a
+        # doorway of its own kind so the blueprint side treats it as an
+        # entrance; a 6 m stable mouth is not "no door".
+        rest_ring = int(np.isfinite(d).sum()) - len([i for i in run if np.isfinite(d[i])])
+        if (len(run) <= OPEN_FRONT_MAX_BINS
+                and rest_ring / max(BINS - len(run), 1) >= ENCLOSURE_MIN_RING):
+            entry["kind"] = "open-front"
+            out.append(entry)
+    out.sort(key=lambda item: (-item["arcM"], item["sideDeg"]))
+    if not out:
+        return [], ("the openings measured are wider than an open front or narrower than 0.8 m — "
+                    "a texture seam or a ring of modular walls, not a doorway")
+    return out[:MAX_DOORWAYS], None
+
+
+#: the retry probe stands on a lattice this many metres apart (at least), and
+#: never uses more than RETRY_MAX_POINTS of them, so a big plan costs the same.
+RETRY_STEP_M = 1.0
+RETRY_MAX_POINTS = 144
+RETRY_MIN_RING = 0.5
+
+
+def doorways_retry_off_centre(triangles, plan, centre, floor_y, height_m):
+    """Second try from off the plan centroid, when the centroid found no door.
+
+    The eye goes at the piece's plan centroid, and for a compact hut that is the
+    middle of the room. For a piece whose plan includes a veranda, a deck or a
+    wing — BM&V's stilt house is a room with a veranda across its whole front —
+    the centroid lands OUTSIDE the room, on the deck, where the doorway is
+    behind the eye and every ray that would find it hits the house wall first.
+
+    So when the centroid finds nothing, stand at a deterministic grid of points
+    across the plan bounds instead and keep the reading from the enclosed point
+    that opens the widest total arc. Only ever ADDS doorways: it does not run
+    unless the centroid pass came back empty, and every point it uses has to
+    pass the same enclosure test.
+    """
+    xs = [p[0] for p in plan]
+    zs = [p[1] for p in plan]
+    x0, x1 = min(xs), max(xs)
+    z0, z1 = min(zs), max(zs)
+    width = max(x1 - x0, RETRY_STEP_M)
+    depth = max(z1 - z0, RETRY_STEP_M)
+    step = max(RETRY_STEP_M,
+               math.sqrt(width * depth / RETRY_MAX_POINTS))
+    nx = max(int(width / step), 1)
+    nz = max(int(depth / step), 1)
+    best: tuple[float, list[dict], tuple[float, float]] | None = None
+    for i in range(nx + 1):
+        for j in range(nz + 1):
+            point = (round(x0 + i * width / nx, 3), round(z0 + j * depth / nz, 3))
+            if abs(point[0] - centre[0]) < 1e-6 and abs(point[1] - centre[1]) < 1e-6:
+                continue
+            probe = probe_from_inside(triangles, point, floor_y + EYE_HEIGHT_M)
+            # The PIECE has already qualified as an enclosure at its centroid;
+            # this second point only has to be inside it — under its roof, with
+            # its walls facing the stander and half the ring still hitting one.
+            if (not probe["roof"] or not faces_inward(probe)
+                    or probe["ringFraction"] < RETRY_MIN_RING
+                    or probe["medianWallM"] < ENCLOSURE_MIN_ROOM_M):
+                continue
+            doors, _ = doorways_from_probe(triangles, point, floor_y, height_m)
+            if not doors:
+                continue
+            total = sum(d["arcM"] for d in doors)
+            if best is None or total > best[0]:
+                best = (total, doors, point)
+    if best is None:
+        return [], None
+    return best[1], best[2]
+
+
+def leaf_doorways(triangles, centre: tuple[float, float], floor_y: float,
+                  height_m: float) -> list[dict]:
+    """Doorways whose LEAF is modelled into the shell, found by its offset plane.
+
+    Some exterior shells ship the shut door as part of the mesh, so no ray ever
+    escapes and the opening/recess pass above finds nothing. What is still true
+    of the geometry is that a door leaf sits on its own plane: set into its
+    frame, or standing proud of the wall, by a couple of centimetres to a third
+    of a metre — and only over a door-shaped patch, 0.8-2.0 m wide and
+    1.8-3.0 m tall, standing on the floor.
+
+    So: probe the ring at a ladder of heights, take each bin's FARTHEST hit over
+    the ladder as the bare wall behind, and look for bins whose surface stands
+    ``LEAF_MIN_PROUD_M``-``LEAF_MAX_PROUD_M`` in front of that wall over a
+    contiguous height span of door height starting at the floor. Measured only:
+    a shape name containing "door" is corroboration, never the evidence.
+    """
+    import numpy as np
+
+    bands = []
+    y = LEAF_BAND_STEP_M
+    while y <= min(LEAF_MAX_TALL_M + LEAF_BAND_STEP_M, height_m - 0.05):
+        bands.append(y)
+        y += LEAF_BAND_STEP_M
+    if len(bands) < int(LEAF_MIN_TALL_M / LEAF_BAND_STEP_M):
+        return []
+    rings = np.asarray([probe_from_inside(triangles, centre, floor_y + b)["ring"]
+                        for b in bands], dtype=np.float64)
+    backing = np.where(np.isfinite(rings), rings, -np.inf).max(axis=0)
+    proud = backing[None, :] - rings
+    leafish = (np.isfinite(rings) & (proud >= LEAF_MIN_PROUD_M) & (proud <= LEAF_MAX_PROUD_M))
+
+    # per bin: the tallest run of leaf-ish bands that starts at the floor
+    tall = np.zeros(BINS, dtype=np.float64)
+    for i in range(BINS):
+        run_h = 0.0
+        for j, b in enumerate(bands):
+            if leafish[j, i]:
+                run_h += LEAF_BAND_STEP_M
+            else:
+                if b - run_h <= LEAF_SILL_MAX_M + 1e-6 and run_h >= LEAF_MIN_TALL_M:
+                    break
+                run_h = 0.0
+        tall[i] = run_h
+    is_leaf = (tall >= LEAF_MIN_TALL_M) & (tall <= LEAF_MAX_TALL_M + 1e-6)
+    if not is_leaf.any() or is_leaf.all():
+        return []
+
+    start = next(i for i in range(BINS) if is_leaf[i] and not is_leaf[(i - 1) % BINS])
     runs: list[list[int]] = []
     current: list[int] = []
     for step in range(BINS):
         index = (start + step) % BINS
-        if is_door[index]:
+        if is_leaf[index]:
             current.append(index)
         elif current:
             runs.append(current)
@@ -529,34 +871,30 @@ def doorways_from_probe(triangles, centre: tuple[float, float], floor_y: float,
     if current:
         runs.append(current)
 
-    out = []
     bin_rad = 2.0 * math.pi / BINS
+    out = []
     for run in runs:
-        if len(run) > DOORWAY_MAX_BINS:
+        radii = [float(backing[i]) for i in run if np.isfinite(backing[i])]
+        if not radii:
             continue
-        wall_r = [float(w[i]) for i in run if np.isfinite(w[i])]
-        if not wall_r:
-            continue
-        radius = sum(wall_r) / len(wall_r)
+        radius = sum(radii) / len(radii)
         arc = radius * bin_rad * len(run)
-        if not (DOORWAY_MIN_ARC_M <= arc <= DOORWAY_MAX_ARC_M):
+        if not (LEAF_MIN_ARC_M <= arc <= LEAF_MAX_ARC_M):
             continue
-        face = [float(d[i]) for i in run if np.isfinite(d[i])]
-        face_r = sum(face) / len(face) if face else radius
         mid = (run[0] + (len(run) - 1) / 2.0) % BINS
         side_deg = ((mid + 0.5) * (360.0 / BINS)) % 360.0
         rad = math.radians(side_deg)
+        face_r = float(np.median(rings[:, run][np.isfinite(rings[:, run])])) or radius
         out.append({
             "sideDeg": round(side_deg, 2),
             "offsetM": [round(centre[0] + face_r * math.sin(rad), 2),
                         round(centre[1] - face_r * math.cos(rad), 2)],
             "arcM": round(arc, 2),
+            "heightM": round(float(tall[run].max()), 2),
+            "kind": "leaf",
         })
     out.sort(key=lambda item: (-item["arcM"], item["sideDeg"]))
-    if not out:
-        return [], ("the openings measured are wider than 5.0 m or narrower than 0.8 m — an open "
-                    "front or a texture seam, not a doorway")
-    return out[:MAX_DOORWAYS], None
+    return out[:MAX_DOORWAYS]
 
 
 # --------------------------------------------------------------------------- #
@@ -693,18 +1031,109 @@ def apply_assembly_doorways(record: dict, doors: list[dict]) -> None:
 
 
 # --------------------------------------------------------------------------- #
+# doorways from the family's own door piece (mechanism 4)
+# --------------------------------------------------------------------------- #
+#: basename fragments that a piece authored AS a door carries. Corroboration
+#: only: a candidate is accepted on the FIT measurement below, never on this.
+DOOR_PIECE_TOKENS = ("door", "entrance", "acces", "porte", "gateway")
+DOOR_PIECE_FIT_M = 0.4          # how near the shell's wall line the piece must sit
+DOOR_PIECE_MIN_TALL_M = 1.5
+DOOR_PIECE_MAX_TALL_M = 4.5
+DOOR_PIECE_MAX_SILL_M = 1.5     # its foot stands on (or just above) the floor
+
+
+def door_piece_doorways(record: dict, asset_id: str,
+                        bounds: dict[str, tuple]) -> list[dict]:
+    """Doorways taken from the door piece the family authored for this shell.
+
+    Last resort, and still a measurement. A modular set often ships its
+    entrance as its own mesh — BM&V's ``kioskaccesd01`` for ``kiosk01``, its
+    ``stilthousedooranim`` for ``stilthouseext`` — modelled in the SAME local
+    frame as the shell it belongs to, which is exactly how the set was designed
+    to be combined. So the candidate is any sibling mesh in the shell's own pool
+    directory, and the evidence that it is THIS shell's door is the fit: the
+    piece's plan centre has to sit on the shell's measured wall line, within
+    ``DOOR_PIECE_FIT_M``, at the shell's own floor storey, and stand door
+    height. A name containing "door" is corroboration recorded in the why; it
+    is never the reason.
+    """
+    import numpy as np
+
+    probe = record.get("_probe")
+    if not probe:
+        return []
+    cx, cz = probe["centre"]
+    ring = np.asarray(probe["ring"], dtype=np.float64)
+    folder = asset_id.rsplit("/", 1)[0] if "/" in asset_id else asset_id
+    out = []
+    for other, (lo, hi) in sorted(bounds.items()):
+        if other == asset_id or not other.startswith(folder + "/"):
+            continue
+        stem = other.rsplit("/", 1)[-1].lower()
+        if not any(tok in stem for tok in DOOR_PIECE_TOKENS):
+            continue
+        # measured against the SHELL's floor, not the piece's own box: an
+        # entrance is a thing whose head is at door height above the floor you
+        # walk in on, and whose foot is at or near that floor.
+        head = float(hi[1]) - probe["floorY"]
+        foot = float(lo[1]) - probe["floorY"]
+        if not (DOOR_PIECE_MIN_TALL_M <= head <= DOOR_PIECE_MAX_TALL_M):
+            continue
+        if foot > DOOR_PIECE_MAX_SILL_M:
+            continue
+        tall = head - max(foot, 0.0)
+        px = float(lo[0] + hi[0]) / 2.0 - cx
+        pz = float(lo[2] + hi[2]) / 2.0 - cz
+        radius = math.hypot(px, pz)
+        if radius <= 0.1:
+            continue
+        side_deg = _bearing_deg(px, pz)
+        wall = float(ring[int(side_deg / (360.0 / BINS)) % BINS])
+        span = float(np.median(ring[np.isfinite(ring)])) if np.isfinite(ring).any() else 0.0
+        if math.isfinite(wall):
+            # the piece stands ON the shell's wall line
+            fit = abs(wall - radius)
+            if fit > DOOR_PIECE_FIT_M:
+                continue
+            how = "on the wall line"
+        else:
+            # the shell's ring ESCAPES on this bearing and the piece stands in
+            # that gap at the same radius as the wall either side: the opening
+            # and the piece made for it are the same place, which is the
+            # strongest fit the geometry can give.
+            fit = abs(span - radius)
+            if fit > DOOR_PIECE_FIT_M:
+                continue
+            how = "in the gap in the ring"
+        out.append({
+            "sideDeg": round(side_deg, 2),
+            "offsetM": [round(cx + px, 2), round(cz + pz, 2)],
+            "kind": "door-piece",
+            "doorAsset": other,
+            "fitM": round(fit, 3),
+            "fitHow": how,
+            "pieceHeightM": round(tall, 2),
+        })
+    out.sort(key=lambda item: (item["fitM"], item["sideDeg"]))
+    return out[:MAX_DOORWAYS]
+
+
+# --------------------------------------------------------------------------- #
 # per-kit derivation
 # --------------------------------------------------------------------------- #
 def classify_asset(asset: dict, kit: str, verts, triangles,
                    pool_ids: dict[str, list[str]],
-                   assembly_doors: list[dict] | None = None) -> dict:
+                   assembly_doors: list[dict] | None = None,
+                   anchor_id: str | None = None) -> dict:
     """One asset's interior record, geometry first and assemblies second.
 
     ``verts``/``triangles`` may be None. ``assembly_doors`` is this asset's
     entry from ``doorwaysFromAssemblies`` (see ``apply_assembly_doorways``);
     it is only consulted for a piece the geometry calls a building.
     """
-    record = _classify_geometry(asset, kit, verts, triangles, pool_ids)
+    record = _classify_geometry(asset, kit, verts, triangles, pool_ids,
+                                door_evidence=bool(assembly_doors),
+                                anchor_id=anchor_id)
     if assembly_doors and record.get("interior") in BUILDING_INTERIORS:
         apply_assembly_doorways(record, assembly_doors)
     elif record.get("doorways"):
@@ -713,7 +1142,9 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
 
 
 def _classify_geometry(asset: dict, kit: str, verts, triangles,
-                       pool_ids: dict[str, list[str]]) -> dict:
+                       pool_ids: dict[str, list[str]],
+                       door_evidence: bool = False,
+                       anchor_id: str | None = None) -> dict:
     """The geometric pass: everything measured from the asset's own mesh."""
     asset_id = asset["id"]
     record: dict = {"category": asset.get("category"), "doorways": []}
@@ -724,7 +1155,7 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
                       doorwaysWhy="interior modules have no exterior doorway")
         return record
 
-    matched = find_matched_interior(asset_id, pool_ids)
+    matched = find_matched_interior(anchor_id or asset_id, pool_ids)
 
     # Measure first: the enclosure probe gates rules (b) and (c), and rule (a)
     # still wants the size class and the doorway.
@@ -754,17 +1185,42 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
         cz = sum(p[1] for p in plan) / len(plan)
         probe = best_floor(triangles, (cx, cz), base_y, height)
         record["ringFraction"] = round(probe["ringFraction"], 3)
+        record["frontFaceFraction"] = round(probe.get("frontFaceFraction", 0.0), 3)
         record["medianWallM"] = round(probe["medianWallM"], 2)
         record["roofOverhead"] = probe["roof"]
         record["headroomM"] = round(min(probe["headroomM"] + EYE_HEIGHT_M, 99.0), 2)
         record["floorOffsetM"] = probe["floorOffsetM"]
+        floor_y = base_y + probe["floorOffsetM"]
+        room_h = height - probe["floorOffsetM"]
+        record["_probe"] = {"centre": [cx, cz], "floorY": floor_y, "roomH": room_h,
+                            "ring": probe["ring"]}
         encloses = is_enclosure(probe)
-        if encloses:
-            doors, why_not = doorways_from_probe(
-                triangles, (cx, cz), base_y + probe["floorOffsetM"], height - probe["floorOffsetM"])
+        closed_shell = encloses_shape(probe) and not faces_inward(probe)
+        if encloses or closed_shell:
+            doors, why_not = doorways_from_probe(triangles, (cx, cz), floor_y, room_h)
+            if not doors:
+                # the leaf pass: a door modelled shut into the shell
+                doors = leaf_doorways(triangles, (cx, cz), floor_y, room_h)
+                if doors:
+                    why_not = None
+            if not doors:
+                doors, point = doorways_retry_off_centre(
+                    triangles, plan, (cx, cz), floor_y, room_h)
+                if doors:
+                    why_not = None
+                    record["doorwayProbeCentreM"] = [round(point[0], 2), round(point[1], 2)]
             record["doorways"] = doors
             if why_not:
                 record["doorwaysWhy"] = why_not
+        # A shell with the SHAPE of a room whose faces point outward is either a
+        # closed prop or a building whose door is a separate piece. The evidence
+        # that decides it is a door: one measured in its own mesh (a leaf, an
+        # open front), or one the source authors placed against it / the kit
+        # composes onto it. No evidence, no building.
+        if closed_shell and (record["doorways"] or door_evidence):
+            encloses = True
+            record["closedShellPromotedBy"] = (
+                "own-geometry-door" if record["doorways"] else "door-piece")
 
     if matched:
         record.update(interior="matched", interiorAssetRef=matched,
@@ -772,7 +1228,10 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
                            f"matched interior, authored to fit it"))
         return record
 
-    tileset = find_tileset(asset_id)
+    # A composite has an id of its own (``composite:<family>/<name>``) that no
+    # family rule can match, so the interior link is the one its ANCHOR part
+    # carries: the composite IS that shell, with its door hung on.
+    tileset = find_tileset(anchor_id or asset_id)
     if tileset and encloses and category_ok:
         record.update(interior="tileset", tileset=tileset[0], why=tileset[1])
         return record
@@ -802,6 +1261,14 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
     elif probe["ringFraction"] < ENCLOSURE_MIN_RING:
         why = (f"open sided — only {probe['ringFraction']:.0%} of the ring at 1.6 m hits a wall, "
                f"so it does not enclose anything")
+    elif probe.get("frontFaceFraction", 1.0) < ENCLOSURE_MIN_FRONT_FACE:
+        why = (f"a closed prop seen from inside, not a room — only "
+               f"{probe.get('frontFaceFraction', 0.0):.0%} of the ring hits show a face turned "
+               f"towards the stander (a room needs {ENCLOSURE_MIN_FRONT_FACE:.0%}"
+               + ("" if probe.get("floorFront", True) else ", and the down ray finds no up-facing floor")
+               + ("" if probe.get("roofFront", True) else ", and the up ray finds no down-facing ceiling")
+               + f"): the mesh is a hollow shell whose faces all point outward, so this is massing "
+                 f"— a plinth, a basin, a stair block, a tower mass — usable as a solid, never entered")
     else:
         why = (f"solid, not hollow — walls are only {probe['medianWallM']:.1f} m away at 1.6 m "
                f"(a room needs {ENCLOSURE_MIN_ROOM_M} m), so this is massing, not a building you enter")
@@ -823,6 +1290,7 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     parts_of = composite_parts(kit_name)
 
     assets: dict[str, dict] = {}
+    bounds: dict[str, tuple] = {}
     for asset in sorted(manifest["assets"], key=lambda a: a["id"]):
         node = _resolve_node(asset, node_names, by_asset_id)
         verts = _asset_vertices(scene, node) if node else None
@@ -832,8 +1300,29 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
         # pieces the composite actually carries.
         doors = (composite_doorways(parts_of[asset["id"]], mined_doors)
                  if asset["id"] in parts_of else mined_doors.get(asset["id"]))
+        anchor = parts_of[asset["id"]][0] if asset["id"] in parts_of and parts_of[asset["id"]] else None
         assets[asset["id"]] = classify_asset(
-            asset, kit_name, verts, triangles, pool_ids, doors)
+            asset, kit_name, verts, triangles, pool_ids, doors, anchor_id=anchor)
+        if verts is not None and len(verts):
+            bounds[asset["id"]] = (verts.min(axis=0), verts.max(axis=0))
+
+    # mechanism 4: a building the mesh and the mine both left doorless takes the
+    # door piece its own family authored for it, fitted to its measured wall.
+    for asset_id, record in assets.items():
+        if record.get("interior") in BUILDING_INTERIORS and not record.get("doorways"):
+            source = parts_of.get(asset_id, [asset_id])[0]
+            doors = door_piece_doorways(record, source, bounds)
+            if doors:
+                record["doorways"] = doors
+                record["doorwaySource"] = "door-piece"
+                pieces = ", ".join(sorted({d["doorAsset"].rsplit("/", 1)[-1] for d in doors}))
+                record["doorwaysWhy"] = (
+                    f"the shell's own mesh has no opening — its entrance is a separate piece its "
+                    f"pool ships in the same directory ({pieces}), modelled in the shell's own "
+                    f"frame and measured to sit on its wall line to within "
+                    f"{max(d['fitM'] for d in doors):.2f} m")
+    for record in assets.values():
+        record.pop("_probe", None)
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -848,7 +1337,9 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
                                "medium": SIZE_CLASS_MEDIUM_MAX_M2},
             "doorwaySources": ["geometry (the shell's own opening, measured by ray)",
                                "assembly (where the source authors placed a separate "
-                               "door piece; kit-assemblies-mined.json)"],
+                               "door piece; kit-assemblies-mined.json)",
+                               "door-piece (the entrance mesh the family authored for this "
+                               "shell, fitted to its measured wall line)"],
         },
     }
 

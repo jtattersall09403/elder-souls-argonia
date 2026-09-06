@@ -1,0 +1,250 @@
+{
+ "id": "vanilla-farmhouse-int",
+ "description": "The vanilla Skyrim FARMHOUSE INTERIOR tileset, packaged as the linked inside for every farmhouse-shell exterior (interiors_index TILESET_RULES already names this kit for `vanilla:architecture/farmhouse/`; owner rule 2026-09-05: a building with an interior must have a door that teleports to a LINKED interior kit, so the kit has to exist as built and measured geometry). Pure packaging of `meshes/architecture/farmhouse/interior/`: the `farmint` family that Bethesda uses inside every Skyrim farmhouse, inn and longhouse, plus the `farmb` basement family below it and the two farmhouse load doors that are the link itself. Three room grammars ship in one directory and are kept apart in snapLogic: the plain `farmint` cottage shell, the `farmint2` second cottage shell, and the `farmintlh` longhouse with its loft. Chosen over any mod source because these ARE the meshes against which the exterior shells in TILESET_RULES were authored: the interior walls line up with the outside walls of `farmhouse01-06`, `inn01` and `farmlonghouse01`, which no substitute set can claim.",
+ "culture": "imperial-colonial",
+ "output": "tooling/asset-pipeline/output/kits/vanilla-farmhouse-int.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "cottage-farmint": "The base cottage shell. `farmintend01/02/03` are the three gable-end shells; `farmintwall01` is the straight bay that extends the room between ends; `farmintcorner01` turns it; `farmintdoorway01` is the wall bay carrying an interior doorway; `farmintwallhearth01/02` replace a wall bay with the hearth. `farmintwooddoorway01`, `farmintwoodend01/02` and `farmintwoodwall01` are the timber-partition variants of the same bays and substitute one-for-one. `farmintwbasementent01` is the wall bay that opens the stair down to the basement family. Bays butt face-to-face on a 3.6 m (256-unit) module with the origin on the floor plane at the bay centre; a small room is two ends back to back, a medium room ends plus two walls, a large room ends plus four walls and a corner.",
+  "cottage-farmint2": "The second cottage shell — a DIFFERENT authored grid, not a variant set. `farmint2end01/02/03` its ends, `farmint2wall01` its bay, `farmint2doorway03/04` its doorways (`farmint2doorway02nodoor` is the same opening with no door leaf), `farmint2hearth02` its hearth and `farmint2basementent01` its basement stair. Do not interleave `farmint` and `farmint2` bays in one room; change set at a doorway.",
+  "inn": "`farmintinnend01-06` are the inn's six end/corner shells with `farmintinnwall01` between them and `farmintinnwallentrance01` at the entry. Same 256-unit module as the cottage but taller, so it makes the two-storey common room; it is the large-room option.",
+  "longhouse": "`farmintlhbase01/02` are the floor plates, `farmintlhfront01` and `farmintlhback01` the two ends, `farmintlhmid01` the extension bay, `farmintlhend01/02` the closing walls, `farmintlhfirepit01-03` the central fire, and `farmintlhloft01/02` + `farmintlhlofttop01` the loft deck over the aisle. Stack loft pieces on the base plates, never on the cottage grid.",
+  "basement": "`farmb*` is the cellar below any of the above and has its own grid: `farmbmiddle01/02` floor bays, `farmbwall01-04` walls, `farmbcorner01-04` outside and `farmbicorner01-04` inside corners, `farmbdivider01-04` the internal partitions, `farmbcolumn01/02` the props, `farmbwallentrance01-05` the wall bays that receive the stair up, and `farmbtrapdoor01/02` + `farmbwalltrapdoor01` the trapdoor way up. `farmbwell01`/`farmbwellent01` are the well shaft. `farmhousejaildoor01` is the barred door for a cellar lock-up.",
+  "load-doors": "`farmhousedoor01` and `farmhouseldoor01` are the exterior leaves the teleport link uses — placed in the exterior shell's doorway opening, they are the visible half of the door that carries the player into this kit.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/vanilla-farmhouse-int.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "vanilla:architecture/farmhouse/farmhousedoor01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/farmhouseldoor01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcolumn02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcorner01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcorner02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcorner03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbcorner04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbdivider01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbdivider02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbdivider03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbdivider04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbicorner01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbicorner02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbicorner03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbicorner04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbmiddle02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwall01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwall02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwall03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwall04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwallentrance05"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwalltrapdoor01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwell01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbwellent01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmhousejaildoor01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2basementent01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2doorway02nodoor"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2doorway03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2doorway04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2end01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2end02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2end03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2hearth02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmint2wall01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintcorner01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintdoorway01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintend01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintend02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintend03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend04"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend05"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnend06"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnwall01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintinnwallentrance01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhback01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhbase01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhbase02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhend01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhend02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhfirepit01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhfirepit02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhfirepit03"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhfront01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhloft01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhloft02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhlofttop01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintlhmid01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwall01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwallhearth01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwallhearth02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwbasementent01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwooddoorway01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwoodend01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwoodend02"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/farmintwoodwall01"
+  }
+ ]
+}
