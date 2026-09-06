@@ -16,11 +16,16 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay: 15,482 corrections; 356 unresolved channels
-(254 local-bank constraints, 29 pinned; these are not completion counts).
+Current overlay: 15,379 corrections; 349 unresolved channels
+(19 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
-244 retaining supports and 1,103 unnecessary pool-floor vertices were restored.
+345 retaining/fringe supports, 1,103 unnecessary pool-floor vertices and three
+diagnosed artificial-anchor supports were restored. The last 104 restorations
+resolved sources 885,898,10480,10481,13114 with zero new failures.
+Two reviewed joint reach repairs subsequently resolved 245 and 2691 with fresh
+domains, zero new failures and exact original-pool preservation. Their 12
+changed vertices retain indexed evidence; maximum original lowering 4.838562 m.
 Tide/season amplitudes are unchanged. Routine cuts are at most 3 m; any existing
 indexed exception is at most 5 m and cannot override an immutable retaining bound.
 
@@ -29,10 +34,11 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-preservation-complete.npz` | Matching 356-constraint geometry for the durable overlay |
-| `/tmp/water-bounded-preservation-state.npz` | Same geometry plus immutable retaining lower bounds; use for cut proposals |
+| `/tmp/water-accepted-349-state.npz` | Matching 349-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
+| `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
 | `/tmp/water-immutable-retaining-bounds.npy` | Derived bounds, not terrain edits |
-| `/tmp/water-retaining-bound-violations.json` | 352 existing below-bound corrections; proposals not yet applied |
+| `/tmp/water-retaining-bound-violations.json` | Earlier 352-support audit; 101 since restored, 251 remain to resolve |
 
 The matching state carries `terrain_overlay_sha256`; it must equal the durable
 overlay hash. Older `/tmp/water-*` variants are historical diagnostics, not
@@ -62,16 +68,19 @@ reconfirm unchanged caches; use the existing matching cache where valid.
 ## Immediate next work
 
 1. Immutable lower bounds are now enforced by routine and joint/indexed cut
-   helpers. Their 187,399 support vertices currently expose 352 earlier cuts
-   below a bound (maximum 2.200 m deficit). Classify and restore only diagnosed
+   helpers. Their 187,399 support vertices exposed 352 earlier cuts
+   below a bound; 101 were restored without new global failures. Classify the
+   remaining 251 and restore only diagnosed
    unnecessary retaining/fringe cuts, retaining exact indexed evidence and
    checking valid channel/receiving support before acceptance.
    `audit_water_restore_retaining` produces an explicitly unaccepted proposal;
    its active native-crease checks are not a replacement for fresh domains.
-2. Inspect the cut-created pool anchor near source 13114/13115. Original bed
+2. The diagnosed cut-created pool anchor near source 13114 was restored.
+   Original bed
    at native (2989,2439) is 4.441438 m, intended head 4.521438 m; an inherited 2.925 m
-   cut created a 1.623104 m pool where immutable terrain had none. Restore only
-   unnecessary supports, then refresh actual domains; do not deepen adjacent
+   cut had created a 1.623104 m pool where immutable terrain had none. Fresh
+   domains now contain no pool at that anchor and its head is 4.521438 m again.
+   Apply this causal diagnosis to other actual cases; never deepen adjacent
    channels merely to accommodate a pool created by our repair.
 3. Reconcile 25 stale orientation links only against the immutable reference.
    Many former false pool holes are now one flat pool. A diagnostic switch
@@ -85,14 +94,28 @@ reconfirm unchanged caches; use the existing matching cache where valid.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-bounded-preservation-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-349-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
 province-wide proposal sweep. Helpers reject old caches lacking retaining
-bounds. `audit_water_solve` still has a cached-domain iteration loop: never
-mistake that for final convergence or use it to justify repeated moving-bank
-millimetre tails.
+bounds. The routine proposal helper now permits exactly one pass, verifies the
+input overlay hash, and rejects the whole proposal on any new global failure
+or no resolved constraints. It does not establish fresh-domain acceptance:
+
+```sh
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-349-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+```
+
+Never use repeated cached proposals to justify moving-bank millimetre tails.
+The one authorized routine local-bank trial at this checkpoint was rejected:
+91 old constraints resolved but 16 new neighbouring failures appeared (435
+updates, maximum new cut 1.673485 m). The accepted overlay remains unchanged.
+`/tmp/water-local-bank-proposal.convergence.json` records that rejection;
+the proposal JSON is byte-identical to the accepted overlay. Do not rerun the
+same trial. Next work needs bounded shared-bank/fixed-neighbour constraints,
+not an independent-cut iteration. Later CLI runs retain exact proposed support
+indices even when rejected; this first rejected trial predates that addition.
 
 ## Tests and eventual export
 
