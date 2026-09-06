@@ -86,6 +86,12 @@ rest become required as `workflow` advances):
                   the sources put it elsewhere or say nothing. Design rationale
                   belongs here or in `sources`, never in `why.*` prose
                   (quests 60 §45e.1 bans provenance voice in world text)
+  services       *services[] — WHICH services the place promises the player,
+                  from the closed SERVICES vocabulary. Required on every live
+                  settlement/civic record and on any service-hub; DERIVED by
+                  `worldgen.derive_services` (that module's docstring is the
+                  rule table), never hand-authored, and checked against the
+                  blueprint by `worldgen.blueprint_promises` (97 E9 / G22).
   terrain asks    terrainRequests? [{kind, radiusM?, note}] — ground the record's
                   identity needs and the plot could not find (a sinkhole for a
                   "round hole of black water", a dry rise, a narrows). Part 6's
@@ -172,6 +178,22 @@ NPC_ROLES = {"named-keeper", "lieutenant", "rank-and-file", "captive", "merchant
 LOOT_ROLES = {"hidden-cache", "grave-goods", "strongroom", "workshop-stock", "shrine-offerings",
               "wreck-cargo", "personal-effects", "ledger-or-document", "unique-item", "provisions"}
 TRAVEL_MODES = {"boat", "ferry", "rootworm", "guide", "lighter", "pilot", "cart", "porter"}
+# --- services[] (promise ledger, 2026-09-05) -------------------------------
+# WHAT THE PLACE PROMISES A PLAYER IT WILL DO FOR THEM. Typed because
+# `rewardProfile.kinds: [services]` said "there are services here" and nothing
+# said WHICH, so nothing could check that the blueprint built any of them
+# (owner finding 2026-09-05: Lilmoth's shops were planned and never placed).
+# Closed vocabulary; derived, not hand-authored — `worldgen.derive_services`
+# owns the rules and docs/research/phase11/promise-ledger-round-1.md the table.
+SERVICES = {"lodging", "trader", "smith", "apothecary", "temple", "shrine", "guild-hall",
+            "council", "court", "market", "moneylender", "licence-office", "boatwright",
+            "ferry", "stable", "tavern", "bathhouse", "healer", "scribe"}
+# A service-hub of this size owes the player at least this many services.
+SERVICE_MIN = {"M3": 1, "M4": 4, "M5": 6}
+# A hamlet or a station has no service quarter: at most a shrine and the
+# ferry it exists to run (settlement-register §1 — M1/M2 is "one family, one
+# trade" / "transient or seasonal").
+HAMLET_SERVICE_CEILING = {"shrine", "ferry"}
 CONTENT_SLOT_LIMIT = 4
 DANGER_TIERS = ("D0", "D1", "D2", "D3", "D4", "D5")
 
@@ -411,6 +433,7 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
                     _fail(errors, rid, f"contents.{key}[{sid}].danger exceeds the place's dangerTier")
                 if key == "loot" and sl.get("payoff") is not None and sl["payoff"] not in REWARD_KINDS:
                     _fail(errors, rid, f"contents.loot[{sid}].payoff must be one of REWARD_KINDS")
+    _validate_services(rec, rid, errors)
     rp = rec.get("rewardProfile")
     if rp is not None:
         bad = [k for k in rp.get("kinds", []) if k not in REWARD_KINDS]
@@ -425,6 +448,43 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
     rr = rec.get("relationsReserved")
     if rr is not None and not isinstance(rr, dict):
         _fail(errors, rid, "relationsReserved must be an object shaped like relations")
+
+
+def _validate_services(rec: dict, rid: str, errors: list[str]) -> None:
+    """`services[]` — the typed promise the blueprint ledger checks against.
+
+    Required on every LIVE settlement/civic record and on anything whose
+    playerPurpose is service-hub; derived by `worldgen.derive_services`.
+    """
+    svc = rec.get("services")
+    scoped = services_scoped(rec)
+    if svc is None:
+        if scoped:
+            _fail(errors, rid, "missing services[] — run `python3 -m worldgen.derive_services --apply` "
+                               "(a settlement/civic/service-hub record must type what it offers)")
+        return
+    if not isinstance(svc, list) or any(s not in SERVICES for s in svc):
+        _fail(errors, rid, f"services must be a list from {sorted(SERVICES)}")
+        return
+    if svc != sorted(set(svc)):
+        _fail(errors, rid, "services must be sorted and free of duplicates (determinism)")
+    mag = (rec.get("classification") or {}).get("magnitude")
+    if mag in ("M1", "M2") and set(svc) - HAMLET_SERVICE_CEILING:
+        _fail(errors, rid, f"a {mag} settlement offers nothing beyond {sorted(HAMLET_SERVICE_CEILING)}; "
+                           f"drop {sorted(set(svc) - HAMLET_SERVICE_CEILING)} or raise the magnitude")
+    if (rec.get("playerPurpose") or {}).get("primary") == "service-hub" and mag in SERVICE_MIN:
+        need = SERVICE_MIN[mag]
+        if len(svc) < need:
+            _fail(errors, rid, f"a {mag} service-hub promises 'services' but lists {len(svc)} "
+                               f"of the {need} its band owes the player")
+
+
+def services_scoped(rec: dict) -> bool:
+    """Does this record owe the player a typed services[] list?"""
+    if rec.get("status") in ("cut", "deferred"):
+        return False
+    cls = (rec.get("classification") or {}).get("class")
+    return cls in ("settlement", "civic") or (rec.get("playerPurpose") or {}).get("primary") == "service-hub"
 
 
 def committed_ids(catalogue_dir: Path = CATALOGUE_DIR) -> set[str]:

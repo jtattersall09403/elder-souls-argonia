@@ -426,7 +426,8 @@
         ],
         "destinations": []
       },
-      "sitingNote": "Bound to the southern channel its founding names: an outsiders' landing has to be on navigable water; the unconstrained plot left it 260 m dry of the nearest one."
+      "sitingNote": "Bound to the southern channel its founding names: an outsiders' landing has to be on navigable water; the unconstrained plot left it 260 m dry of the nearest one.",
+      "services": []
     },
     {
       "id": "place.hist-heartland.artisan-chime-makers",
@@ -659,7 +660,12 @@
           "place.mercantile-coast.vossa-satl-village"
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-036"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-036",
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.barsaebic-sub-city",
@@ -1546,7 +1552,12 @@
             "provenance": "the Mnemic Egg, housed in the dead trunk"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.bioluminescent-glowfen",
@@ -2196,7 +2207,13 @@
           "place.hist-heartland.stilt-channel-edge-two-poles",
           "place.hist-heartland.necropolis-dead-tenders"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.bog-blight-ground-stakes",
@@ -2634,7 +2651,10 @@
           "place.imperial-penal-south.rose-bone-waystation",
           "place.mercantile-coast.bone-waystation"
         ]
-      }
+      },
+      "services": [
+        "shrine"
+      ]
     },
     {
       "id": "place.hist-heartland.broken-xanmeer-subsumed",
@@ -4760,7 +4780,12 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.daril-fermentary-interior",
@@ -7099,6 +7124,11 @@
           "radiusM": 40,
           "note": "The village exists because water rises here drinkable; the ground must give a spring head above the channel."
         }
+      ],
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
       ]
     },
     {
@@ -8192,7 +8222,12 @@
         "supplies": [
           "place.hist-heartland.flood-high-single-rise"
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.harmed-hist-tapped",
@@ -8726,7 +8761,20 @@
           "place.hist-heartland.boardwalk-branching-many-ways"
         ]
       },
-      "sitingNote": "The danger raster reads band 5 at the anchor because the rootland outside the gates is the worst ground in the province; the grove itself is the safest place in the region, so the record carries D1 rather than the band."
+      "sitingNote": "The danger raster reads band 5 at the anchor because the rootland outside the gates is the worst ground in the province; the grove itself is the safest place in the region, so the record carries D1 rather than the band.",
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.heretic-stone-restarted",
@@ -8957,7 +9005,12 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.hermit-hut-exile-warden",
@@ -10044,7 +10097,8 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.hist-heartland.hist-paatru-lowcrown",
@@ -10700,7 +10754,12 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.legendary-deep-medusa-wood",
@@ -13082,7 +13141,13 @@
           "place.hist-heartland.porter-relay-poling",
           "place.hist-heartland.boardwalk-branching-many-ways"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.nightbound-lightless",
@@ -13304,7 +13369,12 @@
             "provenance": "what a village keeps for guests it half-trusts"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.nine-trunks",
@@ -13533,7 +13603,12 @@
         "source": "blueprint",
         "why": "A firm-lowland knoll 149 m from the plot: 4.77 m above the water table, ground slope 2.6 deg and 2.17 m of relief across the whole 66 m ring, so eight of the nine trunks sit on a plinth or a pad and the elder trunk needs a dug-in flare. Poleable water 32 m west with the shoreline 40 m off, so the ring encloses firm ground rather than standing in it; the Archon-Gideon road passes 160 m south-west, which is the catalogue's road discovery; flood band 0 and no wet-season inundation.",
         "candidateId": "candidate.nine-trunks.knoll"
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.nisswo-rest-house-interior",
@@ -15429,7 +15504,8 @@
             "provenance": "stores kept for four hundred and eleven, still counted"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.hist-heartland.root-gallery-collapsed-nine",
@@ -20130,7 +20206,13 @@
           "place.hist-heartland.flood-high-single-rise"
         ]
       },
-      "scourSiteId": "site.scour.tidal-delta.water-narrows-013"
+      "scourSiteId": "site.scour.tidal-delta.water-narrows-013",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.stilt-channel-edge-uxaneet",
@@ -20354,7 +20436,13 @@
           "place.hist-heartland.porter-relay-poling",
           "place.hist-heartland.stilt-channel-edge-two-poles"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.hist-heartland.stone-calendar-hist-tsoko",
@@ -25313,7 +25401,8 @@
           "place.pirate-freeholds.alten-corimont"
         ]
       },
-      "scourSiteId": "site.scour.deep-river-corridor.confluence-000"
+      "scourSiteId": "site.scour.deep-river-corridor.confluence-000",
+      "services": []
     },
     {
       "id": "place.hist-heartland.xanmeer-fort-defences-working",

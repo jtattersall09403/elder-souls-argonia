@@ -324,17 +324,22 @@ against the contour is indistinguishable from uniform in all four sets, so no
 shipped contour convention exists to copy; the sources under-randomise yaw);
 *S* (Malay long-axis rule is culture-mediated, not climatic in practice —
 noted, not adopted); *O* 2026-09-05 (`yawDeg` + `orientationWhy` required;
-axis-aligned squares are not a layout). **Enforced by** the validator
-(`yawDeg`, `orientationWhy` required; footprint derived). Yaw diversity is checked per district, with `routing: "straight"` as the
+axis-aligned squares are not a layout); *O* 2026-09-05 (late): the door
+decides the yaw — a building with an interior is turned so its DERIVED
+doorway faces the way by which the player arrives; the why says so.
+**Enforced by** the validator (`yawDeg`, `orientationWhy` required; footprint
+derived); `blueprint_footprints --orient` computes the yaw from the chosen
+doorway (`doorwayRef`) to the way, so orientation is planned from the door. Yaw diversity is checked per district, with `routing: "straight"` as the
 grid-culture exception (G17 closed).
 
 **C9. Every door opens onto a way, within 4 m of its centreline; every socket,
 service or named building presents that door to the way a player walks.** The
 measured convention (53–57 % of entrances on the road side) is too weak for a
 marker-free game, so ours is total. *E*; *S* (Morrowind's diegetic direction);
-*O* 2026-09-05. **Enforced by** `blueprint_integration` `door-to-way`; door
-`facingDeg` against the footprint edge (±100°) and the measured doorway
-(±45°); checklist item 10.
+*O* 2026-09-05. **Enforced by** `blueprint_integration` `door-to-way`
+(within 4 m); the validator's `door-on-way` (the doorway's world bearing
+faces its way within 60°, HARD) and doorway match (a door sits only on a
+derived doorway: fixed ±45°, radial on the ring ±0.5 m); checklist item 10.
 
 **C10. Enclosure is cultural and rare: Argonian places have none but pens and
 totem lines — the water, the reed edge and the clearance ring are their edge;
@@ -507,9 +512,17 @@ session it is found; it is shown as a gap, not faked.** *O* 2026-09-05.
 in [settlement-kit-sourcing-log](../research/placement-settlements/settlement-kit-sourcing-log.md);
 engineering standard 13 (playbook moves with the work).
 
-**E5. Everything with an interior has a door; what is inside is derived
-from the kit, not claimed.** *O* 2026-09-05. **Enforced by** the interiors index
-(`interiors_index.py`) and the validator's door rules; standard 12.
+**E5. Everything designed to have an interior has a derived doorway and a
+linked interior kit; the door teleports the player into that kit's interior
+(the Morrowind/Skyrim model). No door mesh is placed: the door is part of the
+building assembly or a measured opening on the shell; the blueprint only
+records by which doorway the player enters and where it leads.** *O*
+2026-09-05. **Enforced by** the interiors index (`interiors_index.py`: enclosure
+needs front-facing walls, so hollow props are masses; doorways from the
+opening, an open front, a baked leaf, a mined placement or a composed door
+part; every `tileset` resolves to a built kit — 49 of 49 buildings) and the
+validator (a building with an interior carries a door; `interiorRef` must
+be an existing kit); standard 12.
 
 **E6. Everything placed has a stable id and a plain-English why in the
 reference register, reviewed by a separate agent.** *O* standards 2 and 12;
@@ -523,6 +536,23 @@ byte-stable outputs.
 
 **E8. The budget is declared and the report is checked against it.** *O* 0041
 perf contract. **Enforced by** `compile_settlement` budget report vs `budget`.
+
+**E9. The macro layer's promises are the blueprint's requirements.** What a
+catalogue record promises the player — its `services[]`, the roles in
+`contents.npcs`, its `travelStation` destinations and modes, its
+`questHooks.provisions`, its `sockets` and the reward kinds that imply a place
+— must be realised in the blueprint as named, enterable objects: a parcel
+carrying that `service`, with a door onto a linked interior for anything the
+player walks into; an occupant with `worksAt`/`livesAt` for a named person; a
+travel service and a landing per destination; a socket, parcel or variant per
+provision. A promise nothing realises is a compile error. A service the lore
+says the culture does not keep (an Argonian moneylender) is removed from the
+promise at derivation, never faked in the blueprint. *O* 2026-09-05 ("in
+Lilmoth I couldn't find the shops and services we planned"); Morrowind service
+density (UESP Morrowind:Balmora); settlement-register §1. **Enforced by**
+`catalogue.SERVICES` + `worldgen.derive_services` (the promise) and
+`worldgen.blueprint_promises` inside `compile_settlement` (the delivery),
+which writes `output/settlements/<id>.ledger.md`.
 
 ---
 
@@ -573,6 +603,7 @@ message, so a failure sends the reader to one rule above.
 | G19 | C14/E3 | kit `snapLogic` is prose | per-kit connector table (`connectors.json`: entry/exit faces, lengths, rises, radii, side counts) checked when two pieces touch  | OPEN (needs `connectors.json`) |
 | G20 | D9 | `combatSpaces` not required | add to REQUIRED for magnitude ≥ M3  | **CLOSED** — `combatSpaces` is in `REQUIRED`; each needs a boundary, a `clearanceClass` and a why (HARD) |
 | G21 | C-stitch | approach roads and inside streets were separate layers | terminals named against the province network, checked in metres and degrees | **CLOSED** — `networkTerminals[]` + `blueprint_integration` `network-stitch`; `compile_minor_routes` ends at the terminal |
+| G22 | E9 | the macro layer's promises (services, named people, travel, provisions) were prose, so nothing checked the blueprint delivered them | type `services[]` on the record and check every promise against the blueprint objects that realise it | **CLOSED** — `catalogue.SERVICES` + `worldgen.derive_services` (derivation rules, migration, band minimums in `test_catalogue`) and `worldgen.blueprint_promises` called once from `compile_settlement`: unmet promise is HARD from M3 up, WARN below, ledger written to `output/settlements/<id>.ledger.md` |
 
 ---
 

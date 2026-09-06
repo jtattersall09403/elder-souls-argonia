@@ -1125,7 +1125,12 @@
             "provenance": "the count of the nights after the tree died, kept unbroken"
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.bioluminescent-cave-pool",
@@ -2580,6 +2585,13 @@
           "radiusM": 90,
           "note": "the tribe's seat stands on a rise with black water round three sides of it and one poling approach"
         }
+      ],
+      "services": [
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "trader"
       ]
     },
     {
@@ -2852,7 +2864,8 @@
             "provenance": "the pre-Duskfall xanmeer survey, kept in one copy"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
@@ -4189,7 +4202,10 @@
         ]
       },
       "sitingNote": "The stage sits outside the Naga-Kur culture raster on purpose. Its whole function is to be the last place an outsider can reach unguided, so it belongs on the boundary rather than inside it.",
-      "scourSiteId": "site.scour.interior-swamp.water-narrows-016"
+      "scourSiteId": "site.scour.interior-swamp.water-narrows-016",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.flood-high-levee-top",
@@ -8573,7 +8589,14 @@
           "note": "firm ground above the flood for a hold that trades, with a bank steep enough for a laden landing"
         }
       ],
-      "sitingNote": "Plotted on the Naga-Kur / mercantile-coast culture boundary rather than in the zone interior. The hold's economy is selling quiet to the coastal escort trade, which needs it within reach of the coast road's market."
+      "sitingNote": "Plotted on the Naga-Kur / mercantile-coast culture boundary rather than in the zone interior. The hold's economy is selling quiet to the coastal escort trade, which needs it within reach of the coast road's market.",
+      "services": [
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.necropolis-nightbound",
@@ -8845,7 +8868,12 @@
         "supplies": [
           "place.naga-kur-deeps.urn-vault-sealed-deeps"
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.poacher-camp-egg",
@@ -9318,7 +9346,10 @@
           "place.naga-kur-deeps.ferry-stage-guide-hire",
           "place.naga-kur-deeps.dead-water-village"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.raft-village-lashed",
@@ -10650,7 +10681,12 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-023"
+      "scourSiteId": "site.scour.rootland-deep-marsh.flood-high-023",
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.naga-kur-deeps.sealed-xanmeer-vakka-deeps",

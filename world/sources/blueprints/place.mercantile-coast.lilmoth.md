@@ -49,7 +49,7 @@ Eight districts, one kit set each.
 
 ## 3. Size grounding
 
-`scaleGrounding`: population 190–230, 26 households, 52 buildings planned, 70 named residents. Lore source: the settlement register (M5, rebuilt smaller); the owner's binding decision of 2026-08-24 (smaller, lower, over a mass grave); module 95's M5 quest band (35–60 quests, of which 37 name Lilmoth). No UESP source gives a headcount, so the count is built up: 26 dwellings (two lodges, three houses on the bench, the tall block and fifteen huts in Pusbottom, seven fishers' huts) at about five to a household is 130; the council, patrol, tenders, licence and salvage staff and the crews housed on the quay add another 60 to 100 people. Morrowind's ratio is the check: Balmora has about 40 buildings; Lilmoth at 52 placed structures is a quarter larger, which is the right size for a major city rebuilt smaller than the one it replaced. 51 parcels count against the plan (the two wall stubs are excluded by the validator), within the ±25 % band.
+`scaleGrounding`: population 190–230, 26 households, 52 buildings planned, 70 named residents. Lore source: the settlement register (M5, rebuilt smaller); the owner's binding decision of 2026-08-24 (smaller, lower, over a mass grave); module 95's M5 quest band (35–60 quests, of which 37 name Lilmoth). No UESP source gives a headcount, so the count is built up: 26 dwellings (two lodges, three houses on the bench, the tall block and fifteen huts in Pusbottom, seven fishers' huts) at about five to a household is 130; the council, patrol, tenders, licence and salvage staff and the crews housed on the quay add another 60 to 100 people. Morrowind's ratio is the check: Balmora has about 40 buildings; Lilmoth at 52 placed structures is a quarter larger, which is the right size for a major city rebuilt smaller than the one that it replaced. 51 parcels count against the plan (the two wall stubs are excluded by the validator), within the ±25 % band.
 
 ## 4. Asset picks, orientation and footprints
 
@@ -210,16 +210,79 @@ off their neighbours, because aiming a whole lane at one street read as a
 surveyed grid, which module 97 C8 refuses. Footprints did not change:
 the composite measures the same 6.5 x 6.7 m as the bare hut.
 
-Five doors came off. Each is a recorded sourcing gap rather than a quiet
-deletion. The north gate tower (`mwimparchguardtower01`), the council hall and
-the Pus-house tower (both `stilthouseext`) plus the two kiosks that carry the
-tariff bell and the quay lamp (`kiosk01`) all have an inside that the design
-wants. No shell among them has a door part in any assembly we have mined, and
-no opening is measurable off the shell itself. Rows G5 to G7 in the settlement kit sourcing
-log carry them with the reason. The parcels keep their `interior` intent, so the
-day a piece is found the door goes back onto a measured opening.
+Four of the five doors that came off in the first pass are back. Gaps G5 to G7
+are closed. The council hall and the Pus-house tower now use the composite
+`composite:stilt/stilthouse-with-door`, which packages the BM&V stilt hall
+together with the `stilthousedooranim` its own folder ships; each carries one
+door on the hall's 225 deg open front, linked to the `vanilla-farmhouse-int`
+interior kit. Their outlines did not change, because the composite measures the
+same 17.8 x 11.3 m as the bare shell. The tariff bell and the quay lamp now use
+`composite:stilt/kiosk-with-access`, the Bosmer kiosk with the two access
+thresholds its author measured into the ring. Both doors sit on the 179 deg
+`door-piece` gap and open into `dungeon-root-v1`. The kiosks are the exception: their
+interior kit is not the district's own. A lamp tower is a stair under a
+platform, so the root tileset is the nearest interior that we hold.
+
+The north gate tower keeps no door. That is now the measured answer rather than
+a gap: `mwimparchguardtower01` re-measures as a solid prop with nothing inside
+it, so the parcel's `interior` is `none` and its record calls the tower a mass
+read from the road. The Imperial keep pieces that ARE buildings do carry leaf
+doorways, so a gatehouse with rooms in it has a piece to use later.
+
+Two thresholds needed ground under them. A door has to fall within four metres
+of the way onto which it opens. The hall and the tower are big enough that their
+open fronts stood eight and ten metres off the nearest walk, so each gained a
+short plank landing: `boardwalk.lilmoth.council-landing` off the council walkway,
+`boardwalk.lilmoth.pus-tower-landing` off the Pusbottom loop. The tariff bell
+turned 0.6 deg, to 80.4, so that its access gap looks back down the walkway
+rather than across the bench.
 
 Two sheds moved. The composite fixes the side that carries the door. For the
 divers' shed and the salvage bench that side looked at open water, so both were
 turned to face the deck behind them. The salvage bench then stepped 3.5 m west,
 clear of the loop walk that its hull would otherwise have crossed.
+
+## Promises (97 E9, promise ledger round 2, 2026-09-06)
+
+The catalogue record is the promise; `worldgen.blueprint_promises` reads it
+back off the blueprint. Lilmoth now meets 46 of 46. What was built to meet it:
+
+| Promise | Realised by | Piece | Interior |
+|---|---|---|---|
+| `lodging` | `parcel.lilmoth.gate-lodging` (north gate, imperial kit) | `composite:farmhouse/farmhouse01-with-door` | `vanilla-farmhouse-int` |
+| `trader` | `parcel.lilmoth.spine-trader` (Hist court, on the spine) | `composite:stilt/bamboohut02-with-door` | `bamboohut02_int` |
+| `apothecary` | `parcel.lilmoth.spine-apothecary` (court approach) | `composite:stilt/bamboohut01-with-door` | `bamboohut01_int` |
+| `tavern` | `parcel.lilmoth.spine-tavern` (the spine bend) | `composite:stilt/stilthouse-with-door` | `vanilla-farmhouse-int` |
+| `guild-hall` | `parcel.lilmoth.bench-guild-hall` (council bench) | `composite:stilt/stilthouse-with-door` | `vanilla-farmhouse-int` |
+| `smith` | `parcel.lilmoth.quay-smith` (quay lane, landward) | `composite:stilt/bamboohut02-with-door` | `bamboohut02_int` |
+| `boatwright` | `parcel.lilmoth.quay-boatwright` (quay lane, water side) | `composite:stilt/bamboohut01-with-door` | `bamboohut01_int` |
+| `council` | `parcel.lilmoth.council-hall`, which already stood | as built | `vanilla-farmhouse-int` |
+| `licence-office` | `parcel.lilmoth.licence-house`, which already stood | as built | `bamboohut02_int` |
+
+Two short footpaths were run to doors that the street could not reach:
+`route.lilmoth.gate-lodging-path` and `route.lilmoth.tavern-path`. The declared
+material ceiling moved from 110 to 125, because the imperial lodging brings the
+farmhouse set into a city that had none.
+
+**Promise removed.** `temple` was dropped from the record by rule R3
+in `worldgen.derive_services` rather than by hand. Sacred ground in Lilmoth is the
+third Hist court together with the sunken shrine to Xhon-Mehl
+(`world/sources/lore/lilmoth.md`). An Argonian temple in the sources is a Hist
+chamber or a Sithis site, never a hall that a traveller enters for a service
+(`world/sources/lore/topics/hist-placement.md`,
+`world/sources/lore/topics/sithis-nisswo-shadowscales.md`). The rule now drops
+`temple` for argonian records at every magnitude and leaves `shrine`, which
+also rewrote Stormhold, Thorn, Helstrom and Archon.
+
+Named people were given addresses: the council factor works at the council hall
+and lives at the factor house; the tree-minder works at the vigil awning and
+lives at the minder lodge; the An-Xileel agent works at the tavern and
+sleeps in the Pusbottom agent room. The quay merchants, the licence clerk, the dive-master
+and the second tender were addressed at the same time.
+
+Four quest provisions were given objects: `socket.lilmoth.pusbottom-vault`
+(container, at the Pusbottom vault house), `socket.lilmoth.tidal-palace`
+(scene, in the drowned villa hall), `socket.lilmoth.lq08-anchor-three-floors`
+(scene, at the sinking tower that LQ08 turns on) and
+`socket.lilmoth.mq32-epilogue-sockets` (scene, on the council floor). The
+Oliis ferry stage is now served by `travel.lilmoth.ferry-oliis`.

@@ -57,7 +57,7 @@
         "maxColliders": 80,
         "maxInstances": 80,
         "maxTextureMB": 128,
-        "maxUniqueMaterials": 60
+        "maxUniqueMaterials": 70
       },
       "causalModel": {
         "founding": "The Xit-Xaht went on cutting stone after the Duskfall told every tribe to stop, on the order of a Hist they had bound with sap.",
@@ -424,7 +424,7 @@
         },
         {
           "doorwayRef": 0,
-          "facingDeg": 156.8,
+          "facingDeg": 144.2,
           "id": "door.dunmer-north.mazzatun.3",
           "interiorClaim": {
             "culture": "argonian",
@@ -433,8 +433,8 @@
           },
           "parcelId": "parcel.mazzatun.pen-b",
           "thresholdM": [
-            1987.833,
-            1327.152
+            1988.789,
+            1327.686
           ]
         },
         {
@@ -450,6 +450,21 @@
           "thresholdM": [
             2004.421,
             1326.991
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 180.0,
+          "id": "door.dunmer-north.mazzatun.6",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the Xit-Xaht works",
+            "sizeClass": "small"
+          },
+          "parcelId": "parcel.mazzatun.works-store",
+          "thresholdM": [
+            1978.998,
+            1324.021
           ]
         }
       ],
@@ -771,7 +786,7 @@
             "microGeography": "A pad at about 203 m at the corner of the step, with the riser to the pens 2 m north of it.",
             "playerPurpose": "The plan of the city, legible in one block: from here the walk reads which way the courses will run.",
             "what": "The corner block of the wall course, a quad block turning north into west.",
-            "whyHere": "A stone building has corners. This is the one the shaper has finished; it fixes the plan of the whole west wing.",
+            "whyHere": "A stone building has corners. This is the one that the shaper has finished; it fixes the plan of the whole west wing.",
             "whyNeighbours": "It closes the north course begun by the arched bay and starts the west return of the single block; the frontage dais is 6 m to its south.",
             "whySpot": "The north-west corner of the middle step, against the riser to the pens, so the course above has a footing."
           },
@@ -1691,6 +1706,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 187.6,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 1970.87,
@@ -1834,11 +1851,13 @@
           "doorways": [
             {
               "arcM": 1.3,
-              "bearingDeg": 156.8,
+              "bearingDeg": 144.2,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
-                1987.832,
-                1327.153
+                1988.231,
+                1326.93
               ]
             }
           ],
@@ -1851,108 +1870,108 @@
           "orientationWhy": "Doorway wall downhill as well, swung a little west to follow the fall line of its own patch of the step.",
           "polygon": [
             [
-              1984.119,
-              1326.002
+              1984.356,
+              1326.617
             ],
             [
-              1984.097,
-              1325.925
+              1984.318,
+              1326.546
             ],
             [
-              1983.899,
-              1325.107
+              1983.946,
+              1325.791
             ],
             [
-              1984.048,
-              1323.933
+              1983.836,
+              1324.613
             ],
             [
-              1984.069,
-              1323.88
+              1983.845,
+              1324.557
             ],
             [
-              1984.759,
-              1322.671
+              1984.254,
+              1323.226
             ],
             [
-              1985.654,
-              1322.069
+              1984.996,
+              1322.444
             ],
             [
-              1986.707,
-              1321.836
+              1985.973,
+              1321.986
             ],
             [
-              1988.058,
-              1322.171
+              1987.365,
+              1322.018
             ],
             [
-              1988.111,
-              1322.192
+              1987.42,
+              1322.027
             ],
             [
-              1989.064,
-              1322.893
+              1988.504,
+              1322.504
             ],
             [
-              1989.52,
-              1323.6
+              1989.103,
+              1323.095
             ],
             [
-              1989.878,
-              1324.437
+              1989.635,
+              1323.833
             ],
             [
-              1989.85,
-              1325.613
+              1989.864,
+              1324.988
             ],
             [
-              1989.697,
-              1326.223
+              1989.848,
+              1325.615
             ],
             [
-              1989.649,
-              1326.363
+              1989.831,
+              1325.763
             ],
             [
-              1989.309,
-              1327.499
+              1989.747,
+              1326.946
             ],
             [
-              1989.201,
-              1327.578
+              1989.659,
+              1327.046
             ],
             [
-              1989.104,
-              1327.63
+              1989.576,
+              1327.119
             ],
             [
-              1987.302,
-              1328.402
+              1987.986,
+              1328.265
             ],
             [
-              1987.197,
-              1328.436
+              1987.891,
+              1328.321
             ],
             [
-              1987.066,
-              1328.46
+              1987.768,
+              1328.373
             ],
             [
-              1986.009,
-              1327.923
+              1986.619,
+              1328.08
             ],
             [
-              1985.874,
-              1327.861
+              1986.474,
+              1328.049
             ],
             [
-              1985.327,
-              1327.552
+              1985.873,
+              1327.866
             ],
             [
-              1984.455,
-              1326.761
+              1984.85,
+              1327.284
             ]
           ],
           "spans": null,
@@ -1965,7 +1984,7 @@
             "whyNeighbours": "It sits between the first pen and the pens stair, so the gang that files down to the works each shift passes its door.",
             "whySpot": "The middle of the upper step, where the ground is flattest, so it is a pad and not a cut."
           },
-          "yawDeg": 336.8
+          "yawDeg": 324.2
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
@@ -1979,6 +1998,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 270.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 2004.421,
@@ -2103,8 +2124,8 @@
           "use": "pen",
           "why": {
             "microGeography": "Dug into the last flat of the upper step at about 205 m, with the escarpment lip 8 m to the east.",
-            "playerPurpose": "The pen in which a whispered conversation can happen; the LV28 labourer's confidences are staged here.",
-            "what": "The eastern pen, a mud shell turned so that its door faces away from the works.",
+            "playerPurpose": "The bed that a visitor who takes a shift is given. It is the floor on which the taken sleep, which is the tribe's answer to what a guest is.",
+            "what": "A mud shell for four or five of the taken labourers. It is the easternmost of the three. The tribe puts working visitors on its floor as well.",
             "whyHere": "The taken labourers need one place where they are not watched. The tribe has let one shell stand crosswise because the ground there falls too hard for a downhill door.",
             "whyNeighbours": "Its door faces the pens stair and the end of the lane, not the works; the fence returns down its east side.",
             "whySpot": "At the east end of the pen lane in the fence corner, the last shell before the east course, drawn far enough from the pens stair that the stair head stays clear."
@@ -2370,7 +2391,7 @@
             "playerPurpose": "The visible way up to the pens from the works. It is also the way down for a labourer who runs.",
             "what": "A short stone flight of two metres between the works terrace and the pens.",
             "whyHere": "The gang goes down to the works and back every shift; the riser between the two steps needs a stair. The Xit-Xaht cut it in stone.",
-            "whyNeighbours": "Its foot is beside the stair-throat and its head is at the end of the pens lane, so the two stairs of Mazzatun stand within 10 m of each other and are never confused: one climbs, one descends.",
+            "whyNeighbours": "Its foot is beside the stair-throat and its head is at the end of the pens lane, so the two stairs of Mazzatun stand within 10 m of each other. One climbs to the pens and the other descends into the throat.",
             "whySpot": "The riser is lowest here, at the east end of the middle step, so the flight is the shortest."
           },
           "yawDeg": 0.0
@@ -2761,10 +2782,10 @@
           "groundFit": "dug-in",
           "id": "parcel.mazzatun.stair-throat",
           "interior": {
-            "kind": "hall"
+            "kind": "none"
           },
-          "notes": "Door at the south end of the flight, on the downhill face, facing the terrace track.",
-          "orientationWhy": "The covered flight is sunk on the fall line so that the climb down is short and the door at its foot opens onto the terrace track.",
+          "notes": "Measured as a mass: the piece is solid geometry with no interior volume, so it carries no door. The halls below are Phase 12 work.",
+          "orientationWhy": "The covered flight is sunk on the fall line, its open mouth turned to the terrace track, so a player on the track looks straight down it.",
           "polygon": [
             [
               1996.181,
@@ -2882,11 +2903,11 @@
           "spans": null,
           "use": "entrance",
           "why": {
-            "microGeography": "Dug into the middle step at about 203 m, the flight running north into the hill.",
-            "playerPurpose": "The record's single interior entrance, the conduit-room scene and the door to the tier-4 loot of the record.",
-            "what": "A covered stone flight descending into the rock: the one entrance to the interior beneath the shelf.",
-            "whyHere": "The Xit-Xaht live underground, in the twisted halls that gave Mazzatun its epithet; the exterior is the works. This is the way into the home.",
-            "whyNeighbours": "It stands between the statue wall and the pens stair, its door 3 m from the terrace track, so it is met on the walk from the great stair to the tower.",
+            "microGeography": "Dug into the middle step at about 203 m, with the flight running north into the hill.",
+            "playerPurpose": "A landmark on the terrace and the conduit-room scene beside it. The piece is solid stone, so the descent into the halls is not opened here.",
+            "what": "A covered stone flight sunk into the rock, read as the way down to the halls under the shelf.",
+            "whyHere": "The Xit-Xaht live underground, in the twisted halls that gave Mazzatun its epithet. The works above are only their yard. The flight marks where the tribe goes home.",
+            "whyNeighbours": "It stands between the statue wall and the pens stair, 3 m off the terrace track, so it is met on the walk from the great stair to the tower.",
             "whySpot": "Where the conduit crosses the terrace: the conduit room below is reached by the shortest cut from the point at which the amber run arrives."
           },
           "yawDeg": 0.0
@@ -3086,6 +3107,150 @@
             "whySpot": "The north end of the gate wall, where the lip is highest, so the column overlooks the road climbing below it."
           },
           "yawDeg": 76.5
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+          "buildingFamily": "argonian-mud-shell",
+          "centreM": [
+            1978.998,
+            1321.001
+          ],
+          "districtId": "district.mazzatun.pens",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 180.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
+              "source": "geometry",
+              "worldM": [
+                1978.988,
+                1323.081
+              ]
+            }
+          ],
+          "groundFit": "dug-in",
+          "id": "parcel.mazzatun.works-store",
+          "interior": null,
+          "notes": null,
+          "orientationWhy": "The entrance is turned to the store path, which is the only line up off the pen lane to this part of the step.",
+          "polygon": [
+            [
+              1976.028,
+              1320.561
+            ],
+            [
+              1976.038,
+              1320.481
+            ],
+            [
+              1976.178,
+              1319.651
+            ],
+            [
+              1976.778,
+              1318.631
+            ],
+            [
+              1976.818,
+              1318.591
+            ],
+            [
+              1977.928,
+              1317.751
+            ],
+            [
+              1978.988,
+              1317.551
+            ],
+            [
+              1980.048,
+              1317.751
+            ],
+            [
+              1981.158,
+              1318.591
+            ],
+            [
+              1981.198,
+              1318.631
+            ],
+            [
+              1981.798,
+              1319.651
+            ],
+            [
+              1981.938,
+              1320.481
+            ],
+            [
+              1981.938,
+              1321.391
+            ],
+            [
+              1981.448,
+              1322.461
+            ],
+            [
+              1981.068,
+              1322.961
+            ],
+            [
+              1980.968,
+              1323.071
+            ],
+            [
+              1980.208,
+              1323.981
+            ],
+            [
+              1980.078,
+              1324.011
+            ],
+            [
+              1979.968,
+              1324.021
+            ],
+            [
+              1978.008,
+              1324.021
+            ],
+            [
+              1977.898,
+              1324.011
+            ],
+            [
+              1977.768,
+              1323.981
+            ],
+            [
+              1977.008,
+              1323.071
+            ],
+            [
+              1976.908,
+              1322.961
+            ],
+            [
+              1976.528,
+              1322.461
+            ],
+            [
+              1976.038,
+              1321.391
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A shell dug into the back of the step, under the rock and out of the run-off that crosses the lane.",
+            "playerPurpose": "Where supplies are bought. It also holds the tally of who owes the tribe work.",
+            "what": "The works store, where the tribe keeps and sells the tools, cord and dried fish that keep the courses moving.",
+            "whyHere": "A building site worked by hand has to hold a stock of hand tools. The Xit-Xaht sell out of that stock to anybody who takes a shift.",
+            "whyNeighbours": "The oven and the drying racks are below it on the lane, which is the source of its dry goods.",
+            "whySpot": "It stands on the upper step behind the two western shells, on the last piece of level ground that the pens do not use."
+          },
+          "yawDeg": 0.0
         }
       ],
       "provision": {
@@ -3244,14 +3409,14 @@
         "combatSpaces": 4,
         "districts": 3,
         "docks": 0,
-        "doors": 3,
+        "doors": 4,
         "fences": 6,
         "keptTrees": 3,
         "landmarks": 2,
-        "parcels": 28,
+        "parcels": 29,
         "questSockets": 8,
         "sitingCandidates": 3,
-        "ways": 14
+        "ways": 15
       },
       "ways": [
         {
@@ -3678,12 +3843,12 @@
               1329.501
             ],
             [
-              1972.501,
-              1330.501
+              1973.501,
+              1331.501
             ],
             [
               1986.501,
-              1330.501
+              1331.501
             ],
             [
               1989.501,
@@ -3949,6 +4114,39 @@
           ],
           "why": "The eleven metres between the shelf head and the gate: the ridge track's own line carried past the frontage dais to the gate that closes it, so the way in and the terrace inside are one track with one wall across it.",
           "widthM": 2.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.mazzatun.works-store"
+          ],
+          "group": "routes",
+          "id": "route.mazzatun.works-store-path",
+          "kind": "footpath",
+          "notes": null,
+          "points": [
+            [
+              1978.998,
+              1329.501
+            ],
+            [
+              1978.998,
+              1324.021
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              1978.998,
+              1329.501
+            ],
+            [
+              1978.998,
+              1323.029
+            ]
+          ],
+          "why": "A path up off the pen lane between the two western shells to the store entrance, because a cart cannot be brought up the step and the stock is carried.",
+          "widthM": 1.2
         },
         {
           "assetRef": null,
@@ -4576,7 +4774,7 @@
           "cultureKit": "argonian-mud",
           "id": "district.nine-trunks.ring",
           "kind": "residential",
-          "notes": "The ring of nine trunks and the clearing it encloses: eight huts in eight gaps, the arch in the ninth, the naheesh's house and the minder's deck inside. One kit set; the trunks are landmarks, not buildings.",
+          "notes": "The ring of nine trunks and the clearing that it encloses: eight huts in eight gaps, the arch in the ninth, the naheesh's house and the minder's deck inside. One kit set; the trunks are landmarks, not buildings.",
           "polygon": [
             [
               4972.902,
@@ -4686,6 +4884,21 @@
           "thresholdM": [
             4979.364,
             3726.119
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 217.9,
+          "id": "door.hist-heartland.nine-trunks.10",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the pitch-taker",
+            "sizeClass": "small"
+          },
+          "parcelId": "parcel.nine-trunks.pitch-store",
+          "thresholdM": [
+            4941.044,
+            3799.151
           ]
         },
         {
@@ -4843,7 +5056,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the elder and north-eastern trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the elder and north-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4861,7 +5074,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-eastern and eastern trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the north-eastern and eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4879,7 +5092,7 @@
             "playerPurpose": "The join at which the felling claim is argued in One Tree or Nine; the evidence socket sits on it.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the eastern and south-eastern trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the eastern and south-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4897,7 +5110,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the south-eastern and southern trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the south-eastern and southern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4915,7 +5128,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the southern and road-side trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the southern and road-side gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4933,7 +5146,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the water-side and western trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the water-side and western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4951,7 +5164,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the western and north-western trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the western and north-western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -4969,7 +5182,7 @@
             "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-western and elder trunks.",
             "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap the tribes cite when they count nine trees.",
+            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the north-western and elder gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5148,7 +5361,7 @@
             "microGeography": "It stands on the level northern floor of the clearing at 4.0 m, the driest ground inside the ring.",
             "playerPurpose": "The mark by which the player reads that the ring is a nest and not a market. It is also the gated social reward of the type recipe: entry is social, not mechanical.",
             "what": "The totem of the uxith, the village nest, turned to face the gate across the clearing.",
-            "whyHere": "A Hist village keeps its nest inside the enclosure of its tree; the nest is the reason the enclosure is defended.",
+            "whyHere": "A Hist village keeps its nest inside the enclosure of its tree; the enclosure is defended for the nest's sake.",
             "whyNeighbours": "The two households charged with the eggs, the naheesh's and the eastern family's, have their doors within twelve paces of it.",
             "whySpot": "It stands on the north-eastern side of the clearing, between the naheesh's house and the first family hut, off the paths and out of the fighting ground to the east."
           }
@@ -5229,6 +5442,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 240.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4989.283,
@@ -5373,6 +5588,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 280.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4991.537,
@@ -5517,6 +5734,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 320.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4985.072,
@@ -5661,6 +5880,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 200.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4979.364,
@@ -5785,7 +6006,7 @@
           "use": "dwelling",
           "why": {
             "microGeography": "Ground at 3.8 m, a shallow pad; the hut's back wall takes the fall towards the eastern water.",
-            "playerPurpose": "A family home a player may enter; the eastern household's talk is about the eggs and the guests.",
+            "playerPurpose": "A family home that a player may enter; the eastern household's talk is about the eggs and the guests.",
             "what": "The eastern family's hut, in the gap east of the elder trunk.",
             "whyHere": "The village holds two tribe families beside its three office-holders; this is the household charged with the nest.",
             "whyNeighbours": "It shares the elder trunk with the naheesh's house and the eastern guest hut with the rented arc.",
@@ -5805,6 +6026,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 120.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4956.512,
@@ -5949,6 +6172,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 80.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4954.271,
@@ -6093,6 +6318,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 160.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4966.422,
@@ -6331,6 +6558,8 @@
             {
               "arcM": null,
               "bearingDeg": 0.5,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": null,
               "source": "assembly",
               "worldM": [
                 4972.961,
@@ -6340,6 +6569,8 @@
             {
               "arcM": null,
               "bearingDeg": 0.2,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": null,
               "source": "assembly",
               "worldM": [
                 4972.921,
@@ -6349,6 +6580,8 @@
             {
               "arcM": null,
               "bearingDeg": 0.5,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": null,
               "source": "assembly",
               "worldM": [
                 4972.964,
@@ -6734,6 +6967,150 @@
         },
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
+          "buildingFamily": "argonian-mud-shell",
+          "centreM": [
+            4942.899,
+            3796.768
+          ],
+          "districtId": "district.nine-trunks.pitch",
+          "doorways": [
+            {
+              "arcM": 1.3,
+              "bearingDeg": 217.9,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
+              "source": "geometry",
+              "worldM": [
+                4941.613,
+                3798.403
+              ]
+            }
+          ],
+          "groundFit": "pad",
+          "id": "parcel.nine-trunks.pitch-store",
+          "interior": null,
+          "notes": null,
+          "orientationWhy": "The doorway wall is turned to the pitch path, which is the line that every delegation walks between the pitches and the village.",
+          "polygon": [
+            [
+              4940.825,
+              3794.596
+            ],
+            [
+              4940.883,
+              3794.539
+            ],
+            [
+              4941.503,
+              3793.97
+            ],
+            [
+              4942.603,
+              3793.534
+            ],
+            [
+              4942.659,
+              3793.527
+            ],
+            [
+              4944.051,
+              3793.546
+            ],
+            [
+              4945.01,
+              3794.039
+            ],
+            [
+              4945.724,
+              3794.848
+            ],
+            [
+              4946.084,
+              3796.193
+            ],
+            [
+              4946.091,
+              3796.249
+            ],
+            [
+              4945.938,
+              3797.423
+            ],
+            [
+              4945.538,
+              3798.163
+            ],
+            [
+              4944.979,
+              3798.882
+            ],
+            [
+              4943.935,
+              3799.425
+            ],
+            [
+              4943.328,
+              3799.586
+            ],
+            [
+              4943.182,
+              3799.611
+            ],
+            [
+              4942.023,
+              3799.863
+            ],
+            [
+              4941.902,
+              3799.806
+            ],
+            [
+              4941.809,
+              3799.747
+            ],
+            [
+              4940.262,
+              3798.543
+            ],
+            [
+              4940.182,
+              3798.467
+            ],
+            [
+              4940.098,
+              3798.364
+            ],
+            [
+              4940.057,
+              3797.179
+            ],
+            [
+              4940.046,
+              3797.031
+            ],
+            [
+              4940.053,
+              3796.403
+            ],
+            [
+              4940.324,
+              3795.257
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A dry hummock above the pitch line, clear of the water that stands in the rented ground.",
+            "playerPurpose": "The counter at which supplies are bought. It is also where the pitch-taker can be asked who is camped here.",
+            "what": "The pitch store, out of which the village sells food, cord and pitch-dues receipts to the delegations.",
+            "whyHere": "A village that rents standing room to travelling parties sells them what they forgot to bring. The takings are half of what the pitch is worth.",
+            "whyNeighbours": "The two pitches are downhill of it and the drying rack is beside it, so a delegation passes the counter before it makes camp.",
+            "whySpot": "It stands at the village end of the pitch path, where the rented ground begins."
+          },
+          "yawDeg": 37.9
+        },
+        {
+          "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
           "buildingFamily": "argonian-mud-hut",
           "centreM": [
             4972.902,
@@ -6744,6 +7121,8 @@
             {
               "arcM": 1.3,
               "bearingDeg": 0.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
                 4972.912,
@@ -6868,7 +7247,7 @@
           "use": "storage",
           "why": {
             "microGeography": "Ground at 3.5 m on a plinth, the lowest hut of the ring, its floor raised against the run-off from the clearing.",
-            "playerPurpose": "The guest cache of the recipe: provisions a player may take. It is also the container socket of the rest-shelter reward.",
+            "playerPurpose": "The guest cache of the recipe: provisions that a player may take. It is also the container socket of the rest-shelter reward.",
             "what": "The store hut, where the village keeps the food and reagents which it holds for its guests.",
             "whyHere": "The type recipe gives every Hist village a food and reagent cache without a guard; here it is a hut, because the village has guests to feed.",
             "whyNeighbours": "It sits between the rented arc and the road-side trunk, so a delegation's provisions travel eight paces from hut to store.",
@@ -7037,11 +7416,11 @@
         "combatSpaces": 3,
         "districts": 2,
         "docks": 1,
-        "doors": 9,
+        "doors": 10,
         "fences": 20,
         "keptTrees": 9,
         "landmarks": 19,
-        "parcels": 14,
+        "parcels": 15,
         "questSockets": 9,
         "sitingCandidates": 3,
         "ways": 26
@@ -8388,7 +8767,7 @@
       "doors": [
         {
           "doorwayRef": 0,
-          "facingDeg": 315.0,
+          "facingDeg": 225.0,
           "id": "door.hist-heartland.sap-tapping-licensed.1",
           "interiorClaim": {
             "culture": "argonian",
@@ -8397,8 +8776,8 @@
           },
           "parcelId": "parcel.sap-tapping-licensed.dwelling",
           "thresholdM": [
-            3502.538,
-            4392.524
+            3502.524,
+            4395.466
           ]
         }
       ],
@@ -8437,7 +8816,7 @@
             "what": "A root flare from the same author's set, laid between the trunk and the stage footing.",
             "whyHere": "A great tree's roots break the ground for metres around it. The stage was raised where a flare could be stepped over rather than cut.",
             "whyNeighbours": "It separates the footing from the trunk, which is why the stage stands 9.8 m off the centre and not closer.",
-            "whySpot": "On the trunk-to-stage line, bearing 136, the line a flare out of the root plate would follow."
+            "whySpot": "On the trunk-to-stage line, bearing 136, the line that a flare out of the root plate would follow."
           }
         }
       ],
@@ -8453,11 +8832,13 @@
           "doorways": [
             {
               "arcM": 1.3,
-              "bearingDeg": 315.0,
+              "bearingDeg": 225.0,
+              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "kind": "opening",
               "source": "geometry",
               "worldM": [
-                3502.538,
-                4392.524
+                3502.524,
+                4395.466
               ]
             }
           ],
@@ -8467,111 +8848,111 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Turned so the hut's own doorway looks down the stage path, which the tapper walks twice a day.",
+          "orientationWhy": "The hut has one doorway. It now looks straight down the tent spur onto the stage path that the tapper walks twice a day.",
           "polygon": [
             [
-              3506.413,
-              4392.213
+              3502.213,
+              4391.591
             ],
             [
-              3506.462,
-              4392.277
+              3502.276,
+              4391.541
             ],
             [
-              3506.95,
-              4392.963
+              3502.962,
+              4391.053
             ],
             [
-              3507.247,
-              4394.108
+              3504.108,
+              4390.756
             ],
             [
-              3507.247,
-              4394.165
+              3504.164,
+              4390.756
             ],
             [
-              3507.056,
-              4395.544
+              3505.543,
+              4390.947
+            ],
+            [
+              3506.434,
+              4391.555
+            ],
+            [
+              3507.042,
+              4392.446
+            ],
+            [
+              3507.233,
+              4393.825
+            ],
+            [
+              3507.233,
+              4393.882
+            ],
+            [
+              3506.936,
+              4395.027
             ],
             [
               3506.448,
-              4396.434
+              4395.713
             ],
             [
-              3505.557,
-              4397.043
+              3505.805,
+              4396.357
             ],
             [
-              3504.178,
-              4397.234
+              3504.702,
+              4396.767
             ],
             [
-              3504.122,
-              4397.234
+              3504.079,
+              4396.852
             ],
             [
-              3502.976,
-              4396.937
+              3503.931,
+              4396.859
             ],
             [
-              3502.29,
-              4396.449
+              3502.75,
+              4396.965
             ],
             [
-              3501.647,
-              4395.805
+              3502.637,
+              4396.894
             ],
             [
-              3501.237,
-              4394.702
+              3502.552,
+              4396.823
             ],
             [
-              3501.152,
-              4394.08
+              3501.166,
+              4395.437
             ],
             [
-              3501.145,
-              4393.931
+              3501.095,
+              4395.353
             ],
             [
-              3501.039,
-              4392.75
+              3501.025,
+              4395.239
             ],
             [
-              3501.11,
-              4392.637
+              3501.131,
+              4394.059
             ],
             [
-              3501.18,
-              4392.552
+              3501.138,
+              4393.91
             ],
             [
-              3502.566,
-              4391.167
+              3501.223,
+              4393.288
             ],
             [
-              3502.651,
-              4391.096
-            ],
-            [
-              3502.764,
-              4391.025
-            ],
-            [
-              3503.945,
-              4391.131
-            ],
-            [
-              3504.094,
-              4391.138
-            ],
-            [
-              3504.716,
-              4391.223
-            ],
-            [
-              3505.819,
-              4391.633
+              3501.633,
+              4392.185
             ]
           ],
           "spans": null,
@@ -8584,7 +8965,7 @@
             "whyNeighbours": "Its open end looks down the track, so the crew see who comes up it; its blind back stands to the channel.",
             "whySpot": "The flattest pad in the camp, behind the trunk from the water, so a passing boat reads nothing of the sleeping place."
           },
-          "yawDeg": 135.0
+          "yawDeg": 45.0
         },
         {
           "assetRef": "bmv:advertising_board",
@@ -8862,7 +9243,7 @@
           "use": "work",
           "why": {
             "microGeography": "Carried on the footing's posts at 2.7 m; it touches no ground.",
-            "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises.",
+            "playerPurpose": "The railed deck to which the player climbs: the raised view and the elevated position that the record promises; the graded sap is sold off this deck, which is the only counter that the stage keeps.",
             "what": "The stage deck: the railed three-sided top tier of the tapping stage, stacked on its footing.",
             "whyHere": "The works kit's own grammar: a three-sided top on a three-sided base, the tier that makes the footing a deck with rails.",
             "whyNeighbours": "It stands on its footing and nowhere else; the stair or ramp on the footing's landward face reaches it.",
@@ -9089,6 +9470,14 @@
           ]
         },
         {
+          "id": "socket.sap-tapping-licensed.mr04-anchor-roster",
+          "kind": "evidence",
+          "notes": null,
+          "ownerQuestTier": "tier-2",
+          "parcelId": "parcel.sap-tapping-licensed.stage-deck",
+          "positionM": null
+        },
+        {
           "id": "socket.sap-tapping-licensed.night-landing",
           "kind": "scene",
           "notes": null,
@@ -9165,7 +9554,7 @@
         "keptTrees": 4,
         "landmarks": 2,
         "parcels": 7,
-        "questSockets": 4,
+        "questSockets": 5,
         "sitingCandidates": 3,
         "ways": 4
       },
@@ -9264,11 +9653,15 @@
             ],
             [
               3499.402,
-              4395.602
+              4398.602
             ],
             [
-              3501.647,
-              4395.805
+              3501.402,
+              4396.602
+            ],
+            [
+              3501.266,
+              4395.538
             ]
           ],
           "routing": "terrain",
@@ -9421,7 +9814,7 @@
         "maxColliders": 1800,
         "maxInstances": 2400,
         "maxTextureMB": 260,
-        "maxUniqueMaterials": 110
+        "maxUniqueMaterials": 125
       },
       "causalModel": {
         "founding": "Rebuilt after the Slaughter of 4E 48 on the best natural harbour of the south coast, smaller and lower than the city it replaced.",
@@ -9773,7 +10166,7 @@
             "microGeography": "The shelf falls from 1 m off the quay to 12 m at the plateau, with the channel dredged through it.",
             "playerPurpose": "The dive scene, the salvage quests and the shrine.",
             "what": "The drowned quarter: the sunken Imperial villas off the quay, from the ridge in the shallows to the shrine on the plateau edge.",
-            "whyHere": "Imperial houses on this soil sank; the rebuilders left the quarter drowned and nobody builds on it.",
+            "whyHere": "Imperial houses on this soil sank; the rebuilders left the quarter drowned. No one has built on the ground since.",
             "whyNeighbours": "The quay and the diving stair are inshore; the roadstead is at its outer edge."
           }
         },
@@ -9810,7 +10203,7 @@
             "playerPurpose": "The prices and dues of Cargo Off the Ledger are read here. The board is where a forged notice can be pinned.",
             "what": "The dues board: the roofed notice board on which the licence house posts the lightering dues and the lot prices.",
             "whyHere": "Lilmoth lives by lightering. The dues are read by every crew before they go to the licence house window; the record's price list belongs in the open, not behind a door.",
-            "whyNeighbours": "It stands across the quay lane from the licence house door and south of the quay lamp, on the line every lighter crew walks from the deck to the stair."
+            "whyNeighbours": "It stands across the quay lane from the licence house door and south of the quay lamp, on the line that every lighter crew walks from the deck to the stair."
           }
         },
         {
@@ -10048,6 +10441,21 @@
         }
       ],
       "doors": [
+        {
+          "doorwayRef": 1,
+          "facingDeg": 150.5,
+          "id": "door.mercantile-coast.lilmoth.10",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the keeper who lets the rooms",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.lilmoth.pus-tower",
+          "thresholdM": [
+            3792.12,
+            6349.043
+          ]
+        },
         {
           "doorwayRef": 0,
           "facingDeg": 74.0,
@@ -10289,6 +10697,21 @@
           ]
         },
         {
+          "doorwayRef": 1,
+          "facingDeg": 269.4,
+          "id": "door.mercantile-coast.lilmoth.26",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the lamp-keeper of the quay",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.quay-lamp",
+          "thresholdM": [
+            3848.563,
+            6338.044
+          ]
+        },
+        {
           "doorwayRef": 0,
           "facingDeg": 88.0,
           "id": "door.mercantile-coast.lilmoth.27",
@@ -10359,8 +10782,8 @@
           },
           "parcelId": "parcel.lilmoth.salvage-bench",
           "thresholdM": [
-            3828.2,
-            6418.5
+            3828.718,
+            6418.503
           ]
         },
         {
@@ -10470,6 +10893,126 @@
         },
         {
           "doorwayRef": 0,
+          "facingDeg": 336.1,
+          "id": "door.mercantile-coast.lilmoth.38",
+          "interiorClaim": {
+            "culture": "imperial",
+            "owner": "the gate lodging",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.lilmoth.gate-lodging",
+          "thresholdM": [
+            3618.309,
+            6385.128
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 134.1,
+          "id": "door.mercantile-coast.lilmoth.39",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the spine trader",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.spine-trader",
+          "thresholdM": [
+            3646.975,
+            6363.581
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 124.8,
+          "id": "door.mercantile-coast.lilmoth.4",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the merchant council",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.lilmoth.council-hall",
+          "thresholdM": [
+            3725.957,
+            6305.416
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 181.7,
+          "id": "door.mercantile-coast.lilmoth.40",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the apothecary",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.spine-apothecary",
+          "thresholdM": [
+            3645.025,
+            6333.127
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 314.1,
+          "id": "door.mercantile-coast.lilmoth.41",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the tavern keeper",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.lilmoth.spine-tavern",
+          "thresholdM": [
+            3668.535,
+            6354.152
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 349.4,
+          "id": "door.mercantile-coast.lilmoth.42",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the trading companies",
+            "sizeClass": "large"
+          },
+          "parcelId": "parcel.lilmoth.bench-guild-hall",
+          "thresholdM": [
+            3688.256,
+            6317.349
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 88.0,
+          "id": "door.mercantile-coast.lilmoth.43",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the quay smith",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.quay-smith",
+          "thresholdM": [
+            3844.032,
+            6357.264
+          ]
+        },
+        {
+          "doorwayRef": 0,
+          "facingDeg": 268.0,
+          "id": "door.mercantile-coast.lilmoth.44",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the boatwright",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.quay-boatwright",
+          "thresholdM": [
+            3850.178,
+            6352.897
+          ]
+        },
+        {
+          "doorwayRef": 0,
           "facingDeg": 169.4,
           "id": "door.mercantile-coast.lilmoth.5",
           "interiorClaim": {
@@ -10526,6 +11069,21 @@
           "thresholdM": [
             3745.316,
             6301.676
+          ]
+        },
+        {
+          "doorwayRef": 1,
+          "facingDeg": 259.8,
+          "id": "door.mercantile-coast.lilmoth.9",
+          "interiorClaim": {
+            "culture": "argonian",
+            "owner": "the tariff clerks",
+            "sizeClass": "medium"
+          },
+          "parcelId": "parcel.lilmoth.tariff-bell",
+          "thresholdM": [
+            3764.406,
+            6302.293
           ]
         }
       ],
@@ -10695,6 +11253,115 @@
         }
       ],
       "parcels": [
+        {
+          "assetRef": "composite:stilt/stilthouse-with-door",
+          "buildingFamily": "argonian-stilt-house",
+          "centreM": [
+            3698.442,
+            6324.65
+          ],
+          "districtId": "district.lilmoth.council-crown",
+          "doorways": [
+            {
+              "arcM": 6.1,
+              "bearingDeg": 349.4,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3700.767,
+                6326.157
+              ]
+            },
+            {
+              "arcM": 5.35,
+              "bearingDeg": 266.9,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3700.441,
+                6326.722
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.bench-guild-hall",
+          "interior": {
+            "kind": "hall"
+          },
+          "notes": null,
+          "orientationWhy": "The hall is turned so that its own doorway gives onto the bench walk, which is the only approach that the council allows to the crown.",
+          "polygon": [
+            [
+              3703.476,
+              6322.413
+            ],
+            [
+              3706.62,
+              6324.566
+            ],
+            [
+              3706.617,
+              6324.588
+            ],
+            [
+              3702.329,
+              6330.851
+            ],
+            [
+              3700.278,
+              6333.846
+            ],
+            [
+              3700.25,
+              6333.851
+            ],
+            [
+              3689.029,
+              6326.167
+            ],
+            [
+              3686.075,
+              6323.224
+            ],
+            [
+              3686.07,
+              6323.196
+            ],
+            [
+              3688.745,
+              6319.271
+            ],
+            [
+              3688.875,
+              6319.081
+            ],
+            [
+              3695.354,
+              6316.876
+            ],
+            [
+              3695.382,
+              6316.871
+            ],
+            [
+              3698.501,
+              6319.007
+            ]
+          ],
+          "spans": null,
+          "use": "hall",
+          "why": {
+            "microGeography": "The seaward shoulder of the crown, which is high enough to stay dry in the wet season.",
+            "playerPurpose": "Where a faction is joined, contracts are taken and trainers are found.",
+            "what": "The guild hall, which the trading companies keep as their seat under the council.",
+            "whyHere": "A council that licenses trade attracts the companies that pay for the licences. Those companies want a hall of their own.",
+            "whyNeighbours": "The council hall stands further along the same walk, close enough that a company's business is done in one morning.",
+            "whySpot": "It stands at the west end of the bench walk, on the first rise of the council crown."
+          },
+          "yawDeg": 124.4
+        },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/orcawninghalf01",
           "buildingFamily": "argonian-awning",
@@ -10956,21 +11623,44 @@
           "yawDeg": 74.0
         },
         {
-          "assetRef": "bmv:architecture/stilthouse/stilthouseext",
+          "assetRef": "composite:stilt/stilthouse-with-door",
           "buildingFamily": "argonian-stilt-house",
           "centreM": [
             3720.511,
             6301.63
           ],
           "districtId": "district.lilmoth.council-crown",
-          "doorways": [],
+          "doorways": [
+            {
+              "arcM": 6.1,
+              "bearingDeg": 124.8,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3717.797,
+                6302.189
+              ]
+            },
+            {
+              "arcM": 5.35,
+              "bearingDeg": 42.3,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3717.633,
+                6301.559
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.council-hall",
           "interior": {
             "kind": "hall"
           },
           "notes": null,
-          "orientationWhy": "The long axis follows the council walkway, so the whole front is a step from the planks.",
+          "orientationWhy": "The long axis follows the council walkway. At 259.8 deg the hall's open front looks down its own plank landing to the walk, so the sitting is entered from the front rather than off the bench grass.",
           "polygon": [
             [
               3718.497,
@@ -11034,7 +11724,7 @@
           "why": {
             "microGeography": "The bench falls 1 m to the north under the hull; the rear piles are longer.",
             "playerPurpose": "The council-hall station, the council-floor scene and the factor who gives the tariff quests.",
-            "what": "The council hall, the tallest stilt house in the city, 18 m long and three storeys under its ridge.",
+            "what": "The council hall, the tallest stilt house in the city, 18 m long and three storeys under its ridge. Its veranda front is the side in which the BM&V hall carries its door.",
             "whyHere": "The merchant council needs a covered floor for its sittings and a place for the tariff clerks.",
             "whyNeighbours": "The record room is on its west, the strongroom behind it and the open council floor across the walkway.",
             "whySpot": "It stands on the 12 m bench north of the walkway, the widest level ground on the shoulder."
@@ -11051,12 +11741,14 @@
           "districtId": "district.lilmoth.lighter-quay",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 294.1,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 311.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3833.2,
-                6398.846
+                3831.758,
+                6398.173
               ]
             }
           ],
@@ -11242,7 +11934,7 @@
           "why": {
             "microGeography": "The bed is 9–10 m down; the block’s top is 5 m under the surface.",
             "playerPurpose": "The drowned-quarter dive scene and the cleared mark.",
-            "what": "The hall of a drowned villa: a hollow block a swimmer can enter and stand up inside.",
+            "what": "The hall of a drowned villa: a hollow block that a swimmer can enter and stand up inside.",
             "whyHere": "The largest villa on the old street had a hall; it is the room that the divers work first.",
             "whyNeighbours": "The southern floor is inshore of it and the sunken shrine beyond.",
             "whySpot": "It lies 95 m off the quay in 9–10 m of water, south of the channel."
@@ -11321,12 +12013,14 @@
           "districtId": "district.lilmoth.council-crown",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 326.8,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 344.7,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3736.65,
-                6311.526
+                3735.82,
+                6310.188
               ]
             }
           ],
@@ -11347,8 +12041,8 @@
               6310.706
             ],
             [
-              3736.611,
-              6310.684
+              3736.615,
+              6310.675
             ],
             [
               3736.624,
@@ -11437,12 +12131,14 @@
           "districtId": "district.lilmoth.council-crown",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 169.4,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 187.2,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3745.316,
-                6301.676
+                3745.584,
+                6303.245
               ]
             }
           ],
@@ -11699,12 +12395,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 359.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 17.3,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3715.967,
-                6459.092
+                3715.978,
+                6457.501
               ]
             }
           ],
@@ -11815,12 +12513,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 8.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 26.4,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3731.41,
-                6458.962
+                3731.68,
+                6457.411
               ]
             }
           ],
@@ -11841,8 +12541,8 @@
               6458.293
             ],
             [
-              3731.94,
-              6458.307
+              3731.949,
+              6458.303
             ],
             [
               3731.953,
@@ -11931,12 +12631,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 350.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 8.3,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3745.525,
-                6458.842
+                3745.287,
+                6457.268
               ]
             }
           ],
@@ -12047,12 +12749,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 17.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 35.4,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3761.735,
-                6458.697
+                3762.244,
+                6457.208
               ]
             }
           ],
@@ -12062,7 +12766,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Yaw set by the shipped doorway, which opens onto shore lane. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto shore lane. It is set a few degrees off the neighbouring plots.",
           "polygon": [
             [
               3760.531,
@@ -12073,8 +12777,8 @@
               6458.113
             ],
             [
-              3762.361,
-              6458.134
+              3762.371,
+              6458.132
             ],
             [
               3762.373,
@@ -12163,12 +12867,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 179.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 197.4,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3723.038,
-                6452.632
+                3723.014,
+                6454.206
               ]
             }
           ],
@@ -12189,8 +12895,8 @@
               6453.368
             ],
             [
-              3722.616,
-              6453.362
+              3722.608,
+              6453.367
             ],
             [
               3722.603,
@@ -12279,12 +12985,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 179.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 197.3,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3738.029,
-                6452.505
+                3738.018,
+                6454.096
               ]
             }
           ],
@@ -12395,12 +13103,14 @@
           "districtId": "district.lilmoth.shore-quarter",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 186.5,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 204.4,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3752.684,
-                6452.38
+                3752.469,
+                6453.94
               ]
             }
           ],
@@ -12410,7 +13120,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The doorway is fixed on the hut, so the hut faces shore lane. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces shore lane. Its yaw is a few degrees off the plots either side, so the lane bends.",
           "polygon": [
             [
               3753.974,
@@ -12421,8 +13131,8 @@
               6453.065
             ],
             [
-              3752.178,
-              6453.053
+              3752.169,
+              6453.057
             ],
             [
               3752.165,
@@ -12564,6 +13274,152 @@
           "yawDeg": 58.7
         },
         {
+          "assetRef": "composite:farmhouse/farmhouse01-with-door",
+          "buildingFamily": "imperial-farmhouse",
+          "centreM": [
+            3620.59,
+            6390.282
+          ],
+          "districtId": "district.lilmoth.north-gate",
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 336.1,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": null,
+              "source": "assembly",
+              "worldM": [
+                3618.975,
+                6386.624
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.gate-lodging",
+          "interior": {
+            "kind": "dwelling"
+          },
+          "notes": null,
+          "orientationWhy": "The house is turned so that its own doorway gives onto the gate yard, which is the first open ground that a traveller reaches inside the wall.",
+          "polygon": [
+            [
+              3626.909,
+              6382.506
+            ],
+            [
+              3628.246,
+              6383.747
+            ],
+            [
+              3629.056,
+              6384.573
+            ],
+            [
+              3629.648,
+              6385.415
+            ],
+            [
+              3629.578,
+              6386.595
+            ],
+            [
+              3628.976,
+              6387.716
+            ],
+            [
+              3627.929,
+              6389.211
+            ],
+            [
+              3621.042,
+              6397.685
+            ],
+            [
+              3619.793,
+              6399.016
+            ],
+            [
+              3618.882,
+              6399.757
+            ],
+            [
+              3617.776,
+              6400.134
+            ],
+            [
+              3616.81,
+              6399.8
+            ],
+            [
+              3615.758,
+              6399.113
+            ],
+            [
+              3614.27,
+              6398.058
+            ],
+            [
+              3612.933,
+              6396.817
+            ],
+            [
+              3612.123,
+              6395.991
+            ],
+            [
+              3611.531,
+              6395.149
+            ],
+            [
+              3611.601,
+              6393.969
+            ],
+            [
+              3612.203,
+              6392.848
+            ],
+            [
+              3613.25,
+              6391.353
+            ],
+            [
+              3620.137,
+              6382.879
+            ],
+            [
+              3621.386,
+              6381.548
+            ],
+            [
+              3622.298,
+              6380.807
+            ],
+            [
+              3623.403,
+              6380.43
+            ],
+            [
+              3624.369,
+              6380.764
+            ],
+            [
+              3625.421,
+              6381.451
+            ]
+          ],
+          "spans": null,
+          "use": "lodging",
+          "why": {
+            "microGeography": "Level fill behind the curtain wall, raised on a pad above the wet season line.",
+            "playerPurpose": "The bed that the player rents. It is also the room in which rumour about the quay is traded.",
+            "what": "The gate lodging, which rents beds and floor space by the night.",
+            "whyHere": "A city that admits strangers at one gate has to house the ones who arrive after the boats have gone.",
+            "whyNeighbours": "The gate arch and the guard tower are its neighbours, so the watch sees who takes a bed.",
+            "whySpot": "It stands on the north side of the gate yard, inside the wall and before the spine begins."
+          },
+          "yawDeg": 129.1
+        },
+        {
           "assetRef": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/mwimparchguardtower01",
           "buildingFamily": "imperial-keep-tower",
           "centreM": [
@@ -12575,10 +13431,10 @@
           "groundFit": "dug-in",
           "id": "parcel.lilmoth.gate-tower",
           "interior": {
-            "kind": "hall"
+            "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The tower shares the arch’s bearing, so its faces sit flush with the gate piers and the curtain beyond.",
+          "orientationWhy": "The tower shares the arch's bearing, so its faces sit flush with the gate piers and the curtain beyond. Nothing turns on a doorway here, because the piece has none.",
           "polygon": [
             [
               3584.827,
@@ -12713,10 +13569,10 @@
           "use": "gate",
           "why": {
             "microGeography": "Its footing falls 3 m across the base from the crest side to the road, so the tower is cut into the shelf, as the Imperial masonry here sank rather than stood on piles.",
-            "playerPurpose": "The patrol post at the gate, the first interior inside the wall and the station for the north-gate quest scenes.",
-            "what": "The squat Imperial gate tower, 6 m square and 13 m high, adjoining the north pier of the arch.",
+            "playerPurpose": "The patrol post at the gate and the station for the north-gate quest scenes. The piece measures solid, so the tower is a thing to climb past rather than enter.",
+            "what": "The squat Imperial gate tower, 6 m square and 13 m high, adjoining the north pier of the arch. It is a mass: the mesh has no room inside it.",
             "whyHere": "The Imperial wall had a tower at each gate; this one did not fall in 4E 48 and the council patrol uses it as its post.",
-            "whyNeighbours": "The arch on its south and the broken curtain on its north are the pieces it was built to join.",
+            "whyNeighbours": "The arch on its south and the broken curtain on its north are the pieces that it was built to join.",
             "whySpot": "It stands on the north side of the arch, on the same shelf, where a watcher on its top sees the whole length of the road back to the pond."
           },
           "yawDeg": 58.7
@@ -12731,12 +13587,14 @@
           "districtId": "district.lilmoth.lighter-quay",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 88.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 105.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3843.007,
-                6329.878
+                3844.582,
+                6329.861
               ]
             }
           ],
@@ -12757,8 +13615,8 @@
               6330.23
             ],
             [
-              3843.747,
-              6330.28
+              3843.752,
+              6330.288
             ],
             [
               3843.744,
@@ -12833,7 +13691,7 @@
             "what": "The licence house, where lighter crews and divers are licensed and the dues are paid.",
             "whyHere": "The council licenses the lighters and the salvage; the licences are issued where the crews land.",
             "whyNeighbours": "The lighter shed is south of it and the lamp across the lane.",
-            "whySpot": "It is the northernmost building on the quay lane, the first door a crew reaches from the deck."
+            "whySpot": "It is the northernmost building on the quay lane, the first door that a crew reaches from the deck."
           },
           "yawDeg": 148.4
         },
@@ -12847,12 +13705,14 @@
           "districtId": "district.lilmoth.lighter-quay",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 88.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 105.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3843.573,
-                6345.864
+                3845.164,
+                6345.833
               ]
             }
           ],
@@ -12963,12 +13823,14 @@
           "districtId": "district.lilmoth.hist-court",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 191.9,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 209.7,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3607.415,
-                6329.763
+                3607.063,
+                6331.315
               ]
             }
           ],
@@ -13079,12 +13941,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 270.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 287.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3799.201,
-                6377.0
+                3797.61,
+                6376.975
               ]
             }
           ],
@@ -13195,12 +14059,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 90.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 107.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3792.801,
-                6376.999
+                3794.375,
+                6377.037
               ]
             }
           ],
@@ -13221,8 +14087,8 @@
               6377.377
             ],
             [
-              3793.527,
-              6377.427
+              3793.532,
+              6377.435
             ],
             [
               3793.523,
@@ -13311,12 +14177,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 270.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 287.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3817.2,
-                6360.009
+                3815.626,
+                6359.971
               ]
             }
           ],
@@ -13337,8 +14205,8 @@
               6359.631
             ],
             [
-              3816.474,
-              6359.582
+              3816.469,
+              6359.573
             ],
             [
               3816.478,
@@ -13427,12 +14295,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 277.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 294.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3817.2,
-                6374.658
+                3815.623,
+                6374.439
               ]
             }
           ],
@@ -13543,12 +14413,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 277.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 294.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3817.2,
-                6389.659
+                3815.642,
+                6389.43
               ]
             }
           ],
@@ -13558,7 +14430,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The hut is turned so its own doorway gives onto pusbottom cross, the way that runs past the plot. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
+          "orientationWhy": "The hut is turned so its own doorway gives onto pusbottom cross, the way that runs past the plot. The parcel is turned a few degrees against its neighbours; the lane is not a drawn row.",
           "polygon": [
             [
               3816.868,
@@ -13569,8 +14441,8 @@
               6389.194
             ],
             [
-              3816.531,
-              6389.146
+              3816.528,
+              6389.137
             ],
             [
               3816.537,
@@ -13659,12 +14531,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 263.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 280.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3817.2,
-                6405.341
+                3815.617,
+                6405.51
               ]
             }
           ],
@@ -13674,7 +14548,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Turned to put the shipped doorway on pusbottom cross. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
+          "orientationWhy": "Turned to put the shipped doorway on pusbottom cross. A small cant, a few degrees against the plots either side, keeps the lane off a straight line.",
           "polygon": [
             [
               3817.176,
@@ -13775,12 +14649,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 263.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 280.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3799.201,
-                6407.347
+                3797.618,
+                6407.516
               ]
             }
           ],
@@ -13891,12 +14767,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 284.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 301.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3799.201,
-                6391.316
+                3797.682,
+                6390.899
               ]
             }
           ],
@@ -13906,7 +14784,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Yaw set by the shipped doorway, which opens onto pusbottom loop. A few degrees of cant off its neighbours keeps the lane from reading as a drawn row.",
+          "orientationWhy": "Yaw set by the shipped doorway, which opens onto pusbottom loop. The plot is set a few degrees off its neighbours, so the lane is not a straight row.",
           "polygon": [
             [
               3798.715,
@@ -13917,8 +14795,8 @@
               6390.772
             ],
             [
-              3798.6,
-              6390.726
+              3798.597,
+              6390.716
             ],
             [
               3798.607,
@@ -14007,12 +14885,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 98.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 115.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3792.801,
-                6407.397
+                3794.354,
+                6407.654
               ]
             }
           ],
@@ -14033,8 +14913,8 @@
               6407.873
             ],
             [
-              3793.46,
-              6407.922
+              3793.464,
+              6407.931
             ],
             [
               3793.455,
@@ -14123,12 +15003,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 82.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 99.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3792.801,
-                6391.609
+                3794.38,
+                6391.413
               ]
             }
           ],
@@ -14138,7 +15020,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces pusbottom loop. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
+          "orientationWhy": "The composite carries its doorway on one fixed side, so the parcel is turned until that doorway faces pusbottom loop. It stands a few degrees off the yaw of the plots either side of it.",
           "polygon": [
             [
               3792.802,
@@ -14239,12 +15121,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 284.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 301.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3799.201,
-                6361.321
+                3797.682,
+                6360.904
               ]
             }
           ],
@@ -14265,8 +15149,8 @@
               6360.777
             ],
             [
-              3798.6,
-              6360.73
+              3798.597,
+              6360.721
             ],
             [
               3798.607,
@@ -14355,12 +15239,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 360.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 17.9,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3803.998,
-                6431.205
+                3804.036,
+                6429.631
               ]
             }
           ],
@@ -14381,8 +15267,8 @@
               6430.473
             ],
             [
-              3804.426,
-              6430.479
+              3804.434,
+              6430.474
             ],
             [
               3804.439,
@@ -14471,12 +15357,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 0.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 17.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3819.001,
-                6431.205
+                3819.026,
+                6429.614
               ]
             }
           ],
@@ -14587,12 +15475,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 106.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 123.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3792.801,
-                6421.78
+                3794.324,
+                6422.242
               ]
             }
           ],
@@ -14602,7 +15492,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop. It is canted a few degrees off its neighbours so the lane does not read as a drawn row.",
+          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop. Its yaw is a few degrees off the plots either side, so the lane bends.",
           "polygon": [
             [
               3793.347,
@@ -14694,21 +15584,44 @@
           "yawDeg": 166.3
         },
         {
-          "assetRef": "bmv:architecture/stilthouse/stilthouseext",
+          "assetRef": "composite:stilt/stilthouse-with-door",
           "buildingFamily": "argonian-stilt-house",
           "centreM": [
             3787.005,
             6340.002
           ],
           "districtId": "district.lilmoth.pusbottom",
-          "doorways": [],
+          "doorways": [
+            {
+              "arcM": 6.1,
+              "bearingDeg": 233.0,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3787.321,
+                6337.249
+              ]
+            },
+            {
+              "arcM": 5.35,
+              "bearingDeg": 150.5,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3787.972,
+                6337.29
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.pus-tower",
           "interior": {
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its long axis lies along the bluff foot, 8° off the west lane, so the building fits the strip between the slope and the lane.",
+          "orientationWhy": "Its long axis lies along the bluff foot, 8 deg off the west lane, so the building fits the strip between the slope and the lane. The veranda front looks east; a short landing carries the lane to it.",
           "polygon": [
             [
               3782.763,
@@ -14789,12 +15702,14 @@
           "districtId": "district.lilmoth.pusbottom",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 74.0,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 91.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3792.801,
-                6361.229
+                3794.338,
+                6360.815
               ]
             }
           ],
@@ -14896,6 +15811,124 @@
           "yawDeg": 134.3
         },
         {
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "argonian-bamboo-hut",
+          "centreM": [
+            3853.529,
+            6352.78
+          ],
+          "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": 1.61,
+              "bearingDeg": 268.0,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3849.368,
+                6354.249
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.quay-boatwright",
+          "interior": {
+            "kind": "shop"
+          },
+          "notes": null,
+          "orientationWhy": "The shed is turned so that its own doorway gives onto the quay lane, with its open side towards the water from which the hulls are drawn.",
+          "polygon": [
+            [
+              3851.147,
+              6355.046
+            ],
+            [
+              3850.056,
+              6353.628
+            ],
+            [
+              3850.038,
+              6353.573
+            ],
+            [
+              3850.044,
+              6353.565
+            ],
+            [
+              3850.253,
+              6352.52
+            ],
+            [
+              3850.732,
+              6350.497
+            ],
+            [
+              3850.836,
+              6350.375
+            ],
+            [
+              3852.76,
+              6349.585
+            ],
+            [
+              3852.907,
+              6349.566
+            ],
+            [
+              3855.261,
+              6349.998
+            ],
+            [
+              3855.394,
+              6350.073
+            ],
+            [
+              3856.903,
+              6351.493
+            ],
+            [
+              3856.965,
+              6351.652
+            ],
+            [
+              3856.681,
+              6353.71
+            ],
+            [
+              3856.628,
+              6353.849
+            ],
+            [
+              3855.069,
+              6355.674
+            ],
+            [
+              3854.94,
+              6355.748
+            ],
+            [
+              3852.952,
+              6356.351
+            ],
+            [
+              3852.786,
+              6356.314
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "The tidal edge of the quay, piled to the bed so that the working floor stays level at low water.",
+            "playerPurpose": "Where a boat is bought, repaired and fitted before the player takes to the water.",
+            "what": "The boatwright, which builds and mends the flat lighters that carry the roadstead trade.",
+            "whyHere": "Lilmoth loads deep hulls by lighter, so the city has to keep its own lighters afloat.",
+            "whyNeighbours": "The deck and the channel are its neighbours, because a hull cannot be carried far.",
+            "whySpot": "It stands on the water side of the quay lane, north of the deck where a hull can be drawn up."
+          },
+          "yawDeg": 310.5
+        },
+        {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
           "buildingFamily": "argonian-platform",
           "centreM": [
@@ -14994,21 +16027,44 @@
           "yawDeg": 0.0
         },
         {
-          "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+          "assetRef": "composite:stilt/kiosk-with-access",
           "buildingFamily": "argonian-lamp-kiosk",
           "centreM": [
             3852.003,
             6338.004
           ],
           "districtId": "district.lilmoth.lighter-quay",
-          "doorways": [],
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 314.8,
+              "interiorRef": "dungeon-root-v1",
+              "kind": "door-piece",
+              "source": "geometry",
+              "worldM": [
+                3849.503,
+                6335.524
+              ]
+            },
+            {
+              "arcM": null,
+              "bearingDeg": 269.4,
+              "interiorRef": "dungeon-root-v1",
+              "kind": "door-piece",
+              "source": "geometry",
+              "worldM": [
+                3848.563,
+                6338.044
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.quay-lamp",
           "interior": {
             "kind": "hall"
           },
           "notes": null,
-          "orientationWhy": "The kiosk is turned so its lamp face looks down the channel to the roadstead.",
+          "orientationWhy": "The kiosk is turned so its lamp face looks down the channel to the roadstead, which puts the access gap on the quay lane: the keeper climbs from the lane, the light shows to the water.",
           "polygon": [
             [
               3851.893,
@@ -15056,6 +16112,124 @@
           "yawDeg": 90.0
         },
         {
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "argonian-bamboo-hut",
+          "centreM": [
+            3840.677,
+            6357.381
+          ],
+          "districtId": "district.lilmoth.lighter-quay",
+          "doorways": [
+            {
+              "arcM": 1.61,
+              "bearingDeg": 88.0,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3844.838,
+                6355.912
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.quay-smith",
+          "interior": {
+            "kind": "shop"
+          },
+          "notes": null,
+          "orientationWhy": "The shed is turned so that its own doorway gives onto the quay lane, which is the way that carries the broken ironwork to it.",
+          "polygon": [
+            [
+              3843.059,
+              6355.116
+            ],
+            [
+              3844.163,
+              6356.518
+            ],
+            [
+              3844.181,
+              6356.574
+            ],
+            [
+              3844.175,
+              6356.581
+            ],
+            [
+              3843.953,
+              6357.641
+            ],
+            [
+              3843.474,
+              6359.665
+            ],
+            [
+              3843.37,
+              6359.787
+            ],
+            [
+              3841.446,
+              6360.576
+            ],
+            [
+              3841.299,
+              6360.595
+            ],
+            [
+              3838.945,
+              6360.163
+            ],
+            [
+              3838.812,
+              6360.089
+            ],
+            [
+              3837.303,
+              6358.668
+            ],
+            [
+              3837.241,
+              6358.51
+            ],
+            [
+              3837.526,
+              6356.452
+            ],
+            [
+              3837.578,
+              6356.313
+            ],
+            [
+              3839.137,
+              6354.488
+            ],
+            [
+              3839.266,
+              6354.414
+            ],
+            [
+              3841.254,
+              6353.811
+            ],
+            [
+              3841.42,
+              6353.847
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A stilt platform on firm bank above the tide line, set back from the open deck.",
+            "playerPurpose": "Repairs, blades and the salvaged iron the divers bring up.",
+            "what": "The quay smith, which forges and mends the fittings that the lighters wear out.",
+            "whyHere": "Chain, hoop and pin fail on a working quay faster than a hull can bring replacements from Soulrest.",
+            "whyNeighbours": "The lighter shed stands north along the lane and the deck lies east, which is the source of its work.",
+            "whySpot": "It stands on the landward side of the quay lane, upwind of the deck so that the smoke clears the cargo."
+          },
+          "yawDeg": 130.5
+        },
+        {
           "assetRef": "composite:stilt/bamboohut01-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
@@ -15065,12 +16239,14 @@
           "districtId": "district.lilmoth.council-crown",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 169.4,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 187.2,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3699.439,
-                6310.599
+                3699.707,
+                6312.168
               ]
             }
           ],
@@ -15181,12 +16357,14 @@
           "districtId": "district.lilmoth.lighter-quay",
           "doorways": [
             {
-              "arcM": null,
+              "arcM": 1.61,
               "bearingDeg": 90.0,
-              "source": "assembly",
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3828.2,
-                6418.5
+                3829.571,
+                6417.18
               ]
             }
           ],
@@ -15199,80 +16377,80 @@
           "orientationWhy": "The shipped doorway looked out over open water, where no threshold can stand. The bench is turned so its door opens onto the deck behind it, clear of the loop walk.",
           "polygon": [
             [
-              3828.372,
-              6417.183
+              3827.821,
+              6416.321
             ],
             [
-              3828.932,
+              3828.875,
+              6417.762
+            ],
+            [
+              3828.891,
+              6417.818
+            ],
+            [
+              3828.884,
+              6417.825
+            ],
+            [
+              3828.626,
               6418.877
             ],
             [
-              3828.926,
-              6418.927
+              3828.077,
+              6420.882
             ],
             [
-              3828.922,
-              6418.941
+              3827.969,
+              6421.0
             ],
             [
-              3828.353,
-              6419.862
+              3826.018,
+              6421.723
             ],
             [
-              3827.214,
-              6421.602
-            ],
-            [
-              3827.075,
-              6421.681
-            ],
-            [
-              3824.997,
-              6421.769
-            ],
-            [
-              3824.852,
+              3825.87,
               6421.736
             ],
             [
-              3822.786,
-              6420.529
+              3823.533,
+              6421.222
             ],
             [
-              3822.686,
-              6420.413
+              3823.403,
+              6421.143
             ],
             [
-              3821.75,
-              6418.564
+              3821.944,
+              6419.671
             ],
             [
-              3821.746,
-              6418.394
+              3821.887,
+              6419.511
             ],
             [
-              3822.714,
-              6416.556
+              3822.244,
+              6417.464
             ],
             [
-              3822.811,
-              6416.443
+              3822.302,
+              6417.327
             ],
             [
-              3824.898,
-              6415.258
+              3823.923,
+              6415.557
             ],
             [
-              3825.044,
-              6415.232
+              3824.054,
+              6415.488
             ],
             [
-              3827.119,
-              6415.342
+              3826.063,
+              6414.954
             ],
             [
-              3827.263,
-              6415.432
+              3826.227,
+              6414.997
             ]
           ],
           "spans": null,
@@ -15285,7 +16463,7 @@
             "whyNeighbours": "The divers’ shed is north of it; the south corner of the loop is beyond.",
             "whySpot": "It is the last building on the east lane, at the south end of the quay."
           },
-          "yawDeg": 150.4
+          "yawDeg": 132.5
         },
         {
           "assetRef": "composite:stilt/bamboohut02-with-door",
@@ -15297,12 +16475,14 @@
           "districtId": "district.lilmoth.hist-court",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 131.9,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 149.8,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3642.115,
-                6301.895
+                3643.262,
+                6302.974
               ]
             }
           ],
@@ -15323,8 +16503,8 @@
               6302.665
             ],
             [
-              3642.369,
-              6302.697
+              3642.367,
+              6302.707
             ],
             [
               3642.358,
@@ -15404,6 +16584,351 @@
           "yawDeg": 192.3
         },
         {
+          "assetRef": "composite:stilt/bamboohut01-with-door",
+          "buildingFamily": "argonian-bamboo-hut",
+          "centreM": [
+            3645.124,
+            6329.775
+          ],
+          "districtId": "district.lilmoth.hist-court",
+          "doorways": [
+            {
+              "arcM": 1.61,
+              "bearingDeg": 181.7,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3646.322,
+                6334.023
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.spine-apothecary",
+          "interior": {
+            "kind": "shop"
+          },
+          "notes": null,
+          "orientationWhy": "The hut is turned so that its own doorway gives onto the court approach, which is the path that the tenders walk each morning.",
+          "polygon": [
+            [
+              3647.231,
+              6332.298
+            ],
+            [
+              3645.746,
+              6333.295
+            ],
+            [
+              3645.69,
+              6333.31
+            ],
+            [
+              3645.683,
+              6333.303
+            ],
+            [
+              3644.653,
+              6333.027
+            ],
+            [
+              3642.665,
+              6332.419
+            ],
+            [
+              3642.55,
+              6332.307
+            ],
+            [
+              3641.886,
+              6330.336
+            ],
+            [
+              3641.877,
+              6330.188
+            ],
+            [
+              3642.46,
+              6327.867
+            ],
+            [
+              3642.543,
+              6327.739
+            ],
+            [
+              3644.058,
+              6326.325
+            ],
+            [
+              3644.22,
+              6326.273
+            ],
+            [
+              3646.255,
+              6326.69
+            ],
+            [
+              3646.39,
+              6326.752
+            ],
+            [
+              3648.111,
+              6328.425
+            ],
+            [
+              3648.176,
+              6328.558
+            ],
+            [
+              3648.65,
+              6330.581
+            ],
+            [
+              3648.603,
+              6330.745
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A stilt platform on the dry shoulder above the court ditch.",
+            "playerPurpose": "Where poisons and cures are bought. It is also where the tenders can be asked about the tree.",
+            "what": "The apothecary, which sells marsh remedies and buys what the cutters carry down.",
+            "whyHere": "A city built over standing water keeps a trade in fever cures. That trade sits where the sap is watched.",
+            "whyNeighbours": "The tender lodges are the nearest houses, which is why the stock is trusted.",
+            "whySpot": "It stands on the north side of the court approach, outside the palisade that rings the Hist."
+          },
+          "yawDeg": 224.2
+        },
+        {
+          "assetRef": "composite:stilt/stilthouse-with-door",
+          "buildingFamily": "argonian-stilt-house",
+          "centreM": [
+            3673.298,
+            6358.768
+          ],
+          "districtId": "district.lilmoth.hist-court",
+          "doorways": [
+            {
+              "arcM": 6.1,
+              "bearingDeg": 314.1,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3676.067,
+                6358.654
+              ]
+            },
+            {
+              "arcM": 5.35,
+              "bearingDeg": 231.6,
+              "interiorRef": "vanilla-farmhouse-int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3676.127,
+                6359.304
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.spine-tavern",
+          "interior": {
+            "kind": "hall"
+          },
+          "notes": null,
+          "orientationWhy": "The house is turned so that its own doorway gives onto the spine track, which is the way that the crews come up from the quay.",
+          "polygon": [
+            [
+              3676.114,
+              6354.033
+            ],
+            [
+              3679.924,
+              6353.973
+            ],
+            [
+              3679.934,
+              6353.993
+            ],
+            [
+              3680.053,
+              6361.582
+            ],
+            [
+              3680.11,
+              6365.211
+            ],
+            [
+              3680.091,
+              6365.232
+            ],
+            [
+              3666.492,
+              6365.445
+            ],
+            [
+              3662.381,
+              6364.75
+            ],
+            [
+              3662.361,
+              6364.73
+            ],
+            [
+              3662.276,
+              6359.981
+            ],
+            [
+              3662.272,
+              6359.751
+            ],
+            [
+              3666.286,
+              6354.207
+            ],
+            [
+              3666.306,
+              6354.187
+            ],
+            [
+              3670.085,
+              6354.127
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A tall stilt frame on the deepest ground of the spine, which floods first and is therefore built highest.",
+            "playerPurpose": "Drink, gossip and the hiring of hands. It is also the room in which the An-Xileel agent is found.",
+            "what": "The tavern, which is the one roofed room in Lilmoth that is open to anybody who pays.",
+            "whyHere": "Lighter crews paid off at the quay want a floor above the water before they walk home.",
+            "whyNeighbours": "The trader is west along the same track, so a crew spends its pay without leaving the spine.",
+            "whySpot": "It stands where the spine track bends south, halfway between the gate and the court."
+          },
+          "yawDeg": 89.1
+        },
+        {
+          "assetRef": "composite:stilt/bamboohut02-with-door",
+          "buildingFamily": "argonian-bamboo-hut",
+          "centreM": [
+            3644.564,
+            6361.245
+          ],
+          "districtId": "district.lilmoth.hist-court",
+          "doorways": [
+            {
+              "arcM": 1.61,
+              "bearingDeg": 134.1,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
+              "worldM": [
+                3648.508,
+                6363.225
+              ]
+            }
+          ],
+          "groundFit": "stilt",
+          "id": "parcel.lilmoth.spine-trader",
+          "interior": {
+            "kind": "shop"
+          },
+          "notes": null,
+          "orientationWhy": "The hut is turned so that its own doorway gives onto the spine track, which carries every load between the gate and the court.",
+          "polygon": [
+            [
+              3647.848,
+              6361.391
+            ],
+            [
+              3647.603,
+              6363.158
+            ],
+            [
+              3647.576,
+              6363.21
+            ],
+            [
+              3647.566,
+              6363.21
+            ],
+            [
+              3646.648,
+              6363.786
+            ],
+            [
+              3644.858,
+              6364.844
+            ],
+            [
+              3644.698,
+              6364.853
+            ],
+            [
+              3642.795,
+              6364.015
+            ],
+            [
+              3642.679,
+              6363.922
+            ],
+            [
+              3641.359,
+              6361.926
+            ],
+            [
+              3641.32,
+              6361.778
+            ],
+            [
+              3641.297,
+              6359.706
+            ],
+            [
+              3641.368,
+              6359.552
+            ],
+            [
+              3643.048,
+              6358.33
+            ],
+            [
+              3643.185,
+              6358.272
+            ],
+            [
+              3645.581,
+              6358.129
+            ],
+            [
+              3645.723,
+              6358.171
+            ],
+            [
+              3647.537,
+              6359.185
+            ],
+            [
+              3647.626,
+              6359.33
+            ]
+          ],
+          "spans": null,
+          "use": "shop",
+          "why": {
+            "microGeography": "A stilt platform over soft ground beside the track, clear of the flood channel.",
+            "playerPurpose": "The general shop. It is also the fence for anything the licence house would have questioned.",
+            "what": "The spine trader, which buys and sells everything that is not held under licence.",
+            "whyHere": "Goods landed at the quay have to be sold somewhere that people walking in from the gate pass.",
+            "whyNeighbours": "The tavern is a short walk east; the court palisade closes the view south.",
+            "whySpot": "It sits on the north verge of the spine track, at the point where the track straightens."
+          },
+          "yawDeg": 176.6
+        },
+        {
           "assetRef": "composite:stilt/bamboohut02-with-door",
           "buildingFamily": "argonian-bamboo-hut",
           "centreM": [
@@ -15413,12 +16938,14 @@
           "districtId": "district.lilmoth.council-crown",
           "doorways": [
             {
-              "arcM": null,
-              "bearingDeg": 87.3,
-              "source": "assembly",
+              "arcM": 1.61,
+              "bearingDeg": 105.2,
+              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "kind": "open-front",
+              "source": "geometry",
               "worldM": [
-                3725.353,
-                6287.897
+                3726.927,
+                6287.86
               ]
             }
           ],
@@ -15439,8 +16966,8 @@
               6288.24
             ],
             [
-              3726.098,
-              6288.29
+              3726.103,
+              6288.298
             ],
             [
               3726.094,
@@ -15520,53 +17047,76 @@
           "yawDeg": 147.7
         },
         {
-          "assetRef": "bmv:architecture/citebosmer/passerelles/kiosque/kiosk01",
+          "assetRef": "composite:stilt/kiosk-with-access",
           "buildingFamily": "argonian-lamp-kiosk",
           "centreM": [
             3765.998,
             6302.006
           ],
           "districtId": "district.lilmoth.council-crown",
-          "doorways": [],
+          "doorways": [
+            {
+              "arcM": null,
+              "bearingDeg": 305.2,
+              "interiorRef": "dungeon-root-v1",
+              "kind": "door-piece",
+              "source": "geometry",
+              "worldM": [
+                3763.119,
+                6299.978
+              ]
+            },
+            {
+              "arcM": null,
+              "bearingDeg": 259.8,
+              "interiorRef": "dungeon-root-v1",
+              "kind": "door-piece",
+              "source": "geometry",
+              "worldM": [
+                3762.613,
+                6302.619
+              ]
+            }
+          ],
           "groundFit": "stilt",
           "id": "parcel.lilmoth.tariff-bell",
           "interior": {
             "kind": "hall"
           },
           "notes": null,
-          "orientationWhy": "The kiosk is set on the walkway’s bearing so the bell hangs over the lip of the bench toward the quay.",
+          "orientationWhy": "The kiosk is set on the walkway's bearing so the bell hangs over the lip of the bench toward the quay. At 80.4 deg its access gap looks back down the walk that a climber has just come up.",
           "polygon": [
             [
-              3765.442,
-              6299.536
+              3765.468,
+              6299.53
             ],
             [
-              3767.716,
-              6301.22
+              3767.724,
+              6301.238
             ],
             [
-              3766.91,
-              6304.25
+              3766.886,
+              6304.26
             ],
             [
-              3766.864,
-              6304.279
+              3766.84,
+              6304.288
             ],
             [
-              3766.554,
-              6304.477
+              3766.528,
+              6304.482
             ],
             [
-              3764.28,
-              6302.793
+              3764.272,
+              6302.775
             ],
             [
-              3765.086,
-              6299.762
+              3765.11,
+              6299.753
             ],
             [
-              3765.132,
-              6299.734
+              3765.156,
+              6299.725
             ]
           ],
           "spans": null,
@@ -15579,7 +17129,7 @@
             "whyNeighbours": "The council floor and the factor’s house are beside it; the bluff stair leaves from its foot.",
             "whySpot": "It stands at the east end of the bench, 9 m above the flat, where the tower top is 30 m over the water."
           },
-          "yawDeg": 79.8
+          "yawDeg": 80.4
         },
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/stilthouseplatform",
@@ -16259,6 +17809,38 @@
           ]
         },
         {
+          "id": "socket.lilmoth.lq08-anchor-three-floors",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": "tier-3",
+          "parcelId": "parcel.lilmoth.pus-tower",
+          "positionM": null
+        },
+        {
+          "id": "socket.lilmoth.mq32-epilogue-sockets",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": "tier-0",
+          "parcelId": "parcel.lilmoth.council-hall",
+          "positionM": null
+        },
+        {
+          "id": "socket.lilmoth.pusbottom-vault",
+          "kind": "container",
+          "notes": null,
+          "ownerQuestTier": "tier-2",
+          "parcelId": "parcel.lilmoth.pus-vault-house",
+          "positionM": null
+        },
+        {
+          "id": "socket.lilmoth.tidal-palace",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": "tier-2",
+          "parcelId": "parcel.lilmoth.drowned-villa-hall",
+          "positionM": null
+        },
+        {
           "id": "station.lilmoth.council-hall",
           "kind": "station",
           "notes": null,
@@ -16320,7 +17902,7 @@
         "loreSource": "settlement-register.md §2 (M5, rebuilt smaller); lilmoth.md owner decision 2026-08-24 (smaller, lower, over a mass grave); 95-build-sequence.md (M5 quest band 35–60); Morrowind:Balmora as the ratio check at about 40 buildings.",
         "npcsPlanned": 70,
         "population": "190–230",
-        "why": "Twenty-six households in bamboo huts and the tall block, at five to a household, give about 130 residents; the council, the patrol, the tenders, the licence and salvage staff and the lighter crews housed on the quay add 60 to 100 more. Fifty-three placed structures is a third more than Balmora’s forty, which is the right size for a major city rebuilt smaller than the one it replaced. Seventy named residents follows Morrowind’s ratio of named people to buildings."
+        "why": "Twenty-six households in bamboo huts and the tall block, at five to a household, give about 130 residents; the council, the patrol, the tenders, the licence and salvage staff and the lighter crews housed on the quay add 60 to 100 more. Fifty-three placed structures is a third more than Balmora’s forty, which is the right size for a major city rebuilt smaller than the one that it replaced. Seventy named residents follows Morrowind’s ratio of named people to buildings."
       },
       "seed": "place.mercantile-coast.lilmoth",
       "siting": {
@@ -16363,14 +17945,14 @@
         "combatSpaces": 4,
         "districts": 8,
         "docks": 3,
-        "doors": 32,
+        "doors": 43,
         "fences": 4,
         "keptTrees": 4,
         "landmarks": 9,
-        "parcels": 54,
-        "questSockets": 13,
+        "parcels": 61,
+        "questSockets": 17,
         "sitingCandidates": 3,
-        "ways": 21
+        "ways": 25
       },
       "ways": [
         {
@@ -16388,8 +17970,8 @@
               6316.001
             ],
             [
-              3764.589,
-              6301.632
+              3764.593,
+              6301.617
             ]
           ],
           "routing": "straight",
@@ -16405,6 +17987,37 @@
           ],
           "why": "The council walkway, the one surveyed line in the Argonian city, laid straight along the bench from the spine track to the bell.",
           "widthM": 3.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "group": "boardwalks",
+          "id": "boardwalk.lilmoth.council-landing",
+          "kind": "boardwalk",
+          "notes": null,
+          "points": [
+            [
+              3727.965,
+              6308.503
+            ],
+            [
+              3727.6,
+              6306.557
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3727.965,
+              6308.503
+            ],
+            [
+              3727.6,
+              6306.557
+            ]
+          ],
+          "why": "The plank landing off the council walkway to the hall's own front, so the sitting is entered from the walkway and not off the bench grass.",
+          "widthM": 1.5
         },
         {
           "assetRef": null,
@@ -16473,6 +18086,37 @@
           ],
           "why": "The lighter pier from the quay deck east to the head of the channel, where the lighters come alongside.",
           "widthM": 3.0
+        },
+        {
+          "assetRef": null,
+          "endsAt": [],
+          "group": "boardwalks",
+          "id": "boardwalk.lilmoth.pus-tower-landing",
+          "kind": "boardwalk",
+          "notes": null,
+          "points": [
+            [
+              3796.001,
+              6350.783
+            ],
+            [
+              3793.105,
+              6350.783
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3796.001,
+              6350.783
+            ],
+            [
+              3793.105,
+              6350.783
+            ]
+          ],
+          "why": "The short landing that carries the loop's west lane to the rooming house's door, because the tenants come home in the dark and the bluff foot is mud.",
+          "widthM": 1.5
         },
         {
           "assetRef": null,
@@ -16786,7 +18430,7 @@
               6480.003
             ]
           ],
-          "why": "The Argonian wall facing the estuary: a line of driven poles along the shore of the fishers’ quarter, the city’s wall on the side the Imperials never built.",
+          "why": "The Argonian wall facing the estuary: a line of driven poles along the shore of the fishers’ quarter, the city’s wall on the side that the Imperials never built.",
           "widthM": 0.3
         },
         {
@@ -16957,8 +18601,8 @@
           "notes": null,
           "points": [
             [
-              3766.91,
-              6304.25
+              3766.886,
+              6304.26
             ],
             [
               3797.999,
@@ -17084,6 +18728,39 @@
           ],
           "why": "The tenders’ path from the spine round the south of the court ring to the minder’s door.",
           "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.lilmoth.gate-lodging"
+          ],
+          "group": "routes",
+          "id": "route.lilmoth.gate-lodging-path",
+          "kind": "footpath",
+          "notes": null,
+          "points": [
+            [
+              3612.835,
+              6376.127
+            ],
+            [
+              3618.309,
+              6385.128
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3612.835,
+              6376.127
+            ],
+            [
+              3618.309,
+              6385.128
+            ]
+          ],
+          "why": "A plank path off the gate yard to the lodging door, because the yard is kept clear for carts and the beds are reached from its edge.",
+          "widthM": 1.2
         },
         {
           "assetRef": null,
@@ -17282,6 +18959,39 @@
           ],
           "why": "The path from the council walkway round the east end of the hall to the strongroom door.",
           "widthM": 1.5
+        },
+        {
+          "assetRef": null,
+          "endsAt": [
+            "parcel.lilmoth.spine-tavern"
+          ],
+          "group": "routes",
+          "id": "route.lilmoth.tavern-path",
+          "kind": "footpath",
+          "notes": null,
+          "points": [
+            [
+              3664.85,
+              6350.575
+            ],
+            [
+              3668.535,
+              6354.152
+            ]
+          ],
+          "routing": "straight",
+          "via": [
+            [
+              3664.85,
+              6350.575
+            ],
+            [
+              3668.535,
+              6354.152
+            ]
+          ],
+          "why": "A short path off the spine to the tavern door, because the track carries the quay traffic and drinkers step aside for it.",
+          "widthM": 1.2
         },
         {
           "assetRef": null,
@@ -17647,7 +19357,7 @@
             "playerPurpose": "The fight, the offerings, the shed charged bones on the bank and the cave mouth are all in this district; a visitor who reaches the water has reached the lair.",
             "what": "The pond itself with the shelf of level bank around it: the animal's water, the offering ground on the south shore and the cairn steps on the east.",
             "whyHere": "The pan is the sole closed body of still water within 300 m, so it is the piece of ground that a wamasu can hold against the tides of the creeks below.",
-            "whyNeighbours": "The knoll district stands above its north-west shore because that is the one rise from which the whole pan is in view; the landing district lies below its south-east side because the creek is the nearest water a boat can use."
+            "whyNeighbours": "The knoll district stands above its north-west shore because that is the one rise from which the whole pan is in view; the landing district lies below its south-east side because the creek is the nearest water that a boat can use."
           }
         },
         {
@@ -17690,7 +19400,7 @@
             "microGeography": "A creek one to two boat-widths across running north into a dead end at 1 m elevation under a canopy of 0.93; the landing sits at the head where the water stops against the foot of the slope.",
             "playerPurpose": "The arrival point by water and the start of the cue chain: the poles announce the lair for 180 m before any part of it can be seen.",
             "what": "The creek below the pond, marked for its length with poles that have stood long enough to root, with a small piled landing at its head.",
-            "whyHere": "This creek is the nearest water a boat can reach, eight metres below the pan at its head and 150 m south-east of it; the pond has no water link to anything, so every boat that comes here stops at this landing.",
+            "whyHere": "This creek is the nearest water that a boat can reach, eight metres below the pan at its head and 150 m south-east of it; the pond has no water link to anything, so every boat that comes here stops at this landing.",
             "whyNeighbours": "It lies below the bank district and is joined to it by the bank path, which is the one worn line up the slope."
           }
         },
@@ -18299,6 +20009,14 @@
           ]
         },
         {
+          "id": "socket.wamasu-pond-adult.charged-water",
+          "kind": "scene",
+          "notes": null,
+          "ownerQuestTier": "tier-1",
+          "parcelId": "parcel.wamasu-pond-adult.hunters-stand",
+          "positionM": null
+        },
+        {
           "id": "socket.wamasu-pond-adult.offerings",
           "kind": "scene",
           "notes": null,
@@ -18386,7 +20104,7 @@
         "keptTrees": 6,
         "landmarks": 15,
         "parcels": 3,
-        "questSockets": 5,
+        "questSockets": 6,
         "sitingCandidates": 3,
         "ways": 4
       },
@@ -18477,7 +20195,7 @@
               4558.002
             ]
           ],
-          "why": "The pole-marked poling line up the creek from the estuary to the landing at its head, kept in the open water for its whole length because the creek is the nearest water a boat can use, 8 m below the pond at its head.",
+          "why": "The pole-marked poling line up the creek from the estuary to the landing at its head, kept in the open water for its whole length because the creek is the nearest water that a boat can use, 8 m below the pond at its head.",
           "widthM": 3.5
         },
         {

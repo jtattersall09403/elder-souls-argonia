@@ -25,6 +25,11 @@ owns already (because retrofitting them is the expensive version):
   * GenerationProvenance on every emitted object (module 40 §31).
   * the static budget report checked against the blueprint's declared budget
     (instances, unique assets/materials, texture MB, collider estimate).
+  * the module 97 promise ledger (`blueprint_promises`): every service, NPC
+    role, travel destination, quest provision, socket and reward kind the
+    catalogue record promises the player, against the blueprint objects that
+    realise it. Unmet is a compile ERROR from magnitude M3 up, a warning below;
+    the table is written to output/settlements/<id>.ledger.md.
   * the module 97 layer-integration checks (`blueprint_integration`), which
     FAIL the compile: ways vs buildings, gates across ways, doors onto ways,
     the 8 m spacing floor (97 C5) and the 1.3 m passage (97 C3).
@@ -54,6 +59,7 @@ from pathlib import Path
 from . import blueprint as bp_mod
 from .site_fields import ProvinceSurvey
 from .blueprint_integration import check_integration
+from .blueprint_promises import check_promises, write_ledger
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -347,6 +353,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     # roads, doors onto ways, ways in the right medium ------------------------
     errors += check_integration(bp, survey)
 
+    # --- the promise ledger (97 E9): everything the catalogue record promised
+    # the player, against the objects that realise it. HARD from M3 up.
+    promise_errors, promise_warnings, ledger = check_promises(bp)
+    errors += promise_errors
+    warns += promise_warnings
+
     # --- 97 B6/D2: does the first-seen object actually read from the approach?
     warns += _first_seen_warnings(bp, survey, shelf)
 
@@ -400,6 +412,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "affectedChunks": sorted(affected),
         },
         "budgetReport": report,
+        "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing
         "warnings": warns,
@@ -446,6 +459,12 @@ def main() -> int:
     out = Path(args.out) if args.out else OUT_DIR / f"{bp['id']}.settlement.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=1, sort_keys=True) + "\n")
+    from .blueprint_promises import Promise, load_record
+    rec = load_record(bp["id"])
+    if rec is not None:
+        ledger = [Promise(**{k: v for k, v in pr.items() if k != "met"})
+                  for pr in result["promiseLedger"]]
+        print(f"compile_settlement: promise ledger -> {write_ledger(bp['id'], rec, ledger)}")
     for w in result["warnings"][len(schema_warnings):]:
         print(f"compile_settlement: WARN: {w}", file=sys.stderr)
     for e in result["errors"]:

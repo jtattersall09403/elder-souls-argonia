@@ -15,6 +15,7 @@ inside it has its own `<kind>.<slug>.<name>` id — standard 2).
 | `<place-id>.json` | the blueprint: `siting` (dossier ref + the 2–3 exact candidates, one chosen), districts as **kit sets** (`cultureKit` ∈ `KIT_SETS`), parcels with an exact `assetRef` chosen on measured geometry, landmarks, docks, sockets, clearance, budget |
 | `<place-id>.md` | the meso design record: the candidate sitings with their numbers, why one won, the high-level design (districts, layout intent, signature feature), the asset picks with their measured footprints, open questions for the owner, and anything the catalogue record should change (never edited from here) |
 | `../sites/dossiers/<slug>.{json,md}` | the site dossier over the plotted neighbourhood (`worldgen.site_dossier`) the siting cites |
+| `tooling/world-generation/output/settlements/<place-id>.ledger.md` | the promise ledger (`worldgen.blueprint_promises`): every promise the catalogue record makes the player against the blueprint object that realises it, with the remedy for each unmet one (97 E9); derived, gitignored |
 | `tooling/world-generation/output/blueprint-maps/<place-id>.png` | the rendered map (`worldgen.render_blueprint`); derived, gitignored, regenerate in seconds |
 
 Reading one interactively (Part 7): `python3 -m worldgen.export_blueprints`

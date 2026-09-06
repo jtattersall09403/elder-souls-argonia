@@ -1906,7 +1906,22 @@
           "place.imperial-penal-south.lake-ferry-stage",
           "place.imperial-penal-south.bramman-head"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "court",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "moneylender",
+        "smith",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.blackrose-drowned-hist",
@@ -3749,7 +3764,8 @@
           "radiusM": 90,
           "note": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
         }
-      ]
+      ],
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.chainlink-watchtower",
@@ -5967,7 +5983,8 @@
           "radiusM": 60,
           "note": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
         }
-      ]
+      ],
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -7315,7 +7332,13 @@
         "distanceToWaterM": 5.5,
         "score": 2.104
       },
-      "scourSiteId": "site.scour.mangrove-forest.ford-017"
+      "scourSiteId": "site.scour.mangrove-forest.ford-017",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.lake-divers-yard",
@@ -7545,7 +7568,8 @@
         "distanceToRouteM": 326.5,
         "distanceToWaterM": 0.0,
         "score": 4.628
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.lake-drowned-village",
@@ -9492,7 +9516,13 @@
           "place.imperial-penal-south.lake-boardwalk-village"
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-004"
+      "scourSiteId": "site.scour.lake-standing-water.cove-004",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.manned-toll-tower",
@@ -11407,7 +11437,8 @@
           }
         ]
       },
-      "sitingNote": "West of the lake on ground the culture raster calls mercantile-coast. The refuge exists to be out from under Blackrose, so standing at the edge of its cultural reach suits the record."
+      "sitingNote": "West of the lake on ground that the culture raster calls mercantile-coast. The refuge exists to be out from under Blackrose, so standing at the edge of its cultural reach suits the record.",
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
@@ -12349,7 +12380,8 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-010"
+      "scourSiteId": "site.scour.firm-lowland.flood-high-010",
+      "services": []
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -13371,7 +13403,20 @@
           "place.imperial-penal-south.three-gate-toll",
           "place.imperial-penal-south.blackrose"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "smith",
+        "stable",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.saltrice-village",
@@ -14112,7 +14157,15 @@
         ]
       },
       "sitingNote": "Bound to the western confluence at (1607, 6520) where the Bramman and three-gate channels meet. Its identity is a toll the western freight must pass; the claim was narrowed from the whole basin to those waters. The record was moved onto the junction it names (round 4 network-role pass).",
-      "scourSiteId": "site.scour.fringe-marsh.isthmus-025"
+      "scourSiteId": "site.scour.fringe-marsh.isthmus-025",
+      "services": [
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.vampiric-cloud-ground",
@@ -14878,7 +14931,18 @@
           "place.imperial-penal-south.bramman-head"
         ]
       },
-      "sitingNote": "Plotted east of Blackrose on the junction of the eastern channel and the Prison road; the prose that called it the WESTERN feeder market contradicted its own ground and was corrected rather than the town moved, because the junction it needs exists here and the western confluence is already the Three Gates toll. The culture raster reads mercantile-coast at this position; the town trades with the coast to undercut the city."
+      "sitingNote": "Plotted east of Blackrose on the junction of the eastern channel and the Prison road; the prose that called it the western feeder market contradicted its own ground and was corrected rather than the town moved, because the junction that it needs exists here and the western confluence is already the Three Gates toll. The culture raster reads mercantile-coast at this position; the town trades with the coast to undercut the city.",
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "lodging",
+        "smith",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",

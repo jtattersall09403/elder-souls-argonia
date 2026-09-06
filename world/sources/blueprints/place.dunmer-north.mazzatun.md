@@ -204,10 +204,36 @@ Running `compile_settlement` on the first v2 draft returned ten errors; each was
 ## Doors and assemblies (stream A2, 2026-09-05)
 
 The three pens keep `mudhut01` and their doors sit on its one measured doorway.
-The stair throat lost its door. `arstairscenter01` is a covered Ayleid flight
-with an inside, but no mined assembly puts a door part against it and no
-composite in `ruin-monumental-v1` ships one, so a door there would have been a
-chosen bearing rather than an opening that the mesh carries. The throat is now
-a recorded sourcing gap (row G4 in the settlement kit sourcing log). The
-validator reports it every run until a piece is found. The parcel keeps its
-`interior: hall` intent. What is in doubt is the entrance.
+The stair throat lost its door and will not get one. Re-measured on the front
+faces of its geometry, `arstairscenter01` has no inside: what looked like a ring
+of walls turns out to be the outside of a solid stair block. The piece is
+massing. So the parcel's `interior` is now `none`. Row G4 in the settlement kit
+sourcing log closes with no piece to find. The throat still reads as the
+descent from the terrace. Phase 12 will open the halls beneath
+the shelf from a piece that has a room in it.
+
+## Promises (97 E9, promise ledger round 2, 2026-09-06)
+
+Mazzatun meets 8 of 8. Three services and four sockets were unmet.
+
+| Promise | Realised by | Piece | Interior |
+|---|---|---|---|
+| `trader` | `parcel.mazzatun.works-store`, new, behind the two western shells | `mudmother:gv_meshes/argoniannest/mudhut01` | `mudhut01intnew` |
+| `lodging` | `parcel.mazzatun.pen-c`, the easternmost shell | as built | `mudhut01intnew` |
+| `shrine` | `parcel.mazzatun.statue-court`, the rite ground | as built | open air |
+
+The store is reached by `route.mazzatun.works-store-path`, a carried-stock path
+up off the pen lane between the two western shells, because the upper step has
+no other open ground and a cart cannot be brought up it. The declared material
+ceiling moved from 60 to 70 for the second mud shell.
+
+`lodging` is deliberately not a separate building. The tribe's hook is that it
+welcomes visitors in to help. What it gives them is a floor in the third pen,
+beside the taken. That is the design statement rather than a shortfall: the
+shell has a door, an interior and a service, with a why on the parcel that says
+whose floor it is.
+
+The four catalogue sockets were realised under private ids, so each blueprint
+socket now carries a `socketRef` to the catalogue id it delivers:
+`scene.mazzatun.the-conduit-room`, `evidence.mazzatun.the-half-cut-blocks`,
+`station.mazzatun.shaper` and `marks.mazzatun.xit-xaht-mark`.

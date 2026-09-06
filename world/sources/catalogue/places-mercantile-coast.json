@@ -498,7 +498,19 @@
           "place.mercantile-coast.soulrest"
         ]
       },
-      "scourSiteId": "site.scour.ocean.natural-harbour-001"
+      "scourSiteId": "site.scour.ocean.natural-harbour-001",
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "smith",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.ashfield",
@@ -1128,7 +1140,13 @@
         "rivals": [
           "place.mercantile-coast.cinderhome"
         ]
-      }
+      },
+      "services": [
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.bereaved-village-murkmire",
@@ -1361,7 +1379,12 @@
         "rivals": [
           "place.mercantile-coast.hist-village-hammock"
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.bog-blight-ground-murkmire",
@@ -1987,6 +2010,9 @@
           "radiusM": 150,
           "note": "A ferry crossing needs a narrows with firm banks either side and slack water at the turn."
         }
+      ],
+      "services": [
+        "ferry"
       ]
     },
     {
@@ -2463,7 +2489,10 @@
           "place.mercantile-coast.lilmoth",
           "place.mercantile-coast.oliis-ferry-stage"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.mercantile-coast.burn-memorial",
@@ -3008,7 +3037,8 @@
             "provenance": "salvage held back from the count"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.mercantile-coast.chime-relay",
@@ -7310,6 +7340,9 @@
           "radiusM": 120,
           "note": "A gravel sill across the channel: sea-going draught below it, poling water above it."
         }
+      ],
+      "services": [
+        "ferry"
       ]
     },
     {
@@ -7716,7 +7749,13 @@
           "note": "A bank the estate cuts to let the flood in and shut it out again."
         }
       ],
-      "scourSiteId": "site.scour.firm-lowland.flood-high-032"
+      "scourSiteId": "site.scour.firm-lowland.flood-high-032",
+      "services": [
+        "council",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.hestra-stone",
@@ -10567,7 +10606,13 @@
           "place.mercantile-coast.lilmoth",
           "place.mercantile-coast.oliis-ferry-stage"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.keshu-grove",
@@ -11205,7 +11250,10 @@
           "place.mercantile-coast.alten-meerhleel",
           "place.mercantile-coast.lilmoth"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth",
@@ -11551,7 +11599,20 @@
           "place.mercantile-coast.lighter-flotilla",
           "place.mercantile-coast.oliis-ferry-stage"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth-beast-market",
@@ -12107,7 +12168,8 @@
             "provenance": "the dive book: which cellars are worked out and which are not"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
@@ -13492,7 +13554,10 @@
           "place.mercantile-coast.alten-meerhleel",
           "place.mercantile-coast.lilmoth"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.mercantile-coast.mudfoot",
@@ -13734,7 +13799,13 @@
           "place.mercantile-coast.alten-meerhleel",
           "place.mercantile-coast.soulrest"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.murkmire-hearth-house",
@@ -14566,7 +14637,12 @@
           "place.naga-kur-deeps.necropolis-nightbound"
         ]
       },
-      "sitingNote": "Xul-Vaat is filed with the coast because it buries for the coast; the ground under it is rootland deep marsh and its neighbours upriver are Nagas."
+      "sitingNote": "Xul-Vaat is filed with the coast because its burial trade serves the coastal towns; the ground under it is rootland deep marsh and its neighbours upriver are Nagas.",
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-air-station",
@@ -15011,7 +15087,13 @@
           "place.mercantile-coast.oliis-ferry-stage"
         ]
       },
-      "sitingNote": "Bound to the Estuary Stage its own siting preference names; unbound it landed 4.2 km away in the saxhleel-coast zone, with a dependsOn edge over the sanity limit."
+      "sitingNote": "Bound to the Estuary Stage its own siting preference names; unbound it landed 4.2 km away in the saxhleel-coast zone, with a dependsOn edge over the sanity limit.",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.oliis-drake-deep",
@@ -15478,6 +15560,9 @@
           "radiusM": 200,
           "note": "The estuary must pinch here, or the coast road has no crossing to be farmed out."
         }
+      ],
+      "services": [
+        "ferry"
       ]
     },
     {
@@ -16947,7 +17032,8 @@
         "distanceToRouteM": 82.4,
         "distanceToWaterM": 15.5,
         "score": 5.218
-      }
+      },
+      "services": []
     },
     {
       "id": "place.mercantile-coast.quinrawl-anchorage",
@@ -18510,7 +18596,10 @@
           "place.mercantile-coast.soulrest"
         ]
       },
-      "sitingNote": "Bound to Bramman's Screen: the village exists only as the pilotage of that river mouth. Unbound it landed a mile clear of it in the next culture zone."
+      "sitingNote": "Bound to Bramman's Screen: the village exists only as the pilotage of that river mouth. Unbound it landed a mile clear of it in the next culture zone.",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.mercantile-coast.sealed-meer-murkmire",
@@ -19615,7 +19704,22 @@
           "place.mercantile-coast.mudfoot",
           "place.mercantile-coast.screen-watch"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "court",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "moneylender",
+        "smith",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-breaking-yard",
@@ -19840,7 +19944,8 @@
           "place.saxhleel-coast.archon-shipyard"
         ]
       },
-      "scourSiteId": "site.scour.tidal-delta.river-mouth-011"
+      "scourSiteId": "site.scour.tidal-delta.river-mouth-011",
+      "services": []
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
@@ -20362,7 +20467,8 @@
         "distanceToWaterM": 0.0,
         "score": 4.957
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-069"
+      "scourSiteId": "site.scour.lake-standing-water.cove-069",
+      "services": []
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
@@ -20933,7 +21039,8 @@
             "provenance": "the contract board and what has been struck off it"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.mercantile-coast.soulrest-synod-outstation",
@@ -23128,7 +23235,8 @@
             "provenance": "the stakes laid on the court, in coin and in obligation"
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",

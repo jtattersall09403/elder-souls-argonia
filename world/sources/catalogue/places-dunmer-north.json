@@ -1029,7 +1029,12 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.breathes-underneath",
@@ -1739,7 +1744,13 @@
           "place.dunmer-north.stormhold",
           "place.pirate-freeholds.alten-corimont"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.climbs-to-see",
@@ -2227,7 +2238,16 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.ravine-042"
+      "scourSiteId": "site.scour.border-mountains.ravine-042",
+      "services": [
+        "apothecary",
+        "council",
+        "lodging",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.cut-and-stack",
@@ -2667,7 +2687,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.draws-the-herds",
@@ -3874,7 +3895,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.gandranen-ruins",
@@ -4383,7 +4405,12 @@
           "place.dunmer-north.the-shoal-bank"
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.cliff-bench-056"
+      "scourSiteId": "site.scour.fringe-marsh.cliff-bench-056",
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.hackwing-wall",
@@ -4938,7 +4965,12 @@
         ]
       },
       "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
-      "scourSiteId": "site.scour.firm-lowland.spring-head-037"
+      "scourSiteId": "site.scour.firm-lowland.spring-head-037",
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "aliases": [],
@@ -5176,7 +5208,18 @@
           "place.dunmer-north.channel-cross-village",
           "place.dunmer-north.murkwater"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "lodging",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.hixinoag",
@@ -5419,7 +5462,10 @@
           "place.dunmer-north.murkwater",
           "place.dunmer-north.the-black-stage"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.dunmer-north.hutan-tzel",
@@ -5718,7 +5764,13 @@
           "place.dunmer-north.the-last-landing",
           "place.saxhleel-coast.archon"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.keeps-the-second-island",
@@ -6699,7 +6751,12 @@
         "source": "blueprint",
         "why": "The rock shelf at the ridge end: 68 m x 42 m of ground between 198.3 m and 209 m, falling ~8.5 m north to south in three readable steps, flood band 0, 4.1 m above the water table, a headwater stream along its southern lip and a 55 m escarpment on the east. 85 m from Tsono-Xuhil and 296 m from the Gideon-Stormhold road. Every parcel measured on this ground fits the slope ladder at plinth, pad or dug-in; none needs a graded pad over 2 m.",
         "candidateId": "candidate.mazzatun.shelf"
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.mazzatun-hist",
@@ -7202,7 +7259,13 @@
           "place.pirate-freeholds.alten-corimont"
         ]
       },
-      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern."
+      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.murkwater-shadowscale-ground",
@@ -7649,7 +7712,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.nine-fords",
@@ -7914,6 +7978,13 @@
           "radiusM": 220,
           "note": "a braided reach with several gravel-bottomed crossings, so that losing one still leaves a way over"
         }
+      ],
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "stable",
+        "trader"
       ]
     },
     {
@@ -9066,7 +9137,13 @@
           "place.dunmer-north.the-shoal-bank"
         ]
       },
-      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern."
+      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.rimfield",
@@ -9304,7 +9381,8 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.riverwalk",
@@ -9551,7 +9629,13 @@
           "place.dunmer-north.the-last-landing"
         ]
       },
-      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern."
+      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.saltmarch-village",
@@ -9782,7 +9866,12 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.seam-chasers",
@@ -11025,7 +11114,12 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.stillrise-village",
@@ -11598,7 +11692,20 @@
           "place.imperial-fringe.gideon",
           "place.pirate-freeholds.alten-corimont"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.stormhold-causeway",
@@ -12329,7 +12436,18 @@
           "place.dunmer-north.thorn",
           "place.saxhleel-coast.archon"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "lodging",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.ten-maur-wolk",
@@ -15385,7 +15503,8 @@
         "reachedVia": [
           "place.dunmer-north.keeps-the-second-island"
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-cold-holding",
@@ -16893,7 +17012,8 @@
           "radiusM": 60,
           "note": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself"
         }
-      ]
+      ],
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-drawdown-flats",
@@ -17390,7 +17510,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-drover-camp",
@@ -18590,7 +18711,18 @@
           "place.dunmer-north.nine-fords",
           "place.dunmer-north.thorn"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "council",
+        "ferry",
+        "lodging",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.the-first-count",
@@ -19063,7 +19195,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-flu-cordon",
@@ -19589,7 +19722,8 @@
         "supplies": [
           "place.pirate-freeholds.freed-worker-shelter"
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-gravel-six",
@@ -21230,7 +21364,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-monsoon-boom",
@@ -24976,7 +25111,10 @@
           "place.dunmer-north.the-tide-fair",
           "place.dunmer-north.thorn"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.dunmer-north.the-quiet-landing",
@@ -26907,7 +27045,8 @@
           "note": "a rise in the reedbeds reached by one causeway, which is what made shutting possible"
         }
       ],
-      "sitingNote": "Danger raised to D4 to match the band-5 reedbeds around it; the village is safe behind its causeway, the water around it is not."
+      "sitingNote": "Danger raised to D4 to match the band-5 reedbeds around it. The causeway keeps the village itself safe; the reedbeds beyond it are band 5.",
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-silyanorn-crown",
@@ -27646,7 +27785,8 @@
         "distanceToRouteM": 17.3,
         "distanceToWaterM": 11.0,
         "score": 4.523
-      }
+      },
+      "services": []
     },
     {
       "id": "place.dunmer-north.the-stormhold-falls-chamber",
@@ -29662,7 +29802,10 @@
           "place.dunmer-north.the-pilots-rest",
           "place.saxhleel-coast.archon"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.dunmer-north.the-turning-stone",
@@ -30651,7 +30794,11 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "services": [
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.the-wamasu-shrine",
@@ -32148,7 +32295,21 @@
           "place.dunmer-north.the-thorn-bond",
           "place.saxhleel-coast.archon"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.thorn-paddy-terraces",
@@ -34068,7 +34229,18 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "council",
+        "ferry",
+        "lodging",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.dunmer-north.zuuk",

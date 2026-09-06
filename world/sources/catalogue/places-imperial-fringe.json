@@ -1465,7 +1465,14 @@
           "place.imperial-fringe.mile-house-of-the-eagle",
           "place.imperial-fringe.swampmoth-town"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "stable",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.cassian-farm",
@@ -2242,7 +2249,10 @@
           "place.imperial-fringe.lowmere-raft-town"
         ]
       },
-      "sitingNote": "Bound to the Blackwood Road's western reach (round 4), where the road runs within 40 m of open water; the old site was up in the border mountains with no road and no channel."
+      "sitingNote": "Bound to the Blackwood Road's western reach (round 4), where the road runs within 40 m of open water; the old site was up in the border mountains with no road and no channel.",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.collections-dig",
@@ -2789,7 +2799,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.dreams-in-mud",
@@ -3316,7 +3327,13 @@
           "place.imperial-fringe.stonewastes",
           "place.imperial-fringe.westfield-village"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.fig-market",
@@ -3592,7 +3609,19 @@
           "place.imperial-fringe.cartwrights-cross",
           "place.imperial-fringe.claywater-station"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "lodging",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.fort-greenditch",
@@ -4425,7 +4454,24 @@
           "place.hist-heartland.helstrom",
           "place.pirate-freeholds.alten-corimont"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "court",
+        "ferry",
+        "guild-hall",
+        "licence-office",
+        "lodging",
+        "market",
+        "moneylender",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.gideon-rootworm-terminus",
@@ -4689,7 +4735,10 @@
           "place.imperial-fringe.gideon",
           "place.dunmer-north.stormhold"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.gideon-synod-outstation",
@@ -4949,7 +4998,8 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.upland-hills.gorge-051"
+      "scourSiteId": "site.scour.upland-hills.gorge-051",
+      "services": []
     },
     {
       "id": "place.imperial-fringe.giovesse-lines",
@@ -5480,7 +5530,19 @@
           "place.imperial-fringe.swampmoth-town",
           "place.imperial-fringe.the-road-nisswo-house"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.glenbridge-sermon-xanmeer",
@@ -6234,7 +6296,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.hearth-house-of-the-burnt-field",
@@ -6658,7 +6721,10 @@
           "place.imperial-fringe.onkobra-ferry",
           "place.imperial-fringe.fig-market"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.hollow-arch-toll",
@@ -7849,7 +7915,10 @@
           "place.imperial-fringe.lowmere-raft-town"
         ]
       },
-      "scourSiteId": "site.scour.seasonal-floodplain.river-mouth-007"
+      "scourSiteId": "site.scour.seasonal-floodplain.river-mouth-007",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.lower-onkobra-paddies",
@@ -8312,7 +8381,10 @@
           "place.imperial-fringe.the-lake-divers-yard"
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.gorge-030"
+      "scourSiteId": "site.scour.lake-standing-water.gorge-030",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.marcians-terrace",
@@ -8561,7 +8633,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.mile-house-of-the-eagle",
@@ -9035,7 +9108,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
@@ -10408,6 +10482,9 @@
           "radiusM": 80.0,
           "note": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving"
         }
+      ],
+      "services": [
+        "ferry"
       ]
     },
     {
@@ -10686,7 +10763,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.onkobra-kwama-mine",
@@ -11629,7 +11707,10 @@
           "place.imperial-fringe.cartwrights-cross",
           "place.imperial-fringe.mile-house-of-the-eagle"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.red-daub-relay",
@@ -12296,7 +12377,10 @@
           "place.imperial-fringe.the-hollow-pass-station",
           "place.imperial-fringe.gideon"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.rockgrove",
@@ -13262,7 +13346,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.silver-mouth",
@@ -14223,7 +14308,10 @@
           "place.imperial-fringe.slough-point-quarantine-shed"
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.water-narrows-020"
+      "scourSiteId": "site.scour.firm-lowland.water-narrows-020",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.slough-point-quarantine-shed",
@@ -14864,7 +14952,10 @@
           "place.imperial-fringe.the-ravine-doors",
           "place.imperial-fringe.the-stone-talkers-watch"
         ]
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.stonewastes",
@@ -15131,7 +15222,18 @@
           "place.imperial-fringe.fenmarch-village"
         ]
       },
-      "scourSiteId": "site.scour.upland-hills.land-bridge-000"
+      "scourSiteId": "site.scour.upland-hills.land-bridge-000",
+      "services": [
+        "apothecary",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.swampmoth-town",
@@ -15397,7 +15499,19 @@
           "place.imperial-fringe.mile-house-of-the-eagle",
           "place.imperial-fringe.glenbridge"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "smith",
+        "stable",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.takes-the-field",
@@ -17565,7 +17679,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.the-cold-lights",
@@ -18771,7 +18886,8 @@
           }
         ],
         "loot": []
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.the-drowning-gate",
@@ -19723,7 +19839,8 @@
           "radiusM": 60.0,
           "note": "the channel junction and the steading's own landing: navigable water up to the yard wall"
         }
-      ]
+      ],
+      "services": []
     },
     {
       "id": "place.imperial-fringe.the-fig-and-ledger",
@@ -21837,7 +21954,10 @@
         ]
       },
       "scourSiteId": "site.scour.lake-standing-water.gorge-017",
-      "sitingNote": "Moved onto the western lake shore (round 4): a diving yard needs working depth off the beach, which the old site lacked."
+      "sitingNote": "Moved onto the western lake shore (round 4): a diving yard needs working depth off the beach, which the old site lacked.",
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.imperial-fringe.the-lamp-at-the-ford",
@@ -24176,7 +24296,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.imperial-fringe.the-quiet-pit",
@@ -24672,6 +24793,9 @@
           "radiusM": 120.0,
           "note": "the settlement is a bedding shelf on a gorge wall; without the gorge there is no street"
         }
+      ],
+      "services": [
+        "ferry"
       ]
     },
     {
@@ -27564,7 +27688,14 @@
           "place.imperial-fringe.stonewastes",
           "place.imperial-fringe.stonefoot-terrace-village"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.the-sunk-lane",
@@ -28560,7 +28691,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": [
+        "guild-hall",
+        "shrine",
+        "stable",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.the-white-throat",
@@ -30446,7 +30583,14 @@
           "place.imperial-fringe.fenmarch-village",
           "place.imperial-fringe.cartwrights-cross"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "stable",
+        "trader"
+      ]
     },
     {
       "id": "place.imperial-fringe.whispers-house-of-the-low-fen",

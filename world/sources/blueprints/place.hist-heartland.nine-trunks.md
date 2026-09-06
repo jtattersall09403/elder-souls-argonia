@@ -304,6 +304,31 @@ opening and faces `yaw + 180`. The naheesh's round house moved from the bare
 BM&V hut shell to `composite:mud/hut-with-entrance` — the same hut with the
 `doorframe01` that its own author set against it in twenty-two placements. The
 composite is 1.8 m deeper than the bare shell, so the parcel moved 2.5 m south
-of its Part 7 centre; without that the doorframe stood in the ring walk. The
+of its Part 7 centre; without that the doorframe stood in the ring walk. Its
+door opens into `vanilla-farmhouse-int`, the interior kit that the index gives
+that composite. The eight mud huts open into `mudhut01intnew`, their own matched
+interior. The
 deck, the arch, the two shelters and the rack have no inside and so carry no
 door. No parcel here is a sourcing gap.
+
+## Promises (97 E9, promise ledger round 2, 2026-09-06)
+
+Nine-Trunks meets 8 of 8.
+
+| Promise | Realised by | Piece | Interior |
+|---|---|---|---|
+| `trader` | `parcel.nine-trunks.pitch-store`, new, at the village end of the pitch path | `mudmother:gv_meshes/argoniannest/mudhut01` | `mudhut01intnew` |
+| `lodging` | `parcel.nine-trunks.guest-hut-1`, the first of the three guest huts | as built | `mudhut01intnew` |
+| `shrine` | `parcel.nine-trunks.minder-deck`, the platform at the ring | as built | open air |
+
+The store also settles the merchant slot in `contents.npcs` and the
+`rest-shelter` and `services` reward kinds, which had nowhere to land. Nothing
+was removed: the ledger's round-1 note suggested that a root village may keep no
+inn, but Nine-Trunks rents standing room to convocation delegations and already
+had three guest huts built, so the honest reading is that the inn exists and was
+merely untyped.
+
+`quest.provision.identity-case` (MQ19) is a STATE provision, so it is realised as
+`variant.nine-trunks.identity-case`. In that state the village withholds what it
+knows of a delegation's true name. The naheesh house, the identity-case socket
+and the pitch store all change with it.

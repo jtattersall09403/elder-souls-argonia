@@ -252,3 +252,52 @@ def test_hostile_or_clearable_share_is_over_the_floor():
         f"97 A10: hostile-or-clearable is {hostile:.1%} of {n} live records, under the HARD "
         f"{HOSTILE_SHARE_FLOOR:.0%} floor (floors are hard, decision 0041 touchpoint ①)"
     )
+
+
+# --- services[]: the typed promise the blueprint ledger checks (2026-09-05) ---
+
+def _service_scoped_records():
+    return [r for rf in catalogue.load_region_files() for r in rf.places
+            if catalogue.services_scoped(r)]
+
+
+def test_every_scoped_record_types_its_services():
+    missing = [r["id"] for r in _service_scoped_records() if r.get("services") is None]
+    assert not missing, ("records owe the player a typed services[] and have none "
+                         f"(run worldgen.derive_services --apply): {missing[:5]}")
+
+
+def test_service_hubs_meet_their_band_minimum():
+    from .catalogue import SERVICE_MIN
+    short = []
+    for r in _service_scoped_records():
+        mag = r["classification"].get("magnitude")
+        if (r.get("playerPurpose") or {}).get("primary") != "service-hub" or mag not in SERVICE_MIN:
+            continue
+        if len(r.get("services") or []) < SERVICE_MIN[mag]:
+            short.append((r["id"], len(r.get("services") or []), SERVICE_MIN[mag]))
+    assert not short, f"service-hubs below their band minimum: {short}"
+
+
+def test_a_hamlet_offers_nothing_beyond_a_shrine_or_its_ferry():
+    over = [(r["id"], sorted(set(r["services"]) - catalogue.HAMLET_SERVICE_CEILING))
+            for r in _service_scoped_records()
+            if r["classification"].get("magnitude") in ("M1", "M2") and r.get("services")
+            and set(r["services"]) - catalogue.HAMLET_SERVICE_CEILING]
+    assert not over, f"M1/M2 records with a service quarter: {over}"
+
+
+def test_services_derivation_is_deterministic_and_matches_the_records():
+    from . import derive_services
+    drift = [r["id"] for rf in catalogue.load_region_files() for r in rf.places
+             if derive_services.derive(r) != r.get("services")]
+    assert not drift, ("services[] has drifted from the derivation rules "
+                       f"(worldgen.derive_services): {drift[:5]}")
+
+
+def test_a_ruin_promises_nothing():
+    from . import derive_services
+    rec = _record(classification={"class": "settlement", "family": "hostile", "type": "bandit",
+                                  "variant": "riverine", "magnitude": "M4"},
+                  status="ruined", culture="argonian")
+    assert derive_services.derive(rec) == []

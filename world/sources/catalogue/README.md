@@ -115,6 +115,18 @@ A record that sells passage carries `travelStation {modes[], destinations[]}` â€
 the Morrowind-style pay-and-go network; destinations must be live records that
 are stations themselves.
 
+## `services[]` â€” which services, not "services" (2026-09-05)
+
+`rewardProfile.kinds: ["services"]` said a place had some; it never said which,
+so nothing could check that the blueprint built any. Every live
+settlement/civic record and every service-hub now carries `services[]` from the
+closed `catalogue.SERVICES` vocabulary. **It is derived, never hand-authored**:
+`python3 -m worldgen.derive_services --apply` writes it from magnitude, culture,
+player purpose, travel station and NPC roles. That module's docstring is the
+rule table. `worldgen.blueprint_promises` then checks the blueprint delivers
+each one (module 97 E9). Changing what a place offers means changing the record
+fields that the rules read, or the rules themselves, not the list.
+
 **Siting rationale never goes in the prose.** When the sources put a canon
 subject somewhere else, or say nothing, the reason we placed it where we did
 goes in `sitingNote` (or in `sources`), not in `why.founding`. Provenance voice

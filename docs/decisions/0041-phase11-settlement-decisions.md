@@ -1783,6 +1783,93 @@ report. It is queued as an owner question.
 outdoor dressing pass (G18) and `connectors.json` (G19) remain OPEN and are
 the next meso-level items.
 
+### Doors round — owner ruling: 100 % of buildings with an interior have a derived doorway and a linked interior (2026-09-05, late)
+
+**Rulings.** (1) Every building designed to have an interior has a derived
+door/entrance and a linked interior kit; the door teleports the player into
+that interior, as in Morrowind and Skyrim. (2) No door mesh is placed: the
+door is part of the building object (a composite with its door part) or an
+opening measured on the shell; the blueprint derives and plots the doorway
+on the footprint so the building can be oriented and a reviewer sees where
+the player enters. (3) Orientation is planned around the door: a building
+is sited and turned so its doorway faces the way we want.
+
+**Delivery.** The 53 doorless "enclosed" pieces split into two root
+causes. First, the ray probe counted hollow props as rooms, because game
+meshes are shells: a new front-face criterion (≥ 0.6 of ring hits show the
+wall's front to the eye; measured populations 0.00 vs 1.00, no overlap)
+demoted 39 masses — foundations, plazas, pools, columns, statue bases, the
+Ayleid stair block, tower tops and bases, the Imperial guard tower (no
+opening, no door anywhere) and the BM&V phitt house. A closed shell is
+promoted back only when something says it has a door. Second, real
+buildings had entrances that the probe could not read: open fronts wider than
+5 m (the stables, the tent, the stilt house veranda, the bamboo huts) are
+now a doorway of kind `open-front`; baked door leaves (the keeps, the towers,
+the Hlaalu tower modules, farmhouse02) are found as a planar patch proud of
+the wall (validated against farmhouse02's 13 mined placements, 10° apart);
+the kiosk takes its own access piece, fitted into its ring gaps to 0.11 m
+(`kiosk-with-access` composites) and the stilt house its door
+(`stilthouse-with-door`); the probe retries on a 1 m lattice when the plan
+centroid lands on a veranda. Result: **49 of 49 buildings have a doorway**
+(leaf 15, open-front 13, opening 11, assembly 6, door-piece 4). Every
+one links to a kit that exists: the `shell` class is empty, new family rules
+map the mud, hut, stilt and ship shells to a tileset; the two tilesets
+that the index had been naming without a kit — `vanilla-farmhouse-int` (76
+pieces, five authored grammars kept apart) and `vanilla-imperial-int` (65,
+the Imperial fort room-and-corridor set; Solitude rejected as Nordic) — are
+built, measured and registered. Sourcing rows G4–G7 CLOSED with no download.
+Validator: `interiorRef` must be an existing kit; a building with an
+interior must carry a door (HARD again); `door-on-way` HARD at 60°;
+`blueprint_footprints --orient` turns a parcel so its chosen doorway faces
+its way and reports old → new yaw. Blueprints re-authored on the new index
+(the doors removed earlier restored on real doorways).
+
+### Promise ledger — owner finding: the macro layer's promises were not checked against the blueprint (2026-09-05, late)
+
+**Finding.** The owner could not find in Lilmoth the shops and services the
+plan gave it. The only promise the compiler checked was `sockets` →
+`questSockets`; the record said `service-hub` and "services" as a reward
+kind, but nothing typed *which* services, so nothing could be checked.
+
+**Rulings and mechanism** (module 97 **E9**, §G22): what a record promises
+the player — services, named people, travel, quest provisions, sockets,
+reward kinds, the entrance — is realised in the blueprint as named,
+enterable objects; a promise nothing realises fails the compile from M3
+up (WARN below). The promise is typed: `services[]` on every live settlement
+or civic record, a closed vocabulary of nineteen, derived deterministically
+by `worldgen.derive_services` from magnitude × culture × player purpose ×
+travel station × NPC roles, calibrated on Morrowind's Balmora (UESP) as our
+M4 and on the settlement register for what an Argonian rebuilt city, a Dunmer
+stronghold or a hamlet does and does not have; 149 records carry it; the
+test suite fails on drift, on a hub below its band, on a hamlet with a
+service quarter. The delivery is checked by `blueprint_promises` (called
+from `compile_settlement`, ledger written beside the compiled settlement and
+read into the design record): an enterable service needs a parcel with
+`service`, a door on a derived doorway and a linked interior kit; a named
+NPC needs an occupant with `worksAt`/`livesAt`; a travel destination a
+service at a dock; a provision the objects that docs/quests/20 names for it; a
+socket a `questSocket` (private ids carry `socketRef`). A service the lore
+says the culture lacks is removed from the promise, never faked.
+
+**First ledger.** Lilmoth 28 of 47 met — unmet: ten services (apothecary,
+boatwright, council, guild-hall, lodging, smith, tavern, temple, trader),
+three named NPCs without a workplace, four provisions, faction-access, the
+Oliis ferry destination; Mazzatun 1 of 8, Nine-Trunks 1 of 8. Filled in the
+same session (record below); playbook step 1 now says the ledger IS the list
+of layout requirements.
+
+**Filled (2026-09-06).** All five blueprints compile with 0 errors and
+every ledger row is met. Lilmoth gained seven service buildings on the
+district kit sets with doorways and interiors (gate lodging on the farmhouse
+composite; trader, apothecary and tavern on the spine; guild hall on the
+council bench; smith and boatwright at the quay), its council hall and
+licence house typed, named occupants given workplaces, four provisions as
+sockets, a ferry service to the Oliis stage; Mazzatun and Nine-Trunks a
+store each, lodging and a shrine typed, sockets referenced. One promise was
+removed rather than built: Argonian records no longer promise a `temple`
+(rule R3; the Hist court is the sacred ground), which also changed
+Stormhold, Thorn, Helstrom and Archon — an owner confirmation is asked.
+
 ### Round A feedback — the owner's first look at the studio view (2026-09-05)
 
 **Rulings and what they became.** (1) *Whys on click*: every district, parcel,

@@ -319,7 +319,19 @@
           "place.hist-heartland.helstrom",
           "place.pirate-freeholds.half-chartered-anchorage"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.bone-carriers-camp",
@@ -893,7 +905,8 @@
         "tags": [],
         "opportunity": "a hull turned over for scraping hides whatever went under it",
         "tierOwnership": "LP06 · tier-3"
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.channel-pirate-anchorage",
@@ -1418,7 +1431,8 @@
           "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
         }
       ],
-      "sitingNote": "Moved in round 4: 'a creek mouth deep enough to lie in' was plotted 118 m from any water. Bound to the rise over the creek east of the toll span, where the water is 36 m below the houses."
+      "sitingNote": "Moved in round 4: 'a creek mouth deep enough to lie in' was plotted 118 m from any water. Bound to the rise over the creek east of the toll span, where the water is 36 m below the houses.",
+      "services": []
     },
     {
       "aliases": [],
@@ -2837,7 +2851,8 @@
         "dependsOn": [
           "place.dunmer-north.hissmir"
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.corimont-low-store",
@@ -3310,7 +3325,8 @@
         "tags": [],
         "opportunity": "debts get settled here in cargo that is signed over without leaving the hold",
         "tierOwnership": null
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.dres-holding-pens",
@@ -3807,7 +3823,14 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "smith",
+        "temple",
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.floodplain-paddy-works",
@@ -4731,7 +4754,8 @@
         "tags": [],
         "opportunity": "a forged grade on the board would move a cargo between lawful and contraband before anyone checked",
         "tierOwnership": "LP05 · tier-3"
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
@@ -5353,7 +5377,8 @@
         "tags": [],
         "opportunity": null,
         "tierOwnership": null
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.gorge-portage-slipway",
@@ -10756,7 +10781,8 @@
           "place.pirate-freeholds.trunk-ferry-stage"
         ]
       },
-      "sitingNote": "Moved in round 4: the record claims river frontage downriver of the free port with a bar below it, but was plotted on a summit 71 m from any water and outside the freeholds' own culture ground. Bound to the head of the river that runs south out of the zone."
+      "sitingNote": "Moved in round 4: the record claims river frontage downriver of the free port with a bar below it, but was plotted on a summit 71 m from any water and outside the freeholds' own culture ground. Bound to the head of the river that runs south out of the zone.",
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -11288,7 +11314,8 @@
         "distanceToRouteM": 435.6,
         "distanceToWaterM": 32.0,
         "score": 3.175
-      }
+      },
+      "services": []
     },
     {
       "id": "place.pirate-freeholds.trunk-toll-bridge",
@@ -12104,7 +12131,12 @@
         "distanceToRouteM": 42.8,
         "distanceToWaterM": 17.3,
         "score": 3.013
-      }
+      },
+      "services": [
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.pirate-freeholds.veterans-holding",
@@ -12351,7 +12383,12 @@
         "loot": []
       },
       "sitingNote": "Moved in round 4: 'a view of the border crossing' was plotted 470 m north of the pass station on dunmer-north culture ground, in a knot with two other hostile camps. Bound to the shelf above the pass, inside the freeholds, with the crossing in sight below.",
-      "scourSiteId": "site.scour.border-mountains.ridge-end-042"
+      "scourSiteId": "site.scour.border-mountains.ridge-end-042",
+      "services": [
+        "guild-hall",
+        "shrine",
+        "trader"
+      ]
     }
   ]
 }

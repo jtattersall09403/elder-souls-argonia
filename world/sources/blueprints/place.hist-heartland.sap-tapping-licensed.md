@@ -309,6 +309,23 @@ assembly and none measurable off its geometry, so the door on it was invented.
 It is now `mudhut01`, the small Argonian mud hut already used at Nine-Trunks:
 it has one measured doorway and a matched interior of its own. It is also the
 form that a licensed tapper working a three-month season would keep. The door sits on that
-doorway. The hut is turned so the doorway looks down the stage path.
+doorway. It opens into `mudhut01intnew`, the interior that the pool ships with the
+hut. The hut turned from 135 deg to 45 deg in this pass: solved from the doorway
+rather than eyeballed, so the hut's one opening looks straight down the
+tent spur onto the stage path.
 Nothing else in the camp has an inside: the stage, the stair, the mule line, the
 stock cart and the licence board are all open pieces.
+
+## Promises (97 E9, promise ledger round 2, 2026-09-06)
+
+The Licensed Stage meets 3 of 3. Its two unmet rows were warnings. Both were
+cheap to clear honestly.
+
+`quest.provision.mr04-anchor` (MR04, the night entry into a harvest camp) is now
+`socket.sap-tapping-licensed.mr04-anchor-roster`, an evidence socket on the
+stage deck, which is where the roster and the cut tally are kept.
+
+The `trade-access` reward is met by a `market` service
+on `parcel.sap-tapping-licensed.stage-deck`. The stage sells its graded sap
+from that deck, under the licence nailed up beside it. A deck is an open-air counter
+rather than a shop, so the parcel claims no door and no interior.

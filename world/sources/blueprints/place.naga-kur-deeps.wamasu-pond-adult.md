@@ -170,3 +170,10 @@ an open scaffold; its top is a deck, as is the offering platform. The
 interiors index measures all three as open geometry. The pond is overlooked
 from the stand and the platform, so the absence of any door is the correct
 outcome rather than a sourcing gap.
+
+## Promises (97 E9, promise ledger round 2, 2026-09-06)
+
+The Standing Charge meets 2 of 2. `quest.provision.canon.wamasu-charged-water`
+is now `socket.wamasu-pond-adult.charged-water`, a scene socket at the hunters'
+stand. The stand is where a player watches the adult charge the water
+without standing in it.

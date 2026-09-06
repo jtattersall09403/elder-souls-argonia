@@ -485,7 +485,20 @@
           "place.mercantile-coast.soulrest",
           "place.dunmer-north.thorn"
         ]
-      }
+      },
+      "services": [
+        "apothecary",
+        "boatwright",
+        "council",
+        "ferry",
+        "guild-hall",
+        "lodging",
+        "market",
+        "shrine",
+        "smith",
+        "tavern",
+        "trader"
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-bonded-row",
@@ -2369,7 +2382,8 @@
         "distanceToWaterM": 27.4,
         "score": 2.624
       },
-      "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it."
+      "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it.",
+      "services": []
     },
     {
       "id": "place.saxhleel-coast.archon-thalmor-post",
@@ -4987,7 +5001,8 @@
         "distanceToWaterM": 22.6,
         "score": 3.839
       },
-      "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground."
+      "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground.",
+      "services": []
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
@@ -13148,7 +13163,10 @@
         ],
         "opportunity": "Cargo and passengers reach the shelf by ladder and rope, so a quest can turn on who controls the hauling gear.",
         "tierOwnership": "MQ14 · tier-0; SX32 · tier-3"
-      }
+      },
+      "services": [
+        "ferry"
+      ]
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
@@ -13586,7 +13604,8 @@
           "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
         }
       ],
-      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033"
+      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033",
+      "services": []
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
@@ -13971,7 +13990,8 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "services": []
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
@@ -14561,7 +14581,13 @@
           "place.saxhleel-coast.portdun-mont",
           "place.saxhleel-coast.east-estuary-rootworm-station"
         ]
-      }
+      },
+      "services": [
+        "ferry",
+        "lodging",
+        "shrine",
+        "trader"
+      ]
     },
     {
       "id": "place.saxhleel-coast.seafalls-chamber",
