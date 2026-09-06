@@ -633,10 +633,10 @@
         "groundFit": "plinth",
         "centreUV": [
           0.714494021,
-          0.604784608
+          0.605184608
         ],
-        "yawDeg": 0.0,
-        "orientationWhy": "Turned so the door this composite ships with faces the landing, which is the only made ground anyone walks on here.",
+        "yawDeg": 85.7,
+        "orientationWhy": "Solved from the doorway: the composite's own door looks up the approach road, and the house sits three metres clear of the yard path so the two do not fight.",
         "assetRef": "composite:farmhouse/farmhouse02-with-door",
         "interior": {
           "kind": "dwelling"
@@ -651,36 +651,36 @@
         },
         "footprint": [
           [
-            0.713277503,
-            0.604271962
+            0.714914011,
+            0.603933077
           ],
           [
-            0.713303271,
-            0.60424755
+            0.714940286,
+            0.603956942
           ],
           [
-            0.715253497,
-            0.60424755
+            0.715086512,
+            0.605901678
           ],
           [
-            0.715279265,
-            0.604271962
+            0.715064101,
+            0.605929204
           ],
           [
-            0.715279265,
-            0.605728528
+            0.713611635,
+            0.606038415
           ],
           [
-            0.715253497,
-            0.605754296
+            0.713584007,
+            0.606014652
           ],
           [
-            0.713303271,
-            0.605754296
+            0.713437782,
+            0.604069916
           ],
           [
-            0.713277503,
-            0.605728528
+            0.713461545,
+            0.604042289
           ]
         ]
       }
@@ -715,12 +715,8 @@
             0.606224456
           ],
           [
-            0.712008589,
-            0.605817594
-          ],
-          [
-            0.714449761,
-            0.605754296
+            0.715036085,
+            0.605231025
           ]
         ]
       },
@@ -1041,7 +1037,7 @@
           "sizeClass": "medium",
           "culture": "argonian",
           "owner": "a poler family",
-          "interiorRef": "vanilla-farmhouse-int"
+          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
         },
         "doorwayRef": 0
       },
@@ -1064,17 +1060,17 @@
       {
         "id": "door.fixture.mire-landing.3",
         "parcelId": "parcel.mire-landing.factor-house",
-        "facingDeg": 180.3,
+        "facingDeg": 255.7,
         "thresholdUV": [
-          0.714491309,
-          0.605282336
+          0.713539883,
+          0.605427815
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
           "interiorRef": "vanilla-farmhouse-int"
         },
-        "doorwayRef": 1
+        "doorwayRef": 0
       },
       {
         "id": "door.fixture.mire-landing.4",
@@ -1087,7 +1083,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "dungeon-root-v1",
+          "interiorRef": "vanilla-farmhouse-int",
           "owner": "a reed-cutter"
         },
         "doorwayRef": 1
@@ -1169,20 +1165,20 @@
         ],
         [
           [
-            0.718842615,
-            0.596794951
+            0.718371147,
+            0.596966623
           ],
           [
-            0.7196426149999999,
-            0.596794951
+            0.719171147,
+            0.596966623
           ],
           [
-            0.7196426149999999,
-            0.5975949509999999
+            0.719171147,
+            0.597766623
           ],
           [
-            0.718842615,
-            0.5975949509999999
+            0.718371147,
+            0.597766623
           ]
         ]
       ],

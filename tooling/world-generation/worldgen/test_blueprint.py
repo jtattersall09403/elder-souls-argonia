@@ -50,6 +50,7 @@ def _bp(**over):
                    "facingDeg": _door_facing(), "thresholdUV": _threshold(),
                    "interiorClaim": {"sizeClass": "large", "culture": "argonian",
                                      "interiorRef": "vanilla-farmhouse-int"}}],
+        "boardwalks": [_door_walk()],
         "clearance": {"hardClear": [], "thinned": [], "kept": []},
         "approaches": [{"id": "approach.reed-cut-camp.marsh-track", "mode": "walk",
                         "fromDirection": "south-east", "firstSeen": "parcel.reed-cut-camp.hut",
@@ -159,14 +160,9 @@ def test_budget_shape():
     assert any("budget" in e for e in errs)
 
 
-@pytest.mark.xfail(
-    reason="Part 6 schema change 2026-09-05: parcels now require centreUV/yawDeg/"
-           "orientationWhy/assetRef and a DERIVED footprint. The five live "
-           "blueprints are being re-authored against it; this flips back to a "
-           "hard gate when they land.",
-    strict=False,
-)
 def test_live_dir_validates():
+    """Hard again since 2026-09-05: the five live blueprints are re-authored
+    against the Part 6 schema and the doors-and-interiors rulings."""
     # the live dir holds real places from Part 6 on; validate against the catalogue
     assert blueprint.validate_all(known_place_ids=blueprint.catalogue_ids()) == []
 
@@ -226,6 +222,28 @@ def test_part6_asset_ref_and_siting_block():
 # Part 6 round 2 (owner 2026-09-05): why blocks, approaches, scale grounding,
 # ways authored as via + routing + why, gate spans and interiors
 # --------------------------------------------------------------------------- #
+
+def _door_walk():
+    """A boardwalk two metres in front of the door, square to the way it looks.
+
+    The owner's ruling of 2026-09-05 makes a door that faces no way a hard
+    failure, so the base fixture gives its one door something to open onto.
+    Held as a boardwalk, not a route, so the tests that replace `routes` still
+    have it."""
+    import math
+    th = _threshold()
+    facing = math.radians(_door_facing())
+    step = 2.0 / blueprint_footprints.PROVINCE_EXTENT_M
+    ahead = (th[0] + step * math.sin(facing), th[1] - step * math.cos(facing))
+    side = 6.0 / blueprint_footprints.PROVINCE_EXTENT_M
+    way = {"id": "boardwalk.reed-cut-camp.door-walk", "kind": "boardwalk", "widthM": 1.5,
+           "routing": "straight",
+           "via": [[round(ahead[0] + side * math.cos(facing), 9), round(ahead[1] + side * math.sin(facing), 9)],
+                   [round(ahead[0] - side * math.cos(facing), 9), round(ahead[1] - side * math.sin(facing), 9)]],
+           "why": "The plank walk the hut's door steps onto, laid along the dry bank of the cut."}
+    way["points"] = street_router.route_way(way, {}, None)
+    return way
+
 
 def _way(**over):
     way = {"id": "route.reed-cut-camp.cut-path", "kind": "footpath", "widthM": 1.5,
@@ -408,7 +426,9 @@ def test_a_door_on_an_assembly_doorway_passes(stub_index):
     errs = blueprint.validate_blueprint(_bp(doors=[_door(
         facingDeg=(180.0 + YAW_DEG) % 360.0,
         interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
-    assert not any("doorway" in e for e in errs)
+    # only the doorway rule is under test here: this door looks off the base
+    # fixture's plank walk, which the door-on-way rule reports separately.
+    assert not any("sits on no derived doorway" in e for e in errs)
 
 
 def test_a_piece_with_no_derived_doorway_may_not_carry_a_door(stub_index):
@@ -418,14 +438,15 @@ def test_a_piece_with_no_derived_doorway_may_not_carry_a_door(stub_index):
     assert "use the composite that ships the door, or record a sourcing gap" in message
 
 
-def test_a_piece_with_no_derived_doorway_is_a_sourcing_gap_not_a_missing_door(stub_index):
-    """A shell whose kit derives no doorway owes a SOURCING job, not an invented
-    entrance, so the door rule warns instead of failing."""
+def test_a_piece_with_an_inside_and_no_doorway_fails_hard(stub_index):
+    """Every enclosed piece in the index now carries a derived doorway, so a
+    shell without one means a stale kit and the compile stops (owner ruling
+    2026-09-05, restoring the hard gate)."""
     stub_index(SHELL)
     warnings = []
     errs = blueprint.validate_blueprint(_bp(doors=[]), KNOWN, warnings=warnings)
-    assert not any("no door in doors[]" in e for e in errs)
-    assert any("record a sourcing gap" in w for w in warnings)
+    assert any("its kit derives no doorway" in e for e in errs)
+    assert not any("record a sourcing gap" in w for w in warnings)
 
 
 def _radial_threshold(radius_m: float):
@@ -638,3 +659,56 @@ def test_minor_waterways_are_addressable_as_terminal_routes():
         "no minor waterway ids in the network: province_network is not reading "
         "waterways-minor.json, so a poling lane cannot be a networkTerminals[] routeId"
     )
+
+
+# --------------------------------------------------------------------------- #
+# The door is the link to the interior (owner rulings 2026-09-05): the kit it
+# names has to exist, and the doorway has to face the way the player arrives on.
+# --------------------------------------------------------------------------- #
+def test_interior_ref_must_name_a_kit_that_exists():
+    bp = _bp()
+    bp["doors"][0]["interiorClaim"]["interiorRef"] = "swamp-palace-int"
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    message = next(e for e in errs if "names no interior kit" in e)
+    assert "config/kits" in message
+
+
+def test_a_door_must_face_the_way_it_opens_onto():
+    """60° is the ruling's allowance; a door turned away from its walk fails."""
+    bp = _bp()
+    parcel = bp["parcels"][0]
+    parcel["yawDeg"] = (parcel["yawDeg"] + 120.0) % 360.0
+    parcel["footprint"] = _derived(yaw=parcel["yawDeg"])
+    bp["doors"][0]["facingDeg"] = (bp["doors"][0]["facingDeg"] + 120.0) % 360.0
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    assert any("door-on-way" in e and "the ruling allows" in e for e in errs)
+
+
+def test_a_door_must_stand_at_the_way_it_opens_onto():
+    bp = _bp()
+    walk = bp["boardwalks"][0]
+    walk["via"] = [[p[0] + 0.01, p[1] + 0.01] for p in walk["via"]]
+    walk["points"] = street_router.route_way(walk, bp, None)
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    assert any("door-on-way" in e and "from the nearest way" in e for e in errs)
+
+
+def test_orient_turns_a_parcel_until_its_doorway_faces_its_way():
+    """--orient solves yaw from the doorway and the way, and leaves the why alone."""
+    bp = _routed(_bp())
+    blueprint_footprints.apply_doors_to_blueprint(bp)
+    parcel = bp["parcels"][0]
+    original_why = parcel["orientationWhy"]
+    parcel["yawDeg"] = (parcel["yawDeg"] + 150.0) % 360.0
+    parcel["footprint"] = _derived(yaw=parcel["yawDeg"])
+    rows = blueprint_footprints.orient_blueprint(bp)
+    assert len(rows) == 1 and rows[0]["moved"]
+    assert rows[0]["wayId"] == "boardwalk.reed-cut-camp.door-walk"
+    assert rows[0]["deltaDeg"] > 90.0
+    assert parcel["orientationWhy"] == original_why
+    # the doorway now looks at the walk: the bearing rule is satisfied (the
+    # threshold's distance is a siting question the tool deliberately leaves)
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    assert not any("the ruling allows" in e for e in errs)
+    # a second pass is a no-op: the parcel already faces its way
+    assert blueprint_footprints.orient_blueprint(bp)[0]["moved"] is False

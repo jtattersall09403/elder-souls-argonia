@@ -202,6 +202,12 @@ def parcel_doorways(parcel: dict, extent_m: float,
             # older index rows carry no `doorwaySource`: those were all measured
             # off the shell's own geometry, which is what "geometry" means here.
             "source": dw.get("doorwaySource") or "geometry",
+            # what KIND of way in it is (an opening, an open front, a hung leaf,
+            # a door part in an assembly) and which interior kit the door on it
+            # teleports the player into — the two things a reviewer asks of a
+            # doorway (owner rulings 2026-09-05).
+            "kind": dw.get("kind"),
+            "interiorRef": interiors.interior_ref(record) if record else None,
             "arcM": dw.get("arcM"),
         }
         if radial:

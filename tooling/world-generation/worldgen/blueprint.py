@@ -188,7 +188,22 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                         area — small < 40 m², medium < 120 m², large above;
                       * where the index derived `doorways`, facingDeg must be
                         within ±45° of a doorway side rotated by the parcel's
-                        yawDeg, so a door cannot be claimed on a blank wall.
+                        yawDeg, so a door cannot be claimed on a blank wall;
+                      * an `interiorRef` that is not a mesh id must NAME AN
+                        INTERIOR KIT THAT EXISTS in
+                        tooling/asset-pipeline/pipeline/config/kits — the door
+                        teleports the player into that kit (owner 2026-09-05);
+                      * DOOR ON WAY (hard, owner 2026-09-05: "doors in the right
+                        place and facing the right way is really crucial"): the
+                        doorway's world bearing must be within 60° of the way
+                        the door opens onto, and the threshold within 4 m of it.
+                        A door may carry `facesWay: <way id>` to name that way;
+                        otherwise the nearest way is taken. Solve the yaw with
+                        `python3 -m worldgen.blueprint_footprints --orient
+                        --apply <blueprint>`, which turns the parcel until the
+                        doorway faces its way and rewrites footprint, facingDeg
+                        and thresholdUV. It never rewrites `orientationWhy`:
+                        it prints the parcels whose why must be re-read.
                     `worldgen.blueprint_interiors --report <blueprint>` lists
                     all of this per parcel.
   clearance         {hardClear: [polygon...], thinned: [polygon...],
@@ -201,7 +216,21 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
   travelServices[]  {id, kind ("ferry"|"boat"|"root"|"water-taxi"),
                     toPlaceId, timetable?}
   occupants[]       {slotId, ladderRef (semantic, e.g. "strong-d3"),
-                    cultureRole, ownerFaction?}
+                    cultureRole, ownerFaction?, worksAt?, livesAt?}
+                    — worksAt/livesAt are parcel ids: where the player finds
+                    this person and where they sleep. A catalogue
+                    `contents.npcs` slot marked `named` is not delivered until
+                    some occupant carries one of them (97 E9).
+  parcels[].service optional, one of `catalogue.SERVICES` — the parcel IS that
+                    service (the inn, the smith, the council hall), and it is
+                    what meets the catalogue record's `services[]` promise.
+                    Anything a player walks into also needs a door and a
+                    linked interior (97 E5).
+                    Both fields are validated by `worldgen.blueprint_promises`
+                    (kept out of this module's validator so the promise ledger
+                    stays separable); that module's docstring is their
+                    reference, and `output/settlements/<id>.ledger.md` is the
+                    report.
   assetConstraints[] free-form strings, checked against the asset inventory
   ownership         optional per-interactable {refId: {owner?, ownerFaction?,
                     valueTier?}} (buildout register: never retrofitted)
@@ -257,8 +286,8 @@ KIT_SETS = {
     "argonian-mud":       {"culture": "argonian", "kits": ["settlement-mud-v1"]},
     "argonian-root":      {"culture": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
-    "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep"]},
-    "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic"]},
+    "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int"]},
+    "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int"]},
     "neutral-works":      {"culture": "neutral",  "kits": ["works-v1"]},
     "neutral-underwater": {"culture": "neutral",  "kits": ["underwater-v1"]},
 }
@@ -273,6 +302,21 @@ DOOR_FACING_TOLERANCE_DEG = 100.0
 # direction rather than a hull chord, so it can be tight: a door may sit at the
 # corner of its opening, it may not be claimed on a blank wall.
 DOORWAY_TOLERANCE_DEG = bi.DOORWAY_TOLERANCE_DEG
+
+# An `interiorClaim.interiorRef` that is not a mesh asset id names an INTERIOR
+# KIT, and that kit has to exist: the door teleports the player into it
+# (owner ruling 2026-09-05, the Morrowind/Skyrim model). The kit configs are
+# the source of truth for which kits can be built.
+KIT_CONFIG_DIR = (Path(__file__).resolve().parents[3] / "tooling" / "asset-pipeline"
+                  / "pipeline" / "config" / "kits")
+
+
+@lru_cache(maxsize=1)
+def kit_config_names() -> frozenset[str]:
+    """Every kit a config exists for — the set an interiorRef may name."""
+    if not KIT_CONFIG_DIR.exists():
+        return frozenset()
+    return frozenset(path.stem for path in KIT_CONFIG_DIR.glob("*.json"))
 
 REQUIRED = [
     "id", "seed", "causalModel", "boundary", "districts", "parcels",
@@ -516,7 +560,9 @@ def _placement_warnings(bp: dict) -> list[str]:
 
 
 DOOR_ON_WAY_TOLERANCE_DEG = 60.0
-DOOR_ON_WAY_RANGE_M = 30.0
+# The door has to open onto the way, so the threshold has to be AT it:
+# four metres is a doorstep and a step down, not a walk across a yard.
+DOOR_ON_WAY_RANGE_M = 4.0
 
 
 def _ways(bp: dict):
@@ -547,10 +593,13 @@ def _nearest_way(bp: dict, point_uv):
     return best
 
 
-def _door_way_warnings(bp: dict) -> list[str]:
-    """The orientation reason, read off the geometry: a door's derived doorway
-    should look at the way it opens onto. WARN, not HARD — the owner wants the
-    reason surfaced, not a fight with the designer (97 §G)."""
+def _door_way_failures(bp: dict) -> list[str]:
+    """The orientation contract, read off the geometry: a door's derived doorway
+    must look at the way it opens onto, and its threshold must stand at that way.
+
+    Owner ruling 2026-09-05 — "doors in the right place and facing the right way
+    is really crucial": a building is sited so that its doorway faces where the
+    player arrives, so a door facing the swamp is a HARD failure, not a note."""
     out: list[str] = []
     bid = bp.get("id", "<missing id>")
     lib = bi.library()
@@ -572,17 +621,32 @@ def _door_way_warnings(bp: dict) -> list[str]:
         bearing = (float(ways[idx]["sideDeg"]) + float(parcel.get("yawDeg") or 0.0)) % 360.0
         near = _nearest_way(bp, th)
         if near is None:
+            out.append(f"door-on-way — {d.get('id')} opens onto no way at all; a door has to give onto a "
+                       f"street, a boardwalk or a canal side within {DOOR_ON_WAY_RANGE_M:.0f} m")
             continue
         way, (qx, qz), dist_uv = near
-        if dist_uv * fp.PROVINCE_EXTENT_M > DOOR_ON_WAY_RANGE_M:
+        dist_m = dist_uv * fp.PROVINCE_EXTENT_M
+        if dist_m > DOOR_ON_WAY_RANGE_M:
+            out.append(f"door-on-way — {d.get('id')} stands {dist_m:.1f} m from the nearest way "
+                       f"({way.get('id')}); a threshold must be within {DOOR_ON_WAY_RANGE_M:.0f} m of the way "
+                       f"it opens onto, so move the parcel to the street or run a way to the door")
             continue
-        to_way = math.degrees(math.atan2(qx - float(th[0]), -(qz - float(th[1])))) % 360.0
+        # The bearing to the way is taken from the parcel PIVOT and from the
+        # stretch of the way the player walks (`blueprint_footprints`), so the
+        # check and `--orient` read the same geometry. Taken from the threshold
+        # it would be degenerate wherever a way runs right past the door.
+        centre = _parcel_centre_m(parcel)
+        target = fp.way_point_facing(parcel, way, way.get("points") or way.get("via"))
+        if centre is None or target is None:
+            continue
+        to_way = math.degrees(math.atan2(target[0] - centre[0], -(target[1] - centre[1]))) % 360.0
         off = _angle_delta(bearing, to_way)
         if off > DOOR_ON_WAY_TOLERANCE_DEG:
-            out.append(f"{bid}: door-on-way — {d.get('id')} sits on a doorway looking {bearing:.0f}°, but the "
-                       f"way it opens onto ({way.get('id')}, {dist_uv * fp.PROVINCE_EXTENT_M:.1f} m off) lies "
-                       f"{to_way:.0f}° — {off:.0f}° away; turn the parcel or move the door to a doorway that "
-                       f"faces the street")
+            out.append(f"door-on-way — {d.get('id')} sits on a doorway looking {bearing:.0f}°, but the "
+                       f"way it opens onto ({way.get('id')}, {dist_m:.1f} m off) lies "
+                       f"{to_way:.0f}° — {off:.0f}° away, over the {DOOR_ON_WAY_TOLERANCE_DEG:.0f}° "
+                       f"the ruling allows; run `python3 -m worldgen.blueprint_footprints --orient --apply "
+                       f"<blueprint>` to turn the parcel, or move the door to a doorway that faces the street")
     return out
 
 
@@ -964,6 +1028,12 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         elif got != want:
             fail(f"door {d.get('id')}: interiorClaim.interiorRef is {got!r}; the kit says this piece's interior "
                  f"is {want!r} (interior kind {record.get('interior')!r})")
+        if isinstance(got, str) and got.strip() and ":" not in got:
+            known_kits = kit_config_names()
+            if known_kits and got not in known_kits:
+                fail(f"door {d.get('id')}: interiorClaim.interiorRef {got!r} names no interior kit — the door "
+                     f"teleports the player into that kit, so it must have a config in "
+                     f"{KIT_CONFIG_DIR} (built kits: {', '.join(sorted(known_kits)[:6])}…)")
         measured_class = record.get("sizeClass")
         if measured_class and (d.get("interiorClaim") or {}).get("sizeClass") != measured_class:
             area = record.get("planAreaM2", 0.0)
@@ -997,19 +1067,21 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id")):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
                 if not bi.doorways(record):
-                    # No derived doorway exists, so a door here would be invented.
-                    # That is a SOURCING gap (settlement-kit-sourcing-log.md), and
-                    # the blueprint records it rather than faking an entrance.
-                    if warnings is not None:
-                        warnings.append(
-                            f"{bid}: parcel {p.get('id')}: {p.get('assetRef')} has an inside "
-                            f"({record.get('interior')}) but the kit derives no doorway, so it has no "
-                            f"entrance — use the composite that ships the door, or record a sourcing gap")
+                    # Every piece the index still calls enclosed now carries a
+                    # derived doorway, so this is a kit that was not rebuilt.
+                    fail(f"parcel {p.get('id')}: {p.get('assetRef')} has an inside "
+                         f"({record.get('interior')}) but its kit derives no doorway — rebuild the "
+                         f"interiors index (`python3 -m pipeline.interiors_index` in tooling/asset-pipeline/), "
+                         f"use the composite that ships the door, or make the piece a mass "
+                         f"(`interior: {{\"kind\": \"none\"}}`)")
                     continue
                 fail(f"parcel {p.get('id')}: {p.get('assetRef')} has an inside "
                      f"({record.get('interior')} → {want}) but no door in doors[] — every building "
                      f"intended to have an interior must have an entrance (owner ruling 2026-09-05); "
                      f"run `python3 -m worldgen.blueprint_interiors --report <blueprint>`")
+
+    for msg in _door_way_failures(bp):
+        fail(msg)
 
     cl = bp.get("clearance", {})
     if cl and not {"hardClear", "thinned", "kept"} <= set(cl):

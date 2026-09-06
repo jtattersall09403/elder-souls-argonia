@@ -22,6 +22,15 @@ Run (from tooling/world-generation/):
   python3 -m worldgen.blueprint_footprints --apply <blueprint.json> [...]
   python3 -m worldgen.blueprint_footprints --check <blueprint.json> [...]
   python3 -m worldgen.blueprint_footprints --doors <blueprint.json> [...]
+  python3 -m worldgen.blueprint_footprints --orient [--apply] [--parcels a,b] <blueprint.json>
+
+`--orient` closes the loop the owner asked for (2026-09-05): "doors in the
+right place and facing the right way is really crucial". A building is sited so
+that its doorway faces the way the player arrives on, so the tool SOLVES the
+parcel's `yawDeg` from the doorway the door sits on and the way it opens onto,
+then rewrites the derived `footprint`, `facingDeg` and `thresholdUV`. It never
+touches `orientationWhy`: the reason is the designer's, so the tool only prints
+the parcels whose why now has to be re-read.
 
 `--doors` derives the other half of the same contract (owner ruling
 2026-09-05): each door's `doorwayRef`, the index of the DERIVED doorway it
@@ -190,6 +199,263 @@ def apply_doors_to_blueprint(bp: dict, interiors: "bi.InteriorLibrary | None" = 
     return problems
 
 
+# --------------------------------------------------------------------------- #
+# orientation from the doorway (owner ruling 2026-09-05)
+# --------------------------------------------------------------------------- #
+WAY_KEYS_FOR_DOORS = ("routes", "canals", "boardwalks")
+# A parcel is turned only when its doorway is further off its way than the
+# ruling allows (the validator's 60°). Snapping every building exactly at its
+# street would read as a surveyed grid, which module 97 C8 refuses, so the cant
+# a designer authored inside the tolerance is left alone. `--exact` overrides.
+ORIENT_TOLERANCE_DEG = 60.0
+ORIENT_EXACT_EPSILON_DEG = 0.5
+YAW_ROUND = 1
+
+
+def ways_of(bp: dict):
+    """(way, its plotted points) for every way a door can open onto."""
+    for key in WAY_KEYS_FOR_DOORS:
+        for w in bp.get(key, []) or []:
+            pts = w.get("points") or w.get("via") or []
+            if len(pts) >= 2:
+                yield w, pts
+
+
+def nearest_point_on_way(pts, point_uv):
+    """(nearest [u,v] on the polyline, distance in UV)."""
+    px, pz = float(point_uv[0]), float(point_uv[1])
+    best = None
+    for i in range(len(pts) - 1):
+        ax, az = float(pts[i][0]), float(pts[i][1])
+        bx, bz = float(pts[i + 1][0]), float(pts[i + 1][1])
+        ex, ez = bx - ax, bz - az
+        l2 = ex * ex + ez * ez
+        if l2 == 0:
+            continue
+        t = max(0.0, min(1.0, ((px - ax) * ex + (pz - az) * ez) / l2))
+        qx, qz = ax + t * ex, az + t * ez
+        dist = math.hypot(px - qx, pz - qz)
+        if best is None or dist < best[1]:
+            best = ((qx, qz), dist)
+    return best
+
+
+def nearest_way(bp: dict, point_uv):
+    """(way, nearest point on it, distance in UV) for the closest way to a point."""
+    best = None
+    for w, pts in ways_of(bp):
+        near = nearest_point_on_way(pts, point_uv)
+        if near is None:
+            continue
+        (qx, qz), dist = near
+        if best is None or dist < best[2]:
+            best = (w, (qx, qz), dist)
+    return best
+
+
+def way_by_id(bp: dict, way_id: str):
+    for w, pts in ways_of(bp):
+        if w.get("id") == way_id:
+            return w, pts
+    return None
+
+
+def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
+                 lib: FootprintLibrary | None = None,
+                 extent_m: float = PROVINCE_EXTENT_M):
+    """Where the player stands to use this doorway: the point at which the
+    doorway's line of sight crosses the building's own outline.
+
+    A doorway's measured `offsetM` is the opening's position inside the piece,
+    which for a big hall sits well in from the wall, so it is the wrong point to
+    call a threshold. Casting the doorway's bearing out from the pivot to the
+    derived outline puts the threshold ON the wall the door claims, which is
+    what the validator's edge check reads. The offset is the fallback when no
+    outline can be derived.
+    """
+    centre = parcel_centre_m(parcel, extent_m)
+    if centre is None:
+        return None
+    poly = parcel.get("footprint") or (parcel_footprint(parcel, lib, extent_m) or [])
+    side = doorway.get("sideDeg")
+    if poly and side is not None and not bi.is_radial(doorway):
+        bearing = math.radians((float(side) + float(yaw_deg)) % 360.0)
+        dx, dz = math.sin(bearing), -math.cos(bearing)
+        cu, cv = centre[0] / extent_m, centre[1] / extent_m
+        hit = None
+        for i in range(len(poly)):
+            ax, az = float(poly[i][0]), float(poly[i][1])
+            bx, bz = float(poly[(i + 1) % len(poly)][0]), float(poly[(i + 1) % len(poly)][1])
+            ex, ez = bx - ax, bz - az
+            den = dx * ez - dz * ex
+            if abs(den) < 1e-15:
+                continue
+            t = ((ax - cu) * ez - (az - cv) * ex) / den
+            # u is the parameter along the edge, from the same 2x2 solve
+            u = (dx * (az - cv) - dz * (ax - cu)) / -den
+            if t > 0 and 0.0 <= u <= 1.0 and (hit is None or t > hit):
+                hit = t
+        if hit is not None:
+            return [round(cu + dx * hit, UV_ROUND), round(cv + dz * hit, UV_ROUND)]
+    off = bi.doorway_offset_m(doorway, yaw_deg)
+    if off is None:
+        return None
+    return [round((centre[0] + off[0]) / extent_m, UV_ROUND),
+            round((centre[1] + off[1]) / extent_m, UV_ROUND)]
+
+
+def _trim_snapped_end(parcel_id: str, way: dict, pts):
+    """The stretch of a way a player walks, with the end the router snapped to
+    THIS parcel dropped.
+
+    `street_router` pulls a way that `endsAt` a building onto its hull, so that
+    last vertex is the building, not the street. Aiming a door at it would chase
+    the door round the parcel as it turns; dropping it makes the target
+    yaw-independent, which is what makes this tool idempotent.
+    """
+    if parcel_id not in (way.get("endsAt") or []) or len(pts) < 2:
+        return pts
+    return pts[:-1]
+
+
+def way_point_facing(parcel: dict, way: dict, way_pts, extent_m: float = PROVINCE_EXTENT_M):
+    """The point on the way this parcel's door should look at: the nearest point
+    of the walked line to the parcel pivot."""
+    centre = parcel_centre_m(parcel, extent_m)
+    pts = _trim_snapped_end(parcel.get("id"), way, list(way_pts or []))
+    if centre is None or not pts:
+        return None
+    if len(pts) == 1:
+        # A two-point way that ends at this building: what is left of it is the
+        # line the player walks in on, so the door looks back down that line.
+        return (float(pts[0][0]) * extent_m, float(pts[0][1]) * extent_m)
+    near = nearest_point_on_way(pts, [centre[0] / extent_m, centre[1] / extent_m])
+    if near is None:
+        return None
+    (qu, qv), _dist = near
+    return (qu * extent_m, qv * extent_m)
+
+
+def solve_yaw(bp: dict, parcel: dict, doorway: dict, way: dict, way_pts,
+              extent_m: float) -> float | None:
+    """The yaw that turns this doorway to face the way the player walks on.
+
+    Solved from the parcel PIVOT, which does not move, so the answer is the same
+    however many times the tool is run — a bearing taken from the threshold
+    would chase itself, because turning the parcel moves the threshold.
+    """
+    side = doorway.get("sideDeg")
+    if side is None or bi.is_radial(doorway):
+        return None
+    centre = parcel_centre_m(parcel, extent_m)
+    target = way_point_facing(parcel, way, way_pts, extent_m)
+    if centre is None or target is None:
+        return None
+    bearing = math.degrees(math.atan2(target[0] - centre[0], -(target[1] - centre[1]))) % 360.0
+    return (bearing - float(side)) % 360.0
+
+
+def orient_blueprint(bp: dict, parcel_ids: set[str] | None = None,
+                     interiors: "bi.InteriorLibrary | None" = None,
+                     lib: FootprintLibrary | None = None,
+                     extent_m: float = PROVINCE_EXTENT_M,
+                     exact: bool = False) -> list[dict]:
+    """Solve each doored parcel's yaw from its doorway and the way it opens onto.
+
+    Returns one report row per parcel considered:
+    {parcelId, doorId, wayId, oldYawDeg, newYawDeg, deltaDeg, moved, note}.
+    The blueprint is MUTATED only for rows with `moved` True; `orientationWhy`
+    is never touched (the caller re-reads the whys the report names).
+    """
+    interiors = interiors if interiors is not None else bi.library()
+    lib = lib if lib is not None else library()
+    parcels = {p.get("id"): p for p in bp.get("parcels", []) or []}
+    seen: set[str] = set()
+    rows: list[dict] = []
+    for door in bp.get("doors", []) or []:
+        pid = door.get("parcelId")
+        if pid in seen or pid not in parcels:
+            continue
+        if parcel_ids is not None and pid not in parcel_ids:
+            continue
+        seen.add(pid)
+        parcel = parcels[pid]
+        record = interiors.get(parcel.get("assetRef"))
+        ways = bi.doorways(record)
+        idx = door.get("doorwayRef")
+        if not isinstance(idx, int) or not (0 <= idx < len(ways)):
+            rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": None,
+                         "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
+                         "deltaDeg": None, "moved": False,
+                         "note": "no derived doorwayRef — run --doors first"})
+            continue
+        doorway = ways[idx]
+        if bi.is_radial(doorway):
+            rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": None,
+                         "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
+                         "deltaDeg": None, "moved": False,
+                         "note": "radial doorway — any bearing is a way in, so yaw is free"})
+            continue
+        hint = door.get("facesWay") or parcel.get("facesWay")
+        target = way_by_id(bp, hint) if hint else None
+        if hint and target is None:
+            rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": hint,
+                         "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
+                         "deltaDeg": None, "moved": False,
+                         "note": f"facesWay {hint!r} names no way in this blueprint"})
+            continue
+        if target is None:
+            th = door.get("thresholdUV") or threshold_uv(
+                parcel, doorway, float(parcel.get("yawDeg") or 0.0), lib, extent_m)
+            near = nearest_way(bp, th) if th else None
+            if near is None:
+                rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": None,
+                             "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
+                             "deltaDeg": None, "moved": False,
+                             "note": "no way to face — the door opens onto nothing"})
+                continue
+            target = (near[0], near[0].get("points") or near[0].get("via"))
+        way, way_pts = target
+        old = float(parcel.get("yawDeg") or 0.0)
+        new = solve_yaw(bp, parcel, doorway, way, way_pts, extent_m)
+        if new is None:
+            rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": way.get("id"),
+                         "oldYawDeg": old, "newYawDeg": None, "deltaDeg": None,
+                         "moved": False, "note": "yaw could not be solved (no offset measured)"})
+            continue
+        new = round(new, YAW_ROUND)
+        delta = abs((new - old + 180.0) % 360.0 - 180.0)
+        row = {"parcelId": pid, "doorId": door.get("id"), "wayId": way.get("id"),
+               "oldYawDeg": old, "newYawDeg": new, "deltaDeg": round(delta, 2),
+               "moved": delta > (ORIENT_EXACT_EPSILON_DEG if exact else ORIENT_TOLERANCE_DEG),
+               "note": ""}
+        if row["moved"]:
+            parcel["yawDeg"] = new
+            derived = parcel_footprint(parcel, lib, extent_m)
+            if derived is not None:
+                parcel["footprint"] = derived
+            door["facingDeg"] = round((float(doorway["sideDeg"]) + new) % 360.0, YAW_ROUND)
+            th = threshold_uv(parcel, doorway, new, lib, extent_m)
+            if th is not None:
+                door["thresholdUV"] = th
+        else:
+            row["note"] = ("already faces its way" if delta <= ORIENT_EXACT_EPSILON_DEG
+                           else f"within the {ORIENT_TOLERANCE_DEG:.0f}° the ruling allows, "
+                                f"so the authored cant stands")
+        rows.append(row)
+    return rows
+
+
+def orient_file(path: Path, parcel_ids: set[str] | None = None,
+                apply: bool = False, exact: bool = False) -> list[dict]:
+    text = path.read_text()
+    data = json.loads(text)
+    rows = orient_blueprint(data.get("blueprint", {}), parcel_ids, exact=exact)
+    if apply and any(r["moved"] for r in rows):
+        path.write_text(json.dumps(data, indent=_indent_of(text)) + "\n")
+    return rows
+
+
 def _indent_of(text: str) -> int:
     """The file's own indent, so --apply does not reformat the whole blueprint
     (the live files are indent 1, the fixture is indent 2)."""
@@ -218,11 +484,19 @@ def main() -> int:
     ap.add_argument("--check", action="store_true", help="report mismatches only")
     ap.add_argument("--doors", action="store_true",
                     help="also derive each door's doorwayRef (implies --apply)")
+    ap.add_argument("--orient", action="store_true",
+                    help="solve each doored parcel's yaw so the doorway faces the way it opens "
+                         "onto; reports old vs new, and writes only with --apply")
+    ap.add_argument("--parcels", default="",
+                    help="comma-separated parcel ids to limit --orient to")
+    ap.add_argument("--exact", action="store_true",
+                    help="with --orient: aim every doorway exactly at its way, not only "
+                         "the ones outside the 60 deg the ruling allows")
     ap.add_argument("paths", nargs="+")
     args = ap.parse_args()
     if args.doors:
         args.apply = True
-    if args.apply == args.check:
+    if not args.orient and args.apply == args.check:
         ap.error("choose exactly one of --apply / --check / --doors")
 
     lib = library()
@@ -231,6 +505,30 @@ def main() -> int:
               "python3 -m pipeline.measure_footprints from tooling/asset-pipeline/",
               file=sys.stderr)
         return 1
+
+    if args.orient:
+        only = {s.strip() for s in args.parcels.split(",") if s.strip()} or None
+        turned = 0
+        for raw in args.paths:
+            path = Path(raw)
+            rows = orient_file(path, only, apply=args.apply, exact=args.exact)
+            for row in rows:
+                if row["newYawDeg"] is None:
+                    print(f"blueprint_footprints: {path.name}: {row['parcelId']}: {row['note']}")
+                    continue
+                mark = "TURNED" if row["moved"] else "kept  "
+                print(f"blueprint_footprints: {path.name}: {mark} {row['parcelId']} "
+                      f"{row['oldYawDeg']:.1f}° → {row['newYawDeg']:.1f}° "
+                      f"({row['deltaDeg']:.1f}° to face {row['wayId']})"
+                      + (f" — {row['note']}" if row["note"] else ""))
+            moved = [r["parcelId"] for r in rows if r["moved"]]
+            turned += len(moved)
+            if moved:
+                print(f"blueprint_footprints: {path.name}: re-read orientationWhy on "
+                      + ", ".join(moved))
+        print(f"blueprint_footprints: {'applied' if args.apply else 'dry run'} — "
+              f"{turned} parcel(s) turned")
+        return 0
 
     failures = 0
     for raw in args.paths:

@@ -37,8 +37,10 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
       groundFit: "dug-in", yawDeg: 180, orientationWhy: "door onto the clearing", notes: null,
       spans: null, interior: { kind: "dwelling", assetRef: "bmv:interior/tronc01" }, why: why(),
       doorways: [
-        { worldM: [116, 220], bearingDeg: 180, source: "assembly", arcM: 1.2 },
-        { worldM: null, bearingDeg: null, source: "geometry", arcM: null, radial: true, radiusM: 4 },
+        { worldM: [116, 220], bearingDeg: 180, source: "assembly", arcM: 1.2,
+          kind: "door-piece", interiorRef: "dungeon-root-v1" },
+        { worldM: null, bearingDeg: null, source: "geometry", arcM: null, radial: true, radiusM: 4,
+          kind: "opening", interiorRef: "dungeon-root-v1" },
       ],
       polygon: [[112, 212], [120, 212], [120, 220], [112, 220]], centreM: [116, 216],
     }],
@@ -284,6 +286,15 @@ describe("derived doorways", () => {
     expect(doorwayLabel(fixed, 0)).toContain("assembly");
     expect(doorwayLabel(ring, 1)).toContain("radial");
     expect(doorwayLabel(ring, 1)).toContain("4.0 m");
+  });
+
+  it("names the doorway's kind and the interior kit the door leads into", () => {
+    const bp = makeBlueprint();
+    const [fixed, ring] = bp.parcels[0].doorways;
+    expect(doorwayLabel(fixed, 0)).toContain("door-piece");
+    expect(doorwayLabel(fixed, 0)).toContain("dungeon-root-v1");
+    expect(doorwayLabel(ring, 1)).toContain("opening");
+    expect(doorwayLabel(ring, 1)).toContain("dungeon-root-v1");
   });
 
   it("keeps a door pointed at the doorway it sits on", () => {

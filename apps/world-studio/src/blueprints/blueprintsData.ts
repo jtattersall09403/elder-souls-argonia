@@ -64,6 +64,12 @@ export interface BpDoorway {
   worldM: Pt | null;
   bearingDeg: number | null;
   source: string | null;
+  /** What kind of way in it is: an opening, an open front, a hung leaf, a door
+   * part in a mined assembly. */
+  kind?: string | null;
+  /** The interior the door on this doorway leads to: a matched interior mesh,
+   * or the interior kit Phase 12 builds it from. */
+  interiorRef?: string | null;
   arcM: number | null;
   radial?: boolean;
   radiusM?: number | null;
@@ -298,9 +304,11 @@ export function doorwayColour(source: string | null | undefined): string {
 /** One doorway as a line of text for the click panel. */
 export function doorwayLabel(dw: BpDoorway, i: number): string {
   const src = dw.source ?? "measured";
-  if (dw.radial) return `#${i} radial ring, ${dw.radiusM?.toFixed(1) ?? "?"} m out (${src})`;
+  const kind = dw.kind ? `${dw.kind}, ` : "";
+  const into = dw.interiorRef ? ` → ${dw.interiorRef}` : "";
+  if (dw.radial) return `#${i} ${kind}radial ring, ${dw.radiusM?.toFixed(1) ?? "?"} m out (${src})${into}`;
   const arc = dw.arcM ? `, ${dw.arcM.toFixed(1)} m wide` : "";
-  return `#${i} facing ${dw.bearingDeg?.toFixed(0) ?? "?"}°${arc} (${src})`;
+  return `#${i} ${kind}facing ${dw.bearingDeg?.toFixed(0) ?? "?"}°${arc} (${src})${into}`;
 }
 
 export function kitFill(kit: string | null): string {

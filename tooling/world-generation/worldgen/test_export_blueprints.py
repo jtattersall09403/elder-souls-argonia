@@ -22,6 +22,9 @@ class _StubInteriors:
     def get(self, asset_id):
         return self.by_asset.get(asset_id)
 
+    def interior_ref(self, record):
+        return record.get("interiorAssetRef") or record.get("tileset")
+
 
 FIXTURE = BLUEPRINT_DIR / "place.hist-heartland.nine-trunks.json"
 HAVE_FIXTURE = FIXTURE.exists()
@@ -205,8 +208,9 @@ def test_doorways_are_exported_per_parcel_in_metres():
     """A doorway is drawn on the building's outline, so it exports as a world
     point + a world bearing, with the source it was derived from."""
     parcel = {"id": "parcel.x.hut", "assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 90.0}
-    lib = _StubInteriors({"kit:hut01": {"doorways": [
-        {"sideDeg": 0.0, "offsetM": [0.0, -3.0], "arcM": 1.2, "doorwaySource": "assembly"},
+    lib = _StubInteriors({"kit:hut01": {"tileset": "vanilla-farmhouse-int", "doorways": [
+        {"sideDeg": 0.0, "offsetM": [0.0, -3.0], "arcM": 1.2, "doorwaySource": "assembly",
+         "kind": "leaf"},
         {"radial": True, "radiusM": 4.5, "arcM": 1.0, "doorwaySource": "geometry"},
     ]}})
     fixed, radial = parcel_doorways(parcel, PROVINCE_EXTENT_M, lib)
@@ -214,6 +218,9 @@ def test_doorways_are_exported_per_parcel_in_metres():
     # local north, turned 90° clockwise, is due east of the centre
     assert fixed["bearingDeg"] == 90.0
     assert fixed["source"] == "assembly"
+    # the click panel names the kind of way in and the interior it leads to
+    assert fixed["kind"] == "leaf"
+    assert fixed["interiorRef"] == "vanilla-farmhouse-int"
     assert fixed["worldM"] == [round(centre + 3.0, 3), round(centre, 3)]
     assert radial["radial"] is True and radial["radiusM"] == 4.5
     assert radial["bearingDeg"] is None
