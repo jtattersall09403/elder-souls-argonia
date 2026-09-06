@@ -188,6 +188,17 @@ Further completion-pass findings, not closed by the first candidate:
   Standing water beneath a dry native envelope remains a separate final-data
   gate: static inland subtraction cannot be repaired by inventing CPU-only
   wetness under a missing rendered face.
+- A shallow wetland depth target was incorrectly reused as a maximum pool
+  head during connected-domain closure. One actual impoundment retained
+  shallow shoulders but rejected its deeper interior, leaving scattered holes
+  and false river bank constraints. The fix must retain the connected deep
+  interior without crossing current/immutable spill barriers or incompatible
+  pool planes; no pool-level or seasonal-range change is warranted.
+- Repaired native bed heights/diagonals left the original ground-gradient map
+  unchanged. Sparse, dependency-hashed slope deltas now preserve the original
+  field outside repaired faces. Actual browser full/mip reads match the legacy
+  texture exactly before correction; patched corners and texture disposal pass.
+  Final matched-data export remains mandatory.
 
 Browser GPU upload check on the diagnostic native-ground atlas: one initial
 2048×958 upload (31,391,744 bytes), then exactly eight2048×1 rows
