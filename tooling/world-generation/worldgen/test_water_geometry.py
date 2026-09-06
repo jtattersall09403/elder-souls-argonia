@@ -10,6 +10,40 @@ from .compile_water import reduce_surface_resolution
 from .scale import RAW_M
 
 
+def test_shallow_pool_outlet_depth_tapers_only_over_two_native_intervals():
+    ground=np.full((11,11),3.,np.float32)
+    ground[5,2:9]=0.
+    points=np.array([[5.,x] for x in range(2,9)])
+    links=np.arange(1,8);links[-1]=-1
+    pool=np.full_like(ground,-np.inf);pool[5,2]=.2
+    diagnostics={}
+    condition_channel_profiles(ground,points,links,np.full(7,.3),np.ones(7),7,links,pool,
+        minimum_depth=.3,strict_banks=True,diagnostics=diagnostics)
+    assert diagnostics['pinned'][0]
+    assert np.isclose(diagnostics['depthTargets'][1], .15)
+    assert np.allclose(diagnostics['depthTargets'][2:],.3)
+
+
+def test_pinned_pool_head_never_triggers_upstream_retaining_bank_excavation():
+    from .water_geometry import repair_channel_beds
+    original=np.ones((5,5),np.float32)
+    corrected=original.copy()
+    conflict={0:{'obstructionPinned':True,'bedTargetM':0.,'pathNodes':[0],
+        'drainageNodes':[0],'requiredLevelM':2.,'obstructionBedM':.7,'bankCapM':1.}}
+    assert repair_channel_beds(original,corrected,np.array([[2.,2.]]),conflict,max_lowering=3.)==0
+    assert np.array_equal(original,corrected)
+
+
+def test_explicit_retaining_bank_protection_overrides_routine_cut_budget():
+    from .water_geometry import repair_channel_beds
+    original=np.ones((5,5),np.float32);corrected=original.copy()
+    conflict={0:{'bedTargetM':0.,'pathNodes':[0],'drainageNodes':[0],
+        'requiredLevelM':1.3,'obstructionBedM':1.,'bankCapM':.5}}
+    assert repair_channel_beds(original,corrected,np.array([[2.,2.]]),conflict,
+        max_lowering=3.,indexed_limits={12:0.})==0
+    assert np.array_equal(original,corrected)
+
+
 def test_backwater_handles_tied_levels_confluences_and_long_chains():
     # Index order deliberately differs from drainage order.
     downstream = np.array([3, 0, 3, 4, -1])
@@ -290,6 +324,14 @@ def test_pool_plane_reaches_its_actual_triangle_shore_but_not_a_bilinear_false_p
     assert not np.isfinite(sample_standing_levels(ground, pools, np.array([[0., 1.]]))[0])
 
 
+def test_pool_pin_cannot_cross_a_zero_weight_native_owner_boundary():
+    from .water_geometry import sample_standing_levels
+    ground=np.zeros((2,2));pools=np.array([[-np.inf,-np.inf],[-np.inf,2.]])
+    levels=sample_standing_levels(ground,pools,np.array([[0.,0.],[.25,.25],[1.,1.]]))
+    assert not np.isfinite(levels[:2]).any()
+    assert levels[2]==2.
+
+
 def test_sea_along_actual_diagonal_does_not_invent_a_bilinear_headland():
     from .terrain_triangles import sample_terrain
     ground = np.array([[-1., -1.], [-1., 108.]])
@@ -559,3 +601,15 @@ def test_isolated_below_sea_channel_repair_never_creates_an_ocean_datum_pin():
     refined = refine_channel_stations(ground, points[:2], np.array([1, -1]),
         np.full(2, .1), np.ones(2), minimum_depth=.3, marine_ground=marine)
     assert np.allclose(refined[2], .1)
+def test_same_pool_route_cannot_shortcut_through_lower_foreign_outlet():
+    from .water_geometry import lowest_spill_path
+    ground=np.full((9,9),4.,np.float32)
+    ground[4,2:7]=.2
+    ground[3,2:7]=.8
+    allowed=np.zeros(ground.shape,bool)
+    allowed[3,2:7]=True
+    allowed[4,2]=allowed[4,6]=True
+    path=lowest_spill_path(ground,[4,2],[4,6],max_deviation=2,
+                          allowed=lambda y,x: allowed[y,x])
+    assert all(allowed[int(y),int(x)] for y,x in path)
+    assert np.any(path[:,0]==3)

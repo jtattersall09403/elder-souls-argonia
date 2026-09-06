@@ -68,8 +68,8 @@ See [the review guide](research/rendering/water-quality.md).
 Release coordination: the water agent will commit only water-owned paths and
 will coordinate against current branch/Actions state before deployment;
 combat changes remain separately owned and must not be overwritten.
-Latest verified deployment: `b7948d6`, Actions `34044417460`, live bundle
-`index-ALToYCdb.js`. It includes the HDR particle fix, interaction simulation,
+Latest verified deployment: `93904c2`, Actions `34047707975`, live bundle
+`index-IZqpLs8B.js` (17:11UTC). It includes the HDR particle fix, interaction simulation,
 caustics, spectral waves, bounded rendering, confluence query fix and bubbles.
 Public water metadata still matches the original `1af32a3` overhaul: **the
 final hydraulic/native/adaptive/gradient data is not deployed**. Never promote
@@ -85,8 +85,10 @@ carver-authored rivulet footprints, and bounded connected-reach feasibility.
 Pool/route/terrain changes require a fresh coherent audit; stale cached pool
 occupancy must not justify further cutting. Preserve original retaining banks,
 authored tidal/seasonal ranges and every actual carved channel.
+Compiler source checkpoint passes86 focused Python tests; unresolved final
+hydraulic constraints remain explicit and no diagnostic assets are promoted.
 
-Local runtime checkpoint: matched sparse terrain gradients; real-time transport
+Latest deployed runtime checkpoint: matched sparse terrain-gradient support; real-time transport
 separate from accelerated wave phase; bounded full-interval ripple/particle
 motion; gravity-consistent waterfall spray; gradual shared wave-energy response;
 native fragment clipping also for standing/coastal shores. Tests/types pass17:06
@@ -96,8 +98,9 @@ data), airborne passes again. Actual GPU3m/s ripple transport agrees at60/2.5FPS
 Fly loading retains macro terrain until detail exists: local scene had15 actual
 ground meshes/1.103M triangles with compiled material by45s; this is loading
 evidence, not instantaneous startup or hardware-FPS proof. Missing optional
-manifests get real dev/preview404s; malformed data still rejects. These latest
-runtime changes and final data/visual acceptance remain pending deployment.
+manifests get real dev/preview404s; malformed data still rejects. Runtime bundle
+matches the Actions artifact and public metadata hash is unchanged. Final
+matching data, remaining fixes and visual acceptance remain pending.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

@@ -29,7 +29,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Walk-mode SSR/DPR/capture costs; backlog | Shared capture exists; per-pixel SSR cost and measured pass budgets need improvement | open |
 | High framerate in walk/fly/future game; owner | Whole-province detail residency and uncullable ribbon draw found; bounded streaming/LOD in progress | open |
 | Reversibility; owner | Original assets + legacy switch + separate water commit; maintain through completion | open |
-| Deployed studio with all changes; owner | Runtime completion checkpoints through b7948d6 deployed and bundle verified; final hydraulic/native/adaptive/gradient data not deployed | open |
+| Deployed studio with all changes; owner | Runtime completion checkpoints through93904c2 deployed and bundle verified; final hydraulic/native/adaptive/gradient data not deployed | open |
 | Hard straight/square edges where water meets land; owner follow-up | Widespread, including close range; test continuous terrain intersections, ownership boundaries and seasonal extremes, not only distant LOD | open |
 | Wet-season waterways underfill painted beds; owner follow-up | Widespread asymmetric-width and boundary-extent defects; verify both banks throughout the full network | open |
 | Dry walkable hollow below apparent river surface; owner follow-up | Repro near 1.96km E / 0.22km S; rendered surface, native terrain and physical wet query must agree | open |
@@ -90,6 +90,12 @@ Subsequent `b7948d6` deployed successfully through Actions `34044417460`;
 live bundle `index-ALToYCdb.js` matches. It includes underwater bubbles and
 wet-candidate confluence selection, with the same unchanged water-data hash.
 Completion/deployment acceptance remains open.
+
+Runtime93904c2 deployed17:11UTC through successful Actions34047707975;
+live bundle `index-IZqpLs8B.js` matches the artifact. This includes the
+clock/transport, waterfall-motion, shoreline-fragment and gradient-loading
+checkpoints. Public metadata retains the exact hash above: final corrected
+hydraulic/native/adaptive/gradient assets are still not part of this release.
 
 ## Additional evidence from the owner repro
 

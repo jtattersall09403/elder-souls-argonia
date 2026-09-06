@@ -28,7 +28,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      bands, metres_per_pixel, max_cascades=256,
                      ground_detail=None, detail_scale=1, body_detail=None, standing_detail=None, all_channels=False,
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
-                     marine_ground=None):
+                     marine_ground=None, wetland_rivulets=None):
     ribbons, cascades = [], []
     intent = levels if orientation_levels is None else orientation_levels
     ground = np.asarray(ground)
@@ -151,7 +151,9 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                     break
         if bad or all_channels:
             ribbons.append({"id": f"water-ribbon.province.{key}", "bodyIndex": body_index,
-                            "riverBand": int(bands[source]), "points": vertices})
+                            "riverBand": int(bands[source]), "points": vertices,
+                            "hydrologyRegime": ('shallow-wetland-rivulet' if wetland_rivulets is not None and
+                                                wetland_rivulets[source] else 'banked-river')})
         if is_cascade:
             high, low = vertices[0], vertices[-1]
             dx, dz = low["x"] - high["x"], low["z"] - high["z"]

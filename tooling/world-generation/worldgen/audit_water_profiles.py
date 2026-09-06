@@ -1,6 +1,7 @@
 """Read-only audit of unresolved reaches against a native repair overlay."""
 import argparse
 import json
+from pathlib import Path
 import numpy as np
 from .terrain_triangles import sample_terrain, derive_channel_diagonal_flips
 from .compile_chunks import DEFAULT_HEIGHTS
@@ -13,6 +14,11 @@ def main():
     parser.add_argument("overlay")
     parser.add_argument("--summary", action="store_true")
     parser.add_argument("--details", action="store_true")
+    parser.add_argument("--orientation", help="Matching immutable pre-repair orientation cache")
+    parser.add_argument("--out", type=Path, help="Write the generated audit instead of printing full details")
+    parser.add_argument("--solver-cache", type=Path, help="Save matching geometry and physical pool planes for bounded route audits")
+    parser.add_argument("--immutable-potential", type=Path)
+    parser.add_argument("--routing-overrides", type=Path)
     args = parser.parse_args()
     original = np.load(DEFAULT_HEIGHTS)
     corrected = original.copy()
@@ -21,12 +27,22 @@ def main():
         corrected.flat[index] = height
     npz = np.load(DEFAULT_HEIGHTS.parent.parent / "hydrology-pass1.npz")
     flips, _ = derive_channel_diagonal_flips(original, npz['rivers'], npz['flow_to'])
-    reference = compute(npz['conditioned'].astype(np.float32), original, npz,
-                        profiles_only=True, bank_ground=original, terrain_flips=flips)
-    intent = reference['desired_levels'][:len(reference['original_links'])].copy()
-    del reference
+    if args.orientation:
+        intent = np.load(args.orientation)
+    else:
+        reference = compute(npz['conditioned'].astype(np.float32), original, npz,
+                            profiles_only=True, bank_ground=original, terrain_flips=flips, close_reference_domains=True)
+        intent = reference['desired_levels'][:len(reference['original_links'])].copy()
+        del reference
     result = compute(npz["conditioned"].astype(np.float32), corrected, npz,
-                     profiles_only=True, bank_ground=original, terrain_flips=flips, orientation_levels=intent)
+                     profiles_only=True, bank_ground=original, terrain_flips=flips, orientation_levels=intent,
+                     immutable_potential=np.load(args.immutable_potential) if args.immutable_potential else None,
+                     routing_overrides=({int(k):v for k,v in json.loads(args.routing_overrides.read_text())['overrides'].items()}
+                                        if args.routing_overrides else None))
+    if args.solver_cache:
+        np.savez_compressed(args.solver_cache, **{key: value for key, value in result.items()
+            if isinstance(value, np.ndarray)}, orientation_levels=intent,
+            **{'diagnostic_' + key: value for key, value in result['diagnostics'].items()})
     rows = []
     for source, conflict in result["conflicts"].items():
         point = result["points"][conflict["obstructionNode"]]
@@ -41,11 +57,18 @@ def main():
                      "requiredLevelM": round(conflict["requiredLevelM"], 6),
                      "receivingBankCapM": round(conflict["bankCapM"], 6),
                      "bedTargetM": round(conflict["bedTargetM"], 6),
-                     "poolPinned": abs(conflict["requiredLevelM"] - conflict["obstructionBedM"] - .03) > .002,
+                     "poolPinned": bool(conflict.get('obstructionPinned', False)),
                      "path": (path[:, ::-1] * RAW_M).round(3).tolist()})
     if args.summary:
         rows = [{k: v for k, v in row.items() if k != "path"} for row in rows]
     if args.details:
+        def original_bank(index):
+            point = result['points'][index]
+            normal = result['diagnostics']['bankNormals'][index]
+            radius = result['diagnostics']['bankRadius'][index]
+            distances = np.minimum(radius * 2, np.arange(.25, radius * 2 + .25, .25))
+            return float(min(np.max(sample_terrain(original, point[:, None] + normal[:, None] * distances * sign, flips))
+                             for sign in (-1, 1)) - .005)
         for row in rows:
             source = row['source']
             conflict = result['conflicts'][source]
@@ -54,10 +77,24 @@ def main():
             nodes = sorted(set(conflict['pathNodes'] + conflict.get('drainageNodes', [])))
             row['nodes'] = [{'index': int(i), 'position': result['points'][i].tolist(),
                              'desired': float(result['desired_levels'][i]), 'level': float(result['levels'][i]),
-                             'bed': float(sample_terrain(corrected, result['points'][i, :, None], flips)[0])}
+                             'bed': float(sample_terrain(corrected, result['points'][i, :, None], flips)[0]),
+                             'originalBed': float(sample_terrain(original, result['points'][i, :, None], flips)[0]),
+                             'bankCap': float(result['diagnostics']['bankCap'][i]),
+                             'depthTarget': float(result['diagnostics']['depthTargets'][i]),
+                             'pinned': bool(result['diagnostics']['pinned'][i]),
+                             'falling': bool(result['diagnostics']['falling'][i]),
+                             'bankNormal': result['diagnostics']['bankNormals'][i].tolist(),
+                             'bankRadius': float(result['diagnostics']['bankRadius'][i])}
                             for i in nodes]
-    print(json.dumps({"count": len(rows), "lengthM": sum(row["lengthM"] for row in rows),
-                      "reaches": sorted(rows, key=lambda row: -row["excessHeadM"])}, indent=1))
+            for node in row['nodes']:
+                node['originalBankCap'] = original_bank(node['index'])
+    report = {"count": len(rows), "lengthM": sum(row["lengthM"] for row in rows),
+              "reaches": sorted(rows, key=lambda row: -row["excessHeadM"])}
+    if args.out:
+        args.out.write_text(json.dumps(report, separators=(',', ':')))
+        print(json.dumps({'count': len(rows), 'out': str(args.out)}))
+    else:
+        print(json.dumps(report, indent=1))
 
 
 if __name__ == "__main__":

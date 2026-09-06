@@ -46,6 +46,7 @@ from .water_geometry import (body_records, channel_surface, condition_channel_pr
                             channel_depth_targets, connected_marine_terrain, sample_marine_mask)
 from .water_features import compile_features
 from .water_geometry import repair_channel_beds, repair_channel_films
+from .water_regimes import authored_rivulet_mask, channel_depth_expectations
 from .terrain_triangles import (sample_terrain, fill_terrain_depressions, label_terrain_components,
                                derive_channel_diagonal_flips)
 from .water_boundaries import spill_connected_access, hydraulic_plane_owners, ACCESS_MIN_M, ACCESS_MAX_M
@@ -127,7 +128,8 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 
 
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
-            bank_ground=None, terrain_flips=None, orientation_levels=None) -> dict:
+            bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
+            immutable_potential=None, close_reference_domains=False) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     mpp1 = RAW_M * STEP
     ocean = npz["ocean"]
@@ -142,7 +144,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     flow_to = npz["flow_to"].reshape(-1)
     # Same minor drainage channels that fluvial._rivulets carves. They are
     # real terrain, but the old surface ignored all sub-river drainage.
-    rivulets = wetlands & (rivers == 0) & (npz["accum_km2"] > 0.02) & (npz["accum_km2"] <= 0.12)
+    rivulets = authored_rivulet_mask(rivers,npz['accum_km2'],wetlands,npz['regions'])
     rivers[rivulets] = 1
     hydro = dict(npz)
     hydro["rivers"] = rivers
@@ -265,6 +267,17 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                       ndimage.minimum(filled2, lbl2, kept_ids))
             standing_pool_range = float(np.max(ranges))
 
+    pool_fringe_count = 0
+    if close_reference_domains:
+        immutable_potential = filled2
+    if immutable_potential is not None:
+        from .water_pool_domains import close_pool_domains
+        pool_lvl, lbl2, pool_fringe_count = close_pool_domains(
+            g2, pool_lvl, lbl2, filled2, immutable_potential, terrain_flips,
+            maximum_head=(g2 if bank_ground is None else bank_ground) +
+                up_lin(np.where(rivulets,.08,np.select([rivers == b for b in (1,2,3)], [.30,.55,.85], default=.30))))
+        comp(np.isfinite(pool_lvl), pool_lvl)
+
     # Channel profiles use the carved bed and connected pools as constraints.
     # Linear projection along each segment keeps every cross-section level.
     FILM_DEPTH = {1: 0.30, 2: 0.55, 3: 0.85}
@@ -299,8 +312,11 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     px = candidate_x[nearest_bed, np.arange(n_st)]
     sy, sx = np.rint(py).astype(int), np.rint(px).astype(int)
     bed_st = sample_terrain(g2, [py, px], terrain_flips)
-    film_st = np.select([rflat[idx_st] == b for b in (1, 2, 3)],
-                        [np.float32(FILM_DEPTH[b]) for b in (1, 2, 3)]).astype(np.float32)
+    rivulet_st = rivulets.ravel()[idx_st]
+    # The fluvial carver calls these splash-through swamp plumbing, not
+    # full-depth band1 streams. Preserve their shallow connected-water
+    # regime; seasonal responses still use the original authored fields.
+    film_st = channel_depth_expectations(rflat[idx_st],rivulet_st)
     w_st = bed_st + film_st
     pool_at = pool_lvl[sy, sx]
     w_st = np.where(np.isfinite(pool_at) & (pool_at > bed_st + 0.01), pool_at, w_st).astype(np.float32)
@@ -323,6 +339,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "maxStaleUphillM": round(float(np.max(stale_rise[old_link], initial=0)), 3),
         "standingPoolCount": int(standing_pool_count),
         "standingPoolMaxLevelRangeM": round(standing_pool_range, 6),
+        "connectedPoolFringeNativeSampleCount": pool_fringe_count,
     }
     seg_dist = np.full(n_st, mpp1, dtype=np.float32)
     hasd = dsk >= 0
@@ -338,9 +355,25 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     w_geom = 14.0 * a_st ** 0.40
     d_geom = (1.8 * a_st ** 0.29).astype(np.float32)
     r_st = np.clip(w_geom * 0.5 / mpp2, 2.0 / web_step, 9.0 / web_step).astype(np.float32)
+    if np.any(rivulet_st):
+        # Match the actual Gaussian-smoothed wetland web from _rivulets.
+        # A narrow area-derived radius can stop inside its broad flat floor
+        # and mistake that submerged floor for the far retaining bank.
+        # refine_province repeats these categorical predicate inputs; linear
+        # area interpolation can move values across the(.02,.12] regime
+        # bounds, erase a genuinely carved core, and mistake its interior
+        # shoulder for a retaining bank.
+        from .water_regimes import native_rivulet_core
+        soft = native_rivulet_core(rivulets,g2.shape,STEP,web_step)
+        interior = ndimage.distance_transform_edt(soft)
+        footprint_radius = interior[sy,sx] + 2.4/mpp2
+        r_st[rivulet_st] = np.clip(footprint_radius[rivulet_st], 2./web_step, 9./web_step)
+        topology_stats['shallowWetlandRivuletStationCount'] = int(rivulet_st.sum())
     geometry_points, geometry_ds, geometry_levels, geometry_radius, geometry_owners = refine_channel_stations(
         g2, np.column_stack([py, px]), dsk, w_st, r_st, pool_levels=pool_lvl,
-        routing_ground=routing_ground, minimum_depth=film_st, terrain_flips=terrain_flips, marine_ground=ocean2)
+        routing_ground=routing_ground, minimum_depth=film_st, terrain_flips=terrain_flips, marine_ground=ocean2,
+        routing_overrides=({source: routing_overrides[int(cell)] for source, cell in enumerate(idx_st)
+                            if int(cell) in routing_overrides} if routing_overrides else None))
     desired_geometry_levels = geometry_levels.copy()
     geometry_depths = channel_depth_targets(geometry_points, geometry_ds, dsk, film_st)
     profile_diagnostics = {} if profiles_only else None
@@ -373,7 +406,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         return {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
                 "links": geometry_ds, "levels": geometry_levels, "active": geometry_active,
                 "desired_levels": desired_geometry_levels, "original_links": dsk,
-                "radius": geometry_radius, "diagnostics": profile_diagnostics}
+                "radius": geometry_radius, "diagnostics": profile_diagnostics,
+                "pool_levels": pool_lvl, "marine_ground": ocean2, "filled_levels": filled2,
+                "semantic_depth_targets": geometry_depths}
     w_st = geometry_levels[:n_st].copy()
     current_downstream = downhill_graph(w_st, accepted_links, orientation_levels)
     if orientation_levels is not None:
@@ -491,6 +526,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     # A semantic cell owns a3x3 native block, not just its centre vertex.
     # Thin native pools/channels must never remain class0/marine fallback.
     wetr = wet | (down(ndimage.maximum_filter(wet2, size=STEP), 0) > 0.5)
+    # Classification follows actual native sea connectivity as geometry
+    # does. The obsolete coarse negative-height proxy must not turn an
+    # isolated below-datum inland body into a marine material/exposure.
+    sea = down(ocean2, 0) > .5
     cls = np.zeros(z.shape, dtype=np.uint8)
     cls[wetr & sea & (salinity >= 0.3)] = CLASSES.index("coast")
     cls[wetr & sea & (salinity < 0.3) & (salinity >= 0.05)] = CLASSES.index("estuary")
@@ -561,6 +600,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "points": geometry_points, "links": geometry_ds, "levels": geometry_levels,
         "radius": geometry_radius, "original_count": n_st, "original_links": accepted_links,
         "cell_indices": idx_st, "coarse_width": w_, "bands": rflat[idx_st],
+        "wetland_rivulets": rivulet_st,
         "standing_detail": np.where(standing_pool, pool_lvl, -np.inf), "all_channels": True,
         "marine_ground": ocean2,
         "terrain_flips": terrain_flips, "orientation_levels": orientation_levels,
@@ -636,11 +676,20 @@ def main() -> None:
                         help="Reuse a validated native correction overlay for another quality tier")
     parser.add_argument("--continue-repairs", action="store_true",
                         help="Continue bounded repairs from the supplied overlay")
+    parser.add_argument("--routing-overrides", type=Path,
+                        help="Audited residual-only native routes, validated against original anchors/corridor/saddle")
+    parser.add_argument("--bed-index-audit", type=Path,
+                        help="Explicit reviewed original/proposed support-corner exceptions, at most5m")
     parser.add_argument("--max-bed-lowering", type=float, default=1.0,
                         help="Maximum cumulative lowering in metres, limited to native channel centres")
     parser.add_argument("--bed-exception-cell", action="append", default=[],
                         help="Explicit coarse row,col channel-sill exception permitting at most 5m lowering")
     args = parser.parse_args()
+    routing_audit = json.loads(args.routing_overrides.read_text()) if args.routing_overrides else None
+    if routing_audit and routing_audit.get('schemaVersion') != 1:
+        parser.error('Unsupported native route audit schema')
+    routing_overrides = ({int(cell): np.asarray(path, float) for cell, path in routing_audit['overrides'].items()}
+                         if routing_audit else None)
     if not 0 <= args.max_bed_lowering <= 3:
         parser.error("--max-bed-lowering must be between 0 and 3 metres")
     vault = DEFAULT_HEIGHTS.parent.parent
@@ -658,8 +707,9 @@ def main() -> None:
     # Freeze reach intent before any repair. Excavation must not reverse a
     # neighbouring reach and thereby trigger a second, artificial backwater.
     reference = compute(z, original, npz, profiles_only=True, bank_ground=original,
-                        terrain_flips=terrain_flips)
+                        terrain_flips=terrain_flips, close_reference_domains=True)
     orientation_levels = reference['desired_levels'][:len(reference['original_links'])].copy()
+    immutable_potential = reference['filled_levels']
     if args.cache:
         np.save(args.cache.with_suffix('.orientation.npy'), orientation_levels)
     del reference
@@ -668,8 +718,33 @@ def main() -> None:
     allowed_exceptions = {(124, 348), (125, 349), (126, 350), (128, 1092)}
     if any(cell not in allowed_exceptions for cell in exception_cells):
         parser.error("Only the four audited existing-channel sill cells permit the5m exception")
+    protected_bank_indices = []
+    restoration_audit = []
+    wetland_restoration_audit = []
+    wetland_anchor_restoration_audit = None
+    indexed_repair_audit = json.loads(args.bed_index_audit.read_text()) if args.bed_index_audit else []
+    indexed_limits = {}
+    if args.bed_overlay and not indexed_repair_audit:
+        indexed_repair_audit = json.loads(args.bed_overlay.read_text()).get('indexedRepairAudit', [])
+    for record in indexed_repair_audit:
+        for cell in record['support']:
+            index = cell['nativeIndex']
+            limit = cell['originalM'] - cell['proposedM'] + .0001
+            if (not isinstance(index,int) or not 0<=index<original.size or not np.isfinite(limit)
+                    or not 0<=limit<=5 or abs(float(original.flat[index])-cell['originalM'])>1e-5):
+                raise ValueError('Indexed bed authority must match immutable source and5m ceiling')
+            indexed_limits[index] = max(indexed_limits.get(index, args.max_bed_lowering), limit)
     if args.bed_overlay:
         overlay_input = json.loads(args.bed_overlay.read_text())
+        protected_bank_indices = overlay_input.get('protectedRetainingBankIndices', [])
+        restoration_audit = overlay_input.get('retainingBankRestorationAudit', [])
+        wetland_restoration_audit = overlay_input.get('wetlandRegimeRestorationAudit', [])
+        wetland_anchor_restoration_audit = overlay_input.get('wetlandAnchorRestorationAudit')
+        if any(not isinstance(i,int) or not 0<=i<original.size for i in protected_bank_indices):
+            raise ValueError('Invalid retaining bank protection indices')
+        if any(i in indexed_limits and indexed_limits[i]>args.max_bed_lowering for i in protected_bank_indices):
+            raise ValueError('A retaining bank cannot receive deeper bed exception authority')
+        indexed_limits.update({i:0. for i in protected_bank_indices})
         if (overlay_input.get("schemaVersion") != 1 or overlay_input.get("gridSize") != refined.shape[0]
                 or abs(overlay_input.get("metresPerPixel", 0) - RAW_M) > 1e-8):
             raise ValueError("Incompatible water bed overlay grid")
@@ -681,8 +756,9 @@ def main() -> None:
             if (not isinstance(index, int) or index <= last or index >= refined.size
                     or not np.isfinite(height) or not np.isfinite(previous)
                     or height > previous + 1e-5
-                    or previous - height > min(5 if exception_cells and index in overlay_input.get("exceptionIndices", [])
-                                               else args.max_bed_lowering, declared_cap) + 1e-5
+                    or previous - height > min(indexed_limits.get(index,
+                        5 if exception_cells and index in overlay_input.get("exceptionIndices", []) else args.max_bed_lowering),
+                        declared_cap) + 1e-5
                     or abs(float(original.flat[index]) - previous) > 1e-5):
                 raise ValueError("Water bed overlay does not match immutable source terrain")
             refined.flat[index] = height
@@ -691,7 +767,8 @@ def main() -> None:
     while not args.bed_overlay or args.continue_repairs:
         iteration += 1
         profiles = compute(z, refined, npz, profiles_only=True, bank_ground=original,
-                           terrain_flips=terrain_flips, orientation_levels=orientation_levels)
+                           terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+                           routing_overrides=routing_overrides, immutable_potential=immutable_potential)
         exceptional_sources = {source for source, cell in enumerate(profiles["cell_indices"])
                                if (int(cell // z.shape[1]), int(cell % z.shape[1])) in exception_cells}
         changes = repair_channel_beds(original, refined, profiles["points"], profiles["conflicts"],
@@ -700,7 +777,8 @@ def main() -> None:
                                       depth_targets=profiles['diagnostics']['depthTargets'],
                                       pinned=profiles['diagnostics']['pinned'],
                                       links=profiles['links'], radius=profiles['diagnostics']['bankRadius'],
-                                      bank_normals=profiles['diagnostics']['bankNormals'])
+                                      bank_normals=profiles['diagnostics']['bankNormals'],
+                                      indexed_limits=indexed_limits)
         print(f"Bounded channel repair {iteration}: {changes} native samples; "
               f'{len(profiles["conflicts"])} constrained reaches', flush=True)
         if args.cache:
@@ -708,6 +786,11 @@ def main() -> None:
             progress = {"schemaVersion": 1, "gridSize": int(refined.shape[0]), "metresPerPixel": RAW_M,
                         "maxLoweringM": 5 if np.any(original - refined > args.max_bed_lowering + 1e-5) else args.max_bed_lowering,
                         "routineMaxLoweringM": args.max_bed_lowering, "exceptionCells": exception_cells,
+                        "protectedRetainingBankIndices": protected_bank_indices,
+                        "retainingBankRestorationAudit": restoration_audit,
+                        "indexedRepairAudit": indexed_repair_audit,
+                        "wetlandRegimeRestorationAudit": wetland_restoration_audit,
+                        "wetlandAnchorRestorationAudit": wetland_anchor_restoration_audit,
                         "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                         "changes": [[int(index), round(float(refined.flat[index]), 6),
                                      round(float(original.flat[index]), 6)] for index in progress_indices]}
@@ -721,14 +804,23 @@ def main() -> None:
         if not changes:
             break
     r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
-        terrain_flips=terrain_flips, orientation_levels=orientation_levels), args.web_step)
+        terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+        routing_overrides=routing_overrides, immutable_potential=immutable_potential), args.web_step)
 
     out_dir = args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
+    if routing_audit:
+        (out_dir / 'water-routing-audit.json').write_text(json.dumps(routing_audit, separators=(',', ':')))
+    r['topology_stats']['auditedNativeRouteOverrideCount'] = len(routing_overrides or {})
     changed = np.flatnonzero(refined.ravel() < original.ravel() - 1e-6)
     overlay = {"schemaVersion": 1, "gridSize": int(refined.shape[0]), "metresPerPixel": RAW_M,
                "maxLoweringM": 5 if np.any(original - refined > args.max_bed_lowering + 1e-5) else args.max_bed_lowering,
                "routineMaxLoweringM": args.max_bed_lowering, "exceptionCells": exception_cells,
+               "protectedRetainingBankIndices": protected_bank_indices,
+               "retainingBankRestorationAudit": restoration_audit,
+               "indexedRepairAudit": indexed_repair_audit,
+               "wetlandRegimeRestorationAudit": wetland_restoration_audit,
+               "wetlandAnchorRestorationAudit": wetland_anchor_restoration_audit,
                "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                "changes": [[int(index), round(float(refined.flat[index]), 6),
                             round(float(original.flat[index]), 6)] for index in changed]}

@@ -112,16 +112,16 @@ corner's exact level; never average different standing-water elevations.
 """
     points = np.asarray(points)
     bed = sample_terrain(ground, points.T, terrain_flips)
-    base = np.floor(points).astype(int)
+    rows, cols, weights = terrain_weights(ground.shape, points.T, terrain_flips)
     result = np.full(len(points), -np.inf, np.float32)
-    for dy, dx in ((0, 0), (0, 1), (1, 0), (1, 1)):
-        corners = np.minimum(base + (dy, dx), np.array(ground.shape) - 1)
-        level = pool_levels[corners[:, 0], corners[:, 1]]
-        connected = np.isfinite(level) & (level > bed + .01)
-        for fraction in (.25, .5, .75):
-            between = corners * (1 - fraction) + points * fraction
-            path_bed = sample_terrain(ground, between.T, terrain_flips)
-            connected &= path_bed < level
+    for corner in range(3):
+        level = pool_levels[rows[corner], cols[corner]]
+        # Only positive-weight vertices of the actual native triangle own
+        # this point. Searching all four neighbouring corners previously
+        # pinned a dry/outlet vertex to a different pool across its boundary.
+        # Along a real triangle edge, linear terrain has no hidden saddle.
+        connected = (np.isfinite(level) & (weights[corner] > 1e-9) &
+                     (level > bed + .01) & (level > ground[rows[corner],cols[corner]]))
         result = np.where(connected, np.maximum(result, level), result)
     return result
 
@@ -287,7 +287,7 @@ Returns surface, ribbon mask and nearest segment indices for flow/semantics.
 
 
 def refine_channel_stations(ground, points, downstream, levels, radius, minimum_depth=0.2, pool_levels=None,
-                            routing_ground=None, terrain_flips=None, marine_ground=None):
+                            routing_ground=None, terrain_flips=None, marine_ground=None, routing_overrides=None):
     """Resolve sub-station bed obstructions as narrow longitudinal riffles.
 
 The source drainage grid is three terrain pixels apart. A native sample on
@@ -321,10 +321,17 @@ Only channel-centre constraints change; cross-sections remain level.
                 wider = 2 * min(float(radius[source]), float(radius[target]))
                 if wider > 2:
                     candidate = lowest_spill_path(ground if routing_ground is None else routing_ground,
-                        points[source], points[target], max_deviation=wider, terrain_flips=terrain_flips)
+                        points[source], points[target], max_deviation=wider, terrain_flips=terrain_flips,
+                        allowed=lambda y,x: abs(float(pool_levels[y,x])-endpoint_pool[0]) <= .0001)
                     probes = np.vstack([candidate, (candidate[:-1] + candidate[1:]) * .5])
-                    if np.all(sample_terrain(ground, probes.T, terrain_flips) < endpoint_pool.min() - .015):
+                    candidate_pools = sample_standing_levels(ground, pool_levels, probes, terrain_flips)
+                    if (np.all(sample_terrain(ground, probes.T, terrain_flips) < endpoint_pool.min() - .015)
+                            and np.all(abs(candidate_pools-endpoint_pool[0]) <= .0001)):
                         path = candidate
+        if routing_overrides and source in routing_overrides:
+            from .water_route_alternatives import validate_route_override
+            path = validate_route_override(routing, path, routing_overrides[source],
+                points[source], points[target], min(float(radius[source]), float(radius[target]), 2.), terrain_flips)
         # A diagonal between two sea vertices can cross a high dry corner
         # under bilinear terrain. Take the existing orthogonal sea corridor
         # when one exists; never draw a sea-to-rock-to-sea hump or excavate
@@ -396,7 +403,7 @@ def channel_depth_targets(points, links, original_links, depths):
     return result
 
 
-def lowest_spill_path(ground, start, end, max_deviation=2.0, terrain_flips=None):
+def lowest_spill_path(ground, start, end, max_deviation=2.0, terrain_flips=None, allowed=None):
     """Trace the existing carved corridor rather than cutting a bed chord.
 
 The search is confined to a two-native-pixel strip around the original
@@ -436,11 +443,17 @@ reach. Minimise the highest bed obstruction, then distance. No terrain edits.
             residual = offset - delta * t
             if float(residual @ residual) > max_deviation ** 2 + 1e-6:
                 continue
+            if allowed is not None and not allowed(ny,nx):
+                continue
             # NW/SE is not a terrain edge: its chord crosses the mesh's
             # anti-diagonal midpoint. Account for that real saddle before
             # choosing a supposedly unobstructed shortest diagonal.
             flipped = terrain_flips is not None and terrain_flips[min(y, ny), min(x, nx)]
             off_edge = dy and dx and bool(flipped) != (dy == dx)
+            if allowed is not None and off_edge:
+                # A same-pool path cannot shortcut across a foreign outlet
+                # triangle merely because its bare terrain is lower.
+                continue
             saddle = (float(ground[y, nx]) + float(ground[ny, x])) * .5 if off_edge else -np.inf
             candidate = (max(head, float(ground[ny, nx]), saddle), distance + np.hypot(dy, dx))
             neighbour = (ny, nx)
@@ -494,7 +507,7 @@ reach is returned as an explicit terrain mismatch and excluded from water.
         banks.append(bank)
     # The compiler supplies semantic channel depth; legacy callers retain
     # their shallow-film default. Real pinned pools keep their own plane.
-    depth_targets = np.broadcast_to(np.asarray(minimum_depth, float), bed.shape)
+    depth_targets = np.broadcast_to(np.asarray(minimum_depth, float), bed.shape).copy()
     lower = bed + depth_targets
     # Bank containment is a physical crest constraint, not a fixed3cm air
     # freeboard. Requiring that arbitrary gap rejected a real pool13.9mm
@@ -510,6 +523,21 @@ reach is returned as an explicit terrain mismatch and excluded from water.
         levels[pinned] = pool[pinned]
         lower[pinned] = pool[pinned]
         cap[pinned] = pool[pinned]
+    if strict_banks and np.any(pinned):
+        # A real pool outlet starts at its shallow sill, not an instantaneous
+        # full-depth trench. Taper over two native intervals only; ordinary
+        # reaches retain their semantic depth, including long flat channels.
+        distances = np.where(pinned, 0., np.inf)
+        sources = np.flatnonzero(links >= 0)
+        targets = links[sources]
+        lengths = np.linalg.norm(points[sources]-points[targets], axis=1)
+        for _ in range(4):
+            previous = distances.copy()
+            np.minimum.at(distances, sources, previous[targets]+lengths)
+            np.minimum.at(distances, targets, previous[sources]+lengths)
+        near = ~pinned & (distances < 2.)
+        depth_targets[near] = np.maximum(.015, depth_targets[near]*distances[near]/2.)
+        lower[near] = bed[near]+depth_targets[near]
     levels[marine] = 0
     lower[marine] = 0
     cap[marine] = 0
@@ -754,7 +782,7 @@ def bounded_bank_correction(current_bed, weights, remaining, bank_heights, coeff
 
 def repair_channel_beds(original, corrected, points, conflicts, max_lowering=1.0,
                         exceptional_sources=(), terrain_flips=None, depth_targets=None, pinned=None,
-                        links=None, radius=None, bank_normals=None):
+                        links=None, radius=None, bank_normals=None, indexed_limits=None):
     """Condition routed bed support, respecting the resulting actual banks.
 
 Only the native corners supporting a routed channel-centre sample may move.
@@ -765,6 +793,11 @@ solver measures explicitly; this is not a claim of mathematically minimal cuts.
 """
     changed = 0
     for source, conflict in conflicts.items():
+        if conflict.get('obstructionPinned'):
+            # The obstruction is a fixed pool head, not a high bed sill.
+            # Excavating its upstream retaining bank cannot lower that head;
+            # it only creates a new outlet and an endless moving-bank loop.
+            continue
         target = conflict["bedTargetM"]
         nodes = list(conflict.get("pathNodes", []))
         nodes.extend(conflict.get("drainageNodes", []))
@@ -790,7 +823,9 @@ solver measures explicitly; this is not a claim of mathematically minimal cuts.
                               for y, x, weight in zip(rows[:, 0], cols[:, 0], raw_weights[:, 0]) if weight > 1e-6]
             cells = [(y, x) for y, x, _ in weighted_cells]
             weights = np.array([weight for _, _, weight in weighted_cells])
-            remaining = np.array([max(0., float(corrected[cell] - original[cell]) + limit) for cell in cells])
+            remaining = np.array([max(0., float(corrected[cell] - original[cell]) +
+                (indexed_limits.get(cell[0]*original.shape[1]+cell[1], limit) if indexed_limits else limit))
+                for cell in cells])
             required = current_bed - target
             if conflict.get('localBankConstraint') and links is not None and radius is not None:
                 # Lowering a centre's supporting corner also changes bank
