@@ -188,9 +188,9 @@ CANOE_HALF_W_M = 8.0 * TUNE
 CANOE_BED_M = -1.2
 
 
-def resolve_portages(h, origin_full, rng):
+def resolve_portages(h, origin_full, rng, lanes_path=None):
     """Resolve waterway land hops. Returns (h, features, track_mask)."""
-    lanes_path = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways.json"
+    lanes_path = Path(lanes_path) if lanes_path is not None else REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways.json"
     features = []
     track = np.zeros(h.shape, dtype=bool)
     canoe = np.zeros(h.shape, dtype=bool)

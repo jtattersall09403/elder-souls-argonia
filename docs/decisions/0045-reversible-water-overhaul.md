@@ -65,3 +65,17 @@ original saddle. Original-pool sampling relocations remain limited to two
 native intervals. Candidate costs can consider immutable excavation floors and
 fixed receiving heads; they never authorise a cut or waive fresh global
 geometry and original-water preservation checks.
+
+The next accepted semantic-width group resolves17 further channels with no
+new failures and preserves original pool planes, spill potential and wet
+fringes. Repairs may remove extensions that earlier repairs created on
+originally dry ground; exact changed indices and immutable wet-mask evidence
+are recorded separately from original water preservation.
+
+Peak-footprint evidence now comes from an exact replay of the natural terrain
+carvers. The replay must use the saved natural boat lanes: current lanes were
+later moved to berth terminals. Road grading is a subsequent signed terrain
+delta. The read-only diagnostic refuses to publish carving provenance unless
+its natural result matches the saved ungraded heightfield exactly. Carve
+depths and Gaussian tails are evidence for footprint interpretation, not an
+automatic instruction to flood every modified terrain sample.
