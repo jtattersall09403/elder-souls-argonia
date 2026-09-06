@@ -92,14 +92,16 @@ export class WaterWorld implements WorldWaterQuery {
 
   /** Cheap still-water boundary query for local wave barriers and emitters. */
   sampleBoundary(x: number, z: number, epochMinutes: number) {
-    const s = this.data.boundaryAt(x, z, this.boundaryScratch, true, true);
+    const s = this.data.boundaryAt(x, z, this.boundaryScratch, true, true, true);
     const { tide, season } = this.levelOffsets(epochMinutes);
     const offset = tide * s.tideResponse + season * s.seasonResponse;
     const surfaceHeight = s.surfaceBase + offset;
     const ground = this.opts.groundHeight?.(x, z) ?? null;
     const accessible = (s.floodAccessOffsetM ?? -Infinity) <= offset + 0.001;
     const depth = s.supported && accessible ? Math.max(0, ground === null ? s.depthProxy + offset : surfaceHeight - ground) : 0;
-    return { waterBodyId: depth > 0.004 ? s.waterBodyId : null, surfaceHeight, depth };
+    const wetMarginM = Math.min(depth - 0.004, offset + 0.001 - (s.floodAccessOffsetM ?? -Infinity));
+    return { waterBodyId: depth > 0.004 ? s.waterBodyId : null, surfaceHeight, depth, wetMarginM,
+      flowX: depth > 0.004 ? s.flowX ?? 0 : 0, flowZ: depth > 0.004 ? s.flowZ ?? 0 : 0 };
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {

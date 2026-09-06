@@ -5,23 +5,17 @@ import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "..
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
-import { AdaptiveTerrainLoader, buildAdaptiveTerrainGeometry, type AdaptiveTerrainData } from "@elder-souls/game-core/terrain/adaptiveTerrain";
+import { AdaptiveTerrainLoader, buildAdaptiveTerrainGeometry, type AdaptiveTerrainData, type AdaptiveTerrainManifest } from "@elder-souls/game-core/terrain/adaptiveTerrain";
+import { TerrainViewResidency, type TerrainViewEntry } from "@elder-souls/game-core/terrain/viewResidency";
+import { hasTerrainAuthority, selectTerrainDisplay } from '@elder-souls/game-core/terrain/displaySelection';
 
 /**
- * Chunked terrain renderer for the character mode: every province chunk as its
- * own mesh, LOD chosen by chunk distance from the player (LOD 1 ≈5.5 m near,
+ * Chunked terrain renderer: visible/buffer chunks each have their own mesh,
+ * with LOD chosen by chunk distance from the player (native LOD 1 near,
  * 2 mid, 4 far), textured by the shared splat material. Near geometry is the
  * SAME LOD-1 grid the Rapier colliders use, so feet and ground agree exactly.
  * Each mesh gets a short dropped skirt to hide hairline gaps at LOD borders.
  */
-
-const NEAR_RING = 1;  // Chebyshev chunk distance rendered at LOD 1
-const MID_RING = 3;   // … at LOD 2; beyond renders at LOD 4
-
-function desiredLod(dx: number, dy: number): string {
-  const d = Math.max(Math.abs(dx), Math.abs(dy));
-  return d <= NEAR_RING ? "1" : d <= MID_RING ? "2" : "4";
-}
 
 function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   grid: ChunkGrid;
@@ -66,9 +60,12 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   const adaptive = useMemo(() => new URLSearchParams(window.location.search).get("water") === "legacy"
     ? null : new AdaptiveTerrainLoader(`${base}province/`), [base]);
   const [adaptiveAvailable, setAdaptiveAvailable] = useState<boolean | null>(adaptive ? null : false);
+  const [adaptiveMetadata, setAdaptiveMetadata] = useState<AdaptiveTerrainManifest | null>(null);
+  const bankChunks = useMemo(() => new Map(adaptiveMetadata?.chunks.map(chunk => [`${chunk.cx},${chunk.cy}`, chunk])), [adaptiveMetadata]);
+  const bufferSize = useMemo(() => new THREE.Vector2(), []);
   useEffect(() => {
     let active = true;
-    if (adaptive) adaptive.manifest().then(manifest => { if (active) setAdaptiveAvailable(manifest !== null); })
+    if (adaptive) adaptive.manifest().then(manifest => { if (active) { setAdaptiveAvailable(manifest !== null); setAdaptiveMetadata(manifest); } })
       .catch(error => { if (active) { console.error("Adaptive terrain unavailable:", error); setAdaptiveAvailable(false); } });
     return () => { active = false; adaptive?.dispose(); };
   }, [adaptive]);
@@ -122,9 +119,16 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   }, [manifest]);
 
   const [focusCell, setFocusCell] = useState<[number, number]>([-99, -99]);
+  const residency = useMemo(() => new TerrainViewResidency(manifest, verticalScale ?? manifest.verticalScaleAtGeometry), [manifest, verticalScale]);
+  const [viewEntries, setViewEntries] = useState<readonly TerrainViewEntry[]>([]);
+  const previousEntries = useRef<readonly TerrainViewEntry[]>(viewEntries);
   const [, setLoadedVersion] = useState(0);
-  useFrame(() => {
+  useFrame(({ camera, gl }) => {
     const f = focusRef.current;
+    gl.getDrawingBufferSize(bufferSize);
+    const entries = residency.update(camera, f.x, f.z, adaptiveMetadata
+      ? { chunks: bankChunks, widthPx: bufferSize.x, heightPx: bufferSize.y } : undefined);
+    if (entries !== previousEntries.current) { previousEntries.current = entries; setViewEntries(entries); }
     const cx = Math.max(0, Math.min(manifest.grid[0] - 1, Math.floor(f.x / manifest.chunkMetres)));
     const cy = Math.max(0, Math.min(manifest.grid[1] - 1, Math.floor(f.z / manifest.chunkMetres)));
     if (cx !== focusCell[0] || cy !== focusCell[1]) {
@@ -137,7 +141,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // re-render per 250 ms window: during initial load ~hundreds of chunks
   // land, and a full re-render (and mesh mounts) per arrival was a large
   // part of the minutes-long jerky period (owner round 4).
-  const requested = useRef(new Set<string>());
+  const requested = useRef(new Map<string, symbol>());
   const displayed = useRef(new Map<string, { grid?: ChunkGrid; adaptive?: AdaptiveTerrainData }>());
   const adaptiveArrivals = useRef(new Map<string, AdaptiveTerrainData>());
   const adaptiveReady = useRef(new Map<string, AdaptiveTerrainData>());
@@ -165,35 +169,38 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   useEffect(() => () => { if (bumpTimer.current !== null) window.clearTimeout(bumpTimer.current); }, []);
   useEffect(() => {
     if (adaptiveAvailable === null || focusCell[0] < 0) return;
-    const chunks = [...manifest.chunks].sort((a, b) => Math.max(Math.abs(a.cx - focusCell[0]), Math.abs(a.cy - focusCell[1]))
-      - Math.max(Math.abs(b.cx - focusCell[0]), Math.abs(b.cy - focusCell[1])));
-    wantedAdaptive.current = new Set(chunks.map(chunk => `${chunk.cx},${chunk.cy},${desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1])}`));
+    wantedAdaptive.current = new Set(viewEntries.map(({ chunk, lod }) => `${chunk.cx},${chunk.cy},${lod}`));
+    const residentCells = new Set(viewEntries.map(({ chunk }) => `${chunk.cx},${chunk.cy}`));
+    adaptive?.retainWanted(wantedAdaptive.current);
+    for (const key of requested.current.keys()) if (!wantedAdaptive.current.has(key)) requested.current.delete(key);
+    for (const key of displayed.current.keys()) if (!residentCells.has(key)) displayed.current.delete(key);
+    for (const key of adaptiveReady.current.keys()) if (!wantedAdaptive.current.has(key)) adaptiveReady.current.delete(key);
     for (const key of adaptiveArrivals.current.keys()) if (!wantedAdaptive.current.has(key)) adaptiveArrivals.current.delete(key);
-    for (const chunk of chunks) {
-      const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+    for (const { chunk, lod } of viewEntries) {
       const key = `${chunk.cx},${chunk.cy},${lod}`;
+      const current = displayed.current.get(`${chunk.cx},${chunk.cy}`);
+      if (hasTerrainAuthority(current, lod, !!adaptiveAvailable) || adaptiveReady.current.has(key) || adaptiveArrivals.current.has(key)) continue;
       if (requested.current.has(key)) continue;
-      requested.current.add(key);
+      const ticket = Symbol(key);
+      requested.current.set(key, ticket);
       const load = adaptiveAvailable && adaptive && lod !== "1"
         ? adaptive.load(chunk.cx, chunk.cy, lod).then(data => {
-          if (data) { if (wantedAdaptive.current.has(key)) adaptiveArrivals.current.set(key, data); }
-          else return store.load(chunk.cx, chunk.cy, lod);
+          if (data && wantedAdaptive.current.has(key) && requested.current.get(key) === ticket) adaptiveArrivals.current.set(key, data);
         }) : store.load(chunk.cx, chunk.cy, lod);
       load.then(() => { if (!adaptiveAvailable || lod === "1") bump(); }).catch(error => console.error("Terrain chunk unavailable:", error))
-        .finally(() => requested.current.delete(key));
+        .finally(() => { if (requested.current.get(key) === ticket) requested.current.delete(key); });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, manifest, focusCell, adaptive, adaptiveAvailable]);
+  }, [store, manifest, focusCell, viewEntries, adaptive, adaptiveAvailable]);
 
   return (
     <group>
-      {manifest.chunks.map((chunk) => {
-        const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+      {viewEntries.map(({ chunk, lod: want }) => {
         const key = `${chunk.cx},${chunk.cy}`;
         const ready = adaptiveReady.current.get(`${key},${want}`);
         const exact = store.loaded(chunk.cx, chunk.cy, want);
-        if (ready && want !== "1") displayed.current.set(key, { adaptive: ready });
-        else if (exact) displayed.current.set(key, { grid: exact });
+        const selected = selectTerrainDisplay(displayed.current.get(key), want, !!adaptiveAvailable, ready, exact ?? undefined);
+        if (selected) displayed.current.set(key, selected);
         // Arrivals for old views are cached by the bounded loader, not held
         // forever by the app. The displayed replacement retains its buffer.
         adaptiveReady.current.delete(`${key},${want}`);

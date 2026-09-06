@@ -1,17 +1,18 @@
 import * as THREE from "three";
 import type { WaterData, WaterBoundaryStaticSample } from "../waterData";
-import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js";
 import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
-import { subtractRibbonFootprints } from "./ribbonFootprint";
-import { inlandAdaptiveLeaves, inlandPotentiallyWet, type InlandStageRange } from "./inlandAdaptiveLeaves";
+import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
+import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, type InlandStageRange } from "./inlandAdaptiveLeaves";
 import { waterGeometryBytes, waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
 
 export interface InlandWaterBudget {
   maxTriangles?: number;
   maxGeometryBytes?: number;
   buildsPerUpdate?: number;
+  buildBudgetMs?: number;
   stage?: InlandStageRange;
 }
+interface TileTask { key: string; tx: number; tz: number; step: number; priority: number; errorM: number; subpixelM: number }
 
 /** Fixed world-aligned inland tiles. A triangle never joins separate bodies;
  * camera motion cannot stretch a river into the neighbouring lake or bank.
@@ -21,7 +22,10 @@ export class InlandWaterTiles {
   readonly meshes: THREE.Mesh[] = [];
   private tiles = new Map<string, THREE.Mesh>();
   private focus = "";
-  private pending: { key: string; tx: number; tz: number; step: number; priority: number; errorM: number; subpixelM: number }[] = [];
+  private pending: TileTask[] = [];
+  private active?: { task: TileTask; build: Generator<void, THREE.Mesh> };
+  private readonly dirtyBatches = new Set<string>();
+  private merging?: { key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3 };
   private batches = new Map<string, THREE.Mesh>();
   private verticalScale = NaN;
   private viewKey = "";
@@ -32,21 +36,40 @@ export class InlandWaterTiles {
   private residentBytes = 0;
   private builtLastUpdate = 0;
   private budgetFailures = 0;
+  private readonly buildBudgetMs: number;
+  private atomicStepsLastUpdate = 0;
+  private maxAtomicWorkMs = 0;
+  private atomicPhase = "idle";
+  private maxAtomicWorkPhase = "idle";
+  private buildWorkMs = 0;
+  private updateWorkMs = 0;
+  private cancelledBuilds = 0;
   private readonly stage?: InlandStageRange;
   constructor(private readonly data: WaterData, private readonly low = false, budget: InlandWaterBudget = {}) {
     this.maxTriangles = budget.maxTriangles ?? 1000000;
-    this.maxGeometryBytes = budget.maxGeometryBytes ?? (low ? 48 : 96) * 1024 * 1024;
+    this.maxGeometryBytes = budget.maxGeometryBytes ?? (low ? 64 : 96) * 1024 * 1024;
     this.buildsPerUpdate = Math.max(1, Math.min(4, budget.buildsPerUpdate ?? 2));
+    this.buildBudgetMs = Math.max(0.1, Math.min(2, budget.buildBudgetMs ?? 2));
     this.stage = budget.stage;
   }
 
   get diagnostics() { return { residentTiles: this.tiles.size, residentTriangles: this.residentTriangles,
-    residentGeometryBytes: this.residentBytes, pendingTiles: this.pending.length, builtLastUpdate: this.builtLastUpdate,
-    drawBatches: this.meshes.length, budgetFailures: this.budgetFailures }; }
+    residentGeometryBytes: this.residentBytes, pendingTiles: this.pending.length + (this.active ? 1 : 0) + this.dirtyBatches.size + (this.merging ? 1 : 0), builtLastUpdate: this.builtLastUpdate,
+    drawBatches: this.meshes.length, budgetFailures: this.budgetFailures, atomicStepsLastUpdate: this.atomicStepsLastUpdate,
+    maxAtomicWorkMs: this.maxAtomicWorkMs, maxAtomicWorkPhase: this.maxAtomicWorkPhase,
+    buildWorkMs: this.buildWorkMs, updateWorkMs: this.updateWorkMs, cancelledBuilds: this.cancelledBuilds }; }
+
+  private recordAtomic(start: number): void {
+    const elapsed = performance.now() - start;
+    if (elapsed > this.maxAtomicWorkMs) { this.maxAtomicWorkMs = elapsed; this.maxAtomicWorkPhase = this.atomicPhase; }
+    this.atomicStepsLastUpdate++;
+  }
 
   update(x: number, z: number, material: THREE.Material, verticalScale = 1, view?: WaterGeometryView): void {
-    const changedBatches = new Set<string>();
+    const updateBegan = performance.now();
+    const changedBatches = this.dirtyBatches;
     this.builtLastUpdate = 0;
+    this.atomicStepsLastUpdate = 0;
     const scale = Number.isFinite(verticalScale) && verticalScale > 0 ? verticalScale : 1;
     const mpp = this.data.meta.surface.metresPerPixel;
     const tileM = 64 * mpp;
@@ -61,8 +84,9 @@ export class InlandWaterTiles {
       this.viewKey = viewKey;
       this.pending = [];
       const limit = Math.ceil(this.data.meta.surface.size / 64);
-      // Full-province coarse coverage: the marine mesh intentionally cannot
-      // fill distant lakes. Iteration is bounded even for offshore cameras.
+      // Visit the bounded metadata grid, but admit geometry only inside the
+      // conservative view / near buffer. The marine mesh cannot substitute
+      // for visible distant lakes; off-camera province geometry is not needed.
       for (let tz = 0; tz < limit; tz++) for (let tx = 0; tx < limit; tx++) {
         const key = `${tx},${tz}`;
         const current = this.tiles.get(key);
@@ -72,9 +96,15 @@ export class InlandWaterTiles {
         bounds.min.y = (bounds.min.y - 8) * scale; bounds.max.y = (bounds.max.y + 8) * scale;
         const radius = Math.max(Math.abs(tx - cx), Math.abs(tz - cz));
         const visible = waterPatchVisible(bounds.clone().expandByScalar(tileM), view);
-        // The lightweight far representation remains resident behind the
-        // camera: turning cannot reveal absent lakes. Only local/visible
-        // detail receives priority; outgoing detail is replaced by far LOD.
+        if (view && radius > 2 && !visible) {
+          if (current) {
+            this.residentTriangles -= (current.geometry.index?.count ?? 0) / 3;
+            this.residentBytes -= waterGeometryBytes(current.geometry) * 2;
+            changedBatches.add(current.userData.waterBatch);
+            current.geometry.dispose(); this.tiles.delete(key);
+          }
+          continue;
+        }
         const step = radius <= 1 ? 1 : !visible ? 32 : radius <= 3 ? 2 : radius <= 7 ? (this.low ? 8 : 4) : radius <= 12 ? 8 : 16;
         const errorM = waterPatchErrorM(bounds, view, scale);
         const errorTier = Math.max(0, Math.floor(Math.log2(errorM / 0.04)));
@@ -85,66 +115,90 @@ export class InlandWaterTiles {
         }
       }
       this.pending.sort((a, b) => a.priority - b.priority);
+      if (this.active) {
+        const task = this.pending.find(task => task.key === this.active!.task.key);
+        // A stricter in-flight mesh remains valid when the view relaxes its
+        // target. Exact floating-point equality starved builds while turning.
+        if (!task || this.active.task.step > task.step || this.active.task.errorM > task.errorM
+          || this.active.task.subpixelM > task.subpixelM) {
+          this.active.build.return(undefined as never); this.active = undefined; this.cancelledBuilds++;
+        } else this.pending = this.pending.filter(task => task.key !== this.active!.task.key);
+      }
+      // A merge holds source arrays. Cancel before any changed source can be
+      // disposed; the last displayed batch remains valid until replacement.
+      if (this.merging && changedBatches.has(this.merging.key)) {
+        this.merging.build.return(undefined as never); changedBatches.add(this.merging.key); this.merging = undefined;
+      }
     }
-    // Bound upload work; nearest tiles arrive first. Static cached geometry
-    // then has no CPU update cost until the camera enters another tile.
+    // The same deterministic construction runs as small resumable units.
+    // Complete a changed draw batch before admitting another tile so its
+    // source arrays cannot change underneath an in-progress copy.
     const began = performance.now();
-    for (let budget = 0; budget < this.buildsPerUpdate && this.pending.length; budget++) {
-      if (budget > 0 && performance.now() - began >= 3) break;
-      const task = this.pending.shift()!;
-      const mesh = this.build(task.tx, task.tz, task.step, material, task.errorM, task.subpixelM);
-      this.builtLastUpdate++;
-      const previous = this.tiles.get(task.key);
-      const previousTriangles = (previous?.geometry.index?.count ?? 0) / 3;
+    while (performance.now() - began < this.buildBudgetMs) {
+      if (!this.merging && changedBatches.size) {
+        const key = changedBatches.values().next().value!; changedBatches.delete(key);
+        const tiles = [...this.tiles.values()].filter(tile => tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0);
+        if (!tiles.length) {
+          const batch = this.batches.get(key);
+          if (batch) { batch.geometry.dispose(); this.group.remove(batch); this.batches.delete(key); }
+          continue;
+        }
+        const bounds = new THREE.Box3(); for (const tile of tiles) bounds.union(tile.userData.waterBounds);
+        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)) };
+      }
+      if (this.merging) {
+        this.atomicPhase = "batch-copy";
+        const atomic = performance.now(), result = this.merging.build.next(); this.recordAtomic(atomic);
+        if (!result.done) continue;
+        const { key, bounds } = this.merging; this.merging = undefined;
+        let batch = this.batches.get(key);
+        if (batch) { batch.geometry.dispose(); batch.geometry = result.value; }
+        else { batch = new THREE.Mesh(result.value, material); batch.frustumCulled = true; batch.layers.set(3); batch.receiveShadow = true;
+          this.group.add(batch); this.batches.set(key, batch); }
+        batch.userData.waterBounds = bounds; batch.userData.boundsDirty = true;
+        continue;
+      }
+      if (!this.active) {
+        if (!this.pending.length || this.builtLastUpdate >= this.buildsPerUpdate) break;
+        const task = this.pending.shift()!;
+        this.active = { task, build: this.build(task.tx, task.tz, task.step, material, task.errorM, task.subpixelM) };
+      }
+      const atomic = performance.now(), result = this.active.build.next();
+      this.recordAtomic(atomic);
+      if (!result.done) continue;
+      const task = this.active.task, mesh = result.value; this.active = undefined; this.builtLastUpdate++;
+      const previous = this.tiles.get(task.key), previousTriangles = (previous?.geometry.index?.count ?? 0) / 3;
       const previousBytes = previous ? waterGeometryBytes(previous.geometry) * 2 : 0;
       const triangles = (mesh.geometry.index?.count ?? 0) / 3, bytes = waterGeometryBytes(mesh.geometry) * 2;
       if (this.residentTriangles - previousTriangles + triangles > this.maxTriangles || this.residentBytes - previousBytes + bytes > this.maxGeometryBytes) {
         mesh.geometry.dispose(); this.budgetFailures++; continue;
       }
-      this.residentTriangles += triangles - previousTriangles;
-      this.residentBytes += bytes - previousBytes;
-      // Keep the previous LOD until this exact tile's replacement exists.
-      this.tiles.get(task.key)?.geometry.dispose();
-      this.tiles.set(task.key, mesh);
-      changedBatches.add(mesh.userData.waterBatch);
+      this.residentTriangles += triangles - previousTriangles; this.residentBytes += bytes - previousBytes;
+      previous?.geometry.dispose(); this.tiles.set(task.key, mesh); changedBatches.add(mesh.userData.waterBatch);
     }
-    for (const key of changedBatches) {
-      const tiles = [...this.tiles.values()].filter(tile => tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0);
-      let batch = this.batches.get(key);
-      if (!tiles.length) {
-        if (batch) { batch.geometry.dispose(); this.group.remove(batch); this.batches.delete(key); }
-        continue;
-      }
-      const geometry = mergeGeometries(tiles.map(tile => tile.geometry), false)!;
-      if (batch) { batch.geometry.dispose(); batch.geometry = geometry; }
-      else {
-        batch = new THREE.Mesh(geometry, material);
-        batch.frustumCulled = true; batch.layers.set(3); batch.receiveShadow = true;
-        this.group.add(batch); this.batches.set(key, batch);
-      }
-      const bounds = new THREE.Box3();
-      for (const tile of tiles) bounds.union(tile.userData.waterBounds);
-      batch.userData.waterBounds = bounds;
-    }
+    this.buildWorkMs = performance.now() - began;
     // At most64 fixed 4x4-tile groups for the shipped32x32 province. Only
     // touched groups upload geometry; camera culling never changes physics.
     this.meshes.splice(0, this.meshes.length, ...this.batches.values());
-    for (const [key, batch] of this.batches) {
+    for (const batch of this.batches.values()) {
       batch.material = material;
-      if (changedBatches.has(key) || scale !== this.verticalScale) {
+      if (batch.userData.boundsDirty || scale !== this.verticalScale) {
         const box = (batch.userData.waterBounds as THREE.Box3).clone();
         box.min.y = (box.min.y - 8) * scale;
         box.max.y = (box.max.y + 8) * scale;
         batch.geometry.boundingBox = box;
         batch.geometry.boundingSphere = box.getBoundingSphere(new THREE.Sphere());
+        batch.userData.boundsDirty = false;
       }
     }
     this.verticalScale = scale;
+    this.updateWorkMs = performance.now() - updateBegan;
   }
 
-  private build(tx: number, tz: number, requestedStep: number, material: THREE.Material, errorM = 0.04, subpixelM = 0): THREE.Mesh {
+  private *build(tx: number, tz: number, requestedStep: number, material: THREE.Material, errorM = 0.04, subpixelM = 0): Generator<void, THREE.Mesh> {
     const step = requestedStep;
-    const leaves = inlandAdaptiveLeaves(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage);
+    this.atomicPhase = "native-samples-and-leaves";
+    const leaves = yield* inlandAdaptiveLeavesSteps(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage);
     const mpp = this.data.meta.surface.metresPerPixel;
     const baseX = tx * 64 * mpp, baseZ = tz * 64 * mpp;
     const cells = 64 / step;
@@ -175,7 +229,12 @@ export class InlandWaterTiles {
     // Index only the native footprints touching this tile. Per-cell lists
     // avoid scanning all province ribbons for every raster triangle.
     const clips = new Map<number, ChannelRibbonFootprintTriangle[]>();
-    for (const clip of this.data.ribbons.ownershipFootprintsInBounds(baseX, baseZ, baseX + 64 * mpp, baseZ + 64 * mpp)) {
+    this.atomicPhase = "footprint-query";
+    const footprints = this.data.ribbons.ownershipFootprintsInBounds(baseX, baseZ, baseX + 64 * mpp, baseZ + 64 * mpp);
+    yield;
+    this.atomicPhase = "footprint-index";
+    let indexed = 0;
+    for (const clip of footprints) {
       const minCol = Math.max(0, Math.floor((Math.min(clip.a.x, clip.b.x, clip.c.x) - baseX) / span));
       const maxCol = Math.min(cells - 1, Math.floor((Math.max(clip.a.x, clip.b.x, clip.c.x) - baseX) / span));
       const minRow = Math.max(0, Math.floor((Math.min(clip.a.z, clip.b.z, clip.c.z) - baseZ) / span));
@@ -183,13 +242,14 @@ export class InlandWaterTiles {
       for (let row = minRow; row <= maxRow; row++) for (let col = minCol; col <= maxCol; col++) {
         const key = row * cells + col, list = clips.get(key);
         if (list) list.push(clip); else clips.set(key, [clip]);
+        if ((++indexed & 63) === 0) yield;
       }
     }
     const indices: number[] = [];
-    const triangle = (a: number, b: number, c: number, cutters?: ChannelRibbonFootprintTriangle[]) => {
+    const triangle = function* (a: number, b: number, c: number, cutters?: ChannelRibbonFootprintTriangle[]): Generator<void> {
       if (!(wet[a] || wet[b] || wet[c]) || body[a] !== body[b] || body[b] !== body[c]) return;
       if (!cutters?.length) { indices.push(a, b, c); return; }
-      const polygons = subtractRibbonFootprints([a, b, c].map(i => ({ x: positions[i * 3], z: positions[i * 3 + 2] })), cutters);
+      const polygons = yield* subtractRibbonFootprintSteps([a, b, c].map(i => ({ x: positions[i * 3], z: positions[i * 3 + 2] })), cutters);
       for (const polygon of polygons) {
         // Clipped points retain the original triangle's domain. Sampling
         // the exact boundary would select the ribbon we just removed.
@@ -200,23 +260,30 @@ export class InlandWaterTiles {
           return index;
         });
         for (let i = 1; i < polygonIndices.length - 1; i++) indices.push(polygonIndices[0], polygonIndices[i], polygonIndices[i + 1]);
+        yield;
       }
     };
     const horizontal = new Map<number, Set<number>>(), vertical = new Map<number, Set<number>>();
+    this.atomicPhase = "leaf-edges";
+    let edgeCount = 0;
     const add = (map: Map<number, Set<number>>, key: number, value: number) => {
       let line = map.get(key); if (!line) { line = new Set(); map.set(key, line); } line.add(value);
     };
     for (const leaf of leaves) for (const x of [leaf.x, leaf.x + leaf.step]) for (const z of [leaf.z, leaf.z + leaf.step]) {
       add(horizontal, z, x); add(vertical, x, z);
+      if ((++edgeCount & 63) === 0) yield;
     }
     for (let i = 0; i <= 64; i++) { add(horizontal, 0, i); add(horizontal, 64, i); add(vertical, 0, i); add(vertical, 64, i); }
+    let leafCount = 0;
     for (const leaf of leaves) {
+      this.atomicPhase = "leaf-clip";
+      if ((++leafCount & 15) === 0) yield;
       const x0 = baseX + leaf.x * mpp, z0 = baseZ + leaf.z * mpp;
       const x1 = baseX + (leaf.x + leaf.step) * mpp, z1 = baseZ + (leaf.z + leaf.step) * mpp;
       const cutters = clips.get(Math.floor(leaf.z / step) * cells + Math.floor(leaf.x / step));
       if (leaf.step === 1) {
         const a = vertex(x0, z0), b = vertex(x0, z1), c = vertex(x1, z0), d = vertex(x1, z1);
-        triangle(a, b, c, cutters); triangle(c, b, d, cutters); continue;
+        yield* triangle(a, b, c, cutters); yield* triangle(c, b, d, cutters); continue;
       }
       const edgePoints = (map: Map<number, Set<number>>, key: number, start: number, end: number) =>
         [...map.get(key)!].filter(v => v >= start && v <= end).sort((a, b) => a - b);
@@ -226,7 +293,7 @@ export class InlandWaterTiles {
       const top = edgePoints(horizontal, leaf.z, leaf.x, leaf.x + leaf.step).reverse();
       if (left.length + bottom.length + right.length + top.length === 8) {
         const a = vertex(x0, z0), b = vertex(x0, z1), c = vertex(x1, z0), d = vertex(x1, z1);
-        triangle(a, b, c, cutters); triangle(c, b, d, cutters);
+        yield* triangle(a, b, c, cutters); yield* triangle(c, b, d, cutters);
       } else {
         // Every tile perimeter has native-step vertices, regardless of its
         // interior LOD. Adjacent edges therefore sample identical waves and
@@ -237,23 +304,28 @@ export class InlandWaterTiles {
         for (const z of right.slice(0, -1)) perimeter.push(vertex(x1, baseZ + z * mpp));
         for (const x of top.slice(0, -1)) perimeter.push(vertex(baseX + x * mpp, z0));
         const center = vertex((x0 + x1) / 2, (z0 + z1) / 2);
-        for (let i = 0; i < perimeter.length; i++) triangle(center, perimeter[i], perimeter[(i + 1) % perimeter.length], cutters);
+        for (let i = 0; i < perimeter.length; i++) yield* triangle(center, perimeter[i], perimeter[(i + 1) % perimeter.length], cutters);
       }
     }
     // Raster vertices carry no per-vertex override and start with an up
     // normal. Byte attributes encode those exact constants; duplicated
     // Float32 zero vectors previously dominated persistent far-water memory.
     const remap = new Int32Array(body.length).fill(-1), usedPositions: number[] = [];
-    const compactIndices = indices.map(index => {
-      if (remap[index] >= 0) return remap[index];
-      const mapped = usedPositions.length / 3;
-      usedPositions.push(positions[index * 3], 0, positions[index * 3 + 2]);
-      remap[index] = mapped;
-      return mapped;
-    });
+    this.atomicPhase = "compact-vertices";
+    const compactIndices: number[] = [];
+    for (let i = 0; i < indices.length; i++) {
+      const index = indices[i];
+      if (remap[index] < 0) {
+        remap[index] = usedPositions.length / 3;
+        usedPositions.push(positions[index * 3], 0, positions[index * 3 + 2]);
+      }
+      compactIndices.push(remap[index]);
+      if ((i & 255) === 255) yield;
+    }
     const count = usedPositions.length / 3, normals = new Int8Array(count * 3);
-    for (let i = 1; i < normals.length; i += 3) normals[i] = 127;
+    for (let i = 1; i < normals.length; i += 3) { normals[i] = 127; if (i % 768 === 1) yield; }
     const geometry = new THREE.BufferGeometry();
+    this.atomicPhase = "tile-buffer-finalize";
     geometry.setAttribute("position", new THREE.Float32BufferAttribute(usedPositions, 3));
     geometry.setAttribute("normal", new THREE.BufferAttribute(normals, 3, true));
     geometry.setAttribute("waterOverride", new THREE.BufferAttribute(new Int8Array(count * 4), 4));
@@ -271,7 +343,40 @@ export class InlandWaterTiles {
     mesh.frustumCulled = false; mesh.layers.set(3); mesh.receiveShadow = true;
     return mesh;
   }
+  /** Fixed attribute layout; copy at most4096 scalar values per step.
+   * The outgoing GPU buffer is untouched throughout construction. */
+  private *mergeSteps(sources: THREE.BufferGeometry[]): Generator<void, THREE.BufferGeometry> {
+    const count = sources.reduce((sum, geometry) => sum + geometry.getAttribute("position").count, 0);
+    const indexCount = sources.reduce((sum, geometry) => sum + geometry.index!.count, 0);
+    const position = new Float32Array(count * 3); yield;
+    const normal = new Int8Array(count * 3); yield;
+    const override = new Int8Array(count * 4); yield;
+    const indices = count > 65535 ? new Uint32Array(indexCount) : new Uint16Array(indexCount); yield;
+    let vertices = 0, cursor = 0;
+    for (const source of sources) {
+      for (const [name, target, width] of [["position", position, 3], ["normal", normal, 3], ["waterOverride", override, 4]] as const) {
+        const values = source.getAttribute(name).array;
+        for (let i = 0; i < values.length; i += 4096) {
+          target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
+        }
+      }
+      const input = source.index!.array;
+      for (let i = 0; i < input.length; i++) {
+        indices[cursor++] = input[i] + vertices;
+        if ((i & 1023) === 1023) yield;
+      }
+      vertices += source.getAttribute("position").count;
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
+    geometry.setAttribute("normal", new THREE.BufferAttribute(normal, 3, true));
+    geometry.setAttribute("waterOverride", new THREE.BufferAttribute(override, 4));
+    geometry.setIndex(new THREE.BufferAttribute(indices, 1));
+    return geometry;
+  }
   dispose(): void {
+    this.active?.build.return(undefined as never); this.active = undefined;
+    this.merging?.build.return(undefined as never); this.merging = undefined; this.dirtyBatches.clear();
     for (const batch of this.batches.values()) batch.geometry.dispose();
     this.batches.clear(); this.verticalScale = NaN;
     for (const mesh of this.tiles.values()) mesh.geometry.dispose();

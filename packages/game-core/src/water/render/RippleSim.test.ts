@@ -1,10 +1,83 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import type { WorldWaterQuery } from "@elder-souls/contracts";
 import { RippleBoundaryMask, RippleFrameScheduler, RippleSim, type RippleBoundarySampler } from "./RippleSim";
+import { ripplePathConnected } from './rippleIsolation';
 
 const pool: RippleBoundarySampler = () => ({ waterBodyId: "water.test.pool", depth: 1, surfaceHeight: 0 });
 
 describe("ripple wet/body boundary", () => {
+  it("clears an abruptly dried same-owner bridge before bounded readmission", () => {
+    let stage = 0, queries = 0;
+    const mask = new RippleBoundaryMask(16, 8, 0.2, x => {
+      queries++;
+      const depth = (Math.abs(x) < 0.6 ? 0.03 : 2) + stage;
+      return { waterBodyId: depth > 0.004 ? 'water.pool' : null, depth, surfaceHeight: stage };
+    }, 2);
+    mask.setLevelOffsets(0, 0);
+    mask.update(0, 0, 0, 0);
+    expect(mask.labelAt(0, 0)).toBeGreaterThan(0);
+    stage = -0.04;
+    expect(mask.setLevelOffsets(0, stage)).toBe(true);
+    expect(mask.labelAt(0, 0)).toBe(0); // no stale step before the refresh reaches this row
+    for (let frame = 0; frame < 8; frame++) {
+      queries = 0;
+      mask.update(0, 0, 0, 1 / 60);
+      expect(queries).toBeLessThanOrEqual(16 * 2 + 17 * 3);
+    }
+    expect(mask.labelAt(-2, 0)).toBeGreaterThan(0);
+    expect(mask.labelAt(-2, 0)).toBe(mask.labelAt(2, 0));
+    const labels = Array.from({ length: 256 }, (_, i) => mask.data[i * 4] + mask.data[i * 4 + 1] * 256);
+    expect(ripplePathConnected(labels, 16, 4.5, 8.5, 12.5, 8.5)).toBe(false);
+  });
+
+  it("protects a deep pool whose connecting saddle is only just overtopped", () => {
+    const mask = new RippleBoundaryMask(16, 8, 0.2, x => ({
+      waterBodyId: 'water.pool', depth: 2, surfaceHeight: 0,
+      wetMarginM: Math.abs(x) < 0.6 ? 0.005 : 1,
+    }));
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    expect(mask.labelAt(0, 0)).toBe(0);
+    expect(mask.labelAt(2, 0)).toBeGreaterThan(0);
+  });
+
+  it("continual small tide steps refresh normally without cancelling or full rescans", () => {
+    let stage = 0, queries = 0;
+    const mask = new RippleBoundaryMask(16, 8, 0.2, () => {
+      queries++;
+      return { waterBodyId: 'water.pool', depth: 2 + stage, surfaceHeight: stage };
+    }, 2);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    let refreshedFrames = 0;
+    for (let frame = 0; frame < 240; frame++) {
+      stage -= 0.0001;
+      expect(mask.setLevelOffsets(stage, 0)).toBe(false);
+      queries = 0;
+      mask.update(0, 0, 0, 1 / 60);
+      if (queries) refreshedFrames++;
+      expect(queries).toBeLessThanOrEqual(16 * 2 + 17 * 3);
+      expect(mask.data.filter((_, i) => i % 4 === 3 && mask.data[i] === 255)).toHaveLength(256);
+    }
+    expect(refreshedFrames).toBeGreaterThan(120);
+  });
+
+  it("does not restart the row cursor during a rapidly moving seasonal readmission", () => {
+    const visited = new Set<number>();
+    const mask = new RippleBoundaryMask(16, 8, 0.2, (_x, z) => {
+      visited.add(Math.floor((z + 4) * 2));
+      return { waterBodyId: 'water.pool', depth: 2, surfaceHeight: 0 };
+    }, 2);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    visited.clear();
+    for (let frame = 1; frame <= 8; frame++) {
+      mask.setLevelOffsets(0, -0.01 * frame);
+      mask.update(0, 0, 0, 1 / 60);
+    }
+    for (let row = 0; row < 16; row++) expect(visited.has(row)).toBe(true);
+    for (let frame = 0; frame < 8; frame++) mask.update(0, 0, 0, 1 / 60);
+    expect(mask.data.filter((_, i) => i % 4 === 3 && mask.data[i] === 255)).toHaveLength(256);
+  });
+
   it("keeps thin dry banks and different bodies separate at the mask resolution", () => {
     const mask = new RippleBoundaryMask(16, 8, 0.2, (x) => ({
       waterBodyId: Math.abs(x) < 0.05 ? null : x < 0 ? "water.test.left" : "water.test.right",
@@ -37,6 +110,22 @@ describe("ripple wet/body boundary", () => {
     expect(stripQueries).toBeLessThanOrEqual(16 * 4);
     mask.update(0.5, 0, 0, 0.1);
     expect(queries).toBe(fullQueries * 2 + stripQueries);
+  });
+
+  it('copies and clears current with support, without adding a second boundary query', () => {
+    let queries = 0;
+    const mask = new RippleBoundaryMask(16, 8, 0.2, x => {
+      queries++; return { waterBodyId: 'water.river', depth: 2, surfaceHeight: 0, flowX: x, flowZ: -12 };
+    }, 2);
+    mask.setLevelOffsets(0, 0); mask.update(0, 0, 0, 0);
+    expect(queries).toBe(16 * 16 + 17 * 17);
+    const old = mask.current[(8 * 16 + 9) * 2];
+    mask.update(0.5, 0, 0, 0);
+    expect(mask.current[(8 * 16 + 8) * 2]).toBe(old);
+    expect(mask.current[(8 * 16 + 8) * 2 + 1]).toBe(-12);
+    expect(mask.hasCurrent).toBe(true);
+    mask.setLevelOffsets(0, -1);
+    expect(mask.current.every(value => value === 0)).toBe(true);
   });
 
   it("handles newly dry/flooded ground and explicit terrain invalidation", () => {
@@ -118,6 +207,7 @@ function fakeRenderer() {
   let clearColor = new THREE.Color(0.1, 0.2, 0.3);
   let clearAlpha = 0.7;
   let scissorTest = true;
+  let clears = 0;
   const renderer = {
     toneMapping: THREE.ACESFilmicToneMapping, autoClear: true,
     getRenderTarget: () => target,
@@ -128,18 +218,49 @@ function fakeRenderer() {
     getViewport: (v: THREE.Vector4) => v.set(0, 0, 800, 600), setViewport: () => {},
     getScissor: (v: THREE.Vector4) => v.set(10, 10, 700, 500), setScissor: () => {},
     getScissorTest: () => scissorTest, setScissorTest: (on: boolean) => { scissorTest = on; },
-    clear: () => {},
+    clear: () => { clears++; },
     render: (scene: THREE.Scene) => {
       const u = (scene.children[0] as THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>).material.uniforms;
-      calls.push(u.uShift ? { kind: "copy", shift: u.uShift.value.toArray() }
+      calls.push(u.uCurrent ? { kind: 'advect' } : u.uShift ? { kind: "copy", shift: u.uShift.value.toArray() }
         : u.uDropCount ? { kind: "drop", count: u.uDropCount.value, drop: u.uDrops.value[0].toArray() }
           : { kind: "update" });
     },
   };
-  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls };
+  return { renderer: renderer as unknown as THREE.WebGLRenderer, calls, get clears() { return clears; } };
 }
 
 describe("ripple render scheduling", () => {
+  it('advects once before each wave update only where current exists', () => {
+    let flowX = 12;
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({
+      waterBodyId: 'water.river', depth: 2, surfaceHeight: 0, flowX, flowZ: 0,
+    }) });
+    const { renderer, calls } = fakeRenderer();
+    sim.step(renderer, 0, 0, 1 / 30);
+    expect(calls.map(call => call.kind)).toEqual(['copy', 'advect', 'update', 'advect', 'update']);
+    flowX = 0; sim.invalidateBoundary(); calls.length = 0;
+    sim.step(renderer, 0, 0, 1 / 60);
+    expect(calls.map(call => call.kind)).toEqual(['copy', 'update']);
+    sim.dispose();
+  });
+  it("clears both old wave targets and queued impulses before rendering a changed season", () => {
+    let season = 0;
+    const sim = new RippleSim({ boundarySize: 32, sampleBoundary: () => ({
+      waterBodyId: 'water.pool', depth: 0.03 + season, surfaceHeight: season,
+    }) });
+    sim.configureBoundary({ levelOffsets: () => ({ tide: 0, season }) } as unknown as WorldWaterQuery, () => 0);
+    const render = fakeRenderer();
+    sim.step(render.renderer, 0, 0, 0);
+    expect(render.clears).toBe(2);
+    sim.addDrop(0, 0, 0.5, 0.1);
+    season = -0.1;
+    render.calls.length = 0;
+    sim.step(render.renderer, 0, 0, 1 / 60);
+    expect(render.clears).toBe(4);
+    expect(render.calls.map(call => call.kind)).toEqual(['copy', 'update']);
+    sim.dispose();
+  });
+
   it("recenters before batching all impulses into one pass, even without a physics step", () => {
     const sim = new RippleSim({ boundarySize: 16 });
     const { renderer, calls } = fakeRenderer();

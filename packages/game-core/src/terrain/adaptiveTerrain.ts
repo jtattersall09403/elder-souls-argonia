@@ -1,7 +1,9 @@
 import { BufferAttribute, BufferGeometry } from "three";
 
 interface AdaptiveAsset { file: string; bytes: number; vertices: number; triangles: number; sha256: string; minM: number; maxM: number;
-  compression?: "gzip"; downloadBytes?: number }
+  compression?: "gzip"; downloadBytes?: number;
+  /** Optional projected-error LOD affects protected water banks only. */
+  baseLod?: '4'; maximumBankErrorM?: number }
 export interface AdaptiveTerrainChunk {
   cx: number; cy: number; originM: [number, number]; cells: [number, number]; flippedCells: number[];
   lods: Record<string, AdaptiveAsset>;
@@ -48,8 +50,14 @@ export function validateAdaptiveTerrainManifest(value: unknown): AdaptiveTerrain
       if (!integer(cell, previous + 1, chunk.cells[0] * chunk.cells[1] - 1)) throw new Error("Invalid adaptive terrain cell flip");
       previous = cell;
     }
-    for (const lod of ["2", "4"]) {
+    if (!chunk.lods?.['2'] || !chunk.lods?.['4']) throw new Error('Missing protected-native adaptive terrain fallback');
+    for (const lod of Object.keys(chunk.lods)) {
       const asset = chunk.lods?.[lod];
+      const approximate = /^4-e(?:010|025|050|100)$/.test(lod);
+      if (lod !== '2' && lod !== '4' && !approximate) throw new Error('Unknown adaptive terrain LOD');
+      if (!asset) throw new Error('Missing adaptive terrain LOD asset');
+      if (approximate && (asset.baseLod !== '4' || !Number.isFinite(asset.maximumBankErrorM) || asset.maximumBankErrorM! <= 0)
+        || !approximate && (asset.baseLod !== undefined || asset.maximumBankErrorM !== undefined)) throw new Error('Invalid adaptive water-bank error declaration');
       if (!asset || !safeFile(asset.file) || !hash(asset.sha256) || !integer(asset.vertices, 3, 66049)
         || !integer(asset.triangles, 1, chunk.cells[0] * chunk.cells[1] * 2)
         || !integer(asset.bytes, 32, 4 * 1024 * 1024) || !Number.isFinite(asset.minM) || !Number.isFinite(asset.maxM)
@@ -118,12 +126,25 @@ export class AdaptiveTerrainLoader {
   private readonly controller = new AbortController();
   private readonly cache = new Map<string, AdaptiveTerrainData>();
   private readonly pending = new Map<string, Promise<AdaptiveTerrainData | null>>();
-  private queue: (() => void)[] = [];
+  private queue: { key: string; run: () => void; cancel: () => void }[] = [];
+  private wanted: ReadonlySet<string> | null = null;
   private active = 0;
   private bytes = 0;
   private disposed = false;
   constructor(readonly provinceBaseUrl: string, private readonly options: { concurrency?: number; maxCacheBytes?: number; fetch?: typeof fetch } = {}) {}
   get diagnostics() { return { activeRequests: this.active, queuedRequests: this.queue.length, cachedBytes: this.bytes, cachedChunks: this.cache.size }; }
+  /** Optional view-owned residency. Cancel only queued work; at most the
+   * bounded active request count can finish after a camera switch. */
+  retainWanted(keys: ReadonlySet<string>): void {
+    this.wanted = new Set(keys);
+    this.queue = this.queue.filter(request => {
+      if (keys.has(request.key)) return true;
+      request.cancel(); return false;
+    });
+    for (const [key, data] of this.cache) if (!keys.has(key)) {
+      this.bytes -= data.byteLength; this.cache.delete(key);
+    }
+  }
   private fetch(url: string) { return (this.options.fetch ?? fetch)(url, { signal: this.controller.signal }); }
 
   manifest(): Promise<AdaptiveTerrainManifest | null> {
@@ -146,14 +167,16 @@ export class AdaptiveTerrainLoader {
   }
   load(cx: number, cy: number, lod: string): Promise<AdaptiveTerrainData | null> {
     const key = `${cx},${cy},${lod}`, cached = this.loaded(cx, cy, lod);
+    if (this.wanted && !this.wanted.has(key)) return Promise.resolve(null);
     if (cached) return Promise.resolve(cached);
     let pending = this.pending.get(key);
     if (!pending) {
       pending = new Promise<AdaptiveTerrainData | null>((resolve, reject) => {
-        this.queue.push(() => {
+        this.queue.push({ key, cancel: () => { this.pending.delete(key); resolve(null); }, run: () => {
           this.active++;
           this.decode(cx, cy, lod).then(data => {
-            if (data && !this.disposed) {
+            const eligible = !this.disposed && (!this.wanted || this.wanted.has(key));
+            if (data && eligible) {
               const limit = this.options.maxCacheBytes ?? 96 * 1024 * 1024;
               if (data.byteLength <= limit) {
                 while (this.bytes + data.byteLength > limit && this.cache.size) {
@@ -163,9 +186,9 @@ export class AdaptiveTerrainLoader {
                 this.cache.set(key, data); this.bytes += data.byteLength;
               }
             }
-            resolve(data);
+            resolve(eligible ? data : null);
           }, reject).finally(() => { this.active--; this.pending.delete(key); this.pump(); });
-        });
+        } });
       });
       this.pending.set(key, pending); this.pump();
     }
@@ -173,7 +196,7 @@ export class AdaptiveTerrainLoader {
   }
   private pump() {
     const maximum = Math.max(1, Math.min(8, this.options.concurrency ?? 4));
-    while (this.active < maximum && this.queue.length) this.queue.shift()!();
+    while (this.active < maximum && this.queue.length) this.queue.shift()!.run();
   }
   private async decode(cx: number, cy: number, lod: string): Promise<AdaptiveTerrainData | null> {
     if (this.disposed) throw new Error("Adaptive terrain loader disposed");
@@ -187,5 +210,9 @@ export class AdaptiveTerrainLoader {
     const buffer = asset.compression === "gzip" ? await decompressTerrain(downloaded, asset.bytes) : downloaded;
     return decodeAdaptiveTerrain(buffer, chunk, lod, manifest.nativeMetresPerSample);
   }
-  dispose(): void { this.disposed = true; this.controller.abort(); this.cache.clear(); this.bytes = 0; this.pump(); }
+  dispose(): void {
+    this.disposed = true; this.controller.abort(); this.cache.clear(); this.bytes = 0;
+    for (const request of this.queue) request.cancel();
+    this.queue.length = 0;
+  }
 }

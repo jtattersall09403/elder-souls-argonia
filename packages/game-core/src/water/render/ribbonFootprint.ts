@@ -33,6 +33,13 @@ function halfPlane(polygon: readonly FootprintPoint[], a: FootprintPoint, b: Foo
  * including adjacent pools; never discard an entire cell or add skirts. */
 export function subtractRibbonFootprints(triangle: readonly FootprintPoint[],
   cutters: readonly ChannelRibbonFootprintTriangle[]): FootprintPoint[][] {
+  const build = subtractRibbonFootprintSteps(triangle, cutters);
+  for (;;) { const result = build.next(); if (result.done) return result.value; }
+}
+
+/** Yield after each convex polygon/cutter operation; never alter clipping. */
+export function* subtractRibbonFootprintSteps(triangle: readonly FootprintPoint[],
+  cutters: readonly ChannelRibbonFootprintTriangle[]): Generator<void, FootprintPoint[][]> {
   let polygons: FootprintPoint[][] = [[...triangle]];
   for (const cutter of cutters) {
     const clip = [cutter.a, cutter.b, cutter.c];
@@ -40,6 +47,7 @@ export function subtractRibbonFootprints(triangle: readonly FootprintPoint[],
     if (!orientation) continue;
     const next: FootprintPoint[][] = [];
     for (const polygon of polygons) {
+      yield;
       let intersection = polygon;
       for (let edge = 0; edge < 3 && intersection.length >= 3; edge++) {
         intersection = halfPlane(intersection, clip[edge], clip[(edge + 1) % 3], orientation);

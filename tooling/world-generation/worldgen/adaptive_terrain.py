@@ -1,4 +1,4 @@
-"""Crack-free terrain LOD which never simplifies protected water cells.
+"""Crack-free native-height terrain LOD with explicit water-bank accuracy.
 
 Native leaves retain the renderer/Rapier anti-diagonal. Coarse leaves use
 native-height perimeter vertices and a centre fan, with every neighbouring
@@ -16,6 +16,11 @@ def adaptive_terrain(heights, protected_cells, max_step=4, flipped_cells=None, m
     protected_cells has one Boolean per native quad, not per height sample.
     Caller supplies already decoded/corrected physical heights and scales
     local x/z by native metres-per-sample when exporting world geometry.
+    Without max_error_m every protected cell remains native. With an explicit
+    budget, only the protected domain may use error-bounded coarser leaves;
+    unrelated dry leaves retain the existing max_step policy. The bound is
+    in lattice coordinates; an exporter must also account for world Float32
+    coordinate roundoff before advertising a final rendered error limit.
     """
     heights = np.asarray(heights)
     protected = np.asarray(protected_cells, dtype=bool)
@@ -43,18 +48,30 @@ def adaptive_terrain(heights, protected_cells, max_step=4, flipped_cells=None, m
         a, b, c, d = native[0, 0], native[0, -1], native[-1, 0], native[-1, -1]
         coarse = np.where(tx + tz <= 1, a * (1 - tx - tz) + b * tx + c * tz,
                           d * (tx + tz - 1) + b * (1 - tz) + c * (1 - tx))
+        domain = protected[z:z + size, x:x + size]
+        checked = np.zeros((size + 1, size + 1), bool)
+        checked[:-1, :-1] |= domain
+        checked[1:, :-1] |= domain
+        checked[:-1, 1:] |= domain
+        checked[1:, 1:] |= domain
+        # Any perimeter sample can become a future stitching vertex. Check
+        # all of those and the fan centre even outside the protected domain,
+        # so an unchecked dry peak cannot tilt a fan through a water bank.
+        checked[0, :] = checked[-1, :] = True
+        checked[:, 0] = checked[:, -1] = True
+        checked[size // 2, size // 2] = True
         # Native/coarse anti-diagonals intersect only at native vertices;
         # audited opposite diagonals are always forced native below. Thus
         # this is the exact pre-stitch L-infinity error. A stitch fan uses
         # native-height boundary/centre vertices within the same coarse
         # half-plane, adding at most this error again. Half-budget admission
         # therefore bounds the final mesh everywhere, not just at samples.
-        return np.max(np.abs(native - coarse)) > max_error_m * 0.5
+        return np.max(np.abs(native - coarse)[checked]) > max_error_m * 0.5
 
     def split(x, z, size):
         count = sums[z + size, x + size] - sums[z, x + size] - sums[z + size, x] + sums[z, x]
         edge = x == 0 or z == 0 or x + size == nx or z + size == nz
-        needs_detail = count if max_error_m is None else (size > 1 and (
+        needs_detail = count if max_error_m is None else (count and size > 1 and (
             np.any(flipped[z:z + size, x:x + size]) or exceeds_error(x, z, size)))
         if size > 1 and (needs_detail or edge):
             half = size // 2

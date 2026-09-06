@@ -13,6 +13,13 @@ export function inlandPotentiallyWet(sample: WaterBoundaryStaticSample, stage?: 
  * between coarse sample points. Rendering can omit only subpixel cells. */
 export function inlandAdaptiveLeaves(data: WaterData, tx: number, tz: number, requestedStep: number,
   errorM = 0.04, subpixelM = 0, stage?: InlandStageRange): InlandLeaf[] {
+  const build = inlandAdaptiveLeavesSteps(data, tx, tz, requestedStep, errorM, subpixelM, stage);
+  for (;;) { const result = build.next(); if (result.done) return result.value; }
+}
+
+/** Same deterministic geometry oracle, yielding after at most64 native tests. */
+export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: number, requestedStep: number,
+  errorM = 0.04, subpixelM = 0, stage?: InlandStageRange): Generator<void, InlandLeaf[]> {
   const size = 65, mpp = data.meta.surface.metresPerPixel;
   const height = new Float64Array(size * size);
   const bodies: (string | null)[] = new Array(size * size);
@@ -25,9 +32,11 @@ export function inlandAdaptiveLeaves(data: WaterData, tx: number, tz: number, re
     height[i] = sample.surfaceBase;
     bodies[i] = sample.supported ? sample.waterBodyId : null;
     wet[i] = inlandPotentiallyWet(sample, stage) && data.rasterClassAt(wx, wz) >= 3 ? 1 : 0;
+    if ((i & 63) === 63) yield;
   }
   const leaves: InlandLeaf[] = [];
-  const visit = (x: number, z: number, step: number): void => {
+  let visited = 0;
+  function* visit(x: number, z: number, step: number): Generator<void> {
     const a = z * size + x, b = a + step, c = a + step * size, d = c + step;
     let anyWet = false, refine = false;
     for (let dz = 0; dz <= step; dz++) for (let dx = 0; dx <= step; dx++) {
@@ -42,14 +51,16 @@ export function inlandAdaptiveLeaves(data: WaterData, tx: number, tz: number, re
       // Extra fan vertices can consume the other half of the budget. Check
       // dry interior heights too: a buried fan centre must not pull down a pool.
       if (Math.abs(height[i] - interpolated) > errorM * 0.5) refine = true;
+      if (((dz * (step + 1) + dx) & 63) === 63) yield;
     }
     if (!anyWet) return;
     if (step * mpp < subpixelM) return;
     if (refine && step > 1) {
       const half = step / 2;
-      visit(x, z, half); visit(x + half, z, half); visit(x, z + half, half); visit(x + half, z + half, half);
+      yield* visit(x, z, half); yield* visit(x + half, z, half); yield* visit(x, z + half, half); yield* visit(x + half, z + half, half);
     } else leaves.push({ x, z, step });
-  };
-  for (let z = 0; z < 64; z += requestedStep) for (let x = 0; x < 64; x += requestedStep) visit(x, z, requestedStep);
+    if ((++visited & 31) === 0) yield;
+  }
+  for (let z = 0; z < 64; z += requestedStep) for (let x = 0; x < 64; x += requestedStep) yield* visit(x, z, requestedStep);
   return leaves;
 }

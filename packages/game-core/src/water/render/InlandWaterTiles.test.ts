@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { createHash } from "node:crypto";
 import { MeshBasicMaterial, Vector3 } from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import { InlandWaterTiles } from "./InlandWaterTiles";
@@ -84,7 +85,7 @@ describe("inland geometry isolation and draw budget", () => {
     const tiles = new InlandWaterTiles(data);
     const material = new MeshBasicMaterial();
     try {
-      // Nine tiles need three bounded upload frames.
+      // Construction and uploads complete through bounded resumable steps.
       settle(tiles, 64, 64, material);
       expect(tiles.group.children).toHaveLength(1);
       expect(tiles.meshes).toHaveLength(1);
@@ -111,7 +112,7 @@ describe("inland geometry isolation and draw budget", () => {
         { x: 30.2, y: 4, z: 50, halfWidthM: 0.3, groundM: 3 }] }]);
     const tiles = new InlandWaterTiles(data), material = new MeshBasicMaterial();
     try {
-      tiles.update(30, 30, material);
+      settle(tiles, 30, 30, material);
       expect(data.sample(30, 20).waterBodyId).toBe("water.test.ribbon-2");
       const geometry = tiles.meshes[0].geometry, positions = geometry.getAttribute("position");
       let area = 0;
@@ -130,6 +131,14 @@ describe("inland geometry isolation and draw budget", () => {
       // row/column is intentionally excluded by body isolation.
       expect(area).toBeCloseTo(63 * 63 - 0.6 * 40, 3);
       expect(tiles.meshes).toHaveLength(1);
+      // Captured from synchronous checkpoint4058d25; all attributes and
+      // indices remain byte-identical, including clipped vertex order.
+      const hash = createHash("sha256");
+      for (const attribute of [...Object.values(geometry.attributes), geometry.index!]) {
+        const array = attribute.array;
+        hash.update(new Uint8Array(array.buffer, array.byteOffset, array.byteLength));
+      }
+      expect(hash.digest("hex")).toBe("f478cbdd2aad3dfb203ffc656f748554af5c4e378213cf8e11eff0fcddcbd7dd");
     } finally { tiles.dispose(); material.dispose(); }
   });
 

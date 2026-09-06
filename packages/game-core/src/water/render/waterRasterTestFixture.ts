@@ -1,12 +1,17 @@
 import { readFileSync } from "node:fs";
-import { inflateSync } from "node:zlib";
+import { inflateSync, gunzipSync } from "node:zlib";
+import { createHash } from "node:crypto";
 import { WaterData, type WaterMeta } from "../waterData";
+import { PackedCrossSections } from "../packedCrossSections";
+import { NativeWaterGround } from "../nativeWaterGround";
+import { validateWaterMeta } from "./loadWaterAssets";
 
 /** Test-only decoder for the compiler's RGB8, non-interlaced data PNGs.
  * Reads bytes as data; no browser, canvas or image ingestion is involved. */
-function rgbPng(path: URL): Uint8ClampedArray {
+function rgbPng(path: URL, expectedSize: number): Uint8ClampedArray {
   const png = readFileSync(path);
   const width = png.readUInt32BE(16), height = png.readUInt32BE(20);
+  if (width !== expectedSize || height !== expectedSize) throw new Error('Water fixture raster dimensions disagree with metadata');
   if (png[24] !== 8 || png[25] !== 2 || png[28] !== 0) throw new Error("Expected compiler RGB8 PNG");
   const chunks: Buffer[] = [];
   for (let offset = 8; offset < png.length;) {
@@ -39,20 +44,46 @@ function rgbPng(path: URL): Uint8ClampedArray {
   return rgba;
 }
 
-export function productionWaterData(): WaterData {
-  const base = new URL("../../../../../apps/world-studio/public/province/water/v2/", import.meta.url);
+export function productionWaterData(base = new URL("../../../../../apps/world-studio/public/province/water/v2/", import.meta.url),
+  province = new URL('../../', base)): WaterData {
   const meta: WaterMeta = JSON.parse(readFileSync(new URL("water-meta.json", base), "utf8"));
-  const surface = rgbPng(new URL(meta.surface.file, base));
-  const shore = rgbPng(new URL(meta.surface.shoreFile!, base));
+  validateWaterMeta(meta);
+  const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
+  if (meta.crossSections) {
+    const packed = readFileSync(new URL(meta.crossSections.file, base));
+    if (meta.crossSections.sha256 && hash(packed) !== meta.crossSections.sha256) throw new Error('Packed water section fixture integrity mismatch');
+    new PackedCrossSections(meta.crossSections, packed.buffer.slice(packed.byteOffset, packed.byteOffset + packed.byteLength), meta.ribbons ?? []);
+  }
+  let nativeGround: NativeWaterGround | undefined;
+  if (meta.nativeGround) {
+    const descriptor = meta.nativeGround, compressed = readFileSync(new URL(descriptor.file, base));
+    if (compressed.byteLength !== descriptor.downloadBytes) throw new Error('Native water fixture download byte mismatch');
+    const bytes = gunzipSync(compressed, { maxOutputLength: descriptor.bytes });
+    if (bytes.byteLength !== descriptor.bytes || hash(bytes) !== descriptor.sha256) throw new Error('Native water fixture integrity mismatch');
+    const sources = [
+      [new URL('chunks/chunks-web-manifest.json', province), descriptor.nativeManifestSha256],
+      [new URL(meta.surface.bedOverlayFile!, base), descriptor.bedOverlaySha256],
+      [new URL(meta.surface.terrainTopologyFile!, base), descriptor.topologySha256],
+    ] as const;
+    for (const [path, expected] of sources) if (hash(readFileSync(path)) !== expected) throw new Error('Native water fixture source bundle mismatch');
+    nativeGround = new NativeWaterGround(bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+  }
+  const surface = rgbPng(new URL(meta.surface.file, base), meta.surface.size);
+  const shore = rgbPng(new URL(meta.surface.shoreFile!, base), meta.surface.size);
   const heights = new Float32Array(meta.surface.size ** 2), depth = new Float32Array(heights.length);
-  const season = new Float32Array(heights.length);
+  const season = new Float32Array(heights.length), shoreDistance = new Float32Array(heights.length), tannin = new Float32Array(heights.length);
   for (let i = 0; i < heights.length; i++) {
     heights[i] = meta.surface.minM + (surface[i * 4] * 256 + surface[i * 4 + 1]) / 65535 * (meta.surface.maxM - meta.surface.minM);
     depth[i] = surface[i * 4 + 2] * 0.1 + (meta.surface.depthMinM ?? 0);
     season[i] = shore[i * 4 + 1] / 255;
+    shoreDistance[i] = shore[i * 4] / 255 * meta.surface.shoreMaxM!;
+    tannin[i] = shore[i * 4 + 2] / 255;
   }
-  return new WaterData(meta, heights, depth, new Uint8ClampedArray(meta.flow.size ** 2 * 4),
-    rgbPng(new URL(meta.klass.file, base)), undefined, season,
-    rgbPng(new URL(meta.surface.supportFile!, base)), undefined, undefined,
-    meta.surface.accessFile ? rgbPng(new URL(meta.surface.accessFile, base)) : undefined);
+  const basin = JSON.parse(readFileSync(new URL('refined/flood-states.json', province), 'utf8')).basins[0];
+  return new WaterData(meta, heights, depth, rgbPng(new URL(meta.flow.file, base), meta.flow.size),
+    rgbPng(new URL(meta.klass.file, base), meta.klass.size), shoreDistance, season,
+    rgbPng(new URL(meta.surface.supportFile!, base), meta.surface.size),
+    rgbPng(new URL(meta.klass.characterFile!, base), meta.klass.size), tannin,
+    meta.surface.accessFile ? rgbPng(new URL(meta.surface.accessFile, base), meta.surface.size) : undefined,
+    nativeGround, basin.tidalAmplitudeM + basin.seasonalAmplitudeM);
 }

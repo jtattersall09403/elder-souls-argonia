@@ -33,17 +33,34 @@ function fixture(nativeRibbon = false) {
 }
 
 describe("water boundary integration", () => {
+  it("reports flood-access safety separately from a deep pool's bed clearance", () => {
+    const data = fixture(true);
+    const boundary = { ...data.boundaryAt(2, 4), floodAccessOffsetM: -0.004 };
+    vi.spyOn(data, 'boundaryAt').mockReturnValue(boundary);
+    const world = new WaterWorld(data, { tidalAmplitudeM: 0, seasonalAmplitudeM: 0, seasonScalar: () => 0 });
+    const sample = world.sampleBoundary(2, 4, 0);
+    expect(sample.depth).toBe(1.5);
+    expect(sample.wetMarginM).toBeCloseTo(0.005);
+    boundary.floodAccessOffsetM = 0.03;
+    expect(world.sampleBoundary(2, 4, 0).waterBodyId).toBeNull();
+    expect(world.sampleBoundary(2, 4, 0).wetMarginM).toBeLessThan(0);
+  });
+
   it("preserves supported body, signed depth and continuous tide/season registration on the fast path", () => {
     const data = fixture();
     for (let x = -1; x < 10; x += 0.37) for (let z = -1; z < 10; z += 0.41) {
       const full = data.sample(x, z);
-      const boundary = data.boundaryAt(x, z);
+      const boundary = data.boundaryAt(x, z, undefined, true, false, true);
       expect(boundary.surfaceBase).toBeCloseTo(full.surfaceBase, 8);
       expect(boundary.depthProxy).toBeCloseTo(full.depthProxy, 8);
       expect(boundary.tideResponse).toBeCloseTo(full.tideResponse, 8);
       expect(boundary.seasonResponse).toBeCloseTo(full.seasonResponse, 8);
       expect(boundary.supported).toBe(full.supported);
       expect(boundary.waterBodyId).toBe(full.waterBodyId);
+      if (boundary.supported) {
+        expect(boundary.flowX).toBeCloseTo(full.flowX, 8);
+        expect(boundary.flowZ).toBeCloseTo(full.flowZ, 8);
+      }
     }
   });
 
@@ -56,10 +73,13 @@ describe("water boundary integration", () => {
   });
 
   it("uses the ribbon's native bed rather than an unrelated reduced-raster depth", () => {
-    const boundary = fixture(true).boundaryAt(2, 4);
+    const data = fixture(true), boundary = data.boundaryAt(2, 4, undefined, true, false, true);
     expect(boundary.surfaceBase).toBe(10);
     expect(boundary.depthProxy).toBeCloseTo(1.5);
     expect(boundary.waterBodyId).toBe("water.test.west");
+    expect(boundary.flowX).toBe(data.sample(2, 4).flowX);
+    expect(boundary.flowZ).toBe(data.sample(2, 4).flowZ);
+    expect(boundary.flowZ).toBeGreaterThan(0);
   });
 
   it("reuses lunar levels within an epoch but immediately observes a pinned season change", () => {

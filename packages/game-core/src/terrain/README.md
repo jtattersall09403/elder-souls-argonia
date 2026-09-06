@@ -14,6 +14,22 @@ default. Rendered meshes own their current buffers independently of the LRU.
 input heights remain true metres. Callers dispose replaced geometries and the
 loader. The studio admits at most two adaptive chunk replacements per frame.
 
+`TerrainViewResidency` retains actual camera-frustum chunk bounds with a 64 m
+prefetch / 128 m retention buffer, plus the focus's 5×5 chunk neighbourhood.
+Its inner 3×3 remains native LOD1 regardless of camera direction. Bounds include
+vertical exaggeration, permitted bed lowering and skirts. Call `retainWanted`
+on the adaptive loader when the plan changes: obsolete queued requests settle
+without decoding, and off-view cache entries are released. Mounted geometry and
+arrival references must also be released; a loader LRU alone cannot limit them.
+
+The shared native `ChunkStore` intentionally retains decoded grids: synchronous
+ground queries require them even when their collider or vegetation consumer
+holds a separate reference. The current 256-chunk province bounds native LOD1
+heights at 62.51 MiB (82.26 MiB including every LOD). A larger-world cache needs
+explicit consumer leases before eviction; an unpinned LRU can make visible,
+collidable ground temporarily disappear from queries. These figures exclude
+render buffers and the separate adaptive cache.
+
 Generate a matched bundle offline:
 
 ```sh
@@ -26,6 +42,16 @@ not Gaussian LOD2/4 rasters. Protected native cells and audited diagonal flips
 are retained; coarse dry cells form stitched fans. Every chunk border remains
 native. Existing per-chunk PNG quantization differences are measured in the
 manifest rather than silently rewritten.
+
+Optional `--bank-errors .1 .25 .5 1` exports `4-e010`, `4-e025`, `4-e050`
+and `4-e100` variants. Their declared error bounds apply to the protected bank
+domain, not unrelated dry-land detail. `projectedTerrainBankView` bounds the
+actual homogeneous camera projection, including off-axis perspective, display
+scale and Float32 height rounding. `TerrainViewResidency` selects a variant only
+below half a drawing-buffer pixel; DPR changes invalidate the selection. The
+native and middle rings remain unchanged. Without variants, exact protected
+LOD4 remains the fallback. `selectTerrainDisplay` keeps an admitted adaptive
+mesh until its replacement arrives instead of reverting to a cached regular grid.
 
 The schema-1 manifest hashes the native chunk manifest, bed overlay, topology,
 protection mask and each generated file. Each deterministic gzip file contains

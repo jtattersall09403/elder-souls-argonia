@@ -25,6 +25,7 @@ export class HeroPoolSurface {
   private revision = -1;
   private timeS = 0;
   private epoch = 0;
+  private minimumWetLevelM = -Infinity;
   private pending: { work: Generator<void, void>; x: number; z: number; bodyId: string; height: number;
     events: { event: WaterInteractionEvent; timeS: number }[] } | null = null;
   constructor(private readonly assets: WaterAssets, atlas?: NativeWaterAtlas) {
@@ -53,7 +54,7 @@ export class HeroPoolSurface {
       // Never advance through a neck that has physically dried between the
       // slower selection checks. The inset below leaves admission-time drift
       // headroom; shallow fringe continues using the underlying water surface.
-      if (level <= p.minimumSafeBaseHeightM) { this.deactivate(); this.nextCheckS = timeS; }
+      if (level <= Math.max(p.minimumSafeBaseHeightM, this.minimumWetLevelM)) { this.deactivate(); this.nextCheckS = timeS; }
     }
     if (timeS >= this.nextCheckS) {
       this.nextCheckS = timeS + 0.25;
@@ -118,12 +119,15 @@ export class HeroPoolSurface {
     const originZ = Math.floor(candidate.z / cell) * cell - EXTENT / 2;
     const base = candidate.water.surfaceHeight, body = candidate.water.waterBodyId!;
     const ground = new Float32Array(n * n), owner = new Uint8Array(n * n);
-    let wet = 0;
+    let wet = 0, minimumWetMargin = Infinity;
     for (let z = 0; z < n; z++) for (let x = 0; x < n; x++) {
       const i = z * n + x, wx = originX + (x + 0.5) * cell, wz = originZ + (z + 0.5) * cell;
       const s = this.assets.world.sampleBoundary(wx, wz, epoch);
       ground[i] = s.surfaceHeight - s.depth;
-      if (s.waterBodyId === body && s.depth > 0.06 && Math.abs(s.surfaceHeight - base) <= 0.01) { owner[i] = 1; wet++; }
+      const margin = s.wetMarginM ?? s.depth - 0.004;
+      if (s.waterBodyId === body && s.depth > 0.06 && margin > 0.06 && Math.abs(s.surfaceHeight - base) <= 0.01) {
+        owner[i] = 1; wet++; minimumWetMargin = Math.min(minimumWetMargin, margin);
+      }
       if ((i & 511) === 511) yield;
     }
     if (!wet) return;
@@ -169,6 +173,7 @@ export class HeroPoolSurface {
     geometry.boundingBox = new THREE.Box3(new THREE.Vector3(originX, base - 8, originZ), new THREE.Vector3(originX + EXTENT, base + 8, originZ + EXTENT));
     this.mesh.geometry.dispose(); this.mesh.geometry = geometry;
     this.patch = patch; this.assets.world.setLocalPatch(patch); this.revision = -1;
+    this.minimumWetLevelM = base - minimumWetMargin + 0.01;
     Object.assign(this.state, { originX, originZ, bodyIndex: candidate.data.bodyIndex, active: true });
     this.mesh.visible = true; this.diagnostics.domainBuilds++; this.sync();
   }
@@ -206,6 +211,7 @@ export class HeroPoolSurface {
   private deactivate(): void {
     if (this.assets.world.localPatch === this.patch) this.assets.world.setLocalPatch(null);
     this.patch?.setActive(false); this.patch = null; this.state.active = false; this.mesh.visible = false;
+    this.minimumWetLevelM = -Infinity;
   }
   private cancelAdmission(): void {
     if (this.pending) { this.pending.work.return(); this.diagnostics.admissionCancelled++; }

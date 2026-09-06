@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { Box3, MeshBasicMaterial, Vector3 } from "three";
+import { Box3, MeshBasicMaterial, PerspectiveCamera, Vector3 } from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import type { ChannelRibbonRecord } from "../channelRibbons";
 import { inlandAdaptiveLeaves } from "./inlandAdaptiveLeaves";
 import { InlandWaterTiles } from "./InlandWaterTiles";
 import { WaterRibbonTiles } from "./WaterRibbonTiles";
-import { waterPatchErrorM, type WaterGeometryView } from "./waterStreaming";
+import { WaterGeometryCamera, waterPatchErrorM, type WaterGeometryView } from "./waterStreaming";
 import { ribbonRenderLod } from "./ribbonRenderLod";
 import { inlandPotentiallyWet } from "./inlandAdaptiveLeaves";
 
@@ -25,6 +25,42 @@ function fixture(size = 130, ribbons: ChannelRibbonRecord[] = [], heightAt: (x: 
 }
 
 describe("bounded water geometry streaming", () => {
+  it("finishes stricter inland work while the camera keeps moving and turning", () => {
+    const data = fixture(64), tiles = new InlandWaterTiles(data, false, { buildBudgetMs: .1 });
+    const material = new MeshBasicMaterial(), camera = new PerspectiveCamera(60, 1, .1, 1000);
+    const views = new WaterGeometryCamera();
+    const query = vi.spyOn(data, 'boundaryAt');
+    let clock = 0;
+    const timer = vi.spyOn(performance, 'now').mockImplementation(() => clock += .002);
+    try {
+      for (let frame = 0; frame < 4096; frame++) {
+        // Turn every frame, with tiny changes to the error/subpixel request;
+        // never invalidate an already stricter native near-tile build.
+        const angle = frame * .17;
+        camera.position.set(32 + Math.sin(angle), 10 + frame * .0001, 32 + Math.cos(angle));
+        camera.lookAt(32 + Math.sin(angle) * 40, 5, 32 + Math.cos(angle) * 40); camera.updateMatrixWorld();
+        tiles.update(camera.position.x, camera.position.z, material, 1, views.update(camera, 800));
+        if (frame === 0) {
+          expect(query.mock.calls.length).toBeLessThan(4225); // Native sampling itself is split.
+          expect(tiles.meshes).toHaveLength(0);
+        }
+        expect(tiles.diagnostics.buildWorkMs).toBeLessThan(.13);
+        if (!tiles.diagnostics.pendingTiles) break;
+      }
+      expect(tiles.diagnostics.pendingTiles).toBe(0);
+      expect(tiles.diagnostics.cancelledBuilds).toBe(0);
+      expect(tiles.meshes).toHaveLength(1);
+      const prior = tiles.meshes[0].geometry, dispose = vi.spyOn(prior, 'dispose');
+      // A replacement that becomes obsolete releases its generator without
+      // releasing the still-visible completed draw buffer.
+      tiles.update(4000, 4000, material);
+      expect(dispose).not.toHaveBeenCalled();
+      tiles.update(32, 32, material);
+      expect(tiles.diagnostics.cancelledBuilds).toBeGreaterThan(0);
+      expect(tiles.meshes[0].geometry).toBe(prior);
+      expect(dispose).not.toHaveBeenCalled();
+    } finally { timer.mockRestore(); query.mockRestore(); tiles.dispose(); material.dispose(); }
+  });
   it("preserves authored maximum stages without generating unreachable dry mountain fringe", () => {
     const sample = { supported: true, waterBodyId: "water.test.pool", surfaceBase: 5, depthProxy: -0.5, tideResponse: 0, seasonResponse: 0 };
     const stage = { tidalAmplitudeM: 0.5, seasonalAmplitudeM: 1.4 };
@@ -75,7 +111,7 @@ describe("bounded water geometry streaming", () => {
     const tiles = new InlandWaterTiles(data, false, { maxTriangles: 100000, maxGeometryBytes: 12 * 1024 * 1024, buildsPerUpdate: 1 });
     const near: WaterGeometryView = { position: { x: 64, y: 10, z: 64 }, pixelsPerRadian: 600, farM: 30000 };
     try {
-      for (let i = 0; i < 20; i++) {
+      for (let i = 0; i < 2048 && (i === 0 || tiles.diagnostics.pendingTiles); i++) {
         tiles.update(64, 64, material, 1, near);
         expect(tiles.diagnostics.builtLastUpdate).toBeLessThanOrEqual(1);
         expect(tiles.diagnostics.residentTriangles).toBeLessThanOrEqual(100000);
@@ -86,7 +122,7 @@ describe("bounded water geometry streaming", () => {
       const originalGeometry = tiles.meshes[0].geometry;
       const disposed = vi.spyOn(originalGeometry, "dispose");
       const far: WaterGeometryView = { position: { x: 4000, y: 1000, z: 4000 }, pixelsPerRadian: 600, farM: 30000 };
-      for (let i = 0; i < 20; i++) tiles.update(4000, 4000, material, 1, far);
+      for (let i = 0; i < 2048 && (i === 0 || tiles.diagnostics.pendingTiles); i++) tiles.update(4000, 4000, material, 1, far);
       expect(disposed).toHaveBeenCalled();
       expect(tiles.diagnostics.residentTiles).toBe(9);
       expect(tiles.diagnostics.residentTriangles).toBeLessThan(10000);
@@ -120,6 +156,25 @@ describe("bounded water geometry streaming", () => {
       }
       ribbons.dispose(); expect(ribbons.diagnostics.residentGeometryBytes).toBe(0);
     } finally { query.mockRestore(); ribbons.dispose(); material.dispose(); }
+  });
+
+  it("does not construct an off-camera province and releases outgoing inland source and draw buffers", () => {
+    const data = fixture(514), tiles = new InlandWaterTiles(data), material = new MeshBasicMaterial();
+    const camera = new PerspectiveCamera(45, 1, 0.1, 100), views = new WaterGeometryCamera();
+    camera.position.set(32, 8, 32); camera.lookAt(32, 5, 80); camera.updateMatrixWorld();
+    const near = views.update(camera, 800);
+    try {
+      for (let frame = 0; frame < 100 && (frame === 0 || tiles.diagnostics.pendingTiles); frame++) tiles.update(32, 32, material, 1, near);
+      expect(tiles.diagnostics.residentTiles).toBeLessThan(20); // Not the whole81-tile fixture.
+      const old = tiles.meshes.map(mesh => vi.spyOn(mesh.geometry, 'dispose'));
+      camera.position.set(490, 8, 490); camera.lookAt(490, 5, 450); camera.updateMatrixWorld();
+      const moved = views.update(camera, 800);
+      for (let frame = 0; frame < 100 && (frame === 0 || tiles.diagnostics.pendingTiles); frame++) tiles.update(490, 490, material, 1, moved);
+      expect(old.every(dispose => dispose.mock.calls.length > 0)).toBe(true);
+      expect(tiles.diagnostics.residentTiles).toBeLessThan(25);
+      expect(tiles.diagnostics.budgetFailures).toBe(0);
+      expect(tiles.meshes.some(mesh => mesh.geometry.getAttribute('position').getX(0) > 250)).toBe(true);
+    } finally { tiles.dispose(); material.dispose(); }
   });
 
   it("does not build the unseen province and evicts outgoing ribbon patches before admitting a new region", () => {

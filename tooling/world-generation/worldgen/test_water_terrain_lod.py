@@ -6,7 +6,8 @@ import numpy as np
 import pytest
 from PIL import Image
 
-from .water_terrain_lod import decode_native, encode_mesh, export_terrain
+from .water_terrain_lod import bank_world_roundoff_bound, decode_native, encode_mesh, export_terrain
+from .adaptive_terrain import adaptive_terrain
 
 
 def fixture(tmp_path):
@@ -70,3 +71,41 @@ def test_rejects_mismatched_masks_and_topology_without_touching_native_assets(tm
     assert (province / "chunks/native.png").read_bytes() == original
     with pytest.raises(ValueError, match="lattice"):
         encode_mesh([[0.1, 1, 0], [1, 1, 0], [0, 1, 1]], [[0, 2, 1]], 1, 1)
+
+
+def test_optional_error_assets_keep_exact_fallbacks_and_declare_world_error(tmp_path):
+    province, protected, _, _ = fixture(tmp_path)
+    ordinary = export_terrain(province, protected, tmp_path / "original")
+    extended = export_terrain(province, protected, tmp_path / "extended", bank_errors=(.1, .25, .5, 1))
+    assets = extended["chunks"][0]["lods"]
+    assert set(assets) == {"2", "4", "4-e010", "4-e025", "4-e050", "4-e100"}
+    for key in ("2", "4"):
+        assert assets[key] == ordinary["chunks"][0]["lods"][key]
+    for key in ("4-e010", "4-e025", "4-e050", "4-e100"):
+        asset = assets[key]
+        assert asset["baseLod"] == "4"
+        assert asset["maximumBankErrorM"] == asset["bankLatticeErrorM"] + asset["worldFloat32ErrorAllowanceM"]
+        assert asset["maximumBankErrorM"] > asset["bankLatticeErrorM"]
+
+
+def test_world_coordinate_roundoff_allowance_covers_native_and_coarse_inverse_positions():
+    z, x = np.mgrid[:17, :17]
+    heights = (2 * x + 3 * z + .06 * np.sin(x) * np.cos(z)).astype(np.float32)
+    vertices, triangles = adaptive_terrain(heights, np.ones((16, 16), bool), 4, max_error_m=.1)
+    origin, mpp = (6813.81173, 6917.33482), 1.82784
+    allowance = bank_world_roundoff_bound(vertices, triangles, origin, mpp, (16, 16))
+    assert 0 < allowance < .01
+    axes = [(o + np.arange(17) * mpp).astype(np.float32).astype(np.float64) for o in origin]
+    world = vertices.astype(np.float64).copy()
+    world[:, 0] = (origin[0] + world[:, 0] * mpp).astype(np.float32)
+    world[:, 2] = (origin[1] + world[:, 2] * mpp).astype(np.float32)
+    for weights in ((1/3, 1/3, 1/3), (.01, .49, .5), (.03, .81, .16)):
+        points = np.einsum('ijk,j->ik', world[triangles], weights)
+        ix = np.clip(np.searchsorted(axes[0], points[:, 0], side='right') - 1, 0, 15)
+        iz = np.clip(np.searchsorted(axes[1], points[:, 2], side='right') - 1, 0, 15)
+        fx = (points[:, 0] - axes[0][ix]) / (axes[0][ix + 1] - axes[0][ix])
+        fz = (points[:, 2] - axes[1][iz]) / (axes[1][iz + 1] - axes[1][iz])
+        a, b, c, d = heights[iz, ix], heights[iz, ix + 1], heights[iz + 1, ix], heights[iz + 1, ix + 1]
+        native = np.where(fx + fz <= 1, a * (1 - fx - fz) + b * fx + c * fz,
+                          d * (fx + fz - 1) + b * (1 - fz) + c * (1 - fx))
+        assert np.max(np.abs(native - points[:, 1])) < .1 + allowance

@@ -29,6 +29,34 @@ function fixture() {
 }
 
 describe("versioned adaptive terrain", () => {
+  it('cancels obsolete queued view work, evicts old view cache and safely reloads on return', async () => {
+    const { buffer, manifest, source } = fixture();
+    let release!: () => void, started!: () => void, chunks = 0;
+    const gate = new Promise<void>(resolve => { release = resolve; });
+    const start = new Promise<void>(resolve => { started = resolve; });
+    const loader = new AdaptiveTerrainLoader('/province/', { concurrency: 1, fetch: (async input => {
+      const url = String(input);
+      if (url.endsWith('terrain/manifest.json')) return Response.json(manifest);
+      if (url.endsWith('mesh.bin')) { chunks++; started(); await gate; return new Response(buffer.slice(0)); }
+      return new Response(source.slice());
+    }) as typeof fetch });
+    const first = loader.load(0, 0, '4'), obsolete = loader.load(1, 0, '4'), retained = loader.load(2, 0, '4');
+    await start;
+    loader.retainWanted(new Set(['0,0,4', '2,0,4']));
+    expect(await obsolete).toBeNull();
+    expect(loader.diagnostics.queuedRequests).toBe(1);
+    release(); await Promise.all([first, retained]);
+    expect(chunks).toBe(2);
+    loader.retainWanted(new Set(['2,0,4']));
+    expect(loader.loaded(0, 0, '4')).toBeUndefined();
+    expect(loader.diagnostics.cachedChunks).toBe(1);
+    loader.retainWanted(new Set(['1,0,4']));
+    expect(await loader.load(1, 0, '4')).not.toBeNull();
+    expect(chunks).toBe(3);
+    expect(loader.diagnostics.cachedChunks).toBe(1);
+    loader.dispose();
+  });
+
   it("decodes exact native heights/diagonals and applies only display scale and world origin", () => {
     const { buffer, manifest } = fixture(), chunk = manifest.chunks[1];
     const data = decodeAdaptiveTerrain(buffer, chunk, "4", 1.5);

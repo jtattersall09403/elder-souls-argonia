@@ -17,6 +17,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Hero-pool full interactive simulation; backlog/module60 §39.3 | Persistent owner-selected128² finite-volume patch, displaced object volumes and incremental admission implemented locally; visual and deployed evidence missing | open |
 | Ripples must not cross between disconnected pools; backlog follow-up | Existing masks/body identity require final nearby-unconnected-pool interaction regression, including seasonal separation | open |
 | Waterfalls, mist, plunge splash and foam; backlog | Cascade geometry and bounded emitters exist; silhouettes and connected plunge behaviour need review | open |
+| Underwater entrained particles; module60 §42 / interaction audit | Surface effects suppress submerged events and hide underwater; bounded impact/entry bubbles with current, buoyant rise and correct fog-pass placement remain to implement and verify | open |
 | No barcode/static/specular aliasing or mixed shaders; backlog/owner | Specific regressions fixed; final moving-scene sweep missing | open |
 | Object/player impacts, wakes, displacement and ripples; owner | Contact crossings, independent readers, priority, crowns, mist and immersed-volume proxies implemented/tested locally; quiet body replay and stable admission prevent artificial startup waves; in-scene evidence remains | open |
 | Float/sink, drag, angular response, mass units; owner/backlog | Reusable fixed-step driver and explicit mass-unit contract implemented/tested; final fixture experiential validation remains | open |
@@ -56,6 +57,18 @@ cache is permitted. Keep rendering and physics in reusable packages.
 [Local fluid and GPU budget notes](water-local-fluid-and-gpu-budgets.md)
 record the displacement/caustic model and minimum16-sampler compatibility
 check. Optical and bounded-work tests do not close the visual rows above.
+
+Diagnostic broad fly views (1920×1080, FOV60°, bearing0°, altitude416/1000m)
+now select half-pixel-bounded bank LOD variants: submitted terrain falls from
+11.40/12.03 million to5.480/5.981 million triangles. Native nearby terrain is
+unchanged. Combined terrain/water geometry plus the native water atlas is
+approximately211/214MiB GPU, excluding other textures/effects. Low-tier water
+has no rejected visible patches in these measured views. These measurements
+use a coherent diagnostic bundle, not the final hydraulic export, and are not
+hardware FPS evidence. The first resumable-construction sweep retains the exact
+draw/triangle/byte totals while reducing combined water-update maxima from
+91–101ms to11.8–15.5ms (p95≈4ms). Remaining atomic work and completed-geometry
+equivalence checks are still being resolved before release.
 
 ## Release coordination
 
@@ -102,6 +115,12 @@ Further completion-pass findings, not closed by the first candidate:
   1.49–1.64m local bank clearance and an authored30cm depth target, but
   inherited that artificial film cap. The corrected solve must respect real
   bank caps and semantic flowing-depth targets, not merely avoid a dry pixel.
+- The flat-pool compiler retained depression seeds but omitted connected
+  inundated margins at the same plane. A1.871m pool therefore treated a
+  connected0.760m shoulder as a river bank, causing false constraints and
+  repeated unnecessary lowering. Spill-connected pool-domain closure is
+  being corrected without changing the plane or stage amplitudes; dry crests
+  and incompatible neighbouring planes must remain barriers.
 - Broad plunge-pool cross-sections lofted triangular fans up to a narrow
   waterfall lip. Descending ribbons now constrain lateral expansion;
   horizontal pool width belongs to the flat pool, not an elevated sheet.
@@ -114,6 +133,14 @@ Further completion-pass findings, not closed by the first candidate:
   and pixel-integrated rings replace it. Tall-fall spray admission now tests
   the whole lip-to-plunge source, not just distance to the far-below pool;
   nearby-source priority no longer depends on province file ordering.
+- Character contacts used raw render time despite bounded fixed-step physics,
+  diluting impact speeds and dropping contacts on slow frames. Effects also
+  mistook low FPS for tab suspension. Contacts now follow actual substeps;
+  explicit visibility lifecycle clears suspended state. A real studio J-jump
+  at2344.2048m E /264.1229m S generated entry/exit, three wakes, spray/mist and
+  one crown, with live exposed daylight RGB≈(0.396,0.295,0.238). This proves
+  event delivery/lighting inputs, not peak in-frustum visibility or final
+  appearance. Fresh-particle lifetime across slow frames is being checked.
 - Degree-two river joins used independently oriented cross-sections, leaving
   wedges even at identical station centres and heads. Shared graph-derived
   sections are in progress; confluences require their own coverage check.
@@ -127,6 +154,21 @@ Further completion-pass findings, not closed by the first candidate:
   derivative ratios, also multiplied by studio exaggeration. It now uses
   the native still-surface grade carried by the mesh, so looking around does
   not reclassify the same chute. This is separate from downstream advection.
+- The older contact-ripple solver had no current transport: rings could stay
+  fixed in a flowing river even though foam moved downstream. Bounded
+  owner-isolated current transport is implemented locally. A browser readback
+  of the actual half-float field moves its centroid3.750896m in1s under a
+  3.75m/s current (expected3.75m), with no nonfinite values or shader/GL errors.
+  CPU regressions cover bank corners, foreign owners, zero current and
+  stage-history clearing; final in-scene evidence remains open.
+- Terrain arrival handling could replace an admitted adaptive bank mesh with
+  a cached regular mesh on a later render. Shared display selection now
+  retains the authoritative mesh until its requested replacement arrives;
+  tests cover cache fallback and returning to native near terrain.
+  The request gate also now distinguishes adaptive authority from a temporary
+  regular mesh with the same LOD label; that fallback cannot suppress loading
+  the corrected banks. Resolution/manifest changes are covered by integration
+  tests, including unchanged native collider rings.
 
 Browser GPU upload check on the diagnostic native-ground atlas: one initial
 2048×958 upload (31,391,744 bytes), then exactly eight2048×1 rows

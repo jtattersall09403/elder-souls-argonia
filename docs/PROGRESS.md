@@ -91,10 +91,17 @@ acceptance remain open. Root tests/types passed again14:23 (623 game-core
 tests); airborne probes passed again14:25. Browser checks confirm16-fragment-sampler
 compatibility, bounded native-atlas updates and nonblack noon splash pixels.
 Shared river-section joins and fly-view ribbon residency remain active fixes.
-Runtime checkpoint `7ede446` is committed locally, not deployed. The clean
+Runtime checkpoint `7ede446` and compiler/body-record checkpoint `4058d25`
+are committed locally, not deployed. The clean
 immutable-source compiler solve and final matching assets remain in progress;
 never substitute older diagnostic bundles. Physical body records now derive
 from actual owner fields; final export and performance gates remain open.
+Further local work: current-transported isolated ripples (GPU centroid check),
+view-bounded terrain residency, half-pixel bank LOD and adaptive arrival fixes.
+Incremental inland construction is geometry-identical and passes moving-view
+admission tests. Root gates passed15:35 (663 game-core tests), with airborne
+checks passing again. Real J-jump event delivery and live HDR inputs are now
+observed; fresh-particle lifetime and final river-domain validation remain active.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

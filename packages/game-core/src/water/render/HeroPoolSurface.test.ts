@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import * as THREE from 'three';
 import { WaterData, type WaterMeta } from '../waterData';
 import { WaterWorld } from '../waterWorld';
@@ -37,6 +37,19 @@ function admit(hero: HeroPoolSurface, material: THREE.Material, scale = 1) {
 }
 
 describe('local pool surface presentation', () => {
+  it('excludes deep but nearly disconnected access saddles from the local simulation domain', () => {
+    const assets = fixture(), original = assets.world.sampleBoundary.bind(assets.world);
+    const boundary = vi.spyOn(assets.world, 'sampleBoundary').mockImplementation((x, z, epoch) => ({ ...original(x, z, epoch),
+      wetMarginM: x >= 31 && x < 31.25 ? 0.005 : 1 }));
+    const hero = new HeroPoolSurface(assets), material = new THREE.MeshBasicMaterial();
+    try {
+      hero.update(30, 6, 32, 0, 0, 0, material); admit(hero, material);
+      expect(assets.world.sampleBoundary(31.125, 32, 0).depth).toBeGreaterThan(1);
+      expect(hero.patch!.sample(31.125, 32)).toBeNull();
+      expect(hero.patch!.sample(30.125, 32)).not.toBeNull();
+      expect(hero.patch!.sample(32.125, 32)).not.toBeNull();
+    } finally { hero.dispose(); material.dispose(); boundary.mockRestore(); }
+  });
   it('samples the exact submitted triangles including the C1 boundary envelope without changing conservative storage', () => {
     const patch = new LocalWaterPatch({ size: 32, cellSizeM: 0.25, originX: 1000, originZ: 3000, bodyId: 'pool', baseHeightM: 5,
       groundHeights: new Float32Array(32 ** 2).fill(3) });

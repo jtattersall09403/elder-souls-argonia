@@ -94,6 +94,8 @@ export interface WaterBoundaryStaticSample {
   seasonResponse: number;
   supported: boolean;
   waterBodyId: string | null;
+  flowX?: number;
+  flowZ?: number;
 }
 
 export function tideResponseOf(salinity: number): number {
@@ -258,12 +260,14 @@ export class WaterData {
     return this.support && klass === 0 ? 4 : klass;
   }
 
-  /** Minimal static support/depth path for local ripple masks. Reuses one
-   * surface-grid interpolation stencil and never decodes flow or chemistry.
+  /** Minimal static support/depth path. Optional current reuses the ribbon
+   * query and skips wave/normal/chemistry evaluation; geometry-only callers
+   * do not pay for raster flow decoding.
    * An optional output avoids tens of thousands of allocations per refresh. */
-  boundaryAt(x: number, z: number, out?: WaterBoundaryStaticSample, includeRibbons = true, excludeFallingSheets = false): WaterBoundaryStaticSample {
+  boundaryAt(x: number, z: number, out?: WaterBoundaryStaticSample, includeRibbons = true, excludeFallingSheets = false, includeCurrent = false): WaterBoundaryStaticSample {
     const result = out ?? { surfaceBase: 0, depthProxy: 0, tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
     result.floodAccessOffsetM = undefined;
+    result.flowX = 0; result.flowZ = 0;
     if (this.outside(x, z)) {
       result.surfaceBase = 0; result.depthProxy = 25.5;
       result.tideResponse = 1; result.seasonResponse = 0;
@@ -301,7 +305,16 @@ export class WaterData {
       result.waterBodyId = this.bodyIds.get(klass) ?? km.classes[klass] ?? "none";
     }
     result.tideResponse = ribbon?.tideResponse ?? levels.tide;
+    if (includeCurrent && result.supported) {
+      result.flowX = ribbon?.flowX ?? this.flowComponentAt(x, z, 0);
+      result.flowZ = ribbon?.flowZ ?? this.flowComponentAt(x, z, 1);
+    }
     return result;
+  }
+
+  private flowComponentAt(x: number, z: number, component: number): number {
+    const value = this.channel(this.flow, this.meta.flow, x, z, component);
+    return Math.abs(value - 127.5) <= 0.5 ? 0 : ((value / 255 - 0.5) * 2) * this.meta.flow.flowMax;
   }
 
   sample(x: number, z: number, options: { excludeFallingSheets?: boolean } = {}): WaterStaticSample {
@@ -318,9 +331,8 @@ export class WaterData {
     const fx = Math.min(Math.max(Math.round((x - (fm.gridOriginM ?? fm.metresPerPixel * 0.5)) / fm.metresPerPixel), 0), fm.size - 1);
     const fz = Math.min(Math.max(Math.round((z - (fm.gridOriginM ?? fm.metresPerPixel * 0.5)) / fm.metresPerPixel), 0), fm.size - 1);
     const fi = (fz * fm.size + fx) * 4;
-    const decodeFlow = (v: number) => Math.abs(v - 127.5) <= 0.5 ? 0 : ((v / 255 - 0.5) * 2) * fm.flowMax;
-    const flowX = decodeFlow(this.channel(this.flow, fm, x, z, 0));
-    const flowZ = decodeFlow(this.channel(this.flow, fm, x, z, 1));
+    const flowX = this.flowComponentAt(x, z, 0);
+    const flowZ = this.flowComponentAt(x, z, 1);
     // prefer the hi-res shore field (surface alpha) — same data the GPU uses
     const shoreDistM = this.shore
       ? this.bilinear(this.shore, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z)

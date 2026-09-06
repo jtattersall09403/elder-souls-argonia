@@ -56,7 +56,26 @@ def decode_native(province, chunk, chunk_samples, overlay):
     return heights
 
 
-def export_terrain(province, protected_path, out, water_dir=None):
+def bank_world_roundoff_bound(vertices, triangles, origin_m, metres_per_sample, cells):
+    """Conservative physical-domain correction for final Float32 XZ.
+
+    Native and coarse world triangulations each move their ideal lattice
+    point by at most q. Their inverse positions differ by at most2q; the
+    coarse mesh's global Lipschitz gradient bounds the resulting height
+    difference. This is in addition to the proven protected-domain error.
+    """
+    q = max(float(np.max(np.abs((origin + np.arange(size + 1) * metres_per_sample).astype(np.float32).astype(np.float64)
+                                 - (origin + np.arange(size + 1) * metres_per_sample))))
+            for origin, size in zip(origin_m, cells))
+    points = np.asarray(vertices, dtype=np.float64)[triangles]
+    u, v = points[:, 1] - points[:, 0], points[:, 2] - points[:, 0]
+    area = u[:, 0] * v[:, 2] - u[:, 2] * v[:, 0]
+    slope_x = (u[:, 1] * v[:, 2] - v[:, 1] * u[:, 2]) / area / metres_per_sample
+    slope_z = (u[:, 0] * v[:, 1] - v[:, 0] * u[:, 1]) / area / metres_per_sample
+    return float(2 * q * np.max(np.abs(slope_x) + np.abs(slope_z), initial=0)) + 1e-9
+
+
+def export_terrain(province, protected_path, out, water_dir=None, bank_errors=()):
     province, out = Path(province), Path(out)
     source_path = province / "chunks/chunks-web-manifest.json"
     water_dir = Path(water_dir) if water_dir else province / "water/v2"
@@ -87,7 +106,10 @@ def export_terrain(province, protected_path, out, water_dir=None):
                             "bedOverlay": {"file": "water/v2/water-bed-overlay.json", "sha256": sha256(overlay_path)},
                             "topology": {"file": "water/v2/water-terrain-topology.json", "sha256": sha256(topology_path)},
                             "protectionMaskSha256": sha256(protected_path)}, "chunks": []}
-    totals = {str(lod): {"triangles": 0, "vertices": 0, "bytes": 0, "downloadBytes": 0, "renderBytes": 0, "legacyTriangles": 0} for lod in (2, 4)}
+    if any(error not in (.1, .25, .5, 1.) for error in bank_errors):
+        raise ValueError("Supported bank error levels are0.1,0.25,0.5 and1 metre")
+    variants = [(str(lod), lod, None) for lod in (2, 4)] + [(f"4-e{round(error * 100):03d}", 4, error) for error in sorted(set(bank_errors))]
+    totals = {key: {"triangles": 0, "vertices": 0, "bytes": 0, "downloadBytes": 0, "renderBytes": 0, "legacyTriangles": 0} for key, _, _ in variants}
     max_border_error = 0.0
     borders = {}
     for chunk in sorted(source["chunks"], key=lambda c: (c["cy"], c["cx"])):
@@ -105,24 +127,28 @@ def export_terrain(province, protected_path, out, water_dir=None):
         record = {"cx": cx, "cy": cy, "originM": [ox * mpp, oz * mpp], "cells": [int(nx), int(nz)],
                   "nativeFileSha256": sha256(province / "chunks" / chunk["lods"]["1"]["file"]),
                   "flippedCells": np.flatnonzero(local_flips).tolist(), "lods": {}}
-        for lod in (2, 4):
-            vertices, triangles = adaptive_terrain(heights, local_mask, lod, local_flips)
+        for key, lod, error in variants:
+            vertices, triangles = adaptive_terrain(heights, local_mask, lod, local_flips, max_error_m=error)
             payload = encode_mesh(vertices, triangles, int(nx), int(nz))
             compressed = io.BytesIO()
             with gzip.GzipFile(fileobj=compressed, mode="wb", filename="", mtime=0, compresslevel=6) as gz:
                 gz.write(payload)
             download = compressed.getvalue()
-            filename = f"chunk_{cx}_{cy}_lod{lod}.bin.gz"
+            filename = f"chunk_{cx}_{cy}_lod{key}.bin.gz"
             (out / filename).write_bytes(download)
             meta = {"file": filename, "bytes": len(payload), "vertices": len(vertices), "triangles": len(triangles),
                     "compression": "gzip", "downloadBytes": len(download),
                     "renderBytes": len(vertices) * 20 + len(triangles) * 3 * (2 if len(vertices) <= 65535 else 4),
                     "sha256": hashlib.sha256(download).hexdigest(), "minM": float(np.min(vertices[:, 1])), "maxM": float(np.max(vertices[:, 1]))}
-            record["lods"][str(lod)] = meta
-            for key in ("vertices", "triangles", "bytes", "downloadBytes", "renderBytes"):
-                totals[str(lod)][key] += meta[key]
+            if error is not None:
+                margin = bank_world_roundoff_bound(vertices, triangles, record["originM"], mpp, (int(nx), int(nz)))
+                meta.update(baseLod="4", maximumBankErrorM=error + margin,
+                            worldFloat32ErrorAllowanceM=margin, bankLatticeErrorM=error)
+            record["lods"][key] = meta
+            for metric in ("vertices", "triangles", "bytes", "downloadBytes", "renderBytes"):
+                totals[key][metric] += meta[metric]
             old_shape = chunk["lods"][str(lod)]["shape"]
-            totals[str(lod)]["legacyTriangles"] += (old_shape[0] - 1) * (old_shape[1] - 1) * 2
+            totals[key]["legacyTriangles"] += (old_shape[0] - 1) * (old_shape[1] - 1) * 2
         manifest["chunks"].append(record)
     manifest["stats"] = {"lods": totals, "protectedCells": int(np.count_nonzero(protected_cells)),
                          "flippedCells": int(np.count_nonzero(flipped)), "maximumNativeBorderQuantizationDifferenceM": max_border_error}
@@ -136,8 +162,9 @@ def main():
     parser.add_argument("--protected", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--water-dir", type=Path)
+    parser.add_argument("--bank-errors", type=float, nargs="*", default=[])
     args = parser.parse_args()
-    result = export_terrain(args.province, args.protected, args.out, args.water_dir)
+    result = export_terrain(args.province, args.protected, args.out, args.water_dir, args.bank_errors)
     print(json.dumps(result["stats"], indent=2))
 
 
