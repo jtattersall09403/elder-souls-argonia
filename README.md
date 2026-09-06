@@ -251,7 +251,9 @@ asset registry.
   `worldgen/compile_water.py`; no code vendored.
 - **three.js `Water2` / Valve** — dual-phase flow-map advection technique
   (Vlachos, SIGGRAPH 2010) used for river ripple normals (three.js MIT,
-  already in THIRD_PARTY_NOTICES).
+  already in THIRD_PARTY_NOTICES). Water/terrain lighting on16-texture
+  WebGL2 devices also uses the analytical environment-BRDF fit from
+  three.js r180 / Brian Karis, *Physically Based Shading on Mobile* (2014).
 - **webgl-water / threejs-water** (MIT, © 2011 Evan Wallace, © 2026 Yong Su —
   https://github.com/jeantimex/threejs-water) — the ping-pong wave-equation
   ripple simulation adapted for the interactive water patch around the

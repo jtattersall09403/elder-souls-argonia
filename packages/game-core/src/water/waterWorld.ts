@@ -4,9 +4,14 @@
  * the same rasters and the same wave table, so gameplay and pixels agree.
  */
 
-import type { Vec3, WaterInteractionEvent, WaterSample, WorldWaterQuery } from "@elder-souls/contracts";
+import type { Vec3, WaterInteractionEvent, WaterSample, WorldWaterQuery, WaterDisplacementSphere, WaterSheetContact } from "@elder-souls/contracts";
 import { seasonOffset, tideOffset } from "./tide";
+import type { SpectralOcean } from "./spectralOcean";
+import type { LocalWaterPatch } from "./LocalWaterPatch";
+import { sampleLocalPatchSurface } from "./localPatchPresentation";
 import type { WaterData, WaterBoundaryStaticSample } from "./waterData";
+import { WaterInteractionStream } from "./interactionStream";
+import { WaterDisplacementRegistry } from './displacementRegistry';
 import { fetchExposure, getWindWaveScale, shoreSwellAt, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
@@ -23,6 +28,8 @@ export interface WaterWorldOptions {
    * the renderer's uWaveTime uses, keeping buoyancy and pixels in lockstep.
    * Defaults to world-clock seconds. */
   waveTimeS?: () => number;
+  /** Shared CPU/GPU spectral field for marine water; omitted by legacy. */
+  spectralOcean?: SpectralOcean;
 }
 
 const CLASS_TEMPERATURE: Record<string, number> = {
@@ -30,8 +37,12 @@ const CLASS_TEMPERATURE: Record<string, number> = {
 };
 
 export class WaterWorld implements WorldWaterQuery {
-  private events: WaterInteractionEvent[] = [];
+  private readonly interactions = new WaterInteractionStream();
+  readonly displacementRegistry = new WaterDisplacementRegistry();
   private scratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
+  private readonly spectralScratch = { height: 0, slopeX: 0, slopeZ: 0 };
+  private activeLocalPatch: LocalWaterPatch | null = null;
+  private readonly localScratch = { height: 0, slopeX: 0, slopeZ: 0, foam: 0 };
   private readonly boundaryScratch: WaterBoundaryStaticSample = {
     surfaceBase: 0, depthProxy: 0, tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null,
   };
@@ -43,6 +54,20 @@ export class WaterWorld implements WorldWaterQuery {
     readonly data: WaterData,
     private readonly opts: WaterWorldOptions,
   ) {}
+
+  get spectralOcean(): SpectralOcean | undefined { return this.opts.spectralOcean; }
+  get localPatch(): LocalWaterPatch | null { return this.activeLocalPatch; }
+  /** One bounded near-field domain, shared by rendering and physical queries.
+   * Scene owners clear their own patch on teardown; terrain-only boundary
+   * queries deliberately exclude its transient displacement. */
+  setLocalPatch(patch: LocalWaterPatch | null): void {
+    this.displacementRegistry.setPatch(patch);
+    this.activeLocalPatch = patch;
+  }
+
+  setDisplacementSpheres(actorId: string, spheres: readonly WaterDisplacementSphere[] | null): boolean {
+    return this.displacementRegistry.set(actorId, spheres);
+  }
 
   /** Level offset shared with the renderer's uniforms: [tide, season]. */
   levelOffsets(epochMinutes: number): { tide: number; season: number } {
@@ -60,24 +85,25 @@ export class WaterWorld implements WorldWaterQuery {
 
   /** Still-water surface height at (x, z) including tide/season, no waves. */
   stillSurfaceAt(x: number, z: number, epochMinutes: number): number {
-    const s = this.data.sample(x, z);
+    const s = this.data.sample(x, z, { excludeFallingSheets: true });
     const { tide, season } = this.levelOffsets(epochMinutes);
     return s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
   }
 
   /** Cheap still-water boundary query for local wave barriers and emitters. */
   sampleBoundary(x: number, z: number, epochMinutes: number) {
-    const s = this.data.boundaryAt(x, z, this.boundaryScratch);
+    const s = this.data.boundaryAt(x, z, this.boundaryScratch, true, true);
     const { tide, season } = this.levelOffsets(epochMinutes);
     const offset = tide * s.tideResponse + season * s.seasonResponse;
     const surfaceHeight = s.surfaceBase + offset;
     const ground = this.opts.groundHeight?.(x, z) ?? null;
-    const depth = s.supported ? Math.max(0, ground === null ? s.depthProxy + offset : surfaceHeight - ground) : 0;
+    const accessible = (s.floodAccessOffsetM ?? -Infinity) <= offset + 0.001;
+    const depth = s.supported && accessible ? Math.max(0, ground === null ? s.depthProxy + offset : surfaceHeight - ground) : 0;
     return { waterBodyId: depth > 0.004 ? s.waterBodyId : null, surfaceHeight, depth };
   }
 
   sample(position: Vec3, epochMinutes: number): WaterSample {
-    const s = this.data.sample(position.x, position.z);
+    const s = this.data.sample(position.x, position.z, { excludeFallingSheets: true });
     const { tide, season } = this.levelOffsets(epochMinutes);
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
 
@@ -85,7 +111,8 @@ export class WaterWorld implements WorldWaterQuery {
     const depth = ground !== null ? still - ground : s.depthProxy + tide * s.tideResponse + season * s.seasonResponse;
 
     const canRunup = (s.className === "coast" || s.className === "estuary") && s.shoreDistM < 26 && depth > -0.6;
-    if (!s.supported || (depth <= 0.004 && !canRunup)) {
+    const accessible = (s.floodAccessOffsetM ?? -Infinity) <= tide * s.tideResponse + season * s.seasonResponse + 0.001;
+    if (!s.supported || !accessible || (depth <= 0.004 && !canRunup)) {
       return {
         waterBodyId: null,
         surfaceHeight: still,
@@ -103,7 +130,16 @@ export class WaterWorld implements WorldWaterQuery {
     const exposure = Math.min(waveExposure(s.shoreDistM, depth, Math.max(s.turbidity, s.tannin))
       * s.waveShelter * getWindWaveScale(), Math.max(0, depth) * 0.45);
     const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
-    const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
+    const spectralMarine = this.opts.spectralOcean && (s.className === "coast" || s.className === "estuary");
+    const w = spectralMarine ? this.scratch : surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
+    if (spectralMarine && this.opts.spectralOcean) {
+      this.opts.spectralOcean.update(waveTime);
+      const spectral = this.opts.spectralOcean.sample(position.x, position.z, this.spectralScratch);
+      w.height = spectral.height * exposure;
+      const length = Math.hypot(spectral.slopeX * exposure, 1, spectral.slopeZ * exposure);
+      w.nx = -spectral.slopeX * exposure / length; w.ny = 1 / length;
+      w.nz = -spectral.slopeZ * exposure / length; w.dx = 0; w.dz = 0;
+    }
     // Shore surf (round 7) — mirrors the vertex shader exactly: fetch is
     // sampled ~30 m seaward via the shore-distance gradient, then the
     // asymmetric swash + shoaling swell ride on the still level.
@@ -128,14 +164,16 @@ export class WaterWorld implements WorldWaterQuery {
         - shoreSwellAt(s.shoreDistM - 0.1, Math.max(s.depthProxy, 0), fetch, waveTime)) / 0.2;
       if (gl > 0.05) { surfNx = -(dx / (gl * eG)) * derivative; surfNz = -(dz / (gl * eG)) * derivative; }
     }
-    const surface = still + w.height + surf;
+    const local = this.activeLocalPatch?.bodyId === s.waterBodyId
+      ? sampleLocalPatchSurface(this.activeLocalPatch, position.x, position.z, this.localScratch) : null;
+    const surface = still + w.height + surf + (local?.height ?? 0);
     const finalDepth = Math.max(depth + surface - still, 0);
     const waveNormalLength = Math.hypot(w.nx + surfNx, w.ny, w.nz + surfNz);
     // Match the renderer: normalise the wave/shore normal, then add its
     // horizontal perturbation to the ribbon's geometric triangle normal.
-    const nx = (w.nx + surfNx) / waveNormalLength + (s.surfaceNormal?.x ?? 0);
     const ny = s.surfaceNormal?.y ?? w.ny / waveNormalLength;
-    const nz = (w.nz + surfNz) / waveNormalLength + (s.surfaceNormal?.z ?? 0);
+    const nx = (w.nx + surfNx) / waveNormalLength + (s.surfaceNormal?.x ?? 0) - ny * (local?.slopeX ?? 0);
+    const nz = (w.nz + surfNz) / waveNormalLength + (s.surfaceNormal?.z ?? 0) - ny * (local?.slopeZ ?? 0);
     const normalLength = Math.hypot(nx, ny, nz);
     return {
       waterBodyId: finalDepth > 0.004 ? s.waterBodyId : null,
@@ -151,15 +189,24 @@ export class WaterWorld implements WorldWaterQuery {
     };
   }
 
+  sampleSheetContact(position: Vec3, radiusM: number, epochMinutes: number): WaterSheetContact | null {
+    const { tide, season } = this.levelOffsets(epochMinutes);
+    const contact = this.data.ribbons.sheetContact(position, radiusM, tide, season);
+    if (!contact) return null;
+    const waterBodyId = this.data.waterBodyIdForIndex(contact.bodyIndex);
+    if (!waterBodyId) return null;
+    return { waterBodyId, position: contact.position, normal: contact.normal,
+      flowVelocity: contact.flowVelocity, distanceM: contact.distanceM };
+  }
+
   emitInteraction(event: WaterInteractionEvent): void {
-    this.events.push(event);
-    if (this.events.length > 256) this.events.splice(0, this.events.length - 256);
+    this.interactions.emit(event);
   }
 
   /** Drain pending interaction events (renderer foam/ripples, audio later). */
   drainInteractions(): WaterInteractionEvent[] {
-    const out = this.events;
-    this.events = [];
-    return out;
+    return this.interactions.drain();
   }
+
+  subscribeInteractions() { return this.interactions.subscribe(); }
 }

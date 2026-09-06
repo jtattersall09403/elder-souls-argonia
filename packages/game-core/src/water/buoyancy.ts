@@ -74,7 +74,7 @@ export function computeBuoyancy(
     const off = rotationApply(local);
     const p = { x: position.x + off.x, y: position.y + off.y, z: position.z + off.z };
     const w = query.sample(p, epochMinutes);
-    if (w.depth <= 0) {
+    if (w.waterBodyId === null || w.depth <= 0) {
       pointForces.push({ point: p, force: { x: 0, y: 0, z: 0 } });
       continue;
     }

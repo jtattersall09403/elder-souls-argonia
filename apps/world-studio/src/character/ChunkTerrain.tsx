@@ -4,6 +4,8 @@ import * as THREE from "three";
 import { createGroundMaterial, useGroundManifest, type GroundUniforms } from "../groundMaterial";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
+import { buildTerrainGridGeometry } from "@elder-souls/game-core/terrain/gridGeometry";
+import { AdaptiveTerrainLoader, buildAdaptiveTerrainGeometry, type AdaptiveTerrainData } from "@elder-souls/game-core/terrain/adaptiveTerrain";
 
 /**
  * Chunked terrain renderer for the character mode: every province chunk as its
@@ -21,56 +23,6 @@ function desiredLod(dx: number, dy: number): string {
   return d <= NEAR_RING ? "1" : d <= MID_RING ? "2" : "4";
 }
 
-function buildChunkGeometry(
-  grid: ChunkGrid,
-  verticalScale: number,
-  uvExtentM: number,
-): THREE.BufferGeometry {
-  const { heights, nx, ny, metresPerSample } = grid;
-  const [ox, oz] = grid.meta.originM;
-  // One extra ring of vertices dropped below the edge: the skirt. LOD-border
-  // height mismatches scale with the vertical scale (gaussian-smoothed LOD2/4
-  // edges differ from LOD1 by up to ~2.5 m true), so the drop does too. The
-  // shader lights skirts from the shared gradient texture, so an exposed
-  // skirt takes the surface's own shading instead of reading as a dark wall.
-  const skirtDrop = 2.5 * verticalScale;
-  const gx = nx + 2;
-  const gz = ny + 2;
-  const pos = new Float32Array(gx * gz * 3);
-  const uv = new Float32Array(gx * gz * 2);
-  for (let r = 0; r < gz; r++) {
-    for (let c = 0; c < gx; c++) {
-      const i = r * gx + c;
-      const sx = Math.max(0, Math.min(nx - 1, c - 1));
-      const sz = Math.max(0, Math.min(ny - 1, r - 1));
-      const onSkirt = c === 0 || r === 0 || c === gx - 1 || r === gz - 1;
-      const x = ox + sx * metresPerSample;
-      const z = oz + sz * metresPerSample;
-      pos[i * 3] = x;
-      pos[i * 3 + 1] = heights[sz * nx + sx] * verticalScale - (onSkirt ? skirtDrop : 0);
-      pos[i * 3 + 2] = z;
-      uv[i * 2] = x / uvExtentM;
-      uv[i * 2 + 1] = 1 - z / uvExtentM;
-    }
-  }
-  const idx = new Uint32Array((gx - 1) * (gz - 1) * 6);
-  let j = 0;
-  for (let r = 0; r < gz - 1; r++) {
-    for (let c = 0; c < gx - 1; c++) {
-      const a = r * gx + c;
-      idx[j++] = a; idx[j++] = a + gx; idx[j++] = a + 1;
-      idx[j++] = a + 1; idx[j++] = a + gx; idx[j++] = a + gx + 1;
-    }
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  g.setAttribute("uv", new THREE.BufferAttribute(uv, 2));
-  g.setIndex(new THREE.BufferAttribute(idx, 1));
-  // No vertex normals: the splat shader lights from the province-wide
-  // gradient texture (seamless across chunk borders and LODs).
-  return g;
-}
-
 function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   grid: ChunkGrid;
   material: THREE.Material;
@@ -78,7 +30,7 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   uvExtentM: number;
 }) {
   const geometry = useMemo(
-    () => buildChunkGeometry(grid, verticalScale, uvExtentM),
+    () => buildTerrainGridGeometry(grid, verticalScale, uvExtentM),
     [grid, verticalScale, uvExtentM],
   );
   useEffect(() => () => geometry.dispose(), [geometry]);
@@ -87,6 +39,14 @@ function ChunkMesh({ grid, material, verticalScale, uvExtentM }: {
   // — a large share of the post-load jerky-fps period (owner round 4).
   const casts = grid.lod === "1";
   return <mesh geometry={geometry} material={material} castShadow={casts} receiveShadow />;
+}
+
+function AdaptiveChunkMesh({ data, material, verticalScale, uvExtentM }: {
+  data: AdaptiveTerrainData; material: THREE.Material; verticalScale: number; uvExtentM: number;
+}) {
+  const geometry = useMemo(() => buildAdaptiveTerrainGeometry(data, verticalScale, uvExtentM), [data, verticalScale, uvExtentM]);
+  useEffect(() => () => geometry.dispose(), [geometry]);
+  return <mesh geometry={geometry} material={material} receiveShadow />;
 }
 
 export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, verticalScale, onLodMap }: {
@@ -103,6 +63,15 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   onLodMap?: (focusCell: [number, number]) => void;
 }) {
   const base = import.meta.env.BASE_URL;
+  const adaptive = useMemo(() => new URLSearchParams(window.location.search).get("water") === "legacy"
+    ? null : new AdaptiveTerrainLoader(`${base}province/`), [base]);
+  const [adaptiveAvailable, setAdaptiveAvailable] = useState<boolean | null>(adaptive ? null : false);
+  useEffect(() => {
+    let active = true;
+    if (adaptive) adaptive.manifest().then(manifest => { if (active) setAdaptiveAvailable(manifest !== null); })
+      .catch(error => { if (active) { console.error("Adaptive terrain unavailable:", error); setAdaptiveAvailable(false); } });
+    return () => { active = false; adaptive?.dispose(); };
+  }, [adaptive]);
   const { set, manifest: ground } = useGroundManifest(base, matSet);
   const images = useLoader(THREE.ImageLoader,
     ground.materials.map((m) => `${base}textures/ground/${set}/${m.file}`));
@@ -169,6 +138,10 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // land, and a full re-render (and mesh mounts) per arrival was a large
   // part of the minutes-long jerky period (owner round 4).
   const requested = useRef(new Set<string>());
+  const displayed = useRef(new Map<string, { grid?: ChunkGrid; adaptive?: AdaptiveTerrainData }>());
+  const adaptiveArrivals = useRef(new Map<string, AdaptiveTerrainData>());
+  const adaptiveReady = useRef(new Map<string, AdaptiveTerrainData>());
+  const wantedAdaptive = useRef(new Set<string>());
   const bumpTimer = useRef<number | null>(null);
   const bump = () => {
     if (bumpTimer.current !== null) return;
@@ -177,31 +150,63 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
       setLoadedVersion((v) => v + 1);
     }, 250);
   };
+  useFrame(() => {
+    // Bound geometry construction/uploads too: a warm HTTP cache can finish
+    // dozens of binaries before the next coalesced React render.
+    let count = 0;
+    for (const [key, data] of adaptiveArrivals.current) {
+      adaptiveArrivals.current.delete(key);
+      if (!wantedAdaptive.current.has(key)) continue;
+      adaptiveReady.current.set(key, data);
+      if (++count === 2) break;
+    }
+    if (count) setLoadedVersion(version => version + 1);
+  });
   useEffect(() => () => { if (bumpTimer.current !== null) window.clearTimeout(bumpTimer.current); }, []);
   useEffect(() => {
-    for (const chunk of manifest.chunks) {
+    if (adaptiveAvailable === null || focusCell[0] < 0) return;
+    const chunks = [...manifest.chunks].sort((a, b) => Math.max(Math.abs(a.cx - focusCell[0]), Math.abs(a.cy - focusCell[1]))
+      - Math.max(Math.abs(b.cx - focusCell[0]), Math.abs(b.cy - focusCell[1])));
+    wantedAdaptive.current = new Set(chunks.map(chunk => `${chunk.cx},${chunk.cy},${desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1])}`));
+    for (const key of adaptiveArrivals.current.keys()) if (!wantedAdaptive.current.has(key)) adaptiveArrivals.current.delete(key);
+    for (const chunk of chunks) {
       const lod = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
       const key = `${chunk.cx},${chunk.cy},${lod}`;
       if (requested.current.has(key)) continue;
       requested.current.add(key);
-      store.load(chunk.cx, chunk.cy, lod)
-        .then(bump)
-        .catch(() => requested.current.delete(key));
+      const load = adaptiveAvailable && adaptive && lod !== "1"
+        ? adaptive.load(chunk.cx, chunk.cy, lod).then(data => {
+          if (data) { if (wantedAdaptive.current.has(key)) adaptiveArrivals.current.set(key, data); }
+          else return store.load(chunk.cx, chunk.cy, lod);
+        }) : store.load(chunk.cx, chunk.cy, lod);
+      load.then(() => { if (!adaptiveAvailable || lod === "1") bump(); }).catch(error => console.error("Terrain chunk unavailable:", error))
+        .finally(() => requested.current.delete(key));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store, manifest, focusCell]);
+  }, [store, manifest, focusCell, adaptive, adaptiveAvailable]);
 
   return (
     <group>
       {manifest.chunks.map((chunk) => {
         const want = desiredLod(chunk.cx - focusCell[0], chunk.cy - focusCell[1]);
+        const key = `${chunk.cx},${chunk.cy}`;
+        const ready = adaptiveReady.current.get(`${key},${want}`);
+        const exact = store.loaded(chunk.cx, chunk.cy, want);
+        if (ready && want !== "1") displayed.current.set(key, { adaptive: ready });
+        else if (exact) displayed.current.set(key, { grid: exact });
+        // Arrivals for old views are cached by the bounded loader, not held
+        // forever by the app. The displayed replacement retains its buffer.
+        adaptiveReady.current.delete(`${key},${want}`);
+        const current = displayed.current.get(key);
+        const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
+        if (current?.adaptive) return <AdaptiveChunkMesh key={`${key},adaptive-${current.adaptive.lod}`}
+          data={current.adaptive} material={material} verticalScale={scale} uvExtentM={uvExtentM} />;
         // Render the desired LOD if decoded; otherwise the best fallback we have.
-        const grid = store.loaded(chunk.cx, chunk.cy, want)
+        const grid = current?.grid ?? store.loaded(chunk.cx, chunk.cy, want)
           ?? store.loaded(chunk.cx, chunk.cy, "4")
           ?? store.loaded(chunk.cx, chunk.cy, "2")
           ?? store.loaded(chunk.cx, chunk.cy, "1");
         if (!grid) return null;
-        const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
         return (
           <ChunkMesh
             key={`${chunk.cx},${chunk.cy},${grid.lod}`}

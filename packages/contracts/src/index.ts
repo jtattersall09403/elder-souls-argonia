@@ -340,11 +340,42 @@ export interface WaterInteractionEvent {
   kind: WaterInteractionKind;
   position: Vec3;
   velocity?: Vec3;
+  /** Known local current for non-volume contacts such as falling sheets.
+   * Actor velocity remains world-space; renderers subtract this current once. */
+  waterVelocity?: Vec3;
+  /** Validated finite falling-sheet contact: spray only, never a horizontal
+   * ripple/foam disk or a declaration of swimmable volume. */
+  sheetContact?: { waterBodyId: string; normal: Vec3 };
   /** Characteristic radius of the disturbance, metres. */
   radius?: number;
   /** Impact-strength proxy (≈ mass × speed) for splash/foam scaling. */
   magnitude?: number;
   actorId?: string;
+}
+
+/** Independent bounded event reader. Dispose on consumer teardown. */
+export interface WaterInteractionSubscription {
+  drain(): WaterInteractionEvent[];
+  /** Oldest events discarded when this consumer falls behind its budget. */
+  readonly droppedEvents: number;
+  dispose(): void;
+}
+
+/** World-metre hydrodynamic proxy, not an exact clipped collision mesh.
+ * A producer's proxy sphere volumes sum to its authored displaced volume. */
+export interface WaterDisplacementSphere {
+  center: Vec3;
+  radiusM: number;
+}
+
+/** Non-buoyant contact with a finite falling sheet. Never an underwater
+ * volume: the air column below a waterfall remains dry. */
+export interface WaterSheetContact {
+  waterBodyId: string;
+  position: Vec3;
+  normal: Vec3;
+  flowVelocity: Vec3;
+  distanceM: number;
 }
 
 /**
@@ -355,7 +386,14 @@ export interface WaterInteractionEvent {
  */
 export interface WorldWaterQuery {
   sample(position: Vec3, epochMinutes: number): WaterSample;
+  /** Sphere proximity to actual sheet geometry; radius is bounded to 4 m. */
+  sampleSheetContact?(position: Vec3, radiusM: number, epochMinutes: number): WaterSheetContact | null;
   emitInteraction(event: WaterInteractionEvent): void;
+  /** Optional on lightweight query adapters; never consumes another reader's events. */
+  subscribeInteractions?(): WaterInteractionSubscription;
+  /** Replace persistent occupied-volume proxies; null removes this actor.
+   * False reports bounded-registry admission failure. Dispose producers. */
+  setDisplacementSpheres?(actorId: string, spheres: readonly WaterDisplacementSphere[] | null): boolean;
 }
 
 /**

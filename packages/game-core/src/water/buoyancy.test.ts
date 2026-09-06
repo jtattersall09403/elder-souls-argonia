@@ -37,6 +37,9 @@ describe("displaced-volume buoyancy", () => {
     expect(sample(UNIT, ZERO, ZERO, shallow).force.y).toBeCloseTo(981);
     expect(sample(UNIT, { x: 0, y: -2, z: 0 }, ZERO, shallow).force.y).toBe(0);
     expect(sample(UNIT, ZERO, ZERO, water({ depth: 0 })).immersion).toBe(0);
+    // A dry/unsupported cell can retain a depth proxy; identity is the
+    // authoritative support gate, not positive stored depth alone.
+    expect(sample(UNIT, ZERO, ZERO, water({ waterBodyId: null })).force).toEqual(ZERO);
   });
 
   it("floats more strongly in salt water without changing volume", () => {

@@ -1,3 +1,5 @@
+import type { NativeTerrainTopology } from './nativeTopology';
+
 /** Shared streamed terrain cache. Heights remain true world metres; every
  * consumer receives the same optional corrected grid before it is cached. */
 export interface ChunkLodMeta {
@@ -28,6 +30,8 @@ export interface ChunkGrid {
   nx: number;
   ny: number;
   metresPerSample: number;
+  /** Local row-major native quad indices whose diagonal is NW–SE. */
+  flippedCells?: ReadonlySet<number>;
 }
 
 export interface SparseHeightOverlayData {
@@ -135,7 +139,7 @@ export async function loadSparseHeightOverlay(url: string): Promise<SparseHeight
 /** Correct the old manifest's rounded origins/spacings from the native
  * lattice. Every LOD and neighbouring overlap edge then lands at the exact
  * same world coordinate. Clone metadata: legacy/source records stay intact. */
-export function alignManifestToNativeGrid(manifest: ChunksManifest, overlay: SparseHeightOverlay): ChunksManifest {
+export function alignManifestToNativeGrid(manifest: ChunksManifest, overlay: { gridSize: number; metresPerPixel: number }): ChunksManifest {
   if (!Number.isSafeInteger(manifest.chunkSamples) || manifest.chunkSamples < 1) throw new Error("Invalid terrain chunk sample count");
   const mpp = overlay.metresPerPixel;
   const chunks = manifest.chunks.map((chunk) => {
@@ -177,11 +181,13 @@ export interface ChunkStoreOptions {
   /** Load once before exposing a manifest/grid; reject failures to prevent
    * visible terrain and physical/query terrain silently diverging. */
   loadHeightOverlay?: () => Promise<SparseHeightOverlay>;
+  loadTerrainTopology?: () => Promise<NativeTerrainTopology | null>;
 }
 
 export class ChunkStore {
   private manifestPromise: Promise<ChunksManifest> | null = null;
   private overlay: SparseHeightOverlay | null = null;
+  private topology: NativeTerrainTopology | null = null;
   private readonly byCell = new Map<string, ChunkMeta>();
   private readonly grids = new Map<string, ChunkGrid>();
   private readonly pending = new Map<string, Promise<ChunkGrid>>();
@@ -195,9 +201,15 @@ export class ChunkStore {
         return response.json() as Promise<ChunksManifest>;
       }),
       this.options.loadHeightOverlay?.() ?? Promise.resolve(null),
-    ]).then(([source, overlay]) => {
+      this.options.loadTerrainTopology?.() ?? Promise.resolve(null),
+    ]).then(([source, overlay, topology]) => {
+      if (overlay && topology && (overlay.gridSize !== topology.gridSize || overlay.metresPerPixel !== topology.metresPerPixel)) {
+        throw new Error('Terrain height and topology overlays require the same native lattice');
+      }
       this.overlay = overlay;
-      const manifest = overlay ? alignManifestToNativeGrid(source, overlay) : source;
+      this.topology = topology;
+      const lattice = overlay ?? topology;
+      const manifest = lattice ? alignManifestToNativeGrid(source, lattice) : source;
       for (const chunk of manifest.chunks) this.byCell.set(`${chunk.cx},${chunk.cy}`, chunk);
       return manifest;
     }).catch((error: unknown) => {
@@ -245,7 +257,8 @@ export class ChunkStore {
       const span = lodMeta.maxM - lodMeta.minM;
       for (let i = 0; i < heights.length; i++) heights[i] = lodMeta.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
       const grid = { meta, lod, heights, nx, ny, metresPerSample: lodMeta.metresPerSample };
-      return this.overlay ? applyHeightOverlay(grid, this.overlay) : grid;
+      const corrected = this.overlay ? applyHeightOverlay(grid, this.overlay) : grid;
+      return this.topology ? this.topology.apply(corrected) : corrected;
     } finally {
       bitmap.close();
       if (canvas) { canvas.width = 1; canvas.height = 1; }

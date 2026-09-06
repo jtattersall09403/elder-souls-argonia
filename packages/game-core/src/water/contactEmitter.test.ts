@@ -60,4 +60,49 @@ describe("actor water contacts", () => {
     emitter.update(query, 0, { x: 0, y: 1.5, z: 0 }, -3, 1 / 60);
     expect(events).toHaveLength(0);
   });
+
+  it("tracks complete submersion and resurfacing without underwater wakes", () => {
+    const { query, events } = queryFixture(2);
+    const emitter = new WaterContactEmitter("actor.test", 0.35, 1);
+    emitter.update(query, 0, { x: 0, y: 3, z: 0 }, -5, 0.1);
+    emitter.update(query, 0, { x: 0, y: 0, z: 0 }, -5, 0.1);
+    expect(events.map(e => e.kind)).toEqual(["enter", "submerge"]);
+    events.length = 0;
+    for (let i = 0; i < 10; i++) emitter.update(query, 0, { x: i * 0.1, y: 0, z: 0 }, 0, 0.1);
+    expect(events).toHaveLength(0);
+    emitter.update(query, 0, { x: 1, y: 1.5, z: 0 }, 5, 0.1);
+    expect(events[0].kind).toBe("splash");
+  });
+
+  it("suppresses vertical teleports, body switches and paused updates", () => {
+    const { query, events } = queryFixture(2);
+    let id = "water.a";
+    const source: WorldWaterQuery = { ...query, sample: (p, t) => ({ ...query.sample(p, t), waterBodyId: id }) };
+    const emitter = new WaterContactEmitter("actor.test");
+    emitter.update(source, 0, { x: 0, y: 30, z: 0 }, 0, 0.1);
+    emitter.update(source, 0, { x: 0, y: 1, z: 0 }, 0, 0.1);
+    id = "water.b";
+    emitter.update(source, 0, { x: 2, y: 1, z: 0 }, 0, 0.1);
+    emitter.update(source, 0, { x: 3, y: 1, z: 0 }, 0, 0);
+    expect(events).toHaveLength(0);
+  });
+
+  it("spaces fast-hull wakes at low frame rates with a fixed catch-up budget", () => {
+    const run = (fps: number) => {
+      const { query, events } = queryFixture();
+      const emitter = new WaterContactEmitter("actor.hull");
+      for (let i = 0; i <= fps; i++) emitter.update(query, 0,
+        { x: 10 * i / fps, y: 1.5, z: 0 }, 0, 1 / fps);
+      return events.filter(e => e.kind === "wake");
+    };
+    const low = run(10), high = run(200);
+    expect(low.length).toBeGreaterThan(15);
+    expect(Math.abs(low.length - high.length)).toBeLessThanOrEqual(1);
+    for (let i = 1; i < low.length; i++) expect(low[i].position.x - low[i - 1].position.x).toBeCloseTo(0.525, 7);
+    const { query, events } = queryFixture(100);
+    const emitter = new WaterContactEmitter("actor.hull");
+    emitter.update(query, 0, { x: 0, y: 1.5, z: 0 }, 0, 0.1);
+    emitter.update(query, 0, { x: 0, y: 1.5, z: 0 }, 0, 0.1);
+    expect(events.length).toBeLessThanOrEqual(4);
+  });
 });

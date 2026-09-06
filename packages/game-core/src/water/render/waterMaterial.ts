@@ -5,6 +5,14 @@ import { WAVES, gerstnerGlsl, surfGlsl } from "@elder-souls/game-core/water/inde
 import type { WaterAssets } from "./types";
 import { RIPPLE_PATCH_M } from "./RippleSim";
 import { WATER_CAUSTICS_GLSL } from "./caustics";
+import { SPECTRAL_OCEAN_GLSL } from "./SpectralOceanTextures";
+import { flowAdvectionGlsl } from "../flowAdvection";
+import { CONNECTED_STAGE_GLSL } from "./connectedStage";
+import { LOCAL_WATER_SURFACE_GLSL } from '../localPatchPresentation';
+import { boundedPhysicalLighting } from './boundedPhysicalLighting';
+import { NATIVE_WATER_GROUND_GLSL } from './NativeWaterAtlas';
+import { WATER_SSR_GLSL } from './waterSsr';
+import { RIPPLE_ISOLATION_GLSL } from './rippleIsolation';
 
 /**
  * The Phase 8b water material (decision 0025, reworked in owner round 2):
@@ -66,6 +74,23 @@ export const PRECIP_LAYER = 5;
 export const MAX_CONTACT_BODIES = 8;
 
 export interface WaterUniforms {
+  uNativeGroundActive: { value: number };
+  uNativeGroundInfo: { value: THREE.Vector4 };
+  uNativeGroundOffsets: { value: THREE.Vector3 };
+  uLocalWaterField: { value: THREE.Texture | null };
+  uLocalWaterInfo: { value: THREE.Vector4 };
+  uLocalWaterEdge: { value: number };
+  uLocalWaterActive: { value: number };
+  uLocalWaterBody: { value: number };
+  uAccessTex: { value: THREE.Texture };
+  uHasAccess: { value: number };
+  uAccessMinOffset: { value: number };
+  uAccessSpan: { value: number };
+  uNativeChannelCoverage: { value: number };
+  uOceanPrevious: { value: THREE.Texture | null };
+  uOceanNext: { value: THREE.Texture | null };
+  uOceanAlpha: { value: number };
+  uOceanEnabled: { value: number };
   uWaveTime: { value: number };
   /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
   uWindWave: { value: number };
@@ -115,6 +140,16 @@ export interface WaterUniforms {
 export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
   return {
+    uNativeGroundActive: { value: 0 }, uNativeGroundInfo: { value: new THREE.Vector4() }, uNativeGroundOffsets: { value: new THREE.Vector3() },
+    uLocalWaterField: { value: null }, uLocalWaterInfo: { value: new THREE.Vector4(0, 0, 0.25, 128) },
+    uLocalWaterEdge: { value: 2 }, uLocalWaterActive: { value: 0 }, uLocalWaterBody: { value: 0 },
+    uAccessTex: { value: assets.accessTex ?? assets.supportTex },
+    uHasAccess: { value: assets.accessTex ? 1 : 0 },
+    uAccessMinOffset: { value: m.surface.accessMinOffsetM ?? -2 },
+    uAccessSpan: { value: m.surface.accessSpanM ?? 4 },
+    uNativeChannelCoverage: { value: m.surface.nativeChannelCoverage ? 1 : 0 },
+    uOceanPrevious: { value: null }, uOceanNext: { value: null },
+    uOceanAlpha: { value: 0 }, uOceanEnabled: { value: 0 },
     uWaveTime: { value: 0 },
     uWindWave: { value: 1 },
     uLevelTide: { value: 0 },
@@ -211,6 +246,11 @@ const NOISE_GLSL = /* glsl */ `
 
 /** Shared data samplers (W/depth/shore raster, flow, class). */
 export const SAMPLER_GLSL = /* glsl */ `
+  uniform sampler2D uAccessTex;
+  uniform float uHasAccess;
+  uniform float uAccessMinOffset;
+  uniform float uAccessSpan;
+  uniform float uNativeChannelCoverage;
   uniform sampler2D uSurfTex;
   uniform float uSurfMin;
   uniform float uSurfSpan;
@@ -237,6 +277,14 @@ export const SAMPLER_GLSL = /* glsl */ `
   float esTideResponse(float salinity){
     return smoothstep(0.02, 0.15, salinity);
   }
+  ${CONNECTED_STAGE_GLSL}
+  vec3 esStageAt(vec2 p, float salinity, float season) {
+    float extent = uSurfSize * uSurfMpp;
+    if (p.x < 0.0 || p.y < 0.0 || p.x >= extent || p.y >= extent) return vec3(-2.0, 1.0, 0.0);
+    if (uHasAccess < 0.5) return vec3(-2.0, esTideResponse(salinity), season);
+    return esConnectedStage(p, uSurfTex, uSupportTex, uSurfShore,
+      uSurfSize, uSurfMpp, uSurfaceOrigin, uAccessMinOffset, uAccessSpan);
+  }
 
   vec2 esDecodeSurf(vec4 t){
     float w = uSurfMin + ((t.r * 255.0 * 256.0 + t.g * 255.0) / 65535.0) * uSurfSpan;
@@ -249,6 +297,8 @@ export const SAMPLER_GLSL = /* glsl */ `
     if (wpos.x < 0.0 || wpos.y < 0.0 || wpos.x >= extent || wpos.y >= extent) {
       return vec2(0.0, 25.5); // beyond the province: open sea
     }
+    if (uNativeChannelCoverage > 0.5) return esDecodeSurf(esOwnedRaster(wpos,
+      uSurfTex, uSupportTex, uSurfSize, uSurfMpp, uSurfaceOrigin));
     vec2 f = clamp((wpos - uSurfaceOrigin) / uSurfMpp, vec2(0.0), vec2(uSurfSize - 1.001));
     ivec2 i0 = ivec2(f);
     vec2 t = f - vec2(i0);
@@ -312,12 +362,28 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   uniform sampler2D uRipple;
   uniform vec4 uRippleInfo;
   uniform float uRainRipple;
+  ${RIPPLE_ISOLATION_GLSL}
   varying vec4 vEsData;   // stillW, depth, exposure, shoreDist
   varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
   varying vec3 vEsNormalW; // world-space wave normal
   varying vec3 vEsSurf;   // fetch exposure, shoreward dir (xz)
   varying float vRibbon;
+  varying float vEsFlowY;
+  varying float vEsAccess;
+  varying float vWaterBodyIndex;
+  varying vec3 vOceanDetail;
+  ${SPECTRAL_OCEAN_GLSL}
+  ${LOCAL_WATER_SURFACE_GLSL}
+  ${NATIVE_WATER_GROUND_GLSL}
+  ${flowAdvectionGlsl()}
+  float esFallingNoise(vec3 p, vec3 n, int octaves) {
+    vec2 weights = abs(n.xz);
+    weights /= max(weights.x + weights.y, 0.001);
+    // Blend noise VALUES on fixed planes, never position coordinates or
+    // world-space axes rotated by a changing local current direction.
+    return esFbm(p.zy, octaves) * weights.x + esFbm(p.xy, octaves) * weights.y;
+  }
 
   float esEyeDepth(vec2 uv){
     float d = texture2D(uSceneDepth, uv).x;
@@ -341,34 +407,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
     return min(c, 0.65);
   }
 
-  ${tier.ssr && variant === "above" ? /* glsl */ `
-  #define ES_SSR 1
-  vec4 esSsr(vec3 ro, vec3 rd){
-    float stepLen = 2.2;
-    float prevDiff = -1.0;
-    vec2 prevUV = vec2(0.0);
-    for (int i = 1; i <= 18; i++){
-      vec3 p = ro + rd * (stepLen * float(i));
-      vec4 clip = uProjMatrix * viewMatrix * vec4(p, 1.0);
-      if (clip.w <= 0.0) break;
-      vec2 uv = clip.xy / clip.w * 0.5 + 0.5;
-      if (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) break;
-      float sceneEye = esEyeDepth(uv);
-      float rayEye = -(viewMatrix * vec4(p, 1.0)).z;
-      float diff = rayEye - sceneEye;
-      if (diff > 0.0 && diff < 8.0 && sceneEye < uCamFar * 0.9){
-        float t = prevDiff < 0.0 ? 1.0 : (-prevDiff / (diff - prevDiff));
-        vec2 hitUV = mix(prevUV, uv, clamp(t, 0.0, 1.0));
-        vec2 edge = smoothstep(0.0, 0.12, hitUV) * smoothstep(0.0, 0.12, 1.0 - hitUV);
-        float conf = edge.x * edge.y * (1.0 - float(i) / 18.0 * 0.4);
-        return vec4(texture2D(uSceneColor, hitUV).rgb, conf);
-      }
-      prevDiff = diff;
-      prevUV = uv;
-      stepLen *= 1.12;
-    }
-    return vec4(0.0);
-  }` : ""}
+  ${tier.ssr && variant === "above" ? WATER_SSR_GLSL : ""}
   `;
 }
 
@@ -395,6 +434,7 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
 
   material.onBeforeCompile = (shader, renderer) => {
     csmHook?.call(material, shader, renderer);
+    shader.fragmentShader = boundedPhysicalLighting(shader.fragmentShader, renderer.capabilities?.maxTextures ?? 16);
     Object.assign(shader.uniforms, uniforms);
 
     shader.vertexShader = shader.vertexShader
@@ -404,7 +444,17 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
 uniform float uVerticalScale;
 attribute vec4 waterOverride;
 attribute float waterGround;
+attribute float waterFlowY;
+attribute float waterAccessOffset;
+attribute vec3 waterLevelResponse;
+attribute float waterBodyIndex;
+attribute float waterNative;
+attribute float waterCellSize;
+varying float vWaterBodyIndex;
+varying vec3 vOceanDetail;
 varying float vRibbon;
+varying float vEsFlowY;
+varying float vEsAccess;
 varying vec4 vEsData;
 varying vec3 vEsKlass;
 varying vec3 vEsFlow;
@@ -412,6 +462,9 @@ varying vec3 vEsNormalW;
 varying vec3 vEsSurf;
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands)}
+${SPECTRAL_OCEAN_GLSL}
+${LOCAL_WATER_SURFACE_GLSL}
+${NATIVE_WATER_GROUND_GLSL}
 ${surfGlsl()}`,
       )
       .replace(
@@ -420,11 +473,14 @@ ${surfGlsl()}`,
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
 vec2 esSurf = esSurfaceAt(esRestW.xz);
 vRibbon = waterOverride.w;
+vWaterBodyIndex = waterBodyIndex;
+vEsFlowY = waterFlowY;
 if (waterOverride.w > 0.5) esSurf = vec2(waterOverride.x, waterOverride.x - waterGround);
+if (uNativeGroundActive > 0.5 && waterOverride.w > 0.5 && waterOverride.w < 1.5) esSurf.y = esSurf.x - esNativeGroundAt(esRestW.xz);
 vec2 esDataUv = esFlowUv(esRestW.xz);
 vec4 esKl = texture2D(uKlassTex, esDataUv);
 esKl.r = esClassAt(esRestW.xz) / 255.0;
-if (waterOverride.w > 0.5) esKl.r = 3.0 / 255.0;
+if (waterOverride.w > 0.5 && waterOverride.w < 1.5) esKl.r = 3.0 / 255.0;
 vec4 esFl = texture2D(uFlowTex, esDataUv);
 vec3 esCharacter = texture2D(uCharacterTex, esDataUv).rgb;
 float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
@@ -433,7 +489,11 @@ esKl = mix(esKl, vec4(1.0 / 255.0, 0.25, 1.0, 1.0), esOutside);
 esCharacter.b = mix(esCharacter.b, 1.0, esOutside);
 esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
-float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y;
+vec3 esStage = esStageAt(esRestW.xz, esKl.b, esSS.y);
+if (waterOverride.w > 0.5 && waterLevelResponse.z > 0.5) esStage.yz = waterLevelResponse.xy;
+float esLevelOffset = uLevelTide * esStage.y + uLevelSeason * esStage.z;
+vEsAccess = (waterOverride.w > 0.5 ? waterAccessOffset : esStage.x) - esLevelOffset;
+float esStill = esSurf.x + esLevelOffset;
 float esShore = esSS.x;
 float esTurbV = max(esKl.g, esSS.z);
 // shore frame: seaward = +grad(shoreDist); fetch is sampled ~30 m SEAWARD
@@ -465,12 +525,20 @@ float esSurfWind = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
 esStill += esSwash(esShore, esFetch, uWaveTime, esSurfWind);
 float esSwellDHdd;
 esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfWind, esSwellDHdd);
-float esVDepth = max(esSurf.y + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y, 0.0);
+float esVDepth = max(esSurf.y + esLevelOffset, 0.0);
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 float esWaveAmp = min(esExposure * esCharacter.b * uWindWave, esVDepth * 0.45);
 EsWave esW;
-if (esWaveAmp > 0.002) {
+vOceanDetail = vec3(0.0);
+if (uOceanEnabled > 0.5 && esKl.r * 255.0 < 2.5) {
+  vec2 detailSlope;
+  vec3 spectrum = esOceanSpectrum(esRestW.xz, max(waterCellSize, 0.125), detailSlope) * esWaveAmp;
+  vOceanDetail = vec3(detailSlope * esWaveAmp, esWaveAmp);
+  esW.disp = vec3(0.0, spectrum.x, 0.0);
+  esW.normal = normalize(vec3(-spectrum.y, 1.0, -spectrum.z));
+  esW.height = spectrum.x;
+} else if (esWaveAmp > 0.002) {
   vec2 rest = esRestW.xz;
   for (int i = 0; i < 3; i++) {
     esW = esWaveSample(rest, esWaveAmp, uWaveTime);
@@ -488,7 +556,13 @@ if (esWaveAmp > 0.002) {
 // swell tilts the normal along the shoreward axis
 esW.normal.xz += esShoreDir * esSwellDHdd;
 esW.normal = normalize(esW.normal);
-if (waterOverride.w > 0.5) esW.normal = normalize(normal + vec3(esW.normal.x, 0.0, esW.normal.z));
+if ((waterOverride.w > 0.5 && waterOverride.w < 1.5) || waterNative > 0.5) esW.normal = normalize(normal + vec3(esW.normal.x, 0.0, esW.normal.z));
+if (waterOverride.w > 1.5) {
+  vec4 local = esLocalWaterSurface(esRestW.xz);
+  esW.disp.y += local.x;
+  esW.normal = normalize(vec3(esW.normal.x / max(esW.normal.y, 0.001) - local.y,
+    1.0, esW.normal.z / max(esW.normal.y, 0.001) - local.z));
+}
 vEsSurf = vec3(esFetch, esShoreDir);
 vEsData = vec4(esStill, max(esSurf.y + esStill + esW.disp.y - esSurf.x, 0.0), esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
@@ -500,7 +574,7 @@ if (esFlowSp > 0.15) {
   vec2 esDownAt = esSurfaceAt(esRestW.xz + (esFlowV / esFlowSp) * 7.0);
   esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
 }
-if (waterOverride.w > 0.5) esDropSlope = clamp(length(normal.xz) / max(normal.y, 0.001), 0.0, 1.0);
+if (waterOverride.w > 0.5) esDropSlope = length(normal.xz) / max(normal.y, 0.001);
 vEsFlow = vec3(esFlowV, esDropSlope);
 vec3 objectNormal = normalize(vec3(esW.normal.x, esW.normal.y / max(uVerticalScale, 0.001), esW.normal.z));
 vEsNormalW = objectNormal;`,
@@ -531,8 +605,28 @@ uniform float uVerticalScale;`,
         /* glsl */ `void main() {
   // Buried surface (dry ground everywhere near): kill before ANY texture
   // work — also removes valley-spanning ghost sheets (round 1, defect 4).
-  if (vEsData.y <= 0.004) discard;
-  if (vRibbon < 0.5 && esSupportAt(vEsWorldPos.xz).x < 0.5) discard;
+  float esFragmentDepth = vEsData.y;
+  if (uNativeGroundActive > 0.5 && vRibbon > 0.5) {
+    float nativeGround = esNativeGroundAt(vEsWorldPos.xz);
+    // Deep standing-pool interiors need not occur in the native channel /
+    // shoreline sidecar. Hero vertices still carry their own queried bed;
+    // missing native RIBBON coverage is never silently accepted.
+    if (nativeGround < 1e8 || vRibbon < 1.5) esFragmentDepth = vEsWorldPos.y / max(uVerticalScale, 0.001) - nativeGround;
+  }
+  if (esFragmentDepth <= 0.004) discard;
+  float localMask = esLocalWaterMask(vEsWorldPos.xz);
+  if (vRibbon > 1.5 && localMask < 0.5) discard;
+  if (vRibbon < 1.5 && localMask > 0.5) {
+    vec3 support = esSupportAt(vEsWorldPos.xz);
+    float owner = vRibbon > 0.5 ? vWaterBodyIndex : floor(support.g * 255.0 + 0.5) * 256.0 + floor(support.b * 255.0 + 0.5);
+    if (abs(owner - uLocalWaterBody) < 0.5) discard;
+  }
+  if (vRibbon > 0.5 && vRibbon < 1.5 && vEsAccess > 0.001) discard;
+  if (vRibbon < 0.5 && esSupportAt(vEsWorldPos.xz).x < mix(0.5, 0.75, uNativeChannelCoverage)) discard;
+  if (vRibbon < 0.5 && uHasAccess > 0.5) {
+    vec3 stage = esStageAt(vEsWorldPos.xz, 0.0, 0.0);
+    if (stage.x > uLevelTide * stage.y + uLevelSeason * stage.z + 0.001) discard;
+  }
   // The horizon grid serves marine water only. Inland geometry is fixed
   // to the native water lattice and never interpolates across body IDs.
   float waterClass = esClassAt(vEsWorldPos.xz);
@@ -551,19 +645,21 @@ uniform float uVerticalScale;`,
         /* glsl */ `
 float faceDirection = gl_FrontFacing ? 1.0 : -1.0;
 vec3 esNBase = normalize(vEsNormalW);
-float esSpeed = length(vEsFlow.xy);
+if (uOceanEnabled > 0.5 && vOceanDetail.z > 0.00001) {
+  float pixelM = max(length(dFdx(vEsWorldPos.xz)), length(dFdy(vEsWorldPos.xz)));
+  vec2 detail = (esOceanBand(vEsWorldPos.xz, 1, pixelM).yz + esOceanBand(vEsWorldPos.xz, 2, pixelM).yz) * vOceanDetail.z;
+  // Replace only mesh-filtered detail; retain the long swell and shoreline
+  // normal. Never rotate world coordinates or double-count vertex slopes.
+  vec2 gradient = esNBase.xz / max(esNBase.y, 0.001) + (vOceanDetail.xy - detail) * uVerticalScale;
+  esNBase = normalize(vec3(gradient.x, 1.0, gradient.y));
+}
+float esSpeed = length(vec3(vEsFlow.x, vEsFlowY, vEsFlow.y));
 // cascades: white churning descent where the surface visibly drops
 float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
-// waterfall detection: the true metric slope of the STILL surface via
-// screen-space derivatives — near-vertical spans switch to falling-water
-// shading (research: waterfalls-realtime, option A)
-float esFall = 0.0;
-{
-  vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x)) * uVerticalScale;
-  vec2 esDP = vec2(length(vec2(dFdx(vEsWorldPos.x), dFdx(vEsWorldPos.z))),
-                   length(vec2(dFdy(vEsWorldPos.x), dFdy(vEsWorldPos.z))));
-  esFall = smoothstep(1.2, 3.0, length(esDW / max(esDP, vec2(1e-4))));
-}
+// Classify the actual still-water grade, not projected screen derivatives.
+// The latter change with camera azimuth/pitch and studio exaggeration, making
+// the same sheet switch appearance as the player looks around.
+float esFall = smoothstep(1.2, 3.0, vEsFlow.z);
 float esDist = distance(cameraPosition, vEsWorldPos);
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
@@ -578,10 +674,13 @@ vec2 esDrift = esSpeed > 0.05
   : vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 0.03;
 float esPh1 = fract(uWaveTime * 0.25);
 float esPh2 = fract(uWaveTime * 0.25 + 0.5);
-float esPhB = abs(esPh1 * 2.0 - 1.0);
+EsFlowCoordinates esAdvected = esFlowAdvection(
+  vec3(vEsWorldPos.x, vEsWorldPos.y / max(uVerticalScale, 0.001), vEsWorldPos.z),
+  vec3(esDrift.x, vEsFlowY, esDrift.y), uWaveTime, 1.0);
+float esPhB = esAdvected.blend;
 // fast water: features stretch along the flow (anisotropy is a primary
 // speed cue — research rivers-on-slopes Q2)
-vec2 esFDirN = esSpeed > 0.05 ? vEsFlow.xy / esSpeed : vec2(1.0, 0.0);
+vec2 esFDirN = length(vEsFlow.xy) > 0.05 ? normalize(vEsFlow.xy) : vec2(1.0, 0.0);
 float esStretch = 1.0 + 1.4 * smoothstep(0.4, 2.2, esSpeed);
 vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 4.0) * 0.55;
 vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 4.0) * 0.55;
@@ -598,14 +697,14 @@ float esRipCrest = 0.0;
 #ifdef ES_RIPPLES
 {
   vec2 rUv = (vEsWorldPos.xz - uRippleInfo.xy) / uRippleInfo.z + 0.5;
-  if (uRippleInfo.w > 0.5 && all(greaterThan(rUv, vec2(0.02))) && all(lessThan(rUv, vec2(0.98)))) {
-    float rTexel = 1.0 / 256.0;
-    float hx1 = texture2D(uRipple, rUv + vec2(rTexel, 0.0)).r;
-    float hx0 = texture2D(uRipple, rUv - vec2(rTexel, 0.0)).r;
-    float hz1 = texture2D(uRipple, rUv + vec2(0.0, rTexel)).r;
-    float hz0 = texture2D(uRipple, rUv - vec2(0.0, rTexel)).r;
-    esRip = vec2(hx1 - hx0, hz1 - hz0) * 14.0;
-    esRipCrest = abs(texture2D(uRipple, rUv).r) * 6.0;
+  // The resolved physical patch already contains this impact. Crossfade the
+  // older normal-only ring field at its perimeter, never double the wave.
+  float esRippleWeight = uRippleInfo.w;
+  if (vRibbon > 1.5) esRippleWeight *= 1.0 - esLocalWaterWeight(vEsWorldPos.xz);
+  if (esRippleWeight > 0.0 && all(greaterThan(rUv, vec2(0.02))) && all(lessThan(rUv, vec2(0.98)))) {
+    vec3 isolated = esIsolatedRipple(uRipple, rUv);
+    esRip = isolated.xy * 14.0 * esRippleWeight;
+    esRipCrest = abs(isolated.z) * 6.0 * esRippleWeight;
   }
 }
 #endif
@@ -619,10 +718,18 @@ if (uRainRipple > 0.02) {
            + esDetailGrad(vEsWorldPos.xz * 5.3 + 31.0, vec2(-0.29, 0.47) * uWaveTime * 2.6))
           * uRainRipple * 0.09 * (0.25 + 0.75 * esFarFade);
 }
-vec3 esNW = normalize(vec3(
-  esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x - esRainG.x,
-  esNBase.y,
-  esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y - esRainG.y));
+vec3 esFlowGradient = vec3(esG.x + esGF.x, 0.0, esG.y + esGF.y);
+if (esFall > 0.01) {
+  vec2 weights = abs(esNBase.xz) / max(abs(esNBase.x) + abs(esNBase.z), 0.001);
+  vec2 gZY = mix(esDetailGrad(esAdvected.a.zy * 0.55, vec2(0.0)),
+                esDetailGrad(esAdvected.b.zy * 0.55, vec2(0.0)), esPhB);
+  vec2 gXY = mix(esDetailGrad(esAdvected.a.xy * 0.55, vec2(0.0)),
+                esDetailGrad(esAdvected.b.xy * 0.55, vec2(0.0)), esPhB);
+  esFlowGradient = mix(esFlowGradient,
+    vec3(0.0, gZY.y, gZY.x) * weights.x + vec3(gXY.x, gXY.y, 0.0) * weights.y, esFall);
+}
+vec3 esNW = normalize(esNBase - esFlowGradient * esDetStrength
+  - vec3(esRip.x + esRainG.x, 0.0, esRip.y + esRainG.y));
 ${variant === "below" ? "esNW = -esNW;" : ""}
 vec3 normal = normalize((viewMatrix * vec4(esNW, 0.0)).xyz);
 vec3 nonPerturbedNormal = normal;`,
@@ -643,7 +750,7 @@ vec2 esRUV = clamp(esScreenUV + esNW.xz * esDistort, vec2(0.001), vec2(0.999));
 float esSceneEyeR = esEyeDepth(esRUV);
 if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }
 float esThick = max(esSceneEyeR - esFragEye, 0.0);
-float esColDepth = min(esThick, max(vEsData.y, 0.05) * 4.0);
+float esColDepth = min(esThick, max(esFragmentDepth, 0.05) * 4.0);
 // Beer–Lambert, three real tropical water types (research doc: Sioli/Amazon
 // typology): clear sea/mountain streams; SILT whitewater — lighter opaque
 // tan (café-au-lait); TANNIN blackwater — glassy dark tea, green-red.
@@ -709,14 +816,13 @@ if (esSpeed > 0.3) {
   esFTex = mix(esFTex, esStreak, smoothstep(0.35, 1.0, esSpeed));
   esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.3;
 }
-// falling water (near-vertical spans): two down-scrolling noise scales,
-// multiplied; a uniform scroll offset is SAFE with absolute time (its
-// spatial gradient is constant). Aeration brightens, never whites out.
+// Falling water uses the SAME 3D current as geometry and physics. Different
+// texture scales do not invent different falling speeds.
 if (esFall > 0.01) {
-  float esY = vEsWorldPos.y / max(uVerticalScale, 1e-3);
-  float esAcrossF = esFbm(vEsWorldPos.xz * 0.7, 2) * 5.0;
-  float esF1 = esFbm(vec2(esAcrossF * 0.9, esY * 0.22 + uWaveTime * 2.6), 3);
-  float esF2 = esFbm(vec2(esAcrossF * 0.35 + 7.0, esY * 0.08 + uWaveTime * 1.1), 2);
+  float esF1 = mix(esFallingNoise(esAdvected.a * 0.22, esNBase, 3),
+                   esFallingNoise(esAdvected.b * 0.22, esNBase, 3), esPhB);
+  float esF2 = mix(esFallingNoise(esAdvected.a * 0.08 + 7.0, esNBase, 2),
+                   esFallingNoise(esAdvected.b * 0.08 + 7.0, esNBase, 2), esPhB);
   esFTex = mix(esFTex, esF1 * (0.55 + 0.9 * esF2), esFall);
   esFoamE = mix(esFoamE, 0.42 + 0.30 * esF2, esFall);
 }
@@ -724,10 +830,19 @@ esFoamE = min(esFoamE, 0.68);
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);
+float esMicroFoam = mix(esFbm(esAdvected.a.xz * 1.9, 3), esFbm(esAdvected.b.xz * 1.9, 3), esPhB);
+float esShadeNoise = mix(esFbm(esAdvected.a.xz * 3.7, 3), esFbm(esAdvected.b.xz * 3.7, 3), esPhB);
+if (esFall > 0.01) {
+  esMicroFoam = mix(esMicroFoam, mix(esFallingNoise(esAdvected.a * 1.9, esNBase, 3),
+    esFallingNoise(esAdvected.b * 1.9, esNBase, 3), esPhB), esFall);
+  esShadeNoise = mix(esShadeNoise, mix(esFallingNoise(esAdvected.a * 3.7, esNBase, 3),
+    esFallingNoise(esAdvected.b * 3.7, esNBase, 3), esPhB), esFall);
+}
 esFoam = clamp(esFoam, 0.0, 1.0)
-       * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uWaveTime * 0.17), cos(uWaveTime * 0.15)) * 0.8, 3))
+       * (0.5 + 0.5 * esMicroFoam)
        * (0.25 + 0.75 * esFarFade) * 0.9;
-float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
+if (vRibbon > 1.5) esFoam = max(esFoam, clamp(esLocalWaterSurface(vEsWorldPos.xz).w, 0.0, 0.85));
+float esFoamShade = 0.72 + 0.36 * esShadeNoise;
 // foam is off-white ALBEDO + high roughness, never near-1.0 white — full
 // white kills all lighting shape and reads as crust (research Q3)
 diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.80, 0.84, 0.86) * esFoamShade, esFoam);
@@ -752,12 +867,16 @@ float esFoam = 0.0;
 vec3 esView = normalize(cameraPosition - vEsWorldPos);
 vec3 esSpecEnv = reflectedLight.indirectSpecular;
 #ifdef ES_SSR
-if (esDist < 1200.0) {
+float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
+// Trace only where a sharp reflection can contribute. PMREM remains the
+// continuous fallback; direct sun/moon glints are unaffected by this budget.
+float esSsrVisibility = smoothstep(0.02, 0.08, esFres)
+  * (1.0 - smoothstep(0.25, 0.55, roughnessFactor));
+if (esDist < 1200.0 && esSsrVisibility > 0.001) {
   vec4 esS = esSsr(vEsWorldPos, reflect(-esView, esNW));
-  float esFres = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);
   float esSsrFade = 1.0 - smoothstep(800.0, 1200.0, esDist);
   esSpecEnv = mix(esSpecEnv, esS.rgb * esFres,
-    clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * (1.0 - esFoam));
+    clamp(esS.a, 0.0, 1.0) * uSsrStrength * esSsrFade * esSsrVisibility * (1.0 - esFoam));
 }
 #endif
 float esFresT = 0.02 + 0.98 * pow(1.0 - max(dot(esNW, esView), 0.0), 5.0);

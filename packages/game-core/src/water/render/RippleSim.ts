@@ -1,5 +1,6 @@
 import type { WorldWaterQuery } from "@elder-souls/contracts";
 import * as THREE from "three";
+import { RIPPLE_PATH_GLSL } from './rippleIsolation';
 
 export const RIPPLE_PATCH_M = 64;
 const FIXED_STEP = 1 / 60;
@@ -210,7 +211,7 @@ const UPDATE = COMMON + /* glsl */`
   }
 `;
 
-const DROP = COMMON + /* glsl */`
+const DROP = COMMON + RIPPLE_PATH_GLSL + /* glsl */`
   uniform vec4 uDrops[${MAX_DROPS}];
   uniform vec2 uDropBodies[${MAX_DROPS}];
   uniform int uDropCount;
@@ -226,13 +227,8 @@ const DROP = COMMON + /* glsl */`
       vec2 travel = vUv - drop.xy;
       float radial = length(travel) / drop.z;
       if (radial >= 1.0) continue;
-      // A wide impulse must not stamp the opposite bank of the same water body.
-      // Max radius is 4 m; 16 samples cross each 0.5 m mask cell along its radius.
-      bool connected = true;
-      for (int j = 1; j <= 16; j++) {
-        vec4 path = support(drop.xy + travel * (float(j) / 16.0));
-        if (path.a < 0.5 || !sameBody(path.rg, boundary.rg)) { connected = false; break; }
-      }
+      // Exact bounded cell supercover, including both sides of a corner.
+      bool connected = esRipplePath(drop.xy, vUv, boundary.rg);
       if (connected) impulse += (0.5 + 0.5 * cos(radial * 3.14159265)) * drop.w;
     }
     gl_FragColor = vec4(clamp(state.r + impulse, -0.5, 0.5), state.g, boundary.rg);
@@ -302,6 +298,7 @@ export class RippleSim {
     this.copy = material(COPY, { uShift: { value: new THREE.Vector2() } });
     this.update = material(UPDATE, { uTexel: { value: new THREE.Vector2(1 / size, 1 / size) }, uCellM: { value: this.patchM / size } });
     this.drop = material(DROP, {
+      uMaskSize: { value: boundarySize },
       uDrops: { value: Array.from({ length: MAX_DROPS }, () => new THREE.Vector4()) },
       uDropBodies: { value: Array.from({ length: MAX_DROPS }, () => new THREE.Vector2()) },
       uDropCount: { value: 0 },
@@ -380,6 +377,13 @@ export class RippleSim {
       renderer.setClearColor(color, alpha);
       renderer.toneMapping = tone; renderer.autoClear = autoClear;
     }
+  }
+
+  /** Invisible remote patches do no mask/solver work. Discard their history
+   * and queued events rather than replaying stale splashes upon reactivation. */
+  suspend(): void {
+    this.pendingDrops.length = 0;
+    this.initialized = false;
   }
 
   dispose(): void {

@@ -22,7 +22,7 @@ import {
   type LightPreset,
 } from "./sky/timeState";
 import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
-import { setWetSeasonOverride } from "./water/waterAssets";
+import { setWetSeasonOverride, sharedWaterAssets, type WaterAssets } from "./water/waterAssets";
 import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
 
 const urlParams = new URLSearchParams(window.location.search);
@@ -385,28 +385,14 @@ export function App() {
     }
   }, [meta, seaLevel, conditioning, layers, overlaysReady, showCatalogue]);
 
-  // per-pixel water-body classes for the hover tooltip (Phase 8b)
-  const waterClassRef = useRef<{ data: Uint8ClampedArray; size: number; mpp: number; names: string[] } | null>(null);
+  // Reuse the scene's water truth, including native channels and seasonal
+  // access. A separate legacy class raster labels dry banks as open water.
+  const waterClassRef = useRef<WaterAssets | null>(null);
   useEffect(() => {
     let alive = true;
-    (async () => {
-      try {
-        const meta2 = await fetch(`${import.meta.env.BASE_URL}province/water/water-meta.json`).then((r) => r.json());
-        const blob = await fetch(`${import.meta.env.BASE_URL}province/water/${meta2.klass.file}`).then((r) => r.blob());
-        const bmp = await createImageBitmap(blob, { premultiplyAlpha: "none", colorSpaceConversion: "none" });
-        const c = new OffscreenCanvas(bmp.width, bmp.height);
-        const g = c.getContext("2d", { willReadFrequently: true })!;
-        g.drawImage(bmp, 0, 0);
-        if (alive) {
-          waterClassRef.current = {
-            data: g.getImageData(0, 0, bmp.width, bmp.height).data,
-            size: meta2.klass.size,
-            mpp: meta2.klass.metresPerPixel,
-            names: meta2.klass.classes,
-          };
-        }
-      } catch { /* water data optional in the map view */ }
-    })();
+    sharedWaterAssets(import.meta.env.BASE_URL).then(assets => {
+      if (alive) waterClassRef.current = assets;
+    }).catch(() => { /* Water data optional in the map view. */ });
     return () => { alive = false; };
   }, []);
 
@@ -435,16 +421,16 @@ export function App() {
       }
       return best ? ` · ${best}` : "";
     };
-    // Water-body class from the Phase 8b compile (the region raster calls
-    // whole standing-water zones "lake & standing water"; this is the actual
-    // per-pixel river/creek/marsh/lake/coast classification).
+    // Region remains an ecological classification; the water label describes
+    // actual supported, accessible water at the current tide/season.
     let waterPart = "";
     const wc = waterClassRef.current;
     if (wc) {
-      const wx = Math.min(wc.size - 1, Math.max(0, Math.round((x * meta.metresPerPixel) / wc.mpp)));
-      const wy = Math.min(wc.size - 1, Math.max(0, Math.round((y * meta.metresPerPixel) / wc.mpp)));
-      const cls = wc.data[(wy * wc.size + wx) * 4];
-      if (cls > 0) waterPart = ` · water: ${wc.names[cls] ?? "?"}`;
+      const wx = x * meta.metresPerPixel, wz = y * meta.metresPerPixel;
+      const boundary = wc.world.sampleBoundary(wx, wz, worldClock.epochMinutes());
+      if (boundary.waterBodyId && boundary.depth > 0.004) {
+        waterPart = ` · water: ${wc.data.sample(wx, wz).className}`;
+      }
     }
     const regionPart = lookup("regions", " · ocean");
     const regionName = regionPart.replace(" · ", "");

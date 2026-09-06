@@ -9,3 +9,7 @@ export { computeBuoyancy } from "./buoyancy";
 export type { BuoyancyParams, BuoyancyResult, BuoyancyMotion } from "./buoyancy";
 export { WaterContactEmitter } from "./contactEmitter";
 export { WaterFlowContacts } from "./flowContacts";
+export { WaterRigidBodyDriver } from "./rigidBody";
+export type { WaterRigidBody, WaterRigidBodyOptions } from "./rigidBody";
+export { WaterInteractionStream } from "./interactionStream";
+export { PhysicsMassUnits } from "../physics/massUnits";

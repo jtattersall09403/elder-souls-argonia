@@ -16,7 +16,7 @@ function metadata(): WaterMeta {
 }
 
 type Bitmap = { width: number; height: number; pixels: Uint8ClampedArray; close: ReturnType<typeof vi.fn> };
-function browserFixture(wrongSize = false) {
+function browserFixture(wrongSize = false, meta = metadata()) {
   const pixels = (rgba: number[]) => new Uint8ClampedArray([...rgba, ...rgba, ...rgba, ...rgba]);
   const rasters: Record<string, Uint8ClampedArray> = {
     "surface.png": pixels([0, 0, 83, 255]), // 8.3 - 6.3 = 2 m signed depth
@@ -25,10 +25,11 @@ function browserFixture(wrongSize = false) {
     "flow.png": pixels([128, 128, 0, 255]),
     "class.png": pixels([4, 50, 0, 255]),
     "character.png": pixels([0, 3, 128, 255]),
+    "water-access.png": pixels([96, 0, 255, 255]),
   };
   const bitmaps: Bitmap[] = [];
   const fetchMock = vi.fn(async (url: string) => {
-    if (url.endsWith("water-meta.json")) return Response.json(metadata());
+    if (url.endsWith("water-meta.json")) return Response.json(meta);
     if (url.endsWith("flood-states.json")) return Response.json({ basins: [{ tidalAmplitudeM: 0.5, seasonalAmplitudeM: 1.4 }] });
     return new Response(url.split("/").at(-1)!);
   });
@@ -56,6 +57,22 @@ function browserFixture(wrongSize = false) {
 afterEach(() => vi.unstubAllGlobals());
 
 describe("water bundle loader", () => {
+  it('loads compact bank profiles before sampling without expanding serializable metadata', async () => {
+    const meta = metadata();
+    meta.crossSections = { schemaVersion: 1, file: 'water-cross-sections.bin', encoding: 'float32-le-offset-ground-access', sampleCount: 6 };
+    meta.ribbons = [{ id: 'water-ribbon.packed', bodyIndex: 1, riverBand: 1, points: [0, 1].map((z, i) => ({
+      x: 0.5, y: 1, z, halfWidthM: 0.2, groundM: 0, crossSectionStart: i * 3, crossSectionCount: 3 })) }];
+    const binary = new Float32Array([-0.2, 0, -1, 0, 0, -1, 0.2, 0, -1, -0.2, 0, -1, 0, 0, -1, 0.2, 0, -1]);
+    const { fetchMock } = browserFixture(false, meta), original = fetchMock.getMockImplementation()!;
+    fetchMock.mockImplementation(url => url.endsWith('.bin') ? Promise.resolve(new Response(binary.buffer)) : original(url));
+    const assets = await loadWaterAssets({ baseUrl: '/game/', seasonScalar: () => 0 });
+    expect(assets.data.sample(0.5, 0.5).surfaceBase).toBe(1);
+    expect(assets.meta.ribbons![0].points[0].crossSection).toHaveLength(3);
+    expect(JSON.stringify(assets.meta)).toBe(JSON.stringify(meta));
+    expect(fetchMock.mock.calls.some(([url]) => url.endsWith('/water/v2/water-cross-sections.bin'))).toBe(true);
+    disposeWaterAssets(assets);
+  });
+
   it("rejects channel geometry missing native ground before it reaches the GPU", () => {
     const meta = metadata();
     meta.ribbons = [{ id: "water.channel.test", bodyIndex: 1, riverBand: 1,
@@ -111,5 +128,33 @@ describe("water bundle loader", () => {
     vi.stubGlobal("fetch", async (url: string) => url.endsWith("water-meta.json")
       ? Response.json(metadata()) : new Response("missing", { status: 404 }));
     await expect(loadWaterAssets({ baseUrl: "/game/", seasonScalar: () => 0 })).rejects.toThrow("HTTP 404");
+  });
+
+  it("loads fine access/tidal fields without copying source bytes or changing optical salinity", async () => {
+    const meta = metadata();
+    Object.assign(meta.surface, { accessFile: "water-access.png", accessMinOffsetM: -2, accessSpanM: 4 });
+    const { rasters, bitmaps } = browserFixture(false, meta);
+    const assets = await loadWaterAssets({ baseUrl: "/game/", seasonScalar: () => 0 });
+    const sample = assets.data.sample(0, 0);
+    expect(sample.floodAccessOffsetM).toBeCloseTo(-0.5, 4);
+    expect(sample.tideResponse).toBe(1);
+    expect(sample.salinity).toBe(0);
+    expect(assets.accessTex!.image.data?.buffer).toBe(rasters["water-access.png"].buffer);
+    expect(bitmaps).toHaveLength(7);
+    bitmaps.forEach(bitmap => expect(bitmap.close).toHaveBeenCalledOnce());
+    const dispose = vi.spyOn(assets.accessTex!, "dispose");
+    disposeWaterAssets(assets);
+    expect(dispose).toHaveBeenCalledOnce();
+  });
+
+  it("rejects malformed access/ownership declarations and native proxies without geometry", async () => {
+    const meta = metadata();
+    expect(() => validateWaterMeta({ ...meta, surface: { ...meta.surface, nativeChannelCoverage: "true" } })).toThrow("nativeChannelCoverage");
+    expect(() => validateWaterMeta({ ...meta, surface: { ...meta.surface, accessFile: "water-access.png" } })).toThrow("access encoding");
+    expect(() => validateWaterMeta({ ...meta, surface: { ...meta.surface, accessMinOffsetM: -2, accessSpanM: 4 } })).toThrow("raster file");
+    meta.surface.nativeChannelCoverage = true;
+    const { rasters } = browserFixture(false, meta);
+    rasters["support.png"][0] = 128;
+    await expect(loadWaterAssets({ baseUrl: "/game/", seasonScalar: () => 0 })).rejects.toThrow("explicit ribbon geometry");
   });
 });

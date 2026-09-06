@@ -25,17 +25,7 @@ import type { WaterSurfaceHandle } from "./WaterSurface";
  * rebuilt for r3f + the 8a exposure/CSM/PMREM stack.
  */
 
-export interface WaterDebugState {
-  tier: string;
-  underwater: boolean;
-  surfaceAtCameraM: number;
-  tideOffsetM: number;
-  seasonOffsetM: number;
-  cameraDepthM: number;
-  rtSamples: number;
-  frames: number;
-  contextLost: boolean;
-}
+export type { WaterDebugState } from "./types";
 
 
 const CAUSTICS_GLSL = /* glsl */ `
@@ -149,11 +139,13 @@ if (uUnderwater > 0.5) {
   vec3 esBedShore = esShoreAt(esWp.xz);
   vec3 esBedClass = texture2D(uKlassTex, esFlowUv(esWp.xz)).rgb;
   vec3 esBedSupport = esSupportAt(esWp.xz);
-  float esBedLevelOffset = uLevelTide * esTideResponse(esBedClass.b)
-    + uLevelSeason * esBedShore.g;
+  vec3 esBedStage = esStageAt(esWp.xz, esBedClass.b, esBedShore.g);
+  float esBedLevelOffset = uLevelTide * esBedStage.y
+    + uLevelSeason * esBedStage.z;
   float esBedLevel = esBedSurface.x + esBedLevelOffset;
   float esWaterColumn = esBedSurface.y + esBedLevelOffset;
   float esBedValid = (1.0 - step(0.999999, esD)) * step(0.5, esBedSupport.r)
+    * (uHasAccess < 0.5 ? 1.0 : step(esBedStage.x, esBedLevelOffset + 0.001))
     * smoothstep(0.02, 0.10, esWaterColumn)
     * smoothstep(0.06, 0.18, esBedLevel - esWp.y);
   float esBedActivity = clamp(uWindWave * 0.3 + length(esFlowAt(esWp.xz)) * 0.2, 0.15, 1.0);
@@ -290,10 +282,16 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
     const prevShadow = renderer.shadowMap.autoUpdate;
     try {
       // ---- pass 0: advance the interactive ripple patch (2 tiny passes) ----
-    ripple?.step(renderer, camPos.x, camPos.z, delta);
+    const rippleAltitude = Math.abs(trueY - camSample.surfaceHeight);
+    const rippleVisibility = 1 - THREE.MathUtils.smoothstep(rippleAltitude, 100, 160);
+    if (rippleVisibility > 0) ripple?.step(renderer, camPos.x, camPos.z, delta);
+    else ripple?.suspend();
     if (ripple && h) {
       h.uniforms.uRipple.value = ripple.texture;
-      h.uniforms.uRippleInfo.value.set(ripple.center.x, ripple.center.y, 64, 1);
+      h.uniforms.uRippleInfo.value.set(
+        Number.isFinite(ripple.center.x) ? ripple.center.x : camPos.x,
+        Number.isFinite(ripple.center.y) ? ripple.center.y : camPos.z,
+        ripple.patchM, rippleVisibility);
     }
 
       // ---- pass 1: opaques (+ underside when submerged) → RT, linear HDR ----
@@ -390,6 +388,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       rtSamples: tier.samples,
       frames: frames.current,
       contextLost: contextLost.current,
+      effects: h?.effects.diagnostics,
     });
   }, 1);
 

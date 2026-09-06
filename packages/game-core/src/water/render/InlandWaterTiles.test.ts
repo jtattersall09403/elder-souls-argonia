@@ -29,7 +29,42 @@ const polygonArea = (points: readonly { x: number; z: number }[]) => Math.abs(po
   return sum + p.x * next.z - next.x * p.z;
 }, 0)) / 2;
 
+function settle(tiles: InlandWaterTiles, x: number, z: number, material: MeshBasicMaterial) {
+  for (let frame = 0; frame < 4096; frame++) {
+    tiles.update(x, z, material);
+    expect(tiles.diagnostics.builtLastUpdate).toBeLessThanOrEqual(2);
+    if (!tiles.diagnostics.pendingTiles) break;
+  }
+  expect(tiles.diagnostics.pendingTiles).toBe(0);
+  expect(tiles.diagnostics.budgetFailures).toBe(0);
+}
+
 describe("inland geometry isolation and draw budget", () => {
+  it("never renders native-owned R128 proxies, while preserving adjacent R255 standing water", () => {
+    const size = 66, grid = { size, metresPerPixel: 1, gridOriginM: 0, file: "" };
+    const meta: WaterMeta = { bodies: [{ index: 1, id: "water.test.connected" }],
+      surface: { ...grid, minM: 0, maxM: 10, buryM: 3, nativeChannelCoverage: true },
+      flow: { ...grid, flowMax: 3, shoreMaxM: 160 }, klass: { ...grid, classes: ["none", "coast", "estuary", "river", "lake"] } };
+    const support = new Uint8ClampedArray(size * size * 4), klass = new Uint8ClampedArray(size * size * 4);
+    for (let z = 0; z < size; z++) for (let x = 0; x < size; x++) {
+      const i = (z * size + x) * 4;
+      support[i] = x < 32 ? 255 : 128; support[i + 2] = 1; klass[i] = 4;
+    }
+    const data = new WaterData(meta, new Float32Array(size * size).fill(5), new Float32Array(size * size).fill(2),
+      new Uint8ClampedArray(size * size * 4), klass, undefined, undefined, support);
+    expect(data.boundaryAt(40, 20, undefined, false).supported).toBe(false);
+    const tiles = new InlandWaterTiles(data), material = new MeshBasicMaterial();
+    try {
+      settle(tiles, 32, 32, material);
+      expect(tiles.diagnostics.residentTriangles).toBeGreaterThan(0);
+      for (const mesh of tiles.meshes) {
+        const positions = mesh.geometry.getAttribute("position");
+        for (let i = 0; i < positions.count; i++) expect(positions.getX(i)).toBeLessThan(32);
+      }
+      expect(data.ribbons.cacheStats.builds).toBe(0);
+    } finally { tiles.dispose(); material.dispose(); }
+  });
+
   it("never bridges neighbouring body IDs and batches all populated tiles into one mesh", () => {
     const size = 130;
     const grid = { size, metresPerPixel: 1, gridOriginM: 0, file: "" };
@@ -50,7 +85,7 @@ describe("inland geometry isolation and draw budget", () => {
     const material = new MeshBasicMaterial();
     try {
       // Nine tiles need three bounded upload frames.
-      for (let frame = 0; frame < 4; frame++) tiles.update(64, 64, material);
+      settle(tiles, 64, 64, material);
       expect(tiles.group.children).toHaveLength(1);
       expect(tiles.meshes).toHaveLength(1);
       const geometry = tiles.meshes[0].geometry;
@@ -117,7 +152,7 @@ describe("inland geometry isolation and draw budget", () => {
   it("covers distant inland water, stitches native LOD edges, and retains pending replacements", () => {
     const tiles = new InlandWaterTiles(poolData(641)), material = new MeshBasicMaterial();
     try {
-      for (let frame = 0; frame < 31; frame++) tiles.update(0, 0, material);
+      settle(tiles, 0, 0, material);
       const occupied = () => {
         const byTile = new Map<string, Set<string>>();
         for (const mesh of tiles.meshes) {
@@ -156,7 +191,7 @@ describe("inland geometry isolation and draw budget", () => {
     for (const grid of [data.meta.surface, data.meta.flow, data.meta.klass]) grid.metresPerPixel = 3.65568;
     const tiles = new InlandWaterTiles(data), material = new MeshBasicMaterial();
     try {
-      for (let frame = 0; frame < 256; frame++) tiles.update(0, 0, material);
+      settle(tiles, 0, 0, material);
       expect(tiles.meshes).toHaveLength(64);
       expect(tiles.group.children).toHaveLength(64);
       const heightQuery = vi.spyOn(data, "surfaceBase");

@@ -1,6 +1,7 @@
 import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Physics, useRapier } from "@react-three/rapier";
+import { ShapeType } from '@dimforge/rapier3d-compat';
 import * as THREE from "three";
 import type { EcctrlHandle } from "ecctrl";
 import type { Vec3 } from "@elder-souls/contracts";
@@ -12,6 +13,8 @@ import { inputToIntent } from "@elder-souls/game-core/combat/intent";
 import { actorRegistry } from "@elder-souls/game-core/combat/actorRegistry";
 import {
   CHARACTER_BODY_CENTER_HEIGHT,
+  CHARACTER_CAPSULE_RADIUS,
+  CHARACTER_CAPSULE_HALF_HEIGHT,
   CHARACTER_MODEL_OFFSET,
 } from "@elder-souls/game-core/physics/characterPhysics";
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
@@ -145,6 +148,10 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   // Phase 8b: the authoritative water query rides the shared assets; the
   // environment query and the renderer sample the same data (module 60 §38).
   const waterWorldRef = useRef<WaterWorld | null>(null);
+  const waterSurfaceFocus = useCallback((): Vec3 | null => {
+    const position = player.current?.body?.translation();
+    return position ? { x: position.x, y: position.y / verticalScaleRef.current, z: position.z } : null;
+  }, []);
   useEffect(() => {
     let alive = true;
     sharedWaterAssets(base)
@@ -168,12 +175,25 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
   }, [world]);
   /** Buoyancy demo (💧 crates button): spawn origin for three test crates. */
   const [crateOrigin, setCrateOrigin] = useState<Vec3 | null>(null);
-  const waterContact = useRef(new WaterContactEmitter("actor.player"));
+  const waterContact = useRef(new WaterContactEmitter("actor.player", CHARACTER_CAPSULE_RADIUS));
+  useEffect(() => () => waterContact.current.dispose(), []);
   const onWaterContact = useCallback((x: number, y: number, z: number, vy: number, dt: number) => {
     const ww = waterWorldRef.current;
-    if (ww) waterContact.current.update(ww, worldClock.epochMinutes(), {
-      x, y: (y - CHARACTER_BODY_CENTER_HEIGHT) / verticalScaleRef.current, z,
-    }, vy / verticalScaleRef.current, dt);
+    if (!ww) return;
+    const scale = verticalScaleRef.current;
+    let radius = CHARACTER_CAPSULE_RADIUS, halfHeight = CHARACTER_CAPSULE_HALF_HEIGHT;
+    let bottom = y - halfHeight - radius;
+    const body = player.current?.body;
+    if (body) for (let i = 0; i < body.numColliders(); i++) {
+      const collider = body.collider(i);
+      if (collider.shape.type !== ShapeType.Capsule) continue;
+      radius = collider.radius(); halfHeight = collider.halfHeight();
+      bottom = collider.translation().y - radius - halfHeight;
+      break;
+    }
+    const volume = (Math.PI * radius ** 2 * 2 * halfHeight + 4 / 3 * Math.PI * radius ** 3) / scale;
+    waterContact.current.update(ww, worldClock.epochMinutes(), { x, y: bottom / scale, z },
+      vy / scale, dt, undefined, 2 * (halfHeight + radius) / scale, volume);
   }, []);
   // Physics stays paused until the collider ring around the spawn is mounted;
   // otherwise the capsule falls through where the terrain hasn't landed yet.
@@ -328,6 +348,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
             base={import.meta.env.BASE_URL}
             verticalScale={verticalScale}
             farExtentM={3000}
+            surfaceFocus={waterSurfaceFocus}
           />
           {showMarkers && <CityMarkers groundAt={markerGroundAt} />}
           {/* TEMPORARY until Round B builds the real thing. */}

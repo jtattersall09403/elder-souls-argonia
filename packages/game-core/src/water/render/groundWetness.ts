@@ -2,6 +2,11 @@ import * as THREE from "three";
 import { SHORE_SWELL, SWASH } from "../waves";
 import type { WaterMeta } from "../waterData";
 import { WATER_CAUSTICS_GLSL } from "./caustics";
+import { CONNECTED_STAGE_GLSL } from "./connectedStage";
+import { LOCAL_WATER_EDGE_M, LOCAL_WATER_SURFACE_GLSL } from "../localPatchPresentation";
+import { LOCAL_WATER_CAUSTICS_GLSL } from "./localWaterCaustics";
+import { boundedPhysicalLighting } from "./boundedPhysicalLighting";
+import type { LocalWaterSurfaceState } from "./types";
 
 /** The previous raster bundle remains supported for reversible studio comparison. */
 export interface GroundWetnessAssets {
@@ -11,16 +16,25 @@ export interface GroundWetnessAssets {
   klassTex: THREE.Texture;
   supportTex?: THREE.Texture;
   characterTex?: THREE.Texture;
+  accessTex?: THREE.Texture;
 }
 
 /** Each scene owns its wetness state; the renderer injects current tide/season/weather. */
 export function createGroundWetnessUniforms() {
   return {
+    uLocalWaterField: { value: null as THREE.Texture | null },
+    uLocalWaterInfo: { value: new THREE.Vector4(0, 0, 1, 1) },
+    uLocalWaterEdge: { value: LOCAL_WATER_EDGE_M },
+    uLocalWaterActive: { value: 0 },
+    uLocalWaterBody: { value: 0 },
     uWetSurf: { value: null as THREE.Texture | null },
     uWetShore: { value: null as THREE.Texture | null },
     uWetKlass: { value: null as THREE.Texture | null },
     uWetSupport: { value: null as THREE.Texture | null },
     uWetCharacter: { value: null as THREE.Texture | null },
+    uWetAccess: { value: null as THREE.Texture | null },
+    uWetAccessParams: { value: new THREE.Vector3(0, -2, 4) },
+    uWetNativeCoverage: { value: 0 },
     /** Surface minimum, range, texture size and metres per sample. */
     uWetParams: { value: new THREE.Vector4(0, 1, 0, 1) },
     uWetOrigin: { value: 0 },
@@ -40,6 +54,15 @@ export function createGroundWetnessUniforms() {
 
 export type GroundWetnessUniforms = ReturnType<typeof createGroundWetnessUniforms>;
 
+export function updateGroundLocalWater(uniforms: GroundWetnessUniforms, state: LocalWaterSurfaceState | null): void {
+  uniforms.uLocalWaterActive.value = state?.active ? 1 : 0;
+  uniforms.uLocalWaterField.value = state?.field ?? null;
+  if (!state) return;
+  uniforms.uLocalWaterInfo.value.set(state.originX, state.originZ, state.cellSizeM, state.size);
+  uniforms.uLocalWaterEdge.value = state.edgeBlendM;
+  uniforms.uLocalWaterBody.value = state.bodyIndex;
+}
+
 export function primeGroundWetnessUniforms(uniforms: GroundWetnessUniforms, assets: GroundWetnessAssets): void {
   const { surface, klass } = assets.meta;
   uniforms.uWetSurf.value = assets.surfaceTex;
@@ -47,6 +70,10 @@ export function primeGroundWetnessUniforms(uniforms: GroundWetnessUniforms, asse
   uniforms.uWetKlass.value = assets.klassTex;
   uniforms.uWetSupport.value = assets.supportTex ?? null;
   uniforms.uWetCharacter.value = assets.characterTex ?? null;
+  uniforms.uWetAccess.value = assets.accessTex ?? null;
+  uniforms.uWetAccessParams.value.set(assets.accessTex ? 1 : 0,
+    surface.accessMinOffsetM ?? -2, surface.accessSpanM ?? 4);
+  uniforms.uWetNativeCoverage.value = surface.nativeChannelCoverage ? 1 : 0;
   uniforms.uWetHasSupport.value = assets.supportTex ? 1 : 0;
   uniforms.uWetHasCharacter.value = assets.characterTex ? 1 : 0;
   uniforms.uWetParams.value.set(surface.minM, surface.maxM - surface.minM, surface.size, surface.metresPerPixel);
@@ -56,12 +83,13 @@ export function primeGroundWetnessUniforms(uniforms: GroundWetnessUniforms, asse
   uniforms.uWetShoreMax.value = surface.shoreMaxM ?? 160;
 }
 
-const DECLARATIONS = /* glsl */`
+export const WATER_RECEIVER_DECLARATIONS = /* glsl */`
 uniform sampler2D uWetSurf;
 uniform sampler2D uWetShore;
 uniform sampler2D uWetKlass;
 uniform sampler2D uWetSupport;
-uniform sampler2D uWetCharacter;
+uniform vec3 uWetAccessParams;
+uniform float uWetNativeCoverage;
 uniform vec4 uWetParams;
 uniform float uWetOrigin;
 uniform float uWetDepthMin;
@@ -75,6 +103,15 @@ uniform float uWetWind;
 uniform float uWetTime;
 uniform vec3 uWetSun;
 ${WATER_CAUSTICS_GLSL}
+${CONNECTED_STAGE_GLSL}
+${LOCAL_WATER_SURFACE_GLSL}
+${LOCAL_WATER_CAUSTICS_GLSL}
+
+vec3 esWetStage(vec2 p, float salinity, float season) {
+  if (uWetAccessParams.x < 0.5) return vec3(-2.0, smoothstep(0.02, 0.15, salinity), season);
+  return esConnectedStage(p, uWetSurf, uWetSupport, uWetShore,
+    uWetParams.z, uWetParams.w, uWetOrigin, uWetAccessParams.y, uWetAccessParams.z);
+}
 
 vec2 esWetSurfaceUv(vec2 worldXZ) {
   return ((worldXZ - uWetOrigin) / uWetParams.w + 0.5) / uWetParams.z;
@@ -89,6 +126,11 @@ vec2 esWetLevelDepth(ivec2 texel) {
   return vec2(uWetParams.x + level * uWetParams.y, sampleValue.b * 25.5 + uWetDepthMin);
 }
 vec2 esWetSampleSurface(vec2 worldXZ) {
+  if (uWetNativeCoverage > 0.5) {
+    vec4 value = esOwnedRaster(worldXZ, uWetSurf, uWetSupport, uWetParams.z, uWetParams.w, uWetOrigin);
+    float level = dot(value.rg, vec2(65280.0, 255.0)) / 65535.0;
+    return vec2(uWetParams.x + level * uWetParams.y, value.b * 25.5 + uWetDepthMin);
+  }
   vec2 pixel = clamp((worldXZ - uWetOrigin) / uWetParams.w, vec2(0.0), vec2(uWetParams.z - 1.0));
   ivec2 corner = ivec2(floor(pixel));
   vec2 f = fract(pixel);
@@ -108,6 +150,42 @@ float esWetNoise(vec2 p) {
 }
 `;
 
+/** Shared direct-light receiver path for terrain and opt-in physical props.
+ * Evaluate derivative-bearing optics uniformly, then apply ownership gates;
+ * branching around them at a shore makes mixed pixel quads undefined.
+ */
+export function waterReceiverLight(position: string, normal: string, verticalScale: string): string {
+  return /* glsl */ `
+{
+  vec3 receiver = ${position};
+  receiver.y /= max(${verticalScale}, 0.001);
+  vec3 receiverNormal = normalize(${normal});
+  vec2 suv = esWetSurfaceUv(receiver.xz);
+  vec3 shore = texture2D(uWetShore, suv).rgb;
+  vec3 klass = texture2D(uWetKlass, esWetClassUv(receiver.xz)).rgb;
+  vec2 column = esWetSampleSurface(receiver.xz);
+  vec3 stage = esWetStage(receiver.xz, klass.b, shore.g);
+  float offset = stage.y * uWetLevels.x + stage.z * uWetLevels.y;
+  float level = column.x + offset;
+  float supported = uWetHasSupport * step(0.5, texture2D(uWetSupport, suv).r);
+  supported *= float(all(greaterThanEqual(receiver.xz, vec2(0.0)))
+    && all(lessThan(receiver.xz, vec2(uWetParams.z * uWetParams.w))));
+  if (uWetAccessParams.x > 0.5 && stage.x > offset + 0.001) supported = 0.0;
+  float focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
+    uWetSun, supported, uWetTime, clamp(uWetWind * 0.3, 0.15, 1.0));
+  outgoingLight += reflectedLight.directDiffuse * focus * 0.8;
+  vec2 localOwner = texture2D(uWetSupport, suv).gb;
+  float localBody = dot(localOwner, vec2(65280.0, 255.0));
+  float localFocus = esLocalWaterCaustic(receiver, receiverNormal, level, uWetSun);
+  // The physical patch must not make opaque tannin/turbidity transparent.
+  float localVisibility = esCausticVisibility(level - receiver.y, klass.g, shore.b,
+    uWetSun.y, 1.0, supported, 1.0);
+  outgoingLight += reflectedLight.directDiffuse * localFocus * localVisibility
+    * (1.0 - step(0.5, abs(localBody - uLocalWaterBody)));
+}
+#include <opaque_fragment>`;
+}
+
 const SURFACE_WETNESS = /* glsl */`
 float esWetTotal = 0.0;
 if (uWetParams.z > 0.5) {
@@ -126,7 +204,8 @@ if (uWetParams.z > 0.5) {
       ivec2 esWetKpixel = clamp(ivec2(floor(esWetKuv * uWetKlassParams.x)), ivec2(0), ivec2(uWetKlassParams.x - 1.0));
       float esWetClass = texelFetch(uWetKlass, esWetKpixel, 0).r * 255.0;
       if (uWetHasSupport > 0.5 && esWetClass < 0.5) esWetClass = 4.0;
-      float esWetOffset = smoothstep(0.02, 0.15, esWetK.b) * uWetLevels.x + esWetSS.g * uWetLevels.y;
+      vec3 esWetStageValue = esWetStage(esWetXZ, esWetK.b, esWetSS.g);
+      float esWetOffset = esWetStageValue.y * uWetLevels.x + esWetStageValue.z * uWetLevels.y;
       float esWetW = esWetSurface.x + esWetOffset;
       float esWetDepth = esWetSurface.y + esWetOffset;
       float esWetH = vEsWorldPos.y / uVerticalScale;
@@ -139,7 +218,7 @@ if (uWetParams.z > 0.5) {
         float esWetGradientLength = length(esWetGradient);
         float esWetSeaward = esWetGradientLength > 0.05 * esWetStep
           ? esWetShoreAt(esWetXZ + esWetGradient / esWetGradientLength * 30.0) : esWetShore;
-        float esWetShelter = uWetHasCharacter > 0.5 ? texture2D(uWetCharacter, esWetKuv).b : 1.0;
+        float esWetShelter = uWetHasCharacter > 0.5 ? esWetK.a : 1.0;
         esWetFetch = clamp(max(esWetShore, esWetSeaward) / ${SHORE_SWELL.fetchM.toFixed(1)}, 0.0, 1.0)
           * (1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0)) * esWetShelter;
       }
@@ -149,6 +228,8 @@ if (uWetParams.z > 0.5) {
       float esAbove = esWetH - esWetW + (esWetN - 0.5) * esWetLift * 0.9;
       float esWet = (1.0 - smoothstep(esWetLift * 0.55, esWetLift * 1.65, esAbove))
         * (1.0 - smoothstep(14.0, 22.0, esWetShore)) * (0.8 + 0.4 * esWetN);
+      if (uWetAccessParams.x > 0.5) esWet *= 1.0 - smoothstep(esWetLift, esWetLift * 1.65,
+        esWetStageValue.x - esWetOffset);
       // Signed depth distinguishes genuinely reachable dry shore from far
       // dry terrain inside a supported seasonal basin. Allow quantisation
       // headroom (depth is encoded in 10 cm steps).
@@ -181,29 +262,12 @@ export function applyGroundWetness(material: THREE.Material, uniforms: GroundWet
   const previous = material.onBeforeCompile;
   material.onBeforeCompile = (shader, renderer) => {
     previous?.call(material, shader, renderer);
+    shader.fragmentShader = boundedPhysicalLighting(shader.fragmentShader, renderer.capabilities?.maxTextures ?? 16);
     Object.assign(shader.uniforms, uniforms);
     shader.fragmentShader = shader.fragmentShader
-      .replace("#include <common>", `#include <common>\n${DECLARATIONS}`)
+      .replace("#include <common>", `#include <common>\n${WATER_RECEIVER_DECLARATIONS}`)
       .replace("#include <emissivemap_fragment>", SURFACE_WETNESS)
-      .replace("#include <opaque_fragment>", /* glsl */ `
-// Caustics focus direct illumination only, AFTER the opaque receiver's
-// own CSM shadows. Captured once for both refraction and underwater views.
-if (uWetHasSupport > 0.5 && uWetSun.y > 0.0
-  && all(greaterThanEqual(vEsWorldPos.xz, vec2(0.0)))
-  && all(lessThan(vEsWorldPos.xz, vec2(uWetParams.z * uWetParams.w)))) {
-  vec3 receiver = vEsWorldPos;
-  receiver.y /= max(uVerticalScale, 0.001);
-  vec2 suv = esWetSurfaceUv(receiver.xz);
-  vec3 shore = texture2D(uWetShore, suv).rgb;
-  vec3 klass = texture2D(uWetKlass, esWetClassUv(receiver.xz)).rgb;
-  vec2 column = esWetSampleSurface(receiver.xz);
-  float level = column.x + smoothstep(0.02, 0.15, klass.b) * uWetLevels.x + shore.g * uWetLevels.y;
-  float supported = texture2D(uWetSupport, suv).r;
-  float focus = esWaterCaustics(receiver, normalize(esNrmW), level, klass.g, shore.b,
-    uWetSun, supported, uWetTime, clamp(uWetWind * 0.3, 0.15, 1.0));
-  outgoingLight += reflectedLight.directDiffuse * focus * 0.8;
-}
-#include <opaque_fragment>`);
+      .replace("#include <opaque_fragment>", waterReceiverLight('vEsWorldPos', 'esNrmW', 'uVerticalScale'));
   };
   const previousKey = material.customProgramCacheKey;
   material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v2`;

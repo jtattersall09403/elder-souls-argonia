@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
-import { HeightFieldFlags } from "@dimforge/rapier3d-compat";
+import { HeightfieldCollider, TrimeshCollider, RigidBody } from "@react-three/rapier";
+import { HeightFieldFlags, TriMeshFlags } from "@dimforge/rapier3d-compat";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
+import { terrainColliderData } from "@elder-souls/game-core/terrain/colliderData";
 
 /**
- * Rapier heightfield colliders for the 3×3 chunks around the player, built
+ * Rapier terrain colliders for the 3×3 chunks around the player, built
  * from the same LOD-1 grids the near render meshes use (chunks-manifest
  * collision contract: true-metre heights, ×5 as the collider's y scale,
  * 257-sample overlap edges so neighbours stitch without seams).
+ * Audited diagonal-flip chunks alone use the identical native triangle
+ * mesh; all other chunks retain efficient heightfields.
  *
  * Rapier heightfields are centred matrices in column-major order with row 0
  * at −z (north) and column 0 at −x (west) — verified empirically against
@@ -17,29 +20,14 @@ import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 
 const RING = 1; // 3×3
 
-function colliderFor(grid: ChunkGrid, verticalScale: number) {
-  const { heights, nx, ny, metresPerSample } = grid;
-  const data = new Float32Array(nx * ny);
-  // Our row-major [z][x] grid → rapier's column-major matrix: data[x*ny + z].
-  for (let x = 0; x < nx; x++) {
-    for (let z = 0; z < ny; z++) data[x * ny + z] = heights[z * nx + x];
-  }
-  const extentX = (nx - 1) * metresPerSample;
-  const extentZ = (ny - 1) * metresPerSample;
-  return {
-    // FIX_INTERNAL_EDGES: without it the capsule catches phantom bumps on the
-    // heightfield's internal triangle edges — felt as stumbles while running.
-    args: [
-      ny - 1, nx - 1, data,
-      { x: extentX, y: verticalScale, z: extentZ },
-      HeightFieldFlags.FIX_INTERNAL_EDGES,
-    ] as const,
-    position: [
-      grid.meta.originM[0] + extentX / 2,
-      0,
-      grid.meta.originM[1] + extentZ / 2,
-    ] as [number, number, number],
-  };
+function TerrainChunkCollider({ grid, scale }: { grid: ChunkGrid; scale: number }) {
+  const data = useMemo(() => terrainColliderData(grid, scale), [grid, scale]);
+  // react-three-rapier forwards the entire args array to ColliderDesc; its
+  // tuple typings omit Rapier's optional flags, so retain those at runtime.
+  const collider = useMemo(() => data.kind === 'trimesh'
+    ? <TrimeshCollider args={[data.vertices, data.indices, TriMeshFlags.FIX_INTERNAL_EDGES] as unknown as [Float32Array, Uint32Array]} />
+    : <HeightfieldCollider args={([data.rows, data.columns, data.data, data.scale, HeightFieldFlags.FIX_INTERNAL_EDGES]) as unknown as [number, number, number[], { x: number; y: number; z: number }]} />, [data]);
+  return <RigidBody type="fixed" colliders={false} position={data.position}>{collider}</RigidBody>;
 }
 
 export function ChunkColliders({ store, manifest, focusRef, verticalScale, onReady }: {
@@ -95,16 +83,11 @@ export function ChunkColliders({ store, manifest, focusRef, verticalScale, onRea
     <>
       {grids.map((grid) => {
         const scale = verticalScale ?? manifest.verticalScaleAtGeometry;
-        const { args, position } = colliderFor(grid, scale);
         return (
-          <RigidBody
+          <TerrainChunkCollider
             key={`${grid.meta.cx},${grid.meta.cy},${scale}`}
-            type="fixed"
-            colliders={false}
-            position={position}
-          >
-            <HeightfieldCollider args={args as unknown as [number, number, number[], { x: number; y: number; z: number }]} />
-          </RigidBody>
+            grid={grid} scale={scale}
+          />
         );
       })}
     </>

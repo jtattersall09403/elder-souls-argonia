@@ -8,7 +8,9 @@ import { worldClock } from "../sky/timeState";
 import { waterTimeS, advanceWaterClock } from "./waterClock";
 import { lastWeatherSample } from "../weather/weatherState";
 import { wetnessUniforms } from "./groundWetness";
+import { updateGroundLocalWater } from "@elder-souls/game-core/water/render/groundWetness";
 import type { WaterRuntime } from "@elder-souls/game-core/water/render/types";
+import type { Vec3 } from "@elder-souls/contracts";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
 import { WaterPipeline } from "./WaterPipeline";
 import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "./WaterSurfaceMesh";
@@ -36,17 +38,19 @@ export function StudioWater(props: Parameters<typeof CurrentStudioWater>[0]) {
   return LEGACY_WATER ? <LegacyStudioWater {...props} /> : <CurrentStudioWater {...props} />;
 }
 
-function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies }: {
+function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus }: {
   base: string;
   verticalScale: number;
   /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */
   farExtentM?: number;
   /** Live churn sources (e.g. the wading player), read every frame. */
   contactBodies?: () => ContactBody[];
+  /** Physical actor centre in true metres; fly mode falls back to camera. */
+  surfaceFocus?: () => Vec3 | null;
 }) {
   const { csm } = useContext(SkyContext);
   const runtime = useMemo<WaterRuntime>(() => ({
-    csm, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
+    csm, surfaceFocus, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
     advanceClock: dt => advanceWaterClock(dt, worldClock.rate),
     rainIntensity: () => lastWeatherSample()?.rainIntensity ?? 0,
     windVelocity: () => {
@@ -59,6 +63,7 @@ function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies }: 
     ambient: sharedAerialUniforms.uHazeAmbient,
     sunLight: sharedAerialUniforms.uHazeSunLight,
     causticsInOpaque: true,
+    onLocalSurface: state => updateGroundLocalWater(wetnessUniforms, state),
     onLevels: (tide, season, wind) => {
       wetnessUniforms.uWetLevels.value.set(tide, season);
       wetnessUniforms.uWetWind.value = wind;
@@ -66,7 +71,7 @@ function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies }: 
       wetnessUniforms.uWetSun.value.copy(sharedAerialUniforms.uSunDirW.value);
     },
     onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
-  }), [csm]);
+  }), [csm, surfaceFocus]);
   const [assets, setAssets] = useState<WaterAssets | null>(null);
   const [tier] = useState<WaterTier>(() => pickWaterTier());
   const handleRef = useRef<WaterSurfaceHandle | null>(null);

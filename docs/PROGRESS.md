@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water review candidate implemented 2026-09-06 ([0045](decisions/0045-reversible-water-overhaul.md)): terrain-constrained channels/pools, semantic optics, caustics, interactions/FX and reusable buoyancy; original tide/season ranges preserved. 104 water/terrain tests + 39 Python tests pass; owner visual gate remains open in [water-quality.md](research/rendering/water-quality.md). Other polish stays in [polish-backlog.md](polish-backlog.md). |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion beyond candidate1af32a3: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Original tide/season amplitudes retained. Other polish stays in [polish-backlog.md](polish-backlog.md). |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -71,16 +71,26 @@ combat changes remain separately owned and must not be overwritten.
 The first water overhaul (`1af32a3`, release head `6576849`) is deployed:
 Actions `34030145090` passed tests/typecheck/build and Pages at 11:26 UTC;
 live v2 metadata SHA-256 matches the committed file. The completion pass is
-still uncommitted/in progress and is not in that deployment. Combat's working
+still in progress and is not in that deployment. Combat's working
 asset changes remain separately owned; never bypass their verification.
 Fly-mode loading follow-up: isolate terrain, trees and groundcover loading;
 retain macro ground while terrain materials load. Deployed high/low probes
 eventually compile terrain without errors; permanent disappearance is not yet
 reproduced. Water completion remains open, including all follow-up defects in
 [the acceptance checklist](research/rendering/water-completion-audit.md).
-Particle-colour hotfix: remove the display-space brightness cap before HDR
-exposure; use shared sky/direct illumination. Noon/moonlit-rig regression
-added. This isolated fix does not ship unfinished geometry or splash upgrades.
+Particle-colour hotfix55d2ebc deployed (Actions34032475192 passed): remove
+the display-space brightness cap before HDR exposure; use shared sky/direct
+illumination. Noon/moonlit-rig regression added. This isolated fix does not
+ship unfinished geometry or splash upgrades. Completion checks found invalid
+bank caps propagating minimum-film depths, waterfall-to-pool triangle fans,
+and native terrain creases missing from water clipping. Semantic-depth solve
+and exact native-ground sampling are active; old temporary compiler bundles
+are not release candidates. Local displacement/caustics and16-sampler GPU
+compatibility are tested locally; final geometry, performance and visual
+acceptance remain open. Root tests/types passed again14:23 (623 game-core
+tests); airborne probes passed again14:25. Browser checks confirm16-fragment-sampler
+compatibility, bounded native-atlas updates and nonblack noon splash pixels.
+Shared river-section joins and fly-view ribbon residency remain active fixes.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

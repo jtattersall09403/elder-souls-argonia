@@ -1,7 +1,11 @@
 import * as THREE from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import { WaterWorld, type WaterWorldOptions } from "../waterWorld";
+import { SpectralOcean } from "../spectralOcean";
+import { PackedCrossSections, fetchPackedCrossSections, validatePackedCrossSectionMeta } from '../packedCrossSections';
+import { fetchNativeWaterGround, validateNativeWaterGroundMeta } from '../nativeWaterGroundLoader';
 import type { WaterAssets } from "./types";
+import { packWaterAuxiliaries } from "./packWaterAuxiliaries";
 
 /** Caller-owned load; apps decide caching and lifetime. Paths are relative
  * to baseUrl (a Pages deployment prefix or an absolute URL). */
@@ -25,6 +29,8 @@ function finite(value: unknown): value is number { return typeof value === "numb
 export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
   const meta = record(value, "metadata");
   if (meta.schemaVersion !== 2) throw new Error("Water loader requires schemaVersion 2");
+  if (meta.crossSections !== undefined) validatePackedCrossSectionMeta(meta.crossSections);
+  if (meta.nativeGround !== undefined) validateNativeWaterGroundMeta(meta.nativeGround);
   for (const name of ["surface", "flow", "klass"] as const) {
     const grid = record(meta[name], `${name} grid`);
     if (!finite(grid.size) || !Number.isSafeInteger(grid.size) || grid.size < 2
@@ -51,6 +57,20 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
     || flow.gridOriginM !== klass.gridOriginM) {
     throw new Error("Water flow and class grids must share size, scale and origin");
   }
+  if (surface.nativeChannelCoverage !== undefined && typeof surface.nativeChannelCoverage !== "boolean") {
+    throw new Error("Water nativeChannelCoverage must be a boolean");
+  }
+  if (surface.terrainTopologyFile !== undefined && (typeof surface.terrainTopologyFile !== 'string'
+    || !/^[a-zA-Z0-9_-]+\.json$/.test(surface.terrainTopologyFile))) {
+    throw new Error('Water terrain topology requires a local JSON filename');
+  }
+  if (surface.accessFile !== undefined && (typeof surface.accessFile !== "string" || !surface.accessFile.trim()
+    || !finite(surface.accessMinOffsetM) || !finite(surface.accessSpanM) || surface.accessSpanM <= 0)) {
+    throw new Error("Water access encoding requires a file, finite minimum and positive span");
+  }
+  if (surface.accessFile === undefined && (surface.accessMinOffsetM !== undefined || surface.accessSpanM !== undefined)) {
+    throw new Error("Water access encoding requires its raster file");
+  }
   if (!Array.isArray(klass.classes) || klass.classes.length === 0
     || !klass.classes.every((name) => typeof name === "string")) {
     throw new Error("Water class names are missing or invalid");
@@ -65,9 +85,24 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
       }
       for (const value of ribbon.points) {
         const point = record(value, "ribbon point");
+        if (point.fallingToNext !== undefined && typeof point.fallingToNext !== 'boolean') throw new Error('Water falling-sheet flag must be boolean');
+        if (point.crossSectionNormalX !== undefined || point.crossSectionNormalZ !== undefined) {
+          if (!finite(point.crossSectionNormalX) || !finite(point.crossSectionNormalZ)
+            || Math.abs(Math.hypot(point.crossSectionNormalX, point.crossSectionNormalZ) - 1) > 1e-5) {
+            throw new Error('Water shared cross-section normal requires paired finite unit components');
+          }
+        }
+        if (meta.crossSections === undefined && (point.crossSectionStart !== undefined || point.crossSectionCount !== undefined)) {
+          throw new Error('Water packed section ranges require their sidecar metadata');
+        }
         if (![point.x, point.y, point.z, point.groundM, point.halfWidthM].every(finite)
           || (point.halfWidthM as number) <= 0) {
           throw new Error(`Water ribbon ${ribbon.id} requires finite native ground and coordinates`);
+        }
+        if (point.tideResponse !== undefined || point.seasonResponse !== undefined) {
+          if (![point.tideResponse, point.seasonResponse].every(value => finite(value) && value >= 0 && value <= 1)) {
+            throw new Error(`Water ribbon ${ribbon.id} requires paired hydraulic responses in [0, 1]`);
+          }
         }
       }
     }
@@ -122,7 +157,7 @@ function rasterTexture(image: ImageData, filter: THREE.MagnificationTextureFilte
 /** Dispose after all scene consumers release this caller-owned bundle. */
 export function disposeWaterAssets(assets: WaterAssets): void {
   for (const texture of [assets.surfaceTex, assets.flowTex, assets.klassTex,
-    assets.shoreTex, assets.supportTex, assets.characterTex]) texture.dispose();
+    assets.shoreTex, assets.supportTex, assets.characterTex, assets.accessTex]) texture?.dispose();
 }
 
 export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<WaterAssets> {
@@ -148,15 +183,19 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       || !finite(seasonalAmplitudeM) || seasonalAmplitudeM < 0) {
       throw new Error("Water flood basin has invalid tidal or seasonal amplitude");
     }
-    const [surfaceImage, flowImage, classImage, shoreImage, supportImage, characterImage] = await Promise.all([
+    const [surfaceImage, flowImage, classImage, shoreImage, supportImage, characterImage, accessImage, packedSections, nativeGround] = await Promise.all([
       fetchRaster(`${waterBase}${meta.surface.file}`, meta.surface.size, controller.signal),
       fetchRaster(`${waterBase}${meta.flow.file}`, meta.flow.size, controller.signal),
       fetchRaster(`${waterBase}${meta.klass.file}`, meta.klass.size, controller.signal),
       fetchRaster(`${waterBase}${meta.surface.shoreFile}`, meta.surface.size, controller.signal),
       fetchRaster(`${waterBase}${meta.surface.supportFile}`, meta.surface.size, controller.signal),
       fetchRaster(`${waterBase}${meta.klass.characterFile}`, meta.klass.size, controller.signal),
+      meta.surface.accessFile ? fetchRaster(`${waterBase}${meta.surface.accessFile}`, meta.surface.size, controller.signal) : undefined,
+      meta.crossSections ? fetchPackedCrossSections(waterBase, meta.crossSections, controller.signal) : undefined,
+      meta.nativeGround ? fetchNativeWaterGround(waterBase, meta.nativeGround, controller.signal) : undefined,
     ]);
     controller.signal.throwIfAborted();
+    if (packedSections && meta.crossSections) new PackedCrossSections(meta.crossSections, packedSections, meta.ribbons ?? []);
     const count = meta.surface.size * meta.surface.size;
     const surface = new Float32Array(count), depth = new Float32Array(count);
     const shore = new Float32Array(count), season = new Float32Array(count), tannin = new Float32Array(count);
@@ -168,12 +207,21 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       shore[i] = (shoreImage.data[p] / 255) * meta.surface.shoreMaxM!;
       season[i] = shoreImage.data[p + 1] / 255;
       tannin[i] = shoreImage.data[p + 2] / 255;
+      if (meta.surface.nativeChannelCoverage) {
+        const code = supportImage.data[p];
+        if (code !== 0 && code !== 128 && code !== 255) throw new Error(`Water native ownership has invalid support code ${code}`);
+        if (code === 128 && !meta.ribbons?.length) throw new Error("Native channel ownership requires explicit ribbon geometry");
+      }
     }
     const data = new WaterData(meta, surface, depth, flowImage.data, classImage.data,
-      shore, season, supportImage.data, characterImage.data, tannin);
+      shore, season, supportImage.data, characterImage.data, tannin, accessImage?.data, nativeGround,
+      tidalAmplitudeM + seasonalAmplitudeM);
+    packWaterAuxiliaries(surfaceImage.data, shoreImage.data, supportImage.data,
+      classImage.data, characterImage.data, accessImage?.data);
     const world = new WaterWorld(data, {
       tidalAmplitudeM, seasonalAmplitudeM, groundHeight: options.groundHeight,
       seasonScalar: options.seasonScalar, waveTimeS: options.waveTimeS,
+      spectralOcean: new SpectralOcean(),
     });
     const texture = (image: ImageData, filter: THREE.MagnificationTextureFilter) => {
       const result = rasterTexture(image, filter);
@@ -188,6 +236,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       shoreTex: texture(shoreImage, THREE.LinearFilter),
       supportTex: texture(supportImage, THREE.NearestFilter),
       characterTex: texture(characterImage, THREE.NearestFilter),
+      accessTex: accessImage ? texture(accessImage, THREE.LinearFilter) : undefined,
     };
   } catch (error) {
     controller.abort(error);

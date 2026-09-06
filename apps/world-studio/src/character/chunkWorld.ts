@@ -4,6 +4,7 @@ import { dayPhaseAt, moonAt, MOONS, sunAt } from "@elder-souls/world-time";
 import { worldClock } from "../sky/timeState";
 import { lastWeatherSample } from "../weather/weatherState";
 import type { ChunkStore, ChunksManifest } from "./chunkStore";
+import { sampleChunkHeight } from "@elder-souls/game-core/terrain/heightfield";
 
 /**
  * `EnvironmentQuery` (contracts §61) over the loaded terrain chunks plus the
@@ -94,25 +95,12 @@ export class ChunkWorld implements EnvironmentQuery {
     ];
   }
 
-  /** Runtime-space terrain height via bilinear filtering of the LOD-1 grid. */
+  /** Exact visible/Rapier triangle height, in runtime vertical units. */
   groundHeight(x: number, z: number): number | null {
     const [cx, cy] = this.chunkCellAt(x, z);
     const grid = this.store.loaded(cx, cy, "1");
     if (!grid) return null;
-    const lx = (x - grid.meta.originM[0]) / grid.metresPerSample;
-    const lz = (z - grid.meta.originM[1]) / grid.metresPerSample;
-    const x0 = Math.max(0, Math.min(grid.nx - 2, Math.floor(lx)));
-    const z0 = Math.max(0, Math.min(grid.ny - 2, Math.floor(lz)));
-    const fx = Math.max(0, Math.min(1, lx - x0));
-    const fz = Math.max(0, Math.min(1, lz - z0));
-    const h = grid.heights;
-    const h00 = h[z0 * grid.nx + x0];
-    const h10 = h[z0 * grid.nx + x0 + 1];
-    const h01 = h[(z0 + 1) * grid.nx + x0];
-    const h11 = h[(z0 + 1) * grid.nx + x0 + 1];
-    const trueMetres = (h00 * (1 - fx) + h10 * fx) * (1 - fz)
-      + (h01 * (1 - fx) + h11 * fx) * fz;
-    return trueMetres * this.verticalScale;
+    return sampleChunkHeight(grid, x, z) * this.verticalScale;
   }
 
   groundMaterialAt(x: number, z: number): string | undefined {

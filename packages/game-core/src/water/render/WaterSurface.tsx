@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { getWindWaveScale } from "@elder-souls/game-core/water/index";
 
@@ -10,10 +10,15 @@ import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 
 import type { WaterAssets, WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
-import { waterParticleRadiance } from "./waterParticleLighting";
-import { buildChannelRibbonMeshData } from "../channelRibbons";
+import { WaterCascadeSources } from "./WaterCascadeSources";
 import { InlandWaterTiles } from "./InlandWaterTiles";
+import { WaterRibbonTiles } from "./WaterRibbonTiles";
+import { WaterGeometryCamera } from "./waterStreaming";
+import { SpectralOceanTextures } from "./SpectralOceanTextures";
 import { WaterFlowContacts } from "../flowContacts";
+import { HeroPoolSurface } from './HeroPoolSurface';
+import { oceanAxisCoords, oceanGridCentre } from './oceanGrid';
+import { NativeWaterAtlas } from './NativeWaterAtlas';
 import {
   WATER_LAYER,
   MAX_CONTACT_BODIES,
@@ -38,44 +43,19 @@ const GRIDS: Record<"low" | "high", GridSpec> = {
   low: { uniformCell: 2.0, uniformRadius: 100, n: 208, halfExtent: 30000 },
 };
 
-/** Symmetric axis mapping: uniform centre, exponential fringe. */
-function axisCoords(spec: GridSpec): Float32Array {
-  const { uniformCell, uniformRadius, n, halfExtent } = spec;
-  const half = n / 2;
-  const uniformSteps = Math.floor(uniformRadius / uniformCell);
-  const expSteps = half - uniformSteps;
-  // growth g: uniformCell * sum_{k=1..expSteps} g^k = halfExtent - uniformRadius
-  let lo = 1.0001;
-  let hi = 2.0;
-  const target = halfExtent - uniformSteps * uniformCell;
-  for (let it = 0; it < 60; it++) {
-    const g = (lo + hi) / 2;
-    const sum = (uniformCell * (Math.pow(g, expSteps) - 1) * g) / (g - 1);
-    if (sum > target) hi = g;
-    else lo = g;
-  }
-  const g = (lo + hi) / 2;
-  const coords = new Float32Array(n + 1);
-  for (let i = 0; i <= half; i++) {
-    let x: number;
-    if (i <= uniformSteps) x = i * uniformCell;
-    else x = uniformSteps * uniformCell + (uniformCell * (Math.pow(g, i - uniformSteps) - 1) * g) / (g - 1);
-    coords[half + i] = x;
-    coords[half - i] = -x;
-  }
-  return coords;
-}
-
 function buildWaterGeometry(spec: GridSpec): THREE.BufferGeometry {
-  const axis = axisCoords(spec);
+  const axis = oceanAxisCoords(spec);
   const n = spec.n + 1;
   const pos = new Float32Array(n * n * 3);
+  const cellSize = new Float32Array(n * n);
   for (let z = 0; z < n; z++) {
     for (let x = 0; x < n; x++) {
       const i = (z * n + x) * 3;
       pos[i] = axis[x];
       pos[i + 1] = 0;
       pos[i + 2] = axis[z];
+      cellSize[z * n + x] = Math.max(axis[Math.min(x + 1, n - 1)] - axis[x], axis[x] - axis[Math.max(0, x - 1)],
+        axis[Math.min(z + 1, n - 1)] - axis[z], axis[z] - axis[Math.max(0, z - 1)]);
     }
   }
   const idx = new Uint32Array(spec.n * spec.n * 6);
@@ -93,6 +73,7 @@ function buildWaterGeometry(spec: GridSpec): THREE.BufferGeometry {
   }
   const geo = new THREE.BufferGeometry();
   geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute("waterCellSize", new THREE.BufferAttribute(cellSize, 1));
   const overrides = new Float32Array(n * n * 4);
   for (let i = 3; i < overrides.length; i += 4) overrides[i] = -1;
   geo.setAttribute("waterOverride", new THREE.BufferAttribute(overrides, 4));
@@ -132,6 +113,9 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
 }) {
   const csm = runtime.csm;
   const uniforms = useMemo(() => createWaterUniforms(assets), [assets]);
+  const oceanTextures = useMemo(() => assets.world.spectralOcean ? new SpectralOceanTextures(assets.world.spectralOcean) : null, [assets]);
+  useEffect(() => () => oceanTextures?.dispose(), [oceanTextures]);
+  const geometryCamera = useMemo(() => new WaterGeometryCamera(), []);
   const materials = useMemo(
     () => ({
       above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }),
@@ -144,31 +128,21 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     [tier.name, farExtentM],
   );
   const meshRef = useRef<THREE.Mesh>(null);
-  const inland = useMemo(() => new InlandWaterTiles(assets.data, tier.name === "low"), [assets, tier]);
+  const inland = useMemo(() => new InlandWaterTiles(assets.data, tier.name === "low", { stage: assets }), [assets, tier]);
   const allMeshes = useMemo<THREE.Mesh[]>(() => [], [assets]);
+  const nativeAtlas = useMemo(() => new NativeWaterAtlas(assets.data.nativeGround), [assets]);
+  const renderer = useThree(state => state.gl);
+  useEffect(() => {
+    const restore = () => nativeAtlas.invalidate();
+    renderer.domElement.addEventListener('webglcontextrestored', restore);
+    return () => { renderer.domElement.removeEventListener('webglcontextrestored', restore); nativeAtlas.dispose(); };
+  }, [nativeAtlas, renderer]);
+  const hero = useMemo(() => new HeroPoolSurface(assets, nativeAtlas), [assets, nativeAtlas]);
+  const cascadeSources = useMemo(() => new WaterCascadeSources(assets.meta.cascades ?? []), [assets]);
+  useEffect(() => () => { hero.dispose(); runtime.onLocalSurface?.(null); }, [hero]);
   useEffect(() => () => inland.dispose(), [inland]);
-  const ribbonMesh = useMemo(() => {
-    const { positions, indices, groundHeights } = buildChannelRibbonMeshData(assets.meta.ribbons ?? []);
-    const overrides = new Float32Array(positions.length / 3 * 4);
-    for (let i = 0; i < positions.length; i += 9) {
-      const x = (positions[i] + positions[i + 3] + positions[i + 6]) / 3;
-      const z = (positions[i + 2] + positions[i + 5] + positions[i + 8]) / 3;
-      const sample = assets.data.ribbons.sample(x, z);
-      for (let j = 0; j < 3; j++) overrides.set([positions[i + j * 3 + 1], sample?.flowX ?? 0, sample?.flowZ ?? 0, 1], (i / 3 + j) * 4);
-    }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-    geometry.setAttribute("waterOverride", new THREE.BufferAttribute(overrides, 4));
-    geometry.setAttribute("waterGround", new THREE.BufferAttribute(groundHeights, 1));
-    geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-    geometry.computeVertexNormals();
-    const mesh = new THREE.Mesh(geometry, materials.above);
-    mesh.layers.set(WATER_LAYER);
-    mesh.frustumCulled = false;
-    mesh.receiveShadow = true;
-    return mesh;
-  }, [assets, materials]);
-  useEffect(() => () => ribbonMesh.geometry.dispose(), [ribbonMesh]);
+  const ribbons = useMemo(() => new WaterRibbonTiles(assets.data, tier.name === "low"), [assets, tier.name]);
+  useEffect(() => () => ribbons.dispose(), [ribbons]);
   const effects = useMemo(() => new WaterEffects({
     maxParticles: tier.name === "high" ? 768 : 256,
     onReentry: e => ripple?.addDrop(e.position.x, e.position.z, e.radius ?? 0.1, 0.006),
@@ -191,32 +165,43 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      allMeshes.splice(0, allMeshes.length, mesh, ribbonMesh);
+      allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes);
       onReadyRef.current?.({ uniforms, mesh, meshes: allMeshes, materials, effects });
     }
-  }, [materials, uniforms, effects, ribbonMesh]);
+  }, [materials, uniforms, effects, ribbons]);
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();
   }, [materials]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame(({ camera }, delta) => {
+  useFrame(({ camera, size, gl }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
-    inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale);
-    allMeshes.splice(0, allMeshes.length, mesh, ribbonMesh, ...inland.meshes);
-    const cell = GRIDS[tier.name].uniformCell;
+    const geometryView = geometryCamera.update(camera, size.height * gl.getPixelRatio());
+    inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale, geometryView);
+    ribbons.update(geometryView, mesh.material as THREE.Material, verticalScale);
+    allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes, ...inland.meshes);
+    const surfaceFocus = runtime.surfaceFocus?.();
     mesh.position.set(
-      Math.round(camera.position.x / cell) * cell,
+      oceanGridCentre(surfaceFocus?.x ?? camera.position.x),
       0,
-      Math.round(camera.position.z / cell) * cell,
+      oceanGridCentre(surfaceFocus?.z ?? camera.position.z),
     );
     const epoch = runtime.epochMinutes();
     // Waves/foam run on the always-live water clock (the world clock is
     // usually paused for reproducible URLs); tide/season stay on the epoch.
     runtime.advanceClock(delta);
     uniforms.uWaveTime.value = runtime.waveTimeS();
+    if (oceanTextures) {
+      oceanTextures.ocean.setWindVelocity(runtime.windVelocity());
+      oceanTextures.ocean.update(uniforms.uWaveTime.value);
+      oceanTextures.sync();
+      uniforms.uOceanPrevious.value = oceanTextures.previous;
+      uniforms.uOceanNext.value = oceanTextures.next;
+      uniforms.uOceanAlpha.value = oceanTextures.ocean.alpha;
+      uniforms.uOceanEnabled.value = 1;
+    }
     // Weather wind scales wave energy — same value the CPU water query uses
     // (game-core setWindWaveScale, written by WorldSky each frame).
     uniforms.uWindWave.value = getWindWaveScale();
@@ -228,8 +213,23 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     uniforms.uVerticalScale.value = verticalScale;
     // interaction events → spreading foam rings + real sim ripples
     const nowS = runtime.waveTimeS();
+    hero.update(surfaceFocus?.x ?? camera.position.x, surfaceFocus?.y ?? camera.position.y / verticalScale,
+      surfaceFocus?.z ?? camera.position.z, nowS, delta, epoch, mesh.material as THREE.Material, verticalScale);
+    uniforms.uLocalWaterField.value = hero.field;
+    uniforms.uLocalWaterInfo.value.set(hero.state.originX, hero.state.originZ, hero.state.cellSizeM, hero.state.size);
+    uniforms.uLocalWaterEdge.value = hero.state.edgeBlendM;
+    uniforms.uLocalWaterBody.value = hero.state.bodyIndex;
+    uniforms.uLocalWaterActive.value = hero.state.active ? 1 : 0;
+    const groundLayout = nativeAtlas.layout;
+    uniforms.uNativeGroundActive.value = groundLayout ? 1 : 0;
+    if (groundLayout) {
+      uniforms.uNativeGroundInfo.value.set(groundLayout.metresPerPixel, groundLayout.gridSize, groundLayout.tileCells, groundLayout.tileStride);
+      uniforms.uNativeGroundOffsets.value.set(groundLayout.axisOffset, groundLayout.tileIndexOffset, groundLayout.tileRecordSize);
+    }
+    runtime.onLocalSurface?.(hero.state);
     for (const e of assets.world.drainInteractions()) {
       effects.emit(e);
+      hero.emit(e);
       if (e.kind === "splash" || e.kind === "enter" || e.kind === "wake") {
         splashes.current.push({
           x: e.position.x,
@@ -246,6 +246,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
         );
       }
     }
+    hero.sync();
     // Rain stamps small impulses into the ripple patch (research §3: the sim
     // was built to take arbitrary impulses). Hashed positions, no RNG.
     const rain = runtime.rainIntensity();
@@ -303,10 +304,9 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     flowContacts.update(assets.world, epoch, { x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z }, delta,
       (id, event, rate, dt) => effects.emitContinuous(id, event, rate, dt));
     // Compiled physical descent sites drive bounded spray and plunge foam.
-    let emitters = 0;
-    for (const fall of assets.meta.cascades ?? []) {
-      if (Math.hypot(fall.plunge.x - camera.position.x, fall.plunge.z - camera.position.z) > 90) continue;
-      if (emitters++ >= 8) break;
+    for (const fall of cascadeSources.nearby({
+      x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
+    })) {
       const sample = assets.world.sample(fall.plunge, epoch);
       if (!sample.waterBodyId) continue;
       effects.emitContinuous(fall.id, {
@@ -314,10 +314,10 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
         position: { x: fall.plunge.x, y: sample.surfaceHeight, z: fall.plunge.z },
         velocity: { x: fall.direction.x * 2, y: -Math.sqrt(19.62 * fall.dropM), z: fall.direction.z * 2 },
         radius: Math.min(2.5, fall.widthM * 0.25), magnitude: Math.min(120, fall.dropM * fall.widthM * 3),
-      }, 3, delta, { mist: Math.min(1, fall.dropM / 8) });
+      }, 3, delta, { mist: Math.min(1, fall.dropM / 8), fallFrom: fall.lip });
     }
-    const particleRadiance = waterParticleRadiance(light, runtime.sunLight.value, runtime.sunDirection.value.y);
-    effects.setLighting(new THREE.Color().setRGB(particleRadiance.x, particleRadiance.y, particleRadiance.z));
+    effects.setIllumination(light, runtime.sunLight.value, runtime.sunDirection.value.y, gl.toneMappingExposure);
+    effects.setView(geometryView.frustum, verticalScale);
     effects.update(delta, nowS, assets.world, epoch, {
       x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
     }, runtime.windVelocity());
@@ -327,7 +327,8 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   return (
     <>
     <primitive object={effects.object3d} />
-    <primitive object={ribbonMesh} />
+    <primitive object={hero.mesh} />
+    <primitive object={ribbons.group} />
     <primitive object={inland.group} />
     <mesh
       ref={meshRef}

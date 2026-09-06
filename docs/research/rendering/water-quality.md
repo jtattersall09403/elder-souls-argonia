@@ -34,7 +34,7 @@ Regression entry points: `waterCompiled.test.ts`, `waterQuality.test.ts`, `water
 
 ## Owner playtest
 
-Implementation checkpoint: the shipped solve has zero unresolved reaches or
+Earlier candidate checkpoint (`1af32a3`, not completion): the shipped solve has zero unresolved reaches or
 ascending channel segments, 2,577 flat pools, 4,017 supplemental ribbons and
 256 cascade sites. All ribbon points retain at least 14.998mm of native-bed
 clearance. The reversible overlay affects 5,017 of 16,265,089 native vertices;
@@ -53,9 +53,9 @@ motion. Conservative support still excludes unrelated lower slopes instead of
 allowing an extrapolated high river plane to flood them.
 
 Receiving-terrain caustics are integrated with direct light and shadows.
-Other opaque materials (future rocks, hulls and props) must opt into that
-receiving-surface integration; the studio does not yet project caustics onto
-every object. Dynamic-object contacts do not constitute a general obstacle
+The local completion pass adds the same opt-in receiver hook to the crate
+fixtures; future rocks/hulls use that shared hook. It is not automatically
+applied to every material. Dynamic-object contacts do not constitute a general obstacle
 flow solver, and swimming/boat controls remain the separate traversal work.
 
 Use the studio's normal fly and character modes. Check a mountain creek downhill into its pool, a broad lowland river, blackwater and greenwater wetlands, the mangrove/coast transition and an exposed beach. At each, move across the shoreline and look along the surface at low angles. Check daylight, moonlight and underwater looking upward. Try calm/rain/storm and wet/dry seasons without moving the camera. Drop all three crate types and move through shallow water at different speeds.
@@ -66,9 +66,17 @@ For an immediate comparison, add `water=legacy` to the studio URL and reload; re
 
 ## Research and implementation choices
 
-Earlier repository surveys remain useful: [Three.js water research](water-rendering-threejs.md). GPU Gems explains [analytic-wave steepness and normal construction](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models); its folding constraint informed the shared CPU/GLSL storm bound. Its [water-caustics chapter](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-2-rendering-water-caustics) motivates refractive focusing on submerged receivers. This implementation uses a bounded analytic focusing approximation, not copied chapter code or a photon simulation. Retaining the current analytic ocean spectrum is deliberate: FFT is not a prerequisite for coherent shores, rivers, contacts or underwater optics.
+Earlier repository surveys remain useful: [Three.js water research](water-rendering-threejs.md). GPU Gems explains [analytic-wave steepness and normal construction](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models); its folding constraint informed the shared CPU/GLSL storm bound. Its [water-caustics chapter](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-2-rendering-water-caustics) motivates refractive focusing on submerged receivers. The completion pass adds bounded spectral-ocean cascades and local interaction-field focusing; neither is a province-wide fluid or photon simulation. See [local fluid and GPU limits](water-local-fluid-and-gpu-budgets.md) for the shared displacement/optics model and compatibility checks.
 
 ## Water compiler runbook
+
+**Historical candidate recipe:** the commands and numeric exceptions below
+describe `1af32a3`, not the active completion compiler. For exact reproduction,
+use that revision in a separate worktree. Do not apply this recipe to publish
+new completion assets: the current solve adds strict physical bank caps,
+semantic depth targets, shared native topology, packed cross-sections and a
+matching sparse ground atlas. Its final release recipe is pending the
+continuity and budget gates in [the acceptance ledger](water-completion-audit.md).
 
 Run from `tooling/world-generation`. The immutable native terrain input is `DEFAULT_HEIGHTS` in `worldgen/compile_chunks.py`: the sibling `elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy`. Hydrology and semantics come from `hydrology-pass1.npz` in that same `argonia-heightfield` directory. The compiler reads both; it never overwrites either. Native spacing is 1.82784m, grid origin is zero, and coarse semantic cell centres are native `(3r+1,3c+1)`.
 
