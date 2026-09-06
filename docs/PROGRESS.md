@@ -55,11 +55,14 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | todo | backlog: [docs/polish-backlog.md](polish-backlog.md) — non-blocking cosmetic/feel leftovers from closed phases land there, owner adds freely |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water overhaul commissioned 2026-09-06: continuous level/flow geometry, semantic behaviour, caustics, bounded interactions, splash FX and buoyancy; preserve tide/season ranges and provide legacy rollback. Other polish remains queued in [polish-backlog.md](polish-backlog.md). |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
 ## Waiting on user
+
+Water work is proceeding; no water decision is waiting on the owner. Review
+will cover representative rivers, pools, marsh, coast and underwater views.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)
