@@ -61,12 +61,13 @@ first, then open only the master-plan sections the active phase needs.
 
 ## Waiting on user
 
-Water implementation is ready for the owner visual gate after deployment:
-mountain river/pool joins first, then marsh, coast, weather, underwater and
-the three buoyancy crates. See [the review guide](research/rendering/water-quality.md).
+Water completion pass is active: owner requests all deferred water upgrades,
+including open-sea quality and bounded near/far runtime costs, implemented and
+deployed before review. The earlier candidate is not the completion gate.
+See [the review guide](research/rendering/water-quality.md).
 Release coordination: the water agent will commit only water-owned paths and
-will not start a competing push/deployment; the combat agent can include the
-completed water commit in its release after the shared gates pass.
+will coordinate against current branch/Actions state before deployment;
+combat changes remain separately owned and must not be overwritten.
 Latest shared check (10:54 UTC): typecheck and all water/studio tests pass;
 root test/build are blocked by the concurrently rebuilt humanoid GLB not yet
 matching its character-assets manifest. Combat release owns that asset pair;
