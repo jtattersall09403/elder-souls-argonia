@@ -12,7 +12,8 @@ import { PackedCrossSections } from './packedCrossSections';
 import { NativeWaterGround } from './nativeWaterGround';
 import { InlandWaterTiles } from './render/InlandWaterTiles';
 import { validateWaterMeta } from './render/loadWaterAssets';
-import { standingEdgeStageUnion, type OwnershipEdgeProbe } from './compiledConfluenceProbes';
+import { confluenceReproProbes, CONFLUENCE_REPRO_SITES, interpolateInlandStillFace, standingEdgeStageUnion,
+  type CompiledConfluenceProbe, type OwnershipEdgeProbe } from './compiledConfluenceProbes';
 
 const enabled = !!process.env.WATER_CONFLUENCE_EDGE_PROBES;
 const full = process.env.WATER_CONFLUENCE_FULL === '1';
@@ -91,9 +92,10 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
   const selectedEdges = full ? union : [...spread(union.filter(e => e.stageMask & 1), 3), ...spread(newlyWet, 3)];
   const edges = selectedEdges.map(e => e.edge);
   expect(edges.length, 'Need native-to-standing owner-edge probes, not just native/native edges').toBeGreaterThanOrEqual(3);
-  const probes = joins.flatMap(j => [0, .25, 1, 2].flatMap(radius => Array.from({ length: radius ? 8 : 1 }, (_, i) => ({
+  const probes: CompiledConfluenceProbe[] = joins.flatMap(j => [0, .25, 1, 2].flatMap(radius => Array.from({ length: radius ? 8 : 1 }, (_, i) => ({
     x: j.x + Math.cos(i * Math.PI / 4) * radius, z: j.z + Math.sin(i * Math.PI / 4) * radius, label: `degree${j.neighbours.size}:${key(j.x, j.z)}` }))));
   for (const e of edges) for (const [x, z] of [e.inside, e.outside]) probes.push({ x, z, label: `${e.id}:${e.point}` });
+  probes.push(...confluenceReproProbes());
   const material = new MeshBasicMaterial(), inland = new InlandWaterTiles(data, false, { stage: { tidalAmplitudeM, seasonalAmplitudeM } });
   // Exercise the production generator one local tile at a time, without
   // admitting a province view or waiting on animation-frame scheduling.
@@ -118,6 +120,10 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
   };
   const failures: string[] = [];
   let checked = 0, standing = 0, nearThreshold = 0, fallingDomainsExcluded = 0, marineDomainsExcluded = 0;
+  const sites = Object.fromEntries(CONFLUENCE_REPRO_SITES.map(site => [site.id, {
+    x: site.x, z: site.z, points: 25, expectedClassifications: 25 * 2 * stages.length,
+    classified: 0, wet: 0, renderedWet: 0, dry: 0, excluded: 0, fallingExcluded: 0, marineExcluded: 0,
+  }]));
   try {
     const groups = new Map<string, typeof probes>();
     for (const p of probes) { const id = `${Math.floor(p.x / (64 * sm.metresPerPixel))},${Math.floor(p.z / (64 * sm.metresPerPixel))}`; groups.set(id, [...(groups.get(id) ?? []), p]); }
@@ -127,25 +133,35 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
       const geometry = next.value.geometry, p = geometry.getAttribute('position'), index = geometry.index!;
       try { for (const point of points) {
         const { x, z } = point;
+        const site = point.site ? sites[point.site] : undefined;
         // This gate is deliberately about banked confluences; mixed curtain
         // records need a per-face sheet discriminator and have separate tests.
         if (bounds.some(b => x >= b.minX && x <= b.maxX && z >= b.minZ && z <= b.maxZ && b.record.points.some(p => p.fallingToNext))) {
-          fallingDomainsExcluded++; continue;
+          fallingDomainsExcluded++;
+          if (site) { site.excluded += stages.length; site.fallingExcluded += stages.length; }
+          continue;
         }
-        const bed = ground.sample(x, z);
-        if (bed === null) throw Error(`Missing final native bed at ${point.label} ${x},${z}`);
         const faces = facesAt(x, z), raster = data.boundaryAt(x, z, undefined, false);
         // Marine coverage comes from a separate surface renderer. Treating
         // the absence of an inland tile there as a hole is not an independent
         // ocean oracle; keep these cases explicit for the marine gate.
         const rasterClass = data.rasterClassAt(x, z);
         if (raster.supported && (rasterClass === 1 || rasterClass === 2)) {
-          marineDomainsExcluded++; continue;
+          marineDomainsExcluded++;
+          if (site) { site.excluded += stages.length; site.marineExcluded += stages.length; }
+          continue;
         }
-        let rasterCovered = false;
-        for (let i = 0; i < index.count && !rasterCovered; i += 3) {
+        const nativeBed = ground.sample(x, z);
+        if (nativeBed === null && (faces.length || raster.supported)) throw Error(`Missing final native bed at ${point.label} ${x},${z}`);
+        // Sparse native terrain need not cover wholly unsupported dry land.
+        // With no raster/native candidates, the World query must still agree dry.
+        const bed = nativeBed ?? Infinity;
+        const rasterFaces: ReturnType<typeof interpolateInlandStillFace>[] = [];
+        for (let i = 0; i < index.count; i += 3) {
           const a = index.getX(i), b = index.getX(i + 1), c = index.getX(i + 2);
-          rasterCovered = !!weights(x, z, p.getX(a), p.getZ(a), p.getX(b), p.getZ(b), p.getX(c), p.getZ(c));
+          const w = weights(x, z, p.getX(a), p.getZ(a), p.getX(b), p.getZ(b), p.getX(c), p.getZ(c));
+          if (w) rasterFaces.push(interpolateInlandStillFace([a, b, c].map(vertex =>
+            data.boundaryAt(p.getX(vertex), p.getZ(vertex), undefined, false)), w));
         }
         for (const stage of stages) {
           levelSpy.mockReturnValue(stage);
@@ -154,7 +170,14 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
           const rasterOffset = stage.tide * raster.tideResponse + stage.season * raster.seasonResponse;
           const rasterWet = raster.supported && rasterOffset + .001 >= (raster.floodAccessOffsetM ?? -Infinity) && raster.surfaceBase + rasterOffset - bed > .004;
           const rendered = wetFaces.map(f => f.height + stage.tide * f.tide + stage.season * f.season);
-          if (rasterCovered && rasterWet) rendered.push(raster.surfaceBase + rasterOffset);
+          // Fragment support/access are sampled here, but the visible plane
+          // is interpolated from the actual mesh's vertex shader samples.
+          if (raster.supported && rasterClass >= 3 && rasterOffset + .001 >= (raster.floodAccessOffsetM ?? -Infinity)) {
+            for (const face of rasterFaces) {
+              const height = face.height + stage.tide * face.tide + stage.season * face.season;
+              if (height - bed > .004) rendered.push(height);
+            }
+          }
           const query = world.sampleBoundary(x, z, 0), label = `${point.label} ${x},${z} LOD${lod} tide${stage.tide} season${stage.season}`;
           // Count threshold-near cases, but do not waive their classification.
           const threshold = faces.some(f => Math.min(Math.abs(f.access - stage.tide * f.tide - stage.season * f.season - .001),
@@ -167,6 +190,7 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
             else if (Math.max(...rendered) < raster.surfaceBase + rasterOffset - .002) failures.push(`${label}: native handoff leaves standing plane below its level`);
           }
           checked++;
+          if (site) { site.classified++; if (query.waterBodyId) site.wet++; else site.dry++; if (rendered.length) site.renderedWet++; }
         }
       } } finally { geometry.dispose(); }
     }
@@ -174,7 +198,8 @@ it.skipIf(!enabled)('matches final rendered confluences and rejects standing wat
   console.info(JSON.stringify({ gate: 'compiled-confluence', full, joins: joins.length, standingEdges: edges.length,
     potentialOwnerEdges: probeFile.cases.length, standingStageUnion: union.length, newlyWetStandingEdges: newlyWet.length,
     selectedNewlyWetEdges: selectedEdges.filter(e => !(e.stageMask & 1)).length,
-    checked, standing, nearThreshold, fallingDomainsExcluded, marineDomainsExcluded, failures: failures.slice(0, 20) }));
+    checked, standing, nearThreshold, fallingDomainsExcluded, marineDomainsExcluded, sites, failures: failures.slice(0, 20) }));
+  for (const site of Object.values(sites)) expect(site.classified + site.excluded).toBe(site.expectedClassifications);
   expect(checked).toBeGreaterThan(100); expect(standing).toBeGreaterThan(0);
   expect(failures).toEqual([]);
 }, full ? 180_000 : 30_000);

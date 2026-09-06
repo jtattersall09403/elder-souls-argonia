@@ -30,7 +30,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | High framerate in walk/fly/future game; owner | Whole-province detail residency and uncullable ribbon draw found; bounded streaming/LOD in progress | open |
 | Reversibility; owner | Original assets + legacy switch + separate water commit; maintain through completion | open |
 | Deployed studio with all changes; owner | Runtime completion checkpoints through93904c2 deployed and bundle verified; final hydraulic/native/adaptive/gradient data not deployed | open |
-| Hard straight/square edges where water meets land; owner follow-up | Widespread, including close range; test continuous terrain intersections, ownership boundaries and seasonal extremes, not only distant LOD | open |
+| Hard straight/square edges where water meets land; owner follow-up | Finest-LOD inland generator drops whole triangles at differing corner owners: two adjacent fully wet equal-height domains lose64m² from a4096m² fixture. Requires domain-conforming coverage, not just refinement or removal of owner isolation | open |
 | Wet-season waterways underfill painted beds; owner follow-up | Widespread asymmetric-width and boundary-extent defects; verify both banks throughout the full network | open |
 | Dry walkable hollow below apparent river surface; owner follow-up | Repro near 1.96km E / 0.22km S; rendered surface, native terrain and physical wet query must agree | open |
 | Zigzag gap across river with exposed undersides / apparently empty volume beneath adjacent water; owner follow-up | Live repro 3.84km E / 1.12km S, observed on foot; exact cross-river terrain, surface ownership, underwater rendering and wet/swimming query agreement required, alongside widespread random gaps | open |
@@ -44,6 +44,22 @@ not evidence for water rendering/interaction quality. Keep existing geography
 and lore authority; do not invent POIs or ecology to populate optional links.
 Track any substantive scope ambiguity explicitly rather than silently treating
 it as delivered.
+
+### Newly exposed geometry/data blockers (September6 continuation)
+
+The inland artifact oracle previously substituted the exact raster level at a
+covered point for the height interpolated from rendered vertices. That can
+miss a hovering or buried standing-water triangle. The replacement gate must
+use actual vertex-level barycentric interpolation and report the three named
+user neighbourhoods separately; excluded marine/falling cases are not passes.
+
+An immutable-original pool audit found our corrective bed overlay had breached
+retaining rims, including pools with no reported channel constraint failure.
+Restoring214 confirmed outlet supports recovered161,861m² of original
+impoundment coverage, but38,849m² still had lowered drainage potential through
+wider sill fringes. This is an intermediate audit, not final approved terrain.
+Do not legitimize drained pools with deeper channel cuts or promote these
+checkpoint exports before the remaining original-pool preservation check.
 
 ## Performance proof
 

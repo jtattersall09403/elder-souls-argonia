@@ -59,6 +59,11 @@ the falling-sheet exclusion described below.
 - Three deterministic, spatially distributed degree-three-or-higher junctions
   (all detected junctions in full mode),
   with the centre and eight directions at 0.25, 1 and 2 metres.
+- Three fixed owner-reported neighbourhoods at `(2370,190)`, `(1960,220)`
+  and `(3840,1120)` metres: each exact centre plus eight directions at
+  0.25, 10 and 30 metres (25 points/site), in both small and full modes.
+  They use the same two requested LODs and all five stages. They are never
+  relocated onto convenient nearby water or required to remain seasonally wet.
 - Up to three base-wet and three newly-wet-only native-to-standing owner
   boundaries (all members of the five-stage standing union in full mode),
   probing both sides of its 1-centimetre edge offset.
@@ -72,6 +77,11 @@ the falling-sheet exclusion described below.
   access and level coefficients, followed by exact native-ground clipping.
   The highest surviving face must agree with `WaterWorld.sampleBoundary`
   within 2 millimetres. Wet/dry disagreement is never waived.
+- Inland standing heights likewise come from barycentric interpolation of
+  actual uploaded mesh vertex samples and authored stage coefficients—not
+  the exact raster height at the probe position. Unsupported vertices retain
+  their shader sampling values. Fragment support/access and exact native-bed
+  clipping then determine which interpolated faces actually survive.
 - A separate failure if a physically wet standing raster owner has been
   removed by dry native geometry, even if CPU and rendered geometry both
   agree on that incorrect absence. A lower native handoff cannot substitute
@@ -84,9 +94,18 @@ standing-water checks, threshold-near cases, excluded falling-sheet domains and 
 but **still asserted**. The test requires nonzero standing coverage and over
 100 classifications; missing categories cannot silently pass.
 
+Named `sites` counters report classified, query-wet, rendered-wet, dry and
+excluded cases separately, including falling/marine exclusion reasons. Each
+site accounts for all 250 point/LOD/stage cases. A fully excluded or dry-only
+site is **not wet-surface verification**; no mandatory wet quota invents water
+in a legitimate seasonal wetland. Exact native bed remains required wherever
+a raster or native water candidate exists. Wholly unsupported dry points may
+fall outside the sparse bed sidecar, but their World query must still agree dry.
+
 ## Scope and interpretation
 
-This is a still-water ownership/geometry gate. Spectral/local ripples, temporal
+This is sampled still-water ownership/geometry/query evidence, **not visual
+certification** of a site or the province. Spectral/local ripples, temporal
 anti-aliasing and actual GL atlas linkage have their separate runtime tests and
 browser checks. Mixed free-falling-sheet records are explicitly excluded and
 counted here because a curtain is not a filled-water volume; their sheet/plunge
@@ -110,8 +129,9 @@ The selected probes must subsequently pass actual inland geometry coverage
 and World comparisons. Small mode samples the newly-wet category separately
 so common base-wet shores cannot crowd it out.
 
-Only exported section endpoints are certified, not every interior position
-along a longitudinal owner boundary; unsampled junctions in small mode and
+Owner-boundary evidence covers sampled exported section endpoints, not every
+interior position along a longitudinal owner boundary; fixed repro rings add
+neighbourhood samples, not continuous coverage. Unsampled junctions in small mode and
 scene-level appearance also remain outside this check. Use reported failing coordinates to select the next
 targeted compiler/runtime audit; do not hide them with a body-ID merge or a
 CPU-only standing-water fallback below geometry that is not rendered.

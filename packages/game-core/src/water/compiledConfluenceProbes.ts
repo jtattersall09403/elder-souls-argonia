@@ -1,5 +1,36 @@
 /** Offline artifact-gate selection only; no runtime renderer imports. */
-import type { WaterData } from './waterData';
+import type { WaterBoundaryStaticSample, WaterData } from './waterData';
+
+export const CONFLUENCE_REPRO_SITES = [
+  { id: 'owner-repro-2370-190', x: 2370, z: 190 },
+  { id: 'owner-repro-1960-220', x: 1960, z: 220 },
+  { id: 'owner-repro-3840-1120', x: 3840, z: 1120 },
+] as const;
+
+export interface CompiledConfluenceProbe { x: number; z: number; label: string; site?: string }
+
+/** Exact owner coordinates plus three fixed eight-direction rings. Never
+ * relocate a reported dry/excluded point to the nearest convenient water. */
+export function confluenceReproProbes(): CompiledConfluenceProbe[] {
+  return CONFLUENCE_REPRO_SITES.flatMap(site => [0, 0.25, 10, 30].flatMap(radius =>
+    Array.from({ length: radius ? 8 : 1 }, (_, direction) => ({
+      x: site.x + radius * Math.cos(direction * Math.PI / 4),
+      z: site.z + radius * Math.sin(direction * Math.PI / 4),
+      site: site.id, label: `${site.id}:radius${radius}:direction${direction}`,
+    }))));
+}
+
+/** Still-water vertex shader oracle: heights and level responses are sampled
+ * at uploaded vertex XZ then barycentrically interpolated by the GPU. Do not
+ * replace this with the raster value at the fragment or omit dry vertices. */
+export function interpolateInlandStillFace(vertices: readonly WaterBoundaryStaticSample[], weights: readonly number[]) {
+  if (vertices.length !== 3 || weights.length !== 3) throw Error('Inland oracle requires one triangle');
+  return vertices.reduce((out, sample, i) => ({
+    height: out.height + weights[i] * sample.surfaceBase,
+    tide: out.tide + weights[i] * sample.tideResponse,
+    season: out.season + weights[i] * sample.seasonResponse,
+  }), { height: 0, tide: 0, season: 0 });
+}
 
 export interface OwnershipEdgeProbe {
   id: string;
