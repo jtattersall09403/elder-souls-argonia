@@ -130,7 +130,7 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
-            retaining_lower_bounds=None, stage=None) -> dict:
+            retaining_lower_bounds=None, stage=None, station_overrides=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     from .water_stage import stage_range
     stage = stage_range(stage)
@@ -334,6 +334,13 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     nearest_bed = np.argmin(candidate_bed + np.linalg.norm(offsets, axis=1)[:, None] * 1e-6, axis=0)
     py = candidate_y[nearest_bed, np.arange(n_st)]
     px = candidate_x[nearest_bed, np.arange(n_st)]
+    if station_overrides:
+        if web_step != 1:
+            raise ValueError('Reviewed station anchors require a native compile before raster reduction')
+        from .water_station_anchors import apply_station_overrides
+        anchors = apply_station_overrides(np.column_stack([py, px]), idx_st, station_overrides,
+            routing_ground, reference_pool_levels, terrain_flips)
+        py, px = anchors.T
     sy, sx = np.rint(py).astype(int), np.rint(px).astype(int)
     bed_st = sample_terrain(g2, [py, px], terrain_flips)
     rivulet_st = rivulets.ravel()[idx_st]
@@ -357,6 +364,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     stale_rise = bed_st[np.maximum(dsk, 0)] - bed_st
     topology_stats = {
         "channelStationCount": int(n_st),
+        "reviewedStationAnchorCount": len(station_overrides or {}),
         "marineNativeSampleCount": int(ocean2.sum()),
         "isolatedBelowSeaNativeSampleCount": int(np.count_nonzero((g2 < 0) & ~ocean2)),
         "staleUphillLinkCount": int(np.sum(old_link & (stale_rise > 0.2))),
@@ -727,6 +735,7 @@ def main() -> None:
         parser.error('Unsupported native route audit schema')
     routing_overrides = ({int(cell): np.asarray(path, float) for cell, path in routing_audit['overrides'].items()}
                          if routing_audit else None)
+    station_overrides = {int(cell): record for cell, record in (routing_audit or {}).get('stationOverrides', {}).items()}
     if not 0 <= args.max_bed_lowering <= 3:
         parser.error("--max-bed-lowering must be between 0 and 3 metres")
     vault = DEFAULT_HEIGHTS.parent.parent
@@ -821,7 +830,7 @@ def main() -> None:
         iteration += 1
         profiles = compute(z, refined, npz, profiles_only=True, bank_ground=original,
                            terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-                           routing_overrides=routing_overrides, immutable_potential=immutable_potential,
+                           routing_overrides=routing_overrides, station_overrides=station_overrides, immutable_potential=immutable_potential,
                            reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds)
         exceptional_sources = {source for source, cell in enumerate(profiles["cell_indices"])
                                if (int(cell // z.shape[1]), int(cell % z.shape[1])) in exception_cells}
@@ -863,7 +872,7 @@ def main() -> None:
             break
     r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-        routing_overrides=routing_overrides, immutable_potential=immutable_potential,
+        routing_overrides=routing_overrides, station_overrides=station_overrides, immutable_potential=immutable_potential,
         reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage), args.web_step)
     r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
 

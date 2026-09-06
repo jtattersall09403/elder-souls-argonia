@@ -10,7 +10,7 @@ Run commands below from `tooling/world-generation`.
 Small authoritative inputs are retained in `water-repair-inputs/`; their
 manifest records SHA-256 hashes and the immutable source hashes. They contain
 the exact indexed original/current heights and restoration/exception evidence,
-16 audited course overrides, and the frozen pre-repair orientation. They are
+18 audited course overrides and one reviewed sampling-anchor relocation, and the frozen pre-repair orientation. They are
 not runtime assets. The original heightfield/hydrology live in the sibling
 asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
@@ -39,12 +39,12 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-311-state.npz` | Matching 311-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-311-retaining-state.npz` | Matching 311-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
 | `/tmp/water-immutable-retaining-bounds.npy` | Derived bounds, not terrain edits |
-| `/tmp/water-retaining-bound-violations.json` | Earlier 352-support audit; 101 since restored, 251 remain to resolve |
+| `/tmp/water-retaining-bound-violations.json` | Earlier 352-support audit; 111 since restored, 241 remain to resolve |
 
 The matching state carries `terrain_overlay_sha256`; it must equal the durable
 overlay hash. Older `/tmp/water-*` variants are historical diagnostics, not
@@ -71,12 +71,41 @@ python3 -m worldgen.audit_water_profiles water-repair-inputs/bed-overlay.json --
 These commands write only disposable diagnostics. Do not run them merely to
 reconfirm unchanged caches; use the existing matching cache where valid.
 
+## Reviewed retaining restoration (2026-09-06)
+
+Ten further vertices now meet their immutable retaining bound (partial height
+restoration, not new excavation). Source319's sampling anchor moves from native
+(187,1833) to (187,1832), inside the same original4.190784m pool. Its old anchor
+was originally dry4.723274m ground; excavating that bank to keep an artificial
+pool margin wet was the wrong requirement. Both incident routes (307,319) move
+with the shared anchor. `routing-audit.json.stationOverrides` retains exact
+original/new coordinates and original pool-head evidence; the compiler checks
+native alignment, a2-interval maximum displacement, originally dry source and
+originally wet destination. No original wet anchor or pool plane can move.
+
+Fresh native-domain acceptance:311 constraints, zero new failures; all423,268
+original impoundment interior samples retain planes within0.1mm, no missing
+samples and exactly zero spill-potential difference. The interior mask is
+`finite(referencePool) & referencePool > originalGround+.01 & originalPotential > originalGround+.02`.
+The broader reference fringe has inherited discrepancies; no previously
+accepted original-ground wet sample lost or changed its plane in this repair.
+Final full-geometry coverage must still include those fringes.
+
+The earlier all251-bound restoration trial introduced187 new failures.
+A diagnostic94-anchor/170-route proposal reduced that to127 new failures,
+resolving2 old sources; it is **rejected**, not an accepted next overlay.
+`/tmp/water-original-pool-routes-audit.json` retains its exact evidence against
+the predecessor311 cache. Most new conflicts occur at actual pool exits,
+where minimising a reach's highest bed can overlook a lower, locally impassable
+retaining crest. Source399 is one diagnosed example. Do not replay the whole
+proposal on the new checkpoint; use bounded bank-aware exit components.
+
 ## Immediate next work
 
 1. Immutable lower bounds are now enforced by routine and joint/indexed cut
    helpers. Their 187,399 support vertices exposed 352 earlier cuts
-   below a bound; 101 were restored without new global failures. Classify the
-   remaining 251 and restore only diagnosed
+   below a bound; 111 now meet their bound without new global failures. Classify the
+   remaining 241 and restore only diagnosed
    unnecessary retaining/fringe cuts, retaining exact indexed evidence and
    checking valid channel/receiving support before acceptance.
    `audit_water_restore_retaining` produces an explicitly unaccepted proposal;
@@ -100,7 +129,7 @@ reconfirm unchanged caches; use the existing matching cache where valid.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-311-retaining-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
@@ -110,7 +139,7 @@ input overlay hash, and rejects the whole proposal on any new global failure
 or no resolved constraints. It does not establish fresh-domain acceptance:
 
 ```sh
-python3 -m worldgen.audit_water_solve /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-311-retaining-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
 ```
 
 Never use repeated cached proposals to justify moving-bank millimetre tails.
@@ -181,7 +210,7 @@ The read-only bankfull diagnostic requires matching cache/overlay/source
 hashes and writes only the requested report:
 
 ```sh
-python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-311-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
+python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-311-retaining-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
 ```
 
 Its river-station sections are diagnostic, not the final whole-area gate.

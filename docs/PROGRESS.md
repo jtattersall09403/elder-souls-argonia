@@ -96,7 +96,9 @@ Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
 Strict preservation retains all423,268 original wet samples, identical spill
 potential/coverage and original planes. Durable accepted repair checkpoint
-has311 channel constraints after restoring retaining supports, unnecessary
+has311 channel constraints and241 retaining-bound violations after ten further
+verified bank restorations and one original-pool sampling-anchor correction;
+previous repairs restored retaining supports, unnecessary
 pool-floor cuts and a cut-created artificial anchor. The repair-input manifest
 and linked compiler handoff identify the latest exact hashes and next groups.
 

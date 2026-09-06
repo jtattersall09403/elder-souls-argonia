@@ -4,8 +4,8 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "3e8a57b0f172e1ea4a572b61c60bc1f8bfddf84ae45b2a93339d4ad2b5886e9d",
-    "routing-audit.json": "63d0a507311b0c6096b9ac4612034dd1bfe047abafb35dc4dd9ad72d34a413b3",
+    "bed-overlay.json": "462072c5c05c4b172907797fc4428f6a9ee753c07409ece8e3713d641d39605a",
+    "routing-audit.json": "15a81d68a6598e5b669b218af076eb7e7fc5ad9506fc0efff7630aed9c7b1451",
     "orientation.npy": "72059e032813a4d4ed6769320dbc99b462eb7bd2cd1a8c834f03479adaa4f11b"
   },
   "source": {
@@ -22,7 +22,10 @@
     "shiftedOriginalPlanesOver0_1mm": 0,
     "restoredRetainingSupports": 345,
     "restoredArtificialAnchorSupports": 3,
-    "restoredUnnecessaryPoolFloorVertices": 1103
+    "restoredUnnecessaryPoolFloorVertices": 1103,
+    "restoredRetainingBoundSupports": 10,
+    "remainingRetainingBoundViolations": 241,
+    "reviewedOriginalPoolAnchorRelocations": 1
   },
   "orientationReview": "Frozen original intent is deliberately retained.25 links differ from the later corrected immutable pool-domain reference; reconcile explicitly, never from repaired ground."
 }

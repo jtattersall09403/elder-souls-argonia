@@ -8,8 +8,9 @@ underfilled river pass.
 
 ## Findings
 
-The accepted 311-constraint native cache was checked against its terrain and
-overlay hashes. `worldgen.audit_water_bankfull` measures active non-falling
+The predecessor 311-constraint native cache (overlay SHA-256 beginning
+`3e8a57b0`) was checked against its terrain and overlay hashes. These measurements
+precede the ten later retaining-bound restorations and one pool-anchor move. `worldgen.audit_water_bankfull` measures active non-falling
 river stations against native triangle sections. It distinguishes the lower
 retaining-bank height, the landcover distance stencil, and the stored silt,
 river-mud and wet-bank materials sampled along that stencil. Stage responses

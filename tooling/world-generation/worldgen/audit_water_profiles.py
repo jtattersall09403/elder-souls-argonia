@@ -44,17 +44,19 @@ def main():
                             profiles_only=True, bank_ground=original, terrain_flips=flips, close_reference_domains=True)
         intent = reference['desired_levels'][:len(reference['original_links'])].copy()
         del reference
+    routing_audit = json.loads(args.routing_overrides.read_text()) if args.routing_overrides else {}
     if not args.original:
         result = compute(npz["conditioned"].astype(np.float32), corrected, npz,
                      profiles_only=True, bank_ground=original, terrain_flips=flips, orientation_levels=intent,
                      immutable_potential=(np.load(args.immutable_potential) if args.immutable_potential else
                                           reference_pools['filled_levels'] if reference_pools is not None else None),
                      reference_pool_levels=reference_pools['pool_levels'] if reference_pools is not None else None,
-                     routing_overrides=({int(k):v for k,v in json.loads(args.routing_overrides.read_text())['overrides'].items()}
-                                        if args.routing_overrides else None))
+                     routing_overrides={int(k):v for k,v in routing_audit.get('overrides', {}).items()},
+                     station_overrides={int(k):v for k,v in routing_audit.get('stationOverrides', {}).items()})
     if args.solver_cache:
         provenance={'terrain_source_sha256':hashlib.sha256(DEFAULT_HEIGHTS.read_bytes()).hexdigest()}
         if args.overlay:provenance['terrain_overlay_sha256']=hashlib.sha256(Path(args.overlay).read_bytes()).hexdigest()
+        if args.routing_overrides:provenance['routing_audit_sha256']=hashlib.sha256(args.routing_overrides.read_bytes()).hexdigest()
         np.savez_compressed(args.solver_cache, **{key: value for key, value in result.items()
             if isinstance(value, np.ndarray)}, orientation_levels=intent,
             **provenance,
