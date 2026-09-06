@@ -1,3 +1,4 @@
+import { DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
 import { aimElevation } from "../ai/enemyBow";
 import { ARROW_SHAFT_LENGTH_METERS } from "./arrowFlight";
 import { directionTo, type Vec3 } from "./aimConvergence";
@@ -7,7 +8,7 @@ import type { ArrowPhysics } from "./ballistics";
  * length ahead of the nock; include that offset in both height and range.
  * Null means unreachable at this draw, so callers retain the sight direction.
  */
-export function solveBowAim(nock: Vec3, target: Vec3, speed: number, arrow: ArrowPhysics, gravityScale = 1): Vec3 | null {
+export function solveBowAim(nock: Vec3, target: Vec3, speed: number, arrow: ArrowPhysics, gravityScale = DEFAULT_ARROW_GRAVITY_SCALE): Vec3 | null {
   const direct = directionTo(nock, target);
   const range = Math.hypot(target.x - nock.x, target.z - nock.z);
   if (range < 1e-5) return null;

@@ -63,5 +63,18 @@ export const SYSTEM_TEXT: readonly TextEntry[] = [
   },
 ];
 
+/** Plain labels for the combat proving ground. */
+export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
+  { id: "text.sandbox.sword-opponent", surface: "ui", text: "Sword opponent" },
+  { id: "text.sandbox.dagger-opponent", surface: "ui", text: "Dagger opponent" },
+  { id: "text.sandbox.shield-opponent", surface: "ui", text: "Sword and shield opponent" },
+  { id: "text.sandbox.greatsword-opponent", surface: "ui", text: "Greatsword opponent" },
+  { id: "text.sandbox.warhammer-opponent", surface: "ui", text: "Warhammer opponent" },
+  { id: "text.sandbox.battleaxe-opponent", surface: "ui", text: "Battleaxe opponent" },
+  { id: "text.sandbox.archer-opponent", surface: "ui", text: "Archer opponent" },
+  { id: "text.sandbox.combat-ready", surface: "ui", text: "Combat test ready" },
+  { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
+];
+
 /** The live catalogue. Built at module load so a malformed entry fails the tests. */
-export const CATALOGUE = buildCatalogue(SYSTEM_TEXT);
+export const CATALOGUE = buildCatalogue([...SYSTEM_TEXT, ...COMBAT_SANDBOX_TEXT]);

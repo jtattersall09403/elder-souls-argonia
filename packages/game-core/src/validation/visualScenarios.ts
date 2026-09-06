@@ -34,6 +34,8 @@ export const VISUAL_SCENARIO_IDS = [
   "backstep",
   "stationary-landing",
   "moving-landing",
+  "bow-aim-down",
+  "bow-aim-idle",
   "bow-shot",
   "bow-lock-on-shot",
   "bow-partial-draw",
@@ -264,7 +266,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     cues: [
       { from: 0.1, to: 0.19, actions: ["lockOn"] },
       { from: 0.38, to: 1.35, move: [0, 0.42] },
-      { from: 1.5, to: 2.48, move: [0, -0.42] },
+      { from: 1.5, to: 2.48, move: [0, -1] },
       { from: 2.65, to: 3.63, move: [-0.42, 0] },
       { from: 3.8, to: 4.78, move: [0.42, 0] },
     ],
@@ -707,6 +709,27 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       { from: 2.75, to: 2.88, actions: ["dodge", "jump"], move: [0, 1] },
     ],
   },
+  "bow-aim-idle": {
+    id: "bow-aim-idle",
+    label: "Bow: wait in aim without fetching an arrow",
+    warmup: 0.5, duration: 5,
+    player: { position: [0, Y, 6], yaw: Math.PI, weaponId: "steel-longbow", ammoId: "steel-war-arrow" },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [{ from: 0.15, to: 0.24, actions: ["light"] }],
+  },
+  "bow-aim-down": {
+    id: "bow-aim-down",
+    label: "Bow: look down while standing and moving at full draw",
+    warmup: 0.5, duration: 9,
+    player: { position: [0, Y, 6], yaw: Math.PI, weaponId: "wood-shortbow", ammoId: "steel-war-arrow" },
+    enemy: { ...FACING_ENEMY, holdInitialState: true },
+    cues: [
+      { from: 0.15, to: 0.24, actions: ["light"] },
+      { from: 0.6, to: 10, actions: ["light"] },
+      { from: 4, to: 5.2, camera: [0, 30] },
+      { from: 5.8, to: 8, move: [0, 0.6] },
+    ],
+  },
   "bow-shot": {
     id: "bow-shot",
     label: "Bow: raise, draw and loose",
@@ -873,7 +896,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   },
   "archer-shot": {
     id: "archer-shot",
-    label: "Warden archer 8 m out, facing away → turns onto the player, draws, looses, hits",
+    label: "Archer opponent 8 m away, facing away → turns onto the player, draws, looses, hits",
     warmup: 0.5,
     duration: 13.4,
     player: { position: [0, Y, 8], yaw: Math.PI, poise: false },
@@ -960,7 +983,7 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
       { from: 3.8, to: 4.25, move: [0, 1] },
       // Lock on: strafes and a real reverse stride are only reachable here.
       { from: 4.6, to: 4.69, actions: ["lockOn"] },
-      { from: 4.9, to: 5.95, move: [0, -0.42] },
+      { from: 4.9, to: 5.95, move: [0, -1] },
       { from: 6.15, to: 7.2, move: [-0.42, 0] },
       { from: 7.4, to: 8.45, move: [0.42, 0] },
       { from: 8.7, to: 8.79, actions: ["lockOn"] },

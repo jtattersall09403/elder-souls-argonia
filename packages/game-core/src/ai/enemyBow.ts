@@ -1,3 +1,4 @@
+import { DEFAULT_ARROW_GRAVITY_SCALE } from "../combat/arrowFlight";
 import { dragDeceleration, GRAVITY, type ArrowPhysics } from "../combat/ballistics";
 import type { AnimationState } from "../core/types";
 import type { RangedStats } from "../equipment/types";
@@ -66,7 +67,7 @@ export function aimElevation(
   arrow: ArrowPhysics,
   horizontalRange: number,
   heightDifference: number,
-  gravityScale = 1,
+  gravityScale = DEFAULT_ARROW_GRAVITY_SCALE,
 ): number | null {
   if (!(speed > 0) || !(horizontalRange > 0)) return null;
   let low = -Math.PI / 2 + 0.001;

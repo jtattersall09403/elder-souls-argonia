@@ -1,3 +1,4 @@
+import { DEFAULT_ARROW_GRAVITY_SCALE } from "../combat/arrowFlight";
 import { DEFAULT_BOW_VIEW } from "../camera/bowCamera";
 import { create } from "zustand";
 import type { AimView, CombatAction, GameSnapshot } from "./types";
@@ -34,7 +35,7 @@ export const initialSnapshot: GameSnapshot = {
   footDrivenMotion: true,
   lockedSpeedFollowsClip: true,
   lockedStrideRate: LOCKED_STRIDE_RATE,
-  arrowGravityScale: 1,
+  arrowGravityScale: DEFAULT_ARROW_GRAVITY_SCALE,
   aimView: DEFAULT_BOW_VIEW as AimView,
   enemyArchetypeId: DEFAULT_ENEMY_ARCHETYPE.id,
   resetToken: 0,

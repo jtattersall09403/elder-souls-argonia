@@ -875,24 +875,27 @@
     },
     "RUN_BACK": {
       "pack": "core",
-      "source": "1hm_runbackward",
+      "source": "male/mt_runforward",
       "looping": true,
-      "provenance": "Vanilla 1hm_runbackward; backward running with motion measured from planted feet",
-      "tailSource": "mt_walkbackward"
+      "provenance": "Vanilla male/mt_runforward played in reverse, owner-authorised fallback after rejecting the native backward run; foot tracks rebuilt from reversed motion",
+      "tailSource": "male/mt_runforward",
+      "reverseSource": true
     },
     "BOW_RUN_BACK": {
       "pack": "bow",
-      "source": "bow_runbackward",
+      "source": "bow_runforward",
       "looping": true,
-      "provenance": "Vanilla bow_runbackward; backward running with motion measured from planted feet",
-      "tailSource": "mt_walkbackward"
+      "provenance": "Vanilla bow_runforward played in reverse, owner-authorised fallback after rejecting the native backward run; foot tracks rebuilt from reversed motion",
+      "tailSource": "mt_runforward",
+      "reverseSource": true
     },
     "GREATSWORD_RUN_BACK": {
       "pack": "greatsword",
-      "source": "2hm_runbackward",
+      "source": "2hm_runforward",
       "looping": true,
-      "provenance": "Vanilla 2hm_runbackward; backward running with motion measured from planted feet",
-      "tailSource": "mt_walkbackward"
+      "provenance": "Vanilla 2hm_runforward played in reverse, owner-authorised fallback after rejecting the native backward run; foot tracks rebuilt from reversed motion",
+      "tailSource": "mt_runforward",
+      "reverseSource": true
     }
   }
 }

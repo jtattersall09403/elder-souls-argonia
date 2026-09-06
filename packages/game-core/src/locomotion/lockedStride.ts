@@ -24,7 +24,7 @@ import type { AnimationState, Vec2 } from "../core/types";
  */
 
 /** The locked clips this module owns. Forward is not one of them. */
-export type LockedStrideClip = Extract<AnimationState, "RUN_BACK" | "STRAFE_LEFT" | "STRAFE_RIGHT">;
+export type LockedStrideClip = Extract<AnimationState, "WALK_BACK" | "RUN_BACK" | "STRAFE_LEFT" | "STRAFE_RIGHT">;
 
 /**
  * The locked strafe/back clip for a movement input, or `null` when the input
@@ -37,7 +37,7 @@ export function lockedStrideClip(
   reversing?: boolean,
 ): LockedStrideClip | null {
   const clip = lockOnLocomotionAnimation(movement, magnitude, reversing);
-  if (clip === "WALK_BACK") return "RUN_BACK";
+  if (clip === "WALK_BACK") return magnitude > 0.72 ? "RUN_BACK" : "WALK_BACK";
   return clip === "STRAFE_LEFT" || clip === "STRAFE_RIGHT" ? clip : null;
 }
 
@@ -68,4 +68,13 @@ export function strideRateForMagnitude(magnitude: number, maximumRate = LOCKED_S
   if (!Number.isFinite(magnitude) || magnitude <= MOVE_DEAD_ZONE) return 0;
   const fraction = Math.min(1, Math.max(MIN_STRIDE_FRACTION, magnitude));
   return maximumRate * fraction;
+}
+
+/** A running retreat uses the source run cadence, like a forward run.
+ * The locked strafe setting scales it relative to its default, keeping the
+ * tuning control useful without speeding a genuine run up by 55 percent.
+ */
+export function lockedStrideRateFor(clip: LockedStrideClip, magnitude: number, configuredRate = LOCKED_STRIDE_RATE) {
+  return strideRateForMagnitude(magnitude,
+    clip === "RUN_BACK" ? configuredRate / LOCKED_STRIDE_RATE : configuredRate);
 }

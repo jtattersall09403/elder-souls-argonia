@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import type { AimView } from "@elder-souls/game-core/core/types";
 import { useEffect, useRef, useState } from "react";
 import { input, type InputAction } from "@elder-souls/game-core/io/input";
@@ -393,7 +394,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           />
         </label>
         <label className="enemy-picker">
-          Arrow gravity: {state.arrowGravityScale.toFixed(2)}&times; (1 = real)
+          {text(CATALOGUE, "text.sandbox.arrow-gravity")}: {state.arrowGravityScale.toFixed(2)}&times;
           <input
             type="range"
             min={1}

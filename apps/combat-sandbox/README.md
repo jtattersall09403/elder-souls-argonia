@@ -1,10 +1,10 @@
-# Ashen Ring — ecctrl Souls combat prototype
+# Ecctrl Souls combat prototype
 
 A compact browser combat sandbox built on [ecctrl](https://github.com/pmndrs/ecctrl), React Three Fiber, Three.js, and Rapier. It is designed to run on desktop browsers, touch devices, and standard Gamepad API controllers including the GameSir X2s Type-C.
 
 ## Play
 
-**[Play Ashen Ring in your browser](https://jtattersall09403.github.io/ecctrl-souls-combat/)**
+**[Play the sandbox in your browser](https://jtattersall09403.github.io/elder-souls-argonia/)**
 
 The Pages build is published from `main`. Desktop and mobile browsers load the same URL.
 

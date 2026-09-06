@@ -66,6 +66,8 @@
     "bow-drawn-hold-shoulder",
     "bow-drawn-locomotion",
     "archer-shot",
-    "bow-lock-on-shot"
+    "bow-lock-on-shot",
+    "bow-aim-idle",
+    "bow-aim-down"
   ]
 }

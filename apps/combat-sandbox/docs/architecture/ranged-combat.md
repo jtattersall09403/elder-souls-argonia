@@ -2,14 +2,15 @@
 
 The sandbox composes shared runtime systems. Production defaults and shoulder
 framing live in `game-core/camera/bowCamera`; the default is over the shoulder.
-The historical energy, launch speed and drag calibration remains in
-[archery-ballistics.md](../research/archery-ballistics.md). The round-10 repair
+The historical energy, launch speed and drag calibration remains documented
+in [archery-ballistics.md](../research/archery-ballistics.md). The round-10 repair
 record is [decision 0040](../../../../docs/decisions/0040-animation-packs-and-combat-parallel-pass.md).
 
 ## Cycle and animation
 
-`game-core/combat/bowShot` owns raise, fetch/nock, ready, draw, loose and lower.
-The first aim press raises the bow; releasing it arms the next draw. Stamina
+`game-core/combat/bowShot` owns raise, ready, fetch/nock, draw, loose and lower.
+The first aim press opens an empty aim stance. The next press starts fetching
+and nocking before the pull. Recovery returns to the empty stance. Stamina
 limits the draw and can collapse it. Death or losing the weapon interrupts it.
 
 `bowPose` gives the renderer a semantic clip and optional absolute source time.
@@ -19,40 +20,51 @@ without rebasing it as a newly started combat action. Re-entering a partial
 draw from locomotion must preserve the requested draw fraction.
 
 Drawn locomotion clips are self-timed loops. Their measured ground tracks,
-clock and playback rate drive movement together. The player walks while aiming;
+clock and playback rate drive movement together. Aiming uses walking clips;
 ordinary bow carry uses its own locomotion profile. Locked backward running
-uses sourced backward runs, with the same foot-track drive as locked strafing.
+uses reversed sourced forward runs, with freshly measured foot tracks.
+This is the owner-selected fallback after rejection of the native backward clips.
+Backward runs play at source cadence; the locked strafe default is 1.55×.
+Light analogue input selects the backward walk.
 
 ## Bow, string and arrow
 
 `character/riggedBow` scrubs the bow's own sourced animation and tracks a
 skinned vertex at the string's nock. `SkyrimFighter` applies aim to the sourced
 upper-body pose and constrains the drawing arm to that nock. Constraints are
-restored before the next animation evaluation; they never accumulate onto
-last frame's pose. Their transitions are eased, including release.
+restored before the next animation evaluation to prevent accumulation
+on the previous frame's pose. The arm constraint and its stored rotations are inactive
+during fetch and release, preserving the sourced gesture.
 
 `NockedArrow` follows the drawing hand during the fetch and the actual string
-after nocking. The 75 cm shaft keeps a consistent scale in the actor and in
-flight. `QuiverAttachment` mounts the equipped arrow set's sourced quiver on
-the skeleton's quiver socket.
+after nocking. The 75 cm shaft keeps a consistent scale during nocking and flight.
+`QuiverAttachment` mounts the equipped arrow set's sourced quiver
+on the skeleton's quiver socket.
 
 ## Crosshair and ballistics
 
 The free-aim ray comes from the rendered camera. It tests world geometry and
-visible actor skin; the player's own body is excluded. Lock-on sights the
+visible actor skin, excluding the shooter's body. Lock-on sights the
 selected actor's chest from the offset shoulder camera.
+
+`game-core/combat/bowSight` calibrates the sight for a full draw throughout the
+pull. Partial shots lose range naturally. Body facing follows the camera or
+target from the actor centre, independently of the moving drawing hand.
 
 `game-core/combat/solveBowAim` solves a low arc to the sighted surface using
 `ai/enemyBow.aimElevation`. The integration includes drag, gravity, downhill
 targets and the initial offset from nock to projectile tip. Enemies use the
 same solve. A target beyond a weak shot's reach remains unreachable; arrows
-are never steered after launch. A sky shot follows the sight direction.
+receive no steering after launch. A sky shot follows the sight direction.
 
 ## Flight and impact
 
 `character/Arrows` owns the Rapier/rendering integration. Its props inject the
 live arrows, retirement, actor tracing and impact handler. The app wrapper
 contains only store binding and the local flight probe.
+
+`DEFAULT_ARROW_GRAVITY_SCALE` is 2, the owner-selected gameplay setting.
+The projectile, sight solver, enemy solver and shared store use that default.
 
 Each projectile is a centred sensor-only mass. Gravity and drag act once per
 physics step. The body cannot bounce off an actor's navigation capsule, other
@@ -71,5 +83,5 @@ projectile mesh when embedding the tip, then parents the shaft to the struck
 bone. World hits freeze the projectile as intangible scenery until retirement.
 
 Known simplification: armour resistance still uses the equipped body-armour
-aggregate rather than a per-triangle armour-slot lookup. This is separate from
-the surface used to position a visible embedded arrow.
+aggregate rather than a per-triangle armour-slot lookup. The visible embedded
+arrow is positioned on the traced surface.

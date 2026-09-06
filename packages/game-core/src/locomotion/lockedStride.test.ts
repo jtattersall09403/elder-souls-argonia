@@ -3,6 +3,7 @@ import {
   LOCKED_STRIDE_RATE,
   MIN_STRIDE_FRACTION,
   lockedStrideClip,
+  lockedStrideRateFor,
   strideRateForMagnitude,
 } from "./lockedStride";
 
@@ -16,6 +17,7 @@ describe("lockedStrideClip", () => {
     expect(lockedStrideClip({ x: -1, y: 0 }, 1)).toBe("STRAFE_LEFT");
     expect(lockedStrideClip({ x: 1, y: 0 }, 1)).toBe("STRAFE_RIGHT");
     expect(lockedStrideClip({ x: 0, y: -1 }, 1, true)).toBe("RUN_BACK");
+    expect(lockedStrideClip({ x: 0, y: -0.42 }, 0.42, true)).toBe("WALK_BACK");
   });
 
   it("stands still inside the dead zone", () => {
@@ -47,4 +49,11 @@ describe("strideRateForMagnitude", () => {
   it("uses the owner's 1.55 stride rate", () => {
     expect(LOCKED_STRIDE_RATE).toBeCloseTo(1.55);
   });
+});
+
+it("runs backward at the source cadence and keeps the selected strafe rate", () => {
+  expect(lockedStrideRateFor("RUN_BACK", 1)).toBe(1);
+  expect(lockedStrideRateFor("STRAFE_LEFT", 1)).toBe(1.55);
+  expect(lockedStrideRateFor("RUN_BACK", 0.5)).toBe(0.5);
+  expect(lockedStrideRateFor("RUN_BACK", 1, 3.1)).toBe(2);
 });

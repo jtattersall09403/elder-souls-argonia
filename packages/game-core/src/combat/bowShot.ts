@@ -25,7 +25,7 @@ export type BowPhase =
   | "lowered"
   /** Raising into the aim; the camera is moving. */
   | "raising"
-  /** Aiming, arrow on the string, string at rest. */
+  /** Aiming with an empty string, waiting for a draw command. */
   | "ready"
   /** Pulling. `drawFraction` is rising and stamina is draining. */
   | "drawing"
@@ -133,7 +133,7 @@ export function advanceBowCycle(
       if (phaseTime < AIM_RAISE_SECONDS) {
         return { ...step, cycle: { ...cycle, phaseTime } };
       }
-      return { ...step, cycle: { phase: "nocking", phaseTime: 0, drawFraction: 0, drawArmed: false } };
+      return { ...step, cycle: { phase: "ready", phaseTime: 0, drawFraction: 0, drawArmed: armed(cycle, input) } };
     }
 
     case "nocking": {
@@ -142,14 +142,14 @@ export function advanceBowCycle(
       }
       return {
         ...step,
-        cycle: { phase: "ready", phaseTime: 0, drawFraction: 0, drawArmed: armed(cycle, input) },
+        cycle: { phase: input.aimHeld ? "drawing" : "ready", phaseTime: 0, drawFraction: 0, drawArmed: armed(cycle, input) },
       };
     }
 
     case "ready": {
       const drawArmed = armed(cycle, input);
       if (drawArmed && input.aimHeld) {
-        return { ...step, cycle: { phase: "drawing", phaseTime: 0, drawFraction: 0, drawArmed } };
+        return { ...step, cycle: { phase: "nocking", phaseTime: 0, drawFraction: 0, drawArmed } };
       }
       return { ...step, cycle: { ...cycle, phaseTime, drawArmed } };
     }
@@ -194,7 +194,7 @@ export function advanceBowCycle(
       }
       return {
         ...step,
-        cycle: { phase: "nocking", phaseTime: 0, drawFraction: 0, drawArmed: armed(cycle, input) },
+        cycle: { phase: "ready", phaseTime: 0, drawFraction: 0, drawArmed: armed(cycle, input) },
       };
     }
   }
@@ -255,7 +255,7 @@ export function bowPose(
     case "nocking":
       return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime / nockSeconds) * NOCK_SOURCE_END_SECONDS };
     case "ready":
-      return { animation: bow.draw, clipTime: NOCK_SOURCE_END_SECONDS };
+      return { animation: bow.idle, clipTime: null };
     case "drawing":
       return cycle.drawFraction >= 1
         ? { animation: bow.drawn, clipTime: null }
@@ -303,7 +303,7 @@ export const NOCK_SOURCE_END_SECONDS = 0.95;
  * the owner saw in the idle hand was this returning true for `ready`.
  */
 export function nockedArrowVisible(cycle: BowCycle) {
-  return cycle.phase === "drawing" || cycle.phase === "ready"
+  return cycle.phase === "drawing"
     || (cycle.phase === "nocking" && cycle.phaseTime >= 0.3);
 }
 

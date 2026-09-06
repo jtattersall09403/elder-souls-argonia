@@ -6,7 +6,7 @@ import { LOCOMOTION_STATES, clipConfig } from "../anim/animationManifest";
 
 it("can aim downhill and compensate the same gravity used by the projectile",()=>{
   const arrow=DEFAULT_ARROW.physics;
-  const elevation=aimElevation(40,arrow,12,-2);
+  const elevation=aimElevation(40,arrow,12,-2,1);
   expect(elevation).not.toBeNull();
   expect(elevation!).toBeLessThan(0);
   const flight=integrateTrajectory(40,elevation!,arrow,{launchHeightMeters:3,sampleEvery:.001});

@@ -2,7 +2,7 @@
   "roster": "skyrim-playable",
   "rig": {
     "asset": "rig-skyrim-humanoid.glb",
-    "sha256": "567ca61254907e5f842ed6c86a0d4d3e72825da6b829f045dd5c5f3deefaf20f"
+    "sha256": "a687c522c6068f81d90f3a294ff3ea33946ddd388c09c25809e1adff7bcfe908"
   },
   "referenceRace": "dunmer",
   "races": {
@@ -120,7 +120,8 @@
         "hairMeshes": [
           "Hair12"
         ]
-      }
+      },
+      "body": "male"
     },
     "imperial": {
       "label": "Imperial",
@@ -178,7 +179,8 @@
         "hairMeshes": [
           "Hair04"
         ]
-      }
+      },
+      "body": "male"
     },
     "breton": {
       "label": "Breton",
@@ -236,7 +238,8 @@
         "hairMeshes": [
           "Hair09"
         ]
-      }
+      },
+      "body": "male"
     },
     "redguard": {
       "label": "Redguard",
@@ -294,7 +297,8 @@
         "hairMeshes": [
           "MaleRedGuardHair02"
         ]
-      }
+      },
+      "body": "male"
     },
     "altmer": {
       "label": "Altmer",
@@ -352,7 +356,8 @@
         "hairMeshes": [
           "Hair14"
         ]
-      }
+      },
+      "body": "male"
     },
     "bosmer": {
       "label": "Bosmer",
@@ -410,7 +415,8 @@
         "hairMeshes": [
           "Hair07"
         ]
-      }
+      },
+      "body": "male"
     },
     "orsimer": {
       "label": "Orsimer",
@@ -467,7 +473,8 @@
         "hairMeshes": [
           "MaleOrcHair04"
         ]
-      }
+      },
+      "body": "male"
     },
     "khajiit": {
       "label": "Khajiit",
@@ -528,7 +535,8 @@
         "hairMeshes": [
           "KhajiitMaleHair02"
         ]
-      }
+      },
+      "body": "male-khajiit"
     },
     "argonian": {
       "label": "Argonian",
@@ -587,7 +595,8 @@
         "hairMeshes": [
           "ArgonianMaleHorns03"
         ]
-      }
+      },
+      "body": "male-argonian"
     }
   }
 }

@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { Canvas, advance } from "@react-three/fiber";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { BASE_FIELD_OF_VIEW } from "@elder-souls/game-core/physics/characterPhysics";
@@ -170,7 +171,7 @@ export function App() {
     combatAudio.unlock();
     enterFullscreen();
     requestMouseLook();
-    patch({ started: true, message: "THE HOLLOW WARDEN" });
+    patch({ started: true, message: text(CATALOGUE, "text.sandbox.combat-ready") });
   };
 
   return (
@@ -209,8 +210,7 @@ export function App() {
         <section className="title-screen">
           <div className="title-rule" />
           <p>AN ECCTRL COMBAT PROTOTYPE</p>
-          <h1>ASHEN RING</h1>
-          <p className="subtitle">One knight. One blade. One lesson.</p>
+          <h1>Ecctrl Combat Sandbox</h1>
           <RacePicker />
           <button onClick={begin}>ENTER THE ARENA</button>
           <FullscreenButton className="fullscreen-entry" />

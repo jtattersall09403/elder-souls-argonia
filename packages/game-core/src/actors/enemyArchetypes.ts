@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import type { AnimationState } from "../core/types";
 import type { Loadout } from "../equipment/types";
 import { DEFAULT_RACE, type RaceId } from "./races";
@@ -89,7 +90,7 @@ export type EnemyArchetype = {
 
 export const HOLLOW_WARDEN: EnemyArchetype = {
   id: "hollow-warden",
-  label: "The Hollow Warden",
+  label: text(CATALOGUE, "text.sandbox.sword-opponent"),
   maxHealth: 150,
   maxStamina: 100,
   estus: 1,
@@ -160,22 +161,22 @@ function armedWarden(
 }
 
 export const DAGGER_WARDEN = armedWarden(
-  "dagger-warden", "Cutthroat", weaponById("steel-dagger"),
+  "dagger-warden", text(CATALOGUE, "text.sandbox.dagger-opponent"), weaponById("steel-dagger"),
 );
 export const SWORD_AND_BOARD_WARDEN = armedWarden(
-  "shield-warden", "Shield Warden", STRAIGHT_SWORD, shieldById("steel-shield"),
+  "shield-warden", text(CATALOGUE, "text.sandbox.shield-opponent"), STRAIGHT_SWORD, shieldById("steel-shield"),
 );
 export const GREATSWORD_WARDEN = armedWarden(
-  "greatsword-warden", "Greatblade Warden", weaponById("steel-greatsword"),
+  "greatsword-warden", text(CATALOGUE, "text.sandbox.greatsword-opponent"), weaponById("steel-greatsword"),
 );
 export const WARHAMMER_WARDEN = armedWarden(
-  "warhammer-warden", "Hammer Warden", weaponById("steel-warhammer"),
+  "warhammer-warden", text(CATALOGUE, "text.sandbox.warhammer-opponent"), weaponById("steel-warhammer"),
 );
 export const BATTLEAXE_WARDEN = armedWarden(
-  "battleaxe-warden", "Axe Warden", weaponById("steel-battleaxe"),
+  "battleaxe-warden", text(CATALOGUE, "text.sandbox.battleaxe-opponent"), weaponById("steel-battleaxe"),
 );
 export const ARCHER_WARDEN: EnemyArchetype = {
-  ...armedWarden("archer-warden", "Warden Archer", weaponById("steel-longbow")),
+  ...armedWarden("archer-warden", text(CATALOGUE, "text.sandbox.archer-opponent"), weaponById("steel-longbow")),
   // An archer is not a swordsman who happens to be holding a bow. It is
   // lighter, quicker to give ground, and it has no business standing still.
   maxHealth: 105,

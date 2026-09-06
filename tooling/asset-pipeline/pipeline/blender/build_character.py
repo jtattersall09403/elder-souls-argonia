@@ -543,6 +543,20 @@ def retime_to_native_duration(action, hkx_path):
         action.name, current_span / bpy.context.scene.render.fps, native.duration))
 
 
+def reverse_source_action(action):
+    """Reverse sourced motion before measuring feet and exporting the clip."""
+    end_sum = action.frame_start + action.frame_end
+    for curve in action.fcurves:
+        for point in curve.keyframe_points:
+            left, right = point.handle_left.copy(), point.handle_right.copy()
+            left_type, right_type = point.handle_left_type, point.handle_right_type
+            point.co.x = end_sum - point.co.x
+            point.handle_left_type, point.handle_right_type = right_type, left_type
+            point.handle_left = (end_sum - right.x, right.y)
+            point.handle_right = (end_sum - left.x, left.y)
+        curve.update()
+
+
 def remove_declared_quaternion_keys(action, removals):
     """Apply narrowly declared cleanup to the imported source curve.
 
@@ -677,6 +691,10 @@ for spec in PLAN["animations"]:
     merged = merge_auxiliary_animation(semantic, action)
     if merged:
         auxiliary_merges[semantic] = merged
+    if spec.get("reverse_source"):
+        reverse_source_action(action)
+        if delta is not None:
+            delta = [-value for value in delta]
     action.name = semantic
     action.use_fake_user = True
     fr = action.frame_range

@@ -21,6 +21,9 @@ export type Vec3 = { x: number; y: number; z: number };
 /** Length of a shaft in metres. Matches what the pipeline builds arrows to. */
 export const ARROW_SHAFT_LENGTH_METERS = 0.75;
 
+/** Owner-selected gameplay gravity; physical reference remains 9.81 m/s². */
+export const DEFAULT_ARROW_GRAVITY_SCALE = 2;
+
 /**
  * Drag force on an arrow travelling at `velocity`, in newtons. Opposes motion
  * and grows with the square of speed; identical to the offline integrator's

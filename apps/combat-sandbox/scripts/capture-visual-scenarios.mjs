@@ -111,7 +111,7 @@ const automatedFailures = [];
 const probeFailures = [];
 const crossScenarioFailures = [];
 
-function waitForServer(url, child, timeoutMs = 30_000) {
+function waitForServer(url, child, listening, timeoutMs = 30_000) {
   const start = Date.now();
   return new Promise((resolveReady, reject) => {
     const poll = async () => {
@@ -122,7 +122,7 @@ function waitForServer(url, child, timeoutMs = 30_000) {
       }
       try {
         const response = await fetch(url);
-        if (response.ok) return resolveReady();
+        if (response.ok && listening() && child.exitCode === null) return resolveReady();
       } catch {
         // Vite is still starting.
       }
@@ -680,7 +680,7 @@ vite.stderr.on("data", (chunk) => { serverLog += chunk; });
 let browser;
 let context;
 try {
-  await waitForServer(gameUrl, vite);
+  await waitForServer(gameUrl, vite, () => serverLog.includes("Local:"));
   browser = await chromium.launch({
     headless: !flags.has("--headed"),
     channel: flags.has("--new-headless") ? "chromium" : undefined,

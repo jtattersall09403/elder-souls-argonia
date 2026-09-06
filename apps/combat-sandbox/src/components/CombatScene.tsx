@@ -1,3 +1,5 @@
+import { bowSight } from "@elder-souls/game-core/combat/bowSight";
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { solveBowAim } from "@elder-souls/game-core/combat/solveBowAim";
 import { bowShoulderPosition } from "@elder-souls/game-core/camera/bowCamera";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -60,7 +62,6 @@ import {
 } from "@elder-souls/game-core/combat/bowShot";
 import {
   AIM_CONVERGENCE_FAR_METERS,
-  aimAngles,
   aimConvergencePoint,
   angleBetweenDegrees,
   directionTo,
@@ -160,7 +161,7 @@ import {
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
 import { footAnchoredLoopVelocity, footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
-import { lockedStrideClip, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
+import { lockedStrideClip, lockedStrideRateFor, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
 import {
   executionAnchor,
   executionBladeIntersectsVictim,
@@ -2051,7 +2052,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
     camera.position.copy(cameraPosition.current);
     camera.lookAt(cameraLook.current);
-    message.current = visualScenario?.label ?? (resetToken > 0 ? "FIGHT RESTARTED" : "THE HOLLOW WARDEN");
+    message.current = visualScenario?.label ?? (resetToken > 0 ? "FIGHT RESTARTED" : text(CATALOGUE, "text.sandbox.combat-ready"));
     messageTimer.current = 1.2;
     setAnim(equipped.current ? playerWeapon.animations.combatIdle : "IDLE", 0, true);
     visualDriver.current?.reset();
@@ -2394,26 +2395,22 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const nockOrigin = playerNockWorld.current.lengthSq() > 1e-8
           ? playerNockWorld.current
           : tmp.current.aimRayFallback.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z);
-        let converged = directionTo(nockOrigin, point);
-        const fraction = bowStep.shot?.drawFraction ?? bowStep.cycle.drawFraction;
-        if ((crosshairHit || skin || lockTarget) && playerQuiver && fraction >= ranged.minimumReleaseFraction) {
-          converged = solveBowAim(nockOrigin, point,
-            launchSpeed(ranged, playerQuiver.arrow.physics, fraction), playerQuiver.arrow.physics,
-            useGameStore.getState().arrowGravityScale) ?? converged;
-        }
+        const sight = bowSight({ nock: nockOrigin, point, actor: playerPos,
+          cameraYaw: cameraYaw.current, lockedTarget: lockTarget?.position,
+          ranged, arrow: playerQuiver?.arrow.physics,
+          surface: Boolean(crosshairHit || skin || lockTarget),
+          gravityScale: useGameStore.getState().arrowGravityScale });
+        const converged = sight.direction;
         playerAimDirection.current.set(converged.x, converged.y, converged.z);
         tmp.current.aimDirection.copy(playerAimDirection.current);
-        const angles = aimAngles(converged);
-        playerAimBodyYaw.current = angles.yaw;
-        // The spine leans onto the shot's own line, which is not the camera's
-        // pitch once the camera sits above the eye.
-        playerAimSpinePitch.current = angles.pitch;
+        playerAimBodyYaw.current = sight.yaw;
+        playerAimSpinePitch.current = sight.pitch;
         playerAimErrorDegrees.current = angleBetweenDegrees(converged, {
           x: tmp.current.aimLook.x, y: tmp.current.aimLook.y, z: tmp.current.aimLook.z,
         });
       }
       playerBowDrawFraction.current = bowStep.cycle.phase === "drawing" ? Math.max(1e-6, bowStep.cycle.drawFraction)
-        : bowStep.cycle.phase === "ready" ? 1e-6 : 0;
+        : 0;
       if (bowStep.shot) playerBowRelease.current += 1;
       playerNockVisible.current = nockedArrowVisible(bowStep.cycle);
       {
@@ -3069,7 +3066,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // push steps rather than crawls. Clock, clip and measured track all
         // advance at that same rate, so the feet stay the anchor and the body
         // simply covers ground faster or slower.
-        const rate = strideRateForMagnitude(moveMagnitude, lockedClip ? lockedStrideRate : 1);
+        const rate = lockedClip
+          ? lockedStrideRateFor(lockedClip, moveMagnitude, lockedStrideRate)
+          : strideRateForMagnitude(moveMagnitude, 1);
         playerAnimationSpeed.current = rate;
         if (clipDrivenState.current !== locomotion) {
           clipDrivenState.current = locomotion;

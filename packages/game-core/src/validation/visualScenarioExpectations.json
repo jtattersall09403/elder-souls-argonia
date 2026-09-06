@@ -2012,7 +2012,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_DRAW"
+        "BOW_IDLE"
       ]
     },
     "evidenceAnimations": {
@@ -2071,7 +2071,6 @@
         "BOW_IDLE",
         "BOW_DRAW",
         "BOW_RELEASE",
-        "BOW_DRAW",
         "BOW_IDLE"
       ]
     },
@@ -2109,7 +2108,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_DRAW"
+        "BOW_IDLE"
       ]
     },
     "evidenceAnimations": {
@@ -3111,7 +3110,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_DRAW"
+        "BOW_IDLE"
       ]
     },
     "evidenceAnimations": {
@@ -3344,7 +3343,7 @@
         "BOW_DRAW",
         "BOW_DRAWN",
         "BOW_RELEASE",
-        "BOW_DRAW"
+        "BOW_IDLE"
       ]
     },
     "evidenceAnimations": {
@@ -3379,5 +3378,99 @@
     ],
     "transitionMotionChecks": [],
     "enemyHealthLessThan": 150
+  },
+  "bow-aim-idle": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_IDLE"
+      ]
+    },
+    "motionChecks": [],
+    "transitionMotionChecks": []
+  },
+  "bow-aim-down": {
+    "playerActions": [
+      "idle",
+      "aim"
+    ],
+    "playerAnimations": [
+      "BOW_IDLE",
+      "BOW_DRAW",
+      "BOW_DRAWN",
+      "BOW_DRAWN_WALK"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "aim"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_DRAWN_WALK",
+        "BOW_DRAWN"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "BOW_IDLE",
+        "BOW_DRAW",
+        "BOW_DRAWN",
+        "BOW_DRAWN_WALK"
+      ]
+    },
+    "motionChecks": [
+      {
+        "actor": "player",
+        "animations": [
+          "BOW_IDLE",
+          "BOW_DRAW",
+          "BOW_DRAWN",
+          "BOW_DRAWN_WALK"
+        ],
+        "bones": [
+          "upperArmL",
+          "forearmL",
+          "handL",
+          "upperArmR",
+          "forearmR",
+          "handR"
+        ],
+        "maxBoneAngularStepDegrees": 35,
+        "maxBoneAngularJerkDegreesPerSecondSquared": 20000,
+        "maxBonePositionStepMeters": 0.25,
+        "maxBoneVerticalSpeedMetersPerSecond": 8
+      }
+    ],
+    "transitionMotionChecks": [],
+    "facing": {
+      "actor": "player",
+      "followsCameraWithinRadians": 0.15
+    }
   }
 }

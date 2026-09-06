@@ -876,12 +876,13 @@ function PosedActor({
         }
         const handTarget = drawHandSocket.getWorldPosition(new THREE.Vector3())
           .lerp(riggedWeapon.nock.getWorldPosition(new THREE.Vector3()), drawConstraintWeight.current);
-        constrainDrawingHand(drawHandSocket, handTarget);
+        if (active) constrainDrawingHand(drawHandSocket, handTarget);
         // Analytic IK is ill-conditioned near a straight elbow. Ease its
         // joint rotations, not the gameplay draw or the string position.
         for (const [bone, authored] of constrainedBones.current) {
           if (!/Forearm_Lar|UpperArm_Uar/.test(bone.name)) continue;
           const previous = drawingJointRotations.current.get(bone) ?? authored.clone();
+          if (!active) { drawingJointRotations.current.delete(bone); continue; }
           previous.slerp(bone.quaternion, 1 - Math.exp(-renderMixerDelta / 0.08));
           bone.quaternion.copy(previous);
           drawingJointRotations.current.set(bone, previous);

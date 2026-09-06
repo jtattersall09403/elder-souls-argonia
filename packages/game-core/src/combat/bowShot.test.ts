@@ -52,7 +52,7 @@ describe("raising the bow", () => {
     expect(run(IDLE_BOW_CYCLE, NOTHING, 60).cycle.phase).toBe("lowered");
   });
 
-  it("raises, nocks and settles ready without the opening tap starting a draw", () => {
+  it("raises and settles with an empty string without the opening tap starting a draw", () => {
     // The tap that raises the bow is still held on the next frame. It must not
     // run straight on into a pull the player never asked for.
     const raised = run(IDLE_BOW_CYCLE, TAP, 2);
@@ -62,6 +62,7 @@ describe("raising the bow", () => {
     const settled = run(IDLE_BOW_CYCLE, (cycle, frame) => (frame === 0 ? TAP : NOTHING), 400);
     expect(settled.cycle.phase).toBe("ready");
     expect(settled.shots).toHaveLength(0);
+    expect(nockedArrowVisible(settled.cycle)).toBe(false);
   });
 
   it("blends the camera over the raise and holds at first person after", () => {
@@ -83,12 +84,24 @@ describe("raising the bow", () => {
   });
 });
 
+describe("nocking belongs to the draw command", () => {
+  it("waits indefinitely in aim and after a shot until another draw press", () => {
+    const ready = run(IDLE_BOW_CYCLE, (_, frame) => frame === 0 ? TAP : NOTHING, 600).cycle;
+    expect(ready.phase).toBe("ready");
+    expect(nockedArrowVisible(ready)).toBe(false);
+    expect(advanceBowCycle(ready, TAP, BOW, 100, 1 / 60).cycle.phase).toBe("nocking");
+    const recovered = run({ ...ready, phase: "loosed" }, NOTHING, 600).cycle;
+    expect(recovered.phase).toBe("ready");
+    expect(nockedArrowVisible(recovered)).toBe(false);
+  });
+});
+
 describe("drawing", () => {
   /** Raise, wait out the nock, then hold the button for `holdSeconds`. */
   function drawFor(holdSeconds: number, stamina = 1000) {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    return run(ready, (_, frame) => (frame < holdSeconds * 60 ? HOLDING : NOTHING),
-      Math.round(holdSeconds * 60) + 2, stamina);
+    return run(ready, (_, frame) => (frame < (holdSeconds + BOW.nockSeconds + 1 / 60) * 60 ? HOLDING : NOTHING),
+      Math.round((holdSeconds + BOW.nockSeconds) * 60) + 3, stamina);
   }
 
   it("reaches full draw in the bow's own draw time and no sooner", () => {
@@ -129,7 +142,7 @@ describe("drawing", () => {
 describe("the cycle after a shot", () => {
   it("makes the archer nock again before the next draw", () => {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    const holdFrames = Math.round((BOW.drawSeconds + 0.2) * 60);
+    const holdFrames = Math.round((BOW.nockSeconds + BOW.drawSeconds + 0.2) * 60);
     const shot = run(ready, (_, frame) => (frame < holdFrames ? HOLDING : NOTHING), holdFrames + 2);
     expect(shot.shots).toHaveLength(1);
     expect(shot.cycle.phase).toBe("loosed");
@@ -148,7 +161,7 @@ describe("the cycle after a shot", () => {
     let fired = false;
     // Tap to raise, then pull as soon as the arrow is on the string.
     for (let frame = 0; frame < 60 * 20 && !fired; frame += 1) {
-      const pulling = state.phase === "ready" || (state.phase === "drawing" && state.drawFraction < 1);
+      const pulling = state.phase === "ready" || state.phase === "nocking" || (state.phase === "drawing" && state.drawFraction < 1);
       const input: BowInput = {
         aimPressed: frame === 0,
         aimHeld: frame === 0 || pulling,
@@ -169,8 +182,8 @@ describe("the cycle after a shot", () => {
 describe("player-stat hooks", () => {
   function drawWith(modifiers: typeof NEUTRAL_RANGED_MODIFIERS, holdSeconds: number) {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    return run(ready, (_, frame) => (frame < holdSeconds * 60 ? HOLDING : NOTHING),
-      Math.round(holdSeconds * 60) + 2, 1000, modifiers);
+    return run(ready, (_, frame) => (frame < (holdSeconds + BOW.nockSeconds + 1 / 60) * 60 ? HOLDING : NOTHING),
+      Math.round((holdSeconds + BOW.nockSeconds) * 60) + 3, 1000, modifiers);
   }
 
   it("lets a faster archer reach full draw sooner", () => {
@@ -216,7 +229,7 @@ describe("the shaft comes out of the quiver", () => {
   it("shows nothing on the string until the hand has been back for it", () => {
     expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.1 })).toBe(false);
     expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.5 })).toBe(true);
-    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(true);
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(false);
     expect(nockedArrowVisible({
       ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: NOCK_REVEAL_FRACTION * 0.5,
     })).toBe(true);

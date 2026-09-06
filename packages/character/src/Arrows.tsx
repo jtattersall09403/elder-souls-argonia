@@ -1,3 +1,4 @@
+import { DEFAULT_ARROW_GRAVITY_SCALE } from "@elder-souls/game-core/combat/arrowFlight";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { BallCollider, RigidBody, useBeforePhysicsStep, useRapier, type RapierRigidBody } from "@react-three/rapier";
@@ -29,7 +30,7 @@ export type FlightSample = { t: number; wallTime: number; y: number; vx: number;
  * Sensor-only bodies cannot bounce on the shooter's capsule or other arrows.
  * A centred mass also prevents an imposed attitude moving an offset COM at apex.
  */
-export function Arrows({ arrows, retire, onHit, traceActor, gravityScale = 1, onSample }: {
+export function Arrows({ arrows, retire, onHit, traceActor, gravityScale = DEFAULT_ARROW_GRAVITY_SCALE, onSample }: {
   arrows: readonly LiveArrow[];
   retire: (id: number) => void;
   onHit: (hit: ArrowHit) => void;

@@ -139,7 +139,7 @@ export function InventoryScreen({ theme = "morrowind" }: { theme?: InventoryThem
   );
 
   const view = useMemo(
-    () => buildInventoryView(inventory, { category, search, sort, title: "Ashen Ring" }),
+    () => buildInventoryView(inventory, { category, search, sort, title: "Ecctrl Combat Sandbox" }),
     [inventory, category, search, sort],
   );
 

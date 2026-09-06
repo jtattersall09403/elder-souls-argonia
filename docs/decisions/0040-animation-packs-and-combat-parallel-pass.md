@@ -963,3 +963,61 @@ bow-stride classification and the production ranged/locked locomotion scenes.
 The extended bow locomotion scene holds one direction across multiple loops;
 short direction snippets alone could not expose the reported freeze.
 The owner reviews the deployed sandbox for visual acceptance.
+
+
+# Round 11 (2026-09-06): playtest corrections
+
+The owner accepts embedding, full-draw appearance and sustained drawn movement.
+Arrow gravity at 2× is now the shared gameplay default (19.62 m/s²), superseding
+the round-10 default. The physical reference and drag calibration remain intact.
+
+- `bowShot` now waits with an empty string after raising and after recovery.
+  A subsequent draw press starts the fetch and nock. The arrow stays hidden
+  while waiting. The sourced fetch still precedes the pull.
+- `bowSight` uses full-draw sight calibration throughout the pull. Previously
+  a weak draw crossing the target's reachability threshold switched from direct
+  aim to a steep ballistic solution, lifting the body before lowering it again.
+  Partial shots now follow the same sight and fall short naturally.
+- Body yaw follows the camera or the target from the actor centre. It no longer
+  depends on the moving nock-to-ground vector, which could reverse while aiming
+  down near the feet. Upper-body convergence remains independent of body yaw.
+- Drawing-arm IK and its cached joint rotations now stop outside the pull.
+  Previously a decaying constraint and stale joint smoothing altered the sourced
+  fetch and release, including movement across the torso.
+- The native backward-run clips for one-handed weapons, bows and greatswords
+  were real source files, but the owner rejected their visual result. A search
+  covered installed movement sources and descriptions for these mods:
+  [Movement Behavior Overhaul](https://www.nexusmods.com/skyrimspecialedition/mods/38950),
+  [360 Movement Behavior](https://www.nexusmods.com/skyrimspecialedition/mods/33139)
+  and [Vanargand Sneak Archery](https://www.nexusmods.com/skyrimspecialedition/mods/56788).
+  The search did not establish a suitable standing backward run. This is a
+  bounded sourcing result, not a claim that none exists. The owner's fallback
+  is implemented: `reverseSource` reverses the sourced forward run before foot
+  measurement and export. Core, bow and greatsword packs carry these clips.
+  The reversed core track travels +1.74002 m per loop versus −1.74002 m forward,
+  over the same 0.6333 s source span. The strafe default remains 1.55×.
+  Backward running uses its source cadence at that setting, matching forward
+  running; the debug setting scales both relative to their defaults. Light
+  analogue input selects the backward walk, matching forward gait selection.
+- Sandbox opponent labels describe equipment and role through the text
+  catalogue. Existing archetype IDs stay stable. The owner's removal of the
+  old title is preserved.
+
+New regressions cover an empty aim stance, downward aiming while moving,
+stable body facing near a ground target and the shared gravity default.
+The deployed sandbox remains the owner's visual acceptance surface.
+
+
+Validation: the deployment snapshot passes `npm test` and typecheck. All 11
+ranged scenes pass, including empty aim, downward movement and a locked-on hit.
+The two backward-run scenes remain flagged at the stop: blended support
+corrections reach 0.11477 m and 0.12119 m against a 0.105 m limit; the core stop
+also exceeds the 2 m/s correction-speed bound. Holding the outgoing gait pose
+did not improve this and was removed. Thresholds were retained. The owner
+should inspect the reversed gait and its stop in the deployed build; this
+transition gate remains open.
+
+The visual runner now requires the preview process's own listening message
+before accepting HTTP readiness. Previously an occupied port could silently
+send a run to an older preview server. Final checks used isolated ports,
+matching binaries and generated manifests.

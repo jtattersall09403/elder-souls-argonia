@@ -258,6 +258,7 @@ def write_blender_plan(
             {
                 "semantic": s.semantic,
                 "looping": s.looping,
+                "reverse_source": s.extra.get("reverseSource", False),
                 "root_motion": s.root_motion,
                 "playback_rate": s.playback_rate,
                 "playback_start_time": s.playback_start_time,
