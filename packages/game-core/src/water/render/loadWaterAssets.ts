@@ -6,6 +6,7 @@ import { PackedCrossSections, fetchPackedCrossSections, validatePackedCrossSecti
 import { fetchNativeWaterGround, validateNativeWaterGroundMeta } from '../nativeWaterGroundLoader';
 import type { WaterAssets } from "./types";
 import { packWaterAuxiliaries } from "./packWaterAuxiliaries";
+import { validateWaterBodies } from '../waterBodies';
 
 /** Caller-owned load; apps decide caching and lifetime. Paths are relative
  * to baseUrl (a Pages deployment prefix or an absolute URL). */
@@ -107,6 +108,7 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
       }
     }
   }
+  validateWaterBodies(meta.bodies, (meta.ribbons ?? []) as NonNullable<WaterMeta['ribbons']>, klass.classes as string[]);
 }
 
 async function fetchJson(url: string, signal: AbortSignal): Promise<unknown> {

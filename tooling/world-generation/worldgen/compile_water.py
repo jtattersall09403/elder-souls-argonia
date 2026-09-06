@@ -42,9 +42,13 @@ from .export_web_chunks import encode_rg16
 from .hydrology import fill_depressions
 from .scale import RAW_METRES_PER_SAMPLE as RAW_M
 from .water_geometry import (body_records, channel_surface, condition_channel_profiles,
-                            downhill_graph, extend_surface, refine_channel_stations)
+                            downhill_graph, extend_surface, refine_channel_stations, contain_pool_freeboards,
+                            channel_depth_targets, connected_marine_terrain, sample_marine_mask)
 from .water_features import compile_features
 from .water_geometry import repair_channel_beds, repair_channel_films
+from .terrain_triangles import (sample_terrain, fill_terrain_depressions, label_terrain_components,
+                               derive_channel_diagonal_flips)
+from .water_boundaries import spill_connected_access, hydraulic_plane_owners, ACCESS_MIN_M, ACCESS_MAX_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water" / "v2"
@@ -123,7 +127,7 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 
 
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
-            bank_ground=None) -> dict:
+            bank_ground=None, terrain_flips=None, orientation_levels=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     mpp1 = RAW_M * STEP
     ocean = npz["ocean"]
@@ -207,7 +211,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         w2[w2 < -1e8] = np.nan
 
     # sea plane (y = 0, decision 0003/0005)
-    comp(g2 < 0.0, np.float32(0.0))
+    ocean2 = connected_marine_terrain(g2, up_near(ocean), terrain_flips)
+    comp(ocean2, np.float32(0.0))
 
     # Priority-flood uses the actual ground, without blurring away banks.
     # It supplies standing pools only; river surfaces are segment profiles.
@@ -215,8 +220,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         up_lin(ndimage.binary_dilation(riv, iterations=1).astype(np.float32)), 1.6)
     riv2 = riv2f > 0.35
 
-    ocean2 = g2 < 0.0
-    filled2 = fill_depressions(g2, ocean2)
+    filled2 = fill_terrain_depressions(g2, ocean2, terrain_flips)
     depth_fill = filled2 - g2
     wet_heart = up_near(np.isin(npz["regions"], (6, 7, 8, 13)))
     allow2 = up_near(wetlands | (flood >= 1) | lakes) | riv2 | wet_heart
@@ -224,10 +228,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     cand = (depth_fill > 0.02) & ~ocean2
     gy2s, gx2s = np.gradient(g2s, mpp2)
     slope2 = np.hypot(gy2s, gx2s)
-    # Priority-flood and body connectivity are D8. Using D4 labels here
-    # split diagonal parts of one basin into different wet-season/river
-    # outlet heads, creating false pinned-pool conflicts at confluences.
-    lbl2, n_l = ndimage.label(cand, structure=np.ones((3, 3)))
+    # Match actual terrain/Rapier triangle edges. Neither D4 (which splits
+    # real diagonal outlets) nor D8 (which invents a second diagonal) is the
+    # physical adjacency of the native anti-diagonal terrain mesh.
+    lbl2, n_l = label_terrain_components(cand, terrain_flips)
     pool_lvl = np.full(g2.shape, -np.inf, dtype=np.float32)
     standing_pool_count = 0
     standing_pool_range = 0.0
@@ -287,14 +291,14 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     # to. Re-selecting thalwegs after each breach can chase a neighbouring
     # branch and needlessly spend the remaining excavation budget.
     routing_ground = g2 if bank_ground is None else bank_ground
-    candidate_bed = ndimage.map_coordinates(routing_ground, [candidate_y, candidate_x], order=1, mode="nearest")
+    candidate_bed = sample_terrain(routing_ground, [candidate_y, candidate_x], terrain_flips)
     longitudinal = (offsets[:, 0, None] * direction_y + offsets[:, 1, None] * direction_x) / direction_length
     candidate_bed[np.abs(longitudinal) > 0.75 / web_step] = np.inf
     nearest_bed = np.argmin(candidate_bed + np.linalg.norm(offsets, axis=1)[:, None] * 1e-6, axis=0)
     py = candidate_y[nearest_bed, np.arange(n_st)]
     px = candidate_x[nearest_bed, np.arange(n_st)]
     sy, sx = np.rint(py).astype(int), np.rint(px).astype(int)
-    bed_st = ndimage.map_coordinates(g2, [py, px], order=1, mode="nearest")
+    bed_st = sample_terrain(g2, [py, px], terrain_flips)
     film_st = np.select([rflat[idx_st] == b for b in (1, 2, 3)],
                         [np.float32(FILM_DEPTH[b]) for b in (1, 2, 3)]).astype(np.float32)
     w_st = bed_st + film_st
@@ -302,7 +306,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     w_st = np.where(np.isfinite(pool_at) & (pool_at > bed_st + 0.01), pool_at, w_st).astype(np.float32)
     # Receiving sea/fresh basins retain their shared datum at river mouths.
     # A band-depth offset here would mound the river above the sea plane.
-    w_st[bed_st < 0] = 0
+    w_st[sample_marine_mask(g2, ocean2, np.column_stack([py, px]), terrain_flips)] = 0
     # downstream station row for each station (coarse flow graph)
     pos = np.full(z.size, -1, dtype=np.int64)
     pos[idx_st] = np.arange(n_st)
@@ -313,6 +317,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     stale_rise = bed_st[np.maximum(dsk, 0)] - bed_st
     topology_stats = {
         "channelStationCount": int(n_st),
+        "marineNativeSampleCount": int(ocean2.sum()),
+        "isolatedBelowSeaNativeSampleCount": int(np.count_nonzero((g2 < 0) & ~ocean2)),
         "staleUphillLinkCount": int(np.sum(old_link & (stale_rise > 0.2))),
         "maxStaleUphillM": round(float(np.max(stale_rise[old_link], initial=0)), 3),
         "standingPoolCount": int(standing_pool_count),
@@ -334,17 +340,51 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     r_st = np.clip(w_geom * 0.5 / mpp2, 2.0 / web_step, 9.0 / web_step).astype(np.float32)
     geometry_points, geometry_ds, geometry_levels, geometry_radius, geometry_owners = refine_channel_stations(
         g2, np.column_stack([py, px]), dsk, w_st, r_st, pool_levels=pool_lvl,
-        routing_ground=routing_ground)
+        routing_ground=routing_ground, minimum_depth=film_st, terrain_flips=terrain_flips, marine_ground=ocean2)
+    desired_geometry_levels = geometry_levels.copy()
+    geometry_depths = channel_depth_targets(geometry_points, geometry_ds, dsk, film_st)
+    profile_diagnostics = {} if profiles_only else None
     geometry_levels, geometry_active, accepted_links, conflicts = condition_channel_profiles(
         g2, geometry_points, geometry_ds, geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
-        bank_ground=bank_ground)
+        bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+        diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
+        metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2)
+    pool_head_changes = []
+    while conflicts:
+        changes = contain_pool_freeboards(pool_lvl, lbl2, filled2, geometry_points, conflicts)
+        if not changes:
+            break
+        pool_head_changes.extend(changes)
+        geometry_levels, geometry_active, accepted_links, conflicts = condition_channel_profiles(
+            g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
+            bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+            diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
+            metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2)
+    if pool_head_changes:
+        # Replace the entire original plane, not just the constrained node.
+        w2[keep2[lbl2]] = pool_lvl[keep2[lbl2]]
+    topology_stats['bankContainedFlowPoolCount'] = len({change['poolLabel'] for change in pool_head_changes})
+    maximum_pool_reduction = {}
+    for change in pool_head_changes:
+        label = change['poolLabel']
+        maximum_pool_reduction[label] = maximum_pool_reduction.get(label, 0.) + change['fromM'] - change['toM']
+    topology_stats['maximumFlowPoolFreeboardReductionM'] = round(max(maximum_pool_reduction.values(), default=0.), 6)
     if profiles_only:
         return {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
-                "links": geometry_ds, "levels": geometry_levels, "active": geometry_active}
+                "links": geometry_ds, "levels": geometry_levels, "active": geometry_active,
+                "desired_levels": desired_geometry_levels, "original_links": dsk,
+                "radius": geometry_radius, "diagnostics": profile_diagnostics}
     w_st = geometry_levels[:n_st].copy()
-    current_downstream = downhill_graph(w_st, accepted_links)
+    current_downstream = downhill_graph(w_st, accepted_links, orientation_levels)
+    if orientation_levels is not None:
+        sources = np.flatnonzero(dsk >= 0)
+        targets = dsk[sources]
+        topology_stats['preventedRepairDrivenFlowReversals'] = int(np.count_nonzero(
+            (desired_geometry_levels[sources] < desired_geometry_levels[targets]) !=
+            (orientation_levels[sources] < orientation_levels[targets])))
+        topology_stats['postRepairFlowOrientationChanges'] = 0
     terrain_mismatches = []
-    sea_components, _ = ndimage.label(g2 < 0, structure=np.ones((3, 3)))
+    sea_components, _ = label_terrain_components(ocean2, terrain_flips)
     for source, conflict in sorted(conflicts.items()):
         cell = int(idx_st[source])
         point = geometry_points[conflict["node"]]
@@ -353,8 +393,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             "riverBand": int(rflat[idx_st[source]]), "status": "excluded",
             "reason": "monotone-channel-head-exceeds-bank-or-standing-pool",
             "excessHeadM": round(conflict["requiredLevelM"] - conflict["bankCapM"], 4),
-            **{key: round(value, 4) for key, value in conflict.items()
-               if key not in ("node", "obstructionNode", "pathNodes", "drainageNodes")}}
+            **{key: (value if isinstance(value, bool) else round(value, 4))
+               for key, value in conflict.items()
+               if key not in ("node", "obstructionNode", "pathNodes", "drainageNodes", "nodeBankCaps")}}
         target = dsk[source]
         if target >= 0:
             start_cell = tuple(np.rint(geometry_points[source]).astype(int))
@@ -370,7 +411,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         terrain_mismatches.append(record)
     del sea_components
     topology_stats["terrainMismatchReachCount"] = len(terrain_mismatches)
-    active_bed = ndimage.map_coordinates(g2, geometry_points[geometry_active].T, order=1, mode="nearest")
+    active_bed = sample_terrain(g2, geometry_points[geometry_active].T, terrain_flips)
     topology_stats["nativeDepthUnderRiverMinimumM"] = round(
         float(np.min(geometry_levels[geometry_active] - active_bed)) if len(active_bed) else 0., 6)
     topology_stats["nativeAscendingSegmentCount"] = 0
@@ -385,10 +426,15 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     w2[standing_pool] = pool_lvl[standing_pool]
     riv2 = riv2 | ribbon
     wet2 = np.isfinite(w2) & (w2 > g2 + 0.01)
-    w2, support2, bodies2 = extend_surface(w2, g2, TABLE_MAX_PX * 2 / web_step)
-    # Only banks above the nearest body can be potential flooding. Extending
-    # a river's level over unrelated lower terrain would create hanging water.
-    support2 &= wet2 | (g2 >= w2 - 0.01)
+    w2, support2, bodies2, nearest_wet = extend_surface(
+        w2, g2, TABLE_MAX_PX * 2 / web_step, preserve_owner_domain=True, return_nearest=True, terrain_flips=terrain_flips)
+    bodies2, owner_records = hydraulic_plane_owners(bodies2, wet2, lbl2, standing_pool, nearest_wet)
+    flat_owner = (standing_pool | ocean2)[tuple(nearest_wet)]
+    # Native cross-sections now own ALL flowing reaches. Only a standing
+    # pool/sea head can inundate raster margins: extrapolating a high river
+    # profile onto a lower outer slope is not a valid standing water table.
+    access2, support2 = spill_connected_access(g2, w2, wet2, bodies2, can_flood=flat_owner, terrain_flips=terrain_flips)
+    support_kind2 = np.where(support2, np.where(flat_owner, 255, 128), 0).astype(np.uint8)
     bodies2[~support2] = 0
     fringe = support2 & ~wet2
     nod2 = ~support2
@@ -399,17 +445,6 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         topology_stats["channelStationsWetFraction"] = round(float(np.mean(station_depth > 0.05)), 6)
         topology_stats["nativeChannelSamplesWetFraction"] = round(float(np.mean(refined_depth > 0.05)), 6)
     shore2 = np.clip(ndimage.distance_transform_edt(wet2) * mpp2, 0.0, SHORE_MAX_M).astype(np.float32)
-    ribbons, cascades = compile_features(
-        g2, w2, support2, bodies2, geometry_points, geometry_ds, geometry_levels,
-        geometry_radius, n_st, accepted_links, idx_st, w_, rflat[idx_st], mpp2)
-    feature_inputs = {
-        "points": geometry_points, "links": geometry_ds, "levels": geometry_levels,
-        "radius": geometry_radius, "original_count": n_st, "original_links": accepted_links,
-        "cell_indices": idx_st, "coarse_width": w_, "bands": rflat[idx_st],
-    }
-    topology_stats["supplementalRibbonCount"] = len(ribbons)
-    topology_stats["cascadeCount"] = len(cascades)
-
     # Current follows the actual descending profile. Continuous speeds avoid
     # abrupt material-advection jumps at arbitrary speed-band thresholds.
     vx = np.zeros(z.shape, dtype=np.float32)
@@ -494,17 +529,25 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         arr[ext] = arr[iy[ext], ix[ext]]
 
     season2 = up_lin(season)
+    tidal2 = np.clip((up_lin(salinity) - .02) / (.15 - .02), 0, 1)
+    tidal2 = tidal2 * tidal2 * (3 - 2 * tidal2)
     if standing_pool_count:
         pool_season = np.zeros(n_l + 1, np.float32)
         # Preserve the existing full wet/dry range wherever a standing
         # freshwater pool already receives it, uniformly across that pool.
         pool_season[kept_ids] = ndimage.maximum(season2, lbl2, kept_ids)
         season2[standing_pool] = pool_season[lbl2[standing_pool]]
+        pool_tide = np.zeros(n_l + 1, np.float32)
+        pool_tide[kept_ids] = ndimage.maximum(tidal2, lbl2, kept_ids)
+        tidal2[standing_pool] = pool_tide[lbl2[standing_pool]]
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
     if np.any(wet2):
-        _, nearest_wet = ndimage.distance_transform_edt(~wet2, return_indices=True)
-        season2[fringe] = season2[tuple(nearest_wet[:, fringe])]
+        margin = ~wet2
+        # Cross-sections can extend beyond the raster proxy's guard rows.
+        # Their entire owner domain must keep its source level response.
+        season2[margin] = season2[tuple(nearest_wet[:, margin])]
+        tidal2[margin] = tidal2[tuple(nearest_wet[:, margin])]
         del nearest_wet
 
     # Purely semantic exposure: surrounding land shelters inland waters;
@@ -514,6 +557,22 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     exposure[cls == CLASSES.index("lake")] = 0.25
     exposure[np.isin(regions, (6, 7, 8, 13)) & ~sea] = 0.03
 
+    feature_inputs = {
+        "points": geometry_points, "links": geometry_ds, "levels": geometry_levels,
+        "radius": geometry_radius, "original_count": n_st, "original_links": accepted_links,
+        "cell_indices": idx_st, "coarse_width": w_, "bands": rflat[idx_st],
+        "standing_detail": np.where(standing_pool, pool_lvl, -np.inf), "all_channels": True,
+        "marine_ground": ocean2,
+        "terrain_flips": terrain_flips, "orientation_levels": orientation_levels,
+        # Original station owners supply level response; interpolation is
+        # longitudinal only and never samples another bank/reach at an edge.
+        "season_response": season2[sy, sx], "tide_response": tidal2[sy, sx],
+    }
+    ribbons, cascades = compile_features(g2, w2, support2, bodies2,
+                                         **feature_inputs, metres_per_pixel=mpp2)
+    topology_stats["supplementalRibbonCount"] = len(ribbons)
+    topology_stats["cascadeCount"] = len(cascades)
+
     return {
         "w1": w_filled, "wet": wet, "wetr": wetr, "ext": ext, "cls": cls_ext,
         "turb": turb, "tannin": tannin, "season": season, "salinity": salinity, "vx": vx,
@@ -521,13 +580,14 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "ground2": g2, "nodata2": nod2, "shore2": shore2, "fringe": fringe,
         "riv2": riv2,
         "support2": support2, "bodies2": bodies2,
+        "support_kind2": support_kind2, "access2": access2, "tidal2": tidal2,
         "river_band": rivers, "regions": regions, "exposure": exposure,
         "season2": season2,
         "station_levels": w_st, "station_downstream": dsk,
         "topology_stats": topology_stats,
         "ribbons": ribbons, "cascades": cascades,
         "feature_inputs": feature_inputs,
-        "body_records": body_records(bodies2),
+        "body_records": owner_records,
         "terrain_mismatches": terrain_mismatches,
     }
 
@@ -541,11 +601,17 @@ cover any extra gaps introduced by the reduced raster, using native banks.
     if factor == 1:
         return native
     result = native.copy()
-    for key in ("w2", "ground2", "depth2", "shore2", "fringe", "riv2", "support2", "bodies2", "nodata2", "season2"):
+    for key in ("w2", "ground2", "depth2", "shore2", "fringe", "riv2", "support2", "bodies2", "nodata2", "season2",
+                "access2", "tidal2", "support_kind2"):
         if key not in native:
             continue
         result[key] = native[key][::factor, ::factor]
     geometry = native["feature_inputs"].copy()
+    if geometry.get('all_channels'):
+        # Complete native channels are independent of raster resolution.
+        # Reuse them exactly instead of repeating expensive bank tracing.
+        result['topology_stats'] = {**native['topology_stats'], 'geometrySourceMetresPerPixel': RAW_M}
+        return result
     geometry["points"] = geometry["points"] / factor
     geometry["radius"] = geometry["radius"] / factor
     ribbons, cascades = compile_features(
@@ -582,6 +648,22 @@ def main() -> None:
     refined = np.load(DEFAULT_HEIGHTS)
     z = npz["conditioned"].astype(np.float32)
     original = refined.copy()
+    terrain_flips, topology_records = derive_channel_diagonal_flips(original, npz['rivers'], npz['flow_to'])
+    args.out_dir.mkdir(parents=True, exist_ok=True)
+    topology = {'schemaVersion': 1, 'gridSize': int(refined.shape[0]), 'metresPerPixel': RAW_M,
+                'flippedCells': np.flatnonzero(terrain_flips).tolist(), 'audit': topology_records}
+    # The terrain exporter can prepare matching topology while the water
+    # solve runs; no original terrain assets or public bundle are replaced.
+    (args.out_dir / 'water-terrain-topology.json').write_text(json.dumps(topology, separators=(',', ':')))
+    # Freeze reach intent before any repair. Excavation must not reverse a
+    # neighbouring reach and thereby trigger a second, artificial backwater.
+    reference = compute(z, original, npz, profiles_only=True, bank_ground=original,
+                        terrain_flips=terrain_flips)
+    orientation_levels = reference['desired_levels'][:len(reference['original_links'])].copy()
+    if args.cache:
+        np.save(args.cache.with_suffix('.orientation.npy'), orientation_levels)
+    del reference
+    print('Frozen native pre-repair reach orientation', flush=True)
     exception_cells = [tuple(map(int, cell.split(","))) for cell in args.bed_exception_cell]
     allowed_exceptions = {(124, 348), (125, 349), (126, 350), (128, 1092)}
     if any(cell not in allowed_exceptions for cell in exception_cells):
@@ -608,33 +690,44 @@ def main() -> None:
     iteration = 0
     while not args.bed_overlay or args.continue_repairs:
         iteration += 1
-        profiles = compute(z, refined, npz, profiles_only=True, bank_ground=original)
+        profiles = compute(z, refined, npz, profiles_only=True, bank_ground=original,
+                           terrain_flips=terrain_flips, orientation_levels=orientation_levels)
         exceptional_sources = {source for source, cell in enumerate(profiles["cell_indices"])
                                if (int(cell // z.shape[1]), int(cell % z.shape[1])) in exception_cells}
         changes = repair_channel_beds(original, refined, profiles["points"], profiles["conflicts"],
-                                      max_lowering=args.max_bed_lowering, exceptional_sources=exceptional_sources)
-        changes += repair_channel_films(original, refined, profiles["points"], profiles["links"],
-                                        profiles["levels"], profiles["active"], args.max_bed_lowering)
+                                      max_lowering=args.max_bed_lowering, exceptional_sources=exceptional_sources,
+                                      terrain_flips=terrain_flips,
+                                      depth_targets=profiles['diagnostics']['depthTargets'],
+                                      pinned=profiles['diagnostics']['pinned'],
+                                      links=profiles['links'], radius=profiles['diagnostics']['bankRadius'],
+                                      bank_normals=profiles['diagnostics']['bankNormals'])
         print(f"Bounded channel repair {iteration}: {changes} native samples; "
               f'{len(profiles["conflicts"])} constrained reaches', flush=True)
         if args.cache:
             progress_indices = np.flatnonzero(refined.ravel() < original.ravel() - 1e-6)
             progress = {"schemaVersion": 1, "gridSize": int(refined.shape[0]), "metresPerPixel": RAW_M,
-                        "maxLoweringM": 5 if exception_cells else args.max_bed_lowering,
+                        "maxLoweringM": 5 if np.any(original - refined > args.max_bed_lowering + 1e-5) else args.max_bed_lowering,
                         "routineMaxLoweringM": args.max_bed_lowering, "exceptionCells": exception_cells,
                         "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                         "changes": [[int(index), round(float(refined.flat[index]), 6),
                                      round(float(original.flat[index]), 6)] for index in progress_indices]}
             args.cache.with_suffix(".bed-progress.json").write_text(json.dumps(progress, separators=(",", ":")))
+            diagnostics = [{'source': int(source), 'cell': int(profiles['cell_indices'][source]),
+                **{key: value for key, value in conflict.items() if key not in ('pathNodes', 'drainageNodes')},
+                'position': profiles['points'][conflict['node']].tolist(),
+                'obstructionPosition': profiles['points'][conflict['obstructionNode']].tolist()}
+                for source, conflict in profiles['conflicts'].items()]
+            args.cache.with_suffix('.constraints.json').write_text(json.dumps(diagnostics, separators=(',', ':')))
         if not changes:
             break
-    r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original), args.web_step)
+    r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
+        terrain_flips=terrain_flips, orientation_levels=orientation_levels), args.web_step)
 
     out_dir = args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
     changed = np.flatnonzero(refined.ravel() < original.ravel() - 1e-6)
     overlay = {"schemaVersion": 1, "gridSize": int(refined.shape[0]), "metresPerPixel": RAW_M,
-               "maxLoweringM": 5 if exception_cells else args.max_bed_lowering,
+               "maxLoweringM": 5 if np.any(original - refined > args.max_bed_lowering + 1e-5) else args.max_bed_lowering,
                "routineMaxLoweringM": args.max_bed_lowering, "exceptionCells": exception_cells,
                "exceptionIndices": np.flatnonzero((original - refined).ravel() > args.max_bed_lowering + 1e-5).tolist(),
                "changes": [[int(index), round(float(refined.flat[index]), 6),
@@ -642,6 +735,7 @@ def main() -> None:
     (out_dir / "water-bed-overlay.json").write_text(json.dumps(overlay, separators=(",", ":")))
     r["topology_stats"]["repairedNativeBedSampleCount"] = len(changed)
     r["topology_stats"]["maximumBedLoweringM"] = round(float(np.max(original - refined)), 6)
+    r["topology_stats"]["flippedNativeCellCount"] = int(terrain_flips.sum())
     if args.cache:
         np.savez_compressed(
             args.cache,
@@ -661,7 +755,7 @@ def main() -> None:
                       np.round((signed_depth - DEPTH_MIN_M) / 0.1).astype(np.uint8)])
     Image.fromarray(surf, mode="RGB").save(out_dir / "water-surface.png")
     bodies = r["bodies2"]
-    Image.fromarray(np.dstack([r["support2"].astype(np.uint8) * 255,
+    Image.fromarray(np.dstack([r["support_kind2"],
         (bodies >> 8).astype(np.uint8), (bodies & 255).astype(np.uint8)]),
         mode="RGB").save(out_dir / "water-support.png")
 
@@ -677,6 +771,9 @@ def main() -> None:
     Image.fromarray(
         np.dstack([shore8, enc(r["season2"]), enc(up2(r["tannin"]))]), mode="RGB",
     ).save(out_dir / "water-shore.png")
+    access_rg = np.asarray(encode_rg16(r["access2"], ACCESS_MIN_M, ACCESS_MAX_M))
+    Image.fromarray(np.dstack([access_rg[..., 0], access_rg[..., 1], enc(r["tidal2"])]),
+                   mode="RGB").save(out_dir / "water-access.png")
 
     flow = np.dstack([
         enc(r["vx"] / FLOW_MAX * 0.5 + 0.5),
@@ -723,7 +820,12 @@ def main() -> None:
             "shoreMaxM": SHORE_MAX_M,
             "supportFile": "water-support.png",
             "bedOverlayFile": "water-bed-overlay.json",
-            "supportEncoding": "R = supported water domain; G,B = 16-bit connected body index (nearest sampling)",
+            "terrainTopologyFile": "water-terrain-topology.json",
+            "nativeChannelCoverage": True,
+            "supportEncoding": "R = 0 outside, 128 native-channel proxy only, 255 standing/sea raster; G,B = 16-bit hydraulic owner (body metadata basinIndex preserves connectivity)",
+            "accessFile": "water-access.png", "accessMinOffsetM": ACCESS_MIN_M,
+            "accessSpanM": ACCESS_MAX_M - ACCESS_MIN_M,
+            "accessEncoding": "R,G = RG16 minimum connected level offset; B = fine tidal response",
         },
         "flow": {"file": "water-flow.png", "size": int(z.shape[0]),
                  "metresPerPixel": RAW_M * STEP, "flowMax": FLOW_MAX,
@@ -740,8 +842,11 @@ def main() -> None:
     }
     # Raster indices are compact; public identities use a geographic seed so
     # unrelated earlier components do not renumber them in future compiles.
-    meta["bodies"] = r["body_records"]
-    (out_dir / "water-meta.json").write_text(json.dumps(meta, indent=1))
+    from .water_body_records import compile_body_records
+    meta["bodies"] = compile_body_records(meta, r)
+    from .water_cross_sections import pack_cross_sections
+    pack_cross_sections(meta, out_dir)
+    (out_dir / "water-meta.json").write_text(json.dumps(meta, separators=(',', ':')))
     print(json.dumps(stats, indent=1))
 
 

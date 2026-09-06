@@ -11,12 +11,13 @@
 import { ChannelRibbonSampler, type ChannelRibbonRecord } from "./channelRibbons";
 import type { PackedCrossSectionMeta } from './packedCrossSections';
 import type { NativeWaterGround, NativeWaterGroundDescriptor } from './nativeWaterGround';
+import { isPhysicalWaterBody, type WaterBodyIdentity, type WaterBodyRecord } from './waterBodies';
 
 export interface WaterMeta {
   schemaVersion?: number;
   /** Index identifies a hydraulic surface owner; connected basin membership
    * is separate and must never imply a shared standing head. */
-  bodies?: { index: number; id: string; basinIndex?: number }[];
+  bodies?: (WaterBodyIdentity | WaterBodyRecord)[];
   ribbons?: ChannelRibbonRecord[];
   crossSections?: PackedCrossSectionMeta;
   nativeGround?: NativeWaterGroundDescriptor;
@@ -102,6 +103,7 @@ export function tideResponseOf(salinity: number): number {
 
 export class WaterData {
   private readonly bodyIds: Map<number, string>;
+  private readonly physicalBodies: Map<string, WaterBodyRecord>;
   readonly ribbons: ChannelRibbonSampler;
   constructor(
     readonly meta: WaterMeta,
@@ -131,10 +133,13 @@ export class WaterData {
   ) {
     if (meta.nativeGround && !nativeGround) throw new Error('Water metadata requires its matching native ground provider');
     this.bodyIds = new Map(meta.bodies?.map(b => [b.index, b.id]));
+    this.physicalBodies = new Map(meta.bodies?.filter(isPhysicalWaterBody).map(b => [b.id, b]));
     this.ribbons = new ChannelRibbonSampler(meta.ribbons ?? [], 32, nativeGround, maximumStageOffsetM);
   }
 
   waterBodyIdForIndex(index: number): string | null { return this.bodyIds.get(index) ?? null; }
+  /** Physical metadata only; current wetness/levels still require sample(). */
+  waterBodyRecord(id: string | null): Readonly<WaterBodyRecord> | null { return id === null ? null : this.physicalBodies.get(id) ?? null; }
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
     const origin = this.meta.surface.gridOriginM ?? mpp * 0.5;

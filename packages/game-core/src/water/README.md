@@ -5,6 +5,7 @@ The gameplay boundary is `WorldWaterQuery` in `@elder-souls/contracts`. Position
 | Concern | Entry point |
 | --- | --- |
 | Decoded hydrology, grid origins, supported domains and body identity | `waterData.ts` |
+| Derived physical body records, field references and surface authority | `waterBodies.ts` |
 | Exact CPU/rendered channel triangles | `channelRibbons.ts` |
 | Compact native-bank sidecar and bounded decoded station cache | `packedCrossSections.ts` |
 | Depth/roughness resistance, upstream momentum and falling-jet current | `channelCurrent.ts` |
@@ -24,6 +25,18 @@ The gameplay boundary is `WorldWaterQuery` in `@elder-souls/contracts`. Position
 | Bounded local ripples and spray/foam | `render/RippleSim.ts`, `render/WaterEffects.ts` |
 
 Inject `WaterRuntime` from `render/types.ts`; do not import a studio singleton. Use the surface handle's complete `meshes` collection when switching capture/underwater visibility. Call resource disposers on unmount. A consumer that applies caustics in its opaque terrain pass must set `causticsInOpaque` to prevent the refracted/composite fallback applying them twice.
+
+Compiled body records summarize actual hydraulic owners: stable identity,
+basin membership, conservative potential-stage bounds, semantic class set,
+river bands and field references. `data.waterBodyRecord(sample.waterBodyId)`
+resolves these records; legacy identity-only bundles return null. Only
+constant-head owners without channel ribbons declare a standing plane;
+longitudinal rivers retain their reach references. Current wetness, depth,
+chemistry, flow and tide/season response still come from the shared query,
+not the bounding rectangle or a body-wide average. Unknown discharge,
+navigability, ecology and authored place links are not fabricated. The
+`province-semantic-v2` profile names the existing field-driven renderer, not
+a different material per body.
 
 Expanded channel cross-sections carry actual lateral ground and the upstream access barrier at each signed offset. The sampler lazily retains at most 256 records and 16,384 triangles. Streaming renderers use `sampler.meshDataFor(records)`, so current retains the whole graph's upstream momentum across mesh boundaries. Base-stage connected cross-sections supply hydraulic radius; resistance approaches Manning flow on gradual beds and transitions to gravitational jet acceleration on steep falls, with an explicit 12 m/s safety bound. Legacy records retain the prior current model. All foam/detail scales must advect through `flowAdvectionGlsl()` with full world-space velocity, including vertical fall speed; changing texture frequency must not change physical feature speed.
 

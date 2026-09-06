@@ -50,8 +50,10 @@ The advanced water repositories already contain valuable buoyancy, wake, interac
 > `MeshPhysicalMaterial` + `onBeforeCompile` on the 8a CSM/PMREM/aerial
 > stack, scene-RT refraction/SSR, underwater blit pass, two quality tiers,
 > browser probes in `scripts/probe-water.mjs`). Deferred to later phases:
-> full authored `WaterBody` records (§40 — compiled stable body IDs and semantic
-> fields already exist), swimming and boat controllers. Bed caustics, bounded
+> site-authored ecology/navigation links, swimming and boat controllers.
+> Physical `WaterBody` records (§40) now derive owner bounds, semantic classes,
+> field references and flat/channel surface authority from compiled data;
+> unknown discharge or authored links are not invented. Bed caustics, bounded
 > interactive ripples and spray/foam are implemented. FFT (§39.4) is an optional
 > technique, not a quality gate. See the [quality contract and owner review](../research/rendering/water-quality.md).
 

@@ -23,7 +23,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Caustics on submerged receivers; backlog/owner | Shared terrain/prop receiver includes interaction-field refraction Jacobian; crate fixtures opt in; numerical tests cover chemistry, crest/trough focus, real disturbance and dry-edge rejection; in-scene evidence remains | open |
 | Reflections, sun/moon glints, god rays, upward underwater view; owner | Previous targeted probes pass; preserve through remaining changes | open |
 | Weather response appropriate to each feature; owner | Existing wind/rain coupling; spectral/weather transitions and local effects budgets unproven | open |
-| WaterBody records, rendering profiles, future consumer contracts; module60/buildout register | Stable component IDs exist; physical records and optional authored links unfinished | open |
+| WaterBody records, rendering profiles, future consumer contracts; module60/buildout register | Compiler-derived physical records and portable lookup/validation implemented locally; flat vs channel authority preserved, unknown authored ecology/navigation/discharge not fabricated; final export validation remains | open |
 | Region/map tooltip matches actual water; backlog | Tooltip now queries shared current wet boundary instead of separate legacy raster; geographical region data retained; deployed interaction check remains | open |
 | Walk-mode SSR/DPR/capture costs; backlog | Shared capture exists; per-pixel SSR cost and measured pass budgets need improvement | open |
 | High framerate in walk/fly/future game; owner | Whole-province detail residency and uncullable ribbon draw found; bounded streaming/LOD in progress | open |
