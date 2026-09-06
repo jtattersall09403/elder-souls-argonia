@@ -1021,3 +1021,52 @@ The visual runner now requires the preview process's own listening message
 before accepting HTTP readiness. Previously an occupied port could silently
 send a run to an older preview server. Final checks used isolated ports,
 matching binaries and generated manifests.
+
+
+# Round 12 (2026-09-06): completion audit
+
+The backward-run stop failures from round 11 came from the blended leg pose.
+Its sole penetrated the floor by about 11–12 cm. Pelvis correction lifted
+the whole body to compensate. Shared `anim/footContact` now corrects each
+penetrating leg during grounded locomotion crossfades before pelvis support.
+It retains the sourced knee plane, foot orientation and hip position; saved
+joint rotations are restored before the next mixer evaluation. Airborne and
+combat clips keep their existing support rules. This is contact IK over sourced
+animation, with no new authored clips or gameplay speed changes.
+
+Validation closes the two previous failures without changing their limits.
+The full 16-scene locomotion/ranged run passes: maximum blended correction is
+0.00742 m for locked locomotion and 0.01033 m for greatsword locomotion;
+correction speeds are 0.33638 and 0.90954 m/s. At three actor scales, unit tests
+verify that lifting the foot preserves hip position and foot orientation.
+They also verify pose restoration. Root `npm test` and `npm run typecheck` pass.
+
+The production arrow probe fires at 5 m/s and 80° from 20 m above the floor.
+Across 80 physics samples it measures gravity at −19.62000 m/s² after subtracting
+aerodynamic drag, rises 0.60738 m, then falls 10.55199 m below launch height
+within 1.31667 s, reaching −20.80894 m/s vertical speed. The 0.09706 kg mass,
+2× gravity and zero linear damping match the shared definition. Rapier refreshes
+its mass cache during its first step; the pre-step construction sample is not
+a post-integration mass measurement. The probe checks every later mass sample
+and the acceleration of every step, including the first. Physics regression
+tests now use the production centred sensor collider at both 1× reference and
+2× gameplay gravity instead of the retired offset collider layout.
+
+Completion evidence for the owner's requested behaviours:
+
+| Requirement | Implementation and evidence |
+|---|---|
+| Shoulder default; real-game reuse | Shared camera, sight, bow state, projectile, character constraints and locomotion modules; sandbox supplies scene/debug glue. |
+| Click-triggered fetch and nock | Shared state-machine regressions; empty-aim scene passes; inspected fetch, pull and late-draw stills. |
+| Crosshair/lock-on alignment; no near-full-draw bump | Shared full-draw sight calibration and actor-centred yaw; locked-on hit, tracking and turn scenes pass. |
+| Downward and idle flicker | Stable shared facing and animated-mesh culling fix; empty-aim and downward-moving scenes pass. |
+| Drawing arm | Constraints apply only during pull, with stale smoothing cleared outside it; three inspected draw stills show no obvious torso intersection. |
+| Embedding and full-draw geometry | Owner accepted round 11 appearance; posed-skin hit/miss tests and ranged scenes remain green. |
+| Sustained drawn movement | Owner accepted; extended movement scenario crosses multiple source loops and passes. |
+| Backward running and stride default | Owner-authorised reversed-forward source packs; shared source-measured travel, analogue gait selection and 1.55× setting; stop failures now closed. |
+| Falling arrows | Shared 2× default, production-body physics tests and measured live-runtime ascent/descent above. |
+| Plain sandbox labels | Equipment/role text-catalogue labels; existing archetype IDs retained. |
+
+Eight still images have been inspected across this conversation, within the
+owner's ten-image limit. Stills and automated checks support delivery; final
+motion feel remains for the owner's deployed playtest. Water work is independent.

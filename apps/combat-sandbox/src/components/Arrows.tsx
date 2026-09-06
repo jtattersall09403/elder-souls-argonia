@@ -1,3 +1,4 @@
+import type { ArrowPhysics } from "@elder-souls/game-core/combat/ballistics";
 import { useEffect } from "react";
 import { Arrows as RuntimeArrows, type ArrowHit, type ArrowTrace, type FlightSample } from "@elder-souls/character";
 import { useArrowStore } from "@elder-souls/game-core/combat/arrowStore";
@@ -6,7 +7,7 @@ import { DEFAULT_ARROW } from "@elder-souls/game-core/equipment/arrows";
 export type { ArrowHit };
 declare global {
   interface Window {
-    __arrowProbe?: { samples: FlightSample[]; steps: number; shaftLengthMeters?: number };
+    __arrowProbe?: { samples: FlightSample[]; steps: number; physics: ArrowPhysics; shaftLengthMeters?: number };
     __fireProbeArrow?: (speed: number, angleDeg: number) => number;
   }
 }
@@ -18,7 +19,7 @@ export function Arrows({ onHit, traceActor }: { onHit: (hit: ArrowHit) => void; 
   useEffect(() => {
     window.__fireProbeArrow = (speed, degrees) => {
       const angle = degrees * Math.PI / 180;
-      window.__arrowProbe = { samples: [], steps: 0, shaftLengthMeters: 0.75 };
+      window.__arrowProbe = { samples: [], steps: 0, physics: DEFAULT_ARROW.physics, shaftLengthMeters: 0.75 };
       return fire({ arrow: DEFAULT_ARROW, origin: [0, 20, 0],
         velocity: [0, speed * Math.sin(angle), speed * Math.cos(angle)], shooter: "probe" });
     };

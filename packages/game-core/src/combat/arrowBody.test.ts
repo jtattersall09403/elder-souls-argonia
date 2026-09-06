@@ -1,69 +1,46 @@
 import RAPIER from "@dimforge/rapier3d-compat";
 import { describe, expect, it } from "vitest";
 
-import { aerodynamicDrag, arrowMassSplit } from "./arrowFlight";
+import { aerodynamicDrag, DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
 import { integrateTrajectory } from "./ballistics";
 import { defineArrow } from "../equipment/arrows";
 
-/**
- * An arrow body exactly as `Arrows.tsx` builds it — two mass-carrying cuboid
- * colliders, rotation locked, CCD on — falls at g.
- *
- * Owner report (round 8): arrows "gently floating rather than behaving as
- * you would expect with real gravity". This pins the solver side of that:
- * mass split, locked rotation and collider masses must not touch the fall.
- * Anything left is drag (`aerodynamicDrag`), which is a separate, calibrated
- * term.
- */
+/** The current centred sensor body: collisions do not alter free flight. */
 describe("an arrow body under the solver's gravity", () => {
-  it("falls at 9.81 m/s² with the colliders Arrows.tsx gives it", async () => {
+  it.each([1, DEFAULT_ARROW_GRAVITY_SCALE])("falls at the selected %sx gravity with the production sensor collider", async gravityScale => {
     await RAPIER.init();
     const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
     world.timestep = 1 / 60;
     const arrow = defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics;
-    const split = arrowMassSplit(arrow);
+
     const body = world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 10, 0).setCcdEnabled(true).lockRotations().setCanSleep(false),
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 20, 0).setGravityScale(gravityScale).setCcdEnabled(true).lockRotations().setCanSleep(false),
     );
-    world.createCollider(RAPIER.ColliderDesc.cuboid(0.005, 0.005, split.shaftHalfLengthMeters).setMass(split.shaftMassKg), body);
-    world.createCollider(RAPIER.ColliderDesc.cuboid(0.009, 0.009, 0.025).setTranslation(0, 0, split.headOffsetMeters).setMass(split.headMassKg), body);
+    world.createCollider(RAPIER.ColliderDesc.ball(0.005).setMass(arrow.massKg).setSensor(true), body);
     body.setLinvel({ x: 0, y: 0, z: 50 }, true);
     expect(body.mass()).toBeCloseTo(arrow.massKg, 6);
     for (let step = 0; step < 60; step += 1) world.step();
     const t = 1;
-    const expectedDrop = 0.5 * 9.81 * t * t;
-    const drop = 10 - body.translation().y;
+    const expectedDrop = 0.5 * 9.81 * gravityScale * t * t;
+    const drop = 20 - body.translation().y;
     // Semi-implicit Euler over 60 steps lands within a step's worth of g.
     expect(drop).toBeGreaterThan(expectedDrop * 0.97);
     expect(drop).toBeLessThan(expectedDrop * 1.03);
-    expect(body.linvel().y).toBeCloseTo(-9.81, 0);
+    expect(body.linvel().y).toBeCloseTo(-9.81 * gravityScale, 0);
+    world.free();
   });
 
-  /**
-   * The flight the owner actually sees, against the arc the research solves.
-   *
-   * A headless probe of the shipped build
-   * (`apps/combat-sandbox/scripts/probe-arrow-flight.mjs`) measured a live
-   * arrow at 9.83 m/s² of fall and a drag deceleration within 5% of this
-   * integrator, which is what answered the round-8 report that arrows "float
-   * down like a balloon". This is that probe's finding in a unit test: build
-   * the body the way `Arrows.tsx` does, drive it the way `Arrows.tsx` does
-   * (reset forces, add `aerodynamicDrag`, once per step), and it must track
-   * the offline arc. Anything that quietly divorces the two — a collider mass
-   * that stops being applied, damping arriving from somewhere, drag added on
-   * top of itself — fails here rather than in a playtest.
-   */
+  // At reference gravity, the shared drag model matches the calibrated arc.
   it("tracks the offline trajectory when driven the way the scene drives it", async () => {
     await RAPIER.init();
     const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
     world.timestep = 1 / 60;
     const arrow = defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics;
-    const split = arrowMassSplit(arrow);
+
     const body = world.createRigidBody(
       RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 0, 0).setCcdEnabled(true).lockRotations().setCanSleep(false),
     );
-    world.createCollider(RAPIER.ColliderDesc.cuboid(0.005, 0.005, split.shaftHalfLengthMeters).setMass(split.shaftMassKg), body);
-    world.createCollider(RAPIER.ColliderDesc.cuboid(0.009, 0.009, 0.025).setTranslation(0, 0, split.headOffsetMeters).setMass(split.headMassKg), body);
+    world.createCollider(RAPIER.ColliderDesc.ball(0.005).setMass(arrow.massKg).setSensor(true), body);
 
     const speed = 45;
     const angle = Math.PI / 6;
@@ -87,6 +64,7 @@ describe("an arrow body under the solver's gravity", () => {
     // load-bearing as the shape of the arc.
     const velocity = body.linvel();
     expect(Math.hypot(velocity.x, velocity.y, velocity.z)).toBeCloseTo(reference.speed, 0);
+    world.free();
   });
 });
 

@@ -1,3 +1,4 @@
+import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/footContact";
 import { constrainDrawingHand } from "./bowConstraints";
 import { assetUrl } from "./assetBase";
 import { useAnimations, useGLTF } from "@react-three/drei";
@@ -614,6 +615,11 @@ function PosedActor({
     }),
     [model],
   );
+  const footChains = useMemo(() => soleBones.flatMap(({ id, bone }) => {
+    if (id !== "footL" && id !== "footR") return [];
+    const chain = footContactChain(bone);
+    return chain ? [{ side: id.endsWith("L") ? "L" : "R", chain }] : [];
+  }), [soleBones]);
   const targetAnchor = useMemo(() => model.getObjectByName(TARGET_ANCHOR_BONE_NAME) ?? null, [model]);
   // Resolve the pipeline-fitted combat capsules onto this instance's bones.
   // Endpoints stay in unscaled bone space; the actor's scale arrives through
@@ -1024,6 +1030,27 @@ function PosedActor({
       incomingWeight,
       outgoingWeight,
     );
+    // A grounded locomotion blend can shorten a leg enough to bury its sole.
+    // Absorb that blend error in the leg before the pelvis support solve.
+    // Airborne motion and authored combat poses retain their own support rules.
+    if (useSoleProxy && outgoingAction && resolvedSupportMode === "penetration"
+      && outgoingSupportMode === "penetration" && LOCOMOTION_STATES.has(state)
+      && LOCOMOTION_STATES.has(outgoingAction.getClip().name as AnimationState)) {
+      const supportY = visualSupportYRef?.current ?? visualSupportY;
+      for (const { side, chain } of footChains) {
+        let lift = 0;
+        for (const { id, bone } of soleBones) {
+          if (!id.endsWith(side)) continue;
+          for (const point of [soleMarkerPointById[id], outgoingSoleMarkerPointById[id]]) {
+            if (!point) continue;
+            soleTmp.current.fromArray(point);
+            bone.localToWorld(soleTmp.current);
+            lift = Math.max(lift, supportY - (soleTmp.current.y - groundCorrection.current));
+          }
+        }
+        liftFootContact(chain, lift, constrainedBones.current);
+      }
+    }
     // Older manifests only have min(marker), which loses marker identity in a
     // blend. Retain their conservative calibrated fallback. Production assets
     // use the four identity-preserving curves, so no blind 25mm lift is added.
