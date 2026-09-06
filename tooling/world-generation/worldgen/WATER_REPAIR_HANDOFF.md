@@ -17,8 +17,8 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,619 corrections;155 unresolved channels
-(5 pinned; these are not completion counts).
+Current overlay:15,561 corrections;153 unresolved channels
+(6 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
 345 retaining/fringe supports, 1,103 unnecessary pool-floor vertices and three
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-155-state.npz` | Matching155-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-153-state.npz` | Matching153-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -430,3 +430,21 @@ authored channel/rivulet footprint. These are NOT accepted input changes.
 A15-anchor ordinary-river trial introduced six failures and resolved two;
 ordinary anchors alone did not make the connected cuts feasible. Exact
 carver/footprint evidence also identifies50 minor-channel candidates.
+
+## Joint support restoration (2026-09-06)
+
+`audit_water_local_components --include-connected --restore-supports` can
+restore existing cuts on the actual reach banks while solving bounded bed
+cuts and connected heads. Restoration stops at immutable original ground;
+neighbouring channel depth and retaining bounds remain constraints. Signed
+support records replay through `audit_water_component_subset`; restored
+vertices no longer needing a deeper-cut exception lose that authority.
+
+Accepted fresh proposal `/tmp/water-restored-supports-proposal.json` resolves
+sources13512 and13936,155→153, with zero new failures. It restores122 prior
+supports (maximum0.943074m) and cuts nine. There are15,561 retained corrections,
+69 retaining violations and six pinned constraints. Proof:
+`/tmp/water-restored-supports-preservation.json`; matching accepted cache is
+listed above. Original wet planes/coverage and spill potential pass; no
+earlier repair-created wet extensions change. Seventeen focused component
+and anchor tests pass. Lateral anchor experiments are not accepted inputs.

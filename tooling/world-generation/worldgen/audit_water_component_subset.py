@@ -41,10 +41,13 @@ def main():
         for support in component.get('support',[]):
             i=support['nativeIndex'];before=support['previousM'];after=support['proposedM']
             if (abs(before-float(ground.flat[i]))>1e-5 or abs(support['originalM']-float(original.flat[i]))>1e-5
-                    or after>before or original.flat[i]-after>3.+1e-5 or i in protected
+                    or after>original.flat[i]+1e-5
+                    or (after<before and (original.flat[i]-after>3.+1e-5 or i in protected))
                     or after<min(before,float(state['retaining_lower_bounds'].flat[i]))-1e-5):
                 raise ValueError('Retained proposal violates original/current/bounded support authority')
-            trial.flat[i]=min(trial.flat[i],after)
+            if trial.flat[i]!=ground.flat[i] and abs(float(trial.flat[i])-after)>1e-5:
+                raise ValueError('Independent proposals disagree on a shared terrain support')
+            trial.flat[i]=after
     hydrology=np.load(DEFAULT_HEIGHTS.parent.parent/'hydrology-pass1.npz')
     flips,_=derive_channel_diagonal_flips(original,hydrology['rivers'],hydrology['flow_to'])
     baseline,_=solve(ground,state,flips);remaining,_=solve(trial,state,flips)
@@ -52,12 +55,15 @@ def main():
     result={'inputOverlaySha256':hashlib.sha256(raw).hexdigest(),'proposalAuditSha256':hashlib.sha256(args.proposal_audit.read_bytes()).hexdigest(),
         'excludedSources':args.exclude_source,'excludedComponents':omitted,'reason':args.reason,
         'baselineCount':len(baseline),'remainingCount':len(remaining),'newFailures':new,'resolvedSources':resolved,
+        'restoreSupports':audit.get('restoreSupports',False),
         'newFailureDetails':{int(s):remaining[s] for s in new},'components':kept,
         'status':'proposal-requires-fresh-domains' if eligible else 'rejected-whole-proposal'}
     args.out.with_suffix('.audit.json').write_text(json.dumps(result,separators=(',',':')))
     if eligible:
         indices=np.flatnonzero(trial.ravel()<original.ravel()-1e-6)
         overlay['changes']=[[int(i),round(float(trial.flat[i]),6),round(float(original.flat[i]),6)] for i in indices]
+        overlay['exceptionIndices']=[int(i) for i in overlay.get('exceptionIndices',[])
+                                     if original.flat[i]-trial.flat[i]>3.+1e-5]
         overlay.setdefault('coupledLocalProposalAudit',[]).append(result)
         args.out.write_text(json.dumps(overlay,separators=(',',':')))
     else:args.out.write_bytes(raw)

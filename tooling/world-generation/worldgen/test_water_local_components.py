@@ -99,3 +99,23 @@ def test_routine_repair_preserves_existing_deeper_exception_without_extending_it
     original[3,4]=ground[3,4]=20.
     assert coupled_reach_correction(original,ground,[[3.,2.],[3.,4.]],
         [16.3,16.3],[.3,.3],[[1.,0.],[1.,0.]],[1.,1.],maximum_lowering=3.) is None
+
+
+def test_restoring_obsolete_bank_cut_can_repair_channel_without_deeper_excavation():
+    original=np.full((5,5),12.,np.float32);original[2,2]=14.
+    ground=original.copy();ground[2,2]=10.9;ground[1,2]=9.
+    args=(original,ground,[[2.,2.]],[11.2],[.3],[[1.,0.]],[.5])
+    assert coupled_reach_correction(*args,maximum_lowering=3.) is None
+    assert coupled_reach_correction(*args,maximum_lowering=3.,restoration_indices=[0]) is None
+    bank=1*5+2
+    proposal=coupled_reach_correction(*args,maximum_lowering=3.,restoration_indices=[bank],crest_budget_fraction=0.)
+    assert proposal is not None
+    corrected=ground.copy()
+    corrected.ravel()[proposal['indices']]-=proposal['reductions'].astype(np.float32)
+    assert corrected[1,2]>11.2 and corrected[1,2]<=original[1,2]
+    assert corrected[2,2]==ground[2,2]
+    assert np.all(corrected<=original)
+    # Restoring a shared bank must not bury a valid neighboring channel.
+    neighbor=dict(node=9,point=[1.,2.],normal=[0.,1.],radius=.5,head=9.3,depth=.3)
+    assert coupled_reach_correction(*args,maximum_lowering=3.,restoration_indices=[bank],
+                                    external_banks=[neighbor],crest_budget_fraction=0.) is None

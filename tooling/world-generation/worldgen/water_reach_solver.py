@@ -7,10 +7,11 @@ from .terrain_triangles import terrain_weights,sample_terrain
 def coupled_reach_correction(original,ground,points,heads,depths,normals,radii,
                              pinned=None,falling=None,protected=(),maximum_lowering=5.,terrain_flips=None,
                              crest_budget_fraction=1.,external_banks=(),retaining_lower_bounds=None,
-                             head_links=None,incident_heads=(),fix_endpoints=True):
-    """Return minimal indexed cuts, or None when this actual reach cannot fit.
+                             head_links=None,incident_heads=(),fix_endpoints=True,restoration_indices=()):
+    """Return bounded indexed adjustments, or None when this reach cannot fit.
 
-Only corners supporting existing routed centre stations may change. Water
+Only routed centre supports may receive new cuts. Explicit prior bank cuts
+may also restore toward their immutable original height. Water
 heads obey longitudinal monotonicity and both real bank-crest equations;
 the incident end heads remain fixed. Existing protected retaining crests
 cannot change. A caller must subsequently validate the full hydraulic graph.
@@ -21,6 +22,17 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
     rows,cols,weights=terrain_weights(ground.shape,points.T,terrain_flips)
     flat=rows*ground.shape[1]+cols
     indices=np.unique(flat[weights>1e-6])
+    restorable=set(map(int,restoration_indices))
+    if restorable:
+        # Only prior corrections supporting THESE actual bank sections may
+        # be restored. Unrelated terrain is never an optimization variable.
+        extra=set()
+        for point,normal,radius in zip(points,normals,radii):
+            distances=np.minimum(radius*2,np.arange(.25,radius*2+.25,.25))
+            positions=np.concatenate([point[:,None]+sign*normal[:,None]*distances for sign in (-1,1)],axis=1)
+            rr,cc,ww=terrain_weights(ground.shape,positions,terrain_flips)
+            extra.update(set((rr*ground.shape[1]+cc)[ww>1e-6].tolist())&restorable)
+        indices=np.union1d(indices,np.asarray(sorted(extra),dtype=np.int64))
     lookup={int(index):i for i,index in enumerate(indices)}
     variables=len(indices);total=variables+count+1;maximum_index=total-1
     protected=set(protected)
@@ -29,11 +41,16 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
     if retaining_lower_bounds is not None:
         upper=np.minimum(upper,np.maximum(0.,ground.ravel()[indices]-retaining_lower_bounds.ravel()[indices]))
     upper[[int(index) in protected for index in indices]]=0.
+    lower=np.array([-max(0.,float(old)) if int(index) in restorable else 0.
+                    for index,old in zip(indices,existing)])
+    # Protected vertices may recover their original elevation, but cannot
+    # receive another cut. Per-vertex upper bounds still enforce the routine
+    # budget and immutable retaining banks for every new excavation.
     # The routine limit governs NEW excavation. An already reviewed deeper
     # correction may remain unchanged; forcing the objective's maximum below
     # that existing depth makes even a zero-cut solution falsely infeasible.
     maximum_existing=float(np.max(existing,initial=0.))
-    bounds=[(0.,float(limit)) for limit in upper]+[(None,None)]*count+[(0.,max(maximum_lowering,maximum_existing))]
+    bounds=[(float(lo),float(hi)) for lo,hi in zip(lower,upper)]+[(None,None)]*count+[(0.,max(maximum_lowering,maximum_existing))]
     if fix_endpoints:
         bounds[variables]=(float(heads[0]),float(heads[0]))
         bounds[variables+count-1]=(float(heads[-1]),float(heads[-1]))
@@ -60,7 +77,8 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
             # A bed obstruction can initially be higher than the actual
             # retaining bank. Select a real crest that survives the allowed
             # centre-support cuts, not that obstruction's near-centre slope.
-            crest=int(np.argmax(banks-crest_budget_fraction*(coefficients@upper)))
+            expected_change=lower+crest_budget_fraction*(upper-lower)
+            crest=int(np.argmax(banks-coefficients@expected_change))
             if fixed_head is not None and not np.any(coefficients):continue
             shared=True
             row=np.zeros(total)
@@ -82,6 +100,15 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
         if constrain_banks(np.asarray(neighbor['point']),np.asarray(neighbor['normal']),
                            neighbor['radius'],fixed_head=neighbor['head']):
             fixed_neighbors.append(neighbor['node'])
+        if restorable and 'depth' in neighbor:
+            nr,nc,nw=terrain_weights(ground.shape,np.asarray(neighbor['point'])[:,None],terrain_flips)
+            row=np.zeros(total)
+            for y,x,weight in zip(nr[:,0],nc[:,0],nw[:,0]):
+                index=int(y*ground.shape[1]+x)
+                if index in lookup:row[lookup[index]]-=weight
+            if np.any(row):
+                old_bed=float(sample_terrain(ground,np.asarray(neighbor['point'])[:,None],terrain_flips)[0])
+                matrix.append(row);rhs.append(float(neighbor['head']-neighbor['depth']-old_bed+1e-4))
     for upstream,downstream in ([(i,i+1) for i in range(count-1)] if head_links is None else head_links):
         row=np.zeros(total);row[variables+downstream]=1.;row[variables+upstream]=-1.
         matrix.append(row);rhs.append(0.)
@@ -91,6 +118,6 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
     objective=np.r_[np.full(variables,1e-6),np.zeros(count),1.]
     solved=linprog(objective,A_ub=np.asarray(matrix),b_ub=np.asarray(rhs),bounds=bounds,method='highs')
     if not solved.success:return None
-    reductions=np.maximum(solved.x[:variables],0.)
+    reductions=np.clip(solved.x[:variables],lower,upper)
     return {'indices':indices,'reductions':reductions,'heads':solved.x[variables:maximum_index],
             'maximumOriginalLoweringM':float(solved.x[maximum_index]),'fixedNeighborNodes':fixed_neighbors}

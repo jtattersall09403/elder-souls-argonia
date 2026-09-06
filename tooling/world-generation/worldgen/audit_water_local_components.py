@@ -112,6 +112,8 @@ def main():
                         help='Also solve complete reported downstream obstruction corridors')
     parser.add_argument('--include-connected',action='store_true',
                         help='Solve incident reaches together up to fixed pool junctions')
+    parser.add_argument('--restore-supports',action='store_true',
+                        help='Permit restoring previous centre/bank cuts up to original terrain')
     parser.add_argument('--source',type=int,action='append',
                         help='Limit proposal generation to reviewed failing source IDs')
     args=parser.parse_args();state=dict(np.load(args.state))
@@ -150,6 +152,7 @@ def main():
         anchor=junctions.setdefault(tuple(np.round(point,6)),node)
         if anchor!=node:edges.update(((anchor,node),(node,anchor)))
     trial=ground.copy();records=[]
+    restorable=[int(i) for i,_,_ in overlay['changes']] if args.restore_supports else []
     # Every component uses the SAME baseline heads/ground. Combined cuts are
     # checked once below, never serially accepted using stale pool domains.
     for group in groups:
@@ -164,7 +167,8 @@ def main():
         near=valid&~diagnostics['pinned']&~diagnostics['falling']&np.all((state['points']>=low)&(state['points']<=high),axis=1)
         near[chosen]=False
         external=[{'node':int(i),'point':state['points'][i],'head':diagnostics['solvedHeads'][i],
-                   'normal':diagnostics['bankNormals'][i],'radius':diagnostics['bankRadius'][i]}
+                   'normal':diagnostics['bankNormals'][i],'radius':diagnostics['bankRadius'][i],
+                   'depth':diagnostics['depthTargets'][i]}
                   for i in np.flatnonzero(near)]
         proposals=[]
         for fraction in (1.,.5,0.):
@@ -173,15 +177,15 @@ def main():
                 pinned=diagnostics['pinned'][chosen],falling=diagnostics['falling'][chosen],
                 protected=overlay.get('protectedRetainingBankIndices',[]),maximum_lowering=3.,terrain_flips=flips,
                 crest_budget_fraction=fraction,external_banks=external,retaining_lower_bounds=state['retaining_lower_bounds'],
-                head_links=links,incident_heads=incident,fix_endpoints=False)
+                head_links=links,incident_heads=incident,fix_endpoints=False,restoration_indices=restorable)
             if proposal is not None:proposals.append(proposal)
         record={'nodes':chosen,'sources':sorted(set().union(*(owners[node] for node in chosen))),
                 'status':'infeasible-under-fixed-incident-banks-and-routine-bounds'}
         if proposals:
             proposal=min(proposals,key=lambda p:p['maximumOriginalLoweringM']);ii=proposal['indices']
             proposed=(ground.ravel()[ii].astype(float)-proposal['reductions']).astype(np.float32)
-            changed=ii[proposed<ground.ravel()[ii]]
-            trial.ravel()[ii]=np.minimum(trial.ravel()[ii],proposed)
+            changed=ii[proposed!=ground.ravel()[ii]]
+            trial.ravel()[ii]=proposed
             record.update(status='proposed',fixedNeighborNodes=proposal['fixedNeighborNodes'],
                 support=[{'nativeIndex':int(i),'previousM':float(ground.flat[i]),'originalM':float(original.flat[i]),
                           'proposedM':float(trial.flat[i])} for i in changed])
@@ -189,6 +193,7 @@ def main():
     remaining,_=solve(trial,state,flips);eligible,new,resolved=proposal_gate(failed,remaining)
     summary={'baselineCount':len(failed),'includeLongitudinal':args.include_longitudinal,
         'includeConnected':args.include_connected,
+        'restoreSupports':args.restore_supports,
         'selectedSources':sorted(set(args.source)) if args.source else None,
         'componentCount':len(groups),'proposedComponents':sum(r['status']=='proposed' for r in records),
         'proposedRemaining':len(remaining),'newFailures':new,'resolvedSources':resolved,
@@ -198,6 +203,9 @@ def main():
     if eligible:
         indices=np.flatnonzero(trial.ravel()<original.ravel()-1e-6)
         overlay['changes']=[[int(i),round(float(trial.flat[i]),6),round(float(original.flat[i]),6)] for i in indices]
+        if args.restore_supports:
+            overlay['exceptionIndices']=[int(i) for i in overlay.get('exceptionIndices',[])
+                                         if original.flat[i]-trial.flat[i]>3.+1e-5]
         overlay.setdefault('coupledLocalProposalAudit',[]).append(summary)
         args.out.write_text(json.dumps(overlay,separators=(',',':')))
     else:args.out.write_bytes(args.overlay.read_bytes())

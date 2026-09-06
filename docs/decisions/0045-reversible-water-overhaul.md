@@ -94,3 +94,12 @@ each bend. Straight-edge feasibility is insufficient there. The directed-edge
 search retains immutable corridor/saddle/endpoints and deterministic two-stage
 minimax/shortest-path ordering; it is only a candidate generator. The accepted
 group resolves seven more sources after fresh global and original-water checks.
+
+Connected repair proposals may restore obsolete cuts supporting their actual
+bank sections while solving bed corrections. Ground cannot rise above its
+immutable original height; protected supports cannot receive another cut.
+Neighbouring channel-bed clearance is checked as well as bank containment.
+Signed proposal records retain before/after/original heights, and no longer
+necessary deeper-cut exceptions are revoked. Fresh domains and original-water
+preservation accept the resulting153-constraint checkpoint; they remain
+mandatory because restoring a support can change a pool outlet.
