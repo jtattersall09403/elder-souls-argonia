@@ -85,11 +85,10 @@ fallback is geometrically exact before coarse geometry becomes resident.
 
 ## Verification and next release
 
-- Latest focused results:13 inland/shared-domain tests pass; legacy production
-  budget2 tests pass in~18s; subsequent builder domain/publication and marine
-  leaf selection tests pass12/12. Core typecheck passed after the builder change.
-  Later actual marine wrapper/controller/seam tests pass10/10; atlas/mask/batch
-  tests pass7/7. No final matched-data or final full-suite acceptance yet.
+- Water runtime checkpoint `7296f17`: all332 water tests pass across65 files
+  (19:45UTC,16.3s); one final-artifact gate is intentionally skipped without
+  matching final data. This includes legacy production budgets, actual marine
+  seams/lifecycle, atlas updates and new boundary fixtures. Core typecheck passes.
 - Full suite last passed before these local geometry changes; rerun once the
   candidate is coherent. Earlier failed development budget runs are recorded
   in the checklist; do not raise caps or remove assertions to hide holes.
