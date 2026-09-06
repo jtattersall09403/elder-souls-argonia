@@ -29,7 +29,11 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
     if retaining_lower_bounds is not None:
         upper=np.minimum(upper,np.maximum(0.,ground.ravel()[indices]-retaining_lower_bounds.ravel()[indices]))
     upper[[int(index) in protected for index in indices]]=0.
-    bounds=[(0.,float(limit)) for limit in upper]+[(None,None)]*count+[(0.,maximum_lowering)]
+    # The routine limit governs NEW excavation. An already reviewed deeper
+    # correction may remain unchanged; forcing the objective's maximum below
+    # that existing depth makes even a zero-cut solution falsely infeasible.
+    maximum_existing=float(np.max(existing,initial=0.))
+    bounds=[(0.,float(limit)) for limit in upper]+[(None,None)]*count+[(0.,max(maximum_lowering,maximum_existing))]
     if fix_endpoints:
         bounds[variables]=(float(heads[0]),float(heads[0]))
         bounds[variables+count-1]=(float(heads[-1]),float(heads[-1]))

@@ -4,7 +4,7 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "0aef552cc37a97b492498e8dfa15443eacd5b8d9a3eb59aa4f0b22dc97ef121c",
+    "bed-overlay.json": "0e40605c48bae4d316072a97a702695b571e965737285c46853b0998bb411e8f",
     "routing-audit.json": "84c2e02894168031b7c05c71ab8c0aa9c8e1f9c2899e7f1240ac1474bf24985c",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f"
   },
@@ -14,8 +14,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15543,
-    "unresolvedChannels": 179,
+    "retainedCorrections": 15613,
+    "unresolvedChannels": 162,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -28,7 +28,7 @@
     "reviewedOriginalPoolAnchorRelocations": 69,
     "restoredCutCreatedMarineSupports": 15,
     "reviewedBankAwareRoutes": 111,
-    "protectedOriginalWetFringeVertices": 5,
+    "protectedOriginalWetFringeVertices": 364,
     "reconciledFlowDirections": 25
   },
   "orientationReview": "25 immutable-reference discrepancies reviewed against original drainage:24 restored authored flow_to directions;4328 retains authored inflow/backwatering into original pool4329. Ordering marker is not a surface height. Exact evidence in routing-audit.json.orientationReconciliation."

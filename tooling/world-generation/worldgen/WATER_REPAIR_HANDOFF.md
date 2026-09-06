@@ -17,7 +17,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay: 15,543 corrections;179 unresolved channels
+Current overlay:15,613 corrections;162 unresolved channels
 (5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-179-state.npz` | Matching179-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-162-state.npz` | Matching162-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -256,7 +256,7 @@ all neighbours globally. No old prototype cache is authoritative.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-179-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-162-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
@@ -266,7 +266,7 @@ input overlay hash, and rejects the whole proposal on any new global failure
 or no resolved constraints. It does not establish fresh-domain acceptance:
 
 ```sh
-python3 -m worldgen.audit_water_solve /tmp/water-accepted-179-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-162-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
 ```
 
 Never use repeated cached proposals to justify moving-bank millimetre tails.
@@ -337,7 +337,7 @@ The read-only bankfull diagnostic requires matching cache/overlay/source
 hashes and writes only the requested report:
 
 ```sh
-python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-179-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
+python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-162-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
 ```
 
 Its river-station sections are diagnostic, not the final whole-area gate.
@@ -363,6 +363,41 @@ by earlier repairs; their indices are durable in the acceptance audit.
 Evidence: `/tmp/water-semantic-width-safe.audit.json`,
 `/tmp/water-semantic-width-safe-fresh.json`,
 `/tmp/water-semantic-width-safe-preservation.json`.
-Use `/tmp/water-accepted-179-state.npz`; source/runtime algorithms are unchanged
+Use `/tmp/water-accepted-162-state.npz`; source/runtime algorithms are unchanged
 from the previous passing focused tests. Next diagnose remaining infeasible
 components; do not repeat the same complete route/restoration batch.
+
+### Connected incident heads (162-constraint checkpoint)
+
+`--include-connected` expands a proposal across incident unpinned reaches,
+including coincident native crossings, stopping propagation at fixed pool
+junctions. Calculated neighboring river heads may then move consistently;
+real standing planes, immutable retaining bounds and routine cut limits stay
+fixed. LP equality constraints now match the global solver at coincident
+routed points. Eight focused component tests pass.
+
+The maximum-cut objective also permits an unchanged, previously reviewed
+cut deeper than the routine limit. Each vertex's NEW cut budget remains
+unchanged; tests reject using that old exception to deepen another vertex
+beyond3m. This bug fix produced identical terrain proposals on the179 cache,
+so no duplicate native rebuild was needed for that correction.
+
+The connected proposal predicted160 constraints. Fresh domains instead had
+162 with a new13513 failure, and removed five original wet fringe samples
+through a cut at11746351. Omitting entire groups13512 and12639 gives the
+accepted162 result:17 resolved, zero new failures, no original wet/plane/spill
+changes and no changed repair-created wet extensions. The195 adjusted
+supports have maximum additional cut1.436377m and maximum original cut
+2.187382m;15,613 corrections remain. Native11746351 is now protected.
+There remain69 retaining violations and five pinned source constraints.
+
+Evidence: `/tmp/water-connected-safe-proposal.audit.json`,
+`/tmp/water-connected-safe-fresh.json`,
+`/tmp/water-connected-safe-preservation.json`.
+The all69-retaining restoration candidate (`/tmp/water-connected-retaining-*`)
+has239 constraints; a connected proposal reaches222 but resolves NONE of
+the61 failures introduced by restoration. Do not repeat that batch.
+Updating ordering markers from moved-pool anchors also failed: it introduced
+10326/10327/11457/11458 and resolved no accepted-baseline failures. Durable
+orientation remains unchanged. No additional safe original-low-corner
+diagonal correction was found along the failing routes.

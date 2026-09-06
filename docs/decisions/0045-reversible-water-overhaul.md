@@ -79,3 +79,12 @@ delta. The read-only diagnostic refuses to publish carving provenance unless
 its natural result matches the saved ungraded heightfield exactly. Carve
 depths and Gaussian tails are evidence for footprint interpretation, not an
 automatic instruction to flood every modified terrain sample.
+
+Connected repair components may adjust calculated incident river heads up to
+fixed original-pool junctions. Holding all valid neighboring river heads at
+their earlier solution can exclude feasible bounded repairs. Coincident
+routed points impose the same equality in the proposal and global solver.
+Existing indexed deeper cuts do not make a routine proposal infeasible merely
+by remaining present: the per-vertex limit still forbids additional excavation
+there, and no old exception grants deeper cuts elsewhere. Fresh domains and
+original-water preservation remain the acceptance authority.

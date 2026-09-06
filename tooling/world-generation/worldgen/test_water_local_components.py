@@ -1,5 +1,5 @@
 import numpy as np
-from .audit_water_local_components import support_components, local_obstruction_owners, local_reach_owners
+from .audit_water_local_components import support_components, local_obstruction_owners, local_reach_owners, connected_reach_owners
 from .water_reach_solver import coupled_reach_correction
 from .audit_water_component_subset import partition_components
 
@@ -61,3 +61,41 @@ def test_longitudinal_corridor_includes_valid_downstream_reach_that_backwaters_p
     owners=local_reach_owners(state,conflicts,include_longitudinal=True)
     assert set(owners)=={0,1,2,3,4}
     assert owners[4]=={1} and owners[1]=={0,1}
+
+
+def test_connected_proposal_releases_neighbor_heads_but_stops_at_fixed_pool():
+    state=dict(original_links=np.array([1,2,3,-1]),links=np.array([1,2,3,-1]),
+               points=np.array([[0.,0.],[0.,1.],[0.,2.],[0.,3.]]))
+    pinned=np.array([False,False,True,False])
+    owners=connected_reach_owners(state,{0},pinned)
+    assert set(owners)=={0,1,2}
+    assert owners[1]=={0,1} and owners[2]=={1}
+    assert set(connected_reach_owners(state,{0},np.zeros(4,bool)))=={0,1,2,3}
+
+
+def test_connected_proposal_includes_coincident_routed_junction():
+    state=dict(original_links=np.array([1,-1,3,-1]),
+               links=np.array([4,-1,5,-1,1,3]),
+               points=np.array([[0.,0.],[0.,2.],[-1.,1.],[1.,1.],[0.,1.],[0.,1.]]))
+    owners=connected_reach_owners(state,{0},np.zeros(6,bool))
+    assert set(owners)==set(range(6))
+    pinned=np.zeros(6,bool);pinned[4]=True
+    assert set(connected_reach_owners(state,{0},pinned))=={0,1,4}
+
+
+def test_routine_repair_preserves_existing_deeper_exception_without_extending_it():
+    ground=np.full((7,7),17.,np.float32)
+    ground[3,2]=16.;ground[3,4]=18.
+    original=ground.copy();original[3,2]=20.
+    proposal=coupled_reach_correction(original,ground,[[3.,2.],[3.,4.]],
+        [16.3,16.3],[.3,.3],[[1.,0.],[1.,0.]],[1.,1.],maximum_lowering=3.)
+    assert proposal is not None
+    corrected=ground.copy()
+    corrected.ravel()[proposal['indices']]-=proposal['reductions'].astype(np.float32)
+    assert corrected[3,2]==ground[3,2]
+    assert corrected[3,4]<=16.0001
+    assert np.max((original-corrected)[original-ground<=3.])<=3.
+    assert proposal['maximumOriginalLoweringM']==4.
+    original[3,4]=ground[3,4]=20.
+    assert coupled_reach_correction(original,ground,[[3.,2.],[3.,4.]],
+        [16.3,16.3],[.3,.3],[[1.,0.],[1.,0.]],[1.,1.],maximum_lowering=3.) is None

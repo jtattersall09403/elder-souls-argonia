@@ -70,12 +70,48 @@ def local_reach_owners(state,conflicts,include_longitudinal=False):
     return owners
 
 
+def connected_reach_owners(state, sources, pinned):
+    """Release calculated incident heads, stopping propagation at real pools.
+
+    Entire reaches remain in each proposal. Coincident routed points are real
+    junctions even when their solver node IDs differ. A pinned junction keeps
+    its physical plane and does not require the other incident reaches to move.
+    """
+    paths = {source: path_indices(state, source)
+             for source, target in enumerate(state['original_links']) if target >= 0}
+    positions = [tuple(np.round(point, 6)) for point in state['points']]
+    # A duplicate of a pinned point also belongs to that fixed junction.
+    fixed = {positions[node] for node in np.flatnonzero(pinned)}
+    incident = {}
+    for source, path in paths.items():
+        for node in path:
+            key = positions[node]
+            if key not in fixed:
+                incident.setdefault(key, set()).add(source)
+    selected = set(sources)
+    queue = list(sorted(selected))
+    while queue:
+        source = queue.pop()
+        for node in paths[source]:
+            for neighbor in incident.get(positions[node], ()):
+                if neighbor not in selected:
+                    selected.add(neighbor)
+                    queue.append(neighbor)
+    owners = {}
+    for source in sorted(selected):
+        for node in paths[source]:
+            owners.setdefault(node, set()).add(source)
+    return owners
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('state',type=Path);parser.add_argument('overlay',type=Path)
     parser.add_argument('--out',type=Path,required=True)
     parser.add_argument('--include-longitudinal',action='store_true',
                         help='Also solve complete reported downstream obstruction corridors')
+    parser.add_argument('--include-connected',action='store_true',
+                        help='Solve incident reaches together up to fixed pool junctions')
     parser.add_argument('--source',type=int,action='append',
                         help='Limit proposal generation to reviewed failing source IDs')
     args=parser.parse_args();state=dict(np.load(args.state))
@@ -90,7 +126,8 @@ def main():
     if args.source and not set(args.source).issubset(failed):
         raise ValueError('Every selected source must be an actual current constraint')
     selected=failed if not args.source else {source:failed[source] for source in sorted(set(args.source))}
-    owners=local_reach_owners(state,selected,args.include_longitudinal)
+    owners=(connected_reach_owners(state,selected,diagnostics['pinned'])
+            if args.include_connected else local_reach_owners(state,selected,args.include_longitudinal))
     nodes=sorted(owners)
     supports=[station_support(ground.shape,state['points'][i],diagnostics['bankNormals'][i],
                              diagnostics['bankRadius'][i],flips) for i in nodes]
@@ -106,6 +143,12 @@ def main():
         if source not in failed:valid[path]=True
         if state['orientation_levels'][source]<state['orientation_levels'][target]:path.reverse()
         edges.update(zip(path,path[1:]))
+    # Match condition_channel_profiles: duplicated samples at a routed
+    # crossing are one physical head, not independently adjustable water.
+    junctions={}
+    for node,point in enumerate(state['points']):
+        anchor=junctions.setdefault(tuple(np.round(point,6)),node)
+        if anchor!=node:edges.update(((anchor,node),(node,anchor)))
     trial=ground.copy();records=[]
     # Every component uses the SAME baseline heads/ground. Combined cuts are
     # checked once below, never serially accepted using stale pool domains.
@@ -145,6 +188,7 @@ def main():
         records.append(record)
     remaining,_=solve(trial,state,flips);eligible,new,resolved=proposal_gate(failed,remaining)
     summary={'baselineCount':len(failed),'includeLongitudinal':args.include_longitudinal,
+        'includeConnected':args.include_connected,
         'selectedSources':sorted(set(args.source)) if args.source else None,
         'componentCount':len(groups),'proposedComponents':sum(r['status']=='proposed' for r in records),
         'proposedRemaining':len(remaining),'newFailures':new,'resolvedSources':resolved,
