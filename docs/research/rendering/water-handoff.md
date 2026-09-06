@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The 292 base constraints below still require resolution before final export.
+The 224 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-292-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-224-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus11 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,400 corrections remain. **292 channel constraints remain**, not completed
+15,503 corrections remain. **224 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -85,7 +85,9 @@ and records15 accepted bank-aware routes plus three false-pool support
 restorations. Their combined fresh rebuild resolves18 further failures.
 The local proposal helper now includes every obstruction on a reach; the old
 summary-node selection omitted181 obstructions. Its corrected bounded
-proposal is in progress;11 focused regression tests pass.
+complete-reach proposal passed a fresh rebuild after omitting the components
+that changed five original wet fringe vertices. It resolves68 further failures
+with no new ones;11 focused regression tests pass.
 
 ## Immediate rendering work
 

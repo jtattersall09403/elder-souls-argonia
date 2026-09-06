@@ -4,7 +4,7 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "6f980239495620000e0c9f97f98bb912409fe09bb2326f49be2f93aae4e2c41c",
+    "bed-overlay.json": "f94bf4f497d219e9f734972ec26feead6b72304204c80d6ec7719d75c1e20d3e",
     "routing-audit.json": "26be0cbf7b1182f300e689e6140107f224ceddde2a5c67160d65eabcdf6fd2e8",
     "orientation.npy": "72059e032813a4d4ed6769320dbc99b462eb7bd2cd1a8c834f03479adaa4f11b"
   },
@@ -14,8 +14,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15400,
-    "unresolvedChannels": 292,
+    "retainedCorrections": 15503,
+    "unresolvedChannels": 224,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,

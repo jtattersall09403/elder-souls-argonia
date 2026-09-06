@@ -16,7 +16,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay: 15,400 corrections; 292 unresolved channels
+Current overlay: 15,503 corrections; 224 unresolved channels
 (10 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -39,7 +39,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-292-state.npz` | Matching 292-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-224-state.npz` | Matching 224-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -143,12 +143,19 @@ selects every `nodeBankCaps` entry and couples obstructions sharing a source
 as well as native terrain support. The next check exposed fixed rejected
 intervening heads; the helper now includes each complete affected reach.
 A two-obstruction-plus-intervening-sill actual solver regression
-passes;11 focused local/reach tests pass. The one pending newly justified
-proposal is `/tmp/water-complete-local-reach-proposal.json`, using the292 cache.
-The earlier all-obstruction selection produced a274-constraint safe subset
-(`/tmp/water-all-obstruction-local-safe.json`), which is still provisional
-and has not had a fresh-domain rebuild. Neither proposal is authoritative.
-Do not repeat old single-obstruction or cached-tail proposals.
+passes;11 focused local/reach tests pass. The complete-reach proposal resolved73
+in cached geometry and72 in fresh domains, with no new channel failures.
+However, five original wet fringe vertices lost their original pool coverage.
+Entire components6944,13468,15499/15503 were omitted, together with11251,
+which had not resolved after the fresh rebuild. The remaining proposal passes
+fresh native domains:224 constraints,68 resolved, no new failures, no changes
+to any original impoundment or previously accepted original-ground wet pool
+coverage/planes. Marine coverage and original spill potential remain exact;
+240 retaining-bound violations remain. Durable audits include full support
+and component evidence. Do not replay the earlier rejected/provisional subsets.
+Evidence: `/tmp/water-complete-local-reach-safe.audit.json`,
+`/tmp/water-complete-local-reach-safe-fresh.json`,
+`/tmp/water-complete-local-reach-safe-preservation.json`.
 
 ## Immediate next work
 
@@ -179,7 +186,7 @@ Do not repeat old single-obstruction or cached-tail proposals.
 For a specific **reviewed** full-river source, the bounded joint proposal is:
 
 ```sh
-python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-292-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
+python3 -m worldgen.audit_water_joint_cuts /tmp/water-accepted-224-state.npz water-repair-inputs/bed-overlay.json --source SOURCE_INDEX --out /tmp/water-reviewed-proposal.json
 ```
 
 Replace `SOURCE_INDEX` with the diagnosed source; do not run an indiscriminate
@@ -189,7 +196,7 @@ input overlay hash, and rejects the whole proposal on any new global failure
 or no resolved constraints. It does not establish fresh-domain acceptance:
 
 ```sh
-python3 -m worldgen.audit_water_solve /tmp/water-accepted-292-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
+python3 -m worldgen.audit_water_solve /tmp/water-accepted-224-state.npz water-repair-inputs/bed-overlay.json --local-only --out /tmp/water-local-bank-proposal.json
 ```
 
 Never use repeated cached proposals to justify moving-bank millimetre tails.
@@ -260,7 +267,7 @@ The read-only bankfull diagnostic requires matching cache/overlay/source
 hashes and writes only the requested report:
 
 ```sh
-python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-292-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
+python3 -m worldgen.audit_water_bankfull /tmp/water-accepted-224-state.npz water-repair-inputs/bed-overlay.json --out /tmp/water-bankfull-audit.json
 ```
 
 Its river-station sections are diagnostic, not the final whole-area gate.
