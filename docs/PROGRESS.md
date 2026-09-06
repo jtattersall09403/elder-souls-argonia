@@ -78,6 +78,9 @@ retain macro ground while terrain materials load. Deployed high/low probes
 eventually compile terrain without errors; permanent disappearance is not yet
 reproduced. Water completion remains open, including all follow-up defects in
 [the acceptance checklist](research/rendering/water-completion-audit.md).
+Particle-colour hotfix: remove the display-space brightness cap before HDR
+exposure; use shared sky/direct illumination. Noon/moonlit-rig regression
+added. This isolated fix does not ship unfinished geometry or splash upgrades.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

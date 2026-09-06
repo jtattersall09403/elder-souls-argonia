@@ -10,6 +10,7 @@ import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 
 import type { WaterAssets, WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
+import { waterParticleRadiance } from "./waterParticleLighting";
 import { buildChannelRibbonMeshData } from "../channelRibbons";
 import { InlandWaterTiles } from "./InlandWaterTiles";
 import { WaterFlowContacts } from "../flowContacts";
@@ -315,7 +316,8 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
         radius: Math.min(2.5, fall.widthM * 0.25), magnitude: Math.min(120, fall.dropM * fall.widthM * 3),
       }, 3, delta, { mist: Math.min(1, fall.dropM / 8) });
     }
-    effects.setLighting(new THREE.Color().setRGB(Math.min(light.x * 10, 1.4), Math.min(light.y * 10, 1.4), Math.min(light.z * 10, 1.4)));
+    const particleRadiance = waterParticleRadiance(light, runtime.sunLight.value, runtime.sunDirection.value.y);
+    effects.setLighting(new THREE.Color().setRGB(particleRadiance.x, particleRadiance.y, particleRadiance.z));
     effects.update(delta, nowS, assets.world, epoch, {
       x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
     }, runtime.windVelocity());
