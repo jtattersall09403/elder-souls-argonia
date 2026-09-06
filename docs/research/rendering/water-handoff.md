@@ -7,9 +7,12 @@ the next action, checkpoint, verification result or deployed version.
 ## Owner contract
 
 Deliver the entire [water completion checklist](water-completion-audit.md),
-including all later defect reports, in the deployed studio. Preserve authored
-tide/season ranges, geography, original pools, reflections, god rays and the
-underwater upward view. Do not declare visual perfection from numeric tests.
+including all later defect reports, in the deployed studio. Preserve existing low-water limits, geography, original pools, reflections, god rays and the
+underwater upward view. Owner correction 2026-09-06: upper tide/season limits
+may increase as needed. At maximum combined seasonal/tidal stage, water must
+fill the whole terrain-shaped and painted channel/pond/swamp footprint,
+including upland riverbed and bank mud. Audit both height and connected
+coverage; raising a level cannot fix a truncated water domain. Do not declare visual perfection from numeric tests.
 The owner allows a few load-bearing image inspections, but requests economical
 usage: focused checks and concise output during iteration, one broad release
 gate once coherent. No repeated screenshot attempts or broad research loops.

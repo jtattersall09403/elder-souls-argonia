@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion beyond candidate1af32a3: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Original tide/season amplitudes retained. Other polish stays in [polish-backlog.md](polish-backlog.md). |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion beyond candidate1af32a3: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Investigating peak-stage coverage of authored beds/banks; upper tide/season limits may increase (owner 2026-09-06), lower limits remain preserved. Other polish stays in [polish-backlog.md](polish-backlog.md). |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -88,7 +88,7 @@ Current compiler blockers: coherent pool ownership/spill domains, exact
 carver-authored rivulet footprints, and bounded connected-reach feasibility.
 Pool/route/terrain changes require a fresh coherent audit; stale cached pool
 occupancy must not justify further cutting. Preserve original retaining banks,
-authored tidal/seasonal ranges and every actual carved channel.
+existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
 Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
 Strict preservation retains all423,268 original wet samples, identical spill
