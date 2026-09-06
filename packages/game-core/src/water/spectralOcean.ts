@@ -280,12 +280,21 @@ export class SpectralOcean {
       const elapsed = Number.isFinite(this.frame) ? Math.max(0, (frame - this.frame) * this.stepSeconds) : 0;
       for (let index = 0; index < this.cascades.length; index++) {
         const cascade = this.cascades[index];
+        const response = index === 1 ? 30 : 8;
+        // The last gains belong to the previously computed NEXT endpoint.
+        // On a skipped frame, advance them analytically to the new previous
+        // endpoint before evaluating it. Otherwise low FPS uses stale seas
+        // for one endpoint and squeezes the entire wind change into 1/15 s.
+        const beforePrevious = Math.max(0, elapsed - this.stepSeconds);
         if (frame === this.frame + 1) cascade.previousLods.forEach((field, level) => field.set(cascade.nextLods[level]));
-        else cascade.evaluate(frame * this.stepSeconds, cascade.previous);
+        else {
+          if (index > 0) cascade.relaxDirection(this.windX, this.windZ, beforePrevious, response);
+          cascade.evaluate(frame * this.stepSeconds, cascade.previous);
+        }
         // Swell retains its prevailing long-fetch direction. Shorter local
-        // seas respond at distinct rates with one bounded per-mode pass,
+        // seas respond at distinct rates with at most two per-mode passes,
         // including after a long pause or explicit time scrub.
-        if (index > 0) cascade.relaxDirection(this.windX, this.windZ, elapsed, index === 1 ? 30 : 8);
+        if (index > 0) cascade.relaxDirection(this.windX, this.windZ, elapsed - beforePrevious, response);
         cascade.evaluate((frame + 1) * this.stepSeconds, cascade.next);
       }
       this.frame = frame; this.revision++;

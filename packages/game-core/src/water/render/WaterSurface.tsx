@@ -153,11 +153,14 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   const bubbles = useMemo(() => new UnderwaterBubbles(tier.name === "low"), [tier.name]);
   useEffect(() => () => bubbles.dispose(), [bubbles]);
   useEffect(() => {
-    const visibility = () => { effects.setSuspended(document.hidden); bubbles.setSuspended(document.hidden); };
+    const visibility = () => {
+      effects.setSuspended(document.hidden); bubbles.setSuspended(document.hidden);
+      ripple?.suspend(); splashes.current.length = 0;
+    };
     visibility(); document.addEventListener('visibilitychange', visibility);
     return () => document.removeEventListener('visibilitychange', visibility);
-  }, [effects, bubbles]);
-  /** Splash events become decaying, spreading foam rings (world-time secs). */
+  }, [effects, bubbles, ripple]);
+  /** Splash events become decaying, spreading foam rings (visible real secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
   const stampTimer = useRef(0);
   const rainTick = useRef(-1);
@@ -184,24 +187,16 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   }, [materials]);
   useEffect(() => () => geometry.dispose(), [geometry]);
 
-  useFrame(({ camera, size, gl }, delta) => {
-    const mesh = meshRef.current;
-    if (!mesh) return;
-    const geometryView = geometryCamera.update(camera, size.height * gl.getPixelRatio());
-    inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale, geometryView);
-    ribbons.update(geometryView, mesh.material as THREE.Material, verticalScale);
-    allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes, ...inland.meshes);
-    const surfaceFocus = runtime.surfaceFocus?.();
-    mesh.position.set(
-      oceanGridCentre(surfaceFocus?.x ?? camera.position.x),
-      0,
-      oceanGridCentre(surfaceFocus?.z ?? camera.position.z),
-    );
+  // WorldSky publishes weather at -2; prepare the shared physical/render
+  // wave state at -1, before default-priority physics and event consumers.
+  useFrame(function prepareWaterFrame(_state, delta) {
+    if (!meshRef.current) return;
     const epoch = runtime.epochMinutes();
     // Waves/foam run on the always-live water clock (the world clock is
     // usually paused for reproducible URLs); tide/season stay on the epoch.
     runtime.advanceClock(delta);
     uniforms.uWaveTime.value = runtime.waveTimeS();
+    uniforms.uTransportTime.value = runtime.transportTimeS?.() ?? uniforms.uWaveTime.value;
     if (oceanTextures) {
       oceanTextures.ocean.setWindVelocity(runtime.windVelocity());
       oceanTextures.ocean.update(uniforms.uWaveTime.value);
@@ -220,10 +215,27 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     uniforms.uLevelSeason.value = offsets.season;
     runtime.onLevels(offsets.tide, offsets.season, getWindWaveScale());
     uniforms.uVerticalScale.value = verticalScale;
+  }, -1);
+
+  useFrame(({ camera, size, gl }, delta) => {
+    const mesh = meshRef.current;
+    if (!mesh) return;
+    const geometryView = geometryCamera.update(camera, size.height * gl.getPixelRatio());
+    inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale, geometryView);
+    ribbons.update(geometryView, mesh.material as THREE.Material, verticalScale);
+    allMeshes.splice(0, allMeshes.length, mesh, hero.mesh, ...ribbons.meshes, ...inland.meshes);
+    const surfaceFocus = runtime.surfaceFocus?.();
+    mesh.position.set(
+      oceanGridCentre(surfaceFocus?.x ?? camera.position.x),
+      0,
+      oceanGridCentre(surfaceFocus?.z ?? camera.position.z),
+    );
+    const epoch = runtime.epochMinutes();
     // interaction events → spreading foam rings + real sim ripples
-    const nowS = runtime.waveTimeS();
+    const nowS = runtime.transportTimeS?.() ?? runtime.waveTimeS();
+    const dt = runtime.transportDeltaS?.() ?? delta;
     hero.update(surfaceFocus?.x ?? camera.position.x, surfaceFocus?.y ?? camera.position.y / verticalScale,
-      surfaceFocus?.z ?? camera.position.z, nowS, delta, epoch, mesh.material as THREE.Material, verticalScale);
+      surfaceFocus?.z ?? camera.position.z, nowS, dt, epoch, mesh.material as THREE.Material, verticalScale);
     uniforms.uLocalWaterField.value = hero.field;
     uniforms.uLocalWaterInfo.value.set(hero.state.originX, hero.state.originZ, hero.state.cellSizeM, hero.state.size);
     uniforms.uLocalWaterEdge.value = hero.state.edgeBlendM;
@@ -281,7 +293,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
       }
     }
     // wading churn stamps small continuous drops
-    stampTimer.current -= delta;
+    stampTimer.current -= dt;
     if (stampTimer.current <= 0) {
       stampTimer.current = 0.12;
       for (const b of contactBodies?.() ?? []) {
@@ -311,30 +323,23 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
       uniforms.uRippleInfo.value.set(ripple.center.x, ripple.center.y, RIPPLE_PATCH_M, 1);
     }
     const light = runtime.ambient.value;
-    flowContacts.update(assets.world, epoch, { x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z }, delta,
+    flowContacts.update(assets.world, epoch, { x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z }, dt,
       (id, event, rate, dt) => effects.emitContinuous(id, event, rate, dt));
     // Compiled physical descent sites drive bounded spray and plunge foam.
     for (const fall of cascadeSources.nearby({
       x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
     })) {
-      const sample = assets.world.sample(fall.plunge, epoch);
-      if (!sample.waterBodyId) continue;
-      effects.emitContinuous(fall.id, {
-        kind: "splash", actorId: fall.id,
-        position: { x: fall.plunge.x, y: sample.surfaceHeight, z: fall.plunge.z },
-        velocity: { x: fall.direction.x * 2, y: -Math.sqrt(19.62 * fall.dropM), z: fall.direction.z * 2 },
-        radius: Math.min(2.5, fall.widthM * 0.25), magnitude: Math.min(120, fall.dropM * fall.widthM * 3),
-      }, 3, delta, { mist: Math.min(1, fall.dropM / 8), fallFrom: fall.lip });
+      effects.emitCascade(fall, assets.world, epoch, dt);
     }
     effects.setIllumination(light, runtime.sunLight.value, runtime.sunDirection.value.y, gl.toneMappingExposure);
     effects.setView(geometryView.frustum, verticalScale);
-    effects.update(delta, nowS, assets.world, epoch, {
+    effects.update(dt, nowS, assets.world, epoch, {
       x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z,
     }, runtime.windVelocity());
     effects.object3d.scale.y = verticalScale;
     bubbles.setIllumination(light, runtime.sunLight.value, runtime.sunDirection.value.y);
     bubbles.setView(geometryView.frustum, verticalScale);
-    bubbles.update(delta, assets.world, epoch, {x:camera.position.x,y:camera.position.y/verticalScale,z:camera.position.z});
+    bubbles.update(dt, assets.world, epoch, {x:camera.position.x,y:camera.position.y/verticalScale,z:camera.position.z});
     bubbles.object3d.scale.y = verticalScale;
   });
 

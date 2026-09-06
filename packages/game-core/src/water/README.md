@@ -48,6 +48,42 @@ supplies identity/current; no cross-owner interpolation. Static geometry
 queries keep base-plane ordering. Do not introduce standing-water fallback
 beneath a dry native envelope without fixing its rendered inland subtraction.
 
+Wave weather response is shared, not a renderer-only amplitude filter. The
+studio owns an eight-second amplitude response in its scene state and publishes
+the existing `.35..6` scale to CPU and GPU together. First frame seeds actual
+weather; hidden/resume time is frozen explicitly, while slow visible frames
+retain their full elapsed response. Weather publishes at frame priority -2,
+wave clock/spectral preparation at -1, physics/contact consumers remain at
+their existing default priority, and the render pipeline stays at 1. Legacy
+water retains its original direct weather scale and scheduling. No tide,
+season or authored weather values are smoothed. Spectral direction still
+relaxes over 30 seconds for medium seas and 8 seconds for chop; skipped frames
+advance both needed endpoint gains analytically in at most two passes, never
+a catch-up FFT backlog. Long swell direction persists, but its energy still
+shares the global amplitude envelope: this is not a separate remote-swell
+energy transport model. Existing shelter/depth/regime scaling remains active;
+local impact/displacement fields are not multiplied by weather amplitude.
+
+`WaterClock` is caller-owned and separates physical transport seconds from
+wave phase. Transport advances by full visible elapsed seconds, independent
+of weather and world-preview rate; phase retains the existing wind speed
+factor and 1–8× preview rate. Explicit hidden/resume handling freezes both
+and discards the resume gap, replacing the old visible-frame `.25s` cap.
+The app's `waterTimeS()` remains the wave-phase API for clouds and physical
+wave queries. `WaterRuntime.transportTimeS/transportDeltaS` supply current,
+foam, rainfall and contact lifetimes; older hosts may omit them to preserve
+their existing behavior. Waves, surf, caustics and authored epoch levels do
+not switch to transport time. No new mutable package clock singleton exists.
+
+Ripple current transport uses one full-elapsed offscreen pass, then at most
+four wave-equation steps, with current-frame impacts stamped last. The
+existing exact body/dry-corner supercover remains bounded to 32 iterations;
+backtraces exceeding 30 crossed mask cells expire their local old history
+instead of truncating elapsed time or slowing the current. Zero-current
+frames skip the pass. Wave propagation itself still has bounded catch-up
+(as does `LocalWaterPatch`); this is not a claim of full solver-time parity
+during sustained frame starvation. Transport is independent of that budget.
+
 New floating objects supply actual displaced volume, sample positions, mass and optional drag coefficients. `WaterRigidBodyDriver` applies point impulses before each fixed physics step and emits surface contacts from the rotated collision envelope. Pass the same `PhysicsMassUnits` to the driver and collider mass/density conversion; SI is the default. The studio uses 0.01 mass units/kg to preserve calibrated player/prop collisions. `forceScale` remains the lower-level unit adapter, never a density or displaced-volume adjustment. Dense objects sink naturally; shallow bottoms limit displaced volume. Hull displacement uses equal-volume sampled columns, not an exact clipped hull. See `rigidBody.test.ts`, `buoyancy.test.ts` and the studio crate fixture.
 
 Feed world-space contact velocity into interaction events; renderers subtract current once. `WaterContactEmitter` tracks entry, complete submersion, resurfacing, exit and distance-spaced wakes; call `reset` on known teleports or pooled-object reuse. Projectiles or other impacts can emit their own radius and magnitude. The renderer retains its legacy drain; audio/gameplay call `world.subscribeInteractions()`, drain their own reader and dispose it on teardown. Readers share a 256-event ring, with at most 16 subscribers; lag drops oldest events and reports `droppedEvents`. No reader steals another's events. Swimming controls, boat steering and sound content are separate consumers, not implemented by this package.

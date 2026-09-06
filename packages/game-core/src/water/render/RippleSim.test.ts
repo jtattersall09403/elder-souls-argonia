@@ -202,7 +202,7 @@ describe("ripple frame scheduling", () => {
 });
 
 function fakeRenderer() {
-  const calls: { kind: string; shift?: number[]; count?: number; drop?: number[] }[] = [];
+  const calls: { kind: string; shift?: number[]; count?: number; drop?: number[]; dt?: number }[] = [];
   let target: THREE.WebGLRenderTarget | null = null;
   let clearColor = new THREE.Color(0.1, 0.2, 0.3);
   let clearAlpha = 0.7;
@@ -221,7 +221,7 @@ function fakeRenderer() {
     clear: () => { clears++; },
     render: (scene: THREE.Scene) => {
       const u = (scene.children[0] as THREE.Mesh<THREE.PlaneGeometry, THREE.ShaderMaterial>).material.uniforms;
-      calls.push(u.uCurrent ? { kind: 'advect' } : u.uShift ? { kind: "copy", shift: u.uShift.value.toArray() }
+      calls.push(u.uCurrent ? { kind: 'advect', dt: u.uDeltaS.value } : u.uShift ? { kind: "copy", shift: u.uShift.value.toArray() }
         : u.uDropCount ? { kind: "drop", count: u.uDropCount.value, drop: u.uDrops.value[0].toArray() }
           : { kind: "update" });
     },
@@ -230,17 +230,33 @@ function fakeRenderer() {
 }
 
 describe("ripple render scheduling", () => {
-  it('advects once before each wave update only where current exists', () => {
+  it('advects full visible time once before bounded wave updates only where current exists', () => {
     let flowX = 12;
     const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({
       waterBodyId: 'water.river', depth: 2, surfaceHeight: 0, flowX, flowZ: 0,
     }) });
     const { renderer, calls } = fakeRenderer();
     sim.step(renderer, 0, 0, 1 / 30);
-    expect(calls.map(call => call.kind)).toEqual(['copy', 'advect', 'update', 'advect', 'update']);
+    expect(calls.map(call => call.kind)).toEqual(['copy', 'advect', 'update', 'update']);
+    expect(calls.find(call => call.kind === 'advect')!.dt).toBe(1 / 30);
     flowX = 0; sim.invalidateBoundary(); calls.length = 0;
     sim.step(renderer, 0, 0, 1 / 60);
     expect(calls.map(call => call.kind)).toEqual(['copy', 'update']);
+    sim.dispose();
+  });
+  it('keeps transport at real speed on slow/substep frames and stamps newborns after preceding transport', () => {
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({ waterBodyId: 'river', depth: 2, surfaceHeight: 0, flowX: 3 }) });
+    const { renderer, calls } = fakeRenderer();
+    sim.step(renderer, 0, 0, 0); calls.length = 0;
+    sim.addDrop(0, 0, .5, .1);
+    sim.step(renderer, 0, 0, .4);
+    expect(calls.filter(c => c.kind === 'advect')).toEqual([{ kind: 'advect', dt: .4 }]);
+    expect(calls.filter(c => c.kind === 'update')).toHaveLength(4);
+    expect(calls.at(-1)?.kind).toBe('drop');
+    calls.length = 0; sim.step(renderer, 0, 0, 1 / 240);
+    expect(calls).toEqual([{ kind: 'advect', dt: 1 / 240 }]);
+    sim.suspend(); calls.length = 0; sim.step(renderer, 0, 0, 0);
+    expect(calls).toEqual([]);
     sim.dispose();
   });
   it("clears both old wave targets and queued impulses before rendering a changed season", () => {

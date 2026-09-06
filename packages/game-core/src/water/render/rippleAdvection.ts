@@ -1,5 +1,9 @@
 import { ripplePathConnected } from './rippleIsolation';
 
+/** Leave slack inside the shared 32-iteration exact supercover. A longer
+ * backtrace expires local history; it never slows the authored current. */
+export const RIPPLE_TRANSPORT_MAX_CELLS = 30;
+
 /** CPU oracle for the offscreen transport pass. State is RG height/velocity,
  * BA normalized 16-bit owner label; labels/current share a cell-centred mask.
  * No flow rescaling: backtraces are current metres/second * elapsed seconds. */
@@ -21,6 +25,9 @@ export function advectRippleField(state: Float32Array, size: number, labels: Arr
     output[i + 2] = (label & 255) / 255; output[i + 3] = (label >>> 8) / 255;
     const ci = (Math.floor(v * maskSize) * maskSize + Math.floor(u * maskSize)) * 2;
     const sourceU = u - current[ci] * dt / patchM, sourceV = v - current[ci + 1] * dt / patchM;
+    const crossings = Math.abs(Math.floor(sourceU * maskSize) - Math.floor(u * maskSize))
+      + Math.abs(Math.floor(sourceV * maskSize) - Math.floor(v * maskSize));
+    if (sourceU < 0 || sourceV < 0 || sourceU >= 1 || sourceV >= 1 || crossings > RIPPLE_TRANSPORT_MAX_CELLS) continue;
     const fallback = [history(x, z, label, 0), history(x, z, label, 1)];
     if (!connected(u, v, sourceU, sourceV) || labelAt(sourceU, sourceV) !== label) {
       output[i] = fallback[0]; output[i + 1] = fallback[1]; continue;
@@ -38,7 +45,7 @@ export function advectRippleField(state: Float32Array, size: number, labels: Arr
 }
 
 /** Requires COMMON and RIPPLE_PATH_GLSL. The separate bounded pass transports
- * both wave variables once; the following wave step preserves its existing
+ * both wave variables through full visible elapsed time; capped wave steps preserve their existing
  * four-neighbour no-flux update. This adds no main-material sampler. */
 export const RIPPLE_ADVECTION_GLSL = /* glsl */ `
 uniform sampler2D uCurrent;
@@ -51,8 +58,12 @@ void main() {
   vec4 centre = history(vUv, boundary);
   vec2 velocity = texture2D(uCurrent, vUv + uMaskOffset).rg;
   vec2 source = vUv - velocity * uDeltaS / uPatchM;
+  vec2 crossings = abs(floor((source + uMaskOffset) * uMaskSize) - floor((vUv + uMaskOffset) * uMaskSize));
+  if (!inside(source) || crossings.x + crossings.y > ${RIPPLE_TRANSPORT_MAX_CELLS.toFixed(1)}) {
+    gl_FragColor = vec4(0.0, 0.0, boundary.rg); return;
+  }
   vec4 sourceBoundary = support(source);
-  if (!inside(source) || sourceBoundary.a < 0.5 || !sameBody(sourceBoundary.rg, boundary.rg)
+  if (sourceBoundary.a < 0.5 || !sameBody(sourceBoundary.rg, boundary.rg)
       || !esRipplePath(vUv, source, boundary.rg)) { gl_FragColor = centre; return; }
   vec2 grid = source * uStateSize - 0.5, origin = floor(grid), fraction = fract(grid);
   vec2 result = vec2(0.0);

@@ -2,6 +2,21 @@ import { describe, expect, it } from "vitest";
 import { inverseFFT2D, SpectralOcean } from "./spectralOcean";
 
 describe("bounded spectral ocean", () => {
+  it("reaches the same weather-driven endpoint after skipped frames without a catch-up backlog", () => {
+    const dense = new SpectralOcean(), sparse = new SpectralOcean();
+    for (const ocean of [dense, sparse]) { ocean.update(0); ocean.setWindVelocity({ x: -8, z: 3 }); }
+    for (let frame = 1; frame <= 30; frame++) dense.update(frame * dense.stepSeconds);
+    sparse.update(30 * sparse.stepSeconds);
+    for (let i = 0; i < 3; i++) {
+      expect(sparse.cascades[i].directionalEnergy.x).toBeCloseTo(dense.cascades[i].directionalEnergy.x, 12);
+      expect(sparse.cascades[i].directionalEnergy.z).toBeCloseTo(dense.cascades[i].directionalEnergy.z, 12);
+    }
+    for (const [x, z] of [[0, 0], [35.2, -82.7], [7370, 7111]]) {
+      const a = dense.sample(x, z), b = sparse.sample(x, z);
+      for (const field of ['height', 'slopeX', 'slopeZ'] as const) expect(b[field]).toBeCloseTo(a[field], 7);
+    }
+    expect(sparse.revision).toBe(2);
+  });
   it("turns shorter travelling seas toward weather without changing long swell or spectral RMS", () => {
     const ocean = new SpectralOcean(); ocean.update(0);
     const initial = ocean.cascades.map(c => c.directionalEnergy);
@@ -50,11 +65,11 @@ describe("bounded spectral ocean", () => {
   it("bounds directional work to future endpoints, including time jumps and repeated physics samples", () => {
     const ocean = new SpectralOcean(); ocean.setWindVelocity({ x: -8, z: 0 }); ocean.update(0);
     ocean.update(100000);
-    expect(ocean.cascades.map(c => c.directionalUpdates)).toEqual([0, 1, 1]);
+    expect(ocean.cascades.map(c => c.directionalUpdates)).toEqual([0, 2, 2]);
     const out = { height: 0, slopeX: 0, slopeZ: 0 }, revision = ocean.revision;
     for (let i = 0; i < 10000; i++) ocean.sample(i * 0.17, -i * 0.11, out);
     expect(ocean.revision).toBe(revision);
-    expect(ocean.cascades.map(c => c.directionalUpdates)).toEqual([0, 1, 1]);
+    expect(ocean.cascades.map(c => c.directionalUpdates)).toEqual([0, 2, 2]);
     for (const cascade of ocean.cascades) expect(cascade.directionalEnergy.activeModes).toBeLessThanOrEqual(4096);
   });
 

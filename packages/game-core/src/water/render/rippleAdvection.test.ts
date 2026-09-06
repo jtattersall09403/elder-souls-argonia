@@ -36,6 +36,27 @@ describe('physical ripple-current transport', () => {
     }
   });
 
+  it('moves 3m/s through a 0.4s visible frame instead of the four-step wave solver cap', () => {
+    const size = 64, maskSize = 32, patchM = 16, labels = new Uint16Array(maskSize ** 2).fill(1);
+    const current = new Float32Array(maskSize ** 2 * 2);
+    for (let i = 0; i < current.length; i += 2) current[i] = 3;
+    const initial = stateFor(size, labels, maskSize); initial[(32 * size + 16) * 4] = 1;
+    for (const dt of [1 / 60, .4]) {
+      let state = initial;
+      for (let i = 0; i < Math.round(2 / dt); i++) state = advectRippleField(state, size, labels, current, maskSize, patchM, dt);
+      expect((centroid(state, size, patchM).x - centroid(initial, size, patchM).x) / 2).toBeCloseTo(3, 4);
+    }
+  });
+
+  it('expires over-budget local backtraces rather than freezing or slowing their old history', () => {
+    const size = 64, maskSize = 256, labels = new Uint16Array(maskSize ** 2).fill(1), current = new Float32Array(maskSize ** 2 * 2);
+    for (let i = 0; i < current.length; i += 2) current[i] = 12;
+    const state = stateFor(size, labels, maskSize);
+    for (let i = 0; i < state.length; i += 4) state[i] = .2;
+    const result = advectRippleField(state, size, labels, current, maskSize, 8, .4);
+    for (let i = 0; i < result.length; i += 4) { expect(result[i]).toBe(0); expect(result[i + 2]).toBeCloseTo(1 / 255); }
+  });
+
   it('leaves valid zero-current history bit-for-bit unchanged', () => {
     const labels = new Uint16Array(64).fill(7), current = new Float32Array(128), state = stateFor(16, labels, 8);
     for (let i = 0; i < state.length; i += 4) { state[i] = Math.sin(i) * 0.2; state[i + 1] = Math.cos(i) * 0.1; }

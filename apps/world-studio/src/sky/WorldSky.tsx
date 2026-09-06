@@ -12,6 +12,7 @@ import {
   type MoonState,
 } from "@elder-souls/world-time";
 import { setWindWaveScale } from "@elder-souls/game-core/water/index";
+import { advanceWaveAmplitude } from "@elder-souls/game-core/water/waveWeather";
 import { reapplyWindSway } from "@elder-souls/game-core/fx/windSway";
 import catalogue from "../../../../world/sources/sky/star-catalogue.json";
 import { AERIAL_DOME_PARS_GLSL, applyAerialPerspective, createAerialUniforms, type AerialUniforms } from "./aerial";
@@ -558,6 +559,7 @@ export function WorldSky({
   const { scene, camera, gl } = useThree();
   const base = import.meta.env.BASE_URL;
   const rainBudget = useMemo(() => rainDropBudget(), []);
+  const legacyWater = useMemo(() => new URLSearchParams(window.location.search).get('water') === 'legacy', []);
   ensureAirPixels(base);
   (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
   (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
@@ -839,7 +841,14 @@ void main() {
     lastNotify: 0,
     lastPatch: 0,
     lastFrustumUpdate: 0,
+    waterWaveScale: NaN,
+    waterWaveResume: false,
   });
+  useEffect(() => {
+    const visibility = () => { state.current.waterWaveResume = true; };
+    document.addEventListener('visibilitychange', visibility);
+    return () => document.removeEventListener('visibilitychange', visibility);
+  }, []);
 
   const updateCelestialBuffers = (epochMinutes: number, rig: LightRig) => {
     const lst = localSiderealAngle(epochMinutes);
@@ -1063,7 +1072,15 @@ void main() {
     // owner's much-wider calm→storm spectrum): calm ~0.8, rain ~1.1, big
     // storms 2–3, squall coast (~22 m/s) saturates the 6× cap. The same
     // scale speeds the shared water clock and the shore surf (waves.ts).
-    setWindWaveScale(0.45 + wx.windSpeedMS * 0.13 + wx.windSpeedMS * wx.windSpeedMS * 0.0072);
+    const waveTarget = 0.45 + wx.windSpeedMS * 0.13 + wx.windSpeedMS * wx.windSpeedMS * 0.0072;
+    // One scene-owned sea response, published to both physics and rendering.
+    // Hidden/resume time is not simulated; a slow visible frame still uses
+    // its full delta. First frame seeds actual weather. Epoch scrubs alter
+    // only the target, never reset phases or smooth authored tide/season.
+    const waveDelta = document.hidden || state.current.waterWaveResume ? 0 : delta;
+    state.current.waterWaveScale = legacyWater ? waveTarget : advanceWaveAmplitude(state.current.waterWaveScale, waveTarget, waveDelta);
+    if (!document.hidden) state.current.waterWaveResume = false;
+    setWindWaveScale(state.current.waterWaveScale);
     // Lightning also lifts the scene light for the flash frames.
     if (hemiRef.current && flash > 0) hemiRef.current.intensity += 2500 * flash;
 
@@ -1184,7 +1201,7 @@ void main() {
       shadowMapEnabled: gl.shadowMap.enabled,
       hemiIntensity: hemiRef.current?.intensity ?? -1,
     } as SkyDebugState;
-  });
+  }, legacyWater ? 0 : -2);
 
   return (
     <SkyContext.Provider value={{ csm }}>

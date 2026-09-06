@@ -109,5 +109,8 @@ describe("versioned adaptive terrain", () => {
     await expect(invalid.manifest()).rejects.toThrow(/dependency mismatch/); invalid.dispose();
     const missing = new AdaptiveTerrainLoader("/province/", { fetch: (async () => new Response(null, { status: 404 })) as typeof fetch });
     expect(await missing.load(0, 0, "4")).toBeNull(); missing.dispose();
+    const html = new AdaptiveTerrainLoader('/province/', { fetch: (async () => new Response('<html>SPA fallback</html>',
+      { headers: { 'Content-Type': 'text/html' } })) as typeof fetch });
+    await expect(html.manifest()).rejects.toThrow(); html.dispose();
   });
 });

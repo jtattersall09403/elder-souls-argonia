@@ -7,7 +7,12 @@ import {
 import { WaterCrowns } from "./WaterCrowns";
 import { waterParticleRadiance } from "./waterParticleLighting";
 import { PARTICLE_FOAM_GLSL } from "./particleFoam";
-import { waterSourceDistanceSquared } from "./WaterCascadeSources";
+import { cascadeEmission, waterSourceDistanceSquared, type Cascade } from "./WaterCascadeSources";
+import { advanceFallingSpray, fallingSprayTrajectory, type FallingSprayTrajectory } from './fallingSpray';
+import { waterParticleMotion } from './waterParticleMotion';
+
+export const WATER_PARTICLE_MAX_PATH_STEP_M = 0.125;
+export const WATER_PARTICLE_MAX_PATH_STEPS = 32;
 
 export interface WaterEffectsOptions {
   maxParticles?: number;
@@ -52,6 +57,7 @@ interface Particle {
   reentry: boolean;
   priority: number;
   plunge?: Vec3;
+  trajectory?: FallingSprayTrajectory;
   sheetSpray?: boolean;
 }
 
@@ -95,6 +101,10 @@ export class WaterEffects {
   private readonly onReentry?: WaterEffectsOptions["onReentry"];
   private randomState: number;
   private time = 0;
+  private readonly nextPosition: Vec3 = { x: 0, y: 0, z: 0 };
+  private readonly nextVelocity: Vec3 = { x: 0, y: 0, z: 0 };
+  private readonly windTarget: Vec3 = { x: 0, y: 0, z: 0 };
+  private readonly currentTarget: Vec3 = { x: 0, y: 0, z: 0 };
   private disposed = false;
   private suspended = false;
   private frustum?: Frustum;
@@ -236,8 +246,16 @@ export class WaterEffects {
   }
 
   /** Rate means bursts/second. Fractional accumulation makes sources frame-rate independent. */
+  emitCascade(fall: Cascade, query: WorldWaterQuery, epochMinutes: number, dt: number): void {
+    if (this.disposed || this.suspended) return;
+    const source = cascadeEmission(fall, query, epochMinutes);
+    if ('reason' in source) { this.sources.delete(fall.id); this.suppress(source.reason); return; }
+    this.emitContinuous(fall.id, source.event, 3, dt, source);
+  }
+
+  /** Rate means bursts/second. Fractional accumulation makes sources frame-rate independent. */
   emitContinuous(id: string, event: WaterInteractionEvent, ratePerSecond: number, dt: number, options?: WaterEmissionOptions): void {
-    if (this.disposed || !Number.isFinite(ratePerSecond) || ratePerSecond <= 0 || !Number.isFinite(dt) || dt <= 0) return;
+    if (this.disposed || this.suspended || !Number.isFinite(ratePerSecond) || ratePerSecond <= 0 || !Number.isFinite(dt) || dt <= 0) return;
     let source = this.sources.get(id);
     if (!source) {
       if (this.sources.size >= MAX_SOURCES) { this.suppress("sourceLimit"); return; }
@@ -245,10 +263,13 @@ export class WaterEffects {
       this.sources.set(id, source);
     }
     source.lastTime = this.time;
-    source.fraction += Math.min(ratePerSecond, 30) * Math.min(dt, 0.1);
+    // Account for slow visible frames, but never replay a tab-sized backlog.
+    // At most three fresh bursts/source/frame; excess whole bursts are dropped.
+    source.fraction += Math.min(ratePerSecond, 30) * Math.min(dt, 1);
     const count = Math.floor(source.fraction + 1e-9);
     source.fraction = Math.max(0, source.fraction - count);
-    for (let i = 0; i < count; i++) this.queue(event, options ?? {}, true);
+    if (count > 3) this.suppress('continuousCatchupDropped', count - 3);
+    for (let i = 0; i < Math.min(3, count); i++) this.queue(event, options ?? {}, true);
   }
 
   setDepth(texture: Texture | null, near: number, far: number, width: number, height: number): void {
@@ -301,26 +322,49 @@ export class WaterEffects {
       this.particles.length = 0;
       this.crowns.clear();
     }
-    const step = Math.min(dt, 0.1);
     const wx = wind && validVector(wind) ? wind.x : 0;
     const wz = wind && validVector(wind) ? wind.z : 0;
+    this.windTarget.x = wx; this.windTarget.z = wz;
     let write = 0;
     let reentries = 0;
     for (let i = 0; i < this.particles.length; i++) {
       const p = this.particles[i];
       p.age += dt;
-      if (p.age >= p.life) continue;
+      if (p.age >= p.life && !p.trajectory) continue;
       const oldY = p.position.y;
-      const drag = p.kind === 1 ? 1.6 : p.kind === 2 ? 0 : 0.18;
-      const windBlend = 1 - Math.exp(-drag * step);
-      p.velocity.x += (wx - p.velocity.x) * windBlend;
-      p.velocity.z += (wz - p.velocity.z) * windBlend;
-      if (p.kind === 0 || p.kind === 3) p.velocity.y -= 9.81 * step;
-      p.position.x += p.velocity.x * step;
-      p.position.y += p.velocity.y * step;
-      p.position.z += p.velocity.z * step;
+      if (p.trajectory) {
+        advanceFallingSpray(p.trajectory, dt, p.position, p.velocity);
+      } else {
+        const drag = p.kind === 1 ? 1.6 : p.kind === 2 ? 3 : 0.18;
+        const gravity = p.kind === 0 || p.kind === 3 ? 9.81 : 0;
+        // Freeze the local current over this accepted interval. Only a uniform
+        // field has exact split-step parity; changing currents are resampled.
+        if (p.kind === 2) {
+          const current = query.sample(p.position, epochMinutes).flowVelocity;
+          this.currentTarget.x = current.x; this.currentTarget.z = current.z;
+        }
+        const target = p.kind === 2 ? this.currentTarget : this.windTarget;
+        waterParticleMotion(p.position, p.velocity, target, drag, gravity, dt, this.nextPosition, this.nextVelocity);
+        const travelBound = dt * Math.max(Math.hypot(p.velocity.x, p.velocity.z), Math.hypot(this.nextVelocity.x, this.nextVelocity.z));
+        const segments = Math.max(1, Math.ceil(travelBound / WATER_PARTICLE_MAX_PATH_STEP_M));
+        if (segments > WATER_PARTICLE_MAX_PATH_STEPS) { this.suppress('transportBudget'); continue; }
+        let blocked = false;
+        // Explicit sheet-contact spray may cross dry air; ordinary particles
+        // cannot skip banks just because both endpoints have the same owner.
+        if (!p.sheetSpray) for (let segment = 1; segment <= segments; segment++) {
+          waterParticleMotion(p.position, p.velocity, target, drag, gravity, dt * segment / segments, this.nextPosition, this.nextVelocity);
+          const crossed = query.sample(this.nextPosition, epochMinutes);
+          if (crossed.waterBodyId !== p.bodyId || crossed.depth <= 0.015) { blocked = true; break; }
+        }
+        if (blocked) { this.suppress('transportBarrier'); continue; }
+        p.position.x = this.nextPosition.x; p.position.y = this.nextPosition.y; p.position.z = this.nextPosition.z;
+        p.velocity.x = this.nextVelocity.x; p.velocity.y = this.nextVelocity.y; p.velocity.z = this.nextVelocity.z;
+      }
       if (Math.hypot(p.position.x - camera.x, p.position.z - camera.z) > this.maxDistance) continue;
       const water = query.sample(p.position, epochMinutes);
+      if (p.trajectory && p.trajectory.elapsedS === p.trajectory.durationS
+        && (!water.waterBodyId || water.waterBodyId !== p.bodyId || water.depth <= 0.015
+          || !Number.isFinite(water.surfaceHeight) || p.position.y > water.surfaceHeight + 0.015)) continue;
       // Free-falling aerated spray can cross an air gap above the dry face.
       // Only explicitly compiled lip→wet-plunge trajectories receive this;
       // arbitrary gameplay impacts still require a wet emission position.
@@ -330,9 +374,6 @@ export class WaterEffects {
       if (!airborneFall && (water.waterBodyId !== p.bodyId || water.depth <= 0.015)) continue;
       if (p.kind === 2) {
         p.position.y = water.surfaceHeight + 0.025;
-        const blend = 1 - Math.exp(-step * 3);
-        p.velocity.x += (water.flowVelocity.x - p.velocity.x) * blend;
-        p.velocity.z += (water.flowVelocity.z - p.velocity.z) * blend;
       } else if (!airborneFall && (p.kind === 0 || p.kind === 3) && p.velocity.y < 0 && p.position.y <= water.surfaceHeight + 0.015) {
         if (p.reentry && oldY >= water.surfaceHeight && reentries < 4) {
           this.onReentry?.({ kind: "splash", actorId: REENTRY_ACTOR,
@@ -344,6 +385,7 @@ export class WaterEffects {
         p.kind = 2; p.position.y = water.surfaceHeight + 0.025;
         p.velocity.y = 0; p.age = 0; p.life = 0.4 + this.random() * 0.5;
         p.size *= 2.5; p.opacity *= 0.45; p.reentry = false;
+        p.trajectory = undefined;
       } else if (!airborneFall && p.position.y < water.surfaceHeight - 0.1) continue;
       this.particles[write++] = p;
     }
@@ -467,14 +509,11 @@ export class WaterEffects {
         particle.sheetSpray = true;
       }
       if (falling) {
-        const flight = Math.sqrt(2 * (fallFrom.y - surface.surfaceHeight) / 9.81);
-        const elapsed = this.random() * flight * 0.8;
-        const vx = (x - fallFrom.x) / flight, vz = (z - fallFrom.z) / flight;
-        particle.position = { x: fallFrom.x + vx * elapsed,
-          y: fallFrom.y - 0.5 * 9.81 * elapsed * elapsed, z: fallFrom.z + vz * elapsed };
-        particle.velocity = { x: vx, y: -9.81 * elapsed, z: vz };
-        particle.life = flight - elapsed + 0.15; particle.size = 0.035 + this.random() * 0.07;
         particle.plunge = { x, y: surface.surfaceHeight, z };
+        particle.trajectory = fallingSprayTrajectory(fallFrom, particle.plunge, this.random() * 0.8);
+        advanceFallingSpray(particle.trajectory, 0, particle.position, particle.velocity);
+        particle.life = particle.trajectory.durationS - particle.trajectory.elapsedS + 0.15;
+        particle.size = 0.035 + this.random() * 0.07;
       }
       this.particles.push(particle);
       this.stats.spawned[particleKinds[kind]]++;

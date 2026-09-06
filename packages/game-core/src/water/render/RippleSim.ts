@@ -219,6 +219,7 @@ export class RippleFrameScheduler {
   readonly center = new THREE.Vector2();
   private accumulator = 0;
   constructor(readonly size = 256, readonly patchM = RIPPLE_PATCH_M) {}
+  reset(): void { this.accumulator = 0; }
 
   advance(focusX: number, focusZ: number, deltaS: number) {
     const texel = this.patchM / this.size;
@@ -474,6 +475,16 @@ export class RippleSim {
         this.copy.uniforms.uShift.value.set(plan.shiftX, plan.shiftZ);
         this.renderPass(renderer, this.copy);
       }
+      // Transport is m/s times the entire visible interval, independent of
+      // bounded wave-equation catch-up. One exact-path pass; overly long
+      // per-cell traces expire their old history instead of faking slow flow.
+      if (this.mask.hasCurrent && deltaS > 0) {
+        this.advect.uniforms.uDeltaS.value = deltaS;
+        this.renderPass(renderer, this.advect);
+      }
+      for (let i = 0; i < plan.steps; i++) this.renderPass(renderer, this.update);
+      // Current-frame contacts were born after the elapsed interval. They
+      // must neither advect nor age through preceding time before first draw.
       let count = 0;
       for (const d of this.pendingDrops) {
         const label = this.mask.labelAt(d.x, d.z);
@@ -486,10 +497,6 @@ export class RippleSim {
       }
       this.pendingDrops.length = 0;
       if (count) { this.drop.uniforms.uDropCount.value = count; this.renderPass(renderer, this.drop); }
-      for (let i = 0; i < plan.steps; i++) {
-        if (this.mask.hasCurrent) this.renderPass(renderer, this.advect);
-        this.renderPass(renderer, this.update);
-      }
     } finally {
       renderer.setRenderTarget(target);
       renderer.setViewport(viewport); renderer.setScissor(scissor); renderer.setScissorTest(scissorTest);
@@ -503,6 +510,7 @@ export class RippleSim {
   suspend(): void {
     this.pendingDrops.length = 0;
     this.initialized = false;
+    this.scheduler.reset();
   }
 
   dispose(): void {

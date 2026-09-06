@@ -33,6 +33,7 @@ a related unit test passes. Baseline implementation: `1af32a3`.
 | Hard straight/square edges where water meets land; owner follow-up | Widespread, including close range; test continuous terrain intersections, ownership boundaries and seasonal extremes, not only distant LOD | open |
 | Wet-season waterways underfill painted beds; owner follow-up | Widespread asymmetric-width and boundary-extent defects; verify both banks throughout the full network | open |
 | Dry walkable hollow below apparent river surface; owner follow-up | Repro near 1.96km E / 0.22km S; rendered surface, native terrain and physical wet query must agree | open |
+| Zigzag gap across river with exposed undersides / apparently empty volume beneath adjacent water; owner follow-up | Live repro 3.84km E / 1.12km S, observed on foot; exact cross-river terrain, surface ownership, underwater rendering and wet/swimming query agreement required, alongside widespread random gaps | open |
 | Square/triangle patches within a waterway; owner follow-up | New deployed screenshot near 2.06km E / 0.26km S; eliminate competing surface ownership/height/shading, not just foam aliasing | open |
 | Fly mode terrain absent while walk terrain renders; owner follow-up | Independent loading boundaries/fallback deployed in699c355; high/low live terrain eventually compiled, permanent disappearance not reproduced; mode-switch/loading checks remain | open |
 | Visible particles grey/black; owner follow-up | HDR brightness was capped1.4 before daylight exposure~1e-5; radiance fix deployed55d2ebc with real noon/moonlit-rig tests, visual acceptance remains | open |
@@ -199,6 +200,28 @@ Further completion-pass findings, not closed by the first candidate:
   field outside repaired faces. Actual browser full/mip reads match the legacy
   texture exactly before correction; patched corners and texture disposal pass.
   Final matched-data export remains mandatory.
+- Native fragment-depth clipping covered ribbons but not standing/coastal
+  shores, despite those shores being in the same sparse terrain atlas. The
+  shared shader now uses exact signed native depth wherever available, with
+  unchanged deep-water fallback and fail-closed missing ribbon coverage.
+  A tiny actual GPU check passes32 cases across all four surface modes,
+  vertical scales1/8, missing coverage and legacy/horizon fallback. It catches
+  the dry half of a bank-crossing triangle that clamped vertex depths retained.
+- The shared wave clock scaled physical current advection with wind/preview
+  speed and capped visible frame time. A physical3m/s current became1.875m/s
+  at2.5FPS, or53.75m/s in storm+8× preview. Separate injected transport and wave
+  clocks preserve the requested wave acceleration without altering current
+  units; hidden/resume gaps are explicit. Actual128² half-float GPU ripple
+  transport over0.8s measures2.400218m at60FPS and2.399989m at2.5FPS, with no
+  nonfinite values or GL errors. Bounded ripple wave-propagation catchup is
+  still approximate under sustained frame starvation; transport no longer is.
+- Waterfall burst accumulation and ordinary droplet motion also capped visible
+  frame time independently. Their fixes use bounded real-time emission and
+  analytic motion, with explicit path/owner limits. Compiled-sheet spray uses
+  gravity trajectories to the actual wet receiving height; a receiver drying
+  during flight expires the trajectory, including below-datum cases. Final
+  receiving-pool depth/grade remains a compiler/experiential check, not an
+  effect that may invent a pool.
 
 Browser GPU upload check on the diagnostic native-ground atlas: one initial
 2048×958 upload (31,391,744 bytes), then exactly eight2048×1 rows

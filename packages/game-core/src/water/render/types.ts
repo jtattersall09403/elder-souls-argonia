@@ -40,6 +40,11 @@ export interface WaterRuntime {
   csm: CSM | null;
   epochMinutes(): number;
   waveTimeS(): number;
+  /** Unscaled visible elapsed time for m/s transport and event lifetimes.
+   * Omitted by older hosts, which keep their existing wave-clock behavior. */
+  transportTimeS?(): number;
+  /** Full accepted visible delta; zero during explicit suspension/resume. */
+  transportDeltaS?(): number;
   advanceClock(delta: number): void;
   rainIntensity(): number;
   windVelocity(): Vec3;

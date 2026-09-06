@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { Vec3, WaterInteractionEvent, WorldWaterQuery } from "@elder-souls/contracts";
-import { WaterEffects, waterEmissionProfile } from "./WaterEffects";
+import { WaterEffects, waterEmissionProfile, WATER_PARTICLE_MAX_PATH_STEP_M, WATER_PARTICLE_MAX_PATH_STEPS } from "./WaterEffects";
 import { WaterContactEmitter } from "../contactEmitter";
 import { Frustum, Matrix4, PerspectiveCamera } from "three";
 
@@ -214,6 +214,43 @@ describe("water effects", () => {
     fx.dispose();
   });
 
+  it('moves foam over the full slow frame and stops same-owner transport at an intervening dry bank', () => {
+    const run = (bank: boolean) => {
+      const fx = new WaterEffects({ seed: 2 });
+      const query = waterQuery(p => !bank || p.x <= 0.3 || p.x >= 0.55, { x: 2, y: 0, z: 0 });
+      fx.emit({ ...impact, kind: 'wake', radius: 0.025, velocity: { x: 2, y: 0, z: 0 } });
+      fx.update(0, 0, query, 0, camera);
+      const positions = fx.object3d.geometry.getAttribute('particlePosition');
+      fx.update(0.4, 0.4, query, 0, camera);
+      if (bank) {
+        expect(fx.activeCount).toBe(0);
+        expect(fx.diagnostics.suppressed.transportBarrier).toBeGreaterThan(0);
+      } else {
+        expect(fx.activeCount).toBeGreaterThan(0);
+        for (let i = 0; i < fx.activeCount; i++) expect(positions.getX(i)).toBeGreaterThan(0.6);
+      }
+      fx.dispose();
+    };
+    run(false); run(true);
+  });
+
+  it('bounds path queries and terminates excessive travel rather than skipping shore checks', () => {
+    expect(WATER_PARTICLE_MAX_PATH_STEP_M).toBe(0.125);
+    expect(WATER_PARTICLE_MAX_PATH_STEPS).toBe(32);
+    const fx = new WaterEffects({ maxParticles: 256 });
+    const query = waterQuery(() => true, { x: 100, y: 0, z: 0 });
+    let calls = 0; const sample = query.sample;
+    query.sample = (p, epoch) => { calls++; return sample(p, epoch); };
+    fx.emit({ ...impact, kind: 'wake', velocity: { x: 100, y: 0, z: 0 } });
+    fx.update(0, 0, query, 0, camera);
+    const count = fx.activeCount; calls = 0;
+    fx.update(0.4, 0.4, query, 0, camera, { x: 100, y: 0, z: 0 });
+    expect(fx.activeCount).toBe(0);
+    expect(fx.diagnostics.suppressed.transportBudget).toBe(count);
+    expect(calls).toBeLessThanOrEqual(1 + count); // only camera + foam's source-current query
+    fx.dispose();
+  });
+
   it("copies mutable event vectors and culls particles when the shore becomes dry", () => {
     const fx = new WaterEffects();
     const event = { ...impact, position: { ...impact.position } };
@@ -237,6 +274,66 @@ describe("water effects", () => {
     expect(simulate(30)).toBe(6);
     expect(simulate(60)).toBe(6);
     expect(simulate(120)).toBe(6);
+  });
+
+  it('retains the authored cascade rate on slow frames with bounded discontinuity catchup and explicit suspension', () => {
+    for (const fps of [2.5, 30, 60]) {
+      const fx = new WaterEffects({ maxParticles: 256 });
+      for (let i = 0; i < 4 * fps; i++) {
+        fx.emitContinuous('fall', impact, 3, 1 / fps, { mist: 1 });
+        fx.update(1 / fps, (i + 1) / fps, waterQuery(), 0, camera);
+      }
+      expect(fx.diagnostics.queued).toBe(12);
+      expect(fx.activeCount).toBeGreaterThan(0);
+      fx.setSuspended(true); fx.emitContinuous('fall', impact, 3, 100);
+      expect(fx.pendingCount).toBe(0);
+      fx.setSuspended(false); fx.emitContinuous('fall', impact, 30, 100);
+      expect(fx.pendingCount).toBe(3);
+      expect(fx.diagnostics.suppressed.continuousCatchupDropped).toBe(27);
+      fx.update(100, 104, waterQuery(), 0, camera);
+      expect(fx.activeCount).toBeGreaterThan(0); // fresh, not replayed historical particles
+      fx.update(1, 105, waterQuery(), 0, { x: 1000, y: 3, z: 1000 });
+      expect(fx.activeCount).toBe(0);
+      fx.dispose();
+    }
+  });
+
+  it('lands coherent sheet spray in a narrow pool despite wind and a slow frame', () => {
+    const fx = new WaterEffects({ seed: 44, maxParticles: 128 });
+    const query = waterQuery(p => Math.abs(p.x) < 0.06 && Math.abs(p.z) < 0.06);
+    fx.emitContinuous('fall', { ...impact, radius: 0.025 }, 3, 0.4,
+      { fallFrom: { x: -4, y: 5, z: 3 }, mist: 1 });
+    fx.update(0, 0, query, 0, camera);
+    const styles = fx.object3d.geometry.getAttribute('particleStyle');
+    const positions = fx.object3d.geometry.getAttribute('particlePosition');
+    const phases = new Set<number>();
+    for (let i = 0; i < fx.activeCount; i++) if (styles.getZ(i) === 3) phases.add(styles.getW(i));
+    expect(phases.size).toBeGreaterThan(0);
+    const landed = new Set<number>();
+    for (let step = 1; step <= 4; step++) {
+      fx.update(0.4, step * 0.4, query, 0, camera, { x: 25, y: 0, z: -25 });
+      for (let i = 0; i < fx.activeCount; i++) if (phases.has(styles.getW(i)) && styles.getZ(i) === 2) {
+        landed.add(styles.getW(i));
+        expect(Math.abs(positions.getX(i))).toBeLessThan(0.06);
+        expect(Math.abs(positions.getZ(i))).toBeLessThan(0.06);
+      }
+    }
+    expect(landed.size).toBe(phases.size);
+    fx.dispose();
+  });
+
+  it('expires a falling trajectory when its below-sea-level receiver dries during flight', () => {
+    const fx = new WaterEffects({ seed: 44 });
+    const wet = waterQuery(), dry = waterQuery(() => false);
+    const sample = wet.sample;
+    wet.sample = (p, epoch) => ({ ...sample(p, epoch), surfaceHeight: -10 });
+    fx.emitContinuous('fall', { ...impact, position: { x: 0, y: -10, z: 0 } }, 3, 0.4,
+      { fallFrom: { x: -4, y: -5, z: 3 } });
+    fx.update(0, 0, wet, 0, camera);
+    expect(fx.activeCount).toBeGreaterThan(0);
+    for (let step = 1; step <= 10; step++) fx.update(0.4, step * 0.4, dry, 0, camera);
+    expect(fx.activeCount).toBe(0);
+    fx.dispose();
   });
 
   it("clears delayed spray on explicit suspension and disposes idempotently", () => {

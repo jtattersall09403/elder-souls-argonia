@@ -5,7 +5,7 @@ import { StudioWater as LegacyStudioWater } from "./legacy/StudioWater";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
 import { worldClock } from "../sky/timeState";
-import { waterTimeS, advanceWaterClock } from "./waterClock";
+import { waterTimeS, advanceWaterClock, waterTransportTimeS, waterTransportDeltaS, setWaterClockHidden } from "./waterClock";
 import { lastWeatherSample } from "../weather/weatherState";
 import { wetnessUniforms } from "./groundWetness";
 import { updateGroundLocalWater } from "@elder-souls/game-core/water/render/groundWetness";
@@ -49,8 +49,14 @@ function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies, su
   surfaceFocus?: () => Vec3 | null;
 }) {
   const { csm } = useContext(SkyContext);
+  useEffect(() => {
+    const visibility = () => setWaterClockHidden(document.hidden);
+    visibility(); document.addEventListener('visibilitychange', visibility);
+    return () => { document.removeEventListener('visibilitychange', visibility); setWaterClockHidden(true); };
+  }, []);
   const runtime = useMemo<WaterRuntime>(() => ({
     csm, surfaceFocus, epochMinutes: () => worldClock.epochMinutes(), waveTimeS: waterTimeS,
+    transportTimeS: waterTransportTimeS, transportDeltaS: waterTransportDeltaS,
     advanceClock: dt => advanceWaterClock(dt, worldClock.rate),
     rainIntensity: () => lastWeatherSample()?.rainIntensity ?? 0,
     windVelocity: () => {

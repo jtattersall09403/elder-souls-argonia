@@ -222,9 +222,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
   // Keep the existing macro/loading terrain until the one authoritative
   // gradient is ready. Never show corrected chunks with stale slope data.
   if(!gradient)return <>{loadingFallback??null}</>;
-  return (
-    <group>
-      {viewEntries.map(({ chunk, lod: want }) => {
+  const detailMeshes = viewEntries.map(({ chunk, lod: want }) => {
         const key = `${chunk.cx},${chunk.cy}`;
         const ready = adaptiveReady.current.get(`${key},${want}`);
         const exact = store.loaded(chunk.cx, chunk.cy, want);
@@ -252,7 +250,9 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
             uvExtentM={uvExtentM}
           />
         );
-      })}
-    </group>
-  );
+      });
+  // A decoded gradient does not mean a chunk has arrived. Keep the existing
+  // loading terrain through that gap, but never draw it beneath detail meshes.
+  if (!detailMeshes.some(mesh => mesh !== null)) return <>{loadingFallback??null}</>;
+  return <group>{detailMeshes}</group>;
 }

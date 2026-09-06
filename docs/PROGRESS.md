@@ -68,57 +68,36 @@ See [the review guide](research/rendering/water-quality.md).
 Release coordination: the water agent will commit only water-owned paths and
 will coordinate against current branch/Actions state before deployment;
 combat changes remain separately owned and must not be overwritten.
-The first water overhaul (`1af32a3`, release head `6576849`) is deployed:
-Actions `34030145090` passed tests/typecheck/build and Pages at 11:26 UTC;
-live v2 metadata SHA-256 matches the committed file. The completion pass is
-still in progress and is not in that deployment. Combat's working
-asset changes remain separately owned; never bypass their verification.
-Fly-mode loading follow-up: isolate terrain, trees and groundcover loading;
-retain macro ground while terrain materials load. Deployed high/low probes
-eventually compile terrain without errors; permanent disappearance is not yet
-reproduced. Water completion remains open, including all follow-up defects in
-[the acceptance checklist](research/rendering/water-completion-audit.md).
-Particle-colour hotfix55d2ebc deployed (Actions34032475192 passed): remove
-the display-space brightness cap before HDR exposure; use shared sky/direct
-illumination. Noon/moonlit-rig regression added. This isolated fix does not
-ship unfinished geometry or splash upgrades. Completion checks found invalid
-bank caps propagating minimum-film depths, waterfall-to-pool triangle fans,
-and native terrain creases missing from water clipping. Semantic-depth solve
-and exact native-ground sampling are active; old temporary compiler bundles
-are not release candidates. Local displacement/caustics and16-sampler GPU
-compatibility are tested locally; final geometry, performance and visual
-acceptance remain open. Root tests/types passed again14:23 (623 game-core
-tests); airborne probes passed again14:25. Browser checks confirm16-fragment-sampler
-compatibility, bounded native-atlas updates and nonblack noon splash pixels.
-Shared river-section joins and fly-view ribbon residency remain active fixes.
-Runtime checkpoint `7ede446`, compiler/body-record checkpoint `4058d25`,
-performance/ripple checkpoint `795e93c` and contact checkpoint `4809880`
-are deployed: Actions `34043295645` passed; live studio bundle
-`index-CBqmJVeS.js` matches that release and water metadata remains unchanged.
-The immutable-source compiler solve and final matching assets remain in progress;
-never substitute older diagnostic bundles. Physical body records now derive
-from actual owner fields; final export and performance gates remain open.
-Further local work: current-transported isolated ripples (GPU centroid check),
-view-bounded terrain residency, half-pixel bank LOD and adaptive arrival fixes.
-Inland geometry is byte-identical and moving-view admission passes. Root gates passed15:42
-(664 game-core tests), with airborne checks passing again. Real J-jump
-entry/wakes/crown, live HDR inputs and in-frustum spray/mist/foam are observed;
-newborn lifetime is corrected. Subsequent local confluence-stage selection
-and underwater bubbles pass root gates16:03 (674 game-core tests), actual
-bubble GPU readback and16-sampler app checks. Final river-domain/coverage
-validation remains active. These additions deployed as `b7948d6`: Actions
-`34044417460` passed and live studio bundle `index-ALToYCdb.js` matches.
-Public water metadata remains unchanged; the final hydraulic export is not live.
-The expanded solve now includes all carver-authored shallow wetland rivulets
-with their own depth/footprint regime, rather than promoting them to full rivers.
-Connected-reach feasibility and standing-pool boundaries remain active blockers.
-Matched sparse terrain-gradient corrections are implemented locally to keep
-bank lighting/triplanar slopes consistent with corrected beds and diagonals;
-they must ship with the same hashed terrain/water export, not independently.
-Root gates16:30 pass (676 game-core tests; final-artifact test intentionally
-skipped without a final bundle), with airborne checks passing again. Actual
-browser gradient comparison is byte-identical before correction at full/mip
-resolution, exact after sparse correction, and releases all owned GPU textures.
+Latest verified deployment: `b7948d6`, Actions `34044417460`, live bundle
+`index-ALToYCdb.js`. It includes the HDR particle fix, interaction simulation,
+caustics, spectral waves, bounded rendering, confluence query fix and bubbles.
+Public water metadata still matches the original `1af32a3` overhaul: **the
+final hydraulic/native/adaptive/gradient data is not deployed**. Never promote
+older diagnostic bundles or bypass combat asset verification.
+
+All requirements and follow-up defects remain in
+[the acceptance checklist](research/rendering/water-completion-audit.md),
+including the new live zigzag/unsupported-water repro3840m E/1120m S.
+That location is seasonal standing wetland water, not a nearby native ribbon;
+final checks must cover both rendering paths and physical wet/swimming queries.
+Current compiler blockers: coherent pool ownership/spill domains, exact
+carver-authored rivulet footprints, and bounded connected-reach feasibility.
+Pool/route/terrain changes require a fresh coherent audit; stale cached pool
+occupancy must not justify further cutting. Preserve original retaining banks,
+authored tidal/seasonal ranges and every actual carved channel.
+
+Local runtime checkpoint: matched sparse terrain gradients; real-time transport
+separate from accelerated wave phase; bounded full-interval ripple/particle
+motion; gravity-consistent waterfall spray; gradual shared wave-energy response;
+native fragment clipping also for standing/coastal shores. Tests/types pass17:06
+(708 game-core tests; final-artifact gate intentionally skipped without final
+data), airborne passes again. Actual GPU3m/s ripple transport agrees at60/2.5FPS;
+32 shoreline-depth cases pass. Full/mip gradient pixels and disposal pass.
+Fly loading retains macro terrain until detail exists: local scene had15 actual
+ground meshes/1.103M triangles with compiled material by45s; this is loading
+evidence, not instantaneous startup or hardware-FPS proof. Missing optional
+manifests get real dev/preview404s; malformed data still rejects. These latest
+runtime changes and final data/visual acceptance remain pending deployment.
 
 - **Phase 11 Part 7 Round A — second look, in the studio** (2026-09-05). Read
   [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md)

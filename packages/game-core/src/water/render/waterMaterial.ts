@@ -37,6 +37,26 @@ import { RIPPLE_ISOLATION_GLSL } from './rippleIsolation';
 
 export type WaterVariant = "above" | "below";
 
+/** Shared by both faces of every water surface. A clamped vertex-depth
+ * interpolation cannot classify a shoreline crossing: dry vertices become
+ * zero instead of retaining their signed distance above water. */
+export const WATER_NATIVE_FRAGMENT_DEPTH_GLSL = /* glsl */ `
+float esFragmentDepth = vEsData.y;
+bool requiresNative = vRibbon > 0.5 && vRibbon < 1.5;
+// Conservative arithmetic bounds avoid atlas fetches for the open horizon.
+bool withinNativeBounds = all(greaterThanEqual(vEsWorldPos.xz, vec2(0.0)))
+  && all(lessThanEqual(vEsWorldPos.xz, vec2(uNativeGroundInfo.x * uNativeGroundInfo.y)));
+if (uNativeGroundActive > 0.5 && (requiresNative || withinNativeBounds)) {
+  float nativeGround = esNativeGroundAt(vEsWorldPos.xz);
+  // Existing native coverage includes standing/coastal seasonal shores,
+  // not just ribbons. Deep water outside that sparse domain keeps its
+  // original depth proxy; missing native ribbon coverage remains invalid.
+  if (nativeGround < 1e8 || requiresNative)
+    esFragmentDepth = vEsWorldPos.y / max(uVerticalScale, 0.001) - nativeGround;
+}
+if (esFragmentDepth <= 0.004) discard;
+`;
+
 export interface WaterTier {
   name: "low" | "high";
   ssr: boolean;
@@ -92,6 +112,7 @@ export interface WaterUniforms {
   uOceanAlpha: { value: number };
   uOceanEnabled: { value: number };
   uWaveTime: { value: number };
+  uTransportTime: { value: number };
   /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
   uWindWave: { value: number };
   uLevelTide: { value: number };
@@ -151,6 +172,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uOceanPrevious: { value: null }, uOceanNext: { value: null },
     uOceanAlpha: { value: 0 }, uOceanEnabled: { value: 0 },
     uWaveTime: { value: 0 },
+    uTransportTime: { value: 0 },
     uWindWave: { value: 1 },
     uLevelTide: { value: 0 },
     uLevelSeason: { value: 0 },
@@ -271,6 +293,7 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uLevelTide;
   uniform float uLevelSeason;
   uniform float uWaveTime;
+  uniform float uTransportTime;
   uniform float uWindWave;
 
   // KEEP IN LOCKSTEP with waterData.tideResponseOf().
@@ -605,15 +628,7 @@ uniform float uVerticalScale;`,
         /* glsl */ `void main() {
   // Buried surface (dry ground everywhere near): kill before ANY texture
   // work — also removes valley-spanning ghost sheets (round 1, defect 4).
-  float esFragmentDepth = vEsData.y;
-  if (uNativeGroundActive > 0.5 && vRibbon > 0.5) {
-    float nativeGround = esNativeGroundAt(vEsWorldPos.xz);
-    // Deep standing-pool interiors need not occur in the native channel /
-    // shoreline sidecar. Hero vertices still carry their own queried bed;
-    // missing native RIBBON coverage is never silently accepted.
-    if (nativeGround < 1e8 || vRibbon < 1.5) esFragmentDepth = vEsWorldPos.y / max(uVerticalScale, 0.001) - nativeGround;
-  }
-  if (esFragmentDepth <= 0.004) discard;
+  ${WATER_NATIVE_FRAGMENT_DEPTH_GLSL}
   float localMask = esLocalWaterMask(vEsWorldPos.xz);
   if (vRibbon > 1.5 && localMask < 0.5) discard;
   if (vRibbon < 1.5 && localMask > 0.5) {
@@ -672,11 +687,11 @@ float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
 vec2 esDrift = esSpeed > 0.05
   ? vEsFlow.xy
   : vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 0.03;
-float esPh1 = fract(uWaveTime * 0.25);
-float esPh2 = fract(uWaveTime * 0.25 + 0.5);
+float esPh1 = fract(uTransportTime * 0.25);
+float esPh2 = fract(uTransportTime * 0.25 + 0.5);
 EsFlowCoordinates esAdvected = esFlowAdvection(
   vec3(vEsWorldPos.x, vEsWorldPos.y / max(uVerticalScale, 0.001), vEsWorldPos.z),
-  vec3(esDrift.x, vEsFlowY, esDrift.y), uWaveTime, 1.0);
+  vec3(esDrift.x, vEsFlowY, esDrift.y), uTransportTime, 1.0);
 float esPhB = esAdvected.blend;
 // fast water: features stretch along the flow (anisotropy is a primary
 // speed cue — research rivers-on-slopes Q2)
@@ -714,8 +729,8 @@ float esRipCrest = 0.0;
 // fades with distance like the other detail so the far shimmer stays clean.
 vec2 esRainG = vec2(0.0);
 if (uRainRipple > 0.02) {
-  esRainG = (esDetailGrad(vEsWorldPos.xz * 2.9, vec2(0.41, 0.33) * uWaveTime * 2.6)
-           + esDetailGrad(vEsWorldPos.xz * 5.3 + 31.0, vec2(-0.29, 0.47) * uWaveTime * 2.6))
+  esRainG = (esDetailGrad(vEsWorldPos.xz * 2.9, vec2(0.41, 0.33) * uTransportTime * 2.6)
+           + esDetailGrad(vEsWorldPos.xz * 5.3 + 31.0, vec2(-0.29, 0.47) * uTransportTime * 2.6))
           * uRainRipple * 0.09 * (0.25 + 0.75 * esFarFade);
 }
 vec3 esFlowGradient = vec3(esG.x + esGF.x, 0.0, esG.y + esGF.y);

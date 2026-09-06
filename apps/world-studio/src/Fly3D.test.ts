@@ -41,3 +41,17 @@ it("binds the validated gradient before the first detailed terrain frame and dis
   expect(source).toContain("if(!gradient)return <>{loadingFallback??null}</>");
   expect(source).not.toContain('useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`)');
 });
+
+it('retains macro terrain until an actual detail element exists, then excludes macro from the detail group', () => {
+  const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
+  const built = source.indexOf('const detailMeshes = viewEntries.map');
+  const gate = source.indexOf('if (!detailMeshes.some(mesh => mesh !== null)) return <>{loadingFallback??null}</>;');
+  const detailed = source.indexOf('return <group>{detailMeshes}</group>;');
+  expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
+  // The checked array is the actual render output (including retained old
+  // detail), not a count of requested/decoded assets or gradient readiness.
+  const selection = source.slice(built, gate);
+  expect(selection).toContain('if (!grid) return null');
+  expect(selection).toContain('return <AdaptiveChunkMesh');
+  expect(selection).toContain('<ChunkMesh');
+});

@@ -294,7 +294,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       // ---- pass 0: advance the interactive ripple patch (2 tiny passes) ----
     const rippleAltitude = Math.abs(trueY - camSample.surfaceHeight);
     const rippleVisibility = 1 - THREE.MathUtils.smoothstep(rippleAltitude, 100, 160);
-    if (rippleVisibility > 0) ripple?.step(renderer, camPos.x, camPos.z, delta);
+    if (rippleVisibility > 0) ripple?.step(renderer, camPos.x, camPos.z, runtime.transportDeltaS?.() ?? delta);
     else ripple?.suspend();
     if (ripple && h) {
       h.uniforms.uRipple.value = ripple.texture;
