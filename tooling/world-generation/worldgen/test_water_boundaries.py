@@ -280,3 +280,19 @@ def test_section_offsets_convert_once_without_decimal_rounding():
     assert section[0]['offsetM'] == float(np.float32(distance))
     assert section[0]['offsetM'] != float(np.float32(round(distance, 4)))
     assert section[0]['groundM'] == 2. and section[0]['accessOffsetM'] == 1.
+
+
+def test_owner_boundary_search_reaches_the_shared_rendered_vertex():
+    class Owner:
+        def compatible(self, positions, source, level, anchor=None):
+            return positions[:, 1] < 2396.
+
+        def standing_handoff(self, position, level):
+            return False
+
+    mpp = 1.82784
+    section, _ = channel_cross_section(np.zeros((4, 2400)), [1., 2394.], [0., 1.],
+        3., 1., mpp, ownership=Owner(), source=0, close_domain=True)
+    endpoint = np.float32(2394. * mpp + section[-1]['offsetM'])
+    assert endpoint == np.float32(2396. * mpp)
+    assert section[-1]['offsetM'] <= np.float32(2. * mpp)

@@ -626,3 +626,189 @@ within0.00004686m. Actual runtime centre coverage remains367 original-coordinate
 ordinary columns, eight additional exported-centre columns, one falling sheet.
 These are point/contact checks, not final generated confluence mesh acceptance.
 
+
+
+# Shared-seasonal coverage investigation (superseded by accepted62 checkpoint)
+
+The following records describe intermediate rejected states through c725181.
+Owner-boundary refinement subsequently closed the final local miss; current
+authority and remaining work are in WATER_REPAIR_HANDOFF.md.
+
+## Shared-seasonal support:62 hydraulic constraints, unaccepted coverage
+
+The32 explicitly reviewed supporting sources and proposal are durable in
+`water-repair-inputs/seasonal-supporting-proposal.{json,npz}`. The manifest labels
+these UNACCEPTED separately from its unchanged72-constraint inputs. This is
+not a62 checkpoint and must not be deployed. Rejected candidates remain96;
+supporters32; positive budget nodes768. Terrain, routing and stages are unchanged.
+
+`load_seasonal_profile` now retains optional integer `supporting_sources` (empty
+for old v1 files). Validation restricts these to base-accepted authored wetland
+rivulets in graph-connected groups rooted in rejected candidates. Unselected
+and banked-river nodes remain protected. Export marks both recovered sources
+and explicit supporters `baseMayBeDry`; capture/audit report recovered and
+supporting counts separately. Preserve this new field when rebasing proposals.
+
+Broad actual-response screening recovered10 but lowered unrelated heads.
+One-hop neighbours recovered7; extending arbitrary hop counts did not improve
+that. Following the three actual obstruction drainage paths recovers all10
+with32 supporters. Resolved:2313,3316,4663,10540,10881,11499,12725,14036,14257,15127.
+92 previously active heads lower (maximum0.818647m);64 newly base-dry native
+nodes belong to these explicitly seasonal groups. Current pool planes remain
+fixed. Scripts/evidence: `/tmp/probe-water-{shared-seasonal-nodes,targeted-shared-seasonal-nodes,neighbour-seasonal-groups,neighbour-seasonal-blockers,drainage-seasonal-groups}.py`.
+Do not repeat the broad or unchanged hop-count screens.
+
+Fresh response donors reduced28 available budgets. `reconcile_peak_budgets`
+clips only oversized active-node allowances and re-solves once; EVERY head,
+active flag and accepted link must be bit-identical, with the same failures.
+Otherwise `SeasonalResponseBudgetError` exposes the actual bounds for diagnostics.
+No-op bounds never re-solve. The compiler callback binds authored links before
+`dsk` is later rebound to the raster flow graph; an earlier attempt exposed that
+closure bug and was fixed. Fourteen focused tests pass, including protection,
+disconnected supporters, serialization and exact-solve reconciliation.
+
+`/tmp/compile-water-drainage-seasonal-fields.py` completed the real full compute,
+captured profile and1415 selected records. Files:
+`/tmp/water-drainage-seasonal-full-{fields.npz,state.npz,ribbons.json,summary.json}`.
+The raw requested profile is `/tmp/water-drainage-seasonal-profile.npz`; durable
+proposal uses the captured reconciled budgets, with exact-head proof. The raw
+full cache is VERIFIED FOR STAGE BUDGETS, NOT ACCEPTED FOR GEOMETRY. Do not label
+it the accepted solver cache. Its62 failures split32 minor/30 banked rivers.
+
+Preservation: all423,268 original interior samples, planes, spill potential and
+marine coverage preserved; all482,066 prior standing samples unchanged. The38
+historical original pool-field omissions remain.645 selected centres give636
+ordinary raw-coordinate peak samples,8 additional Float32 centres and1 falling
+sheet; no earlier positive lost.1,044 wet pool contacts over five stages agree
+within0.05mm. `/tmp/water-drainage-seasonal-{preservation,runtime-comparison,joins}.json`.
+
+The LOCAL authored footprint gate prevented acceptance. It measures4,303 exact
+continuum/rivulet authoring vertices within20 native intervals of the92 lowered
+heads, with actual old/new ribbons and native standing fields. Old1405-record
+geometry reproduces all1224 previously emitted records exactly. Old peak-wet4060,
+new4110:53 gained,3 raw lost,193 still dry. This is not the whole final footprint.
+Two losses, native[2474,2029] and[3477,1151], are covered at Float32 native
+coordinates; final representation/seam gates still apply. The substantive gap
+is native[2564,1962], world[3586.22208,4686.58176], ground20.896479m. Old standing
+field head23.186329m/support255/access-0.08 becomes flowing field21.982430m/
+support128/access-1.085951. Both have season1/tide0. Neither old nor new ribbon
+covers this point, even at Float32 coordinates: the new broad flowing-core
+proxy steals its standing raster owner without corresponding rendered geometry.
+
+The gap is now traced to the mesh: source10881 descends from23.369226m to
+21.982430m over1.82784m. Runtime `descendingSection` limits the landing's
+lateral spread; the following flat pool starts at a tilted bisector, leaving
+an uncovered upstream wedge. Including falling sheets does not fill it.
+
+Replacing flat landing miters with incoming perpendicular sections was REJECTED.
+The one-point prototype fills the target, but the general change affects198
+selected sections/280 records. Across32,007 authored vertices within20 native
+intervals it loses89 previously wet vertices and gains28. That source change
+was removed. Preserve existing sections when adding the missing pool footprint;
+an alternative is reconciling flowing-core raster ownership against actual
+rendered strips. Do not repeat the rejected section replacement.
+
+The retained exporter change removes intermediate four-decimal x/z rounding.
+Native4686.58176 becomes Float324686.58154296875 directly, but rounding to
+4686.5818 first produces4686.58203125. A regression test locks the single
+conversion.63 geometry/seasonal tests pass; no runtime edits or stage/input
+changes. Coordinate-only geometry gives4,114 wet local vertices (+57/-3 versus
+accepted geometry), but does NOT close the substantive wedge. Its expanded
+comparison against the original proposal gains18/loses21 raw vertices;19 of
+those21 are covered at native Float32 coordinates. Native[2339,2295] and
+[2423,1944] remain uncovered there and require seam diagnosis. This is a
+precision-contract correction, not final geometry acceptance.
+
+Coordinate-only centre checks:635 raw ordinary+9 Float32 ordinary+1 falling
+sheet cover645 targets.1,044 selected pool contacts remain within0.05mm.
+Durable evidence: `water-repair-inputs/landing-coverage-investigation.json`.
+Disposable geometry: `/tmp/water-{flat-landing,exact-coordinate}-ribbons.json`;
+comparison reports use the same prefixes plus `local-footprint-coverage`,
+`expanded-coverage`, and `expanded-lost-detail` where present. Expanded targets:
+`/tmp/water-flat-landing-expanded-targets.json`. The rotation experiment's
+`/tmp/compile-water-flat-landings.py` depends on REJECTED code and cannot run
+against current source. Use saved geometry for comparisons. The immutable
+baseline `/tmp/water-drainage-seasonal-old-local-ribbons.json` must not be
+regenerated with changed source. The prepared acceptance script has NOT run.
+
+
+## Added landing fills: geometry preserved, proposal still unaccepted
+
+`flat_landing_normals` identifies consistent degree-two descending-to-flat
+joins without changing `shared_section_normals`. The exporter measures the
+additional incoming perpendicular section and emits only its upstream sector
+against the existing bisector as a `geometryRole: landing` record. Its two
+centres, water heads and seasonal/tidal responses match. It has no falling flag
+or longitudinal current edge. The inner endpoint is `section-join`, not an
+outer ownership boundary. Existing packed sections, terrain masks, streaming
+and query/render triangles carry these records. Loader/runtime reject invalid
+landing geometry. Do not resurrect the rejected rotated-section replacement.
+
+Current source re-exported the saved full proposal fields to
+`/tmp/water-production-landing-ribbons.json`: all1,415 earlier channel records
+are exactly preserved, plus169 one-sided fills (3,294 compact triangles,
+494,100 mesh-attribute bytes before native refinement). The source export differs
+from the prototype because additional sections now get their own measurement;
+use the production evidence, not prototype counts. At the reported gap,
+ordinary water is2.445290m above ground at peak at both raw and Float32 native
+coordinates.4,303 local vertices:4,118 wet,+60/-2 versus accepted reference;
+the two raw boundary misses remain covered at Float32 coordinates.32,007
+expanded vertices versus the exact-coordinate proposal:29,080 wet,+9/-0.
+1,152 selected pool contacts over five stages agree within0.05mm.645 selected
+centres remain covered (635 raw ordinary+9 Float32 ordinary+1 falling sheet).
+
+Evidence: `water-repair-inputs/landing-fill-verification.json`; runtime scripts
+`/tmp/water-fringe-runtime/production-landing-{addition,footprint,probe,boundary,mesh}.mjs`;
+geometry re-export `/tmp/compile-water-production-landings.py`.51 geometry and14
+seasonal Python tests pass;23 ribbon tests pass. Root typecheck passes. Root
+tests passed apart from a sandbox EPERM on the combat measurement subprocess;
+that sole suite passed7 tests on escalated retry. No combat source changed.
+
+Those two coordinate-export seams are now fixed by the precision work below.
+Preserve the accepted72 inputs until the remaining boundary is resolved.
+The landing addition loses no previously covered vertex in its bounded check,
+but does not prove whole-footprint coverage or final native geometry budgets.
+
+
+## Section precision and clipping seams
+
+Latest source removes decimal rounding from bank-section offsets before their
+Float32 canonicalization/packing. This closes native[2339,2295] and[2423,1944]
+at actual rendered coordinates. The canonicalizer still merges true Float32
+duplicates, retaining the highest ground/access barrier; it no longer merges
+separate representable offsets merely because their four-decimal values agree.
+`/tmp/water-full-section-precision-ribbons.json` re-exports the same full fields:
+1,584 records/207,037 section samples, with no changes to longitudinal positions,
+heads, centre beds or responses.32,007 Float32 native targets versus the prior
+landing export:29,211 wet,+7/-0. Do not substitute raw-coordinate counts for
+native Float32 comparisons without recording which representation was queried.
+
+Comparing4,303 targets against the accepted72 reference exposed two additional
+misses. Native[659,3394] was a rounded clipping T-junction: the incident strip
+created an endpoint the outgoing section did not share. Runtime now inserts
+that endpoint into the following section before triangulation. The three-point
+fixture `packages/game-core/src/water/fixtures/clipped-section-seam.json`
+reproduced the failure before the fix. The same32,007-target runtime comparison
+then gains1/loses0. Zero-length landing centreline projection is also guarded;
+overlap-order regression passes. All645 selected centres remain covered.
+
+The sole remaining local native Float32 miss is[2947,2396], world[4379.50464,
+5386.64448], on `water-ribbon.province.cell-981-797`. The native vertex is
+0.127530mm outside the rendered outer edge; raw coordinates and1mm west have
+water depth~1.3757m. Current local comparison: old4,088/new4,132,+45/-1.
+The62 proposal is STILL UNACCEPTED. Diagnose that edge against the authoritative
+footprint and neighbouring ownership; do not waive it on hydraulic counts.
+Float64 inline offsets and quantized clipping-centre prototypes did not close
+it and were not retained. Do not migrate the sidecar based on that hypothesis.
+Stitching currently handles adjacent sections within a record; final cross-record
+and native-refinement seam gates remain required.
+
+Durable evidence: `water-repair-inputs/section-precision-verification.json`.
+Geometry re-export: `/tmp/compile-water-full-section-precision.py`.
+Runtime comparisons: `/tmp/water-fringe-runtime/final-precision-{footprint,expanded,centres}.mjs`.
+Diagnosis: `/tmp/water-seasonal-native-{boundary,triangle}-diagnosis.json`.
+The final runtime module copied for those probes is `channelRibbonsFinalPrecision.ts`.
+The old72 reference remains immutable.74 Python boundary/geometry tests and24
+ribbon tests pass. Root tests/typecheck passed; affected game-core tests/types
+were rerun and passed after the final stitching edit. No terrain, stage, default
+repair input or deployed asset changes were made.

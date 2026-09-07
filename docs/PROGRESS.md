@@ -100,31 +100,19 @@ raster meshes and whole authored footprints remain open. Connected pool
 responses now preserve reviewed seasonal/tidal/combined low-water ranges
 exactly. Final exports require the pool-stage reference (water handoff).
 No diagnostic assets are promoted.
-The accepted seasonal checkpoint recovers54 rivulets without excavation.
-Fresh compiler fields, a fresh profile audit and cached re-solving agree exactly;
-all original pool planes and spill potential remain preserved. Final compilation and
-profile audits require `--seasonal-profile water-repair-inputs/seasonal-profile.npz`
-as well as the reviewed pool-stage reference for full exports. Fourteen focused
-seasonal/cache tests pass; workspace gates passed at c00c7ed (no runtime edits since).
-Seven original-pool sampling corrections now restore ten bank supports. The
-latest three moves recover channel11425 at base level and restore four banks,
-with three bed corrections lowering at most10.2cm additionally. All five
-samples leaving the base standing seed domain retain peak coverage;1,018
-selected pool contacts across five stages agree within0.05mm. Whole authored
-peak footprints and final geometry gates remain open. The remaining sampling
-alternatives failed bounded screening. Guarded shared-seasonal support now
-produces62 hydraulic constraints, but remains UNACCEPTED pending footprint
-and seam checks. The diagnosed landing gap is now filled by169 additive flat
-sections, preserving all
-1,415 prior records exactly. The32,007-vertex comparison gains9/loses0;1,152
-five-stage pool contacts agree within0.05mm. Geometry tests, root typecheck
-and workspace tests pass. Section-offset rounding and an interior clipped join
-are now fixed; native32,007-vertex comparisons lose no previous coverage. One
-local outer-edge sample and whole-footprint verification still prevent acceptance
-(water handoff). Full compilation saves its matching
-solver state with `--profile-cache`, avoiding a second native-domain audit.
-The durable accepted repair checkpoint has72 channel constraints,59
-retaining-bound violations and15,562 terrain corrections. Original impoundment
+The accepted seasonal checkpoint now recovers64 rivulets without excavation,
+using32 explicitly connected supporting minor reaches. Original pool levels,
+spill potential, marine coverage and482,066 standing samples are preserved.
+Final compilation/profile audits require the accepted `--seasonal-profile`
+and reviewed pool-stage reference; `--profile-cache` saves the matching solve.
+Landing fills, section precision and shared clip endpoints fix the earlier gaps.
+The final boundary search resolves to the rendered vertex.4,303 native authored
+vertices gain45 wet samples and lose0;170 remain dry. The32,007-vertex comparison
+also loses0. All645 selected centres and1,152 five-stage pool contacts pass.
+Boundary/seasonal tests pass; runtime unchanged since c725181's workspace gates.
+Whole authored peak footprints and final geometry/deployment gates remain open
+(water handoff). The durable accepted checkpoint now has62 channel constraints,
+59 retaining-bound violations and15,562 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
 fringes are preserved. Complete-reach solving and original-pool sampling
 corrections replaced ineffective single-obstruction repairs; the latest solver correction

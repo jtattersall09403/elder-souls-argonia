@@ -347,7 +347,16 @@ def channel_cross_section(ground, point, normal, half_extent, level, metres_per_
                 domain_end = 'reach-owner'
                 hi_index = int(incompatible[0])
                 low, high = current_distance[hi_index - 1], current_distance[hi_index]
-                for _ in range(12):
+                for _ in range(32):
+                    # Resolve the ownership divide in the representation the
+                    # mesh uses: packed Float32 offsets, then Float32 world
+                    # vertices. A fixed iteration count can stop one rendered
+                    # vertex short of an otherwise shared bank boundary.
+                    offsets = np.asarray([low, high], np.float64) * (sign * metres_per_pixel)
+                    rendered = (point[:, None] * metres_per_pixel +
+                                normal[:, None] * offsets.astype(np.float32)).astype(np.float32)
+                    if np.array_equal(rendered[:, 0], rendered[:, 1]):
+                        break
                     middle = (low + high) * .5
                     probe = point + normal * middle * sign
                     if ownership.compatible(probe[None, :], source, level, anchor=point)[0]:

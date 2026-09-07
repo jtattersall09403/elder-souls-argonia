@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The72 remaining constraints below still require resolution before final export.
+The62 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-72-restored-banks-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-62-seasonal-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored346 retaining supports plus192 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and6 artificial-anchor supports;
-15,562 corrections remain. **72 channel constraints remain**, not completed
+15,562 corrections remain. **62 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -331,28 +331,24 @@ do not repeat unchanged failed choices. See the compiler handoff for next routes
 and the rejected optimistic seasonal-restoration bounds.
 
 
-## Current priority: verify shared-seasonal proposal coverage
+## Current priority: remaining feasibility and full peak footprints
 
-The accepted checkpoint remains72 channels/59 retaining issues. Explicit
-connected wetland support groups produce62 hydraulically, with no terrain or
-stage changes, but are **not accepted**. `seasonal-supporting-proposal.npz` and
-its JSON evidence remain diagnostic inputs. Fresh fields preserve all original
-pools and482,066 standing samples;645 centre checks pass.
+The connected seasonal checkpoint is now accepted:62 channel constraints
+(32 minor/30 banked) and59 retaining issues remain. It recovers10 more channels,
+64 total, using32 explicit supporting minor reaches. No terrain, routing,
+stage amplitudes or original pool planes changed. The default seasonal profile
+and matching cache are updated; the manifest records the acceptance hashes.
 
-The original proposal exposed a real landing gap at native[2564,1962]
-(3586.222m E,4686.582m S). Replacing the angled receiving section lost coverage
-elsewhere and was rejected. The gap is now filled by adding one-sided flat
-landing sections while retaining all existing channel geometry. The real
-exporter preserves1,415 records exactly and adds169 fills. Across32,007 nearby
-authored vertices this addition gains9 and loses0;1,152 selected pool contacts
-over five stages agree within0.05mm. Coordinate export also avoids intermediate
-decimal rounding. The two earlier Float32 seams are fixed; clipped-section
-endpoints now stitch to the following strip as well. A32,007-vertex check loses
-no prior coverage. One local native vertex remains0.128mm outside an outer
-edge; see `section-precision-verification.json` and the compiler handoff.
+Landing fills and precision fixes close the diagnosed geometry gaps. The final
+owner-boundary search resolves its bracket to the actual rendered vertex.
+Across4,303 Float32 authored vertices around changed heads, all4,088 previously
+wet vertices remain covered and45 more are wet.170 remain dry; whole-footprint
+coverage is unfinished. A32,007-vertex comparison also loses no coverage.
+All645 selected centres and1,152 pool contacts pass. Original interior pools,
+spill potential, marine coverage and482,066 standing samples are preserved.
 
-Root typecheck passes; workspace tests pass after retrying the sole
-sandbox-blocked subprocess suite. See `landing-fill-verification.json` and the
-compiler handoff. The62 proposal remains unaccepted pending that boundary and
-full peak-footprint verification. Lower constraint counts cannot waive actual
-coverage; no diagnostic assets have been deployed.
+See `seasonal-supporting-acceptance.json`, the repair-input manifest and the
+compiler handoff. Boundary/seasonal tests pass; runtime remains at c725181's
+passing workspace gates. Continue the remaining constraints and authored
+peak-footprint work, then final coherent native-data and rendering gates.
+Nothing from the diagnostic asset bundles has been deployed.

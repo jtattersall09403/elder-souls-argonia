@@ -8,7 +8,7 @@
     "routing-audit.json": "3a160e57705c2c1eb698a35ff26e790c3342191800de6d79457469a93c86e342",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
     "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
-    "seasonal-profile.npz": "3cd26bfc837bc180bea3b2283b506acf60f5d1a8254c371659e631d39299023e"
+    "seasonal-profile.npz": "17dcea3b603b38c7fc11cd92c8f97caa80d79192337e11094289f50b54228d95"
   },
   "source": {
     "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
@@ -17,7 +17,7 @@
   },
   "checkpoint": {
     "retainedCorrections": 15562,
-    "unresolvedChannels": 72,
+    "unresolvedChannels": 62,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -340,10 +340,10 @@
   "seasonalProfileAcceptance": {
     "status": "accepted-hydraulic-checkpoint-not-release",
     "file": "seasonal-profile.npz",
-    "sha256": "3cd26bfc837bc180bea3b2283b506acf60f5d1a8254c371659e631d39299023e",
+    "sha256": "17dcea3b603b38c7fc11cd92c8f97caa80d79192337e11094289f50b54228d95",
     "evidence": "seasonal-profile-acceptance.json",
-    "evidenceSha256": "0e27654fdadcffc4c7bb982fbace676802d1c782d1f2893cf5aa08aa6b273e52",
-    "remainingConstraints": 72,
+    "evidenceSha256": "1ce9ed9c489242170233aa73f6309e7235af63fac5a2d75444c03b59122f3a63",
+    "remainingConstraints": 62,
     "baseOnlyConstraints": 126,
     "compilerFlag": "--seasonal-profile"
   },
@@ -357,7 +357,7 @@
     "remainingRetainingBoundViolations": 59
   },
   "seasonalSupportingProposal": {
-    "status": "unaccepted-local-peak-coverage-regression",
+    "status": "historical-proposal-now-accepted-with-geometry-fixes",
     "file": "seasonal-supporting-proposal.npz",
     "sha256": "17dcea3b603b38c7fc11cd92c8f97caa80d79192337e11094289f50b54228d95",
     "evidence": "seasonal-supporting-proposal.json",
@@ -382,5 +382,17 @@
     "evidence": "section-precision-verification.json",
     "evidenceSha256": "cfb3d74b55d8c1c6e87390e6d297a13b611470797b0810f29addb2a57bd5b498",
     "acceptedConstraintsRemain": 72
+  },
+  "seasonalSupportingAcceptance": {
+    "status": "accepted-hydraulic-checkpoint-not-release",
+    "evidence": "seasonal-supporting-acceptance.json",
+    "evidenceSha256": "0a7daf11d1ca7f409c57a6be2b6bd2170c75532bbb87cfe4f0a76fee6c334dcf",
+    "remainingConstraints": 62,
+    "supportingMinorReaches": 32
+  },
+  "ownerBoundaryResolutionVerification": {
+    "status": "accepted-boundary-resolution-not-final-release",
+    "evidence": "owner-boundary-resolution-verification.json",
+    "evidenceSha256": "24b4f25621fc6fe0ea598d1d38c40e5efec73d9635a389021deba3e0d11a9014"
   }
 }

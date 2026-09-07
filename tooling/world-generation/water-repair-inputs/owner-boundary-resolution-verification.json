@@ -1,0 +1,50 @@
+{
+  "status": "accepted-boundary-resolution-not-final-release",
+  "remainingConstraints": 62,
+  "remainingRetainingBoundViolations": 59,
+  "method": "Refine compatible/incompatible ownership bracket until packed offsets map both ends to the same Float32 world vertex; cap at32 iterations and retain compatible endpoint.",
+  "fixedNativeVertex": [
+    2947,
+    2396
+  ],
+  "priorMissDistanceM": 0.00012753029895335596,
+  "newPeakDepthM": 1.3756609579397336,
+  "recordsChecked": 1584,
+  "longitudinalCoordinatesHeadsBedsAndResponsesChanged": 0,
+  "cacheProfileHashAndBudgetsMatch": true,
+  "cacheSeasonalResponseVerified": true,
+  "localCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 4303,
+    "oldPeakWet": 4088,
+    "newPeakWet": 4133,
+    "lost": [],
+    "gained": 45,
+    "remainingDry": 170
+  },
+  "expandedCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29212,
+    "newPeakWet": 29214,
+    "lost": [],
+    "gained": 2,
+    "remainingDry": 2793
+  },
+  "centres": {
+    "targets": 645,
+    "oldCovered": 645,
+    "newCovered": 645,
+    "lost": []
+  },
+  "poolContacts": {
+    "scope": "Fresh selected channel/native standing-pool point contacts at five stages; not rendered confluence acceptance",
+    "pinnedNodesExamined": 215,
+    "wetContactsChecked": 1152,
+    "maximumAbsoluteHeadDifferenceM": 4.685115814240248e-05,
+    "mismatchesAbove1mm": []
+  },
+  "focusedTests": "24 boundary tests plus14 seasonal tests passed; no runtime edits since c725181 workspace gates.",
+  "geometrySha256": "74423dfb3f6431fa575ba270e758c14064c9628580af21f50ad5695979f300cc",
+  "acceptance": "seasonal-supporting-acceptance.json"
+}
