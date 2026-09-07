@@ -14,7 +14,7 @@ terrain-constrained overhaul was retired by
 | `tide.ts` | Semidiurnal tide and seasonal level offsets. |
 | `WaterClock.ts` | Wave-phase vs real-time transport clocks (the world clock is often paused). |
 | `waveWeather.ts`, `spectralOcean.ts` | Wind→wave energy; the FFT open-sea field (compiled, not yet mounted). |
-| `waterfallTrajectory.ts` | Ballistic sheet arcs for compiled cascade lips. |
+| `waterfallTrajectory.ts` | Ballistic sheet arcs for compiled cascade lips (contact tracing against arbitrary receivers). |
 
 ## Interaction and particles (contract-only, kept across the retirement)
 
@@ -28,7 +28,9 @@ terrain-constrained overhaul was retired by
 | File | What it owns |
 | --- | --- |
 | `loadWaterAssets.ts` | Fetches + decodes `province/water/` into `WaterData`, `WaterWorld` and textures. |
-| `waterMaterial.ts` | The water shader patch (depth fade, surf, whitecaps, foam, SSR, refraction, ripples) + tiers/layers. |
+| `waterMaterial.ts` | The water shader patch (depth fade, surf, whitecaps, foam, SSR, refraction, ripples) + tiers/layers, the compiled-owner discard, and the `ES_STRIP` attribute-driven variant. |
+| `ChannelStrips.ts` | Ribbon meshes along the compiled steep-reach `channels[]` — same shader, per-vertex hydraulics instead of a raster fetch. |
+| `WaterfallSheets.ts` | Ballistic/terrain-following sheet meshes at the compiled `cascades[]` lips + their scrolled-streak material. |
 | `WaterSurface.tsx` | The camera-following province grid, contact bodies, ripple stamping, particle stack. |
 | `WaterPipeline.tsx` | The three-pass frame (opaques→HDR RT, tone-mapped blit with underwater fog/god rays/bubbles, water+precip+overlay). |
 | `RippleSim.ts` (+ `rippleAdvection`, `rippleIsolation`) | Body-isolating interactive ripple patch. |

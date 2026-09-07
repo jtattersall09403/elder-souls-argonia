@@ -230,8 +230,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.uniforms.uCamFar.value = cam.far;
       h.uniforms.uResolution.value.set(size.x, size.y);
       h.uniforms.uProjMatrix.value.copy(cam.projectionMatrix);
-      h.mesh.material = underwater ? h.materials.below : h.materials.above;
+      h.setUnderwater(underwater);
       h.effects.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      h.falls?.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
     }
 
     // ---- pass 0: advance the interactive ripple patch (2 tiny passes) ----
@@ -328,6 +329,8 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       effects: h?.effects.diagnostics,
       bubbles: h?.bubbles?.diagnostics,
       bubblePass: bubblePass.diagnostics,
+      strips: h ? { count: h.stripDiagnostics.count, triangles: h.stripDiagnostics.triangles } : undefined,
+      falls: h?.falls?.diagnostics,
     });
   }, 1);
 

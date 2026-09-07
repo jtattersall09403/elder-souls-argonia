@@ -209,3 +209,7 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
 - **Deterracing could be smoother** — visible terracing artefacts remain.
 - **Grass coverage** — open question on whether/how much grass coverage
   exists currently and whether it needs improving.
+- **Waterfall sides need rocks.** Sheet edges read wrong where they meet bare
+  terrain; scatter boulders tight against every compiled cascade lip/side
+  (`water-meta.json` `cascades[]`) in the Phase 10 scatter compiler. Varden
+  recipe, research/rendering/waterfalls-realtime.md §6.

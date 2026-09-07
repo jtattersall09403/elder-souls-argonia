@@ -64,11 +64,13 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     fetch(`${waterBase}water-meta.json`).then((r) => r.json() as Promise<WaterMeta>),
     fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
   ]);
-  const [surfImg, flowImg, klassImg, shoreImg] = await Promise.all([
+  const ownerFile = meta.surface.ownerFile;
+  const [surfImg, flowImg, klassImg, shoreImg, ownerImg] = await Promise.all([
     fetchImageData(`${waterBase}${meta.surface.file}`),
     fetchImageData(`${waterBase}${meta.flow.file}`),
     fetchImageData(`${waterBase}${meta.klass.file}`),
     fetchImageData(`${waterBase}${meta.surface.shoreFile ?? "water-shore.png"}`),
+    ownerFile ? fetchImageData(`${waterBase}${ownerFile}`) : Promise.resolve(null),
   ]);
 
   // Dequantise W + depth proxy + shore distance for the CPU samplers.
@@ -119,6 +121,9 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     flowTex: dataTexture(flowImg, THREE.LinearFilter),
     klassTex: dataTexture(klassImg, THREE.LinearFilter),
     shoreTex: dataTexture(shoreImg, THREE.LinearFilter),
+    // NEAREST: the mask is a hard ownership decision per surface texel —
+    // filtering it would bleed a half-texel hole around every strip.
+    ownerTex: ownerImg ? dataTexture(ownerImg, THREE.NearestFilter) : null,
     tidalAmplitudeM,
     seasonalAmplitudeM,
   };

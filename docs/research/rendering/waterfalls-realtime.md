@@ -183,3 +183,22 @@ gorge drops); B's mist/foam layers are reused as-is.
 Sequencing: A immediately, B in the same or next round, C as a targeted
 follow-up for the gorge-scale falls. All three keep buoyancy/W(x,z) untouched
 — these are render-only changes.
+
+## 6. Owner references (2026-09-07) and what we took from them
+
+- Varden, [step-by-step realistic waterfall in Unity](https://www.varden.ee/development-progress/step-by-step-guide-to-creating-a-stunning-realistic-waterfall-in-unity/):
+  asset-pack based (R.A.M spline + Crest), but the layering is the useful
+  part — spray emitters at the lip and at every rock intersection, softer
+  mid-fall emitters on gentle stretches, surface mist + a "noise" splash at
+  the plunge, a tinted local mist cloud, and the sheet's sides hidden by
+  mossy rocks. Our build (decision 0046 §4): ballistic arc from the lip at
+  the compiled lip speed, three-layer procedural foam sheet, emitters whose
+  rate grows with distance fallen, a plunge cloud, and a foam ring on the
+  pool. Rocks tight to the sheet sides are a scatter job (polish backlog).
+- three.js discourse [t/21564](https://discourse.threejs.org/t/how-to-make-3d-waterfall/21564)
+  and the linked YouTube demo: a scrolling squared/desaturated water photo
+  texture. We use procedural streak noise instead (no downloaded art).
+- Particle libraries the owner named (three-nebula, ShaderParticleEngine):
+  not adopted — the kept `render/WaterEffects.ts` instanced sprite system
+  already has budgets, lighting and depth-fade, so a second particle stack
+  would be duplicate machinery.

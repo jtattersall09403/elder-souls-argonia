@@ -6,11 +6,14 @@ import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
 import type { WaterAssets, WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
 import { UnderwaterBubbles } from "./UnderwaterBubbles";
-import { WaterCascadeSources } from "./WaterCascadeSources";
+import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
+import { buildChannelStripGeometry } from "./ChannelStrips";
+import { WaterfallSheets } from "./WaterfallSheets";
 import { WaterFlowContacts } from "../flowContacts";
 import {
   WATER_LAYER,
   MAX_CONTACT_BODIES,
+  MAX_PLUNGE_SOURCES,
   createWaterMaterial,
   createWaterUniforms,
   type WaterTier,
@@ -108,10 +111,18 @@ export interface ContactBody {
 
 export interface WaterSurfaceHandle {
   uniforms: WaterUniforms;
+  /** The province field grid. */
   mesh: THREE.Mesh;
+  /** Every mesh in the water pass — field grid, strip ribbons, fall sheets.
+   * Capture and underwater visibility must treat them as one surface. */
+  meshes: THREE.Mesh[];
   materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial };
+  /** Swaps every surface mesh between the above/below shader variants. */
+  setUnderwater(underwater: boolean): void;
   effects: WaterEffects;
   bubbles: UnderwaterBubbles;
+  falls: WaterfallSheets | null;
+  stripDiagnostics: { count: number; triangles: number };
 }
 
 export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady }: {
@@ -139,6 +150,35 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     () => buildWaterGeometry({ ...GRIDS[tier.name], halfExtent: farExtentM ?? GRIDS[tier.name].halfExtent }),
     [tier.name, farExtentM],
   );
+  // Steep reaches (decision 0046 item 4): explicit ribbons in the SAME shader,
+  // built once. The field discards under them via the compiled owner mask.
+  const strips = useMemo(() => {
+    const channels = assets.meta.channels ?? [];
+    if (!channels.length) return null;
+    const built = buildChannelStripGeometry(channels);
+    if (!built.triangleCount) return null;
+    const materials = {
+      above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+      below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }, "strip"),
+    };
+    const mesh = new THREE.Mesh(built.geometry, materials.above);
+    mesh.name = "water-channel-strips";
+    mesh.layers.set(WATER_LAYER);
+    mesh.frustumCulled = false;
+    mesh.receiveShadow = true;
+    return { mesh, materials, triangles: built.triangleCount, count: built.stripCount };
+  }, [assets, csm, uniforms, tier, runtime.applyAerial]);
+  useEffect(() => () => {
+    if (!strips) return;
+    strips.mesh.geometry.dispose();
+    strips.materials.above.dispose();
+    strips.materials.below.dispose();
+  }, [strips]);
+  const falls = useMemo(() => {
+    const cascades = assets.meta.cascades ?? [];
+    return cascades.length ? new WaterfallSheets(cascades, runtime.applyAerial) : null;
+  }, [assets, runtime.applyAerial]);
+  useEffect(() => () => falls?.dispose(), [falls]);
   const meshRef = useRef<THREE.Mesh>(null);
   const effects = useMemo(() => new WaterEffects({
     maxParticles: tier.name === "high" ? 768 : 256,
@@ -172,9 +212,17 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      onReadyRef.current?.({ uniforms, mesh, materials, effects, bubbles });
+      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh] : [])];
+      onReadyRef.current?.({
+        uniforms, mesh, meshes, materials, effects, bubbles, falls,
+        stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
+        setUnderwater(underwater: boolean) {
+          mesh.material = underwater ? materials.below : materials.above;
+          if (strips) strips.mesh.material = underwater ? strips.materials.below : strips.materials.above;
+        },
+      });
     }
-  }, [materials, uniforms, effects, bubbles]);
+  }, [materials, uniforms, effects, bubbles, strips, falls]);
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();
@@ -281,7 +329,29 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const focus = { x: camera.position.x, y: camera.position.y / verticalScale, z: camera.position.z };
     flowContacts.update(assets.world, epoch, focus, dt,
       (id, event, rate, step) => effects.emitContinuous(id, event, rate, step));
-    for (const fall of cascadeSources.nearby(focus)) effects.emitCascade(fall, assets.world, epoch, dt);
+    // Cascade spray/mist/foam, and the plunge-pool foam discs the FIELD
+    // shader draws around each nearby fall (research §4: foam spreads out).
+    let ranked = 0;
+    for (const fall of cascadeSources.nearby(focus)) {
+      effects.emitCascade(fall, assets.world, epoch, dt);
+      // The nearest falls also get the spray/mist kit spaced DOWN the sheet;
+      // the rest keep the plunge alone, which is all that reads at distance.
+      const path = ranked++ < CASCADE_PATH_LIMIT ? falls?.pathFor(fall.id) : undefined;
+      if (!path) continue;
+      for (const e of cascadePathEmitters(fall, path.points, assets.world, epoch)) {
+        effects.emitContinuous(e.id, e.event, e.ratePerSecond, dt, { mist: e.mist, fallFrom: e.fallFrom });
+      }
+    }
+    let plunges = 0;
+    for (const fall of cascadeSources.nearby(focus, 300, MAX_PLUNGE_SOURCES)) {
+      uniforms.uPlunges.value[plunges++].set(
+        fall.plunge.x, fall.plunge.z,
+        Math.max(1.5, Math.min(16, fall.widthM)),
+        Math.min(0.7, 0.18 + fall.dropM * 0.03),
+      );
+    }
+    uniforms.uPlungeCount.value = plunges;
+    falls?.update(runtime, nowS, verticalScale);
     effects.setIllumination(runtime.ambient.value, runtime.sunLight.value,
       runtime.sunDirection.value.y, gl.toneMappingExposure);
     effects.setView(undefined, verticalScale);
@@ -296,6 +366,8 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   return (
     <>
     <primitive object={effects.object3d} />
+    {strips ? <primitive object={strips.mesh} /> : null}
+    {falls ? <primitive object={falls.mesh} /> : null}
     <mesh
       ref={meshRef}
       geometry={geometry}

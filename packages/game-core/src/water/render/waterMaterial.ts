@@ -27,6 +27,13 @@ import { RIPPLE_PATCH_M } from "./RippleSim";
  */
 
 export type WaterVariant = "above" | "below";
+/**
+ * `field` is the province-wide raster grid; `strip` is the same shader driven
+ * by per-vertex attributes along a compiled steep-stream polyline (decision
+ * 0046 item 4) — one look, two sources, so a stream never changes appearance
+ * where it leaves the raster.
+ */
+export type WaterSurfaceMode = "field" | "strip";
 
 export interface WaterTier {
   name: "low" | "high";
@@ -62,6 +69,8 @@ export const OVERLAY_LAYER = 4;
  */
 export const PRECIP_LAYER = 5;
 export const MAX_CONTACT_BODIES = 8;
+/** Nearest cascade plunge points fed to the field shader for pool foam. */
+export const MAX_PLUNGE_SOURCES = 16;
 
 export interface WaterUniforms {
   uWaveTime: { value: number };
@@ -98,6 +107,14 @@ export interface WaterUniforms {
   /** x, z, radius, strength — churn sources (player, crates, splashes). */
   uBodies: { value: THREE.Vector4[] };
   uBodyCount: { value: number };
+  /** Strip/fall ownership mask (0 field, 128 strip, 255 fall) + its toggle:
+   * the field surface discards where a strip mesh or sheet owns the cell. */
+  uOwnerTex: { value: THREE.Texture | null };
+  uHasOwner: { value: number };
+  uSurfExtentM: { value: number };
+  /** x, z, radius (m), strength — nearest waterfall plunge pools. */
+  uPlunges: { value: THREE.Vector4[] };
+  uPlungeCount: { value: number };
 }
 
 export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
@@ -132,6 +149,11 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uRainRipple: { value: 0 },
     uBodies: { value: Array.from({ length: MAX_CONTACT_BODIES }, () => new THREE.Vector4()) },
     uBodyCount: { value: 0 },
+    uOwnerTex: { value: assets.ownerTex },
+    uHasOwner: { value: assets.ownerTex ? 1 : 0 },
+    uSurfExtentM: { value: m.surface.size * m.surface.metresPerPixel },
+    uPlunges: { value: Array.from({ length: MAX_PLUNGE_SOURCES }, () => new THREE.Vector4()) },
+    uPlungeCount: { value: 0 },
   };
 }
 
@@ -258,6 +280,11 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   uniform sampler2D uRipple;
   uniform vec4 uRippleInfo;
   uniform float uRainRipple;
+  uniform sampler2D uOwnerTex;
+  uniform float uHasOwner;
+  uniform float uSurfExtentM;
+  uniform vec4 uPlunges[${MAX_PLUNGE_SOURCES}];
+  uniform int uPlungeCount;
   varying vec4 vEsData;   // stillW, depth, exposure, shoreDist
   varying vec3 vEsKlass;  // turbidity(silt), salinity, tannin
   varying vec3 vEsFlow;   // flow m/s (xy) + surface drop along flow (z)
@@ -281,6 +308,26 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
       c += ring * B.w * 0.6;
     }
     return min(c, 0.65);
+  }
+
+  /** Plunge-pool foam: a churning disc plus an expanding RING, spreading OUT
+   * on the receiving surface under each nearby cascade and carried downstream
+   * by the field flow (research §4 — plunge foam spreads, it never pops up).
+   * P = (x, z, radius ≈ widthM, strength); it fades out by ~2 × radius. */
+  float esPlungeFoam(vec2 wp, vec2 flow){
+    float f = 0.0;
+    for (int i = 0; i < ${MAX_PLUNGE_SOURCES}; i++){
+      if (i >= uPlungeCount) break;
+      vec4 P = uPlunges[i];
+      if (P.w < 0.01) continue;
+      float r = max(P.z, 0.5);
+      // the impact point the foam grew FROM sits upstream of this pixel
+      float q = length(wp - P.xy - flow * 0.6) / r;
+      float disc = 1.0 - smoothstep(0.35, 2.0, q);
+      float ring = smoothstep(0.55, 1.0, q) * (1.0 - smoothstep(1.0, 1.7, q));
+      f += P.w * (disc + ring * 0.6);
+    }
+    return min(f, 0.75);
   }
 
   ${tier.ssr && variant === "above" ? /* glsl */ `
@@ -322,13 +369,23 @@ export interface WaterMaterialContext {
   tier: WaterTier;
 }
 
-export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialContext): THREE.MeshPhysicalMaterial {
+export function createWaterMaterial(
+  variant: WaterVariant,
+  ctx: WaterMaterialContext,
+  mode: WaterSurfaceMode = "field",
+): THREE.MeshPhysicalMaterial {
   const { csm, applyAerial, uniforms, tier } = ctx;
+  const strip = mode === "strip";
   const material = new THREE.MeshPhysicalMaterial({
     roughness: 0.08,
     metalness: 0.0,
     specularIntensity: 0.5, // F0 ≈ 0.02 — water
-    side: variant === "above" ? THREE.FrontSide : THREE.BackSide,
+    side: strip ? THREE.DoubleSide : variant === "above" ? THREE.FrontSide : THREE.BackSide,
+    // strips overlap the field by one station at each join; a small offset
+    // makes the strip win that overlap instead of z-fighting it.
+    polygonOffset: strip,
+    polygonOffsetFactor: strip ? -2 : 0,
+    polygonOffsetUnits: strip ? -4 : 0,
   });
   material.envMapIntensity = 1.0;
 
@@ -343,6 +400,16 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
       .replace(
         "#include <common>",
         /* glsl */ `#include <common>
+${strip ? "#define ES_STRIP 1" : ""}
+#ifdef ES_STRIP
+// Strip vertices carry their own hydraulics: the raster is a 3.66 m field
+// and a one-texel ribbon bilinears into blobs on it (decision 0046 item 4).
+attribute float aStill;
+attribute float aBedDepth;
+attribute vec2 aFlow;
+attribute float aSeason;
+attribute float aDrop;
+#endif
 uniform float uVerticalScale;
 varying vec4 vEsData;
 varying vec3 vEsKlass;
@@ -357,7 +424,11 @@ ${surfGlsl()}`,
         "#include <beginnormal_vertex>",
         /* glsl */ `
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
+#ifdef ES_STRIP
+vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
+#else
 vec2 esSurf = esSurfaceAt(esRestW.xz);
+#endif
 vec2 esDataUv = clamp(esRestW.xz / uFlowExtentM, vec2(0.0), vec2(1.0));
 vec4 esKl = texture2D(uKlassTex, esDataUv);
 vec4 esFl = texture2D(uFlowTex, esDataUv);
@@ -366,7 +437,12 @@ float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
 esKl = mix(esKl, vec4(0.0, 0.25, 1.0, 1.0), esOutside);
 esFl = mix(esFl, vec4(0.5, 0.5, 0.0, 1.0), esOutside);
 vec3 esSS = esShoreAt(esRestW.xz);   // shore dist, season response, tannin
+#ifdef ES_STRIP
+// no tide response inland on a steep reach; season rides the attribute
+float esStill = esSurf.x + uLevelSeason * aSeason;
+#else
 float esStill = esSurf.x + uLevelTide * esTideResponse(esKl.b) + uLevelSeason * esSS.y;
+#endif
 float esShore = esSS.x;
 float esTurbV = max(esKl.g, esSS.z);
 // shore frame: seaward = +grad(shoreDist); fetch is sampled ~30 m SEAWARD
@@ -394,11 +470,19 @@ if (esShore < 90.0) {
 // esSurfWind: KEEP IN LOCKSTEP with game-core surfWindScale() — storm seas
 // break harder on the beach (round 3).
 float esSurfWind = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
+float esSwellDHdd = 0.0;
+#ifndef ES_STRIP
 esStill += esSwash(esShore, esFetch, uWaveTime, esSurfWind);
-float esSwellDHdd;
 esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfWind, esSwellDHdd);
+#endif
 float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
+#ifdef ES_STRIP
+// narrow water carries ripples, never swell: a Gerstner band wide enough to
+// see would swing the whole ribbon off its bed.
+float esExposure = 0.05;
+#else
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
+#endif
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 float esWaveAmp = esExposure * uWindWave * exp(-esCamDist * 0.0006);
 EsWave esW;
@@ -415,14 +499,22 @@ esW.normal = normalize(esW.normal);
 vEsSurf = vec3(esFetch, esShoreDir);
 vEsData = vec4(esStill, esVDepth, esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
+#ifdef ES_STRIP
+vec2 esFlowV = aFlow;
+#else
 vec2 esFlowV = (esFl.xy - 0.5) * 2.0 * uFlowMax;
+#endif
 // surface drop along the current → cascades/rapids where water descends
 float esDropSlope = 0.0;
 float esFlowSp = length(esFlowV);
+#ifdef ES_STRIP
+esDropSlope = clamp(aDrop, 0.0, 1.0);
+#else
 if (esFlowSp > 0.15) {
   vec2 esDownAt = esSurfaceAt(esRestW.xz + (esFlowV / esFlowSp) * 7.0);
   esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
 }
+#endif
 vEsFlow = vec3(esFlowV, esDropSlope);
 vEsNormalW = esW.normal;
 vec3 objectNormal = esW.normal;`,
@@ -441,6 +533,7 @@ vec3 transformed = vec3(
       .replace(
         "#include <common>",
         /* glsl */ `#include <common>
+${strip ? "#define ES_STRIP 1" : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
 ${prelude}
@@ -454,6 +547,15 @@ uniform float uVerticalScale;`,
   // Buried surface (dry ground everywhere near): kill before ANY texture
   // work — also removes valley-spanning ghost sheets (round 1, defect 4).
   if (vEsData.y <= 0.004) discard;
+#ifndef ES_STRIP
+  // The field never shows under a compiled strip or waterfall sheet: those
+  // draw the same water from their own geometry (decision 0046 item 4).
+  if (uHasOwner > 0.5) {
+    vec2 esOwnUV = vEsWorldPos.xz / max(uSurfExtentM, 1.0);
+    if (all(greaterThanEqual(esOwnUV, vec2(0.0))) && all(lessThan(esOwnUV, vec2(1.0)))
+        && texture2D(uOwnerTex, esOwnUV).r > 0.25) discard;
+  }
+#endif
   vec2 esScreenUV = gl_FragCoord.xy / uResolution;
   ${variant === "above" ? /* glsl */ `
   float esFragEye = -(viewMatrix * vec4(vEsWorldPos, 1.0)).z;
@@ -592,6 +694,9 @@ esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD
 esFoamE += esCascade * 0.55;
 // 5. player/crate/splash rings + sim crests
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
+#ifndef ES_STRIP
+esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);
+#endif
 // murky water barely foams white; cap below saturation so the threshold
 // texture ALWAYS breaks the foam up (max coverage ~0.65, research Q3)
 esFoamE = min(esFoamE, 0.85) * (1.0 - 0.75 * esMurk);
@@ -704,6 +809,6 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, max(e
   };
 
   applyAerial(material);
-  material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}`;
+  material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}-${mode}`;
   return material;
 }

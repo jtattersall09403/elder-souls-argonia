@@ -23,6 +23,94 @@ export function cascadeEmission(fall: Cascade, query: WorldWaterQuery, epochMinu
     mist: Math.min(1, dropM / 8), fallFrom: fall.lip };
 }
 
+/** A traced point on a fall's sheet path; the sheet builder produces these. */
+export interface CascadeStation { x: number; y: number; z: number; speedMS: number }
+
+export interface CascadeEmitter {
+  id: string;
+  event: WaterInteractionEvent;
+  mist: number;
+  ratePerSecond: number;
+  fallFrom?: Vec3;
+}
+
+/** Mist emitters spaced down the sheet, between the lip and the plunge. */
+export const CASCADE_MID_EMITTERS = [0.35, 0.6, 0.85] as const;
+/** Only the nearest few falls get the full kit; the rest keep the plunge. */
+export const CASCADE_PATH_LIMIT = 2;
+
+/**
+ * The spray/mist kit ALONG a fall, not only under it (owner refinement, and
+ * the standard reference recipe: spray at the lip, emitters down the run whose
+ * rate grows with the distance fallen and the local speed, a heavy mist cloud
+ * and surface splash at the bottom). Mid-air emitters carry a `sheetContact`
+ * so the particle stack spawns them on the falling sheet rather than rejecting
+ * them as being above the water surface. Every rate scales with width and drop.
+ */
+export function cascadePathEmitters(
+  fall: Cascade,
+  stations: readonly CascadeStation[],
+  query: WorldWaterQuery,
+  epochMinutes: number,
+): CascadeEmitter[] {
+  if (stations.length < 3) return [];
+  const water = query.sample(fall.plunge, epochMinutes);
+  if (!water.waterBodyId || water.depth <= 0.015 || !Number.isFinite(water.surfaceHeight)) return [];
+  const dropM = fall.lip.y - water.surfaceHeight;
+  if (!(dropM > 0.5) || !Number.isFinite(dropM)) return [];
+  const widthScale = Math.min(Math.max(fall.widthM / 6, 0.5), 2);
+  const dropScale = Math.min(Math.max(dropM / 10, 0.4), 2);
+  const dx = fall.direction.x, dz = fall.direction.z;
+  // The sheet face looks back up the fall line; the particle stack only needs
+  // a valid unit-ish normal to treat the contact as sheet-borne water.
+  const normal = { x: -dx, y: 0.35, z: -dz };
+  const emitters: CascadeEmitter[] = [];
+
+  const lip = stations[1] ?? stations[0];
+  emitters.push({
+    id: `${fall.id}:lip`, mist: 0.25, ratePerSecond: 1.1 * widthScale, fallFrom: fall.lip,
+    event: { kind: 'splash', actorId: `${fall.id}:lip`,
+      position: { x: lip.x, y: lip.y, z: lip.z },
+      velocity: { x: dx * lip.speedMS, y: -1.5, z: dz * lip.speedMS },
+      radius: 0.28 * widthScale, magnitude: 5 * widthScale,
+      sheetContact: { waterBodyId: water.waterBodyId, normal } },
+  });
+
+  for (const at of CASCADE_MID_EMITTERS) {
+    // Spaced by HEIGHT fallen, not by station index: the trace steps by path
+    // length, so index fractions would bunch every emitter near the plunge.
+    const target = fall.lip.y - dropM * at;
+    let station = stations[1];
+    for (const candidate of stations) {
+      if (Math.abs(candidate.y - target) < Math.abs(station.y - target)) station = candidate;
+    }
+    if (station.y <= water.surfaceHeight + 0.15) continue;
+    const fallen = Math.min(Math.max((fall.lip.y - station.y) / dropM, 0), 1);
+    const speed = Math.max(station.speedMS, 1);
+    emitters.push({
+      id: `${fall.id}:mid${at}`, mist: 0.65, fallFrom: fall.lip,
+      ratePerSecond: 0.7 * widthScale * (0.35 + 0.9 * fallen) * Math.min(Math.max(speed / 6, 0.4), 1.5),
+      event: { kind: 'splash', actorId: `${fall.id}:mid`,
+        position: { x: station.x, y: station.y, z: station.z },
+        velocity: { x: dx * speed * 0.3, y: -speed, z: dz * speed * 0.3 },
+        radius: 0.35 * widthScale, magnitude: 4 + speed * 0.6,
+        sheetContact: { waterBodyId: water.waterBodyId, normal } },
+    });
+  }
+
+  // The plunge cloud: a localised hanging mist a few metres across. It rides
+  // the pool surface, so it needs no sheet contact — and the runtime's aerial
+  // term tints it with everything else.
+  emitters.push({
+    id: `${fall.id}:cloud`, mist: 1, ratePerSecond: 1.0 * dropScale, fallFrom: fall.lip,
+    event: { kind: 'splash', actorId: `${fall.id}:cloud`,
+      position: { x: fall.plunge.x, y: water.surfaceHeight, z: fall.plunge.z },
+      velocity: { x: 0, y: -1, z: 0 },
+      radius: Math.min(3, 0.6 + fall.widthM * 0.4), magnitude: 18 * dropScale },
+  });
+  return emitters;
+}
+
 export function waterSourceDistanceSquared(camera: Vec3, plunge: Vec3, lip?: Vec3): number {
   let x = plunge.x, y = plunge.y, z = plunge.z;
   if (lip) {

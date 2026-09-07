@@ -19,6 +19,10 @@ export interface WaterAssets {
   klassTex: THREE.DataTexture;
   /** Shore distance / season response / tannin (RGBA8). Linear. */
   shoreTex: THREE.DataTexture;
+  /** Strip/fall owner mask (0 field, 128 strip, 255 fall), NEAREST — null
+   * when the compile declared no `surface.ownerFile`. The field surface
+   * discards where this is set; the strip/sheet meshes draw there instead. */
+  ownerTex: THREE.DataTexture | null;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
 }
@@ -68,4 +72,8 @@ export interface WaterDebugState {
   effects?: WaterEffectsDiagnostics;
   bubbles?: UnderwaterBubbleDiagnostics;
   bubblePass?: UnderwaterBubblePassDiagnostics;
+  /** Compiled steep-stream strip meshes (decision 0046 item 4). */
+  strips?: { count: number; triangles: number };
+  /** Compiled waterfall sheets; `freeFlightCount` excludes pure rapids. */
+  falls?: { count: number; triangles: number; freeFlightCount: number };
 }

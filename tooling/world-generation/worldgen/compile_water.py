@@ -69,6 +69,9 @@ FLOODABLE_HAND_M = 4.0        # hand < this counts as floodable fringe
 FALL_DROP_M = 2.5             # one segment losing this much is a waterfall
 STEEP_SLOPE = 0.035           # ~2 deg — above this the field raster reads badly
 MIN_CHAIN_STATIONS = 3        # shorter runs stay on the field surface
+PROFILE_STEP_M = 1.0          # cascade ground profile: station spacing
+PROFILE_START_M = -3.0        # ... first station, relative to the lip
+PROFILE_PAST_M = 25.0         # ... last station, past the plunge
 
 # Flow field
 FLOW_SPEED = {1: 0.4, 2: 0.7, 3: 1.1}  # m/s by river band
@@ -558,6 +561,21 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
             "kind": kind_name,
         }
 
+    # Refined-terrain sampler in world metres, in the SAME frame as the
+    # surface grid: g2[i] = refined[i * WEB_STEP], and surface texel i sits at
+    # (i + 0.5) * mpp2, so refined index j sits at (j / WEB_STEP + 0.5) * mpp2.
+    ref_h, ref_w = refined.shape
+    ref32 = refined.astype(np.float32)
+
+    def _terrain_at(x_m: float, z_m: float) -> float:
+        fx = min(max(x_m / RAW_M - 1.0, 0.0), ref_w - 1.001)
+        fz = min(max(z_m / RAW_M - 1.0, 0.0), ref_h - 1.001)
+        x0, z0 = int(fx), int(fz)
+        tx, tz = fx - x0, fz - z0
+        top = ref32[z0, x0] * (1 - tx) + ref32[z0, x0 + 1] * tx
+        bot = ref32[z0 + 1, x0] * (1 - tx) + ref32[z0 + 1, x0 + 1] * tx
+        return float(top * (1 - tz) + bot * tz)
+
     channels = []
     cascades = []
     strip_len_m = 0.0
@@ -623,6 +641,20 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
                                   "z": round(dz / dl, 4)},
                     "widthM": round(float(st_half[lip_k] * 2.0), 2),
                     "dropM": round(float(w_st[lip_k] - w_st[plunge_k]), 2),
+                    # Ground under the fall line, so the sheet builder can tell
+                    # a free cliff from a steep ramp it must hug (decision 0046
+                    # item 4). 1 m stations from 3 m upstream of the lip to
+                    # 25 m past the plunge, along `direction`.
+                    "profileStepM": PROFILE_STEP_M,
+                    "profileStartM": PROFILE_START_M,
+                    "profile": [
+                        round(_terrain_at(lx + (dx / dl) * s, lz + (dz / dl) * s), 2)
+                        for s in (PROFILE_START_M + PROFILE_STEP_M * i2
+                                  for i2 in range(int(round(
+                                      (dl + PROFILE_PAST_M - PROFILE_START_M)
+                                      / PROFILE_STEP_M)) + 1))
+                    ],
+                    "lipSpeedMS": round(float(st_speed[lip_k]), 2),
                 })
             i = j + 1
 

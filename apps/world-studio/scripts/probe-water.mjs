@@ -86,6 +86,31 @@ const SCENARIOS = [
     tier: "low",
     brightness: [25, 235],
   },
+  {
+    // decision 0046: the owner's "hovering water" repro — dry mud, the
+    // field surface buried ~1.7 m under the 4.2 m ground; no water here
+    id: "owner-dry-site-walk",
+    q: "view=character&x=4.57&z=3.87&ex=1&t=10:00&d=8-17&wq=high",
+    underwater: false,
+    surfaceAtCam: [2.3, 2.8],
+    brightness: [20, 235],
+  },
+  {
+    // steep stream strip (compiled `channels`): strips must be built
+    id: "steep-strip-fly",
+    q: "view=fly3d&cam=orbit&x=4.59&z=0.08&ex=1&t=12:00&d=8-17&wq=high",
+    underwater: false,
+    brightness: [20, 235],
+    debugMin: { "strips.count": 1, "strips.triangles": 100 },
+  },
+  {
+    // cascade fall-34 (11 m drop): waterfall sheets must be built
+    id: "cascade-fly",
+    q: "view=fly3d&cam=orbit&x=6.26&z=0.90&ex=1&t=12:00&d=8-17&wq=high",
+    underwater: false,
+    brightness: [20, 235],
+    debugMin: { "falls.count": 1, "falls.triangles": 50 },
+  },
 ];
 
 const server = spawn(
@@ -201,6 +226,13 @@ try {
     if (Number.isFinite(dbg.tideOffsetM) && Math.abs(dbg.tideOffsetM) <= 0.75)
       ok(`tide ${dbg.tideOffsetM.toFixed(3)} m`);
     else fail(`tide offset bad: ${dbg.tideOffsetM}`);
+    if (s.debugMin) {
+      for (const [k, min] of Object.entries(s.debugMin)) {
+        const v = k.split(".").reduce((o, key) => (o == null ? undefined : o[key]), dbg2);
+        if (typeof v === "number" && v >= min) ok(`${k} = ${v} (>= ${min})`);
+        else fail(`${k} = ${v}, expected >= ${min}`);
+      }
+    }
     if (s.seasonMin !== undefined) {
       if (dbg.seasonOffsetM >= s.seasonMin) ok(`wet-season rise ${dbg.seasonOffsetM.toFixed(2)} m`);
       else fail(`wet-season rise ${dbg.seasonOffsetM} < ${s.seasonMin}`);

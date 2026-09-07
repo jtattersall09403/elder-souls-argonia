@@ -14,7 +14,13 @@ export interface WaterMeta {
    * compiler emits none yet, the particle stack consumes them when it does. */
   cascades?: { id: string; lip: { x: number; y: number; z: number };
     plunge: { x: number; y: number; z: number }; direction: { x: number; y?: number; z: number };
-    widthM: number; dropM: number; riverBand: number; bodyIndex: number }[];
+    widthM: number; dropM: number; riverBand: number; bodyIndex: number;
+    /** Refined-terrain heights (m) under the fall line, `profileStepM` apart,
+     * the first at `profileStartM` from the lip along `direction`. The sheet
+     * builder needs them to tell a free cliff from a ramp it must hug. */
+    profile?: number[]; profileStepM?: number; profileStartM?: number;
+    /** Compiled flow speed at the lip (m/s) — the sheet's launch speed. */
+    lipSpeedMS?: number }[];
   /** Steep-reach channel strips (decision 0046 item 4): the renderer draws
    * explicit strip meshes along these and masks the field surface out where
    * `ownerFile` says a strip/fall owns the cell. `join` points overlap the
