@@ -30,8 +30,7 @@ def sample_marine_mask(ground, marine, points, terrain_flips=None):
     return (bed < 0) & np.any(marine[rows, cols] & (weights > 1e-9), axis=0)
 
 
-def shared_section_normals(points, links, original_count, original_links):
-    """One geometric cross-section normal across degree-two record joins."""
+def _section_neighbours(points, links, original_count, original_links):
     keys = [tuple(np.round(point, 6)) for point in points]
     neighbours = {}
     for source in range(original_count):
@@ -48,6 +47,12 @@ def shared_section_normals(points, links, original_count, original_links):
                 neighbours.setdefault(a, set()).add(b)
                 neighbours.setdefault(b, set()).add(a)
             node = following
+    return keys, neighbours
+
+
+def shared_section_normals(points, links, original_count, original_links):
+    """One geometric cross-section normal across degree-two record joins."""
+    keys, neighbours = _section_neighbours(points, links, original_count, original_links)
     normals = {}
     for key, adjacent in neighbours.items():
         if len(adjacent) != 2:
@@ -57,6 +62,30 @@ def shared_section_normals(points, links, original_count, original_links):
         length = np.linalg.norm(direction)
         if length > 1e-6:
             normals[key] = np.array([direction[1], -direction[0]]) / length
+    return [normals.get(key) for key in keys]
+
+
+def flat_landing_normals(points, links, original_count, original_links, levels):
+    """Additional receiving planes; never replace existing bank sections."""
+    keys, neighbours = _section_neighbours(points, links, original_count, original_links)
+    heads = {}
+    for key, level in zip(keys, levels):
+        low, high = heads.get(key, (level, level))
+        heads[key] = (min(low, level), max(high, level))
+    normals = {}
+    for key, adjacent in neighbours.items():
+        if len(adjacent) != 2:
+            continue
+        adjacent = sorted(adjacent)
+        values = [heads[k] for k in [key, *adjacent]]
+        if any(high - low > 1e-4 for low, high in values):
+            continue  # Coincident geometry carrying different heads is not one pool.
+        head, first, second = (low for low, _ in values)
+        upstream = (adjacent[0] if first > head + 1e-4 and abs(second - head) <= 1e-4 else
+                    adjacent[1] if second > head + 1e-4 and abs(first - head) <= 1e-4 else None)
+        if upstream is not None:
+            incoming = np.array(key) - np.array(upstream)
+            normals[key] = np.array([incoming[1], -incoming[0]]) / np.linalg.norm(incoming)
     return [normals.get(key) for key in keys]
 
 

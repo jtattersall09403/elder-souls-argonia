@@ -122,3 +122,12 @@ With native ground present, ground-only lateral breakpoints are redundant: retai
 Descending strips have a geometric lateral-spread guard: each bank can expand beyond the incident potential-stage lip by at most `max(0, run - drop)` metres. Grade-one and steeper curtains retain their incident ray footprint regardless of total drop, so a broad low plunge pool cannot be lofted into an elevated fan. This is not a lateral-pressure simulation. Flat pool geometry remains independently owned; final native-ground/domain coverage audits are mandatory to detect underfill or terrain-crease mismatches.
 
 See [quality and regression contract](../../../../docs/research/rendering/water-quality.md) and [decision 0045](../../../../docs/decisions/0045-reversible-water-overhaul.md).
+
+
+Flat landing fills use `geometryRole: "landing"` on a ribbon containing two
+coincident measured cross-sections with identical heads and stage responses.
+The compiler retains the original channel sections and adds only the upstream
+sector between the receiving bisector and the incoming perpendicular plane.
+These one-sided sections use the existing packed sidecar and bounded geometry
+cache. They add no longitudinal current edge. Both query and renderer emit the
+same flat triangles; the loader rejects displaced, sloping or falling fills.

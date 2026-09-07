@@ -38,8 +38,9 @@ indexed exception is at most 5 m and cannot override an immutable retaining boun
 
 Current next action: the shared-seasonal62-constraint proposal below is
 UNACCEPTED because of a local authored-footprint ownership gap. Preserve the
-72-constraint inputs until that gap is resolved; do not promote the hydraulic
-count alone.
+72-constraint inputs until full proposal coverage is verified; do not promote
+the hydraulic count alone. The landing gap is now filled as described below;
+the remaining coordinate seams and full footprint gates still apply.
 
 Useful disposable caches on this VM:
 
@@ -394,3 +395,41 @@ comparison reports use the same prefixes plus `local-footprint-coverage`,
 against current source. Use saved geometry for comparisons. The immutable
 baseline `/tmp/water-drainage-seasonal-old-local-ribbons.json` must not be
 regenerated with changed source. The prepared acceptance script has NOT run.
+
+
+## Added landing fills: geometry preserved, proposal still unaccepted
+
+`flat_landing_normals` identifies consistent degree-two descending-to-flat
+joins without changing `shared_section_normals`. The exporter measures the
+additional incoming perpendicular section and emits only its upstream sector
+against the existing bisector as a `geometryRole: landing` record. Its two
+centres, water heads and seasonal/tidal responses match. It has no falling flag
+or longitudinal current edge. The inner endpoint is `section-join`, not an
+outer ownership boundary. Existing packed sections, terrain masks, streaming
+and query/render triangles carry these records. Loader/runtime reject invalid
+landing geometry. Do not resurrect the rejected rotated-section replacement.
+
+Current source re-exported the saved full proposal fields to
+`/tmp/water-production-landing-ribbons.json`: all1,415 earlier channel records
+are exactly preserved, plus169 one-sided fills (3,294 compact triangles,
+494,100 mesh-attribute bytes before native refinement). The source export differs
+from the prototype because additional sections now get their own measurement;
+use the production evidence, not prototype counts. At the reported gap,
+ordinary water is2.445290m above ground at peak at both raw and Float32 native
+coordinates.4,303 local vertices:4,118 wet,+60/-2 versus accepted reference;
+the two raw boundary misses remain covered at Float32 coordinates.32,007
+expanded vertices versus the exact-coordinate proposal:29,080 wet,+9/-0.
+1,152 selected pool contacts over five stages agree within0.05mm.645 selected
+centres remain covered (635 raw ordinary+9 Float32 ordinary+1 falling sheet).
+
+Evidence: `water-repair-inputs/landing-fill-verification.json`; runtime scripts
+`/tmp/water-fringe-runtime/production-landing-{addition,footprint,probe,boundary,mesh}.mjs`;
+geometry re-export `/tmp/compile-water-production-landings.py`.51 geometry and14
+seasonal Python tests pass;23 ribbon tests pass. Root typecheck passes. Root
+tests passed apart from a sandbox EPERM on the combat measurement subprocess;
+that sole suite passed7 tests on escalated retry. No combat source changed.
+
+Next: diagnose the two coordinate-export seams at native[2339,2295] and
+[2423,1944] before accepting the62 proposal. Preserve the accepted72 inputs.
+The landing addition loses no previously covered vertex in its bounded check,
+but does not prove whole-footprint coverage or final native geometry budgets.

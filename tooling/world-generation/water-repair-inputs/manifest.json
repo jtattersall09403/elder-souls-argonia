@@ -370,5 +370,11 @@
     "evidence": "landing-coverage-investigation.json",
     "evidenceSha256": "e9b44515bcaa214e409d99e81b7c0f9a478e62703f41d4480cef3622483107fd",
     "acceptedConstraintsRemain": 72
+  },
+  "landingFillVerification": {
+    "status": "bounded-landing-geometry-verified-not-final-footprint-acceptance",
+    "evidence": "landing-fill-verification.json",
+    "evidenceSha256": "2853f04c5f9f1ff1813bd956c2aeba497b575f527f5a9d19bb13343605c915eb",
+    "acceptedConstraintsRemain": 72
   }
 }

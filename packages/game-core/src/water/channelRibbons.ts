@@ -37,7 +37,22 @@ export interface ChannelRibbonRecord {
   /** Explicit seasonal rivulet: compiler verifies peak coverage; base may be dry. */
   baseMayBeDry?: boolean;
   hydrologyRegime?: 'shallow-wetland-rivulet' | 'banked-river';
+  /** One-sided flat fill between two coincident measured sections. */
+  geometryRole?: 'landing';
   points: readonly ChannelRibbonPoint[];
+}
+
+/** Landing fills carry geometry only and cannot introduce a new water head. */
+export function validateLandingRibbon(record: ChannelRibbonRecord): void {
+  if (record.geometryRole === undefined) return;
+  const [a, b] = record.points;
+  if (record.geometryRole !== 'landing' || record.points.length !== 2 || !a || !b
+    || a.x !== b.x || a.y !== b.y || a.z !== b.z
+    || a.tideResponse !== b.tideResponse || a.seasonResponse !== b.seasonResponse
+    || a.fallingToNext || b.fallingToNext
+    || ![a.crossSectionNormalX, a.crossSectionNormalZ, b.crossSectionNormalX, b.crossSectionNormalZ].every(Number.isFinite)) {
+    throw new Error(`Invalid flat landing sections at ${record.id}`);
+  }
 }
 
 export interface ChannelRibbonSample {
@@ -195,6 +210,7 @@ function physicalReachSpeeds(records: readonly ChannelRibbonRecord[]): Map<Chann
   const speeds = new Map<ChannelRibbonPoint, number>();
   const edges: { start: ChannelRibbonPoint; end: ChannelRibbonPoint; band: number }[] = [];
   for (const record of records) {
+    if (record.geometryRole === 'landing') continue;
     // Preserve the retained legacy profile; physical geometry supplies the
     // actual bed cross-sections needed by the new resistance model.
     if (!record.points.every(point => point.crossSectionCount !== undefined || point.crossSection)) continue;
@@ -223,8 +239,9 @@ function physicalReachSpeeds(records: readonly ChannelRibbonRecord[]): Map<Chann
 function trianglesFor(records: readonly ChannelRibbonRecord[], physicalSpeeds: ReadonlyMap<ChannelRibbonPoint, number> = physicalReachSpeeds(records), footprintOnly = false, nativeGround?: ChannelRibbonGround, maximumStageOffsetM?: number, refineNative = true): Triangle[] {
   const triangles: Triangle[] = [];
   for (const record of records) {
+    validateLandingRibbon(record);
     const points = record.points.filter((point, index, all) =>
-      index === 0 || Math.hypot(point.x - all[index - 1].x, point.z - all[index - 1].z) > 1e-6);
+      record.geometryRole === 'landing' || index === 0 || Math.hypot(point.x - all[index - 1].x, point.z - all[index - 1].z) > 1e-6);
     if (points.length < 2) continue;
     const sections = points.map((point, index): Point[] => {
       const before = points[Math.max(0, index - 1)];
@@ -285,11 +302,11 @@ function trianglesFor(records: readonly ChannelRibbonRecord[], physicalSpeeds: R
       const start = points[i], end = points[i + 1];
       const dx = end.x - start.x, dz = end.z - start.z;
       const distance = Math.hypot(dx, dz);
-      if (distance < 1e-6) continue;
+      if (distance < 1e-6 && record.geometryRole !== 'landing') continue;
       const drop = start.y - end.y;
       // Ribbons are directed flowing reaches, including flat junction pools.
       // Standing ponds/lakes use the raster model and do not enter this path.
-      const speed = physicalSpeeds.get(start) ?? Math.min(3, 0.35 + 9 * Math.sqrt(Math.abs(drop) / distance));
+      const speed = record.geometryRole === 'landing' ? 0 : physicalSpeeds.get(start) ?? Math.min(3, 0.35 + 9 * Math.sqrt(Math.abs(drop) / distance));
       const sign = drop < -1e-5 ? -1 : 1;
       const emitTriangle = (a: Point, b: Point, c: Point) => {
         // On each native child the bed and water are affine. If every corner
@@ -307,7 +324,7 @@ function trianglesFor(records: readonly ChannelRibbonRecord[], physicalSpeeds: R
         const length = Math.hypot(nx, ny, nz);
         if (Math.abs(ny) < 1e-12) return;
         const surfaceNormal = length > 1e-9 ? { x: nx / length, y: ny / length, z: nz / length } : { x: 0, y: 1, z: 0 };
-        const flowX = dx / distance * speed * sign, flowZ = dz / distance * speed * sign;
+        const flowX = dx / Math.max(distance, 1e-6) * speed * sign, flowZ = dz / Math.max(distance, 1e-6) * speed * sign;
         const flowY = Math.abs(ny) > 1e-9 ? -(nx * flowX + nz * flowZ) / ny : 0;
         // Speed is measured along the sloping surface, not its projection.
         const scale = speed > 0 ? speed / Math.max(speed, Math.hypot(flowX, flowY, flowZ)) : 1;

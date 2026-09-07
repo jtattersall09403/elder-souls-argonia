@@ -663,3 +663,44 @@ def test_export_does_not_double_round_native_world_coordinates():
     assert value == 4686.58176
     assert np.float32(value) == np.float32(points[0, 0] * 1562.19392)
     assert np.float32(value) != np.float32(round(value, 4))
+
+
+def test_flat_landing_normals_are_additional_and_require_consistent_pool_heads():
+    from .water_geometry import flat_landing_normals, shared_section_normals
+    points = np.array([[0., 0.], [1., 0.], [1., 0.], [2., 1.]])
+    links = np.array([1, -1, 3, -1])
+    normals = flat_landing_normals(points, links, 4, links, [3., 1., 1., 1.])
+    np.testing.assert_array_equal(normals[1], [0., -1.])
+    np.testing.assert_array_equal(normals[2], normals[1])
+    assert abs(shared_section_normals(points, links, 4, links)[1][0]) > .3
+    assert flat_landing_normals(points, links, 4, links, [3., 1., 1., .5])[1] is None
+    assert flat_landing_normals(points, links, 4, links, [3., 1., 2., 1.])[1] is None
+
+
+def test_export_adds_one_sided_landing_without_replacing_receiver(tmp_path):
+    import json
+    from .water_features import compile_features
+    from .water_cross_sections import pack_cross_sections, load_water_metadata
+    from .water_geometry import shared_section_normals
+    ground = np.zeros((7, 7), np.float32)
+    points = np.array([[2., 3.], [3., 3.], [4., 4.]])
+    links = np.array([1, 2, -1])
+    records, _ = compile_features(ground, ground + 1, np.ones_like(ground, bool),
+        np.ones_like(ground, np.uint16), points, links, np.array([3., 1., 1.]), np.ones(3),
+        3, links, np.array([17, 24, 32]), 7, np.ones(3), 1., all_channels=True)
+    caps = [r for r in records if r.get('geometryRole') == 'landing']
+    assert len(caps) == 1 and len(records) == 3
+    cap = caps[0]
+    a, b = cap['points']
+    assert (a['x'], a['y'], a['z']) == (b['x'], b['y'], b['z'])
+    assert all(s['offsetM'] >= 0 for p in cap['points'] for s in p['crossSection'])
+    assert all(p['boundaryKinds'][0] == 'section-join' for p in cap['points'])
+    normal = shared_section_normals(points, links, 3, links)[1]
+    assert abs(a['crossSectionNormalZ'] * normal[0] + a['crossSectionNormalX'] * normal[1]) > .99999
+    assert b['crossSectionNormalZ'] == 0
+    assert abs(b['crossSectionNormalX']) == 1
+    meta = pack_cross_sections({'ribbons': records}, tmp_path)
+    (tmp_path / 'water-meta.json').write_text(json.dumps(meta))
+    loaded = load_water_metadata(tmp_path)['ribbons'][-1]
+    assert loaded['geometryRole'] == 'landing'
+    assert all(p['crossSection'][0]['offsetM'] == 0 for p in loaded['points'])

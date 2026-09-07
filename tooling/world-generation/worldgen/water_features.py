@@ -4,7 +4,7 @@ import numpy as np
 from scipy import ndimage
 from .water_boundaries import ChannelOwnership, channel_cross_section, MAX_LEVEL_OFFSET_M
 from .terrain_triangles import sample_terrain
-from .water_geometry import shared_section_normals
+from .water_geometry import shared_section_normals, flat_landing_normals
 from .water_channel_response import channel_path_response
 
 
@@ -75,6 +75,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                                  standing_detail, detail, terrain_flips, marine_ground, pool_domain,
                                  maximum_offset=maximum_offset, active=accepted_vertices)
     shared_normals = shared_section_normals(points, links, original_count, original_links)
+    landing_normals = flat_landing_normals(points, links, original_count, original_links, levels)
+    landing_caps = []
     shared_profiles = {}
 
     def sample(field, point, order=1):
@@ -83,7 +85,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
         return float(ndimage.map_coordinates(field, np.asarray(point)[:, None],
                                             order=order, mode="nearest")[0])
 
-    def vertex(index, previous, following, source):
+    def vertex(index, previous, following, source, section_normal=None):
         point = points[index]
         incoming = point - points[previous]
         outgoing = points[following] - point
@@ -97,7 +99,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
         perpendicular = np.array([direction[1], -direction[0]]) / max(np.hypot(*direction), 1e-9)
         if np.hypot(*perpendicular) < 1e-6:
             perpendicular = np.array([outgoing[1], -outgoing[0]])
-        shared = shared_normals[index]
+        shared = shared_normals[index] if section_normal is None else section_normal
         if shared is not None:
             perpendicular = shared if shared @ perpendicular >= 0 else -shared
         correction = min(2., 1 / max(.5, float(perpendicular @ np.array([outgoing[1], -outgoing[0]]))))
@@ -192,6 +194,34 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                                                 wetland_rivulets[source] else 'banked-river')})
             if source in seasonal_sources:
                 ribbons[-1]['baseMayBeDry'] = True
+            for i, (first, second) in enumerate(zip(vertices, vertices[1:])):
+                normal = landing_normals[path[i]]
+                if normal is None or abs(first['y'] - second['y']) > 1e-4:
+                    continue
+                old_normal = np.array([first['crossSectionNormalZ'], first['crossSectionNormalX']])
+                if abs(float(normal @ old_normal)) > 1 - 1e-8:
+                    continue
+                receiving = vertex(path[i], path[max(i - 1, 0)], path[i + 1], source, normal)
+                for field in ('seasonResponse', 'tideResponse'):
+                    if field in first:
+                        receiving[field] = first[field]
+                # The bisector already covers the downstream side. Fill only
+                # the upstream sector between it and the incoming-flow plane.
+                forward = np.array([old_normal[1], -old_normal[0]])
+                if forward @ (points[path[i + 1]] - points[path[i]]) < 0:
+                    forward = -forward
+                receiving_normal = np.array([receiving['crossSectionNormalZ'], receiving['crossSectionNormalX']])
+                side = -1 if forward @ receiving_normal > 0 else 1
+                cap_points = []
+                for point in (first, receiving):
+                    cap = {**point, 'crossSection': [sample for sample in point['crossSection']
+                                                     if sample['offsetM'] * side >= 0]}
+                    cap.pop('fallingToNext', None)
+                    cap['boundaryKinds'] = list(point['boundaryKinds'])
+                    cap['boundaryKinds'][0 if side > 0 else 1] = 'section-join'
+                    cap_points.append(cap)
+                landing_caps.append({**ribbons[-1], 'id': ribbons[-1]['id'] + f'.landing-{i}',
+                                     'geometryRole': 'landing', 'points': cap_points})
         if is_cascade:
             high, low = vertices[0], vertices[-1]
             dx, dz = low["x"] - high["x"], low["z"] - high["z"]
@@ -203,6 +233,7 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                 "direction": {"x": round(dx / length, 6), "z": round(dz / length, 6)},
                 "widthM": max(.0001, round(min(base_width(high), base_width(low)), 4)),
                 "dropM": round(drop, 4)})
+    ribbons.extend(landing_caps)
     # Highest-energy sites get explicit airborne effects; smaller rapids
     # remain the continuous surface/foam treatment. Stable tie-break by ID.
     cascades.sort(key=lambda feature: (-feature["dropM"] * feature["widthM"], feature["id"]))

@@ -381,3 +381,31 @@ describe('native asymmetric channel cross-sections', () => {
     }
   });
 });
+
+
+describe('flat landing fills', () => {
+  it('fills only the upstream wedge without changing the adjoining reach or its current', () => {
+    const section = [0, 1, 2].map(offsetM => ({ offsetM, groundM: 0, accessOffsetM: -1 }));
+    const a = { x: 0, y: 1, z: 0, halfWidthM: 2, groundM: 0,
+      crossSectionNormalX: -Math.SQRT1_2, crossSectionNormalZ: Math.SQRT1_2,
+      crossSection: section, seasonResponse: 1, tideResponse: 0 };
+    const cap: ChannelRibbonRecord = { id: 'landing', bodyIndex: 1, riverBand: 1, geometryRole: 'landing',
+      points: [a, { ...a, crossSectionNormalX: -1, crossSectionNormalZ: 0 }] };
+    const reach: ChannelRibbonRecord = { id: 'receiver', bodyIndex: 1, riverBand: 1,
+      points: [a, { ...a, x: 2, z: 2 }] };
+    const before = new ChannelRibbonSampler([reach]), after = new ChannelRibbonSampler([reach, cap]);
+    expect(before.sample(-1, .2)).toBeNull();
+    const fill = after.sample(-1, .2, { excludeFallingSheets: true });
+    expect(fill?.height).toBe(1);
+    expect(fill?.seasonResponse).toBe(1);
+    expect(Math.hypot(fill!.flowX, fill!.flowY, fill!.flowZ)).toBe(0);
+    expect(after.sample(.2, .5)).toEqual(before.sample(.2, .5));
+    const mesh = buildChannelRibbonMeshData([cap]);
+    expect(mesh.indices.length).toBeGreaterThan(0);
+    for (let i = 0; i < mesh.positions.length; i += 3) {
+      expect(mesh.positions[i + 1]).toBe(1);
+      expect(mesh.positions[i] + mesh.positions[i + 2]).toBeLessThanOrEqual(1e-6);
+    }
+    expect(() => buildChannelRibbonMeshData([{ ...cap, points: [a, { ...cap.points[1], y: 2 }] }])).toThrow('flat landing');
+  });
+});

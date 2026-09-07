@@ -331,26 +331,25 @@ do not repeat unchanged failed choices. See the compiler handoff for next routes
 and the rejected optimistic seasonal-restoration bounds.
 
 
-## Current priority: shared-seasonal proposal has a footprint regression
+## Current priority: verify shared-seasonal proposal coverage
 
 The accepted checkpoint remains72 channels/59 retaining issues. Explicit
 connected wetland support groups produce62 hydraulically, with no terrain or
 stage changes, but are **not accepted**. `seasonal-supporting-proposal.npz` and
-its JSON evidence are diagnostic inputs, not replacements for `seasonal-profile.npz`.
-Fresh fields preserve all original pools and482,066 standing samples;645 centre
-checks pass. The broader4,303 authored-vertex comparison gains53 but loses3 raw
-points. Two are covered at Float32 native coordinates. At native[2564,1962]
-(3586.222m E,4686.582m S), standing ownership255 becomes flowing proxy128, but
-no actual ribbon covers it. Fix this raster/core-to-native-mesh handoff before
-accepting the proposal. A lower constraint count cannot waive peak-footprint
-coverage. Exact fields, scripts and source guards are in the compiler handoff.
+its JSON evidence remain diagnostic inputs. Fresh fields preserve all original
+pools and482,066 standing samples;645 centre checks pass.
 
-The gap is traced to a narrowed descending strip meeting a tilted flat-pool
-section. Rotating that section closes the target but loses89 wet vertices in
-a32,007-vertex comparison; the general rotation was removed. Export now avoids
-double rounding of native world coordinates (63 focused Python tests pass).
-That precision correction does not resolve the main wedge or all seams. Next:
-add the missing receiving-pool footprint while retaining existing coverage,
-and resolve the two outstanding Float32 seam samples. See the compiler handoff
-and `landing-coverage-investigation.json`; the72-constraint checkpoint remains
-authoritative and the62 proposal remains unaccepted.
+The original proposal exposed a real landing gap at native[2564,1962]
+(3586.222m E,4686.582m S). Replacing the angled receiving section lost coverage
+elsewhere and was rejected. The gap is now filled by adding one-sided flat
+landing sections while retaining all existing channel geometry. The real
+exporter preserves1,415 records exactly and adds169 fills. Across32,007 nearby
+authored vertices this addition gains9 and loses0;1,152 selected pool contacts
+over five stages agree within0.05mm. Coordinate export also avoids intermediate
+decimal rounding; two separate Float32 seam samples still require diagnosis.
+
+Root typecheck passes; workspace tests pass after retrying the sole
+sandbox-blocked subprocess suite. See `landing-fill-verification.json` and the
+compiler handoff. The62 proposal remains unaccepted pending those seams and
+full peak-footprint verification. Lower constraint counts cannot waive actual
+coverage; no diagnostic assets have been deployed.

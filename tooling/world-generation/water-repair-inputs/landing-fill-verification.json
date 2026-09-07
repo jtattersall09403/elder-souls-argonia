@@ -1,0 +1,75 @@
+{
+  "status": "bounded-landing-geometry-verified-not-final-footprint-acceptance",
+  "acceptedConstraintsRemain": 72,
+  "proposalConstraintsRemainUnaccepted": 62,
+  "sourceContract": "geometryRole=landing: two coincident flat sections carrying identical level responses; one-sided upstream fill, no longitudinal current edge. Existing bank sections remain unchanged.",
+  "existingRecordsPreservedExactly": 1415,
+  "addedGeometry": {
+    "caps": 169,
+    "triangles": 3294,
+    "meshBytes": 494100,
+    "targetSamples": [
+      {
+        "peakDepthM": 2.4452900558448754,
+        "ribbon": "water-ribbon.province.cell-854-655.landing-1"
+      },
+      {
+        "peakDepthM": 2.445290055844879,
+        "ribbon": "water-ribbon.province.cell-854-655.landing-1"
+      }
+    ]
+  },
+  "localVersusAccepted": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 4303,
+    "oldPeakWet": 4060,
+    "newPeakWet": 4118,
+    "gained": 60,
+    "remainingDry": 185,
+    "lostNativeVertices": [
+      [
+        2474,
+        2029
+      ],
+      [
+        3477,
+        1151
+      ]
+    ]
+  },
+  "expandedVersusExactCoordinateProposal": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29071,
+    "newPeakWet": 29080,
+    "gained": 9,
+    "remainingDry": 2927,
+    "lostNativeVertices": []
+  },
+  "contacts": {
+    "scope": "Fresh selected channel/native standing-pool point contacts at five stages; not rendered confluence acceptance",
+    "pinnedNodesExamined": 215,
+    "wetContactsChecked": 1152,
+    "maximumAbsoluteHeadDifferenceM": 4.685115814240248e-05,
+    "mismatchesAbove1mm": []
+  },
+  "centreCoverage": {
+    "targets": 645,
+    "ordinaryRaw": 635,
+    "additionalOrdinaryFloat32": 9,
+    "additionalFallingSheet": 1
+  },
+  "tests": {
+    "pythonGeometry": 51,
+    "pythonSeasonal": 14,
+    "runtimeRibbon": 23,
+    "workspace": "All workspace tests passed except one suite initially blocked by sandbox spawnSync EPERM; sole affected suite passed all7 tests on escalated retry.",
+    "typecheck": "pass"
+  },
+  "remaining": "Original local comparison has two raw-coordinate boundary misses already wet at native Float32 coordinates. Separate expanded coordinate-export regressions at native[2339,2295] and[2423,1944] still require seam diagnosis. Whole authored footprint and final native-data gates remain open.",
+  "artifacts": {
+    "water-production-landing-ribbons.json": "98924e9a448022c2ec94c6ed8998d92f67bed58afb2f5d67f3930e2f9311bdf3",
+    "water-exact-coordinate-ribbons.json": "ef148d734e698ac79ef812626fa7382bf9a6d3319241ec3da16991b4f3ec1e2e",
+    "water-flat-landing-expanded-targets.json": "9c650c18822b8b4bf1f24a3305eb4ae5aa97ab80c252faa82dff8505957c6ff5"
+  }
+}

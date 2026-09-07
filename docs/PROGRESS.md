@@ -113,12 +113,13 @@ samples leaving the base standing seed domain retain peak coverage;1,018
 selected pool contacts across five stages agree within0.05mm. Whole authored
 peak footprints and final geometry gates remain open. The remaining sampling
 alternatives failed bounded screening. Guarded shared-seasonal support now
-produces62 hydraulic constraints, but remains UNACCEPTED: a local authored
-footprint comparison finds a standing-to-channel ownership gap at3586.22m E/
-4686.58m S. The gap is a narrowed descent meeting an angled pool section; rotating sections
-was rejected because it loses coverage elsewhere. Coordinate export now avoids
-double rounding (63 focused tests pass); the wedge and remaining precision
-seams still block geometry acceptance. Fix those before promoting the proposal
+produces62 hydraulic constraints, but remains UNACCEPTED pending footprint
+and seam checks. The diagnosed landing gap is now filled by169 additive flat
+sections, preserving all
+1,415 prior records exactly. The32,007-vertex comparison gains9/loses0;1,152
+five-stage pool contacts agree within0.05mm. Geometry tests, root typecheck
+and workspace tests pass (one sandbox-blocked suite passed on retry). Two
+coordinate seams and whole-footprint verification still prevent acceptance
 (water handoff). Full compilation saves its matching
 solver state with `--profile-cache`, avoiding a second native-domain audit.
 The durable accepted repair checkpoint has72 channel constraints,59
