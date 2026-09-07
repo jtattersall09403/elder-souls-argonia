@@ -1017,7 +1017,25 @@ as load-bearing. Record the outcome here either way.
 
 ## Taste ledger (grows during Part 7 — generalised owner steers)
 
-*(empty — first entries land in Round A)*
+| Date | Steer (as a general rule) | Evidence / where it bites |
+|---|---|---|
+| 2026-09-07 | **Climbing is free on piles and house sides in every settlement.** Module 00-core makes large logical surfaces climbable by default; no quest gate may assume a stair is the only way up a tier | Lilmoth question 4; quests 85 condition vocabulary must not carry a "reached by the stair" gate |
+| 2026-09-07 | **A safe city still declares its combat spaces**, each tied to a quest or a hostility flip (97 D9) | Lilmoth's four; the owner asked and confirmed |
+| 2026-09-07 | **Argonian places promise a shrine, not a temple**; Imperial- or Dunmer-founded places keep their chapel or temple under their own culture | promise ledger R3; Stormhold, Thorn, Helstrom, Archon changed |
+| 2026-09-07 | **Solid masses stay masses.** A piece with no opening and no door anywhere in its source stands as a mass; a guard post that must be entered uses a piece with a baked leaf | Imperial guard tower, Ayleid stair block |
+| 2026-09-07 | **The hostile-or-clearable share: 55 % is the target (warn), 50 % the hard floor** | `test_catalogue.HOSTILE_SHARE_HARD_FLOOR` |
+| 2026-09-07 | **A gate is named for the road it faces**, never for a compass point the road does not use | Lilmoth: the north gate faces the Blackrose road from the west-north-west |
+| 2026-09-07 | **A capital's drowned or ruined quarter is under the player's own walkway** (1–15 m); the expeditionary dive is a wreck place, not the city | Lilmoth question 2 |
+| 2026-09-07 | **Interiors come from the mod's own door links, never a filename guess**; a shell the plugin links to an interior gets that interior and its door offset as the entrance | `exterior-interior-links.json`; supersedes the stilt-hall "hut dressing" holding position |
+| 2026-09-07 | **Beast lairs on water are swimmable fights** (pond ≥ 2.5 m), hazards are heavy damage over time not instant death, and clearing one changes the map loudly (detour abandoned, travel times drop) | the Standing Charge; sets the pattern for the 38 lairs |
+| 2026-09-07 | **A licensed camp is a landmark, not a hide** (the hero tree, the licence readable from the water); permanent dwelling (mud hut) over canvas | the Licensed Stage |
+| 2026-09-07 | **Villages grown into trunks are accepted**; ring spacing 22.6 m is the tribal-village default; delegations camp in canvas outside the gate | Nine-Trunks |
+| 2026-09-07 | **A stone place on a slope is shown as a building site of rising courses** where the finished static would swallow the shelf; pens behind the rise (a reveal); haul road as a switchback; the Hist stays where it grew with conduits climbing | Mazzatun |
+| 2026-09-07 | **No lane is a ruled line and no huts stand in columns.** Two parallel ways of one width, or three or more buildings on one bearing at one spacing, read as a grid even in a stilt quarter; boardwalks run straight only from pile to pile between bends, footpaths are routed on the ground, and each dwelling takes its own offset (5.5–6.5 m off its lane) and its own spacing (12–19 m) | owner-eye review: Pusbottom's two parallel lanes and three hut columns at 15 m; the shore quarter's ruler row |
+| 2026-09-07 | **A ring that grew is not a polygon.** Trunk rings, hut rings and pole rings carry a seeded jitter (up to about 6° and 2 m per member) about the culture's default spacing; the default (22.6 m) is an average, never an exact chord | Nine-Trunks' exact nonagon; applies to all 27 tribal villages |
+| 2026-09-07 | **A gate that can be walked round is not a gate.** No way of any class enters a place past a `spans` gate; a lore-grounded back way (a raiders' path, a smugglers' cut) is allowed only if it is walkable (≤30° in any 3 m), is not the line any `approaches[]` entry uses, and says on the way why it exists | Mazzatun's shoulder footpath skirted the shelf gate at 42–58°; removed, terrain request in gap plan B8 |
+| 2026-09-07 | **What the eye wants gets a path.** Where a walker at a node can see a quarter below within 150 m, a footpath joins them unless the ground forbids it; a 500 m detour to reach what is in plain view reads as fake | Lilmoth: the fishers' path from the gate yard to the shore quarter (120 m for a 500 m loop) |
+| 2026-09-07 | **Accepted answers are written into the record the same day.** A design record's open question is closed in place with the ruling and where it now lives; prose that still describes the rejected option (a tent for a hut) is a defect | the Licensed Stage still described the tent; the Standing Charge lacked its four rulings |
 
 ## Part 0 delivery notes (2026-09-02)
 
@@ -1707,6 +1725,37 @@ design record for after the owner confirms the sitings. Round A packet:
 
 ### Review 2026-09-07 — every round claim checked against the code (Fable planned, four Opus audits, four Opus fix batches)
 
+#### Interiors, done at the root (2026-09-07)
+
+The owner ruled that every exterior designed to have an interior must be
+matched to that interior, and must have a derived entrance. The old approach
+guessed from filename prefixes. Skyrim plugins hold the answer: an exterior
+door reference carries a teleport to a door inside an interior cell, and that
+cell's contents are the interior. `worldgen.mine_door_links`
+now reads that link out of all **50 plugins** in the vault (vanilla, Black
+Marsh & Valenwood, HTBM, Mud Mother Grove, Xalfek, Darkwater Den, Marsh Rest,
+the Xanmeer and Ayleid resource packs and the rest) and writes
+`world/sources/placement/exterior-interior-links.json`: **330 exterior shells**
+linked to **458 interior cells**, each with the door's offset in the shell's own
+frame (the derived entrance), the cell's full piece list and per-plugin
+provenance and hash. Mining it exposed a real reader bug: `Plugin.interior_cells`
+dropped the last interior cell of every plugin whose cell block precedes its
+worldspaces, which is why the small Argonian home mods looked interior-less.
+
+The variety that the owner did not accept as 'two' is real: HTBM alone authors
+**20 distinct Argonian/Kothringi interiors** (17 hut rooms, a great house, a
+Kothringi great house and two xanmeer complexes); Black Marsh & Valenwood add
+**43** more across its three plugins. Three interior kits now come from that
+evidence rather than from prose: `htbm-hut-int` (15 pieces), `mudmother-hut-int`
+(64) and the new `bmv-treehouse-int` (16). The interiors index takes the link
+first: `interior: tileset` from the cell's own pieces, plus an `esp-door`
+doorway at the mined offset (radial where the mod turned the door to face each
+lane). The filename table survives only as a fallback that warns. Two HARD
+rules follow: a manifest-linked shell may never be authored with no interior or
+on an unbuilt kit, and `worldgen.asset_breadth` reports how much of the linked
+pool each culture and each blueprint actually uses, with the floor left to
+Part 8.
+
 The owner asked for an audit of what the rounds *claimed* against what the
 repo *does*, plus a plan for the gaps. Four read-only audits (blueprint
 chain, studio UI, routes/terrain/network, process gates) ran against the
@@ -1783,8 +1832,9 @@ short on purpose):
 6. *Lilmoth* — (1) rename the gate for the road it faces (the Blackrose
    gate) rather than spend a 300 m spur; (2) keep the drowned quarter at
    1–15 m under your own walkway — the expeditionary dive belongs to a
-   wreck place, not the capital; (3) accept hut-interior dressing at hall
-   scale for the two stilt halls until Phase 12 finds it thin; (4)
+   wreck place, not the capital; (3) the two stilt halls take the interior to
+   which the mod's own door links point (owner 2026-09-07: no holding
+   positions; see 'Interiors, done at the root' below); (4)
    **climbing free on the piles and house sides** — module 00-core's
    acceptance rule says large logical surfaces are climbable by default, so
    quest gates must never assume the stair is the only way up.
@@ -1806,6 +1856,8 @@ short on purpose):
     the pipeline does not depend on one, only the final judgement of a place
     does. It is batch B1, deferred in this session only because it lives in
     the studio scene files the water pass is editing.
+
+**Owner-eye review of the five blueprints (2026-09-07, standing in for the owner):** [research/phase11/phase11-round-a-owner-eye-review.md](../research/phase11/phase11-round-a-owner-eye-review.md) — what each map showed, the walk-throughs, the fixes, and the ledger rows above dated the same day.
 
 ### Assemblies round — the queued list, delivered (2026-09-05, Fable planned, Opus delivered)
 

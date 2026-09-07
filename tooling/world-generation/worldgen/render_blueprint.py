@@ -182,8 +182,13 @@ def _poly(ax, pts_m: np.ndarray, **kw) -> None:
 
 
 def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD_M,
-           seed: int | None = None, extent_m: float | None = None) -> dict:
-    """Render one blueprint. Returns a summary of what was drawn."""
+           seed: int | None = None, extent_m: float | None = None,
+           crop_m: tuple[float, float, float, float] | None = None) -> dict:
+    """Render one blueprint. Returns a summary of what was drawn.
+
+    `crop_m` (x0, z0, x1, z1 in world metres) overrides the automatic box so a
+    district of a city can be rendered at a legible scale.
+    """
     crop = None
     if terrain:
         # One raster decode (~2 s): it gives both the province extent and the
@@ -191,9 +196,9 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         from .compile_scatter import ProvinceFields
         fields = ProvinceFields(PROVINCE)
         extent_m = extent_m or float(fields.height_m.shape[0] * fields.px_m)
-        crop = TerrainCrop(crop_box(bp, extent_m, pad_m), fields)
+        crop = TerrainCrop(crop_m or crop_box(bp, extent_m, pad_m), fields)
     extent_m = extent_m or PROVINCE_EXTENT_M
-    box = crop_box(bp, extent_m, pad_m)
+    box = crop_m or crop_box(bp, extent_m, pad_m)
 
     rng = random.Random(seed if seed is not None else str(bp.get("seed", "")))
     x0, z0, x1, z1 = box
@@ -416,7 +421,16 @@ def main(argv: list[str] | None = None) -> int:
                     help="skip the hillshade/contour crop (fast, raster-independent)")
     ap.add_argument("--skip-validate", action="store_true",
                     help="render even if the blueprint fails schema validation")
+    ap.add_argument("--crop", type=str, default=None,
+                    help="world-metre box x0,z0,x1,z1 to render instead of the whole place "
+                         "(a district of a city at a legible scale)")
+    ap.add_argument("--name", type=str, default=None,
+                    help="output file stem (default: the blueprint id)")
     args = ap.parse_args(argv)
+    crop_m = None
+    if args.crop:
+        x0, z0, x1, z1 = (float(v) for v in args.crop.split(","))
+        crop_m = (x0, z0, x1, z1)
 
     bp = load_blueprint(args.blueprint)
     if not args.skip_validate:
@@ -430,8 +444,8 @@ def main(argv: list[str] | None = None) -> int:
                   "to render anyway")
             return 1
 
-    summary = render(bp, args.out / f"{bp['id']}.png", terrain=not args.no_terrain,
-                     pad_m=args.pad_m, seed=args.seed)
+    summary = render(bp, args.out / f"{args.name or bp['id']}.png", terrain=not args.no_terrain,
+                     pad_m=args.pad_m, seed=args.seed, crop_m=crop_m)
     print(json.dumps(summary, indent=1))
     return 0
 

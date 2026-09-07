@@ -246,12 +246,19 @@ def test_settlement_and_civic_share_is_under_the_ceiling():
     )
 
 
+HOSTILE_SHARE_HARD_FLOOR = 0.50   # owner 2026-09-07: 55 % is the target (warn), 50 % the hard floor
+
+
 def test_hostile_or_clearable_share_is_over_the_floor():
+    import warnings
     _share, hostile, n = _shares()
-    assert hostile >= HOSTILE_SHARE_FLOOR, (
+    assert hostile >= HOSTILE_SHARE_HARD_FLOOR, (
         f"97 A10: hostile-or-clearable is {hostile:.1%} of {n} live records, under the HARD "
-        f"{HOSTILE_SHARE_FLOOR:.0%} floor (floors are hard, decision 0041 touchpoint ①)"
+        f"{HOSTILE_SHARE_HARD_FLOOR:.0%} floor (owner 2026-09-07; the 55 % target is a warning)"
     )
+    if hostile < HOSTILE_SHARE_FLOOR:
+        warnings.warn(f"97 A10: hostile-or-clearable is {hostile:.1%}, under the {HOSTILE_SHARE_FLOOR:.0%} "
+                      f"target (soft, owner 2026-09-07); promote a record or say why not")
 
 
 # --- services[]: the typed promise the blueprint ledger checks (2026-09-05) ---

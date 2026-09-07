@@ -126,6 +126,10 @@ cached pip, ~3 min) and an `npm run test:placement` script. Alongside
 water: yes.
 
 ### B8 — Smaller items (each one brief)
+- **Mazzatun raiders' back way (terrain request).** The lore-grounded path by which the Xit-Xaht bring the taken down off the western ridge into the pens needs a cut step in the rise west of the pens (a 4 m riser on the raster at about 1924, 1316); until the ground is cut the path is out (owner-eye review 2026-09-07).
+- **Hut composites' doorway derivation shifted mid-session.** `bamboohut01/02-with-door` now derive a radial doorway; eleven untouched Lilmoth bamboohut02 parcels, the two kiosks and the gate lodging need `blueprint_footprints --doors` / `--orient` re-run once the interiors-index pass lands (their `interiorRef` rows are that pass's).
+- **Pusbottom density.** The owner's Round A question 3 (warren as drawn, about 20 huts/ha, or opened out) has no ruling yet; the redraw keeps the count (15 huts) and only removes the grid.
+- **Nine-Trunks pitch and boundary.** The pitch district is still a hand-drawn box and the boundary a compass circle (B3 covers derivation); the ring itself is now jittered.
 
 - `door-to-way` has no outward rule: a gate lodging whose only way is
   inside the wall passes. Mechanism: a parcel with `use: gate` must have its
@@ -155,7 +159,7 @@ water: yes.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 
-## Owner decisions still open (recommendations in 0041 § Review 2026-09-07)
+## Owner decisions still open (recommendations in 0041 § Review 2026-09-07; all accepted by the owner 2026-09-07 except the stilt-hall interior, superseded by the plugin-derived interior mapping)
 
 Plot evenness re-solve (B5) · Imperial gate tower / Ayleid stair block as
 solid masses · Argonian records promise a shrine, not a temple · the

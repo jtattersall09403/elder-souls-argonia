@@ -493,6 +493,16 @@ parcels do not overlap; a gate spans its way; every door is within 4 m of a
 way; a canal lies in water and a road fords at most 12 m. *O* 2026-09-05.
 **Enforced by** `blueprint_integration` inside `compile_settlement`.
 
+**E1b. The breadth of the sourced pool is used.** A place draws on the whole
+set of exterior shells we hold that a plugin links to an interior, not on the
+two or three that happened to be placed first; mods tailored to our aesthetic
+are preferred over vanilla. Vanilla is used where it is the better fit. *O*
+2026-09-07. **Enforced by** `worldgen.asset_breadth` (per culture: the fraction
+of linked shells used across all blueprints; per blueprint: distinct shells
+against those available), reported now, with the floor set at Part 8, and by
+the validator's HARD rule that a manifest-linked shell may never be authored
+with no interior or on an unbuilt kit.
+
 **E2. Geometry, never labels.** Footprints are the measured ground hull;
 `points` are routed over the real heights; a description is a search key. *O*
 2026-09-04. **Enforced by** `blueprint_footprints --apply` and `street_router

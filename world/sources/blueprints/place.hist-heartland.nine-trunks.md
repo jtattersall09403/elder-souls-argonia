@@ -36,11 +36,16 @@ surface about 1.2 m and its eastern bank at 3.4 m.
 
 ## 2. High-level design
 
-**One ring, one clearing, one gate, one spine.** Nine trunk columns stand on a
-21 m radius at 40° spacing (chord 14.37 m, clear gap between trunk faces
-9.63 m). A mud hut of 5.92 × 6.47 m sits in each of eight gaps, leaving 1.9 m
-each side to the trunk face; that 1.9 m is closed with a woven panel, so
-the wall line is unbroken. The ninth gap, south-west at 220°, holds the stick
+**One ring, one clearing, one gate, one spine.** Nine trunk columns stand
+round a clearing on a radius of 20–23 m (21 m on average) at 33–46° apart
+(40° on average): a ring that grew, not one that was set out with a cord. The
+owner-eye review of 2026-09-07 warped the first draft's exact nonagon by a
+seeded jitter of up to 6.5° and 2 m per trunk, because a ring of nine at
+exactly 40° read as a compass drawing (taste ledger). Chords now run
+13.4–16.1 m and the clear gap between trunk faces 7.6–10.3 m. A mud hut of
+5.92 × 6.47 m sits in each of eight gaps; what is left each side, 0.8–2.2 m,
+is closed with a woven panel cut to the gap, so the wall line is unbroken and
+no two panels are the same length. The ninth gap, south-west at 220°, holds the stick
 arch and is the gate; both approaches arrive at it. Inside, the naheesh's
 round house stands at the foot of the elder trunk (north), drawn 8.5 m off the
 centre so that the trunk rises clear of its roof; the path from the arch runs
@@ -271,8 +276,9 @@ neighbours. From the road that difference reads; from the water, where the ring
 is seen edge-on, the comb may read as one height. A scale of 0.6 (34 m) would
 make the difference unmistakable at the cost of a taller tree than the brief.
 
-**Q4 — ring radius, as before.** 21 m is the number which becomes the default
-for 27 villages; tighter reads more like a stockade and holds a smaller crowd.
+**Q4 — ring radius — answered.** 22.6 m trunk spacing (21 m radius) is the
+default for the 27 tribal villages (owner 2026-09-07), applied as an average
+with a per-trunk jitter, never as an exact polygon.
 
 ## 10. Catalogue record should change (not edited from here)
 

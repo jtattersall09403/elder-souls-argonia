@@ -149,3 +149,20 @@ python3 -m worldgen.mine_settlement_form_stats \
 # co-placement templates (all four sets in one deterministic run, ~40 s)
 python3 -m worldgen.mine_assemblies   --set vanilla --label "Vanilla Skyrim, worldspace Tamriel"     --plugin "$D/Skyrim.esm" --plugin "$D/Update.esm" --world Tamriel   --set bmv-blackmarsh --label "BM&V Black Marsh"     --plugin "$BMV/Black Marsh.esm" --plugin "$BMV/Black Marsh North.esp"     --world BlackMarsh --world BlackMarsh2 --world BlackMarshNorth     --names "$D/Skyrim.esm"   --set bmv-valenwood --label "BM&V Valenwood"     --plugin "$BMV/Valenwood.esp" --world Valenwood --names "$D/Skyrim.esm"   --set htbm --label "Here There Be Monsters: Cipactli"     --plugin "$M/here-there-be-monsters-cipactli-35933/extracted/Here There Be Monsters - Curse of Cipactli.esp"     --names "$D/Skyrim.esm"   --out $OUT/kit-assemblies-mined.json   --report ../../docs/research/placement-settlements/kit-assemblies-evidence.md
 ```
+
+## `exterior-interior-links.json` — which interior a building opens onto
+
+Produced by `worldgen.mine_door_links` (owner ruling 2026-09-07). For every
+plugin in the vault it follows the mods' own load doors — an exterior door
+reference's teleport, into the door reference inside an interior cell — and
+records, per exterior shell: the interior cell, the plugin and its hash, how
+many placements evidence the link, the door's offset and yaw in the shell's own
+frame (**the derived entrance**), the cell's full piece list with counts, its
+size, and the modal directory family of its structural pieces. `diagnostics`
+counts, per plugin, the load doors seen and why any were not resolved, and
+`unlinkedInteriors` lists interiors nothing links to.
+
+Consumers: `pipeline.interiors_index` (interior kind, tileset and the
+`esp-door` doorway), `worldgen.blueprint` (HARD rule: a linked shell is never a
+mass and never stands on an unbuilt kit) and `worldgen.asset_breadth`.
+

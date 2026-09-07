@@ -55,7 +55,7 @@ Type recipe `sap-tapping-camp`: population 2–5, an elevated member
 on the stage, a mule line. A licence is one stage on one tree for one season
 (`hist-placement.md` §75); one stage needs a tapper on the deck and two hands
 on the ground. The blueprint's `scaleGrounding` is therefore three people, one
-household, three NPCs and **six pieces**: stage, stair, mule line, cart, tent
+household, three NPCs and **six pieces**: stage, stair, mule line, cart, hut
 and licence board (seven parcels, because the stage's deck is a stacked
 parcel of its own). Nothing here is permanent enough to be called a building;
 the count is what a season leaves standing.
@@ -72,7 +72,7 @@ and the stage.
 **Two districts, two kit sets.** `district.sap-tapping-licensed.stage`
 (`neutral-works`) holds the stage, its stair, the mule line, the cart
 and the licence board; `district.sap-tapping-licensed.camp` (`argonian-mud`)
-holds the tent. The works district was widened to the water's edge so
+holds the hut. The works district was widened to the water's edge so
 the board, a works-v1 piece, sits in its own set.
 
 **The stage** is one piece, `stockadescaffoldbase3sided01` (measured hull 3.70
@@ -92,9 +92,9 @@ hulls stop overlapping.
 **The rest is four objects.** `horsetrough01` (1.85 × 0.69 m) makes the mule
 line at (3492.0, 4390.0), beside the track; `handcart01` (1.32 × 2.21 m) is
 the season's graded stock at (3488.0, 4390.5), shafts to the track; one
-dwelling, `argoniantent01` (8.20 × 7.00 m ground, 43 m² plan, 5.95 m high)
-at (3504.0, 4394.0), behind the trunk on the flattest pad in the camp,
-on a plinth over a 1.5 m fall; and the licence board.
+dwelling, `mudhut01` (5.92 × 6.47 m ground, 5.09 m high; the owner chose the
+permanent hut over canvas, 2026-09-07) at (3504.0, 4394.0), behind the trunk on
+the flattest pad in the camp, on a plinth over a 1.5 m fall; and the licence board.
 
 **The licence board** fills the gap that the Part 6 record carried.
 `bmv:advertising_board` (works-v1; 1.57 × 1.39 m plan, 2.47 m high, ground
@@ -106,13 +106,9 @@ paper piece is jammed onto it. Ground delta under the posts is 0.44 m; they
 are driven, so the parcel is `stilt`. The MR04 evidence socket moved
 from the stage rail to this parcel.
 
-**The tent's interior.** The kit index measures `argoniantent01` as a *shell*
-(79 % of its ring is wall, roof overhead, 3.76 m headroom, 43 m² — size class
-medium) with an open front wider than 5 m rather than a doorway. The blueprint
-therefore carries one door on the open end, `facingDeg` 225, naming
-`settlement-mud-v1` as the interior kit: the interior is the shell's own
-volume dressed from the mud kit, not a separate cell. Whether Phase 12 accepts
-a walk-in shell as an "interior" is an owner question below.
+**The hut's interior.** `mudhut01` has one measured doorway and ships with
+its own interior, `mudhut01intnew`; the door sits on that doorway and opens
+into that cell (see Doors and assemblies below).
 
 **The water.** The landing (`dock.sap-tapping-licensed.landing`) is piled
 in 1.4 m of water at (3478.5, 4373.0), past the reed margin. The channel way
@@ -120,7 +116,7 @@ runs to it from the north-west over published water. The reed margin is kept,
 not cleared.
 
 **Clearance is minimal.** Hard clearing covers four boxes — the stage and its
-stair, the tent, the mule line with the cart and the board —
+stair, the hut, the mule line with the cart and the board —
 against the outlines the pieces occupy. A single thinned polygon of 648 m²
 covers the rest of the camp; everything outside it stays at the region's
 density. The Hist, the reed margin and two shade trees are listed as kept.
@@ -144,8 +140,8 @@ derived by `worldgen.street_router --apply`.
 
 | Way | kind · width | routing | ends at | why |
 |---|---|---|---|---|
-| `route.…track` | track · 1.2 m | terrain | the stair | the one worn track from the road, 615 m to the south-east; past the tent's open end, past the mule line, dead at the foot of the stair |
-| `route.…tent-spur` | footpath · 0.8 m | terrain | the tent | three strides from the track to the open end, so the door is on a way |
+| `route.…track` | track · 1.2 m | terrain | the stair | the one worn track from the road, 615 m to the south-east; past the hut's door, past the mule line, dead at the foot of the stair |
+| `route.…tent-spur` | footpath · 0.8 m | terrain | the hut | three strides from the track to the doorway, so the door is on a way (the id keeps the draft's name; ids are stable) |
 | `boardwalk.…landing-walk` | boardwalk · 1.6 m | straight | the landing | 12 m of planks from a stride off the stage foot across the reeds to the dock; straight because planks over soft ground take the shortest line |
 | `canal.…channel` | channel · 6 m | terrain | the landing | the poling line up the 0.9 m water from the north-west — the covert extraction route |
 
@@ -167,16 +163,15 @@ from north.
 | stair | `stockadescaffoldstairs01` | 3.58 × 3.46 | 30 | the flight sits on bearing 300 to the stage, so the climb starts landward at the head of the track |
 | mule line | `horsetrough01` | 1.85 × 0.69 | 253 | the long axis lies on bearing 343, along the track, so the mules stand beside the path |
 | stock | `handcart01` | 1.32 × 2.21 | 29 | the shafts point to the head of the track, so the cart is pulled out without turning |
-| dwelling | `argoniantent01` | 8.20 × 7.00 | 135 | the open end looks down the track on bearing 225; the blind back stands to the channel |
+| dwelling | `mudhut01` | 5.92 × 6.47 | 45 | the one doorway looks down the spur onto the stage path; the blind back stands to the channel |
 | licence board | `bmv:advertising_board` | 1.26 × 0.40 (posts) | 318 | the pane stands parallel to the bank, face down the poling line |
 | Hist | `histtree` | 64.0 × 45.3 | 121 | the crown's long axis lies across the channel, so the deepest shade falls over the stage and the landing |
 | root flare | `histroots03` | 9.56 × 2.54 | 46 | laid on the trunk-to-stage line, the line that a flare out of the root plate would follow |
 | landing | dock | – | 138 | a poled canoe comes alongside with the channel's run and unloads toward the plank walk |
 
-Three orientation facts rest on a mesh's local frame rather than on a measured
-number: which face of the three-sided scaffold carries no rail, which end
-of the tent is the open one, which face of the board carries the papers. All
-three are read from the pieces in the studio at Round B; if any is out,
+Two orientation facts rest on a mesh's local frame rather than on a measured
+number: which face of the three-sided scaffold carries no rail, which face of
+the board carries the papers. Both are read from the pieces in the studio at Round B; if any is out,
 the fix is the yaw, not the layout.
 
 ## Approach and wayfinding
@@ -195,8 +190,8 @@ over the jungle canopy (42.4 m at its tallest; that species is 3.4 %
 of the scatter): the first-seen object is the tree. The track goes
 under closed canopy (closure 0.92) and the crown is lost overhead
 for the whole walk. At about 30 m — the median open-space radius here is 6.7 m
-— the pale trunk reads between the other trunks. At the first bend the tent's
-open end and the mule line appear; at the second bend, 10 m further, the stair
+— the pale trunk reads between the other trunks. At the first bend the hut's
+door and the mule line appear; at the second bend, 10 m further, the stair
 and the stage come into frame, with the water beyond them through the reeds.
 The threshold is the point where the track dies against the lowest tread:
 the stair is the visible means of ascent; it is in frame from the last bend.
@@ -226,7 +221,7 @@ from it to the stage foot.
 | 7 | Threshold spanned, not passed | no, by design — a camp has no gate; the threshold is the track dying at the stair and the dock at the water. Recorded, not fixed |
 | 8 | One spine, wider than the rest, no duplicated movement | yes — the track (1.2 m) is the spine; the spur is 0.8 m; the plank walk serves the water alone |
 | 9 | Landmark hierarchy, no rival to the beacon | yes — the Hist; the board is the mid-place marker at the landing; nothing else is taller than 6 m |
-| 10 | Every socket/service/NPC door presents to a way | yes — the tent door on the spur; the board at the plank walk; the cart and stage at the track head |
+| 10 | Every socket/service/NPC door presents to a way | yes — the hut door on the spur; the board at the plank walk; the cart and stage at the track head |
 | 11 | No way ends at a blank wall | yes — track at the stair, spur at the door, walk at the dock, channel at the dock |
 | 12 | Every raised level has visible ascent | yes — the stair is in frame from the last bend |
 | 13 | Edge reads as an edge | yes — water and reeds north-west, closed jungle on the other three sides, the thinned ring between them |
@@ -253,7 +248,7 @@ from it to the stage foot.
 
 - A camp's beacon is its tree, never its structures; the structures are hidden
   until the open-space radius allows.
-- One worn track, ending at the one means of ascent; a spur to the tent door
+- One worn track, ending at the one means of ascent; a spur to the hut door
   rather than a track routed past it.
 - The water side is the "front": the licence board, the landing and the stage
   rail face the channel; the sleeping place faces the land.
@@ -262,22 +257,19 @@ from it to the stage foot.
 
 ## Open questions for the owner
 
+All five are answered (owner 2026-09-07, decision 0041 § Review 2026-09-07
+and the Taste ledger); the answers are in the blueprint.
+
 1. **A stacked scaffold tier — resolved.** `stacksOn` exists and the deck
    is placed on the footing (`parcel.sap-tapping-licensed.stage-deck`).
-2. **A walk-in tent as an interior.** The tent is a shell with an open front;
-   the door names `settlement-mud-v1` as its interior kit, meaning the shell's
-   own volume dressed, no separate cell. If Phase 12 wants every door to lead
-   to a cell, the tent should drop its door and be `interior: none` instead.
-3. **How big should the tree be?** 53.6 m against a 42.4 m canopy makes
-   the camp findable from the road, which undercuts "unseen until thirty
-   metres". The alternative in the vault is 22 m tall, hidden in the canopy,
-   reading as a large tree rather than a Hist. Beacon or discovery?
-4. **Tent or hut?** The tent reads as seasonal, which matches a one-season
-   licence; the same kit's round mud hut (5.93 × 6.47 m) reads as a crew that
-   comes back every year.
-5. **How much jungle should come down?** The draft clears the pieces' own
-   ground plus a 648 m² thinned ring. The Round C walk gives a frame-rate
-   number against it.
+2. **The dwelling's interior — resolved by the hut.** `mudhut01` has a
+   measured doorway and its own interior cell, so the walk-in-shell question
+   no longer arises.
+3. **Tree size — the 54 m hero Hist.** The licence is meant to be read from
+   the water, so the camp is a landmark, not a hide.
+4. **Hut, not tent.** A crew that comes back every season keeps a mud hut.
+5. **Clearing — accepted** at the draft's figure as the first frame-rate data
+   point for a place under closed canopy; the Round C walk measures it.
 
 ## Catalogue record should change (not edited from here)
 
@@ -287,7 +279,7 @@ from it to the stage foot.
 - `assetPlan` lists `passerelles-walkway` and `settlement-root`. Neither
   serves this place: the smallest dwelling in `settlement-root-v1` measures
   24.6 × 24.6 m and 55.6 m tall. The delivered plan is `works-v1` (stage,
-  stair, mule line, stock, licence board), `settlement-mud-v1` (tent,
+  stair, mule line, stock, licence board), `settlement-mud-v1` (hut,
   dressing) and the HTBM Hist as the landmark.
 - `vibe.signatureFeature` says the licence is nailed to the stage; it now
   hangs on a roofed board at the landing, still readable from the water.

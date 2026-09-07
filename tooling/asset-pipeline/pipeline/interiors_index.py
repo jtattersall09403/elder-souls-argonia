@@ -211,6 +211,11 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
 ASSEMBLIES_PATH = (REPO_ROOT / "world" / "sources" / "placement"
                    / "kit-assemblies-mined.json")
+#: The mined truth about which interior a shell opens onto (owner ruling
+#: 2026-09-07). Produced by `worldgen.mine_door_links`; outranks every rule
+#: below, because it is the mod's own load door rather than an inference.
+LINKS_PATH = (REPO_ROOT / "world" / "sources" / "placement"
+              / "exterior-interior-links.json")
 SCHEMA_VERSION = 1
 
 # --- enclosure / doorway measurement constants ----------------------------- #
@@ -282,14 +287,6 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
     ("bmv:telvanni/",
      "dungeon-root-v1",
      "grown/organic exteriors; the root dungeon kit is the interior grammar that matches them"),
-    ("mudmother:gv_meshes/argoniannest/mudhut01",
-     "mudmother-hut-int",
-     "the mud hut's own matched interior, `mudhut01intnew`, packaged with its indoor dressing "
-     "as mudmother-hut-int"),
-    ("htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut",
-     "htbm-hut-int",
-     "the bamboo huts' own matched `_int` rooms, packaged with the mod's wicker furniture as "
-     "htbm-hut-int"),
     ("htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/swamp house",
      "htbm-hut-int",
      "the Kothringi swamp house takes the Kothringi `bamboohut01_int` room, packaged in htbm-hut-int"),
@@ -315,7 +312,28 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
 
 # Kits that ARE interiors: their modules are the inside, so they never claim one.
 INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1", "vanilla-farmhouse-int",
-                 "vanilla-imperial-int", "htbm-hut-int", "mudmother-hut-int")
+                 "vanilla-imperial-int", "htbm-hut-int", "mudmother-hut-int",
+                 "bmv-treehouse-int")
+
+# --- rule (0): the plugin's own load door, which beats every rule below ----- #
+# The manifest names the interior CELL a shell's door teleports to and the
+# modal DIRECTORY of that cell's structural pieces (`interiorFamily`). This
+# table is the only judgement left: which built kit packages that family. Keyed
+# by directory prefix, longest match wins.
+INTERIOR_FAMILY_KITS: tuple[tuple[str, str], ...] = (
+    ("htbm:here there be monsters - curse of cipactli/architecture/villages/",
+     "htbm-hut-int"),
+    ("mudmother:gv_meshes/argoniannest", "mudmother-hut-int"),
+    ("bmv:architecture/citebosmer/houses", "bmv-treehouse-int"),
+    ("bmv:telvanni", "bmv-treehouse-int"),
+    ("vanilla:architecture/farmhouse/interior", "vanilla-farmhouse-int"),
+    ("vanilla:architecture/farmhouse", "vanilla-farmhouse-int"),
+    ("vanilla:dungeons/imperial", "vanilla-imperial-int"),
+    ("vanilla:architecture/imperial", "vanilla-imperial-int"),
+    ("bmv:dungeons/ayleidruins", "xanmeer-interior-v1"),
+    ("htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer",
+     "xanmeer-interior-v1"),
+)
 
 # Path fragments that mark a piece as an interior module wherever it lives.
 INTERIOR_PATH_MARKERS = ("/interior/", "/interiors/")
@@ -400,13 +418,125 @@ def find_matched_interior(asset_id: str, pool_ids: dict[str, list[str]]) -> str 
     return sorted(candidates)[0][1]
 
 
+_LINKS_CACHE: dict | None = None
+
+
+def load_door_links(path: Path = LINKS_PATH) -> dict[str, list[dict]]:
+    """shell asset id -> its mined links, best-evidenced first."""
+    global _LINKS_CACHE
+    if _LINKS_CACHE is None:
+        try:
+            _LINKS_CACHE = json.loads(path.read_text()).get("shells", {})
+        except (OSError, json.JSONDecodeError):
+            _LINKS_CACHE = {}
+    return _LINKS_CACHE
+
+
+#: Distinct own-pool pieces an interior cell must share with a kit before that
+#: kit is called its interior. One shared mesh is a coincidence.
+MIN_KIT_PIECE_HITS = 3
+
+_KIT_PIECES_CACHE: dict[str, set[str]] | None = None
+
+
+def interior_kit_pieces(config_dir: Path | None = None) -> dict[str, set[str]]:
+    """Built interior kit -> the asset ids it packages."""
+    global _KIT_PIECES_CACHE
+    if _KIT_PIECES_CACHE is None:
+        config_dir = config_dir or (Path(__file__).resolve().parent / "config" / "kits")
+        out: dict[str, set[str]] = {}
+        for kit in INTERIOR_KITS:
+            path = config_dir / f"{kit}.json"
+            if not path.exists():
+                continue
+            try:
+                cfg = json.loads(path.read_text())
+            except json.JSONDecodeError:
+                continue
+            out[kit] = {a["asset"] for a in cfg.get("assets", []) if a.get("asset")}
+        _KIT_PIECES_CACHE = out
+    return _KIT_PIECES_CACHE
+
+
+def kit_for_pieces(link: dict) -> str | None:
+    """The interior kit that packages most of what this cell is actually made of.
+
+    Stronger than any path table: the plugin says which pieces the interior is
+    built from, so the kit that ships those pieces IS the kit for it.
+    """
+    pieces = {p["model"]: p.get("count", 1) for p in link.get("pieces") or []}
+    if not pieces:
+        return None
+    # Only DISCRIMINATING pieces count. Half the interior kits ship the same
+    # vanilla barrels and hay, so shared pieces say nothing about which kit an
+    # interior is; a piece only one kit packages says everything.
+    packaged_in: dict[str, int] = {}
+    for packaged in interior_kit_pieces().values():
+        for model in packaged:
+            packaged_in[model] = packaged_in.get(model, 0) + 1
+    best: tuple[int, int, str] | None = None
+    for kit, packaged in sorted(interior_kit_pieces().items()):
+        # A kit built on a mod's own pool is identified by THAT pool's pieces.
+        # Its vanilla dressing is shared furniture and identifies nothing (a
+        # Nord barracks and an Argonian mud hut both hold hay and sacks).
+        own = {m.split(":", 1)[0] for m in packaged} - {"vanilla"}
+        hits = [m for m in pieces
+                if m in packaged and packaged_in.get(m) == 1
+                and (not own or m.split(":", 1)[0] in own)]
+        if not hits:
+            continue
+        if len(hits) < MIN_KIT_PIECE_HITS:
+            continue   # one shared piece is a coincidence, not an identification
+        score = (sum(pieces[m] for m in hits), len(hits), kit)
+        if best is None or score[:2] > best[:2]:
+            best = score
+    return best[2] if best else None
+
+
+def kit_for_family(family: str | None) -> str | None:
+    best: tuple[int, str] | None = None
+    if not family:
+        return None
+    for prefix, kit in INTERIOR_FAMILY_KITS:
+        if family.startswith(prefix) and (best is None or len(prefix) > best[0]):
+            best = (len(prefix), kit)
+    return best[1] if best else None
+
+
+def esp_link_for(asset_id: str, links: dict[str, list[dict]]) -> tuple[dict, str] | None:
+    """The best-evidenced link for this shell whose interior family we build.
+
+    A link whose family no kit packages is not usable evidence — it is a gap —
+    so the search walks the link's ranked families before giving up.
+    """
+    for row in links.get(asset_id, ()):
+        kit = kit_for_pieces(row)
+        if kit:
+            return row, kit
+        families = [f["family"] for f in row.get("interiorFamilies") or []]
+        for family in ([row.get("interiorFamily")] if row.get("interiorFamily") else []) + families:
+            kit = kit_for_family(family)
+            if kit:
+                return row, kit
+    return None
+
+
 def find_tileset(asset_id: str) -> tuple[str, str] | None:
-    """(tileset id, why) for the longest matching path rule, or None."""
+    """(tileset id, why) for the longest matching path rule, or None.
+
+    FALLBACK ONLY. These rules guess an interior from a path prefix; the door
+    manifest knows. A rule that fires is a shell no plugin links, and it warns
+    so the gap stays visible.
+    """
     best: tuple[int, str, str] | None = None
     for prefix, tileset, why in TILESET_RULES:
         if asset_id.startswith(prefix) and (best is None or len(prefix) > best[0]):
             best = (len(prefix), tileset, why)
-    return (best[1], best[2]) if best else None
+    if best is None:
+        return None
+    print(f"  WARN interiors_index: {asset_id} has no mined door link; falling back to "
+          f"the path rule '{best[0] and asset_id[:best[0]]}' -> {best[1]}")
+    return (best[1], best[2])
 
 
 def size_class(area_m2: float) -> str:
@@ -1149,14 +1279,117 @@ def classify_asset(asset: dict, kit: str, verts, triangles,
     entry from ``doorwaysFromAssemblies`` (see ``apply_assembly_doorways``);
     it is only consulted for a piece the geometry calls a building.
     """
+    links = load_door_links()
+    link = (esp_link_for(anchor_id, links) if anchor_id else None) or \
+        esp_link_for(asset["id"], links)
     record = _classify_geometry(asset, kit, verts, triangles, pool_ids,
-                                door_evidence=bool(assembly_doors),
+                                door_evidence=bool(assembly_doors) or link is not None,
                                 anchor_id=anchor_id)
+    # The plugin decides WHICH interior a building opens onto and WHERE its
+    # door is. It does not decide what counts as a building: that stays with
+    # the geometry (owner ruling 2026-09-04), or a walkway with a door standing
+    # on it would become a house.
+    if link is not None and kit not in INTERIOR_KITS and record.get("interior") != "none":
+        row, interior_kit = link
+        shell_links = links.get(anchor_id or asset["id"]) or links.get(asset["id"]) or [row]
+        apply_esp_link(record, row, interior_kit, shell_links)
+        if assembly_doors:
+            # The plugin's door leads, but a shell the source authors ALSO hung
+            # a separate door piece on has both ways in; dropping the mined one
+            # would blank a wall a blueprint already stands a threshold on.
+            mined = {"doorways": [], "interior": record["interior"]}
+            apply_assembly_doorways(mined, assembly_doors)
+            esp = [d for d in record["doorways"] if d.get("kind") == "esp-door"]
+            others = ([d for d in record["doorways"] if d.get("kind") != "esp-door"]
+                      + [d for d in mined["doorways"] if d not in record["doorways"]])
+            record["doorways"] = others[:MAX_DOORWAYS - len(esp)] + esp
+        return record
     if assembly_doors and record.get("interior") in BUILDING_INTERIORS:
         apply_assembly_doorways(record, assembly_doors)
     elif record.get("doorways"):
         record["doorwaySource"] = "geometry"
     return record
+
+
+ESP_DOOR_RADIAL_SPREAD_DEG = 45.0
+
+
+def apply_esp_link(record: dict, link: dict, kit: str,
+                   shell_links: list[dict] | None = None) -> None:
+    """Overwrite a record with the plugin's own answer.
+
+    Owner ruling 2026-09-07: an interior is what the mod's own door teleports
+    to, never a filename guess, and the exterior door's offset in the shell is
+    the derived entrance. So this outranks the matched-sibling rule, the path
+    rules and the ray probe: the shell IS a building (something teleports into
+    it), its interior IS this kit, and its doorway IS where the plugin hung the
+    door.
+    """
+    offset = link.get("doorOffsetInShell") or {}
+    record["interior"] = "tileset"
+    record["tileset"] = kit
+    # The tileset is now the answer to "what is inside"; a matched-sibling mesh
+    # guess must not outrank it in `blueprint_interiors.interior_ref`.
+    record.pop("interiorAssetRef", None)
+    record["interiorSource"] = "esp-door"
+    record["espLink"] = {
+        "plugin": link.get("plugin"),
+        "interiorCell": link.get("interiorCell"),
+        "interiorFamily": link.get("interiorFamily"),
+        "placements": link.get("placements"),
+        "doorModel": link.get("doorModel"),
+        "interiorSizeM": link.get("interiorSizeM"),
+    }
+    record["why"] = (
+        f"{link.get('plugin')} teleports from this shell into interior cell "
+        f"{link.get('interiorCell')} ({link.get('placements')} placements of the load "
+        f"door); that cell is built from {link.get('interiorFamily')}, which is packaged "
+        f"as {kit}")
+    if offset:
+        # Across every cell this shell opens onto, is the door always on the
+        # same side, or at the same RADIUS on any side? A round hut whose
+        # authors turned it to face each lane is the second kind, and calling
+        # one of its bearings THE door would be a fiction (the same distinction
+        # the mined-assembly doors already draw).
+        rows = shell_links or [link]
+        bearings = [float((r.get("doorOffsetInShell") or {}).get("sideDeg", 0.0))
+                    for r in rows if r.get("doorOffsetInShell")]
+        radial = False
+        if len(bearings) > 1:
+            first = bearings[0]
+            spread = max(abs((b - first + 180.0) % 360.0 - 180.0) for b in bearings)
+            radial = spread > ESP_DOOR_RADIAL_SPREAD_DEG
+        radii = [float((r.get("doorOffsetInShell") or {}).get("radiusM", 0.0))
+                 for r in rows if r.get("doorOffsetInShell")]
+        placements = sum(int(r.get("placements") or 0) for r in rows)
+        door = {
+            "kind": "esp-door",
+            "doorAsset": link.get("doorModel"),
+            "placements": placements,
+            "radiusM": round(sorted(radii)[len(radii) // 2], 3) if radii else None,
+        }
+        if radial:
+            door["radial"] = True
+        else:
+            door.update(sideDeg=offset.get("sideDeg"),
+                        offsetM=[offset.get("xM"), offset.get("yM")],
+                        heightM=offset.get("zM"),
+                        yawDeg=offset.get("yawDeg"))
+        # A mesh with two ways in has two ways in: the shell's own measured
+        # openings keep their INDEX (blueprints reference doorways by index)
+        # and the plugin's door is added to them. `doorwaySource` records that
+        # the link, not the probe, is what says this shell has an entrance.
+        existing = [d for d in record.get("doorways", []) if d.get("kind") != "esp-door"]
+        # The plugin's door is never the one dropped by the cap: it is the only
+        # doorway backed by a teleport, and the validator looks for it.
+        record["doorways"] = existing[:MAX_DOORWAYS - 1] + [door]
+        record["doorwaySource"] = "esp-door"
+        record["doorwaysWhy"] = (
+            f"the exterior door {link.get('doorModel')} that opens this interior, "
+            + ("at a constant radius on any bearing across the plugin's placements"
+               if door.get("radial") else
+               "at the offset the plugin places it in this shell's own frame")
+            + f" ({placements} placements)")
 
 
 def _classify_geometry(asset: dict, kit: str, verts, triangles,
@@ -1335,11 +1568,14 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     # mechanism 4: a building the mesh and the mine both left doorless takes the
     # door piece its own family authored for it, fitted to its measured wall.
     for asset_id, record in assets.items():
-        if record.get("interior") in BUILDING_INTERIORS and not record.get("doorways"):
+        # An esp-door on its own is a link, not an opening in this mesh: the
+        # door-piece pass still runs so the shell keeps its authored entrance.
+        if record.get("interior") in BUILDING_INTERIORS and not [
+                d for d in record.get("doorways") or [] if d.get("kind") != "esp-door"]:
             source = parts_of.get(asset_id, [asset_id])[0]
             doors = door_piece_doorways(record, source, bounds)
             if doors:
-                record["doorways"] = doors
+                record["doorways"] = (record.get("doorways") or []) + doors
                 record["doorwaySource"] = "door-piece"
                 pieces = ", ".join(sorted({d["doorAsset"].rsplit("/", 1)[-1] for d in doors}))
                 record["doorwaysWhy"] = (

@@ -574,3 +574,36 @@ def test_no_built_kit_leaves_a_building_without_a_doorway_or_an_interior():
                 unlinked.append(asset_id)
     assert not doorless, f"enclosed pieces with no doorway: {doorless}"
     assert not unlinked, f"enclosed pieces with no interior kit: {unlinked}"
+
+
+# --- the door manifest is the truth about interiors (owner 2026-09-07) ------ #
+def test_every_manifest_linked_shell_in_a_built_kit_resolves_to_a_built_interior():
+    """A shell the mods' own load doors link may not be a mass, may not point at
+    an unbuilt kit, and must carry the entrance the plugin derived for it."""
+    import json as _json
+    from pathlib import Path as _Path
+    from . import interiors_index as ii
+
+    links = ii.load_door_links()
+    if not links:
+        return  # manifest not mined in this checkout
+    built = {p.stem.removesuffix(".kit") for p in ii.KITS_DIR.glob("*.kit.json")}
+    problems: list[str] = []
+    for path in sorted(ii.KITS_DIR.glob("*.interiors.json")):
+        data = _json.loads(_Path(path).read_text())
+        kit = data.get("kit", path.stem)
+        if kit in ii.INTERIOR_KITS:
+            continue
+        for asset_id, record in data.get("assets", {}).items():
+            if asset_id not in links or record.get("interior") == "none":
+                continue
+            if record.get("interiorSource") != "esp-door":
+                problems.append(f"{kit}/{asset_id}: linked by the manifest but its interior "
+                                f"came from {record.get('interiorSource') or 'a rule'}")
+                continue
+            tileset = record.get("tileset")
+            if tileset not in built:
+                problems.append(f"{kit}/{asset_id}: interior kit {tileset!r} is not built")
+            if not any(d.get("kind") == "esp-door" for d in record.get("doorways") or []):
+                problems.append(f"{kit}/{asset_id}: no esp-door doorway (derived entrance)")
+    assert not problems, "\n".join(problems)

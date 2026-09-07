@@ -97,7 +97,7 @@
         "why": {
           "what": "The pens: three mud shells, an oven and a rack for the taken labourers, fenced on the uphill and east sides.",
           "whyHere": "The Xit-Xaht raid their neighbours for labour; the taken are kept apart from the tribe, above the works and in the material of the province rather than in stone.",
-          "whyNeighbours": "The works terrace lies below, so the overseers look straight down into the pens; the shoulder path arrives at the west end, so the pens are also the back door of Mazzatun.",
+          "whyNeighbours": "The works terrace lies below, so the overseers look straight down into the pens; the pens stair climbs from the terrace and nothing else does, so the pens are met after the gate and the court, not before them.",
           "playerPurpose": "The place where a player meets the taken and hears what the tribe does not say; three small interiors and the LV28 confidences.",
           "microGeography": "The upper of the three steps, 14 m deep and flat at about 207 m, with the ridge rising behind it and a 2 m riser held by the north course in front."
         }
@@ -585,92 +585,6 @@
         ]
       },
       {
-        "id": "route.mazzatun.shoulder",
-        "kind": "footpath",
-        "widthM": 1.5,
-        "routing": "terrain",
-        "via": [
-          [
-            0.253339437,
-            0.184715371
-          ],
-          [
-            0.258357402,
-            0.183359164
-          ],
-          [
-            0.262426023,
-            0.18254544
-          ],
-          [
-            0.264595954,
-            0.180646751
-          ]
-        ],
-        "endsAt": [
-          "parcel.mazzatun.pen-rack"
-        ],
-        "why": "The shoulder path from the ridge to the north-west down onto the upper step: the raiders' way in with the taken. It is the approach that avoids the gate.",
-        "points": [
-          [
-            0.253339437,
-            0.184715371
-          ],
-          [
-            0.25394973,
-            0.185190043
-          ],
-          [
-            0.25394973,
-            0.184105078
-          ],
-          [
-            0.254627833,
-            0.183426975
-          ],
-          [
-            0.257069005,
-            0.185868147
-          ],
-          [
-            0.258425212,
-            0.185868147
-          ],
-          [
-            0.258357402,
-            0.183359164
-          ],
-          [
-            0.259103316,
-            0.183969457
-          ],
-          [
-            0.260459522,
-            0.183969457
-          ],
-          [
-            0.26195135,
-            0.18247763
-          ],
-          [
-            0.262426023,
-            0.18254544
-          ],
-          [
-            0.262493833,
-            0.181121423
-          ],
-          [
-            0.263578798,
-            0.180036457
-          ],
-          [
-            0.265024177,
-            0.180022672
-          ]
-        ]
-      },
-      {
         "id": "route.mazzatun.works-store-path",
         "kind": "footpath",
         "routing": "straight",
@@ -949,7 +863,7 @@
           "whyHere": "The Xit-Xaht raid their neighbours for labour and keep the taken apart from the tribe; the pens are where the taken sleep. They are built in mud because the taken are not permitted stone.",
           "whySpot": "The upper step is the part of the shelf from which nothing leads away: rock rises behind it and the works terrace lies below, so a pen here is watched from below and walled by the hill above.",
           "whyNeighbours": "It stands beside the racks and the oven, the two things the taken use before the shift. Its door faces the same lane as the other two shells.",
-          "playerPurpose": "The first interior a player reaches by the shoulder path; the labourer who has begun to remember sleeps here.",
+          "playerPurpose": "The first interior a player reaches off the pens stair; the labourer who has begun to remember sleeps here.",
           "microGeography": "A pad on the flat of the upper step at about 207 m, with its back 6 m from the rise to the ridge and its door 3 m from the lane."
         },
         "interior": {
@@ -1420,9 +1334,9 @@
         "why": {
           "what": "A drying rack for the fish and the reed on which the pens live.",
           "whyHere": "The taken are fed on what the swamp gives, dried on the step where the wind reaches it.",
-          "whySpot": "The west end of the upper step, where the shoulder path arrives, so the rack is the first thing on that path.",
-          "whyNeighbours": "It stands at the end of the lane and the head of the shoulder path, beside the oven.",
-          "playerPurpose": "The marker at which the shoulder path becomes the pens lane; the first object of Mazzatun met from the north-west.",
+          "whySpot": "The west end of the upper step, where the lane ends and the ground climbs west to the rise, so the rack is the last thing on the lane and the first thing seen from the ridge track passing below.",
+          "whyNeighbours": "It stands at the end of the lane beside the oven, above the ridge track.",
+          "playerPurpose": "The marker at which the pens lane ends; the first object of Mazzatun read from the ridge track below the rise.",
           "microGeography": "A pad on the last flat of the step at about 206 m before the ground climbs west to the shoulder."
         },
         "footprint": [

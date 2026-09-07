@@ -1148,10 +1148,27 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                  f"({why}) — run `python3 -m worldgen.blueprint_footprints --doors <blueprint>` to derive it")
 
     if interiors:
+        linked_shells = bi.linked_shells()
         for p in bp.get("parcels", []):
             record = interiors.get(p.get("assetRef"))
             if record is None:
                 continue
+            # HARD (owner 2026-09-07): the mods' own load doors are the truth
+            # about what has an inside. A shell the door manifest links may
+            # never be authored as a mass, and may never point at a kit that
+            # was never built.
+            if p.get("assetRef") in linked_shells:
+                link = linked_shells[p["assetRef"]][0]
+                if record.get("interior") == "none":
+                    fail(f"parcel {p.get('id')}: {p.get('assetRef')} is authored with no interior, but "
+                         f"{link.get('plugin')} teleports from this shell into {link.get('interiorCell')} "
+                         f"({link.get('placements')} placements) — a shell the mods link to an interior "
+                         f"always has one (owner ruling 2026-09-07); rebuild the interiors index")
+                kit = record.get("tileset")
+                if kit and built_kit_names() and kit not in built_kit_names():
+                    fail(f"parcel {p.get('id')}: {p.get('assetRef')} is linked to interior cell "
+                         f"{link.get('interiorCell')} but its interior kit {kit!r} is not built — a linked "
+                         f"shell may not stand on a placeholder kit (owner ruling 2026-09-07)")
             if record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id")):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
                 if not bi.doorways(record):

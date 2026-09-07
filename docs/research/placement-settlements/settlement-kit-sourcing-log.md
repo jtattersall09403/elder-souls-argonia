@@ -376,6 +376,27 @@ landscape only, and the Dunmer sets present are Telvanni, Redoran, Velothi and
 stronghold. Thorn's Dunmer quarter keeps `hlaalu-domestic`.
 
 
+## Interior kits from the door manifest (2026-09-07)
+
+Built from `world/sources/placement/exterior-interior-links.json` (see
+[exterior-interior-linking-in-skyrim-mods.md](exterior-interior-linking-in-skyrim-mods.md)),
+so each kit's pieces are the models the mod's own interior cells place, never a
+guess from a filename.
+
+| Kit | Pieces | Evidence | Note |
+| --- | --- | --- | --- |
+| `htbm-hut-int` | 15 | HTBM cells `CIPHTBMHutInterior01`–`17` + `…GreatHouse`, linked to `bamboohut01/02` | added the vanilla hearth, brazier, hay, barrel and cellar trapdoor the mod's hut cells actually place |
+| `mudmother-hut-int` | 64 | `ArgonianLakeHouse.esl` cell `00MudHut01`, linked to `mudhut01` | was 24 pieces of the pool's own dressing; the cell places 60 distinct models, including woven furniture, a Sithis shrine, a fish rack and vanilla sacks/beams |
+| `bmv-treehouse-int` | 16 | `Valenwood.esp` cell `01treeint`, linked to `housegland001`, `housechamp001`, `kiosk01` | NEW. The grown tree-house interior family; no new pool, so no new credit line |
+
+True gaps (a shell we use for which the mods ship **no** interior at all):
+`XanmeerResources.esp`, `igs_tileset_ayleid.esp` and `Mudmound.esp` are
+resource packs with **no placements**, so nothing in them can be linked. The
+xanmeer and Ayleid exteriors keep the fallback path rule and warn.
+`DarkwaterDen.esp` and `ArgonianHome.esp` have load doors, but they open out of
+a cave mouth and a rock face rather than a building shell, so there is no
+exterior mesh to which the interior can attach.
+
 ## Sourcing-gap register
 
 Every asset gap found by any agent, in any phase, gets a row here the moment it

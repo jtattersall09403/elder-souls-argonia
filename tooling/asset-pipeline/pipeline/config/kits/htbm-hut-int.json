@@ -41,6 +41,24 @@
   },
   {
    "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/interior/basement/farmbtrapdoor02"
+  },
+  {
+   "asset": "vanilla:clutter/barrel01"
+  },
+  {
+   "asset": "vanilla:clutter/giant/giantcampfire01off"
+  },
+  {
+   "asset": "vanilla:clutter/hay/hayscatter05"
+  },
+  {
+   "asset": "vanilla:clutter/hay/hayscatter06"
+  },
+  {
+   "asset": "vanilla:clutter/imperial/impbrazier01"
   }
  ]
 }

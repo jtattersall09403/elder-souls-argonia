@@ -87,6 +87,126 @@
   },
   {
    "asset": "mudmother:gv_meshes/argoniannest/wallhanging03"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfence02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfenceend"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantent02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/basketfull"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/basketsmall01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/fishracksmall"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/paintedurn01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/roundfloor01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/sithisshrine"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/thatchroofing"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wovenchair01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wovenfence01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/woventable01"
+  },
+  {
+   "asset": "vanilla:architecture/riften/clutter/rtbanneranchor01"
+  },
+  {
+   "asset": "vanilla:architecture/riften/interior/smallroomsingle/rifrmsmpartitionbeamtall01"
+  },
+  {
+   "asset": "vanilla:clutter/bones/trollskull"
+  },
+  {
+   "asset": "vanilla:clutter/chopping block/choppingblock01"
+  },
+  {
+   "asset": "vanilla:clutter/common/commoncounter01"
+  },
+  {
+   "asset": "vanilla:clutter/common/commoncounterhanger01"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsack02largeflat"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsack02small"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsack02smallflat"
+  },
+  {
+   "asset": "vanilla:clutter/containers/miscsacklarge"
+  },
+  {
+   "asset": "vanilla:clutter/cookingspitsm01"
+  },
+  {
+   "asset": "vanilla:clutter/cookingstone01"
+  },
+  {
+   "asset": "vanilla:clutter/hay/haybale01"
+  },
+  {
+   "asset": "vanilla:clutter/hay/hayscatter04"
+  },
+  {
+   "asset": "vanilla:clutter/hay/hayscatter05"
+  },
+  {
+   "asset": "vanilla:clutter/hay/hayscatter06"
+  },
+  {
+   "asset": "vanilla:clutter/ingredients/hawkfeather01"
+  },
+  {
+   "asset": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam01"
+  },
+  {
+   "asset": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam02"
+  },
+  {
+   "asset": "vanilla:dungeons/riften/clutter/riftenrwwoodbeam03"
+  },
+  {
+   "asset": "vanilla:furniture/bedroll/bedrollhay01"
+  },
+  {
+   "asset": "vanilla:furniture/common/commonchair01"
+  },
+  {
+   "asset": "vanilla:furniture/orcfurniture/orcshelf01"
+  },
+  {
+   "asset": "vanilla:furniture/smallcookingpot"
+  },
+  {
+   "asset": "vanilla:plants/wheat01"
   }
  ]
 }

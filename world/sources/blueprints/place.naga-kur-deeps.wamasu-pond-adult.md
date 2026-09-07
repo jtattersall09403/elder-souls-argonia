@@ -127,6 +127,8 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 4. **The lair is the fight.** One `combatSpaces` entry covers the creature's ground with clearance `open` and is also the hard-clear polygon; a second entry of class `broken` is the retreat ground. Both carry a `why` naming the quest and the hostility flip.
 5. **Structures are few and each is a Lynch element.** A stand is a survey point (node), an offering platform is the first node, a stake line is an edge, a pole line is a path. No dwelling, no door, `interior.kind` "none".
 6. **The threshold is the change of mode**, not a gate: water to foot at a dock, or the last marker before the creature's ground. Checklist item 7 is answered "no gate" with that reason.
+7. **The lair's hazard hurts, it does not kill on contact.** Charged water, spore air, a venom pool: heavy damage over time, so a player who blunders in can still get out (owner 2026-09-07).
+8. **Clearing a lair changes the map loudly.** The detour the lair forced is abandoned on the map and the zone's travel times drop; the change is legible fixed world state, not a quiet flag (owner 2026-09-07).
 
 ## What Phases 13, 9 and 12 must deliver
 
@@ -149,11 +151,28 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 
 ## Open questions for the owner
 
-1. **The lane comes from the south-east, not the north.** The round brief assumed a poling approach from the north; the survey has no water north of the pond. The blueprint follows the water. If a northern water approach is wanted, that is a hydrology change, not a blueprint one.
-2. **How deep should the pond be?** 2.5 m makes a swimmable fight with a dive to the cache and a real flooded cave; knee depth makes a wading fight with the animal always visible. The blueprint assumes deep.
-3. **Lethal or dangerous water while the animal lives?** This sets how every beast lair handles environmental danger.
-4. **Pole densification and the stand's support piece are compiler rules that do not exist yet** (poles at ~15 m along a channel; the support placed from the footing). The deck is authored with `stacksOn`; until the rules are written the world shows four poles and a footing with its deck and ramp.
-5. **The north dead tree is scaled to 40 m** so that a beacon exists on the overland approach. If a 40 m dead cypress reads wrong at eye level, the alternative is to accept that this lair has no beacon and rely on the cue chain alone.
+Answered (owner 2026-09-07, decision 0041 § Review 2026-09-07 and the Taste
+ledger). What was decided, and where each answer now lives:
+
+1. **The lane comes from the south-east.** Accepted; the blueprint follows the
+   water. No northern water approach is asked for.
+2. **Pond depth: 2.5 m.** A swimmable fight with a dive to the cache; the
+   swimming pillar gets its first fight here. The pool request in
+   § Catalogue record carries the depth.
+3. **Charged water is heavy damage over time, not instant death.** Every
+   beast lair's environmental hazard follows this (lair rule 7).
+4. **Clearing the lair is loud.** The detour is abandoned on the map and
+   travel times for the zone drop, so the fixed world state is legible (lair
+   rule 8).
+5. **The offering-makers are right and the hunter was wrong.** The shrine on
+   the bank is not superstition: the offerings are what keep the animal to
+   the pan; the stand is where the hunter learned that the hard way. The
+   `why` texts of the platform and the stand say so.
+6. **Compiler rules still to write:** pole densification along a channel
+   (about every 15 m) and the stand's support piece placed from the footing.
+   Until then the world shows four poles and a footing with its deck and ramp.
+7. **The 40 m dead cypress** stays as the overland beacon; if it reads wrong
+   at eye level in Round B the fallback is the cue chain alone.
 
 ## Deviations from module 97 (Round A review, 2026-09-05)
 

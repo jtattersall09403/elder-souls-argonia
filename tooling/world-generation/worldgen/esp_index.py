@@ -133,6 +133,12 @@ class ObjectRef:
     world: int | None = None
     distant: bool = False
     """True when the ref lives in the visible-distant-children group."""
+    teleport: tuple[int, tuple[float, float, float], tuple[float, float, float]] | None = None
+    """XTEL: `(target door REFR form id, destination pos, destination rot)`.
+
+    Present only on a **load door** — the teleport link a modder makes between
+    an exterior door and the door REFR inside the interior cell it opens onto.
+    """
 
 
 @dataclass
@@ -341,7 +347,13 @@ class Plugin:
         for rec, stack in self.records():
             types = [f.type for f in stack]
             if GT_WORLD_CHILDREN in types:
-                current = None
+                # Emit the buffered interior before entering a worldspace —
+                # dropping it here silently lost the LAST interior cell of
+                # every plugin whose CELL block precedes its worldspaces
+                # (fixed 2026-09-07 while mining door links).
+                if current is not None:
+                    yield current
+                    current = None
                 continue
             if rec.type == b"CELL":
                 if current is not None:
@@ -468,6 +480,7 @@ def decode_ref(rec: Record) -> ObjectRef | None:
     base = None
     pos = rot = None
     scale = 1.0
+    teleport = None
     for st, payload in rec.subrecords():
         if st == b"NAME" and len(payload) >= 4:
             base = struct.unpack_from("<I", payload)[0]
@@ -476,9 +489,14 @@ def decode_ref(rec: Record) -> ObjectRef | None:
             pos, rot = values[:3], values[3:]
         elif st == b"XSCL" and len(payload) >= 4:
             scale = struct.unpack_from("<f", payload)[0]
+        elif st == b"XTEL" and len(payload) >= 28:
+            target = struct.unpack_from("<I", payload)[0]
+            dest = struct.unpack_from("<6f", payload, 4)
+            teleport = (target, dest[:3], dest[3:])
     if base is None or pos is None:
         return None
-    return ObjectRef(rec.form_id, base, pos, rot or (0.0, 0.0, 0.0), scale)
+    return ObjectRef(rec.form_id, base, pos, rot or (0.0, 0.0, 0.0), scale,
+                     teleport=teleport)
 
 
 def decode_land(rec: Record) -> LandData:

@@ -89,6 +89,27 @@ class InteriorLibrary:
         return record.get("interiorAssetRef") or record.get("tileset")
 
 
+#: The mined exterior->interior door manifest (worldgen.mine_door_links).
+LINKS_PATH = (Path(__file__).resolve().parents[3] / "world" / "sources" / "placement"
+              / "exterior-interior-links.json")
+_LINKS: dict[str, list[dict]] | None = None
+
+
+def linked_shells(path: Path = LINKS_PATH) -> dict[str, list[dict]]:
+    """Shell asset id -> its mined door links (best-evidenced first).
+
+    The mods' own load doors, so this is evidence and not inference: a shell in
+    here HAS an interior, whatever a filename or a ray probe thinks.
+    """
+    global _LINKS
+    if _LINKS is None:
+        try:
+            _LINKS = json.loads(path.read_text()).get("shells", {})
+        except (OSError, json.JSONDecodeError):
+            _LINKS = {}
+    return _LINKS
+
+
 _LIBRARY: InteriorLibrary | None = None
 _LIBRARY_DIR: list[Path] = [KITS_DIR]
 

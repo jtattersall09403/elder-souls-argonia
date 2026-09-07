@@ -1,0 +1,32 @@
+{
+ "id": "bmv-treehouse-int",
+ "description": "The grown tree-house INTERIORS of Black Marsh & Valenwood's Bosmer city kit, packaged as the linked inside for the root/tree shells the same mod places (`housegland001`, `housechamp001`, `housetronc001` and the kiosk galleries around them). Built 2026-09-07 from the door-link manifest, not from a filename guess: `Valenwood.esp`'s own load doors teleport from those shells into cell `01treeint`, and these are exactly the interior modules used inside that cell: the `*int*` wall, chamber and trunk-connector pieces of `Architecture/CiteBosmer/Houses`, along with the Telvanni interior connector and gourd-chamber the same cell uses to join them. Every piece here was authored to combine with the others in this kit; the mod's own placement of these pieces inside one cell is the evidence. Dressing is the handful of loose props that cell repeats: benches, a bar table, hanging lamps and a brazier, and nothing else.",
+ "culture": "bosmer-grown",
+ "output": "tooling/asset-pipeline/output/kits/bmv-treehouse-int.glb",
+ "lodRatios": [0.35, 0.12],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "chambers": "`housechampint001` is the chamber shell and `housechampintwalla15v001`/`v002` are its wall arcs. The cell repeats them 35 and 16 times around the chamber, so they tile a curved wall at a 15-degree pitch rather than on a square grid. `houseglandint001` is the pod interior that goes inside `housegland001`, `housetroncintet001`/`housetroncintet90v001`/`housetroncintrcet90v001` are the trunk sections, straight and turned 90 degrees.",
+  "connectors": "`tel_int_connector_01` is the joint the cell uses most (46 placements): it links one chamber or trunk section to the next. `tel_int_gourdhouse01` is the small hanging chamber off a connector.",
+  "dressing": "Loose props on the chamber floor, not snapped.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/bmv-treehouse-int.kit.json."
+ },
+ "assets": [
+  {"asset": "bmv:architecture/citebosmer/houses/housechampint001"},
+  {"asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v001"},
+  {"asset": "bmv:architecture/citebosmer/houses/housechampintwalla15v002"},
+  {"asset": "bmv:architecture/citebosmer/houses/houseglandint001"},
+  {"asset": "bmv:architecture/citebosmer/houses/housetroncintet001"},
+  {"asset": "bmv:architecture/citebosmer/houses/housetroncintet90v001"},
+  {"asset": "bmv:architecture/citebosmer/houses/housetroncintrcet90v001"},
+  {"asset": "bmv:telvanni/tel_int_connector_01"},
+  {"asset": "bmv:telvanni/tel_int_gourdhouse01"},
+  {"asset": "bmv:telvanni/telv_platform01"},
+  {"asset": "vanilla:furniture/commontabletwobenches"},
+  {"asset": "vanilla:furniture/common/commonbench01"},
+  {"asset": "bmv:clutter/oaristys/the witcher/lamps/lantern02_blue"},
+  {"asset": "bmv:clutter/oaristys/the witcher/lamps/lamp_elven"},
+  {"asset": "bmv:clutter/oaristys/the witcher/furniture/brazier"},
+  {"asset": "vanilla:clutter/barrel01"}
+ ]
+}
