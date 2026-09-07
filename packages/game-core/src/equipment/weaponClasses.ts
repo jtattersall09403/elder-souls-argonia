@@ -10,9 +10,8 @@ export type { MovesetId } from "./movesets";
  *
  * A weapon's feel belongs to its class and its numbers belong to its material,
  * so an arsenal of any size is (classes x materials) rather than a hand-written
- * block per item. Everything here is relative: reach and timing are absolute
- * because they must agree with an authored clip, while damage is a motion value
- * the material scales.
+ * block per item. Timing follows sourced clips; damage is a motion value that the
+ * material scales. Ordinary reach is baked from each mounted mesh and attack.
  */
 
 export type WeaponClassProfile = {
@@ -36,8 +35,8 @@ export type WeaponClassProfile = {
    * slow does not have its heaviness counted twice.
    */
   speedScale: number;
-  /** Added to each attack's authored reach, in metres. */
-  reachBonus: number;
+  /** Added only to the entry-distance limit of a paired critical, in metres. */
+  criticalEntryRangeBonus: number;
   /** Multiplies every attack's motion value. */
   powerScale: number;
   /** Multiplies every attack's stamina cost. */
@@ -120,71 +119,71 @@ export const MAIN_HAND_NODE_HALF_TURN: readonly [number, number, number, number]
 export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> = {
   dagger: {
     id: "dagger", label: "Dagger", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.42, weightKg: 1.2, speedScale: 0.72, reachBonus: -0.5,
+    lengthMeters: 0.42, weightKg: 1.2, speedScale: 0.72, criticalEntryRangeBonus: -0.5,
     powerScale: 0.55, staminaScale: 0.6, stability: 0.3, physicalAbsorption: 0.55,
     sheathSocket: "WeaponDagger",
   },
   shortSword: {
     id: "shortSword", label: "Short Sword", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.72, weightKg: 2.2, speedScale: 0.88, reachBonus: -0.2,
+    lengthMeters: 0.72, weightKg: 2.2, speedScale: 0.88, criticalEntryRangeBonus: -0.2,
     powerScale: 0.82, staminaScale: 0.85, stability: 0.5, physicalAbsorption: 0.82,
     sheathSocket: "WeaponSword",
   },
   straightSword: {
     id: "straightSword", label: "Sword", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.98, weightKg: 3.2, speedScale: 1, reachBonus: 0,
+    lengthMeters: 0.98, weightKg: 3.2, speedScale: 1, criticalEntryRangeBonus: 0,
     powerScale: 1, staminaScale: 1, stability: 0.58, physicalAbsorption: 0.92,
     sheathSocket: "WeaponSword",
   },
   scimitar: {
     id: "scimitar", label: "Scimitar", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.95, weightKg: 3, speedScale: 0.92, reachBonus: -0.05,
+    lengthMeters: 0.95, weightKg: 3, speedScale: 0.92, criticalEntryRangeBonus: -0.05,
     powerScale: 0.95, staminaScale: 0.94, stability: 0.52, physicalAbsorption: 0.88,
     sheathSocket: "WeaponSword",
   },
   greatsword: {
     id: "greatsword", label: "Greatsword", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.34, reachBonus: 0.55,
+    lengthMeters: 1.42, weightKg: 7.5, speedScale: 1.34, criticalEntryRangeBonus: 0.55,
     powerScale: 1.62, staminaScale: 1.4, stability: 0.62, physicalAbsorption: 0.95,
     sheathSocket: "WeaponBack",
   },
   axe: {
     id: "axe", label: "War Axe", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.78, weightKg: 4, speedScale: 1.06, reachBonus: -0.15,
+    lengthMeters: 0.78, weightKg: 4, speedScale: 1.06, criticalEntryRangeBonus: -0.15,
     powerScale: 1.12, staminaScale: 1.08, stability: 0.44, physicalAbsorption: 0.8,
     criticalStyle: "swing",
     sheathSocket: "WeaponAxe",
   },
   greataxe: {
     id: "greataxe", label: "Battleaxe", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.35, weightKg: 9, speedScale: 1.42, reachBonus: 0.45,
+    lengthMeters: 1.35, weightKg: 9, speedScale: 1.42, criticalEntryRangeBonus: 0.45,
     powerScale: 1.78, staminaScale: 1.5, stability: 0.55, physicalAbsorption: 0.92,
     criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
   mace: {
     id: "mace", label: "Mace", moveset: "oneHanded", twoHanded: false,
-    lengthMeters: 0.8, weightKg: 5, speedScale: 1.12, reachBonus: -0.2,
+    lengthMeters: 0.8, weightKg: 5, speedScale: 1.12, criticalEntryRangeBonus: -0.2,
     powerScale: 1.2, staminaScale: 1.15, stability: 0.48, physicalAbsorption: 0.86,
     criticalStyle: "swing",
     sheathSocket: "WeaponMace",
   },
   warhammer: {
     id: "warhammer", label: "Warhammer", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 1.3, weightKg: 11, speedScale: 1.55, reachBonus: 0.35,
+    lengthMeters: 1.3, weightKg: 11, speedScale: 1.55, criticalEntryRangeBonus: 0.35,
     powerScale: 2.05, staminaScale: 1.62, stability: 0.5, physicalAbsorption: 0.9,
     criticalStyle: "swing",
     sheathSocket: "WeaponBack",
   },
   spear: {
     id: "spear", label: "Spear", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, reachBonus: 1.1,
+    lengthMeters: 2.1, weightKg: 5, speedScale: 1.15, criticalEntryRangeBonus: 1.1,
     powerScale: 1.15, staminaScale: 1.05, stability: 0.4, physicalAbsorption: 0.78,
     sheathSocket: "WeaponBack",
   },
   halberd: {
     id: "halberd", label: "Halberd", moveset: "greataxe", twoHanded: true,
-    lengthMeters: 2.2, weightKg: 8, speedScale: 1.4, reachBonus: 1.2,
+    lengthMeters: 2.2, weightKg: 8, speedScale: 1.4, criticalEntryRangeBonus: 1.2,
     powerScale: 1.6, staminaScale: 1.45, stability: 0.45, physicalAbsorption: 0.85,
     criticalStyle: "swing",
     sheathSocket: "WeaponBack",
@@ -193,7 +192,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   // in hand is still a describable object. What a bow *does* is in `ranged`.
   shortbow: {
     id: "shortbow", label: "Hunting Bow", moveset: "bow", twoHanded: true,
-    lengthMeters: 1.25, weightKg: 1.4, speedScale: 1.2, reachBonus: 0,
+    lengthMeters: 1.25, weightKg: 1.4, speedScale: 1.2, criticalEntryRangeBonus: 0,
     powerScale: 0.35, staminaScale: 0.8, stability: 0.18, physicalAbsorption: 0.25,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
@@ -208,7 +207,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   },
   longbow: {
     id: "longbow", label: "Longbow", moveset: "bow", twoHanded: true,
-    lengthMeters: 1.75, weightKg: 1.9, speedScale: 1.2, reachBonus: 0,
+    lengthMeters: 1.75, weightKg: 1.9, speedScale: 1.2, criticalEntryRangeBonus: 0,
     powerScale: 0.4, staminaScale: 0.85, stability: 0.2, physicalAbsorption: 0.3,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
@@ -223,7 +222,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   },
   warbow: {
     id: "warbow", label: "War Bow", moveset: "bow", twoHanded: true,
-    lengthMeters: 1.9, weightKg: 2.3, speedScale: 1.25, reachBonus: 0,
+    lengthMeters: 1.9, weightKg: 2.3, speedScale: 1.25, criticalEntryRangeBonus: 0,
     powerScale: 0.45, staminaScale: 0.95, stability: 0.22, physicalAbsorption: 0.32,
     sheathSocket: "WeaponBow",
     heldSocket: "Shield",
@@ -239,7 +238,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
   },
   staff: {
     id: "staff", label: "Staff", moveset: "greatsword", twoHanded: true,
-    lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, reachBonus: 0.4,
+    lengthMeters: 1.6, weightKg: 4, speedScale: 1.25, criticalEntryRangeBonus: 0.4,
     powerScale: 0.7, staminaScale: 0.9, stability: 0.35, physicalAbsorption: 0.5,
     criticalStyle: "swing",
     sheathSocket: "WeaponBack",
@@ -286,7 +285,9 @@ export function scaleAttack(
     timeScale: (spec.timeScale ?? 1) * speed,
     motionValue: spec.motionValue * profile.powerScale,
     stamina: Math.round(spec.stamina * profile.staminaScale),
-    range: Math.max(0.6, spec.range + profile.reachBonus),
+    range: spec.id === "riposte" || spec.id === "backstab"
+      ? Math.max(0.6, spec.range + profile.criticalEntryRangeBonus)
+      : spec.range,
   };
 }
 
@@ -330,7 +331,7 @@ export function resolveWeaponAnimations(
 /**
  * Poise damage this class's attacks deal (module 76 §121.3).
  *
- * Class-level, never per item — DS1's shape and the same construction as reach
+ * Class-level, never per item — DS1's shape and the same construction as power
  * and power. Kept beside the class table so a new class cannot be added
  * without answering "how hard does this interrupt?".
  */

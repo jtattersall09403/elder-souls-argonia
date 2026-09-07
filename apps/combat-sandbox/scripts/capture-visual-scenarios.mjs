@@ -1,3 +1,4 @@
+import { evaluateMeasuredReach } from "./lib/measured-reach.mjs";
 import { spawn, spawnSync } from "node:child_process";
 import { link, mkdir, mkdtemp, readFile, rm, stat, writeFile } from "node:fs/promises";
 import { createRequire } from "node:module";
@@ -754,6 +755,12 @@ try {
 
     await writeFile(join(scenarioDir, "telemetry.json"), `${JSON.stringify(telemetry, null, 2)}\n`);
     const expected = expectations[scenario];
+    if (expected.measuredReach) {
+      const measured = JSON.parse(await readFile(new URL("../../../packages/game-core/src/equipment/generated/weapon-reach.json", import.meta.url), "utf8"));
+      const { weaponId, attackId } = expected.measuredReach;
+      const comparison = evaluateMeasuredReach(telemetry, measured.weapons[weaponId].attacks[attackId]);
+      await writeFile(join(scenarioDir, "reach-comparison.json"), JSON.stringify(comparison, null, 2) + "\n");
+    }
     const semantic = semanticFailures(scenario, telemetry, expected);
     semantic.push(...browserFailures.map((failure) => `${scenario}: ${failure}`));
     automatedFailures.push(...semantic);

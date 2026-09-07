@@ -8,7 +8,7 @@ import {
   textFingerprint,
   type TextEntry,
 } from "./catalogue.js";
-import { CATALOGUE, SYSTEM_TEXT, COMBAT_SANDBOX_TEXT } from "./entries.js";
+import { CATALOGUE, SYSTEM_TEXT, COMBAT_SANDBOX_TEXT, EQUIPMENT_TEXT } from "./entries.js";
 
 const entry = (over: Partial<TextEntry> = {}): TextEntry => ({
   id: "text.system.example",
@@ -66,7 +66,7 @@ describe("the catalogue enforces engineering standard 4", () => {
 
 describe("the shipped entries", () => {
   it("build", () => {
-    expect(CATALOGUE.size).toBe(SYSTEM_TEXT.length + COMBAT_SANDBOX_TEXT.length);
+    expect(CATALOGUE.size).toBe(SYSTEM_TEXT.length + COMBAT_SANDBOX_TEXT.length + EQUIPMENT_TEXT.length);
   });
 
 

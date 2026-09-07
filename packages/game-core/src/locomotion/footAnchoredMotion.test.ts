@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { footAnchoredVelocity, groundTrackTotal, hasGroundTrack } from "./footAnchoredMotion";
+import { footAnchoredVelocity, localMotionToWorld, groundTrackTotal, hasGroundTrack } from "./footAnchoredMotion";
 
 /**
  * The rule these hold the measurement to is the owner's own statement of it:
@@ -71,4 +71,9 @@ describe("motion taken from the feet", () => {
       expect(hasGroundTrack(state), state).toBe(true);
     }
   });
+});
+
+it("maps forward travel to the exported rig's +Z before applying actor yaw", () => {
+  expect(localMotionToWorld({ forward: 1, lateral: .2 }, { x: 0, z: 1 })).toEqual({ x: .2, z: 1 });
+  expect(localMotionToWorld({ forward: 1, lateral: .2 }, { x: 0, z: -1 })).toEqual({ x: -.2, z: -1 });
 });

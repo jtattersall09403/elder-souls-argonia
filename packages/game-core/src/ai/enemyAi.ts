@@ -12,17 +12,6 @@ import { weaponTactics, type WeaponTactics } from "./weaponTactics";
  */
 const SWORD_TACTICS = weaponTactics(STRAIGHT_SWORD);
 
-/**
- * How close the *player* has to be for their swing to be a threat worth
- * answering, metres.
- *
- * The enemy's own reach decides where it wants to stand; the player's decides
- * what it has to defend against, and the two are not the same weapon. Taken
- * from the reference sword's reach with a margin, because a defender reacting
- * to a swing is reacting to the swing they can see rather than measuring it.
- */
-const PLAYER_THREAT_RANGE = STRAIGHT_SWORD.attacks.light1.range + 0.5;
-
 export type EnemyIntent =
   | "approach" | "strafe" | "lightCombo" | "heavy" | "guard" | "parry"
   | "dodge" | "backstep" | "heal"
@@ -39,6 +28,8 @@ export type EnemyAiContext = {
   playerAction: CombatAction;
   playerPhase: CombatPhase;
   playerRecovering: boolean;
+  /** Measured reach of the incoming equipped attack, before reaction allowance. */
+  playerAttackReach?: number;
   /** Stable per-enemy trait in [0, 1); see Fighter.personality. */
   personality: number;
   /** Intent the enemy is already carrying out, if any. */
@@ -81,7 +72,10 @@ export function scoreEnemyIntents(context: EnemyAiContext): EnemyIntentScore[] {
   const crowded = context.distance < tactics.crowdedRange;
   // Reacting to a swing is about *the player's* reach, not the enemy's — an
   // archer at nine metres has nothing to dodge.
-  const threatened = incoming && context.distance < PLAYER_THREAT_RANGE;
+  const referenceAttack = STRAIGHT_SWORD.attacks[context.playerAction as keyof typeof STRAIGHT_SWORD.attacks]
+    ?? STRAIGHT_SWORD.attacks.light1;
+  const threatReach = context.playerAttackReach ?? referenceAttack.range;
+  const threatened = incoming && context.distance < threatReach + 0.5;
   const safeToHeal = context.distance > tactics.disengageRange || context.playerRecovering;
 
   if (tactics.ranged) return scoreRangedIntents(context, tactics, threatened, hurt, safeToHeal);

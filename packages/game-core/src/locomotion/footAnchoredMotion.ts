@@ -190,3 +190,12 @@ export function hasGroundTrack(state: AnimationState) {
   const track = clipConfig(state).groundTrack;
   return Array.isArray(track) && track.length > 1;
 }
+
+/** Convert semantic forward/lateral motion into the actor's world heading.
+ * At zero yaw the exported rig faces +Z. The Blender -Y conversion has already
+ * happened in groundTrackAt and must not be applied a second time.
+ */
+export function localMotionToWorld(motion: LocalDisplacement, heading: { x: number; z: number }) {
+  return { x: heading.x * motion.forward + heading.z * motion.lateral,
+    z: heading.z * motion.forward - heading.x * motion.lateral };
+}

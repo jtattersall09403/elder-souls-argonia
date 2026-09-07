@@ -1,0 +1,2930 @@
+{
+  "schemaVersion": 1,
+  "method": "active-capsule-horizontal-extent-v1",
+  "sampleHz": 240,
+  "reference": {
+    "race": "dunmer",
+    "characterScale": 0.15356,
+    "origin": "starting actor axis",
+    "targetRadius": 0,
+    "criticals": "stationary weapon extent; entry limits remain paired choreography"
+  },
+  "provenance": {
+    "inputsSha256": "4792d4af06ecef02fa099d0efb0dcf0d8a58647bb95abf0636beb186761267dd",
+    "animationManifestSha256": "5c461ac860ffbf1289a2b9f45fbfb648fac2aad44de6848a44007da0331aaccb",
+    "assets": {
+      "races/dunmer.glb": "86d58c15d894ca002ff70d907973b39f33f019da969d50e71743daf7fb681e5f",
+      "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
+      "rig-skyrim-humanoid.oneHanded.glb": "f5f853e77c26e7ba678aa58c03ed13b2efc8f72f5a195740d858261483471fc0",
+      "rig-skyrim-humanoid.criticals.glb": "2689069326f89721a09815fdc18153368d4d55db46da9ef37a2439742dc0599c",
+      "weapons/steel-dagger.glb": "864a46456b2ed896f171f5eb88b994251972b41df857b37f1256b231c14da5e9",
+      "weapons/elven-dagger.glb": "79b7483ae0a1fa577e4aeb4982b7349893b6cca75d838a47e4b9437d59ecf3ff",
+      "weapons/ebony-dagger.glb": "0096f5fe334e2bb9dc7fe369e2ea7b069ab169d6abf17523881b1af7995ed7c2",
+      "weapons/iron-sword.glb": "a560e3b9cae65ec40c411b227ab3cd8bdae189fc51b6daa99da4477108f9bb1e",
+      "weapons/steel-sword.glb": "4fea64f0655259430ddbec0de4d22914f68ccf3bafa431859ec8aa0e00ad26f1",
+      "weapons/imperial-sword.glb": "fabd633501c6b519afdb5dac60f90f8572a7f77835c1b344531b594efff69501",
+      "weapons/silver-sword.glb": "a945d397e95011bbc376f919a2b417b164afd554854285cf68d764519d34f0a5",
+      "weapons/elven-sword.glb": "1d84ababdc871c6cb152e426f6da6ffebc1d615eadc639ef48eea3eba8cb778c",
+      "weapons/dwarven-sword.glb": "dbe4051e1dba2ec30d95423b71283daf395cca677559e4369403afb446a0f54b",
+      "weapons/orcish-sword.glb": "be122435de2d94257234b351eea10df6077b9c5b74a4d59a54028b42df1400c2",
+      "weapons/nordhero-sword.glb": "034f85af3faa272c82174b3cb157e61439bec3c06188a10d9a6d28dcfcf5411f",
+      "weapons/glass-sword.glb": "d9f5f34a6cc98b77116519b8ceb536095f46c09c381608f3f10252aaea59782e",
+      "weapons/ebony-sword.glb": "ee1c3621d591a90eab90cc76e9d7d8ac7f1a175d323f557dceed76716dcdf990",
+      "weapons/daedric-sword.glb": "c6e2ef4228f3c50542900489ffd863dec6944e73ddcaad72ca20c1a967479f6c",
+      "weapons/blades-sword.glb": "182f9b89882224e07cd036d2c89e55589b4cd4497fd4d12393f6ae16dd275800",
+      "weapons/steel-scimitar.glb": "b3525df2cd90fa9fcf3cecfde9d921be7fe7ffe24659ddc5150b3cc5ad73d542",
+      "weapons/iron-greatsword.glb": "d3513d5e2749366567a5aca2d29c2e6b86bfa55054fa01da10e76b5fe24ec52a",
+      "rig-skyrim-humanoid.greatsword.glb": "4e1aa18f9e87c570f7d2d01220df8f0b51e77b6401c7e4beaabbac0847b9fe84",
+      "weapons/steel-greatsword.glb": "bc6391031398694e7d1e4716a78c2180f4accc2f2d0bf100e70294b4785df94a",
+      "weapons/elven-greatsword.glb": "68934df7cb90e4da98506fab10740f09ef144ec52aeed7234debde717407e217",
+      "weapons/ebony-greatsword.glb": "a5a5f38955fdc325ad3f029bea10b14ab9a91ce9be0dc3b8b39eb6a6bbed508d",
+      "weapons/daedric-greatsword.glb": "024752b3114a5e67736d4fa4e477e9c5caa82710f450587184a2e74a123965df",
+      "weapons/iron-waraxe.glb": "353ef53397c0c90cb3257c3af59338b6585f95fda63e6a4508e110cb3c6762e6",
+      "weapons/steel-waraxe.glb": "7632c4f22f029d18a2948a52cf6d3999fb6d6eb78893a63d9b5fa6efe4daef7d",
+      "weapons/orcish-waraxe.glb": "25c17d6d0cf8019fa4a32dda5a5db277d553dbd937f2e5d7fce2c54467195a9b",
+      "weapons/nordhero-waraxe.glb": "172734d86315e940f8f5567912c7428500b3ad0fe525a80167ca4fbd4107b42c",
+      "weapons/iron-battleaxe.glb": "ebcd9a5707dce93171d26d1b880438e9b9db1e80867933c69f7eb451c0a357b4",
+      "rig-skyrim-humanoid.greataxe.glb": "2de4d65509366a02a2b43dce02e82b07bc66aed7ba6d51a6583ebb0d220080c3",
+      "weapons/steel-battleaxe.glb": "37d875ff08383756aa0606158146e92c042859f23621ebd7758f91bfa3392af5",
+      "weapons/dwarven-battleaxe.glb": "79ccea2c0c768c3d8de3c7510fdc6c97e1e9d2079a31d92754c20657b2dca960",
+      "weapons/iron-mace.glb": "4a68b3cb52a08542176200a5ef8f0b826b7a355054d6382b51eb39ec4684e916",
+      "weapons/steel-mace.glb": "b13224f20b17f3f89174d19d87d6723e840be421fa51ee2249e999c313da9350",
+      "weapons/dwarven-mace.glb": "80d419392458bd746f8707cae751a0bb7cb52af0d35825ae9a63aa7c97246455",
+      "weapons/iron-warhammer.glb": "7969c56653fe876dd34119d37df395e78bfeda4a0f1cf6b9035220f792b025c7",
+      "weapons/steel-warhammer.glb": "af3e8d02fc7c14eabbc43f87709d0355e0c6b48379b622c558bbad9db7959ba3",
+      "weapons/orcish-warhammer.glb": "1def4f1f5f9393af13c33ab906bf6de73e8f806f32d6035a0bc823b12212b18f"
+    }
+  },
+  "weapons": {
+    "iron-dagger": {
+      "lengthMeters": 0.42,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 0.988814,
+          "stationaryRange": 1.02736,
+          "atSeconds": 0.43241,
+          "sourceTime": 0.60057
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.813907,
+          "stationaryRange": 0.848703,
+          "atSeconds": 0.343564,
+          "sourceTime": 0.477172
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.489146,
+          "stationaryRange": 1.354927,
+          "atSeconds": 0.50756,
+          "sourceTime": 0.704944
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.348551,
+          "stationaryRange": 1.154622,
+          "atSeconds": 0.51802,
+          "sourceTime": 0.719472
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.088252,
+          "stationaryRange": 1.097083,
+          "atSeconds": 0.555586,
+          "sourceTime": 0.771647
+        },
+        "riposte": {
+          "animation": "RIPOSTE_STAB",
+          "activeSourceWindow": [
+            2.535833,
+            2.924722
+          ],
+          "range": 0.940371,
+          "stationaryRange": 0.940371,
+          "atSeconds": 0.542882,
+          "sourceTime": 2.919003
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.671941,
+          "stationaryRange": 0.671941,
+          "atSeconds": 1.128024,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "steel-dagger": {
+      "lengthMeters": 0.42,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 0.989732,
+          "stationaryRange": 1.025805,
+          "atSeconds": 0.43241,
+          "sourceTime": 0.60057
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.805289,
+          "stationaryRange": 0.843333,
+          "atSeconds": 0.343564,
+          "sourceTime": 0.477172
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.48567,
+          "stationaryRange": 1.35106,
+          "atSeconds": 0.511692,
+          "sourceTime": 0.710684
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.34885,
+          "stationaryRange": 1.155564,
+          "atSeconds": 0.51802,
+          "sourceTime": 0.719472
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.079863,
+          "stationaryRange": 1.09591,
+          "atSeconds": 0.555586,
+          "sourceTime": 0.771647
+        },
+        "riposte": {
+          "animation": "RIPOSTE_STAB",
+          "activeSourceWindow": [
+            2.535833,
+            2.924722
+          ],
+          "range": 0.944323,
+          "stationaryRange": 0.944323,
+          "atSeconds": 0.542882,
+          "sourceTime": 2.919003
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.662287,
+          "stationaryRange": 0.662287,
+          "atSeconds": 1.128024,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "elven-dagger": {
+      "lengthMeters": 0.42,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 0.978722,
+          "stationaryRange": 1.016789,
+          "atSeconds": 0.43241,
+          "sourceTime": 0.60057
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.815202,
+          "stationaryRange": 0.837392,
+          "atSeconds": 0.339482,
+          "sourceTime": 0.471503
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.478149,
+          "stationaryRange": 1.34393,
+          "atSeconds": 0.50756,
+          "sourceTime": 0.704944
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.338348,
+          "stationaryRange": 1.144537,
+          "atSeconds": 0.51802,
+          "sourceTime": 0.719472
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.076366,
+          "stationaryRange": 1.086591,
+          "atSeconds": 0.555586,
+          "sourceTime": 0.771647
+        },
+        "riposte": {
+          "animation": "RIPOSTE_STAB",
+          "activeSourceWindow": [
+            2.535833,
+            2.924722
+          ],
+          "range": 0.930871,
+          "stationaryRange": 0.930871,
+          "atSeconds": 0.542882,
+          "sourceTime": 2.919003
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.659833,
+          "stationaryRange": 0.659833,
+          "atSeconds": 1.128024,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "ebony-dagger": {
+      "lengthMeters": 0.42,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 0.984768,
+          "stationaryRange": 1.021733,
+          "atSeconds": 0.43241,
+          "sourceTime": 0.60057
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.809617,
+          "stationaryRange": 0.840635,
+          "atSeconds": 0.339482,
+          "sourceTime": 0.471503
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.482074,
+          "stationaryRange": 1.347854,
+          "atSeconds": 0.50756,
+          "sourceTime": 0.704944
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.344122,
+          "stationaryRange": 1.150594,
+          "atSeconds": 0.51802,
+          "sourceTime": 0.719472
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.078269,
+          "stationaryRange": 1.091708,
+          "atSeconds": 0.555586,
+          "sourceTime": 0.771647
+        },
+        "riposte": {
+          "animation": "RIPOSTE_STAB",
+          "activeSourceWindow": [
+            2.535833,
+            2.924722
+          ],
+          "range": 0.938269,
+          "stationaryRange": 0.938269,
+          "atSeconds": 0.542882,
+          "sourceTime": 2.919003
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.661184,
+          "stationaryRange": 0.661184,
+          "atSeconds": 1.128024,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "iron-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.466416,
+          "stationaryRange": 1.40159,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.118542,
+          "stationaryRange": 1.149913,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.835577,
+          "stationaryRange": 1.677177,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.913315,
+          "stationaryRange": 1.578587,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.59526,
+          "stationaryRange": 1.461906,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.256205,
+          "stationaryRange": 1.256205,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.767164,
+          "stationaryRange": 0.767164,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "steel-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.479716,
+          "stationaryRange": 1.415102,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.13249,
+          "stationaryRange": 1.163867,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.849341,
+          "stationaryRange": 1.690942,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.926496,
+          "stationaryRange": 1.591885,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.608687,
+          "stationaryRange": 1.475623,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.27001,
+          "stationaryRange": 1.27001,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.782958,
+          "stationaryRange": 0.782958,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "imperial-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.457924,
+          "stationaryRange": 1.393176,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.110289,
+          "stationaryRange": 1.141662,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.827257,
+          "stationaryRange": 1.668857,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.904779,
+          "stationaryRange": 1.570095,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.586815,
+          "stationaryRange": 1.453568,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.2479,
+          "stationaryRange": 1.2479,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.759593,
+          "stationaryRange": 0.759593,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "silver-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.4413,
+          "stationaryRange": 1.38048,
+          "atSeconds": 0.611867,
+          "sourceTime": 0.611867
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.106107,
+          "stationaryRange": 1.137576,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.822244,
+          "stationaryRange": 1.662075,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.885461,
+          "stationaryRange": 1.55318,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.572395,
+          "stationaryRange": 1.444608,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.240899,
+          "stationaryRange": 1.240899,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.789286,
+          "stationaryRange": 0.789286,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "elven-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.462132,
+          "stationaryRange": 1.399612,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.121295,
+          "stationaryRange": 1.152726,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.837698,
+          "stationaryRange": 1.677752,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.907702,
+          "stationaryRange": 1.57428,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.592346,
+          "stationaryRange": 1.462077,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.257398,
+          "stationaryRange": 1.257398,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.789317,
+          "stationaryRange": 0.789317,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "dwarven-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.464217,
+          "stationaryRange": 1.398157,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.112547,
+          "stationaryRange": 1.143879,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.830583,
+          "stationaryRange": 1.672173,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.911803,
+          "stationaryRange": 1.576398,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.592786,
+          "stationaryRange": 1.457236,
+          "atSeconds": 0.652419,
+          "sourceTime": 0.652419
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.25105,
+          "stationaryRange": 1.25105,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.750099,
+          "stationaryRange": 0.750099,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "orcish-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.47586,
+          "stationaryRange": 1.412918,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.133739,
+          "stationaryRange": 1.16516,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.850151,
+          "stationaryRange": 1.690625,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.921678,
+          "stationaryRange": 1.588013,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.605826,
+          "stationaryRange": 1.475004,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.270127,
+          "stationaryRange": 1.270127,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.798324,
+          "stationaryRange": 0.798324,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "nordhero-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.446858,
+          "stationaryRange": 1.386903,
+          "atSeconds": 0.611867,
+          "sourceTime": 0.611867
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.114526,
+          "stationaryRange": 1.146009,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.830394,
+          "stationaryRange": 1.670228,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.890283,
+          "stationaryRange": 1.558598,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.578389,
+          "stationaryRange": 1.451829,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.248649,
+          "stationaryRange": 1.248649,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.805038,
+          "stationaryRange": 0.805038,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "glass-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.432352,
+          "stationaryRange": 1.372418,
+          "atSeconds": 0.611867,
+          "sourceTime": 0.611867
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.100089,
+          "stationaryRange": 1.131573,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.81595,
+          "stationaryRange": 1.655784,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.875758,
+          "stationaryRange": 1.544088,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.563893,
+          "stationaryRange": 1.437363,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.234196,
+          "stationaryRange": 1.234196,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.79078,
+          "stationaryRange": 0.79078,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "ebony-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.458099,
+          "stationaryRange": 1.391966,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.106203,
+          "stationaryRange": 1.137533,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.824294,
+          "stationaryRange": 1.665884,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.905725,
+          "stationaryRange": 1.570281,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.586656,
+          "stationaryRange": 1.450969,
+          "atSeconds": 0.652419,
+          "sourceTime": 0.652419
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.244755,
+          "stationaryRange": 1.244755,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.743082,
+          "stationaryRange": 0.743082,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "daedric-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.419799,
+          "stationaryRange": 1.358028,
+          "atSeconds": 0.611867,
+          "sourceTime": 0.611867
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.081448,
+          "stationaryRange": 1.112897,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.797778,
+          "stationaryRange": 1.637606,
+          "atSeconds": 0.716702,
+          "sourceTime": 0.716702
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.864757,
+          "stationaryRange": 1.531832,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.550405,
+          "stationaryRange": 1.421239,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.216975,
+          "stationaryRange": 1.216975,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.756256,
+          "stationaryRange": 0.756256,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "blades-sword": {
+      "lengthMeters": 0.98,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.428509,
+          "stationaryRange": 1.364395,
+          "atSeconds": 0.615983,
+          "sourceTime": 0.615983
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.082815,
+          "stationaryRange": 1.114206,
+          "atSeconds": 0.597735,
+          "sourceTime": 0.597735
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.799216,
+          "stationaryRange": 1.640821,
+          "atSeconds": 0.720868,
+          "sourceTime": 0.720868
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.875004,
+          "stationaryRange": 1.540674,
+          "atSeconds": 0.732607,
+          "sourceTime": 0.732607
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.55778,
+          "stationaryRange": 1.425396,
+          "atSeconds": 0.648256,
+          "sourceTime": 0.648256
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.219996,
+          "stationaryRange": 1.219996,
+          "atSeconds": 0.4,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.7376,
+          "stationaryRange": 0.7376,
+          "atSeconds": 1.5667,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "steel-scimitar": {
+      "lengthMeters": 0.95,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.491552,
+          "stationaryRange": 1.427132,
+          "atSeconds": 0.56636,
+          "sourceTime": 0.615609
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.130944,
+          "stationaryRange": 1.184992,
+          "atSeconds": 0.549666,
+          "sourceTime": 0.597463
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.910872,
+          "stationaryRange": 1.711117,
+          "atSeconds": 0.659799,
+          "sourceTime": 0.717173
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.855401,
+          "stationaryRange": 1.598426,
+          "atSeconds": 0.671654,
+          "sourceTime": 0.730058
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.508064,
+          "stationaryRange": 1.490784,
+          "atSeconds": 0.600892,
+          "sourceTime": 0.653143
+        },
+        "riposte": {
+          "animation": "RIPOSTE",
+          "activeSourceWindow": [
+            0.5667,
+            0.8467
+          ],
+          "range": 1.289202,
+          "stationaryRange": 1.289202,
+          "atSeconds": 0.368,
+          "sourceTime": 0.5667
+        },
+        "backstab": {
+          "animation": "BACKSTAB",
+          "activeSourceWindow": [
+            1.5667,
+            1.8467
+          ],
+          "range": 0.847516,
+          "stationaryRange": 0.847516,
+          "atSeconds": 1.441364,
+          "sourceTime": 1.5667
+        }
+      }
+    },
+    "iron-greatsword": {
+      "lengthMeters": 1.42,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.911829,
+          "stationaryRange": 1.699736,
+          "atSeconds": 1.015342,
+          "sourceTime": 1.015342
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.431266,
+          "stationaryRange": 1.283687,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.393097,
+          "stationaryRange": 1.605814,
+          "atSeconds": 1.090549,
+          "sourceTime": 1.090549
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.781313,
+          "stationaryRange": 1.866712,
+          "atSeconds": 1.017758,
+          "sourceTime": 1.017758
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.953425,
+          "stationaryRange": 1.654199,
+          "atSeconds": 1.148799,
+          "sourceTime": 1.148799
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.596986,
+          "stationaryRange": 1.596986,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.596986,
+          "stationaryRange": 1.596986,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        }
+      }
+    },
+    "steel-greatsword": {
+      "lengthMeters": 1.42,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.90297,
+          "stationaryRange": 1.690857,
+          "atSeconds": 1.015342,
+          "sourceTime": 1.015342
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.421784,
+          "stationaryRange": 1.27398,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.384018,
+          "stationaryRange": 1.596508,
+          "atSeconds": 1.090549,
+          "sourceTime": 1.090549
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.771055,
+          "stationaryRange": 1.856472,
+          "atSeconds": 1.017758,
+          "sourceTime": 1.017758
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.943586,
+          "stationaryRange": 1.644723,
+          "atSeconds": 1.148799,
+          "sourceTime": 1.148799
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.587291,
+          "stationaryRange": 1.587291,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.587291,
+          "stationaryRange": 1.587291,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        }
+      }
+    },
+    "elven-greatsword": {
+      "lengthMeters": 1.42,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.873421,
+          "stationaryRange": 1.661343,
+          "atSeconds": 1.015342,
+          "sourceTime": 1.015342
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.393308,
+          "stationaryRange": 1.245892,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.354846,
+          "stationaryRange": 1.567728,
+          "atSeconds": 1.090549,
+          "sourceTime": 1.090549
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.743905,
+          "stationaryRange": 1.829291,
+          "atSeconds": 1.017758,
+          "sourceTime": 1.017758
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.91572,
+          "stationaryRange": 1.616237,
+          "atSeconds": 1.148799,
+          "sourceTime": 1.148799
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.559178,
+          "stationaryRange": 1.559178,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.559178,
+          "stationaryRange": 1.559178,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        }
+      }
+    },
+    "ebony-greatsword": {
+      "lengthMeters": 1.42,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.824714,
+          "stationaryRange": 1.612613,
+          "atSeconds": 1.015342,
+          "sourceTime": 1.015342
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.343884,
+          "stationaryRange": 1.196208,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.305888,
+          "stationaryRange": 1.518507,
+          "atSeconds": 1.090549,
+          "sourceTime": 1.090549
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.693599,
+          "stationaryRange": 1.779006,
+          "atSeconds": 1.017758,
+          "sourceTime": 1.017758
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.86589,
+          "stationaryRange": 1.566819,
+          "atSeconds": 1.148799,
+          "sourceTime": 1.148799
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.509513,
+          "stationaryRange": 1.509513,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.509513,
+          "stationaryRange": 1.509513,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        }
+      }
+    },
+    "daedric-greatsword": {
+      "lengthMeters": 1.42,
+      "attacks": {
+        "light1": {
+          "animation": "GREATSWORD_LIGHT_1",
+          "activeSourceWindow": [
+            0.74,
+            1.04
+          ],
+          "range": 1.882087,
+          "stationaryRange": 1.669956,
+          "atSeconds": 1.015342,
+          "sourceTime": 1.015342
+        },
+        "light2": {
+          "animation": "GREATSWORD_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.40036,
+          "stationaryRange": 1.252363,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATSWORD_LIGHT_3",
+          "activeSourceWindow": [
+            0.900654,
+            1.276315
+          ],
+          "range": 2.362942,
+          "stationaryRange": 1.575237,
+          "atSeconds": 1.090549,
+          "sourceTime": 1.090549
+        },
+        "heavy": {
+          "animation": "GREATSWORD_HEAVY",
+          "activeSourceWindow": [
+            0.823346,
+            1.09635
+          ],
+          "range": 1.748945,
+          "stationaryRange": 1.834378,
+          "atSeconds": 1.017758,
+          "sourceTime": 1.017758
+        },
+        "heavy2": {
+          "animation": "GREATSWORD_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.921845,
+          "stationaryRange": 1.623304,
+          "atSeconds": 1.148799,
+          "sourceTime": 1.148799
+        },
+        "riposte": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.565676,
+          "stationaryRange": 1.565676,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        },
+        "backstab": {
+          "animation": "GREATSWORD_RIPOSTE",
+          "activeSourceWindow": [
+            2.975,
+            3.255
+          ],
+          "range": 1.565676,
+          "stationaryRange": 1.565676,
+          "atSeconds": 0.675882,
+          "sourceTime": 3.250882
+        }
+      }
+    },
+    "iron-waraxe": {
+      "lengthMeters": 0.78,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.270278,
+          "stationaryRange": 1.237926,
+          "atSeconds": 0.63902,
+          "sourceTime": 0.602849
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.009725,
+          "stationaryRange": 1.035851,
+          "atSeconds": 0.633854,
+          "sourceTime": 0.597975
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.692748,
+          "stationaryRange": 1.54578,
+          "atSeconds": 0.751942,
+          "sourceTime": 0.709379
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.777481,
+          "stationaryRange": 1.386932,
+          "atSeconds": 0.770658,
+          "sourceTime": 0.727036
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.459924,
+          "stationaryRange": 1.312632,
+          "atSeconds": 0.640985,
+          "sourceTime": 0.604703
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.237926,
+          "stationaryRange": 1.237926,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.237926,
+          "stationaryRange": 1.237926,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        }
+      }
+    },
+    "steel-waraxe": {
+      "lengthMeters": 0.78,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.280119,
+          "stationaryRange": 1.246514,
+          "atSeconds": 0.63902,
+          "sourceTime": 0.602849
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.015452,
+          "stationaryRange": 1.041977,
+          "atSeconds": 0.633854,
+          "sourceTime": 0.597975
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.699275,
+          "stationaryRange": 1.553216,
+          "atSeconds": 0.756091,
+          "sourceTime": 0.713293
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.788181,
+          "stationaryRange": 1.397239,
+          "atSeconds": 0.770658,
+          "sourceTime": 0.727036
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.463568,
+          "stationaryRange": 1.321062,
+          "atSeconds": 0.645143,
+          "sourceTime": 0.608626
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.246514,
+          "stationaryRange": 1.246514,
+          "atSeconds": 0.501876,
+          "sourceTime": 0.473468
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.246514,
+          "stationaryRange": 1.246514,
+          "atSeconds": 0.501876,
+          "sourceTime": 0.473468
+        }
+      }
+    },
+    "orcish-waraxe": {
+      "lengthMeters": 0.78,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.267528,
+          "stationaryRange": 1.235059,
+          "atSeconds": 0.63902,
+          "sourceTime": 0.602849
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.006593,
+          "stationaryRange": 1.032756,
+          "atSeconds": 0.633854,
+          "sourceTime": 0.597975
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.68969,
+          "stationaryRange": 1.542738,
+          "atSeconds": 0.751942,
+          "sourceTime": 0.709379
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.774813,
+          "stationaryRange": 1.384226,
+          "atSeconds": 0.770658,
+          "sourceTime": 0.727036
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.45659,
+          "stationaryRange": 1.309752,
+          "atSeconds": 0.640985,
+          "sourceTime": 0.604703
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.235059,
+          "stationaryRange": 1.235059,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.235059,
+          "stationaryRange": 1.235059,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        }
+      }
+    },
+    "nordhero-waraxe": {
+      "lengthMeters": 0.78,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.267759,
+          "stationaryRange": 1.235949,
+          "atSeconds": 0.63902,
+          "sourceTime": 0.602849
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 1.00898,
+          "stationaryRange": 1.034932,
+          "atSeconds": 0.633854,
+          "sourceTime": 0.597975
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.691641,
+          "stationaryRange": 1.544672,
+          "atSeconds": 0.751942,
+          "sourceTime": 0.709379
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.774583,
+          "stationaryRange": 1.384212,
+          "atSeconds": 0.770658,
+          "sourceTime": 0.727036
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.460108,
+          "stationaryRange": 1.310711,
+          "atSeconds": 0.640985,
+          "sourceTime": 0.604703
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.235949,
+          "stationaryRange": 1.235949,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.235949,
+          "stationaryRange": 1.235949,
+          "atSeconds": 0.506032,
+          "sourceTime": 0.477389
+        }
+      }
+    },
+    "iron-battleaxe": {
+      "lengthMeters": 1.349999,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.883856,
+          "stationaryRange": 1.663637,
+          "atSeconds": 1.015324,
+          "sourceTime": 1.015324
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.406034,
+          "stationaryRange": 1.261541,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.34741,
+          "stationaryRange": 1.565019,
+          "atSeconds": 1.088784,
+          "sourceTime": 1.088784
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.651507,
+          "stationaryRange": 1.80613,
+          "atSeconds": 1.024406,
+          "sourceTime": 1.024406
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.906062,
+          "stationaryRange": 1.591159,
+          "atSeconds": 1.144666,
+          "sourceTime": 1.144666
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.663637,
+          "stationaryRange": 1.663637,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.663637,
+          "stationaryRange": 1.663637,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        }
+      }
+    },
+    "steel-battleaxe": {
+      "lengthMeters": 1.35,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.853618,
+          "stationaryRange": 1.633342,
+          "atSeconds": 1.015324,
+          "sourceTime": 1.015324
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.374246,
+          "stationaryRange": 1.2291,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.316562,
+          "stationaryRange": 1.533573,
+          "atSeconds": 1.088784,
+          "sourceTime": 1.088784
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.617726,
+          "stationaryRange": 1.772436,
+          "atSeconds": 1.024406,
+          "sourceTime": 1.024406
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.873681,
+          "stationaryRange": 1.559242,
+          "atSeconds": 1.144666,
+          "sourceTime": 1.144666
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.633342,
+          "stationaryRange": 1.633342,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.633342,
+          "stationaryRange": 1.633342,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        }
+      }
+    },
+    "dwarven-battleaxe": {
+      "lengthMeters": 1.35,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.857183,
+          "stationaryRange": 1.636821,
+          "atSeconds": 1.015324,
+          "sourceTime": 1.015324
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.375434,
+          "stationaryRange": 1.229309,
+          "atSeconds": 0.911844,
+          "sourceTime": 0.911844
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.319157,
+          "stationaryRange": 1.535276,
+          "atSeconds": 1.088784,
+          "sourceTime": 1.088784
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.615669,
+          "stationaryRange": 1.770513,
+          "atSeconds": 1.024406,
+          "sourceTime": 1.024406
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.873872,
+          "stationaryRange": 1.560299,
+          "atSeconds": 1.144666,
+          "sourceTime": 1.144666
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.636821,
+          "stationaryRange": 1.636821,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.636821,
+          "stationaryRange": 1.636821,
+          "atSeconds": 1.031775,
+          "sourceTime": 1.031775
+        }
+      }
+    },
+    "iron-mace": {
+      "lengthMeters": 0.8,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.245946,
+          "stationaryRange": 1.219417,
+          "atSeconds": 0.675519,
+          "sourceTime": 0.603142
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.989277,
+          "stationaryRange": 1.014895,
+          "atSeconds": 0.669972,
+          "sourceTime": 0.598189
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.67149,
+          "stationaryRange": 1.52573,
+          "atSeconds": 0.796429,
+          "sourceTime": 0.711097
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.808373,
+          "stationaryRange": 1.37044,
+          "atSeconds": 0.814819,
+          "sourceTime": 0.727517
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.453871,
+          "stationaryRange": 1.294287,
+          "atSeconds": 0.662888,
+          "sourceTime": 0.591864
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.219417,
+          "stationaryRange": 1.219417,
+          "atSeconds": 0.531005,
+          "sourceTime": 0.474112
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.219417,
+          "stationaryRange": 1.219417,
+          "atSeconds": 0.531005,
+          "sourceTime": 0.474112
+        }
+      }
+    },
+    "steel-mace": {
+      "lengthMeters": 0.8,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.274433,
+          "stationaryRange": 1.241241,
+          "atSeconds": 0.675519,
+          "sourceTime": 0.603142
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.992616,
+          "stationaryRange": 1.021845,
+          "atSeconds": 0.669972,
+          "sourceTime": 0.598189
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.68375,
+          "stationaryRange": 1.537749,
+          "atSeconds": 0.800591,
+          "sourceTime": 0.714814
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.840628,
+          "stationaryRange": 1.400868,
+          "atSeconds": 0.814819,
+          "sourceTime": 0.727517
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.438077,
+          "stationaryRange": 1.313541,
+          "atSeconds": 0.667042,
+          "sourceTime": 0.595573
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.241241,
+          "stationaryRange": 1.241241,
+          "atSeconds": 0.531005,
+          "sourceTime": 0.474112
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.241241,
+          "stationaryRange": 1.241241,
+          "atSeconds": 0.531005,
+          "sourceTime": 0.474112
+        }
+      }
+    },
+    "dwarven-mace": {
+      "lengthMeters": 0.8,
+      "attacks": {
+        "light1": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.162358,
+          "stationaryRange": 1.141016,
+          "atSeconds": 0.67139,
+          "sourceTime": 0.599455
+        },
+        "light2": {
+          "animation": "LIGHT_2",
+          "activeSourceWindow": [
+            0.3978,
+            0.6019
+          ],
+          "range": 0.959016,
+          "stationaryRange": 0.947918,
+          "atSeconds": 0.524504,
+          "sourceTime": 0.468307
+        },
+        "light3": {
+          "animation": "LIGHT_3",
+          "activeSourceWindow": [
+            0.595881,
+            1.112494
+          ],
+          "range": 1.600175,
+          "stationaryRange": 1.45442,
+          "atSeconds": 0.796429,
+          "sourceTime": 0.711097
+        },
+        "heavy": {
+          "animation": "HEAVY",
+          "activeSourceWindow": [
+            0.58685,
+            0.886692
+          ],
+          "range": 2.722402,
+          "stationaryRange": 1.284784,
+          "atSeconds": 0.810673,
+          "sourceTime": 0.723815
+        },
+        "heavy2": {
+          "animation": "HEAVY_2",
+          "activeSourceWindow": [
+            0.573319,
+            0.777314
+          ],
+          "range": 1.452725,
+          "stationaryRange": 1.216807,
+          "atSeconds": 0.642117,
+          "sourceTime": 0.573319
+        },
+        "riposte": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.141016,
+          "stationaryRange": 1.141016,
+          "atSeconds": 0.535134,
+          "sourceTime": 0.477799
+        },
+        "backstab": {
+          "animation": "LIGHT_1",
+          "activeSourceWindow": [
+            0.4225,
+            0.6695
+          ],
+          "range": 1.141016,
+          "stationaryRange": 1.141016,
+          "atSeconds": 0.535134,
+          "sourceTime": 0.477799
+        }
+      }
+    },
+    "iron-warhammer": {
+      "lengthMeters": 1.3,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.824742,
+          "stationaryRange": 1.614631,
+          "atSeconds": 1.089678,
+          "sourceTime": 0.998286
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.352382,
+          "stationaryRange": 1.204509,
+          "atSeconds": 0.995711,
+          "sourceTime": 0.9122
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.427789,
+          "stationaryRange": 1.511046,
+          "atSeconds": 1.193213,
+          "sourceTime": 1.093137
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.577966,
+          "stationaryRange": 1.74283,
+          "atSeconds": 1.118838,
+          "sourceTime": 1.025
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.986974,
+          "stationaryRange": 1.535639,
+          "atSeconds": 1.248157,
+          "sourceTime": 1.143473
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.614631,
+          "stationaryRange": 1.614631,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.614631,
+          "stationaryRange": 1.614631,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        }
+      }
+    },
+    "steel-warhammer": {
+      "lengthMeters": 1.299999,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.710806,
+          "stationaryRange": 1.499809,
+          "atSeconds": 1.089678,
+          "sourceTime": 0.998286
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.251282,
+          "stationaryRange": 1.114041,
+          "atSeconds": 0.995711,
+          "sourceTime": 0.9122
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.314418,
+          "stationaryRange": 1.4109,
+          "atSeconds": 1.193213,
+          "sourceTime": 1.093137
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.506131,
+          "stationaryRange": 1.669991,
+          "atSeconds": 1.11469,
+          "sourceTime": 1.0212
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.892345,
+          "stationaryRange": 1.438587,
+          "atSeconds": 1.248157,
+          "sourceTime": 1.143473
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.499809,
+          "stationaryRange": 1.499809,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.499809,
+          "stationaryRange": 1.499809,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        }
+      }
+    },
+    "orcish-warhammer": {
+      "lengthMeters": 1.3,
+      "attacks": {
+        "light1": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.737425,
+          "stationaryRange": 1.526941,
+          "atSeconds": 1.089678,
+          "sourceTime": 0.998286
+        },
+        "light2": {
+          "animation": "GREATAXE_LIGHT_2",
+          "activeSourceWindow": [
+            0.65,
+            0.916
+          ],
+          "range": 1.270086,
+          "stationaryRange": 1.126199,
+          "atSeconds": 0.995711,
+          "sourceTime": 0.9122
+        },
+        "light3": {
+          "animation": "GREATAXE_LIGHT_3",
+          "activeSourceWindow": [
+            0.909987,
+            1.234316
+          ],
+          "range": 2.34078,
+          "stationaryRange": 1.428481,
+          "atSeconds": 1.193213,
+          "sourceTime": 1.093137
+        },
+        "heavy": {
+          "animation": "GREATAXE_HEAVY",
+          "activeSourceWindow": [
+            0.854,
+            1.12
+          ],
+          "range": 1.506067,
+          "stationaryRange": 1.670079,
+          "atSeconds": 1.11469,
+          "sourceTime": 1.0212
+        },
+        "heavy2": {
+          "animation": "GREATAXE_HEAVY_2",
+          "activeSourceWindow": [
+            0.884321,
+            1.227316
+          ],
+          "range": 2.907792,
+          "stationaryRange": 1.454929,
+          "atSeconds": 1.248157,
+          "sourceTime": 1.143473
+        },
+        "riposte": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.526941,
+          "stationaryRange": 1.526941,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        },
+        "backstab": {
+          "animation": "GREATAXE_LIGHT_1",
+          "activeSourceWindow": [
+            0.748,
+            1.04
+          ],
+          "range": 1.526941,
+          "stationaryRange": 1.526941,
+          "atSeconds": 1.126933,
+          "sourceTime": 1.032416
+        }
+      }
+    }
+  }
+}

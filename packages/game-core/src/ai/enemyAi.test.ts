@@ -38,3 +38,9 @@ describe("enemy utility AI", () => {
     expect(a).toEqual(b);
   });
 });
+
+it("reacts to the equipped incoming attack's reach instead of assuming a sword", () => {
+  const at = { ...base, distance: 2, playerAction: "heavy" as const, playerPhase: "windup" as const };
+  const dodge = (reach: number) => scoreEnemyIntents({ ...at, playerAttackReach: reach }).find(s => s.intent === "dodge")!.score;
+  expect(dodge(.8)).toBeLessThan(dodge(2.5));
+});

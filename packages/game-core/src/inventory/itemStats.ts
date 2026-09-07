@@ -1,3 +1,4 @@
+import { CATALOGUE, text } from "@elder-souls/text-catalogue";
 import { ARROWHEADS, launchSpeed, kineticEnergyJoules } from "../combat/ballistics";
 import { armourMitigation } from "../combat/armourMitigation";
 import {
@@ -77,7 +78,11 @@ export function itemStatLines(definition: ItemDefinition): ItemStatLine[] {
         { label: "Damage", value: `${light.damage}`, note: "one light attack, before armour" },
         { label: "Heavy damage", value: `${weapon.attacks.heavy.damage}` },
         { label: "Stamina", value: `${light.stamina}`, note: "per light attack" },
-        { label: "Reach", value: `${light.range.toFixed(2)} m` },
+        { label: text(CATALOGUE, "text.equipment.weapon-length"),
+          value: `${(weapon.visual.sizeMeters[2] * weapon.visual.held.localScale).toFixed(2)} m`,
+          note: text(CATALOGUE, "text.equipment.weapon-length-note") },
+        { label: text(CATALOGUE, "text.equipment.attack-reach"), value: `${light.range.toFixed(2)} m`,
+          note: text(CATALOGUE, "text.equipment.attack-reach-note") },
         { label: "Guard stability", value: percent(weapon.stats.guard.stability),
           note: "share of a blocked blow's stamina cost absorbed" },
         // Poise damage is a class stat, never authored per item (76 §121.3), so

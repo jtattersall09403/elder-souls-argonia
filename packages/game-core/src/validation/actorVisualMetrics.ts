@@ -53,6 +53,8 @@ export type ActorVisualSample = {
   bones: Record<string, ActorVisualPoint>;
   weaponGrip: [number, number, number] | null;
   weaponTip: [number, number, number] | null;
+  /** Actual measured hit volume, in world metres, for independent reach checks. */
+  weaponCapsule?: { from: [number, number, number]; to: [number, number, number]; radius: number };
 };
 
 export type ActorVisualProbe = {

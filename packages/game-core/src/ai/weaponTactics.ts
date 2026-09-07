@@ -113,8 +113,7 @@ export function weaponTactics(weapon: WeaponDefinition): WeaponTactics {
       guarding: 0,
     };
   }
-  // Reach comes from the moveset the weapon actually swings, which already has
-  // the class's reach bonus folded into it.
+  // Reach is the measured active weapon extent, including the opening step.
   const reach = weapon.attacks.light1.range;
   const engageRange = reach * ENGAGE_SHARE;
   return {

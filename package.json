@@ -12,9 +12,13 @@
     "tooling/repo-standards"
   ],
   "scripts": {
-    "test": "npm run test --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present && npm run weapons:reach -- --check",
     "typecheck": "npm run typecheck --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
-    "dev": "npm run dev -w @elder-souls/combat-sandbox"
+    "dev": "npm run dev -w @elder-souls/combat-sandbox",
+    "weapons:reach": "node tooling/asset-pipeline/scripts/bake-weapon-reach.mjs"
+  },
+  "devDependencies": {
+    "rolldown": "1.2.5"
   }
 }

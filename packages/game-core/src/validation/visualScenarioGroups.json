@@ -69,5 +69,9 @@
     "bow-lock-on-shot",
     "bow-aim-idle",
     "bow-aim-down"
+  ],
+  "reach": [
+    "elven-dagger-reach",
+    "elven-sword-reach"
   ]
 }

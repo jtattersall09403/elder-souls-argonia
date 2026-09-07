@@ -198,7 +198,10 @@ export type AttackSpec = {
   windup: number;
   active: number;
   recovery: number;
+  /** Measured attack reach; for paired criticals, the entry-distance limit. */
   range: number;
+  /** Baked active weapon extent from the starting actor axis, in metres. */
+  measuredReach?: { range: number; stationaryRange: number; atSeconds: number; sourceTime: number };
   arc: number;
   lunge: number;
   hitStop: number;

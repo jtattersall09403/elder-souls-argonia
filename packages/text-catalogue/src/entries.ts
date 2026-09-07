@@ -76,5 +76,12 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
 ];
 
+export const EQUIPMENT_TEXT: readonly TextEntry[] = [
+  { id: "text.equipment.weapon-length", surface: "ui", text: "Weapon length" },
+  { id: "text.equipment.weapon-length-note", surface: "ui", text: "End-to-end model length" },
+  { id: "text.equipment.attack-reach", surface: "ui", text: "Max reach" },
+  { id: "text.equipment.attack-reach-note", surface: "ui", text: "Furthest horizontal weapon contact in the opening light attack, including its step" },
+];
+
 /** The live catalogue. Built at module load so a malformed entry fails the tests. */
-export const CATALOGUE = buildCatalogue([...SYSTEM_TEXT, ...COMBAT_SANDBOX_TEXT]);
+export const CATALOGUE = buildCatalogue([...SYSTEM_TEXT, ...COMBAT_SANDBOX_TEXT, ...EQUIPMENT_TEXT]);

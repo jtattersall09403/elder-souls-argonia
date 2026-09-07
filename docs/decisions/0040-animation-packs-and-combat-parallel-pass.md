@@ -1070,3 +1070,53 @@ Completion evidence for the owner's requested behaviours:
 Eight still images have been inspected across this conversation, within the
 owner's ten-image limit. Stills and automated checks support delivery; final
 motion feel remains for the owner's deployed playtest. Water work is independent.
+
+# Round 13 (2026-09-07): measured weapon reach
+
+The owner requested a geometry audit after seeing 1.55 m for an elven dagger
+and 2.05 m for an elven sword, then authorised the fix. Those figures were an
+authored moveset distance plus a class adjustment. Mesh-sized hitboxes already
+determined ordinary hits, but the inventory and AI distances did not use them.
+
+`npm run weapons:reach` now bakes every melee weapon against the production
+character, animation packs and mounted weapon mesh at 240 Hz. It uses the
+runtime socket transform, measured capsule and active attack window. Clip
+trimming, playback speed and the production foot-track clock are included.
+The result is the furthest horizontal extent of the active weapon volume from
+the starting actor axis. It includes the attack's step and the sensor radius;
+it does not add a target radius or guarantee contact at every angle or height.
+
+The shared arsenal applies those measurements before inventory or AI reads an
+ordinary attack's range. Enemy threat assessment also receives the equipped
+incoming attack's range instead of always assuming a sword. Class offsets now
+apply only to paired-critical entry limits: those limits govern the existing
+alignment choreography. Each critical also carries a measured stationary
+weapon extent, distinct from its entry limit.
+
+The inventory separates **Weapon length** from **Max reach**, with a note
+identifying the opening light attack and its step. Elven dagger: 0.42 m length,
+0.98 m maximum reach. Elven sword: 0.98 m length, 1.46 m maximum reach. The full
+35-weapon, 245-attack data is in `equipment/generated/weapon-reach.json`, with
+schema version, actor reference, input hash and exact source-asset hashes.
+The pipeline still normalises exported weapons to configured class lengths;
+these measurements describe those game assets, not untouched Skyrim dimensions.
+
+Adding or changing a weapon requires rebaking. A missing melee measurement is
+an error. Root `npm test` rebuilds the measurements in check mode, rejecting
+stale data or an item manifest that disagrees with its mesh dimensions.
+Unmeasured blueprints are separate build inputs; gameplay imports the measured
+arsenal. All runtime rules remain in shared packages.
+
+Validation: all nine attack/reach scenarios pass. Independent live hitbox
+telemetry measures 0.97811 m for the elven dagger and 1.46131 m for the sword,
+within 0.00083 m of the baked maxima. The repeatable reach check
+allows 0.01 m for 30 Hz live sampling against the 240 Hz bake. An initial
+baker error applied the Blender forward-axis conversion twice. The live
+comparison exposed it; the baker and runtime now share `localMotionToWorld`.
+The validation warmup now waits for the required rendered actor poses before
+starting its clock; loading assets previously consumed the initial idle sample
+window. Existing attack checks retain their limits. Geometry, arsenal coverage,
+missing-data handling and equipped-attack threat regressions pass. Root tests and typecheck pass on
+an isolated checkout containing the combat changes and committed source only.
+Deployment uses that checked code; uncommitted water and placement work remains
+separately owned.

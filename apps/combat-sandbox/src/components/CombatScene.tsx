@@ -160,7 +160,7 @@ import {
   measureHeldObject,
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
-import { footAnchoredLoopVelocity, footAnchoredVelocity, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
+import { footAnchoredLoopVelocity, footAnchoredVelocity, localMotionToWorld, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import { lockedStrideClip, lockedStrideRateFor, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
 import {
   executionAnchor,
@@ -2147,7 +2147,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
     const frameDelta = Math.min(rawDelta, 1 / 30);
     // Scripted scenarios push virtual input, so they run before the sample.
-    visualDriver.current?.apply(frameDelta, input);
+    // A controller can exist while its skinned actor is still streaming.
+    // Begin warm-up only after the renderer has published each required pose.
+    const visualActorsReady = playerVisualProbe.current.current !== null
+      && (!visualScenario?.enemy.enabled || activeEnemies.every(e => e.visualProbe.current !== null));
+    visualDriver.current?.apply(visualActorsReady ? frameDelta : 0, input);
     input.update();
     const intent = inputToIntent(input);
     let delta = frameDelta;
@@ -2717,12 +2721,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // forward part only, capped by the authored lunge, which kept the
         // attack on target by letting the planted foot skate.
         const step = footAnchoredVelocity(attack.animation, playerActionTime.current, delta);
-        const forward = playerAttackDirection.current;
-        body.setLinvel({
-          x: forward.x * step.forward + forward.z * TRACK_LATERAL_SIGN * step.lateral,
-          y: body.linvel().y,
-          z: forward.z * step.forward - forward.x * TRACK_LATERAL_SIGN * step.lateral,
-        }, true);
+        const motion = localMotionToWorld(step, playerAttackDirection.current);
+        body.setLinvel({ ...motion, y: body.linvel().y }, true);
       } else if (phase === "windup" && (attack.lunge > 0 || attackDashDistance.current > 0)) {
         const dashSpeed = attackDashDistance.current > 0 && attack.windup > 0
           ? attackDashDistance.current / attack.windup
@@ -3237,6 +3237,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
             estus: f.estus,
             playerAction: playerAction.current,
             playerPhase,
+            playerAttackReach: playerAttack.current?.range ?? playerWeapon.attacks.light1.range,
             playerRecovering: playerPhase === "recovery" || playerAction.current === "heal",
             personality: f.personality,
             previousIntent: f.lastIntent as EnemyIntent | null,
@@ -3429,11 +3430,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           // the forward part stops rather than pressing into the player.
           const step = footAnchoredVelocity(attack.animation, f.actionTime, delta);
           const forward = step.forward > 0 && distance <= ENEMY_CONTACT_STOP_DISTANCE ? 0 : step.forward;
-          enemyHandle.body.setLinvel({
-            x: dirX * forward + dirZ * TRACK_LATERAL_SIGN * step.lateral,
-            y: enemyHandle.body.linvel().y,
-            z: dirZ * forward - dirX * TRACK_LATERAL_SIGN * step.lateral,
-          }, true);
+          const motion = localMotionToWorld({ ...step, forward }, { x: dirX, z: dirZ });
+          enemyHandle.body.setLinvel({ ...motion, y: enemyHandle.body.linvel().y }, true);
         } else if (phase === "windup" && !e.attackFromFeet && enemyHandle) {
           // The lunge closes to the threshold and stops there; carrying on
           // drove the capsules into contact.

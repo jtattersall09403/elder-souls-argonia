@@ -3472,5 +3472,73 @@
       "actor": "player",
       "followsCameraWithinRadians": 0.15
     }
+  },
+  "elven-dagger-reach": {
+    "playerActions": [
+      "light1"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1"
+      ]
+    },
+    "measuredReach": {
+      "weaponId": "elven-dagger",
+      "attackId": "light1"
+    }
+  },
+  "elven-sword-reach": {
+    "playerActions": [
+      "light1"
+    ],
+    "playerAnimations": [
+      "SWORD_IDLE",
+      "LIGHT_1"
+    ],
+    "enemyActions": [],
+    "enemyAnimations": [],
+    "requiredActionRuns": {
+      "player": [
+        "idle",
+        "light1",
+        "idle"
+      ]
+    },
+    "requiredAnimationRuns": {
+      "player": [
+        "SWORD_IDLE",
+        "LIGHT_1",
+        "SWORD_IDLE"
+      ]
+    },
+    "evidenceAnimations": {
+      "player": [
+        "LIGHT_1"
+      ]
+    },
+    "measuredReach": {
+      "weaponId": "elven-sword",
+      "attackId": "light1"
+    }
   }
 }

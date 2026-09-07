@@ -1,3 +1,5 @@
+import { hitCapsuleFor, measureHeldObject } from "@elder-souls/game-core/combat/hitVolume";
+import { applyWeaponSocketTransform } from "@elder-souls/game-core/anim/weaponMount";
 import { footContactChain, liftFootContact } from "@elder-souls/game-core/anim/footContact";
 import { constrainDrawingHand } from "./bowConstraints";
 import { assetUrl } from "./assetBase";
@@ -401,6 +403,8 @@ function PosedActor({
     return weapon;
   }, [riggedWeapon, weaponGltf.scene, weaponRig]);
   const weaponMount = useMemo(() => new THREE.Group(), []);
+  const probeWeaponCapsule = useMemo(() => visualProbe && !riggedWeapon
+    ? hitCapsuleFor(measureHeldObject(sword)) : null, [visualProbe, riggedWeapon, sword]);
   // The hand that is *not* holding the item. With a bow in the left hand, this
   // is the one that nocks and draws. The HAND bone, not the `Weapon` node:
   // Skyrim's bow clips animate that node a metre and a half out in front of
@@ -538,8 +542,6 @@ function PosedActor({
   const boundsTmp = useRef(new THREE.Box3());
   const meshBoundsTmp = useRef(new THREE.Box3());
   const weaponGripTmp = useRef(new THREE.Vector3());
-  const socketConvention = useRef(new THREE.Quaternion());
-  const itemOffset = useRef(new THREE.Quaternion());
   const weaponTipTmp = useRef(new THREE.Vector3());
 
   // Clips come from the rig, the skeleton they drive comes from the race body.
@@ -698,19 +700,7 @@ function PosedActor({
     if (currentSocket.current === socket) return;
     currentSocket.current?.remove(weaponMount);
     model.updateWorldMatrix(true, true);
-    const worldScale = socket.getWorldScale(new THREE.Vector3()).x || 1;
-    weaponMount.scale.setScalar(transform.localScale / worldScale);
-    weaponMount.position.fromArray(transform.localPosition);
-    socketConvention.current.fromArray(RIG_SOCKET_ROTATION as unknown as number[]).normalize();
-    // Rig convention first, then whatever offset the item itself declares. The
-    // convention is a property of the skeleton (weapon assets keep their native
-    // attach-node axes, the armature stores bones in Blender's), so it is
-    // applied once here for every socket and every weapon instead of being
-    // baked by hand into each weapon definition.
-    weaponMount.quaternion
-      .copy(socketConvention.current)
-      .multiply(itemOffset.current.fromArray(transform.localRotation).normalize())
-      .normalize();
+    applyWeaponSocketTransform(weaponMount, socket, transform);
     socket.add(weaponMount);
     currentSocket.current = socket;
   };
@@ -1218,6 +1208,11 @@ function PosedActor({
         bones,
         weaponGrip: handSocket ? weaponGripTmp.current.toArray() : null,
         weaponTip: handSocket ? weaponTipTmp.current.toArray() : null,
+        ...(probeWeaponCapsule ? { weaponCapsule: {
+          from: new THREE.Vector3(0, 0, probeWeaponCapsule.centerOffset - probeWeaponCapsule.halfLength).applyMatrix4(weaponMount.matrixWorld).toArray(),
+          to: new THREE.Vector3(0, 0, probeWeaponCapsule.centerOffset + probeWeaponCapsule.halfLength).applyMatrix4(weaponMount.matrixWorld).toArray(),
+          radius: probeWeaponCapsule.radius,
+        } } : {}),
       };
     }
   }, visualProbe ? VISUAL_FRAME_PHASE_PRIORITY.actorPoseAndProbe : 0);
