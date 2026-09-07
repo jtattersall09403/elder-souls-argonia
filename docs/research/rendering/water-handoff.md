@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The153 base constraints below still require resolution before final export.
+The145 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-153-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-145-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,561 corrections remain. **153 channel constraints remain**, not completed
+15,561 corrections remain. **145 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -184,4 +184,8 @@ failures:122 previous supports rise toward original ground and nine receive
 bounded cuts. The accepted state is153 constraints,69 retaining violations
 and15,561 corrections. Original wet coverage, pool planes and spill potential
 pass, with no lost repair-created extensions either. Seventeen focused solver
-and anchor tests pass. Lateral sampling-point changes remain unaccepted.
+and anchor tests pass. Eight later lateral sampling corrections within the original rivulet
+footprint pass fresh checks,153→145, without terrain changes or any original
+water loss. The broad48-point trial was rejected for24 new failures. Complete
+continuum/rivulet target masks are now recovered from exact carving replay;
+see the bankfull findings. Peak coverage and remaining basins are still open.

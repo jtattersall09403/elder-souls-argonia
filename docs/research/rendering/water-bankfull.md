@@ -105,6 +105,21 @@ The actual rivulet stage lowers70,533 native samples,67,519 by at least5cm.
 These provide exact carver evidence for the outstanding minor-channel coverage
 check; they are not a claim that present water already covers them.
 
+`worldgen.audit_water_authored_footprints --history /tmp/water-verified-carver-history.npz --out /tmp/water-authored-channel-footprints`
+now recovers the complete continuum and rivulet authoring domains using the
+carvers' own existing profile cutoff. Both stages reproduce their verified
+actual cut deltas exactly. The continuum footprint contains362,040 native
+vertices,302,108 of which that stage left unchanged because they were already
+low enough. The rivulet footprint contains163,667 vertices,93,134 unchanged.
+Neither footprint omits a carved sample. These masks remain targets even
+where no excavation was needed; measuring cut deltas alone would omit most
+of the continuum footprint. Four focused footprint/fluvial tests pass.
+
+These two masks do not replace lake, portage, oxbow or swamp-basin targets,
+and do not establish connected inundation. The5cm cutoff here is the actual
+existing authoring-domain condition, not a new minimum observed carve depth.
+No terrain or paint changes are made by recovery.
+
 Resolve the existing base hydraulic constraints and retaining-bound violations;
 those are not made valid by higher flood levels. Establish each actual carved
 water footprint as the target, then solve peak levels and connected extent

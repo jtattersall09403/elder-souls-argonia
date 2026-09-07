@@ -313,6 +313,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     station_scale = (n2 - 1) / (z.shape[0] - 1)
     py = np.clip((idx_st // w_) * station_scale + (STEP // 2) / web_step, 0, n2 - 1)
     px = np.clip((idx_st % w_) * station_scale + (STEP // 2) / web_step, 0, n2 - 1)
+    original_centres = np.column_stack([py, px])
     # The terrain carver conditions a local bed minimum, not necessarily
     # the coarse block's centre. Follow that thalweg laterally within the
     # same native block; never shift stations longitudinally to hide a dam.
@@ -338,8 +339,35 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         if web_step != 1:
             raise ValueError('Reviewed station anchors require a native compile before raster reduction')
         from .water_station_anchors import apply_station_overrides
+        # Only explicitly reviewed channel relocations use the wider
+        # existing thalweg. Pool anchors retain their separate immutable-wet
+        # evidence and two-interval limit. Coarse IDs and longitudinal station
+        # positions remain tied to the authored drainage.
+        channel_context = {}
+        requested_minor = any(record.get('kind') == 'channel-thalweg' and rivulets.ravel()[cell]
+                              for cell, record in station_overrides.items())
+        if requested_minor:
+            from .water_regimes import native_rivulet_core
+            core = native_rivulet_core(rivulets, g2.shape, STEP, web_step)
+            interior = ndimage.distance_transform_edt(core)
+            # Exact Gaussian authoring cutoff, including naturally low ground
+            # where the carver's min() did not need to lower the terrain.
+            rivulet_footprint = ndimage.distance_transform_edt(~core) * mpp2 < 2.4 * np.sqrt(np.log(.7 / .05))
+        for index, cell in enumerate(idx_st):
+            if station_overrides.get(int(cell), {}).get('kind') != 'channel-thalweg':
+                continue
+            area = max(float(npz['accum_km2'].ravel()[cell]), .02)
+            channel_context[int(cell)] = dict(centre=original_centres[index],
+                direction=[direction_y[index], direction_x[index]],
+                radius=float(np.clip(14. * area ** .40 * .5 / mpp2, 2., 9.)),
+                depth=FILM_DEPTH[int(rflat[cell])])
+            if rivulets.ravel()[cell]:
+                old_y, old_x = np.rint([py[index], px[index]]).astype(int)
+                channel_context[int(cell)].update(
+                    radius=float(np.clip(interior[old_y, old_x] + 2.4 / mpp2, 2., 9.)),
+                    depth=.08, rivulet=True, footprint=rivulet_footprint)
         anchors = apply_station_overrides(np.column_stack([py, px]), idx_st, station_overrides,
-            routing_ground, reference_pool_levels, terrain_flips)
+            routing_ground, reference_pool_levels, terrain_flips, channel_context=channel_context)
         py, px = anchors.T
     sy, sx = np.rint(py).astype(int), np.rint(px).astype(int)
     bed_st = sample_terrain(g2, [py, px], terrain_flips)

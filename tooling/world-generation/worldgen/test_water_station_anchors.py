@@ -34,3 +34,26 @@ def test_original_wet_anchor_cannot_be_moved_to_hide_a_bed_problem():
     original[2, 2] = 3.
     with pytest.raises(ValueError, match='originally dry'):
         apply_station_overrides([[2, 2]], [7], {7: record}, original, pool)
+
+
+def test_reviewed_channel_anchor_uses_existing_lateral_bed_without_excavation():
+    original=np.full((11,11),10.)
+    original[5,7]=8.
+    pools=np.full_like(original,-np.inf)
+    record=dict(kind='channel-thalweg',previous=[5,5],point=[5,7])
+    context={7:dict(centre=[5,5],direction=[1,0],radius=3.,depth=.3)}
+    args=([[5,5]],[7],{7:record},original,pools)
+    result=apply_station_overrides(*args,channel_context=context)
+    assert np.array_equal(result,[[5,7]]) and original[5,7]==8.
+    with pytest.raises(ValueError,match='original channel geometry'):
+        apply_station_overrides(*args)
+    original[5,6]=12.
+    with pytest.raises(ValueError,match='without crossing a bank'):
+        apply_station_overrides(*args,channel_context=context)
+    original[5,6]=10.;pools[5,7]=8.5
+    with pytest.raises(ValueError,match='standing or marine'):
+        apply_station_overrides(*args,channel_context=context)
+    pools[5,7]=-np.inf
+    context[7].update(rivulet=True,footprint=np.zeros_like(original,bool))
+    with pytest.raises(ValueError,match='authored rivulet footprint'):
+        apply_station_overrides(*args,channel_context=context)

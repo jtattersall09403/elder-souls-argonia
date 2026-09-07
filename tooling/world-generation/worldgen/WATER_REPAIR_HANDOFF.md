@@ -10,15 +10,15 @@ Run commands below from `tooling/world-generation`.
 Small authoritative inputs are retained in `water-repair-inputs/`; their
 manifest records SHA-256 hashes and the immutable source hashes. They contain
 the exact indexed original/current heights and restoration/exception evidence,
-150 reviewed course overrides,69 reviewed original-pool sampling-anchor relocations,
+149 reviewed course overrides,69 reviewed original-pool and eight original-channel sampling-anchor relocations,
 and the reviewed original-drainage orientation. They are
 not runtime assets. The original heightfield/hydrology live in the sibling
 asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,561 corrections;153 unresolved channels
-(6 pinned; these are not completion counts).
+Current overlay:15,561 corrections;145 unresolved channels
+(5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
 345 retaining/fringe supports, 1,103 unnecessary pool-floor vertices and three
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-153-state.npz` | Matching153-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-145-state.npz` | Matching145-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -448,3 +448,23 @@ supports (maximum0.943074m) and cuts nine. There are15,561 retained corrections,
 listed above. Original wet planes/coverage and spill potential pass; no
 earlier repair-created wet extensions change. Seventeen focused component
 and anchor tests pass. Lateral anchor experiments are not accepted inputs.
+
+## Original lateral channel sampling (2026-09-07)
+
+Eight explicit `channel-thalweg` station overrides move to existing lower
+original rivulet points:4537,4557,9045,9064,9206,9207,10881,11041. Compiler
+validation recomputes the lateral choice from original centre/direction/width
+and depth, rejects intervening banks and original standing/marine water, and
+checks the actual authored rivulet footprint. One incident course override
+is retired; automatic native routes update13 incident sources. No terrain
+changes. Fresh result145, with zero new failures; resolves4514,4537,4557,9045,
+9206,10872,10896,11042. Original wet planes/coverage/spill potential pass.
+Evidence is durable in `routing-audit.json.channelThalwegAcceptanceAudit`;
+`/tmp/water-minor-selected-thalweg-fresh.json` and its preservation JSON are
+disposable reports. The48-point batch failed with24 new constraints and must
+not be substituted for this subset. Ordinary-river lateral trials remain
+unaccepted. The manifest counts pool and channel relocations separately.
+
+`audit_water_authored_footprints` recovers the two complete channel authoring
+domains, including untouched naturally low ground, from the verified carving
+history. Commands, counts and remaining basin scope are in the bankfull doc.

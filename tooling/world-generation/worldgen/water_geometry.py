@@ -68,6 +68,7 @@ def select_channel_anchors(ground, centres, directions, radii, depths, terrain_f
     channel halfwidth replaces the old arbitrary one-pixel lateral limit.
     """
     centres, directions = np.asarray(centres), np.asarray(directions, float)
+    radii, depths = np.asarray(radii, float), np.asarray(depths, float)
     directions = directions / np.maximum(np.linalg.norm(directions, axis=1), 1)[:, None]
     maximum = int(np.ceil(np.max(radii, initial=1)))
     offsets = np.array([(y, x) for y in range(-maximum, maximum + 1)

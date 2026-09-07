@@ -37,7 +37,7 @@ def channel_geometry(area_km2):
     return W_COEF * a ** W_EXP, D_COEF * a ** D_EXP
 
 
-def _carve_channels(h, riv, area, steep, ambient):
+def _carve_channels(h, riv, area, steep, ambient, footprint=None):
     """Log-binned continuum carve: h = min(h, ambient − D·gauss(d, W/2))."""
     edges = np.geomspace(0.02, max(float(area[riv].max()), 0.05) + 0.01, 9)
     for i in range(len(edges) - 1):
@@ -51,6 +51,8 @@ def _carve_channels(h, riv, area, steep, ambient):
                 w, d = w * 0.7, d * 1.3   # V-gorge: narrow, deep
             dist = ndimage.distance_transform_edt(~m) * RAW_M
             prof = d * np.exp(-((dist / (w * 0.5)) ** 2))
+            if footprint is not None:
+                footprint |= prof > 0.05
             np.minimum(h, np.where(prof > 0.05, ambient - prof, h), out=h)
     return h
 
@@ -114,7 +116,7 @@ def _oxbows(h, riv, area, steep, rng):
     return h, n
 
 
-def _rivulets(h, riv, accum, wet, ambient):
+def _rivulets(h, riv, accum, wet, ambient, footprint=None):
     """The anastomosing wetland drainage web (research §1.2/§3): every
     sub-river drainage line inside wetland ground becomes a narrow, shallow
     channel connecting the pools — splash-through swamp plumbing."""
@@ -125,6 +127,8 @@ def _rivulets(h, riv, accum, wet, ambient):
     soft = ndimage.gaussian_filter(mask.astype(np.float32), 2.0) > 0.30
     dist = ndimage.distance_transform_edt(~soft) * RAW_M
     prof = 0.7 * np.exp(-((dist / 2.4) ** 2))
+    if footprint is not None:
+        footprint |= prof > 0.05
     return np.minimum(h, np.where(prof > 0.05, ambient - prof, h)).astype(np.float32)
 
 

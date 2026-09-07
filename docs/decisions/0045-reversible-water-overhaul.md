@@ -103,3 +103,17 @@ Signed proposal records retain before/after/original heights, and no longer
 necessary deeper-cut exceptions are revoked. Fresh domains and original-water
 preservation accept the resulting153-constraint checkpoint; they remain
 mandatory because restoring a support can change a pool outlet.
+
+Original channel sampling points may move to a lower lateral thalweg inside
+the existing semantic width when the compiler independently recomputes that
+choice from original geometry. The path to it cannot cross an intervening
+bank; minor channels additionally require the actual authored rivulet domain.
+Original wet/pool/marine points cannot use this mode. Eight such relocations
+pass fresh global checks,153→145, without terrain changes or original-water
+loss. The broader48-point batch introduced24 failures and was rejected.
+
+Peak targets include naturally low ground inside each carver's intended
+profile, not only vertices actually excavated. Optional footprint collectors
+in the unchanged carving formulas recover those domains, and the diagnostic
+compares both stage deltas exactly with the verified natural replay. These
+are target masks; they neither certify flooding nor erase other water areas.

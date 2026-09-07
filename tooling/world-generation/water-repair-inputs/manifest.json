@@ -5,7 +5,7 @@
   "metresPerPixel": 1.82784,
   "inputs": {
     "bed-overlay.json": "a73ebb2b00e21969ef154202b3da3fa5833303e3f8adbf6b21bb5377218add57",
-    "routing-audit.json": "9b51c112c57c6d5da513399bcb2ddbeab3c1b63a973200e902e3cd7a0c58b6b4",
+    "routing-audit.json": "63aaa0e19ebbcb64b0702d98aa0fa66d5f9b0c42b0a1531480211c5fcc36ab85",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f"
   },
   "source": {
@@ -15,7 +15,7 @@
   },
   "checkpoint": {
     "retainedCorrections": 15561,
-    "unresolvedChannels": 153,
+    "unresolvedChannels": 145,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -29,7 +29,8 @@
     "restoredCutCreatedMarineSupports": 15,
     "reviewedBankAwareRoutes": 139,
     "protectedOriginalWetFringeVertices": 364,
-    "reconciledFlowDirections": 25
+    "reconciledFlowDirections": 25,
+    "reviewedChannelThalwegAnchorRelocations": 8
   },
   "orientationReview": "25 immutable-reference discrepancies reviewed against original drainage:24 restored authored flow_to directions;4328 retains authored inflow/backwatering into original pool4329. Ordering marker is not a surface height. Exact evidence in routing-audit.json.orientationReconciliation."
 }
