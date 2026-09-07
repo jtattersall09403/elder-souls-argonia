@@ -120,6 +120,27 @@ and do not establish connected inundation. The5cm cutoff here is the actual
 existing authoring-domain condition, not a new minimum observed carve depth.
 No terrain or paint changes are made by recovery.
 
+### Height-aware ownership at cliffs
+
+A whole-footprint proximity diagnostic at the145 checkpoint found that a
+low plunge reach can be horizontally closest to an upper-bank target. At
+native[647,2593], terrain is123.322m; the low reach is7.758m, but the actual
+upper channel nearby is121.374m. The apparent115m stage requirement is a
+wrong water-plane association, not a proposed rise. Missing minor reaches
+similarly cannot borrow the nearest sea plane as their target reference.
+Therefore `/tmp/water-authored-footprint-heights.json` is only a proximity
+diagnostic; its extrema/percentiles are not accepted production stages.
+
+`ChannelOwnership` now considers the portion of each segment whose maximum
+possible head can reach queried terrain. This removes a false boundary on
+the upper channel's actual native23935 section: with a4m diagnostic upper
+stage, that bank reaches8.104m from the centre instead of stopping at4.413m
+against the remote plunge owner. Original standing-water and intervening-sill
+checks remain. Twenty-one boundary tests pass, including the clipped falling
+segment and adaptive search past nearby low channels. This local domain fix
+does not certify the interpolated whole-area mesh or choose production stage
+values. Final owner/geometry coverage remains necessary, especially near cliffs.
+
 Resolve the existing base hydraulic constraints and retaining-bound violations;
 those are not made valid by higher flood levels. Establish each actual carved
 water footprint as the target, then solve peak levels and connected extent

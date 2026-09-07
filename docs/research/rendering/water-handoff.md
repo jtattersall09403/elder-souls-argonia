@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The145 base constraints below still require resolution before final export.
+The142 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-145-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-142-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,561 corrections remain. **145 channel constraints remain**, not completed
+15,568 corrections remain. **142 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -189,3 +189,20 @@ footprint pass fresh checks,153→145, without terrain changes or any original
 water loss. The broad48-point trial was rejected for24 new failures. Complete
 continuum/rivulet target masks are now recovered from exact carving replay;
 see the bankfull findings. Peak coverage and remaining basins are still open.
+
+Three specifically reviewed upland river repairs (1740,1659,850) pass fresh
+domains and original-water checks,145→142. Seven new supports are indexed;
+six need the existing reviewed exception policy above3m, maximum4.606644m.
+No retaining bank is excavated;69 inherited bound violations remain. Current
+corrections:15,568. The whole69-support restoration plus signed connected
+solve was rejected:205 constraints, no improvement from that solve.
+
+A peak-footprint diagnostic exposed a separate ownership defect near a cliff:
+a low plunge reach won a horizontal nearest-channel test on high bank ground
+it cannot reach at peak. Source now chooses the nearest eligible portion of
+a channel, retaining actual sill and standing-pool checks. At native23935, a
+4m diagnostic upper stage reaches8.104m on the affected bank instead of being
+truncated at4.413m. This is source/probe evidence, not final exported coverage.
+Production stage values, whole footprint coverage and native budgets remain
+unverified. Twenty-one boundary tests pass, plus seven stage tests before the
+last additional nearest-search case.

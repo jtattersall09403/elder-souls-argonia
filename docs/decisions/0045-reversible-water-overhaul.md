@@ -117,3 +117,18 @@ profile, not only vertices actually excavated. Optional footprint collectors
 in the unchanged carving formulas recover those domains, and the diagnostic
 compares both stage deltas exactly with the verified natural replay. These
 are target masks; they neither certify flooding nor erase other water areas.
+
+Peak-stage ownership cannot be based only on horizontal proximity: the
+plunge reach below a cliff cannot claim high bank ground that even its maximum
+possible head cannot reach. Choose the nearest eligible portion of a channel
+segment; clip falling segments by head before measuring distance, and expand
+the spatial search until unseen segments cannot win. This is a necessary
+height filter, not a connectivity exemption: intervening terrain sills,
+original standing-water boundaries and final mesh coverage still gate export.
+The compiler passes the same configured upper-stage bound to this ownership
+filter and the cross-section builder.
+
+Three specific upland ordinary-river exceptions,1740/1659/850, pass the
+existing indexed-under5m policy and fresh original-water checks. Seven
+supports change, maximum4.606644m; no immutable retaining support is cut.
+The resulting142-constraint checkpoint is not a completed hydraulic solution.

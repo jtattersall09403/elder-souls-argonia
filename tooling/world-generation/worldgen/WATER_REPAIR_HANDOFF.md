@@ -17,7 +17,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,561 corrections;145 unresolved channels
+Current overlay:15,568 corrections;142 unresolved channels
 (5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-145-state.npz` | Matching145-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-142-state.npz` | Matching142-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -468,3 +468,30 @@ unaccepted. The manifest counts pool and channel relocations separately.
 `audit_water_authored_footprints` recovers the two complete channel authoring
 domains, including untouched naturally low ground, from the verified carving
 history. Commands, counts and remaining basin scope are in the bankfull doc.
+
+## Three reviewed upland exceptions and rejected restoration (2026-09-07)
+
+Sources1740,1659,850 now pass fresh global/native checks,145→142, with seven
+indexed support changes. Six supports exceed the routine3m limit under the
+existing reviewed ordinary-river exception policy; maximum original cut
+4.606644m, all below5m and above immutable retaining bounds. Source1659's two
+falling-role changes are incorporated into the same proposal before fresh
+validation. Exact supports are in `indexedRepairAudit`; acceptance proof is
+in `additionalJointReachFreshAcceptanceAudit`. Fresh report:
+`/tmp/water-reviewed-upland-three-fresh.json`; original-water preservation
+report has the same prefix. No original or earlier repair-created wet area
+changes. The accepted overlay has15,568 corrections and69 retaining violations.
+
+`/tmp/water-retaining-signed-145.*` restores all69 remaining bound violations
+and moves22 original-pool anchors from the145 baseline. Fresh count205. The
+new signed connected solve found no reduction and is rejected; do not rerun
+that unchanged proposal. These files are not accepted geometry.
+
+`ChannelOwnership` now filters competing channel portions by whether their
+maximum possible head can reach queried native ground. It clips the eligible
+portion of a falling segment and expands nearest searches until unseen
+segments cannot win. Cross-sections still check intervening sills and original
+standing water. Repro source2182/native23935, point[647,2589], upper stage4m:
+a false plunge-owner boundary4.413m from the centre becomes a real terrain
+bank8.104m away. Diagnostic `/tmp/water-cliff-ownership-peak4.json`. Full native
+export, owner-partition/mesh gates and budget checks remain required.

@@ -73,6 +73,37 @@ def test_shared_coarse_reach_cannot_claim_remote_lower_plunge_plane():
     assert ownership.compatible(np.array([[.1, 2.5]]), 7, 10., anchor=[0., 0.])[0]
 
 
+def test_lower_plunge_cannot_claim_upper_bank_it_cannot_reach_at_peak():
+    ground = np.tile([9., 9., 9., 9., 0., 0.], (9, 1))
+    points = np.array([[0., 1.], [8., 1.], [0., 4.], [8., 4.]])
+    ownership = ChannelOwnership(points, np.array([1, -1, 3, -1]),
+        np.array([10., 10., 0., 0.]), np.array([0, 0, 2, 2]), ground=ground)
+    probes = np.array([[4., 2.7], [4., 3.9]])
+    assert ownership.compatible(probes, 0, 10., anchor=[0., 1.]).tolist() == [True, False]
+    assert ownership.compatible(probes[1:], 2, 0., anchor=[0., 4.])[0]
+    # A higher allowed tide genuinely makes the lower reach competitive.
+    high_stage = ChannelOwnership(points, np.array([1, -1, 3, -1]),
+        np.array([10., 10., 0., 0.]), np.array([0, 0, 2, 2]), ground=ground, maximum_offset=10.)
+    assert not high_stage.compatible(probes[:1], 0, 10., anchor=[0., 1.])[0]
+
+
+def test_nearest_reachable_portion_of_falling_segment_is_not_discarded():
+    ownership = ChannelOwnership(np.array([[0., 0.], [10., 0.]]),
+        np.array([1, -1]), np.array([10., 0.]), np.array([0, 0]))
+    segment, fraction = ownership.reachable_nearest(np.array([[8., 1.]]), np.array([7.]))
+    assert segment.tolist() == [0]
+    assert np.allclose(fraction, [.3])
+
+
+def test_reachable_owner_search_expands_past_nearby_low_water():
+    points = np.array([[0., x] for x in np.linspace(.1, 1., 20)] + [[-10., 3.], [10., 3.]])
+    links = np.full(22, -1); links[20] = 21
+    ownership = ChannelOwnership(points, links, np.r_[np.zeros(20), 10., 10.], np.arange(22))
+    segment, fraction = ownership.reachable_nearest(np.array([[0., 0.]]), np.array([8.]))
+    assert segment.tolist() == [20]
+    assert np.allclose(fraction, [.5])
+
+
 def test_native_shore_protection_uses_local_stage_not_global_season_for_sea():
     from .water_terrain_mask import moving_shore_mask
     gap = np.array([-1., -.5, .5, 1.])

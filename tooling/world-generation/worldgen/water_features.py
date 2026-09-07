@@ -41,7 +41,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
             owners[cursor] = source
             cursor = links[cursor]
     ownership = ChannelOwnership(np.asarray(points) * detail_scale, links, levels, owners,
-                                 standing_detail, detail, terrain_flips, marine_ground, pool_domain)
+                                 standing_detail, detail, terrain_flips, marine_ground, pool_domain,
+                                 maximum_offset=maximum_offset)
     shared_normals = shared_section_normals(points, links, original_count, original_links)
     shared_profiles = {}
 

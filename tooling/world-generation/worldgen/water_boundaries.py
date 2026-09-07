@@ -109,7 +109,7 @@ class ChannelOwnership:
     """Continuous reach ownership, independent of connected-basin identity."""
 
     def __init__(self, points, links, levels, owners, standing_levels=None, ground=None, terrain_flips=None,
-                 marine_ground=None, pool_domain=None):
+                 marine_ground=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M):
         self.points = np.asarray(points)
         self.ends = self.points[np.maximum(links, 0)].copy()
         self.ends[np.asarray(links) < 0] = self.points[np.asarray(links) < 0]
@@ -125,19 +125,79 @@ class ChannelOwnership:
         self.terrain_flips = terrain_flips
         self.marine_ground = marine_ground
         self.pool_domain = pool_domain
+        if not np.isfinite(maximum_offset) or maximum_offset < 0:
+            raise ValueError('Maximum ownership stage must be finite and nonnegative')
+        self.maximum_offset = maximum_offset
+        self.maximum_half_length = float(np.sqrt(self.length2).max(initial=0)) * .5
+
+    def reachable_nearest(self, positions, minimum_heads):
+        """Nearest segment portion whose peak can actually reach this ground.
+
+        A falling segment is clipped in parameter space, not discarded when
+        its unconstrained nearest point lies below the upper bank. Adaptive
+        midpoint queries stop only when unseen segments cannot be nearer.
+        This is a necessary ownership test; the section still checks every
+        intervening terrain sill and standing-water boundary.
+        """
+        count = len(positions)
+        segments = np.zeros(count, np.int64)
+        fractions = np.zeros(count)
+        pending = np.arange(count)
+        k = min(8, len(self.points))
+        while len(pending):
+            distances, candidates = self.tree.query(positions[pending], k=k)
+            if k == 1:
+                distances, candidates = distances[:, None], candidates[:, None]
+            offset = positions[pending, None, :] - self.points[candidates]
+            t = np.clip(np.sum(offset * self.delta[candidates], axis=2) /
+                        np.maximum(self.length2[candidates], 1e-12), 0, 1)
+            head = self.levels[candidates]
+            drop = self.end_levels[candidates] - head
+            required = minimum_heads[pending, None]
+            crossing = (required-head) / np.where(abs(drop) > 1e-12, drop, 1.)
+            low = np.where(drop > 1e-12, np.maximum(0., crossing), 0.)
+            high = np.where(drop < -1e-12, np.minimum(1., crossing), 1.)
+            eligible = (low <= high) & ((abs(drop) > 1e-12) | (head >= required))
+            t = np.minimum(np.maximum(t, low), high)
+            residual = offset - t[:, :, None] * self.delta[candidates]
+            distance2 = np.where(eligible, np.sum(residual ** 2, axis=2), np.inf)
+            best = np.argmin(distance2, axis=1)
+            rows = np.arange(len(pending))
+            segments[pending], fractions[pending] = candidates[rows, best], t[rows, best]
+            if k == len(self.points):
+                segments[pending[~np.isfinite(distance2[rows, best])]] = -1
+                break
+            certain = distances[:, -1] - self.maximum_half_length > np.sqrt(distance2[rows, best]) + 1e-8
+            pending = pending[~certain]
+            k = min(k * 2, len(self.points))
+        return segments, fractions
 
     def compatible(self, positions, source, level, anchor=None):
         positions = np.asarray(positions)
-        _, candidates = self.tree.query(positions, k=min(8, len(self.points)))
-        if candidates.ndim == 1:
-            candidates = candidates[:, None]
-        offset = positions[:, None, :] - self.points[candidates]
-        t = np.clip(np.sum(offset * self.delta[candidates], axis=2) /
-                    np.maximum(self.length2[candidates], 1e-12), 0, 1)
-        residual = offset - t[:, :, None] * self.delta[candidates]
-        best = np.argmin(np.sum(residual ** 2, axis=2), axis=1)
-        rows = np.arange(len(positions))
-        segment, u = candidates[rows, best], t[rows, best]
+        unclaimed = np.zeros(len(positions), bool)
+        if self.ground is None:
+            _, candidates = self.tree.query(positions, k=min(8, len(self.points)))
+            if candidates.ndim == 1:
+                candidates = candidates[:, None]
+            offset = positions[:, None, :] - self.points[candidates]
+            t = np.clip(np.sum(offset * self.delta[candidates], axis=2) /
+                        np.maximum(self.length2[candidates], 1e-12), 0, 1)
+            residual = offset - t[:, :, None] * self.delta[candidates]
+            best = np.argmin(np.sum(residual ** 2, axis=2), axis=1)
+            rows = np.arange(len(positions))
+            segment, u = candidates[rows, best], t[rows, best]
+        else:
+            segment, u = np.zeros(len(positions), np.int64), np.zeros(len(positions))
+            bed = sample_terrain(self.ground, positions.T, self.terrain_flips)
+            # Ownership of a dry contour guard is immaterial; avoid searching
+            # the whole province for water that cannot reach it from here.
+            possible = bed <= level + self.maximum_offset + .04
+            unclaimed = ~possible
+            if possible.any():
+                selected, fractions = self.reachable_nearest(
+                    positions[possible], bed[possible] - self.maximum_offset - .04)
+                unclaimed[possible] = selected < 0
+                segment[possible], u[possible] = np.maximum(selected, 0), fractions
         head = self.levels[segment] * (1 - u) + self.end_levels[segment] * u
         own = self.owners[segment] == source
         if anchor is not None:
@@ -151,7 +211,7 @@ class ChannelOwnership:
             # their common cross section identically on both sides of a
             # record boundary; authored record IDs are not physical banks.
             own = incident
-        compatible = own | (np.abs(head - level) <= .04)
+        compatible = unclaimed | own | (np.abs(head - level) <= .04)
         if self.standing_levels is not None:
             if self.ground is not None:
                 base = np.floor(positions).astype(int)
