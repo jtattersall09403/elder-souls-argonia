@@ -504,17 +504,9 @@ reach is returned as an explicit terrain mismatch and excluded from water.
     along_bank = np.column_stack([-directions[:, 1], directions[:, 0]]) / lengths[:, None]
     correction = np.minimum(2., 1 / np.maximum(.5, abs(np.sum(perpendicular * along_bank, axis=1))))
     bank_radius = np.asarray(radius) * correction
-    banks = []
-    for sign in (-1, 1):
-        bank = np.full(len(points), -np.inf)
-        # Sample the whole actual cross-section. Three far-bank samples
-        # skipped narrow intervening crests and falsely rejected contained
-        # channels (the final audited case missed a59.84m crest as54.15m).
-        for offset in np.arange(.25, float(np.max(bank_radius, initial=0)) * 2 + .25, .25):
-            distance = np.minimum(bank_radius * 2, offset)
-            sample_points = points + perpendicular * (distance * sign)[:, None]
-            bank = np.maximum(bank, sample_terrain(bank_ground, sample_points.T, terrain_flips))
-        banks.append(bank)
+    from .water_bank_sections import bank_crest_heights
+    banks = [bank_crest_heights(bank_ground, points, perpendicular*sign, bank_radius, terrain_flips)
+             for sign in (-1, 1)]
     # The compiler supplies semantic channel depth; legacy callers retain
     # their shallow-film default. Real pinned pools keep their own plane.
     depth_targets = np.broadcast_to(np.asarray(minimum_depth, float), bed.shape).copy()
@@ -692,6 +684,13 @@ reach is returned as an explicit terrain mismatch and excluded from water.
                 # of excess head on every priority-flood/repair iteration.
                 "bedTargetM": float(cap[node] - (depth_targets[origin[node]] + .01 if strict_banks else .09)),
                 "pathNodes": reach_paths[source], "drainageNodes": sorted(constrained_nodes)}
+    from .water_reach_acceptance import restore_feasible_reaches
+    keep, restored = restore_feasible_reaches(edges, edge_owner, keep, lower, cap, minimum)
+    if restored:
+        rejected[restored] = False
+        for source in restored:
+            conflicts.pop(source, None)
+        minimum, origin = solve(keep, lower, provenance=True)
     if diagnostics is not None:
         negative_maximum, maximum_origin = solve(keep, -cap, reverse=True, provenance=True)
         maximum = -negative_maximum

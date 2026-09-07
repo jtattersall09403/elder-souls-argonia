@@ -132,3 +132,16 @@ Three specific upland ordinary-river exceptions,1740/1659/850, pass the
 existing indexed-under5m policy and fresh original-water checks. Seven
 supports change, maximum4.606644m; no immutable retaining support is cut.
 The resulting142-constraint checkpoint is not a completed hydraulic solution.
+
+Bank feasibility and terrain correction use exact piecewise-linear native
+crest heights, including both diagonal families' knots. Quarter-grid samples
+can miss a narrow crest and are not hydraulic authority. Source terrain,
+retaining bounds and required water depths are unchanged by this correction.
+
+After rejecting impossible records, reconsider each excluded reach against
+the retained graph. An upstream exclusion can become unnecessary when its
+downstream obstruction is removed. Incremental head propagation must still
+respect every retained cap; failed trials roll back completely. The accepted
+131-constraint result restores11 reaches without terrain edits, with original
+water preservation checked in fresh domains. The remaining exclusions remain
+explicit; this is maximal feasible coverage, not a globally optimal subset.

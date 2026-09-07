@@ -7,6 +7,7 @@ The immutable native saddle and the existing corridor are hard constraints.
 import heapq
 import numpy as np
 from .terrain_triangles import sample_terrain
+from .water_bank_sections import bank_section_distances
 
 
 def route_peak(ground, path, terrain_flips=None):
@@ -88,7 +89,6 @@ An optional measured deficit callback can account for immutable excavation
                 vertices.append((y, x))
     allowed = set(vertices)
     edges = {}
-    distances = np.minimum(2 * radius, np.arange(.25, 2 * radius + .25, .25))
     for vertex in vertices:
         choices = []
         for dy, dx in ((-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1)):
@@ -102,6 +102,8 @@ An optional measured deficit callback can account for immutable excavation
             probes = np.vstack([edge, edge.mean(axis=0)])
             deficit = 0.
             for point in probes:
+                distances = np.union1d(bank_section_distances(point, normal, radius),
+                                       bank_section_distances(point, -normal, radius))
                 if deficit_at is not None:
                     deficit = max(deficit, float(deficit_at(point, normal, distances)))
                     continue
@@ -172,9 +174,9 @@ def _turn_aware_route(ground, previous, radius, depth, deviation, terrain_flips,
                 tangent /= np.linalg.norm(tangent)
                 normal = np.array([-tangent[1], tangent[0]])
                 correction = min(2., 1. / max(.5, abs(float(tangent @ outgoing))))
-                extent = 2. * radius * correction
-                distances = np.minimum(extent, np.arange(.25, extent + .25, .25))
                 point = np.asarray(vertex, float)
+                distances = np.union1d(bank_section_distances(point, normal, radius*correction),
+                                       bank_section_distances(point, -normal, radius*correction))
                 if deficit_at is not None:
                     turn_deficit = float(deficit_at(point, normal, distances))
                 else:

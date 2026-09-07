@@ -2,6 +2,7 @@
 import numpy as np
 from scipy.optimize import linprog
 from .terrain_triangles import terrain_weights,sample_terrain
+from .water_bank_sections import bank_section_distances
 
 
 def coupled_reach_correction(original,ground,points,heads,depths,normals,radii,
@@ -14,7 +15,7 @@ Only routed centre supports may receive new cuts. Explicit prior bank cuts
 may also restore toward their immutable original height. Water
 heads obey longitudinal monotonicity and both real bank-crest equations;
 the incident end heads remain fixed. Existing protected retaining crests
-cannot change. A caller must subsequently validate the full hydraulic graph.
+cannot receive further excavation. A caller must subsequently validate the full hydraulic graph.
 """
     points=np.asarray(points,float);heads=np.asarray(heads,float)
     normals=np.asarray(normals,float)
@@ -28,8 +29,8 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
         # be restored. Unrelated terrain is never an optimization variable.
         extra=set()
         for point,normal,radius in zip(points,normals,radii):
-            distances=np.minimum(radius*2,np.arange(.25,radius*2+.25,.25))
-            positions=np.concatenate([point[:,None]+sign*normal[:,None]*distances for sign in (-1,1)],axis=1)
+            positions=np.concatenate([point[:,None]+sign*normal[:,None]*bank_section_distances(point,normal*sign,radius)
+                                      for sign in (-1,1)],axis=1)
             rr,cc,ww=terrain_weights(ground.shape,positions,terrain_flips)
             extra.update(set((rr*ground.shape[1]+cc)[ww>1e-6].tolist())&restorable)
         indices=np.union1d(indices,np.asarray(sorted(extra),dtype=np.int64))
@@ -63,9 +64,9 @@ cannot change. A caller must subsequently validate the full hydraulic graph.
         matrix.append(row);rhs.append(-float(old))
     fixed_neighbors=[]
     def constrain_banks(point,normal,radius,node=None,fixed_head=None):
-        distances=np.minimum(radius*2,np.arange(.25,radius*2+.25,.25))
         shared=False
         for sign in (-1,1):
+            distances=bank_section_distances(point,normal*sign,radius)
             positions=point[:,None]+normal[:,None]*distances*sign
             banks=sample_terrain(ground,positions,terrain_flips)
             br,bc,bw=terrain_weights(ground.shape,positions,terrain_flips)

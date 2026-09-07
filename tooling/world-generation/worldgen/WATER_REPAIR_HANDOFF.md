@@ -17,7 +17,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,568 corrections;142 unresolved channels
+Current overlay:15,568 corrections;131 unresolved channels
 (5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-142-state.npz` | Matching142-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-131-state.npz` | Matching131-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -495,3 +495,36 @@ standing water. Repro source2182/native23935, point[647,2589], upper stage4m:
 a false plunge-owner boundary4.413m from the centre becomes a real terrain
 bank8.104m away. Diagnostic `/tmp/water-cliff-ownership-peak4.json`. Full native
 export, owner-partition/mesh gates and budget checks remain required.
+
+## Exact bank crests and feasible reach recovery (2026-09-07)
+
+Bank crests now use exact native triangle knots, rather than quarter-grid
+samples that can miss a sharp retaining vertex. `water_bank_sections` supplies
+both a vectorised maximum and the identical knots for bounded support proposals,
+shared-support grouping, bank-aware route candidates and detailed audits.
+
+`water_reach_acceptance.restore_feasible_reaches` reconsiders excluded records
+after the initial rejection pass. A downstream record can have both a high
+and low bank, causing its own rejection and an upstream rejection in the same
+pass. Removing that downstream record removes the upstream cause. Incremental
+head propagation restores the upstream reach only if all retained banks still
+contain the full graph. Failed trials roll back their heads and edges; adding
+constraints cannot make a previously failed trial feasible, so one deterministic
+pass suffices. This produces maximal feasible coverage, not a claim of a globally
+optimal choice between competing rejected records.
+
+Fresh report `/tmp/water-exact-bank-restored-fresh.json`:142→131, no new failures;
+resolved1250,1385,5427,6736,8504,8805,8833,9229,9403,10225,11411. No terrain or
+route edits. Original wet planes/coverage and exact spill potential pass. The
+166 changed repair-created pool samples all rise (maximum0.020153m); none are
+original wet terrain and none lose coverage. Exact indices, solver source-file
+hashes and acceptance are in `manifest.json.profileSolverAcceptance`. The
+accepted131 cache includes `profile_algorithm_sha256`; older caches with the
+same terrain/routing hashes still predate these algorithm changes. Seventy
+focused tests pass: exact sharp crest, flipped/edge rays, graph rollback and
+full conditioner reinsertion, existing geometry/regimes/components/routes.
+
+An ordinary-river cut-only proposal on the OLD142 algorithm found four cached
+repairs:2497,2517,1071,14047 (`/tmp/water-remaining-ordinary-proposal.json`). It
+has NOT passed fresh domains and is not accepted. Do not promote those cuts
+without reevaluating them against the exact solver and existing bounds.

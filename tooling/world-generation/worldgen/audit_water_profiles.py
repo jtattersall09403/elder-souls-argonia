@@ -81,11 +81,11 @@ def main():
         rows = [{k: v for k, v in row.items() if k != "path"} for row in rows]
     if args.details:
         def original_bank(index):
+            from .water_bank_sections import bank_crest_heights
             point = result['points'][index]
             normal = result['diagnostics']['bankNormals'][index]
             radius = result['diagnostics']['bankRadius'][index]
-            distances = np.minimum(radius * 2, np.arange(.25, radius * 2 + .25, .25))
-            return float(min(np.max(sample_terrain(original, point[:, None] + normal[:, None] * distances * sign, flips))
+            return float(min(bank_crest_heights(original, [point], [normal*sign], [radius], flips)[0]
                              for sign in (-1, 1)) - .005)
         for row in rows:
             source = row['source']

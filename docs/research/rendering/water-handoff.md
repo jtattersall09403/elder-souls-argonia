@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The142 base constraints below still require resolution before final export.
+The131 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-142-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-131-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,568 corrections remain. **142 channel constraints remain**, not completed
+15,568 corrections remain. **131 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -206,3 +206,18 @@ truncated at4.413m. This is source/probe evidence, not final exported coverage.
 Production stage values, whole footprint coverage and native budgets remain
 unverified. Twenty-one boundary tests pass, plus seven stage tests before the
 last additional nearest-search case.
+
+Latest solver checkpoint:131 constraints, no terrain/input-route changes.
+Bank measurements now include exact native triangle creases, matching section
+export; bounded reach proposals, shared-support grouping and bank-aware routing
+use the same knots. A final incremental graph pass restores reaches whose
+rejection became unnecessary after their downstream obstruction was excluded.
+Fresh domains resolve11 sources with no new failures. Original wet
+coverage/planes/spill potential pass;166 repair-created extension samples rise
+by at most0.020153m, none disappear. Seventy focused compiler/geometry tests
+pass. The manifest records the solver-source hashes and exact changed indices.
+
+The old142-state ordinary-river proposal (`/tmp/water-remaining-ordinary-proposal.json`)
+is unaccepted: it proposes four additional repairs against superseded bank
+measurements. Prefer the exact-geometry baseline before reviewing any of those
+cuts. Peak coverage,69 retaining violations and final export remain open.

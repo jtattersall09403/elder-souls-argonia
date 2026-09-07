@@ -13,6 +13,7 @@ from .terrain_triangles import terrain_weights,derive_channel_diagonal_flips
 from .audit_water_routes import solve,path_indices
 from .audit_water_solve import proposal_gate
 from .water_reach_solver import coupled_reach_correction
+from .water_bank_sections import bank_section_distances
 
 
 def support_components(supports):
@@ -32,9 +33,9 @@ def support_components(supports):
 
 
 def station_support(shape,point,normal,radius,flips):
-    distances=np.minimum(radius*2,np.arange(.25,radius*2+.25,.25))
-    samples=np.concatenate([point[:,None],point[:,None]+normal[:,None]*distances,
-                            point[:,None]-normal[:,None]*distances],axis=1)
+    samples=np.concatenate([point[:,None]]+[
+        point[:,None]+sign*normal[:,None]*bank_section_distances(point,normal*sign,radius)
+        for sign in (-1,1)],axis=1)
     rows,cols,weights=terrain_weights(shape,samples,flips)
     return set((rows*shape[1]+cols)[weights>1e-6].tolist())
 
