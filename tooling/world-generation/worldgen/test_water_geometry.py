@@ -272,6 +272,24 @@ def test_empty_world_does_not_invent_water():
     assert not bodies.any()
 
 
+def test_flow_proxy_cannot_own_a_standing_pools_dry_raster_margin():
+    ground = np.full((5, 9), 12.)
+    surface = np.full_like(ground, np.nan)
+    ground[:, 1] = 8.; surface[:, 1] = 10.
+    ground[:, 6] = 0.; surface[:, 6] = 1.
+    # An authored dry flow proxy is also superseded outside the wet core.
+    surface[:, 5] = 1.
+    standing = np.zeros_like(ground, bool); standing[:, 1] = True
+    level, support, bodies, nearest = extend_surface(surface, ground, max_distance=1,
+        return_nearest=True, preserve_owner_domain=True, margin_sources=standing)
+    assert np.all(level[:, 5] == 10.)
+    assert np.all(level[:, 6] == 1.)
+    assert support[:, 6].all()  # Wet cores survive beyond standing-water support.
+    assert np.all(bodies[:, 5] == bodies[:, 1])
+    assert np.all(bodies[:, 6] != bodies[:, 1])
+    assert np.all(nearest[1, :, 5] == 1) and np.all(nearest[1, :, 6] == 6)
+
+
 def test_bed_repairs_are_sparse_bounded_and_never_excavate_for_a_pool_head():
     from .water_geometry import repair_channel_beds
     original = np.ones((8, 8), np.float32)

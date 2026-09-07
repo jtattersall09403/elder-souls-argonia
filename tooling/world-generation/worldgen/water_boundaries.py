@@ -109,7 +109,7 @@ class ChannelOwnership:
     """Continuous reach ownership, independent of connected-basin identity."""
 
     def __init__(self, points, links, levels, owners, standing_levels=None, ground=None, terrain_flips=None,
-                 marine_ground=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M):
+                 marine_ground=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M, active=None):
         self.points = np.asarray(points)
         self.ends = self.points[np.maximum(links, 0)].copy()
         self.ends[np.asarray(links) < 0] = self.points[np.asarray(links) < 0]
@@ -119,7 +119,8 @@ class ChannelOwnership:
         self.end_levels = self.levels[np.maximum(links, 0)].copy()
         self.end_levels[np.asarray(links) < 0] = self.levels[np.asarray(links) < 0]
         self.owners = np.asarray(owners)
-        self.tree = cKDTree((self.points + self.ends) * .5)
+        self.tree_indices = np.arange(len(self.points)) if active is None else np.flatnonzero(active)
+        self.tree = cKDTree(((self.points + self.ends) * .5)[self.tree_indices])
         self.standing_levels = standing_levels
         self.ground = ground
         self.terrain_flips = terrain_flips
@@ -128,7 +129,7 @@ class ChannelOwnership:
         if not np.isfinite(maximum_offset) or maximum_offset < 0:
             raise ValueError('Maximum ownership stage must be finite and nonnegative')
         self.maximum_offset = maximum_offset
-        self.maximum_half_length = float(np.sqrt(self.length2).max(initial=0)) * .5
+        self.maximum_half_length = float(np.sqrt(self.length2[self.tree_indices]).max(initial=0)) * .5
 
     def reachable_nearest(self, positions, minimum_heads):
         """Nearest segment portion whose peak can actually reach this ground.
@@ -140,14 +141,17 @@ class ChannelOwnership:
         intervening terrain sill and standing-water boundary.
         """
         count = len(positions)
+        if not len(self.tree_indices):
+            return np.full(count, -1, np.int64), np.zeros(count)
         segments = np.zeros(count, np.int64)
         fractions = np.zeros(count)
         pending = np.arange(count)
-        k = min(8, len(self.points))
+        k = min(8, len(self.tree_indices))
         while len(pending):
             distances, candidates = self.tree.query(positions[pending], k=k)
             if k == 1:
                 distances, candidates = distances[:, None], candidates[:, None]
+            candidates = self.tree_indices[candidates]
             offset = positions[pending, None, :] - self.points[candidates]
             t = np.clip(np.sum(offset * self.delta[candidates], axis=2) /
                         np.maximum(self.length2[candidates], 1e-12), 0, 1)
@@ -164,21 +168,25 @@ class ChannelOwnership:
             best = np.argmin(distance2, axis=1)
             rows = np.arange(len(pending))
             segments[pending], fractions[pending] = candidates[rows, best], t[rows, best]
-            if k == len(self.points):
+            if k == len(self.tree_indices):
                 segments[pending[~np.isfinite(distance2[rows, best])]] = -1
                 break
             certain = distances[:, -1] - self.maximum_half_length > np.sqrt(distance2[rows, best]) + 1e-8
             pending = pending[~certain]
-            k = min(k * 2, len(self.points))
+            k = min(k * 2, len(self.tree_indices))
         return segments, fractions
 
     def compatible(self, positions, source, level, anchor=None):
         positions = np.asarray(positions)
         unclaimed = np.zeros(len(positions), bool)
-        if self.ground is None:
-            _, candidates = self.tree.query(positions, k=min(8, len(self.points)))
+        if not len(self.tree_indices):
+            segment, u = np.zeros(len(positions), np.int64), np.zeros(len(positions))
+            unclaimed[:] = True
+        elif self.ground is None:
+            _, candidates = self.tree.query(positions, k=min(8, len(self.tree_indices)))
             if candidates.ndim == 1:
                 candidates = candidates[:, None]
+            candidates = self.tree_indices[candidates]
             offset = positions[:, None, :] - self.points[candidates]
             t = np.clip(np.sum(offset * self.delta[candidates], axis=2) /
                         np.maximum(self.length2[candidates], 1e-12), 0, 1)

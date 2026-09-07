@@ -550,3 +550,31 @@ flow handoffs. One missing pool-field vertex is now marine; that alone does
 not certify its original water-plane requirement. The exact solver recovered
 six previously missing fringe pool samples versus142, but the remaining
 fringe scope is not closed.
+
+## Standing-margin coverage checkpoint (2026-09-07)
+
+Accepted terrain/routing remain20bf93d (130 constraints,69 retaining violations).
+Channel ownership now ignores rejected native paths. Dry raster margins use
+standing-water sources; wet flow cores retain identity and channel response
+sampling retains the earlier all-water domain. Full native rebuild yields
+bit-identical profile/geometry, pool/marine fields and station responses.
+The historical manifest's whole-file water_geometry hash predates this
+post-profile change; do not restamp old caches. Current source/input hashes
+and equivalence evidence are in `../water-repair-inputs/fringe-coverage-audit.json`.
+
+Diagnostic artifacts: `/tmp/water-fringe-standing-margin-fields.npz`,
+`/tmp/water-fringe-standing-margin-ribbons.json` and
+`/tmp/water-fringe-standing-margin-runtime-audit.json`. The full-field build
+uses `/tmp/probe-water-fringe-standing-margin-fields.py`; only emitted ribbons
+are filtered to589 records, while all accepted owners participate. Runtime
+queries use the real ChannelRibbonSampler via Node22 transform-types and
+`/tmp/water-fringe-runtime/standing-probe.mjs`. No final raster mesh proof.
+Peak coverage256/257, base183/257; no prior positive lost. All6,440,578 earlier
+standing wet field samples preserve heights and season/tide response exactly.
+
+Next ownership repro: native4876976 (row1209,col1079), ground8.2213745m,
+nearest lower plane4.9355526m; original/higher adjacent pool8.2440119m has wet
+samples at(row1210,col1080) and(row1211,col1079). Resolve connected competing
+standing planes before interpreting this as insufficient upper stage.
+Original-fringe complete mesh coverage, authored channel/pond/swamp peak
+coverage, remaining constraints/bounds and final release remain open.

@@ -907,24 +907,41 @@ Terminal spring/shore tapers remain real shorelines. Interior millimetre-only
     return repair_channel_beds(original, corrected, points, constraints, max_lowering=max_lowering, terrain_flips=terrain_flips)
 
 
-def extend_surface(surface, ground, max_distance=24, preserve_owner_domain=False, return_nearest=False, terrain_flips=None):
+def extend_surface(surface, ground, max_distance=24, preserve_owner_domain=False, return_nearest=False, terrain_flips=None,
+                   margin_sources=None):
     """Extend physical water heights beneath banks without depressing edges.
 
 The support raster, not a fabricated buried elevation, ends the surface.
 Keeping a finite extrapolation outside support makes interpolation safe;
 support is tested independently by both physics and rendering.
+An explicit margin_sources mask restricts dry extrapolation to renderable
+standing planes; wet flowing cores keep their original level and identity.
 """
     wet = np.isfinite(surface) & (surface > ground + 0.01)
     if not wet.any():
         result = (np.zeros_like(ground), np.zeros_like(wet), np.zeros(ground.shape, np.uint16))
         return (*result, np.indices(ground.shape)) if return_nearest else result
-    distance, nearest = ndimage.distance_transform_edt(~wet, return_indices=True)
+    seeds = wet
+    restricted_margins = False
+    if margin_sources is not None:
+        if np.shape(margin_sources) != ground.shape:
+            raise ValueError('Margin sources must match the native water grid')
+        selected = wet & np.asarray(margin_sources, bool)
+        if selected.any():
+            seeds = selected
+            restricted_margins = True
+    distance, nearest = ndimage.distance_transform_edt(~seeds, return_indices=True)
+    if restricted_margins:
+        # Flowing cores retain their own heads/identities. Only the dry
+        # raster margin changes source; native ribbons own flowing banks.
+        y, x = np.nonzero(wet)
+        nearest[0, y, x], nearest[1, y, x] = y, x
     level = surface[tuple(nearest)].astype(np.float32)
     # Preserve dry bank samples inside authored ribbons: they hold the same
     # transverse plane and are what makes a subpixel shoreline find its level.
-    authored = np.isfinite(surface)
+    authored = wet if restricted_margins else np.isfinite(surface)
     level[authored] = surface[authored]
-    support = distance <= max_distance
+    support = wet | (distance <= max_distance)
     labels, count = label_terrain_components(wet, terrain_flips)
     if count > 65535:
         raise ValueError("Water body raster exceeds its 16-bit identity budget")

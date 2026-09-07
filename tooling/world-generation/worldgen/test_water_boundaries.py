@@ -104,6 +104,26 @@ def test_reachable_owner_search_expands_past_nearby_low_water():
     assert np.allclose(fraction, [.5])
 
 
+def test_rejected_channel_does_not_truncate_an_accepted_ribbon():
+    ground = np.zeros((9, 9))
+    points = np.array([[0., 2.], [8., 2.], [0., 6.], [8., 6.]])
+    links = np.array([1, -1, 3, -1])
+    ribbons, _ = compile_features(ground, ground, np.ones_like(ground), np.ones_like(ground),
+        points, links, np.array([8., 8., 4., 4.]), np.ones(4), 4,
+        np.array([1, -1, -1, -1]), np.arange(4), 9, np.ones(4), 1., all_channels=True)
+    assert len(ribbons) == 1
+    point = ribbons[0]['points'][0]
+    east = max(point['x'] + point['crossSectionNormalX']*s['offsetM'] for s in point['crossSection'])
+    assert abs(east-8.) < 1e-4
+    # A diagnostic export filter must not remove a real competing owner.
+    filtered, _ = compile_features(ground, ground, np.ones_like(ground), np.ones_like(ground),
+        points, links, np.array([8., 8., 4., 4.]), np.ones(4), 4,
+        links, np.arange(4), 9, np.ones(4), 1., all_channels=True, source_filter={0})
+    point = filtered[0]['points'][0]
+    east = max(point['x'] + point['crossSectionNormalX']*s['offsetM'] for s in point['crossSection'])
+    assert abs(east-4.) < 1e-3
+
+
 def test_native_shore_protection_uses_local_stage_not_global_season_for_sea():
     from .water_terrain_mask import moving_shore_mask
     gap = np.array([-1., -.5, .5, 1.])

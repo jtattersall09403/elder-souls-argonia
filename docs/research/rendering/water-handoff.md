@@ -229,9 +229,23 @@ repair-created pool coverage/planes. Accepted count130,15,555 corrections,
 69 retaining violations. No higher stage or final assets are deployed.
 
 The full original-pool fringe remains a separate final-ownership check:
-at131,249 originally wet fringe vertices have no current pool-plane field and
-eight have different planes; none belongs to the preserved423,268-sample
-impoundment interior. These may be channel handoffs, but that is unproven
-until queried against actual exported ribbons and standing-water geometry.
-Do not equate a missing pool field with dry rendered water, or waive coverage.
-`/tmp/water-original-fringe-131.json` records examples.
+249 originally wet fringe vertices lack a current pool plane and eight have
+different planes. Actual runtime channel triangles plus full native standing
+flood fields now reach256/257 at existing peak stage (previously254), and183
+at base (previously171), with no losses in either stage. Rejected channel
+segments no longer truncate accepted ribbons; dry raster margins now follow
+standing planes while flowing cores retain their levels. Channel endpoint
+season/tide responses retain their original all-water domain exactly.
+All6,440,578 existing standing wet samples retain levels and responses exactly;
+all channel geometry/profile and standing-detail arrays are identical. Evidence:
+`tooling/world-generation/water-repair-inputs/fringe-coverage-audit.json`.
+
+The remaining target is native4876976, at(1972.23936,2209.85856). A nearest
+lower pool at4.93555m claims it despite a neighbouring8.24401m pool; ground is
+8.22137m. Next: resolve connected standing-plane ownership, then verify actual
+raster meshes. Do not raise the global stage to mask this ownership error.
+These257 points are a bounded original-fringe audit, not the complete authored
+peak footprint. All130 constraints and69 retaining violations remain.
+Eighty-four focused compiler/geometry/boundary tests pass (83 initially,
+then the corrected new fixture). Workspace tests/typecheck need dependencies
+restored for the final release gate; no native assets or upper levels deployed.

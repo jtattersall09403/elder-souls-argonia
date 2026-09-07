@@ -28,7 +28,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      bands, metres_per_pixel, max_cascades=256,
                      ground_detail=None, detail_scale=1, body_detail=None, standing_detail=None, all_channels=False,
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
-                     marine_ground=None, wetland_rivulets=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M):
+                     marine_ground=None, wetland_rivulets=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M,
+                     source_filter=None):
     ribbons, cascades = [], []
     intent = levels if orientation_levels is None else orientation_levels
     ground = np.asarray(ground)
@@ -40,9 +41,26 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
         while cursor >= original_count:
             owners[cursor] = source
             cursor = links[cursor]
-    ownership = ChannelOwnership(np.asarray(points) * detail_scale, links, levels, owners,
+    accepted_segments = np.zeros(len(points), bool)
+    accepted_vertices = np.zeros(len(points), bool)
+    for source, target in enumerate(original_links):
+        if target < 0:
+            continue
+        cursor = source
+        seen = set()
+        while cursor != target and cursor >= 0:
+            if cursor in seen:
+                raise ValueError('Native channel path cycles before reaching its endpoint')
+            seen.add(cursor)
+            accepted_segments[cursor] = accepted_vertices[cursor] = True
+            cursor = links[cursor]
+        if cursor != target:
+            raise ValueError('Native channel path ends before its endpoint')
+        accepted_vertices[target] = True
+    ownership_links = np.where(accepted_segments, links, -1)
+    ownership = ChannelOwnership(np.asarray(points) * detail_scale, ownership_links, levels, owners,
                                  standing_detail, detail, terrain_flips, marine_ground, pool_domain,
-                                 maximum_offset=maximum_offset)
+                                 maximum_offset=maximum_offset, active=accepted_vertices)
     shared_normals = shared_section_normals(points, links, original_count, original_links)
     shared_profiles = {}
 
@@ -93,6 +111,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                 "crossSection": cross_section, **closure}
 
     for source in range(original_count):
+        if source_filter is not None and source not in source_filter:
+            continue
         target = original_links[source]
         if target < 0:
             continue

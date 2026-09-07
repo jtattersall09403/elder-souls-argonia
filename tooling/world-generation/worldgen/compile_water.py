@@ -527,8 +527,18 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     w2[standing_pool] = pool_lvl[standing_pool]
     riv2 = riv2 | ribbon
     wet2 = np.isfinite(w2) & (w2 > g2 + 0.01)
+    # Channel endpoints retain their original all-water response domain.
+    # Standing raster margins have a separate owner because native ribbons
+    # render the flowing banks. Changing that owner must not retune channels.
+    channel_response_sources = np.array([sy, sx])
+    if np.any(wet2) and np.any(~wet2[sy, sx]):
+        channel_nearest = ndimage.distance_transform_edt(
+            ~wet2, return_distances=False, return_indices=True)
+        channel_response_sources = channel_nearest[:, sy, sx].copy()
+        del channel_nearest
     w2, support2, bodies2, nearest_wet = extend_surface(
-        w2, g2, TABLE_MAX_PX * 2 / web_step, preserve_owner_domain=True, return_nearest=True, terrain_flips=terrain_flips)
+        w2, g2, TABLE_MAX_PX * 2 / web_step, preserve_owner_domain=True, return_nearest=True,
+        terrain_flips=terrain_flips, margin_sources=standing_pool | ocean2)
     bodies2, owner_records = hydraulic_plane_owners(bodies2, wet2, lbl2, standing_pool, nearest_wet)
     flat_owner = (standing_pool | ocean2)[tuple(nearest_wet)]
     # Native cross-sections now own ALL flowing reaches. Only a standing
@@ -645,6 +655,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         pool_tide = np.zeros(n_l + 1, np.float32)
         pool_tide[kept_ids] = ndimage.maximum(tidal2, lbl2, kept_ids)
         tidal2[standing_pool] = pool_tide[lbl2[standing_pool]]
+    channel_season = season2[tuple(channel_response_sources)].copy()
+    channel_tide = tidal2[tuple(channel_response_sources)].copy()
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
     if np.any(wet2):
@@ -673,7 +685,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "terrain_flips": terrain_flips, "orientation_levels": orientation_levels,
         # Original station owners supply level response; interpolation is
         # longitudinal only and never samples another bank/reach at an edge.
-        "season_response": season2[sy, sx], "tide_response": tidal2[sy, sx],
+        "season_response": channel_season, "tide_response": channel_tide,
         "maximum_offset": maximum_offset,
     }
     ribbons, cascades = compile_features(g2, w2, support2, bodies2,

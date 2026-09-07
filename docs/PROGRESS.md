@@ -89,13 +89,15 @@ final checks must cover both rendering paths and physical wet/swimming queries.
 Peak coverage: independent stage bounds implemented; production peak levels,
 connected full-footprint coverage and misplaced valley-side mud remain open.
 See [bankfull findings](research/rendering/water-bankfull.md).
-Current compiler blockers: coherent pool ownership/spill domains, exact
-carver-authored rivulet footprints, and bounded connected-reach feasibility.
+Current compiler blockers: connected standing-water ownership at pool edges,
+complete peak footprint coverage, and bounded connected-reach feasibility.
 Pool/route/terrain changes require a fresh coherent audit; stale cached pool
 occupancy must not justify further cutting. Preserve original retaining banks,
 existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
-Compiler source checkpoint passes86 focused Python tests; unresolved final
-hydraulic constraints remain explicit and no diagnostic assets are promoted.
+Latest compiler coverage checkpoint passes84 focused Python tests. The bounded
+original-fringe audit reaches256/257 points at peak, with no prior coverage
+lost; connected competing pool ownership remains open. No diagnostic assets
+are promoted.
 The durable accepted repair checkpoint has130 channel constraints,69
 retaining-bound violations and15,555 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
