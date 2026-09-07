@@ -7,7 +7,8 @@
     "bed-overlay.json": "6e625314a62fb9b516b803bd1f07d7adc7bd63b8d4aff553167d130076a8efa0",
     "routing-audit.json": "63aaa0e19ebbcb64b0702d98aa0fa66d5f9b0c42b0a1531480211c5fcc36ab85",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
-    "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4"
+    "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
+    "seasonal-profile.npz": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455"
   },
   "source": {
     "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
@@ -16,7 +17,7 @@
   },
   "checkpoint": {
     "retainedCorrections": 15559,
-    "unresolvedChannels": 127,
+    "unresolvedChannels": 77,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -31,7 +32,8 @@
     "reviewedBankAwareRoutes": 139,
     "protectedOriginalWetFringeVertices": 364,
     "reconciledFlowDirections": 25,
-    "reviewedChannelThalwegAnchorRelocations": 8
+    "reviewedChannelThalwegAnchorRelocations": 8,
+    "baseOnlyUnresolvedChannels": 127
   },
   "orientationReview": "25 immutable-reference discrepancies reviewed against original drainage:24 restored authored flow_to directions;4328 retains authored inflow/backwatering into original pool4329. Ordering marker is not a surface height. Exact evidence in routing-audit.json.orientationReconciliation.",
   "profileSolverAcceptance": {
@@ -335,14 +337,14 @@
     },
     "reviewedPoolStageReferenceSeedsAndMergedLowBounds": "pass"
   },
-  "seasonalProfileProposal": {
-    "status": "verified-proposal-not-accepted-checkpoint",
-    "file": "seasonal-profile-proposal.npz",
+  "seasonalProfileAcceptance": {
+    "status": "accepted-hydraulic-checkpoint-not-release",
+    "file": "seasonal-profile.npz",
     "sha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
-    "evidence": "seasonal-rivulet-proposal-audit.json",
-    "candidateConstraints": 77,
-    "acceptedCheckpointConstraints": 127,
-    "compilerFlag": "--seasonal-profile",
-    "note": "Guarded fresh compilation validates budgets and preserves all accepted standing samples; matching seasonal-aware solver audit/cache and final coverage gates remain pending"
+    "evidence": "seasonal-profile-acceptance.json",
+    "evidenceSha256": "49d67beb66e78a541410447cfb050f298c366c9a41fa86699f0f2238285cef62",
+    "remainingConstraints": 77,
+    "baseOnlyConstraints": 127,
+    "compilerFlag": "--seasonal-profile"
   }
 }

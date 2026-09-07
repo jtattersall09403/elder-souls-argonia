@@ -493,6 +493,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         return {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
                 "links": geometry_ds, "levels": geometry_levels, "active": geometry_active,
                 "desired_levels": desired_geometry_levels, "original_links": dsk,
+                "accepted_links": accepted_links, "failed_sources": np.array(sorted(conflicts), dtype=int),
                 "radius": geometry_radius, "diagnostics": profile_diagnostics,
                 "pool_levels": pool_lvl, "marine_ground": ocean2, "filled_levels": filled2,
                 "pool_spills": pool_spills, "pool_potential": pool_potential,

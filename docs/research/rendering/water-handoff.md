@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The127 base constraints below still require resolution before final export.
+The77 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-127-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-77-seasonal-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,559 corrections remain. **127 channel constraints remain**, not completed
+15,559 corrections remain. **77 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -278,9 +278,16 @@ exact graph identity, rejected authored-rivulet eligibility, protected shared
 nodes, no new failures and actual fresh response budgets. The final guarded
 compilation reproduces all six native fields and909 selected records exactly.
 All482,078 accepted standing samples keep identical coverage and planes.
-The durable `seasonal-profile-proposal.npz` is still a PROPOSAL: accepted inputs
-remain127 until a seasonal-aware audit/cache checkpoint is recorded. The audit
-CLI and route cache helpers do not yet carry the optional proposal. Full authored
-peak footprints and final rendered-confluence gates remain open. Source and
-focused Python checks pass; root workspace gates passed at c00c7ed, with no
-runtime edits since. See the compiler handoff and proposal audit for next steps.
+`seasonal-profile.npz` is now accepted with a matching fresh profile audit and
+cached re-solve; both reproduce the full compiler's exact levels and accepted
+links. All423,268 original wet samples retain spill potential, coverage and
+planes; all482,078 previously accepted standing samples retain exact planes.
+The manifest records77 remaining constraints (47 rivulets,30 banked rivers),69
+retaining violations and15,559 unchanged terrain corrections. Full compilation
+and profile audits must include `--seasonal-profile water-repair-inputs/seasonal-profile.npz`;
+full exports also require the reviewed pool-stage reference. Without the seasonal
+profile, the baseline deliberately remains127. Cached route solving preserves
+budgets; route replacement requires a regenerated proposal. Whole authored peak
+footprints and final rendered-confluence gates remain open. Nine focused cache/
+seasonal tests pass; workspace gates passed at c00c7ed, with no runtime edits since.
+See `seasonal-profile-acceptance.json` and the compiler handoff.

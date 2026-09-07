@@ -124,3 +124,24 @@ def test_seasonal_proposal_rejects_stale_graphs_and_permanent_node_budgets():
     with pytest.raises(ValueError, match='permanent or shared'):
         validate_seasonal_profile({**proposal, 'peak_depth_budget': [1., .5, 0., .5]},
                                  points, links, original, {0}, [True, False, False])
+
+
+def test_cached_audit_retains_seasonal_budgets_and_rejects_stale_route_replacement():
+    from .audit_water_routes import solve as audit_solve, replace_paths
+    ground, points, links = fixture()
+    state = dict(points=points, links=links, original_links=links,
+                 desired_levels=np.full(3, 1.08), radius=np.full(3, .5),
+                 pool_levels=np.full_like(ground, -np.inf), orientation_levels=np.full(3, 1.08),
+                 marine_ground=np.zeros_like(ground, bool), diagnostic_depthTargets=np.full(3, .08))
+    assert audit_solve(ground, state, None)[0]
+    ordinary = replace_paths(state, {0: np.array([[2., 1.], [2., 1.5], [2., 2.]])})
+    assert ordinary['diagnostic_peakDepthBudget'].shape == (len(ordinary['points']),)
+    assert not ordinary['diagnostic_peakDepthBudget'].any()
+    audit_solve(ground, ordinary, None)
+    state['diagnostic_peakDepthBudget'] = np.full(3, 1.4)
+    conflicts, diagnostics = audit_solve(ground, state, None)
+    assert not conflicts
+    assert np.all(diagnostics['solvedHeads'] < ground[2, 1:4])
+    np.testing.assert_array_equal(diagnostics['accepted_links'], links)
+    with pytest.raises(ValueError, match='Regenerate the seasonal profile'):
+        replace_paths(state, {0: points[:2]})

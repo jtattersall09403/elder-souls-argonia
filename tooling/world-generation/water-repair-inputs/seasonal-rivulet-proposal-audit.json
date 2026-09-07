@@ -143,7 +143,7 @@
   ],
   "newFailures": [],
   "maximumMeasuredBankExcessM": 1.8851729635116499e-06,
-  "status": "unaccepted-diagnostic",
+  "status": "historical-diagnostics-superseded-by-accepted-checkpoint",
   "acceptedCheckpoint": "45ba36e",
   "terrainOverlaySha256": "6e625314a62fb9b516b803bd1f07d7adc7bd63b8d4aff553167d130076a8efa0",
   "method": "Real condition_channel_profiles API with explicit nonnegative peak_depth_budget, including shallow outlet taper; compile_features opt-in validates authored regime and actual peak point depth. No compiler activation or accepted input changes.",
@@ -217,7 +217,7 @@
   },
   "compilerIntegration": {
     "status": "verified-proposal-not-accepted-checkpoint",
-    "profileFile": "seasonal-profile-proposal.npz",
+    "profileFile": "seasonal-profile.npz",
     "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
     "reconciliation": {
       "scope": "Actual fresh pool-anchored response budgets on cached native domains, not accepted data",
@@ -356,5 +356,6 @@
       "Matching seasonal-aware audit/cache checkpoint; audit_water_profiles and audit_water_routes do not yet carry the optional proposal",
       "Whole authored peak footprints and final rendered-confluence/export gates remain open"
     ]
-  }
+  },
+  "acceptanceEvidence": "seasonal-profile-acceptance.json"
 }

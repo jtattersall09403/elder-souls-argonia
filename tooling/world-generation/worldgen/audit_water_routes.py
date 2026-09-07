@@ -23,6 +23,10 @@ def path_indices(state, source):
 
 
 def replace_paths(state, replacements):
+    if np.any(state.get('diagnostic_peakDepthBudget', 0)):
+        if replacements:
+            raise ValueError('Regenerate the seasonal profile against the replacement graph before routing')
+        return dict(state)
     count = len(state['original_links'])
     points = list(state['points'][:count])
     levels = list(state['desired_levels'][:count])
@@ -56,7 +60,8 @@ def replace_paths(state, replacements):
             links[previous]=index;links.append(int(target));previous=index
     return {**state, 'points':np.asarray(points), 'links':np.asarray(links),
             'desired_levels':np.asarray(levels,np.float32), 'radius':np.asarray(radius),
-            'diagnostic_depthTargets':np.asarray(depths),'semantic_depth_targets':np.asarray(depths)}
+            'diagnostic_depthTargets':np.asarray(depths),'semantic_depth_targets':np.asarray(depths),
+            'diagnostic_peakDepthBudget':np.zeros(len(points))}
 
 
 def solve(ground, state, flips):
@@ -66,9 +71,12 @@ def solve(ground, state, flips):
         terrain_flips=flips,orientation_levels=state['orientation_levels'],diagnostics=diagnostics,
         minimum_depth=state.get('semantic_depth_targets',state['diagnostic_depthTargets']),strict_banks=True,metres_per_pixel=RAW_M,
         allow_freefall=True,marine_ground=state['marine_ground'],
-        pool_domain=(state['pool_spills'],state['pool_potential']) if 'pool_spills' in state else None)
+        pool_domain=(state['pool_spills'],state['pool_potential']) if 'pool_spills' in state else None,
+        peak_depth_budget=state.get('diagnostic_peakDepthBudget'))
     diagnostics['solvedHeads']=result[0]
     diagnostics['rejectedSources']=frozenset(result[-1])
+    diagnostics['accepted_links'] = result[2]
+    diagnostics['active_nodes'] = result[1]
     return result[-1], diagnostics
 
 

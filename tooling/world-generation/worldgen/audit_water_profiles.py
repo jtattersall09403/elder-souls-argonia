@@ -22,9 +22,14 @@ def main():
     parser.add_argument("--immutable-potential", type=Path)
     parser.add_argument("--routing-overrides", type=Path)
     parser.add_argument("--reference-pools",type=Path,help="Immutable-source solver cache supplying retained pool planes")
+    parser.add_argument("--seasonal-profile", type=Path, help="Matching explicit seasonal proposal; stage verification still requires full compilation")
     args = parser.parse_args()
     if bool(args.overlay)==bool(args.original):
         parser.error('Supply either a repair overlay or --original')
+    if args.original and args.seasonal_profile:
+        parser.error('--seasonal-profile cannot redefine the immutable original reference')
+    from .water_channel_response import load_seasonal_profile
+    seasonal_profile = load_seasonal_profile(args.seasonal_profile) if args.seasonal_profile else None
     original = np.load(DEFAULT_HEIGHTS)
     corrected = original.copy()
     overlay = json.load(open(args.overlay)) if args.overlay else {'changes':[]}
@@ -48,6 +53,7 @@ def main():
     if not args.original:
         result = compute(npz["conditioned"].astype(np.float32), corrected, npz,
                      profiles_only=True, bank_ground=original, terrain_flips=flips, orientation_levels=intent,
+                     seasonal_profile=seasonal_profile,
                      immutable_potential=(np.load(args.immutable_potential) if args.immutable_potential else
                                           reference_pools['filled_levels'] if reference_pools is not None else None),
                      reference_pool_levels=reference_pools['pool_levels'] if reference_pools is not None else None,
@@ -57,6 +63,8 @@ def main():
         provenance={'terrain_source_sha256':hashlib.sha256(DEFAULT_HEIGHTS.read_bytes()).hexdigest()}
         if args.overlay:provenance['terrain_overlay_sha256']=hashlib.sha256(Path(args.overlay).read_bytes()).hexdigest()
         if args.routing_overrides:provenance['routing_audit_sha256']=hashlib.sha256(args.routing_overrides.read_bytes()).hexdigest()
+        if args.seasonal_profile:provenance['seasonal_profile_sha256']=hashlib.sha256(args.seasonal_profile.read_bytes()).hexdigest()
+        provenance['seasonal_response_verified'] = np.array(False)
         np.savez_compressed(args.solver_cache, **{key: value for key, value in result.items()
             if isinstance(value, np.ndarray)}, orientation_levels=intent,
             **provenance,
@@ -107,6 +115,8 @@ def main():
             for node in row['nodes']:
                 node['originalBankCap'] = original_bank(node['index'])
     report = {"count": len(rows), "lengthM": sum(row["lengthM"] for row in rows),
+              "seasonalRecoveredCount": len(result['seasonal_sources']),
+              "seasonalResponseVerified": False,
               "reaches": sorted(rows, key=lambda row: -row["excessHeadM"])}
     if args.out:
         args.out.write_text(json.dumps(report, separators=(',', ':')))
