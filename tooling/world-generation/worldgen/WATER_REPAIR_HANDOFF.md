@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-130-state.npz` | Matching130-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-130-connected-pools-state.npz` | Matching130-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -572,9 +572,44 @@ queries use the real ChannelRibbonSampler via Node22 transform-types and
 Peak coverage256/257, base183/257; no prior positive lost. All6,440,578 earlier
 standing wet field samples preserve heights and season/tide response exactly.
 
-Next ownership repro: native4876976 (row1209,col1079), ground8.2213745m,
-nearest lower plane4.9355526m; original/higher adjacent pool8.2440119m has wet
-samples at(row1210,col1080) and(row1211,col1079). Resolve connected competing
-standing planes before interpreting this as insufficient upper stage.
-Original-fringe complete mesh coverage, authored channel/pond/swamp peak
-coverage, remaining constraints/bounds and final release remain open.
+Accepted connected-pool/range checkpoint after34f03e6: closure carries a
+pool's spill through existing equal-level wet seeds while retaining distinct
+planes, real crests and lowered-outlet barriers. Native4876976 regains its
+original8.2440119m plane. Fresh profiles preserve all existing pool planes,
+channel geometry/levels and original-water checks;130 failures and69 retaining
+violations remain. There are223 additional pool samples,211 originally wet;
+missing original wet pool fields fall249→38. No terrain changes.
+
+Pool responses now include recovered components and are uniform across actual
+native-edge-connected standing planes. `pool-stage-response-reference.json`
+preserves the reviewed ranges from34f03e6:3,748 original connected pools map
+to3,745 current connected groups containing prior water. All retain seasonal,
+tidal and combined low-water ranges exactly; no inconsistent response remains
+within a connected plane. Reconnected pieces may share an existing range;
+combining independent maxima is rejected if it invents a deeper minimum.
+This replaces accidental zero responses from the stale initial keep list.
+
+The range reference is an explicit compiler input. Every final export must add:
+`--pool-stage-reference water-repair-inputs/pool-stage-response-reference.json`.
+The compiler checks its native seeds/planes and low amplitudes, and exports
+its SHA-256 in metadata. Reproduce the immutable reference with
+`python3 -m worldgen.audit_water_pool_stage_reference /tmp/water-fringe-standing-margin-fields.npz --source-checkpoint 34f03e6 --out /tmp/reference.json`;
+that output is verified byte-identical. Do not regenerate it from the new
+candidate: that would redefine the ranges being preserved.
+
+Acceptance evidence and source/input hashes:
+`../water-repair-inputs/connected-pool-stage-audit.json` and the manifest.
+Matching solver cache: `/tmp/water-accepted-130-connected-pools-state.npz`.
+Fresh profile artifacts: `/tmp/water-connected-plane-spill-{state.npz,fresh.json,preservation.json}`.
+Final bounded fields/ribbons/runtime audit:
+`/tmp/water-fringe-range-reference-{fields.npz,ribbons.json,runtime-audit.json}`.
+Range proof: `/tmp/water-pool-range-reference-proof.json`. All257 original
+fringe targets have peak channel/standing-field coverage,250 at base; no
+previous positive in that target set disappears. Thirty focused tests pass.
+
+One other projected fringe (native13369875, originally outside a pool) changes
+from a6.755622m owner to4.349884m; ground4.753976m, now requiring+0.404092m.
+It still has existing-peak coverage. This is field ownership evidence, not
+final raster mesh verification; keep it in the final ownership review.
+Actual final meshes, whole authored channel/pond/swamp peak footprints,
+remaining130 constraints/69 retaining violations and deployment remain open.

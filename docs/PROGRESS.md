@@ -94,10 +94,12 @@ complete peak footprint coverage, and bounded connected-reach feasibility.
 Pool/route/terrain changes require a fresh coherent audit; stale cached pool
 occupancy must not justify further cutting. Preserve original retaining banks,
 existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
-Latest compiler coverage checkpoint passes84 focused Python tests. The bounded
-original-fringe audit reaches256/257 points at peak, with no prior coverage
-lost; connected competing pool ownership remains open. No diagnostic assets
-are promoted.
+Latest compiler coverage checkpoint passes30 focused Python tests. All257
+flagged original pool-fringe targets have peak field/triangle coverage; final
+raster meshes and whole authored footprints remain open. Connected pool
+responses now preserve reviewed seasonal/tidal/combined low-water ranges
+exactly. Final exports require the pool-stage reference (water handoff).
+No diagnostic assets are promoted.
 The durable accepted repair checkpoint has130 channel constraints,69
 retaining-bound violations and15,555 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet

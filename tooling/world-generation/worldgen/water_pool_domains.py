@@ -5,6 +5,85 @@ from scipy import ndimage
 from .terrain_triangles import TERRAIN_NEIGHBOURS
 
 
+def connected_standing_pool_labels(levels, standing, terrain_flips=None):
+    """Label equal standing planes connected by actual native terrain edges."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    indices = np.full(levels.shape, -1, np.int32)
+    count = int(standing.sum())
+    if not count:
+        return np.zeros(levels.shape, np.int32)
+    indices[standing] = np.arange(count, dtype=np.int32)
+    edges = []
+    height, width = levels.shape
+    for dy, dx in ((0, 1), (1, 0), (1, 1), (1, -1)):
+        a = (slice(0, height-dy), slice(max(0, -dx), min(width, width-dx)))
+        b = (slice(dy, height), slice(max(0, dx), min(width, width+dx)))
+        joined = standing[a] & standing[b] & (levels[a] == levels[b])
+        if dy and dx:
+            joined &= (terrain_flips if dx == 1 else ~terrain_flips) if terrain_flips is not None else dx == -1
+        edges.append((indices[a][joined], indices[b][joined]))
+    left = np.concatenate([a for a, b in edges])
+    right = np.concatenate([b for a, b in edges])
+    graph = coo_matrix((np.ones(len(left), np.uint8), (left, right)), shape=(count, count))
+    _, labels = connected_components(graph, directed=False)
+    result = np.zeros(levels.shape, np.int32)
+    result[standing] = labels + 1
+    return result
+
+
+def standing_pool_response(response, labels, standing):
+    """Give every retained pool its full response, including recovered seeds.
+
+    The initial size-selection list is not the final set of physical pools:
+    original-water preservation can recover components excluded by that list.
+    """
+    ids = np.unique(labels[standing])
+    if not len(ids):
+        return response.copy()
+    if ids[0] <= 0:
+        raise ValueError('Standing water requires a positive pool owner')
+    values = np.zeros(int(labels.max()) + 1, np.float32)
+    values[ids] = ndimage.maximum(response, labels, ids)
+    result = response.copy()
+    result[standing] = values[labels[standing]]
+    return result
+
+
+def preserve_pool_response_ranges(season, tide, labels, levels, reference):
+    """Keep reviewed connected-pool ranges independent of shoreline growth."""
+    if reference.get('schemaVersion') != 1 or reference.get('gridSize') != levels.shape[0]:
+        raise ValueError('Pool response reference does not match the native grid')
+    retained = {}
+    low_caps = {}
+    low = reference.get('lowAmplitudes', {'seasonM': .28, 'tideM': .5})
+    for record in reference['pools']:
+        seed = record['nativeSeed']
+        if not isinstance(seed, int) or not 0 <= seed < levels.size:
+            raise ValueError('Invalid pool response reference seed')
+        owner = int(labels.flat[seed])
+        if owner <= 0 or abs(float(levels.flat[seed])-record['planeM']) > 1e-4:
+            raise ValueError(f'Pool response reference seed {seed} changed plane or lost standing water')
+        value = (record['seasonResponse'], record['tideResponse'])
+        if not all(np.isfinite(v) and 0 <= v <= 1 for v in value):
+            raise ValueError('Pool response coefficients must be between zero and one')
+        low_caps[owner] = max(low_caps.get(owner, 0.), value[0]*low['seasonM'] + value[1]*low['tideM'])
+        retained[owner] = tuple(np.maximum(retained.get(owner, value), value))
+    for owner, value in retained.items():
+        # Reconnected pieces share their existing combined range. Taking
+        # separate maxima must not invent a deeper combined minimum.
+        if value[0]*low['seasonM'] + value[1]*low['tideM'] > low_caps[owner] + 1e-5:
+            raise ValueError(f'Connected pool {owner} has incompatible reviewed low-water extrema')
+    lookup = np.full((int(labels.max(initial=0))+1, 2), np.nan, np.float32)
+    for owner, value in retained.items():
+        lookup[owner] = value
+    selected = np.isfinite(lookup[:, 0])[labels]
+    season, tide = season.copy(), tide.copy()
+    season[selected] = lookup[labels[selected], 0]
+    tide[selected] = lookup[labels[selected], 1]
+    return season, tide
+
+
 def preserve_reference_pool_heads(levels,labels,potential,reference_levels,reference_potential,ground=None):
     """Repairs cannot retune a retained original pool's optional flow head."""
     if ground is not None:
@@ -47,20 +126,32 @@ The result changes occupancy only, not baseline levels or seasonal responses.
     result = levels.copy()
     owners = labels.copy()
     seeds = np.isfinite(levels)
+    # A connected flat plane carries its spill through existing wet water.
+    # Per-boundary-vertex potentials can be higher than the pool's sill;
+    # treating them as independent spill thresholds makes closure depend on
+    # which shoreline vertices survived component selection after a repair.
+    ids = np.arange(1, int(labels.max(initial=0)) + 1)
+    spill_by_owner = np.r_[np.inf, ndimage.minimum(np.where(seeds, filled, np.inf), labels, ids)]
+    required_spill = np.where(seeds, spill_by_owner[labels], np.inf)
     boundary = seeds & ~ndimage.binary_erosion(seeds)
-    queue = [(-float(levels[y,x]),int(y),int(x),int(labels[y,x]),float(filled[y,x]))
+    queue = [(-float(levels[y,x]),float(required_spill[y,x]),int(y),int(x),int(labels[y,x]))
              for y,x in zip(*np.nonzero(boundary))]
     heapq.heapify(queue)
     h,w=ground.shape
     added=0
     while queue:
-        negative,y,x,owner,spill=heapq.heappop(queue)
+        negative,spill,y,x,owner=heapq.heappop(queue)
+        if spill > required_spill[y,x] + 1e-5:
+            continue
         level=-negative
         neighbours=TERRAIN_NEIGHBOURS if terrain_flips is None else (
             (-1,-1),(-1,0),(-1,1),(0,-1),(0,1),(1,-1),(1,0),(1,1))
         for dy,dx in neighbours:
             ny,nx=y+dy,x+dx
-            if not (0<=ny<h and 0<=nx<w) or np.isfinite(result[ny,nx]):
+            if not (0<=ny<h and 0<=nx<w):
+                continue
+            occupied = np.isfinite(result[ny,nx])
+            if occupied and (abs(float(result[ny,nx])-level)>1e-5 or spill >= required_spill[ny,nx]-1e-5):
                 continue
             if dy and dx and terrain_flips is not None and bool(terrain_flips[min(y,ny),min(x,nx)])!=(dy==dx):
                 continue
@@ -76,6 +167,8 @@ The result changes occupancy only, not baseline levels or seasonal responses.
             impounded = filled[ny,nx] > ground[ny,nx] + .005
             if maximum_head is not None and not impounded and level > maximum_head[ny,nx] + 1e-5:
                 continue
-            result[ny,nx]=level;owners[ny,nx]=owner;added+=1
-            heapq.heappush(queue,(negative,ny,nx,owner,spill))
+            if not occupied:
+                result[ny,nx]=level;owners[ny,nx]=owner;added+=1
+            required_spill[ny,nx]=spill
+            heapq.heappush(queue,(negative,spill,ny,nx,owner))
     return result,owners,added

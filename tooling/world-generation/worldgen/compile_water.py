@@ -130,10 +130,14 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
-            retaining_lower_bounds=None, stage=None, station_overrides=None) -> dict:
+            retaining_lower_bounds=None, stage=None, station_overrides=None, pool_response_reference=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     from .water_stage import stage_range
     stage = stage_range(stage)
+    if pool_response_reference is not None:
+        low = pool_response_reference.get('lowAmplitudes')
+        if low != {'seasonM': stage['drySeasonAmplitudeM'], 'tideM': stage['lowTideAmplitudeM']}:
+            raise ValueError('Pool response reference requires its reviewed low-water amplitudes')
     maximum_offset = stage["tidalAmplitudeM"] + stage["seasonalAmplitudeM"]
     mpp1 = RAW_M * STEP
     ocean = npz["ocean"]
@@ -646,15 +650,20 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     season2 = up_lin(season)
     tidal2 = np.clip((up_lin(salinity) - .02) / (.15 - .02), 0, 1)
     tidal2 = tidal2 * tidal2 * (3 - 2 * tidal2)
-    if standing_pool_count:
-        pool_season = np.zeros(n_l + 1, np.float32)
-        # Preserve the existing full wet/dry range wherever a standing
-        # freshwater pool already receives it, uniformly across that pool.
-        pool_season[kept_ids] = ndimage.maximum(season2, lbl2, kept_ids)
-        season2[standing_pool] = pool_season[lbl2[standing_pool]]
-        pool_tide = np.zeros(n_l + 1, np.float32)
-        pool_tide[kept_ids] = ndimage.maximum(tidal2, lbl2, kept_ids)
-        tidal2[standing_pool] = pool_tide[lbl2[standing_pool]]
+    from .water_pool_domains import standing_pool_response, connected_standing_pool_labels
+    # Retain each seed component's complete climate response domain, then
+    # unify components that are physically one connected standing plane.
+    # Reducing only currently wet vertices would shrink existing ranges.
+    season2 = standing_pool_response(season2, lbl2, standing_pool)
+    tidal2 = standing_pool_response(tidal2, lbl2, standing_pool)
+    response_owners = connected_standing_pool_labels(w2, standing_pool, terrain_flips)
+    season2 = standing_pool_response(season2, response_owners, standing_pool)
+    tidal2 = standing_pool_response(tidal2, response_owners, standing_pool)
+    if pool_response_reference is not None:
+        from .water_pool_domains import preserve_pool_response_ranges
+        season2, tidal2 = preserve_pool_response_ranges(
+            season2, tidal2, response_owners, w2, pool_response_reference)
+    del response_owners
     channel_season = season2[tuple(channel_response_sources)].copy()
     channel_tide = tidal2[tuple(channel_response_sources)].copy()
     # A dry flood margin carries its own nearest water's level response,
@@ -766,6 +775,8 @@ def main() -> None:
     parser.add_argument("--bed-exception-cell", action="append", default=[],
                         help="Explicit coarse row,col channel-sill exception permitting at most 5m lowering")
     parser.add_argument("--stage-range", type=Path, help="JSON with independent high/low tide and wet/dry season amplitudes")
+    parser.add_argument("--pool-stage-reference", type=Path,
+                        help="Reviewed connected-pool response ranges preserved during shoreline expansion")
     args = parser.parse_args()
     from .water_stage import stage_range, access_bounds
     stage = stage_range(json.loads(args.stage_range.read_text()) if args.stage_range else None)
@@ -913,7 +924,9 @@ def main() -> None:
     r = reduce_surface_resolution(compute(z, refined, npz, bank_ground=original,
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
         routing_overrides=routing_overrides, station_overrides=station_overrides, immutable_potential=immutable_potential,
-        reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage), args.web_step)
+        reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage,
+        pool_response_reference=(json.loads(args.pool_stage_reference.read_text())
+                                 if args.pool_stage_reference else None)), args.web_step)
     r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
 
     out_dir = args.out_dir
@@ -1049,6 +1062,9 @@ def main() -> None:
     # Raster indices are compact; public identities use a geographic seed so
     # unrelated earlier components do not renumber them in future compiles.
     from .water_body_records import compile_body_records
+    if args.pool_stage_reference:
+        import hashlib
+        meta['poolStageReferenceSha256'] = hashlib.sha256(args.pool_stage_reference.read_bytes()).hexdigest()
     meta["bodies"] = compile_body_records(meta, r)
     from .water_cross_sections import pack_cross_sections
     pack_cross_sections(meta, out_dir)

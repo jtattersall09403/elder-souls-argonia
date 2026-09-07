@@ -50,7 +50,7 @@ The130 base constraints below still require resolution before final export.
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-130-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-130-connected-pools-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
@@ -228,24 +228,26 @@ the earlier3.262788m proposal. Fresh domains preserve all original and prior
 repair-created pool coverage/planes. Accepted count130,15,555 corrections,
 69 retaining violations. No higher stage or final assets are deployed.
 
-The full original-pool fringe remains a separate final-ownership check:
-249 originally wet fringe vertices lack a current pool plane and eight have
-different planes. Actual runtime channel triangles plus full native standing
-flood fields now reach256/257 at existing peak stage (previously254), and183
-at base (previously171), with no losses in either stage. Rejected channel
-segments no longer truncate accepted ribbons; dry raster margins now follow
-standing planes while flowing cores retain their levels. Channel endpoint
-season/tide responses retain their original all-water domain exactly.
-All6,440,578 existing standing wet samples retain levels and responses exactly;
-all channel geometry/profile and standing-detail arrays are identical. Evidence:
-`tooling/world-generation/water-repair-inputs/fringe-coverage-audit.json`.
+The latest connected-pool checkpoint restores211 original wet fringe pool
+samples (missing pool fields249→38) and preserves all existing pool planes and
+channel geometry. Closure carries a pool spill through already wet patches
+of the same plane. The bounded actual-channel/standing-field check now covers
+all257 flagged original fringe targets at peak and250 at base, with no prior
+positive lost. Final raster meshes and complete authored peak footprints are
+still unverified;130 constraints and69 retaining violations remain.
 
-The remaining target is native4876976, at(1972.23936,2209.85856). A nearest
-lower pool at4.93555m claims it despite a neighbouring8.24401m pool; ground is
-8.22137m. Next: resolve connected standing-plane ownership, then verify actual
-raster meshes. Do not raise the global stage to mask this ownership error.
-These257 points are a bounded original-fringe audit, not the complete authored
-peak footprint. All130 constraints and69 retaining violations remain.
-Eighty-four focused compiler/geometry/boundary tests pass (83 initially,
-then the corrected new fixture). Workspace tests/typecheck need dependencies
-restored for the final release gate; no native assets or upper levels deployed.
+Seasonal/tidal response ownership now follows actual connected standing
+planes, including recovered pools omitted by the old initial selection list.
+A durable reference preserves their existing seasonal, tidal and combined
+low-water ranges exactly; all3,745 resulting groups containing prior standing
+water pass, with no uneven response across any connected plane. Final exports
+must include `--pool-stage-reference water-repair-inputs/pool-stage-response-reference.json`.
+Source/input hashes and proof are in
+`tooling/world-generation/water-repair-inputs/connected-pool-stage-audit.json`.
+Thirty focused pool/compiler tests pass. Workspace release gates still need
+dependencies restored. No production amplitudes or native assets deployed.
+
+Next: complete authored channel/pond/swamp peak coverage and actual raster
+ownership, then remaining hydraulic repairs and the final bundle gates.
+The compiler handoff includes one changed extrapolated fringe owner that
+remains covered at existing peak; do not waive its final geometry check.
