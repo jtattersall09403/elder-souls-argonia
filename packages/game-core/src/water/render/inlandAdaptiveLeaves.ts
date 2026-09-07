@@ -31,6 +31,11 @@ export function inlandAdaptiveLeaves(data: WaterData, tx: number, tz: number, re
 export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: number, requestedStep: number,
   errorM = 0.04, subpixelM = 0, stage?: InlandStageRange, domain: RasterWaterDomain = 'inland', excludedOwners?: ReadonlySet<string>): Generator<void, InlandLeaf[]> {
   const size = 65, mpp = data.meta.surface.metresPerPixel;
+  // Native inland fragments already select the exact river/lake/marsh class.
+  // Those classes share the same vertex wave regime. Marine/inland changes
+  // still need topology because coastal waves are selected at vertices.
+  const sharedInlandClass = domain === 'inland' && !!data.nativeGround && data.meta.surface.nativeChannelCoverage;
+  const differentClassTopology = (a: number, b: number) => a !== b && !(sharedInlandClass && a >= 3 && b >= 3);
   const height = new Float64Array(size * size);
   const stageVaries = !!stage && (stage.tidalAmplitudeM !== 0 || stage.seasonalAmplitudeM !== 0 || (stage.lowTideAmplitudeM ?? 0) !== 0 || (stage.drySeasonAmplitudeM ?? 0) !== 0);
   // Cache the same one-time boundary samples: extrema never reread World or
@@ -64,8 +69,8 @@ export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: numb
       anyWet ||= wet[i] !== 0;
       const fx = dx / step, fz = dz / step;
       const triangle = fx + fz <= 1 ? [a, b, c] : [d, c, b];
-      classMismatch ||= triangle.some(v => classes[v] !== classes[i]);
-      partition ||= classes[i] !== classes[a] || bodies[i] !== bodies[a] || support[i] !== support[a];
+      classMismatch ||= triangle.some(v => differentClassTopology(classes[v], classes[i]));
+      partition ||= differentClassTopology(classes[i], classes[a]) || bodies[i] !== bodies[a] || support[i] !== support[a];
       if (wet[i] && (triangle.some(v => bodies[v] !== bodies[i]) || !triangle.some(v => wet[v]))) refine = true;
       const interpolated = fx + fz <= 1
         ? height[a] + (height[b] - height[a]) * fx + (height[c] - height[a]) * fz

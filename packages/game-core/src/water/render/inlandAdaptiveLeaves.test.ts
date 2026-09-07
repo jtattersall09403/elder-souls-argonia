@@ -80,3 +80,26 @@ it.each(['tide', 'season'] as const)('refines independent low-%s limits even wit
   expect(leaves.length).toBeGreaterThan(16);
   expect(leaves.every(leaf => leaf.step <= 8)).toBe(true);
 });
+
+it('uses field/stage error rather than inland class boundaries with native fragment classification', () => {
+  const coefficients = (x: number, z: number) => ({ tide: 0, season: (x + z) % 3 === 0 ? 2 / 3 : 1 });
+  const { data } = fixture(coefficients);
+  Object.defineProperty(data, 'nativeGround', { value: { sample: () => 0 } });
+  data.rasterClassAt = (x, z) => (x + z) % 3 === 0 ? 3 : 4;
+  const far = inlandAdaptiveLeaves(data, 0, 0, 16, 1, 0, preservedStage);
+  expect(far).toHaveLength(16); expect(far.every(leaf => leaf.step === 16 && !leaf.partition)).toBe(true);
+  const near = inlandAdaptiveLeaves(data, 0, 0, 16, .04, 0, preservedStage);
+  expect(near.length).toBeGreaterThan(far.length);
+  data.rasterClassAt = () => 4;
+  expect(inlandAdaptiveLeaves(data, 0, 0, 16, .04, 0, preservedStage)).toEqual(near);
+  expect(inlandAdaptiveLeaves(data, 0, 0, 16, 1, 0, preservedStage)).toEqual(far);
+});
+
+it('retains native coastal wave-regime islands even when their height error is small', () => {
+  const { data } = fixture(() => ({ tide: 0, season: 0 }));
+  Object.defineProperty(data, 'nativeGround', { value: { sample: () => 0 } });
+  data.rasterClassAt = (x, z) => x === 3 && z === 5 ? 2 : 4;
+  const leaves = inlandAdaptiveLeaves(data, 0, 0, 16, 1, 0, preservedStage);
+  expect(leaves.some(leaf => leaf.step === 1 && leaf.x <= 3 && leaf.x + leaf.step >= 3 && leaf.z <= 5 && leaf.z + leaf.step >= 5)).toBe(true);
+  expect(leaves.some(leaf => leaf.partition)).toBe(true);
+});

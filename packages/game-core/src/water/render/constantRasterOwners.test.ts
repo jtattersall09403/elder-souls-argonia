@@ -3,10 +3,11 @@ import { expect, it } from 'vitest';
 import { MeshBasicMaterial, type Mesh } from 'three';
 import { WaterData, type WaterMeta } from '../waterData';
 import type { NativeWaterGround } from '../nativeWaterGround';
+import { RasterCutouts } from '../rasterCutouts';
 import { constantRasterOwners } from './constantRasterOwners';
 import { InlandWaterTiles } from './InlandWaterTiles';
 
-function fixture() {
+function fixture(cutouts?: RasterCutouts) {
   const size = 129, grid = { file: '', size, metresPerPixel: 1, gridOriginM: 0 };
   const meta: WaterMeta = { surface: { ...grid, minM: 0, maxM: 20, buryM: 3, nativeChannelCoverage: true,
     accessFile: 'access.png', accessMinOffsetM: -2, accessSpanM: 4 },
@@ -21,7 +22,7 @@ function fixture() {
     support.set([x === 10 && z === 10 ? 0 : 255, 0, owner, 255], i * 4); klass[i * 4] = 4;
   }
   const data = new WaterData(meta, height, new Float32Array(height.length).fill(2), new Uint8ClampedArray(support.length), klass,
-    undefined, season, support, undefined, undefined, access, { sample: () => 0 } as unknown as NativeWaterGround);
+    undefined, season, support, undefined, undefined, access, { sample: () => 0 } as unknown as NativeWaterGround, undefined, cutouts);
   return { data, height, season };
 }
 function finish<T>(work: Generator<void, T>): T { for (;;) { const result = work.next(); if (result.done) return result.value; } }
@@ -109,4 +110,25 @@ it('bounds unseen tiles from supported owners including dry halo contributions',
   expect(data.rasterTileHeightBounds(0, 0)).toEqual([5, 19]);
   expect(data.rasterTileHeightBounds(1, 0)).toEqual([9, 19]);
   expect(data.rasterTileHeightBounds(0, 0)).toBe(data.rasterTileHeightBounds(0, 0));
+});
+
+it('removes a prepared face that collapses onto the boundary of a small owner', () => {
+  const bytes = new Uint8Array(48), view = new DataView(bytes.buffer);
+  bytes.set(new TextEncoder().encode('ESWCUT01'));
+  for (const [offset, value] of [[8, 1], [12, 1], [16, 4608], [20, 1]]) view.setUint32(offset, value, true);
+  [3.5, 0, 3.5, 16, 16, 0].forEach((value, i) => view.setFloat32(24 + i * 4, value, true));
+  const cuts = new RasterCutouts({ schemaVersion: 1, file: 'water-cutouts.bin.gz', compression: 'gzip', complete: true,
+    sha256: '0'.repeat(64), sourceRibbonsSha256: '0'.repeat(64), bytes: 48, downloadBytes: 40,
+    gridSize: 129, metresPerPixel: 1, tileCells: 64, steps: [4, 8, 16], cells: 1, triangles: 1 }, bytes.buffer);
+  const { data } = fixture(cuts), material = new MeshBasicMaterial(), tiles = new InlandWaterTiles(data, false);
+  const build = tiles as unknown as { build(tx: number, tz: number, step: number, material: MeshBasicMaterial): Generator<void, Mesh> };
+  const geometry = finish(build.build(0, 0, 16, material)).geometry;
+  const p = geometry.getAttribute('position'), owner = geometry.getAttribute('waterBodyIndex');
+  expect(geometry.index!.count).toBeGreaterThan(0);
+  expect(Array.from(owner.array).includes(3)).toBe(false); // The mask touches owner3 only along x=3.5.
+  for (let i = 0; i < geometry.index!.count; i += 3) {
+    const a = geometry.index!.getX(i), b = geometry.index!.getX(i + 1), c = geometry.index!.getX(i + 2);
+    expect((p.getX(b) - p.getX(a)) * (p.getZ(c) - p.getZ(a)) - (p.getZ(b) - p.getZ(a)) * (p.getX(c) - p.getX(a))).not.toBe(0);
+  }
+  geometry.dispose(); tiles.dispose(); material.dispose();
 });

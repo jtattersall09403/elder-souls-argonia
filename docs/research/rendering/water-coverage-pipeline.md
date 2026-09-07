@@ -401,6 +401,53 @@ concurrent settlement blueprint prose hits; none of those records is part of
 the water change. These do not certify final rendered coverage or native preview
 performance. Reuse the completed assets; do not repeat full native compilation.
 
+## Standing-water cost classification after river packing
+
+One diagnostic constructed all815 requested normal-view standing tiles, then
+disposed each geometry without applying admission caps. It took25.24s and
+produced1,590,686 triangles /77,519,334source bytes, before displayed-batch
+copies. This proves a geometry/storage problem as well as loading time;
+raising the10000-update test limit cannot make this fit unchanged budgets.
+Step16 accounts for1,047,871 triangles across633 tiles. Retain
+`/tmp/water-all-standing-tile-costs.json` and
+`/tmp/waterNativeWorkDiagnostic.test.ts`; do not repeat the full screen unchanged.
+
+A bounded20-tile owner classification (`/tmp/water-standing-owner-ranges.json`,
+script `/tmp/waterStandingOwnerRangesDiagnostic.test.ts`) identifies the shared
+cause: the large owner6 wetland often has exactly constant base head and tide,
+but its season response varies from0.6666667 to1 across portions of a tile.
+The current whole-owner proof rejects all of it and invokes fine partitioning.
+Native-ground checks confirm thousands of these samples are truly wet; they
+cannot be culled as buried/dry or have their stage response flattened away.
+
+The coarse-cell piecewise experiment was implemented, measured and rejected:
+1,636,640 triangles / 77,070,985 source bytes, with extra boundaries cancelling
+the savings. Its code is archived in `/tmp/water-rejected-piecewise`; no part
+of that experiment remains in the renderer.
+
+The effective shared fix removes unnecessary native inland class boundaries
+from adaptive subdivision. River/lake/marsh fragments already sample the exact
+class, and share the same vertex wave regime. Owner, support, height, all-stage
+error and marine transitions still refine. This reduces the same complete view
+to 1,111,178 triangles. Removing faces with exactly zero XZ area after Float32
+conversion then gives **1,026,192 triangles / 54,471,767 source bytes** across
+all 815 tiles, constructed in 14.40 seconds. No nonzero-area face is removed.
+Exact duplicate removal saved nothing and was discarded. Evidence:
+`/tmp/water-clean-standing-costs.json`; do not repeat unchanged.
+
+The next shared allocation fix has independent review: retain the combined
+2,048,576-triangle and 160 MiB normal-view limits, but share them between
+standing water and rivers rather than rejecting one while the other has spare
+capacity. A lossless displayed inland layout can remove constant/redundant
+attributes; retained-source and displayed costs must both count. Neither this
+shared ledger nor the displayed inland packing is implemented yet. Full
+residency and aggregate budgets still need proof in both quality modes.
+
+Latest source checks: 18 focused tests pass; root typecheck passes; root tests
+pass all runtime suites (game-core 784 passed, one final-asset test skipped).
+The sole root failure is the unrelated uncommitted settlement prose lint.
+Deployment CI will test the water-only committed tree independently.
+
 ## Latest local evidence to retain, not repeat
 
 - Generic terminal selection excludes rejected continuations. Of ten apparent

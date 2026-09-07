@@ -525,15 +525,23 @@ export class InlandWaterTiles {
     const remap = new Int32Array(body.length).fill(-1), usedPositions: number[] = [], usedSource: number[] = [];
     this.atomicPhase = "compact-vertices";
     const compactIndices: number[] = [];
-    for (let i = 0; i < indices.length; i++) {
-      const index = indices[i];
-      if (remap[index] < 0) {
-        remap[index] = usedPositions.length / 3;
-        usedPositions.push(positions[index * 3], 0, positions[index * 3 + 2]);
-        usedSource.push(index);
+    for (let i = 0; i < indices.length; i += 3) {
+      // Clip intersections may be distinct doubles yet collapse on upload.
+      // Standing water is a height graph; zero XZ area covers no water domain.
+      const a = indices[i], b = indices[i + 1], c = indices[i + 2];
+      const ax = Math.fround(positions[a * 3]), az = Math.fround(positions[a * 3 + 2]);
+      const bx = Math.fround(positions[b * 3]), bz = Math.fround(positions[b * 3 + 2]);
+      const cx = Math.fround(positions[c * 3]), cz = Math.fround(positions[c * 3 + 2]);
+      if ((bx - ax) * (cz - az) - (bz - az) * (cx - ax) !== 0) for (let corner = 0; corner < 3; corner++) {
+        const index = indices[i + corner];
+        if (remap[index] < 0) {
+          remap[index] = usedPositions.length / 3;
+          usedPositions.push(positions[index * 3], 0, positions[index * 3 + 2]);
+          usedSource.push(index);
+        }
+        compactIndices.push(remap[index]);
       }
-      compactIndices.push(remap[index]);
-      if ((i & 255) === 255) yield;
+      if ((i / 3 & 127) === 127) yield;
     }
     const count = usedPositions.length / 3, normals = new Int8Array(count * 3);
     for (let i = 1; i < normals.length; i += 3) { normals[i] = 127; if (i % 768 === 1) yield; }

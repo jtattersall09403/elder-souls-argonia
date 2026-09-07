@@ -28,6 +28,10 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   in Actions. Live HTML references the successful build bundle; its downloaded
   SHA-256 is `eb816a00e306430a93b92d8dc62a311cb0ff7a983b166560b3c591cd74f49423`. Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
+- New local checkpoint adds prepared cutouts, lossless river packing, native
+  inland class subdivision reduction and zero-area face removal. All 815
+  standing tiles now total 1,026,192 triangles (about 35% fewer). Shared budget
+  allocation and displayed inland packing are next; native assets remain local.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Do not describe a local source fix as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
