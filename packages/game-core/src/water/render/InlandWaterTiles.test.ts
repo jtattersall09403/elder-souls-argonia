@@ -75,10 +75,10 @@ describe("inland geometry isolation and draw budget", () => {
     for (const batch of new Set(published.map(p => p.batch))) expect(published.filter(p => p.batch === batch).at(-1)?.tiles).toEqual([]);
   });
 
-  it.each([5, 50])('fills both sides of zigzag owner edges without bridging heads (east=%sm)', (eastHeight) => {
+  it.each([[5, true], [50, true], [5, false]] as const)('fills zigzag owner edges under its field contract (east=%sm, native=%s)', (eastHeight, native) => {
     const size = 66, grid = { size, metresPerPixel: 1, gridOriginM: 0, file: '' };
     const meta: WaterMeta = { bodies: [{ index: 1, id: 'west' }, { index: 2, id: 'east' }],
-      surface: { ...grid, minM: 0, maxM: 50, buryM: 3, nativeChannelCoverage: true },
+      surface: { ...grid, minM: 0, maxM: 50, buryM: 3, nativeChannelCoverage: native },
       flow: { ...grid, flowMax: 3, shoreMaxM: 160 }, klass: { ...grid, classes: ['none', 'coast', 'estuary', 'river', 'lake'] } };
     const support = new Uint8ClampedArray(size * size * 4), klass = new Uint8ClampedArray(size * size * 4), heights = new Float32Array(size * size);
     for (let z = 0; z < size; z++) for (let x = 0; x < size; x++) {
@@ -141,11 +141,11 @@ describe("inland geometry isolation and draw budget", () => {
     } finally { tiles.dispose(); material.dispose(); }
   });
 
-  it("never bridges neighbouring body IDs and batches all populated tiles into one mesh", () => {
+  it("never bridges native body IDs and batches all populated tiles into one mesh", () => {
     const size = 130;
     const grid = { size, metresPerPixel: 1, gridOriginM: 0, file: "" };
     const meta: WaterMeta = { bodies: [{ index: 1, id: "water.test.west" }, { index: 2, id: "water.test.east" }],
-      surface: { ...grid, minM: 0, maxM: 10, buryM: 3 },
+      surface: { ...grid, minM: 0, maxM: 10, buryM: 3, nativeChannelCoverage: true },
       flow: { ...grid, flowMax: 3, shoreMaxM: 160 },
       klass: { ...grid, classes: ["none", "coast", "estuary", "river"] } };
     const klass = new Uint8ClampedArray(size * size * 4);

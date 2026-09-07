@@ -23,34 +23,53 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Last verified live: `93d3643`, successful Actions `34127406270`, studio bundle
-  `index-ZopE_yVF.js` (2026-09-07). Root tests, typecheck, credits and build passed
-  in Actions. Live HTML references the successful build bundle; its downloaded
-  SHA-256 is `85c58808c48b794f0cda499ff664eaa42764cd8a68e590ecdada4a85949fadea`. Public water metadata SHA-256:
-  `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
-- The deployed checkpoint adds prepared cutouts, lossless river packing, native
-  inland class subdivision reduction and zero-area face removal. It also
-  packs displayed inland attributes, shares the original combined
-  geometry limits, and reuses immutable displayed backing through source spans.
-  Both actual-native views now load completely with zero rejections: normal
-  110,291,355 array bytes, low 105,554,964. Bounds rejection and unchanged-triangle reuse reduce settling to 7,912 normal
-  / 6,734 low updates, still too slow. Loading latency and physical coverage
-  remain open. Prepared cutouts now validate class-grid and surface origins.
-- Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
-  Accepted62 preview assets remain local at `/tmp/water-live-preview`. Next:
-  address runtime construction latency, verify prepared-asset provenance and
-  coherent preview/map publication, then continue remaining physical coverage
-  constraints. See the coverage pipeline doc for retained evidence; do not
-  rerun unchanged full probes.
-- Do not describe local source fixes as live. Recheck remote and Actions before
-  every push: combat work is independently owned and must survive deployment.
-- Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;
-  never stage, discard or clean them as part of water work.
-- The combat agent is actively editing combat/character/UI/asset-pipeline files
-  and package manifests/lockfile in this same worktree. Stage explicit water
-  paths only; a broad `git add packages` would mix unrelated unfinished work.
-- Keep water-only reversible commits. `?water=legacy` is a renderer fallback,
-  not a bit-exact rollback of shared physics changes. Never reset combat work.
+- Verified live checkpoint: `3cf2965`, Actions `34131751860`, bundle
+  `index-CPwMQa8_.js` (2026-09-07). Tests, typecheck, credits, build and deploy
+  pass. Downloaded bundle SHA256:
+  `d6725b38133dedd1eea72278f37dca0991083f335087b1f5355790dc58af6c1e`.
+- **Native river/terrain/map progress preview is now deployed**, selected by
+  `?waterDataset=preview`. The ordinary Studio URL still selects public v2.
+  Preview includes accepted62 native fields, matching corrected/adaptive terrain,
+  gradient, sections/cutouts and maximum/seasonal map overlays. It is explicitly
+  work in progress, not final coverage or visual acceptance. Bounds remain
+  season1.4/tide0.5, lows0.28/0.5. No new authored-pond proposal is published.
+- Public preview water metadata SHA256:
+  `288ffc4d2eb2ebdc73d5d62068c701eca6c7f8e9942f4ab28cdb48333bf5c620`.
+  Water metadata, terrain manifest/chunk and coverage metadata/image match
+  local files; evidence `/tmp/water-pages-34131751860-live.json`.
+  The default v2 water metadata remains unchanged from the initial overhaul.
+- Native geometry storage fits both measured views with no rejections: normal
+  110,291,355 array bytes, low105,554,964. Settling still takes7,912 normal /
+  6,734 low updates; loading latency remains open. Native-only fixes do not
+  certify the old public-data rendering path. The coastal surf double-exposure
+  correction applies to both paths. Other reported regressions remain open.
+- No semantic wetland classifications were changed by this water preview.
+  Its coverage images describe the candidate physical result; they do not
+  redefine the terrain-authored target masks or authorize water on dry uplands.
+- Stage explicit water-owned paths only. Concurrent settlement changes in
+  `c4f5aaf` are independently owned and preserved in this deployment. Dirty
+  `docs/polish-backlog.md` and untracked `output/` remain outside water staging.
+- Recheck remote/Actions before each push. `?water=legacy` is a renderer
+  fallback, not a bit-exact rollback of shared physics changes.
+
+## Renderer shoreline correction (2026-09-07)
+
+Root tests and typecheck pass; publishing this correction: preserve signed vertex depth until
+fragment interpolation, preventing dry triangle corners from acquiring water
+from neighbouring wet corners. Actual generated material GLSL in a WebGL2
+numeric probe reduced excess dry-land pixels from496 to0 across1,921 samples,
+with no missing pixels or GL errors (`/tmp/water-signed-shoreline-{before,after}.json`).
+Legacy standing geometry now follows its continuous physical raster across body
+IDs; only native data partitions IDs into separate planes. The regression test
+restores88m² omitted from a flat4,096m² fixture, retaining native equal/different
+head checks. No water fields, terrain or semantic classifications change.
+
+A bounded actual-data geometry probe at3840E/1120S found no omitted legacy
+potential-water samples after the fix. In the preview,5,197 of5,199 samples
+missing from standing geometry are owned by channel ribbons. Two remaining
+wet samples at3828.25/1096.25 and3827.75/1096.75 remain unresolved; do not
+claim the native gaps are all fixed. Evidence `/tmp/water-live-shore-probe.json`;
+temporary diagnostic source archived outside the repository.
 
 ## Peak coverage correction (2026-09-06)
 

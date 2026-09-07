@@ -359,8 +359,11 @@ export class InlandWaterTiles {
       }
     }
     const indices: number[] = [];
+    const discreteOwners = this.data.meta.surface.nativeChannelCoverage === true;
     const triangle = function* (a: number, b: number, c: number, cutters?: ChannelRibbonFootprintTriangle[]): Generator<void> {
-      if (!(wet[a] || wet[b] || wet[c]) || body[a] !== body[b] || body[b] !== body[c]) return;
+      // Legacy physics interpolates a continuous raster across body IDs.
+      // Only the native contract partitions those IDs into separate planes.
+      if (!(wet[a] || wet[b] || wet[c]) || (discreteOwners && (body[a] !== body[b] || body[b] !== body[c]))) return;
       if (!cutters?.length) { indices.push(a, b, c); return; }
       const points = [a, b, c].map(i => ({ x: positions[i * 3], z: positions[i * 3 + 2] }));
       const polygons = yield* subtractRibbonFootprintSteps(points, cutters);

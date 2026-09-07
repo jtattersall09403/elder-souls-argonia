@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion: owner live regressions now take priority; coastal surf double attenuation corrected; accepted62 native terrain/water/map progress preview prepared. Native standing geometry reduced about 35%; immutable shared storage now fits both native quality views with complete residency. Clipping skips disjoint geometry; both quality views still fit. Fresh authored-pond domains leave two added channel constraints; spill-based freeboard checks are corrected, connected outlet work remains. Loading latency and physical coverage/publication remain open ([handoff](research/rendering/water-handoff.md)). Earlier checkpoint: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Peak-coverage investigation confirms upland shortfalls; independent high/low stage bounds implemented, production levels/footprints unresolved ([findings](research/rendering/water-bankfull.md)). Other polish stays in [polish-backlog.md](polish-backlog.md). |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion: owner live regressions now take priority; coastal surf double attenuation corrected; signed-depth shoreline and legacy boundary-gap fixes ready for publication; accepted62 native terrain/water/map progress preview deployed. Native standing geometry reduced about 35%; immutable shared storage now fits both native quality views with complete residency. Clipping skips disjoint geometry; both quality views still fit. Fresh authored-pond domains leave two added channel constraints; spill-based freeboard checks are corrected, connected outlet work remains. Loading latency and physical coverage/publication remain open ([handoff](research/rendering/water-handoff.md)). Earlier checkpoint: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Peak-coverage investigation confirms upland shortfalls; independent high/low stage bounds implemented, production levels/footprints unresolved ([findings](research/rendering/water-bankfull.md)). Other polish stays in [polish-backlog.md](polish-backlog.md). |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -74,15 +74,16 @@ See [the review guide](research/rendering/water-quality.md).
 Release coordination: the water agent will commit only water-owned paths and
 will coordinate against current branch/Actions state before deployment;
 combat changes remain separately owned and must not be overwritten.
-Latest verified deployment: `93d3643`, Actions `34127406270`, live bundle
-`index-ZopE_yVF.js` (2026-09-07). All Actions gates pass; the public bundle
-matches the successful build. Native geometry storage and clipping improvements
-are deployed. Both tested native views fit their geometry budgets locally;
-loading latency and physical coverage remain open. The accepted62 native
-preview and matching map assets remain local and are not published.
-Public water metadata still matches the original `1af32a3` overhaul: **the
-final hydraulic/native/adaptive/gradient data is not deployed**. Never promote
-older diagnostic bundles or bypass combat asset verification.
+Latest verified deployment: `3cf2965`, Actions `34131751860`, live bundle
+`index-CPwMQa8_.js` (2026-09-07). All Actions gates pass; public bundle and
+sampled preview assets match the successful build. The accepted62 native
+river/terrain/gradient/map progress checkpoint is now available through
+`?waterDataset=preview`; the ordinary URL still selects the previous v2 data.
+No new authored-pond proposal or higher stage limits are published. This is
+not final hydraulic/visual acceptance. Prioritize the owner's floating/gappy
+water, hard edges, ocean/caustics/weather and waterfall regressions; details
+and independent review findings are in the water handoff. Never promote an
+unaccepted diagnostic bundle or bypass combat asset verification.
 
 All requirements and follow-up defects remain in
 [the acceptance checklist](research/rendering/water-completion-audit.md),

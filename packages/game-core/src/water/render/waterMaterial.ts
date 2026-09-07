@@ -628,7 +628,9 @@ if (waterOverride.w > 1.5) {
     1.0, esW.normal.z / max(esW.normal.y, 0.001) - local.z));
 }
 vEsSurf = vec3(esFetch, esShoreDir);
-vEsData = vec4(esStill, max(esSurf.y + esStill + esW.disp.y - esSurf.x, 0.0), esExposure, esShore);
+// Keep dry vertices negative until fragment interpolation. Clamping here
+// lets a neighbouring wet vertex project water across the dry triangle.
+vEsData = vec4(esStill, esSurf.y + esStill + esW.disp.y - esSurf.x, esExposure, esShore);
 vEsKlass = vec3(esKl.g, esKl.b, esSS.z);   // turbidity, salinity, tannin
 vec2 esFlowV = waterOverride.w > 0.5 ? waterOverride.yz : esFlowAt(esDataXZ);
 // surface drop along the current → cascades/rapids where water descends
