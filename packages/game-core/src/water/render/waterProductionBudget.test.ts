@@ -5,7 +5,7 @@ import { InlandWaterTiles } from "./InlandWaterTiles";
 import { WaterRibbonTiles } from "./WaterRibbonTiles";
 import { productionWaterData } from "./waterRasterTestFixture";
 import { WaterGeometryCamera, waterGeometryBytes } from "./waterStreaming";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -22,10 +22,13 @@ describe("shipped water geometry budget", () => {
     const camera = new PerspectiveCamera(60, 16 / 9, 0.1, 10000);
     camera.position.set(2370, low ? 1000 : 416, 190); camera.lookAt(2700, 280, 1000); camera.updateMatrixWorld();
     const view = new WaterGeometryCamera().update(camera, 1080);
+    let peakMergeBytes = 0, peakReservedBytes = 0, updates = 0;
     try {
       for (let frame = 0; frame < 10000; frame++) {
         tiles.update(view.position.x, view.position.z, material, 1, view);
         ribbons.update(view, material);
+        updates++; peakMergeBytes = Math.max(peakMergeBytes, tiles.diagnostics.transientMergeBytes);
+        peakReservedBytes = Math.max(peakReservedBytes, shared.usage.bytes);
         expect(tiles.diagnostics.builtLastUpdate).toBeLessThanOrEqual(2);
         expect(ribbons.diagnostics.builtLastUpdate).toBeLessThanOrEqual(2);
         expect(ribbons.diagnostics.recordsBuiltLastUpdate).toBeLessThanOrEqual(8);
@@ -34,12 +37,14 @@ describe("shipped water geometry budget", () => {
       const visible = [...tiles.meshes, ...ribbons.meshes].filter(mesh => {
         mesh.updateMatrixWorld(); return mesh.visible && (mesh.geometry.index?.count ?? 0) > 0 && view.frustum!.intersectsObject(mesh);
       });
-      if (process.env.WATER_BUDGET_REPORT) console.info(JSON.stringify({ inland: tiles.diagnostics, ribbons: ribbons.diagnostics,
+      const report = { updates, peakMergeBytes, peakReservedBytes, shared: shared.usage, inland: tiles.diagnostics, ribbons: ribbons.diagnostics,
         // Water uses one front/back-face material pass, never both at once;
         // it receives shadows but does not cast into the CSM passes.
         submittedSurfaceDraws: visible.length,
         submittedSurfaceTriangles: visible.reduce((sum, mesh) => sum + mesh.geometry.index!.count / 3, 0),
-        submittedSurfaceGeometryBytes: visible.reduce((sum, mesh) => sum + waterGeometryBytes(mesh.geometry), 0) }));
+        submittedSurfaceGeometryBytes: visible.reduce((sum, mesh) => sum + waterGeometryBytes(mesh.geometry), 0) };
+      if (process.env.WATER_BUDGET_REPORT) console.info(JSON.stringify(report));
+      if (process.env.WATER_BUDGET_REPORT_PATH) writeFileSync(`${process.env.WATER_BUDGET_REPORT_PATH}-${low ? "low" : "normal"}.json`, JSON.stringify(report));
       expect(tiles.diagnostics.pendingTiles).toBe(0);
       expect(ribbons.diagnostics.pendingPatches).toBe(0);
       expect(tiles.diagnostics.budgetFailures).toBe(0);

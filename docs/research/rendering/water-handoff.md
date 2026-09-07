@@ -30,15 +30,17 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
 - The deployed checkpoint adds prepared cutouts, lossless river packing, native
   inland class subdivision reduction and zero-area face removal. Local source
-  additionally packs displayed inland attributes and shares the original
-  combined geometry limits between rivers and standing water. The production
-  ledger passes the actual native normal view; low quality still exhausts
-  128 MiB (132 standing rejections, 38 pending after 10,000 updates).
+  additionally packs displayed inland attributes, shares the original combined
+  geometry limits, and reuses immutable displayed backing through source spans.
+  Both actual-native views now load completely with zero rejections: normal
+  110,291,355 array bytes, low 105,554,964. About nine thousand update cycles are
+  still needed; loading latency and full water coverage remain open.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Accepted62 preview assets remain local at `/tmp/water-live-preview`. Next:
-  immutable displayed batch backing + source tile spans to remove duplicate
-  storage, with precise reference accounting. See the coverage pipeline doc
-  for the retained evidence and design; do not rerun unchanged full probes.
+  address runtime construction latency, verify prepared-asset provenance and
+  coherent preview/map publication, then continue remaining physical coverage
+  constraints. See the coverage pipeline doc for retained evidence; do not
+  rerun unchanged full probes.
 - Do not describe local source fixes as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;

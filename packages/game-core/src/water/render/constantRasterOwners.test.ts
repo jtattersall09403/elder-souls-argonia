@@ -1,3 +1,5 @@
+import { inlandBackingBytes, type InlandBatchSource } from "./inlandBatchSource";
+import { createWaterGeometryBudget } from "./WaterGeometryBudget";
 import { surfaceWaveAt, waveExposure } from '../waves';
 import { expect, it } from 'vitest';
 import { MeshBasicMaterial, type Mesh } from 'three';
@@ -131,4 +133,33 @@ it('removes a prepared face that collapses onto the boundary of a small owner', 
     expect((p.getX(b) - p.getX(a)) * (p.getZ(c) - p.getZ(a)) - (p.getZ(b) - p.getZ(a)) * (p.getX(c) - p.getX(a))).not.toBe(0);
   }
   geometry.dispose(); tiles.dispose(); material.dispose();
+});
+
+it('reuses published native batch storage across tile rebuilds and eviction', () => {
+  const {data}=fixture(), shared=createWaterGeometryBudget(false), material=new MeshBasicMaterial();
+  const tiles=new InlandWaterTiles(data,false,{shared,buildBudgetMs:0.1});
+  const internal=tiles as unknown as {tiles:Map<string,{source:InlandBatchSource}>};
+  const settle=(x:number,z:number,farM=10000)=>{
+    const view={position:{x,y:20,z},farM,pixelsPerRadian:600};
+    for(let frame=0;frame<10000;frame++) {
+      tiles.update(x,z,material,1,view);
+      const sources=[...internal.tiles.values()].map(tile=>tile.source);
+      const all=[...sources,...tiles.meshes.map(mesh=>mesh.geometry)];
+      expect(shared.usage.bytes).toBeGreaterThanOrEqual(inlandBackingBytes(all));
+      if(!tiles.diagnostics.pendingTiles)break;
+    }
+    expect(tiles.diagnostics.pendingTiles).toBe(0);
+    expect(tiles.diagnostics.budgetFailures).toBe(0);
+  };
+  try {
+    settle(32,32);
+    expect([...internal.tiles.values()].some(tile=>'geometry' in tile.source)).toBe(true);
+    expect(shared.usage.bytes).toBe(inlandBackingBytes(tiles.meshes.map(mesh=>mesh.geometry)));
+    settle(192,32,0);
+    expect(shared.usage.bytes).toBe(inlandBackingBytes(tiles.meshes.map(mesh=>mesh.geometry)));
+    settle(32,32);
+    expect(shared.usage.bytes).toBe(inlandBackingBytes(tiles.meshes.map(mesh=>mesh.geometry)));
+    settle(10000,10000,100);
+    expect(shared.usage).toEqual({triangles:0,bytes:0});
+  } finally {tiles.dispose();material.dispose();}
 });

@@ -1,3 +1,4 @@
+import { inlandBackingBytes, inlandSourceRange, disposeInlandSource, type InlandBatchSource } from "./inlandBatchSource";
 import type { WaterGeometryBudget, WaterGeometryCost } from "./WaterGeometryBudget";
 import * as THREE from "three";
 import type { WaterData, WaterBoundaryStaticSample } from "../waterData";
@@ -24,6 +25,7 @@ export interface InlandWaterBudget {
   /** Fires only after the displayed batch changes, never on tile admission. */
   onPublication?: (batchId: string, tiles: readonly { tx: number; tz: number }[]) => void;
 }
+interface InlandTile { source: InlandBatchSource; userData: THREE.Mesh['userData'] }
 interface TileTask { key: string; tx: number; tz: number; step: number; priority: number; errorM: number; subpixelM: number }
 
 /** Fixed world-aligned inland tiles. A triangle never joins separate bodies;
@@ -32,12 +34,12 @@ interface TileTask { key: string; tx: number; tz: number; step: number; priority
 export class InlandWaterTiles {
   readonly group = new THREE.Group();
   readonly meshes: THREE.Mesh[] = [];
-  private tiles = new Map<string, THREE.Mesh>();
+  private tiles = new Map<string, InlandTile>();
   private focus = "";
   private pending: TileTask[] = [];
   private active?: { task: TileTask; build: Generator<void, THREE.Mesh> };
   private readonly dirtyBatches = new Set<string>();
-  private merging?: { overlapBytes: number; key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3; tiles: { tx: number; tz: number; step: number; generation: number }[] };
+  private merging?: { sourceTiles: InlandTile[]; overlapBytes: number; key: string; build: Generator<void, THREE.BufferGeometry>; bounds: THREE.Box3; tiles: { tx: number; tz: number; step: number; generation: number }[] };
   private publicationVersion = 0;
   private sourceVersion = 0;
   private batches = new Map<string, THREE.Mesh>();
@@ -85,14 +87,17 @@ export class InlandWaterTiles {
     this.atomicStepsLastUpdate++;
   }
 
-  /** Retain the larger of displayed and replacement layouts until publication.
-   * The overlap during a resumable merge is transient construction storage. */
-  private batchReservation(key: string, omit?: THREE.Mesh, insert?: THREE.Mesh): WaterGeometryCost {
-    const sources = [...this.tiles.values()].filter(tile => tile !== omit && tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0).map(tile => tile.geometry);
-    if (insert && (insert.geometry.index?.count ?? 0) > 0) sources.push(insert.geometry);
+  /** Native tiles share published backing. Keep every currently reachable
+   * allocation reserved until publication rebinds all tile spans. Legacy and
+   * marine tiles retain separate source arrays. Merge overlap is transient. */
+  private batchReservation(key: string, omit?: InlandTile, insert?: InlandTile): WaterGeometryCost {
+    const sources = [...this.tiles.values()].filter(tile => tile !== omit && tile.userData.waterBatch === key && inlandSourceRange(tile.source).indexCount > 0).map(tile => tile.source);
+    if (insert && inlandSourceRange(insert.source).indexCount > 0) sources.push(insert.source);
     const next = inlandBatchBudget(sources, !!this.data.nativeGround && this.domain === 'inland');
     const displayed = this.batches.get(key)?.geometry;
-    return { bytes: next.sourceBytes + Math.max(next.mergedBytes, displayed ? waterGeometryBytes(displayed) : 0),
+    const shareStorage = !!this.data.nativeGround && this.domain === 'inland';
+    return { bytes: shareStorage ? Math.max(inlandBackingBytes(sources, displayed), next.mergedBytes)
+      : next.sourceBytes + Math.max(next.mergedBytes, displayed ? waterGeometryBytes(displayed) : 0),
       triangles: Math.max(next.indices / 3, (displayed?.index?.count ?? 0) / 3) };
   }
 
@@ -167,7 +172,7 @@ export class InlandWaterTiles {
           if (current) {
             this.replaceReservation(this.batchReservation(current.userData.waterBatch), this.batchReservation(current.userData.waterBatch, current));
             changedBatches.add(current.userData.waterBatch);
-            current.geometry.dispose(); this.tiles.delete(key);
+            disposeInlandSource(current.source); this.tiles.delete(key);
           }
           continue;
         }
@@ -203,7 +208,7 @@ export class InlandWaterTiles {
     while (performance.now() - began < this.buildBudgetMs) {
       if (!this.merging && changedBatches.size) {
         const key = changedBatches.values().next().value!; changedBatches.delete(key);
-        const tiles = [...this.tiles.values()].filter(tile => tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0);
+        const tiles = [...this.tiles.values()].filter(tile => tile.userData.waterBatch === key && inlandSourceRange(tile.source).indexCount > 0);
         if (!tiles.length) {
           const batch = this.batches.get(key);
           if (batch) {
@@ -215,19 +220,30 @@ export class InlandWaterTiles {
         }
         const bounds = new THREE.Box3(); for (const tile of tiles) bounds.union(tile.userData.waterBounds);
         const displayed = this.batches.get(key)?.geometry;
-        const mergedBytes = inlandBatchBudget(tiles.map(tile => tile.geometry), !!this.data.nativeGround && this.domain === 'inland').mergedBytes;
-        this.merging = { overlapBytes: Math.min(mergedBytes, displayed ? waterGeometryBytes(displayed) : 0), key, bounds, build: inlandBatchGeometry(tiles.map(tile => tile.geometry), !!this.data.nativeGround && this.domain === 'inland'), tiles: tiles.map(tile => ({ ...tile.userData.waterTile, step: tile.userData.waterStep })) };
+        const mergedBytes = inlandBatchBudget(tiles.map(tile => tile.source), !!this.data.nativeGround && this.domain === 'inland').mergedBytes;
+        const shareStorage = !!this.data.nativeGround && this.domain === 'inland';
+        const retainedBytes = shareStorage ? inlandBackingBytes(tiles.map(tile => tile.source), displayed) : displayed ? waterGeometryBytes(displayed) : 0;
+        this.merging = { sourceTiles: tiles, overlapBytes: Math.min(mergedBytes, retainedBytes), key, bounds, build: inlandBatchGeometry(tiles.map(tile => tile.source), !!this.data.nativeGround && this.domain === 'inland'), tiles: tiles.map(tile => ({ ...tile.userData.waterTile, step: tile.userData.waterStep })) };
       }
       if (this.merging) {
         this.atomicPhase = "batch-copy";
         const atomic = performance.now(), result = this.merging.build.next(); this.recordAtomic(atomic);
         if (!result.done) continue;
-        const { key, bounds, tiles } = this.merging; this.merging = undefined;
+        const { key, bounds, tiles, sourceTiles } = this.merging; this.merging = undefined;
         const previousReservation = this.batchReservation(key);
         let batch = this.batches.get(key);
         if (batch) { batch.geometry.dispose(); batch.geometry = result.value; }
         else { batch = new THREE.Mesh(result.value, material); batch.frustumCulled = true; batch.layers.set(3); batch.receiveShadow = true;
           this.group.add(batch); this.batches.set(key, batch); }
+        if (this.data.nativeGround && this.domain === 'inland') {
+          let vertexStart = 0, indexStart = 0;
+          for (const tile of sourceTiles) {
+            const { vertexCount, indexCount } = inlandSourceRange(tile.source);
+            disposeInlandSource(tile.source);
+            tile.source = { geometry: result.value, vertexStart, vertexCount, indexStart, indexCount };
+            vertexStart += vertexCount; indexStart += indexCount;
+          }
+        }
         this.replaceReservation(previousReservation, this.batchReservation(key));
         batch.userData.waterBounds = bounds; batch.userData.boundsDirty = true;
         batch.userData.waterTiles = tiles; batch.userData.waterRevision = ++this.publicationVersion;
@@ -245,11 +261,12 @@ export class InlandWaterTiles {
       const task = this.active.task, mesh = result.value; this.active = undefined; this.builtLastUpdate++;
       const previous = this.tiles.get(task.key);
       const previousCost = this.batchReservation(mesh.userData.waterBatch);
-      const nextCost = this.batchReservation(mesh.userData.waterBatch, previous, mesh);
+      const candidate: InlandTile = { source: mesh.geometry, userData: mesh.userData };
+      const nextCost = this.batchReservation(mesh.userData.waterBatch, previous, candidate);
       if (!this.replaceReservation(previousCost, nextCost)) {
         mesh.geometry.dispose(); this.budgetFailures++; continue;
       }
-      previous?.geometry.dispose(); this.tiles.set(task.key, mesh); changedBatches.add(mesh.userData.waterBatch);
+      if (previous) disposeInlandSource(previous.source); this.tiles.set(task.key, candidate); changedBatches.add(mesh.userData.waterBatch);
     }
     this.buildWorkMs = performance.now() - began;
     // At most64 fixed 4x4-tile groups for the shipped32x32 province. Only
@@ -630,7 +647,7 @@ export class InlandWaterTiles {
     this.merging?.build.return(undefined as never); this.merging = undefined; this.dirtyBatches.clear();
     for (const [key, batch] of this.batches) { batch.geometry.dispose(); this.onPublication?.(key, []); }
     this.batches.clear(); this.verticalScale = NaN;
-    for (const mesh of this.tiles.values()) mesh.geometry.dispose();
+    for (const tile of this.tiles.values()) disposeInlandSource(tile.source);
     this.tiles.clear(); this.meshes.length = 0; this.group.clear(); this.pending = [];
     this.residentTriangles = this.residentBytes = 0;
     this.shared?.release(this);

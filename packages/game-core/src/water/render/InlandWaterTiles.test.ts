@@ -1,3 +1,4 @@
+import { inlandBackingBytes, type InlandBatchSource } from "./inlandBatchSource";
 import { WaterGeometryBudget } from "./WaterGeometryBudget";
 import { waterGeometryBytes } from "./waterStreaming";
 import { describe, expect, it, vi } from "vitest";
@@ -302,8 +303,8 @@ it('accounts for displayed buffers through eviction and releases its shared allo
   const shared = new WaterGeometryBudget(2048576,160*1024*1024), material = new MeshBasicMaterial();
   const tiles = new InlandWaterTiles(poolData(66), false, { shared, buildBudgetMs: 0.1 });
   const verify = () => {
-    const internals = tiles as unknown as { tiles: Map<string, import('three').Mesh> };
-    const sourceBytes = [...internals.tiles.values()].reduce((n,m) => n+waterGeometryBytes(m.geometry),0);
+    const internals = tiles as unknown as { tiles: Map<string, { source: InlandBatchSource }> };
+    const sourceBytes = inlandBackingBytes([...internals.tiles.values()].map(tile => tile.source));
     const displayedBytes = tiles.meshes.reduce((n,m) => n+waterGeometryBytes(m.geometry),0);
     expect(shared.usage.bytes).toBeGreaterThanOrEqual(sourceBytes+displayedBytes);
     expect(shared.usage.triangles).toBeGreaterThanOrEqual(tiles.meshes.reduce((n,m) => n+(m.geometry.index?.count??0)/3,0));
