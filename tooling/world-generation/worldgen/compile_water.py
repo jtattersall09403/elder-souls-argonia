@@ -475,6 +475,45 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
             diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
             metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain)
+    seasonal_sources = frozenset()
+    seasonal_recovered = frozenset()
+    seasonal_supporters = frozenset()
+    if seasonal_profile is not None:
+        from .water_channel_response import validate_seasonal_profile
+        baseline_conflicts = frozenset(conflicts)
+        seasonal_candidates, peak_budget = validate_seasonal_profile(
+            seasonal_profile, geometry_points, geometry_ds, dsk, baseline_conflicts, rivulet_st)
+        # Later raster work rebinds dsk to the accepted, oriented flow graph.
+        # A profile reconciliation must keep the original authored topology.
+        def solve_seasonal_profile(budget, diagnostics, original_links=dsk, contain_freeboards=False):
+            result = condition_channel_profiles(
+                g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, original_links, pool_lvl,
+                bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+                diagnostics=diagnostics, minimum_depth=geometry_depths, strict_banks=True,
+                metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain,
+                peak_depth_budget=budget)
+            # Seasonal relief can expose a pool constraint hidden behind a
+            # base-only bed failure. Resample all contacts after each whole
+            # new-pool reduction, including fringes that have become dry.
+            while contain_freeboards and result[-1]:
+                changes = contain_pool_freeboards(pool_lvl, lbl2, filled2, geometry_points, result[-1],
+                                                  immutable_labels=immutable_pool_labels)
+                if not changes:
+                    break
+                pool_head_changes.extend(changes)
+                result = solve_seasonal_profile(budget, diagnostics, original_links)
+            return result
+        geometry_levels, geometry_active, accepted_links, conflicts = solve_seasonal_profile(
+            peak_budget, profile_diagnostics, contain_freeboards=True)
+        if not set(conflicts).issubset(baseline_conflicts):
+            raise ValueError('Seasonal profile introduces new channel failures')
+        seasonal_recovered = baseline_conflicts - set(conflicts)
+        if not seasonal_recovered.issubset(seasonal_candidates):
+            raise ValueError('Seasonal profile unexpectedly changes another rejected reach')
+        seasonal_supporters = frozenset(map(int, seasonal_profile.get('supporting_sources', ())))
+        seasonal_sources = seasonal_recovered | seasonal_supporters
+        topology_stats['seasonalRecoveredReachCount'] = len(seasonal_recovered)
+        topology_stats['seasonalSupportingReachCount'] = len(seasonal_supporters)
     if pool_head_changes:
         # Replace the entire original plane, not just the constrained node.
         w2[keep2[lbl2]] = pool_lvl[keep2[lbl2]]
@@ -486,34 +525,6 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         label = change['poolLabel']
         maximum_pool_reduction[label] = maximum_pool_reduction.get(label, 0.) + change['fromM'] - change['toM']
     topology_stats['maximumFlowPoolFreeboardReductionM'] = round(max(maximum_pool_reduction.values(), default=0.), 6)
-    seasonal_sources = frozenset()
-    seasonal_recovered = frozenset()
-    seasonal_supporters = frozenset()
-    if seasonal_profile is not None:
-        from .water_channel_response import validate_seasonal_profile
-        baseline_conflicts = frozenset(conflicts)
-        seasonal_candidates, peak_budget = validate_seasonal_profile(
-            seasonal_profile, geometry_points, geometry_ds, dsk, baseline_conflicts, rivulet_st)
-        # Later raster work rebinds dsk to the accepted, oriented flow graph.
-        # A profile reconciliation must keep the original authored topology.
-        def solve_seasonal_profile(budget, diagnostics, original_links=dsk):
-            return condition_channel_profiles(
-                g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, original_links, pool_lvl,
-                bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-                diagnostics=diagnostics, minimum_depth=geometry_depths, strict_banks=True,
-                metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain,
-                peak_depth_budget=budget)
-        geometry_levels, geometry_active, accepted_links, conflicts = solve_seasonal_profile(
-            peak_budget, profile_diagnostics)
-        if not set(conflicts).issubset(baseline_conflicts):
-            raise ValueError('Seasonal profile introduces new channel failures')
-        seasonal_recovered = baseline_conflicts - set(conflicts)
-        if not seasonal_recovered.issubset(seasonal_candidates):
-            raise ValueError('Seasonal profile unexpectedly changes another rejected reach')
-        seasonal_supporters = frozenset(map(int, seasonal_profile.get('supporting_sources', ())))
-        seasonal_sources = seasonal_recovered | seasonal_supporters
-        topology_stats['seasonalRecoveredReachCount'] = len(seasonal_recovered)
-        topology_stats['seasonalSupportingReachCount'] = len(seasonal_supporters)
     profile_state = None
     if profiles_only or capture_profile:
         profile_state = {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,

@@ -4,6 +4,7 @@ import { waterTimeS } from "./waterClock";
 import { primeWetnessUniforms } from "./groundWetness";
 import { sharedWaterAssets as legacyAssets, setWetSeasonOverride as legacySeason, setWaterGroundHeight as legacyGround } from "./legacy/waterAssets";
 import type { WaterAssets } from "@elder-souls/game-core/water/render/types";
+import { waterDatasetPath } from "./waterDataset";
 export type { WaterAssets } from "@elder-souls/game-core/water/render/types";
 export const LEGACY_WATER = new URLSearchParams(window.location.search).get("water") === "legacy";
 
@@ -37,6 +38,7 @@ export function sharedWaterAssets(base: string): Promise<WaterAssets> {
     })
     : loadWaterAssets({
       baseUrl: base,
+      waterPath: `province/${waterDatasetPath()}`,
       groundHeight: (x, z) => groundHeightFn?.(x, z) ?? null,
       seasonScalar: effectiveSeasonScalar,
       waveTimeS: waterTimeS,

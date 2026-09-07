@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
+import { physicalWaterMapFiles } from "./water/waterDataset";
 import { PlacesLayer } from "./places/PlacesLayer";
 import { BlueprintView } from "./blueprints/BlueprintView";
 import { encodeBlueprintUrl, parseBlueprintUrl, type BlueprintUrlState } from "./blueprints/blueprintsData";
@@ -178,6 +179,7 @@ export function App() {
   useEffect(() => {
     const q = new URLSearchParams();
     if (urlParams.get("water") === "legacy") q.set("water", "legacy");
+    if (urlParams.get("waterDataset") === "preview") q.set("waterDataset", "preview");
     if (urlParams.has("wq")) q.set("wq", urlParams.get("wq")!);
     if (urlParams.get("hud") === "0") q.set("hud", "0");
     if (urlParams.get("markers") === "0") q.set("markers", "0");
@@ -272,6 +274,7 @@ export function App() {
         // Wet-season inundation (+1.4 m connected flood, refine_province):
         // the map-view twin of the 3D world's seasonal water level (§36).
         "flood-wet": "refined/flood-wet.png",
+        ...physicalWaterMapFiles(),
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -343,7 +346,7 @@ export function App() {
       const img = overlaysRef.current[name];
       // routes/waterways are drawn as clickable vector lines under ?cat=1
       if (showCatalogue && (name === "routes" || name === "waterways")) continue;
-      if (layers[name] && img) ctx.drawImage(img, 0, 0);
+      if (layers[name] && img) ctx.drawImage(img, 0, 0, w, h);
     }
 
     // Suggested transport connections (candidate edges, not road geometry).

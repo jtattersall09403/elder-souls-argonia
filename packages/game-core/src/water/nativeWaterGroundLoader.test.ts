@@ -43,4 +43,15 @@ describe('native terrain water bundle loader', () => {
     vi.stubGlobal('fetch', vi.fn(async () => { controller.abort(); return new Response(compressed); }));
     await expect(fetchNativeWaterGround('/', meta, controller.signal)).rejects.toThrow();
   });
+  it('verifies browser-decoded HTTP gzip and transport-wrapped gzip identically', async () => {
+    const { meta, bytes, compressed } = fixture();
+    vi.stubGlobal('crypto', webcrypto);
+    for (const delivered of [bytes, compressed]) {
+      vi.stubGlobal('fetch', vi.fn(async () => new Response(delivered, { headers: { 'Content-Encoding': 'gzip' } })));
+      expect((await fetchNativeWaterGround('/', meta, new AbortController().signal)).sample(.25, .25)).toBeCloseTo(.75);
+    }
+    const corrupt = bytes.slice(); corrupt[60] ^= 1;
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(corrupt, { headers: { 'Content-Encoding': 'gzip' } })));
+    await expect(fetchNativeWaterGround('/', meta, new AbortController().signal)).rejects.toThrow('integrity mismatch');
+  });
 });

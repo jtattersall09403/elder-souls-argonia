@@ -134,7 +134,10 @@ def export_terrain(province, protected_path, out, water_dir=None, bank_errors=()
             with gzip.GzipFile(fileobj=compressed, mode="wb", filename="", mtime=0, compresslevel=6) as gz:
                 gz.write(payload)
             download = compressed.getvalue()
-            filename = f"chunk_{cx}_{cy}_lod{key}.bin.gz"
+            # Compression is explicit in the manifest. A .gz suffix lets
+            # static hosts transparently decode the file before its packed
+            # download hash can be verified by the browser.
+            filename = f"chunk_{cx}_{cy}_lod{key}.bin"
             (out / filename).write_bytes(download)
             meta = {"file": filename, "bytes": len(payload), "vertices": len(vertices), "triangles": len(triangles),
                     "compression": "gzip", "downloadBytes": len(download),

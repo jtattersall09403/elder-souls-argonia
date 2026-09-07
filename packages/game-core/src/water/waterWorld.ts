@@ -163,7 +163,9 @@ export class WaterWorld implements WorldWaterQuery {
           position.z + (dz / (gl * eG)) * 30,
         ).shoreDistM;
       }
-      const fetch = fetchExposure(Math.max(seaward, s.shoreDistM), Math.max(s.turbidity, s.tannin)) * s.waveShelter;
+      // waveShelter includes local distance-to-land exposure; multiplying
+      // it here would suppress the seaward energy again at the beach.
+      const fetch = fetchExposure(Math.max(seaward, s.shoreDistM), Math.max(s.turbidity, s.tannin));
       surf = swashAt(s.shoreDistM, fetch, waveTime)
         + shoreSwellAt(s.shoreDistM, Math.max(s.depthProxy, 0), fetch, waveTime);
       const derivative = (shoreSwellAt(s.shoreDistM + 0.1, Math.max(s.depthProxy, 0), fetch, waveTime)

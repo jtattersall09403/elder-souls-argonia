@@ -412,6 +412,11 @@ def test_flowing_pool_freeboard_can_lower_only_as_a_whole_above_its_spill():
     assert not contain_pool_freeboards(pool, labels, filled, points, conflict)
     assert np.allclose(pool, 2.072)
 
+    # A bank cap within the same stored float cannot trigger an endless
+    # contain/resample loop without changing the physical plane.
+    conflict[0].update(requiredLevelM=float(pool[0, 0]), bankCapM=float(pool[0, 0]) - 1e-9)
+    assert not contain_pool_freeboards(pool, labels, filled, points, conflict)
+
 
 def test_pool_freeboard_uses_owner_spill_below_a_high_shoreline_contact():
     from .water_geometry import contain_pool_freeboards
@@ -429,11 +434,19 @@ def test_pool_freeboard_uses_owner_spill_below_a_high_shoreline_contact():
     assert len(changes) == 1
     assert np.all(pool == np.float32(27.73756))
 
-    # A lower spill alone cannot justify drying the actual outlet contact.
-    pool.fill(27.759535)
-    conflict[0]['bankCapM'] = 27.73
-    assert not contain_pool_freeboards(pool, labels, filled, points, conflict)
-    assert np.all(pool == np.float32(27.759535))
+    # A temporary high fringe is not the actual spill. Re-solving must
+    # release its standing contact when another connected bank lowers the
+    # optional head, even when the previous contact had only a thin film.
+    from .water_geometry import sample_standing_levels
+    ground = filled.copy()
+    ground[0, 0] -= .2
+    assert np.isfinite(sample_standing_levels(ground, pool, points)[0])
+    conflict[0].update(requiredLevelM=27.73756, bankCapM=27.714637,
+                       obstructionPinned=True)
+    assert contain_pool_freeboards(pool, labels, filled, points, conflict)
+    assert np.all(pool == np.float32(27.714637))
+    assert not np.isfinite(sample_standing_levels(ground, pool, points)[0])
+    assert np.isfinite(sample_standing_levels(ground, pool, np.array([[0., 0.]]))[0])
 
 
 def test_same_pool_route_uses_existing_wet_corridor_beyond_two_pixel_chord():

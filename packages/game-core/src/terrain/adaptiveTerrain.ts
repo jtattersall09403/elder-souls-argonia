@@ -134,7 +134,7 @@ export class AdaptiveTerrainLoader {
   private active = 0;
   private bytes = 0;
   private disposed = false;
-  constructor(readonly provinceBaseUrl: string, private readonly options: { concurrency?: number; maxCacheBytes?: number; fetch?: typeof fetch } = {}) {}
+  constructor(readonly provinceBaseUrl: string, private readonly options: { concurrency?: number; maxCacheBytes?: number; fetch?: typeof fetch; waterPath?: string } = {}) {}
   get diagnostics() { return { activeRequests: this.active, queuedRequests: this.queue.length, cachedBytes: this.bytes, cachedChunks: this.cache.size }; }
   /** Optional view-owned residency. Cancel only queued work; at most the
    * bounded active request count can finish after a camera switch. */
@@ -151,7 +151,7 @@ export class AdaptiveTerrainLoader {
   private fetch(url: string) { return (this.options.fetch ?? fetch)(url, { signal: this.controller.signal }); }
 
   manifest(): Promise<AdaptiveTerrainManifest | null> {
-    this.manifestPromise ??= this.fetch(`${this.provinceBaseUrl}water/v2/terrain/manifest.json`).then(async response => {
+    this.manifestPromise ??= this.fetch(`${this.provinceBaseUrl}${this.options.waterPath ?? 'water/v2/'}terrain/manifest.json`).then(async response => {
       if (response.status === 404) return null;
       if (!response.ok) throw new Error(`Adaptive terrain manifest HTTP ${response.status}`);
       const manifest = validateAdaptiveTerrainManifest(await response.json());
@@ -205,7 +205,7 @@ export class AdaptiveTerrainLoader {
     if (this.disposed) throw new Error("Adaptive terrain loader disposed");
     const manifest = await this.manifest(), chunk = manifest?.chunks.find(c => c.cx === cx && c.cy === cy);
     if (!manifest || !chunk || !chunk.lods[lod]) return null;
-    const response = await this.fetch(`${this.provinceBaseUrl}water/v2/terrain/${chunk.lods[lod].file}`);
+    const response = await this.fetch(`${this.provinceBaseUrl}${this.options.waterPath ?? 'water/v2/'}terrain/${chunk.lods[lod].file}`);
     if (!response.ok) throw new Error(`Adaptive terrain chunk HTTP ${response.status}`);
     const downloaded = await response.arrayBuffer(), asset = chunk.lods[lod];
     if (downloaded.byteLength !== (asset.downloadBytes ?? asset.bytes)) throw new Error("Adaptive terrain download size mismatch");

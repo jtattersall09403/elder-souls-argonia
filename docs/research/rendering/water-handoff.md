@@ -66,13 +66,20 @@ The62 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
-Latest authored-pond diagnostic: fresh domains plus seasonal rebase leave64
-channel failures (accepted62 plus8638/9139), with249,456 new finite pond
-vertices. Shared spill-based freeboard correction is tested, but applying it
-after the seasonal solve shifts9139's obstruction upstream to9111. Solve the
-connected groups before acceptance; no candidate assets promoted. Evidence
-and next actions are in the coverage pipeline's fresh-outlet subsection.
+**Owner live-regression priority2026-09-07:** investigate floating and missing
+water, hard shore edges, ocean/weather/caustics regressions and incomplete
+waterfall bodies against the actual public dataset. Independent review found
+native-only fixes were repeatedly checked while live still used legacy data.
+A shared coastal double-exposure bug is corrected; remaining classes stay open.
+The owner requested deployment of completed physical work: the accepted62
+native bundle and matching map are prepared under `?waterDataset=preview`.
+See the latest coverage-pipeline subsection for source/data and browser evidence.
 
+The new authored-pond full rebuild finishes with62 failures and verified
+seasonal response. It is NOT accepted or part of that preview: original-pool
+preservation, changed8638 lows, continuous peak extent and final geometry remain
+open. Stop the pond-tail loop while addressing the owner's live regression
+classes. Exact candidate outputs are in the coverage pipeline.
 
 **Priority change after independent approach review2026-09-07:** build the
 province-wide classified coverage audit and shared map/physical-semantic output

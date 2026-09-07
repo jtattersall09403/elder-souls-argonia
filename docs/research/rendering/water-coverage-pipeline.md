@@ -602,9 +602,9 @@ Inputs/results: `/tmp/water-authored-pond-outlet-overlay.json` (SHA256
 
 `contain_pool_freeboards` now measures the owner's spill from its minimum
 filled potential, rather than the higher contact/fringe potential. Retained
-owners remain immutable; reductions must preserve15mm above the spill and
-keep the constrained contact wet. The real9139 fixture verifies the difference,
-immutable protection and rejection of a dry contact. All52 geometry tests pass.
+owners remain immutable; reductions preserve15mm above the spill. The first
+version also kept the constrained fringe wet; the connected-outlet work below
+supersedes that restriction because an optional fringe is not a physical spill. All52 geometry tests pass.
 Root typecheck and all runtime tests pass after rerunning the single combat
 child-process test outside the sandbox (its first run failed EPERM). Logs:
 `/tmp/water-pool-spill-{geometry-tests,root-tests,typecheck,critical-tests}.log`.
@@ -628,3 +628,98 @@ unchanged. `/tmp/water-authored-pond-lost-fringe.json` records each location.
 This is not proven physical coverage loss: check actual peak support before
 restoring them. Do not permit unrestricted label-zero reference seeding.
 No candidate terrain, pond plane, seasonal profile or map asset was promoted.
+
+
+### Connected outlet reconciliation and optional receding fringes (2026-09-07)
+
+Joint connected-reach LP with restoration finds no admissible terrain change
+for8638/9139 under the original bank bounds. The turn-aware route search within
+8638's authored2-native-vertex radius reproduces the same corridor. At its two
+rim vertices2085/2251–2252, ground equals the12.305705m retaining lower bound,
+above the preserved12.300705m pond. Neither denser sampling nor legal bed cuts
+can resolve that base connection. Evidence: `/tmp/water-authored-pond-connected-proposal.audit.json`,
+`/tmp/water-authored-pond-oriented-repair.json`, `/tmp/water-authored-pond-route.log`.
+
+Optional new-pool fringe contacts are now allowed to recede. Each reduction
+requires re-solving/resampling standing contacts; it cannot change an immutable
+owner or go below its spill plus15mm. Explicitly pinned thin contacts no longer
+use the old32mm heuristic for inferring a pool. Representable Float32 progress
+is required to prevent an endless loop on a cap that rounds to the same plane.
+The seasonal compiler pass now performs the same whole-pool containment as the
+base pass, before fields and response anchors are generated. Later budget-only
+reconciliation cannot silently retune those already compiled fields.
+The regression checks release the high contact while retaining the pool core.
+All66 geometry/seasonal tests, root tests and root typecheck pass.
+
+For the entirely new47-vertex pond, connected resampling lowers its optional
+head27.759535→27.737560→27.714638m, still above its27.679535m spill. Both9139 and
+upstream9111 then pass. Diagnostic state: `/tmp/water-authored-pond-spill-receding-state.npz`.
+8638 is an authored wetland rivulet. A50mm peak allowance on its interior only,
+with zero allowance on shared endpoints and direction following the fixed pond
+heads, resolves it without cutting the rim. `/tmp/water-authored-pond-seasonal-outlet.json`
+records exactly the accepted62 failure set, no new failures. This is NOT yet
+accepted: actual fresh response, continuous peak connectivity, changed low-water
+coverage and all original pool preservation remain required.
+
+In particular,8638 was previously accepted without seasonal relief. Its rim
+base heads fall12.385705→12.300705m; farther along the new pond contact the
+base reduction is1.482924m. Keeping original pond heads and low amplitudes does
+not prove unchanged channel lows. `/tmp/water-authored-pond-outlet-base-comparison.json`
+records every sampled point. The new pond's physical spill prevents blindly
+copying its former higher channel head. Compare actual low/peak extent before
+acceptance; do not hide this tradeoff behind the unchanged failure count.
+
+The fresh full-field compile completed in703.87seconds with62 failures,
+no additional failures and actual seasonal-response verification. Outputs:
+`/tmp/water-authored-pond-connected-full-{profile,fields}.npz` and `.json`.
+The script was extended after launch to save feature inputs/records too; the
+completed run did not execute that extension, so do not assume those extra
+files exist. No repeat full compile just to capture them is justified yet.
+`/tmp/audit-water-authored-pond-connected.py` produces the field screen. Its
+original-wet mask currently uses raw terrain rather than the reference's
+original-conditioned ground, so its raw preservation totals are not an
+acceptance result; compare with the exact original-reference mask and baseline.
+Wetland-hollow standing peak coverage is1,318,225/1,500,146 (35,625 unsupported,
+121,351 depth shortfall,8,491 access blocked,16,454 flowing geometry unverified).
+This is a standing-field screen, not final coverage. No candidate terrain,
+stage, map or semantic data has been promoted.
+
+### Owner live-regression report and native preview publication (2026-09-07)
+
+The owner reports floating patches on unauthored raised ground, gaps/hollows
+in flat water and slopes, hard shorelines, incomplete waterfalls, missing
+coastal surf/whitecaps, sea barcode patches, missing seabed caustics and weak
+wind/storm response. Independent review identifies the process mistake:
+native-data solver and geometry checks do not certify the live legacy-data
+renderer. Priority is now one reproducible case per visible failure class,
+comparing runtimes on identical data and datasets on identical runtime code.
+Standing connected planes, flowing terrain-following reaches and airborne
+waterfalls need distinct physical coverage contracts with continuous joins.
+
+A concrete coastal surf regression is corrected in CPU and GPU: the seaward
+fetch was multiplied again by local character exposure, itself generated from
+distance to land. Published swash-zone exposure has median31/255, an extra
+8.2-fold attenuation. Removing that second factor restores the established
+shore-energy calculation. The regression verifies waterline runup under that
+actual exposure value; shader variants compile/draw without GL errors. Other
+ocean/weather/caustics/whitecap/barcode defects remain open. Caustics receivers
+are wired, but high marine tannin and out-of-province support need checking;
+no duplicate caustics pass was added. Ballistic spray does not certify the
+requested continuous volumetric waterfall body.
+
+Owner explicitly requests a progress deployment. The assembled accepted62
+native dataset is copied to `apps/world-studio/public/province/water/preview/`
+and selected by `?waterDataset=preview`. It carries its matching bed overlay,
+terrain topology,256 adaptive terrain chunks, gradient patch, channel sections,
+prepared cutouts and maximum/seasonal map layers. Its stage bounds remain
+season1.4/tide0.5 and lows0.28/0.5. New authored-pond experiments are excluded.
+No semantic wetland classifications are changed by this publication.
+
+A real browser load exposed HTTP gzip auto-decoding: water binaries now verify
+either browser-decoded or still-compressed delivery using strict byte bounds
+and the same raw SHA256. Compressed terrain files use `.bin` plus explicit
+manifest compression, preserving the compressed-download hash independently
+of HTTP encoding. Exporter naming matches. All terrain/chunk dependencies were
+hash-checked; the actual browser loads native water, one decoded terrain chunk,
+the gradient and matching map stages. `/tmp/water-preview-load-check.log`.
+This is load/integrity evidence, not visual acceptance of the reported defects.

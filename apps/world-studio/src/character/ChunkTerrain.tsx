@@ -9,6 +9,7 @@ import { AdaptiveTerrainLoader, buildAdaptiveTerrainGeometry, type AdaptiveTerra
 import { TerrainViewResidency, type TerrainViewEntry } from "@elder-souls/game-core/terrain/viewResidency";
 import { hasTerrainAuthority, selectTerrainDisplay } from '@elder-souls/game-core/terrain/displaySelection';
 import { loadTerrainGradient } from '@elder-souls/game-core/terrain/terrainGradient';
+import { waterDatasetPath } from '../water/waterDataset';
 
 /**
  * Chunked terrain renderer: visible/buffer chunks each have their own mesh,
@@ -61,7 +62,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
 }) {
   const base = import.meta.env.BASE_URL;
   const adaptive = useMemo(() => new URLSearchParams(window.location.search).get("water") === "legacy"
-    ? null : new AdaptiveTerrainLoader(`${base}province/`), [base]);
+    ? null : new AdaptiveTerrainLoader(`${base}province/`, { waterPath: waterDatasetPath() }), [base]);
   const [adaptiveAvailable, setAdaptiveAvailable] = useState<boolean | null>(adaptive ? null : false);
   const [adaptiveMetadata, setAdaptiveMetadata] = useState<AdaptiveTerrainManifest | null>(null);
   const bankChunks = useMemo(() => new Map(adaptiveMetadata?.chunks.map(chunk => [`${chunk.cx},${chunk.cy}`, chunk])), [adaptiveMetadata]);
@@ -90,7 +91,7 @@ export function ChunkTerrain({ store, manifest, focusRef, matSet, tintStrength, 
     // Reuse the stable dependency-validation promise; this is not a new
     // Suspense dependency and cannot recreate the fly scene loading loop.
     (adaptive?adaptive.manifest():Promise.resolve(null))
-      .then(metadata=>loadTerrainGradient(`${base}province/`,metadata?.gradientPatch??null,{signal:controller.signal}))
+      .then(metadata=>loadTerrainGradient(`${base}province/`,metadata?.gradientPatch??null,{signal:controller.signal,waterPath:waterDatasetPath()}))
       .then(texture=>{if(controller.signal.aborted){texture.dispose();return;}owned=texture;setGradientState({texture,owner:adaptive,base});})
       .catch(error=>{if(!controller.signal.aborted){console.error("Matched terrain gradient unavailable:",error);setGradientError(error);}});
     return()=>{controller.abort();owned?.dispose();};

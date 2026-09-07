@@ -40,7 +40,7 @@ export function applyTerrainGradientPatch(pixels:Uint8ClampedArray,width:number,
   }
 }
 export interface TerrainGradientPixels {width:number;height:number;pixels:Uint8ClampedArray}
-export interface TerrainGradientLoadOptions {signal?:AbortSignal;fetch?:typeof fetch;
+export interface TerrainGradientLoadOptions {signal?:AbortSignal;fetch?:typeof fetch;waterPath?:string;
   decode?:(bytes:Uint8Array)=>Promise<TerrainGradientPixels>}
 async function digest(bytes:Uint8Array):Promise<string>{return [...new Uint8Array(await crypto.subtle.digest("SHA-256",bytes as Uint8Array<ArrayBuffer>))].map(v=>v.toString(16).padStart(2,"0")).join("");}
 async function download(url:string,maximum:number,options:TerrainGradientLoadOptions):Promise<Uint8Array>{
@@ -67,7 +67,7 @@ async function decode(bytes:Uint8Array):Promise<TerrainGradientPixels>{
 export async function loadTerrainGradient(provinceUrl:string,meta:TerrainGradientPatchMeta|null,options:TerrainGradientLoadOptions={}):Promise<DataTexture>{
   const original=await download(`${provinceUrl}${meta?.baseGradient.file??"chunks/normal-grad.png"}`,64*1024*1024,options);
   if(meta&&await digest(original)!==meta.baseGradient.sha256)throw new Error("Original terrain gradient hash mismatch");
-  const patch=meta?await download(`${provinceUrl}water/v2/terrain/${meta.file}`,meta.bytes,options):null;
+  const patch=meta?await download(`${provinceUrl}${options.waterPath??'water/v2/'}terrain/${meta.file}`,meta.bytes,options):null;
   if(meta&&patch&&(patch.length!==meta.bytes||await digest(patch)!==meta.sha256))throw new Error("Terrain gradient patch hash mismatch");
   const image=await(options.decode??decode)(original);
   if(image.width>4096||image.height>4096||image.pixels.length!==image.width*image.height*4)throw new Error("Invalid decoded terrain gradient");

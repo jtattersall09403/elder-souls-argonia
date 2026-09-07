@@ -577,7 +577,9 @@ if (esShore < 90.0) {
 } else {
   esFetch = esFetchExp(esShore, esTurbV);
 }
-esFetch *= esCharacter.b * (esKl.r * 255.0 < 2.5 ? 1.0 : 0.0);
+// character.b also contains distance-to-land exposure. Applying it here
+// would mute the beach again after recovering the seaward wave energy.
+esFetch *= esKl.r * 255.0 < 2.5 ? 1.0 : 0.0;
 // the waterline itself TRAVELS: asymmetric swash + shoaling shore swell,
 // added BEFORE the depth proxy so the advancing tongue renders on the
 // beach face instead of being discarded as buried (research doc §5).

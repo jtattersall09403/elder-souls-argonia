@@ -174,7 +174,8 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
     preserving a single standing plane and a positive outlet clearance.
     Closure can include higher shoreline vertices: their filled height is
     not the component's spill. Use the lowest filled potential in the owner
-    domain, while keeping the constrained contact wet after the reduction.
+    domain. Optional fringes may become dry: callers must resample standing
+    contacts after each reduction, rather than pinning a temporary shoreline.
     """
     updates = {}
     labels = np.unique(pool_labels)
@@ -184,7 +185,8 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
         if conflict.get('obstructionPinned') is False:
             continue
         required = conflict['requiredLevelM']
-        if required <= conflict['obstructionBedM'] + .032:
+        if (conflict.get('obstructionPinned') is not True and
+                required <= conflict['obstructionBedM'] + .032):
             continue
         base = np.floor(points[conflict['obstructionNode']]).astype(int)
         for offset in ((0, 0), (0, 1), (1, 0), (1, 1)):
@@ -193,9 +195,9 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
             label = int(pool_labels[cell])
             if label in immutable_labels:continue
             cap = float(conflict['bankCapM'])
-            if label and np.isfinite(old) and abs(old - required) <= .0001 and cap < old:
-                if (cap >= float(spills[label]) + minimum_head and
-                        cap > conflict['obstructionBedM'] + .01):
+            if (label and np.isfinite(old) and abs(old - required) <= .0001 and
+                    float(np.float32(cap)) < old):
+                if cap >= float(spills[label]) + minimum_head:
                     updates[label] = min(updates.get(label, old), cap)
     changes = []
     for label, level in sorted(updates.items()):

@@ -68,7 +68,7 @@ def raster_channel_triangles(positions, access, responses, ground, targets,
     return present, wet
 
 
-def audit_mesh_archive(directory, ground, targets, stage=None):
+def audit_mesh_archive(directory, ground, targets, stage=None, sample_metres_per_pixel=None):
     """Hash-check exported batches and accumulate their native target coverage."""
     import hashlib
     import json
@@ -90,5 +90,6 @@ def audit_mesh_archive(directory, ground, targets, stage=None):
         n = batch['triangles']
         raster_channel_triangles(arrays['positions'].reshape(n, 3, 3), arrays['access'].reshape(n, 3),
                                  arrays['responses'].reshape(n, 3, 2), ground, targets,
-                                 manifest['metresPerPixel'], stage=stage, into=coverage)
+                                 manifest['metresPerPixel'] if sample_metres_per_pixel is None else sample_metres_per_pixel,
+                                 stage=stage, into=coverage)
     return coverage, manifest

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "status": "preview-native-vertices-not-final-rendered-coverage",
+  "terrainStage": "graded",
+  "gridSize": 2017,
+  "gridOriginM": 0,
+  "metresPerPixel": 3.65568,
+  "nativeTerrainGridSize": 4033,
+  "stageRange": {
+    "tidalAmplitudeM": 0.5,
+    "seasonalAmplitudeM": 1.4,
+    "lowTideAmplitudeM": 0.5,
+    "drySeasonAmplitudeM": 0.28
+  },
+  "stageFile": "coverage-stages.png",
+  "encoding": "RGB = low/base/maximum; 255 wet, 0 dry",
+  "wetVertices": {
+    "low": 1459703,
+    "base": 1650020,
+    "maximum": 2393980
+  },
+  "channelGeometryScope": "exported-channel-triangles-not-final-native-refinement",
+  "inputs": {
+    "/tmp/water-live-preview/water-meta.json": "288ffc4d2eb2ebdc73d5d62068c701eca6c7f8e9942f4ab28cdb48333bf5c620",
+    "/tmp/water-live-preview/water-bed-overlay.json": "282ec22d918eb914cdd560c657c90dd3518739eea9792ca51dd2b1b48b4a77c5",
+    "../../apps/world-studio/public/province/chunks/chunks-web-manifest.json": "13b8f8ee2b9003e54a5232d784a2fc191b50387afb5b38b26b556c6632b148dc",
+    "/tmp/water-live-preview/water-terrain-topology.json": "11ad518b4a4da5abd5f2f0a473b2ab77857719ad814a6def39dd36aa84f12289",
+    "/tmp/water-all-accepted-mesh/manifest.json": "e307fa4265c1d7fe83fec0acf821b8da307bae7ad674a320ec91d2cc03302c22",
+    "/tmp/water-live-preview/water-surface.png": "7d710b0940107b3bece96c3939aa38795ca1d9b12e0e052d3b50fcd7342fed32",
+    "/tmp/water-live-preview/water-support.png": "293038ce275adb2715fc09bb08edebf649f94ea6ebc88555ce3e1c2049989bd3",
+    "/tmp/water-live-preview/water-shore.png": "9717d662cc9f3d7449161c04ab7ab7e01fd518a419686f30ca3ff475e87f0c92",
+    "/tmp/water-live-preview/water-access.png": "fa9c32558e41551c796f3afe9c2409de21c8565d520d45e1aab8b13db0287cf5"
+  },
+  "outputs": {
+    "coverage-stages.png": "6335570261a934dbe458b0941fbe1d8dc3a2dd7488d308412eaa35a1f403f4dc",
+    "coverage-maximum.png": "1a4f91e4c0f4f0d1220b93d080fa4734498ce94c249ad9f941a60d344b01959f",
+    "coverage-seasonal.png": "62832c8340068f86d70df60ec269261941a601e4aa3338d80c488489165af22e"
+  }
+}
