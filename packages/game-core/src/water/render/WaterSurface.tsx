@@ -243,6 +243,9 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     // usually paused for reproducible URLs); tide/season stay on the epoch.
     runtime.advanceClock(delta);
     uniforms.uWaveTime.value = runtime.waveTimeS();
+    // Transport clock: unscaled by wind or preview rate, so 1 m/s of current
+    // advects foam 1 m/s no matter what the wave clock is doing.
+    uniforms.uTransportTime.value = runtime.transportTimeS?.() ?? runtime.waveTimeS();
     // Weather wind scales wave energy — same value the CPU water query uses
     // (game-core setWindWaveScale, written by WorldSky each frame).
     uniforms.uWindWave.value = getWindWaveScale();

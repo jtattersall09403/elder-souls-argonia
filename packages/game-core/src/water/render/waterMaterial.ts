@@ -74,6 +74,8 @@ export const MAX_PLUNGE_SOURCES = 16;
 
 export interface WaterUniforms {
   uWaveTime: { value: number };
+  /** Transport clock (s): current advection, unscaled by wind or preview rate. */
+  uTransportTime: { value: number };
   /** Weather wind → wave-energy scale (game-core setWindWaveScale twin). */
   uWindWave: { value: number };
   uLevelTide: { value: number };
@@ -121,6 +123,7 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
   const m = assets.meta;
   return {
     uWaveTime: { value: 0 },
+    uTransportTime: { value: 0 },
     uWindWave: { value: 1 },
     uLevelTide: { value: 0 },
     uLevelSeason: { value: 0 },
@@ -223,6 +226,7 @@ export const SAMPLER_GLSL = /* glsl */ `
   uniform float uLevelTide;
   uniform float uLevelSeason;
   uniform float uWaveTime;
+  uniform float uTransportTime;
   uniform float uWindWave;
 
   // KEEP IN LOCKSTEP with waterData.tideResponseOf().
@@ -249,7 +253,23 @@ export const SAMPLER_GLSL = /* glsl */ `
     vec2 s10 = esDecodeSurf(texelFetch(uSurfTex, ivec2(i1.x, i0.y), 0));
     vec2 s01 = esDecodeSurf(texelFetch(uSurfTex, ivec2(i0.x, i1.y), 0));
     vec2 s11 = esDecodeSurf(texelFetch(uSurfTex, i1, 0));
-    return mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y);
+    // WET-AWARE height: dry texels are BURIED (ground - buryM), so mixing
+    // their W into the surface tilts the last texel 5-40 degrees down into
+    // the bank ("blobs sitting on land"). Weight the height by the wet flag
+    // (depth proxy > 0) and extend the level surface to the last wet texel.
+    // The depth proxy itself keeps plain bilinear so the fade still reaches 0.
+    // KEEP IN LOCKSTEP with WaterData.surfaceBase().
+    vec4 esBw = vec4((1.0 - t.x) * (1.0 - t.y), t.x * (1.0 - t.y),
+                     (1.0 - t.x) * t.y, t.x * t.y);
+    vec4 esWet = vec4(step(0.0004, s00.y), step(0.0004, s10.y),
+                      step(0.0004, s01.y), step(0.0004, s11.y));
+    vec4 esWw = esBw * esWet;
+    float esWsum = esWw.x + esWw.y + esWw.z + esWw.w;
+    vec2 esPlain = mix(mix(s00, s10, t.x), mix(s01, s11, t.x), t.y);
+    float esH = esWsum > 0.0
+      ? (esWw.x * s00.x + esWw.y * s10.x + esWw.z * s01.x + esWw.w * s11.x) / esWsum
+      : esPlain.x;
+    return vec2(esH, esPlain.y);
   }
 
   // Shore raster: R = shore distance, G = season response, B = tannin.
@@ -475,7 +495,10 @@ float esSwellDHdd = 0.0;
 esStill += esSwash(esShore, esFetch, uWaveTime, esSurfWind);
 esStill += esShoreSwell(esShore, max(esSurf.y, 0.0), esFetch, uWaveTime, esSurfWind, esSwellDHdd);
 #endif
-float esVDepth = max(esSurf.y + (esStill - esSurf.x), 0.0);
+// Keep dry vertices NEGATIVE until fragment interpolation. Clamping here
+// lets a neighbouring wet vertex project water across the dry triangle
+// (commit 17a1ce6: 496 -> 0 excess dry pixels at the owner's site).
+float esVDepth = esSurf.y + (esStill - esSurf.x);
 #ifdef ES_STRIP
 // narrow water carries ripples, never swell: a Gerstner band wide enough to
 // see would swing the whole ribbon off its bed.
@@ -536,9 +559,8 @@ vec3 transformed = vec3(
 ${strip ? "#define ES_STRIP 1" : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
+${SAMPLER_GLSL}
 ${prelude}
-uniform float uWaveTime;
-uniform float uWindWave;
 uniform float uVerticalScale;`,
       )
       .replace(
@@ -548,6 +570,11 @@ uniform float uVerticalScale;`,
   // work — also removes valley-spanning ghost sheets (round 1, defect 4).
   if (vEsData.y <= 0.004) discard;
 #ifndef ES_STRIP
+  // Per-fragment wetness cut. With the wet-aware height (level to the last
+  // wet texel) the flat plane must be trimmed at the terrain by the RASTER,
+  // not by the interpolated vertex depth: far LOD triangles are up to 117 m
+  // apart and would otherwise sail across dry ground between terraced pools.
+  if (esSurfaceAt(vEsWorldPos.xz).y <= 0.004) discard;
   // The field never shows under a compiled strip or waterfall sheet: those
   // draw the same water from their own geometry (decision 0046 item 4).
   if (uHasOwner > 0.5) {
@@ -575,12 +602,21 @@ float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
 // screen-space derivatives — near-vertical spans switch to falling-water
 // shading (research: waterfalls-realtime, option A)
 float esFall = 0.0;
+#ifdef ES_STRIP
+// Authored geometry knows its own grade: aDrop (m of fall per m along the
+// current) rides vEsFlow.z, so falling-water shading is identical from every
+// camera and every LOD. Screen derivatives are the FIELD fallback only.
+esFall = smoothstep(1.2, 3.0, vEsFlow.z);
+#else
 {
-  vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x)) * uVerticalScale;
+  // metric slope of the STILL surface; NOT multiplied by uVerticalScale —
+  // the exaggeration is a display scale, not a real grade.
+  vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x));
   vec2 esDP = vec2(length(vec2(dFdx(vEsWorldPos.x), dFdx(vEsWorldPos.z))),
                    length(vec2(dFdy(vEsWorldPos.x), dFdy(vEsWorldPos.z))));
   esFall = smoothstep(1.2, 3.0, length(esDW / max(esDP, vec2(1e-4))));
 }
+#endif
 float esDist = distance(cameraPosition, vEsWorldPos);
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
@@ -592,18 +628,23 @@ float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
 // a stream (round 2: 'flowing' foam on static pools)
 vec2 esDrift = esSpeed > 0.05
   ? vEsFlow.xy
-  : vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 0.03;
-float esPh1 = fract(uWaveTime * 0.25);
-float esPh2 = fract(uWaveTime * 0.25 + 0.5);
+  : vec2(sin(uTransportTime * 0.13), cos(uTransportTime * 0.11)) * 0.03;
+// Transport (foam/normal advection) runs on the TRANSPORT clock: 1 m/s of
+// current must move foam 1 m/s whatever the wind or preview rate does to
+// uWaveTime, which stays the waves/surf clock.
+float esPh1 = fract(uTransportTime * 0.25);
+float esPh2 = fract(uTransportTime * 0.25 + 0.5);
 float esPhB = abs(esPh1 * 2.0 - 1.0);
 // fast water: features stretch along the flow (anisotropy is a primary
 // speed cue — research rivers-on-slopes Q2)
 vec2 esFDirN = esSpeed > 0.05 ? vEsFlow.xy / esSpeed : vec2(1.0, 0.0);
 float esStretch = 1.0 + 1.4 * smoothstep(0.4, 2.2, esSpeed);
-mat2 esAniso = mat2(esFDirN.x / esStretch, -esFDirN.y, esFDirN.y / esStretch, esFDirN.x);
-vec2 esP1 = (esAniso * (vEsWorldPos.xz - esDrift * esPh1 * 7.0)) * 0.55;
-vec2 esP2 = (esAniso * (vEsWorldPos.xz - esDrift * esPh2 * 7.0)) * 0.55;
+vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 7.0) * 0.55;
+vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 7.0) * 0.55;
 vec2 esG = mix(esDetailGrad(esP1, vec2(0.0)), esDetailGrad(esP2, vec2(0.0)), esPhB);
+// Apply directional strength to the LOCAL gradient, never rotate kilometre
+// world coordinates by a changing flow angle (the river barcode defect).
+esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);
 vec2 esGF = esDetFade > 0.02
   ? esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5
   : vec2(0.0);
@@ -686,8 +727,17 @@ float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
   esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, esSurfWindF) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
+// The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
+// distance. A screen-resolution, world-anchored fbm crest keeps the density
+// PIXEL-driven; it is advected on the transport clock and scaled by wind.
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
-esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * (1.0 - smoothstep(1200.0, 2400.0, esDist));
+float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
+{
+  vec2 esCP = vEsWorldPos.xz * 0.085 - esDrift * uTransportTime * 0.05;
+  float esCn = esFbm(esCP, 3) * 0.5 + esFbm(esCP * 2.7 + 11.0, 2) * 0.5;
+  esCrest = max(esCrest, (esCn - 0.62) * 1.6 * clamp(uWindWave, 0.0, 2.0));
+}
+esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * esCrestFade;
 // 4. rapids churn near banks + aerated cascades wherever water descends
 // (coverage CAPPED — a saturated threshold was the round-6 solid crust)
 esFoamE += smoothstep(0.3, 1.1, esSpeed) * (1.0 - smoothstep(4.0, 30.0, esShoreD)) * 0.5;
@@ -714,12 +764,16 @@ float esFTex;
 // flowing water reads as CURRENT: foam stretches into streaks along the
 // flow and slides downstream (owner round 6 — rivers must look like rivers)
 if (esSpeed > 0.3) {
-  float esAlong = dot(vEsWorldPos.xz, esFDirN);
-  float esAcross = dot(vEsWorldPos.xz, vec2(-esFDirN.y, esFDirN.x));
+  // Never rotate the absolute world position by a spatially varying flow
+  // direction: far from origin, tiny bend-angle changes become huge texture
+  // jumps/barcodes. Stretch a world-anchored pattern using LOCAL offsets.
   float esAdv = min(esSpeed, 2.5) * 9.0;   // metres per cycle — bounded
-  vec2 esSP1 = vec2((esAlong - esAdv * esPh1) * 0.20, esAcross * 0.85);
-  vec2 esSP2 = vec2((esAlong - esAdv * esPh2) * 0.20, esAcross * 0.85);
-  float esStreak = mix(esFbm(esSP1, 3), esFbm(esSP2, 3), esPhB);
+  vec2 esSP1 = (vEsWorldPos.xz - esFDirN * esAdv * esPh1) * 0.55;
+  vec2 esSP2 = (vEsWorldPos.xz - esFDirN * esAdv * esPh2) * 0.55;
+  vec2 esSmear = esFDirN * 0.85;
+  float esStreak1 = (esFbm(esSP1 - esSmear, 2) + esFbm(esSP1, 2) + esFbm(esSP1 + esSmear, 2)) / 3.0;
+  float esStreak2 = (esFbm(esSP2 - esSmear, 2) + esFbm(esSP2, 2) + esFbm(esSP2 + esSmear, 2)) / 3.0;
+  float esStreak = mix(esStreak1, esStreak2, esPhB);
   esFTex = mix(esFTex, esStreak, smoothstep(0.35, 1.0, esSpeed));
   esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.3;
 }
@@ -729,8 +783,8 @@ if (esSpeed > 0.3) {
 if (esFall > 0.01) {
   float esY = vEsWorldPos.y / max(uVerticalScale, 1e-3);
   float esAcrossF = dot(vEsWorldPos.xz, vec2(-esFDirN.y, esFDirN.x));
-  float esF1 = esFbm(vec2(esAcrossF * 0.9, esY * 0.22 + uWaveTime * 2.6), 3);
-  float esF2 = esFbm(vec2(esAcrossF * 0.35 + 7.0, esY * 0.08 + uWaveTime * 1.1), 2);
+  float esF1 = esFbm(vec2(esAcrossF * 0.9, esY * 0.22 + uTransportTime * 2.6), 3);
+  float esF2 = esFbm(vec2(esAcrossF * 0.35 + 7.0, esY * 0.08 + uTransportTime * 1.1), 2);
   esFTex = mix(esFTex, esF1 * (0.55 + 0.9 * esF2), esFall);
   esFoamE = mix(esFoamE, 0.42 + 0.30 * esF2, esFall);
 }

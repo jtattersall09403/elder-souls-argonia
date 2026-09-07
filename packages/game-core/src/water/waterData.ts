@@ -81,6 +81,9 @@ export function tideResponseOf(salinity: number): number {
   return t * t * (3 - 2 * t);
 }
 
+/** Depth proxy above which a texel counts as wet (mirrors the GLSL step()). */
+const WET_DEPTH_EPS = 0.0004;
+
 export class WaterData {
   constructor(
     readonly meta: WaterMeta,
@@ -114,6 +117,33 @@ export class WaterData {
     return top * (1 - tz) + bot * tz;
   }
 
+  /** Bilinear over `a`, but weighted by the wet flag of the depth proxy.
+   *  Dry texels are BURIED (ground - buryM); mixing their W into the surface
+   *  tilts the last texel down into the bank and pulls the waterline ~2 m
+   *  short. Extend the level surface to the last wet texel instead.
+   *  KEEP IN LOCKSTEP with the GLSL esSurfaceAt(). */
+  private bilinearWet(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
+    const fx = Math.min(Math.max(x / mpp - 0.5, 0), size - 1.001);
+    const fz = Math.min(Math.max(z / mpp - 0.5, 0), size - 1.001);
+    const x0 = Math.floor(fx);
+    const z0 = Math.floor(fz);
+    const tx = fx - x0;
+    const tz = fz - z0;
+    const i = z0 * size + x0;
+    const idx = [i, i + 1, i + size, i + size + 1];
+    const bw = [(1 - tx) * (1 - tz), tx * (1 - tz), (1 - tx) * tz, tx * tz];
+    let sum = 0;
+    let acc = 0;
+    for (let k = 0; k < 4; k += 1) {
+      if (this.depth[idx[k]] > WET_DEPTH_EPS) {
+        sum += bw[k];
+        acc += bw[k] * a[idx[k]];
+      }
+    }
+    if (sum > 0) return acc / sum;
+    return this.bilinear(a, size, mpp, x, z);
+  }
+
   private outside(x: number, z: number): boolean {
     const extent = this.meta.surface.size * this.meta.surface.metresPerPixel;
     return x < 0 || z < 0 || x >= extent || z >= extent;
@@ -122,7 +152,7 @@ export class WaterData {
   /** Still-water surface height (m) — open sea (0) outside the province. */
   surfaceBase(x: number, z: number): number {
     if (this.outside(x, z)) return 0;
-    return this.bilinear(this.surface, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
+    return this.bilinearWet(this.surface, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
   depthProxy(x: number, z: number): number {

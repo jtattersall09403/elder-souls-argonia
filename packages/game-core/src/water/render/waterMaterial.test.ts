@@ -66,6 +66,63 @@ describe("water material variants", () => {
     expect(material.customProgramCacheKey!()).toContain("strip");
   });
 
+  // decision 0046 batch: the four fixes lost in the restore + the domed edge.
+  it("never rotates absolute world coordinates by the flow direction (barcode)", () => {
+    const frag = compile("field").shader.fragmentShader;
+    expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
+    expect(frag).not.toContain("mat2 esAniso");
+    expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
+    // streaks: three taps of a world-anchored pattern at LOCAL offsets
+    expect(frag).toContain("vec2 esSmear = esFDirN * 0.85;");
+    expect(frag).toMatch(/esFbm\(esSP1 - esSmear, 2\) \+ esFbm\(esSP1, 2\) \+ esFbm\(esSP1 \+ esSmear, 2\)/);
+  });
+
+  it("advects foam and falling water on the transport clock, waves on the wave clock", () => {
+    const { shader, uniforms } = compile("field");
+    expect(uniforms.uTransportTime.value).toBe(0);
+    const frag = shader.fragmentShader;
+    expect(frag).toContain("uniform float uTransportTime;");
+    expect(frag).toContain("float esPh1 = fract(uTransportTime * 0.25);");
+    expect(frag).toContain("float esPh2 = fract(uTransportTime * 0.25 + 0.5);");
+    expect(frag).toContain("esY * 0.22 + uTransportTime * 2.6");
+    // waves and surf stay on the wind-scaled wave clock
+    expect(shader.vertexShader).toContain("esSwash(esShore, esFetch, uWaveTime, esSurfWind)");
+  });
+
+  it("keeps the vertex depth signed so dry corners are discarded", () => {
+    expect(compile("field").shader.vertexShader)
+      .toContain("float esVDepth = esSurf.y + (esStill - esSurf.x);");
+    expect(compile("field").shader.vertexShader)
+      .not.toContain("max(esSurf.y + (esStill - esSurf.x), 0.0)");
+  });
+
+  it("shades waterfalls from the authored grade, not screen derivatives", () => {
+    const strip = compile("strip").shader.fragmentShader;
+    expect(strip).toContain("esFall = smoothstep(1.2, 3.0, vEsFlow.z);");
+    // the field fallback keeps the derivative, unmultiplied by the exaggeration
+    expect(compile("field").shader.fragmentShader)
+      .toContain("vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x));");
+    expect(compile("field").shader.fragmentShader)
+      .not.toContain("dFdy(vEsData.x)) * uVerticalScale");
+  });
+
+  it("interpolates the surface height wet-aware and cuts wetness per fragment", () => {
+    const { shader } = compile("field");
+    const src = shader.vertexShader + shader.fragmentShader;
+    expect(src).toContain("vec4 esWet = vec4(step(0.0004, s00.y), step(0.0004, s10.y),");
+    expect(src).toContain("float esWsum = esWw.x + esWw.y + esWw.z + esWw.w;");
+    // the depth proxy keeps the plain mix so the fade still reaches zero
+    expect(src).toContain("return vec2(esH, esPlain.y);");
+    expect(shader.fragmentShader).toContain("if (esSurfaceAt(vEsWorldPos.xz).y <= 0.004) discard;");
+  });
+
+  it("drives whitecap density from pixels, not vertices", () => {
+    const frag = compile("field").shader.fragmentShader;
+    expect(frag).toContain("vec2 esCP = vEsWorldPos.xz * 0.085 - esDrift * uTransportTime * 0.05;");
+    expect(frag).toContain("esCrest = max(esCrest, (esCn - 0.62) * 1.6 * clamp(uWindWave, 0.0, 2.0));");
+    expect(frag).toContain("float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);");
+  });
+
   it("keeps one shared look: the strip runs the same fragment shader", () => {
     const field = compile("field").shader.fragmentShader;
     const strip = compile("strip").shader.fragmentShader;

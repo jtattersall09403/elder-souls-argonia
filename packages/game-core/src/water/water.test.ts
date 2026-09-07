@@ -187,6 +187,47 @@ function tinyWorld() {
   });
 }
 
+describe("wet-aware surface interpolation", () => {
+  // 2×2: the west column is a pool (W = 1.5, depth 2), the east column is dry
+  // ground buried at W = 7. Plain bilinear tilts the pool surface down into
+  // the bank; the wet-aware mix holds it level to the last wet texel.
+  function pool() {
+    const size = 2;
+    const meta: WaterMeta = {
+      surface: { file: "", size, metresPerPixel: 10, minM: -10, maxM: 10, buryM: 3 },
+      flow: { file: "", size, metresPerPixel: 10, flowMax: 3, shoreMaxM: 160 },
+      klass: { file: "", size, metresPerPixel: 10, classes: ["none", "lake"] },
+    };
+    const surface = new Float32Array([1.5, 7, 1.5, 7]);
+    const depth = new Float32Array([2, 0, 2, 0]);
+    const flow = new Uint8ClampedArray(size * size * 4);
+    const klass = new Uint8ClampedArray(size * size * 4);
+    return new WaterData(meta, surface, depth, flow, klass);
+  }
+
+  it("keeps the pool surface level instead of doming into the buried bank", () => {
+    const data = pool();
+    for (const x of [5, 8, 12, 14]) {
+      expect(data.surfaceBase(x, 5)).toBeCloseTo(1.5, 6);
+    }
+  });
+
+  it("still fades the depth proxy to zero over the dry texel", () => {
+    const data = pool();
+    expect(data.depthProxy(5, 5)).toBeCloseTo(2, 6);
+    expect(data.depthProxy(15, 5)).toBeCloseTo(0, 2);
+    expect(data.depthProxy(10, 5)).toBeCloseTo(1, 6);
+  });
+
+  it("falls back to the plain mix where no corner is wet", () => {
+    const data = pool();
+    const meta = data.meta;
+    const dry = new WaterData(meta, new Float32Array([7, 7, 7, 7]),
+      new Float32Array(4), new Uint8ClampedArray(16), new Uint8ClampedArray(16));
+    expect(dry.surfaceBase(10, 10)).toBeCloseTo(7, 6);
+  });
+});
+
 describe("WaterWorld", () => {
   it("samples sea water with sane fields", () => {
     const w = tinyWorld().sample({ x: 5, y: -1, z: 15 }, 0);
