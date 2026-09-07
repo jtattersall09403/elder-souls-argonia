@@ -56,6 +56,14 @@ LAKE_MIN_PX = 4               # ignore pit-noise "lakes" smaller than this
 RIVER_MIN_DEPTH_M = 0.35      # guaranteed column over the local carved bed
 MIN_POOL_DEPTH_M = 0.30       # a depression must hold this somewhere to count
 MIN_POOL_PX = 24              # ~320 m^2 at 3.66 m/px — no pixel puddle noise
+# Pool acceptance on the depression's OWN geometry (round 8, see compute())
+POOL_MIN_RELIEF_M = 0.25      # spill - floor: below this it is smoothing noise
+POOL_FLOOR_FRAC = 0.30        # "the floor" = the lowest 30 % of the relief
+POOL_FLOOR_SLOPE = 0.07       # the BED must be gentle; the rim need not be
+POOL_AREA_CAP_PX = 3000       # flooded-extent cap, plus...
+POOL_AREA_PER_M = 12000.0     # ...this much per metre of relief
+PINHOLE_MIN_WET_NB = 8        # dry cell with >= this many wet 3x3 neighbours = pinhole
+SEASON_AMPLITUDE_M = 1.4      # runtime wet-season lift (waterMaterial uLevelSeason)
 FRINGE_PX = 4                 # flat low-bank continuation (tide/season headroom)
 FRINGE_BANK_M = 1.8
 SAIL_GUARD_PX = 8             # buried W near water stays below the local level
@@ -197,6 +205,42 @@ def build_chains(kind, dsk, w_st, pooled):
     return chains, up_any
 
 
+def bowl_accepts(depth_fill, lbl2, idx_l, slope2, relief, areas2):
+    """Per-depression acceptance on the basin's own geometry (round 8).
+
+    A depression holds standing water when it has real relief, a gentle
+    FLOOR (the rim may be a cliff), and a flooded extent proportionate to
+    that relief. See compute() for why the old whole-basin mean slope was
+    the wrong measurement.
+    """
+    floor_cut = np.concatenate([[0.0], relief * (1.0 - POOL_FLOOR_FRAC)])
+    on_floor = (depth_fill >= floor_cut[lbl2]) & (lbl2 > 0)
+    floor_lbl = np.where(on_floor, lbl2, 0)
+    # MEDIAN, not mean: the ring of floor cells that touches the rim carries
+    # the rim's gradient, and a handful of those cells drags a mean over the
+    # threshold even when the bed is a billiard table.
+    floor_slope = np.nan_to_num(
+        np.asarray(ndimage.median(slope2, floor_lbl, idx_l), dtype=np.float32),
+        nan=np.inf)
+    area_cap = POOL_AREA_CAP_PX + POOL_AREA_PER_M * relief
+    return ((relief >= POOL_MIN_RELIEF_M) & (floor_slope < POOL_FLOOR_SLOPE)
+            & (areas2 <= area_cap))
+
+
+def pool_headroom(g2, lbl2, idx_l, level):
+    """(rim, headroom) per pool: how far it may rise before it is a flood.
+
+    The rim is the MEDIAN raw ground on the one-cell ring outside the
+    component — the height at which half the shoreline is submerged.
+    Headroom is clamped to [0, SEASON_AMPLITUDE_M]; a pool already standing
+    at or above its rim gets 0 and therefore no seasonal lift at all.
+    """
+    ring_lbl = np.where(lbl2 == 0, ndimage.grey_dilation(lbl2, size=3), 0)
+    rim = np.asarray(ndimage.median(g2, ring_lbl, idx_l), dtype=np.float32)
+    rim = np.where(np.isfinite(rim), rim, np.inf).astype(np.float32)
+    return rim, np.clip(rim - level, 0.0, SEASON_AMPLITUDE_M).astype(np.float32)
+
+
 def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     """All water fields at the 1345^2 hydrology grid + the 2017^2 surface."""
     mpp1 = RAW_M * STEP
@@ -306,16 +350,75 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         allow_frac = ndimage.mean(allow2.astype(np.float32), lbl2, idx_l)
         hearty = ndimage.mean(wet_heart.astype(np.float32), lbl2, idx_l) > 0.4
         rivery = ndimage.mean(riv2.astype(np.float32), lbl2, idx_l) > 0.25
-        # water only STANDS on gentle ground — except in carved channels,
-        # where step-pool chains are exactly what mountain streams look like
+        # Water stands on the DEPRESSION's own geometry, not on the average
+        # slope of the whole basin (round 8). The old blanket
+        # `mean_slope < 0.07` measured the rim as well as the floor, so a
+        # steep-sided bowl with a flat bottom — the classic Black Marsh
+        # sink — was rejected: 442 province components ≥ 20 px failed on
+        # that one test alone. The per-component test instead asks the
+        # three questions that decide whether water really stands:
+        #   relief   spill − floor ≥ POOL_MIN_RELIEF_M (a real basin, not
+        #            smoothing noise on a tilted plane);
+        #   floor    the median slope of the cells in the lowest
+        #            POOL_FLOOR_FRAC of the relief < POOL_FLOOR_SLOPE (the
+        #            BED is flat; the rim may be as steep as it likes);
+        #   extent   area ≤ POOL_AREA_CAP_PX + POOL_AREA_PER_M · relief —
+        #            `fill_depressions` on the smoothed field will happily
+        #            flood a whole shallow plateau out to a spill hundreds
+        #            of metres away, and that is a raster artefact, not a
+        #            lake. Deep basins earn a bigger cap.
+        # The old whole-basin test is kept as an alternative (it accepts the
+        # genuinely flat marsh sheets, which have no floor to speak of), so
+        # nothing that stood before is dropped.
         mean_slope = ndimage.mean(slope2, lbl2, idx_l)
-        keep2 = np.zeros(n_l + 1, dtype=bool)
-        keep2[1:] = (allow_frac > 0.25) & (rivery | (mean_slope < 0.07)) & np.where(
+        relief = max_depth
+        bowl = bowl_accepts(depth_fill, lbl2, idx_l, slope2, relief, areas2)
+        stands = rivery | (mean_slope < 0.07) | bowl
+        size_ok = np.where(
             hearty,
             (max_depth >= 0.10) & (areas2 >= 6),
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
+        keep2 = np.zeros(n_l + 1, dtype=bool)
+        keep2[1:] = (allow_frac > 0.25) & stands & size_ok
         pool_lvl = np.where(keep2[lbl2], (filled2 - 0.05), -np.inf).astype(np.float32)
         comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
+
+        # --- per-pool season headroom (round 8) --------------------------
+        # The runtime lifts the surface by SEASON_AMPLITUDE_M · season, with
+        # no idea what it is lifting: a 0.3 m pond rose 1.4 m and swallowed
+        # its own valley. The level a pool may reach is set by its real RIM
+        # — the lowest RAW ground on the ring just outside the component
+        # (the priority flood runs on the smoothed field, whose spill sits
+        # lower than the ground actually is). Headroom = rim − level, and
+        # the pool's season RESPONSE is scaled to headroom/amplitude so the
+        # unchanged runtime formula can never overtop it. Rivers, marsh
+        # sheets and the sea keep response 1.
+        lvl_c = ndimage.maximum(filled2, lbl2, idx_l) - 0.05
+        rim, headroom = pool_headroom(g2, lbl2, idx_l, lvl_c)
+        resp = np.concatenate([[1.0], np.where(
+            keep2[1:] & ~rivery, headroom / SEASON_AMPLITUDE_M, 1.0)]).astype(np.float32)
+        season_cap2 = resp[np.where(keep2[lbl2], lbl2, 0)].astype(np.float32)
+        capped = keep2[1:] & ~rivery
+        pool_overtop = float(np.max(
+            (lvl_c + resp[1:] * SEASON_AMPLITUDE_M
+             - np.maximum(rim, lvl_c))[capped], initial=-1.0))
+        census = {
+            "components": int(n_l),
+            "keptPools": int(keep2.sum()),
+            "keptByBowlOnly": int((keep2[1:] & bowl & ~rivery &
+                                   ~(mean_slope < 0.07)).sum()),
+            "poolSeasonOvertopMaxM": round(pool_overtop, 3),
+            "cappedPools": int(capped.sum()),
+            "zeroHeadroomPools": int((capped & (headroom <= 0.0)).sum()),
+            "medianHeadroomM": round(float(np.median(headroom[capped])), 3)
+            if capped.any() else 0.0,
+        }
+    else:
+        season_cap2 = np.ones(g2.shape, dtype=np.float32)
+        census = {"components": 0, "keptPools": 0, "keptByBowlOnly": 0,
+                  "poolSeasonOvertopMaxM": -1.0, "cappedPools": 0,
+                  "zeroHeadroomPools": 0,
+                  "medianHeadroomM": 0.0}
 
     # --- the channel LONG PROFILE (round 7; research: rivers-on-slopes-and-
     # cascades §Q4). No shipped engine renders raw fill output on a slope:
@@ -462,6 +565,27 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     chan_keep = riv2core & wet2
     w2[chan_keep] = np.maximum(w2[chan_keep], (np.maximum(g2, g2s) + 0.10)[chan_keep])
 
+    # pinhole fill (round 8): a pool level comes from the priority flood of
+    # the SMOOTHED field but is laid over the RAW ground, so the occasional
+    # single cell of sub-metre terrain noise pokes through the middle of a
+    # body and is then BURIED — the owner's "hollow you can walk into". A
+    # dry cell whose 3x3 neighbourhood is otherwise water, and whose ground
+    # sits below that water, takes its neighbours' level. Two passes clear
+    # pairs and diagonal pinholes.
+    for _ in range(2):
+        wet_f = w2 > g2
+        nb = ndimage.uniform_filter(wet_f.astype(np.float32), size=3) * 9.0
+        ring = (~wet_f) & (np.round(nb) >= PINHOLE_MIN_WET_NB)
+        if not ring.any():
+            break
+        lvl_nb = (ndimage.uniform_filter(np.where(wet_f, w2, 0.0), size=3) * 9.0
+                  / np.maximum(np.round(nb), 1.0))
+        pin = ring & (g2 < lvl_nb)
+        if not pin.any():
+            break
+        w2[pin] = lvl_nb[pin]
+    w2 = w2.astype(np.float32)
+
     depth2 = np.clip(w2 - g2, 0.0, 25.5)
     # 0.05 m is the depth-proxy quantum: below it the shipped B channel reads
     # dry, so an owner pixel there would mask the field out of a cell nothing
@@ -532,6 +656,12 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     turb = np.clip(ndimage.gaussian_filter(turb, 1.5), 0.0, 1.0)
 
     season = ((salinity < 0.4) & (wetr | (flood >= 2))).astype(np.float32)
+    # per-pool headroom cap (round 8): season lives on the coarse grid, the
+    # pools on the refined one — take the MINIMUM cap over each coarse cell's
+    # refined footprint so no part of a pool can be lifted past its rim.
+    cap_coarse = ndimage.minimum_filter(season_cap2, size=int(np.ceil(scale2)) + 1)
+    cap_coarse = ndimage.zoom(cap_coarse, 1.0 / scale2, order=0)[: z.shape[0], : z.shape[1]]
+    season = np.minimum(season, cap_coarse).astype(np.float32)
 
     # extend the per-pixel character a short way past the shoreline so the
     # GPU's linear samples (and wet-season flooding) read sensible values
@@ -676,7 +806,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
 
     return {
         "channels": channels, "cascades": cascades,
-        "channelStats": channel_stats, "owner2": owner2,
+        "channelStats": channel_stats, "poolCensus": census, "owner2": owner2,
         "w1": w_filled, "wet": wet, "wetr": wetr, "ext": ext, "cls": cls_ext,
         "turb": turb, "tannin": tannin, "season": season, "salinity": salinity, "vx": vx,
         "vz": vz, "shore_d": shore_d, "w2": w2, "depth2": depth2,
@@ -744,6 +874,7 @@ def main() -> None:
         # rivers are carved CARVE_DEPTH below the ambient bank (refine_province
         # CHANNELS); the water surface must sit above that bed line
         **r["channelStats"],
+        **r["poolCensus"],
         "riverCellsAboveBed": round(float(np.mean(np.concatenate([
             ((r["w1"] > z - d + 0.05)[npz["rivers"] == b]).ravel()
             for b, d in CARVE_DEPTH.items() if (npz["rivers"] == b).any()
@@ -760,6 +891,19 @@ def main() -> None:
             "shoreFile": "water-shore.png",
             "shoreMaxM": SHORE_MAX_M,
             "ownerFile": "water-owner.png",
+        },
+        "season": {
+            "file": "water-shore.png",
+            "channel": "G",
+            "amplitudeM": SEASON_AMPLITUDE_M,
+            "runtime": "surfaceY += amplitudeM * season * seasonWetness",
+            "encoding": (
+                "season = wet-season RESPONSE in 0..1, NOT a wetness flag. "
+                "Standing-pool components are scaled to their own headroom "
+                "(rim - level)/amplitudeM, where the rim is the median raw "
+                "ground on the ring outside the pool, so the unchanged "
+                "runtime lift can never carry a pool over its own shore. "
+                "Rivers, marsh sheets and the sea keep response 1."),
         },
         "flow": {"file": "water-flow.png", "size": int(z.shape[0]),
                  "metresPerPixel": RAW_M * STEP, "flowMax": FLOW_MAX,

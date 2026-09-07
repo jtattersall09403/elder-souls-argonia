@@ -40,9 +40,10 @@ and are not required reading.
 | Bay, noon, orbit (whitecaps/surf; add `&w=storm` for a squall) | `view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00` |
 | Mountain tarn | `view=fly3d&cam=orbit&x=0.38&z=1.44&t=12:00` |
 | Marsh, morning walk | `view=character&x=1.50&z=5.28&t=09:00` |
-| Steep strip `strip-1` | `view=fly3d&cam=orbit&x=4.59&z=0.08&t=12:00` |
-| Cascade `fall-34` (11 m drop) | `view=fly3d&cam=orbit&x=6.26&z=0.90&t=12:00` |
-| Cascade `fall-44` (7 m drop) | `view=fly3d&cam=orbit&x=0.07&z=1.18&t=12:00` |
+| Steep strip `strip-76` (243 m descent, band 1) | `view=fly3d&cam=orbit&x=1.75&z=1.74&t=12:00` |
+| Cascade `fall-63` (22 m drop) | `view=fly3d&cam=orbit&x=1.68&z=1.86&t=12:00` |
+| Cascade `fall-89` (32 m drop) | `view=fly3d&cam=orbit&x=0.90&z=2.74&t=12:00` |
+| Cascade `fall-34` (11 m, free flight) | `view=fly3d&cam=orbit&x=6.26&z=0.90&t=12:00` |
 
 ## Open
 

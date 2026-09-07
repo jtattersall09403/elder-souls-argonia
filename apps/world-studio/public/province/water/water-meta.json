@@ -12,6 +12,13 @@
   "shoreMaxM": 160.0,
   "ownerFile": "water-owner.png"
  },
+ "season": {
+  "file": "water-shore.png",
+  "channel": "G",
+  "amplitudeM": 1.4,
+  "runtime": "surfaceY += amplitudeM * season * seasonWetness",
+  "encoding": "season = wet-season RESPONSE in 0..1, NOT a wetness flag. Standing-pool components are scaled to their own headroom (rim - level)/amplitudeM, where the rim is the median raw ground on the ring outside the pool, so the unchanged runtime lift can never carry a pool over its own shore. Rivers, marsh sheets and the sea keep response 1."
+ },
  "flow": {
   "file": "water-flow.png",
   "size": 1345,
@@ -44497,15 +44504,15 @@
  ],
  "stats": {
   "wetFrac": 0.4008,
-  "tableExtFrac": 0.1077,
+  "tableExtFrac": 0.1071,
   "classFrac": {
-   "coast": 0.33188,
-   "estuary": 0.00778,
+   "coast": 0.33176,
+   "estuary": 0.00772,
    "river": 0.00498,
-   "lake": 0.08374,
-   "marsh": 0.10405
+   "lake": 0.08234,
+   "marsh": 0.10677
   },
-  "visibleWaterFrac2017": 0.3864,
+  "visibleWaterFrac2017": 0.3893,
   "maxDepthM": 25.5,
   "slopePercentiles": {
    "50": 0.0063,
@@ -44527,6 +44534,13 @@
   "fallDropM": 2.5,
   "steepSlope": 0.035,
   "minChainStations": 3,
+  "components": 6771,
+  "keptPools": 1620,
+  "keptByBowlOnly": 298,
+  "poolSeasonOvertopMaxM": 0.0,
+  "cappedPools": 1560,
+  "zeroHeadroomPools": 27,
+  "medianHeadroomM": 0.148,
   "riverCellsAboveBed": 1.0
  }
 }

@@ -96,17 +96,27 @@ const SCENARIOS = [
     brightness: [20, 235],
   },
   {
+    // Submerged caustics A/B. A wide shallow sunlit shelf found by decoding
+    // water-surface.png: 0.3-2.6 m of water, turbidity 0.12, tannin 0, level
+    // ~0 m. Renders the SAME page twice, with __STUDIO_CAUSTICS__ 1 then 0.
+    id: "caustics-bay-fly",
+    q: "view=fly3d&cam=orbit&x=6.10&z=1.64&ex=1&t=12:00&d=8-17&wq=high&alt=45",
+    underwater: false,
+    brightness: [20, 235],
+    causticsAB: { minMeanDeltaPct: 2 },
+  },
+  {
     // steep stream strip (compiled `channels`): strips must be built
     id: "steep-strip-fly",
-    q: "view=fly3d&cam=orbit&x=4.59&z=0.08&ex=1&t=12:00&d=8-17&wq=high",
+    q: "view=fly3d&cam=orbit&x=1.75&z=1.74&ex=1&t=12:00&d=8-17&wq=high",
     underwater: false,
     brightness: [20, 235],
     debugMin: { "strips.count": 1, "strips.triangles": 100 },
   },
   {
-    // cascade fall-34 (11 m drop): waterfall sheets must be built
+    // cascade fall-63 (22 m drop, interior): waterfall sheets must be built
     id: "cascade-fly",
-    q: "view=fly3d&cam=orbit&x=6.26&z=0.90&ex=1&t=12:00&d=8-17&wq=high",
+    q: "view=fly3d&cam=orbit&x=1.68&z=1.86&ex=1&t=12:00&d=8-17&wq=high",
     underwater: false,
     brightness: [20, 235],
     debugMin: { "falls.count": 1, "falls.triangles": 50 },
@@ -247,6 +257,41 @@ try {
       if (cool >= s.waterRegion.coolMin && w.mean <= s.waterRegion.meanMax && w.std >= s.waterRegion.stdMin)
         ok(`water colour sane: ${desc}`);
       else fail(`water colour suspicious: ${desc} (cool ${cool.toFixed(2)})`);
+    }
+    if (s.causticsAB) {
+      // seabed band: the middle of the frame at this orbit altitude is the
+      // lit shallow bed. Measure it with caustics on, then off, same page.
+      const bed = async () => await page.evaluate(async (b64) => {
+        const img = new Image();
+        img.src = `data:image/png;base64,${b64}`;
+        await img.decode();
+        const c = document.createElement("canvas");
+        c.width = 320; c.height = 180;
+        const g = c.getContext("2d");
+        g.drawImage(img, 0, 0, 320, 180);
+        const d = g.getImageData(0, 0, 320, 180).data;
+        let sum = 0, sq = 0, n = 0;
+        for (let y = 60; y < 150; y++) {
+          for (let x = 60; x < 260; x++) {
+            const i = (y * 320 + x) * 4;
+            const l = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+            sum += l; sq += l * l; n++;
+          }
+        }
+        const mean = sum / n;
+        return { mean, std: Math.sqrt(Math.max(sq / n - mean * mean, 0)) };
+      }, (await page.screenshot({ timeout: 180_000 })).toString("base64"));
+      await page.evaluate(() => { window.__STUDIO_CAUSTICS__ = 1; });
+      await page.waitForTimeout(3_000);
+      const on = await bed();
+      await page.evaluate(() => { window.__STUDIO_CAUSTICS__ = 0; });
+      await page.waitForTimeout(3_000);
+      const off = await bed();
+      const deltaPct = (on.mean - off.mean) / Math.max(off.mean, 1e-6) * 100;
+      const desc = `bed mean ${on.mean.toFixed(2)} on / ${off.mean.toFixed(2)} off `
+        + `(${deltaPct.toFixed(2)}%), std ${on.std.toFixed(2)} / ${off.std.toFixed(2)}`;
+      if (deltaPct >= s.causticsAB.minMeanDeltaPct && on.std > off.std) ok(`caustics visible: ${desc}`);
+      else fail(`caustics not visible: ${desc}`);
     }
     if (sky && Math.abs(sky.exposure - sky.exposureTarget) < sky.exposureTarget * 0.05 + 1e-6)
       ok("sky exposure still converges with the water pipeline active");

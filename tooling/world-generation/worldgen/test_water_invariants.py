@@ -159,3 +159,16 @@ def test_no_wet_cell_below_its_ground(compiled):
         sites = [(round((xs[i] + 0.5) * mpp, 1), round((ys[i] + 0.5) * mpp, 1),
                   round(float(gap[i]), 2)) for i in worst]
         pytest.fail(f"{int(below.sum())} wet cells below ground; worst: {sites}")
+
+
+def test_season_never_lifts_a_pool_above_its_own_rim(compiled):
+    """Per-pool season headroom (round 8): the compiler scales each pool's
+    season RESPONSE so the runtime's `level + 1.4 * response` can never pass
+    the pool's rim. The compiler measures the worst case over every capped
+    component and ships it; anything above zero is a pool that would flood
+    out of its own basin in the wet season."""
+    meta = compiled[0]
+    stats = meta["stats"]
+    assert "poolSeasonOvertopMaxM" in stats, "compiled water predates the pool census"
+    assert stats["poolSeasonOvertopMaxM"] <= 0.01, stats["poolSeasonOvertopMaxM"]
+    assert stats["cappedPools"] > 0

@@ -14,7 +14,9 @@ import numpy as np
 import pytest
 
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import BURY_M, CLASSES, FLOW_MAX, SHORE_MAX_M, compute
+from .compile_water import (BURY_M, CLASSES, FLOW_MAX, POOL_FLOOR_SLOPE,
+                            SEASON_AMPLITUDE_M, SHORE_MAX_M, bowl_accepts,
+                            compute, pool_headroom)
 from .export_web_chunks import decode_rg16
 from .hydrology import compute as hydro_compute
 from .regions import compute_regions
@@ -112,6 +114,75 @@ def test_classes_assigned_over_water(synth):
     z, npz, r = synth
     assert (r["cls"][r["wetr"]] > 0).all()
     assert (r["cls"][(~r["wetr"]) & (~r["ext"])] == 0).all()
+
+
+# ---------------------------------------------------------------------------
+# Part 1b — pool acceptance on the depression's own geometry (round 8)
+# ---------------------------------------------------------------------------
+
+def _components(ground, mpp=4.0):
+    """Label the depressions of a tiny world and return the acceptance inputs."""
+    from scipy import ndimage as ndi
+    from .hydrology import fill_depressions
+    ocean = ground < -1e6                       # no sea in these test worlds
+    filled = fill_depressions(ground, ocean)
+    depth_fill = filled - ground
+    gy, gx = np.gradient(ground, mpp)
+    slope = np.hypot(gy, gx)
+    lbl, n = ndi.label(depth_fill > 0.02)
+    idx = np.arange(1, n + 1)
+    relief = ndi.maximum(depth_fill, lbl, idx)
+    areas = np.bincount(lbl.ravel())[1:]
+    return depth_fill, lbl, idx, slope, relief, areas, filled
+
+
+def _bowl_world(n=40, rim_h=12.0):
+    """A flat floor inside a steep rim: mean slope is dominated by the rim."""
+    z = np.full((n, n), rim_h, dtype=np.float32)
+    z[8:32, 8:32] = 0.0                        # the floor, dead flat
+    z[10:30, 10:30] = -0.6                     # ...with a shallow dish in it
+    return z
+
+
+def test_steep_rimmed_flat_floored_bowl_is_accepted():
+    z = _bowl_world()
+    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
+    assert len(idx) == 1
+    mean_slope = float(np.mean(slope[lbl == 1]))
+    assert mean_slope > POOL_FLOOR_SLOPE, "test world must fail the old blanket test"
+    assert bool(bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)[0])
+
+
+def test_tilted_plateau_without_relief_is_not_accepted():
+    n = 40
+    z = np.tile(np.linspace(0.0, 8.0, n, dtype=np.float32), (n, 1))
+    z[20, 5:35] -= 0.03                        # a scratch, not a basin
+    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
+    if not len(idx):
+        return                                  # nothing even ponded: fine
+    acc = bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)
+    assert not acc.any(), f"tilted plateau accepted, relief={relief}"
+
+
+def test_vast_shallow_sheet_exceeds_the_area_cap():
+    n = 120
+    z = np.zeros((n, n), dtype=np.float32)
+    z[1:-1, 1:-1] = -0.30                       # 118^2 px, a 0.3 m lip
+    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
+    acc = bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)
+    assert not acc.any(), "a shallow sheet the size of a plateau must be rejected"
+
+
+def test_season_response_is_capped_to_the_pools_headroom():
+    z = _bowl_world(rim_h=0.9)                  # rim 0.9 m over the floor
+    depth_fill, lbl, idx, slope, relief, areas, filled = _components(z)
+    level = np.asarray([float(filled[lbl == 1].max())]) - 0.05
+    rim, headroom = pool_headroom(z, lbl, idx, level)
+    response = headroom / SEASON_AMPLITUDE_M
+    assert 0.0 < float(headroom[0]) < SEASON_AMPLITUDE_M
+    assert float(response[0]) == pytest.approx(float(headroom[0]) / SEASON_AMPLITUDE_M)
+    # the invariant the runtime relies on: level + response * amplitude <= rim
+    assert float(level[0] + response[0] * SEASON_AMPLITUDE_M) <= float(rim[0]) + 1e-4
 
 
 # ---------------------------------------------------------------------------
