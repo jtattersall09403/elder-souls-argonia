@@ -243,3 +243,89 @@ def test_shipped_flow_and_class_rasters_decode(province):
     # tannin distinguishes blackwater marsh from silt rivers
     shore_rgb = np.asarray(shore_img.convert("RGB"))
     assert shore_rgb[..., 2].max() > 120
+
+
+# ---------------------------------------------------------------------------
+# Part 3 — steep-strip / cascade classification (decision 0046 item 4)
+# ---------------------------------------------------------------------------
+
+def _straight_chain(levels, seg=10.0):
+    """n stations in a straight downstream line at the given surface levels."""
+    n = len(levels)
+    w_st = np.asarray(levels, dtype=np.float32)
+    dsk = np.arange(1, n + 1, dtype=np.int64)
+    dsk[-1] = -1
+    seg_dist = np.full(n, seg, dtype=np.float32)
+    pooled = np.zeros(n, dtype=bool)
+    return w_st, dsk, seg_dist, pooled
+
+
+def test_classify_splits_field_steep_and_fall():
+    from .compile_water import classify_stations, FALL_DROP_M, STEEP_SLOPE
+    # segment drops: 0.05 (field), 0.5 (steep), 3.0 (fall), 0.05 (field)
+    w, dsk, seg, pooled = _straight_chain([20.0, 19.95, 19.45, 16.45, 16.40])
+    kind, slope, drop = classify_stations(w, dsk, seg, pooled)
+    assert list(kind) == [0, 1, 2, 0, 0]
+    assert slope[1] == pytest.approx(0.05)
+    assert drop[2] >= FALL_DROP_M
+    assert slope[0] < STEEP_SLOPE
+
+
+def test_pooled_stations_are_never_steep():
+    from .compile_water import classify_stations
+    w, dsk, seg, pooled = _straight_chain([20.0, 15.0, 14.9])
+    pooled[0] = True
+    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
+    assert kind[0] == 0
+
+
+def test_six_station_chain_with_a_cliff_gives_one_strip_and_one_cascade():
+    """Stations 1..4 steep with a 3 m cliff at station 3; 0 and 5 are field,
+    so they become the two `join` points the renderer needs."""
+    from .compile_water import classify_stations, build_chains
+    levels = [30.0, 29.98, 29.4, 28.8, 25.8, 25.2, 25.18]
+    w, dsk, seg, pooled = _straight_chain(levels)
+    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
+    assert list(kind) == [0, 1, 1, 2, 1, 0, 0]
+    chains, up_any = build_chains(kind, dsk, w, pooled)
+    assert len(chains) == 1
+    assert chains[0] == [1, 2, 3, 4]
+    assert up_any[chains[0][0]] == 0          # the upstream join station
+    assert dsk[chains[0][-1]] == 5            # the downstream join station
+
+
+def test_single_field_gap_is_bridged_but_two_are_not():
+    from .compile_water import classify_stations, build_chains
+    #        0     1(steep) 2(gap) 3(steep) 4(steep) 5
+    w, dsk, seg, pooled = _straight_chain(
+        [30.0, 29.98, 29.4, 29.39, 28.9, 28.4, 28.38])
+    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
+    assert list(kind) == [0, 1, 0, 1, 1, 0, 0]
+    chains, _u = build_chains(kind, dsk, w, pooled)
+    assert chains == [[1, 2, 3, 4]]
+    # two consecutive field stations break the chain below the minimum length
+    w2, dsk2, seg2, pooled2 = _straight_chain(
+        [30.0, 29.98, 29.4, 29.39, 29.38, 28.9, 28.4, 28.38])
+    kind2, _s2, _d2 = classify_stations(w2, dsk2, seg2, pooled2)
+    assert list(kind2) == [0, 1, 0, 0, 1, 1, 0, 0]
+    assert build_chains(kind2, dsk2, w2, pooled2)[0] == []  # [4,5] is too short
+
+
+def test_short_chains_are_dropped():
+    from .compile_water import classify_stations, build_chains
+    w, dsk, seg, pooled = _straight_chain([30.0, 29.98, 29.4, 29.38, 29.36])
+    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
+    assert kind[1] == 1
+    assert build_chains(kind, dsk, w, pooled)[0] == []
+
+
+@needs_vault
+def test_compiled_meta_carries_channels_and_cascades():
+    meta = json.loads((WATER_DIR / "water-meta.json").read_text())
+    assert meta["surface"]["ownerFile"] == "water-owner.png"
+    assert meta["stats"]["stripCount"] == len(meta["channels"])
+    assert meta["stats"]["cascadeCount"] == len(meta["cascades"])
+    for ch in meta["channels"]:
+        kinds = [p["kind"] for p in ch["points"]]
+        assert kinds[0] == "join" or kinds[-1] == "join"
+        assert any(k in ("steep", "fall") for k in kinds)

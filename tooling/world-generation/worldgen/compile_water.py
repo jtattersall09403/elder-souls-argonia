@@ -63,6 +63,13 @@ BURY_M = 3.0                  # dry ground carries W = ground - BURY_M
 TABLE_MAX_PX = 24             # how far the water table extends over floodable land
 FLOODABLE_HAND_M = 4.0        # hand < this counts as floodable fringe
 
+# Steep-channel strips and cascades (decision 0046 item 4). Classified on
+# the conditioned station long profile; the renderer builds explicit strip
+# meshes / ballistic sheets where these say so and masks the field surface out.
+FALL_DROP_M = 2.5             # one segment losing this much is a waterfall
+STEEP_SLOPE = 0.035           # ~2 deg — above this the field raster reads badly
+MIN_CHAIN_STATIONS = 3        # shorter runs stay on the field surface
+
 # Flow field
 FLOW_SPEED = {1: 0.4, 2: 0.7, 3: 1.1}  # m/s by river band
 FLOW_MAX = 3.0                # encoding ceiling, m/s
@@ -117,6 +124,74 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
         if not changed:
             break
     return w
+
+
+def classify_stations(w_st, dsk, seg_dist, pooled):
+    """Per-station segment class: 0 field, 1 steep, 2 fall (see decision 0046).
+
+    `slope`/`drop` describe the segment from station k to its downstream
+    partner; a station with no downstream link is field by definition.
+    Pooled stations (standing water) are never steep or fall."""
+    n = len(w_st)
+    drop = np.zeros(n, dtype=np.float32)
+    slope = np.zeros(n, dtype=np.float32)
+    hasd = dsk >= 0
+    drop[hasd] = w_st[hasd] - w_st[dsk[hasd]]
+    slope[hasd] = drop[hasd] / np.maximum(seg_dist[hasd], 1e-6)
+    kind = np.zeros(n, dtype=np.uint8)
+    kind[hasd & (slope >= STEEP_SLOPE)] = 1
+    kind[hasd & (drop >= FALL_DROP_M)] = 2
+    kind[pooled] = 0
+    return kind, slope, drop
+
+
+def build_chains(kind, dsk, w_st, pooled):
+    """Merge consecutive steep/fall stations into downstream chains, tolerating
+    a single `field` station as an internal gap. A gap may not be a pooled
+    station and may not raise the profile (a strip's `y` is non-increasing).
+    Returns core chains (station index lists) with >= MIN_CHAIN_STATIONS
+    stations, deterministically ordered."""
+    n = len(kind)
+    active = kind > 0
+    has_active_up = np.zeros(n, dtype=bool)
+    up_any = np.full(n, -1, dtype=np.int64)
+    for k in range(n):
+        d = dsk[k]
+        if d >= 0:
+            if active[k]:
+                has_active_up[d] = True
+            if up_any[d] < 0:
+                up_any[d] = k
+    visited = np.zeros(n, dtype=bool)
+    chains = []
+    for k in range(n):
+        if not active[k] or visited[k] or has_active_up[k]:
+            continue
+        chain = [k]
+        visited[k] = True
+        cur = k
+        while True:
+            d = dsk[cur]
+            if d < 0 or visited[d]:
+                break
+            if active[d]:
+                visited[d] = True
+                chain.append(d)
+                cur = d
+                continue
+            d2 = dsk[d]
+            if (d2 >= 0 and active[d2] and not visited[d2] and not pooled[d]
+                    and w_st[d] <= w_st[cur] + 1e-3
+                    and w_st[d2] <= w_st[d] + 1e-3):
+                visited[d] = True
+                visited[d2] = True
+                chain.extend((d, d2))
+                cur = d2
+                continue
+            break
+        if len(chain) >= MIN_CHAIN_STATIONS:
+            chains.append(chain)
+    return chains, up_any
 
 
 def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
@@ -291,6 +366,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
             w_st[d] = max(w_st[k], floor_st[d])
 
+    # steep/fall classification + chain merge (decision 0046 item 4)
+    st_kind, st_slope, st_drop = classify_stations(w_st, dsk, seg_dist, pooled)
+    core_chains, up_any = build_chains(st_kind, dsk, w_st, pooled)
+
     # lateral spread: nearest-station level across the Leopold–Maddock width
     a_st = np.maximum(npz["accum_km2"].reshape(-1)[idx_st], 0.02)
     w_geom = 14.0 * a_st ** 0.40
@@ -312,6 +391,22 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     ribbon &= g2 > (lvl_n - dmax_r[ky, kx])
     comp(ribbon, lvl_n.astype(np.float32))
     riv2 = riv2 | ribbon
+
+    # which station owns each ribbon cell (nearest-station EDT indices)
+    st_id = np.full(g2.shape, -1, dtype=np.int64)
+    st_id[sy, sx] = np.arange(n_st)
+    near_id = st_id[ky, kx]
+    owner_kind = np.zeros(n_st + 1, dtype=np.uint8)   # last slot = "no station"
+    for chain in core_chains:
+        for k in chain:
+            if st_kind[k] == 2:
+                owner_kind[k] = 255
+            elif st_kind[k] == 1:
+                owner_kind[k] = 128
+    owner_raw = np.where(ribbon, owner_kind[np.where(near_id < 0, n_st, near_id)],
+                         np.uint8(0)).astype(np.uint8)
+    # (masked to the wet field once depth2 exists — the ribbon reaches up the
+    # dry bank, and a strip must never claim a cell the field draws no water in)
 
     # centreline film backstop over the ROUGH ground: bumps between stations
     # can't punch dry gaps through the channel
@@ -365,6 +460,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     w2[chan_keep] = np.maximum(w2[chan_keep], (np.maximum(g2, g2s) + 0.10)[chan_keep])
 
     depth2 = np.clip(w2 - g2, 0.0, 25.5)
+    # 0.05 m is the depth-proxy quantum: below it the shipped B channel reads
+    # dry, so an owner pixel there would mask the field out of a cell nothing
+    # else draws water in.
+    owner2 = np.where(depth2 >= 0.05, owner_raw, np.uint8(0)).astype(np.uint8)
     shore2 = np.clip(ndimage.distance_transform_edt(wet2) * mpp2, 0.0, SHORE_MAX_M).astype(np.float32)
 
     # --- 3. flow: direction from the flow graph; SPEED from the conditioned
@@ -440,7 +539,112 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     for arr in (turb, tannin, season, salinity):
         arr[ext] = arr[iy[ext], ix[ext]]
 
+    # --- 7. strip + cascade records (decision 0046 item 4) ------------------
+    st_speed = v_st
+    st_season = season.reshape(-1)[idx_st]
+    st_half = (r_st * mpp2).astype(np.float32)
+
+    field_at_st = w2[sy, sx]
+
+    def _pt(k, kind_name, y=None):
+        return {
+            "x": round(float((sx[k] + 0.5) * mpp2), 2),
+            "z": round(float((sy[k] + 0.5) * mpp2), 2),
+            "y": round(float(w_st[k] if y is None else y), 2),
+            "bedY": round(float(bed_st[k]), 2),
+            "halfWidthM": round(float(st_half[k]), 2),
+            "speedMS": round(float(st_speed[k]), 2),
+            "season": round(float(st_season[k]), 2),
+            "kind": kind_name,
+        }
+
+    channels = []
+    cascades = []
+    strip_len_m = 0.0
+    for chain in core_chains:
+        ext_chain = list(chain)
+        up = up_any[chain[0]]
+        if up >= 0:
+            ext_chain.insert(0, int(up))
+        dn = dsk[chain[-1]]
+        if dn >= 0:
+            ext_chain.append(int(dn))
+        core = set(chain)
+        names = [("fall" if st_kind[k] == 2 else
+                  "steep" if st_kind[k] == 1 else "field")
+                 if k in core else "join" for k in ext_chain]
+        pts = [_pt(k, nm, float(field_at_st[k]) if nm == "join" else None)
+               for k, nm in zip(ext_chain, names)]
+        # The flowing core profile is monotone by construction; assert it.
+        # The two join points instead carry the FIELD surface at their cell —
+        # that is the height the strip mesh must meet for a seamless join, and
+        # a downstream join may sit slightly ABOVE the last core station when
+        # the strip discharges into standing water (backwater), which is
+        # physical. Monotonicity is therefore a core-point invariant.
+        core_y = [p["y"] for p, nm in zip(pts, names) if nm != "join"]
+        assert all(b <= a + 1e-6 for a, b in zip(core_y, core_y[1:])), \
+            f"non-monotone strip core at station {chain[0]}"
+        channels.append({
+            "id": f"strip-{len(channels)}",
+            "band": int(rflat[idx_st[chain[0]]]),
+            "points": pts,
+        })
+        for k in chain:
+            strip_len_m += float(seg_dist[k])
+        # cascades: runs of consecutive `fall` stations inside the chain
+        i = 0
+        while i < len(chain):
+            if st_kind[chain[i]] != 2:
+                i += 1
+                continue
+            j = i
+            while j + 1 < len(chain) and st_kind[chain[j + 1]] == 2 and \
+                    dsk[chain[j]] == chain[j + 1]:
+                j += 1
+            lip_k = chain[i]
+            plunge_k = int(dsk[chain[j]])
+            if plunge_k >= 0:
+                lx = float((sx[lip_k] + 0.5) * mpp2)
+                lz = float((sy[lip_k] + 0.5) * mpp2)
+                px = float((sx[plunge_k] + 0.5) * mpp2)
+                pz = float((sy[plunge_k] + 0.5) * mpp2)
+                dx, dz = px - lx, pz - lz
+                dl = float(np.hypot(dx, dz)) or 1.0
+                cascades.append({
+                    "id": f"fall-{len(cascades)}",
+                    "bodyIndex": 0,
+                    "riverBand": int(rflat[idx_st[lip_k]]),
+                    "lip": {"x": round(lx, 2), "y": round(float(w_st[lip_k]), 2),
+                            "z": round(lz, 2)},
+                    "plunge": {"x": round(px, 2),
+                               "y": round(float(w_st[plunge_k]), 2),
+                               "z": round(pz, 2)},
+                    "direction": {"x": round(dx / dl, 4), "y": 0,
+                                  "z": round(dz / dl, 4)},
+                    "widthM": round(float(st_half[lip_k] * 2.0), 2),
+                    "dropM": round(float(w_st[lip_k] - w_st[plunge_k]), 2),
+                })
+            i = j + 1
+
+    pct = [float(np.percentile(st_slope, q)) for q in (50, 75, 90, 95, 99, 99.9)]
+    channel_stats = {
+        "slopePercentiles": {str(q): round(v, 4) for q, v in
+                             zip((50, 75, 90, 95, 99, 99.9), pct)},
+        "stationClassCounts": {"field": int((st_kind == 0).sum()),
+                               "steep": int((st_kind == 1).sum()),
+                               "fall": int((st_kind == 2).sum())},
+        "stripCount": len(channels),
+        "stripKm": round(strip_len_m / 1000.0, 2),
+        "cascadeCount": len(cascades),
+        "ownerFrac": round(float((owner2 > 0).mean()), 6),
+        "fallDropM": FALL_DROP_M,
+        "steepSlope": STEEP_SLOPE,
+        "minChainStations": MIN_CHAIN_STATIONS,
+    }
+
     return {
+        "channels": channels, "cascades": cascades,
+        "channelStats": channel_stats, "owner2": owner2,
         "w1": w_filled, "wet": wet, "wetr": wetr, "ext": ext, "cls": cls_ext,
         "turb": turb, "tannin": tannin, "season": season, "salinity": salinity, "vx": vx,
         "vz": vz, "shore_d": shore_d, "w2": w2, "depth2": depth2,
@@ -495,6 +699,8 @@ def main() -> None:
     klass = np.dstack([r["cls"], enc(r["turb"]), enc(r["salinity"])])
     Image.fromarray(klass, mode="RGB").save(OUT_DIR / "water-class.png")
 
+    Image.fromarray(r["owner2"], mode="L").save(OUT_DIR / "water-owner.png")
+
     wet, ext, cls = r["wet"], r["ext"], r["cls"]
     stats = {
         "wetFrac": round(float(wet.mean()), 4),
@@ -505,6 +711,7 @@ def main() -> None:
         "maxDepthM": round(float(r["depth2"].max()), 2),
         # rivers are carved CARVE_DEPTH below the ambient bank (refine_province
         # CHANNELS); the water surface must sit above that bed line
+        **r["channelStats"],
         "riverCellsAboveBed": round(float(np.mean(np.concatenate([
             ((r["w1"] > z - d + 0.05)[npz["rivers"] == b]).ravel()
             for b, d in CARVE_DEPTH.items() if (npz["rivers"] == b).any()
@@ -520,12 +727,15 @@ def main() -> None:
             "buryM": BURY_M,
             "shoreFile": "water-shore.png",
             "shoreMaxM": SHORE_MAX_M,
+            "ownerFile": "water-owner.png",
         },
         "flow": {"file": "water-flow.png", "size": int(z.shape[0]),
                  "metresPerPixel": RAW_M * STEP, "flowMax": FLOW_MAX,
                  "shoreMaxM": SHORE_MAX_M},
         "klass": {"file": "water-class.png", "size": int(z.shape[0]),
                   "metresPerPixel": RAW_M * STEP, "classes": CLASSES},
+        "channels": r["channels"],
+        "cascades": r["cascades"],
         "stats": stats,
     }
     (OUT_DIR / "water-meta.json").write_text(json.dumps(meta, indent=1))

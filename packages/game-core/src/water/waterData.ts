@@ -15,6 +15,14 @@ export interface WaterMeta {
   cascades?: { id: string; lip: { x: number; y: number; z: number };
     plunge: { x: number; y: number; z: number }; direction: { x: number; y?: number; z: number };
     widthM: number; dropM: number; riverBand: number; bodyIndex: number }[];
+  /** Steep-reach channel strips (decision 0046 item 4): the renderer draws
+   * explicit strip meshes along these and masks the field surface out where
+   * `ownerFile` says a strip/fall owns the cell. `join` points overlap the
+   * field at each end. Points run downstream; `y` is non-increasing. */
+  channels?: { id: string; band: number; points: {
+    x: number; z: number; y: number; bedY: number; halfWidthM: number;
+    speedMS: number; season: number; kind: 'steep' | 'fall' | 'field' | 'join';
+  }[] }[];
   surface: {
     file: string;
     size: number;
@@ -32,6 +40,8 @@ export interface WaterMeta {
     /** Hi-res shore-distance field (own grayscale PNG) + its saturation. */
     shoreFile?: string;
     shoreMaxM?: number;
+    /** 8-bit owner mask on the surface grid: 0 field, 128 strip, 255 fall. */
+    ownerFile?: string;
   };
   flow: { file: string; size: number; metresPerPixel: number; flowMax: number; shoreMaxM: number; gridOriginM?: number };
   klass: { file: string; size: number; metresPerPixel: number; classes: string[]; gridOriginM?: number };
