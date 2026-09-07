@@ -1,7 +1,6 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
-import { sharedWaterAssets, LEGACY_WATER, type WaterAssets } from "./waterAssets";
-import { StudioWater as LegacyStudioWater } from "./legacy/StudioWater";
+import { sharedWaterAssets, type WaterAssets } from "./waterAssets";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
 import { worldClock } from "../sky/timeState";
@@ -9,7 +8,7 @@ import { waterTimeS, advanceWaterClock, waterTransportTimeS, waterTransportDelta
 import { lastWeatherSample } from "../weather/weatherState";
 import { wetnessUniforms } from "./groundWetness";
 import { updateGroundLocalWater } from "@elder-souls/game-core/water/render/groundWetness";
-import type { WaterRuntime } from "@elder-souls/game-core/water/render/types";
+import type { WaterDebugState, WaterRuntime } from "@elder-souls/game-core/water/render/types";
 import type { Vec3 } from "@elder-souls/contracts";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
 import { WaterPipeline } from "./WaterPipeline";
@@ -21,6 +20,12 @@ import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "./W
  * and mounts the surface + the shared render-pass pipeline. Mount INSIDE
  * `<WorldSky>` so the material sees the CSM context.
  */
+
+declare global {
+  interface Window {
+    __STUDIO_WATER_DEBUG__?: WaterDebugState;
+  }
+}
 
 // Captured at module load — the App re-serialises the query string with its
 // own known keys and would drop ?wq= before the water mounts.
@@ -34,11 +39,7 @@ export function pickWaterTier(): WaterTier {
   return coarse || weak ? WATER_TIERS.low : WATER_TIERS.high;
 }
 
-export function StudioWater(props: Parameters<typeof CurrentStudioWater>[0]) {
-  return LEGACY_WATER ? <LegacyStudioWater {...props} /> : <CurrentStudioWater {...props} />;
-}
-
-function CurrentStudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus }: {
+export function StudioWater({ base, verticalScale, farExtentM, contactBodies, surfaceFocus }: {
   base: string;
   verticalScale: number;
   /** Water draw distance — walk mode ~6 km, flyover 30 km (perf). */

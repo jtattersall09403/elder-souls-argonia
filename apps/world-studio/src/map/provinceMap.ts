@@ -19,7 +19,6 @@
  * No module-level mutable state: loaders return values, the caller owns them.
  */
 import { paintTerrainCanvas } from "../terrainColor";
-import { physicalWaterMapFiles } from "../water/waterDataset";
 
 export interface ProvinceMapMeta {
   metresPerPixel: number;
@@ -71,7 +70,6 @@ export async function decodeProvinceHeights(
 export const CONTEXT_OVERLAY_FILES: Record<string, string> = {
   wetlands: "hydro-wetlands.png",
   rivers: "hydro-rivers.png",
-  ...physicalWaterMapFiles(),
 };
 
 /** Load overlay PNGs by layer name; a missing file simply yields no entry. */

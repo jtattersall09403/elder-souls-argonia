@@ -1,17 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { HeightfieldCollider, TrimeshCollider, RigidBody } from "@react-three/rapier";
-import { HeightFieldFlags, TriMeshFlags } from "@dimforge/rapier3d-compat";
+import { HeightfieldCollider, RigidBody } from "@react-three/rapier";
+import { HeightFieldFlags } from "@dimforge/rapier3d-compat";
 import type { ChunkGrid, ChunkStore, ChunksManifest } from "./chunkStore";
 import { terrainColliderData } from "@elder-souls/game-core/terrain/colliderData";
 
 /**
- * Rapier terrain colliders for the 3×3 chunks around the player, built
+ * Rapier heightfield colliders for the 3×3 chunks around the player, built
  * from the same LOD-1 grids the near render meshes use (chunks-manifest
  * collision contract: true-metre heights, ×5 as the collider's y scale,
  * 257-sample overlap edges so neighbours stitch without seams).
- * Audited diagonal-flip chunks alone use the identical native triangle
- * mesh; all other chunks retain efficient heightfields.
  *
  * Rapier heightfields are centred matrices in column-major order with row 0
  * at −z (north) and column 0 at −x (west) — verified empirically against
@@ -24,9 +22,11 @@ function TerrainChunkCollider({ grid, scale }: { grid: ChunkGrid; scale: number 
   const data = useMemo(() => terrainColliderData(grid, scale), [grid, scale]);
   // react-three-rapier forwards the entire args array to ColliderDesc; its
   // tuple typings omit Rapier's optional flags, so retain those at runtime.
-  const collider = useMemo(() => data.kind === 'trimesh'
-    ? <TrimeshCollider args={[data.vertices, data.indices, TriMeshFlags.FIX_INTERNAL_EDGES] as unknown as [Float32Array, Uint32Array]} />
-    : <HeightfieldCollider args={([data.rows, data.columns, data.data, data.scale, HeightFieldFlags.FIX_INTERNAL_EDGES]) as unknown as [number, number, number[], { x: number; y: number; z: number }]} />, [data]);
+  // FIX_INTERNAL_EDGES: without it the capsule catches phantom bumps on the
+  // heightfield's internal triangle edges — felt as stumbles while running.
+  const collider = useMemo(() => (
+    <HeightfieldCollider args={([data.rows, data.columns, data.data, data.scale, HeightFieldFlags.FIX_INTERNAL_EDGES]) as unknown as [number, number, number[], { x: number; y: number; z: number }]} />
+  ), [data]);
   return <RigidBody type="fixed" colliders={false} position={data.position}>{collider}</RigidBody>;
 }
 

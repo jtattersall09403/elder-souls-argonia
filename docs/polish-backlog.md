@@ -116,3 +116,96 @@ cosmetic/feel work lives — do not park polish items in decision docs.
   strafe clips" switch (default on); off restores the 3.0 m/s locked walk with
   scaled cadence. Owner to judge which stays; if the slow one, sourcing faster
   strafe clips is the way to a quicker locked pace, not a speed number.
+
+## Owner feedback round (2026-09-06)
+
+Sky, water, weather, geography, camera, terrain dressing and combat items the
+owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
+
+- **Sunrise/sunset sky palette has a greenish tinge.** Sunrise starts nice but
+  transitions to darker, too-red/greenish colours; sunset does the reverse
+  (greenish first, nice colours after). Owner wants a tropical palette
+  throughout the transition — pinks, purples, coral, coral-orange, golden —
+  and not too red either.
+- **Tropical Skyrim has better vertical-face textures and marsh textures**
+  than ours — see the mod's own screenshots (staticdelivery.nexusmods.com
+  mods/110, images 33017-1 and 33017-5). Worth a texture-swap pass on cliff
+  faces and marsh ground.
+- **Glow around moons** — reference: the "Elysium" three.js showcase thread
+  on discourse.threejs.org (t/55541) has an example of moon glow to draw on.
+- **Waterfalls**: no waterfall effect yet. Research a three.js waterfall
+  approach (discourse.threejs.org t/21564) plus particle splashing and better
+  foam; candidate particle libs are three-nebula (github creativelifeform,
+  maybe its "gravity" preset) or ShaderParticleEngine (github squarefeet).
+  Check the Elysium discourse thread too for combining these with Unity
+  waterfall tutorials.
+- **Rivers on slopes still don't render well** — there's already research on
+  this in docs, but it hasn't been successfully implemented.
+- **Water/player interaction physics is weak** compared to the Wallace-based
+  three.js water demo referenced elsewhere in this backlog (row 1) — same
+  interactive quality is wanted, plus foam/particle splashes on impact and
+  fast movement (three-nebula or ShaderParticleEngine again as candidates).
+- **Ocean waves breaking on the beach** — no surf/break effect currently;
+  Babylon.js forum thread on realistic beach surf has ideas worth stealing
+  (forum.babylonjs.com t/58664 post 11).
+- **Study "Three.js Water Pro" — Dan Greenheck's dev blogs** (and any video
+  transcripts findable) as a reference for our water rework generally.
+- **Coastal geography needs the same treatment mountains got** — more drama
+  and variety in coastline shape, following whatever process improved
+  mountain geography.
+- **Weather should be local, not province-wide** (clouds, rain) — owner isn't
+  sure this is actually needed; flag for a design call before building it.
+- **Land beyond the province's north/west borders is empty.** Continue the
+  all-Tamriel heightmap past our edges so terrain reads as continuing
+  smoothly into the distance (fading/hazing over a horizon distance), while
+  still hard-blocking the player from walking past the province boundary
+  (invisible wall + a message).
+- **Replace rain with a more realistic effect** — reference:
+  boytchev.github.io/etudes/threejs/ghosts-in-the-rain.html or similar;
+  drops should bounce off / flow around surfaces realistically.
+- **Rain-patch edges are too hard** — weather patches passing over the
+  player are fine, but the boundary of a rain patch is a visible sharp edge;
+  wants softening.
+- **Lowland mist/sea-fog has a visible hard straight edge** when viewed from
+  altitude in the mountains on a clear day, making the coastline look
+  artificially squared off. (Possibly the same raster-mask root cause as the
+  disabled mountaintop cap cloud, row 19 above.)
+- **Mountain cap cloud — try again properly**, this time perhaps as real
+  volumetric clouds; reference: "Universal Planetary Volumetric Cloud
+  Atmosphere Engine" thread (discourse.threejs.org t/89553). Related to the
+  disabled whitebout regime-3 cloud row above (row 19) — same underlying ask.
+- **Foliage between camera and player should go translucent** when it
+  occludes the player, the way BOTW/TOTK handle camera-blocking vegetation.
+- **Water ripples leak between unconnected pools** — jumping in an enclosed
+  pool next to a separate, unconnected pool sends ripples into the other
+  pool as if they were the same body of water.
+- **Volumetric mist that pools in valleys**, visible from outside the valley,
+  lit with real colour shining through and scattering/dispersing — owner
+  recalls a specific Reddit post with a good reference example, to be found
+  again.
+- **Running attacks** — nice to have if suitable animations can be sourced;
+  not a blocker if not.
+- **Trees/plants look stark growing straight out of bare rock in mountainous
+  terrain.** Consider terrain texture painting so ground under trees in rocky
+  areas reads as "rock with leaves and dirt on it" rather than bare rock.
+- **Small plants/bushes sometimes read as placed in ordered rows/grids**,
+  looking cultivated rather than wild — placement jitter/distribution needs
+  a look.
+- **Hanging root tree decorations are still appearing** despite believing
+  they'd been disabled.
+- **Consider more rock/boulder placement outside the uplands/mountains** —
+  candidate lowland areas for a maze-like boulder region (climbable rocks of
+  varying size, with nooks/crannies for loot), similar to boulder regions in
+  other open-world games. Needs a map survey for viable spots plus research
+  into what such regions usually contain.
+- **Weapon movesets are still coarse** (vanilla's three broad categories:
+  one-handed, greatsword, greataxe/hammer). Source more granular per-weapon
+  animation sets from a highly-rated mod within those categories.
+- **Dual wielding** — not yet decided/scoped, raised as an open question.
+- **Uplands/mountains feel too bare on terrain dressing** compared to the
+  lowlands. Needs research: what dressing is appropriate, what's available
+  in our current assets/mods/vanilla, and how other open-world games dress
+  mountain terrain.
+- **Deterracing could be smoother** — visible terracing artefacts remain.
+- **Grass coverage** — open question on whether/how much grass coverage
+  exists currently and whether it needs improving.

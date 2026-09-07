@@ -12,13 +12,11 @@ function patch(originX = 0) {
     baseHeightM: 0, groundHeights: new Float32Array(32 ** 2).fill(-10) });
 }
 function world() {
-  const meta: WaterMeta = { surface: { file: '', size: 2, metresPerPixel: 64, gridOriginM: 0, minM: 0, maxM: 1, buryM: 0 },
-    flow: { file: '', size: 2, metresPerPixel: 64, gridOriginM: 0, flowMax: 0, shoreMaxM: 1 },
-    klass: { file: '', size: 2, metresPerPixel: 64, gridOriginM: 0, classes: ['none', 'lake'] },
-    bodies: [{ index: 1, id: 'water.pool' }] };
+  const meta: WaterMeta = { surface: { file: '', size: 2, metresPerPixel: 64, minM: 0, maxM: 1, buryM: 0 },
+    flow: { file: '', size: 2, metresPerPixel: 64, flowMax: 0, shoreMaxM: 1 },
+    klass: { file: '', size: 2, metresPerPixel: 64, classes: ['none', 'lake'] } };
   const data = new WaterData(meta, new Float32Array(4), new Float32Array(4).fill(10), new Uint8ClampedArray(16),
-    new Uint8ClampedArray([1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255]), undefined, undefined,
-    new Uint8ClampedArray([255, 0, 1, 255, 255, 0, 1, 255, 255, 0, 1, 255, 255, 0, 1, 255]));
+    new Uint8ClampedArray([1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255, 1, 0, 0, 255]));
   return new WaterWorld(data, { tidalAmplitudeM: 0, seasonalAmplitudeM: 0, seasonScalar: () => 0 });
 }
 const sphere = (x = 4): WaterDisplacementSphere => ({ center: { x, y: -1, z: 4 }, radiusM: 0.3 });

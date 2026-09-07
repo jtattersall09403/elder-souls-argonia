@@ -11,18 +11,16 @@ export interface WaterAssets {
   data: WaterData;
   world: WaterWorld;
   meta: WaterMeta;
+  /** RGBA8 of water-surface.png (R,G = W16, B = depth proxy). Nearest. */
   surfaceTex: THREE.DataTexture;
+  /** RGBA8 of water-flow.png. Linear. */
   flowTex: THREE.DataTexture;
+  /** RGBA8 of water-class.png. Linear (class index R is CPU-only). */
   klassTex: THREE.DataTexture;
+  /** Shore distance / season response / tannin (RGBA8). Linear. */
   shoreTex: THREE.DataTexture;
-  supportTex: THREE.DataTexture;
-  characterTex: THREE.DataTexture;
-  /** Optional fine RG16 access barrier and blue-channel tidal response. */
-  accessTex?: THREE.DataTexture;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
-  lowTideAmplitudeM?: number;
-  drySeasonAmplitudeM?: number;
 }
 
 export interface LocalWaterSurfaceState {

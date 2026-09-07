@@ -243,17 +243,3 @@ def test_shipped_flow_and_class_rasters_decode(province):
     # tannin distinguishes blackwater marsh from silt rivers
     shore_rgb = np.asarray(shore_img.convert("RGB"))
     assert shore_rgb[..., 2].max() > 120
-
-
-def test_extended_stage_reaches_both_compiler_boundary_paths(synth):
-    from .water_stage import stage_range
-    z, npz, baseline = synth
-    refined = np.repeat(np.repeat(z, 2, axis=0), 2, axis=1)
-    stage = stage_range()
-    stage['seasonalAmplitudeM'] = 4.
-    result = compute(z, refined, npz, stage=stage)
-    assert result['feature_inputs']['maximum_offset'] == 4.5
-    # The base hydraulic solve remains unchanged; only potential wet-season
-    # domain and its access barriers grow.
-    assert np.array_equal(result['station_levels'], baseline['station_levels'])
-    assert (result['access2'] <= 4.54).sum() > (baseline['access2'] <= 1.94).sum()

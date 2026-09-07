@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { SettlementAnchor, SuggestedConnection } from "@elder-souls/contracts";
 import anchorsFile from "../../../world/sources/anchors/settlement-anchors.json";
 import { Fly3D } from "./Fly3D";
-import { physicalWaterMapFiles } from "./water/waterDataset";
 import { PlacesLayer } from "./places/PlacesLayer";
 import { BlueprintView } from "./blueprints/BlueprintView";
 import { encodeBlueprintUrl, parseBlueprintUrl, type BlueprintUrlState } from "./blueprints/blueprintsData";
@@ -274,7 +273,6 @@ export function App() {
         // Wet-season inundation (+1.4 m connected flood, refine_province):
         // the map-view twin of the 3D world's seasonal water level (§36).
         "flood-wet": "refined/flood-wet.png",
-        ...physicalWaterMapFiles(),
       };
       await Promise.all(
         Object.entries(overlayFiles).map(async ([name, file]) => {
@@ -430,7 +428,7 @@ export function App() {
     const wc = waterClassRef.current;
     if (wc) {
       const wx = x * meta.metresPerPixel, wz = y * meta.metresPerPixel;
-      const boundary = wc.world.sampleBoundary(wx, wz, worldClock.epochMinutes());
+      const boundary = wc.world.sample({ x: wx, y: -1e6, z: wz }, worldClock.epochMinutes());
       if (boundary.waterBodyId && boundary.depth > 0.004) {
         waterPart = ` · water: ${wc.data.sample(wx, wz).className}`;
       }

@@ -32,26 +32,15 @@ it("loads terrain independently of either vegetation asset and retains a ground 
   expect(asyncFallback?.getText(source)).toContain("<Terrain ");
 });
 
-it("binds the validated gradient before the first detailed terrain frame and disposes async ownership",()=>{
-  const source=readFileSync(new URL("./character/ChunkTerrain.tsx",import.meta.url),"utf8");
-  expect(source).toContain("useLayoutEffect(()=>{groundUniforms.uGrad.value=gradient??gradTex;}");
-  expect(source).toContain("gradientState?.owner===adaptive&&gradientState.base===base");
-  expect(source).toContain("controller.abort();owned?.dispose()");
-  expect(source).toContain("if(controller.signal.aborted){texture.dispose();return;}");
-  expect(source).toContain("if(!gradient)return <>{loadingFallback??null}</>");
-  expect(source).not.toContain('useLoader(THREE.TextureLoader, `${base}province/chunks/normal-grad.png`)');
-});
-
-it('retains macro terrain until an actual detail element exists, then excludes macro from the detail group', () => {
+it('retains macro terrain until an actual detail mesh exists, then excludes macro from the detail group', () => {
   const source = readFileSync(new URL('./character/ChunkTerrain.tsx', import.meta.url), 'utf8');
-  const built = source.indexOf('const detailMeshes = viewEntries.map');
-  const gate = source.indexOf('if (!detailMeshes.some(mesh => mesh !== null)) return <>{loadingFallback??null}</>;');
-  const detailed = source.indexOf('return <group>{detailMeshes}</group>;');
+  const built = source.indexOf('const meshes = manifest.chunks.map');
+  const gate = source.indexOf("if (!meshes.some((mesh) => mesh !== null)) return <>{loadingFallback ?? null}</>;");
+  const detailed = source.indexOf('return <group>{meshes}</group>;');
   expect(built).toBeGreaterThan(0); expect(gate).toBeGreaterThan(built); expect(detailed).toBeGreaterThan(gate);
-  // The checked array is the actual render output (including retained old
-  // detail), not a count of requested/decoded assets or gradient readiness.
+  // The checked array is the actual render output, not a count of requested
+  // or decoded chunks.
   const selection = source.slice(built, gate);
   expect(selection).toContain('if (!grid) return null');
-  expect(selection).toContain('return <AdaptiveChunkMesh');
   expect(selection).toContain('<ChunkMesh');
 });

@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | Water completion: owner live regressions now take priority; coastal surf double attenuation corrected; signed-depth shoreline and legacy boundary-gap fixes deployed; ocean LOD lighting/whitecaps and coastal receivers corrected for the next release; accepted62 native terrain/water/map progress preview deployed. Native standing geometry reduced about 35%; immutable shared storage now fits both native quality views with complete residency. Clipping skips disjoint geometry; both quality views still fit. Fresh authored-pond domains leave two added channel constraints; spill-based freeboard checks are corrected, connected outlet work remains. Loading latency and physical coverage/publication remain open ([handoff](research/rendering/water-handoff.md)). Earlier checkpoint: loading699c355 and particle-radiance55d2ebc hotfixes deployed; full native bank/terrain topology, bounded adaptive LOD, spectral weather response and local displacement simulation in progress. All original/deferred/follow-up requirements remain tracked in [water-completion-audit.md](research/rendering/water-completion-audit.md); no full-quality acceptance claimed. Peak-coverage investigation confirms upland shortfalls; independent high/low stage bounds implemented, production levels/footprints unresolved ([findings](research/rendering/water-bankfull.md)). Other polish stays in [polish-backlog.md](polish-backlog.md). |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | **Water rescue 2026-09-07** ([0046](decisions/0046-water-overhaul-retired.md)): the terrain-constrained overhaul (0045) was retired after the owner's deployed review; the field water (0025) is the runtime again, moved into `packages/game-core/src/water`, keeping the overhaul's interaction/particle stack. In flight: restoration + terrain loading, then steep channel strips, waterfalls, projected caustics, invariant tests, deploy. Other polish stays in [polish-backlog.md](polish-backlog.md) |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -63,115 +63,12 @@ first, then open only the master-plan sections the active phase needs.
 
 Combat corrections are ready for the deployed playtest; evidence is in decision 0040, round 12.
 
-**Fresh agent continuing water work: start with [water-handoff.md](research/rendering/water-handoff.md).**
-It identifies the live version, local checkpoints, complete checklist, next
-actions, verification gaps and release safeguards. Update it alongside work.
+**Water (2026-09-07):** a fresh agent continuing water work reads
+[0046](decisions/0046-water-overhaul-retired.md) and then
+[water-handoff.md](research/rendering/water-handoff.md) (short: current state,
+key sites, how to verify). The owner review of the restored + extended water
+happens on the deployed build at the end of this pass.
 
-Water completion pass is active: owner requests all deferred water upgrades,
-including open-sea quality and bounded near/far runtime costs, implemented and
-deployed before review. The earlier candidate is not the completion gate.
-See [the review guide](research/rendering/water-quality.md).
-Release coordination: the water agent will commit only water-owned paths and
-will coordinate against current branch/Actions state before deployment;
-combat changes remain separately owned and must not be overwritten.
-Latest verified deployment: `17a1ce6`, Actions `34133790571`, live bundle
-`index-rD1WEtih.js` (2026-09-07). All Actions gates pass; public bundle and
-sampled preview assets match the successful build. The accepted62 native
-river/terrain/gradient/map progress checkpoint is now available through
-`?waterDataset=preview`; the ordinary URL still selects the previous v2 data.
-No new authored-pond proposal or higher stage limits are published. This is
-not final hydraulic/visual acceptance. Prioritize the owner's floating/gappy
-water, hard edges, ocean/caustics/weather and waterfall regressions; details
-and independent review findings are in the water handoff. Never promote an
-unaccepted diagnostic bundle or bypass combat asset verification.
-
-All requirements and follow-up defects remain in
-[the acceptance checklist](research/rendering/water-completion-audit.md),
-including the new live zigzag/unsupported-water repro3840m E/1120m S.
-That location is seasonal standing wetland water, not a nearby native ribbon;
-final checks must cover both rendering paths and physical wet/swimming queries.
-Peak coverage: independent stage bounds implemented; production peak levels,
-connected full-footprint coverage and misplaced valley-side mud remain open.
-See [bankfull findings](research/rendering/water-bankfull.md).
-Current compiler blockers: connected standing-water ownership at pool edges,
-complete peak footprint coverage, and bounded connected-reach feasibility.
-Pool/route/terrain changes require a fresh coherent audit; stale cached pool
-occupancy must not justify further cutting. Preserve original retaining banks,
-existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
-Latest compiler coverage checkpoint passes30 focused Python tests. All257
-flagged original pool-fringe targets have peak field/triangle coverage; final
-raster meshes and whole authored footprints remain open. Connected pool
-responses now preserve reviewed seasonal/tidal/combined low-water ranges
-exactly. Final exports require the pool-stage reference (water handoff).
-No diagnostic assets are promoted.
-The accepted seasonal checkpoint now recovers64 rivulets without excavation,
-using32 explicitly connected supporting minor reaches. Original pool levels,
-spill potential, marine coverage and482,066 standing samples are preserved.
-Final compilation/profile audits require the accepted `--seasonal-profile`
-and reviewed pool-stage reference; `--profile-cache` saves the matching solve.
-Landing fills, section precision and shared clip endpoints fix the earlier gaps.
-The final boundary search resolves to the rendered vertex.4,303 native authored
-vertices gain45 wet samples and lose0;170 remain dry. The32,007-vertex comparison
-also loses0. All645 selected centres and1,152 five-stage pool contacts pass.
-Higher-peak correction:3m upper season/0.5m tide has supported ribbon/field
-evidence for139 of170;31 are dry or unverified (12 earlier positives used an
-unvisited flood sentinel). Generic end-fill code covers3
-true-end misses;7 apparent end gaps instead need rejected upstream reach12745
-repaired. Terminal geometry stays diagnostic-only pending final mesh gates;
-no higher stage is accepted. Tests/typecheck pass (one sandbox-denied suite
-passed on targeted retry). Details/evidence are in the water handoff.
-Owner addition and independent review: prioritise a province-wide classified
-coverage audit and shared Studio-map/physical-semantic coverage output over
-further isolated point repairs. Tiled field screen implemented:362,040 channel
-and163,667 rivulet entries, grouped by body/cause. Full accepted channel meshes
-now screened in157seconds:24,555 channel/5,525 rivulet entries remain unresolved;
-Exact natural-terrain replay now adds1,500,146 pond-hollow targets;262,237 remain
-unresolved, mainly missing standing coverage or insufficient depth. Complete
-basin/swamp targets and final standing/native-refined meshes remain open.
-Shared authored-pond selection candidate implemented; fresh solve adds pond
-domains but still conflicts with14 accepted rivers and loses8 fringe vertices.
-Not accepted; reconcile pond/outlet levels and fringe ownership next.24 focused
-selection/domain/compiler tests pass; existing runtime source unchanged;
-[implementation/results](research/rendering/water-coverage-pipeline.md).
-Whole authored peak footprints and final geometry/deployment gates remain open
-(water handoff). The durable accepted checkpoint now has62 channel constraints,
-59 retaining-bound violations and15,562 terrain corrections. Original impoundment
-spill potential/planes, marine coverage and previously accepted original wet
-fringes are preserved. Complete-reach solving and original-pool sampling
-corrections replaced ineffective single-obstruction repairs; the latest solver correction
-measures exact bank crests and restores feasible upstream reaches after rejecting
-their downstream obstruction, resolving11 channels without terrain edits;25 flow-direction discrepancies
-are reconciled against original drainage. Twenty previously removed wet samples
-were originally dry and belonged to extensions created by earlier repairs.
-Exact input hashes, indexed evidence and next work are in the repair-input
-manifest and [water handoff](research/rendering/water-handoff.md).
-
-Local rendering follow-up fixes finest-LOD owner strips using exact partitions
-and one-sided vertex fields; zigzag equal/different-head coverage tests pass.
-The artifact gate now checks actual vertex-interpolated heights and all three
-named repro neighbourhoods. Shared edge stitching, stage-aware refinement and
-accurate mixed-batch memory accounting pass the water checkpoint suite (332
-tests); legacy production budgets pass again. Final native-data budgets and
-appearance remain unverified. Exact ownership
-requires the final native-coverage data contract, not legacy continuous rasters.
-Following the owner's usage request, use focused tests and short failure
-summaries during iteration; reserve full gates for a coherent release candidate.
-
-Latest deployed runtime checkpoint: matched sparse terrain-gradient support; real-time transport
-separate from accelerated wave phase; bounded full-interval ripple/particle
-motion; gravity-consistent waterfall spray; gradual shared wave-energy response;
-native fragment clipping also for standing/coastal shores. Tests/types pass17:06
-(708 game-core tests; final-artifact gate intentionally skipped without final
-data), airborne passes again. Actual GPU3m/s ripple transport agrees at60/2.5FPS;
-32 shoreline-depth cases pass. Full/mip gradient pixels and disposal pass.
-Fly loading retains macro terrain until detail exists: local scene had15 actual
-ground meshes/1.103M triangles with compiled material by45s; this is loading
-evidence, not instantaneous startup or hardware-FPS proof. Missing optional
-manifests get real dev/preview404s; malformed data still rejects. Runtime bundle
-matches the Actions artifact and public metadata hash is unchanged. Final
-matching data, remaining fixes and visual acceptance remain pending.
-
-- **Phase 11 — what to do with the review of 2026-09-07.** Read decision
   [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
   (claim ledger, what was fixed, the recommendations on every open call) and
   the batch plan [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).

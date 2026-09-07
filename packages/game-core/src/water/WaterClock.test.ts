@@ -1,7 +1,5 @@
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { WaterClock } from './WaterClock';
-import { flowAdvectionAt } from './flowAdvection';
 import { windWaveSpeed } from './waves';
 
 describe('wave-phase and physical-transport clocks', () => {
@@ -11,9 +9,6 @@ describe('wave-phase and physical-transport clocks', () => {
       for (let frame = 0; frame < fps * 2; frame++) clock.advance(1 / fps, rate, wind);
       expect(clock.transportS).toBeCloseTo(2, 12);
       expect(clock.phaseS).toBeCloseTo(2 * Math.max(1, rate) * windWaveSpeed(wind), 11);
-      const coordinates = flowAdvectionAt({ x: 10, y: 5, z: 20 }, { x: 3, y: -2, z: 0 }, clock.transportS);
-      expect((10 - coordinates.a.x) / 2).toBeCloseTo(3, 12);
-      expect((5 - coordinates.a.y) / 2).toBeCloseTo(-2, 12);
     }
   });
   it('freezes hidden time and skips the explicit resume gap without mistaking a slow visible frame for suspension', () => {
@@ -32,16 +27,5 @@ describe('wave-phase and physical-transport clocks', () => {
     expect(a.phaseS).toBe(1); expect(a.transportS).toBe(1); expect(a.deltaS).toBe(0);
     expect(b.phaseS).toBe(0); expect(b.transportS).toBe(0);
     b.advance(.5, NaN, NaN); expect(b.phaseS).toBe(.5);
-  });
-  it('routes shader advection and rainfall to transport without retiming physical waves or caustics', () => {
-    const shader = readFileSync(new URL('./render/waterMaterial.ts', import.meta.url), 'utf8');
-    expect(shader).toContain('float esPh1 = fract(uTransportTime * 0.25)');
-    expect(shader).toContain('vec3(esDrift.x, esRenderedFlowY, esDrift.y), uTransportTime, 1.0)');
-    expect(shader).toContain('esWaveSample(rest, esWaveAmp, uWaveTime)');
-    expect(shader).toContain('esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime');
-    expect(shader).toContain('uSunDirection, uDirectSun, uWaveTime');
-    const adapter = readFileSync(new URL('../../../../apps/world-studio/src/water/waterClock.ts', import.meta.url), 'utf8');
-    expect(adapter).toContain('return clock.phaseS');
-    expect(adapter).not.toContain('Math.min(deltaS, 0.25)');
   });
 });

@@ -1,3 +1,5 @@
+> **Superseded 2026-09-07 by [0046](0046-water-overhaul-retired.md)**: the overhaul was retired; its working notes are archived under `docs/research/archive/water-overhaul-2026-09/`.
+
 # 0045 — Reversible, terrain-constrained water
 
 2026-09-06. Owner commissioned a comprehensive water rework and allowed implementation choices to supersede earlier water prescriptions. The quality contract is [water-quality.md](../research/rendering/water-quality.md); this does not close the owner's visual review.

@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { SpectralOcean, type SpectralSample } from '../spectralOcean';
 import { SpectralOceanTextures, SPECTRAL_OCEAN_GLSL } from './SpectralOceanTextures';
-import { oceanAxisCoords, oceanGridCentre } from './oceanGrid';
 
 const zero = (): SpectralSample => ({ height: 0, slopeX: 0, slopeZ: 0 });
 function filtered(ocean: SpectralOcean, x: number, z: number, footprint: number): SpectralSample {
@@ -96,19 +95,4 @@ describe('spectral geometry and screen footprint filtering', () => {
     }
   });
 
-  it('keeps both tier counts and world-aligned six-metre interaction coverage after recentering', () => {
-    for (const [n, uniformCell, uniformRadius] of [[320, 1.25, 130], [208, 2, 100]]) {
-      const axis = oceanAxisCoords({ n, uniformCell, uniformRadius, halfExtent: 30000 });
-      expect(axis.length).toBe(n + 1); expect(axis[0]).toBe(-30000); expect(axis[n]).toBe(30000);
-      for (let i = 1; i < axis.length; i++) expect(axis[i]).toBeGreaterThan(axis[i - 1]);
-      for (const focus of [0, 7000.031, 7000.071, -3000.07]) {
-        const centre = oceanGridCentre(focus);
-        for (let i = 1; i < axis.length; i++) if (Math.abs(axis[i] + centre - focus) <= 6) {
-          expect(axis[i] - axis[i - 1]).toBe(0.125);
-          expect(axis[i + 1] - axis[i]).toBe(0.125);
-          expect((axis[i] + centre) * 8).toBe(Math.round((axis[i] + centre) * 8));
-        }
-      }
-    }
-  });
 });
