@@ -117,7 +117,10 @@ no higher stage is accepted. Tests/typecheck pass (one sandbox-denied suite
 passed on targeted retry). Details/evidence are in the water handoff.
 Owner addition and independent review: prioritise a province-wide classified
 coverage audit and shared Studio-map/physical-semantic coverage output over
-further isolated point repairs; [implementation direction](research/rendering/water-coverage-pipeline.md).
+further isolated point repairs. Tiled field screen implemented:362,040 channel
+and163,667 rivulet entries, grouped by body/cause; actual meshes and other
+footprint families remain unverified. Three focused tests pass;
+[implementation/results](research/rendering/water-coverage-pipeline.md).
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,
 59 retaining-bound violations and15,562 terrain corrections. Original impoundment

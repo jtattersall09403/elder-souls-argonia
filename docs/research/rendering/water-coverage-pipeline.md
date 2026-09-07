@@ -67,6 +67,43 @@ new evidence warrants it.
    when that bundle is ready. Do not repeat large point-query scans when a
    tile/triangle pass can answer the same question once.
 
+## Implemented field screening
+
+`worldgen.water_coverage` applies the shared low/base/maximum bounds and runtime
+still-water thresholds (depth>4mm, access≤offset+1mm). It never treats kind128
+flowing proxies as standing coverage. `worldgen.audit_water_coverage` processes
+target tiles, aggregates by footprint family and body/class, and retains a
+deterministic example per group. Tests cover stage changes without altered lows,
+access barriers, proxy exclusion, overlapping families and tile-size invariance.
+
+The first accepted62-state screen covers every vertex of both recovered channel
+families, not just the4,303 local samples:
+
+| Footprint | Vertices | Standing-field peak wet | Depth shortfall | Access blocked | Flow mesh unverified | Unsupported |
+|---|---:|---:|---:|---:|---:|---:|
+| Continuum channels | 362,040 | 279,264 | 42,512 | 6,182 | 33,128 | 954 |
+| Rivulets | 163,667 | 121,599 | 13,362 | 4,197 | 24,184 | 325 |
+
+Families overlap. These are **field classifications, not final wet/dry counts**:
+channel meshes may also cover standing-field shortfalls. Groups number411/1,090;
+body indices refer to the hash-bound captured fields. Full report:
+`/tmp/water-province-channel-field-screen.json`; compact durable counts, largest
+groups, input hashes and limits: `water-repair-inputs/province-coverage-field-screen.json`.
+Neither screen changes physical inputs, stage selection or published maps.
+
+From `tooling/world-generation`, rebuild with:
+
+```sh
+python3 -m worldgen.audit_water_coverage --fields /tmp/water-drainage-seasonal-full-fields.npz --targets /tmp/water-authored-channel-footprints.npz --ground PATH_TO_ORIGINAL_NATIVE_NPY --bed-overlay water-repair-inputs/bed-overlay.json --out /tmp/water-province-channel-field-screen.json
+```
+
+The ground path is `worldgen.compile_chunks.DEFAULT_HEIGHTS`; overlay corrections
+are applied in memory. Optional `--stage-range` reads all four bounds from JSON;
+it is only a fixed-field screen, never proof of fresh higher-stage fields.
+Next: complete target families and add tile-based actual geometry evidence,
+then derive the shared map/semantic coverage output. Do not perform slow
+individual sampler queries over every province vertex.
+
 ## Latest local evidence to retain, not repeat
 
 - Generic terminal selection excludes rejected continuations. Of ten apparent

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "status": "field-screen-not-mesh-or-map-acceptance",
+  "scope": "All vertices of supplied footprint families only; families may overlap",
+  "gridShape": [
+    4033,
+    4033
+  ],
+  "stageRange": {
+    "tidalAmplitudeM": 0.5,
+    "seasonalAmplitudeM": 1.4,
+    "lowTideAmplitudeM": 0.5,
+    "drySeasonAmplitudeM": 0.28
+  },
+  "footprints": {
+    "continuumChannels": {
+      "nativeVertices": 362040,
+      "standingFieldWet": {
+        "low": 201493,
+        "base": 225213,
+        "maximum": 279264
+      },
+      "maximumClasses": {
+        "unsupported": 954,
+        "standing-field-wet": 279264,
+        "standing-depth-shortfall": 42512,
+        "standing-access-blocked": 6182,
+        "flowing-geometry-unverified": 33128
+      },
+      "problemGroupCount": 411,
+      "largestScreeningGroups": [
+        {
+          "bodyIndex": 6,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 15490,
+          "representativeNativeVertex": [
+            157,
+            1325
+          ]
+        },
+        {
+          "bodyIndex": 6,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 5259,
+          "representativeNativeVertex": [
+            229,
+            1777
+          ]
+        },
+        {
+          "bodyIndex": 5166,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 3132,
+          "representativeNativeVertex": [
+            2233,
+            1060
+          ]
+        },
+        {
+          "bodyIndex": 4289,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 2756,
+          "representativeNativeVertex": [
+            844,
+            843
+          ]
+        },
+        {
+          "bodyIndex": 86,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 2668,
+          "representativeNativeVertex": [
+            535,
+            399
+          ]
+        }
+      ]
+    },
+    "rivulets": {
+      "nativeVertices": 163667,
+      "standingFieldWet": {
+        "low": 42179,
+        "base": 73957,
+        "maximum": 121599
+      },
+      "maximumClasses": {
+        "unsupported": 325,
+        "standing-field-wet": 121599,
+        "standing-depth-shortfall": 13362,
+        "standing-access-blocked": 4197,
+        "flowing-geometry-unverified": 24184
+      },
+      "problemGroupCount": 1090,
+      "largestScreeningGroups": [
+        {
+          "bodyIndex": 6,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 11504,
+          "representativeNativeVertex": [
+            200,
+            1779
+          ]
+        },
+        {
+          "bodyIndex": 6,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 2151,
+          "representativeNativeVertex": [
+            77,
+            2045
+          ]
+        },
+        {
+          "bodyIndex": 2646,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 753,
+          "representativeNativeVertex": [
+            2991,
+            410
+          ]
+        },
+        {
+          "bodyIndex": 1297,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 411,
+          "representativeNativeVertex": [
+            2011,
+            2175
+          ]
+        },
+        {
+          "bodyIndex": 1799,
+          "classification": "flowing-geometry-unverified",
+          "nativeVertices": 335,
+          "representativeNativeVertex": [
+            2448,
+            2609
+          ]
+        }
+      ]
+    }
+  },
+  "freshStageFieldsVerified": false,
+  "inputs": {
+    "/tmp/water-drainage-seasonal-full-fields.npz": "b570393ee178cb2128667d82a968872a345505f3245f80d085ff897811a2db5d",
+    "/tmp/water-authored-channel-footprints.npz": "5acab2aef5f8f4ebd5e6492fc4a855a6531b4cb08eddfffa9bd0e9b11fb8a79e",
+    "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy": "fd28deee038574c73ea35cc17fc8a6254ed8a4b6e6d56e4d822521f57be43135",
+    "water-repair-inputs/bed-overlay.json": "976f77f715fe39745d0065e9ebb3b4898180cf37e7e93e1f835ec3363febcb4d"
+  },
+  "fullReport": {
+    "path": "/tmp/water-province-channel-field-screen.json",
+    "sha256": "366af83b6be6671885ec60df6ec7b18189def901cc415756a69cfc236021c21b"
+  },
+  "limitations": [
+    "Only continuum channels and rivulets; other authored footprint families remain incomplete.",
+    "Field support is not rendered mesh proof; standing shortfalls may also have overlapping channel coverage.",
+    "Flowing proxy wetness never certifies channel geometry.",
+    "No production stage, terrain, map or semantic-world output changed."
+  ]
+}
