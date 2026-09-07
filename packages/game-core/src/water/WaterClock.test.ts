@@ -36,7 +36,7 @@ describe('wave-phase and physical-transport clocks', () => {
   it('routes shader advection and rainfall to transport without retiming physical waves or caustics', () => {
     const shader = readFileSync(new URL('./render/waterMaterial.ts', import.meta.url), 'utf8');
     expect(shader).toContain('float esPh1 = fract(uTransportTime * 0.25)');
-    expect(shader).toContain('vec3(esDrift.x, vEsFlowY, esDrift.y), uTransportTime, 1.0)');
+    expect(shader).toContain('vec3(esDrift.x, esRenderedFlowY, esDrift.y), uTransportTime, 1.0)');
     expect(shader).toContain('esWaveSample(rest, esWaveAmp, uWaveTime)');
     expect(shader).toContain('esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime');
     expect(shader).toContain('uSunDirection, uDirectSun, uWaveTime');

@@ -142,6 +142,22 @@ export class WaterData {
   }
 
   waterBodyIdForIndex(index: number): string | null { return this.bodyIds.get(index) ?? null; }
+  /** Exact source stencil for raster geometry proofs; no interpolation or
+   * ribbon query. The caller visits integer coordinates on the surface grid. */
+  rasterVertexAt(col: number, row: number): WaterBoundaryStaticSample {
+    const sm = this.meta.surface;
+    if (!Number.isInteger(col) || !Number.isInteger(row) || col < 0 || row < 0 || col >= sm.size || row >= sm.size)
+      throw new RangeError('Water raster vertex is outside its source grid');
+    if (!this.access || !this.support) {
+      const origin = sm.gridOriginM ?? sm.metresPerPixel * .5;
+      return this.boundaryAt(origin + col * sm.metresPerPixel, origin + row * sm.metresPerPixel, undefined, false);
+    }
+    const index = row * sm.size + col, p = index * 4, supported = this.rasterSupported(p);
+    return { surfaceBase: this.surface[index], depthProxy: this.depth[index], supported,
+      waterBodyId: supported ? this.bodyIds.get(this.support[p + 1] * 256 + this.support[p + 2]) ?? null : null,
+      tideResponse: this.access[p + 2] / 255, seasonResponse: this.season?.[index] ?? 0,
+      floodAccessOffsetM: sm.accessMinOffsetM! + (this.access[p] * 256 + this.access[p + 1]) / 65535 * sm.accessSpanM! };
+  }
   /** Physical metadata only; current wetness/levels still require sample(). */
   waterBodyRecord(id: string | null): Readonly<WaterBodyRecord> | null { return id === null ? null : this.physicalBodies.get(id) ?? null; }
 

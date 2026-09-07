@@ -29,7 +29,7 @@ export function inlandAdaptiveLeaves(data: WaterData, tx: number, tz: number, re
 
 /** Same deterministic geometry oracle, yielding after at most64 native tests. */
 export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: number, requestedStep: number,
-  errorM = 0.04, subpixelM = 0, stage?: InlandStageRange, domain: RasterWaterDomain = 'inland'): Generator<void, InlandLeaf[]> {
+  errorM = 0.04, subpixelM = 0, stage?: InlandStageRange, domain: RasterWaterDomain = 'inland', excludedOwners?: ReadonlySet<string>): Generator<void, InlandLeaf[]> {
   const size = 65, mpp = data.meta.surface.metresPerPixel;
   const height = new Float64Array(size * size);
   const stageVaries = !!stage && (stage.tidalAmplitudeM !== 0 || stage.seasonalAmplitudeM !== 0 || (stage.lowTideAmplitudeM ?? 0) !== 0 || (stage.drySeasonAmplitudeM ?? 0) !== 0);
@@ -51,7 +51,7 @@ export function* inlandAdaptiveLeavesSteps(data: WaterData, tx: number, tz: numb
     bodies[i] = sample.supported ? sample.waterBodyId : null;
     classes[i] = data.rasterClassAt(wx, wz);
     support[i] = sample.supported ? 1 : 0;
-    wet[i] = inlandPotentiallyWet(sample, stage) && rasterWaterClassInDomain(classes[i], domain) ? 1 : 0;
+    wet[i] = !excludedOwners?.has(sample.waterBodyId ?? "") && inlandPotentiallyWet(sample, stage) && rasterWaterClassInDomain(classes[i], domain) ? 1 : 0;
     if ((i & 63) === 63) yield;
   }
   const leaves: InlandLeaf[] = [];

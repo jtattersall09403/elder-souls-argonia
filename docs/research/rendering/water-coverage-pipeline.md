@@ -286,14 +286,51 @@ triangles use92737184bytes, with698 tiles still pending at the triangle cap.
 Ribbons still exhaust64MiB:754869 triangles/67106806bytes,59 failed admissions.
 Do not increase caps, omit visible water or publish this as a coherent preview.
 
-Independent review found a shared inland triangle floor: owner/class/support
-differences force native leaves, then `rasterDomainCells` inserts every half
-surface-pixel and class-grid knot even across unchanged same-owner fields.
-Partition actual hydraulic discontinuities first, then coalesce compatible
-interior cells while preserving rendered planes, stage responses, proxy
-ground and shared edge knots. First measure one expensive tile's leaves,
-partition cells and clipping fragments to identify the dominant count.
-Do not simply remove the ownership/refinement checks.
+Three actual tiles confirm the shared inland triangle floor; clipping reduced,
+rather than caused, the original counts. Tile10,1:724 leaves/1214 domain
+cells/3122 final triangles;14,8:1352/5454/14359;20,16:1738/6970/14448.
+Every standing owner in those tiles has constant base/tide/season coefficients
+(2/15/17 owners). Source evidence: `/tmp/water-inland-storage.json`.
+
+The native inland renderer now proves constant owner fields from exact source
+stencils plus an interpolation halo (`WaterData.rasterVertexAt`,
+`constantRasterOwners`). Beyond requestedStep2 it emits coarse conservative
+owner patches; varying owners retain the existing partition path. It keeps
+shared tile-edge knots and native channel subtraction, filtering cutters only
+when they cannot touch any of that owner's supported cells. Explicit raster
+fragments reject other owner IDs. Flat patches use exact pixel proxy depth
+where the sparse native atlas is absent and sample their actual fragment flow
+with zero surface grade, rather than inheriting a nearby river's flow.
+
+Independent review caught a wave-seam defect in the first candidate: native
+vertex depth differed from the detailed path's proxy-depth wave input. Both
+paths now use the same proxy and one-sided owner sampling at shared vertices;
+clipped flat vertices resample that same rule. Regression fixtures cover
+neighbouring heads, low/base/high stages, a one-cell island, a dry hole,
+height/season changes in the halo, and animated coarse-to-detailed edges with
+native and proxy depths deliberately different. This is not visual acceptance;
+remaining appearance interpolation and final rendered coverage need evidence.
+
+Intermediate sample reductions were3122 unchanged/2698/7528 triangles. After
+source-stencil CPU optimisation, the normal-view native budget still failed:
+344 tiles/987507 triangles/95963426bytes admitted,541 pending after10000frames;
+no budget rejection yet, so pending work is not proof of exhausted memory.
+Ribbons still have59 rejected admissions at64MiB. This measurement predates the
+final wave-edge correction. `/tmp/water-flat-owner-fast-budget.log` retains it.
+Next work: remove redundant fragmentation from sequential native-footprint
+subtraction on coarse owner patches, then settle the complete view and address
+ribbon storage/topology. Do not raise caps or omit visible water. Update any
+CPU rendered-coverage oracle for the new explicit-owner discard and marker2
+pixel-depth fallback before using it as final acceptance evidence.
+
+Verification: root typecheck passed. Root tests found two shader-string
+expectations affected by the new fragment-flow binding; both were corrected
+and their focused reruns pass, along with the constant-owner/edge regressions.
+The remaining root failure is four prose-lint hits in concurrently edited
+settlement blueprints (Mazzatun/Lilmoth/Wamasu Pond). Linting the committed
+blueprint versions, with all other current inputs unchanged, passes with zero
+hard hits/density breaches. Water work did not edit those blueprint records.
+The final-artifact gate is still skipped without published final assets.
 
 One bounded ribbon diagnostic (`/tmp/water-ribbon-storage.json`) ruled out
 large normal-only welding savings for representative distant patch4,27:

@@ -4,6 +4,7 @@ import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
 import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell, type RasterDomainBounds } from "./rasterWaterDomain";
 import { inlandBatchBudget } from "./inlandBatchBudget";
+import { constantRasterOwners, type ConstantRasterOwner } from "./constantRasterOwners";
 import { indexWaterGeometrySteps } from "./indexWaterGeometry";
 import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, rasterWaterClassInDomain, type InlandStageRange, type RasterWaterDomain } from "./inlandAdaptiveLeaves";
 import { waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
@@ -246,9 +247,13 @@ export class InlandWaterTiles {
   private *build(tx: number, tz: number, requestedStep: number, material: THREE.Material, errorM = 0.04, subpixelM = 0): Generator<void, THREE.Mesh> {
     const step = requestedStep;
     this.atomicPhase = "native-samples-and-leaves";
-    const leaves = yield* inlandAdaptiveLeavesSteps(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage, this.domain);
     const mpp = this.data.meta.surface.metresPerPixel;
     const baseX = tx * 64 * mpp, baseZ = tz * 64 * mpp;
+    const flatScan = this.domain === 'inland' && requestedStep > 2 ? yield* constantRasterOwners(this.data,
+      { minX: baseX, minZ: baseZ, maxX: baseX + 64 * mpp, maxZ: baseZ + 64 * mpp }) : { owners: new Map<number, ConstantRasterOwner>(), complete: false };
+    const flatOwners = flatScan.owners;
+    const flatIds = new Set([...flatOwners.values()].map(patch => patch.sample.waterBodyId!));
+    const leaves = flatScan.complete ? [] : yield* inlandAdaptiveLeavesSteps(this.data, tx, tz, requestedStep, errorM, subpixelM, this.stage, this.domain, flatIds);
     const cells = 64 / step;
     const span = step * mpp;
     const positions: number[] = [];
@@ -262,7 +267,7 @@ export class InlandWaterTiles {
     const body: (string | null)[] = [], wet: boolean[] = [];
     const footprintsM: number[] = [];
     let activeFootprintM = mpp;
-    const explicit: ({ sample: WaterBoundaryStaticSample; owner: number; sampleX: number; sampleZ: number } | undefined)[] = [];
+    const explicit: ({ sample: WaterBoundaryStaticSample; owner: number; sampleX: number; sampleZ: number; flat?: boolean } | undefined)[] = [];
     const sampleScratch: WaterBoundaryStaticSample = { surfaceBase: 0, depthProxy: 0,
       tideResponse: 0, seasonResponse: 0, supported: false, waterBodyId: null };
     const vertices = new Map<string, number>();
@@ -318,6 +323,7 @@ export class InlandWaterTiles {
         // Clipped points retain the original triangle's domain. Sampling
         // the exact boundary would select the ribbon we just removed.
         const polygonIndices = polygon.map(point => {
+          if (explicit[a]?.flat) return flatVertex(flatOwners.get(explicit[a]!.owner)!, point.x, point.z);
           const index = body.length;
           includeHeight(point.x, point.z);
           positions.push(point.x, 0, point.z); body.push(body[a]); wet.push(wet[a] || wet[b] || wet[c]);
@@ -332,7 +338,7 @@ export class InlandWaterTiles {
             const weights = [u, v, 1 - u - v], sources = [a, b, c].map(i => explicit[i]!.sample);
             const lerp = (field: 'surfaceBase' | 'depthProxy' | 'tideResponse' | 'seasonResponse') => sources.reduce((sum, s, i) => sum + s[field] * weights[i], 0);
             const fields = [a, b, c].map(i => explicit[i]!);
-            explicit[index] = { owner: explicit[a]!.owner, sampleX: fields.reduce((sum, f, i) => sum + f.sampleX * weights[i], 0), sampleZ: fields.reduce((sum, f, i) => sum + f.sampleZ * weights[i], 0), sample: { ...sources[0], surfaceBase: lerp('surfaceBase'), depthProxy: lerp('depthProxy'), tideResponse: lerp('tideResponse'), seasonResponse: lerp('seasonResponse') } };
+            explicit[index] = { flat: explicit[a]!.flat, owner: explicit[a]!.owner, sampleX: fields.reduce((sum, f, i) => sum + f.sampleX * weights[i], 0), sampleZ: fields.reduce((sum, f, i) => sum + f.sampleZ * weights[i], 0), sample: { ...sources[0], surfaceBase: lerp('surfaceBase'), depthProxy: lerp('depthProxy'), tideResponse: lerp('tideResponse'), seasonResponse: lerp('seasonResponse') } };
           }
           return index;
         });
@@ -395,7 +401,7 @@ export class InlandWaterTiles {
       const partition = partitions.get(leaf);
       if (partition) {
         for (const cell of partition) {
-          if (!cell.sample.supported || !cell.sample.waterBodyId || !rasterWaterClassInDomain(cell.classIndex, this.domain)) { yield; continue; }
+          if (flatOwners.has(cell.bodyIndex) || !cell.sample.supported || !cell.sample.waterBodyId || !rasterWaterClassInDomain(cell.classIndex, this.domain)) { yield; continue; }
           const a = domainVertex(cell, cell.minX, cell.minZ), b = domainVertex(cell, cell.minX, cell.maxZ);
           const c = domainVertex(cell, cell.maxX, cell.minZ), d = domainVertex(cell, cell.maxX, cell.maxZ);
           yield* triangle(a, b, c, cutters); yield* triangle(c, b, d, cutters); yield;
@@ -422,6 +428,77 @@ export class InlandWaterTiles {
         for (const x of top.slice(0, -1)) perimeter.push(vertex(baseX + x * mpp, z0));
         const center = vertex((x0 + x1) / 2, (z0 + z1) / 2);
         for (let i = 0; i < perimeter.length; i++) yield* triangle(center, perimeter[i], perimeter[(i + 1) % perimeter.length], cutters);
+      }
+    }
+    // Constant owner planes may cover dry/other-owner pixels conservatively:
+    // fragment ownership, support, access and native ground define their exact
+    // shore. The regular interior grid follows view LOD, not semantic pixels.
+    const flatVertex = (patch: ConstantRasterOwner, x: number, z: number): number => {
+      x = Math.fround(x); z = Math.fround(z);
+      const key = `flat:${patch.owner}:${x},${z}`, found = vertices.get(key);
+      if (found !== undefined) return found;
+      let sampleX = x, sampleZ = z;
+      if (this.data.rasterBodyIndexAt(x, z) !== patch.owner) {
+        let closest = patch.supportedCells[0], best = Infinity;
+        for (const cell of patch.supportedCells) {
+          const distance = Math.hypot(Math.max(cell.minX - x, 0, x - cell.maxX), Math.max(cell.minZ - z, 0, z - cell.maxZ));
+          if (distance < best) { best = distance; closest = cell; }
+        }
+        const value = rasterDomainVertex(this.data, { ...closest, centreX: (closest.minX + closest.maxX) * .5,
+          centreZ: (closest.minZ + closest.maxZ) * .5, bodyIndex: patch.owner, classIndex: 4,
+          sample: patch.sample, samplingBounds: closest }, Math.max(closest.minX, Math.min(closest.maxX, x)), Math.max(closest.minZ, Math.min(closest.maxZ, z)));
+        sampleX = value.sampleX; sampleZ = value.sampleZ;
+      }
+      const index = body.length, sample = { ...patch.sample, depthProxy: this.data.depthProxy(sampleX, sampleZ) };
+      positions.push(x, 0, z); body.push(sample.waterBodyId); wet.push(true);
+      footprintsM[index] = step * mpp;
+      explicit[index] = { sample, owner: patch.owner, sampleX, sampleZ, flat: true };
+      minimumHeight = Math.min(minimumHeight, sample.surfaceBase); maximumHeight = Math.max(maximumHeight, sample.surfaceBase);
+      vertices.set(key, index); return index;
+    };
+    for (const patch of flatOwners.values()) {
+      const col0 = Math.max(0, Math.floor((patch.minX - baseX) / span));
+      const row0 = Math.max(0, Math.floor((patch.minZ - baseZ) / span));
+      const col1 = Math.min(cells, Math.ceil((patch.maxX - baseX) / span));
+      const row1 = Math.min(cells, Math.ceil((patch.maxZ - baseZ) / span));
+      const occupied = new Map<number, RasterDomainBounds[]>();
+      for (const cell of patch.supportedCells) {
+        const c0 = Math.max(col0, Math.floor((cell.minX - baseX) / span));
+        const r0 = Math.max(row0, Math.floor((cell.minZ - baseZ) / span));
+        const c1 = Math.min(col1, Math.ceil((cell.maxX - baseX) / span));
+        const r1 = Math.min(row1, Math.ceil((cell.maxZ - baseZ) / span));
+        for (let row = r0; row < r1; row++) for (let col = c0; col < c1; col++) {
+          const key = row * cells + col, list = occupied.get(key);
+          if (list) list.push(cell); else occupied.set(key, [cell]);
+        }
+      }
+      for (const [key, ownerCells] of occupied) {
+        const row = Math.floor(key / cells), col = key % cells;
+        const x0 = baseX + col * span, x1 = baseX + (col + 1) * span;
+        const z0 = baseZ + row * span, z1 = baseZ + (row + 1) * span;
+        const perimeter: number[] = [];
+        const zs = col === 0 || col === cells - 1 ? rasterDomainAxis(this.data, z0, z1) : [z0, z1];
+        const xs = row === 0 || row === cells - 1 ? rasterDomainAxis(this.data, x0, x1) : [x0, x1];
+        for (const z of (col === 0 ? zs : [z0, z1]).slice(0, -1)) perimeter.push(flatVertex(patch, x0, z));
+        for (const x of (row === cells - 1 ? xs : [x0, x1]).slice(0, -1)) perimeter.push(flatVertex(patch, x, z1));
+        for (const z of (col === cells - 1 ? [...zs].reverse() : [z1, z0]).slice(0, -1)) perimeter.push(flatVertex(patch, x1, z));
+        for (const x of (row === 0 ? [...xs].reverse() : [x1, x0]).slice(0, -1)) perimeter.push(flatVertex(patch, x, z0));
+        // A conservative plane extends across other owners, but those pixels
+        // are discarded. Cutting their rivers into this plane only creates
+        // invisible fragments. Keep every cutter touching this owner's cells.
+        const cutters = clips.get(row * cells + col)?.filter(clip => {
+          const minX = Math.min(clip.a.x, clip.b.x, clip.c.x) - .001, maxX = Math.max(clip.a.x, clip.b.x, clip.c.x) + .001;
+          const minZ = Math.min(clip.a.z, clip.b.z, clip.c.z) - .001, maxZ = Math.max(clip.a.z, clip.b.z, clip.c.z) + .001;
+          return ownerCells.some(cell => cell.minX <= maxX && cell.maxX >= minX && cell.minZ <= maxZ && cell.maxZ >= minZ);
+        });
+        if (perimeter.length === 4) {
+          yield* triangle(perimeter[0], perimeter[1], perimeter[3], cutters);
+          yield* triangle(perimeter[3], perimeter[1], perimeter[2], cutters);
+        } else {
+          const center = flatVertex(patch, (x0 + x1) * .5, (z0 + z1) * .5);
+          for (let i = 0; i < perimeter.length; i++) yield* triangle(center, perimeter[i], perimeter[(i + 1) % perimeter.length], cutters);
+        }
+        yield;
       }
     }
     // Raster vertices carry no per-vertex override and start with an up
@@ -469,7 +546,7 @@ export class InlandWaterTiles {
         if (field) {
           overrides[i * 4] = this.domain === 'marine' ? 0 : field.sample.surfaceBase;
           overrides[i * 4 + 1] = field.sampleX; overrides[i * 4 + 2] = field.sampleZ;
-          levels.set([field.sample.tideResponse, field.sample.seasonResponse, 1], i * 3);
+          levels.set([field.sample.tideResponse, field.sample.seasonResponse, field.flat ? 2 : 1], i * 3);
           grounds[i] = field.sample.surfaceBase - field.sample.depthProxy; owners[i] = field.owner;
         }
         if ((i & 255) === 255) yield;

@@ -44,6 +44,7 @@ export type WaterVariant = "above" | "below";
  * zero instead of retaining their signed distance above water. */
 export const WATER_NATIVE_FRAGMENT_DEPTH_GLSL = /* glsl */ `
 float esFragmentDepth = vEsData.y;
+bool hasNativeDepth = false;
 bool requiresNative = vRibbon > 0.5 && vRibbon < 1.5;
 // Conservative arithmetic bounds avoid atlas fetches for the open horizon.
 bool withinNativeBounds = all(greaterThanEqual(vEsWorldPos.xz, vec2(0.0)))
@@ -53,8 +54,16 @@ if (uNativeGroundActive > 0.5 && (requiresNative || withinNativeBounds)) {
   // Existing native coverage includes standing/coastal seasonal shores,
   // not just ribbons. Deep water outside that sparse domain keeps its
   // original depth proxy; missing native ribbon coverage remains invalid.
-  if (nativeGround < 1e8 || requiresNative)
+  if (nativeGround < 1e8 || requiresNative) {
     esFragmentDepth = vEsWorldPos.y / max(uVerticalScale, 0.001) - nativeGround;
+    hasNativeDepth = true;
+  }
+}
+// Coarse owner planes must not interpolate another owner's proxy ground
+// through a sparse-atlas gap. Evaluate their original proxy at this pixel.
+if (!hasNativeDepth && vRibbon < 0.5 && vRasterExplicit > 1.5) {
+  vec2 raster = esSurfaceAt(vEsWorldPos.xz);
+  esFragmentDepth = raster.y + vEsWorldPos.y / max(uVerticalScale, 0.001) - raster.x;
 }
 if (esFragmentDepth <= 0.004) discard;
 `;
@@ -518,6 +527,7 @@ vec2 esDataUv = esFlowUv(esDataXZ);
 vec4 esKl = texture2D(uKlassTex, esDataUv);
 esKl.r = esClassAt(esDataXZ) / 255.0;
 if (waterOverride.w > 0.5 && waterOverride.w < 1.5) esKl.r = 3.0 / 255.0;
+if (waterLevelResponse.z > 1.5 && waterOverride.w < 0.5) esKl.r = 3.0 / 255.0;
 vec4 esFl = texture2D(uFlowTex, esDataUv);
 vec3 esCharacter = texture2D(uCharacterTex, esDataUv).rgb;
 float esOutside = (esRestW.x < 0.0 || esRestW.z < 0.0
@@ -652,6 +662,11 @@ uniform float uVerticalScale;`,
   }
   if (vRibbon > 0.5 && vRibbon < 1.5 && vEsAccess > 0.001) discard;
   if (vRibbon < 0.5 && esSupportAt(vEsWorldPos.xz).x < mix(0.5, 0.75, uNativeChannelCoverage)) discard;
+  if (vRibbon < 0.5 && vRasterExplicit > 0.5) {
+    vec2 ownerBytes = esSupportAt(vEsWorldPos.xz).gb;
+    float owner = floor(ownerBytes.x * 255.0 + 0.5) * 256.0 + floor(ownerBytes.y * 255.0 + 0.5);
+    if (abs(owner - vWaterBodyIndex) > 0.5) discard;
+  }
   if (vRibbon < 0.5 && uHasAccess > 0.5) {
     vec3 stage = esStageAt(vEsWorldPos.xz, 0.0, 0.0);
     if (stage.x > uLevelTide * stage.y + uLevelSeason * stage.z + 0.001) discard;
@@ -683,13 +698,17 @@ if (uOceanEnabled > 0.5 && vOceanDetail.z > 0.00001) {
   vec2 gradient = esNBase.xz / max(esNBase.y, 0.001) + (vOceanDetail.xy - detail) * uVerticalScale;
   esNBase = normalize(vec3(gradient.x, 1.0, gradient.y));
 }
-float esSpeed = length(vec3(vEsFlow.x, vEsFlowY, vEsFlow.y));
+// A conservative flat patch may have vertices in a neighbour's channel.
+// Its visible standing-water pixels retain their own flow, with zero grade.
+vec3 esRenderedFlow = vRasterExplicit > 1.5 && vRibbon < 0.5 ? vec3(esFlowAt(vEsWorldPos.xz), 0.0) : vEsFlow;
+float esRenderedFlowY = vRasterExplicit > 1.5 && vRibbon < 0.5 ? 0.0 : vEsFlowY;
+float esSpeed = length(vec3(esRenderedFlow.x, esRenderedFlowY, esRenderedFlow.y));
 // cascades: white churning descent where the surface visibly drops
-float esCascade = smoothstep(0.04, 0.30, vEsFlow.z);
+float esCascade = smoothstep(0.04, 0.30, esRenderedFlow.z);
 // Classify the actual still-water grade, not projected screen derivatives.
 // The latter change with camera azimuth/pitch and studio exaggeration, making
 // the same sheet switch appearance as the player looks around.
-float esFall = smoothstep(1.2, 3.0, vEsFlow.z);
+float esFall = smoothstep(1.2, 3.0, esRenderedFlow.z);
 float esDist = distance(cameraPosition, vEsWorldPos);
 // distance LOD: detail normals AND their strength fade out far away —
 // unfiltered procedural ripple at 1 px = the "TV static" (round 2, defect 1)
@@ -700,17 +719,17 @@ float esDetStrength = (0.10 + 0.10 * vEsData.z + 0.05 * min(esSpeed, 1.0))
 // flow advection (Water2 dual-phase); still water gets a gentle wobble, not
 // a stream (round 2: 'flowing' foam on static pools)
 vec2 esDrift = esSpeed > 0.05
-  ? vEsFlow.xy
+  ? esRenderedFlow.xy
   : vec2(sin(uWaveTime * 0.13), cos(uWaveTime * 0.11)) * 0.03;
 float esPh1 = fract(uTransportTime * 0.25);
 float esPh2 = fract(uTransportTime * 0.25 + 0.5);
 EsFlowCoordinates esAdvected = esFlowAdvection(
   vec3(vEsWorldPos.x, vEsWorldPos.y / max(uVerticalScale, 0.001), vEsWorldPos.z),
-  vec3(esDrift.x, vEsFlowY, esDrift.y), uTransportTime, 1.0);
+  vec3(esDrift.x, esRenderedFlowY, esDrift.y), uTransportTime, 1.0);
 float esPhB = esAdvected.blend;
 // fast water: features stretch along the flow (anisotropy is a primary
 // speed cue — research rivers-on-slopes Q2)
-vec2 esFDirN = length(vEsFlow.xy) > 0.05 ? normalize(vEsFlow.xy) : vec2(1.0, 0.0);
+vec2 esFDirN = length(esRenderedFlow.xy) > 0.05 ? normalize(esRenderedFlow.xy) : vec2(1.0, 0.0);
 float esStretch = 1.0 + 1.4 * smoothstep(0.4, 2.2, esSpeed);
 vec2 esP1 = (vEsWorldPos.xz - esDrift * esPh1 * 4.0) * 0.55;
 vec2 esP2 = (vEsWorldPos.xz - esDrift * esPh2 * 4.0) * 0.55;

@@ -32,8 +32,9 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   every push: combat work is independently owned and must survive deployment.
 - The source through `10eecc5` is deployed; native accepted62 preview assets
   remain local at `/tmp/water-live-preview`. Actual preview budget tests fail:
-  inland reaches the triangle cap and ribbons exhaust64MiB. Publishing the
-  preview requires fixing those shared geometry costs. Read `git status` and
+  coarse constant-owner inland patches are implemented, but the complete view
+  still does not settle within its loading budget; ribbons exhaust64MiB. The
+  current evidence and remaining shared costs are in the coverage pipeline doc. Read `git status` and
   the recent log for newer checkpoints.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;
   never stage, discard or clean them as part of water work.

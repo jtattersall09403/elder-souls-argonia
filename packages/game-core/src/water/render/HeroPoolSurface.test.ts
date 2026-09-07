@@ -173,7 +173,7 @@ describe('local pool surface presentation', () => {
     expect(shader.vertexShader).toContain('waterOverride.w > 0.5 && waterOverride.w < 1.5) esKl.r = 3.0');
     expect(shader.fragmentShader).toContain('abs(owner - uLocalWaterBody) < 0.5');
     expect(shader.vertexShader).toContain('esW.disp.y += local.x');
-    expect(shader.fragmentShader).toContain('float esFall = smoothstep(1.2, 3.0, vEsFlow.z);');
+    expect(shader.fragmentShader).toContain('float esFall = smoothstep(1.2, 3.0, esRenderedFlow.z);');
     expect(shader.fragmentShader).not.toContain('dFdx(vEsData.x)');
     material.dispose();
   });

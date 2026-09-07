@@ -74,6 +74,8 @@ describe('shared raster hydraulic-domain partition', () => {
       expect(shader.vertexShader).toContain('esClassAt(esDataXZ)');
       expect(shader.vertexShader).toContain('esOceanSpectrum(esRestW.xz');
       expect(shader.fragmentShader).toContain('vRasterExplicit > 0.5');
+      expect(shader.fragmentShader).toContain('if (abs(owner - vWaterBodyIndex) > 0.5) discard;');
+      expect(shader.fragmentShader).toContain('raster.y + vEsWorldPos.y / max(uVerticalScale, 0.001) - raster.x');
       material.dispose();
     }
     texture.dispose();

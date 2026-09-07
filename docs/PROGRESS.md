@@ -77,7 +77,9 @@ combat changes remain separately owned and must not be overwritten.
 Latest verified deployment: `10eecc5`, Actions `34110124664`, live bundle
 `index-DaL0_UwK.js` (2026-09-07); live HTML, JS and water metadata match the
 Pages artifact. The native accepted62 preview is assembled locally, but its
-actual rendering budget check fails; shared geometry-cost fixes are active.
+actual rendering budget check fails. Constant-owner standing-water geometry
+is implemented with ownership and animated-edge regression checks; final
+coverage, remaining river storage and complete-view loading remain open.
 Public water metadata still matches the original `1af32a3` overhaul: **the
 final hydraulic/native/adaptive/gradient data is not deployed**. Never promote
 older diagnostic bundles or bypass combat asset verification.
