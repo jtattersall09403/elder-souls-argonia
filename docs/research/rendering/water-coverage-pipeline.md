@@ -1,0 +1,85 @@
+# Province water coverage and map agreement
+
+Current implementation direction after the owner's2026-09-07 request and an
+independent read-only subagent review. This is unfinished work, not a coverage
+certificate. Main authority: [water-handoff.md](water-handoff.md).
+
+## Review outcome
+
+Keep the generic fixes already found through individual examples: connected
+seasonal support, physical ownership, exact coordinates, shared clipped joins
+and additive landing geometry. Do not replace the hydraulic solver without
+evidence. Its connected-component machinery and preservation checks are useful.
+
+The inefficient part is choosing successive local dry points before measuring
+the whole problem. The4,303-point regression set surrounds already changed
+heads. It cannot prioritise the province, and existing authored-footprint
+recovery covers only continuum channels and rivulets. The next work batch is
+one reproducible province-wide audit, followed by fixes grouped by cause.
+
+## Proven map and semantic drift
+
+- `apps/world-studio/src/App.tsx` and `map/provinceMap.ts` load
+  `hydro-rivers.png`/`hydro-wetlands.png` from the original coarse hydrology.
+  Map hover already uses shared runtime water, so the displayed area and query
+  need not agree.
+- `worldgen/refine_province.py` writes `refined/flood-wet.png` from terrain below
+  global0.05+1.4m connected to terrain below0.05m. It does not use each inland
+  water plane, its stage response, access barriers or channel surfaces.
+- `worldgen/site_fields.py` decodes the old hydrology colours and consumes that
+  flood mask as semantic wet-season coverage. It deliberately prefers
+  `water/natural` for siting, avoiding a grading→siting→grading feedback loop.
+  Preserve that distinction when replacing physical coverage inputs.
+
+Do not rerun the original hydrology pass to overwrite accepted geography or
+repaint PNGs independently. Ecological wetland, region, soil and river hierarchy
+are not interchangeable with physical inundation. Audit affected semantic
+records after physical coverage changes; update classifications only when the
+new evidence warrants it.
+
+## Next implementation batch
+
+1. Extend `audit_water_authored_footprints.py` using verified authoring history
+   to include initial rivers, lake/feeders, oxbows, wetland pools, swamp areas
+   and portage water. Preserve naturally low parts that required no cut.
+   Distinguish explicit authored extents from Gaussian carving tails and
+   intentional islands/land. Report missing target provenance explicitly;
+   neither a cut-only mask nor an arbitrary cutoff proves the complete target.
+2. Audit targets by tile, with bounded memory and compact aggregate reports.
+   Classify rejected reach, missing surface, insufficient connected peak and
+   incompatible owner; retain body/reach/component identifiers. Use field
+   screening for prioritisation, actual exported triangles for mesh evidence.
+   A flowing raster proxy cannot certify channel coverage. Mark tiles lacking
+   emitted geometry as unverified rather than reporting every point as dry.
+3. Calculate connected peak requirements across those complete targets. Choose
+   a coherent upper-stage proposal from the distribution, preserving lows,
+   original pools/spills and retaining bounds. Fix infeasible connected groups,
+   then run one fresh native compilation for the coherent proposal.
+4. Export versioned low/base/maximum physical coverage from those same accepted
+   planes, responses, access barriers and surfaces. Bind it to terrain stage
+   (natural or graded), terrain/geometry hashes, grid coordinates and stage
+   bounds. Derive Studio water/flood overlays and physical semantic wetness from
+   this output. Include map, blueprint backdrop and minimap consumers. Keep
+   temporary higher-stage diagnostics separate from deployed data.
+5. Verify one coherent bundle: original-water/low-stage preservation, complete
+   authored targets, mesh joins, map/query agreement, semantic consumers and
+   loading/performance. Use focused fixtures during iteration, broader gates
+   when that bundle is ready. Do not repeat large point-query scans when a
+   tile/triangle pass can answer the same question once.
+
+## Latest local evidence to retain, not repeat
+
+- Generic terminal selection excludes rejected continuations. Of ten apparent
+  end misses, only three are true terminal10585/source10573; seven belong to
+  rejected upstream source12745. Generic emission remains diagnostic opt-in.
+- Its216 unrefined triangles cost32,400bytes. A half-native-spacing screen
+  sampled565 potentially wet triangle points (duplicates included), finding no
+  incompatible owner. This does not certify continuous between-ray boundaries.
+- Source12745 requires4.066539m beside a4.022641m bank cap. The limiting crest
+  is identical in original and repaired terrain; restoring earlier cuts cannot
+  remove this obstruction. A direct route-only alternative still leaves62
+  failures, resolves none and adds none; do not promote or repeat it.
+- Disposable evidence: `/tmp/water-source12745-diagnosis.json`,
+  `/tmp/water-source12745-route-screen.json`,
+  `/tmp/water-terminal-subcell-ownership.json`. No terrain, route, stage or
+  production water assets changed in this review.

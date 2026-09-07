@@ -13,6 +13,10 @@ may increase as needed. At maximum combined seasonal/tidal stage, water must
 fill the whole terrain-shaped and painted channel/pond/swamp footprint,
 including upland riverbed and bank mud. Audit both height and connected
 coverage; raising a level cannot fix a truncated water domain. Do not declare visual perfection from numeric tests.
+Owner addition2026-09-07: update Studio water mapping alongside changed physical
+coverage/stages, and update affected semantic world data. These are release
+requirements, not optional follow-up work. The approach review and next batch
+are in [water-coverage-pipeline.md](water-coverage-pipeline.md).
 The owner allows a few load-bearing image inspections, but requests economical
 usage: focused checks and concise output during iteration, one broad release
 gate once coherent. No repeated screenshot attempts or broad research loops.
@@ -48,6 +52,13 @@ correct unrelated slope paint; include standing ponds/swamps, not just stations.
 The62 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
+
+**Priority change after independent approach review2026-09-07:** build the
+province-wide classified coverage audit and shared map/physical-semantic output
+described in [water-coverage-pipeline.md](water-coverage-pipeline.md). Keep the
+accepted repairs and preservation gates; stop selecting the next isolated dry
+vertex as the main work loop. Complete footprint families, measure failure
+classes, then repair connected groups. Local fixtures remain regression tests.
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
 Matching solver cache: `/tmp/water-accepted-62-seasonal-state.npz`; check the input
