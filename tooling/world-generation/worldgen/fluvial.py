@@ -141,11 +141,15 @@ def _wetland_compaction(h, wet, riv):
     return (h - 0.6 * soft * (dchan > 25.0)).astype(np.float32)
 
 
-def _deepen_wetland_pools(h, riv, wet):
+def _deepen_wetland_pools(h, riv, wet, footprint=None):
     """Existing wetland dips become real pools (owner: 'make marsh pools
     deeper') — amplify only local hollows, never touch channels or ridges."""
     dchan = ndimage.distance_transform_edt(~riv) * RAW_M
     dips = np.clip(ndimage.gaussian_filter(h, 6.0) - h, 0.0, 1.5)
+    if footprint is not None:
+        # Record the author's hollow selection, including cuts lost to
+        # Float32 rounding. This is not the entire enclosing pool basin.
+        footprint |= (dips > 0) & (wet > 0) & (dchan > 40.0)
     h -= (POOL_DEEPEN * dips * wet * (dchan > 40.0)).astype(np.float32)
     return h
 

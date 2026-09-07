@@ -121,8 +121,10 @@ coverage audit and shared Studio-map/physical-semantic coverage output over
 further isolated point repairs. Tiled field screen implemented:362,040 channel
 and163,667 rivulet entries, grouped by body/cause. Full accepted channel meshes
 now screened in157seconds:24,555 channel/5,525 rivulet entries remain unresolved;
-other footprint families and final standing/native-refined meshes remain open.
-Eight focused tests pass; existing runtime source unchanged;
+Exact natural-terrain replay now adds1,500,146 pond-hollow targets;262,237 remain
+unresolved, mainly missing standing coverage or insufficient depth. Complete
+basin/swamp targets and final standing/native-refined meshes remain open.
+Fourteen focused tests pass; existing runtime source unchanged;
 [implementation/results](research/rendering/water-coverage-pipeline.md).
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,

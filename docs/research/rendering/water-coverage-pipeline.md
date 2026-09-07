@@ -150,9 +150,42 @@ mask, mesh presence and stage bits: `/tmp/water-all-accepted-channel-coverage.np
 Do not rerun this unchanged baseline. `/tmp/compile-water-all-accepted-ribbons.py`
 rebuilds the disposable complete geometry from the matching saved state.
 
-Other target families and final standing/native-refined meshes remain separate
-work. The dominant missing-surface versus height/access split now comes from
+The dominant missing-surface versus height/access split now comes from
 the whole recovered channel domain, not from selecting another isolated point.
+
+### Pond hollow targets
+
+`audit_water_authored_footprints` now also recovers `wetlandPoolHollows` from
+the pool deepener's exact selection predicate. The full continuation replays
+levees, oxbows, wetland compaction, pool deepening, deltas and bed conditioning
+with the original RNG sequence, checks recorded cuts, and requires exact final
+equality with the saved natural terrain. This catches additions that positive
+cut snapshots alone cannot verify. `--channels-only` retains the earlier mode.
+
+The province replay succeeded: 1,500,146 pond-hollow vertices, no actual pool
+cuts outside the recovered footprint, and both previous channel masks exactly
+unchanged. Six focused tests cover generation preservation, shallow cuts that
+round away, exclusions and rejection of mismatched final terrain. Recovery:
+`/tmp/water-authored-water-footprints.npz` and matching JSON. This adds targets;
+it does not change physical terrain, water levels or published assets.
+
+At the accepted stage bounds, the standing-field/all-accepted-channel union
+covers 1,237,909 of those vertices at maximum, leaving 262,237 unresolved.
+After removing channel-covered samples, those split into 125,910 unsupported,
+125,048 standing depth shortfalls, 10,807 access failures and 472 flowing
+samples without verified wet geometry. These are 1,865 body/class groups;
+body zero combines unassigned areas and is not one physical pond. Durable
+summary: `water-repair-inputs/province-pond-hollow-screen.json`. Full groups:
+`/tmp/water-pond-hollow-coverage.json`; sampled channel evidence:
+`/tmp/water-pond-hollow-channel-coverage.npz`. Reused the existing mesh export;
+no channel compilation was repeated. These remain numerical screening results,
+not final standing-mesh or map acceptance.
+
+Independent review confirms that hollows are only part of the pond target:
+enclosing basin slopes, pools within 40 metres of channels and connecting swamp
+sheets still require separate recovery. Other target families and final
+standing/native-refined meshes remain open. Never substitute this hollow mask
+for the complete intended pond footprint or for a map of actual water.
 
 Next: complete target families and full actual geometry evidence, then derive
 the shared map/semantic coverage output. Keep source, terrain-stage and stage

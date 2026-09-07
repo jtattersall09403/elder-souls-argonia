@@ -1,0 +1,214 @@
+{
+  "schemaVersion": 1,
+  "status": "field-screen-not-mesh-or-map-acceptance",
+  "scope": "All vertices of supplied footprint families only; families may overlap",
+  "problemGroupScope": "Field shortfalls/unverified samples not covered by supplied channel meshes",
+  "gridShape": [
+    4033,
+    4033
+  ],
+  "stageRange": {
+    "tidalAmplitudeM": 0.5,
+    "seasonalAmplitudeM": 1.4,
+    "lowTideAmplitudeM": 0.5,
+    "drySeasonAmplitudeM": 0.28
+  },
+  "footprints": {
+    "wetlandPoolHollows": {
+      "nativeVertices": 1500146,
+      "standingFieldWet": {
+        "low": 196263,
+        "base": 395851,
+        "maximum": 1195453
+      },
+      "maximumClasses": {
+        "unsupported": 131384,
+        "standing-field-wet": 1195453,
+        "standing-depth-shortfall": 140303,
+        "standing-access-blocked": 14894,
+        "flowing-geometry-unverified": 18112
+      },
+      "exportedChannelGeometryVertices": 333934,
+      "channelMeshWet": {
+        "low": 36963,
+        "base": 76406,
+        "maximum": 285155
+      },
+      "channelOrStandingFieldWet": {
+        "low": 196733,
+        "base": 413178,
+        "maximum": 1237909
+      },
+      "maximumUnresolvedAfterSuppliedGeometry": 262237,
+      "problemGroupCount": 1865,
+      "unresolvedByFieldClass": {
+        "unsupported": 125910,
+        "standing-depth-shortfall": 125048,
+        "standing-access-blocked": 10807,
+        "flowing-geometry-unverified": 472
+      },
+      "largestUnresolvedGroups": [
+        {
+          "bodyIndex": 0,
+          "classification": "unsupported",
+          "nativeVertices": 125910,
+          "representativeNativeVertex": [
+            0,
+            3524
+          ]
+        },
+        {
+          "bodyIndex": 6,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 40570,
+          "representativeNativeVertex": [
+            24,
+            1964
+          ]
+        },
+        {
+          "bodyIndex": 6,
+          "classification": "standing-access-blocked",
+          "nativeVertices": 2697,
+          "representativeNativeVertex": [
+            3,
+            3870
+          ]
+        },
+        {
+          "bodyIndex": 4414,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 1227,
+          "representativeNativeVertex": [
+            1187,
+            1675
+          ]
+        },
+        {
+          "bodyIndex": 6055,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 724,
+          "representativeNativeVertex": [
+            2893,
+            676
+          ]
+        },
+        {
+          "bodyIndex": 5583,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 669,
+          "representativeNativeVertex": [
+            2548,
+            2050
+          ]
+        },
+        {
+          "bodyIndex": 4295,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 629,
+          "representativeNativeVertex": [
+            1062,
+            1336
+          ]
+        },
+        {
+          "bodyIndex": 5196,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 627,
+          "representativeNativeVertex": [
+            2239,
+            1681
+          ]
+        },
+        {
+          "bodyIndex": 5245,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 623,
+          "representativeNativeVertex": [
+            2282,
+            1792
+          ]
+        },
+        {
+          "bodyIndex": 5266,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 593,
+          "representativeNativeVertex": [
+            2316,
+            1968
+          ]
+        },
+        {
+          "bodyIndex": 5099,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 575,
+          "representativeNativeVertex": [
+            2165,
+            2161
+          ]
+        },
+        {
+          "bodyIndex": 5085,
+          "classification": "standing-depth-shortfall",
+          "nativeVertices": 528,
+          "representativeNativeVertex": [
+            2151,
+            2092
+          ]
+        }
+      ]
+    }
+  },
+  "channelMeshEvidence": {
+    "recordCount": 16394,
+    "inputSha256": "eb84c3556efc7177fde5edc67a9e2f5fd4146ee0c94abd9804f6cad917dfcf38",
+    "scope": "exported-channel-triangles-not-final-native-refinement",
+    "completeProvinceGeometryVerified": false,
+    "declaredGeometryScope": "all-accepted-channel-records",
+    "note": "Omitted records remain unverified; standing-field classifications are independent of channel overlap."
+  },
+  "channelVertexEvidence": "/tmp/water-pond-hollow-channel-coverage.npz",
+  "capturedFieldStageRange": {
+    "tidalAmplitudeM": 0.5,
+    "seasonalAmplitudeM": 1.4,
+    "lowTideAmplitudeM": 0.5,
+    "drySeasonAmplitudeM": 0.28
+  },
+  "freshStageFieldsVerified": false,
+  "inputs": {
+    "/tmp/water-drainage-seasonal-full-fields.npz": "b570393ee178cb2128667d82a968872a345505f3245f80d085ff897811a2db5d",
+    "/tmp/water-pond-hollow-targets.npz": "abe22efe708880174162ecc4f1a0934bdd8a3ee20ba1605e2ec2977247395215",
+    "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy": "fd28deee038574c73ea35cc17fc8a6254ed8a4b6e6d56e4d822521f57be43135",
+    "water-repair-inputs/bed-overlay.json": "976f77f715fe39745d0065e9ebb3b4898180cf37e7e93e1f835ec3363febcb4d",
+    "/tmp/water-all-accepted-mesh/manifest.json": "e307fa4265c1d7fe83fec0acf821b8da307bae7ad674a320ec91d2cc03302c22"
+  },
+  "authoredTargetEvidence": {
+    "schemaVersion": 1,
+    "status": "authored-targets-not-coverage-certification",
+    "terrainSourceSha256": "fd28deee038574c73ea35cc17fc8a6254ed8a4b6e6d56e4d822521f57be43135",
+    "hydrologySha256": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f",
+    "carvingHistorySha256": "26a6180b6db4f4c73a17df523efb8ec2521a097befa5260521826e7bc0c33664",
+    "gridSize": 4033,
+    "metresPerPixel": 1.82784,
+    "naturalTerrainContinuationExact": true,
+    "limitations": "Pool hollows are additive targets, not full basin slopes, nearby river pools or connecting swamp sheets.",
+    "footprints": {
+      "continuumChannels": {
+        "nativeVertices": 362040,
+        "unchangedByThisCarver": 302108,
+        "carvedOutsideFootprint": 0
+      },
+      "rivulets": {
+        "nativeVertices": 163667,
+        "unchangedByThisCarver": 93134,
+        "carvedOutsideFootprint": 0
+      },
+      "wetlandPoolHollows": {
+        "nativeVertices": 1500146,
+        "unchangedByThisCarver": 0,
+        "carvedOutsideFootprint": 0
+      }
+    }
+  },
+  "fullReport": "/tmp/water-pond-hollow-coverage.json"
+}
