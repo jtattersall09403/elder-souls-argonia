@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest";
+import type * as THREE from "three";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import {
-  GRAVITY_MPS2, GROUND_CLEARANCE_M, MAX_SEGMENT_DROP_M, MIN_LIP_SPEED_MS,
-  SHEET_LAYERS, buildWaterfallSheetGeometry, traceWaterfallSheet, type Cascade,
+  GRAVITY_MPS2, GROUND_CLEARANCE_M, MAX_CHUTE_SPEED_MS, MAX_SEGMENT_DROP_M, MIN_LIP_SPEED_MS,
+  MIN_QUAD_LENGTH_M, SHEET_LAYERS, buildWaterfallSheetGeometry, sheetAeration, sheetAlpha,
+  sheetWidthProfile, traceWaterfallSheet, type Cascade,
 } from "./WaterfallSheets";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
 import { waterEmissionProfile } from "./WaterEffects";
@@ -142,5 +146,124 @@ describe("spray and mist along the fall", () => {
     // two full-kit falls plus their plunge splashes must fit 768 particles
     expect(perSecond).toBeLessThan(140);
     expect(perSecond * CASCADE_PATH_LIMIT).toBeLessThan(280);
+  });
+});
+
+describe("across-width profile", () => {
+  const both = [
+    { kind: "free flight", free: true, airM: 6, slope: 0.9, speedMS: 22, frac: 0.5, depthDeltaM: 6 },
+    { kind: "terrain-following chute", free: false, airM: 0, slope: 0.45, speedMS: 9, frac: 0.5,
+      depthDeltaM: GROUND_CLEARANCE_M },
+  ] as const;
+
+  it("peaks in the middle and reaches zero at both edges", () => {
+    expect(sheetWidthProfile(0.5)).toBeCloseTo(1, 6);
+    expect(sheetWidthProfile(0)).toBe(0);
+    expect(sheetWidthProfile(1)).toBe(0);
+    for (let u = 0; u <= 0.5; u += 0.05) {
+      expect(sheetWidthProfile(Math.min(u + 0.05, 0.5))).toBeGreaterThanOrEqual(sheetWidthProfile(u));
+    }
+  });
+
+  for (const kind of both) {
+    it(`is opaque at the centre and transparent at the edge — ${kind.kind}`, () => {
+      const at = (u: number) => sheetAlpha({ ...kind, u, layer: 0 });
+      expect(at(0.5)).toBeGreaterThan(at(0.02));
+      expect(at(0.5)).toBeGreaterThan(0.5);
+      expect(at(0)).toBeLessThan(0.05);
+      expect(at(1)).toBeLessThan(0.05);
+      expect(at(0.02)).toBeLessThan(0.05);
+      expect(at(0.98)).toBeLessThan(0.05);
+    });
+  }
+
+  it("keeps a bed-following chute opaque where the old depth fade erased it", () => {
+    // 0.12 m of terrain behind the sheet: the free-flight fade would kill this.
+    const chute = { u: 0.5, layer: 0, frac: 0.5, speedMS: 9, slope: 0.5, free: false,
+      airM: 0, depthDeltaM: GROUND_CLEARANCE_M };
+    expect(sheetAlpha(chute)).toBeGreaterThan(0.6);
+    expect(sheetAlpha({ ...chute, airM: 6 })).toBeLessThan(0.3);
+  });
+
+  it("whitens a chute on local speed and slope, not on distance fallen", () => {
+    const near = { free: false, frac: 0.02, speedMS: 9, slope: 0.5 };
+    expect(sheetAeration(near)).toBeGreaterThan(0.8);
+    // the same reach, flat and slow, is not whitewater
+    expect(sheetAeration({ ...near, speedMS: 1.5, slope: 0.02 })).toBeLessThan(0.55);
+    // and the free-flight branch still ramps with the drop
+    expect(sheetAeration({ free: true, frac: 0.9, speedMS: 20, slope: 1 }))
+      .toBeGreaterThan(sheetAeration({ free: true, frac: 0.02, speedMS: 3, slope: 1 }));
+  });
+
+  it("the core layer is the narrowest and brightest, never the edges", () => {
+    expect(SHEET_LAYERS[2].widthScale).toBeLessThan(SHEET_LAYERS[0].widthScale);
+    expect(SHEET_LAYERS[2].tint).toBeGreaterThan(SHEET_LAYERS[0].tint);
+    expect(sheetAlpha({ u: 0.5, layer: 2, frac: 0.5, speedMS: 9, slope: 0.5, free: false, airM: 0 }))
+      .toBeGreaterThan(sheetAlpha({ u: 0.05, layer: 2, frac: 0.5, speedMS: 9, slope: 0.5, free: false, airM: 0 }));
+  });
+});
+
+describe("shipped cascade geometry", () => {
+  const metaPath = fileURLToPath(
+    new URL("../../../../../apps/world-studio/public/province/water/water-meta.json", import.meta.url));
+  const cascades: Cascade[] = JSON.parse(readFileSync(metaPath, "utf8")).cascades ?? [];
+
+  it("has cascades to build", () => {
+    expect(cascades.length).toBeGreaterThan(0);
+  });
+
+  it("draws no degenerate quad and no undefined vertex over every shipped cascade", () => {
+    const built = buildWaterfallSheetGeometry(cascades);
+    expect(built.fallCount).toBeGreaterThan(0);
+    const pos = built.geometry.getAttribute("position");
+    const uv = built.geometry.getAttribute("aSheetUv");
+    const named = ["aSpeed", "aLayer", "aTint", "aFrac", "aAir", "aSlope"] as const;
+    // One assertion per attribute, not one per vertex: 60 k+ vertices ship.
+    const finite = (a: THREE.BufferAttribute | THREE.InterleavedBufferAttribute) =>
+      (a.array as ArrayLike<number>).length ===
+      Array.prototype.filter.call(a.array, (v: number) => Number.isFinite(v)).length;
+    expect(finite(pos)).toBe(true);
+    expect(finite(uv)).toBe(true);
+    const us = Array.from({ length: uv.count }, (_, i) => uv.getX(i));
+    expect(Math.min(...us)).toBeGreaterThanOrEqual(0);
+    expect(Math.max(...us)).toBeLessThanOrEqual(1);
+    for (const name of named) {
+      const a = built.geometry.getAttribute(name);
+      expect(a.count).toBe(pos.count);
+      expect(finite(a)).toBe(true);
+    }
+    // every drawn triangle has area, and its per-vertex alpha inputs are in range
+    const index = built.geometry.getIndex()!;
+    const v = (i: number) => [pos.getX(i), pos.getY(i), pos.getZ(i)] as const;
+    let smallest = Infinity;
+    for (let t = 0; t < index.count; t += 3) {
+      const [a, b, c] = [v(index.getX(t)), v(index.getX(t + 1)), v(index.getX(t + 2))];
+      const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
+      const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+      const cross = [ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]];
+      smallest = Math.min(smallest, 0.5 * Math.hypot(...cross));
+    }
+    expect(smallest).toBeGreaterThan(MIN_QUAD_LENGTH_M);
+    const fracs = Array.from({ length: built.geometry.getAttribute("aFrac").count },
+      (_, i) => built.geometry.getAttribute("aFrac").getX(i));
+    expect(Math.min(...fracs)).toBeGreaterThanOrEqual(0);
+    expect(Math.max(...fracs)).toBeLessThanOrEqual(1);
+  });
+
+  it("never leaves a chute flying: bed speed is capped and long falls land", () => {
+    for (const c of cascades) {
+      if (!(c.dropM >= 2.5)) continue;
+      const path = traceWaterfallSheet(c);
+      for (const p of path.points) {
+        if (!p.free) expect(p.speedMS).toBeLessThanOrEqual(MAX_CHUTE_SPEED_MS + 1e-6);
+      }
+    }
+    const fall78 = cascades.find((c) => c.id === "fall-78");
+    if (fall78) {
+      const path = traceWaterfallSheet(fall78);
+      const last = path.points[path.points.length - 1];
+      // it must come back to the bed, not end as a flat plate in mid-air
+      expect(last.airM).toBeLessThan(0.5);
+    }
   });
 });

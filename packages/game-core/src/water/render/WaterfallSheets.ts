@@ -47,6 +47,17 @@ export const SHEET_LAYERS = [
 ] as const;
 const MAX_TRACE_STEPS = 4096;
 const MAX_FALL_SPEED_MS = 40;
+/**
+ * Water running ON the bed loses energy to friction and aeration; only free
+ * flight converts drop into speed cleanly. Without this a long chute reached
+ * ~28 m/s and the next bump launched it into a 20 m flat ballistic plate that
+ * never came back down — the light-grey slab in the fly-camera screenshot.
+ */
+export const CHUTE_DROP_EFFICIENCY = 0.4;
+/** Hard cap on bed-following speed (m/s) — a rapid, not a railgun. */
+export const MAX_CHUTE_SPEED_MS = 12;
+/** Consecutive path points closer than this cannot make a drawable quad. */
+export const MIN_QUAD_LENGTH_M = 1e-4;
 /** Air under the sheet before a reach counts as free flight rather than chute. */
 export const FREE_FLIGHT_MIN_AIR_M = 0.5;
 
@@ -120,8 +131,9 @@ export function traceWaterfallSheet(fall: Cascade, options: { stepM?: number } =
   let free = true;
   /** Re-seat the water on the bed: speed grows with the height just lost. */
   const attach = (run: number, drop: number, speed: number) => {
-    const newSpeed = Math.min(Math.sqrt(speed * speed + 2 * GRAVITY_MPS2 * Math.max(drop, 0)),
-      MAX_FALL_SPEED_MS);
+    const newSpeed = Math.min(
+      Math.sqrt(speed * speed + 2 * GRAVITY_MPS2 * Math.max(drop, 0) * CHUTE_DROP_EFFICIENCY),
+      MAX_CHUTE_SPEED_MS, MAX_FALL_SPEED_MS);
     const len = Math.hypot(run, drop) || 1;
     vs = (newSpeed * run) / len;
     vy = (-newSpeed * drop) / len;
@@ -207,6 +219,8 @@ export interface WaterfallSheetGeometry {
   vertexCount: number;
   triangleCount: number;
   freeFlightCount: number;
+  /** Zero-area quads dropped at build time (see `MIN_QUAD_LENGTH_M`). */
+  skippedQuads: number;
   paths: FallPath[];
 }
 
@@ -226,8 +240,11 @@ export function buildWaterfallSheetGeometry(
   const layer: number[] = [];
   const tint: number[] = [];
   const frac: number[] = [];
+  const air: number[] = [];
+  const slope: number[] = [];
   const index: number[] = [];
   let segmentCount = 0;
+  let skippedQuads = 0;
 
   for (const path of paths) {
     const totalDrop = Math.max(path.dropM, 0.01);
@@ -240,6 +257,18 @@ export function buildWaterfallSheetGeometry(
         const p = seg[i];
         const q = seg[i - 1];
         along.push(along[i - 1] + Math.hypot(p.x - q.x, p.y - q.y, p.z - q.z));
+      }
+      // Local descent slope (|dy| / path length) drives the whitewater term on
+      // bed-following reaches: a chute is white because it is steep and fast,
+      // not because it has fallen far (distance alone leaves a hillside chute
+      // grey-green along its whole length).
+      const slopeAt: number[] = [];
+      for (let i = 0; i < seg.length; i++) {
+        const a = seg[Math.max(i - 1, 0)];
+        const b = seg[Math.min(i + 1, seg.length - 1)];
+        const run = Math.hypot(b.x - a.x, b.z - a.z);
+        const drop = Math.max(a.y - b.y, 0);
+        slopeAt.push(drop / Math.max(Math.hypot(run, drop), 1e-6));
       }
       for (let l = 0; l < SHEET_LAYERS.length; l++) {
         const spec = SHEET_LAYERS[l];
@@ -263,9 +292,17 @@ export function buildWaterfallSheetGeometry(
             layer.push(l);
             tint.push(spec.tint);
             frac.push(Math.min(Math.max((path.points[0].y - p.y) / totalDrop, 0), 1));
+            air.push(Math.max(p.airM, 0));
+            slope.push(slopeAt[i]);
           }
         }
         for (let i = 0; i + 1 < seg.length; i++) {
+          // A quad between two coincident path points has zero area: it draws
+          // nothing but it does stack an extra transparent layer's worth of
+          // alpha where the trace stalls. Skip it.
+          const p = seg[i];
+          const q = seg[i + 1];
+          if (Math.hypot(q.x - p.x, q.y - p.y, q.z - p.z) < MIN_QUAD_LENGTH_M) { skippedQuads++; continue; }
           const a = base + i * 2;
           index.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
         }
@@ -280,6 +317,8 @@ export function buildWaterfallSheetGeometry(
   geometry.setAttribute("aLayer", new THREE.Float32BufferAttribute(layer, 1));
   geometry.setAttribute("aTint", new THREE.Float32BufferAttribute(tint, 1));
   geometry.setAttribute("aFrac", new THREE.Float32BufferAttribute(frac, 1));
+  geometry.setAttribute("aAir", new THREE.Float32BufferAttribute(air, 1));
+  geometry.setAttribute("aSlope", new THREE.Float32BufferAttribute(slope, 1));
   geometry.setIndex(index);
   geometry.computeBoundingSphere();
   return {
@@ -289,9 +328,101 @@ export function buildWaterfallSheetGeometry(
     vertexCount: position.length / 3,
     triangleCount: index.length / 3,
     freeFlightCount: paths.filter((p) => p.freeFlight).length,
+    skippedQuads,
     paths,
   };
 }
+
+
+/* ------------------------------------------------------------------ *
+ * Across-width and aeration profile.
+ *
+ * The shader and the TS twin below MUST stay in step: the twin is what the
+ * unit tests measure, and `SHEET_PROFILE_GLSL` is the literal source the
+ * fragment shader compiles. Edit both or neither.
+ *
+ * The old profile was `pow(sin(u*PI), 0.45)` — a near-flat plateau — and the
+ * only thing that varied across the width was the soft-particle depth fade.
+ * On a bed-following chute the sheet sits `GROUND_CLEARANCE_M` above the
+ * terrain, so that fade drove the CENTRE to ~0.09 alpha (terrain read through
+ * it) while the ribbon edges, overhanging the channel banks with metres of air
+ * behind them, kept full alpha: two white lines with a see-through middle.
+ * ------------------------------------------------------------------ */
+
+/** Across-width coverage: 1 down the middle, hard 0 at both edges. */
+export function sheetWidthProfile(u: number): number {
+  const x = Math.min(Math.max(u, 0), 1);
+  return smoothstep(0, 0.3, x) * smoothstep(1, 0.7, x);
+}
+
+function smoothstep(e0: number, e1: number, x: number): number {
+  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+  return t * t * (3 - 2 * t);
+}
+
+export interface SheetSampleInput {
+  /** Across-width coordinate, 0..1. */
+  u: number;
+  /** Layer index into `SHEET_LAYERS`. */
+  layer: number;
+  /** Fraction of the total drop already fallen, 0..1. */
+  frac: number;
+  /** Local water speed (m/s). */
+  speedMS: number;
+  /** Local descent slope, 0 (flat) .. 1 (sheer). */
+  slope: number;
+  /** Air under the sheet (m); 0 where it is running on the bed. */
+  airM: number;
+  /** True in free flight. */
+  free: boolean;
+  /** Combined streak+churn noise, 0..1 (the shader's animated term). */
+  noise?: number;
+  /** Scene depth behind the fragment minus fragment depth (m). */
+  depthDeltaM?: number;
+  opacity?: number;
+}
+
+/** Aeration (0..1): how white the water is here. */
+export function sheetAeration(i: Pick<SheetSampleInput, "free" | "speedMS" | "frac" | "slope">): number {
+  if (i.free) {
+    return clamp01(Math.min(0.22 + i.speedMS * 0.05 + smoothstep(0.15, 0.75, i.frac) * 0.55, 0.98));
+  }
+  // Whitewater: a chute is aerated by speed and steepness, all the way down.
+  return clamp01(Math.min(0.42 + i.speedMS * 0.045 + smoothstep(0.08, 0.5, i.slope) * 0.45, 0.99));
+}
+
+const LAYER_ALPHA = [1, 0.68, 0.85];
+
+/** The fragment shader's alpha, minus tone mapping — the twin the tests read. */
+export function sheetAlpha(i: SheetSampleInput): number {
+  const profile = sheetWidthProfile(i.u);
+  const noise = clamp01(i.noise ?? 0.5);
+  const layerAlpha = LAYER_ALPHA[Math.min(Math.max(Math.round(i.layer), 0), 2)];
+  let alpha = (i.opacity ?? 1) * profile * (0.55 + 0.45 * noise) * layerAlpha;
+  alpha *= 1 - smoothstep(0.85, 1, i.frac);
+  // Soft particle, but only where there IS air behind the sheet. Water running
+  // on the bed is in contact with it and must not fade against it.
+  const freeness = smoothstep(0.15, 1.2, i.airM);
+  const depthFade = smoothstep(0, 0.6, i.depthDeltaM ?? 0);
+  alpha *= 1 + freeness * (depthFade - 1);
+  return clamp01(alpha);
+}
+
+function clamp01(v: number): number { return Math.min(Math.max(v, 0), 1); }
+
+/** Compiled into the fragment shader; twin of the functions above. */
+export const SHEET_PROFILE_GLSL = /* glsl */ `
+float esSheetWidthProfile(float u){
+  float x = clamp(u, 0.0, 1.0);
+  return smoothstep(0.0, 0.3, x) * smoothstep(1.0, 0.7, x);
+}
+float esSheetAeration(float free, float speed, float frac, float slope){
+  float air = free > 0.5
+    ? min(0.22 + speed * 0.05 + smoothstep(0.15, 0.75, frac) * 0.55, 0.98)
+    : min(0.42 + speed * 0.045 + smoothstep(0.08, 0.5, slope) * 0.45, 0.99);
+  return clamp(air, 0.0, 1.0);
+}
+`;
 
 const SHEET_VERTEX = /* glsl */ `
 attribute vec2 aSheetUv;
@@ -299,11 +430,15 @@ attribute float aSpeed;
 attribute float aLayer;
 attribute float aTint;
 attribute float aFrac;
+attribute float aAir;
+attribute float aSlope;
 varying vec2 vSheetUv;
 varying float vSpeed;
 varying float vLayer;
 varying float vTint;
 varying float vFrac;
+varying float vAir;
+varying float vSlope;
 uniform float uVerticalScale;
 #include <common>
 void main() {
@@ -312,6 +447,8 @@ void main() {
   vLayer = aLayer;
   vTint = aTint;
   vFrac = aFrac;
+  vAir = aAir;
+  vSlope = aSlope;
   vec3 transformed = vec3(position.x, position.y * uVerticalScale, position.z);
   #include <worldpos_vertex>
   vec4 mvPosition = modelViewMatrix * vec4(transformed, 1.0);
@@ -326,6 +463,8 @@ varying float vSpeed;
 varying float vLayer;
 varying float vTint;
 varying float vFrac;
+varying float vAir;
+varying float vSlope;
 uniform float uTime;
 uniform vec3 uAmbient;
 uniform vec3 uSunLight;
@@ -349,6 +488,7 @@ float esSheetNoise(vec2 p){
   return mix(mix(esSheetHash(i), esSheetHash(i + vec2(1.0, 0.0)), u.x),
              mix(esSheetHash(i + vec2(0.0, 1.0)), esSheetHash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
+${SHEET_PROFILE_GLSL}
 
 void main() {
   // Streaks: two down-scrolled layers at different scales and speeds, the
@@ -361,11 +501,15 @@ void main() {
   float n2 = esSheetNoise(vec2(uv.x * 2.6 + 11.0, uv.y * 0.22 - scroll * 0.45));
   float streak = n1 * (0.55 + 0.75 * n2);
 
-  // Aeration: the water entrains air as it falls, so the LOWER half of a fall
-  // is mostly white (owner refinement). Speed and distance fallen both feed it.
-  float edge = pow(clamp(sin(clamp(uv.x, 0.0, 1.0) * PI), 0.0, 1.0), 0.45);
-  float aeration = clamp(0.22 + vSpeed * 0.05 + smoothstep(0.15, 0.75, vFrac) * 0.55, 0.22, 0.98);
-  float white = clamp(aeration * (0.45 + 0.75 * streak), 0.0, 1.0);
+  // Across-width profile: opaque whitewater down the middle, smoothly gone at
+  // both edges. Colour AND alpha ride it, so the centre is always the whitest
+  // and the most opaque part of the sheet.
+  float profile = esSheetWidthProfile(uv.x);
+  // Aeration: free flight entrains air with the distance fallen; a chute is
+  // aerated by local speed and steepness instead, so it stays white end to end.
+  float freeHere = step(0.15, vAir);
+  float aeration = esSheetAeration(freeHere, vSpeed, vFrac, vSlope);
+  float white = clamp(aeration * (0.45 + 0.75 * streak) * mix(0.7, 1.0, profile), 0.0, 1.0);
   vec3 albedo = mix(vec3(0.26, 0.40, 0.44), vec3(0.90, 0.94, 0.96), white);
   // foam breakup: coarse blobs riding the streaks, so the white reads as
   // churning water rather than a flat card
@@ -377,16 +521,21 @@ void main() {
   vec3 color = albedo * (uAmbient + uSunLight * light);
 
   float layerAlpha = vLayer < 0.5 ? 1.0 : (vLayer < 1.5 ? 0.68 : 0.85);
-  float alpha = uOpacity * edge * (0.42 + 0.58 * (streak + churn * 0.6)) * layerAlpha;
+  float noise = clamp(streak + churn * 0.6, 0.0, 1.0);
+  float alpha = uOpacity * profile * (0.55 + 0.45 * noise) * layerAlpha;
   // dissolve into the plunge over the last 15 % of the fall
   alpha *= 1.0 - smoothstep(0.85, 1.0, vFrac);
-  // soft particle: fade against whatever the pipeline already captured
+  // Soft particle — but ONLY where there is air behind the sheet. Water running
+  // on the bed sits GROUND_CLEARANCE_M above the terrain; fading it against
+  // that terrain erased the middle of every chute and left its overhanging
+  // edges bright, which is exactly backwards.
   if (uHasDepth > 0.5) {
     vec2 suv = gl_FragCoord.xy / uResolution;
     float d = texture2D(uSceneDepth, suv).x;
     float sceneEye = (uCamNear * uCamFar) / (uCamFar - d * (uCamFar - uCamNear));
     float fragEye = 1.0 / gl_FragCoord.w;
-    alpha *= smoothstep(0.0, 0.6, sceneEye - fragEye);
+    float freeness = smoothstep(0.15, 1.2, vAir);
+    alpha *= mix(1.0, smoothstep(0.0, 0.6, sceneEye - fragEye), freeness);
   }
   if (alpha < 0.004) discard;
   gl_FragColor = vec4(color, alpha);
