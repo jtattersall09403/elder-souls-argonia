@@ -346,10 +346,13 @@ landing sections while retaining all existing channel geometry. The real
 exporter preserves1,415 records exactly and adds169 fills. Across32,007 nearby
 authored vertices this addition gains9 and loses0;1,152 selected pool contacts
 over five stages agree within0.05mm. Coordinate export also avoids intermediate
-decimal rounding; two separate Float32 seam samples still require diagnosis.
+decimal rounding. The two earlier Float32 seams are fixed; clipped-section
+endpoints now stitch to the following strip as well. A32,007-vertex check loses
+no prior coverage. One local native vertex remains0.128mm outside an outer
+edge; see `section-precision-verification.json` and the compiler handoff.
 
 Root typecheck passes; workspace tests pass after retrying the sole
 sandbox-blocked subprocess suite. See `landing-fill-verification.json` and the
-compiler handoff. The62 proposal remains unaccepted pending those seams and
+compiler handoff. The62 proposal remains unaccepted pending that boundary and
 full peak-footprint verification. Lower constraint counts cannot waive actual
 coverage; no diagnostic assets have been deployed.

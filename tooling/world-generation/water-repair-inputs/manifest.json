@@ -376,5 +376,11 @@
     "evidence": "landing-fill-verification.json",
     "evidenceSha256": "2853f04c5f9f1ff1813bd956c2aeba497b575f527f5a9d19bb13343605c915eb",
     "acceptedConstraintsRemain": 72
+  },
+  "sectionPrecisionVerification": {
+    "status": "bounded-precision-verification-not-final-geometry-acceptance",
+    "evidence": "section-precision-verification.json",
+    "evidenceSha256": "cfb3d74b55d8c1c6e87390e6d297a13b611470797b0810f29addb2a57bd5b498",
+    "acceptedConstraintsRemain": 72
   }
 }

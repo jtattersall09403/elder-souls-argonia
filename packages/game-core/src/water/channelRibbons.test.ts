@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import clippedSectionSeam from './fixtures/clipped-section-seam.json';
 import { buildChannelRibbonMeshData, ChannelRibbonSampler, type ChannelRibbonRecord } from './channelRibbons';
 import { WaterData, type WaterMeta } from './waterData';
 import { WaterWorld } from './waterWorld';
@@ -407,5 +408,18 @@ describe('flat landing fills', () => {
       expect(mesh.positions[i] + mesh.positions[i + 2]).toBeLessThanOrEqual(1e-6);
     }
     expect(() => buildChannelRibbonMeshData([{ ...cap, points: [a, { ...cap.points[1], y: 2 }] }])).toThrow('flat landing');
+    const farther = { ...cap, id: 'farther-landing', points: cap.points.map(p => ({ ...p, x: p.x + 1 })) };
+    for (const records of [[cap, farther], [farther, cap]]) {
+      expect(new ChannelRibbonSampler(records).sample(-.5, .1)?.ribbonId).toBe(cap.id);
+    }
   });
+});
+
+
+it('shares rounded clip endpoints with the following section without opening a submillimetre seam', () => {
+  const { target, record } = clippedSectionSeam;
+  const sample = new ChannelRibbonSampler([record]).sample(Math.fround(target.x), Math.fround(target.z),
+    { stage: { tide: .5, season: 1.4, groundHeight: target.groundM } });
+  expect(sample).not.toBeNull();
+  expect(sample!.height + 1.4 * sample!.seasonResponse! - target.groundM).toBeGreaterThan(1.49);
 });

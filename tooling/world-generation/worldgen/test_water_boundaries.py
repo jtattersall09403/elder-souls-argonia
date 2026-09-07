@@ -52,8 +52,8 @@ def test_packed_sections_merge_quantized_duplicates_and_round_trip(tmp_path):
     import json
     from .water_cross_sections import pack_cross_sections, load_water_metadata
     meta = {'ribbons': [{'id': 'water-ribbon.test', 'points': [{'crossSection': [
-        {'offsetM': -1.827839, 'groundM': 1., 'accessOffsetM': -.2},
-        {'offsetM': -1.827841, 'groundM': 1.000001, 'accessOffsetM': -.199999},
+        {'offsetM': -1.827840000001, 'groundM': 1., 'accessOffsetM': -.2},
+        {'offsetM': -1.82784, 'groundM': 1.000001, 'accessOffsetM': -.199999},
         {'offsetM': 0., 'groundM': .5, 'accessOffsetM': -.5},
         {'offsetM': 2., 'groundM': 2., 'accessOffsetM': 1.}]}]}]}
     pack_cross_sections(meta, tmp_path)
@@ -267,3 +267,16 @@ def test_native_zx_cross_section_sign_matches_runtime_xz_and_level_response_is_o
     assert point['seasonResponse'] == 1 and point['tideResponse'] == 0
     assert ribbons[0]['points'][-1]['seasonResponse'] == .5
     assert ribbons[0]['points'][-1]['tideResponse'] == .25
+
+
+def test_section_offsets_convert_once_without_decimal_rounding():
+    from .water_boundaries import canonical_cross_section
+    distance = -9.047346412269887
+    section = canonical_cross_section([
+        {'offsetM': distance, 'groundM': 1., 'accessOffsetM': 0.},
+        {'offsetM': distance + 1e-12, 'groundM': 2., 'accessOffsetM': 1.},
+        {'offsetM': 0., 'groundM': 0., 'accessOffsetM': -1.}])
+    assert len(section) == 2
+    assert section[0]['offsetM'] == float(np.float32(distance))
+    assert section[0]['offsetM'] != float(np.float32(round(distance, 4)))
+    assert section[0]['groundM'] == 2. and section[0]['accessOffsetM'] == 1.

@@ -1,0 +1,96 @@
+{
+  "status": "bounded-precision-verification-not-final-geometry-acceptance",
+  "acceptedConstraintsRemain": 72,
+  "proposalConstraints": 62,
+  "changes": [
+    "Remove decimal rounding before Float32 section-offset storage.",
+    "Share Float32 clipping endpoints with the following section to close interior T-junction cracks.",
+    "Guard zero-length landing centreline distances so overlapping-fill selection remains finite and independent of input order."
+  ],
+  "fixedNativeSamples": [
+    [
+      2339,
+      2295
+    ],
+    [
+      2423,
+      1944
+    ],
+    [
+      659,
+      3394
+    ]
+  ],
+  "existingLongitudinalCoordinatesHeadsBedsResponsesChanged": 0,
+  "sectionSamplesBeforeAndAfter": 207037,
+  "records": 1584,
+  "offsetComparison": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29204,
+    "newPeakWet": 29211,
+    "gained": 7,
+    "remainingDry": 2796,
+    "lostNativeVertices": []
+  },
+  "stitchComparison": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29211,
+    "newPeakWet": 29212,
+    "gained": 1,
+    "remainingDry": 2795,
+    "lostNativeVertices": []
+  },
+  "versusAcceptedProfile": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 4303,
+    "oldPeakWet": 4088,
+    "newPeakWet": 4132,
+    "gained": 45,
+    "remainingDry": 171,
+    "lostNativeVertices": [
+      [
+        2947,
+        2396
+      ]
+    ]
+  },
+  "centres": {
+    "targets": 645,
+    "oldCovered": 645,
+    "newCovered": 645,
+    "lost": []
+  },
+  "remainingBoundary": {
+    "native": [
+      2947,
+      2396
+    ],
+    "world": [
+      4379.50464,
+      5386.64448
+    ],
+    "record": "water-ribbon.province.cell-981-797",
+    "distanceOutsideRenderedEdgeM": 0.00012753029895335596,
+    "rawCoordinatePeakDepthM": 1.375663853564749,
+    "nativeFloat32Covered": false,
+    "oneMillimetreWestCovered": true,
+    "rejectedDiagnostics": [
+      "Float64 inline section offsets do not close this miss; no sidecar format change accepted.",
+      "Quantizing clipping-centre coordinates does not close this miss; that runtime change was not retained."
+    ]
+  },
+  "tests": {
+    "pythonBoundaryGeometry": 74,
+    "ribbonRuntime": 24,
+    "workspaceTests": "pass; after final stitching change affected game-core suite rerun and passed",
+    "typecheck": "pass; affected game-core typecheck rerun after stitching"
+  },
+  "scope": "Saved proposal fields re-exported, no new flood solve needed for geometry precision. Actual native Float32 vertex comparisons, not whole authored footprint acceptance.",
+  "artifacts": {
+    "water-full-section-precision-ribbons.json": "baa9cb8f25e51a16e20bc413468c506a41a609605ce82a1ce94add190c5f81a5",
+    "water-production-landing-ribbons.json": "98924e9a448022c2ec94c6ed8998d92f67bed58afb2f5d67f3930e2f9311bdf3",
+    "water-seasonal-native-triangle-diagnosis.json": "1ea3e5975247a99e7a2472ce8c83dddba7141df869aa22c7bfce404298686e2e"
+  }
+}

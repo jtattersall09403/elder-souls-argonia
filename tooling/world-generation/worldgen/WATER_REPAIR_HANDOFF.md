@@ -429,7 +429,51 @@ seasonal Python tests pass;23 ribbon tests pass. Root typecheck passes. Root
 tests passed apart from a sandbox EPERM on the combat measurement subprocess;
 that sole suite passed7 tests on escalated retry. No combat source changed.
 
-Next: diagnose the two coordinate-export seams at native[2339,2295] and
-[2423,1944] before accepting the62 proposal. Preserve the accepted72 inputs.
+Those two coordinate-export seams are now fixed by the precision work below.
+Preserve the accepted72 inputs until the remaining boundary is resolved.
 The landing addition loses no previously covered vertex in its bounded check,
 but does not prove whole-footprint coverage or final native geometry budgets.
+
+
+## Section precision and clipping seams
+
+Latest source removes decimal rounding from bank-section offsets before their
+Float32 canonicalization/packing. This closes native[2339,2295] and[2423,1944]
+at actual rendered coordinates. The canonicalizer still merges true Float32
+duplicates, retaining the highest ground/access barrier; it no longer merges
+separate representable offsets merely because their four-decimal values agree.
+`/tmp/water-full-section-precision-ribbons.json` re-exports the same full fields:
+1,584 records/207,037 section samples, with no changes to longitudinal positions,
+heads, centre beds or responses.32,007 Float32 native targets versus the prior
+landing export:29,211 wet,+7/-0. Do not substitute raw-coordinate counts for
+native Float32 comparisons without recording which representation was queried.
+
+Comparing4,303 targets against the accepted72 reference exposed two additional
+misses. Native[659,3394] was a rounded clipping T-junction: the incident strip
+created an endpoint the outgoing section did not share. Runtime now inserts
+that endpoint into the following section before triangulation. The three-point
+fixture `packages/game-core/src/water/fixtures/clipped-section-seam.json`
+reproduced the failure before the fix. The same32,007-target runtime comparison
+then gains1/loses0. Zero-length landing centreline projection is also guarded;
+overlap-order regression passes. All645 selected centres remain covered.
+
+The sole remaining local native Float32 miss is[2947,2396], world[4379.50464,
+5386.64448], on `water-ribbon.province.cell-981-797`. The native vertex is
+0.127530mm outside the rendered outer edge; raw coordinates and1mm west have
+water depth~1.3757m. Current local comparison: old4,088/new4,132,+45/-1.
+The62 proposal is STILL UNACCEPTED. Diagnose that edge against the authoritative
+footprint and neighbouring ownership; do not waive it on hydraulic counts.
+Float64 inline offsets and quantized clipping-centre prototypes did not close
+it and were not retained. Do not migrate the sidecar based on that hypothesis.
+Stitching currently handles adjacent sections within a record; final cross-record
+and native-refinement seam gates remain required.
+
+Durable evidence: `water-repair-inputs/section-precision-verification.json`.
+Geometry re-export: `/tmp/compile-water-full-section-precision.py`.
+Runtime comparisons: `/tmp/water-fringe-runtime/final-precision-{footprint,expanded,centres}.mjs`.
+Diagnosis: `/tmp/water-seasonal-native-{boundary,triangle}-diagnosis.json`.
+The final runtime module copied for those probes is `channelRibbonsFinalPrecision.ts`.
+The old72 reference remains immutable.74 Python boundary/geometry tests and24
+ribbon tests pass. Root tests/typecheck passed; affected game-core tests/types
+were rerun and passed after the final stitching edit. No terrain, stage, default
+repair input or deployed asset changes were made.

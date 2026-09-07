@@ -118,8 +118,9 @@ and seam checks. The diagnosed landing gap is now filled by169 additive flat
 sections, preserving all
 1,415 prior records exactly. The32,007-vertex comparison gains9/loses0;1,152
 five-stage pool contacts agree within0.05mm. Geometry tests, root typecheck
-and workspace tests pass (one sandbox-blocked suite passed on retry). Two
-coordinate seams and whole-footprint verification still prevent acceptance
+and workspace tests pass. Section-offset rounding and an interior clipped join
+are now fixed; native32,007-vertex comparisons lose no previous coverage. One
+local outer-edge sample and whole-footprint verification still prevent acceptance
 (water handoff). Full compilation saves its matching
 solver state with `--profile-cache`, avoiding a second native-domain audit.
 The durable accepted repair checkpoint has72 channel constraints,59

@@ -12,14 +12,14 @@ ACCESS_MIN_M, ACCESS_MAX_M = -2., 2.
 
 
 def canonical_cross_section(samples):
-    """Merge coincident serialized stations after decimal/Float32 rounding.
+    """Merge coincident serialized stations after one Float32 conversion.
 
     Integer-axis and diagonal crossings can differ only by floating error.
     Preserve their highest bed/access barrier, never duplicate a mesh edge.
     """
     unique = {}
     for sample in samples:
-        offset = float(np.float32(round(float(sample['offsetM']), 4)))
+        offset = float(np.float32(sample['offsetM']))
         if offset in unique:
             existing = unique[offset]
             existing['groundM'] = max(existing['groundM'], sample['groundM'])
@@ -375,7 +375,7 @@ def channel_cross_section(ground, point, normal, half_extent, level, metres_per_
         else:
             width = d[-1]
         base_widths.append(float(width * metres_per_pixel))
-        samples = [{"offsetM": round(float(sign * d[i] * metres_per_pixel), 4),
+        samples = [{"offsetM": float(sign * d[i] * metres_per_pixel),
                     "groundM": round(float(b[i]), 6),
                     "accessOffsetM": round(float(a[i]), 6)}
                    for i in _simplify_profile(d, b, a)]

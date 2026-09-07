@@ -131,3 +131,9 @@ sector between the receiving bisector and the incoming perpendicular plane.
 These one-sided sections use the existing packed sidecar and bounded geometry
 cache. They add no longitudinal current edge. Both query and renderer emit the
 same flat triangles; the loader rejects displaced, sloping or falling fills.
+
+Clipped incident sections share newly rounded endpoints with the following
+section before triangulation. This prevents submillimetre T-junction cracks
+without expanding the ownership envelope or changing a water head. Landing
+centreline projection handles zero-length records with a finite distance, so
+equal-head overlap selection still chooses the closest surface.

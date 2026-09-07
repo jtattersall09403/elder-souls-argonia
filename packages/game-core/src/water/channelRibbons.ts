@@ -343,6 +343,18 @@ function trianglesFor(records: readonly ChannelRibbonRecord[], physicalSpeeds: R
         } else emitTriangle(a, b, c);
       };
       const a = sections[i], b = descendingSection(start, end, a, sections[i + 1]);
+      if (b !== sections[i + 1]) {
+        // Clipping creates Float32 endpoints that need not remain exactly
+        // collinear with the original section. Share those points with the
+        // following strip instead of leaving a rounded T-junction crack.
+        const full = sections[i + 1], present = new Set(full);
+        const additions = b.filter(point => !present.has(point));
+        if (additions.length) {
+          const first = full[0], last = full[full.length - 1];
+          const nx = last.x - first.x, nz = last.z - first.z;
+          sections[i + 1] = [...full, ...additions].sort((p, q) => (p.x - q.x) * nx + (p.z - q.z) * nz);
+        }
+      }
       if (b.length < 2) continue;
       const fraction = (section: Point[], index: number) => {
         const first = section[0], last = section[section.length - 1], point = section[index];
@@ -652,7 +664,7 @@ export class ChannelRibbonSampler {
       const w = 1 - u - v;
       if (u < -1e-7 || v < -1e-7 || w < -1e-7) continue;
       const dx = end.x - start.x, dz = end.z - start.z;
-      const t = Math.min(1, Math.max(0, ((x - start.x) * dx + (z - start.z) * dz) / (dx * dx + dz * dz)));
+      const t = Math.min(1, Math.max(0, ((x - start.x) * dx + (z - start.z) * dz) / Math.max(dx * dx + dz * dz, 1e-12)));
       const distance2 = (x - start.x - t * dx) ** 2 + (z - start.z - t * dz) ** 2;
       const height = a.y * u + b.y * v + c.y * w;
       const tideResponse = a.tideResponse === undefined || b.tideResponse === undefined || c.tideResponse === undefined
