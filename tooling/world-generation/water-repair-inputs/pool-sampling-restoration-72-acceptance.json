@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "status": "accepted-hydraulic-checkpoint-not-release",
+  "previousCheckpoint": "028d697",
+  "samplingSources": [
+    10480,
+    11393,
+    11411
+  ],
+  "retainingSupportsRestored": [
+    {
+      "nativeIndex": 9923725,
+      "fromM": 10.67827320098877,
+      "toM": 10.7215576171875,
+      "originalM": 10.81813907623291
+    },
+    {
+      "nativeIndex": 10742140,
+      "fromM": 11.318610191345215,
+      "toM": 11.521540641784668,
+      "originalM": 11.593615531921387
+    },
+    {
+      "nativeIndex": 10746173,
+      "fromM": 11.27083683013916,
+      "toM": 11.521540641784668,
+      "originalM": 11.64173698425293
+    },
+    {
+      "nativeIndex": 10750206,
+      "fromM": 11.41569995880127,
+      "toM": 11.521540641784668,
+      "originalM": 11.915932655334473
+    }
+  ],
+  "fullyRestoredOriginalSupports": [],
+  "bedCorrections": [
+    {
+      "index": 9927755,
+      "fromM": 11.06273078918457,
+      "toM": 10.961030960083008,
+      "originalM": 11.06273078918457
+    },
+    {
+      "index": 10738107,
+      "fromM": 11.466540336608887,
+      "toM": 11.389998435974121,
+      "originalM": 11.811915397644043
+    },
+    {
+      "index": 10742139,
+      "fromM": 11.756983757019043,
+      "toM": 11.680441856384277,
+      "originalM": 11.756983757019043
+    }
+  ],
+  "maximumAdditionalCutM": 0.1016998291015625,
+  "maximumOriginalCutM": 0.4219169616699219,
+  "remainingConstraints": 72,
+  "remainingRetainingBoundViolations": 59,
+  "retainedCorrections": 15562,
+  "resolvedSources": [
+    11425
+  ],
+  "inputHashes": {
+    "bed-overlay.json": "976f77f715fe39745d0065e9ebb3b4898180cf37e7e93e1f835ec3363febcb4d",
+    "routing-audit.json": "3a160e57705c2c1eb698a35ff26e790c3342191800de6d79457469a93c86e342",
+    "seasonal-profile.npz": "3cd26bfc837bc180bea3b2283b506acf60f5d1a8254c371659e631d39299023e"
+  },
+  "freshNativePreservation": {
+    "scope": "Full captured native compilation after three pool anchors, four bank restorations and three shallow bed corrections",
+    "originalInteriorSamples": 423268,
+    "missingOriginalWetSamples": 38,
+    "previousMissingOriginalWetSamples": 38,
+    "newMissingOriginalWetSamples": 0,
+    "missingOriginalInteriorSamples": 0,
+    "originalInteriorPlaneDifferenceM": 0.0,
+    "originalInteriorSpillDifferenceM": 0.0,
+    "missingOriginalMarineSamples": 0,
+    "priorStandingSamples": 482071,
+    "lostPriorBaseStandingIndices": [
+      9923725,
+      10738107,
+      10742140,
+      10746173,
+      10750206
+    ],
+    "lostPriorOriginalWetSamples": 0,
+    "newBaseStandingSamples": 0,
+    "maximumCommonStandingPlaneDifferenceM": 0.0,
+    "remainingConstraints": 72,
+    "newFailureSources": [],
+    "retainingBoundViolations": 59,
+    "capturedLevelsMatchExport": true,
+    "capturedAcceptedLinksMatchExport": true,
+    "capturedSeasonalResponseVerified": true
+  },
+  "seasonalRebase": {
+    "scope": "Fresh three-pool geometry with exact rebasing of unchanged seasonal candidate paths",
+    "remaining": 72,
+    "newFailures": [],
+    "resolved": [
+      11425
+    ],
+    "candidates": 96,
+    "removedNowBaseAcceptedCandidates": [
+      11425
+    ],
+    "positiveBudgetNodes": 604,
+    "retainingViolations": 59
+  },
+  "peakCoverage": {
+    "selectedCentreTargets": 495,
+    "ordinaryPeakAtOriginalCoordinates": 486,
+    "additionalOrdinaryAtExportedCentres": 8,
+    "fallingSheetOnly": 1,
+    "unexplainedPeakGaps": 0,
+    "lostEarlierPeakSamples": 0,
+    "previousTargetCoordinatesPreserved": true,
+    "restoredAndChangedStandingTargets": 5,
+    "allCovered": true,
+    "wetPoolContactComparisons": 1018,
+    "maximumPoolContactDifferenceM": 4.685115814240248e-05
+  },
+  "capturedSolverState": "Captured directly from full native compilation; accepted input metadata restamped after physical float32 equality check",
+  "limits": [
+    "Selected native field and ribbon coverage only; complete authored footprint and final raster/confluence gates remain open",
+    "The38 historical original pool-field omissions are unchanged",
+    "Base standing seed domain uses10mm depth; leaving it does not imply absence of thinner rendered water"
+  ]
+}

@@ -856,5 +856,23 @@
       ]
     },
     "status": "rejected"
+  },
+  "latestAcceptedFollowup": {
+    "evidence": "pool-sampling-restoration-72-acceptance.json",
+    "samplingSources": [
+      10480,
+      11393,
+      11411
+    ],
+    "remainingRetainingBoundViolations": 59,
+    "remainingUnsuccessfulSamplingSources": [
+      1734,
+      5024,
+      8451,
+      9458,
+      10818,
+      11426
+    ],
+    "alternativeScreens": "pool-anchor-alternative-screen.json"
   }
 }

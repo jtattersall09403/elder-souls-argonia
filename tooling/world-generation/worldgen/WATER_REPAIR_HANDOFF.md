@@ -10,16 +10,16 @@ Run commands below from `tooling/world-generation`.
 Small authoritative inputs are retained in `water-repair-inputs/`; their
 manifest records SHA-256 hashes and the immutable source hashes. They contain
 the exact indexed original/current heights and restoration/exception evidence,
-149 reviewed course overrides,73 reviewed original-pool and eight original-channel sampling-anchor relocations,
+149 reviewed course overrides,76 reviewed original-pool and eight original-channel sampling-anchor relocations,
 and the reviewed original-drainage orientation. They are
 not runtime assets. The original heightfield/hydrology live in the sibling
 asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,560 corrections;73 unresolved channels with the accepted
-seasonal profile (43 authored rivulets,30 banked rivers). Without that explicit
-profile the base-only graph remains127. These are not completion counts.
+Current overlay:15,562 corrections;72 unresolved channels with the accepted
+seasonal profile (42 authored rivulets,30 banked rivers). Without that explicit
+profile the base-only graph remains126. These are not completion counts.
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
 345 retaining/fringe supports, 1,103 unnecessary pool-floor vertices and three
@@ -41,7 +41,8 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-73-restored-banks-state.npz` | Current73-channel/63-retaining-violation state captured by full compilation; matches all current input hashes |
+| `/tmp/water-accepted-72-restored-banks-state.npz` | Current72-channel/59-retaining-violation state, captured by full compilation and matching all current input hashes |
+| `/tmp/water-accepted-73-restored-banks-state.npz` | Previous73-channel/63-retaining-violation state, before the latest three sampling moves |
 | `/tmp/water-accepted-73-seasonal-state.npz` | Previous73-channel/69-retaining-violation state, before four pool sampling corrections |
 | `/tmp/water-accepted-77-seasonal-state.npz` | Previous seasonal checkpoint, before four additional existing-stage repairs |
 | `/tmp/water-accepted-127-state.npz` | Historical base-only graph for rebuilding a seasonal proposal after route changes |
@@ -49,7 +50,7 @@ Useful disposable caches on this VM:
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
 | `/tmp/water-immutable-retaining-bounds.npy` | Derived bounds, not terrain edits |
-| `/tmp/water-retaining-bound-violations.json` | Historical 352-support audit; current remaining count is63 |
+| `/tmp/water-retaining-bound-violations.json` | Historical 352-support audit; current remaining count is59 |
 
 The matching state carries `terrain_overlay_sha256`; it must equal the durable
 overlay hash. Older `/tmp/water-*` variants are historical diagnostics, not
@@ -222,22 +223,70 @@ permanent reaches, agree within0.05mm. Files:
 `/tmp/water-four-pool-{runtime-audit,joins,boundary-audit}.json`.
 
 Acceptance is `water-repair-inputs/pool-sampling-restoration-acceptance.json`.
-Current cache: `/tmp/water-accepted-73-restored-banks-state.npz`. Only metadata
+That checkpoint cache: `/tmp/water-accepted-73-restored-banks-state.npz`. Only metadata
 and the original-height no-op were normalized after compilation; float32 terrain
 values are identical. The fully restored vertex is protected at original height;
 five partial restorations are protected by immutable lower bounds. Old indexed
 excavation authority on restored supports is revoked; both new cuts have evidence.
 
-Next: remaining nine legal anchor candidates1734,5024,8451,9458,10480,10818,11393,
-11411,11426 and their local incident routes, then other constraints. Use cached
-local routing/solver screening for alternative anchors rather than recomputing a
-province flood for every choice; validate each coherent proposal with fresh full
-compilation and captured state. Do not retry the failed thirteen-point proposal
-unchanged. Remaining scope:73 channels,63 retaining issues, all authored peak
-footprints and final rendered/export gates. No amplitudes or native assets are
-deployed. Workspace gates passed at c00c7ed; no runtime edits since.
+## Latest three sampling moves:72 channels and59 retaining issues
 
-Validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
+Sources10480,11393,11411 move to[2459,2544],[2663,2262],[2665,2263] in the same
+original pools. Four supports restore to immutable bounds; none fully reaches
+original height, so their protection remains the lower-bound field. Three bed
+corrections lower at most0.101700m additionally, maximum original cut0.421917m.
+Two are new correction rows;15,562 remain. Old excavation authority on all four
+restored supports is revoked. Original-pool anchors now total76 plus8 channel
+anchors; course overrides stay149.
+
+The29 local alternative screens avoid repeated province floods. Two choices
+pass independently; moving neighbouring11411 as well recovers11425. Exact
+screen/changes are in `water-repair-inputs/pool-anchor-alternative-screen.json`.
+Fresh ordinary audit `/tmp/water-three-pool-{audit.json,state.npz}` gives126 with
+no new failure sources. Seasonal rebasing removes11425 from candidates because
+it is now base-accepted; all remaining96 candidate paths are coordinate-identical.
+604 positive budgets map exactly onto75645 native nodes. Cached seasonal solving
+and full compilation agree on72 failures and all54 seasonal repairs.
+
+Full artifacts: `/tmp/water-three-pool-full-{fields.npz,state.npz,ribbons.json,summary.json}`;
+run by `/tmp/compile-water-three-pool-fields.py`, with1224 selected records.
+Captured state verifies actual stage budgets. The preservation proof is
+`/tmp/water-three-pool-preservation.json`: all423,268 original interior samples,
+planes, spill potential and marine coverage unchanged; the38 original pool-field
+omissions are the same as before. Five repair-created samples leave the10mm
+standing seed domain. One has standing peak coverage; four have actual native
+channel coverage. `/tmp/water-three-pool-restored-bank-coverage.json` proves all5.
+
+Previous target world coordinates are preserved even when routes move.495
+selected targets give486 ordinary raw-coordinate peak samples,8 more at exported
+Float32 centres and1 falling sheet. No previous positive is lost.1,018 wet pool
+contacts at five stages agree within0.05mm. Proof files are
+`/tmp/water-three-pool-{runtime-comparison,joins,boundary-audit}.json`.
+Runtime scripts under `/tmp/water-fringe-runtime/three-pool-*.mjs` require Node's
+`--experimental-transform-types` (strip-only mode cannot parse parameter properties).
+
+Acceptance: `water-repair-inputs/pool-sampling-restoration-72-acceptance.json`.
+Current cache: `/tmp/water-accepted-72-restored-banks-state.npz`, restamped only for
+accepted metadata after proving exact physical float32 equality. All current
+input/evidence hashes are in the manifest. No runtime/source changes or new
+broad test runs in this repair; full native/selected runtime checks above apply.
+
+Next: remaining local candidates1734,5024,8451,9458,10818,11426 have no passing
+ordinary sampling choice in the bounded screen. Investigate their incident
+routes/shared supports; do not repeat the same29 choices or blanket restoration.
+Two optimistic1.9m seasonal feasibility bounds on the HISTORICAL all69-restored
+terrain remain rejected. Restricting budgets to rejected authored rivulets gives
+105 failures and33 new versus current-before-this-turn73. Allowing all authored
+rivulets, including accepted minor neighbours (outside current profile eligibility),
+gives85 with23 new and11 resolved. These are theoretical upper envelopes, not
+actual stage-response evidence or authorization to relax permanent channels.
+They show shared minor-channel nodes exclude some useful seasonal head allowance,
+but no wholesale policy change or restoration is accepted. Exact source lists
+and scope are in the diagnostic evidence above. Remaining scope:72 channels,
+59 retaining issues, complete authored peak footprints, and final mesh/export
+checks. No upper amplitudes or native assets have been deployed.
+
+Historical source validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
 Dependencies restored without changing package manifests/lockfile. A held NFS
 native library prevented initial cleanup; its ignored generated directory was
 moved to `.water-dependency-recovery/node_modules`, preserving live handles.

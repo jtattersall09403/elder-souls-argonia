@@ -45,23 +45,23 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The73 remaining constraints below still require resolution before final export.
+The72 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-73-restored-banks-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-72-restored-banks-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
-coverage, and their original planes within0.1mm. Restored346 retaining supports plus188 minimum-bound restorations,
+coverage, and their original planes within0.1mm. Restored346 retaining supports plus192 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and6 artificial-anchor supports;
-15,560 corrections remain. **73 channel constraints remain**, not completed
+15,562 corrections remain. **72 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
 resolved38 with no new failures after omitting the causally unsafe component10244;
 fresh pool/domain checks passed. Next: diagnose remaining infeasible connected
-components and63 inherited retaining-bound violations, not another tail loop.
+components and59 inherited retaining-bound violations, not another tail loop.
 
 Do not reuse stale pool occupancy after terrain changes. Original retaining
 banks and spill planes take precedence over making a constraint count smaller.
@@ -317,3 +317,15 @@ Nine alternative sampling candidates remain. `pool-sampling-restoration-acceptan
 records the inputs and proof. Use `--profile-cache` during full compilation to
 capture the verified solver state without another domain calculation. Earlier
 compiler investigations are archived beside the shorter current compiler handoff.
+
+
+Latest accepted sampling repair:10480→[2459,2544],11393→[2663,2262],11411→[2665,2263].
+Fresh domains recover11425 at base level, retain all54 seasonal repairs and
+restore four additional bank supports. Current totals are72 channel constraints,
+59 retaining violations and15,562 corrections. All five changed standing samples
+remain peak covered (one standing owner, four native channels); original planes,
+spill potential and marine coverage are preserved. Selected495 centres and1,018
+wet pool contacts pass. Evidence: `pool-sampling-restoration-72-acceptance.json`.
+The29 alternative-anchor screens are recorded in `pool-anchor-alternative-screen.json`;
+do not repeat unchanged failed choices. See the compiler handoff for next routes
+and the rejected optimistic seasonal-restoration bounds.

@@ -4,11 +4,11 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "27e794baf6f13bd6d3a1fc56d339167dc26693d0d9228706dada5b7709e8e488",
-    "routing-audit.json": "d424df9b2ce6dfa44dc3a004dc8787b6ca289413594da0f5420e4121252477ce",
+    "bed-overlay.json": "976f77f715fe39745d0065e9ebb3b4898180cf37e7e93e1f835ec3363febcb4d",
+    "routing-audit.json": "3a160e57705c2c1eb698a35ff26e790c3342191800de6d79457469a93c86e342",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
     "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
-    "seasonal-profile.npz": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1"
+    "seasonal-profile.npz": "3cd26bfc837bc180bea3b2283b506acf60f5d1a8254c371659e631d39299023e"
   },
   "source": {
     "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
@@ -16,8 +16,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15560,
-    "unresolvedChannels": 73,
+    "retainedCorrections": 15562,
+    "unresolvedChannels": 72,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -25,15 +25,15 @@
     "restoredRetainingSupports": 346,
     "restoredArtificialAnchorSupports": 6,
     "restoredUnnecessaryPoolFloorVertices": 1103,
-    "restoredRetainingBoundSupports": 188,
-    "remainingRetainingBoundViolations": 63,
-    "reviewedOriginalPoolAnchorRelocations": 73,
+    "restoredRetainingBoundSupports": 192,
+    "remainingRetainingBoundViolations": 59,
+    "reviewedOriginalPoolAnchorRelocations": 76,
     "restoredCutCreatedMarineSupports": 15,
     "reviewedBankAwareRoutes": 139,
     "protectedOriginalWetFringeVertices": 364,
     "reconciledFlowDirections": 25,
     "reviewedChannelThalwegAnchorRelocations": 8,
-    "baseOnlyUnresolvedChannels": 127
+    "baseOnlyUnresolvedChannels": 126
   },
   "orientationReview": "25 immutable-reference discrepancies reviewed against original drainage:24 restored authored flow_to directions;4328 retains authored inflow/backwatering into original pool4329. Ordering marker is not a surface height. Exact evidence in routing-audit.json.orientationReconciliation.",
   "profileSolverAcceptance": {
@@ -340,20 +340,20 @@
   "seasonalProfileAcceptance": {
     "status": "accepted-hydraulic-checkpoint-not-release",
     "file": "seasonal-profile.npz",
-    "sha256": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1",
+    "sha256": "3cd26bfc837bc180bea3b2283b506acf60f5d1a8254c371659e631d39299023e",
     "evidence": "seasonal-profile-acceptance.json",
-    "evidenceSha256": "44510457474620136dbae8709a87835821ac7c240aef6c22619b491a9522a2d4",
-    "remainingConstraints": 73,
-    "baseOnlyConstraints": 127,
+    "evidenceSha256": "0e27654fdadcffc4c7bb982fbace676802d1c782d1f2893cf5aa08aa6b273e52",
+    "remainingConstraints": 72,
+    "baseOnlyConstraints": 126,
     "compilerFlag": "--seasonal-profile"
   },
   "poolSamplingRestorationAcceptance": {
     "status": "accepted-hydraulic-checkpoint-not-release",
-    "evidence": "pool-sampling-restoration-acceptance.json",
-    "evidenceSha256": "8c590a2123a585bae58db35a18773240b3b65da05aa37abfd7eaec51493fd4ea",
-    "restoredSupports": 6,
-    "samplingMoves": 4,
-    "remainingConstraints": 73,
-    "remainingRetainingBoundViolations": 63
+    "evidence": "pool-sampling-restoration-72-acceptance.json",
+    "evidenceSha256": "6b673bfdd4cbf5b1c21a35ae8803fa4f0a7a4632fbe74b33e12534dcfa8b923c",
+    "restoredSupports": 4,
+    "samplingMoves": 3,
+    "remainingConstraints": 72,
+    "remainingRetainingBoundViolations": 59
   }
 }

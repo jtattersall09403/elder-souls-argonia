@@ -1,0 +1,1662 @@
+{
+  "scope": "Cached-domain local incident routing and global ordinary solve; one bounded bed-correction pass; fresh domains required",
+  "rows": [
+    {
+      "source": 1734,
+      "choice": 0,
+      "point": [
+        530,
+        3416
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2148975,
+          "fromM": 14.584310531616211,
+          "toM": 14.31470775604248,
+          "originalM": 14.95734691619873
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.0
+    },
+    {
+      "source": 1734,
+      "choice": 1,
+      "point": [
+        531,
+        3417
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2148975,
+          "fromM": 14.584310531616211,
+          "toM": 14.31470775604248,
+          "originalM": 14.95734691619873
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.15
+    },
+    {
+      "source": 1734,
+      "choice": 2,
+      "point": [
+        529,
+        3416
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2148975,
+          "fromM": 14.584310531616211,
+          "toM": 14.31470775604248,
+          "originalM": 14.95734691619873
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.14
+    },
+    {
+      "source": 1734,
+      "choice": 3,
+      "point": [
+        531,
+        3416
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2148975,
+          "fromM": 14.584310531616211,
+          "toM": 14.31470775604248,
+          "originalM": 14.95734691619873
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.13
+    },
+    {
+      "source": 1734,
+      "choice": 4,
+      "point": [
+        530,
+        3415
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2148975,
+          "fromM": 14.584310531616211,
+          "toM": 14.31470775604248,
+          "originalM": 14.95734691619873
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.33
+    },
+    {
+      "source": 1734,
+      "choice": 5,
+      "point": [
+        532,
+        3417
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        1734
+      ],
+      "newFailures": [
+        1734
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 2140907,
+          "fromM": 14.431967735290527,
+          "toM": 14.475252151489258,
+          "originalM": 14.53900146484375
+        },
+        {
+          "index": 2153009,
+          "fromM": 14.49672794342041,
+          "toM": 14.388683319091797,
+          "originalM": 14.918142318725586
+        },
+        {
+          "index": 2157041,
+          "fromM": 14.263776779174805,
+          "toM": 14.475252151489258,
+          "originalM": 14.68519115447998
+        }
+      ],
+      "seconds": 7.38
+    },
+    {
+      "source": 5024,
+      "choice": 0,
+      "point": [
+        1259,
+        1125
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        5024
+      ],
+      "newFailures": [
+        5024
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 5078673,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.699754238128662
+        },
+        {
+          "index": 5086741,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.730749130249023
+        },
+        {
+          "index": 5086742,
+          "fromM": 7.524050235748291,
+          "toM": 7.695181369781494,
+          "originalM": 7.808125019073486
+        }
+      ],
+      "seconds": 8.06
+    },
+    {
+      "source": 5024,
+      "choice": 1,
+      "point": [
+        1260,
+        1126
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        5024
+      ],
+      "newFailures": [
+        5024
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 5078673,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.699754238128662
+        },
+        {
+          "index": 5086741,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.730749130249023
+        },
+        {
+          "index": 5086742,
+          "fromM": 7.524050235748291,
+          "toM": 7.695181369781494,
+          "originalM": 7.808125019073486
+        }
+      ],
+      "seconds": 7.44
+    },
+    {
+      "source": 5024,
+      "choice": 2,
+      "point": [
+        1260,
+        1125
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        5024
+      ],
+      "newFailures": [
+        5024
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 5078673,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.699754238128662
+        },
+        {
+          "index": 5086741,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.730749130249023
+        },
+        {
+          "index": 5086742,
+          "fromM": 7.524050235748291,
+          "toM": 7.695181369781494,
+          "originalM": 7.808125019073486
+        }
+      ],
+      "seconds": 7.45
+    },
+    {
+      "source": 5024,
+      "choice": 3,
+      "point": [
+        1259,
+        1124
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        5024
+      ],
+      "newFailures": [
+        5024
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 5078673,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.699754238128662
+        },
+        {
+          "index": 5086741,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.730749130249023
+        },
+        {
+          "index": 5086742,
+          "fromM": 7.524050235748291,
+          "toM": 7.695181369781494,
+          "originalM": 7.808125019073486
+        }
+      ],
+      "seconds": 7.42
+    },
+    {
+      "source": 5024,
+      "choice": 4,
+      "point": [
+        1261,
+        1126
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        5024
+      ],
+      "newFailures": [
+        5024
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 5078673,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.699754238128662
+        },
+        {
+          "index": 5086741,
+          "fromM": 7.640181064605713,
+          "toM": 7.695181369781494,
+          "originalM": 7.730749130249023
+        },
+        {
+          "index": 5086742,
+          "fromM": 7.524050235748291,
+          "toM": 7.695181369781494,
+          "originalM": 7.808125019073486
+        }
+      ],
+      "seconds": 7.43
+    },
+    {
+      "source": 8451,
+      "choice": 0,
+      "point": [
+        2013,
+        2196
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        8451
+      ],
+      "newFailures": [
+        8451
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 8120626,
+          "fromM": 18.94866371154785,
+          "toM": 18.991947174072266,
+          "originalM": 19.235593795776367
+        },
+        {
+          "index": 8124658,
+          "fromM": 18.600353240966797,
+          "toM": 18.99069595336914,
+          "originalM": 18.99069595336914
+        }
+      ],
+      "seconds": 7.35
+    },
+    {
+      "source": 8451,
+      "choice": 1,
+      "point": [
+        2012,
+        2196
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        8451
+      ],
+      "newFailures": [
+        8451
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 8120626,
+          "fromM": 18.94866371154785,
+          "toM": 18.991947174072266,
+          "originalM": 19.235593795776367
+        },
+        {
+          "index": 8124658,
+          "fromM": 18.600353240966797,
+          "toM": 18.99069595336914,
+          "originalM": 18.99069595336914
+        }
+      ],
+      "seconds": 7.29
+    },
+    {
+      "source": 8451,
+      "choice": 2,
+      "point": [
+        2011,
+        2197
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        8451
+      ],
+      "newFailures": [
+        8451
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 8120626,
+          "fromM": 18.94866371154785,
+          "toM": 18.991947174072266,
+          "originalM": 19.235593795776367
+        },
+        {
+          "index": 8124658,
+          "fromM": 18.600353240966797,
+          "toM": 18.99069595336914,
+          "originalM": 18.99069595336914
+        }
+      ],
+      "seconds": 7.22
+    },
+    {
+      "source": 8451,
+      "choice": 3,
+      "point": [
+        2013,
+        2195
+      ],
+      "supports": 2,
+      "remaining": 128,
+      "initialNewFailures": [
+        8451
+      ],
+      "newFailures": [
+        8451
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 8120626,
+          "fromM": 18.94866371154785,
+          "toM": 18.991947174072266,
+          "originalM": 19.235593795776367
+        },
+        {
+          "index": 8124658,
+          "fromM": 18.600353240966797,
+          "toM": 18.99069595336914,
+          "originalM": 18.99069595336914
+        }
+      ],
+      "seconds": 7.22
+    },
+    {
+      "source": 9458,
+      "choice": 0,
+      "point": [
+        2260,
+        2229
+      ],
+      "supports": 1,
+      "remaining": 128,
+      "initialNewFailures": [
+        9457
+      ],
+      "newFailures": [
+        9457
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 9116808,
+          "fromM": 18.79115104675293,
+          "toM": 18.876873016357422,
+          "originalM": 19.788063049316406
+        },
+        {
+          "index": 9120837,
+          "fromM": 20.03325653076172,
+          "toM": 18.78187370300293,
+          "originalM": 20.334861755371094
+        },
+        {
+          "index": 9120838,
+          "fromM": 19.77480125427246,
+          "toM": 18.78187370300293,
+          "originalM": 20.018436431884766
+        },
+        {
+          "index": 9120839,
+          "fromM": 19.646635055541992,
+          "toM": 18.821874618530273,
+          "originalM": 19.91963768005371
+        }
+      ],
+      "seconds": 7.27
+    },
+    {
+      "source": 9458,
+      "choice": 1,
+      "point": [
+        2261,
+        2229
+      ],
+      "supports": 1,
+      "remaining": 128,
+      "initialNewFailures": [
+        9457
+      ],
+      "newFailures": [
+        9457
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 9116808,
+          "fromM": 18.79115104675293,
+          "toM": 18.876873016357422,
+          "originalM": 19.788063049316406
+        }
+      ],
+      "seconds": 7.21
+    },
+    {
+      "source": 9458,
+      "choice": 2,
+      "point": [
+        2260,
+        2230
+      ],
+      "supports": 1,
+      "remaining": 128,
+      "initialNewFailures": [
+        9457
+      ],
+      "newFailures": [
+        9457
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 9116808,
+          "fromM": 18.79115104675293,
+          "toM": 18.876873016357422,
+          "originalM": 19.788063049316406
+        }
+      ],
+      "seconds": 7.19
+    },
+    {
+      "source": 10480,
+      "choice": 0,
+      "point": [
+        2459,
+        2545
+      ],
+      "supports": 1,
+      "remaining": 128,
+      "initialNewFailures": [
+        10501
+      ],
+      "newFailures": [
+        10501
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 9923725,
+          "fromM": 10.67827320098877,
+          "toM": 10.7215576171875,
+          "originalM": 10.81813907623291
+        },
+        {
+          "index": 9927756,
+          "fromM": 11.032599449157715,
+          "toM": 10.937599182128906,
+          "originalM": 11.032599449157715
+        }
+      ],
+      "seconds": 7.3
+    },
+    {
+      "source": 10480,
+      "choice": 1,
+      "point": [
+        2459,
+        2544
+      ],
+      "supports": 1,
+      "remaining": 127,
+      "initialNewFailures": [
+        10501
+      ],
+      "newFailures": [],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 9923725,
+          "fromM": 10.67827320098877,
+          "toM": 10.7215576171875,
+          "originalM": 10.81813907623291
+        },
+        {
+          "index": 9927755,
+          "fromM": 11.06273078918457,
+          "toM": 10.961030960083008,
+          "originalM": 11.06273078918457
+        }
+      ],
+      "seconds": 7.22
+    },
+    {
+      "source": 10818,
+      "choice": 0,
+      "point": [
+        2550,
+        1632
+      ],
+      "supports": 4,
+      "remaining": 128,
+      "initialNewFailures": [
+        10819
+      ],
+      "newFailures": [
+        10819
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10281749,
+          "fromM": 2.3529300689697266,
+          "toM": 2.396214723587036,
+          "originalM": 2.4976720809936523
+        },
+        {
+          "index": 10285783,
+          "fromM": 2.1246349811553955,
+          "toM": 2.3864974975585938,
+          "originalM": 2.3864974975585938
+        },
+        {
+          "index": 10285784,
+          "fromM": 2.3529300689697266,
+          "toM": 2.389909505844116,
+          "originalM": 2.389909505844116
+        },
+        {
+          "index": 10285785,
+          "fromM": 2.3439600467681885,
+          "toM": 2.396214723587036,
+          "originalM": 2.4279098510742188
+        }
+      ],
+      "seconds": 7.24
+    },
+    {
+      "source": 10818,
+      "choice": 1,
+      "point": [
+        2551,
+        1633
+      ],
+      "supports": 4,
+      "remaining": 128,
+      "initialNewFailures": [
+        10819
+      ],
+      "newFailures": [
+        10819
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10281749,
+          "fromM": 2.3529300689697266,
+          "toM": 2.396214723587036,
+          "originalM": 2.4976720809936523
+        },
+        {
+          "index": 10285783,
+          "fromM": 2.1246349811553955,
+          "toM": 2.3864974975585938,
+          "originalM": 2.3864974975585938
+        },
+        {
+          "index": 10285784,
+          "fromM": 2.3529300689697266,
+          "toM": 2.389909505844116,
+          "originalM": 2.389909505844116
+        },
+        {
+          "index": 10285785,
+          "fromM": 2.3439600467681885,
+          "toM": 2.396214723587036,
+          "originalM": 2.4279098510742188
+        }
+      ],
+      "seconds": 7.5
+    },
+    {
+      "source": 11393,
+      "choice": 0,
+      "point": [
+        2663,
+        2262
+      ],
+      "supports": 3,
+      "remaining": 127,
+      "initialNewFailures": [
+        11378
+      ],
+      "newFailures": [],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10738107,
+          "fromM": 11.466540336608887,
+          "toM": 11.389998435974121,
+          "originalM": 11.811915397644043
+        },
+        {
+          "index": 10742139,
+          "fromM": 11.756983757019043,
+          "toM": 11.680441856384277,
+          "originalM": 11.756983757019043
+        },
+        {
+          "index": 10742140,
+          "fromM": 11.318610191345215,
+          "toM": 11.521540641784668,
+          "originalM": 11.593615531921387
+        },
+        {
+          "index": 10746173,
+          "fromM": 11.27083683013916,
+          "toM": 11.521540641784668,
+          "originalM": 11.64173698425293
+        },
+        {
+          "index": 10750206,
+          "fromM": 11.41569995880127,
+          "toM": 11.521540641784668,
+          "originalM": 11.915932655334473
+        }
+      ],
+      "seconds": 7.45
+    },
+    {
+      "source": 11411,
+      "choice": 0,
+      "point": [
+        2664,
+        2262
+      ],
+      "supports": 3,
+      "remaining": 128,
+      "initialNewFailures": [
+        11393,
+        11411
+      ],
+      "newFailures": [
+        11393,
+        11411
+      ],
+      "resolved": [
+        11425
+      ],
+      "changes": [
+        {
+          "index": 10742140,
+          "fromM": 11.318610191345215,
+          "toM": 11.521540641784668,
+          "originalM": 11.593615531921387
+        },
+        {
+          "index": 10746173,
+          "fromM": 11.27083683013916,
+          "toM": 11.521540641784668,
+          "originalM": 11.64173698425293
+        },
+        {
+          "index": 10750206,
+          "fromM": 11.41569995880127,
+          "toM": 11.521540641784668,
+          "originalM": 11.915932655334473
+        }
+      ],
+      "seconds": 7.51
+    },
+    {
+      "source": 11411,
+      "choice": 1,
+      "point": [
+        2665,
+        2263
+      ],
+      "supports": 3,
+      "remaining": 127,
+      "initialNewFailures": [
+        11393
+      ],
+      "newFailures": [
+        11393
+      ],
+      "resolved": [
+        11425
+      ],
+      "changes": [
+        {
+          "index": 10742140,
+          "fromM": 11.318610191345215,
+          "toM": 11.521540641784668,
+          "originalM": 11.593615531921387
+        },
+        {
+          "index": 10746173,
+          "fromM": 11.27083683013916,
+          "toM": 11.521540641784668,
+          "originalM": 11.64173698425293
+        },
+        {
+          "index": 10750206,
+          "fromM": 11.41569995880127,
+          "toM": 11.521540641784668,
+          "originalM": 11.915932655334473
+        }
+      ],
+      "seconds": 7.51
+    },
+    {
+      "source": 11426,
+      "choice": 0,
+      "point": [
+        2666,
+        2269
+      ],
+      "supports": 2,
+      "remaining": 130,
+      "initialNewFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "newFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10758280,
+          "fromM": 11.047532081604004,
+          "toM": 11.521540641784668,
+          "originalM": 11.662666320800781
+        },
+        {
+          "index": 10770375,
+          "fromM": 12.221635818481445,
+          "toM": 12.170515060424805,
+          "originalM": 12.584962844848633
+        },
+        {
+          "index": 10774407,
+          "fromM": 12.070677757263184,
+          "toM": 12.19271183013916,
+          "originalM": 12.434004783630371
+        }
+      ],
+      "seconds": 7.42
+    },
+    {
+      "source": 11426,
+      "choice": 1,
+      "point": [
+        2666,
+        2268
+      ],
+      "supports": 2,
+      "remaining": 130,
+      "initialNewFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "newFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10758278,
+          "fromM": 11.856677055358887,
+          "toM": 11.772377014160156,
+          "originalM": 11.856677055358887
+        },
+        {
+          "index": 10758280,
+          "fromM": 11.047532081604004,
+          "toM": 11.521540641784668,
+          "originalM": 11.662666320800781
+        },
+        {
+          "index": 10762310,
+          "fromM": 11.874940872192383,
+          "toM": 11.790640830993652,
+          "originalM": 12.26594352722168
+        },
+        {
+          "index": 10770375,
+          "fromM": 12.221635818481445,
+          "toM": 12.093310356140137,
+          "originalM": 12.584962844848633
+        },
+        {
+          "index": 10774407,
+          "fromM": 12.070677757263184,
+          "toM": 12.19271183013916,
+          "originalM": 12.434004783630371
+        }
+      ],
+      "seconds": 7.33
+    },
+    {
+      "source": 11426,
+      "choice": 2,
+      "point": [
+        2666,
+        2270
+      ],
+      "supports": 2,
+      "remaining": 130,
+      "initialNewFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "newFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10758280,
+          "fromM": 11.047532081604004,
+          "toM": 11.521540641784668,
+          "originalM": 11.662666320800781
+        },
+        {
+          "index": 10774407,
+          "fromM": 12.070677757263184,
+          "toM": 12.19271183013916,
+          "originalM": 12.434004783630371
+        }
+      ],
+      "seconds": 7.48
+    },
+    {
+      "source": 11426,
+      "choice": 3,
+      "point": [
+        2665,
+        2269
+      ],
+      "supports": 2,
+      "remaining": 130,
+      "initialNewFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "newFailures": [
+        11438,
+        11439,
+        11454
+      ],
+      "resolved": [],
+      "changes": [
+        {
+          "index": 10758278,
+          "fromM": 11.856677055358887,
+          "toM": 11.772377014160156,
+          "originalM": 11.856677055358887
+        },
+        {
+          "index": 10758280,
+          "fromM": 11.047532081604004,
+          "toM": 11.521540641784668,
+          "originalM": 11.662666320800781
+        },
+        {
+          "index": 10762310,
+          "fromM": 11.874940872192383,
+          "toM": 11.790640830993652,
+          "originalM": 12.26594352722168
+        },
+        {
+          "index": 10770375,
+          "fromM": 12.221635818481445,
+          "toM": 12.134541511535645,
+          "originalM": 12.584962844848633
+        },
+        {
+          "index": 10774407,
+          "fromM": 12.070677757263184,
+          "toM": 12.19271183013916,
+          "originalM": 12.434004783630371
+        }
+      ],
+      "seconds": 7.34
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "diagnostic-screen-not-acceptance",
+  "baselineCommit": "028d697",
+  "baselineInputHashes": {
+    "bed-overlay.json": "27e794baf6f13bd6d3a1fc56d339167dc26693d0d9228706dada5b7709e8e488",
+    "routing-audit.json": "d424df9b2ce6dfa44dc3a004dc8787b6ca289413594da0f5420e4121252477ce",
+    "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
+    "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
+    "seasonal-profile.npz": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1"
+  },
+  "jointScreen": {
+    "scope": "Cached domains, joint local anchor routing, one bounded ordinary bed-correction pass; fresh validation required",
+    "rows": [
+      {
+        "moves": {
+          "10480": [
+            2459,
+            2544
+          ],
+          "11393": [
+            2663,
+            2262
+          ]
+        },
+        "supports": [
+          {
+            "nativeIndex": 9923725,
+            "fromM": 10.67827320098877,
+            "toM": 10.7215576171875,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              10480,
+              55682
+            ]
+          },
+          {
+            "nativeIndex": 10742140,
+            "fromM": 11.318610191345215,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              11393,
+              59064
+            ]
+          },
+          {
+            "nativeIndex": 10746173,
+            "fromM": 11.27083683013916,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              59064,
+              59065
+            ]
+          },
+          {
+            "nativeIndex": 10750206,
+            "fromM": 11.41569995880127,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              11411,
+              59065
+            ]
+          }
+        ],
+        "remaining": 127,
+        "initialNewFailures": [
+          10501,
+          11378
+        ],
+        "newFailures": [],
+        "resolved": [],
+        "changes": [
+          {
+            "index": 9923725,
+            "fromM": 10.67827320098877,
+            "toM": 10.7215576171875,
+            "originalM": 10.81813907623291
+          },
+          {
+            "index": 9927755,
+            "fromM": 11.06273078918457,
+            "toM": 10.961030960083008,
+            "originalM": 11.06273078918457
+          },
+          {
+            "index": 10738107,
+            "fromM": 11.466540336608887,
+            "toM": 11.389998435974121,
+            "originalM": 11.811915397644043
+          },
+          {
+            "index": 10742139,
+            "fromM": 11.756983757019043,
+            "toM": 11.680441856384277,
+            "originalM": 11.756983757019043
+          },
+          {
+            "index": 10742140,
+            "fromM": 11.318610191345215,
+            "toM": 11.521540641784668,
+            "originalM": 11.593615531921387
+          },
+          {
+            "index": 10746173,
+            "fromM": 11.27083683013916,
+            "toM": 11.521540641784668,
+            "originalM": 11.64173698425293
+          },
+          {
+            "index": 10750206,
+            "fromM": 11.41569995880127,
+            "toM": 11.521540641784668,
+            "originalM": 11.915932655334473
+          }
+        ]
+      },
+      {
+        "moves": {
+          "10480": [
+            2459,
+            2544
+          ],
+          "11393": [
+            2663,
+            2262
+          ],
+          "11411": [
+            2665,
+            2263
+          ]
+        },
+        "supports": [
+          {
+            "nativeIndex": 9923725,
+            "fromM": 10.67827320098877,
+            "toM": 10.7215576171875,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              10480,
+              55682
+            ]
+          },
+          {
+            "nativeIndex": 10742140,
+            "fromM": 11.318610191345215,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              11393,
+              59064
+            ]
+          },
+          {
+            "nativeIndex": 10746173,
+            "fromM": 11.27083683013916,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              59064,
+              59065
+            ]
+          },
+          {
+            "nativeIndex": 10750206,
+            "fromM": 11.41569995880127,
+            "toM": 11.521540641784668,
+            "reason": "active-channel-depth-support",
+            "activeNodes": [
+              11411,
+              59065
+            ]
+          }
+        ],
+        "remaining": 126,
+        "initialNewFailures": [
+          10501,
+          11378
+        ],
+        "newFailures": [],
+        "resolved": [
+          11425
+        ],
+        "changes": [
+          {
+            "index": 9923725,
+            "fromM": 10.67827320098877,
+            "toM": 10.7215576171875,
+            "originalM": 10.81813907623291
+          },
+          {
+            "index": 9927755,
+            "fromM": 11.06273078918457,
+            "toM": 10.961030960083008,
+            "originalM": 11.06273078918457
+          },
+          {
+            "index": 10738107,
+            "fromM": 11.466540336608887,
+            "toM": 11.389998435974121,
+            "originalM": 11.811915397644043
+          },
+          {
+            "index": 10742139,
+            "fromM": 11.756983757019043,
+            "toM": 11.680441856384277,
+            "originalM": 11.756983757019043
+          },
+          {
+            "index": 10742140,
+            "fromM": 11.318610191345215,
+            "toM": 11.521540641784668,
+            "originalM": 11.593615531921387
+          },
+          {
+            "index": 10746173,
+            "fromM": 11.27083683013916,
+            "toM": 11.521540641784668,
+            "originalM": 11.64173698425293
+          },
+          {
+            "index": 10750206,
+            "fromM": 11.41569995880127,
+            "toM": 11.521540641784668,
+            "originalM": 11.915932655334473
+          }
+        ]
+      }
+    ]
+  },
+  "seasonalFeasibilityScreens": [
+    {
+      "scope": "Unaccepted historical all69 restoration, fresh base domains, optimistic1.9m seasonal envelope at exclusive authored rivulet nodes; not actual response or acceptance",
+      "baseConstraints": 185,
+      "remaining": 105,
+      "newFailuresVersusCurrent": [
+        984,
+        1734,
+        3412,
+        3421,
+        3569,
+        5024,
+        5683,
+        6276,
+        7053,
+        7893,
+        8309,
+        8407,
+        8966,
+        9624,
+        9775,
+        10336,
+        10356,
+        10480,
+        10615,
+        10819,
+        11169,
+        11355,
+        11393,
+        11426,
+        11528,
+        12058,
+        12101,
+        13834,
+        13912,
+        13938,
+        14583,
+        15636,
+        15651
+      ],
+      "resolvedVersusCurrent": [
+        11497
+      ],
+      "remainingSources": [
+        72,
+        763,
+        812,
+        893,
+        894,
+        984,
+        1054,
+        1232,
+        1363,
+        1426,
+        1712,
+        1734,
+        2049,
+        2154,
+        2155,
+        2200,
+        2313,
+        3316,
+        3412,
+        3421,
+        3569,
+        3653,
+        4190,
+        4415,
+        4472,
+        4481,
+        4663,
+        4997,
+        5024,
+        5201,
+        5377,
+        5416,
+        5683,
+        5937,
+        6276,
+        6758,
+        6890,
+        7053,
+        7681,
+        7893,
+        8096,
+        8167,
+        8309,
+        8324,
+        8394,
+        8407,
+        8497,
+        8603,
+        8797,
+        8827,
+        8966,
+        9125,
+        9225,
+        9368,
+        9420,
+        9624,
+        9636,
+        9775,
+        9836,
+        9844,
+        10008,
+        10207,
+        10336,
+        10356,
+        10480,
+        10504,
+        10540,
+        10615,
+        10819,
+        10881,
+        11169,
+        11177,
+        11245,
+        11355,
+        11393,
+        11425,
+        11426,
+        11499,
+        11528,
+        11914,
+        12058,
+        12101,
+        12314,
+        12681,
+        12725,
+        12745,
+        12954,
+        12997,
+        13098,
+        13671,
+        13672,
+        13763,
+        13800,
+        13834,
+        13912,
+        13938,
+        13957,
+        14036,
+        14257,
+        14583,
+        14908,
+        15127,
+        15370,
+        15636,
+        15651
+      ],
+      "retainingBoundViolations": 0,
+      "candidateCount": 151
+    },
+    {
+      "scope": "Unaccepted historical all69 restoration, fresh base domains, optimistic1.9m seasonal envelope across all authored rivulets, including accepted neighbouring minor reaches; outside current proposal eligibility; not actual response or acceptance",
+      "baseConstraints": 185,
+      "remaining": 85,
+      "newFailuresVersusCurrent": [
+        984,
+        3412,
+        3569,
+        5683,
+        7053,
+        7893,
+        8309,
+        8966,
+        9624,
+        9775,
+        10336,
+        10615,
+        11169,
+        11355,
+        11426,
+        11528,
+        12058,
+        12101,
+        13834,
+        13938,
+        14583,
+        15636,
+        15651
+      ],
+      "resolvedVersusCurrent": [
+        2313,
+        3316,
+        4663,
+        10540,
+        10881,
+        11497,
+        11499,
+        12725,
+        14036,
+        14257,
+        15127
+      ],
+      "remainingSources": [
+        72,
+        763,
+        812,
+        893,
+        894,
+        984,
+        1054,
+        1232,
+        1363,
+        1426,
+        1712,
+        2049,
+        2154,
+        2155,
+        2200,
+        3412,
+        3569,
+        3653,
+        4190,
+        4415,
+        4472,
+        4481,
+        4997,
+        5201,
+        5377,
+        5416,
+        5683,
+        5937,
+        6758,
+        6890,
+        7053,
+        7681,
+        7893,
+        8096,
+        8167,
+        8309,
+        8324,
+        8394,
+        8497,
+        8603,
+        8797,
+        8827,
+        8966,
+        9125,
+        9225,
+        9368,
+        9420,
+        9624,
+        9636,
+        9775,
+        9836,
+        9844,
+        10008,
+        10207,
+        10336,
+        10504,
+        10615,
+        11169,
+        11177,
+        11245,
+        11355,
+        11425,
+        11426,
+        11528,
+        11914,
+        12058,
+        12101,
+        12314,
+        12681,
+        12745,
+        12954,
+        12997,
+        13098,
+        13671,
+        13672,
+        13763,
+        13800,
+        13834,
+        13938,
+        13957,
+        14583,
+        14908,
+        15370,
+        15636,
+        15651
+      ],
+      "retainingBoundViolations": 0,
+      "candidateCount": 5898
+    }
+  ],
+  "interpretation": "Three-anchor joint proposal accepted after fresh ordinary audit, seasonal rebasing, full compilation and selected runtime/preservation checks. The individual screens and optimistic seasonal envelopes remain diagnostic only. See acceptedFollowup for current counts and scope.",
+  "acceptedFollowup": "pool-sampling-restoration-72-acceptance.json"
+}
