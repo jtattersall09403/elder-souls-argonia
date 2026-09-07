@@ -4,11 +4,11 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "6e625314a62fb9b516b803bd1f07d7adc7bd63b8d4aff553167d130076a8efa0",
-    "routing-audit.json": "63aaa0e19ebbcb64b0702d98aa0fa66d5f9b0c42b0a1531480211c5fcc36ab85",
+    "bed-overlay.json": "27e794baf6f13bd6d3a1fc56d339167dc26693d0d9228706dada5b7709e8e488",
+    "routing-audit.json": "d424df9b2ce6dfa44dc3a004dc8787b6ca289413594da0f5420e4121252477ce",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
     "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
-    "seasonal-profile.npz": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f"
+    "seasonal-profile.npz": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1"
   },
   "source": {
     "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
@@ -16,18 +16,18 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15559,
+    "retainedCorrections": 15560,
     "unresolvedChannels": 73,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
     "shiftedOriginalPlanesOver0_1mm": 0,
-    "restoredRetainingSupports": 345,
+    "restoredRetainingSupports": 346,
     "restoredArtificialAnchorSupports": 6,
     "restoredUnnecessaryPoolFloorVertices": 1103,
-    "restoredRetainingBoundSupports": 182,
-    "remainingRetainingBoundViolations": 69,
-    "reviewedOriginalPoolAnchorRelocations": 69,
+    "restoredRetainingBoundSupports": 188,
+    "remainingRetainingBoundViolations": 63,
+    "reviewedOriginalPoolAnchorRelocations": 73,
     "restoredCutCreatedMarineSupports": 15,
     "reviewedBankAwareRoutes": 139,
     "protectedOriginalWetFringeVertices": 364,
@@ -340,11 +340,20 @@
   "seasonalProfileAcceptance": {
     "status": "accepted-hydraulic-checkpoint-not-release",
     "file": "seasonal-profile.npz",
-    "sha256": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f",
+    "sha256": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1",
     "evidence": "seasonal-profile-acceptance.json",
-    "evidenceSha256": "6b0dada8b0d913faff5734f0e67bf782f8f9311e6f69237c8fd602ae6fe39e14",
+    "evidenceSha256": "44510457474620136dbae8709a87835821ac7c240aef6c22619b491a9522a2d4",
     "remainingConstraints": 73,
     "baseOnlyConstraints": 127,
     "compilerFlag": "--seasonal-profile"
+  },
+  "poolSamplingRestorationAcceptance": {
+    "status": "accepted-hydraulic-checkpoint-not-release",
+    "evidence": "pool-sampling-restoration-acceptance.json",
+    "evidenceSha256": "8c590a2123a585bae58db35a18773240b3b65da05aa37abfd7eaec51493fd4ea",
+    "restoredSupports": 6,
+    "samplingMoves": 4,
+    "remainingConstraints": 73,
+    "remainingRetainingBoundViolations": 63
   }
 }

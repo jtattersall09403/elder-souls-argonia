@@ -1,7 +1,7 @@
 {
   "status": "accepted-hydraulic-checkpoint-not-release",
   "profileFile": "seasonal-profile.npz",
-  "profileSha256": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f",
+  "profileSha256": "d2a07e47ddc0edb7790f2af550e7c3c6057c2799821cf4009bca09d98d2a49e1",
   "baseOnlyConstraintCount": 127,
   "remainingConstraints": 73,
   "resolvedSources": [
@@ -61,20 +61,19 @@
     15630
   ],
   "newFailureSources": [],
-  "terrainChanges": 0,
-  "retainedTerrainCorrections": 15559,
-  "remainingRetainingBoundViolations": 69,
+  "retainedTerrainCorrections": 15560,
+  "remainingRetainingBoundViolations": 63,
   "fullFieldCompilation": {
-    "scope": "Fresh full native fields and all accepted owners;999 selected records including all54 recovered reaches",
+    "scope": "Full native compilation with captured verified solver state;1134 selected channel records",
     "seasonalResponseBudgetsVerified": true,
-    "selectedRecordCount": 999,
+    "selectedRecordCount": 1134,
     "seasonalRecordCount": 54,
-    "centreTargets": 410,
-    "ordinaryPeakSamplesAtOriginalCoordinates": 401,
+    "centreTargets": 461,
+    "ordinaryPeakSamplesAtOriginalCoordinates": 452,
     "additionalOrdinarySamplesAtExportedCentres": 8,
     "fallingSheetOnlySamples": 1,
     "lostEarlierPeakSamples": 0,
-    "wetPoolContactComparisons": 600,
+    "wetPoolContactComparisons": 951,
     "maximumPoolContactDifferenceM": 4.685115814240248e-05
   },
   "requiredCompilerFlags": [
@@ -93,17 +92,10 @@
     11450
   ],
   "previousCheckpoint": {
-    "constraints": 77,
-    "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
-    "acceptanceSha256": "49d67beb66e78a541410447cfb050f298c366c9a41fa86699f0f2238285cef62"
-  },
-  "cacheDomainReuse": {
-    "reason": "Terrain, routing, original pool reference and pre-seasonal baseline are unchanged; fresh full native compilation confirms all482078 standing samples and planes identical, and cached re-solving reproduces its exact accepted graph and levels",
-    "standingSamples": 482078,
-    "missingOrShiftedStandingSamples": 0,
-    "newStandingSamples": 0,
-    "cachedLevelsMatchFreshFullCompilation": true,
-    "cachedAcceptedLinksMatchFreshFullCompilation": true
+    "constraints": 73,
+    "retainingBoundViolations": 69,
+    "profileSha256": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f",
+    "acceptanceSha256": "6b0dada8b0d913faff5734f0e67bf782f8f9311e6f69237c8fd602ae6fe39e14"
   },
   "previousFreshNativeAndCachedSolvePreservation": {
     "originalWetSamples": 423268,
@@ -122,5 +114,28 @@
     "remainingConstraints": 77,
     "retainingBoundViolations": 69,
     "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455"
+  },
+  "profileRebaseAcceptance": "pool-sampling-restoration-acceptance.json",
+  "seasonalRecoveryTerrainChanges": 0,
+  "previousCacheDomainReuse": {
+    "reason": "Terrain, routing, original pool reference and pre-seasonal baseline are unchanged; fresh full native compilation confirms all482078 standing samples and planes identical, and cached re-solving reproduces its exact accepted graph and levels",
+    "standingSamples": 482078,
+    "missingOrShiftedStandingSamples": 0,
+    "newStandingSamples": 0,
+    "cachedLevelsMatchFreshFullCompilation": true,
+    "cachedAcceptedLinksMatchFreshFullCompilation": true
+  },
+  "previousFullFieldCompilation": {
+    "scope": "Fresh full native fields and all accepted owners;999 selected records including all54 recovered reaches",
+    "seasonalResponseBudgetsVerified": true,
+    "selectedRecordCount": 999,
+    "seasonalRecordCount": 54,
+    "centreTargets": 410,
+    "ordinaryPeakSamplesAtOriginalCoordinates": 401,
+    "additionalOrdinarySamplesAtExportedCentres": 8,
+    "fallingSheetOnlySamples": 1,
+    "lostEarlierPeakSamples": 0,
+    "wetPoolContactComparisons": 600,
+    "maximumPoolContactDifferenceM": 4.685115814240248e-05
   }
 }

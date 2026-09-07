@@ -102,15 +102,18 @@ exactly. Final exports require the pool-stage reference (water handoff).
 No diagnostic assets are promoted.
 The accepted seasonal checkpoint recovers54 rivulets without excavation.
 Fresh compiler fields, a fresh profile audit and cached re-solving agree exactly;
-all482,078 accepted standing samples keep their planes. Final compilation and
+all original pool planes and spill potential remain preserved. Final compilation and
 profile audits require `--seasonal-profile water-repair-inputs/seasonal-profile.npz`
-as well as the reviewed pool-stage reference for full exports. Ten focused
+as well as the reviewed pool-stage reference for full exports. Eleven focused
 seasonal/cache tests pass; workspace gates passed at c00c7ed (no runtime edits since).
-Whole authored peak footprints and final geometry gates remain open. Blanket
-restoration of69 bank supports failed fresh routing;13 sampling relocations
-within original pools are the next targeted candidates (compiler handoff).
-The durable accepted repair checkpoint has73 channel constraints,69
-retaining-bound violations and15,559 terrain corrections. Original impoundment
+Four original-pool sampling corrections now restore six bank supports, with
+two new bed cuts of at most7.2cm. Seven samples leave the base standing seed
+domain; all retain peak coverage. Whole authored peak footprints and final
+geometry gates remain open. Nine further sampling candidates remain. Full
+compilation can now save its matching solver state with `--profile-cache`,
+avoiding a second native-domain audit.
+The durable accepted repair checkpoint has73 channel constraints,63
+retaining-bound violations and15,560 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
 fringes are preserved. Complete-reach solving and original-pool sampling
 corrections replaced ineffective single-obstruction repairs; the latest solver correction

@@ -158,3 +158,18 @@ def test_restoration_probes_use_seasonal_depths_and_only_accepted_segments():
     assert not np.any((coords[0] == 0) & (coords[1] > 1) & (coords[1] < 4))
     assert np.all(heads[(coords[0] == 0) & (coords[1] == 0)] == 2.5)
     assert np.all(heads[(coords[0] == 0) & (coords[1] == 1)] == 2.)
+
+
+def test_profile_cache_retains_budgets_without_upgrading_unverified_audits(tmp_path):
+    from .water_profile_cache import save_profile_cache
+    path = tmp_path / 'profile.npz'
+    profile = dict(levels=np.array([.1, .2]), failed_sources=np.array([4]),
+                   diagnostics={'peakDepthBudget': np.array([.3, .4])},
+                   seasonal_response_verified=False)
+    save_profile_cache(path, profile, np.array([1., 0.]), seasonal_profile_sha256='reviewed-input')
+    with np.load(path, allow_pickle=False) as result:
+        assert not result['seasonal_response_verified']
+        np.testing.assert_array_equal(result['diagnostic_peakDepthBudget'], [.3, .4])
+        np.testing.assert_array_equal(result['failed_sources'], [4])
+    with pytest.raises(ValueError, match='compiler result'):
+        save_profile_cache(path, profile, np.array([1., 0.]), seasonal_response_verified=True)

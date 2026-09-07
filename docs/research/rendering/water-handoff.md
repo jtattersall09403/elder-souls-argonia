@@ -50,18 +50,18 @@ The73 remaining constraints below still require resolution before final export.
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-73-seasonal-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-73-restored-banks-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
-coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
-1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,559 corrections remain. **73 channel constraints remain**, not completed
+coverage, and their original planes within0.1mm. Restored346 retaining supports plus188 minimum-bound restorations,
+1,103 unnecessary submerged floor cuts and6 artificial-anchor supports;
+15,560 corrections remain. **73 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
 resolved38 with no new failures after omitting the causally unsafe component10244;
 fresh pool/domain checks passed. Next: diagnose remaining infeasible connected
-components and69 inherited retaining-bound violations, not another tail loop.
+components and63 inherited retaining-bound violations, not another tail loop.
 
 Do not reuse stale pool occupancy after terrain changes. Original retaining
 banks and spill planes take precedence over making a constraint count smaller.
@@ -285,13 +285,13 @@ planes; all482,078 previously accepted standing samples retain exact planes.
 Four further existing-stage repairs resolve9043,9064,11449,11450. Fresh fields
 and cached solving agree;999 selected records pass600 wet pool contacts and
 all earlier centre coverage remains. The manifest records73 remaining
-constraints (43 rivulets,30 banked rivers),69
-retaining violations and15,559 unchanged terrain corrections. Full compilation
+constraints (43 rivulets,30 banked rivers),63
+retaining violations and15,560 terrain corrections after the sampling correction below. Full compilation
 and profile audits must include `--seasonal-profile water-repair-inputs/seasonal-profile.npz`;
 full exports also require the reviewed pool-stage reference. Without the seasonal
 profile, the baseline deliberately remains127. Cached route solving preserves
 budgets; route replacement requires a regenerated proposal. Whole authored peak
-footprints and final rendered-confluence gates remain open. Ten focused cache/
+footprints and final rendered-confluence gates remain open. Eleven focused cache/
 seasonal tests pass; workspace gates passed at c00c7ed, with no runtime edits since.
 See `seasonal-profile-acceptance.json` and the compiler handoff.
 
@@ -304,3 +304,16 @@ the next targeted investigation; see `retaining-support-investigation.json`.
 Run full native compilations sequentially and load only needed cache arrays:
 a concurrent job was killed with exit137; the reduced-memory sequential retry
 passed. No rejected restoration or diagnostic upper stage was promoted.
+
+Four targeted sampling moves (2295,3420,8299,10338) are now accepted. Six
+associated bank supports reach their immutable lower bounds; two bed supports
+receive7.2cm cuts. Fresh compilation preserves original pool levels and spill
+potential, all54 seasonal repairs and prior checked peak coverage. Seven
+previously repair-created samples leave the base standing seed domain; six have
+standing peak coverage and the seventh has native-channel peak coverage. The
+38 already-missing original pool fields are unchanged. Selected461 centres and
+951 wet pool contacts across five stages pass; this is not a final raster-mesh gate.
+Nine alternative sampling candidates remain. `pool-sampling-restoration-acceptance.json`
+records the inputs and proof. Use `--profile-cache` during full compilation to
+capture the verified solver state without another domain calculation. Earlier
+compiler investigations are archived beside the shorter current compiler handoff.

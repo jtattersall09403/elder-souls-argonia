@@ -64,11 +64,8 @@ def main():
         if args.overlay:provenance['terrain_overlay_sha256']=hashlib.sha256(Path(args.overlay).read_bytes()).hexdigest()
         if args.routing_overrides:provenance['routing_audit_sha256']=hashlib.sha256(args.routing_overrides.read_bytes()).hexdigest()
         if args.seasonal_profile:provenance['seasonal_profile_sha256']=hashlib.sha256(args.seasonal_profile.read_bytes()).hexdigest()
-        provenance['seasonal_response_verified'] = np.array(False)
-        np.savez_compressed(args.solver_cache, **{key: value for key, value in result.items()
-            if isinstance(value, np.ndarray)}, orientation_levels=intent,
-            **provenance,
-            **{'diagnostic_' + key: value for key, value in result['diagnostics'].items()})
+        from .water_profile_cache import save_profile_cache
+        save_profile_cache(args.solver_cache, result, intent, **provenance)
     rows = []
     for source, conflict in result["conflicts"].items():
         point = result["points"][conflict["obstructionNode"]]

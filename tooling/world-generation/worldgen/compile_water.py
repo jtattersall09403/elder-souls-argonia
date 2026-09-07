@@ -131,7 +131,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
             retaining_lower_bounds=None, stage=None, station_overrides=None, pool_response_reference=None,
-            seasonal_profile=None) -> dict:
+            seasonal_profile=None, capture_profile=False) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     from .water_stage import stage_range
     stage = stage_range(stage)
@@ -442,7 +442,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                             if int(cell) in routing_overrides} if routing_overrides else None))
     desired_geometry_levels = geometry_levels.copy()
     geometry_depths = channel_depth_targets(geometry_points, geometry_ds, dsk, film_st)
-    profile_diagnostics = {} if profiles_only else None
+    profile_diagnostics = {} if profiles_only or capture_profile else None
     geometry_levels, geometry_active, accepted_links, conflicts = condition_channel_profiles(
         g2, geometry_points, geometry_ds, geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
         bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
@@ -489,8 +489,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         if not seasonal_sources.issubset(seasonal_candidates):
             raise ValueError('Seasonal profile unexpectedly changes another rejected reach')
         topology_stats['seasonalRecoveredReachCount'] = len(seasonal_sources)
-    if profiles_only:
-        return {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
+    profile_state = None
+    if profiles_only or capture_profile:
+        profile_state = {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
                 "links": geometry_ds, "levels": geometry_levels, "active": geometry_active,
                 "desired_levels": desired_geometry_levels, "original_links": dsk,
                 "accepted_links": accepted_links, "failed_sources": np.array(sorted(conflicts), dtype=int),
@@ -501,6 +502,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                 "semantic_depth_targets": geometry_depths,
                 "seasonal_sources": np.array(sorted(seasonal_sources), dtype=int),
                 "seasonal_response_verified": False}
+        if profiles_only:
+            return profile_state
     w_st = geometry_levels[:n_st].copy()
     current_downstream = downhill_graph(w_st, accepted_links, orientation_levels)
     if orientation_levels is not None:
@@ -712,6 +715,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             raise ValueError(f'Seasonal profile exceeds freshly compiled stage responses at '
                              f'{len(exceeded)} native nodes (requested>available): {details}')
         topology_stats['seasonalResponseBudgetsVerified'] = True
+        if profile_state is not None:
+            profile_state['seasonal_response_verified'] = True
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
     if np.any(wet2):
@@ -766,6 +771,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "feature_inputs": feature_inputs,
         "body_records": owner_records,
         "terrain_mismatches": terrain_mismatches,
+        **({"profile_state": profile_state} if capture_profile else {}),
     }
 
 
@@ -809,6 +815,8 @@ def main() -> None:
                         help="1: native 4033 surface; 2: lower-memory 2017 surface")
     parser.add_argument("--cache", type=Path,
                         help="Optional NPZ cache path; no vault files are overwritten by default")
+    parser.add_argument("--profile-cache", type=Path,
+                        help="Save the matching solver state from this full compilation without a second domain audit")
     parser.add_argument("--bed-overlay", type=Path,
                         help="Reuse a validated native correction overlay for another quality tier")
     parser.add_argument("--continue-repairs", action="store_true",
@@ -979,7 +987,7 @@ def main() -> None:
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
         routing_overrides=routing_overrides, station_overrides=station_overrides, immutable_potential=immutable_potential,
         reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage,
-        seasonal_profile=seasonal_profile,
+        seasonal_profile=seasonal_profile, capture_profile=args.profile_cache is not None,
         pool_response_reference=(json.loads(args.pool_stage_reference.read_text())
                                  if args.pool_stage_reference else None)), args.web_step)
     r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
@@ -1127,6 +1135,20 @@ def main() -> None:
     from .water_cross_sections import pack_cross_sections
     pack_cross_sections(meta, out_dir)
     (out_dir / "water-meta.json").write_text(json.dumps(meta, separators=(',', ':')))
+    if args.profile_cache:
+        import hashlib
+        from .water_profile_cache import save_profile_cache
+        provenance = {
+            'terrain_source_sha256': hashlib.sha256(DEFAULT_HEIGHTS.read_bytes()).hexdigest(),
+            'terrain_overlay_sha256': hashlib.sha256((out_dir / 'water-bed-overlay.json').read_bytes()).hexdigest(),
+            'water_meta_sha256': hashlib.sha256((out_dir / 'water-meta.json').read_bytes()).hexdigest(),
+        }
+        for key, path in (('routing_audit_sha256', out_dir / 'water-routing-audit.json' if args.routing_overrides else None),
+                          ('seasonal_profile_sha256', args.seasonal_profile),
+                          ('pool_response_reference_sha256', args.pool_stage_reference)):
+            if path is not None:
+                provenance[key] = hashlib.sha256(path.read_bytes()).hexdigest()
+        save_profile_cache(args.profile_cache, r['profile_state'], orientation_levels, **provenance)
     print(json.dumps(stats, indent=1))
 
 

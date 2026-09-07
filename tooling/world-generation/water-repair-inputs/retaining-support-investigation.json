@@ -1,5 +1,5 @@
 {
-  "status": "diagnostic-bank-restorations-not-accepted",
+  "status": "historical-screening-with-accepted-follow-up",
   "terrainCheckpoint": "6bad2ae unchanged overlay",
   "acceptedResidualSeasonalRepairs": [
     9043,
@@ -801,5 +801,60 @@
       "options": []
     }
   ],
-  "next": "Test targeted original-pool sampling relocations for the13 sources with legal options; restore only affected supports and rebuild the seasonal profile against the resulting graph. Do not retry blanket69 restoration unchanged."
+  "next": "Four sampling corrections and six associated restorations are accepted. Evaluate alternative legal original-pool anchors or local incident paths for the remaining nine candidates using cached screening, then one coherent full compilation; do not rerun the rejected thirteen-point batch unchanged.",
+  "acceptedSamplingSources": [
+    2295,
+    3420,
+    8299,
+    10338
+  ],
+  "acceptedFollowupEvidence": "pool-sampling-restoration-acceptance.json",
+  "remainingCandidateSources": [
+    1734,
+    5024,
+    8451,
+    9458,
+    10480,
+    10818,
+    11393,
+    11411,
+    11426
+  ],
+  "targetedThirteenTrial": {
+    "samplingMoves": 13,
+    "supportsRaisedToBounds": 24,
+    "freshBaseConstraints": 137,
+    "newFailureSources": [
+      1734,
+      5024,
+      8451,
+      9457,
+      10339,
+      10501,
+      10819,
+      10821,
+      11378,
+      11411,
+      11439
+    ],
+    "resolvedBaseSources": [
+      11425
+    ],
+    "boundedDepthCorrection": {
+      "changedSupports": 20,
+      "maximumAdditionalCutM": 0.38661956787109375,
+      "remainingConstraints": 134,
+      "newFailureSources": [
+        1734,
+        5024,
+        8451,
+        9457,
+        10501,
+        10819,
+        11411,
+        11439
+      ]
+    },
+    "status": "rejected"
+  }
 }
