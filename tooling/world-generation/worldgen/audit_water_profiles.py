@@ -112,7 +112,8 @@ def main():
             for node in row['nodes']:
                 node['originalBankCap'] = original_bank(node['index'])
     report = {"count": len(rows), "lengthM": sum(row["lengthM"] for row in rows),
-              "seasonalRecoveredCount": len(result['seasonal_sources']),
+              "seasonalRecoveredCount": len(result['seasonal_recovered_sources']),
+              "seasonalSupportingCount": len(result['seasonal_supporting_sources']),
               "seasonalResponseVerified": False,
               "reaches": sorted(rows, key=lambda row: -row["excessHeadM"])}
     if args.out:

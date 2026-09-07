@@ -472,23 +472,33 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         maximum_pool_reduction[label] = maximum_pool_reduction.get(label, 0.) + change['fromM'] - change['toM']
     topology_stats['maximumFlowPoolFreeboardReductionM'] = round(max(maximum_pool_reduction.values(), default=0.), 6)
     seasonal_sources = frozenset()
+    seasonal_recovered = frozenset()
+    seasonal_supporters = frozenset()
     if seasonal_profile is not None:
         from .water_channel_response import validate_seasonal_profile
         baseline_conflicts = frozenset(conflicts)
         seasonal_candidates, peak_budget = validate_seasonal_profile(
             seasonal_profile, geometry_points, geometry_ds, dsk, baseline_conflicts, rivulet_st)
-        geometry_levels, geometry_active, accepted_links, conflicts = condition_channel_profiles(
-            g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
-            bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
-            diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
-            metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain,
-            peak_depth_budget=peak_budget)
+        # Later raster work rebinds dsk to the accepted, oriented flow graph.
+        # A profile reconciliation must keep the original authored topology.
+        def solve_seasonal_profile(budget, diagnostics, original_links=dsk):
+            return condition_channel_profiles(
+                g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, original_links, pool_lvl,
+                bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+                diagnostics=diagnostics, minimum_depth=geometry_depths, strict_banks=True,
+                metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain,
+                peak_depth_budget=budget)
+        geometry_levels, geometry_active, accepted_links, conflicts = solve_seasonal_profile(
+            peak_budget, profile_diagnostics)
         if not set(conflicts).issubset(baseline_conflicts):
             raise ValueError('Seasonal profile introduces new channel failures')
-        seasonal_sources = baseline_conflicts - set(conflicts)
-        if not seasonal_sources.issubset(seasonal_candidates):
+        seasonal_recovered = baseline_conflicts - set(conflicts)
+        if not seasonal_recovered.issubset(seasonal_candidates):
             raise ValueError('Seasonal profile unexpectedly changes another rejected reach')
-        topology_stats['seasonalRecoveredReachCount'] = len(seasonal_sources)
+        seasonal_supporters = frozenset(map(int, seasonal_profile.get('supporting_sources', ())))
+        seasonal_sources = seasonal_recovered | seasonal_supporters
+        topology_stats['seasonalRecoveredReachCount'] = len(seasonal_recovered)
+        topology_stats['seasonalSupportingReachCount'] = len(seasonal_supporters)
     profile_state = None
     if profiles_only or capture_profile:
         profile_state = {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
@@ -501,6 +511,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                 "retaining_lower_bounds": retaining_lower_bounds,
                 "semantic_depth_targets": geometry_depths,
                 "seasonal_sources": np.array(sorted(seasonal_sources), dtype=int),
+                "seasonal_recovered_sources": np.array(sorted(seasonal_recovered), dtype=int),
+                "seasonal_supporting_sources": np.array(sorted(seasonal_supporters), dtype=int),
                 "seasonal_response_verified": False}
         if profiles_only:
             return profile_state
@@ -704,16 +716,19 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     season_anchors[contacts] = season2.ravel()[contact_owners[contacts]]
     tide_anchors[contacts] = tidal2.ravel()[contact_owners[contacts]]
     if seasonal_profile is not None:
-        from .water_channel_response import exclusive_peak_budgets
+        from .water_channel_response import exclusive_peak_budgets, reconcile_peak_budgets
         actual_budget = exclusive_peak_budgets(
             geometry_points, geometry_ds, seasonal_profile['original_links'], seasonal_candidates,
             channel_season, channel_tide, stage, season_anchors, tide_anchors)
-        exceeded = np.flatnonzero(geometry_active & (peak_budget > actual_budget + 1e-6))
-        if len(exceeded):
-            details = ', '.join(f'{node}: {peak_budget[node]:.6f}>{actual_budget[node]:.6f}m'
-                                for node in exceeded[:8])
-            raise ValueError(f'Seasonal profile exceeds freshly compiled stage responses at '
-                             f'{len(exceeded)} native nodes (requested>available): {details}')
+        reconciled_diagnostics = {}
+        peak_budget, reconciled_count = reconcile_peak_budgets(
+            peak_budget, actual_budget, geometry_active,
+            (geometry_levels, geometry_active, accepted_links, conflicts),
+            lambda budget: solve_seasonal_profile(budget, reconciled_diagnostics))
+        if reconciled_count:
+            topology_stats['seasonalUnusedBudgetReconciliationCount'] = reconciled_count
+            if profile_state is not None:
+                profile_state['diagnostics'] = reconciled_diagnostics
         topology_stats['seasonalResponseBudgetsVerified'] = True
         if profile_state is not None:
             profile_state['seasonal_response_verified'] = True

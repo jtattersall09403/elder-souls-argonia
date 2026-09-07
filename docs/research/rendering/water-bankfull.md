@@ -150,3 +150,17 @@ both banks, inter-station triangles, ponds, swamps and all reported locations.
 Choose and export matching production stage bounds only after those checks;
 a single province-wide increase selected from a percentile cannot certify
 fullness. No stage increases or new water assets have been deployed.
+
+
+### Local authored-footprint regression caught before acceptance (2026-09-07)
+
+Explicit seasonal support for connected wetland neighbours recovers ten further
+channels hydraulically, but its proposal remains unaccepted. Across4,303
+original authored channel vertices near changed heads, actual native ribbons
+plus standing fields gain53 peak-wet samples and lose3. Two raw-coordinate
+misses have Float32 native-coordinate coverage. Native[2564,1962] remains a
+real hole: the newly wet flowing raster proxy removes its standing-water owner,
+but no native channel mesh covers the point. Its world position is3586.222m E,
+4686.582m S. Fix the ownership/geometry handoff; neither the smaller constraint
+count nor the successful centre samples prove peak fullness. Exact evidence is
+in `water-repair-inputs/seasonal-supporting-proposal.json` and the compiler handoff.

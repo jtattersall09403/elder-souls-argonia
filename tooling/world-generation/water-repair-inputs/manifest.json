@@ -355,5 +355,14 @@
     "samplingMoves": 3,
     "remainingConstraints": 72,
     "remainingRetainingBoundViolations": 59
+  },
+  "seasonalSupportingProposal": {
+    "status": "unaccepted-local-peak-coverage-regression",
+    "file": "seasonal-supporting-proposal.npz",
+    "sha256": "17dcea3b603b38c7fc11cd92c8f97caa80d79192337e11094289f50b54228d95",
+    "evidence": "seasonal-supporting-proposal.json",
+    "evidenceSha256": "dfc09195f49c58810868d3bb8dce6e27a02f77e44cf42ab50830d2a7fb75d538",
+    "hydraulicConstraints": 62,
+    "acceptedConstraintsRemain": 72
   }
 }

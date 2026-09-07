@@ -329,3 +329,18 @@ wet pool contacts pass. Evidence: `pool-sampling-restoration-72-acceptance.json`
 The29 alternative-anchor screens are recorded in `pool-anchor-alternative-screen.json`;
 do not repeat unchanged failed choices. See the compiler handoff for next routes
 and the rejected optimistic seasonal-restoration bounds.
+
+
+## Current priority: shared-seasonal proposal has a footprint regression
+
+The accepted checkpoint remains72 channels/59 retaining issues. Explicit
+connected wetland support groups produce62 hydraulically, with no terrain or
+stage changes, but are **not accepted**. `seasonal-supporting-proposal.npz` and
+its JSON evidence are diagnostic inputs, not replacements for `seasonal-profile.npz`.
+Fresh fields preserve all original pools and482,066 standing samples;645 centre
+checks pass. The broader4,303 authored-vertex comparison gains53 but loses3 raw
+points. Two are covered at Float32 native coordinates. At native[2564,1962]
+(3586.222m E,4686.582m S), standing ownership255 becomes flowing proxy128, but
+no actual ribbon covers it. Fix this raster/core-to-native-mesh handoff before
+accepting the proposal. A lower constraint count cannot waive peak-footprint
+coverage. Exact fields, scripts and source guards are in the compiler handoff.

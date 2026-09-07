@@ -36,6 +36,21 @@ def test_invalid_peak_budget_cannot_hide_a_depth_requirement():
         solve(np.array([1.4, -1., 1.4]))
 
 
+def test_fresh_budget_reconciliation_preserves_the_exact_complete_solve():
+    from .water_channel_response import reconcile_peak_budgets, SeasonalResponseBudgetError
+    requested = np.full(3, 1.4)
+    expected = solve(requested)
+    same, count = reconcile_peak_budgets(requested, requested, expected[1], expected,
+                                         lambda _: pytest.fail('Unchanged bounds must not re-solve'))
+    assert same is requested and count == 0
+    budget, count = reconcile_peak_budgets(requested, np.full(3, .4), expected[1], expected, solve)
+    np.testing.assert_array_equal(budget, [.4, .4, 1.4])
+    assert count == 2  # The terminal vertex is not an active outgoing sample.
+    with pytest.raises(SeasonalResponseBudgetError) as error:
+        reconcile_peak_budgets(requested, np.full(3, .1), expected[1], expected, solve)
+    np.testing.assert_array_equal(error.value.actual_budget, [.1, .1, .1])
+
+
 def test_seasonal_outlet_taper_keeps_the_pool_fixed_and_the_peak_wet():
     ground, points, links = fixture()
     pools = np.full_like(ground, -np.inf)
@@ -145,6 +160,40 @@ def test_cached_audit_retains_seasonal_budgets_and_rejects_stale_route_replaceme
     np.testing.assert_array_equal(diagnostics['accepted_links'], links)
     with pytest.raises(ValueError, match='Regenerate the seasonal profile'):
         replace_paths(state, {0: points[:2]})
+
+
+def test_reviewed_minor_neighbour_can_share_a_seasonal_junction(tmp_path):
+    from .water_channel_response import validate_seasonal_profile, load_seasonal_profile
+    points = np.array([[0., 0.], [0., 1.], [0., 2.], [0., 3.]])
+    links = np.array([1, 2, 3, -1])
+    profile = dict(points=points, links=links, original_links=links, candidates=np.array([0]),
+                   supporting_sources=np.array([1]), peak_depth_budget=np.array([1., 1., 0., 0.]))
+    selected, _ = validate_seasonal_profile(profile, points, links, links, {0}, [True, True, False, False])
+    assert selected == {0, 1}
+    path = tmp_path / 'seasonal.npz'
+    np.savez(path, schemaVersion=np.array(1), **profile)
+    np.testing.assert_array_equal(load_seasonal_profile(path)['supporting_sources'], [1])
+    # The next banked river still owns its shared junction exclusively.
+    with pytest.raises(ValueError, match='permanent or shared'):
+        validate_seasonal_profile({**profile, 'peak_depth_budget': [1., 1., .1, 0.]},
+                                 points, links, links, {0}, [True, True, False, False])
+    with pytest.raises(ValueError, match='accepted authored'):
+        validate_seasonal_profile(profile, points, links, links, {0}, [True, False, False, False])
+    with pytest.raises(ValueError, match='accepted authored'):
+        validate_seasonal_profile(profile, points, links, links, {0, 1}, [True, True, False, False])
+
+
+def test_seasonal_support_cannot_reclassify_an_unrelated_minor_channel():
+    from .water_channel_response import validate_seasonal_profile
+    points = np.array([[0., 0.], [0., 1.], [2., 0.], [2., 1.]])
+    links = np.array([1, -1, 3, -1])
+    profile = dict(points=points, links=links, original_links=links, candidates=[0],
+                   supporting_sources=[2], peak_depth_budget=np.ones(4))
+    with pytest.raises(ValueError, match='disconnected'):
+        validate_seasonal_profile(profile, points, links, links, {0}, np.ones(4, bool))
+    with pytest.raises(ValueError, match='integer reach IDs'):
+        validate_seasonal_profile({**profile, 'supporting_sources': [2.5]},
+                                 points, links, links, {0}, np.ones(4, bool))
 
 
 def test_restoration_probes_use_seasonal_depths_and_only_accepted_segments():

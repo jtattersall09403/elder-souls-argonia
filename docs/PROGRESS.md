@@ -104,7 +104,7 @@ The accepted seasonal checkpoint recovers54 rivulets without excavation.
 Fresh compiler fields, a fresh profile audit and cached re-solving agree exactly;
 all original pool planes and spill potential remain preserved. Final compilation and
 profile audits require `--seasonal-profile water-repair-inputs/seasonal-profile.npz`
-as well as the reviewed pool-stage reference for full exports. Eleven focused
+as well as the reviewed pool-stage reference for full exports. Fourteen focused
 seasonal/cache tests pass; workspace gates passed at c00c7ed (no runtime edits since).
 Seven original-pool sampling corrections now restore ten bank supports. The
 latest three moves recover channel11425 at base level and restore four banks,
@@ -112,8 +112,10 @@ with three bed corrections lowering at most10.2cm additionally. All five
 samples leaving the base standing seed domain retain peak coverage;1,018
 selected pool contacts across five stages agree within0.05mm. Whole authored
 peak footprints and final geometry gates remain open. The remaining sampling
-alternatives failed bounded screening; next work must address their incident
-routes and shared seasonal constraints. Full compilation saves its matching
+alternatives failed bounded screening. Guarded shared-seasonal support now
+produces62 hydraulic constraints, but remains UNACCEPTED: a local authored
+footprint comparison finds a standing-to-channel ownership gap at3586.22m E/
+4686.58m S. Fix that gap before promoting the proposal (water handoff). Full compilation saves its matching
 solver state with `--profile-cache`, avoiding a second native-domain audit.
 The durable accepted repair checkpoint has72 channel constraints,59
 retaining-bound violations and15,562 terrain corrections. Original impoundment

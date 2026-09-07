@@ -36,6 +36,11 @@ allows higher upper stages while preserving lows; see the main handoff
 for the bankfull investigation and matching stage contract. Routine cuts are at most 3 m; any existing
 indexed exception is at most 5 m and cannot override an immutable retaining bound.
 
+Current next action: the shared-seasonal62-constraint proposal below is
+UNACCEPTED because of a local authored-footprint ownership gap. Preserve the
+72-constraint inputs until that gap is resolved; do not promote the hydraulic
+count alone.
+
 Useful disposable caches on this VM:
 
 | Path | Meaning |
@@ -291,3 +296,77 @@ Dependencies restored without changing package manifests/lockfile. A held NFS
 native library prevented initial cleanup; its ignored generated directory was
 moved to `.water-dependency-recovery/node_modules`, preserving live handles.
 No process was killed. Do not repeat broad gates absent new changes/failures.
+
+
+## Shared-seasonal support:62 hydraulic constraints, unaccepted coverage
+
+The32 explicitly reviewed supporting sources and proposal are durable in
+`water-repair-inputs/seasonal-supporting-proposal.{json,npz}`. The manifest labels
+these UNACCEPTED separately from its unchanged72-constraint inputs. This is
+not a62 checkpoint and must not be deployed. Rejected candidates remain96;
+supporters32; positive budget nodes768. Terrain, routing and stages are unchanged.
+
+`load_seasonal_profile` now retains optional integer `supporting_sources` (empty
+for old v1 files). Validation restricts these to base-accepted authored wetland
+rivulets in graph-connected groups rooted in rejected candidates. Unselected
+and banked-river nodes remain protected. Export marks both recovered sources
+and explicit supporters `baseMayBeDry`; capture/audit report recovered and
+supporting counts separately. Preserve this new field when rebasing proposals.
+
+Broad actual-response screening recovered10 but lowered unrelated heads.
+One-hop neighbours recovered7; extending arbitrary hop counts did not improve
+that. Following the three actual obstruction drainage paths recovers all10
+with32 supporters. Resolved:2313,3316,4663,10540,10881,11499,12725,14036,14257,15127.
+92 previously active heads lower (maximum0.818647m);64 newly base-dry native
+nodes belong to these explicitly seasonal groups. Current pool planes remain
+fixed. Scripts/evidence: `/tmp/probe-water-{shared-seasonal-nodes,targeted-shared-seasonal-nodes,neighbour-seasonal-groups,neighbour-seasonal-blockers,drainage-seasonal-groups}.py`.
+Do not repeat the broad or unchanged hop-count screens.
+
+Fresh response donors reduced28 available budgets. `reconcile_peak_budgets`
+clips only oversized active-node allowances and re-solves once; EVERY head,
+active flag and accepted link must be bit-identical, with the same failures.
+Otherwise `SeasonalResponseBudgetError` exposes the actual bounds for diagnostics.
+No-op bounds never re-solve. The compiler callback binds authored links before
+`dsk` is later rebound to the raster flow graph; an earlier attempt exposed that
+closure bug and was fixed. Fourteen focused tests pass, including protection,
+disconnected supporters, serialization and exact-solve reconciliation.
+
+`/tmp/compile-water-drainage-seasonal-fields.py` completed the real full compute,
+captured profile and1415 selected records. Files:
+`/tmp/water-drainage-seasonal-full-{fields.npz,state.npz,ribbons.json,summary.json}`.
+The raw requested profile is `/tmp/water-drainage-seasonal-profile.npz`; durable
+proposal uses the captured reconciled budgets, with exact-head proof. The raw
+full cache is VERIFIED FOR STAGE BUDGETS, NOT ACCEPTED FOR GEOMETRY. Do not label
+it the accepted solver cache. Its62 failures split32 minor/30 banked rivers.
+
+Preservation: all423,268 original interior samples, planes, spill potential and
+marine coverage preserved; all482,066 prior standing samples unchanged. The38
+historical original pool-field omissions remain.645 selected centres give636
+ordinary raw-coordinate peak samples,8 additional Float32 centres and1 falling
+sheet; no earlier positive lost.1,044 wet pool contacts over five stages agree
+within0.05mm. `/tmp/water-drainage-seasonal-{preservation,runtime-comparison,joins}.json`.
+
+The LOCAL authored footprint gate prevented acceptance. It measures4,303 exact
+continuum/rivulet authoring vertices within20 native intervals of the92 lowered
+heads, with actual old/new ribbons and native standing fields. Old1405-record
+geometry reproduces all1224 previously emitted records exactly. Old peak-wet4060,
+new4110:53 gained,3 raw lost,193 still dry. This is not the whole final footprint.
+Two losses, native[2474,2029] and[3477,1151], are covered at Float32 native
+coordinates; final representation/seam gates still apply. The substantive gap
+is native[2564,1962], world[3586.22208,4686.58176], ground20.896479m. Old standing
+field head23.186329m/support255/access-0.08 becomes flowing field21.982430m/
+support128/access-1.085951. Both have season1/tide0. Neither old nor new ribbon
+covers this point, even at Float32 coordinates: the new broad flowing-core
+proxy steals its standing raster owner without corresponding rendered geometry.
+
+Next: inspect `rasterize_centerlines`, `extend_surface`'s restricted-margin wet
+core retention, `ChannelOwnership`, and actual native junction/cross-section
+coverage together at that point. Use the existing full fields for local geometry
+probes; do not recompute province floods to inspect a mesh gap. Preserve original
+standing planes and genuine authored footprint. Scripts:
+`/tmp/check-water-drainage-local-footprints.py` and
+`/tmp/water-fringe-runtime/drainage-seasonal-{footprint,lost-footprint,lost-float32}.mjs`.
+Reports: `/tmp/water-drainage-seasonal-local-footprint-coverage.json` and
+`/tmp/water-drainage-seasonal-lost-footprint-{detail,float32}.json`. The prepared
+acceptance script deliberately refuses these raw losses; it has NOT run.
+No runtime source or default input changes were accepted in this investigation.

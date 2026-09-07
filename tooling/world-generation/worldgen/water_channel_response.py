@@ -2,14 +2,47 @@
 import numpy as np
 
 
+class SeasonalResponseBudgetError(ValueError):
+    """Expose rejected fresh bounds so diagnostics need not rebuild the fields."""
+    def __init__(self, nodes, requested, actual):
+        self.nodes = np.asarray(nodes)
+        self.actual_budget = np.asarray(actual)
+        details = ', '.join(f'{i}: {requested[i]:.6f}>{actual[i]:.6f}m' for i in nodes[:8])
+        super().__init__(f'Seasonal profile exceeds freshly compiled stage responses at '
+                         f'{len(nodes)} native nodes (requested>available): {details}')
+
+
+def reconcile_peak_budgets(requested, actual, active, expected, solve):
+    """Reduce unused allowances only when the complete physical solve is identical.
+
+Changing a standing-water donor may reduce the available upper-stage offset.
+An oversized allowance is not necessarily used by the solved head. Re-solving
+with the fresh bounds proves that clipping it leaves every head and accepted
+reach unchanged; otherwise the caller must review another physical proposal.
+"""
+    exceeded = np.flatnonzero(active & (requested > actual + 1e-6))
+    if not len(exceeded):
+        return requested, 0
+    reconciled = np.asarray(requested).copy()
+    reconciled[exceeded] = actual[exceeded]
+    result = solve(reconciled)
+    if (any(not np.array_equal(a, b) for a, b in zip(expected[:3], result[:3]))
+            or set(expected[3]) != set(result[3])):
+        raise SeasonalResponseBudgetError(exceeded, requested, actual)
+    return reconciled, len(exceeded)
+
+
 def load_seasonal_profile(path):
     """Read a versioned, non-pickled proposal; compute validates its graph."""
     with np.load(path, allow_pickle=False) as data:
         if (data['schemaVersion'].shape != () or data['schemaVersion'].dtype.kind not in 'iu'
                 or data['schemaVersion'].item() != 1):
             raise ValueError('Unsupported seasonal profile schema')
-        return {key: data[key] for key in ('points', 'links', 'original_links',
-                                           'candidates', 'peak_depth_budget')}
+        result = {key: data[key] for key in ('points', 'links', 'original_links',
+                                            'candidates', 'peak_depth_budget')}
+        result['supporting_sources'] = (data['supporting_sources'] if 'supporting_sources' in data
+                                        else np.array([], dtype=int))
+        return result
 
 
 def channel_path_response(points, path, values, anchors=None):
@@ -37,9 +70,10 @@ def exclusive_peak_budgets(points, links, original_links, candidates,
                            season_anchors=None, tide_anchors=None, maximum_budget=None):
     """Use actual peak offsets only on nodes exclusive to selected reaches.
 
-Callers select already rejected authored seasonal rivulets. Every node used by
-another reach retains a zero budget; shared candidate nodes use the smaller
-of their actual exported offsets. This does not certify fresh field stability.
+Callers select explicitly reviewed authored seasonal rivulets, including any
+accepted minor neighbours needed at shared junctions. Every node used by an
+unselected reach retains zero budget; selected shared nodes use the smaller
+actual exported offset. This does not certify fresh field stability.
 """
     from .water_stage import stage_range
     stage = stage_range(stage)
@@ -79,17 +113,36 @@ def validate_seasonal_profile(profile, points, links, original_links, rejected, 
         if not np.array_equal(profile[key], value):
             raise ValueError(f'Seasonal profile has stale {key}')
     candidates = frozenset(map(int, profile['candidates']))
-    if not candidates.issubset(rejected) or any(not wetland_rivulets[i] for i in candidates):
+    if (not candidates.issubset(rejected) or any(i < 0 or i >= len(original_links)
+            or original_links[i] < 0 or not wetland_rivulets[i] for i in candidates)):
         raise ValueError('Seasonal profiles require rejected authored wetland rivulets')
+    raw_supporters = np.asarray(profile.get('supporting_sources', []))
+    if raw_supporters.ndim != 1 or (raw_supporters.size and raw_supporters.dtype.kind not in 'iu'):
+        raise ValueError('Seasonal supporting sources must be integer reach IDs')
+    supporters = frozenset(map(int, raw_supporters))
+    if supporters & set(rejected) or any(i < 0 or i >= len(original_links)
+            or original_links[i] < 0 or not wetland_rivulets[i] for i in supporters):
+        raise ValueError('Seasonal supporting sources require accepted authored wetland rivulets')
+    # Supporting reaches may only extend a reviewed rejected-reach group.
+    # Coincident coordinates are not a junction: use the authored graph IDs.
+    connected_nodes = {node for i in candidates for node in (i, int(original_links[i]))}
+    pending = set(supporters)
+    while pending:
+        adjoining = {i for i in pending if i in connected_nodes or original_links[i] in connected_nodes}
+        if not adjoining:
+            raise ValueError('Seasonal supporting sources are disconnected from rejected candidates')
+        connected_nodes.update(node for i in adjoining for node in (i, int(original_links[i])))
+        pending -= adjoining
+    selected = candidates | supporters
     budget = np.asarray(profile['peak_depth_budget'], float)
     if budget.shape != (len(points),) or not np.isfinite(budget).all() or np.any(budget < 0):
         raise ValueError('Seasonal profile requires finite nonnegative native node budgets')
     # Unit response isolates node membership from climate values here. The
     # completed native fields subsequently verify the actual stage budgets.
-    allowed = exclusive_peak_budgets(points, links, original_links, candidates,
+    allowed = exclusive_peak_budgets(points, links, original_links, selected,
         np.ones(len(original_links)), np.zeros(len(original_links)),
         {'seasonalAmplitudeM': 1., 'tidalAmplitudeM': 0.,
          'drySeasonAmplitudeM': 0., 'lowTideAmplitudeM': 0.}) > 0
     if np.any(budget[~allowed] > 0):
         raise ValueError('Seasonal profile relaxes a permanent or shared channel node')
-    return candidates, budget
+    return selected, budget
