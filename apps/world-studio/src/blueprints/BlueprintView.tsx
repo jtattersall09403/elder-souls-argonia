@@ -806,6 +806,15 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
               wheel to zoom · drag to pan · +/− zoom · 0 reset ·
               labels appear at {LABEL_PX_PER_M} px per metre{showLabels ? " (on)" : " (zoom in)"}
             </div>
+            <div style={{ marginTop: 4, opacity: 0.7, lineHeight: 1.35 }}>
+              <b>Glyphs on a building.</b> Black stub from the centre: which way the
+              piece is turned (its yaw). Coloured tick + arc across the outline: a
+              doorway the kit really has — <span style={{ color: "#f2b134" }}>gold</span> from
+              the kit author's own door part, <span style={{ color: "#5fc9c1" }}>blue-green</span> measured
+              off the shell, <span style={{ color: "#ff9ecb" }}>pink</span> from the mod's plugin
+              door link; a dashed ring means the way in can be turned to any side. Red tick on
+              the edge: the door this plan uses, with its facing.
+            </div>
             <div style={{ marginTop: 4, opacity: 0.55 }}>
               The province map is the same picture as the map screen, at ~5.5 m per pixel —
               coarse this close in. It shows where the place sits and what is around it.

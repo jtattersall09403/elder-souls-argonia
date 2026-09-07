@@ -300,7 +300,7 @@ export const SOCKET_FILL = "#ffd166";
  * shell's geometry. The distinction is the point — an assembly doorway is one
  * the kit's own author placed a door in. */
 export const DOORWAY_COLOUR: Record<string, string> = {
-  assembly: "#f2b134", geometry: "#5fc9c1",
+  assembly: "#f2b134", geometry: "#5fc9c1", "esp-door": "#ff9ecb",
 };
 
 export function doorwayColour(source: string | null | undefined): string {
