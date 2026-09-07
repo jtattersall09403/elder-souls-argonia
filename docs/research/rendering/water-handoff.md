@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The77 remaining constraints below still require resolution before final export.
+The73 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-77-seasonal-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-73-seasonal-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,559 corrections remain. **77 channel constraints remain**, not completed
+15,559 corrections remain. **73 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -269,7 +269,7 @@ with no new failures (77 diagnostic constraints; still127 accepted).
 Selected909-ribbon geometry checks cover376 new path centres:367 ordinary
 peak samples at original coordinates, eight more at exported Float32 centres,
 and one falling-sheet-only sample. This does not certify whole footprints.
-Fresh native candidate fields retain77 constraints with no new failures.
+The first seasonal native fields retained77 constraints with no new failures.
 Intermediate pool response contacts now keep554 wet point comparisons over
 five stages within0.05mm. Five native depth budgets needed reductions against
 these actual responses; re-solving leaves every candidate head unchanged.
@@ -282,12 +282,25 @@ All482,078 accepted standing samples keep identical coverage and planes.
 cached re-solve; both reproduce the full compiler's exact levels and accepted
 links. All423,268 original wet samples retain spill potential, coverage and
 planes; all482,078 previously accepted standing samples retain exact planes.
-The manifest records77 remaining constraints (47 rivulets,30 banked rivers),69
+Four further existing-stage repairs resolve9043,9064,11449,11450. Fresh fields
+and cached solving agree;999 selected records pass600 wet pool contacts and
+all earlier centre coverage remains. The manifest records73 remaining
+constraints (43 rivulets,30 banked rivers),69
 retaining violations and15,559 unchanged terrain corrections. Full compilation
 and profile audits must include `--seasonal-profile water-repair-inputs/seasonal-profile.npz`;
 full exports also require the reviewed pool-stage reference. Without the seasonal
 profile, the baseline deliberately remains127. Cached route solving preserves
 budgets; route replacement requires a regenerated proposal. Whole authored peak
-footprints and final rendered-confluence gates remain open. Nine focused cache/
+footprints and final rendered-confluence gates remain open. Ten focused cache/
 seasonal tests pass; workspace gates passed at c00c7ed, with no runtime edits since.
 See `seasonal-profile-acceptance.json` and the compiler handoff.
+
+Higher wet-season budgets1.8/2.4/3.2m did not resolve further channels in the
+bounded sensitivity check; that is not a reason to raise global stages. Peak
+footprint requirements still need their own evaluation. Blanket minimum-bound
+restoration of all69 supports fails even with fresh routing (58 new base-only
+failures). Thirteen legal sampling relocations inside original pools provide
+the next targeted investigation; see `retaining-support-investigation.json`.
+Run full native compilations sequentially and load only needed cache arrays:
+a concurrent job was killed with exit137; the reduced-memory sequential retry
+passed. No rejected restoration or diagnostic upper stage was promoted.

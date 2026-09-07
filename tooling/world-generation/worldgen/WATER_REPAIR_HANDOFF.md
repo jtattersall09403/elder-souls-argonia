@@ -17,8 +17,8 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,559 corrections;77 unresolved channels with the accepted
-seasonal profile (47 authored rivulets,30 banked rivers). Without that explicit
+Current overlay:15,559 corrections;73 unresolved channels with the accepted
+seasonal profile (43 authored rivulets,30 banked rivers). Without that explicit
 profile the base-only graph remains127. These are not completion counts.
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -41,7 +41,8 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-77-seasonal-state.npz` | Current77-constraint seasonal geometry, verified stage budgets and accepted input hashes |
+| `/tmp/water-accepted-73-seasonal-state.npz` | Current73-constraint seasonal geometry, verified stage budgets and accepted input hashes |
+| `/tmp/water-accepted-77-seasonal-state.npz` | Previous seasonal checkpoint, before four additional existing-stage repairs |
 | `/tmp/water-accepted-127-state.npz` | Historical base-only graph for rebuilding a seasonal proposal after route changes |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
@@ -697,7 +698,7 @@ within0.00004686m. Actual runtime centre coverage remains367 original-coordinate
 ordinary columns, eight additional exported-centre columns, one falling sheet.
 These are point/contact checks, not final generated confluence mesh acceptance.
 
-## Accepted seasonal checkpoint:77 constraints (2026-09-07)
+## Accepted seasonal checkpoints:77 then73 constraints (2026-09-07)
 
 `water_channel_response.py` shares exactly the exported response interpolation
 with exclusive-node peak budgets. Reconciliation lowers five allowances by at
@@ -709,7 +710,8 @@ sources and actual fresh response budgets. The export CLI requires a fixed
 `--bed-overlay` without `--continue-repairs` and records the profile SHA.
 
 Accepted `water-repair-inputs/seasonal-profile.npz` is versioned and pickle-free:
-exact graph arrays,84 eligible source IDs and524 exclusive native budgets.
+exact graph arrays,97 eligible source IDs and608 positive native budgets after
+the four additional repairs described below.
 Its SHA and acceptance evidence are in the manifest and
 `water-repair-inputs/seasonal-profile-acceptance.json`. All final compiles and
 current profile audits require this file; full exports additionally require
@@ -736,19 +738,64 @@ zero-budget arrays at the new native length. Nine focused regression tests pass.
 `/tmp/water-seasonal-checkpoint-proof.json` proves original423,268 wet samples,
 spill potential and marine coverage preserved, plus all482,078 accepted standing
 samples unchanged. There are77 failures, no new sources,69 retaining violations
-and15,559 unchanged corrections. Current accepted cache:
-`/tmp/water-accepted-77-seasonal-state.npz`. It links its verified-response status
+and15,559 unchanged corrections. That77 cache is historical; current accepted cache is
+`/tmp/water-accepted-73-seasonal-state.npz`. Each accepted cache links its verified-response status
 to the full native field hash, acceptance record and profile SHA. Raw profiles-only
 audits explicitly report stage responses unverified; rebuilding that cache alone
 is not full-field acceptance. Compare failure sets/`accepted_links`, never the
 AUTHORED `original_links` graph.
 
-Next: remaining47 rivulets and30 banked rivers,69 retaining-bound violations,
-whole authored peak footprints and final rendered/export gates. A route/terrain
-change requires regenerating and freshly checking the seasonal proposal; use the
-historical base-only graph for proposals, then evaluate the complete seasonal
-result. Existing upper/lower amplitudes and deployed assets remain unchanged.
-Workspace gates passed at c00c7ed; no runtime edits since.
+Four additional repairs resolve9043,9064,11449,11450 at unchanged stage limits.
+`/tmp/water-seasonal-residual-{budget.json,budget.npz,profile.npz,fields.npz,ribbons.json,summary.json}`
+contains the proposal and successful fresh compilation. Only budgets exclusive
+to the47 then-rejected rivulets increased; existing accepted/shared budgets stayed
+fixed. Two earlier active heads rise by at most0.240166m; none lower. Fresh
+responses pass the compiler guard, and cached solving matches exact levels and
+accepted links. No terrain/routing input changed; all482,078 standing samples and
+planes remain identical. Those unchanged physical domains are reused in the73
+cache, with the new diagnostics and a link to the full fresh field hash. No second
+profiles-only domain recomputation was needed. Acceptance evidence explicitly
+distinguishes that reuse from the previous77 standalone profile audit.
+
+Actual999-record runtime checks cover410 centres:401 ordinary peak samples at
+original coordinates, eight more at exported Float32 centres, one falling sheet.
+No earlier positive is lost;600 wet pool contacts across five stages agree within
+0.05mm. Files: `/tmp/water-seasonal-residual-{runtime-audit,joins,boundary-audit}.json`.
+The accepted profile/manifest now records73 remaining constraints (43 rivulets,
+30 banked rivers),54 total recovered seasonal reaches and69 retaining violations.
+
+Retaining investigation: `active_geometry_probes` now uses verified seasonal
+peak depth on flowing nodes, preserves pinned pool base support, and excludes
+rejected outgoing segments at shared endpoints. It requires explicit accepted
+links or failure sources; ten focused seasonal/cache/restoration tests pass.
+All69 minimum-bound restorations fail the fixed-head support screen; allowing
+heads to adjust with cached domains produces132 constraints versus73,59 new
+failures. Fresh routing on restored terrain without the seasonal proposal gives
+185 versus127 base-only constraints,58 new failures, and75637 versus75635 native
+points. This also proves the old seasonal proposal would be stale. Never promote
+`/tmp/water-retaining-69-restored-proposal.json`; audit/state are
+`/tmp/water-retaining-69-rerouted-{audit.json,state.npz}`.
+
+68 of69 supports touch pinned nodes. Among23 affected pinned original stations,
+13 have legal alternative native vertices within two original grid intervals,
+in the same original pool at its unchanged plane:1734,2295,3420,5024,8299,8451,
+9458,10338,10480,10818,11393,11411,11426. Full options and support investigation
+are in `water-repair-inputs/retaining-support-investigation.json` and
+`/tmp/water-retaining-pool-anchor-options.json`. Next: test targeted sampling
+relocations and associated support restoration, then regenerate and freshly
+verify the seasonal proposal against the new graph. Do not repeat blanket69
+restoration. A cached upper-stage sensitivity at1.8/2.4/3.2m resolved no more than
+the same four channels; it does not justify global amplitude changes. Whole
+painted/carved peak footprints still need independent assessment.
+
+Native jobs must run one at a time: the first residual full-field run was killed
+with exit137 while the restoration audit ran. The audit completed; a sequential
+retry loading only needed NPZ arrays passed. `/tmp/probe-water-residual-seasonal-fields.py`
+contains that memory reduction. Improve native output/cache capture to avoid
+redundant full-domain work, and preserve exact graph/stage acceptance checks.
+Remaining scope includes all73 channels,69 retaining issues, whole authored
+peak footprints and final rendered/export gates. No new amplitudes or native
+assets are deployed. Workspace gates passed at c00c7ed; no runtime edits since.
 
 Validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
 Dependencies restored without changing package manifests/lockfile. A held NFS

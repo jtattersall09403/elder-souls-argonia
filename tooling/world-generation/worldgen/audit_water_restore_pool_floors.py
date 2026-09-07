@@ -11,12 +11,23 @@ from .water_spill_preservation import unnecessary_pool_floor_cuts
 
 def active_geometry_probes(state):
     """Probe every native triangle crease crossed by an active centreline."""
-    points=state['points'];heads=state['levels']
+    points=state['points'];heads=np.asarray(state['levels'],float).copy()
     depths=state['diagnostic_depthTargets'].copy()
     depths[state['diagnostic_pinned']|state['diagnostic_falling']]=.015
+    # Seasonal flowing beds may be dry at base. Preserve their verified peak
+    # depth, while pinned standing pools retain their existing base support.
+    budget=state.get('diagnostic_peakDepthBudget',np.zeros(len(points)))
+    heads += np.where(state['diagnostic_pinned'],0.,budget)
+    accepted=state.get('accepted_links')
+    if accepted is None:
+        if 'failed_sources' not in state:
+            raise ValueError('Restoration probes require an explicit accepted reach graph')
+        accepted=state['original_links'].copy()
+        accepted[state['failed_sources']]=-1
     coordinates=[];water=[];minimum=[];owners=[]
     for source in np.flatnonzero(state['active']):
         target=int(state['links'][source])
+        if source<len(accepted) and accepted[source]<0:target=source
         if target<0:target=source
         a=points[source];b=points[target];delta=b-a
         fractions=[0.,1.]

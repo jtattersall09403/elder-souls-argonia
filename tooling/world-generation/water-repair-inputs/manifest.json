@@ -8,7 +8,7 @@
     "routing-audit.json": "63aaa0e19ebbcb64b0702d98aa0fa66d5f9b0c42b0a1531480211c5fcc36ab85",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
     "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4",
-    "seasonal-profile.npz": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455"
+    "seasonal-profile.npz": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f"
   },
   "source": {
     "locator": "worldgen.compile_chunks.DEFAULT_HEIGHTS and its parent.parent/hydrology-pass1.npz",
@@ -17,7 +17,7 @@
   },
   "checkpoint": {
     "retainedCorrections": 15559,
-    "unresolvedChannels": 77,
+    "unresolvedChannels": 73,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -340,10 +340,10 @@
   "seasonalProfileAcceptance": {
     "status": "accepted-hydraulic-checkpoint-not-release",
     "file": "seasonal-profile.npz",
-    "sha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
+    "sha256": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f",
     "evidence": "seasonal-profile-acceptance.json",
-    "evidenceSha256": "49d67beb66e78a541410447cfb050f298c366c9a41fa86699f0f2238285cef62",
-    "remainingConstraints": 77,
+    "evidenceSha256": "6b0dada8b0d913faff5734f0e67bf782f8f9311e6f69237c8fd602ae6fe39e14",
+    "remainingConstraints": 73,
     "baseOnlyConstraints": 127,
     "compilerFlag": "--seasonal-profile"
   }

@@ -100,14 +100,16 @@ raster meshes and whole authored footprints remain open. Connected pool
 responses now preserve reviewed seasonal/tidal/combined low-water ranges
 exactly. Final exports require the pool-stage reference (water handoff).
 No diagnostic assets are promoted.
-The accepted seasonal checkpoint recovers50 rivulets without excavation.
+The accepted seasonal checkpoint recovers54 rivulets without excavation.
 Fresh compiler fields, a fresh profile audit and cached re-solving agree exactly;
 all482,078 accepted standing samples keep their planes. Final compilation and
 profile audits require `--seasonal-profile water-repair-inputs/seasonal-profile.npz`
-as well as the reviewed pool-stage reference for full exports. Nine focused
+as well as the reviewed pool-stage reference for full exports. Ten focused
 seasonal/cache tests pass; workspace gates passed at c00c7ed (no runtime edits since).
-Whole authored peak footprints and final geometry gates remain open.
-The durable accepted repair checkpoint has77 channel constraints,69
+Whole authored peak footprints and final geometry gates remain open. Blanket
+restoration of69 bank supports failed fresh routing;13 sampling relocations
+within original pools are the next targeted candidates (compiler handoff).
+The durable accepted repair checkpoint has73 channel constraints,69
 retaining-bound violations and15,559 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
 fringes are preserved. Complete-reach solving and original-pool sampling

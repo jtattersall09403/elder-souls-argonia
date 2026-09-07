@@ -145,3 +145,16 @@ def test_cached_audit_retains_seasonal_budgets_and_rejects_stale_route_replaceme
     np.testing.assert_array_equal(diagnostics['accepted_links'], links)
     with pytest.raises(ValueError, match='Regenerate the seasonal profile'):
         replace_paths(state, {0: points[:2]})
+
+
+def test_restoration_probes_use_seasonal_depths_and_only_accepted_segments():
+    from .audit_water_restore_pool_floors import active_geometry_probes
+    state = dict(points=np.array([[0., 0.], [0., 1.], [0., 4.], [1., 4.]]),
+        links=np.array([1, 2, -1, 2]), accepted_links=np.array([1, -1, -1, 2]),
+        active=np.ones(4, bool), levels=np.full(4, 2.), diagnostic_depthTargets=np.full(4, .08),
+        diagnostic_pinned=np.array([False, True, False, False]), diagnostic_falling=np.zeros(4, bool),
+        diagnostic_peakDepthBudget=np.array([.5, .5, 0., 0.]))
+    coords, heads, _, _ = active_geometry_probes(state)
+    assert not np.any((coords[0] == 0) & (coords[1] > 1) & (coords[1] < 4))
+    assert np.all(heads[(coords[0] == 0) & (coords[1] == 0)] == 2.5)
+    assert np.all(heads[(coords[0] == 0) & (coords[1] == 1)] == 2.)

@@ -1,9 +1,9 @@
 {
   "status": "accepted-hydraulic-checkpoint-not-release",
   "profileFile": "seasonal-profile.npz",
-  "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
+  "profileSha256": "16732a69ededc7feeca6cbdc492173c30d6bd842cfd407ef6375a89eb93a581f",
   "baseOnlyConstraintCount": 127,
-  "remainingConstraints": 77,
+  "remainingConstraints": 73,
   "resolvedSources": [
     3237,
     3778,
@@ -14,6 +14,8 @@
     8381,
     8389,
     8401,
+    9043,
+    9064,
     9111,
     9139,
     9205,
@@ -35,6 +37,8 @@
     10450,
     10451,
     11264,
+    11449,
+    11450,
     12114,
     12126,
     12322,
@@ -60,7 +64,48 @@
   "terrainChanges": 0,
   "retainedTerrainCorrections": 15559,
   "remainingRetainingBoundViolations": 69,
-  "freshNativeAndCachedSolvePreservation": {
+  "fullFieldCompilation": {
+    "scope": "Fresh full native fields and all accepted owners;999 selected records including all54 recovered reaches",
+    "seasonalResponseBudgetsVerified": true,
+    "selectedRecordCount": 999,
+    "seasonalRecordCount": 54,
+    "centreTargets": 410,
+    "ordinaryPeakSamplesAtOriginalCoordinates": 401,
+    "additionalOrdinarySamplesAtExportedCentres": 8,
+    "fallingSheetOnlySamples": 1,
+    "lostEarlierPeakSamples": 0,
+    "wetPoolContactComparisons": 600,
+    "maximumPoolContactDifferenceM": 4.685115814240248e-05
+  },
+  "requiredCompilerFlags": [
+    "--seasonal-profile water-repair-inputs/seasonal-profile.npz",
+    "--pool-stage-reference water-repair-inputs/pool-stage-response-reference.json"
+  ],
+  "limits": [
+    "Not final full authored peak-footprint or rendered-confluence acceptance",
+    "No deployment or upper-amplitude changes",
+    "Routing changes require regenerating the matching seasonal proposal and fresh checks"
+  ],
+  "latestResolvedSources": [
+    9043,
+    9064,
+    11449,
+    11450
+  ],
+  "previousCheckpoint": {
+    "constraints": 77,
+    "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
+    "acceptanceSha256": "49d67beb66e78a541410447cfb050f298c366c9a41fa86699f0f2238285cef62"
+  },
+  "cacheDomainReuse": {
+    "reason": "Terrain, routing, original pool reference and pre-seasonal baseline are unchanged; fresh full native compilation confirms all482078 standing samples and planes identical, and cached re-solving reproduces its exact accepted graph and levels",
+    "standingSamples": 482078,
+    "missingOrShiftedStandingSamples": 0,
+    "newStandingSamples": 0,
+    "cachedLevelsMatchFreshFullCompilation": true,
+    "cachedAcceptedLinksMatchFreshFullCompilation": true
+  },
+  "previousFreshNativeAndCachedSolvePreservation": {
     "originalWetSamples": 423268,
     "missingOriginalWetSamples": 0,
     "shiftedOriginalPlanesOver0_1mm": 0,
@@ -77,24 +122,5 @@
     "remainingConstraints": 77,
     "retainingBoundViolations": 69,
     "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455"
-  },
-  "fullFieldCompilation": {
-    "scope": "All native fields, all accepted channel owners,909 emitted records containing every recovered source and selected neighbours",
-    "allSixNativeFieldsMatchVerifiedCandidate": true,
-    "selectedRecordsMatchVerifiedGeometry": true,
-    "seasonalResponseBudgetsVerified": true,
-    "selectedRecordCount": 909,
-    "seasonalRecordCount": 50,
-    "wetPoolContactComparisons": 554,
-    "maximumPoolContactDifferenceM": 4.685115814240248e-05
-  },
-  "requiredCompilerFlags": [
-    "--seasonal-profile water-repair-inputs/seasonal-profile.npz",
-    "--pool-stage-reference water-repair-inputs/pool-stage-response-reference.json"
-  ],
-  "limits": [
-    "Not final full authored peak-footprint or rendered-confluence acceptance",
-    "No deployment or upper-amplitude changes",
-    "Routing changes require regenerating the matching seasonal proposal and fresh checks"
-  ]
+  }
 }

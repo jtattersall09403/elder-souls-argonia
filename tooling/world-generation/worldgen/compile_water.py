@@ -705,8 +705,12 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         actual_budget = exclusive_peak_budgets(
             geometry_points, geometry_ds, seasonal_profile['original_links'], seasonal_candidates,
             channel_season, channel_tide, stage, season_anchors, tide_anchors)
-        if np.any(peak_budget[geometry_active] > actual_budget[geometry_active] + 1e-6):
-            raise ValueError('Seasonal profile exceeds freshly compiled stage responses')
+        exceeded = np.flatnonzero(geometry_active & (peak_budget > actual_budget + 1e-6))
+        if len(exceeded):
+            details = ', '.join(f'{node}: {peak_budget[node]:.6f}>{actual_budget[node]:.6f}m'
+                                for node in exceeded[:8])
+            raise ValueError(f'Seasonal profile exceeds freshly compiled stage responses at '
+                             f'{len(exceeded)} native nodes (requested>available): {details}')
         topology_stats['seasonalResponseBudgetsVerified'] = True
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
