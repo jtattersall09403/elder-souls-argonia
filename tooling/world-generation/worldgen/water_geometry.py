@@ -477,13 +477,17 @@ reach. Minimise the highest bed obstruction, then distance. No terrain edits.
 def condition_channel_profiles(ground, points, links, levels, radius, original_count,
                                original_links, pool_levels=None, bank_ground=None, terrain_flips=None,
                                orientation_levels=None, diagnostics=None, minimum_depth=.03, strict_banks=False,
-                               metres_per_pixel=1., allow_freefall=False, marine_ground=None, pool_domain=None):
+                               metres_per_pixel=1., allow_freefall=False, marine_ground=None, pool_domain=None,
+                               peak_depth_budget=None):
     """Globally monotone reaches with shared junctions and measured bank caps.
 
 Each coarse reach keeps one endpoint-to-endpoint flow direction. Native bed
 bumps pond its upstream section; they never become new flow-dividing humps.
 If the necessary head exceeds a bank or a pinned standing pool, the offending
 reach is returned as an explicit terrain mismatch and excluded from water.
+An explicit per-node peak_depth_budget permits seasonal beds to be dry at
+base stage. Minimum depths remain physical peak requirements; callers must
+verify the budget against exported stage responses and protect permanent nodes.
 """
     levels = np.asarray(levels, np.float32).copy()
     intent = levels.copy() if orientation_levels is None else np.asarray(orientation_levels)
@@ -510,7 +514,14 @@ reach is returned as an explicit terrain mismatch and excluded from water.
     # The compiler supplies semantic channel depth; legacy callers retain
     # their shallow-film default. Real pinned pools keep their own plane.
     depth_targets = np.broadcast_to(np.asarray(minimum_depth, float), bed.shape).copy()
-    lower = bed + depth_targets
+    budget = np.zeros_like(bed) if peak_depth_budget is None else np.broadcast_to(
+        np.asarray(peak_depth_budget, float), bed.shape).copy()
+    if not np.isfinite(depth_targets).all() or np.any(depth_targets < 0):
+        raise ValueError('Channel minimum depths must be finite and nonnegative')
+    if not np.isfinite(budget).all() or np.any(budget < 0):
+        raise ValueError('Channel peak depth budgets must be finite and nonnegative')
+    base_depth_targets = depth_targets - budget
+    lower = bed + base_depth_targets
     # Bank containment is a physical crest constraint, not a fixed3cm air
     # freeboard. Requiring that arbitrary gap rejected a real pool13.9mm
     # below its bank and invited needless floor excavation. Retain5mm for
@@ -539,7 +550,8 @@ reach is returned as an explicit terrain mismatch and excluded from water.
             np.minimum.at(distances, targets, previous[sources]+lengths)
         near = ~pinned & (distances < 2.)
         depth_targets[near] = np.maximum(.015, depth_targets[near]*distances[near]/2.)
-        lower[near] = bed[near]+depth_targets[near]
+        base_depth_targets[near] = depth_targets[near] - budget[near]
+        lower[near] = bed[near] + base_depth_targets[near]
     levels[marine] = 0
     lower[marine] = 0
     cap[marine] = 0
@@ -697,7 +709,8 @@ reach is returned as an explicit terrain mismatch and excluded from water.
         diagnostics.update(bed=bed, measuredBankCap=np.minimum(banks[0], banks[1]) - .005,
                            bankCap=cap, minimum=minimum, maximum=maximum,
                            maximumOrigin=maximum_origin, minimumOrigin=origin,
-                           depthTargets=depth_targets, pinned=pinned | marine, falling=falling,
+                           depthTargets=depth_targets, baseDepthTargets=base_depth_targets, peakDepthBudget=budget,
+                           pinned=pinned | marine, falling=falling,
                            bankNormals=perpendicular, bankRadius=bank_radius)
     else:
         maximum = -solve(keep, -cap, reverse=True)
@@ -706,7 +719,8 @@ reach is returned as an explicit terrain mismatch and excluded from water.
     # The bank-feasibility epsilon must not become negative physical depth.
     # Remove sub-millimetre numerical contacts by backwatering the graph,
     # never by raising isolated vertices (which would reintroduce humps).
-    result = solve(keep, np.maximum(result, np.where(marine, 0, bed + 0.001)))
+    contact_depth = np.where(budget > 0, np.minimum(base_depth_targets, .001), .001)
+    result = solve(keep, np.maximum(result, np.where(marine, 0, bed + contact_depth)))
     active = np.zeros(len(points), bool)
     # Raster only the accepted directed segments; shared endpoints remain.
     valid_original = original_links.copy()
@@ -721,8 +735,8 @@ reach is returned as an explicit terrain mismatch and excluded from water.
             cursor = links[cursor]
     if len(edges) and np.any(result[edges[keep, 0]] + 1e-5 < result[edges[keep, 1]]):
         raise ValueError("Conditioned channel contains an uphill flow segment")
-    if np.any(result[active] < bed[active] - 0.001):
-        raise ValueError("Conditioned channel lies below corrected native terrain")
+    if np.any(result[active] < bed[active] + np.minimum(base_depth_targets[active], 0) - .001):
+        raise ValueError("Conditioned channel exceeds its allowed seasonal depth budget")
     return result, active, valid_original, conflicts
 
 

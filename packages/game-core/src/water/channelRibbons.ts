@@ -34,6 +34,9 @@ export interface ChannelRibbonRecord {
   id: string;
   bodyIndex: number;
   riverBand: number;
+  /** Explicit seasonal rivulet: compiler verifies peak coverage; base may be dry. */
+  baseMayBeDry?: boolean;
+  hydrologyRegime?: 'shallow-wetland-rivulet' | 'banked-river';
   points: readonly ChannelRibbonPoint[];
 }
 

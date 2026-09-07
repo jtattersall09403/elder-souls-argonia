@@ -638,23 +638,50 @@ A bounded3m probe on5937,4190,12997,6890 found no proposal (the helper's generic
 failure text still says5m; `/tmp/probe-water-four-routine.py` explicitly forces3m).
 Do not repeat those unchanged tests.
 
-A separate cached experiment on the127 geometry targets only rejected,
-authored wetland rivulets with inherited endpoint season response1. It lowers
-their EXCLUSIVE node depth bound by the existing1.4m wet-season offset;
-accepted/other-reach supports retain their depth bounds. There are84 eligible
-sources and524 exclusive nodes;17 source constraints disappear, none newly
-appear. Production profile code is unchanged. The diagnostic copies the
-conditioner and adjusts its unconditional1mm terrain floor and below-ground
-assertion for negative depth budgets. Without those changes the graph count
-looks the same but its returned base heads need not respect bank caps.
+## Explicit seasonal contract: source only, not accepted data
 
-Artifacts: `/tmp/probe-water-seasonal-negative-stage.py`,
-`/tmp/water-seasonal-negative-stage-probe.{json,npz}` and durable
-`seasonal-rivulet-proposal-audit.json`. The reported0.319m bank excess includes
-still-rejected nodes and is NOT accepted-path evidence. Next: verify only
-newly accepted path heads against actual banks; emit their real selected
-ribbons with actual stage responses, and prove peak connectivity/coverage.
-An explicit seasonal profile contract is needed before integrating this.
-Never relax permanent river depth expectations or call the diagnostic110
-count accepted. Peak footprints, final geometry,69 bound violations and
-release gates remain open.
+`condition_channel_profiles(..., peak_depth_budget=...)` keeps semantic
+minimum depths positive and subtracts the optional budget from base bounds,
+including the shallow pool-outlet taper. Default budget0 reproduces accepted127
+heads bit-for-bit. `compile_features(..., seasonal_sources=..., stage=...)`
+requires authored wetland rivulets, finite response coefficients and a peak
+more than4mm above every exported centre's bed. Runtime loading and compiled
+artifact gates enforce the same `baseMayBeDry` record contract; permanent
+river depth checks remain. `compile_water.compute` does NOT activate this yet.
+
+The real-API diagnostic `/tmp/probe-water-seasonal-explicit-contract.py`
+uses inherited c068 station responses from
+`/tmp/water-fringe-range-reference-fields.npz`,84 eligible rejected sources
+and524 nodes exclusive to those reaches. Existing1.4m wet-season budget
+resolves50, with no new failure sources (77 diagnostic, NOT accepted).
+New-path bank excess is at most0.000001886m; minimum peak centre depth0.522m.
+Eight earlier active heads rise (maximum0.481m), none lower. Rebuild associated
+water fields/current rather than attaching new ribbons to stale fields.
+
+Artifacts: `/tmp/water-seasonal-explicit-contract-probe.{json,npz}`,
+`/tmp/water-seasonal-explicit-contract-ribbons.json`,
+`/tmp/water-seasonal-explicit-contract-runtime-audit.json`,
+`/tmp/water-seasonal-explicit-boundary-audit.json`; durable summary is
+`water-repair-inputs/seasonal-rivulet-proposal-audit.json`.
+909 selected emitted ribbons include50 seasonal records,376 new centre targets.
+Actual ChannelRibbonSampler returns367 ordinary peak columns at original double
+coordinates; eight more have coverage at exported Float32 centres and within1mm;
+the last is source13115/node65794's real falling sheet. These are centre/surface
+checks, not whole footprints or five-stage confluence acceptance. All accepted
+owners participated; the source filter restricts emission only. The earlier17
+candidate negative-depth/function-copy prototype is superseded; do not reuse it.
+
+Next: integrate deterministic seasonal selection using freshly compiled stage
+responses. The profile solve precedes field responses, so a deferred response
+pass may be needed; do not silently use inherited coefficients as authority.
+Protect all shared/permanent nodes, verify actual candidate response budgets,
+compare fresh failure source sets, preserve original pool planes and the durable
+pool-stage reference, and check actual five-stage confluences. The audit solve
+currently needs explicit budget wiring too; temporary scripts inject it through
+a wrapper. Full authored footprints,69 retaining violations and export remain open.
+
+Validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
+Dependencies restored without changing package manifests/lockfile. A held NFS
+native library prevented initial cleanup; its ignored generated directory was
+moved to `.water-dependency-recovery/node_modules`, preserving live handles.
+No process was killed. Do not repeat broad gates absent new changes/failures.

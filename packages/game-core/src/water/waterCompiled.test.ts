@@ -10,6 +10,7 @@ import { SparseHeightOverlay, type SparseHeightOverlayData } from "../terrain/ch
 import { PackedCrossSections } from './packedCrossSections';
 import { NativeWaterGround } from './nativeWaterGround';
 import { validateNativeWaterGroundMeta } from './nativeWaterGroundLoader';
+import { validateSeasonalRibbon } from './waterStage';
 
 // Test the shipped artifacts, not another implementation of the compiler.
 const assets = process.env.WATER_COMPILED_ASSETS
@@ -55,6 +56,7 @@ describe("shipped water topology", () => {
     expect(bodies.size).toBe(meta.bodies!.length);
     const ids = new Set<string>();
     for (const ribbon of meta.ribbons!) {
+      validateSeasonalRibbon(ribbon, meta.stageRange);
       expect(ids.has(ribbon.id), ribbon.id).toBe(false);
       ids.add(ribbon.id);
       expect(bodies.get(ribbon.bodyIndex), ribbon.id).toMatch(/^water\./);
@@ -65,8 +67,9 @@ describe("shipped water topology", () => {
           expect(Number.isFinite(value), label).toBe(true);
         }
         expect(point.halfWidthM, label).toBeGreaterThan(0);
-        // Ground may be below sea level; its water depth must not be negative.
-        expect(point.y - point.groundM!, label).toBeGreaterThanOrEqual(-0.001);
+        // Permanent reaches retain their base-depth guard; explicitly
+        // seasonal records have already passed the wet-peak check above.
+        if (!ribbon.baseMayBeDry) expect(point.y - point.groundM!, label).toBeGreaterThanOrEqual(-0.001);
         if (point.crossSection) {
           const section = point.crossSection;
           const centre = section.findIndex(s => s.offsetM === 0);

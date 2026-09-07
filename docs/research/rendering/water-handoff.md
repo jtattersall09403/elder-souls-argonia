@@ -244,8 +244,9 @@ water pass, with no uneven response across any connected plane. Final exports
 must include `--pool-stage-reference water-repair-inputs/pool-stage-response-reference.json`.
 Source/input hashes and proof are in
 `tooling/world-generation/water-repair-inputs/connected-pool-stage-audit.json`.
-Thirty focused pool/compiler tests pass. Workspace release gates still need
-dependencies restored. No production amplitudes or native assets deployed.
+Thirty focused pool/compiler tests pass. Workspace dependencies are now restored;
+root tests and typecheck pass at the seasonal-contract checkpoint below.
+No production amplitudes or native assets deployed.
 
 Next: complete authored channel/pond/swamp peak coverage and actual raster
 ownership, then remaining hydraulic repairs and the final bundle gates.
@@ -259,9 +260,16 @@ remain untouched. Fresh domains preserve original water and all reviewed
 pool-stage reference seeds/planes and merged low bounds. Exact source-set
 comparison uses reports, not the cache's authored `original_links` graph.
 
-Next bounded investigation:17 rejected authored seasonal rivulets may fit
-without cuts when their exclusive supports are allowed to dry at base stage.
-This is an UNACCEPTED cached diagnostic, not a lower constraint checkpoint;
-actual peak bank/triangle connectivity and stage responses must be proved.
-Production solver and permanent-channel depth expectations are unchanged.
-See `seasonal-rivulet-proposal-audit.json` and compiler handoff.
+An explicit opt-in seasonal profile/export contract now permits authored
+wetland rivulets to dry at base only when their exported peak clears the bed.
+Permanent/shared supports retain their bounds; default profiles reproduce the
+accepted127 levels exactly. This is source support, not compiler activation.
+The real-API cached diagnostic resolves50 of84 eligible rejected rivulets,
+with no new failures (77 diagnostic constraints; still127 accepted).
+Selected909-ribbon geometry checks cover376 new path centres:367 ordinary
+peak samples at original coordinates, eight more at exported Float32 centres,
+and one falling-sheet-only sample. This does not certify whole footprints.
+Fresh stage responses and five-stage connections remain essential: inherited
+responses were used, and eight previously active heads rise by up to0.481m.
+Seventy-four focused Python tests, root workspace tests and typecheck pass.
+See `seasonal-rivulet-proposal-audit.json` and compiler handoff for integration.

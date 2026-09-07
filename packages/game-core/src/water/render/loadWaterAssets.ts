@@ -1,7 +1,8 @@
 import * as THREE from "three";
 import { WaterData, type WaterMeta } from "../waterData";
 import { WaterWorld, type WaterWorldOptions } from "../waterWorld";
-import { validateWaterStageRange } from "../waterStage";
+import { validateWaterStageRange, validateSeasonalRibbon } from "../waterStage";
+import type { ChannelRibbonRecord } from '../channelRibbons';
 import { SpectralOcean } from "../spectralOcean";
 import { PackedCrossSections, fetchPackedCrossSections, validatePackedCrossSectionMeta } from '../packedCrossSections';
 import { fetchNativeWaterGround, validateNativeWaterGroundMeta } from '../nativeWaterGroundLoader';
@@ -113,6 +114,7 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
           }
         }
       }
+      validateSeasonalRibbon(ribbon as unknown as ChannelRibbonRecord, meta.stageRange);
     }
   }
   validateWaterBodies(meta.bodies, (meta.ribbons ?? []) as NonNullable<WaterMeta['ribbons']>, klass.classes as string[]);

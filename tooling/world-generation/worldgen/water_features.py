@@ -29,7 +29,18 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      ground_detail=None, detail_scale=1, body_detail=None, standing_detail=None, all_channels=False,
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
                      marine_ground=None, wetland_rivulets=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M,
-                     source_filter=None):
+                     source_filter=None, seasonal_sources=(), stage=None):
+    seasonal_sources = frozenset(seasonal_sources)
+    if seasonal_sources:
+        from .water_stage import stage_range
+        stage = stage_range(stage)
+        if stage['tidalAmplitudeM'] + stage['seasonalAmplitudeM'] > maximum_offset + 1e-6:
+            raise ValueError('Seasonal export stage exceeds the section ownership domain')
+        if wetland_rivulets is None or any(not 0 <= i < original_count or not wetland_rivulets[i]
+                                          for i in seasonal_sources):
+            raise ValueError('Seasonal base-dry export is restricted to authored wetland rivulets')
+        if season_response is None or tide_response is None:
+            raise ValueError('Seasonal export requires actual stage response coefficients')
     ribbons, cascades = [], []
     intent = levels if orientation_levels is None else orientation_levels
     ground = np.asarray(ground)
@@ -175,6 +186,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                             "riverBand": int(bands[source]), "points": vertices,
                             "hydrologyRegime": ('shallow-wetland-rivulet' if wetland_rivulets is not None and
                                                 wetland_rivulets[source] else 'banked-river')})
+            if source in seasonal_sources:
+                ribbons[-1]['baseMayBeDry'] = True
         if is_cascade:
             high, low = vertices[0], vertices[-1]
             dx, dz = low["x"] - high["x"], low["z"] - high["z"]
@@ -193,6 +206,16 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
         vertices = ribbon["points"]
         if any(b["y"] > a["y"] + 0.0002 for a, b in zip(vertices, vertices[1:])):
             raise ValueError(f'Non-monotone exported reach: {ribbon["id"]}')
-        if any(point["groundM"] > point["y"] + 0.001 for point in vertices):
+        seasonal = ribbon.get('baseMayBeDry', False)
+        if seasonal and any(not np.isfinite(point[key]) or not 0 <= point[key] <= 1
+                            for point in vertices for key in ('seasonResponse', 'tideResponse')):
+            raise ValueError('Seasonal response coefficients must be between zero and one')
+        if seasonal and any(point['y'] + stage['seasonalAmplitudeM']*point['seasonResponse']
+                            + stage['tidalAmplitudeM']*point['tideResponse'] <= point['groundM'] + .004
+                            for point in vertices):
+            raise ValueError(f'Seasonal peak remains below its native bed wet threshold: {ribbon["id"]}')
+        if any(point["groundM"] > point["y"] + .001 + (
+            stage['seasonalAmplitudeM']*point['seasonResponse'] + stage['tidalAmplitudeM']*point['tideResponse']
+            if seasonal else 0.) for point in vertices):
             raise ValueError(f'Exported reach is below its native bed: {ribbon["id"]}')
     return ribbons, sorted(cascades[:max_cascades], key=lambda feature: feature["id"])
