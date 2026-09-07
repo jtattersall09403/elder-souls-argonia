@@ -585,3 +585,46 @@ its only failure is unrelated concurrent settlement prose lint. Results are in `
   `/tmp/water-source12745-route-screen.json`,
   `/tmp/water-terminal-subcell-ownership.json`. No terrain, route, stage or
   production water assets changed in this review.
+
+
+### Fresh authored-pond outlet rebuild and spill criterion (2026-09-07)
+
+The bounded outlet proposal changes54 native terrain vertices, with maximum
+additional lowering2.140175m and no new retaining-bound breaches. Its cached
+solve improved76→65 failures. A fresh native domain rebuild plus a route-exact
+seasonal-budget rebase improves that to64: the accepted62 failures plus8638
+and9139. It adds249,456 finite pond vertices. This remains a diagnostic, not
+accepted physical coverage or a verified seasonal response export.
+Inputs/results: `/tmp/water-authored-pond-outlet-overlay.json` (SHA256
+`199785c08c4f7b5f4dcee00d76a0bb5b04c7c35c0b578e3a96f6630b3941e20e`),
+`/tmp/water-authored-pond-outlet-profile.npz`, and
+`/tmp/water-authored-pond-outlet-seasonal-{proposal.npz,conflicts.json}`.
+
+`contain_pool_freeboards` now measures the owner's spill from its minimum
+filled potential, rather than the higher contact/fringe potential. Retained
+owners remain immutable; reductions must preserve15mm above the spill and
+keep the constrained contact wet. The real9139 fixture verifies the difference,
+immutable protection and rejection of a dry contact. All52 geometry tests pass.
+Root typecheck and all runtime tests pass after rerunning the single combat
+child-process test outside the sandbox (its first run failed EPERM). Logs:
+`/tmp/water-pool-spill-{geometry-tests,root-tests,typecheck,critical-tests}.log`.
+
+A fresh compiler run with this fix leaves the unseasonal profile unchanged:
+9139's base obstruction is an unpinned bed, so freeboard containment does not
+run on the pond. Seasonal solving changes it to a pinned pond obstruction.
+The compiler currently contains freeboards before seasonal solving only.
+Diagnostic lowering of this entirely new47-vertex pond from27.759535m to
+27.737560m resolves9139 but exposes upstream9111's lower27.714637m bank cap.
+It therefore still has64 failures and is NOT an accepted repair. See
+`/tmp/water-authored-pond-spill-{profile.npz,seasonal-conflicts.json,contained-conflicts.json}`.
+A fixed-head orientation trial on8638/8639 does not resolve8638 either;
+`/tmp/water-authored-pond-spill-oriented-conflicts.json` records the new
+obstruction. Next: jointly solve these connected outlet/bank groups, including
+seasonal-stage containment, rather than accepting the single-contact change.
+
+The eight missing finite pond-mask vertices are all dry at the old base plane:
+ground4.070610–4.093436m, old head4.066539m. Their immutable spill potential is
+unchanged. `/tmp/water-authored-pond-lost-fringe.json` records each location.
+This is not proven physical coverage loss: check actual peak support before
+restoring them. Do not permit unrestricted label-zero reference seeding.
+No candidate terrain, pond plane, seasonal profile or map asset was promoted.

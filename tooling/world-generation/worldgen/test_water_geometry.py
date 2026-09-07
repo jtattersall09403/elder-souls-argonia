@@ -413,6 +413,29 @@ def test_flowing_pool_freeboard_can_lower_only_as_a_whole_above_its_spill():
     assert np.allclose(pool, 2.072)
 
 
+def test_pool_freeboard_uses_owner_spill_below_a_high_shoreline_contact():
+    from .water_geometry import contain_pool_freeboards
+    labels = np.ones((3, 3), dtype=int)
+    filled = np.full((3, 3), 27.727417)
+    filled[0, 0] = 27.679535
+    points = np.array([[1., 1.]])
+    conflict = {0: {'requiredLevelM': 27.759535, 'obstructionBedM': 27.727417,
+                    'obstructionNode': 0, 'bankCapM': 27.73756}}
+    pool = np.full((3, 3), 27.759535, dtype=np.float32)
+    assert not contain_pool_freeboards(pool, labels, filled, points, conflict,
+                                      immutable_labels={1})
+    assert np.all(pool == np.float32(27.759535))
+    changes = contain_pool_freeboards(pool, labels, filled, points, conflict)
+    assert len(changes) == 1
+    assert np.all(pool == np.float32(27.73756))
+
+    # A lower spill alone cannot justify drying the actual outlet contact.
+    pool.fill(27.759535)
+    conflict[0]['bankCapM'] = 27.73
+    assert not contain_pool_freeboards(pool, labels, filled, points, conflict)
+    assert np.all(pool == np.float32(27.759535))
+
+
 def test_same_pool_route_uses_existing_wet_corridor_beyond_two_pixel_chord():
     ground = np.zeros((13, 13))
     ground[4:9, 5:8] = 4

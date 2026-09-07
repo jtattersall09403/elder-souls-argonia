@@ -172,8 +172,14 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
     The nominal80mm flowing-pool head is not permission to spill sideways
     through a lower bank. A measured bank cap can reduce that freeboard while
     preserving a single standing plane and a positive outlet clearance.
+    Closure can include higher shoreline vertices: their filled height is
+    not the component's spill. Use the lowest filled potential in the owner
+    domain, while keeping the constrained contact wet after the reduction.
     """
     updates = {}
+    labels = np.unique(pool_labels)
+    labels = labels[labels > 0]
+    spills = dict(zip(labels, ndimage.minimum(filled, pool_labels, labels)))
     for conflict in conflicts.values():
         if conflict.get('obstructionPinned') is False:
             continue
@@ -188,7 +194,8 @@ def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts,
             if label in immutable_labels:continue
             cap = float(conflict['bankCapM'])
             if label and np.isfinite(old) and abs(old - required) <= .0001 and cap < old:
-                if cap >= float(filled[cell]) + minimum_head:
+                if (cap >= float(spills[label]) + minimum_head and
+                        cap > conflict['obstructionBedM'] + .01):
                     updates[label] = min(updates.get(label, old), cap)
     changes = []
     for label, level in sorted(updates.items()):

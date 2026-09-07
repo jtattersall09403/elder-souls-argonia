@@ -23,14 +23,14 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Last verified live: `70a0762`, successful Actions `34121702407`, studio bundle
-  `index-DSB_cShX.js` (2026-09-07). Root tests, typecheck, credits and build passed
+- Last verified live: `93d3643`, successful Actions `34127406270`, studio bundle
+  `index-ZopE_yVF.js` (2026-09-07). Root tests, typecheck, credits and build passed
   in Actions. Live HTML references the successful build bundle; its downloaded
-  SHA-256 is `1e50435d56bee842282c3e0f73d1ca7e36440f2a7fc6329bd6c7412a76b92576`. Public water metadata SHA-256:
+  SHA-256 is `85c58808c48b794f0cda499ff664eaa42764cd8a68e590ecdada4a85949fadea`. Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
 - The deployed checkpoint adds prepared cutouts, lossless river packing, native
-  inland class subdivision reduction and zero-area face removal. Local source
-  additionally packs displayed inland attributes, shares the original combined
+  inland class subdivision reduction and zero-area face removal. It also
+  packs displayed inland attributes, shares the original combined
   geometry limits, and reuses immutable displayed backing through source spans.
   Both actual-native views now load completely with zero rejections: normal
   110,291,355 array bytes, low 105,554,964. Bounds rejection and unchanged-triangle reuse reduce settling to 7,912 normal
@@ -65,6 +65,14 @@ correct unrelated slope paint; include standing ponds/swamps, not just stations.
 The62 remaining constraints below still require resolution before final export.
 
 ## Immediate compiler work
+
+Latest authored-pond diagnostic: fresh domains plus seasonal rebase leave64
+channel failures (accepted62 plus8638/9139), with249,456 new finite pond
+vertices. Shared spill-based freeboard correction is tested, but applying it
+after the seasonal solve shifts9139's obstruction upstream to9111. Solve the
+connected groups before acceptance; no candidate assets promoted. Evidence
+and next actions are in the coverage pipeline's fresh-outlet subsection.
+
 
 **Priority change after independent approach review2026-09-07:** build the
 province-wide classified coverage audit and shared map/physical-semantic output
