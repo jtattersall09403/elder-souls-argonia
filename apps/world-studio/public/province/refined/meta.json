@@ -18,8 +18,17 @@
   ],
   "groundControl": "ground-control.png",
   "portages": {
-    "canoeChannels": 7,
-    "portages": 9
+    "canoeChannels": 4,
+    "portages": 6
+  },
+  "channelCarve": {
+    "cellsLowered": 155163,
+    "medianM": 0.549,
+    "p90M": 1.734,
+    "p99M": 2.766,
+    "maxM": 3.89,
+    "intentFootprintCells": 178687,
+    "stations": 9279
   },
   "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
   "naturalHeight": "height-natural-rg.png"

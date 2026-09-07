@@ -54,210 +54,799 @@
   "vanilla:landscape/rocks/rocks03"
  ],
  "chunks": {
-  "4_11": {
+  "0_0": {
    "chunk": [
-    4,
-    11
-   ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
-   "regionsPresent": [
-    5,
-    6,
-    7,
-    9,
-    11,
-    12
-   ],
-   "instances": 3395,
-   "tiers": {
-    "T1": 1455,
-    "T2": 1940
-   },
-   "perHectare": 155.1
-  },
-  "4_12": {
-   "chunk": [
-    4,
-    12
-   ],
-   "region": 7,
-   "regionName": "interior swamp",
-   "regionsPresent": [
-    5,
-    6,
-    7,
-    8,
-    9,
-    11,
-    12
-   ],
-   "instances": 6197,
-   "tiers": {
-    "T1": 1517,
-    "T2": 4680
-   },
-   "perHectare": 283.0
-  },
-  "4_13": {
-   "chunk": [
-    4,
-    13
-   ],
-   "region": 8,
-   "regionName": "fringe marsh",
-   "regionsPresent": [
-    4,
-    7,
-    8,
-    9,
-    11,
-    12
-   ],
-   "instances": 3381,
-   "tiers": {
-    "T1": 666,
-    "T2": 2715
-   },
-   "perHectare": 154.4
-  },
-  "5_11": {
-   "chunk": [
-    5,
-    11
-   ],
-   "region": 12,
-   "regionName": "lake & standing water",
-   "regionsPresent": [
-    6,
-    7,
-    9,
-    11,
-    12
-   ],
-   "instances": 3677,
-   "tiers": {
-    "T1": 1185,
-    "T2": 2492
-   },
-   "perHectare": 167.9
-  },
-  "5_12": {
-   "chunk": [
-    5,
-    12
-   ],
-   "region": 7,
-   "regionName": "interior swamp",
-   "regionsPresent": [
-    6,
-    7,
-    8,
-    9,
-    11,
-    12
-   ],
-   "instances": 6211,
-   "tiers": {
-    "T1": 2181,
-    "T2": 4030
-   },
-   "perHectare": 283.7
-  },
-  "5_13": {
-   "chunk": [
-    5,
-    13
-   ],
-   "region": 8,
-   "regionName": "fringe marsh",
-   "regionsPresent": [
     0,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 566,
+   "tiers": {
+    "T1": 359,
+    "T2": 207
+   },
+   "perHectare": 25.8
+  },
+  "1_0": {
+   "chunk": [
+    1,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 245,
+   "tiers": {
+    "T1": 208,
+    "T2": 37
+   },
+   "perHectare": 11.2
+  },
+  "2_0": {
+   "chunk": [
+    2,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 216,
+   "tiers": {
+    "T1": 208,
+    "T2": 8
+   },
+   "perHectare": 9.9
+  },
+  "3_0": {
+   "chunk": [
+    3,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 469,
+   "tiers": {
+    "T1": 296,
+    "T2": 173
+   },
+   "perHectare": 21.4
+  },
+  "4_0": {
+   "chunk": [
     4,
-    7,
-    8,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 692,
+   "tiers": {
+    "T1": 368,
+    "T2": 324
+   },
+   "perHectare": 31.6
+  },
+  "5_0": {
+   "chunk": [
+    5,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    6,
     9,
     11,
     12
    ],
-   "instances": 1957,
+   "instances": 735,
    "tiers": {
-    "T1": 202,
-    "T2": 1755
+    "T1": 431,
+    "T2": 304
    },
-   "perHectare": 89.4
+   "perHectare": 33.6
   },
-  "6_11": {
+  "6_0": {
    "chunk": [
     6,
-    11
+    0
    ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
+   "region": 2,
+   "regionName": "upland hills",
    "regionsPresent": [
+    1,
+    2,
     6,
-    7,
     9,
     11,
+    12
+   ],
+   "instances": 2788,
+   "tiers": {
+    "T1": 820,
+    "T2": 1968
+   },
+   "perHectare": 127.3
+  },
+  "7_0": {
+   "chunk": [
+    7,
+    0
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2271,
+   "tiers": {
+    "T1": 700,
+    "T2": 1571
+   },
+   "perHectare": 103.7
+  },
+  "8_0": {
+   "chunk": [
+    8,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1402,
+   "tiers": {
+    "T1": 652,
+    "T2": 750
+   },
+   "perHectare": 64.0
+  },
+  "9_0": {
+   "chunk": [
+    9,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1665,
+   "tiers": {
+    "T1": 633,
+    "T2": 1032
+   },
+   "perHectare": 76.0
+  },
+  "10_0": {
+   "chunk": [
+    10,
+    0
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    11,
+    12
+   ],
+   "instances": 2718,
+   "tiers": {
+    "T1": 953,
+    "T2": 1765
+   },
+   "perHectare": 124.1
+  },
+  "11_0": {
+   "chunk": [
+    11,
+    0
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1416,
+   "tiers": {
+    "T1": 628,
+    "T2": 788
+   },
+   "perHectare": 64.7
+  },
+  "12_0": {
+   "chunk": [
     12,
-    13
+    0
    ],
-   "instances": 5450,
-   "tiers": {
-    "T1": 2145,
-    "T2": 3305
-   },
-   "perHectare": 248.9
-  },
-  "6_12": {
-   "chunk": [
-    6,
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
     12
    ],
-   "region": 7,
-   "regionName": "interior swamp",
+   "instances": 2540,
+   "tiers": {
+    "T1": 1081,
+    "T2": 1459
+   },
+   "perHectare": 116.0
+  },
+  "13_0": {
+   "chunk": [
+    13,
+    0
+   ],
+   "region": 2,
+   "regionName": "upland hills",
    "regionsPresent": [
+    1,
+    2,
     7,
     8,
     9,
     11,
     12
    ],
-   "instances": 5444,
+   "instances": 2308,
    "tiers": {
-    "T1": 1395,
-    "T2": 4049
+    "T1": 618,
+    "T2": 1690
    },
-   "perHectare": 248.6
+   "perHectare": 105.4
   },
-  "6_13": {
+  "14_0": {
    "chunk": [
-    6,
-    13
+    14,
+    0
    ],
-   "region": 8,
-   "regionName": "fringe marsh",
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2592,
+   "tiers": {
+    "T1": 408,
+    "T2": 2184
+   },
+   "perHectare": 118.4
+  },
+  "15_0": {
+   "chunk": [
+    15,
+    0
+   ],
+   "region": 0,
+   "regionName": "ocean",
    "regionsPresent": [
     0,
     4,
+    8,
+    11,
+    14
+   ],
+   "instances": 772,
+   "tiers": {
+    "T1": 241,
+    "T2": 531
+   },
+   "perHectare": 35.3
+  },
+  "0_1": {
+   "chunk": [
+    0,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 1009,
+   "tiers": {
+    "T1": 676,
+    "T2": 333
+   },
+   "perHectare": 46.1
+  },
+  "1_1": {
+   "chunk": [
+    1,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 699,
+   "tiers": {
+    "T1": 408,
+    "T2": 291
+   },
+   "perHectare": 31.9
+  },
+  "2_1": {
+   "chunk": [
+    2,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 275,
+   "tiers": {
+    "T1": 241,
+    "T2": 34
+   },
+   "perHectare": 12.6
+  },
+  "3_1": {
+   "chunk": [
+    3,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 358,
+   "tiers": {
+    "T1": 208,
+    "T2": 150
+   },
+   "perHectare": 16.4
+  },
+  "4_1": {
+   "chunk": [
+    4,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    12
+   ],
+   "instances": 311,
+   "tiers": {
+    "T1": 248,
+    "T2": 63
+   },
+   "perHectare": 14.2
+  },
+  "5_1": {
+   "chunk": [
+    5,
+    1
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    1,
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1898,
+   "tiers": {
+    "T1": 586,
+    "T2": 1312
+   },
+   "perHectare": 86.7
+  },
+  "6_1": {
+   "chunk": [
+    6,
+    1
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2456,
+   "tiers": {
+    "T1": 934,
+    "T2": 1522
+   },
+   "perHectare": 112.2
+  },
+  "7_1": {
+   "chunk": [
     7,
+    1
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2745,
+   "tiers": {
+    "T1": 677,
+    "T2": 2068
+   },
+   "perHectare": 125.4
+  },
+  "8_1": {
+   "chunk": [
+    8,
+    1
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    1,
+    2,
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1472,
+   "tiers": {
+    "T1": 483,
+    "T2": 989
+   },
+   "perHectare": 67.2
+  },
+  "9_1": {
+   "chunk": [
+    9,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    12
+   ],
+   "instances": 409,
+   "tiers": {
+    "T1": 306,
+    "T2": 103
+   },
+   "perHectare": 18.7
+  },
+  "10_1": {
+   "chunk": [
+    10,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 608,
+   "tiers": {
+    "T1": 418,
+    "T2": 190
+   },
+   "perHectare": 27.8
+  },
+  "11_1": {
+   "chunk": [
+    11,
+    1
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 751,
+   "tiers": {
+    "T1": 485,
+    "T2": 266
+   },
+   "perHectare": 34.3
+  },
+  "12_1": {
+   "chunk": [
+    12,
+    1
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1861,
+   "tiers": {
+    "T1": 578,
+    "T2": 1283
+   },
+   "perHectare": 85.0
+  },
+  "13_1": {
+   "chunk": [
+    13,
+    1
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    4,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1807,
+   "tiers": {
+    "T1": 211,
+    "T2": 1596
+   },
+   "perHectare": 82.5
+  },
+  "14_1": {
+   "chunk": [
+    14,
+    1
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    0,
+    2,
+    4,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2533,
+   "tiers": {
+    "T1": 346,
+    "T2": 2187
+   },
+   "perHectare": 115.7
+  },
+  "15_1": {
+   "chunk": [
+    15,
+    1
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
     8,
     9,
     11,
     12,
     14
    ],
-   "instances": 2769,
+   "instances": 613,
    "tiers": {
-    "T1": 448,
-    "T2": 2321
+    "T1": 145,
+    "T2": 468
    },
-   "perHectare": 126.5
+   "perHectare": 28.0
   },
-  "6_8": {
+  "0_2": {
+   "chunk": [
+    0,
+    2
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 813,
+   "tiers": {
+    "T1": 549,
+    "T2": 264
+   },
+   "perHectare": 37.1
+  },
+  "1_2": {
+   "chunk": [
+    1,
+    2
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 450,
+   "tiers": {
+    "T1": 291,
+    "T2": 159
+   },
+   "perHectare": 20.6
+  },
+  "2_2": {
+   "chunk": [
+    2,
+    2
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1128,
+   "tiers": {
+    "T1": 694,
+    "T2": 434
+   },
+   "perHectare": 51.5
+  },
+  "3_2": {
+   "chunk": [
+    3,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    11,
+    12
+   ],
+   "instances": 1564,
+   "tiers": {
+    "T1": 239,
+    "T2": 1325
+   },
+   "perHectare": 71.4
+  },
+  "4_2": {
+   "chunk": [
+    4,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1189,
+   "tiers": {
+    "T1": 443,
+    "T2": 746
+   },
+   "perHectare": 54.3
+  },
+  "5_2": {
+   "chunk": [
+    5,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3149,
+   "tiers": {
+    "T1": 744,
+    "T2": 2405
+   },
+   "perHectare": 143.8
+  },
+  "6_2": {
    "chunk": [
     6,
-    8
+    2
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3650,
+   "tiers": {
+    "T1": 650,
+    "T2": 3000
+   },
+   "perHectare": 166.7
+  },
+  "7_2": {
+   "chunk": [
+    7,
+    2
    ],
    "region": 11,
    "regionName": "firm lowland",
@@ -265,41 +854,617 @@
     6,
     9,
     11,
-    12,
-    13
+    12
    ],
-   "instances": 4351,
+   "instances": 1724,
    "tiers": {
-    "T1": 828,
-    "T2": 3523
+    "T1": 798,
+    "T2": 926
    },
-   "perHectare": 198.7
+   "perHectare": 78.7
   },
-  "6_9": {
+  "8_2": {
+   "chunk": [
+    8,
+    2
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2609,
+   "tiers": {
+    "T1": 947,
+    "T2": 1662
+   },
+   "perHectare": 119.2
+  },
+  "9_2": {
+   "chunk": [
+    9,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1969,
+   "tiers": {
+    "T1": 616,
+    "T2": 1353
+   },
+   "perHectare": 89.9
+  },
+  "10_2": {
+   "chunk": [
+    10,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 1925,
+   "tiers": {
+    "T1": 584,
+    "T2": 1341
+   },
+   "perHectare": 87.9
+  },
+  "11_2": {
+   "chunk": [
+    11,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 3147,
+   "tiers": {
+    "T1": 385,
+    "T2": 2762
+   },
+   "perHectare": 143.7
+  },
+  "12_2": {
+   "chunk": [
+    12,
+    2
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1677,
+   "tiers": {
+    "T1": 346,
+    "T2": 1331
+   },
+   "perHectare": 76.6
+  },
+  "13_2": {
+   "chunk": [
+    13,
+    2
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1685,
+   "tiers": {
+    "T1": 332,
+    "T2": 1353
+   },
+   "perHectare": 77.0
+  },
+  "14_2": {
+   "chunk": [
+    14,
+    2
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1993,
+   "tiers": {
+    "T1": 679,
+    "T2": 1314
+   },
+   "perHectare": 91.0
+  },
+  "15_2": {
+   "chunk": [
+    15,
+    2
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 850,
+   "tiers": {
+    "T1": 146,
+    "T2": 704
+   },
+   "perHectare": 38.8
+  },
+  "0_3": {
+   "chunk": [
+    0,
+    3
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 478,
+   "tiers": {
+    "T1": 406,
+    "T2": 72
+   },
+   "perHectare": 21.8
+  },
+  "1_3": {
+   "chunk": [
+    1,
+    3
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 297,
+   "tiers": {
+    "T1": 251,
+    "T2": 46
+   },
+   "perHectare": 13.6
+  },
+  "2_3": {
+   "chunk": [
+    2,
+    3
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1482,
+   "tiers": {
+    "T1": 475,
+    "T2": 1007
+   },
+   "perHectare": 67.7
+  },
+  "3_3": {
+   "chunk": [
+    3,
+    3
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 2062,
+   "tiers": {
+    "T1": 661,
+    "T2": 1401
+   },
+   "perHectare": 94.2
+  },
+  "4_3": {
+   "chunk": [
+    4,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1862,
+   "tiers": {
+    "T1": 540,
+    "T2": 1322
+   },
+   "perHectare": 85.0
+  },
+  "5_3": {
+   "chunk": [
+    5,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3135,
+   "tiers": {
+    "T1": 691,
+    "T2": 2444
+   },
+   "perHectare": 143.2
+  },
+  "6_3": {
    "chunk": [
     6,
-    9
+    3
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 11,
+   "regionName": "firm lowland",
    "regionsPresent": [
     6,
     9,
     11,
-    12,
-    13
+    12
    ],
-   "instances": 12122,
+   "instances": 3174,
    "tiers": {
-    "T1": 1413,
-    "T2": 10709
+    "T1": 1081,
+    "T2": 2093
    },
-   "perHectare": 553.6
+   "perHectare": 145.0
   },
-  "6_10": {
+  "7_3": {
    "chunk": [
+    7,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
     6,
-    10
+    9,
+    10,
+    11,
+    12
+   ],
+   "instances": 3178,
+   "tiers": {
+    "T1": 891,
+    "T2": 2287
+   },
+   "perHectare": 145.1
+  },
+  "8_3": {
+   "chunk": [
+    8,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 4614,
+   "tiers": {
+    "T1": 605,
+    "T2": 4009
+   },
+   "perHectare": 210.7
+  },
+  "9_3": {
+   "chunk": [
+    9,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    5,
+    6,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 3043,
+   "tiers": {
+    "T1": 895,
+    "T2": 2148
+   },
+   "perHectare": 139.0
+  },
+  "10_3": {
+   "chunk": [
+    10,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1916,
+   "tiers": {
+    "T1": 409,
+    "T2": 1507
+   },
+   "perHectare": 87.5
+  },
+  "11_3": {
+   "chunk": [
+    11,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    4,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2490,
+   "tiers": {
+    "T1": 401,
+    "T2": 2089
+   },
+   "perHectare": 113.7
+  },
+  "12_3": {
+   "chunk": [
+    12,
+    3
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    3,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1367,
+   "tiers": {
+    "T1": 340,
+    "T2": 1027
+   },
+   "perHectare": 62.4
+  },
+  "13_3": {
+   "chunk": [
+    13,
+    3
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2113,
+   "tiers": {
+    "T1": 890,
+    "T2": 1223
+   },
+   "perHectare": 96.5
+  },
+  "14_3": {
+   "chunk": [
+    14,
+    3
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2863,
+   "tiers": {
+    "T1": 682,
+    "T2": 2181
+   },
+   "perHectare": 130.8
+  },
+  "15_3": {
+   "chunk": [
+    15,
+    3
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    14
+   ],
+   "instances": 122,
+   "tiers": {
+    "T1": 90,
+    "T2": 32
+   },
+   "perHectare": 5.6
+  },
+  "0_4": {
+   "chunk": [
+    0,
+    4
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 432,
+   "tiers": {
+    "T1": 368,
+    "T2": 64
+   },
+   "perHectare": 19.7
+  },
+  "1_4": {
+   "chunk": [
+    1,
+    4
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 673,
+   "tiers": {
+    "T1": 387,
+    "T2": 286
+   },
+   "perHectare": 30.7
+  },
+  "2_4": {
+   "chunk": [
+    2,
+    4
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1025,
+   "tiers": {
+    "T1": 198,
+    "T2": 827
+   },
+   "perHectare": 46.8
+  },
+  "3_4": {
+   "chunk": [
+    3,
+    4
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1904,
+   "tiers": {
+    "T1": 603,
+    "T2": 1301
+   },
+   "perHectare": 87.0
+  },
+  "4_4": {
+   "chunk": [
+    4,
+    4
    ],
    "region": 6,
    "regionName": "rootland deep marsh",
@@ -307,129 +1472,648 @@
     6,
     9,
     11,
-    12,
-    13
+    12
    ],
-   "instances": 5259,
+   "instances": 3269,
    "tiers": {
-    "T1": 2079,
-    "T2": 3180
+    "T1": 1343,
+    "T2": 1926
    },
-   "perHectare": 240.2
+   "perHectare": 149.3
   },
-  "7_8": {
+  "5_4": {
    "chunk": [
-    7,
-    8
+    5,
+    4
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2845,
+   "tiers": {
+    "T1": 1090,
+    "T2": 1755
+   },
+   "perHectare": 129.9
+  },
+  "6_4": {
+   "chunk": [
+    6,
+    4
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
    "regionsPresent": [
     6,
     9,
     11,
-    12,
-    13
+    12
    ],
-   "instances": 3346,
+   "instances": 2830,
    "tiers": {
-    "T1": 756,
-    "T2": 2590
+    "T1": 914,
+    "T2": 1916
    },
-   "perHectare": 152.8
+   "perHectare": 129.2
   },
-  "7_9": {
+  "7_4": {
    "chunk": [
     7,
-    9
+    4
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 6,
+   "regionName": "rootland deep marsh",
    "regionsPresent": [
-    12,
-    13
+    6,
+    9,
+    10,
+    11,
+    12
    ],
-   "instances": 5218,
+   "instances": 4263,
    "tiers": {
-    "T1": 841,
-    "T2": 4377
+    "T1": 1649,
+    "T2": 2614
    },
-   "perHectare": 238.3
+   "perHectare": 194.7
   },
-  "7_10": {
-   "chunk": [
-    7,
-    10
-   ],
-   "region": 13,
-   "regionName": "tropical jungle",
-   "regionsPresent": [
-    12,
-    13
-   ],
-   "instances": 5904,
-   "tiers": {
-    "T1": 884,
-    "T2": 5020
-   },
-   "perHectare": 269.6
-  },
-  "8_8": {
+  "8_4": {
    "chunk": [
     8,
-    8
+    4
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 6,
+   "regionName": "rootland deep marsh",
    "regionsPresent": [
+    5,
+    6,
     7,
     9,
     11,
-    12,
-    13
+    12
    ],
-   "instances": 4418,
+   "instances": 5219,
    "tiers": {
-    "T1": 1016,
-    "T2": 3402
+    "T1": 1698,
+    "T2": 3521
    },
-   "perHectare": 201.8
+   "perHectare": 238.4
   },
-  "8_9": {
+  "9_4": {
+   "chunk": [
+    9,
+    4
+   ],
+   "region": 12,
+   "regionName": "lake & standing water",
+   "regionsPresent": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 4332,
+   "tiers": {
+    "T1": 997,
+    "T2": 3335
+   },
+   "perHectare": 197.8
+  },
+  "10_4": {
+   "chunk": [
+    10,
+    4
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 3195,
+   "tiers": {
+    "T1": 584,
+    "T2": 2611
+   },
+   "perHectare": 145.9
+  },
+  "11_4": {
+   "chunk": [
+    11,
+    4
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    10,
+    11,
+    12,
+    14
+   ],
+   "instances": 2325,
+   "tiers": {
+    "T1": 772,
+    "T2": 1553
+   },
+   "perHectare": 106.2
+  },
+  "12_4": {
+   "chunk": [
+    12,
+    4
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 1568,
+   "tiers": {
+    "T1": 937,
+    "T2": 631
+   },
+   "perHectare": 71.6
+  },
+  "0_5": {
+   "chunk": [
+    0,
+    5
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    12
+   ],
+   "instances": 766,
+   "tiers": {
+    "T1": 503,
+    "T2": 263
+   },
+   "perHectare": 35.0
+  },
+  "1_5": {
+   "chunk": [
+    1,
+    5
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    12
+   ],
+   "instances": 873,
+   "tiers": {
+    "T1": 646,
+    "T2": 227
+   },
+   "perHectare": 39.9
+  },
+  "2_5": {
+   "chunk": [
+    2,
+    5
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    11,
+    12
+   ],
+   "instances": 414,
+   "tiers": {
+    "T1": 154,
+    "T2": 260
+   },
+   "perHectare": 18.9
+  },
+  "3_5": {
+   "chunk": [
+    3,
+    5
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2869,
+   "tiers": {
+    "T1": 746,
+    "T2": 2123
+   },
+   "perHectare": 131.0
+  },
+  "4_5": {
+   "chunk": [
+    4,
+    5
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3122,
+   "tiers": {
+    "T1": 1235,
+    "T2": 1887
+   },
+   "perHectare": 142.6
+  },
+  "5_5": {
+   "chunk": [
+    5,
+    5
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 2987,
+   "tiers": {
+    "T1": 1353,
+    "T2": 1634
+   },
+   "perHectare": 136.4
+  },
+  "6_5": {
+   "chunk": [
+    6,
+    5
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3400,
+   "tiers": {
+    "T1": 1343,
+    "T2": 2057
+   },
+   "perHectare": 155.3
+  },
+  "7_5": {
+   "chunk": [
+    7,
+    5
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 4326,
+   "tiers": {
+    "T1": 1571,
+    "T2": 2755
+   },
+   "perHectare": 197.6
+  },
+  "8_5": {
    "chunk": [
     8,
-    9
+    5
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 6,
+   "regionName": "rootland deep marsh",
    "regionsPresent": [
-    12,
-    13
+    5,
+    6,
+    7,
+    9,
+    11,
+    12
    ],
-   "instances": 5573,
+   "instances": 5546,
    "tiers": {
-    "T1": 879,
-    "T2": 4694
+    "T1": 1680,
+    "T2": 3866
    },
-   "perHectare": 254.5
+   "perHectare": 253.3
   },
-  "8_10": {
+  "9_5": {
+   "chunk": [
+    9,
+    5
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    5,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2589,
+   "tiers": {
+    "T1": 390,
+    "T2": 2199
+   },
+   "perHectare": 118.2
+  },
+  "10_5": {
+   "chunk": [
+    10,
+    5
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    5,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2167,
+   "tiers": {
+    "T1": 226,
+    "T2": 1941
+   },
+   "perHectare": 99.0
+  },
+  "11_5": {
+   "chunk": [
+    11,
+    5
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2244,
+   "tiers": {
+    "T1": 1266,
+    "T2": 978
+   },
+   "perHectare": 102.5
+  },
+  "0_6": {
+   "chunk": [
+    0,
+    6
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    1,
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 1790,
+   "tiers": {
+    "T1": 337,
+    "T2": 1453
+   },
+   "perHectare": 81.8
+  },
+  "1_6": {
+   "chunk": [
+    1,
+    6
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1397,
+   "tiers": {
+    "T1": 481,
+    "T2": 916
+   },
+   "perHectare": 63.8
+  },
+  "2_6": {
+   "chunk": [
+    2,
+    6
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 1916,
+   "tiers": {
+    "T1": 447,
+    "T2": 1469
+   },
+   "perHectare": 87.5
+  },
+  "3_6": {
+   "chunk": [
+    3,
+    6
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3110,
+   "tiers": {
+    "T1": 769,
+    "T2": 2341
+   },
+   "perHectare": 142.0
+  },
+  "4_6": {
+   "chunk": [
+    4,
+    6
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3176,
+   "tiers": {
+    "T1": 850,
+    "T2": 2326
+   },
+   "perHectare": 145.1
+  },
+  "5_6": {
+   "chunk": [
+    5,
+    6
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3053,
+   "tiers": {
+    "T1": 1420,
+    "T2": 1633
+   },
+   "perHectare": 139.4
+  },
+  "6_6": {
+   "chunk": [
+    6,
+    6
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 4714,
+   "tiers": {
+    "T1": 1319,
+    "T2": 3395
+   },
+   "perHectare": 215.3
+  },
+  "7_6": {
+   "chunk": [
+    7,
+    6
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3133,
+   "tiers": {
+    "T1": 1504,
+    "T2": 1629
+   },
+   "perHectare": 143.1
+  },
+  "8_6": {
    "chunk": [
     8,
-    10
+    6
    ],
-   "region": 13,
-   "regionName": "tropical jungle",
+   "region": 6,
+   "regionName": "rootland deep marsh",
    "regionsPresent": [
-    12,
-    13
+    6,
+    7,
+    9,
+    11,
+    12
    ],
-   "instances": 5575,
+   "instances": 3619,
    "tiers": {
-    "T1": 981,
-    "T2": 4594
+    "T1": 1331,
+    "T2": 2288
    },
-   "perHectare": 254.6
+   "perHectare": 165.3
+  },
+  "9_6": {
+   "chunk": [
+    9,
+    6
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2826,
+   "tiers": {
+    "T1": 791,
+    "T2": 2035
+   },
+   "perHectare": 129.1
   },
   "10_6": {
    "chunk": [
@@ -446,12 +2130,261 @@
     11,
     12
    ],
-   "instances": 2999,
+   "instances": 2435,
    "tiers": {
-    "T1": 427,
-    "T2": 2572
+    "T1": 412,
+    "T2": 2023
    },
-   "perHectare": 137.0
+   "perHectare": 111.2
+  },
+  "11_6": {
+   "chunk": [
+    11,
+    6
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2305,
+   "tiers": {
+    "T1": 734,
+    "T2": 1571
+   },
+   "perHectare": 105.3
+  },
+  "12_6": {
+   "chunk": [
+    12,
+    6
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 438,
+   "tiers": {
+    "T1": 248,
+    "T2": 190
+   },
+   "perHectare": 20.0
+  },
+  "0_7": {
+   "chunk": [
+    0,
+    7
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    12
+   ],
+   "instances": 512,
+   "tiers": {
+    "T1": 407,
+    "T2": 105
+   },
+   "perHectare": 23.4
+  },
+  "1_7": {
+   "chunk": [
+    1,
+    7
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 944,
+   "tiers": {
+    "T1": 415,
+    "T2": 529
+   },
+   "perHectare": 43.1
+  },
+  "2_7": {
+   "chunk": [
+    2,
+    7
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 2681,
+   "tiers": {
+    "T1": 708,
+    "T2": 1973
+   },
+   "perHectare": 122.4
+  },
+  "3_7": {
+   "chunk": [
+    3,
+    7
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 2088,
+   "tiers": {
+    "T1": 629,
+    "T2": 1459
+   },
+   "perHectare": 95.4
+  },
+  "4_7": {
+   "chunk": [
+    4,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3832,
+   "tiers": {
+    "T1": 1111,
+    "T2": 2721
+   },
+   "perHectare": 175.0
+  },
+  "5_7": {
+   "chunk": [
+    5,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3787,
+   "tiers": {
+    "T1": 937,
+    "T2": 2850
+   },
+   "perHectare": 173.0
+  },
+  "6_7": {
+   "chunk": [
+    6,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3058,
+   "tiers": {
+    "T1": 953,
+    "T2": 2105
+   },
+   "perHectare": 139.7
+  },
+  "7_7": {
+   "chunk": [
+    7,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3368,
+   "tiers": {
+    "T1": 993,
+    "T2": 2375
+   },
+   "perHectare": 153.8
+  },
+  "8_7": {
+   "chunk": [
+    8,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 3641,
+   "tiers": {
+    "T1": 838,
+    "T2": 2803
+   },
+   "perHectare": 166.3
+  },
+  "9_7": {
+   "chunk": [
+    9,
+    7
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    7,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 5051,
+   "tiers": {
+    "T1": 1026,
+    "T2": 4025
+   },
+   "perHectare": 230.7
   },
   "10_7": {
    "chunk": [
@@ -470,12 +2403,263 @@
     11,
     12
    ],
-   "instances": 2285,
+   "instances": 2575,
    "tiers": {
-    "T1": 409,
-    "T2": 1876
+    "T1": 482,
+    "T2": 2093
    },
-   "perHectare": 104.4
+   "perHectare": 117.6
+  },
+  "11_7": {
+   "chunk": [
+    11,
+    7
+   ],
+   "region": 14,
+   "regionName": "mangrove forest",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 4244,
+   "tiers": {
+    "T1": 2455,
+    "T2": 1789
+   },
+   "perHectare": 193.8
+  },
+  "12_7": {
+   "chunk": [
+    12,
+    7
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    12,
+    14
+   ],
+   "instances": 571,
+   "tiers": {
+    "T1": 457,
+    "T2": 114
+   },
+   "perHectare": 26.1
+  },
+  "0_8": {
+   "chunk": [
+    0,
+    8
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    12
+   ],
+   "instances": 1078,
+   "tiers": {
+    "T1": 685,
+    "T2": 393
+   },
+   "perHectare": 49.2
+  },
+  "1_8": {
+   "chunk": [
+    1,
+    8
+   ],
+   "region": 1,
+   "regionName": "border mountains",
+   "regionsPresent": [
+    1,
+    2,
+    11,
+    12
+   ],
+   "instances": 922,
+   "tiers": {
+    "T1": 517,
+    "T2": 405
+   },
+   "perHectare": 42.1
+  },
+  "2_8": {
+   "chunk": [
+    2,
+    8
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    11,
+    12
+   ],
+   "instances": 3725,
+   "tiers": {
+    "T1": 1230,
+    "T2": 2495
+   },
+   "perHectare": 170.1
+  },
+  "3_8": {
+   "chunk": [
+    3,
+    8
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    2,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3166,
+   "tiers": {
+    "T1": 745,
+    "T2": 2421
+   },
+   "perHectare": 144.6
+  },
+  "4_8": {
+   "chunk": [
+    4,
+    8
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3330,
+   "tiers": {
+    "T1": 1163,
+    "T2": 2167
+   },
+   "perHectare": 152.1
+  },
+  "5_8": {
+   "chunk": [
+    5,
+    8
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3576,
+   "tiers": {
+    "T1": 730,
+    "T2": 2846
+   },
+   "perHectare": 163.3
+  },
+  "6_8": {
+   "chunk": [
+    6,
+    8
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 4816,
+   "tiers": {
+    "T1": 1031,
+    "T2": 3785
+   },
+   "perHectare": 220.0
+  },
+  "7_8": {
+   "chunk": [
+    7,
+    8
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 4158,
+   "tiers": {
+    "T1": 1009,
+    "T2": 3149
+   },
+   "perHectare": 189.9
+  },
+  "8_8": {
+   "chunk": [
+    8,
+    8
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    7,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 4876,
+   "tiers": {
+    "T1": 955,
+    "T2": 3921
+   },
+   "perHectare": 222.7
+  },
+  "9_8": {
+   "chunk": [
+    9,
+    8
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    4,
+    7,
+    8,
+    11,
+    12,
+    13
+   ],
+   "instances": 5813,
+   "tiers": {
+    "T1": 795,
+    "T2": 5018
+   },
+   "perHectare": 265.5
   },
   "10_8": {
    "chunk": [
@@ -496,59 +2680,12 @@
     13,
     14
    ],
-   "instances": 3080,
+   "instances": 2808,
    "tiers": {
-    "T1": 410,
-    "T2": 2670
+    "T1": 424,
+    "T2": 2384
    },
-   "perHectare": 140.7
-  },
-  "11_6": {
-   "chunk": [
-    11,
-    6
-   ],
-   "region": 8,
-   "regionName": "fringe marsh",
-   "regionsPresent": [
-    0,
-    4,
-    8,
-    9,
-    11,
-    12,
-    14
-   ],
-   "instances": 2299,
-   "tiers": {
-    "T1": 712,
-    "T2": 1587
-   },
-   "perHectare": 105.0
-  },
-  "11_7": {
-   "chunk": [
-    11,
-    7
-   ],
-   "region": 14,
-   "regionName": "mangrove forest",
-   "regionsPresent": [
-    0,
-    3,
-    4,
-    8,
-    9,
-    11,
-    12,
-    14
-   ],
-   "instances": 4110,
-   "tiers": {
-    "T1": 2410,
-    "T2": 1700
-   },
-   "perHectare": 187.7
+   "perHectare": 128.2
   },
   "11_8": {
    "chunk": [
@@ -566,55 +2703,12 @@
     12,
     14
    ],
-   "instances": 3850,
+   "instances": 3844,
    "tiers": {
-    "T1": 1940,
-    "T2": 1910
+    "T1": 1937,
+    "T2": 1907
    },
-   "perHectare": 175.8
-  },
-  "12_6": {
-   "chunk": [
-    12,
-    6
-   ],
-   "region": 0,
-   "regionName": "ocean",
-   "regionsPresent": [
-    0,
-    4,
-    8,
-    11,
-    14
-   ],
-   "instances": 444,
-   "tiers": {
-    "T1": 253,
-    "T2": 191
-   },
-   "perHectare": 20.3
-  },
-  "12_7": {
-   "chunk": [
-    12,
-    7
-   ],
-   "region": 0,
-   "regionName": "ocean",
-   "regionsPresent": [
-    0,
-    4,
-    8,
-    11,
-    12,
-    14
-   ],
-   "instances": 576,
-   "tiers": {
-    "T1": 461,
-    "T2": 115
-   },
-   "perHectare": 26.3
+   "perHectare": 175.6
   },
   "12_8": {
    "chunk": [
@@ -634,31 +2728,53 @@
    },
    "perHectare": 0.3
   },
-  "2_2": {
+  "0_9": {
    "chunk": [
+    0,
+    9
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    0,
+    1,
     2,
-    2
+    4,
+    9,
+    11,
+    12
+   ],
+   "instances": 3223,
+   "tiers": {
+    "T1": 500,
+    "T2": 2723
+   },
+   "perHectare": 147.2
+  },
+  "1_9": {
+   "chunk": [
+    1,
+    9
    ],
    "region": 1,
    "regionName": "border mountains",
    "regionsPresent": [
     1,
     2,
-    9,
     11,
     12
    ],
-   "instances": 1336,
+   "instances": 1074,
    "tiers": {
-    "T1": 821,
-    "T2": 515
+    "T1": 737,
+    "T2": 337
    },
-   "perHectare": 61.0
+   "perHectare": 49.1
   },
-  "2_3": {
+  "2_9": {
    "chunk": [
     2,
-    3
+    9
    ],
    "region": 2,
    "regionName": "upland hills",
@@ -669,156 +2785,12 @@
     11,
     12
    ],
-   "instances": 2150,
+   "instances": 2465,
    "tiers": {
-    "T1": 653,
-    "T2": 1497
+    "T1": 766,
+    "T2": 1699
    },
-   "perHectare": 98.2
-  },
-  "2_4": {
-   "chunk": [
-    2,
-    4
-   ],
-   "region": 2,
-   "regionName": "upland hills",
-   "regionsPresent": [
-    1,
-    2,
-    9,
-    11,
-    12
-   ],
-   "instances": 1087,
-   "tiers": {
-    "T1": 215,
-    "T2": 872
-   },
-   "perHectare": 49.6
-  },
-  "3_2": {
-   "chunk": [
-    3,
-    2
-   ],
-   "region": 2,
-   "regionName": "upland hills",
-   "regionsPresent": [
-    1,
-    2,
-    11,
-    12
-   ],
-   "instances": 1973,
-   "tiers": {
-    "T1": 308,
-    "T2": 1665
-   },
-   "perHectare": 90.1
-  },
-  "3_3": {
-   "chunk": [
-    3,
-    3
-   ],
-   "region": 2,
-   "regionName": "upland hills",
-   "regionsPresent": [
-    2,
-    9,
-    11,
-    12
-   ],
-   "instances": 2461,
-   "tiers": {
-    "T1": 824,
-    "T2": 1637
-   },
-   "perHectare": 112.4
-  },
-  "3_4": {
-   "chunk": [
-    3,
-    4
-   ],
-   "region": 2,
-   "regionName": "upland hills",
-   "regionsPresent": [
-    2,
-    6,
-    9,
-    11,
-    12
-   ],
-   "instances": 1937,
-   "tiers": {
-    "T1": 567,
-    "T2": 1370
-   },
-   "perHectare": 88.5
-  },
-  "4_2": {
-   "chunk": [
-    4,
-    2
-   ],
-   "region": 2,
-   "regionName": "upland hills",
-   "regionsPresent": [
-    1,
-    2,
-    9,
-    11,
-    12
-   ],
-   "instances": 1208,
-   "tiers": {
-    "T1": 441,
-    "T2": 767
-   },
-   "perHectare": 55.2
-  },
-  "4_3": {
-   "chunk": [
-    4,
-    3
-   ],
-   "region": 11,
-   "regionName": "firm lowland",
-   "regionsPresent": [
-    2,
-    6,
-    9,
-    11,
-    12
-   ],
-   "instances": 2260,
-   "tiers": {
-    "T1": 571,
-    "T2": 1689
-   },
-   "perHectare": 103.2
-  },
-  "4_4": {
-   "chunk": [
-    4,
-    4
-   ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
-   "regionsPresent": [
-    6,
-    9,
-    11,
-    12
-   ],
-   "instances": 3076,
-   "tiers": {
-    "T1": 1309,
-    "T2": 1767
-   },
-   "perHectare": 140.5
+   "perHectare": 112.6
   },
   "3_9": {
    "chunk": [
@@ -835,12 +2807,239 @@
     11,
     12
    ],
-   "instances": 2661,
+   "instances": 2599,
    "tiers": {
-    "T1": 760,
-    "T2": 1901
+    "T1": 743,
+    "T2": 1856
    },
-   "perHectare": 121.5
+   "perHectare": 118.7
+  },
+  "4_9": {
+   "chunk": [
+    4,
+    9
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 4068,
+   "tiers": {
+    "T1": 1810,
+    "T2": 2258
+   },
+   "perHectare": 185.8
+  },
+  "5_9": {
+   "chunk": [
+    5,
+    9
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 4080,
+   "tiers": {
+    "T1": 2070,
+    "T2": 2010
+   },
+   "perHectare": 186.3
+  },
+  "6_9": {
+   "chunk": [
+    6,
+    9
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 11669,
+   "tiers": {
+    "T1": 1399,
+    "T2": 10270
+   },
+   "perHectare": 532.9
+  },
+  "7_9": {
+   "chunk": [
+    7,
+    9
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    12,
+    13
+   ],
+   "instances": 4355,
+   "tiers": {
+    "T1": 899,
+    "T2": 3456
+   },
+   "perHectare": 198.9
+  },
+  "8_9": {
+   "chunk": [
+    8,
+    9
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    12,
+    13
+   ],
+   "instances": 5508,
+   "tiers": {
+    "T1": 932,
+    "T2": 4576
+   },
+   "perHectare": 251.6
+  },
+  "9_9": {
+   "chunk": [
+    9,
+    9
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    12,
+    13
+   ],
+   "instances": 6094,
+   "tiers": {
+    "T1": 1011,
+    "T2": 5083
+   },
+   "perHectare": 278.3
+  },
+  "10_9": {
+   "chunk": [
+    10,
+    9
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    11,
+    12,
+    13,
+    14
+   ],
+   "instances": 5978,
+   "tiers": {
+    "T1": 1370,
+    "T2": 4608
+   },
+   "perHectare": 273.0
+  },
+  "11_9": {
+   "chunk": [
+    11,
+    9
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    13,
+    14
+   ],
+   "instances": 2355,
+   "tiers": {
+    "T1": 1602,
+    "T2": 753
+   },
+   "perHectare": 107.6
+  },
+  "0_10": {
+   "chunk": [
+    0,
+    10
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 417,
+   "tiers": {
+    "T1": 43,
+    "T2": 374
+   },
+   "perHectare": 19.0
+  },
+  "1_10": {
+   "chunk": [
+    1,
+    10
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    0,
+    1,
+    2,
+    9,
+    11,
+    12
+   ],
+   "instances": 2528,
+   "tiers": {
+    "T1": 606,
+    "T2": 1922
+   },
+   "perHectare": 115.5
+  },
+  "2_10": {
+   "chunk": [
+    2,
+    10
+   ],
+   "region": 2,
+   "regionName": "upland hills",
+   "regionsPresent": [
+    1,
+    2,
+    6,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 3052,
+   "tiers": {
+    "T1": 786,
+    "T2": 2266
+   },
+   "perHectare": 139.4
   },
   "3_10": {
    "chunk": [
@@ -857,12 +3056,241 @@
     11,
     12
    ],
-   "instances": 2504,
+   "instances": 2648,
    "tiers": {
-    "T1": 1084,
-    "T2": 1420
+    "T1": 1127,
+    "T2": 1521
    },
-   "perHectare": 114.4
+   "perHectare": 120.9
+  },
+  "4_10": {
+   "chunk": [
+    4,
+    10
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    5,
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 6174,
+   "tiers": {
+    "T1": 3099,
+    "T2": 3075
+   },
+   "perHectare": 282.0
+  },
+  "5_10": {
+   "chunk": [
+    5,
+    10
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12
+   ],
+   "instances": 3862,
+   "tiers": {
+    "T1": 2225,
+    "T2": 1637
+   },
+   "perHectare": 176.4
+  },
+  "6_10": {
+   "chunk": [
+    6,
+    10
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    6,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 5859,
+   "tiers": {
+    "T1": 2324,
+    "T2": 3535
+   },
+   "perHectare": 267.6
+  },
+  "7_10": {
+   "chunk": [
+    7,
+    10
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    12,
+    13
+   ],
+   "instances": 6372,
+   "tiers": {
+    "T1": 1002,
+    "T2": 5370
+   },
+   "perHectare": 291.0
+  },
+  "8_10": {
+   "chunk": [
+    8,
+    10
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    12,
+    13
+   ],
+   "instances": 5744,
+   "tiers": {
+    "T1": 1124,
+    "T2": 4620
+   },
+   "perHectare": 262.3
+  },
+  "9_10": {
+   "chunk": [
+    9,
+    10
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    4,
+    12,
+    13
+   ],
+   "instances": 5688,
+   "tiers": {
+    "T1": 994,
+    "T2": 4694
+   },
+   "perHectare": 259.8
+  },
+  "10_10": {
+   "chunk": [
+    10,
+    10
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    11,
+    12,
+    13,
+    14
+   ],
+   "instances": 5396,
+   "tiers": {
+    "T1": 2471,
+    "T2": 2925
+   },
+   "perHectare": 246.4
+  },
+  "11_10": {
+   "chunk": [
+    11,
+    10
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    13,
+    14
+   ],
+   "instances": 374,
+   "tiers": {
+    "T1": 210,
+    "T2": 164
+   },
+   "perHectare": 17.1
+  },
+  "0_11": {
+   "chunk": [
+    0,
+    11
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    12,
+    14
+   ],
+   "instances": 664,
+   "tiers": {
+    "T1": 339,
+    "T2": 325
+   },
+   "perHectare": 30.3
+  },
+  "1_11": {
+   "chunk": [
+    1,
+    11
+   ],
+   "region": 11,
+   "regionName": "firm lowland",
+   "regionsPresent": [
+    0,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2920,
+   "tiers": {
+    "T1": 597,
+    "T2": 2323
+   },
+   "perHectare": 133.4
+  },
+  "2_11": {
+   "chunk": [
+    2,
+    11
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    6,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 7017,
+   "tiers": {
+    "T1": 1503,
+    "T2": 5514
+   },
+   "perHectare": 320.5
   },
   "3_11": {
    "chunk": [
@@ -879,98 +3307,396 @@
     11,
     12
    ],
-   "instances": 4740,
+   "instances": 5031,
    "tiers": {
     "T1": 1410,
-    "T2": 3330
+    "T2": 3621
    },
-   "perHectare": 216.5
+   "perHectare": 229.8
   },
-  "4_9": {
+  "4_11": {
    "chunk": [
     4,
-    9
+    11
+   ],
+   "region": 6,
+   "regionName": "rootland deep marsh",
+   "regionsPresent": [
+    5,
+    6,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 3381,
+   "tiers": {
+    "T1": 1452,
+    "T2": 1929
+   },
+   "perHectare": 154.4
+  },
+  "5_11": {
+   "chunk": [
+    5,
+    11
+   ],
+   "region": 12,
+   "regionName": "lake & standing water",
+   "regionsPresent": [
+    6,
+    7,
+    9,
+    11,
+    12
+   ],
+   "instances": 3589,
+   "tiers": {
+    "T1": 1172,
+    "T2": 2417
+   },
+   "perHectare": 163.9
+  },
+  "6_11": {
+   "chunk": [
+    6,
+    11
    ],
    "region": 6,
    "regionName": "rootland deep marsh",
    "regionsPresent": [
     6,
+    7,
     9,
     11,
-    12
+    12,
+    13
    ],
-   "instances": 4152,
+   "instances": 5470,
    "tiers": {
-    "T1": 1841,
-    "T2": 2311
+    "T1": 2182,
+    "T2": 3288
    },
-   "perHectare": 189.6
+   "perHectare": 249.8
   },
-  "4_10": {
+  "7_11": {
    "chunk": [
+    7,
+    11
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    6,
+    7,
+    11,
+    12,
+    13
+   ],
+   "instances": 5705,
+   "tiers": {
+    "T1": 1405,
+    "T2": 4300
+   },
+   "perHectare": 260.6
+  },
+  "8_11": {
+   "chunk": [
+    8,
+    11
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    8,
+    11,
+    12,
+    13
+   ],
+   "instances": 6592,
+   "tiers": {
+    "T1": 1114,
+    "T2": 5478
+   },
+   "perHectare": 301.1
+  },
+  "9_11": {
+   "chunk": [
+    9,
+    11
+   ],
+   "region": 13,
+   "regionName": "tropical jungle",
+   "regionsPresent": [
+    0,
+    3,
     4,
-    10
-   ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
-   "regionsPresent": [
-    5,
-    6,
+    8,
     9,
     11,
-    12
-   ],
-   "instances": 6314,
-   "tiers": {
-    "T1": 3230,
-    "T2": 3084
-   },
-   "perHectare": 288.4
-  },
-  "5_9": {
-   "chunk": [
-    5,
-    9
-   ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
-   "regionsPresent": [
-    6,
-    9,
-    11,
-    12
-   ],
-   "instances": 4287,
-   "tiers": {
-    "T1": 2036,
-    "T2": 2251
-   },
-   "perHectare": 195.8
-  },
-  "5_10": {
-   "chunk": [
-    5,
-    10
-   ],
-   "region": 6,
-   "regionName": "rootland deep marsh",
-   "regionsPresent": [
-    6,
-    9,
-    11,
-    12
-   ],
-   "instances": 3867,
-   "tiers": {
-    "T1": 2234,
-    "T2": 1633
-   },
-   "perHectare": 176.6
-  },
-  "6_14": {
-   "chunk": [
-    6,
+    12,
+    13,
     14
+   ],
+   "instances": 3309,
+   "tiers": {
+    "T1": 776,
+    "T2": 2533
+   },
+   "perHectare": 151.1
+  },
+  "10_11": {
+   "chunk": [
+    10,
+    11
+   ],
+   "region": 14,
+   "regionName": "mangrove forest",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14
+   ],
+   "instances": 3284,
+   "tiers": {
+    "T1": 1463,
+    "T2": 1821
+   },
+   "perHectare": 150.0
+  },
+  "11_11": {
+   "chunk": [
+    11,
+    11
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    12,
+    14
+   ],
+   "instances": 486,
+   "tiers": {
+    "T1": 383,
+    "T2": 103
+   },
+   "perHectare": 22.2
+  },
+  "0_12": {
+   "chunk": [
+    0,
+    12
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1666,
+   "tiers": {
+    "T1": 586,
+    "T2": 1080
+   },
+   "perHectare": 76.1
+  },
+  "1_12": {
+   "chunk": [
+    1,
+    12
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    3,
+    7,
+    8,
+    11,
+    12
+   ],
+   "instances": 3681,
+   "tiers": {
+    "T1": 471,
+    "T2": 3210
+   },
+   "perHectare": 168.1
+  },
+  "2_12": {
+   "chunk": [
+    2,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 7603,
+   "tiers": {
+    "T1": 1967,
+    "T2": 5636
+   },
+   "perHectare": 347.2
+  },
+  "3_12": {
+   "chunk": [
+    3,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    5,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "instances": 4037,
+   "tiers": {
+    "T1": 1031,
+    "T2": 3006
+   },
+   "perHectare": 184.4
+  },
+  "4_12": {
+   "chunk": [
+    4,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 6346,
+   "tiers": {
+    "T1": 1541,
+    "T2": 4805
+   },
+   "perHectare": 289.8
+  },
+  "5_12": {
+   "chunk": [
+    5,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 6242,
+   "tiers": {
+    "T1": 2207,
+    "T2": 4035
+   },
+   "perHectare": 285.1
+  },
+  "6_12": {
+   "chunk": [
+    6,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 5196,
+   "tiers": {
+    "T1": 1255,
+    "T2": 3941
+   },
+   "perHectare": 237.3
+  },
+  "7_12": {
+   "chunk": [
+    7,
+    12
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13
+   ],
+   "instances": 6082,
+   "tiers": {
+    "T1": 1665,
+    "T2": 4417
+   },
+   "perHectare": 277.8
+  },
+  "8_12": {
+   "chunk": [
+    8,
+    12
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    13,
+    14
+   ],
+   "instances": 3385,
+   "tiers": {
+    "T1": 597,
+    "T2": 2788
+   },
+   "perHectare": 154.6
+  },
+  "9_12": {
+   "chunk": [
+    9,
+    12
    ],
    "region": 0,
    "regionName": "ocean",
@@ -983,12 +3709,191 @@
     12,
     14
    ],
-   "instances": 1118,
+   "instances": 2048,
    "tiers": {
-    "T1": 539,
-    "T2": 579
+    "T1": 344,
+    "T2": 1704
    },
-   "perHectare": 51.1
+   "perHectare": 93.5
+  },
+  "10_12": {
+   "chunk": [
+    10,
+    12
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    14
+   ],
+   "instances": 85,
+   "tiers": {
+    "T1": 51,
+    "T2": 34
+   },
+   "perHectare": 3.9
+  },
+  "0_13": {
+   "chunk": [
+    0,
+    13
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1863,
+   "tiers": {
+    "T1": 547,
+    "T2": 1316
+   },
+   "perHectare": 85.1
+  },
+  "1_13": {
+   "chunk": [
+    1,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 4241,
+   "tiers": {
+    "T1": 1024,
+    "T2": 3217
+   },
+   "perHectare": 193.7
+  },
+  "2_13": {
+   "chunk": [
+    2,
+    13
+   ],
+   "region": 7,
+   "regionName": "interior swamp",
+   "regionsPresent": [
+    5,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 4751,
+   "tiers": {
+    "T1": 1046,
+    "T2": 3705
+   },
+   "perHectare": 217.0
+  },
+  "3_13": {
+   "chunk": [
+    3,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    5,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2040,
+   "tiers": {
+    "T1": 311,
+    "T2": 1729
+   },
+   "perHectare": 93.2
+  },
+  "4_13": {
+   "chunk": [
+    4,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    4,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 3349,
+   "tiers": {
+    "T1": 665,
+    "T2": 2684
+   },
+   "perHectare": 153.0
+  },
+  "5_13": {
+   "chunk": [
+    5,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    4,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 1858,
+   "tiers": {
+    "T1": 198,
+    "T2": 1660
+   },
+   "perHectare": 84.9
+  },
+  "6_13": {
+   "chunk": [
+    6,
+    13
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2754,
+   "tiers": {
+    "T1": 441,
+    "T2": 2313
+   },
+   "perHectare": 125.8
   },
   "7_13": {
    "chunk": [
@@ -1007,35 +3912,12 @@
     12,
     14
    ],
-   "instances": 4058,
+   "instances": 4152,
    "tiers": {
-    "T1": 336,
-    "T2": 3722
+    "T1": 354,
+    "T2": 3798
    },
-   "perHectare": 185.3
-  },
-  "7_14": {
-   "chunk": [
-    7,
-    14
-   ],
-   "region": 0,
-   "regionName": "ocean",
-   "regionsPresent": [
-    0,
-    3,
-    4,
-    8,
-    9,
-    11,
-    14
-   ],
-   "instances": 2206,
-   "tiers": {
-    "T1": 952,
-    "T2": 1254
-   },
-   "perHectare": 100.8
+   "perHectare": 189.6
   },
   "8_13": {
    "chunk": [
@@ -1054,12 +3936,220 @@
     12,
     14
    ],
-   "instances": 1871,
+   "instances": 1865,
    "tiers": {
-    "T1": 768,
-    "T2": 1103
+    "T1": 790,
+    "T2": 1075
    },
-   "perHectare": 85.5
+   "perHectare": 85.2
+  },
+  "9_13": {
+   "chunk": [
+    9,
+    13
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 251,
+   "tiers": {
+    "T1": 185,
+    "T2": 66
+   },
+   "perHectare": 11.5
+  },
+  "0_14": {
+   "chunk": [
+    0,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    14
+   ],
+   "instances": 975,
+   "tiers": {
+    "T1": 228,
+    "T2": 747
+   },
+   "perHectare": 44.5
+  },
+  "1_14": {
+   "chunk": [
+    1,
+    14
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    7,
+    8,
+    9,
+    11,
+    12
+   ],
+   "instances": 2680,
+   "tiers": {
+    "T1": 187,
+    "T2": 2493
+   },
+   "perHectare": 122.4
+  },
+  "2_14": {
+   "chunk": [
+    2,
+    14
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    7,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2557,
+   "tiers": {
+    "T1": 423,
+    "T2": 2134
+   },
+   "perHectare": 116.8
+  },
+  "3_14": {
+   "chunk": [
+    3,
+    14
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 2461,
+   "tiers": {
+    "T1": 729,
+    "T2": 1732
+   },
+   "perHectare": 112.4
+  },
+  "4_14": {
+   "chunk": [
+    4,
+    14
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1762,
+   "tiers": {
+    "T1": 247,
+    "T2": 1515
+   },
+   "perHectare": 80.5
+  },
+  "5_14": {
+   "chunk": [
+    5,
+    14
+   ],
+   "region": 8,
+   "regionName": "fringe marsh",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1148,
+   "tiers": {
+    "T1": 475,
+    "T2": 673
+   },
+   "perHectare": 52.4
+  },
+  "6_14": {
+   "chunk": [
+    6,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    9,
+    11,
+    12,
+    14
+   ],
+   "instances": 1119,
+   "tiers": {
+    "T1": 539,
+    "T2": 580
+   },
+   "perHectare": 51.1
+  },
+  "7_14": {
+   "chunk": [
+    7,
+    14
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    9,
+    11,
+    14
+   ],
+   "instances": 2220,
+   "tiers": {
+    "T1": 955,
+    "T2": 1265
+   },
+   "perHectare": 101.4
   },
   "8_14": {
    "chunk": [
@@ -1081,6 +4171,107 @@
     "T2": 13
    },
    "perHectare": 1.1
+  },
+  "1_15": {
+   "chunk": [
+    1,
+    15
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 376,
+   "tiers": {
+    "T1": 197,
+    "T2": 179
+   },
+   "perHectare": 17.2
+  },
+  "2_15": {
+   "chunk": [
+    2,
+    15
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    3,
+    4,
+    8,
+    11,
+    14
+   ],
+   "instances": 361,
+   "tiers": {
+    "T1": 228,
+    "T2": 133
+   },
+   "perHectare": 16.5
+  },
+  "3_15": {
+   "chunk": [
+    3,
+    15
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    8,
+    11
+   ],
+   "instances": 43,
+   "tiers": {
+    "T1": 8,
+    "T2": 35
+   },
+   "perHectare": 2.0
+  },
+  "4_15": {
+   "chunk": [
+    4,
+    15
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    8,
+    11,
+    14
+   ],
+   "instances": 18,
+   "tiers": {
+    "T1": 8,
+    "T2": 10
+   },
+   "perHectare": 0.8
+  },
+  "5_15": {
+   "chunk": [
+    5,
+    15
+   ],
+   "region": 0,
+   "regionName": "ocean",
+   "regionsPresent": [
+    0,
+    11,
+    14
+   ],
+   "instances": 57,
+   "tiers": {
+    "T1": 46,
+    "T2": 11
+   },
+   "perHectare": 2.6
   }
  }
 }

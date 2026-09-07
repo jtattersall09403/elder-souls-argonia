@@ -1,16 +1,22 @@
 import numpy as np
 
-from .refine_province import (CHANNELS, LAKE_BED_M, RAW_M, carve_channels,
-                               carve_polyline, detail_noise,
+from .refine_province import (CHANNELS, LAKE_BED_M, RAW_M, TERRACE_FRAC,
+                               carve_channels, carve_polyline,
+                               carve_to_profile, detail_noise,
                                impose_blackrose_lake)
 
 
-def test_carve_channels_deepens_centreline_only():
+def test_carve_channels_cuts_a_terrace_not_a_ditch():
+    """`carve_channels` is the floodplain TERRACE (2026-09-07): a shallow
+    valley with a bank. The channel proper is cut to the water level by
+    `carve_to_profile`, so this pass must NOT dig the full band depth."""
     h = np.full((80, 80), 5.0, dtype=np.float32)
     rivers = np.zeros((80, 80), dtype=np.uint8)
     rivers[40, :] = 3
     out, dist = carve_channels(h.copy(), rivers)
-    assert out[40, 40] < 5.0 - CHANNELS[3][1] * 0.9   # near-full depth on line
+    cut = 5.0 - out[40, 40]
+    assert abs(cut - CHANNELS[3][1] * TERRACE_FRAC) < 0.05
+    assert cut < CHANNELS[3][1] * 0.6                 # a terrace, not a trough
     assert abs(out[10, 40] - 5.0) < 0.01              # untouched far away
     assert dist[40, 40] == 0.0
 
@@ -45,3 +51,34 @@ def test_carve_polyline_reaches_bed_level():
     out = carve_polyline(h.copy(), (10, 10), (90, 90), 12.0, -1.0, np.random.default_rng(3))
     assert (out < -0.5).sum() > 50   # floor reaches near bed along the line
     assert out.min() >= -1.01        # never carves below the bed level
+
+
+def test_carve_to_profile_puts_the_bed_under_the_water_level():
+    """The bed inside the hydraulic width ends up at least the band film
+    below the conditioned station level, so the compiler's ribbon waters the
+    whole carved bed (owner permission 2026-09-07)."""
+    from .compile_water import FILM_DEPTH, station_long_profile
+
+    n_c = 24
+    # a gentle reach (the film is a film, not a cascade: a steep reach is a
+    # strip, handled by compile_water's cascade records)
+    h = np.tile(np.linspace(60.0, 57.0, n_c * 3, dtype=np.float32)[:, None],
+                (1, n_c * 3))
+    # a rough bed: bumps that used to punch dry gaps through the channel
+    h[::7, :] += 1.5
+    rivers = np.zeros((n_c, n_c), dtype=np.uint8)
+    rivers[:, 12] = 2
+    flow_to = np.full(n_c * n_c, -1, dtype=np.int64)
+    for y in range(n_c - 1):
+        flow_to[y * n_c + 12] = (y + 1) * n_c + 12
+    npz = {"rivers": rivers, "accum_km2": np.full((n_c, n_c), 4.0, np.float32),
+           "flow_to": flow_to, "filled": h[::3, ::3].copy()}
+    out, stats = carve_to_profile(h.copy(), npz)
+    assert stats["cellsLowered"] > 0
+    assert (out <= h + 1e-4).all()                 # only ever lowered
+    prof = station_long_profile(out, rivers, npz["accum_km2"], flow_to,
+                                npz["filled"], bed_win=5)
+    lvl = prof["w_st"]
+    bed = out[prof["sy"], prof["sx"]]
+    assert (lvl - bed >= 0.30).all()   # a real column over the whole reach
+    assert (np.diff(lvl) <= 1e-3).all()            # monotone downstream

@@ -15,7 +15,8 @@ import pytest
 from PIL import Image
 
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import FALL_DROP_M, WEB_STEP
+from .compile_water import (FALL_DROP_M, SEASON_AMPLITUDE_M, WEB_STEP,
+                            station_long_profile)
 from .export_web_chunks import decode_rg16
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -172,3 +173,90 @@ def test_season_never_lifts_a_pool_above_its_own_rim(compiled):
     assert "poolSeasonOvertopMaxM" in stats, "compiled water predates the pool census"
     assert stats["poolSeasonOvertopMaxM"] <= 0.01, stats["poolSeasonOvertopMaxM"]
     assert stats["cappedPools"] > 0
+
+
+VAULT = DEFAULT_HEIGHTS.parent.parent
+HYDRO = VAULT / "hydrology-pass1.npz"
+
+
+@pytest.mark.skipif(not HYDRO.exists(), reason="hydrology npz unavailable")
+def test_the_carved_bed_is_wet_at_peak(compiled):
+    """The bed the water profile was solved from must hold water (2026-09-07).
+
+    `refine_province.carve_to_profile` cuts the channel bed to the conditioned
+    station level minus the band film, flat across CHANNEL_FLAT_FRAC of the
+    hydraulic half-width, and `compile_water` spreads that same level over the
+    same width. So every cell of the flat cut has to read wet at the seasonal
+    peak. Before the change the carve was 2-8x wider than the profile and its
+    bed carried 2.4 m of noise: 297 of 327 reaches were under 95 % wet.
+
+    A handful of reaches in the border ranges still fall short — they are
+    steep enough that the field surface is not what draws them (the strip and
+    cascade meshes are), so the gate is province-wide coverage plus a floor
+    and a quota per reach, not a flat per-reach absolute.
+    """
+    import collections
+
+    from scipy import ndimage
+
+    from .refine_province import CHANNEL_FLAT_FRAC, CHANNEL_MIN_HALF_PX
+
+    meta, w, depth, owner, ground, mpp = compiled
+    npz = np.load(HYDRO)
+    prof = station_long_profile(ground, npz["rivers"], npz["accum_km2"],
+                                npz["flow_to"], npz["filled"])
+    sy, sx = prof["sy"], prof["sx"]
+    n_st = len(sy)
+    # flat-cut half-width, full-res px -> surface px
+    r = (np.maximum(prof["w_geom"] * 0.5 / (mpp / WEB_STEP), CHANNEL_MIN_HALF_PX)
+         * CHANNEL_FLAT_FRAC / WEB_STEP).astype(np.float32)
+    st_mask = np.zeros(ground.shape, dtype=bool)
+    st_mask[sy, sx] = True
+    r_r = np.zeros(ground.shape, dtype=np.float32)
+    np.maximum.at(r_r, (sy, sx), r)
+    st_id = np.full(ground.shape, -1, dtype=np.int64)
+    st_id[sy, sx] = np.arange(n_st)
+    d, (ky, kx) = ndimage.distance_transform_edt(~st_mask, return_indices=True)
+    bed = d <= np.maximum(r_r[ky, kx], 0.5)
+    near = st_id[ky, kx]
+
+    n2 = ground.shape[0]
+    scale = n2 / npz["rivers"].shape[0]
+    season = ndimage.zoom(np.load(VAULT / "water-pass1.npz")["season"],
+                          scale, order=1)[:n2, :n2]
+    tide = ndimage.zoom((npz["salinity"] >= 0.3).astype(np.float32),
+                        scale, order=0)[:n2, :n2]
+    wet = (w + SEASON_AMPLITUDE_M * season + 0.5 * tide - ground) >= 0.05
+
+    assert wet[bed].mean() >= 0.95, \
+        f"carved bed only {wet[bed].mean():.3f} wet at peak province-wide"
+
+    tot = np.bincount(near[bed], minlength=n_st).astype(float)
+    hit = np.bincount(near[bed & wet], minlength=n_st).astype(float)
+    parent = np.arange(n_st)
+
+    def find(a):
+        while parent[a] != a:
+            parent[a] = parent[parent[a]]
+            a = parent[a]
+        return a
+
+    for k in range(n_st):
+        if prof["dsk"][k] >= 0:
+            a, b = find(k), find(int(prof["dsk"][k]))
+            if a != b:
+                parent[a] = b
+    groups = collections.defaultdict(list)
+    for k in range(n_st):
+        groups[find(k)].append(k)
+    reaches = [(hit[ks].sum() / tot[ks].sum(), int(tot[ks].sum()), ks[0])
+               for ks in groups.values()
+               if len(ks) >= 3 and tot[ks].sum() >= 20]
+    assert reaches, "no reaches measured"
+    worst = min(reaches)
+    ok = sum(1 for f, _, _ in reaches if f >= 0.95)
+    assert worst[0] >= 0.70, (
+        f"reach at station {worst[2]} only {worst[0]:.3f} wet at peak "
+        f"over {worst[1]} bed cells")
+    assert ok / len(reaches) >= 0.90, \
+        f"only {ok}/{len(reaches)} reaches >= 95 % wet at peak"

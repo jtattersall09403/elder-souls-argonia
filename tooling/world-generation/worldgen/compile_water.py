@@ -49,7 +49,13 @@ WEB_STEP = 2                  # surface grid:   4033 -> 2017, 3.65568 m/px
 
 # Water surface authoring
 FREEBOARD = {1: 0.5, 2: 0.9, 3: 1.5}   # river surface = ambient bank - freeboard
-CARVE_DEPTH = {1: 1.4, 2: 2.6, 3: 4.2}  # refine_province.CHANNELS bed depths
+CARVE_DEPTH = {1: 1.4, 2: 2.6, 3: 4.2}  # refine_province.CHANNELS terrace depths
+# Flowing film over the conditioned bed, by river band. THE one definition:
+# refine_province imports it (with station_long_profile) so the terrain it
+# carves and the surface compiled here are built from the same profile.
+FILM_DEPTH = {1: 0.30, 2: 0.55, 3: 0.85}
+PROFILE_FLOOR_M = 0.08        # a station level never sinks below bed + this
+WIDTH_COEF, WIDTH_EXP = 14.0, 0.40   # Leopold-Maddock hydraulic width, metres
 LAKE_DROP_M = 0.10            # lake surface sits just under the fill level
 LAKE_MIN_PX = 4               # ignore pit-noise "lakes" smaller than this
 # Refined-grid placement (owner round 2 — "water finds its level")
@@ -62,6 +68,8 @@ POOL_FLOOR_FRAC = 0.30        # "the floor" = the lowest 30 % of the relief
 POOL_FLOOR_SLOPE = 0.07       # the BED must be gentle; the rim need not be
 POOL_AREA_CAP_PX = 3000       # flooded-extent cap, plus...
 POOL_AREA_PER_M = 12000.0     # ...this much per metre of relief
+BASIN_MIN_RELIEF_M = 3.0      # a rejected depression this deep is a real basin
+BASIN_MAX_RISE_M = 2.0        # ...but it may only rise this far over built ground
 PINHOLE_MIN_WET_NB = 8        # dry cell with >= this many wet 3x3 neighbours = pinhole
 SEASON_AMPLITUDE_M = 1.4      # runtime wet-season lift (waterMaterial uLevelSeason)
 FRINGE_PX = 4                 # flat low-bank continuation (tide/season headroom)
@@ -205,6 +213,127 @@ def build_chains(kind, dsk, w_st, pooled):
     return chains, up_any
 
 
+def placement_cells(shape, mpp) -> np.ndarray:
+    """Cells the placement phases have already built on: place anchors,
+    blueprint parcel centres, and the road/track network.
+
+    Used only to cap how far a rescued basin may flood (a pool is allowed to
+    appear, but it may not swallow a settlement or a road that was sited on
+    dry ground). Missing exports simply mean nothing is protected there.
+    """
+    occ = np.zeros(shape, dtype=bool)
+    prov = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
+
+    def mark(x_m, z_m):
+        ix = int(round(x_m / mpp))
+        iy = int(round(z_m / mpp))
+        if 0 <= iy < shape[0] and 0 <= ix < shape[1]:
+            occ[iy, ix] = True
+
+    path = prov / "places.json"
+    if path.exists():
+        for pl in json.loads(path.read_text()).get("places", []):
+            pos = pl.get("positionM")
+            if pos:
+                mark(pos[0], pos[1])
+    path = prov / "blueprints.json"
+    if path.exists():
+        for bp in json.loads(path.read_text()).get("blueprints", []):
+            for par in bp.get("parcels", []):
+                c = par.get("centreM")
+                if c:
+                    mark(c[0], c[1])
+    for name in ("routes.json", "routes-minor.json"):
+        path = prov / name
+        if not path.exists():
+            continue
+        doc = json.loads(path.read_text())
+        for route in doc.get("routes", []) + doc.get("ways", []):
+            px = route.get("px", [])
+            for (x0, y0), (x1, y1) in zip(px, px[1:]):
+                n = int(max(abs(x1 - x0), abs(y1 - y0))) * 3 + 2
+                for t in np.linspace(0.0, 1.0, n):
+                    mark((x0 + (x1 - x0) * t) * RAW_M * STEP,
+                         (y0 + (y1 - y0) * t) * RAW_M * STEP)
+    return ndimage.binary_dilation(occ, iterations=1)
+
+
+def station_long_profile(ground, rivers, accum_km2, flow_to, filled,
+                         pool_lvl=None, bed_win=3):
+    """The conditioned river long profile, on ANY square grid over the province.
+
+    Stations are the coarse river cells; each is placed at the centre of its
+    footprint on `ground`. The surface starts at the local bed minimum plus
+    the band film, is clamped UP to any standing pool it crosses, then made
+    monotone non-increasing downstream (two conditioning passes with
+    along-chain smoothing, then a strict pass), never sinking below its own
+    bed + PROFILE_FLOOR_M.
+
+    `refine_province` carves the bed TO this profile minus the film and the
+    compiler then re-solves it on the carved terrain, so the two agree by
+    construction rather than by two copies of the same arithmetic.
+    """
+    n = ground.shape[0]
+    w_ = rivers.shape[1]
+    scale = n / rivers.shape[0]
+    rflat = rivers.reshape(-1)
+    idx_st = np.flatnonzero(rflat > 0)
+    n_st = len(idx_st)
+    sy = np.minimum(((idx_st // w_) * scale + scale * 0.5).astype(np.int64), n - 1)
+    sx = np.minimum(((idx_st % w_) * scale + scale * 0.5).astype(np.int64), n - 1)
+    bed_st = ndimage.minimum_filter(ground, size=bed_win)[sy, sx].astype(np.float32)
+    film_st = np.select([rflat[idx_st] == b for b in (1, 2, 3)],
+                        [np.float32(FILM_DEPTH[b]) for b in (1, 2, 3)]).astype(np.float32)
+    w_st = bed_st + film_st
+    floor_st = bed_st + np.float32(PROFILE_FLOOR_M)
+    if pool_lvl is None:
+        pooled = np.zeros(n_st, dtype=bool)
+    else:
+        pool_at = pool_lvl[sy, sx]
+        pooled = pool_at > w_st
+        w_st = np.maximum(w_st, pool_at).astype(np.float32)
+    # downstream station row for each station (coarse flow graph)
+    pos = np.full(rivers.size, -1, dtype=np.int64)
+    pos[idx_st] = np.arange(n_st)
+    ds_flat = flow_to.reshape(-1)[idx_st]
+    dsk = np.where((ds_flat >= 0) & (pos[np.maximum(ds_flat, 0)] >= 0),
+                   pos[np.maximum(ds_flat, 0)], -1)
+    mpp1 = RAW_M * STEP
+    seg_dist = np.full(n_st, mpp1, dtype=np.float32)
+    hasd = dsk >= 0
+    seg_dist[hasd] = np.hypot(
+        (ds_flat[hasd] // w_) - (idx_st[hasd] // w_),
+        (ds_flat[hasd] % w_) - (idx_st[hasd] % w_)) * mpp1
+    order = np.argsort(-filled.reshape(-1)[idx_st], kind="stable")  # upstream first
+    for _pass in range(2):
+        for k in order:
+            d = dsk[k]
+            if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
+                w_st[d] = max(w_st[k], floor_st[d])
+        w_sm = w_st.copy()
+        cnt = np.ones(n_st, dtype=np.float32)
+        np.add.at(w_sm, dsk[hasd], w_st[hasd])
+        np.add.at(cnt, dsk[hasd], 1.0)
+        w_sm[hasd] += w_st[dsk[hasd]]
+        cnt[hasd] += 1.0
+        w_st = np.where(pooled, w_st, np.maximum(w_sm / cnt, floor_st)).astype(np.float32)
+    for k in order:  # final strict monotone pass
+        d = dsk[k]
+        if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
+            w_st[d] = max(w_st[k], floor_st[d])
+    # A station level may never land under the bed it was computed from.
+    assert bool(np.all(w_st >= bed_st + PROFILE_FLOOR_M - 1e-4)), \
+        "conditioned station level below its own bed"
+    a_st = np.maximum(accum_km2.reshape(-1)[idx_st], 0.02)
+    return {
+        "idx_st": idx_st, "sy": sy, "sx": sx, "band": rflat[idx_st],
+        "bed_st": bed_st, "film_st": film_st, "w_st": w_st, "pooled": pooled,
+        "dsk": dsk, "ds_flat": ds_flat, "seg_dist": seg_dist, "order": order,
+        "accum_st": a_st.astype(np.float32),
+        "w_geom": (WIDTH_COEF * a_st ** WIDTH_EXP).astype(np.float32),
+    }
+
+
 def bowl_accepts(depth_fill, lbl2, idx_l, slope2, relief, areas2):
     """Per-depression acceptance on the basin's own geometry (round 8).
 
@@ -314,8 +443,24 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         w2 = np.where(mask, np.fmax(np.nan_to_num(w2, nan=-1e9), values), w2)
         w2[w2 < -1e8] = np.nan
 
-    # sea plane (y = 0, decision 0003/0005)
-    comp(g2 < 0.0, np.float32(0.0))
+    # sea plane (y = 0, decision 0003/0005) — but ONLY where the ground below
+    # zero actually reaches the sea. An inland hollow whose floor happens to
+    # sit a few centimetres under datum is a BASIN, not an arm of the ocean;
+    # pinning it to y = 0 gave the owner's (1470 E, 4130 S) case a 0.04 m film
+    # in a bowl with 68-146 m walls, and excluded it from the depression pass
+    # that would otherwise have filled it. Connectivity decides, not sign.
+    below0 = (g2 < 0.0) | (g2s < 0.0)
+    lbl_o, n_o = ndimage.label(below0)
+    if n_o:
+        seed = up_near(ocean)
+        ids = np.unique(lbl_o[seed & (lbl_o > 0)])
+        edge = np.concatenate([lbl_o[0], lbl_o[-1], lbl_o[:, 0], lbl_o[:, -1]])
+        ids = np.union1d(ids, np.unique(edge))
+        sea_conn = np.isin(lbl_o, ids[ids > 0])
+    else:
+        sea_conn = below0
+    del below0, lbl_o
+    comp(sea_conn & (g2 < 0.0), np.float32(0.0))
 
     # rivers: coarse backwatered level, spread to a >=2-px ribbon, with a
     # guaranteed minimum column over the local carved channel bottom
@@ -332,7 +477,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     riv2 = riv2f > 0.35
     riv2core = up_near(riv)
 
-    ocean2 = g2s < 0.0
+    ocean2 = sea_conn & (g2s < 0.0)
     filled2 = fill_depressions(g2s, ocean2)
     depth_fill = filled2 - g2s
     wet_heart = up_near(np.isin(npz["regions"], (6, 7, 8, 13)))
@@ -380,8 +525,48 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX))
         keep2 = np.zeros(n_l + 1, dtype=bool)
         keep2[1:] = (allow_frac > 0.25) & stands & size_ok
-        pool_lvl = np.where(keep2[lbl2], (filled2 - 0.05), -np.inf).astype(np.float32)
-        comp(keep2[lbl2], (filled2 - 0.05).astype(np.float32))
+
+        # Sea-plane-pinned inland basins (owner 2026-09-07). A closed
+        # depression whose floor sits on the sea plane but whose rim stands
+        # tens of metres above it is a real inland basin, not an arm of the
+        # sea — and the tests above (which ask for a gentle bed and a modest
+        # extent) throw exactly those away, so they render as dry holes with
+        # a water plane pinned at y = 0 in the bottom. Any rejected
+        # depression with BASIN_MIN_RELIEF_M of relief is accepted at its own
+        # spill level; if anything has been BUILT in it, the level may rise
+        # no more than BASIN_MAX_RISE_M above what it already carries.
+        lvl_cell = (filled2 - 0.05).astype(np.float32)
+        # The level a basin already carries: whatever water stands in it, or
+        # else its own floor (a dry basin "rises" from its bed, not from the
+        # sea plane — otherwise every mountain tarn reports a 600 m rise).
+        floor_l = np.asarray(ndimage.minimum(g2, lbl2, idx_l), dtype=np.float32)
+        cur_lvl = np.maximum(np.asarray(ndimage.maximum(
+            np.nan_to_num(w2, nan=-1e9), lbl2, idx_l), dtype=np.float32), floor_l)
+        occ = placement_cells(g2.shape, mpp2)
+        occupied = np.asarray(
+            ndimage.maximum(occ.astype(np.float32), lbl2, idx_l)) > 0.5
+        # ...and it must be a BASIN, not a pit: a depression narrower in plan
+        # than it is deep is a raster artefact, and filling it to the rim
+        # makes a column of water in a mountain hole.
+        wide_enough = areas2 * (mpp2 * mpp2) >= relief * relief
+        rescued = ((~keep2[1:]) & (relief >= BASIN_MIN_RELIEF_M)
+                   & (areas2 >= MIN_POOL_PX) & wide_enough)
+        cap_lvl = np.concatenate([[np.inf], np.where(
+            rescued & occupied, cur_lvl + BASIN_MAX_RISE_M, np.inf)]).astype(np.float32)
+        keep2[1:] |= rescued
+        lvl_cell = np.minimum(lvl_cell, cap_lvl[lbl2]).astype(np.float32)
+        pool_lvl = np.where(keep2[lbl2], lvl_cell, -np.inf).astype(np.float32)
+        comp(keep2[lbl2], lvl_cell)
+        spill_l = np.asarray(ndimage.maximum(lvl_cell, lbl2, idx_l), dtype=np.float32)
+        big_rise = rescued & (spill_l - cur_lvl > BASIN_MAX_RISE_M)
+        cen = ndimage.center_of_mass(np.ones_like(lbl2, dtype=np.float32),
+                                     lbl2, idx_l[big_rise]) if big_rise.any() else []
+        raised_basins = [
+            {"eastM": round(float(cx * mpp2), 1), "southM": round(float(cy * mpp2), 1),
+             "levelM": round(float(spill_l[i]), 2),
+             "riseM": round(float(spill_l[i] - cur_lvl[i]), 2),
+             "areaPx": int(areas2[i]), "reliefM": round(float(relief[i]), 2)}
+            for (cy, cx), i in zip(cen, np.flatnonzero(big_rise))]
 
         # --- per-pool season headroom (round 8) --------------------------
         # The runtime lifts the surface by SEASON_AMPLITUDE_M · season, with
@@ -393,7 +578,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         # the pool's season RESPONSE is scaled to headroom/amplitude so the
         # unchanged runtime formula can never overtop it. Rivers, marsh
         # sheets and the sea keep response 1.
-        lvl_c = ndimage.maximum(filled2, lbl2, idx_l) - 0.05
+        lvl_c = np.asarray(ndimage.maximum(lvl_cell, lbl2, idx_l), dtype=np.float32)
         rim, headroom = pool_headroom(g2, lbl2, idx_l, lvl_c)
         resp = np.concatenate([[1.0], np.where(
             keep2[1:] & ~rivery, headroom / SEASON_AMPLITUDE_M, 1.0)]).astype(np.float32)
@@ -405,6 +590,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         census = {
             "components": int(n_l),
             "keptPools": int(keep2.sum()),
+            "rescuedBasins": int(rescued.sum()),
+            "basinsRaisedOverCapM": raised_basins,
             "keptByBowlOnly": int((keep2[1:] & bowl & ~rivery &
                                    ~(mean_slope < 0.07)).sum()),
             "poolSeasonOvertopMaxM": round(pool_overtop, 3),
@@ -416,6 +603,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     else:
         season_cap2 = np.ones(g2.shape, dtype=np.float32)
         census = {"components": 0, "keptPools": 0, "keptByBowlOnly": 0,
+                  "rescuedBasins": 0, "basinsRaisedOverCapM": [],
                   "poolSeasonOvertopMaxM": -1.0, "cappedPools": 0,
                   "zeroHeadroomPools": 0,
                   "medianHeadroomM": 0.0}
@@ -428,59 +616,27 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     # clamped UP to any priority-flood pool it crosses, made monotone by a
     # downstream running-min, smoothed along the chain, then spread across
     # the hydraulic width so banks never show dry slivers.
-    FILM_DEPTH = {1: 0.30, 2: 0.55, 3: 0.85}
-    rflat = rivers.reshape(-1)
-    idx_st = np.flatnonzero(rflat > 0)
+    prof = station_long_profile(g2, rivers, npz["accum_km2"], flow_to, filled,
+                                pool_lvl=pool_lvl)
+    idx_st = prof["idx_st"]
     n_st = len(idx_st)
-    sy = np.minimum(((idx_st // w_) * scale2 + scale2 * 0.5).astype(np.int64), n2 - 1)
-    sx = np.minimum(((idx_st % w_) * scale2 + scale2 * 0.5).astype(np.int64), n2 - 1)
-    bed_st = ndimage.minimum_filter(g2, size=3)[sy, sx].astype(np.float32)
-    film_st = np.select([rflat[idx_st] == b for b in (1, 2, 3)],
-                        [np.float32(FILM_DEPTH[b]) for b in (1, 2, 3)]).astype(np.float32)
-    w_st = bed_st + film_st
-    floor_st = bed_st + 0.08
-    pool_at = pool_lvl[sy, sx]
-    pooled = pool_at > w_st
-    w_st = np.maximum(w_st, pool_at).astype(np.float32)
-    # downstream station row for each station (coarse flow graph)
-    pos = np.full(z.size, -1, dtype=np.int64)
-    pos[idx_st] = np.arange(n_st)
-    ds_flat = flow_to[idx_st]
-    dsk = np.where((ds_flat >= 0) & (pos[np.maximum(ds_flat, 0)] >= 0),
-                   pos[np.maximum(ds_flat, 0)], -1)
-    seg_dist = np.full(n_st, mpp1, dtype=np.float32)
-    hasd = dsk >= 0
-    seg_dist[hasd] = np.hypot(
-        (ds_flat[hasd] // w_) - (idx_st[hasd] // w_),
-        (ds_flat[hasd] % w_) - (idx_st[hasd] % w_)) * mpp1
-    order = np.argsort(-filled.reshape(-1)[idx_st], kind="stable")  # upstream first
-    for _pass in range(2):
-        for k in order:
-            d = dsk[k]
-            if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
-                w_st[d] = max(w_st[k], floor_st[d])
-        # gentle along-chain smoothing (station <-> its downstream partner)
-        w_sm = w_st.copy()
-        cnt = np.ones(n_st, dtype=np.float32)
-        np.add.at(w_sm, dsk[hasd], w_st[hasd])
-        np.add.at(cnt, dsk[hasd], 1.0)
-        w_sm[hasd] += w_st[dsk[hasd]]
-        cnt[hasd] += 1.0
-        w_st = np.where(pooled, w_st, np.maximum(w_sm / cnt, floor_st)).astype(np.float32)
-    for k in order:  # final strict monotone pass
-        d = dsk[k]
-        if d >= 0 and not pooled[d] and w_st[d] > w_st[k]:
-            w_st[d] = max(w_st[k], floor_st[d])
+    sy, sx = prof["sy"], prof["sx"]
+    bed_st, film_st, w_st = prof["bed_st"], prof["film_st"], prof["w_st"]
+    pooled, dsk, ds_flat = prof["pooled"], prof["dsk"], prof["ds_flat"]
+    seg_dist, order = prof["seg_dist"], prof["order"]
 
     # steep/fall classification + chain merge (decision 0046 item 4)
     st_kind, st_slope, st_drop = classify_stations(w_st, dsk, seg_dist, pooled)
     core_chains, up_any = build_chains(st_kind, dsk, w_st, pooled)
 
     # lateral spread: nearest-station level across the Leopold–Maddock width
-    a_st = np.maximum(npz["accum_km2"].reshape(-1)[idx_st], 0.02)
-    w_geom = 14.0 * a_st ** 0.40
+    a_st = prof["accum_st"]
+    w_geom = prof["w_geom"]
     d_geom = (1.8 * a_st ** 0.29).astype(np.float32)
-    r_st = np.clip(w_geom * 0.5 / mpp2, 1.0, 4.5).astype(np.float32)
+    # The ribbon covers the hydraulic width and nothing more. refine_province
+    # carves the bed to this SAME intent half-width, so the spread waters the
+    # whole carved bed; the old 4.5-px cap left the outer bed permanently dry.
+    r_st = np.maximum(w_geom * 0.5 / mpp2, 1.0).astype(np.float32)
     st_mask = np.zeros(g2.shape, dtype=bool)
     st_mask[sy, sx] = True
     lvl_r = np.full(g2.shape, -np.inf, dtype=np.float32)
@@ -489,13 +645,62 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     np.maximum.at(r_r, (sy, sx), r_st)
     dmax_r = np.zeros(g2.shape, dtype=np.float32)
     np.maximum.at(dmax_r, (sy, sx), film_st + d_geom + 1.2)
+    # Guard level: normally the station's own level, but on a FALL segment
+    # (a cascade lip) the falling reach and its base sit a whole drop below
+    # the lip, so the lip's own level excluded them and the sheet landed on
+    # dry ground. Judge those cells against the DOWNSTREAM station instead.
+    guard_st = w_st.copy()
+    fall_seg = (st_drop >= FALL_DROP_M) & (dsk >= 0)
+    guard_st[fall_seg] = w_st[dsk[fall_seg]]
+    guard_r = np.full(g2.shape, np.inf, dtype=np.float32)
+    np.minimum.at(guard_r, (sy, sx), guard_st)   # lowest guard wins: inclusive
     d_st, (ky, kx) = ndimage.distance_transform_edt(~st_mask, return_indices=True)
     lvl_n = lvl_r[ky, kx]
-    ribbon = (d_st <= r_r[ky, kx] + 0.5) & np.isfinite(lvl_n)
+    in_width = (d_st <= r_r[ky, kx] + 0.5) & np.isfinite(lvl_n)
     # ground far below the station level is off-channel (the downhill bank
     # on a cross-slope) — never flood it from the ribbon
-    ribbon &= g2 > (lvl_n - dmax_r[ky, kx])
+    ribbon = in_width & (g2 > (guard_r[ky, kx] - dmax_r[ky, kx]))
     comp(ribbon, lvl_n.astype(np.float32))
+    # (d) The bed the profile was computed from is always wet: any cell inside
+    # the intent width whose ground lies under the nearest station level takes
+    # that level, guard or no guard. No level may sit under its own bed.
+    bed_wet = in_width & (g2 < lvl_n)
+    comp(bed_wet, lvl_n.astype(np.float32))
+    ribbon = ribbon | bed_wet
+
+    # (c) A plunge pool at every cascade base. A fall that lands on dry
+    # ground is the one thing a waterfall may never do; where the priority
+    # flood found no pool at the base station we accept a small one there,
+    # at the base cell's own fill level.
+    plunge = np.zeros(g2.shape, dtype=bool)
+    plunge_lvl = np.full(g2.shape, -1e9, dtype=np.float32)
+    n_plunge = 0
+    for chain in core_chains:
+        base = -1
+        for k in chain:
+            if st_kind[k] == 2:
+                base = int(dsk[k]) if dsk[k] >= 0 else int(k)
+        if base < 0 or pooled[base]:
+            continue
+        by, bx = int(sy[base]), int(sx[base])
+        lvl_b = float(filled2[by, bx]) - 0.05
+        if not np.isfinite(lvl_b) or lvl_b <= float(g2[by, bx]) + 0.05:
+            continue
+        rr = int(np.ceil(max(float(r_st[base]), 2.0)))
+        y0, y1 = max(by - rr, 0), min(by + rr + 1, n2)
+        x0, x1 = max(bx - rr, 0), min(bx + rr + 1, n2)
+        dy_ = (np.arange(y0, y1) - by)[:, None]
+        dx_ = (np.arange(x0, x1) - bx)[None, :]
+        m = (dy_ * dy_ + dx_ * dx_ <= rr * rr) & (g2[y0:y1, x0:x1] < lvl_b)
+        if not m.any():
+            continue
+        plunge[y0:y1, x0:x1] |= m
+        blk = plunge_lvl[y0:y1, x0:x1]
+        plunge_lvl[y0:y1, x0:x1] = np.where(m, np.maximum(blk, lvl_b), blk)
+        n_plunge += 1
+    if plunge.any():
+        comp(plunge, plunge_lvl)
+        ribbon = ribbon | plunge
     riv2 = riv2 | ribbon
 
     # which station owns each ribbon cell (nearest-station EDT indices)
@@ -734,7 +939,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
             f"non-monotone strip core at station {chain[0]}"
         channels.append({
             "id": f"strip-{len(channels)}",
-            "band": int(rflat[idx_st[chain[0]]]),
+            "band": int(prof["band"][chain[0]]),
             "points": pts,
         })
         for k in chain:
@@ -761,7 +966,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
                 cascades.append({
                     "id": f"fall-{len(cascades)}",
                     "bodyIndex": 0,
-                    "riverBand": int(rflat[idx_st[lip_k]]),
+                    "riverBand": int(prof["band"][lip_k]),
                     "lip": {"x": round(lx, 2), "y": round(float(w_st[lip_k]), 2),
                             "z": round(lz, 2)},
                     "plunge": {"x": round(px, 2),
@@ -798,6 +1003,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         "stripCount": len(channels),
         "stripKm": round(strip_len_m / 1000.0, 2),
         "cascadeCount": len(cascades),
+        "plungePools": int(n_plunge),
         "ownerFrac": round(float((owner2 > 0).mean()), 6),
         "fallDropM": FALL_DROP_M,
         "steepSlope": STEEP_SLOPE,

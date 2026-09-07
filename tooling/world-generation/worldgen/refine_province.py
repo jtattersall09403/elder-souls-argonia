@@ -38,8 +38,23 @@ SEED = 20260823
 # Detail-noise amplitude (m) by region class id (vertical — no conversion).
 NOISE_AMP = {0: 0.0, 1: 3.0, 2: 2.0, 3: 0.3, 4: 0.3, 5: 0.4, 6: 0.35, 7: 0.35,
              8: 0.4, 9: 0.5, 10: 0.9, 11: 0.8, 12: 0.15, 13: 1.2}
-# Channel cross-sections by river band: (half-width m, depth m).
+# Floodplain terrace by river band: (half-width m, depth m). This is the WIDE,
+# gentle valley the river sits in — NOT the channel. Until 2026-09-07 the same
+# 10/22/45 m half-widths were cut to the full depth below, which dug a trough
+# two to eight times wider than the river's own hydraulic width and left an
+# empty ditch with a rough bed: 297 of 327 reaches were under 95 % wet at peak.
+# The depth is now scaled by TERRACE_FRAC so it reads as a shallow valley with
+# a bank, and the channel proper is cut TO the water level by carve_to_profile.
 CHANNELS = {1: (10.0 * TUNE, 1.4), 2: (22.0 * TUNE, 2.6), 3: (45.0 * TUNE, 4.2)}
+TERRACE_FRAC = 0.45
+# Channel carve (to a level, like carve_polyline). The bed is cut to the
+# conditioned station long profile minus the band film, inside the river's own
+# hydraulic half-width; the cut is flat out to CHANNEL_FLAT_FRAC of that width
+# and smoothsteps up to the bank over the rest. Lowering is capped at the
+# terrace depth plus CHANNEL_MAX_EXTRA_M so a cascade cliff is never planed off.
+CHANNEL_FLAT_FRAC = 0.6
+CHANNEL_MIN_HALF_PX = 2.0        # >= the compiler's 1-px floor on the half grid
+CHANNEL_MAX_EXTRA_M = 2.0
 CHANNEL_NOISE_FADE_M = 90.0 * TUNE   # detail noise fades within ~2 channel widths
 
 BLACKROSE_UV = (0.32, 0.87)
@@ -83,8 +98,10 @@ def detail_noise(shape, regions_up, channel_dist_m, rng):
     amp = np.zeros(shape, dtype=np.float32)
     for cid, a in NOISE_AMP.items():
         amp[regions_up == cid] = a
-    # keep drainage: fade detail out within ~2 channel widths
-    amp *= np.clip(channel_dist_m / CHANNEL_NOISE_FADE_M, 0.25, 1.0)
+    # keep drainage: fade detail out within ~2 channel widths, TO ZERO on the
+    # centreline. The old 0.25 floor left up to 0.3 m of noise in the channel
+    # core, which is half a band-1 film — the bed has to stay monotone.
+    amp *= np.clip(channel_dist_m / CHANNEL_NOISE_FADE_M, 0.0, 1.0)
     return field * amp
 
 
@@ -95,11 +112,72 @@ def carve_channels(h, rivers_up):
         if not mask.any():
             continue
         d = (ndimage.distance_transform_edt(~mask) * RAW_M).astype(np.float32)
-        h -= (depth * np.exp(-((d / half_w) ** 2))).astype(np.float32)
+        h -= (depth * TERRACE_FRAC * np.exp(-((d / half_w) ** 2))).astype(np.float32)
         dist_all = d if dist_all is None else np.minimum(dist_all, d)
     if dist_all is None:
         dist_all = np.full(h.shape, 1e9)
     return h, dist_all
+
+
+def carve_to_profile(h, npz):
+    """Cut the channel bed TO the water level, inside the river's own width.
+
+    The level is `compile_water.station_long_profile` — the same conditioned,
+    monotone-downstream station profile the water compiler builds — so the
+    terrain and the water surface are solved from one definition instead of
+    two. Bed target = station level - band film; cross-section flat out to
+    CHANNEL_FLAT_FRAC of the hydraulic half-width, smoothstepping up to the
+    untouched bank; ground is only ever LOWERED, and never by more than the
+    terrace depth + CHANNEL_MAX_EXTRA_M (which is what keeps a cascade lip a
+    cascade lip rather than planing the fall away).
+
+    Runs LAST, after the fluvial continuum and the shoreline smoothing, so
+    the profile is solved on exactly the terrain the compiler will read.
+    """
+    from .compile_water import FILM_DEPTH, station_long_profile
+
+    prof = station_long_profile(h, npz["rivers"], npz["accum_km2"],
+                                npz["flow_to"], npz["filled"], bed_win=5)
+    sy, sx = prof["sy"], prof["sx"]
+    band = prof["band"]
+    target_st = (prof["w_st"] - prof["film_st"]).astype(np.float32)
+    half_px = np.maximum(prof["w_geom"] * 0.5 / RAW_M,
+                         CHANNEL_MIN_HALF_PX).astype(np.float32)
+    cap_st = np.select([band == b for b in (1, 2, 3)],
+                       [np.float32(CHANNELS[b][1] * TERRACE_FRAC + CHANNEL_MAX_EXTRA_M)
+                        for b in (1, 2, 3)]).astype(np.float32)
+
+    st_mask = np.zeros(h.shape, dtype=bool)
+    st_mask[sy, sx] = True
+    tgt_r = np.full(h.shape, np.inf, dtype=np.float32)
+    np.minimum.at(tgt_r, (sy, sx), target_st)      # deepest station wins
+    rad_r = np.zeros(h.shape, dtype=np.float32)
+    np.maximum.at(rad_r, (sy, sx), half_px)
+    cap_r = np.zeros(h.shape, dtype=np.float32)
+    np.maximum.at(cap_r, (sy, sx), cap_st)
+
+    d, (ky, kx) = ndimage.distance_transform_edt(~st_mask, return_indices=True)
+    d = d.astype(np.float32)
+    r = rad_r[ky, kx]
+    inside = d <= r
+    flat = CHANNEL_FLAT_FRAC * r
+    t = np.clip((d - flat) / np.maximum(r - flat, 1e-6), 0.0, 1.0)
+    wgt = np.where(inside, 1.0 - t * t * (3.0 - 2.0 * t), 0.0).astype(np.float32)
+    bed = tgt_r[ky, kx]
+    aim = (bed * wgt + h * (1.0 - wgt)).astype(np.float32)
+    aim = np.maximum(aim, h - cap_r[ky, kx])       # never cut deeper than the cap
+    lowered = np.where(inside, np.minimum(h, aim), h).astype(np.float32)
+    drop = (h - lowered)[inside & (h - lowered > 0.01)]
+    stats = {
+        "cellsLowered": int(drop.size),
+        "medianM": round(float(np.median(drop)), 3) if drop.size else 0.0,
+        "p90M": round(float(np.percentile(drop, 90)), 3) if drop.size else 0.0,
+        "p99M": round(float(np.percentile(drop, 99)), 3) if drop.size else 0.0,
+        "maxM": round(float(drop.max()), 3) if drop.size else 0.0,
+        "intentFootprintCells": int(inside.sum()),
+        "stations": int(len(target_st)),
+    }
+    return lowered, stats
 
 
 def carve_polyline(h, p0, p1, half_w_m, bed_m, rng):
@@ -296,6 +374,12 @@ def main() -> None:
         filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
 
+    # Channel bed LAST: cut to the conditioned water profile on the final
+    # terrain, so the compiler re-solves the same profile over a bed that is
+    # already at it (owner permission 2026-09-07 to edit terrain for water).
+    h, channel_stats = carve_to_profile(h, npz)
+    print("channel carve:", json.dumps(channel_stats))
+
     vault_dir = height_path.parent / "province-refined"
     vault_dir.mkdir(exist_ok=True)
     np.save(vault_dir / "refined-height-f32.npy", h)
@@ -391,6 +475,7 @@ def main() -> None:
             "canoeChannels": sum(1 for f in portage_features if f["mode"] == "canoe-channel"),
             "portages": sum(1 for f in portage_features if f["mode"] == "portage"),
         },
+        "channelCarve": channel_stats,
         "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
     }
     (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
