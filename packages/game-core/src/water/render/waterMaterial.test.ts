@@ -1,6 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import * as THREE from "three";
-import { createWaterMaterial, createWaterUniforms, WATER_TIERS } from "./waterMaterial";
+import {
+  OWNER_DILATE_M, STRIP_AERATION_GLSL, createWaterMaterial, createWaterUniforms,
+  stripAeration, stripBankProfile, WATER_TIERS,
+} from "./waterMaterial";
+import { STRIP_BANK_M } from "./ChannelStrips";
 import type { WaterAssets } from "./types";
 
 const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
@@ -42,7 +46,14 @@ describe("water material variants", () => {
   it("discards the field wherever the compiled owner mask claims the cell", () => {
     const { shader, uniforms } = compile("field");
     expect(shader.fragmentShader).toContain("uOwnerTex");
-    expect(shader.fragmentShader).toMatch(/texture2D\(uOwnerTex, esOwnUV\)\.r > 0\.25\) discard/);
+    // DILATED, not a single nearest texel: the mask is a 3.66 m raster and a
+    // mountain chute is narrower than one cell, so the exact test left a live
+    // field fringe either side of every strip.
+    expect(shader.fragmentShader).toContain("if (esOwnedNearby(vEsWorldPos.xz)) discard;");
+    expect(shader.fragmentShader).toContain(`float e = ${OWNER_DILATE_M.toFixed(2)};`);
+    expect(OWNER_DILATE_M).toBeLessThan(2 * STRIP_BANK_M + 1); // never outruns the ribbon
+    // the call site is preprocessor-gated text; only the field compiles the body
+    expect(compile("strip").shader.fragmentShader).not.toContain("bool esOwnedNearby(");
     expect(uniforms.uHasOwner.value).toBe(1);
     expect(uniforms.uSurfExtentM.value).toBeCloseTo(2017 * 3.65568, 3);
   });
@@ -98,7 +109,9 @@ describe("water material variants", () => {
 
   it("shades waterfalls from the authored grade, not screen derivatives", () => {
     const strip = compile("strip").shader.fragmentShader;
-    expect(strip).toContain("esFall = smoothstep(1.2, 3.0, vEsFlow.z);");
+    // aDrop is CLAMPED to [0,1] by the strip builder, so the strip thresholds
+    // must live inside that range — the field's 1.2..3.0 window never fired.
+    expect(strip).toContain("esFall = smoothstep(0.25, 0.75, vEsFlow.z);");
     // the field fallback keeps the derivative, unmultiplied by the exaggeration
     expect(compile("field").shader.fragmentShader)
       .toContain("vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x));");
@@ -131,5 +144,45 @@ describe("water material variants", () => {
       expect(strip).toContain(term);
     }
     expect(strip).toContain("#define ES_STRIP 1");
+  });
+});
+
+describe("steep-strip whitewater", () => {
+  it("dissolves across the bank margin and is fully covered over the water", () => {
+    expect(stripBankProfile(0)).toBe(1);
+    expect(stripBankProfile(0.7)).toBe(1);
+    expect(stripBankProfile(1)).toBe(0);
+    expect(stripBankProfile(1.4)).toBe(0);
+    expect(stripBankProfile(0.86)).toBeGreaterThan(0.3);
+    expect(stripBankProfile(0.86)).toBeLessThan(0.7);
+  });
+
+  it("whitens with slope and speed: a steep fast chute is near-opaque, a flat reach is not", () => {
+    const flatSlow = stripAeration(0.01, 0.2, 0);
+    const steepFast = stripAeration(0.6, 4, 0);
+    expect(flatSlow).toBeLessThan(0.25);
+    expect(steepFast).toBeGreaterThan(0.9);
+    // monotone in both drivers
+    expect(stripAeration(0.3, 1, 0)).toBeGreaterThan(stripAeration(0.1, 1, 0));
+    expect(stripAeration(0.3, 3, 0)).toBeGreaterThan(stripAeration(0.3, 1, 0));
+  });
+
+  it("is always brighter mid-ribbon than at its edge (the defect was the reverse)", () => {
+    const centre = stripAeration(0.6, 4, 0);
+    const edge = stripAeration(0.6, 4, 1.2);
+    expect(centre).toBeGreaterThan(edge);
+    expect(edge).toBe(0);
+  });
+
+  it("compiles the same law into the strip shader and nothing into the field shader", () => {
+    const strip = compile("strip").shader;
+    expect(strip.fragmentShader).toContain(STRIP_AERATION_GLSL.trim().split("\n")[0]);
+    expect(strip.fragmentShader).toContain("esStripAeration(vEsFlow.z, esSpeed, vEsSide)");
+    expect(strip.vertexShader).toContain("vEsSide = aSide;");
+    // The call sites are preprocessor-gated text; the field must not compile
+    // the DEFINITIONS or declare the strip attributes.
+    const field = compile("field").shader;
+    expect(field.fragmentShader).not.toContain("float esStripAeration(float");
+    expect(strip.fragmentShader).toContain("float esStripAeration(float");
   });
 });

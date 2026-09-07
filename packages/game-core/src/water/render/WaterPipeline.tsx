@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import type { WaterAssets, WaterRuntime } from "./types";
+import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { OVERLAY_LAYER, PRECIP_LAYER, WATER_LAYER, type WaterTier } from "./waterMaterial";
 import type { RippleSim } from "./RippleSim";
 import type { WaterSurfaceHandle } from "./WaterSurface";
@@ -331,6 +331,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       bubblePass: bubblePass.diagnostics,
       strips: h ? { count: h.stripDiagnostics.count, triangles: h.stripDiagnostics.triangles } : undefined,
       falls: h?.falls?.diagnostics,
+      layers: runtime.waterLayers?.() ?? ALL_WATER_LAYERS,
     });
   }, 1);
 

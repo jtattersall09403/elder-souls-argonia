@@ -284,6 +284,83 @@ export const SAMPLER_GLSL = /* glsl */ `
   }
 `;
 
+/* ------------------------------------------------------------------ *
+ * Steep-strip whitewater (ES_STRIP).
+ *
+ * A compiled steep reach is a shallow film running down a grade. Beer-Lambert
+ * over 5-30 cm of depth is very nearly transparent, so the ribbon rendered as
+ * a window onto the hillside with the shoreline foam terms drawing a bright
+ * line down each bank overlap: two white edges around a see-through tan
+ * centre. Real fast water on a grade is WHITE because it is aerated, not
+ * because it is deep. Slope and speed drive that aeration (the same law the
+ * cascade sheet uses for a bed-following chute), and it both whitens the
+ * water and removes its transparency.
+ *
+ * The TS functions and `STRIP_AERATION_GLSL` are twins: the tests measure the
+ * TS, the shader compiles the string. Edit both or neither.
+ * ------------------------------------------------------------------ */
+
+function smoothstep01(e0: number, e1: number, x: number): number {
+  const t = Math.min(Math.max((x - e0) / (e1 - e0), 0), 1);
+  return t * t * (3 - 2 * t);
+}
+
+/** Coverage across the ribbon: 1 over the water, 0 at the mesh edge. */
+export function stripBankProfile(side: number): number {
+  return 1 - smoothstep01(0.72, 1.0, Math.abs(side));
+}
+
+/**
+ * Whitewater fraction, 0..1.
+ * @param dropPerM metres of fall per metre of run (the `aDrop` attribute).
+ * @param speedMS  local water speed.
+ * @param side     signed across-width coordinate; |side| = 1 at the water edge.
+ */
+export function stripAeration(dropPerM: number, speedMS: number, side: number): number {
+  const raw = 0.18
+    + 0.62 * smoothstep01(0.06, 0.45, dropPerM)
+    + 0.30 * smoothstep01(0.4, 2.5, speedMS);
+  return Math.min(Math.max(raw * stripBankProfile(side), 0), 1);
+}
+
+export const STRIP_AERATION_GLSL = /* glsl */ `
+float esStripBank(float side){
+  return 1.0 - smoothstep(0.72, 1.0, abs(side));
+}
+float esStripAeration(float dropPerM, float speedMS, float side){
+  float raw = 0.18
+    + 0.62 * smoothstep(0.06, 0.45, dropPerM)
+    + 0.30 * smoothstep(0.4, 2.5, speedMS);
+  return clamp(raw * esStripBank(side), 0.0, 1.0);
+}
+`;
+
+/**
+ * How far the field's owner-mask hole is grown, in metres. Smaller than the
+ * strip ribbon's own bank overlap (`STRIP_BANK_M` each side), so the hole can
+ * never outrun the geometry that fills it.
+ */
+export const OWNER_DILATE_M = 1.2;
+
+/** Dilated owner-mask test, compiled into the FIELD fragment shader. */
+const OWNER_MASK_GLSL = /* glsl */ `
+bool esOwnedNearby(vec2 wpos){
+  float e = ${OWNER_DILATE_M.toFixed(2)};
+  vec2 taps[5];
+  taps[0] = wpos;
+  taps[1] = wpos + vec2(e, 0.0);
+  taps[2] = wpos - vec2(e, 0.0);
+  taps[3] = wpos + vec2(0.0, e);
+  taps[4] = wpos - vec2(0.0, e);
+  for (int i = 0; i < 5; i++) {
+    vec2 uv = taps[i] / max(uSurfExtentM, 1.0);
+    if (all(greaterThanEqual(uv, vec2(0.0))) && all(lessThan(uv, vec2(1.0)))
+        && texture2D(uOwnerTex, uv).r > 0.25) return true;
+  }
+  return false;
+}
+`;
+
 function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   return /* glsl */ `
   uniform sampler2D uSceneColor;
@@ -429,6 +506,8 @@ attribute float aBedDepth;
 attribute vec2 aFlow;
 attribute float aSeason;
 attribute float aDrop;
+attribute float aSide;
+varying float vEsSide;
 #endif
 uniform float uVerticalScale;
 varying vec4 vEsData;
@@ -445,6 +524,7 @@ ${surfGlsl()}`,
         /* glsl */ `
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
 #ifdef ES_STRIP
+vEsSide = aSide;
 vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
 #else
 vec2 esSurf = esSurfaceAt(esRestW.xz);
@@ -557,10 +637,15 @@ vec3 transformed = vec3(
         "#include <common>",
         /* glsl */ `#include <common>
 ${strip ? "#define ES_STRIP 1" : ""}
+#ifdef ES_STRIP
+varying float vEsSide;
+#endif
+${strip ? STRIP_AERATION_GLSL : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
 ${SAMPLER_GLSL}
 ${prelude}
+${strip ? "" : OWNER_MASK_GLSL}
 uniform float uVerticalScale;`,
       )
       .replace(
@@ -577,10 +662,17 @@ uniform float uVerticalScale;`,
   if (esSurfaceAt(vEsWorldPos.xz).y <= 0.004) discard;
   // The field never shows under a compiled strip or waterfall sheet: those
   // draw the same water from their own geometry (decision 0046 item 4).
+  //
+  // DILATED by OWNER_DILATE_M. The mask is a 3.66 m raster and a mountain chute
+  // is ~3 m wide, so a nearest-texel test left the field alive in a fringe a
+  // metre or so either side of every strip — where its thickness goes to zero
+  // and its shoreline foam term fires. That fringe, not the strip, drew the
+  // two bright lines down the sides of the owner's chute (measured: hiding
+  // the field changed those edge pixels by 33/255, hiding the strip by 15).
+  // The dilation is smaller than the strip's own bank overlap, so widening
+  // the hole cannot open a gap.
   if (uHasOwner > 0.5) {
-    vec2 esOwnUV = vEsWorldPos.xz / max(uSurfExtentM, 1.0);
-    if (all(greaterThanEqual(esOwnUV, vec2(0.0))) && all(lessThan(esOwnUV, vec2(1.0)))
-        && texture2D(uOwnerTex, esOwnUV).r > 0.25) discard;
+    if (esOwnedNearby(vEsWorldPos.xz)) discard;
   }
 #endif
   vec2 esScreenUV = gl_FragCoord.xy / uResolution;
@@ -606,7 +698,10 @@ float esFall = 0.0;
 // Authored geometry knows its own grade: aDrop (m of fall per m along the
 // current) rides vEsFlow.z, so falling-water shading is identical from every
 // camera and every LOD. Screen derivatives are the FIELD fallback only.
-esFall = smoothstep(1.2, 3.0, vEsFlow.z);
+// NOTE the thresholds: the builder CLAMPS aDrop to [0,1], so the field's
+// 1.2..3.0 window (an unclamped screen-space slope) could never fire on a
+// strip — every compiled chute silently lost its falling-water shading.
+esFall = smoothstep(0.25, 0.75, vEsFlow.z);
 #else
 {
   // metric slope of the STILL surface; NOT multiplied by uVerticalScale —
@@ -706,6 +801,15 @@ vec3 esAbsorb = vec3(0.30, 0.10, 0.06)
   + esTurb * vec3(1.2, 1.7, 2.3)
   + esTan * vec3(2.2, 2.0, 4.6);
 vec3 esT = exp(-esAbsorb * esColDepth);
+float esBank = 1.0;
+float esAerate = 0.0;
+#ifdef ES_STRIP
+esBank = esStripBank(vEsSide);
+esAerate = esStripAeration(vEsFlow.z, esSpeed, vEsSide);
+// A chute is a few centimetres deep: Beer-Lambert alone leaves it a window
+// onto the hillside. Entrained air is what makes it opaque.
+esT *= 1.0 - esAerate;
+#endif
 vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
 vec3 esAlb = esAlbClear;
 esAlb = mix(esAlb, vec3(0.115, 0.085, 0.048), clamp(esTurb, 0.0, 1.0));  // silt tan
@@ -714,10 +818,16 @@ esAlb = mix(esAlb, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));   // tea 
 // ---- foam: a system, not a blanket (round 2 defect: white sheets) ------
 float esShoreD = vEsData.w;
 float esExpo = vEsData.z;
+// Terms 1 and 2 are a BEACH model, and a strip has no beach: its outer
+// 0.6 m is deliberate bank OVERLAP, where the thickness goes to zero. Run
+// there, the waterline term painted a bright line down both sides of every
+// compiled chute — the two white edges the owner saw.
+float esFoamE = 0.0;
+#ifndef ES_STRIP
 // 1. thin contact line exactly at the waterline — fetch-boosted so the
 // active surf edge always carries a bright lip
-float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
-              * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0));
+esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
+        * (0.18 + 0.5 * clamp(max(esExpo * 2.0, vEsSurf.x), 0.0, 1.0));
 // 2. surf: bore foam riding each arriving crest + backwash remnants —
 // same closed forms as the swell/swash geometry, so foam and waterline
 // move together; per-pixel phase jitter breaks the parallel-band look
@@ -726,6 +836,7 @@ float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
   float esSurfWindF = clamp(pow(uWindWave, 0.8), 0.6, 3.2);
   esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, esSurfWindF) * 0.85;
 }
+#endif
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
 // The mesh crest alone thins out with vertex LOD, so whitecaps vanish at
 // distance. A screen-resolution, world-anchored fbm crest keeps the density
@@ -788,12 +899,23 @@ if (esFall > 0.01) {
   esFTex = mix(esFTex, esF1 * (0.55 + 0.9 * esF2), esFall);
   esFoamE = mix(esFoamE, 0.42 + 0.30 * esF2, esFall);
 }
+#ifdef ES_STRIP
+// Aeration is a property of the water itself, so it survives the murk factor
+// and the fall mix above: a steep chute is white end to end.
+esFoamE = max(esFoamE, esAerate * 0.95);
+#endif
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);
 esFoam = clamp(esFoam, 0.0, 1.0)
        * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uWaveTime * 0.17), cos(uWaveTime * 0.15)) * 0.8, 3))
        * (0.25 + 0.75 * esFarFade) * 0.9;
+#ifdef ES_STRIP
+// The breakup factors above (fbm speckle x distance fade x 0.9) exist to stop
+// the FIELD growing white crusts. Whitewater is not a crust, and thinning it
+// with distance is what let the hillside back through the middle.
+esFoam = max(esFoam, esAerate * (0.55 + 0.45 * esFTex));
+#endif
 float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
 // foam is off-white ALBEDO + high roughness, never near-1.0 white — full
 // white kills all lighting shape and reads as crust (research Q3)
@@ -833,7 +955,13 @@ outgoingLight = outgoingLight - reflectedLight.indirectSpecular + esSpecEnv + es
 // depth-fade soft contact: the water melts into the bank instead of a
 // hard painted line (research §3)
 float esEdgeSoft = smoothstep(0.0, 0.10, esThick);
-outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, max(esEdgeSoft, esFoam));
+float esCover = max(esEdgeSoft, esFoam);
+#ifdef ES_STRIP
+// The ribbon carries a bank margin on each side purely so it OVERLAPS the
+// field rather than butting against it; it has to dissolve there.
+esCover *= esBank;
+#endif
+outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCover);
 #include <opaque_fragment>`
           : /* glsl */ `
 // Snell's window: refract the up-ray through the surface into the sky.

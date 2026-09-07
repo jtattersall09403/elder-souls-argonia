@@ -62,6 +62,8 @@ export interface WaterRuntime {
   ambient: { value: THREE.Vector3 };
   sunLight: { value: THREE.Vector3 };
   causticsInOpaque?: boolean;
+  /** Dev layer visibility; omitted hosts draw every layer. */
+  waterLayers?(): WaterLayerSet;
   onDebug?(state: WaterDebugState): void;
 }
 
@@ -76,4 +78,39 @@ export interface WaterDebugState {
   strips?: { count: number; triangles: number };
   /** Compiled waterfall sheets; `freeFlightCount` excludes pure rapids. */
   falls?: { count: number; triangles: number; freeFlightCount: number };
+  /** Which water layers are currently drawing (dev toggle). */
+  layers?: WaterLayerSet;
+}
+
+/* ------------------------------------------------------------------ *
+ * Dev layer toggle (`?waterLayers=field,strips,falls,effects`).
+ *
+ * The water pass draws four independent things over the same ground — the
+ * province field grid, the compiled steep-reach strips, the cascade sheets
+ * and the particle stack. When one of them renders wrong, a screenshot
+ * cannot say WHICH: they overlap by design. Hiding them one at a time and
+ * differencing the frame is the only reliable attribution, so the switch is
+ * part of the runtime rather than a probe-only hack.
+ * ------------------------------------------------------------------ */
+
+export const WATER_LAYER_NAMES = ["field", "strips", "falls", "effects"] as const;
+export type WaterLayerName = (typeof WATER_LAYER_NAMES)[number];
+export type WaterLayerSet = Readonly<Record<WaterLayerName, boolean>>;
+
+export const ALL_WATER_LAYERS: WaterLayerSet = Object.freeze({
+  field: true, strips: true, falls: true, effects: true,
+});
+
+/**
+ * Parse a `waterLayers` spec. Absent/empty → everything on (the shipped
+ * behaviour); otherwise ONLY the named layers draw. Unknown names are
+ * ignored so a typo cannot silently blank the water.
+ */
+export function parseWaterLayers(spec: string | null | undefined): WaterLayerSet {
+  if (spec == null) return ALL_WATER_LAYERS;
+  const wanted = new Set(spec.split(",").map((s) => s.trim().toLowerCase()).filter(Boolean));
+  if (wanted.size === 0) return ALL_WATER_LAYERS;
+  const out = {} as Record<WaterLayerName, boolean>;
+  for (const name of WATER_LAYER_NAMES) out[name] = wanted.has(name);
+  return Object.freeze(out);
 }

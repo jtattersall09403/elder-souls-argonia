@@ -117,6 +117,12 @@ export function buildChannelStripGeometry(
   const aFlow = new Float32Array(vertexCount * 2);
   const aSeason = new Float32Array(vertexCount);
   const aDrop = new Float32Array(vertexCount);
+  // Signed across-width coordinate, normalised so |aSide| = 1 at the WATER
+  // edge and grows through the bank margin to the mesh edge. Without it the
+  // shader had no idea where the water stopped and the overlap began, so it
+  // treated the margin as a shoreline and drew a bright foam line down both
+  // sides of every chute.
+  const aSide = new Float32Array(vertexCount);
   const index = new Uint32Array(triangleCount * 3);
 
   let v = 0;
@@ -138,6 +144,7 @@ export function buildChannelStripGeometry(
         aFlow[v * 2 + 1] = st.tz * st.speedMS;
         aSeason[v] = st.season;
         aDrop[v] = st.dropPerM;
+        aSide[v] = side * (half / Math.max(st.halfWidthM, 1e-3));
         v++;
       }
     }
@@ -155,6 +162,7 @@ export function buildChannelStripGeometry(
   geometry.setAttribute("aFlow", new THREE.BufferAttribute(aFlow, 2));
   geometry.setAttribute("aSeason", new THREE.BufferAttribute(aSeason, 1));
   geometry.setAttribute("aDrop", new THREE.BufferAttribute(aDrop, 1));
+  geometry.setAttribute("aSide", new THREE.BufferAttribute(aSide, 1));
   geometry.setIndex(new THREE.BufferAttribute(index, 1));
   geometry.computeBoundingSphere();
   return { geometry, stationCount, vertexCount, triangleCount, stripCount: chains.length };

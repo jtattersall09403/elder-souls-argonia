@@ -8,6 +8,7 @@ import { waterTimeS, advanceWaterClock, waterTransportTimeS, waterTransportDelta
 import { lastWeatherSample } from "../weather/weatherState";
 import { wetnessUniforms } from "./groundWetness";
 import { updateGroundLocalWater } from "@elder-souls/game-core/water/render/groundWetness";
+import { parseWaterLayers } from "@elder-souls/game-core/water/render/types";
 import type { WaterDebugState, WaterRuntime } from "@elder-souls/game-core/water/render/types";
 import type { Vec3 } from "@elder-souls/contracts";
 import { WATER_TIERS, type WaterTier } from "./waterMaterial";
@@ -27,12 +28,16 @@ declare global {
     /** Dev A/B scalar for submerged caustics: 0 off, 1 (default) shipped,
      * larger exaggerates so a probe can locate them. */
     __STUDIO_CAUSTICS__?: number;
+    /** Live override of ?waterLayers= — a probe flips layers without the
+     * page reload that a 2 fps software-GL run cannot afford. */
+    __STUDIO_WATER_LAYERS__?: string | null;
   }
 }
 
 // Captured at module load — the App re-serialises the query string with its
 // own known keys and would drop ?wq= before the water mounts.
 const INITIAL_WQ = new URLSearchParams(window.location.search).get("wq");
+const INITIAL_WATER_LAYERS = new URLSearchParams(window.location.search).get("waterLayers");
 
 export function pickWaterTier(): WaterTier {
   const q = INITIAL_WQ;
@@ -73,6 +78,8 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
     ambient: sharedAerialUniforms.uHazeAmbient,
     sunLight: sharedAerialUniforms.uHazeSunLight,
     causticsInOpaque: true,
+    waterLayers: () => parseWaterLayers(
+      window.__STUDIO_WATER_LAYERS__ !== undefined ? window.__STUDIO_WATER_LAYERS__ : INITIAL_WATER_LAYERS),
     onLocalSurface: state => updateGroundLocalWater(wetnessUniforms, state),
     onLevels: (tide, season, wind) => {
       wetnessUniforms.uWetLevels.value.set(tide, season);

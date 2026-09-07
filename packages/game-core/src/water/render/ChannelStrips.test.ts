@@ -69,3 +69,16 @@ describe("channel strip meshes", () => {
     expect(built.geometry.getIndex()!.count).toBe(built.triangleCount * 3);
   });
 });
+
+describe("across-width coordinate", () => {
+  it("marks the water edge at |aSide| = 1 and the bank margin beyond it", () => {
+    const built = buildChannelStripGeometry([chain]);
+    const side = built.geometry.getAttribute("aSide");
+    const values = Array.from({ length: side.count }, (_, i) => side.getX(i));
+    // halfWidthM 1.5 + STRIP_BANK_M 0.6 => the mesh edge sits at 2.1/1.5 = 1.4
+    const expected = (1.5 + STRIP_BANK_M) / 1.5;
+    for (const v of values) expect(Math.abs(v)).toBeCloseTo(expected, 5);
+    expect(Math.abs(expected)).toBeGreaterThan(1); // the margin is OUTSIDE the water
+    expect(values.filter((v) => v < 0)).toHaveLength(side.count / 2);
+  });
+});

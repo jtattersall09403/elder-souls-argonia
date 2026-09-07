@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { getWindWaveScale } from "@elder-souls/game-core/water/index";
 import { RIPPLE_PATCH_M, RippleSim } from "./RippleSim";
-import type { WaterAssets, WaterRuntime } from "./types";
+import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
 import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
@@ -232,6 +232,14 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   useFrame(({ camera, gl }, delta) => {
     const mesh = meshRef.current;
     if (!mesh) return;
+    // Dev layer toggle (?waterLayers=): each of the four things the water
+    // pass draws over the same ground can be hidden, so a probe can
+    // attribute a defect to ONE of them instead of guessing.
+    const visible = runtime.waterLayers?.() ?? ALL_WATER_LAYERS;
+    mesh.visible = visible.field;
+    if (strips) strips.mesh.visible = visible.strips;
+    if (falls) falls.mesh.visible = visible.falls;
+    effects.object3d.visible = visible.effects;
     const cell = GRIDS[tier.name].uniformCell;
     mesh.position.set(
       Math.round(camera.position.x / cell) * cell,
