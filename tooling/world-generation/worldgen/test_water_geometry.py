@@ -649,3 +649,17 @@ def test_same_pool_route_cannot_shortcut_through_lower_foreign_outlet():
                           allowed=lambda y,x: allowed[y,x])
     assert all(allowed[int(y),int(x)] for y,x in path)
     assert np.any(path[:,0]==3)
+
+
+def test_export_does_not_double_round_native_world_coordinates():
+    from .water_features import compile_features
+    ground = np.zeros((7, 7), np.float32)
+    points = np.array([[3., 3.], [4., 3.]])
+    links = np.array([1, -1])
+    records, _ = compile_features(ground, ground + 1, np.ones_like(ground, bool),
+        np.ones_like(ground, np.uint16), points, links, np.ones(2), np.ones(2),
+        2, links, np.array([24, 31]), 7, np.ones(2), 1562.19392, all_channels=True)
+    value = records[0]['points'][0]['z']
+    assert value == 4686.58176
+    assert np.float32(value) == np.float32(points[0, 0] * 1562.19392)
+    assert np.float32(value) != np.float32(round(value, 4))

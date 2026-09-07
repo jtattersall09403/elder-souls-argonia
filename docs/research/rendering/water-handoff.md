@@ -344,3 +344,13 @@ points. Two are covered at Float32 native coordinates. At native[2564,1962]
 no actual ribbon covers it. Fix this raster/core-to-native-mesh handoff before
 accepting the proposal. A lower constraint count cannot waive peak-footprint
 coverage. Exact fields, scripts and source guards are in the compiler handoff.
+
+The gap is traced to a narrowed descending strip meeting a tilted flat-pool
+section. Rotating that section closes the target but loses89 wet vertices in
+a32,007-vertex comparison; the general rotation was removed. Export now avoids
+double rounding of native world coordinates (63 focused Python tests pass).
+That precision correction does not resolve the main wedge or all seams. Next:
+add the missing receiving-pool footprint while retaining existing coverage,
+and resolve the two outstanding Float32 seam samples. See the compiler handoff
+and `landing-coverage-investigation.json`; the72-constraint checkpoint remains
+authoritative and the62 proposal remains unaccepted.

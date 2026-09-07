@@ -114,9 +114,12 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                 shared_profiles[cache_key] = (cross_section, widths, closure)
         else:
             cross_section, widths, closure = cached
-        return {"x": round(float(point[1] * metres_per_pixel), 4),
+        # Keep native world coordinates until the runtime's single Float32
+        # conversion. Decimal rounding first can move a landing by a full ULP
+        # to the opposite side of its matching terrain vertex.
+        return {"x": float(point[1] * metres_per_pixel),
                 "y": round(float(levels[index]), 4),
-                "z": round(float(point[0] * metres_per_pixel), 4),
+                "z": float(point[0] * metres_per_pixel),
                 "groundM": round(sample(detail, point * detail_scale), 6),
                 "halfWidthM": max(0.0001, round(min(widths) / correction, 4)),
                 "crossSectionNormalX": float(perpendicular[1]),

@@ -115,7 +115,11 @@ peak footprints and final geometry gates remain open. The remaining sampling
 alternatives failed bounded screening. Guarded shared-seasonal support now
 produces62 hydraulic constraints, but remains UNACCEPTED: a local authored
 footprint comparison finds a standing-to-channel ownership gap at3586.22m E/
-4686.58m S. Fix that gap before promoting the proposal (water handoff). Full compilation saves its matching
+4686.58m S. The gap is a narrowed descent meeting an angled pool section; rotating sections
+was rejected because it loses coverage elsewhere. Coordinate export now avoids
+double rounding (63 focused tests pass); the wedge and remaining precision
+seams still block geometry acceptance. Fix those before promoting the proposal
+(water handoff). Full compilation saves its matching
 solver state with `--profile-cache`, avoiding a second native-domain audit.
 The durable accepted repair checkpoint has72 channel constraints,59
 retaining-bound violations and15,562 terrain corrections. Original impoundment

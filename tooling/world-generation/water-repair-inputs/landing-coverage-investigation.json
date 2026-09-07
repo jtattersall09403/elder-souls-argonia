@@ -1,0 +1,572 @@
+{
+  "status": "diagnostic-not-geometry-acceptance",
+  "acceptedConstraintsRemain": 72,
+  "proposalConstraints": 62,
+  "target": {
+    "native": [
+      2564,
+      1962
+    ],
+    "worldMetres": [
+      3586.22208,
+      4686.58176
+    ],
+    "groundM": 20.89647865,
+    "source": 10881
+  },
+  "cause": "Descending-strip width restriction meets a bisected flat receiving section, leaving an upstream wedge. Decimal coordinate rounding adds a separate one-Float32-ULP seam.",
+  "retainedSourceChange": "Export native world x/z without intermediate four-decimal rounding; runtime converts once to Float32.",
+  "rejectedChange": "Replacing degree-two descending-to-flat bisector sections with perpendicular incoming sections. This closes the target but removes existing footprint elsewhere.",
+  "rotatedSectionsScope": {
+    "changedSections": 198,
+    "changedRecords": 280,
+    "authoredTargets": 32007,
+    "radiusNativeIntervals": 20
+  },
+  "rotatedLocalCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 4303,
+    "oldPeakWet": 4060,
+    "newPeakWet": 4114,
+    "gained": 59,
+    "remainingDry": 189,
+    "lostNativeVertices": [
+      [
+        2474,
+        2029
+      ],
+      [
+        2486,
+        2004
+      ],
+      [
+        2558,
+        1964
+      ],
+      [
+        2674,
+        1982
+      ],
+      [
+        3477,
+        1151
+      ]
+    ]
+  },
+  "rotatedExpandedCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29074,
+    "newPeakWet": 29013,
+    "gained": 28,
+    "remainingDry": 2994,
+    "lostNativeVertices": [
+      [
+        688,
+        3380
+      ],
+      [
+        688,
+        3381
+      ],
+      [
+        1018,
+        2835
+      ],
+      [
+        1018,
+        2836
+      ],
+      [
+        1140,
+        1022
+      ],
+      [
+        1141,
+        1021
+      ],
+      [
+        1170,
+        1074
+      ],
+      [
+        1787,
+        2702
+      ],
+      [
+        1938,
+        2365
+      ],
+      [
+        1939,
+        2375
+      ],
+      [
+        1954,
+        2380
+      ],
+      [
+        1973,
+        1841
+      ],
+      [
+        1974,
+        2370
+      ],
+      [
+        1999,
+        2388
+      ],
+      [
+        2171,
+        1931
+      ],
+      [
+        2180,
+        2107
+      ],
+      [
+        2180,
+        2108
+      ],
+      [
+        2180,
+        2112
+      ],
+      [
+        2183,
+        2118
+      ],
+      [
+        2184,
+        2117
+      ],
+      [
+        2184,
+        2118
+      ],
+      [
+        2185,
+        2116
+      ],
+      [
+        2188,
+        2120
+      ],
+      [
+        2197,
+        1958
+      ],
+      [
+        2198,
+        1957
+      ],
+      [
+        2201,
+        2327
+      ],
+      [
+        2204,
+        2321
+      ],
+      [
+        2204,
+        2322
+      ],
+      [
+        2205,
+        2322
+      ],
+      [
+        2205,
+        2323
+      ],
+      [
+        2207,
+        1956
+      ],
+      [
+        2208,
+        1956
+      ],
+      [
+        2214,
+        2167
+      ],
+      [
+        2215,
+        2183
+      ],
+      [
+        2231,
+        2414
+      ],
+      [
+        2232,
+        2270
+      ],
+      [
+        2232,
+        2411
+      ],
+      [
+        2232,
+        2412
+      ],
+      [
+        2232,
+        2413
+      ],
+      [
+        2233,
+        2413
+      ],
+      [
+        2275,
+        2434
+      ],
+      [
+        2277,
+        2433
+      ],
+      [
+        2279,
+        2426
+      ],
+      [
+        2286,
+        2415
+      ],
+      [
+        2295,
+        2406
+      ],
+      [
+        2339,
+        2295
+      ],
+      [
+        2423,
+        1944
+      ],
+      [
+        2425,
+        1945
+      ],
+      [
+        2463,
+        2531
+      ],
+      [
+        2464,
+        2535
+      ],
+      [
+        2464,
+        2536
+      ],
+      [
+        2486,
+        2004
+      ],
+      [
+        2558,
+        1964
+      ],
+      [
+        2674,
+        1982
+      ],
+      [
+        2681,
+        2022
+      ],
+      [
+        2681,
+        2029
+      ],
+      [
+        2682,
+        2029
+      ],
+      [
+        2685,
+        2021
+      ],
+      [
+        2686,
+        2020
+      ],
+      [
+        2693,
+        2263
+      ],
+      [
+        2802,
+        2252
+      ],
+      [
+        2803,
+        2250
+      ],
+      [
+        2803,
+        2251
+      ],
+      [
+        2804,
+        2250
+      ],
+      [
+        2804,
+        2251
+      ],
+      [
+        2805,
+        2250
+      ],
+      [
+        2805,
+        2252
+      ],
+      [
+        2806,
+        2252
+      ],
+      [
+        2842,
+        1931
+      ],
+      [
+        2843,
+        1930
+      ],
+      [
+        2843,
+        1931
+      ],
+      [
+        2926,
+        2030
+      ],
+      [
+        2927,
+        2031
+      ],
+      [
+        2941,
+        2023
+      ],
+      [
+        2941,
+        2024
+      ],
+      [
+        2945,
+        2362
+      ],
+      [
+        2957,
+        2423
+      ],
+      [
+        2975,
+        1987
+      ],
+      [
+        3025,
+        2089
+      ],
+      [
+        3026,
+        2089
+      ],
+      [
+        3027,
+        2089
+      ],
+      [
+        3028,
+        2089
+      ],
+      [
+        3029,
+        2089
+      ],
+      [
+        3030,
+        2089
+      ],
+      [
+        3031,
+        2089
+      ],
+      [
+        3087,
+        1754
+      ],
+      [
+        3137,
+        409
+      ],
+      [
+        3138,
+        409
+      ],
+      [
+        3156,
+        465
+      ]
+    ]
+  },
+  "coordinateOnlyLocalCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 4303,
+    "oldPeakWet": 4060,
+    "newPeakWet": 4114,
+    "gained": 57,
+    "remainingDry": 189,
+    "lostNativeVertices": [
+      [
+        2474,
+        2029
+      ],
+      [
+        2564,
+        1962
+      ],
+      [
+        3477,
+        1151
+      ]
+    ]
+  },
+  "coordinateOnlyExpandedCoverage": {
+    "scope": "Bounded original authored native footprint vertices around lowered accepted heads; actual ribbons and native standing fields, not complete final footprint acceptance",
+    "targets": 32007,
+    "oldPeakWet": 29074,
+    "newPeakWet": 29071,
+    "gained": 18,
+    "remainingDry": 2936,
+    "lostNativeVertices": [
+      [
+        1170,
+        1074
+      ],
+      [
+        1939,
+        2375
+      ],
+      [
+        1999,
+        2388
+      ],
+      [
+        2171,
+        1931
+      ],
+      [
+        2214,
+        2167
+      ],
+      [
+        2232,
+        2270
+      ],
+      [
+        2295,
+        2406
+      ],
+      [
+        2339,
+        2295
+      ],
+      [
+        2423,
+        1944
+      ],
+      [
+        2425,
+        1945
+      ],
+      [
+        2681,
+        2022
+      ],
+      [
+        2681,
+        2029
+      ],
+      [
+        2682,
+        2029
+      ],
+      [
+        3025,
+        2089
+      ],
+      [
+        3026,
+        2089
+      ],
+      [
+        3027,
+        2089
+      ],
+      [
+        3028,
+        2089
+      ],
+      [
+        3029,
+        2089
+      ],
+      [
+        3030,
+        2089
+      ],
+      [
+        3031,
+        2089
+      ],
+      [
+        3156,
+        465
+      ]
+    ]
+  },
+  "coordinateOnlyExpandedLossesAtFloat32": {
+    "covered": 19,
+    "stillUncoveredNative": [
+      [
+        2339,
+        2295
+      ],
+      [
+        2423,
+        1944
+      ]
+    ]
+  },
+  "coordinateOnlyCentreCoverage": {
+    "targets": 645,
+    "rawOrdinary": 635,
+    "additionalFloat32Ordinary": 9,
+    "additionalFallingSheet": 1
+  },
+  "poolContacts": {
+    "scope": "Fresh selected channel/native standing-pool point contacts at five stages; not rendered confluence acceptance",
+    "pinnedNodesExamined": 215,
+    "wetContactsChecked": 1044,
+    "maximumAbsoluteHeadDifferenceM": 4.685115814240248e-05,
+    "mismatchesAbove1mm": []
+  },
+  "tests": "63 focused geometry and seasonal Python tests pass. Runtime/production inputs unchanged.",
+  "next": "Add the missing receiving footprint without replacing existing sections, or reconcile flowing raster ownership with actual mesh coverage. Diagnose remaining Float32 seams before final geometry acceptance.",
+  "artifacts": {
+    "water-drainage-seasonal-full-ribbons.json": "ed5dc2dfa68960deb3bd528792c09760a7ab38499e259e10d755f8e0c6b57342",
+    "water-flat-landing-ribbons.json": "8c4fecf5430a8dfa60bf7e7e80ed5d50a88dce29c8a2d109c39022239220dc98",
+    "water-exact-coordinate-ribbons.json": "ef148d734e698ac79ef812626fa7382bf9a6d3319241ec3da16991b4f3ec1e2e",
+    "water-flat-landing-expanded-targets.json": "9c650c18822b8b4bf1f24a3305eb4ae5aa97ab80c252faa82dff8505957c6ff5"
+  }
+}

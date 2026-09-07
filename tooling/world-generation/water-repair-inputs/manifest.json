@@ -364,5 +364,11 @@
     "evidenceSha256": "dfc09195f49c58810868d3bb8dce6e27a02f77e44cf42ab50830d2a7fb75d538",
     "hydraulicConstraints": 62,
     "acceptedConstraintsRemain": 72
+  },
+  "landingCoverageInvestigation": {
+    "status": "diagnostic-not-geometry-acceptance",
+    "evidence": "landing-coverage-investigation.json",
+    "evidenceSha256": "e9b44515bcaa214e409d99e81b7c0f9a478e62703f41d4480cef3622483107fd",
+    "acceptedConstraintsRemain": 72
   }
 }

@@ -359,14 +359,38 @@ support128/access-1.085951. Both have season1/tide0. Neither old nor new ribbon
 covers this point, even at Float32 coordinates: the new broad flowing-core
 proxy steals its standing raster owner without corresponding rendered geometry.
 
-Next: inspect `rasterize_centerlines`, `extend_surface`'s restricted-margin wet
-core retention, `ChannelOwnership`, and actual native junction/cross-section
-coverage together at that point. Use the existing full fields for local geometry
-probes; do not recompute province floods to inspect a mesh gap. Preserve original
-standing planes and genuine authored footprint. Scripts:
-`/tmp/check-water-drainage-local-footprints.py` and
-`/tmp/water-fringe-runtime/drainage-seasonal-{footprint,lost-footprint,lost-float32}.mjs`.
-Reports: `/tmp/water-drainage-seasonal-local-footprint-coverage.json` and
-`/tmp/water-drainage-seasonal-lost-footprint-{detail,float32}.json`. The prepared
-acceptance script deliberately refuses these raw losses; it has NOT run.
-No runtime source or default input changes were accepted in this investigation.
+The gap is now traced to the mesh: source10881 descends from23.369226m to
+21.982430m over1.82784m. Runtime `descendingSection` limits the landing's
+lateral spread; the following flat pool starts at a tilted bisector, leaving
+an uncovered upstream wedge. Including falling sheets does not fill it.
+
+Replacing flat landing miters with incoming perpendicular sections was REJECTED.
+The one-point prototype fills the target, but the general change affects198
+selected sections/280 records. Across32,007 authored vertices within20 native
+intervals it loses89 previously wet vertices and gains28. That source change
+was removed. Preserve existing sections when adding the missing pool footprint;
+an alternative is reconciling flowing-core raster ownership against actual
+rendered strips. Do not repeat the rejected section replacement.
+
+The retained exporter change removes intermediate four-decimal x/z rounding.
+Native4686.58176 becomes Float324686.58154296875 directly, but rounding to
+4686.5818 first produces4686.58203125. A regression test locks the single
+conversion.63 geometry/seasonal tests pass; no runtime edits or stage/input
+changes. Coordinate-only geometry gives4,114 wet local vertices (+57/-3 versus
+accepted geometry), but does NOT close the substantive wedge. Its expanded
+comparison against the original proposal gains18/loses21 raw vertices;19 of
+those21 are covered at native Float32 coordinates. Native[2339,2295] and
+[2423,1944] remain uncovered there and require seam diagnosis. This is a
+precision-contract correction, not final geometry acceptance.
+
+Coordinate-only centre checks:635 raw ordinary+9 Float32 ordinary+1 falling
+sheet cover645 targets.1,044 selected pool contacts remain within0.05mm.
+Durable evidence: `water-repair-inputs/landing-coverage-investigation.json`.
+Disposable geometry: `/tmp/water-{flat-landing,exact-coordinate}-ribbons.json`;
+comparison reports use the same prefixes plus `local-footprint-coverage`,
+`expanded-coverage`, and `expanded-lost-detail` where present. Expanded targets:
+`/tmp/water-flat-landing-expanded-targets.json`. The rotation experiment's
+`/tmp/compile-water-flat-landings.py` depends on REJECTED code and cannot run
+against current source. Use saved geometry for comparisons. The immutable
+baseline `/tmp/water-drainage-seasonal-old-local-ribbons.json` must not be
+regenerated with changed source. The prepared acceptance script has NOT run.
