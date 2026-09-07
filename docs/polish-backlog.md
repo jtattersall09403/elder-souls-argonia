@@ -8,11 +8,11 @@ cosmetic/feel work lives — do not park polish items in decision docs.
 | Item | Source | Done when |
 |---|---|---|
 | **Water: full re-review of all water systems** (rivers, waterfalls, shore/sea lapping, marsh wetness, underwater, perf) — owner closed 8b as good-enough, explicitly **not perfect**; re-review and polish as a set at Phase P | 8b close (owner 2026-08-28) | owner walks a river source→sea + a beach + a marsh and signs off, remaining niggles fixed |
-| Water: hero-pool interactive sim patches (jeantimex) at select POIs | 8b deferred (0025) | a hero pool ripples/reflects at full sim quality |
-| Water: FFT open-sea tier (abyssal-ocean) for Topal Bay horizon | 8b deferred (0025) | open-sea swell quality on high tier, no perf regression |
-| Water: projected bed caustics | 8b deferred (0025) | moving caustics on shallow beds in sun |
-| Water: waterfall mist particles / sourced Skyrim FX meshes at major falls | 8b round 7 | falls carry mist + base splash FX beyond shader treatment |
-| Water: any residual "barcode" foam artefacts after round-7 fix | 8b round 7 | none visible in a province sweep |
+| Water: hero-pool interactive sim patches at select POIs — the bounded local pool solver (`LocalWaterPatch.ts`, `displacementRegistry.ts`) is compiled and wired to the query but nothing selects a patch or renders it since the overhaul's hero-pool surface was retired (0046); needs a field-grid renderer for the patch heights | 8b deferred (0025); 0046 | a hero pool ripples/reflects at full sim quality |
+| Water: FFT open-sea tier for Topal Bay horizon — `spectralOcean.ts` + `render/SpectralOceanTextures.ts` are compiled but unmounted; mount as a high-tier displacement/normal source for the field material beyond the surf band (its per-frame atlas re-upload must be revision-gated first) | 8b deferred (0025); 0046 | open-sea swell quality on high tier, no perf regression |
+| Water: projected bed caustics — DELIVERED 2026-09-07: the terrain receiver caustics were wired but gated to zero inside the province by a support flag only the retired data could set; fixed at the root and retuned (`render/groundWetness.ts`, `caustics.ts`); `window.__STUDIO_CAUSTICS__ = 0|1|40` exaggerates/disables for checking; owner visual check pending | 8b deferred (0025); 0046 | moving caustics on shallow beds in sun |
+| Water: waterfall mist particles — DELIVERED 2026-09-07 (ballistic sheets, lip spray, mist along the fall, plunge cloud, pool foam ring; commit cc9befa); owner visual check pending | 8b round 7; 0046 | owner signs off a free-fall and a ramp cascade |
+| Water: "barcode" foam artefacts — root cause fixed 2026-09-07 (world-position rotation by local flow direction removed, commit a3bf122); owner sweep pending | 8b round 7; 0046 | none visible in a province sweep |
 | Water: walk-mode SSR cost reduction + further DPR/rtScale tuning | 8b perf rounds | steady frame rate on owner's machine in dense water areas |
 | Region raster reclassification (map tooltip coarse regions vs 8b water truth) | 8b round 5 §9 | tooltip region shapes match rendered water |
 | **Weather/atmosphere: owner-reserved leftovers from the 8c close** — the owner closed 8c good-enough (2026-08-30) and will record the specific items here themselves | 8c close | owner has replaced this row with concrete items (or struck it) |
@@ -176,9 +176,9 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   disabled whitebout regime-3 cloud row above (row 19) — same underlying ask.
 - **Foliage between camera and player should go translucent** when it
   occludes the player, the way BOTW/TOTK handle camera-blocking vegetation.
-- **Water ripples leak between unconnected pools** — jumping in an enclosed
-  pool next to a separate, unconnected pool sends ripples into the other
-  pool as if they were the same body of water.
+- **Water ripples leak between unconnected pools** — CLOSED 2026-09-07: the
+  body-isolating ripple simulation kept from the overhaul (`render/RippleSim.ts`
+  + `rippleIsolation.ts`) blocks land and unrelated bodies; owner check pending.
 - **Volumetric mist that pools in valleys**, visible from outside the valley,
   lit with real colour shining through and scattering/dispersing — owner
   recalls a specific Reddit post with a good reference example, to be found

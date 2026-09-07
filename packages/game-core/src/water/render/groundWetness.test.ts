@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
-import { createGroundWetnessUniforms, primeGroundWetnessUniforms, type GroundWetnessAssets } from "./groundWetness";
+import { createGroundWetnessUniforms, primeGroundWetnessUniforms, waterReceiverLight, type GroundWetnessAssets } from "./groundWetness";
 
 function assets(version: number): GroundWetnessAssets {
   const texture = new THREE.Texture();
@@ -51,5 +51,18 @@ describe("ground wetness raster compatibility", () => {
     expect(second.uWetSurf.value).toBeNull();
     expect(second.uWetLevels.value.toArray()).toEqual([0, 0]);
     expect(second.uRainWet.value).toBe(0);
+  });
+
+  it("does not gate caustics on a support raster the field bundle cannot ship", () => {
+    const glsl = waterReceiverLight("vEsWorldPos", "esNrmW", "uVerticalScale");
+    // the round-1 defect: every province fragment multiplied its caustic
+    // visibility by uWetHasSupport, which is 0 for the field bundle
+    expect(glsl).not.toMatch(/uWetHasSupport\s*\*\s*step/);
+    expect(glsl).toContain("step(0.05, column.y)");
+    expect(glsl).toContain("uWetCausticDebug");
+  });
+
+  it("exposes a caustic-only debug scalar that defaults to the shipped look", () => {
+    expect(createGroundWetnessUniforms().uWetCausticDebug.value).toBe(1);
   });
 });

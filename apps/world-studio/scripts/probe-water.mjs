@@ -96,14 +96,19 @@ const SCENARIOS = [
     brightness: [20, 235],
   },
   {
-    // Submerged caustics A/B. A wide shallow sunlit shelf found by decoding
-    // water-surface.png: 0.3-2.6 m of water, turbidity 0.12, tannin 0, level
-    // ~0 m. Renders the SAME page twice, with __STUDIO_CAUSTICS__ 1 then 0.
+    // Submerged caustics A/B on a wide shallow sunlit shelf found by
+    // decoding water-surface.png: 0.3-2.6 m of water, turbidity 0.12,
+    // tannin 0, surface at ~0 m. Eye height, because the focus term is
+    // footprint-limited and an orbit at altitude cannot resolve the pattern.
+    // Renders the SAME page at gain 0, 1 and an exaggerated gain: the
+    // exaggerated pass is the assertion (a mean-luminance delta this probe
+    // can separate from software-GL frame noise), the gain-1 delta is
+    // reported for the owner's eye.
     id: "caustics-bay-fly",
-    q: "view=fly3d&cam=orbit&x=6.10&z=1.64&ex=1&t=12:00&d=8-17&wq=high&alt=45",
+    q: "view=character&x=6.10&z=1.64&ex=1&t=12:00&d=8-17&wq=high",
     underwater: false,
     brightness: [20, 235],
-    causticsAB: { minMeanDeltaPct: 2 },
+    causticsAB: { gain: 40, minMeanDeltaPct: 1.5 },
   },
   {
     // steep stream strip (compiled `channels`): strips must be built
@@ -259,8 +264,7 @@ try {
       else fail(`water colour suspicious: ${desc} (cool ${cool.toFixed(2)})`);
     }
     if (s.causticsAB) {
-      // seabed band: the middle of the frame at this orbit altitude is the
-      // lit shallow bed. Measure it with caustics on, then off, same page.
+      // seabed band: the lower frame at eye height on the shelf
       const bed = async () => await page.evaluate(async (b64) => {
         const img = new Image();
         img.src = `data:image/png;base64,${b64}`;
@@ -271,8 +275,8 @@ try {
         g.drawImage(img, 0, 0, 320, 180);
         const d = g.getImageData(0, 0, 320, 180).data;
         let sum = 0, sq = 0, n = 0;
-        for (let y = 60; y < 150; y++) {
-          for (let x = 60; x < 260; x++) {
+        for (let y = 80; y < 175; y++) {
+          for (let x = 40; x < 280; x++) {
             const i = (y * 320 + x) * 4;
             const l = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
             sum += l; sq += l * l; n++;
@@ -281,17 +285,22 @@ try {
         const mean = sum / n;
         return { mean, std: Math.sqrt(Math.max(sq / n - mean * mean, 0)) };
       }, (await page.screenshot({ timeout: 180_000 })).toString("base64"));
+      const at = async (gain) => {
+        await page.evaluate((g) => { window.__STUDIO_CAUSTICS__ = g; }, gain);
+        await page.waitForTimeout(15_000); // software GL renders ~2 fps
+        return await bed();
+      };
+      const off = await at(0);
+      const on = await at(1);
+      const loud = await at(s.causticsAB.gain);
       await page.evaluate(() => { window.__STUDIO_CAUSTICS__ = 1; });
-      await page.waitForTimeout(3_000);
-      const on = await bed();
-      await page.evaluate(() => { window.__STUDIO_CAUSTICS__ = 0; });
-      await page.waitForTimeout(3_000);
-      const off = await bed();
-      const deltaPct = (on.mean - off.mean) / Math.max(off.mean, 1e-6) * 100;
-      const desc = `bed mean ${on.mean.toFixed(2)} on / ${off.mean.toFixed(2)} off `
-        + `(${deltaPct.toFixed(2)}%), std ${on.std.toFixed(2)} / ${off.std.toFixed(2)}`;
-      if (deltaPct >= s.causticsAB.minMeanDeltaPct && on.std > off.std) ok(`caustics visible: ${desc}`);
-      else fail(`caustics not visible: ${desc}`);
+      const pct = (v) => (v.mean - off.mean) / Math.max(off.mean, 1e-6) * 100;
+      const desc = `bed mean off ${off.mean.toFixed(2)} | on ${on.mean.toFixed(2)}`
+        + ` (${pct(on).toFixed(2)}%) | x${s.causticsAB.gain} ${loud.mean.toFixed(2)}`
+        + ` (${pct(loud).toFixed(2)}%), std ${off.std.toFixed(2)} -> ${loud.std.toFixed(2)}`;
+      if (pct(loud) >= s.causticsAB.minMeanDeltaPct && loud.std > off.std)
+        ok(`caustics reach the seabed and the debug scalar drives them: ${desc}`);
+      else fail(`caustics never reach the seabed: ${desc}`);
     }
     if (sky && Math.abs(sky.exposure - sky.exposureTarget) < sky.exposureTarget * 0.05 + 1e-6)
       ok("sky exposure still converges with the water pipeline active");

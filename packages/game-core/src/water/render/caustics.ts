@@ -24,6 +24,11 @@ export interface CausticVisibilityInput {
   waveActivity: number;
 }
 
+/** Tannin darkens focused light but must not extinguish it: Black Marsh
+ * water is stained almost everywhere, and a coefficient that kills caustics
+ * there kills them in the whole province. Halved from the 4.2 of round 1. */
+const TANNIN_EXTINCTION = 2.1;
+
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
 function smoothstep(a: number, b: number, x: number): number {
   const t = clamp01((x - a) / (b - a));
@@ -38,9 +43,9 @@ export function causticVisibility(input: CausticVisibilityInput): number {
   const eta = 1 / 1.333;
   const refractedCosine = Math.sqrt(1 - eta * eta * (1 - sunY * sunY));
   const opticalPath = depthM / refractedCosine;
-  const extinction = 0.10 + 2.4 * clamp01(input.turbidity) + 4.2 * clamp01(input.tannin);
+  const extinction = 0.10 + 2.4 * clamp01(input.turbidity) + TANNIN_EXTINCTION * clamp01(input.tannin);
   return smoothstep(0.01, 0.06, depthM)
-    * (1 - smoothstep(12, 24, depthM))
+    * (1 - smoothstep(3, 7, depthM))
     * smoothstep(0.015, 0.2, sunY)
     * clamp01(input.receiverIncidence)
     * clamp01(input.directLightVisibility)
@@ -64,9 +69,9 @@ float esCausticVisibility(float depthM, float turbidity, float tannin,
   float refractedCosine = sqrt(1.0 - eta * eta * (1.0 - sunY * sunY));
   float opticalPath = depthM / refractedCosine;
   float extinction = 0.10 + 2.4 * clamp(turbidity, 0.0, 1.0)
-    + 4.2 * clamp(tannin, 0.0, 1.0);
+    + 2.1 * clamp(tannin, 0.0, 1.0);
   return smoothstep(0.01, 0.06, depthM)
-    * (1.0 - smoothstep(12.0, 24.0, depthM))
+    * (1.0 - smoothstep(3.0, 7.0, depthM))
     * smoothstep(0.015, 0.2, sunY)
     * clamp(receiverIncidence, 0.0, 1.0)
     * clamp(directLightVisibility, 0.0, 1.0)
@@ -96,8 +101,11 @@ float esCausticFocus(vec2 projectedMetres, float depthM, float timeS) {
   float jacobianDet = (1.0 + lens.x) * (1.0 + lens.z) - lens.y * lens.y;
   float footprint = max(length(dFdx(projectedMetres)), length(dFdy(projectedMetres)));
   float width = max(0.20, fwidth(jacobianDet));
-  float focus = clamp((1.0 / max(abs(jacobianDet), width) - 1.0) * 0.25, 0.0, 1.0);
-  return focus * (1.0 - smoothstep(0.08, 0.35, footprint));
+  float focus = clamp((1.0 / max(abs(jacobianDet), width) - 1.0) * 0.5, 0.0, 1.0);
+  // Nyquist on the ACTUAL bands above: the longest is 2*pi/4.1 = 1.53 m, so
+  // the pattern only starts to alias near a 0.77 m pixel footprint. The old
+  // 0.08-0.35 m band faded caustics out about three metres from the camera.
+  return focus * (1.0 - smoothstep(0.35, 1.2, footprint));
 }
 
 float esWaterCaustics(vec3 worldPositionMetres, vec3 receiverNormalWorld,

@@ -24,6 +24,9 @@ import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "./W
 declare global {
   interface Window {
     __STUDIO_WATER_DEBUG__?: WaterDebugState;
+    /** Dev A/B scalar for submerged caustics: 0 off, 1 (default) shipped,
+     * larger exaggerates so a probe can locate them. */
+    __STUDIO_CAUSTICS__?: number;
   }
 }
 
@@ -76,6 +79,8 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
       wetnessUniforms.uWetWind.value = wind;
       wetnessUniforms.uWetTime.value = waterTimeS();
       wetnessUniforms.uWetSun.value.copy(sharedAerialUniforms.uSunDirW.value);
+      wetnessUniforms.uWetCausticDebug.value = Number.isFinite(window.__STUDIO_CAUSTICS__)
+        ? (window.__STUDIO_CAUSTICS__ as number) : 1;
     },
     onDebug: state => { window.__STUDIO_WATER_DEBUG__ = state; },
   }), [csm, surfaceFocus]);

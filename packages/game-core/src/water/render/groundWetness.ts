@@ -48,6 +48,8 @@ export function createGroundWetnessUniforms() {
     uRainWet: { value: 0 },
     uWetWind: { value: 1 },
     uWetTime: { value: 0 },
+    /** Dev-only A/B scalar on the caustic terms only (1 = shipped look). */
+    uWetCausticDebug: { value: 1 },
     uWetSun: { value: new THREE.Vector3(0, -1, 0) },
   };
 }
@@ -102,6 +104,7 @@ uniform float uRainWet;
 uniform float uWetWind;
 uniform float uWetTime;
 uniform vec3 uWetSun;
+uniform float uWetCausticDebug;
 ${WATER_CAUSTICS_GLSL}
 ${CONNECTED_STAGE_GLSL}
 ${LOCAL_WATER_SURFACE_GLSL}
@@ -177,12 +180,18 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
   vec3 stage = esWetStage(receiver.xz, klass.b, shore.g);
   float offset = stage.y * uWetLevels.x + stage.z * uWetLevels.y;
   float level = column.x + offset;
-  float supported = uWetHasSupport * step(0.5, texture2D(uWetSupport, suv).r);
+  // Ownership of the column, NOT a light gate: a support raster names the
+  // owning body where a bundle ships one; the field bundle has none, and
+  // there "submerged" is exactly the sampled signed depth proxy standing
+  // above the receiver. Gating on uWetHasSupport alone zeroed caustics for
+  // every fragment in the province (decision 0046 bundle).
+  float supportSample = texture2D(uWetSupport, suv).r;
+  float supported = uWetHasSupport > 0.5 ? step(0.5, supportSample) : step(0.05, column.y);
   supported = mix(supported, 1.0, outside) * step(0.5, uWetParams.z);
   if (uWetAccessParams.x > 0.5 && stage.x > offset + 0.001) supported = 0.0;
   float focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
     uWetSun, supported, uWetTime, clamp(uWetWind * 0.3, 0.15, 1.0));
-  outgoingLight += reflectedLight.directDiffuse * focus * 0.8;
+  outgoingLight += reflectedLight.directDiffuse * focus * uWetCausticDebug;
   vec2 localOwner = texture2D(uWetSupport, suv).gb;
   float localBody = mix(dot(localOwner, vec2(65280.0, 255.0)), 65535.0, outside);
   float localFocus = esLocalWaterCaustic(receiver, receiverNormal, level, uWetSun);
@@ -190,7 +199,7 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
   float localVisibility = esCausticVisibility(level - receiver.y, klass.g, shore.b,
     uWetSun.y, 1.0, supported, 1.0);
   outgoingLight += reflectedLight.directDiffuse * localFocus * localVisibility
-    * (1.0 - step(0.5, abs(localBody - uLocalWaterBody)));
+    * uWetCausticDebug * (1.0 - step(0.5, abs(localBody - uLocalWaterBody)));
 }
 #include <opaque_fragment>`;
 }
@@ -278,6 +287,6 @@ export function applyGroundWetness(material: THREE.Material, uniforms: GroundWet
       .replace("#include <opaque_fragment>", waterReceiverLight('vEsWorldPos', 'esNrmW', 'uVerticalScale'));
   };
   const previousKey = material.customProgramCacheKey;
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v2`;
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v3`;
   material.needsUpdate = true;
 }
