@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | **Water rescue 2026-09-07** ([0046](decisions/0046-water-overhaul-retired.md)): the terrain-constrained overhaul (0045) was retired after the owner's deployed review; the field water (0025) is the runtime again, moved into `packages/game-core/src/water`, keeping the overhaul's interaction/particle stack. In flight: restoration + terrain loading, then steep channel strips, waterfalls, projected caustics, invariant tests, deploy. Other polish stays in [polish-backlog.md](polish-backlog.md) |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | **Water rescue 2026-09-07** ([0046](decisions/0046-water-overhaul-retired.md)): overhaul retired, field water restored into `packages/game-core/src/water` with the kept interaction/particle stack; delivered same day: steep stream strips + ballistic waterfall sheets with spray/mist/plunge foam, 298 more pools filled with per-pool season caps, shader batch (barcode fix, level pool edges, signed shore depth, transport-clock foam, pixel whitecaps), seabed caustics live again; terrain channels re-carved to the water profile (chain rebuilt). Deployed; **owner visual review pending** (checklist under *Waiting on user*). Remaining water rows in [polish-backlog.md](polish-backlog.md) |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -63,11 +63,18 @@ first, then open only the master-plan sections the active phase needs.
 
 Measured weapon reach is ready for deployed playtest (0040, round 13). Bow corrections remain delivered.
 
-**Water (2026-09-07):** a fresh agent continuing water work reads
-[0046](decisions/0046-water-overhaul-retired.md) and then
-[water-handoff.md](research/rendering/water-handoff.md) (short: current state,
-key sites, how to verify). The owner review of the restored + extended water
-happens on the deployed build at the end of this pass.
+**Water (2026-09-07) — owner review on the deployed studio.** Read
+[0046](decisions/0046-water-overhaul-retired.md); a continuing agent starts at
+[water-handoff.md](research/rendering/water-handoff.md) (key sites + how to
+verify). What to check, in plain terms: (1) the old "hovering water" site is
+dry mud; (2) lowland rivers and ponds are continuous with no gaps or hollows,
+and their edges meet the bank level (no domed blobs); (3) steep streams follow
+their beds downhill; (4) waterfalls arc out from the lip with spray, mist and a
+foam ring in the pool (sites in the handoff); (5) the sea has whitecaps that
+grow in a storm, surf on beaches, no barcode patches; (6) sunlit shallow beds
+show moving caustics; (7) walk and fly modes hold a steady frame rate. Three
+single road cells became shallow fords when pools filled (Stormhold–Thorn,
+Helstrom–Blackrose, Gideon–Stormhold); say if any should be raised.
 
   [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
   (claim ledger, what was fixed, the recommendations on every open call) and
