@@ -76,6 +76,7 @@ show moving caustics; (7) walk and fly modes hold a steady frame rate. Three
 single road cells became shallow fords when pools filled (Stormhold–Thorn,
 Helstrom–Blackrose, Gideon–Stormhold); say if any should be raised.
 
+- **Phase 11 — what to do with the review of 2026-09-07.** Read decision
   [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
   (claim ledger, what was fixed, the recommendations on every open call) and
   the batch plan [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
