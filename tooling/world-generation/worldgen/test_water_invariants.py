@@ -260,3 +260,30 @@ def test_the_carved_bed_is_wet_at_peak(compiled):
         f"over {worst[1]} bed cells")
     assert ok / len(reaches) >= 0.90, \
         f"only {ok}/{len(reaches)} reaches >= 95 % wet at peak"
+
+
+def test_plunge_pools_are_real_depressions_and_cascade_bases_are_wet(compiled):
+    """Round 10. A plunge pool is a claim about the terrain: it exists only
+    where the priority flood found relief. Every cascade base is wet all the
+    same — through the channel bed, not through a plane on a slope."""
+    from .compile_water import PLUNGE_MIN_RELIEF_M
+    meta, w, depth, owner, ground, mpp = compiled
+    n = w.shape[0]
+    shallow = [p for p in meta["stats"].get("plungePoolSites", [])
+               if p["reliefM"] < PLUNGE_MIN_RELIEF_M - 1e-6]
+    assert not shallow, f"plunge pools without a depression: {shallow[:5]}"
+    dry = []
+    for c in meta.get("cascades") or []:
+        iy, ix = _px(c["plunge"]["x"], c["plunge"]["z"], mpp, n)
+        if w[iy, ix] <= ground[iy, ix]:
+            dry.append((c["id"], c["plunge"]["x"], c["plunge"]["z"]))
+    assert not dry, f"{len(dry)} dry cascade plunges: {dry[:10]}"
+
+
+def test_no_road_stands_deep_in_a_rescued_pool(compiled):
+    """A pool the rescue rules inferred may not drown a road (round 10)."""
+    from .compile_water import ROAD_MAX_DEPTH_M
+    meta, *_ = compiled
+    worst = meta["stats"].get("roadDeepestInRescuedPoolM")
+    assert worst is not None
+    assert worst <= ROAD_MAX_DEPTH_M + 1e-6, worst

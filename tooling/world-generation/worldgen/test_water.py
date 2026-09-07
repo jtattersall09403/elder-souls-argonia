@@ -400,3 +400,34 @@ def test_compiled_meta_carries_channels_and_cascades():
         kinds = [p["kind"] for p in ch["points"]]
         assert kinds[0] == "join" or kinds[-1] == "join"
         assert any(k in ("steep", "fall") for k in kinds)
+
+
+# ---------------------------------------------------------------------------
+# Part 4 — plunge-pool depression rule and the road-depth cap (round 10)
+# ---------------------------------------------------------------------------
+
+def test_plunge_pool_only_where_the_base_sits_in_a_depression():
+    from .compile_water import (PLUNGE_MIN_RELIEF_M, plunge_footprint_ok)
+    d = np.zeros((8, 8), dtype=np.float32)
+    assert not plunge_footprint_ok(d).any()          # bare slope: no pool
+    d[3, 3] = PLUNGE_MIN_RELIEF_M + 0.2              # one cell is not a bowl
+    assert not plunge_footprint_ok(d).any()
+    d[3:5, 3:5] = PLUNGE_MIN_RELIEF_M + 0.2          # a real 2x2 depression
+    assert plunge_footprint_ok(d).any()
+    # ...and a depression shallower than the threshold still fails
+    shallow = np.full((8, 8), PLUNGE_MIN_RELIEF_M - 0.01, dtype=np.float32)
+    assert not plunge_footprint_ok(shallow).any()
+
+
+def test_road_cap_holds_a_rescued_pool_off_the_road():
+    from .compile_water import ROAD_MAX_DEPTH_M, road_cap_levels
+    ground = np.full((6, 6), 10.0, dtype=np.float32)
+    ground[2, 2] = 8.0                     # the road runs through a dip
+    roads = np.zeros((6, 6), dtype=bool)
+    roads[2, 2] = True
+    lbl = np.ones((6, 6), dtype=np.int32)
+    cap = road_cap_levels(ground, roads, lbl, np.array([1]))
+    assert cap[0] == pytest.approx(8.0 + ROAD_MAX_DEPTH_M)
+    # no road in the component -> no cap at all
+    assert not np.isfinite(road_cap_levels(
+        ground, np.zeros_like(roads), lbl, np.array([1]))[0])

@@ -410,12 +410,12 @@
     1,
     12
    ],
-   "instances": 699,
+   "instances": 704,
    "tiers": {
-    "T1": 408,
+    "T1": 413,
     "T2": 291
    },
-   "perHectare": 31.9
+   "perHectare": 32.2
   },
   "2_1": {
    "chunk": [
@@ -446,9 +446,9 @@
     1,
     12
    ],
-   "instances": 358,
+   "instances": 359,
    "tiers": {
-    "T1": 208,
+    "T1": 209,
     "T2": 150
    },
    "perHectare": 16.4
@@ -650,12 +650,12 @@
     11,
     12
    ],
-   "instances": 1807,
+   "instances": 1796,
    "tiers": {
     "T1": 211,
-    "T2": 1596
+    "T2": 1585
    },
-   "perHectare": 82.5
+   "perHectare": 82.0
   },
   "14_1": {
    "chunk": [
@@ -794,10 +794,10 @@
     11,
     12
    ],
-   "instances": 1189,
+   "instances": 1188,
    "tiers": {
-    "T1": 443,
-    "T2": 746
+    "T1": 446,
+    "T2": 742
    },
    "perHectare": 54.3
   },
@@ -923,12 +923,12 @@
     11,
     12
    ],
-   "instances": 1925,
+   "instances": 1926,
    "tiers": {
-    "T1": 584,
+    "T1": 585,
     "T2": 1341
    },
-   "perHectare": 87.9
+   "perHectare": 88.0
   },
   "11_2": {
    "chunk": [
@@ -1114,12 +1114,12 @@
     11,
     12
    ],
-   "instances": 2062,
+   "instances": 2064,
    "tiers": {
-    "T1": 661,
-    "T2": 1401
+    "T1": 662,
+    "T2": 1402
    },
-   "perHectare": 94.2
+   "perHectare": 94.3
   },
   "4_3": {
    "chunk": [
@@ -1454,12 +1454,12 @@
     11,
     12
    ],
-   "instances": 1904,
+   "instances": 1878,
    "tiers": {
-    "T1": 603,
-    "T2": 1301
+    "T1": 600,
+    "T2": 1278
    },
-   "perHectare": 87.0
+   "perHectare": 85.8
   },
   "4_4": {
    "chunk": [
@@ -1474,9 +1474,9 @@
     11,
     12
    ],
-   "instances": 3269,
+   "instances": 3268,
    "tiers": {
-    "T1": 1343,
+    "T1": 1342,
     "T2": 1926
    },
    "perHectare": 149.3
@@ -1685,10 +1685,10 @@
     1,
     12
    ],
-   "instances": 873,
+   "instances": 874,
    "tiers": {
     "T1": 646,
-    "T2": 227
+    "T2": 228
    },
    "perHectare": 39.9
   },
@@ -1921,12 +1921,12 @@
     11,
     12
    ],
-   "instances": 1790,
+   "instances": 1799,
    "tiers": {
-    "T1": 337,
-    "T2": 1453
+    "T1": 342,
+    "T2": 1457
    },
-   "perHectare": 81.8
+   "perHectare": 82.2
   },
   "1_6": {
    "chunk": [
@@ -2045,12 +2045,12 @@
     11,
     12
    ],
-   "instances": 4714,
+   "instances": 4725,
    "tiers": {
-    "T1": 1319,
-    "T2": 3395
+    "T1": 1327,
+    "T2": 3398
    },
-   "perHectare": 215.3
+   "perHectare": 215.8
   },
   "7_6": {
    "chunk": [

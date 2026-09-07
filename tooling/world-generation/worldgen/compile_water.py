@@ -70,6 +70,10 @@ POOL_AREA_CAP_PX = 3000       # flooded-extent cap, plus...
 POOL_AREA_PER_M = 12000.0     # ...this much per metre of relief
 BASIN_MIN_RELIEF_M = 3.0      # a rejected depression this deep is a real basin
 BASIN_MAX_RISE_M = 2.0        # ...but it may only rise this far over built ground
+ROAD_MAX_DEPTH_M = 0.30       # a rescued pool may not drown a road deeper than this
+POOL_MIN_KEEP_RELIEF_M = 0.25  # ...and a capped pool holding less is dropped
+PLUNGE_MIN_RELIEF_M = 0.30    # a plunge pool needs a real depression at the base
+PLUNGE_MIN_FOOTPRINT = 2      # ...over at least this square of cells (2x2)
 PINHOLE_MIN_WET_NB = 8        # dry cell with >= this many wet 3x3 neighbours = pinhole
 SEASON_AMPLITUDE_M = 1.4      # runtime wet-season lift (waterMaterial uLevelSeason)
 FRINGE_PX = 4                 # flat low-bank continuation (tide/season headroom)
@@ -213,13 +217,32 @@ def build_chains(kind, dsk, w_st, pooled):
     return chains, up_any
 
 
-def placement_cells(shape, mpp) -> np.ndarray:
+def plunge_footprint_ok(depth_fill) -> np.ndarray:
+    """Cells that lie in a real depression: priority-flood relief at least
+    PLUNGE_MIN_RELIEF_M over a PLUNGE_MIN_FOOTPRINT square of cells. A
+    plunge pool is only accepted where this is true somewhere inside it.
+    """
+    deep = (np.asarray(depth_fill) >= PLUNGE_MIN_RELIEF_M).astype(np.uint8)
+    return ndimage.minimum_filter(deep, size=PLUNGE_MIN_FOOTPRINT) > 0
+
+
+def road_cap_levels(ground, roads, lbl, idx) -> np.ndarray:
+    """Per-component highest water level that keeps every road cell in the
+    component no deeper than ROAD_MAX_DEPTH_M (inf where no road)."""
+    cap = np.where(roads, np.asarray(ground) + ROAD_MAX_DEPTH_M,
+                   np.inf).astype(np.float32)
+    return np.asarray(ndimage.minimum(cap, lbl, idx), dtype=np.float32)
+
+
+def placement_cells(shape, mpp, kinds=("places", "blueprints", "roads")) -> np.ndarray:
     """Cells the placement phases have already built on: place anchors,
     blueprint parcel centres, and the road/track network.
 
     Used only to cap how far a rescued basin may flood (a pool is allowed to
     appear, but it may not swallow a settlement or a road that was sited on
-    dry ground). Missing exports simply mean nothing is protected there.
+    dry ground). `kinds` selects which layers are marked, so the road-depth
+    rule can ask for the road/track network alone. Missing exports simply
+    mean nothing is protected there.
     """
     occ = np.zeros(shape, dtype=bool)
     prov = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
@@ -231,19 +254,19 @@ def placement_cells(shape, mpp) -> np.ndarray:
             occ[iy, ix] = True
 
     path = prov / "places.json"
-    if path.exists():
+    if "places" in kinds and path.exists():
         for pl in json.loads(path.read_text()).get("places", []):
             pos = pl.get("positionM")
             if pos:
                 mark(pos[0], pos[1])
     path = prov / "blueprints.json"
-    if path.exists():
+    if "blueprints" in kinds and path.exists():
         for bp in json.loads(path.read_text()).get("blueprints", []):
             for par in bp.get("parcels", []):
                 c = par.get("centreM")
                 if c:
                     mark(c[0], c[1])
-    for name in ("routes.json", "routes-minor.json"):
+    for name in (("routes.json", "routes-minor.json") if "roads" in kinds else ()):
         path = prov / name
         if not path.exists():
             continue
@@ -553,9 +576,32 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
                    & (areas2 >= MIN_POOL_PX) & wide_enough)
         cap_lvl = np.concatenate([[np.inf], np.where(
             rescued & occupied, cur_lvl + BASIN_MAX_RISE_M, np.inf)]).astype(np.float32)
+        bowl_only = keep2[1:] & bowl & ~rivery & ~(mean_slope < 0.07)
         keep2[1:] |= rescued
+
+        # --- roads are never put in open water (round 10) -----------------
+        # A pool the RESCUE rules accepted (sea-plane basin, or bowl-only)
+        # is an inference about the terrain, not surveyed hydrology: it may
+        # not drown a road that was sited on dry ground. Its level is capped
+        # so no road cell it covers is deeper than ROAD_MAX_DEPTH_M, and if
+        # that leaves it with less than POOL_MIN_KEEP_RELIEF_M of water the
+        # pool was never real and is dropped. Original hydrology pools and
+        # rivers are untouched — the road network must cross those on a
+        # bridge or a ford, which is a placement question, not a water one.
+        roads = placement_cells(g2.shape, mpp2, kinds=("roads",))
+        road_cap_l = road_cap_levels(g2, roads, lbl2, idx_l)
+        guarded = rescued | bowl_only
+        road_reject = guarded & np.isfinite(road_cap_l) & (
+            road_cap_l - floor_l < POOL_MIN_KEEP_RELIEF_M)
+        keep2[1:] &= ~road_reject
+        cap_lvl = np.minimum(cap_lvl, np.concatenate([[np.inf], np.where(
+            guarded, road_cap_l, np.inf)]).astype(np.float32))
+        road_capped = int((guarded & np.isfinite(road_cap_l) & ~road_reject).sum())
         lvl_cell = np.minimum(lvl_cell, cap_lvl[lbl2]).astype(np.float32)
         pool_lvl = np.where(keep2[lbl2], lvl_cell, -np.inf).astype(np.float32)
+        guard_cell = (keep2 & np.concatenate([[False], guarded]))[lbl2]
+        road_depth = np.where(roads & guard_cell, lvl_cell - g2, 0.0)
+        road_worst = float(road_depth.max())
         comp(keep2[lbl2], lvl_cell)
         spill_l = np.asarray(ndimage.maximum(lvl_cell, lbl2, idx_l), dtype=np.float32)
         big_rise = rescued & (spill_l - cur_lvl > BASIN_MAX_RISE_M)
@@ -591,6 +637,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
             "components": int(n_l),
             "keptPools": int(keep2.sum()),
             "rescuedBasins": int(rescued.sum()),
+            "roadCappedPools": road_capped,
+            "roadDeepestInRescuedPoolM": round(road_worst, 3),
+            "roadRejectedPools": int(road_reject.sum()),
             "basinsRaisedOverCapM": raised_basins,
             "keptByBowlOnly": int((keep2[1:] & bowl & ~rivery &
                                    ~(mean_slope < 0.07)).sum()),
@@ -603,7 +652,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     else:
         season_cap2 = np.ones(g2.shape, dtype=np.float32)
         census = {"components": 0, "keptPools": 0, "keptByBowlOnly": 0,
-                  "rescuedBasins": 0, "basinsRaisedOverCapM": [],
+                  "rescuedBasins": 0, "roadCappedPools": 0,
+                  "roadRejectedPools": 0, "roadDeepestInRescuedPoolM": 0.0, "basinsRaisedOverCapM": [],
                   "poolSeasonOvertopMaxM": -1.0, "cappedPools": 0,
                   "zeroHeadroomPools": 0,
                   "medianHeadroomM": 0.0}
@@ -668,12 +718,20 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
     comp(bed_wet, lvl_n.astype(np.float32))
     ribbon = ribbon | bed_wet
 
-    # (c) A plunge pool at every cascade base. A fall that lands on dry
-    # ground is the one thing a waterfall may never do; where the priority
-    # flood found no pool at the base station we accept a small one there,
-    # at the base cell's own fill level.
+    # (c) A plunge pool where the cascade base really stands in one.
+    # A fall must never land on dry ground — but that is what `bed_wet` and
+    # the fall-segment guard above already guarantee: the base cell takes
+    # its own station level, so the falling reach simply continues as the
+    # (strip-owned) channel into the downstream reach. A POOL is a different
+    # claim, and only a real depression supports it: a level plane laid over
+    # sloping ground at the foot of a chute reads as a flat grey field plate
+    # (round 10). So a plunge pool is accepted only where the priority-flood
+    # relief at the base is PLUNGE_MIN_RELIEF_M or more over at least a
+    # PLUNGE_MIN_FOOTPRINT square of cells inside the footprint.
+    block_ok = plunge_footprint_ok(depth_fill)
     plunge = np.zeros(g2.shape, dtype=bool)
     plunge_lvl = np.full(g2.shape, -1e9, dtype=np.float32)
+    plunge_pools = []
     n_plunge = 0
     for chain in core_chains:
         base = -1
@@ -694,6 +752,16 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         m = (dy_ * dy_ + dx_ * dx_ <= rr * rr) & (g2[y0:y1, x0:x1] < lvl_b)
         if not m.any():
             continue
+        # a real depression, of at least a 2x2 footprint, inside the pool
+        if not (m & block_ok[y0:y1, x0:x1]).any():
+            continue
+        relief_b = float(depth_fill[y0:y1, x0:x1][m].max())
+        plunge_pools.append({
+            "x": round(float((bx + 0.5) * mpp2), 1),
+            "z": round(float((by + 0.5) * mpp2), 1),
+            "levelM": round(lvl_b, 2),
+            "reliefM": round(relief_b, 2),
+        })
         plunge[y0:y1, x0:x1] |= m
         blk = plunge_lvl[y0:y1, x0:x1]
         plunge_lvl[y0:y1, x0:x1] = np.where(m, np.maximum(blk, lvl_b), blk)
@@ -1004,6 +1072,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz) -> dict:
         "stripKm": round(strip_len_m / 1000.0, 2),
         "cascadeCount": len(cascades),
         "plungePools": int(n_plunge),
+        "plungePoolSites": plunge_pools,
         "ownerFrac": round(float((owner2 > 0).mean()), 6),
         "fallDropM": FALL_DROP_M,
         "steepSlope": STEEP_SLOPE,
