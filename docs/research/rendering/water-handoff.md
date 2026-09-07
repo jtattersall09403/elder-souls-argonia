@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The130 base constraints below still require resolution before final export.
+The127 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-130-connected-pools-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-127-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,555 corrections remain. **130 channel constraints remain**, not completed
+15,559 corrections remain. **127 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -234,7 +234,7 @@ channel geometry. Closure carries a pool spill through already wet patches
 of the same plane. The bounded actual-channel/standing-field check now covers
 all257 flagged original fringe targets at peak and250 at base, with no prior
 positive lost. Final raster meshes and complete authored peak footprints are
-still unverified;130 constraints and69 retaining violations remain.
+still unverified;127 constraints and69 retaining violations remain.
 
 Seasonal/tidal response ownership now follows actual connected standing
 planes, including recovered pools omitted by the old initial selection list.
@@ -251,3 +251,17 @@ Next: complete authored channel/pond/swamp peak coverage and actual raster
 ownership, then remaining hydraulic repairs and the final bundle gates.
 The compiler handoff includes one changed extrapolated fringe owner that
 remains covered at existing peak; do not waive its final geometry check.
+
+Latest verified river repair resolves1071,2517 and14047 with seven support
+adjustments:127 remain,15,559 corrections,69 retaining violations. Two indexed
+ordinary-river cuts require3.048187m and3.302067m; protected retaining banks
+remain untouched. Fresh domains preserve original water and all reviewed
+pool-stage reference seeds/planes and merged low bounds. Exact source-set
+comparison uses reports, not the cache's authored `original_links` graph.
+
+Next bounded investigation:17 rejected authored seasonal rivulets may fit
+without cuts when their exclusive supports are allowed to dry at base stage.
+This is an UNACCEPTED cached diagnostic, not a lower constraint checkpoint;
+actual peak bank/triangle connectivity and stage responses must be proved.
+Production solver and permanent-channel depth expectations are unchanged.
+See `seasonal-rivulet-proposal-audit.json` and compiler handoff.

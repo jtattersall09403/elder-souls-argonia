@@ -4,7 +4,7 @@
   "gridSize": 4033,
   "metresPerPixel": 1.82784,
   "inputs": {
-    "bed-overlay.json": "80f1ba23b9da869e6839b3c9168c2e8e6227a930f9de9e688b505eb71a54f223",
+    "bed-overlay.json": "6e625314a62fb9b516b803bd1f07d7adc7bd63b8d4aff553167d130076a8efa0",
     "routing-audit.json": "63aaa0e19ebbcb64b0702d98aa0fa66d5f9b0c42b0a1531480211c5fcc36ab85",
     "orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f",
     "pool-stage-response-reference.json": "b2deed6fcce010a2b19e3643412752d71cf81eb88e89d7a7902bbcf29ade33a4"
@@ -15,8 +15,8 @@
     "hydrology-pass1.npz": "96c32aa24c39b472557781915630be0e6a90ba6ed72ffd015059cb0b4c8d167f"
   },
   "checkpoint": {
-    "retainedCorrections": 15555,
-    "unresolvedChannels": 130,
+    "retainedCorrections": 15559,
+    "unresolvedChannels": 127,
     "originalWetSamples": 423268,
     "maximumOriginalSpillDifferenceM": 0.0,
     "missingOriginalWetSamples": 0,
@@ -310,5 +310,29 @@
       "coveredAtExistingPeak": true,
       "scope": "Projected standing flood field; final raster ownership remains to be verified"
     }
+  },
+  "latestJointReachAcceptance": {
+    "acceptance": "fresh-native-domains-and-global-constraints-pass",
+    "inputProposalSha256": "26988cdfea6a691e256f5064360e6a29192c0faaf51aadcf56ee2410b380d462",
+    "remainingConstraints": 127,
+    "resolvedSources": [
+      1071,
+      2517,
+      14047
+    ],
+    "newFailures": [],
+    "remainingRetainingBoundViolations": 69,
+    "changedSupports": 7,
+    "maximumOriginalCutM": 3.3020668029785156,
+    "originalWaterPreservation": {
+      "originalWetSamples": 423268,
+      "missingOriginalWetSamples": 0,
+      "shiftedOriginalPlanesOver0_1mm": 0,
+      "maximumOriginalSpillDifferenceM": 0.0,
+      "missingOriginalMarineSamples": 0,
+      "missingPreviouslyWetOriginalPoolSamples": 0,
+      "shiftedPreviouslyWetOriginalPoolPlanesOver0_1mm": 0
+    },
+    "reviewedPoolStageReferenceSeedsAndMergedLowBounds": "pass"
   }
 }

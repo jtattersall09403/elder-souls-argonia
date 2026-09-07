@@ -17,7 +17,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,555 corrections;130 unresolved channels
+Current overlay:15,559 corrections;127 unresolved channels
 (5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-130-connected-pools-state.npz` | Matching130-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-127-state.npz` | Matching127-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -613,3 +613,48 @@ It still has existing-peak coverage. This is field ownership evidence, not
 final raster mesh verification; keep it in the final ownership review.
 Actual final meshes, whole authored channel/pond/swamp peak footprints,
 remaining130 constraints/69 retaining violations and deployment remain open.
+
+## Three river repairs and seasonal-rivulet investigation (2026-09-07)
+
+Latest accepted cache `/tmp/water-accepted-127-state.npz` matches the durable
+overlay (15,559 corrections). Three reviewed ordinary-river repairs resolve
+1071,2517,14047; seven supports change, two above3m (3.048187m,3.302067m),
+none protected. Existing exception authority/history is retained. Fresh report,
+cache and preservation proof are `/tmp/water-current-three-{fresh.json,state.npz,preservation.json}`;
+`three-river-repair-audit.json` and the manifest record acceptance. All original
+and previously accepted pool planes/coverage pass; all pool-stage reference
+seeds still identify the same wet planes and merged low bounds are compatible.
+No source algorithm or deployed asset changed in this repair.
+
+Cache `original_links` is the AUTHORED routing graph, including rejected
+records; it cannot prove nonregression by counting negative entries. Compare
+fresh report `reaches[].source` sets. This127 cache additionally stores an
+explicit `failed_sources` array. The prior pool checkpoint's130 source sets
+were rechecked directly and are identical; no acceptance regression found.
+
+Routine connected/restoration proposals on2517,1071,14047 were infeasible;
+the smaller fixed-incident reviewed solve found the accepted seven changes.
+A bounded3m probe on5937,4190,12997,6890 found no proposal (the helper's generic
+failure text still says5m; `/tmp/probe-water-four-routine.py` explicitly forces3m).
+Do not repeat those unchanged tests.
+
+A separate cached experiment on the127 geometry targets only rejected,
+authored wetland rivulets with inherited endpoint season response1. It lowers
+their EXCLUSIVE node depth bound by the existing1.4m wet-season offset;
+accepted/other-reach supports retain their depth bounds. There are84 eligible
+sources and524 exclusive nodes;17 source constraints disappear, none newly
+appear. Production profile code is unchanged. The diagnostic copies the
+conditioner and adjusts its unconditional1mm terrain floor and below-ground
+assertion for negative depth budgets. Without those changes the graph count
+looks the same but its returned base heads need not respect bank caps.
+
+Artifacts: `/tmp/probe-water-seasonal-negative-stage.py`,
+`/tmp/water-seasonal-negative-stage-probe.{json,npz}` and durable
+`seasonal-rivulet-proposal-audit.json`. The reported0.319m bank excess includes
+still-rejected nodes and is NOT accepted-path evidence. Next: verify only
+newly accepted path heads against actual banks; emit their real selected
+ribbons with actual stage responses, and prove peak connectivity/coverage.
+An explicit seasonal profile contract is needed before integrating this.
+Never relax permanent river depth expectations or call the diagnostic110
+count accepted. Peak footprints, final geometry,69 bound violations and
+release gates remain open.

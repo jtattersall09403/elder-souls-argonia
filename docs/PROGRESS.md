@@ -100,8 +100,8 @@ raster meshes and whole authored footprints remain open. Connected pool
 responses now preserve reviewed seasonal/tidal/combined low-water ranges
 exactly. Final exports require the pool-stage reference (water handoff).
 No diagnostic assets are promoted.
-The durable accepted repair checkpoint has130 channel constraints,69
-retaining-bound violations and15,555 terrain corrections. Original impoundment
+The durable accepted repair checkpoint has127 channel constraints,69
+retaining-bound violations and15,559 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
 fringes are preserved. Complete-reach solving and original-pool sampling
 corrections replaced ineffective single-obstruction repairs; the latest solver correction
