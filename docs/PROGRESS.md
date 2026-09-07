@@ -74,12 +74,13 @@ See [the review guide](research/rendering/water-quality.md).
 Release coordination: the water agent will commit only water-owned paths and
 will coordinate against current branch/Actions state before deployment;
 combat changes remain separately owned and must not be overwritten.
-Latest verified deployment: `10eecc5`, Actions `34110124664`, live bundle
-`index-DaL0_UwK.js` (2026-09-07); live HTML, JS and water metadata match the
-Pages artifact. The native accepted62 preview is assembled locally, but its
+Latest verified deployment: `4b9f232`, Actions `34116428417`, live bundle
+`index-kUZ9R7gz.js` (2026-09-07); all Actions gates pass, live HTML references
+the successful build bundle, and public water metadata is unchanged. The native accepted62 preview is assembled locally, but its
 actual rendering budget check fails. Constant-owner standing-water geometry
 is implemented with ownership and animated-edge regression checks; final
-coverage, remaining river storage and complete-view loading remain open.
+coverage and complete-view loading remain open. Local lossless river packing
+now fits the checked full native view; standing-water loading remains unresolved.
 Public water metadata still matches the original `1af32a3` overhaul: **the
 final hydraulic/native/adaptive/gradient data is not deployed**. Never promote
 older diagnostic bundles or bypass combat asset verification.

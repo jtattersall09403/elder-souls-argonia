@@ -1,3 +1,4 @@
+import { RasterCutouts } from "../rasterCutouts";
 import { readFileSync } from "node:fs";
 import { inflateSync, gunzipSync } from "node:zlib";
 import { createHash } from "node:crypto";
@@ -49,6 +50,19 @@ export function productionWaterData(base = new URL("../../../../../apps/world-st
   const meta: WaterMeta = JSON.parse(readFileSync(new URL("water-meta.json", base), "utf8"));
   validateWaterMeta(meta);
   const hash = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
+  let rasterCutouts: RasterCutouts | undefined;
+  if (meta.rasterCutouts) {
+    const descriptor = meta.rasterCutouts;
+    if (hash(Buffer.from(JSON.stringify(meta.ribbons ?? []))) !== descriptor.sourceRibbonsSha256
+      || descriptor.crossSectionsSha256 !== meta.crossSections?.sha256
+      || descriptor.gridSize !== meta.surface.size || descriptor.metresPerPixel !== meta.surface.metresPerPixel)
+      throw new Error('Raster cutout fixture source mismatch');
+    const compressed = readFileSync(new URL(descriptor.file, base));
+    if (compressed.byteLength !== descriptor.downloadBytes) throw new Error('Raster cutout fixture download mismatch');
+    const bytes = gunzipSync(compressed, { maxOutputLength: descriptor.bytes });
+    if (hash(bytes) !== descriptor.sha256) throw new Error('Raster cutout fixture integrity mismatch');
+    rasterCutouts = new RasterCutouts(descriptor, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength));
+  }
   if (meta.crossSections) {
     const packed = readFileSync(new URL(meta.crossSections.file, base));
     if (meta.crossSections.sha256 && hash(packed) !== meta.crossSections.sha256) throw new Error('Packed water section fixture integrity mismatch');
@@ -85,5 +99,5 @@ export function productionWaterData(base = new URL("../../../../../apps/world-st
     rgbPng(new URL(meta.surface.supportFile!, base), meta.surface.size),
     rgbPng(new URL(meta.klass.characterFile!, base), meta.klass.size), tannin,
     meta.surface.accessFile ? rgbPng(new URL(meta.surface.accessFile, base), meta.surface.size) : undefined,
-    nativeGround, basin.tidalAmplitudeM + basin.seasonalAmplitudeM);
+    nativeGround, basin.tidalAmplitudeM + basin.seasonalAmplitudeM, rasterCutouts);
 }

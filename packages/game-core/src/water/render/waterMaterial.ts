@@ -457,6 +457,7 @@ export interface WaterMaterialContext {
   assets: WaterAssets;
   uniforms: WaterUniforms;
   tier: WaterTier;
+  nativeRibbonLayout?: boolean;
 }
 
 export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialContext): THREE.MeshPhysicalMaterial {
@@ -482,11 +483,17 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
         "#include <common>",
         /* glsl */ `#include <common>
 uniform float uVerticalScale;
-attribute vec4 waterOverride;
+${ctx.nativeRibbonLayout ? `attribute vec3 waterRibbonFlow;
+attribute vec2 waterRibbonResponse;
+attribute float waterRibbonResponseValid;
+#define waterOverride vec4(position.y, waterRibbonFlow.xz, 1.0)
+#define waterGround 0.0
+#define waterFlowY waterRibbonFlow.y
+#define waterLevelResponse vec3(waterRibbonResponse, waterRibbonResponseValid)` : `attribute vec4 waterOverride;
 attribute float waterGround;
 attribute float waterFlowY;
+attribute vec3 waterLevelResponse;`}
 attribute float waterAccessOffset;
-attribute vec3 waterLevelResponse;
 attribute float waterBodyIndex;
 attribute float waterNative;
 attribute float waterCellSize;
@@ -976,6 +983,6 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, max(e
   };
 
   applyAerial(material);
-  material.customProgramCacheKey = () => `es-water-v2-${variant}-${tier.name}`;
+  material.customProgramCacheKey = () => `es-water-v2-${variant}-${tier.name}-${ctx.nativeRibbonLayout ? "native-ribbon" : "general"}`;
   return material;
 }

@@ -102,3 +102,11 @@ it('uses the same proxy-depth wave inputs along coarse and detailed tile edges',
   expect(checked).toBeGreaterThan(64);
   coarse.dispose(); detailed.dispose(); tiles.dispose(); material.dispose();
 });
+
+it('bounds unseen tiles from supported owners including dry halo contributions', () => {
+  const { data, height } = fixture();
+  height[20 * 129 + 65] = 19;
+  expect(data.rasterTileHeightBounds(0, 0)).toEqual([5, 19]);
+  expect(data.rasterTileHeightBounds(1, 0)).toEqual([9, 19]);
+  expect(data.rasterTileHeightBounds(0, 0)).toBe(data.rasterTileHeightBounds(0, 0));
+});

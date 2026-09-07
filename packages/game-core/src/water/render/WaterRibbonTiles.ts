@@ -1,8 +1,9 @@
 import * as THREE from "three";
 import { type ChannelRibbonRecord } from "../channelRibbons";
 import type { WaterData } from "../waterData";
-import { waterGeometryBytes, waterPatchDistance, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
+import { waterGeometryBytes, waterPatchDistance, waterPatchBuffer, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
 import { ribbonRenderLod } from "./ribbonRenderLod";
+import { compactNativeRibbonAttributes } from "./nativeRibbonAttributes";
 import { indexWaterGeometry, mergeWaterGeometry } from "./indexWaterGeometry";
 
 interface RibbonPatch {
@@ -72,7 +73,7 @@ export class WaterRibbonTiles {
         // No background march across the province. A conservative near and
         // frustum buffer keeps turning/walking smooth without retaining every
         // patch the camera has ever visited.
-        if (distance > 256 && !waterPatchVisible(bounds.clone().expandByScalar(128), view)) continue;
+        if (distance > 256 && !waterPatchVisible(waterPatchBuffer(bounds, 128), view)) continue;
         wanted.add(patch.key);
         const revision = Math.max(0, Math.floor(Math.log2(Math.max(1, distance) / Math.max(1, view.pixelsPerRadian))));
         if (!this.resident.has(patch.key) || patch.revision !== revision) this.pending.push(patch);
@@ -87,7 +88,7 @@ export class WaterRibbonTiles {
       this.pending.sort((a, b) => {
         const priority = (patch: RibbonPatch) => {
           const bounds = patch.bounds.clone(); bounds.min.y *= scale; bounds.max.y *= scale;
-          return (waterPatchVisible(bounds.clone().expandByScalar(256), view) ? 0 : 1e7) + waterPatchDistance(bounds, view);
+          return (waterPatchVisible(waterPatchBuffer(bounds, 256), view) ? 0 : 1e7) + waterPatchDistance(bounds, view);
         };
         return priority(a) - priority(b);
       });
@@ -185,6 +186,7 @@ export class WaterRibbonTiles {
     geometry.setAttribute("waterLevelResponse", new THREE.BufferAttribute(levelResponses, 3));
     geometry.setAttribute("waterBodyIndex", new THREE.BufferAttribute(bodyIndices, 1));
     geometry.setIndex(new THREE.BufferAttribute(indices, 1)); geometry.computeVertexNormals();
+    if (this.data.nativeGround) compactNativeRibbonAttributes(geometry);
     const compact = indexWaterGeometry(geometry); geometry.dispose();
     return compact;
   }

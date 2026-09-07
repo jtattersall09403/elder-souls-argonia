@@ -4,10 +4,12 @@ import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
 import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell, type RasterDomainBounds } from "./rasterWaterDomain";
 import { inlandBatchBudget } from "./inlandBatchBudget";
+import { clipRasterBounds } from "./clipRasterBounds";
+import { RasterOwnerIndex } from "./rasterOwnerIndex";
 import { constantRasterOwners, type ConstantRasterOwner } from "./constantRasterOwners";
 import { indexWaterGeometrySteps } from "./indexWaterGeometry";
 import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, rasterWaterClassInDomain, type InlandStageRange, type RasterWaterDomain } from "./inlandAdaptiveLeaves";
-import { waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
+import { waterPatchDistance, waterPatchBuffer, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
 
 export interface InlandWaterBudget {
   maxTriangles?: number;
@@ -137,12 +139,14 @@ export class InlandWaterTiles {
       for (let tz = 0; tz < limit; tz++) for (let tx = 0; tx < limit; tx++) {
         const key = `${tx},${tz}`;
         const current = this.tiles.get(key);
+        const nativeBounds = this.data.rasterTileHeightBounds(tx, tz);
+        if (nativeBounds === null && !current) continue;
         const bounds = current ? (current.userData.waterBounds as THREE.Box3).clone()
-          : new THREE.Box3(new THREE.Vector3(tx * tileM, this.data.meta.surface.minM, tz * tileM),
-            new THREE.Vector3((tx + 1) * tileM, this.data.meta.surface.maxM, (tz + 1) * tileM));
+          : new THREE.Box3(new THREE.Vector3(tx * tileM, nativeBounds?.[0] ?? this.data.meta.surface.minM, tz * tileM),
+            new THREE.Vector3((tx + 1) * tileM, nativeBounds?.[1] ?? this.data.meta.surface.maxM, (tz + 1) * tileM));
         bounds.min.y = (bounds.min.y - 8) * scale; bounds.max.y = (bounds.max.y + 8) * scale;
         const radius = Math.max(Math.abs(tx - cx), Math.abs(tz - cz));
-        const visible = waterPatchVisible(bounds.clone().expandByScalar(tileM), view);
+        const visible = waterPatchVisible(waterPatchBuffer(bounds, tileM), view);
         if (view && radius > 2 && !visible) {
           if (current) {
             this.residentTriangles -= (current.geometry.index?.count ?? 0) / 3;
@@ -299,7 +303,8 @@ export class InlandWaterTiles {
     // avoid scanning all province ribbons for every raster triangle.
     const clips = new Map<number, ChannelRibbonFootprintTriangle[]>();
     this.atomicPhase = "footprint-query";
-    const footprints = this.data.ribbons.ownershipFootprintsInBounds(baseX, baseZ, baseX + 64 * mpp, baseZ + 64 * mpp);
+    const preparedTile = flatScan.complete && this.data.rasterCutouts?.meta.steps.some(value => value === step);
+    const footprints = preparedTile ? [] : this.data.ribbons.ownershipFootprintsInBounds(baseX, baseZ, baseX + 64 * mpp, baseZ + 64 * mpp);
     yield;
     this.atomicPhase = "footprint-index";
     let indexed = 0;
@@ -433,17 +438,16 @@ export class InlandWaterTiles {
     // Constant owner planes may cover dry/other-owner pixels conservatively:
     // fragment ownership, support, access and native ground define their exact
     // shore. The regular interior grid follows view LOD, not semantic pixels.
+    const ownerIndices = new Map<number, RasterOwnerIndex>();
     const flatVertex = (patch: ConstantRasterOwner, x: number, z: number): number => {
       x = Math.fround(x); z = Math.fround(z);
       const key = `flat:${patch.owner}:${x},${z}`, found = vertices.get(key);
       if (found !== undefined) return found;
       let sampleX = x, sampleZ = z;
       if (this.data.rasterBodyIndexAt(x, z) !== patch.owner) {
-        let closest = patch.supportedCells[0], best = Infinity;
-        for (const cell of patch.supportedCells) {
-          const distance = Math.hypot(Math.max(cell.minX - x, 0, x - cell.maxX), Math.max(cell.minZ - z, 0, z - cell.maxZ));
-          if (distance < best) { best = distance; closest = cell; }
-        }
+        let spatial = ownerIndices.get(patch.owner);
+        if (!spatial) { spatial = new RasterOwnerIndex(patch.supportedCells); ownerIndices.set(patch.owner, spatial); }
+        const closest = spatial.nearest(x, z);
         const value = rasterDomainVertex(this.data, { ...closest, centreX: (closest.minX + closest.maxX) * .5,
           centreZ: (closest.minZ + closest.maxZ) * .5, bodyIndex: patch.owner, classIndex: 4,
           sample: patch.sample, samplingBounds: closest }, Math.max(closest.minX, Math.min(closest.maxX, x)), Math.max(closest.minZ, Math.min(closest.maxZ, z)));
@@ -474,8 +478,22 @@ export class InlandWaterTiles {
       }
       for (const [key, ownerCells] of occupied) {
         const row = Math.floor(key / cells), col = key % cells;
-        const x0 = baseX + col * span, x1 = baseX + (col + 1) * span;
-        const z0 = baseZ + row * span, z1 = baseZ + (row + 1) * span;
+        const prepared = this.data.rasterCutouts?.triangles(tx, tz, step, row, col);
+        if (prepared) {
+          for (let i = 0; i < prepared.length; i += 6) {
+            const polygon = clipRasterBounds([{ x: prepared[i], z: prepared[i + 1] },
+              { x: prepared[i + 2], z: prepared[i + 3] }, { x: prepared[i + 4], z: prepared[i + 5] }], patch);
+            if (polygon.length >= 3) {
+              const a = flatVertex(patch, polygon[0].x, polygon[0].z);
+              for (let j = 1; j < polygon.length - 1; j++) indices.push(a,
+                flatVertex(patch, polygon[j].x, polygon[j].z), flatVertex(patch, polygon[j + 1].x, polygon[j + 1].z));
+            }
+            if ((i / 6 & 15) === 15) yield;
+          }
+          yield; continue;
+        }
+        const x0 = Math.max(patch.minX, baseX + col * span), x1 = Math.min(patch.maxX, baseX + (col + 1) * span);
+        const z0 = Math.max(patch.minZ, baseZ + row * span), z1 = Math.min(patch.maxZ, baseZ + (row + 1) * span);
         const perimeter: number[] = [];
         const zs = col === 0 || col === cells - 1 ? rasterDomainAxis(this.data, z0, z1) : [z0, z1];
         const xs = row === 0 || row === cells - 1 ? rasterDomainAxis(this.data, x0, x1) : [x0, x1];

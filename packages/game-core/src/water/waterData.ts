@@ -9,6 +9,7 @@
  */
 
 import { ChannelRibbonSampler, type ChannelRibbonRecord, type ChannelRibbonSampleOptions } from "./channelRibbons";
+import type { RasterCutouts, RasterCutoutDescriptor } from './rasterCutouts';
 import type { PackedCrossSectionMeta } from './packedCrossSections';
 import type { NativeWaterGround, NativeWaterGroundDescriptor } from './nativeWaterGround';
 import { isPhysicalWaterBody, type WaterBodyIdentity, type WaterBodyRecord } from './waterBodies';
@@ -23,6 +24,7 @@ export interface WaterMeta {
   ribbons?: ChannelRibbonRecord[];
   crossSections?: PackedCrossSectionMeta;
   nativeGround?: NativeWaterGroundDescriptor;
+  rasterCutouts?: RasterCutoutDescriptor;
   cascades?: { id: string; lip: { x: number; y: number; z: number };
     plunge: { x: number; y: number; z: number }; direction: { x: number; z: number };
     widthM: number; dropM: number; riverBand: number; bodyIndex: number }[];
@@ -107,6 +109,7 @@ export function tideResponseOf(salinity: number): number {
 
 export class WaterData {
   private readonly bodyIds: Map<number, string>;
+  private readonly rasterBounds = new Map<string, readonly [number, number] | null>();
   private readonly physicalBodies: Map<string, WaterBodyRecord>;
   readonly ribbons: ChannelRibbonSampler;
   constructor(
@@ -134,7 +137,9 @@ export class WaterData {
     readonly nativeGround?: NativeWaterGround,
     /** Sum of the actual authored tide and season maxima, injected by loader. */
     maximumStageOffsetM?: number,
+    readonly rasterCutouts?: RasterCutouts,
   ) {
+    if (meta.rasterCutouts && !rasterCutouts) throw new Error('Water metadata requires matching raster cutouts');
     if (meta.nativeGround && !nativeGround) throw new Error('Water metadata requires its matching native ground provider');
     this.bodyIds = new Map(meta.bodies?.map(b => [b.index, b.id]));
     this.physicalBodies = new Map(meta.bodies?.filter(isPhysicalWaterBody).map(b => [b.id, b]));
@@ -142,6 +147,30 @@ export class WaterData {
   }
 
   waterBodyIdForIndex(index: number): string | null { return this.bodyIds.get(index) ?? null; }
+  /** Conservative tile heights before geometry exists. Using province-wide
+   * mountain heights for every lowland tile queues water far below the view.
+   * Include same-owner dry stencil contributors; never infer bounds from only
+   * a few corners or the currently wet subset. Undefined keeps legacy bounds. */
+  rasterTileHeightBounds(tx: number, tz: number): readonly [number, number] | null | undefined {
+    if (!this.meta.surface.nativeChannelCoverage || !this.support) return undefined;
+    const key = `${tx},${tz}`, cached = this.rasterBounds.get(key);
+    if (cached !== undefined || this.rasterBounds.has(key)) return cached;
+    const sm = this.meta.surface, originPixels = (sm.gridOriginM ?? sm.metresPerPixel * .5) / sm.metresPerPixel;
+    const x0 = Math.max(0, Math.floor(tx * 64 - originPixels) - 1), x1 = Math.min(sm.size - 1, Math.ceil((tx + 1) * 64 - originPixels) + 1);
+    const z0 = Math.max(0, Math.floor(tz * 64 - originPixels) - 1), z1 = Math.min(sm.size - 1, Math.ceil((tz + 1) * 64 - originPixels) + 1);
+    const owners = new Set<number>();
+    for (let z = z0; z <= z1; z++) for (let x = x0; x <= x1; x++) {
+      const p = (z * sm.size + x) * 4;
+      if (this.rasterSupported(p)) owners.add(this.support[p + 1] * 256 + this.support[p + 2]);
+    }
+    let min = Infinity, max = -Infinity;
+    for (let z = z0; z <= z1; z++) for (let x = x0; x <= x1; x++) {
+      const i = z * sm.size + x, p = i * 4;
+      if (owners.has(this.support[p + 1] * 256 + this.support[p + 2])) { min = Math.min(min, this.surface[i]); max = Math.max(max, this.surface[i]); }
+    }
+    const bounds = min <= max ? [min, max] as const : null;
+    this.rasterBounds.set(key, bounds); return bounds;
+  }
   /** Exact source stencil for raster geometry proofs; no interpolation or
    * ribbon query. The caller visits integer coordinates on the surface grid. */
   rasterVertexAt(col: number, row: number): WaterBoundaryStaticSample {

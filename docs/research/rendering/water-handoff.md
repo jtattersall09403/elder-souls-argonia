@@ -23,17 +23,20 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Last verified live: `10eecc5`, successful Actions `34110124664`, studio bundle
-  `index-DaL0_UwK.js`. Live HTML, bundle and water metadata match the downloaded
-  Pages artifact byte-for-byte (2026-09-07). Public water metadata SHA-256:
+- Last verified live: `4b9f232`, successful Actions `34116428417`, studio bundle
+  `index-kUZ9R7gz.js` (2026-09-07). Root tests, typecheck, credits and build passed
+  in Actions. Live HTML references the successful build bundle; its downloaded
+  SHA-256 is `eb816a00e306430a93b92d8dc62a311cb0ff7a983b166560b3c591cd74f49423`. Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Do not describe a local source fix as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
-- The source through `10eecc5` is deployed; native accepted62 preview assets
+- The source through `4b9f232` is deployed; native accepted62 preview assets
   remain local at `/tmp/water-live-preview`. Actual preview budget tests fail:
   coarse constant-owner inland patches are implemented, but the complete view
-  still does not settle within its loading budget; ribbons exhaust64MiB. The
+  still does not settle within its loading budget. Local lossless ribbon
+  packing now fits all345 requested normal-view river patches into64MiB, with
+  both shader sides checked on WebGL2; other views and standing tiles remain open. The
   current evidence and remaining shared costs are in the coverage pipeline doc. Read `git status` and
   the recent log for newer checkpoints.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;

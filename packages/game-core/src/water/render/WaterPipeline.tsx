@@ -279,7 +279,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.uniforms.uCausticsInOpaque.value = runtime.causticsInOpaque ? 1 : 0;
       h.uniforms.uDirectSun.value = directSun;
       h.effects.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
-      for (const mesh of h.meshes) mesh.material = underwater ? h.materials.below : h.materials.above;
+      for (const mesh of h.meshes) mesh.material = mesh.geometry.hasAttribute('waterRibbonFlow')
+        ? (underwater ? h.materials.ribbonBelow : h.materials.ribbonAbove)
+        : (underwater ? h.materials.below : h.materials.above);
     }
 
     // Restore every renderer/camera setting exactly once, including failures.

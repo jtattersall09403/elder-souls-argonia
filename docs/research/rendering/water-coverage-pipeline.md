@@ -341,6 +341,66 @@ applied. Normals feed actual slope/wave shading; do not discard them. Review
 the remaining longitudinal topology and attribute storage together instead
 of repeating already-active cross-section LOD and indexing work.
 
+## Unpublished native preview: shared geometry work (2026-09-07)
+
+Runtime polygon union was measured against the exact channel footprints and
+an independent Shapely area oracle. `polygon-clipping` preserved the area but
+cost several milliseconds per coarse cell even with pre-unioned cutters;
+`polyclip-ts` returned an incorrect empty result on the retained dense case.
+Neither dependency was added. Primary implementations:
+https://github.com/mfogel/polygon-clipping and
+https://github.com/luizbarboza/polyclip-ts. Evidence lives in
+`/tmp/water-polygon-probe` and `/tmp/water-polygon-comparison.json`.
+
+The uncommitted alternative prepares exact runtime channel cutouts once during
+export: `export_water_footprint_tiles.cjs` exports the sampler's footprint
+triangles; `worldgen.prepare_water_cutouts` unions them with Shapely and
+constrained-triangulates coarse cells at steps4/8/16, preserving shared tile
+edge knots. Runtime loading verifies source ribbons, packed sections, grid,
+length and SHA-256, then uses typed triangles without repeated subtraction.
+The complete prepared file in `/tmp/water-cutouts-prepared` is16,730,688bytes
+(3,716,389 gzip), SHA-256
+`7ead96e752316933e1b2ea663fc5062f9112297c120a07e8228c42e22c7a30ff`.
+Its676,525 triangles cover all three offline LOD variants, not one resident view.
+It is attached only to `/tmp/water-live-preview`; public assets are unchanged.
+
+Additional local changes index nearest same-owner support rectangles, use
+actual per-tile water heights for pre-build visibility, keep view buffers
+horizontal, and clip flat proxies to the complete owner support rectangle.
+No target footprint, stage or shoreline is reduced. Latest actual native
+normal-view test (`/tmp/water-tight-owner-budget.log`) still fails:
+381 inland tiles,923,047 triangles,89,210,606bytes and434 pending tiles after
+10,000 updates; zero inland budget rejections. Ribbons admit288 patches at
+67,107,680bytes with57 rejected admissions. Pending inland work is not evidence
+of memory exhaustion. Next address loading work and lossless native-ribbon
+attribute storage together; do not increase caps or discard visible water.
+Native rivers now use a distinct material layout retaining Float32 flow,
+response and normals, reusing position.y as head and storing the response-valid
+flag as an unnormalized byte. This saves11 bytes per vertex and also preserves
+older records without explicit seasonal responses. Above/below variants share
+uniforms, have separate program keys and are selected by geometry layout.
+Independent review found no fidelity or material-selection defect.
+
+After packing, the same normal-view test admits all345 river patches:
+885,393 triangles,65,595,378bytes, zero pending/rejected patches. Inland still
+has479 pending tiles; concurrent typecheck makes its timing incomparable with
+the earlier run. River storage now fits this view without changing caps;
+complete standing-water loading and other views remain open. Retain
+`/tmp/water-packed-ribbon-budget.log` rather than repeating it unchanged.
+
+Native layout preservation and shader-binding/streaming tests:14 passed;
+renderer/loader/index tests:20 passed; prepared-cutout Python checks:3 passed.
+A headless WebGL2 check compiles and draws both old/new layouts above and below
+with the actual Studio aerial binding: all four link, zero GL errors and no
+console errors (`/tmp/water-native-layout-gpu.mjs`, matching `.log`). No images
+were captured or ingested. Root typecheck passes. Root tests pass all water
+checks (game-core781 passed, one final-asset test skipped). The combat
+child-process test hit sandbox EPERM then passed its seven focused tests with
+normal process permission. The remaining root failure is the same four
+concurrent settlement blueprint prose hits; none of those records is part of
+the water change. These do not certify final rendered coverage or native preview
+performance. Reuse the completed assets; do not repeat full native compilation.
+
 ## Latest local evidence to retain, not repeat
 
 - Generic terminal selection excludes rejected continuations. Of ten apparent

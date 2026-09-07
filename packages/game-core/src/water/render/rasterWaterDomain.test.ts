@@ -64,9 +64,9 @@ describe('shared raster hydraulic-domain partition', () => {
     const world = new WaterWorld(data, { tidalAmplitudeM: .5, seasonalAmplitudeM: 1.4, seasonScalar: () => 0 });
     const assets: WaterAssets = { data, world, meta: data.meta, surfaceTex: texture, flowTex: texture, klassTex: texture,
       shoreTex: texture, supportTex: texture, characterTex: texture, tidalAmplitudeM: .5, seasonalAmplitudeM: 1.4 };
-    for (const variant of ['above', 'below'] as const) {
+    for (const nativeRibbonLayout of [false, true]) for (const variant of ['above', 'below'] as const) {
       const material = createWaterMaterial(variant, { assets, uniforms: createWaterUniforms(assets), tier: WATER_TIERS.high,
-        csm: null, applyAerial: () => {} });
+        csm: null, applyAerial: () => {}, nativeRibbonLayout });
       const shader = { uniforms: {}, vertexShader: THREE.ShaderLib.physical.vertexShader, fragmentShader: THREE.ShaderLib.physical.fragmentShader };
       material.onBeforeCompile(shader as Parameters<typeof material.onBeforeCompile>[0], {} as THREE.WebGLRenderer);
       expect(shader.vertexShader.match(/varying float vRasterExplicit;/g)).toHaveLength(1);
@@ -76,6 +76,10 @@ describe('shared raster hydraulic-domain partition', () => {
       expect(shader.fragmentShader).toContain('vRasterExplicit > 0.5');
       expect(shader.fragmentShader).toContain('if (abs(owner - vWaterBodyIndex) > 0.5) discard;');
       expect(shader.fragmentShader).toContain('raster.y + vEsWorldPos.y / max(uVerticalScale, 0.001) - raster.x');
+      expect(shader.vertexShader.includes('attribute vec4 waterOverride;')).toBe(!nativeRibbonLayout);
+      expect(shader.vertexShader.includes('#define waterOverride vec4(position.y, waterRibbonFlow.xz, 1.0)')).toBe(nativeRibbonLayout);
+      expect(shader.vertexShader.includes('#define waterLevelResponse vec3(waterRibbonResponse, waterRibbonResponseValid)')).toBe(nativeRibbonLayout);
+      expect(material.customProgramCacheKey()).toContain(nativeRibbonLayout ? 'native-ribbon' : 'general');
       material.dispose();
     }
     texture.dispose();

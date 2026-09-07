@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { validateRasterCutoutMeta } from "../rasterCutouts";
+import { fetchRasterCutouts } from "../rasterCutoutLoader";
 import { WaterData, type WaterMeta } from "../waterData";
 import { WaterWorld, type WaterWorldOptions } from "../waterWorld";
 import { validateWaterStageRange, validateSeasonalRibbon } from "../waterStage";
@@ -35,6 +37,7 @@ export function validateWaterMeta(value: unknown): asserts value is WaterMeta {
   if (meta.schemaVersion !== 2) throw new Error("Water loader requires schemaVersion 2");
   if (meta.crossSections !== undefined) validatePackedCrossSectionMeta(meta.crossSections);
   if (meta.nativeGround !== undefined) validateNativeWaterGroundMeta(meta.nativeGround);
+  if (meta.rasterCutouts !== undefined) validateRasterCutoutMeta(meta.rasterCutouts);
   for (const name of ["surface", "flow", "klass"] as const) {
     const grid = record(meta[name], `${name} grid`);
     if (!finite(grid.size) || !Number.isSafeInteger(grid.size) || grid.size < 2
@@ -197,7 +200,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     }
     const lowTideAmplitudeM = meta.stageRange?.lowTideAmplitudeM ?? tidalAmplitudeM;
     const drySeasonAmplitudeM = meta.stageRange?.drySeasonAmplitudeM ?? seasonalAmplitudeM * .2;
-    const [surfaceImage, flowImage, classImage, shoreImage, supportImage, characterImage, accessImage, packedSections, nativeGround] = await Promise.all([
+    const [surfaceImage, flowImage, classImage, shoreImage, supportImage, characterImage, accessImage, packedSections, nativeGround, rasterCutouts] = await Promise.all([
       fetchRaster(`${waterBase}${meta.surface.file}`, meta.surface.size, controller.signal),
       fetchRaster(`${waterBase}${meta.flow.file}`, meta.flow.size, controller.signal),
       fetchRaster(`${waterBase}${meta.klass.file}`, meta.klass.size, controller.signal),
@@ -207,6 +210,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
       meta.surface.accessFile ? fetchRaster(`${waterBase}${meta.surface.accessFile}`, meta.surface.size, controller.signal) : undefined,
       meta.crossSections ? fetchPackedCrossSections(waterBase, meta.crossSections, controller.signal) : undefined,
       meta.nativeGround ? fetchNativeWaterGround(waterBase, meta.nativeGround, controller.signal) : undefined,
+      fetchRasterCutouts(waterBase, meta, controller.signal),
     ]);
     controller.signal.throwIfAborted();
     if (packedSections && meta.crossSections) new PackedCrossSections(meta.crossSections, packedSections, meta.ribbons ?? []);
@@ -229,7 +233,7 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     }
     const data = new WaterData(meta, surface, depth, flowImage.data, classImage.data,
       shore, season, supportImage.data, characterImage.data, tannin, accessImage?.data, nativeGround,
-      tidalAmplitudeM + seasonalAmplitudeM);
+      tidalAmplitudeM + seasonalAmplitudeM, rasterCutouts);
     packWaterAuxiliaries(surfaceImage.data, shoreImage.data, supportImage.data,
       classImage.data, characterImage.data, accessImage?.data);
     const world = new WaterWorld(data, {

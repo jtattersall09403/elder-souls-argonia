@@ -44,3 +44,12 @@ export function waterPatchErrorM(bounds: Box3, view: WaterGeometryView | undefin
 export function waterPatchVisible(bounds: Box3, view?: WaterGeometryView): boolean {
   return !view || ((!view.frustum || view.frustum.intersectsBox(bounds)) && waterPatchDistance(bounds, view) <= view.farM);
 }
+
+/** Turning/streaming buffer in the horizontal world plane. Vertical inflation
+ * would admit distant low water simply because a tall empty box is visible. */
+export function waterPatchBuffer(bounds: Box3, metres: number): Box3 {
+  const expanded = bounds.clone();
+  expanded.min.x -= metres; expanded.min.z -= metres;
+  expanded.max.x += metres; expanded.max.z += metres;
+  return expanded;
+}
