@@ -334,5 +334,15 @@
       "shiftedPreviouslyWetOriginalPoolPlanesOver0_1mm": 0
     },
     "reviewedPoolStageReferenceSeedsAndMergedLowBounds": "pass"
+  },
+  "seasonalProfileProposal": {
+    "status": "verified-proposal-not-accepted-checkpoint",
+    "file": "seasonal-profile-proposal.npz",
+    "sha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
+    "evidence": "seasonal-rivulet-proposal-audit.json",
+    "candidateConstraints": 77,
+    "acceptedCheckpointConstraints": 127,
+    "compilerFlag": "--seasonal-profile",
+    "note": "Guarded fresh compilation validates budgets and preserves all accepted standing samples; matching seasonal-aware solver audit/cache and final coverage gates remain pending"
   }
 }

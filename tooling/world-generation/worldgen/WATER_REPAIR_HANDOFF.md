@@ -647,7 +647,8 @@ heads bit-for-bit. `compile_features(..., seasonal_sources=..., stage=...)`
 requires authored wetland rivulets, finite response coefficients and a peak
 more than4mm above every exported centre's bed. Runtime loading and compiled
 artifact gates enforce the same `baseMayBeDry` record contract; permanent
-river depth checks remain. `compile_water.compute` does NOT activate this yet.
+river depth checks remain. Default compilation does not select seasonal channels;
+the explicit guarded proposal path is described below.
 
 The real-API diagnostic `/tmp/probe-water-seasonal-explicit-contract.py`
 uses inherited c068 station responses from
@@ -694,15 +695,51 @@ within0.00004686m. Actual runtime centre coverage remains367 original-coordinate
 ordinary columns, eight additional exported-centre columns, one falling sheet.
 These are point/contact checks, not final generated confluence mesh acceptance.
 
-Next: integrate deterministic seasonal selection and reconcile depth budgets
-with freshly compiled, pool-anchored responses. Profiles precede field responses;
-a deferred response pass may be needed. Do not treat the inherited1.4m budget as
-proved merely because these centres remain wet. Protect permanent/shared nodes,
-compare fresh failure source sets, preserve original pools and reviewed ranges,
-and run final whole-footprint/five-stage rendered confluence gates. Seasonal
-activation still uses a temporary wrapper; accepted data remains127/69/15,559.
-Ninety-nine distinct focused Python tests pass after the pool-contact change;
-root workspace tests/typecheck passed at c00c7ed, with no runtime edits since.
+## Guarded seasonal compiler integration (proposal, not accepted checkpoint)
+
+`water_channel_response.py` shares exactly the exported response interpolation
+with exclusive-node peak budgets. Reconciliation lowers five allowances by at
+most0.311111m; all candidate heads remain bit-identical,77 constraints remain,
+and no new source failures appear. `/tmp/water-seasonal-reconciled-budget.{json,npz}`
+records this. Source entry points: `compute(..., seasonal_profile=...)` and
+`compile_water --seasonal-profile PATH`. The CLI requires a fixed `--bed-overlay`
+without `--continue-repairs`; it records the proposal SHA in output metadata.
+
+Versioned, pickle-free `water-repair-inputs/seasonal-profile-proposal.npz` stores
+exact graph arrays,84 eligible source IDs and524 exclusive native budgets. The
+compiler first solves the ordinary graph, rejects stale/protected/non-rivulet
+proposals, and rejects any new failure source. Full field compilation verifies
+actual fresh pool-anchored response budgets. Profiles-only return values explicitly
+mark responses unverified; they cannot replace the full-field acceptance proof.
+The manifest classifies this as a proposal; accepted checkpoint remains127.
+
+`/tmp/probe-water-seasonal-integrated-fields.py` uses the real compiler parameter;
+its only wrapper limits feature emission to909 selected records while retaining
+all accepted owners. Final `/tmp/water-seasonal-integrated-{fields.npz,ribbons.json,summary.json}`
+passes fresh budgets and exactly reproduces all six prior native fields plus
+all909 pool-contact-corrected records. `/tmp/water-seasonal-integration-proof.json`
+records equality, so the earlier actual runtime/contact checks apply unchanged.
+`/tmp/water-seasonal-standing-preservation.json` additionally checks all482,078
+accepted standing samples: no loss, no plane change, no added standing samples.
+
+The first integration pass exposed two contact donors only6.53mm/9.72mm deep.
+Their nominal pool planes existed, but they were outside the actual standing
+response domain and carried raw climate values. The final compiler uses
+`standing_detail` for both donor lookup and channel ownership. This matches the
+verified diagnostic and avoids reintroducing uneven pool ranges. Historical
+unfiltered-donor artifacts are `/tmp/water-seasonal-unfiltered-donors-*`; do not
+use them as the final integration result.
+
+Next: carry the proposal through `audit_water_profiles` and cache route solving,
+then record the accepted seasonal checkpoint. Those tools currently omit the
+optional proposal and still reproduce127. Saved seasonal budgets must survive
+cache solves, and route replacement must either rebuild them against its new
+graph or reject stale use. Keep original pool/stage proofs, then continue the
+remaining77 hydraulic candidates,69 retaining violations, whole authored peak
+footprints and final rendered/export gates. No higher amplitudes or native assets
+are deployed. Focused profile/boundary tests pass76 cases; the final seasonal/
+stage checks pass15 (including new graph/protected-node tests). Workspace gates
+passed at c00c7ed; no runtime edits since.
 
 Validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
 Dependencies restored without changing package manifests/lockfile. A held NFS

@@ -95,3 +95,32 @@ def test_standing_contact_owner_is_the_same_triangle_corner_as_its_plane():
     levels, owners = sample_standing_levels(ground, pools, points, return_owners=True)
     np.testing.assert_array_equal(owners, [4, -1])
     assert levels[0] == pools.flat[owners[0]] and np.isneginf(levels[1])
+
+
+def test_peak_budgets_follow_pool_contacts_and_protect_shared_permanent_nodes():
+    from .water_channel_response import exclusive_peak_budgets
+    points = np.array([[0., 0.], [0., 2.], [1., 2.], [0., 1.]])
+    links = np.array([3, 2, -1, 1])
+    original = np.array([1, 2, -1])
+    anchors = np.array([np.nan, np.nan, np.nan, .25])
+    budgets = exclusive_peak_budgets(points, links, original, {0},
+        np.ones(3), np.zeros(3), stage_range(), season_anchors=anchors)
+    np.testing.assert_allclose(budgets, [1.4, 0., 0., .35])
+
+
+def test_seasonal_proposal_rejects_stale_graphs_and_permanent_node_budgets():
+    from .water_channel_response import validate_seasonal_profile
+    points = np.array([[0., 0.], [0., 2.], [1., 2.], [0., 1.]])
+    links = np.array([3, 2, -1, 1])
+    original = np.array([1, 2, -1])
+    proposal = dict(points=points, links=links, original_links=original,
+                    candidates=[0], peak_depth_budget=[1., 0., 0., .5])
+    candidates, _ = validate_seasonal_profile(proposal, points, links, original, {0}, [True, False, False])
+    assert candidates == {0}
+    with pytest.raises(ValueError, match='stale points'):
+        validate_seasonal_profile(proposal, points + .1, links, original, {0}, [True, False, False])
+    with pytest.raises(ValueError, match='rejected authored'):
+        validate_seasonal_profile(proposal, points, links, original, set(), [True, False, False])
+    with pytest.raises(ValueError, match='permanent or shared'):
+        validate_seasonal_profile({**proposal, 'peak_depth_budget': [1., .5, 0., .5]},
+                                 points, links, original, {0}, [True, False, False])

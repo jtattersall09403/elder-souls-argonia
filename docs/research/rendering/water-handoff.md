@@ -269,15 +269,18 @@ with no new failures (77 diagnostic constraints; still127 accepted).
 Selected909-ribbon geometry checks cover376 new path centres:367 ordinary
 peak samples at original coordinates, eight more at exported Float32 centres,
 and one falling-sheet-only sample. This does not certify whole footprints.
-Fresh native candidate fields also retain77 constraints with no new failures.
-They exposed a separate response defect: coarse endpoint interpolation ignored
-intermediate pool contacts, separating surfaces by up to0.396m across tides.
-The compiler now anchors each native pool contact to that exact pool's response
-and interpolates only between contacts. Selected re-exported geometry passes554
-wet point contacts over five stages within0.05mm (previously97 above1mm).
-Runtime centre coverage is unchanged. This is not final rendered-confluence or
-whole-footprint acceptance. Reconcile seasonal depth budgets with the new
-anchored responses before activating compiler selection. Accepted count stays127.
-Ninety-nine focused Python cases pass across profiles, features, pools and stage;
-root workspace tests/typecheck passed at c00c7ed (no runtime edits since).
-See `seasonal-rivulet-proposal-audit.json` and compiler handoff for integration.
+Fresh native candidate fields retain77 constraints with no new failures.
+Intermediate pool response contacts now keep554 wet point comparisons over
+five stages within0.05mm. Five native depth budgets needed reductions against
+these actual responses; re-solving leaves every candidate head unchanged.
+`compute(..., seasonal_profile=...)` and CLI `--seasonal-profile` now validate
+exact graph identity, rejected authored-rivulet eligibility, protected shared
+nodes, no new failures and actual fresh response budgets. The final guarded
+compilation reproduces all six native fields and909 selected records exactly.
+All482,078 accepted standing samples keep identical coverage and planes.
+The durable `seasonal-profile-proposal.npz` is still a PROPOSAL: accepted inputs
+remain127 until a seasonal-aware audit/cache checkpoint is recorded. The audit
+CLI and route cache helpers do not yet carry the optional proposal. Full authored
+peak footprints and final rendered-confluence gates remain open. Source and
+focused Python checks pass; root workspace gates passed at c00c7ed, with no
+runtime edits since. See the compiler handoff and proposal audit for next steps.

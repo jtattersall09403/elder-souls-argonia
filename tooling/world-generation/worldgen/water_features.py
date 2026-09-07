@@ -5,6 +5,7 @@ from scipy import ndimage
 from .water_boundaries import ChannelOwnership, channel_cross_section, MAX_LEVEL_OFFSET_M
 from .terrain_triangles import sample_terrain
 from .water_geometry import shared_section_normals
+from .water_channel_response import channel_path_response
 
 
 def base_width(vertex):
@@ -167,26 +168,12 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                 # independently solved landing/continuation, not an air
                 # volume beneath a raised horizontal water plane.
                 first['fallingToNext'] = True
-        distances = np.r_[0., np.cumsum(np.linalg.norm(np.diff(points[path], axis=0), axis=1))]
-        fractions = distances / max(float(distances[-1]), 1e-9)
         for field, values, anchors in (('seasonResponse', season_response, season_response_anchors),
                                        ('tideResponse', tide_response, tide_response_anchors)):
             if values is not None:
-                start_value, end_value = values[path[0]], values[path[-1]]
-                response = start_value * (1 - fractions) + end_value * fractions
-                if anchors is not None:
-                    pinned_response = np.asarray(anchors)[path]
-                    pinned = np.isfinite(pinned_response)
-                    if np.any((pinned_response[pinned] < 0) | (pinned_response[pinned] > 1)):
-                        raise ValueError('Standing response anchors must be between zero and one')
-                    response[pinned] = pinned_response[pinned]
-                    # A reach may enter/leave several real pools between
-                    # coarse endpoints. Honour each contact, then blend only
-                    # over the intervening flowing section.
-                    pinned[[0, -1]] = True
-                    response = np.interp(distances, distances[pinned], response[pinned])
+                response = channel_path_response(points, path, values, anchors)
                 for point, value in zip(vertices, response):
-                    point[field] = round(float(value), 6)
+                    point[field] = float(value)
         cell = int(cell_indices[source])
         key = f"cell-{cell // coarse_width}-{cell % coarse_width}"
         body_index = int(sample(detailed_bodies, points[source] * detail_scale, order=0))

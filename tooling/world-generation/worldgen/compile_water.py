@@ -130,7 +130,8 @@ def backwater(w: np.ndarray, npz, filled: np.ndarray) -> np.ndarray:
 def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles_only=False,
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
-            retaining_lower_bounds=None, stage=None, station_overrides=None, pool_response_reference=None) -> dict:
+            retaining_lower_bounds=None, stage=None, station_overrides=None, pool_response_reference=None,
+            seasonal_profile=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     from .water_stage import stage_range
     stage = stage_range(stage)
@@ -470,6 +471,24 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         label = change['poolLabel']
         maximum_pool_reduction[label] = maximum_pool_reduction.get(label, 0.) + change['fromM'] - change['toM']
     topology_stats['maximumFlowPoolFreeboardReductionM'] = round(max(maximum_pool_reduction.values(), default=0.), 6)
+    seasonal_sources = frozenset()
+    if seasonal_profile is not None:
+        from .water_channel_response import validate_seasonal_profile
+        baseline_conflicts = frozenset(conflicts)
+        seasonal_candidates, peak_budget = validate_seasonal_profile(
+            seasonal_profile, geometry_points, geometry_ds, dsk, baseline_conflicts, rivulet_st)
+        geometry_levels, geometry_active, accepted_links, conflicts = condition_channel_profiles(
+            g2, geometry_points, geometry_ds, desired_geometry_levels, geometry_radius, n_st, dsk, pool_lvl,
+            bank_ground=g2, terrain_flips=terrain_flips, orientation_levels=orientation_levels,
+            diagnostics=profile_diagnostics, minimum_depth=geometry_depths, strict_banks=True,
+            metres_per_pixel=mpp2, allow_freefall=True, marine_ground=ocean2, pool_domain=pool_domain,
+            peak_depth_budget=peak_budget)
+        if not set(conflicts).issubset(baseline_conflicts):
+            raise ValueError('Seasonal profile introduces new channel failures')
+        seasonal_sources = baseline_conflicts - set(conflicts)
+        if not seasonal_sources.issubset(seasonal_candidates):
+            raise ValueError('Seasonal profile unexpectedly changes another rejected reach')
+        topology_stats['seasonalRecoveredReachCount'] = len(seasonal_sources)
     if profiles_only:
         return {"points": geometry_points, "conflicts": conflicts, "cell_indices": idx_st,
                 "links": geometry_ds, "levels": geometry_levels, "active": geometry_active,
@@ -478,7 +497,9 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
                 "pool_levels": pool_lvl, "marine_ground": ocean2, "filled_levels": filled2,
                 "pool_spills": pool_spills, "pool_potential": pool_potential,
                 "retaining_lower_bounds": retaining_lower_bounds,
-                "semantic_depth_targets": geometry_depths}
+                "semantic_depth_targets": geometry_depths,
+                "seasonal_sources": np.array(sorted(seasonal_sources), dtype=int),
+                "seasonal_response_verified": False}
     w_st = geometry_levels[:n_st].copy()
     current_downstream = downhill_graph(w_st, accepted_links, orientation_levels)
     if orientation_levels is not None:
@@ -667,13 +688,25 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     channel_season = season2[tuple(channel_response_sources)].copy()
     channel_tide = tidal2[tuple(channel_response_sources)].copy()
     from .water_geometry import sample_standing_levels
+    # Only actual standing-water donors have a unified, reviewed response.
+    # A shallower discarded seed may carry a raw climate interpolation even
+    # when its nominal plane matches the neighbouring physical pool.
+    standing_detail = np.where(standing_pool, pool_lvl, -np.inf)
     contact_levels, contact_owners = sample_standing_levels(
-        g2, pool_lvl, geometry_points, terrain_flips, pool_domain, return_owners=True)
+        g2, standing_detail, geometry_points, terrain_flips, pool_domain, return_owners=True)
     contacts = (contact_owners >= 0) & (np.abs(contact_levels - geometry_levels) < .001)
     season_anchors = np.full(len(geometry_points), np.nan, np.float32)
     tide_anchors = season_anchors.copy()
     season_anchors[contacts] = season2.ravel()[contact_owners[contacts]]
     tide_anchors[contacts] = tidal2.ravel()[contact_owners[contacts]]
+    if seasonal_profile is not None:
+        from .water_channel_response import exclusive_peak_budgets
+        actual_budget = exclusive_peak_budgets(
+            geometry_points, geometry_ds, seasonal_profile['original_links'], seasonal_candidates,
+            channel_season, channel_tide, stage, season_anchors, tide_anchors)
+        if np.any(peak_budget[geometry_active] > actual_budget[geometry_active] + 1e-6):
+            raise ValueError('Seasonal profile exceeds freshly compiled stage responses')
+        topology_stats['seasonalResponseBudgetsVerified'] = True
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
     if np.any(wet2):
@@ -696,7 +729,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         "radius": geometry_radius, "original_count": n_st, "original_links": accepted_links,
         "cell_indices": idx_st, "coarse_width": w_, "bands": rflat[idx_st],
         "wetland_rivulets": rivulet_st,
-        "standing_detail": np.where(standing_pool, pool_lvl, -np.inf), "all_channels": True,
+        "standing_detail": standing_detail, "all_channels": True,
         "marine_ground": ocean2,
         "pool_domain": pool_domain,
         "terrain_flips": terrain_flips, "orientation_levels": orientation_levels,
@@ -704,6 +737,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         # longitudinal only and never samples another bank/reach at an edge.
         "season_response": channel_season, "tide_response": channel_tide,
         "season_response_anchors": season_anchors, "tide_response_anchors": tide_anchors,
+        "seasonal_sources": seasonal_sources, "stage": stage,
         "maximum_offset": maximum_offset,
     }
     ribbons, cascades = compile_features(g2, w2, support2, bodies2,
@@ -786,7 +820,13 @@ def main() -> None:
     parser.add_argument("--stage-range", type=Path, help="JSON with independent high/low tide and wet/dry season amplitudes")
     parser.add_argument("--pool-stage-reference", type=Path,
                         help="Reviewed connected-pool response ranges preserved during shoreline expansion")
+    parser.add_argument("--seasonal-profile", type=Path,
+                        help="Versioned native seasonal proposal, verified against fresh graph and stage responses")
     args = parser.parse_args()
+    if args.seasonal_profile and (not args.bed_overlay or args.continue_repairs):
+        parser.error('--seasonal-profile requires a fixed --bed-overlay without --continue-repairs')
+    from .water_channel_response import load_seasonal_profile
+    seasonal_profile = load_seasonal_profile(args.seasonal_profile) if args.seasonal_profile else None
     from .water_stage import stage_range, access_bounds
     stage = stage_range(json.loads(args.stage_range.read_text()) if args.stage_range else None)
     access_min, access_max = access_bounds(stage)
@@ -934,6 +974,7 @@ def main() -> None:
         terrain_flips=terrain_flips, orientation_levels=orientation_levels,
         routing_overrides=routing_overrides, station_overrides=station_overrides, immutable_potential=immutable_potential,
         reference_pool_levels=reference_pool_levels,retaining_lower_bounds=retaining_lower_bounds, stage=stage,
+        seasonal_profile=seasonal_profile,
         pool_response_reference=(json.loads(args.pool_stage_reference.read_text())
                                  if args.pool_stage_reference else None)), args.web_step)
     r['topology_stats']['immutableRetainingBoundViolationCount']=int(np.count_nonzero(refined<retaining_lower_bounds-1e-4))
@@ -1074,6 +1115,9 @@ def main() -> None:
     if args.pool_stage_reference:
         import hashlib
         meta['poolStageReferenceSha256'] = hashlib.sha256(args.pool_stage_reference.read_bytes()).hexdigest()
+    if args.seasonal_profile:
+        import hashlib
+        meta['seasonalProfileSha256'] = hashlib.sha256(args.seasonal_profile.read_bytes()).hexdigest()
     meta["bodies"] = compile_body_records(meta, r)
     from .water_cross_sections import pack_cross_sections
     pack_cross_sections(meta, out_dir)

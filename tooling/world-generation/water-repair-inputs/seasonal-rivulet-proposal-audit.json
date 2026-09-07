@@ -174,9 +174,9 @@
     "actualRuntimeSeasonalRecordsValidated": 50
   },
   "limitations": [
-    "Fresh response investigation below supersedes the inherited-response evidence above",
-    "Automatic seasonal compiler selection and budget reconciliation remain pending",
-    "Accepted count remains 127; final whole-footprint and rendered-confluence gates remain open"
+    "Compiler integration below supersedes temporary budget injection and reconciliation caveats above",
+    "Accepted count remains127 until a matching seasonal-aware audit/cache checkpoint is recorded",
+    "Final whole-footprint and rendered-confluence gates remain open"
   ],
   "freshResponseInvestigation": {
     "status": "unaccepted-fresh-candidate",
@@ -213,6 +213,148 @@
       "Fresh fields used the full native computation and reviewed pool-stage reference; pool-contact response correction was then re-exported from those fields",
       "Recalculate proposed depth budgets against anchored responses before accepting profiles",
       "Selected centre/pool-contact checks do not certify whole footprints or final rendered confluences"
+    ]
+  },
+  "compilerIntegration": {
+    "status": "verified-proposal-not-accepted-checkpoint",
+    "profileFile": "seasonal-profile-proposal.npz",
+    "profileSha256": "6e787ff87e4dff1abdddb4e8bd56c8a28fe10ec0f60a8b2dd47fae17bee85455",
+    "reconciliation": {
+      "scope": "Actual fresh pool-anchored response budgets on cached native domains, not accepted data",
+      "remaining": 77,
+      "resolved": [
+        3237,
+        3778,
+        4414,
+        7653,
+        8077,
+        8372,
+        8381,
+        8389,
+        8401,
+        9111,
+        9139,
+        9205,
+        9232,
+        9233,
+        9234,
+        9249,
+        9333,
+        9356,
+        9378,
+        9404,
+        10075,
+        10180,
+        10189,
+        10198,
+        10260,
+        10261,
+        10449,
+        10450,
+        10451,
+        11264,
+        12114,
+        12126,
+        12322,
+        12800,
+        12801,
+        12882,
+        12893,
+        12952,
+        12953,
+        13006,
+        13097,
+        13115,
+        13294,
+        13569,
+        13583,
+        13790,
+        13815,
+        14320,
+        14915,
+        15630
+      ],
+      "newFailures": [],
+      "budgetNodesReduced": 5,
+      "maximumBudgetReductionM": 0.3111107761581422,
+      "headsIdenticalToFreshCandidate": true,
+      "maximumHeadChangeM": 0.0,
+      "activeUnpinnedMinimumPeakDepthSurplusM": -1.8194317817687988e-05
+    },
+    "nativeFieldAndGeometryProof": {
+      "scope": "Guarded compiler integration versus fresh native candidate and corrected pool-contact re-export",
+      "fields": {
+        "w2": {
+          "identical": true,
+          "changedSamples": 0
+        },
+        "access2": {
+          "identical": true,
+          "changedSamples": 0
+        },
+        "season2": {
+          "identical": true,
+          "changedSamples": 0
+        },
+        "tidal2": {
+          "identical": true,
+          "changedSamples": 0
+        },
+        "support_kind2": {
+          "identical": true,
+          "changedSamples": 0
+        },
+        "bodies2": {
+          "identical": true,
+          "changedSamples": 0
+        }
+      },
+      "selectedRibbonsIdentical": true,
+      "selectedRibbonCount": 909,
+      "seasonalRibbonCount": 50,
+      "compilerSummary": {
+        "mismatches": 77,
+        "ribbons": 909,
+        "topology": {
+          "channelStationCount": 15661,
+          "reviewedStationAnchorCount": 77,
+          "marineNativeSampleCount": 5909135,
+          "isolatedBelowSeaNativeSampleCount": 130234,
+          "staleUphillLinkCount": 1263,
+          "maxStaleUphillM": 97.033,
+          "standingPoolCount": 2958,
+          "standingPoolMaxLevelRangeM": 0.0,
+          "connectedPoolFringeNativeSampleCount": 49566,
+          "shallowWetlandRivuletStationCount": 6382,
+          "bankContainedFlowPoolCount": 1,
+          "preservedOriginalPoolPlaneCount": 3289,
+          "preventedRepairDrivenPoolHeadChanges": [],
+          "maximumFlowPoolFreeboardReductionM": 0.034679,
+          "seasonalRecoveredReachCount": 50,
+          "preventedRepairDrivenFlowReversals": 571,
+          "postRepairFlowOrientationChanges": 0,
+          "terrainMismatchReachCount": 77,
+          "nativeDepthUnderRiverMinimumM": -0.877914,
+          "nativeAscendingSegmentCount": 0,
+          "channelStationsWetFraction": 0.985378,
+          "nativeChannelSamplesWetFraction": 0.980102,
+          "seasonalResponseBudgetsVerified": true,
+          "supplementalRibbonCount": 909,
+          "cascadeCount": 19
+        }
+      }
+    },
+    "standingPreservation": {
+      "scope": "All accepted127 native standing samples against fresh seasonal candidate standing domains",
+      "acceptedStandingSamples": 482078,
+      "missingStandingSamples": 0,
+      "maximumStandingPlaneDifferenceM": 0.0,
+      "newStandingSamples": 0
+    },
+    "runtimeVerification": "Selected records identical to previously checked pool-anchor geometry, including all50 recovered sources",
+    "remainingAcceptanceWork": [
+      "Matching seasonal-aware audit/cache checkpoint; audit_water_profiles and audit_water_routes do not yet carry the optional proposal",
+      "Whole authored peak footprints and final rendered-confluence/export gates remain open"
     ]
   }
 }
