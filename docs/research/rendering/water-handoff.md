@@ -29,23 +29,18 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   SHA-256 is `1e50435d56bee842282c3e0f73d1ca7e36440f2a7fc6329bd6c7412a76b92576`. Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
 - The deployed checkpoint adds prepared cutouts, lossless river packing, native
-  inland class subdivision reduction and zero-area face removal. All 815
-  standing tiles now total 1,026,192 triangles (about 35% fewer). Displayed
-  inland packing is now implemented locally and the actual normal
-  native view passes aggregate limits with a diagnostic allocation allowance.
-  Shared budget allocation and low-view validation are next; native assets remain local.
+  inland class subdivision reduction and zero-area face removal. Local source
+  additionally packs displayed inland attributes and shares the original
+  combined geometry limits between rivers and standing water. The production
+  ledger passes the actual native normal view; low quality still exhausts
+  128 MiB (132 standing rejections, 38 pending after 10,000 updates).
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
-  Do not describe a local source fix as live. Recheck remote and Actions before
+  Accepted62 preview assets remain local at `/tmp/water-live-preview`. Next:
+  immutable displayed batch backing + source tile spans to remove duplicate
+  storage, with precise reference accounting. See the coverage pipeline doc
+  for the retained evidence and design; do not rerun unchanged full probes.
+- Do not describe local source fixes as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
-- The source through `70a0762` is deployed; native accepted62 preview assets
-  remain local at `/tmp/water-live-preview`. The unchanged per-system production
-  triangle quotas still reject standing
-  geometry; a diagnostic sharing the combined quota now settles the full normal
-  view within the original combined memory and triangle limits. Local lossless ribbon
-  packing now fits all345 requested normal-view river patches into64MiB, with
-  both shader sides checked on WebGL2; low quality and moving views remain open. The
-  current evidence and remaining shared costs are in the coverage pipeline doc. Read `git status` and
-  the recent log for newer checkpoints.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;
   never stage, discard or clean them as part of water work.
 - The combat agent is actively editing combat/character/UI/asset-pipeline files

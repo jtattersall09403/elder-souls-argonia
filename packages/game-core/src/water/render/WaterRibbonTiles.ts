@@ -1,3 +1,4 @@
+import type { WaterGeometryBudget } from "./WaterGeometryBudget";
 import * as THREE from "three";
 import { type ChannelRibbonRecord } from "../channelRibbons";
 import type { WaterData } from "../waterData";
@@ -33,7 +34,8 @@ export class WaterRibbonTiles {
   private admission: { patch: RibbonPatch; revision: number; work: Generator<void, THREE.BufferGeometry> } | null = null;
   constructor(private readonly data: WaterData, low = false,
     private readonly maxTriangles = 1048576,
-    private readonly maxBytes = 64 * 1024 * 1024) {
+    private readonly maxBytes = 64 * 1024 * 1024,
+    private readonly shared?: WaterGeometryBudget) {
     void low; // Both tiers retain the same physical shoreline geometry.
     for (const record of data.meta.ribbons ?? []) {
       const bounds = new THREE.Box3();
@@ -83,6 +85,7 @@ export class WaterRibbonTiles {
         this.bytes -= waterGeometryBytes(mesh.geometry);
         mesh.geometry.dispose(); this.group.remove(mesh); this.resident.delete(key);
       }
+      this.shared?.replace(this, { triangles: this.triangles, bytes: this.bytes });
       if (this.admission && (!wanted.has(this.admission.patch.key) || scale !== this.scale)) this.cancelAdmission();
       if (this.admission) this.pending = this.pending.filter(patch => patch !== this.admission!.patch);
       this.pending.sort((a, b) => {
@@ -125,7 +128,8 @@ export class WaterRibbonTiles {
       const oldTriangles = (previous?.geometry.index?.count ?? 0) / 3, oldBytes = previous ? waterGeometryBytes(previous.geometry) : 0;
       const triangles = (mesh.geometry.index?.count ?? 0) / 3, bytes = waterGeometryBytes(mesh.geometry);
       this.builtLastUpdate++;
-      if (this.triangles - oldTriangles + triangles > this.maxTriangles || this.bytes - oldBytes + bytes > this.maxBytes) {
+      const next = { triangles: this.triangles - oldTriangles + triangles, bytes: this.bytes - oldBytes + bytes };
+      if (this.shared ? !this.shared.replace(this, next) : next.triangles > this.maxTriangles || next.bytes > this.maxBytes) {
         mesh.geometry.dispose(); this.budgetFailures++; continue;
       }
       this.triangles += triangles - oldTriangles; this.bytes += bytes - oldBytes;
@@ -195,5 +199,6 @@ export class WaterRibbonTiles {
     this.cancelAdmission();
     for (const mesh of this.resident.values()) mesh.geometry.dispose();
     this.resident.clear(); this.pending = []; this.meshes.length = 0; this.group.clear(); this.triangles = this.bytes = 0;
+    this.shared?.release(this);
   }
 }

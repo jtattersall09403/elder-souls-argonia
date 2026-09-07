@@ -1,3 +1,5 @@
+import { WaterGeometryBudget } from "./WaterGeometryBudget";
+import { waterGeometryBytes } from "./waterStreaming";
 import { describe, expect, it, vi } from "vitest";
 import { MeshBasicMaterial, Vector3 } from "three";
 import { WaterData, type WaterMeta } from "../waterData";
@@ -294,4 +296,41 @@ describe("inland geometry isolation and draw budget", () => {
       expect(reachedFarEdge).toBe(true);
     } finally { tiles.dispose(); material.dispose(); }
   }, 20000);
+});
+
+it('accounts for displayed buffers through eviction and releases its shared allocation on disposal', () => {
+  const shared = new WaterGeometryBudget(2048576,160*1024*1024), material = new MeshBasicMaterial();
+  const tiles = new InlandWaterTiles(poolData(66), false, { shared, buildBudgetMs: 0.1 });
+  const verify = () => {
+    const internals = tiles as unknown as { tiles: Map<string, import('three').Mesh> };
+    const sourceBytes = [...internals.tiles.values()].reduce((n,m) => n+waterGeometryBytes(m.geometry),0);
+    const displayedBytes = tiles.meshes.reduce((n,m) => n+waterGeometryBytes(m.geometry),0);
+    expect(shared.usage.bytes).toBeGreaterThanOrEqual(sourceBytes+displayedBytes);
+    expect(shared.usage.triangles).toBeGreaterThanOrEqual(tiles.meshes.reduce((n,m) => n+(m.geometry.index?.count??0)/3,0));
+  };
+  try {
+    for (let frame=0; frame<4096; frame++) {
+      tiles.update(32,32,material); verify(); if (!tiles.diagnostics.pendingTiles) break;
+    }
+    expect(tiles.meshes.length).toBeGreaterThan(0);
+    // Force a single resumable copy step, leaving the old batch displayed.
+    let tick = 0;
+    const clock = vi.spyOn(performance, 'now').mockImplementation(() => tick += 0.025);
+    let cancelled: ReturnType<typeof vi.spyOn> | undefined;
+    try {
+      const partialView = {position:{x:192,y:10,z:32},farM:0,pixelsPerRadian:600};
+      tiles.update(192,32,material,1,partialView); verify();
+      const active = (tiles as unknown as { merging?: { build: Generator } }).merging;
+      expect(active).toBeDefined();
+      cancelled = vi.spyOn(active!.build, 'return');
+      tiles.update(10000,10000,material,1,{position:{x:10000,y:10,z:10000},farM:100,pixelsPerRadian:600});
+      expect(cancelled).toHaveBeenCalled(); verify();
+    } finally { clock.mockRestore(); cancelled?.mockRestore(); }
+    const view = {position:{x:10000,y:10,z:10000},farM:100,pixelsPerRadian:600};
+    for(let frame=0;frame<4096;frame++) {
+      tiles.update(10000,10000,material,1,view); verify(); if(!tiles.diagnostics.pendingTiles) break;
+    }
+    expect(shared.usage).toEqual({triangles:0,bytes:0});
+  } finally { tiles.dispose();material.dispose(); }
+  expect(shared.usage).toEqual({triangles:0,bytes:0});
 });

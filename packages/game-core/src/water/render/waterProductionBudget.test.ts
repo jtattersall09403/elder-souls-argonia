@@ -1,3 +1,4 @@
+import { createWaterGeometryBudget } from "./WaterGeometryBudget";
 import { describe, expect, it } from "vitest";
 import { MeshBasicMaterial, PerspectiveCamera } from "three";
 import { InlandWaterTiles } from "./InlandWaterTiles";
@@ -16,7 +17,8 @@ describe("shipped water geometry budget", () => {
       ? pathToFileURL(`${resolve(process.env.WATER_COMPILED_PROVINCE)}/`) : undefined;
     const data = productionWaterData(assets, province), material = new MeshBasicMaterial();
     const stage = JSON.parse(readFileSync(new URL("../../../../../apps/world-studio/public/province/refined/flood-states.json", import.meta.url), "utf8")).basins[0];
-    const tiles = new InlandWaterTiles(data, low, { stage }), ribbons = new WaterRibbonTiles(data, low);
+    const shared = createWaterGeometryBudget(low);
+    const tiles = new InlandWaterTiles(data, low, { stage, shared }), ribbons = new WaterRibbonTiles(data, low, undefined, undefined, shared);
     const camera = new PerspectiveCamera(60, 16 / 9, 0.1, 10000);
     camera.position.set(2370, low ? 1000 : 416, 190); camera.lookAt(2700, 280, 1000); camera.updateMatrixWorld();
     const view = new WaterGeometryCamera().update(camera, 1080);
@@ -42,10 +44,10 @@ describe("shipped water geometry budget", () => {
       expect(ribbons.diagnostics.pendingPatches).toBe(0);
       expect(tiles.diagnostics.budgetFailures).toBe(0);
       expect(ribbons.diagnostics.budgetFailures).toBe(0);
-      expect(tiles.diagnostics.residentTriangles).toBeLessThanOrEqual(1000000);
-      expect(tiles.diagnostics.residentGeometryBytes).toBeLessThanOrEqual((low ? 64 : 96) * 1024 * 1024);
-      expect(ribbons.diagnostics.residentTriangles).toBeLessThanOrEqual(1048576);
-      expect(ribbons.diagnostics.residentGeometryBytes).toBeLessThanOrEqual(64 * 1024 * 1024);
-    } finally { tiles.dispose(); ribbons.dispose(); material.dispose(); }
-  }, 30000);
+      expect(shared.usage.triangles).toBe(tiles.diagnostics.residentTriangles + ribbons.diagnostics.residentTriangles);
+      expect(shared.usage.bytes).toBe(tiles.diagnostics.residentGeometryBytes + ribbons.diagnostics.residentGeometryBytes);
+      expect(shared.usage.triangles).toBeLessThanOrEqual(2048576);
+      expect(shared.usage.bytes).toBeLessThanOrEqual((low ? 128 : 160) * 1024 * 1024);
+    } finally { tiles.dispose(); ribbons.dispose(); material.dispose(); expect(shared.usage).toEqual({ triangles: 0, bytes: 0 }); }
+  }, process.env.WATER_COMPILED_ASSETS ? 120000 : 30000);
 });

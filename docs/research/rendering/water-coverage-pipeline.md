@@ -455,12 +455,43 @@ the exact new merge layout calculate 54,471,767 standing source bytes +
 normal-view evidence only, not a low-quality or moving-camera acceptance claim.
 Do not repeat this unchanged diagnostic.
 
-Next: retain the combined 2,048,576-triangle limits and normal/low 160/128 MiB
-limits, but share them between standing water and rivers. One injected ledger
-must handle atomic replacements, eviction, disposal and old displayed batches
-still alive during resumable merges; do not release their memory early. Track
-bounded transient construction separately. Full residency and aggregate budgets
-still need proof with that implementation in both quality modes.
+The shared ledger is now implemented and injected per WaterSurface. It retains
+2,048,576 triangles and normal/low 160/128 MiB, atomically replaces allocations,
+and releases them on eviction/disposal. Inland reservations retain source arrays
+plus the larger of displayed/replacement layouts until publication. The extra
+resumable merge overlap is separately exposed as `transientMergeBytes`. Existing
+synchronous cancellation precedes resuming any merge after its sources change.
+A targeted regression pauses a merge, evicts its sources, verifies cancellation
+and checks displayed/source accounting each frame. Independent review retracted
+an initial missed-cancellation concern; no demonstrated lifecycle defect remains.
+
+The canonical actual-native test now passes the normal view with the production
+shared ledger. **Low quality still fails**: after 10,000 updates, standing has
+525 tiles / 723,148 triangles / 69,943,530 bytes, 132 rejections and 38 pending;
+rivers fully load 347 patches / 865,930 triangles / 64,258,170 bytes. Their sum
+nearly exhausts 128 MiB. Evidence `/tmp/water-native-shared-budget.log` (both
+views took 55.97 seconds total). Do not repeat unchanged or increase the caps.
+
+Next candidate, independently reviewed: remove retained source/display backing
+store duplication using an immutable packed batch and lightweight tile spans.
+The merger needs explicit readers for packed attributes and globally indexed
+spans; unchanged tiles copy from spans, changed tiles rebuild normally. Keep
+marine representation unchanged. Count every underlying allocation until all
+source and display references release it; partial eviction cannot release a
+backing still used by neighbouring tiles. Cancel stale snapshots, publish
+atomically, and expose bounded outgoing/incoming overlap. Rebuilding all sixteen
+tiles on every change was rejected as needless camera-motion work.
+
+Accounting clarification: the current `waterGeometryBytes` metric counts JS
+geometry attribute/index array byte lengths. Inland counts retained source and
+merged geometry storage; ribbons count one set. It does not independently
+measure driver/GPU allocations. A shared-backing change must preserve that
+metric and disclose device memory separately, not silently change conventions
+to claim a fit. No backing-store reuse implementation exists yet. Shared-ledger focused checks:
+15 passed, with the strengthened paused-merge lifecycle case also passing.
+Root typecheck passes; root runtime suites pass (game-core 792 passed, one
+final-asset test skipped). The sole root failure remains unrelated concurrent
+settlement prose lint (`/tmp/water-shared-budget-root.log`).
 
 Five compact merge checks pass, including absent optional fields and rejection
 of invalid constants. Six headless WebGL2 draws (general/ribbon/inland, above

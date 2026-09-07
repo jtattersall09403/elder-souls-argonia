@@ -1,3 +1,4 @@
+import { createWaterGeometryBudget } from "./WaterGeometryBudget";
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -135,7 +136,8 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     [tier.name, farExtentM],
   );
   const meshRef = useRef<THREE.Mesh>(null);
-  const inland = useMemo(() => new InlandWaterTiles(assets.data, tier.name === "low", { stage: assets }), [assets, tier]);
+  const geometryBudget = useMemo(() => createWaterGeometryBudget(tier.name === "low"), [assets, tier]);
+  const inland = useMemo(() => new InlandWaterTiles(assets.data, tier.name === "low", { stage: assets, shared: geometryBudget }), [assets, tier, geometryBudget]);
   const allMeshes = useMemo<THREE.Mesh[]>(() => [], [assets]);
   const nativeAtlas = useMemo(() => new NativeWaterAtlas(assets.data.nativeGround,
     assets.meta.surface.nativeChannelCoverage ? Math.ceil(assets.meta.surface.size / 64) ** 2 : 0), [assets]);
@@ -152,7 +154,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   const cascadeSources = useMemo(() => new WaterCascadeSources(assets.meta.cascades ?? []), [assets]);
   useEffect(() => () => { hero.dispose(); runtime.onLocalSurface?.(null); }, [hero]);
   useEffect(() => () => inland.dispose(), [inland]);
-  const ribbons = useMemo(() => new WaterRibbonTiles(assets.data, tier.name === "low"), [assets, tier.name]);
+  const ribbons = useMemo(() => new WaterRibbonTiles(assets.data, tier.name === "low", undefined, undefined, geometryBudget), [assets, tier.name, geometryBudget]);
   useEffect(() => () => ribbons.dispose(), [ribbons]);
   const effects = useMemo(() => new WaterEffects({
     maxParticles: tier.name === "high" ? 768 : 256,
