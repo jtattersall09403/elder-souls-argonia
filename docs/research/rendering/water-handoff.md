@@ -347,8 +347,20 @@ coverage is unfinished. A32,007-vertex comparison also loses no coverage.
 All645 selected centres and1,152 pool contacts pass. Original interior pools,
 spill potential, marine coverage and482,066 standing samples are preserved.
 
-See `seasonal-supporting-acceptance.json`, the repair-input manifest and the
-compiler handoff. Boundary/seasonal tests pass; runtime remains at c725181's
-passing workspace gates. Continue the remaining constraints and authored
-peak-footprint work, then final coherent native-data and rendering gates.
+The higher-peak screen now separates insufficient height from missing geometry:
+at3m upper season/0.5m tide,151 of those170 vertices have ribbon or standing-field
+coverage;19 remain. Lows stay unchanged. This is a fixed-field diagnostic,
+not a selected production stage or final standing-mesh acceptance. Ten remaining
+misses lie beyond channel terminals; an additive end-fill prototype covers them
+at unchanged endpoint heads, preserves existing ribbons and passes its bounded
+native owner screen. Generic terminal selection, between-ray boundaries and
+final mesh/cost checks remain before accepting it. Six other mesh misses and
+three height/owner cases are separate. See `peak-envelope-investigation.json`
+and the compiler handoff for exact targets and the next implementation step.
+
+See `seasonal-supporting-acceptance.json` and the repair-input manifest for the
+accepted checkpoint. Runtime remains at c725181's passing workspace gates;
+this investigation changes no production code or physical input. Continue the
+remaining constraints and authored peak footprints, then final coherent native
+data and rendering gates.
 Nothing from the diagnostic asset bundles has been deployed.

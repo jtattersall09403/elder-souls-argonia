@@ -347,8 +347,40 @@ Scripts: `/tmp/compile-water-full-owner-resolution.py`,
 `/tmp/water-drainage-seasonal-old-local-ribbons.json` remains immutable. Evidence:
 `owner-boundary-resolution-verification.json` and `seasonal-supporting-acceptance.json`.
 
-Next: use the accepted62 state for further feasibility work. Continue whole
-continuum/rivulet/pond/swamp authored coverage, including the170 still-dry local
-vertices; raising upper seasonal/tidal limits is allowed, preserving lows.
-Cross-record/refined-mesh seams and final native data/performance/deployment
-gates remain open. No diagnostic asset bundle has been deployed.
+## Higher-peak screen and missing terminal geometry
+
+`water-repair-inputs/peak-envelope-investigation.json` records a geometry-only
+screen at seasonal upper3m/tide0.5m, preserving dry0.28m/low-tide0.5m. Of the170
+local ordinary-uncovered vertices,125 have wet ribbons (including falling
+sheets) and26 more have standing-field support:19 remain. This uses unchanged
+standing fields/responses, **not fresh3m native fields or final standing meshes**.
+All channel-only losses at low/base/peak have wet standing-field fallback;
+final rendered ownership still needs verification. No default stage changed.
+
+Of the19,16 have flowing-field support but no ribbon; three need height/owner
+diagnosis. Fifteen of the16 mesh misses persist at all four ±1mm probes. Removing
+the descending guard only fills two; do not remove it. The generalized
+descending-corner cap prototype fills none. The ownership ray to[658,3393] is
+compatible throughout; an intervening owner barrier was ruled out there.
+
+Ten misses lie beyond true terminals10585/12761 (sources10573/12761). A bounded
+end-fill prototype at their existing heads fills all ten, keeps all1,584 prior
+records identical, and has zero owner conflicts at566 native potential samples
+(duplicates across sectors included). Its16 existing-format landing records
+add451 unrefined triangles/67,650mesh bytes. **Not accepted:** generic terminal
+selection must exclude rejected/truncated reaches and inconsistent coincident
+heads; between-ray access/owner boundaries, angular convergence, final refined
+meshes, original pool contacts and province-wide cost remain to verify.
+
+Disposable scripts: `/tmp/compile-water-peak-envelope.py`,
+`/tmp/prototype-water-terminal-fill.py`, `/tmp/audit-water-terminal-fill-prototype.py`;
+runtime probes in `/tmp/water-fringe-runtime/{peak-envelope-screen,peak-missing-geometry-detail,terminal-fill-prototype}.mjs`.
+Geometry: `/tmp/water-peak-envelope-ribbons.json` and
+`/tmp/water-terminal-fill-prototype.json`. Durable evidence records hashes,
+exact remaining targets and acceptance limits. Start with generic terminal
+geometry, then the six other mesh misses and three height/owner cases. Do not
+choose a global upper stage from the anomalous standing donor at[2677,1977].
+
+Continue whole continuum/rivulet/pond/swamp coverage and the62 channel/59 bank
+constraints. Cross-record/refined-mesh seams and final native data/performance/
+deployment gates remain open. No diagnostic asset bundle has been deployed.

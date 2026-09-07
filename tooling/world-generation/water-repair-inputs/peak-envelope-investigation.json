@@ -1,0 +1,535 @@
+{
+  "schemaVersion": 1,
+  "status": "diagnostic-only; no production stage or compiler change accepted",
+  "checkpoint": "fecc668",
+  "scope": "4303 actual Float32 continuum/rivulet authoring vertices near previously lowered heads; investigate the170 lacking ordinary ribbon/standing coverage at the accepted peak. Includes falling sheets in the new diagnostic. Not whole-province or final raster/native-refined mesh coverage.",
+  "inputs": {
+    "tooling/world-generation/water-repair-inputs/bed-overlay.json": "976f77f715fe39745d0065e9ebb3b4898180cf37e7e93e1f835ec3363febcb4d",
+    "tooling/world-generation/water-repair-inputs/routing-audit.json": "3a160e57705c2c1eb698a35ff26e790c3342191800de6d79457469a93c86e342",
+    "tooling/world-generation/water-repair-inputs/seasonal-profile.npz": "17dcea3b603b38c7fc11cd92c8f97caa80d79192337e11094289f50b54228d95",
+    "tooling/world-generation/water-repair-inputs/orientation.npy": "1974ef756f7ece6f1af9336d00af3768b1b68f535be97583833a6e9fb75cfe3f"
+  },
+  "stage": {
+    "seasonalAmplitudeM": 3,
+    "tidalAmplitudeM": 0.5,
+    "drySeasonAmplitudeM": 0.28,
+    "lowTideAmplitudeM": 0.5,
+    "maximumGeometryOffsetM": 3.5,
+    "freshStageFields": false
+  },
+  "peakScreen": {
+    "targets": 170,
+    "ribbonCovered": 125,
+    "standingFieldAdditionalCovered": 26,
+    "combinedDiagnosticCovered": 151,
+    "remaining": [
+      {
+        "native": [
+          658,
+          3393
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 2.0720091462135315,
+        "fieldAccessM": -0.07200908660888672,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          658,
+          3394
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.0833845138549805,
+        "fieldAccessM": -0.08338451385498047,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          658,
+          3395
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.1201562881469727,
+        "fieldAccessM": -0.12015628814697266,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2489,
+          1992
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.4520721435546875,
+        "fieldAccessM": -0.4520721435546875,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2490,
+          1993
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.7739219665527344,
+        "fieldAccessM": -0.7739219665527344,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2490,
+          1994
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.704742431640625,
+        "fieldAccessM": -0.704742431640625,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2674,
+          1999
+        ],
+        "kind": 255,
+        "fieldPeakDepthM": -0.4404458999633789,
+        "fieldAccessM": 2.0,
+        "ribbonPeakDepthM": -0.7896226168326965
+      },
+      {
+        "native": [
+          2675,
+          1999
+        ],
+        "kind": 255,
+        "fieldPeakDepthM": -0.1864185333251953,
+        "fieldAccessM": 2.0,
+        "ribbonPeakDepthM": -0.47717956589280064
+      },
+      {
+        "native": [
+          2677,
+          1977
+        ],
+        "kind": 255,
+        "fieldPeakDepthM": -5.748016834259033,
+        "fieldAccessM": 2.0,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2679,
+          2005
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.025242805480957,
+        "fieldAccessM": -0.02524280548095703,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2938,
+          2419
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.0527939796447754,
+        "fieldAccessM": -0.05279397964477539,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2938,
+          2420
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.062126874923706,
+        "fieldAccessM": -0.062126874923706055,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2939,
+          2418
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.094935417175293,
+        "fieldAccessM": -0.09493541717529297,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2939,
+          2419
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.159487724304199,
+        "fieldAccessM": -0.15948772430419922,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2939,
+          2420
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.192380666732788,
+        "fieldAccessM": -0.19238066673278809,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2940,
+          2419
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.1878557205200195,
+        "fieldAccessM": -0.18785572052001953,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          2940,
+          2420
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.075249195098877,
+        "fieldAccessM": -0.07524919509887695,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          3268,
+          620
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.188668966293335,
+        "fieldAccessM": -0.18866896629333496,
+        "ribbonPeakDepthM": null
+      },
+      {
+        "native": [
+          3268,
+          621
+        ],
+        "kind": 128,
+        "fieldPeakDepthM": 3.172735333442688,
+        "fieldAccessM": -0.172735333442688,
+        "ribbonPeakDepthM": null
+      }
+    ],
+    "ribbonSensitivity": [
+      {
+        "season": 1.4,
+        "covered": 5,
+        "withoutGeometry": 39
+      },
+      {
+        "season": 1.8,
+        "covered": 65,
+        "withoutGeometry": 39
+      },
+      {
+        "season": 2.2,
+        "covered": 102,
+        "withoutGeometry": 39
+      },
+      {
+        "season": 2.6,
+        "covered": 119,
+        "withoutGeometry": 39
+      },
+      {
+        "season": 3,
+        "covered": 125,
+        "withoutGeometry": 39
+      }
+    ]
+  },
+  "preservation": {
+    "scope": "Selected ribbon queries plus unchanged standing FIELD fallback, not final standing mesh ownership. Every channel-only loss has wet standing support at the corresponding stage. No physical inputs or response coefficients changed. Positive upper stage increases cannot reduce unchanged standing-field depth.",
+    "samples": [
+      {
+        "label": "low",
+        "oldWet": 626,
+        "newWet": 627,
+        "lost": [
+          [
+            2471,
+            2034
+          ]
+        ],
+        "lossDetails": [
+          {
+            "native": [
+              2471,
+              2034
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          }
+        ]
+      },
+      {
+        "label": "base",
+        "oldWet": 1579,
+        "newWet": 1580,
+        "lost": [
+          [
+            2559,
+            1964
+          ],
+          [
+            2673,
+            2005
+          ],
+          [
+            2674,
+            2005
+          ],
+          [
+            3484,
+            1153
+          ]
+        ],
+        "lossDetails": [
+          {
+            "native": [
+              2559,
+              1964
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2673,
+              2005
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2674,
+              2005
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              3484,
+              1153
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          }
+        ]
+      },
+      {
+        "label": "maximum",
+        "oldWet": 3847,
+        "newWet": 4120,
+        "lost": [
+          [
+            2480,
+            2023
+          ],
+          [
+            2671,
+            1970
+          ],
+          [
+            2672,
+            1970
+          ],
+          [
+            2672,
+            1971
+          ],
+          [
+            2673,
+            1971
+          ],
+          [
+            2676,
+            1994
+          ],
+          [
+            2678,
+            1994
+          ],
+          [
+            2940,
+            2394
+          ]
+        ],
+        "lossDetails": [
+          {
+            "native": [
+              2480,
+              2023
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2671,
+              1970
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2672,
+              1970
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2672,
+              1971
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2673,
+              1971
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2676,
+              1994
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2678,
+              1994
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          },
+          {
+            "native": [
+              2940,
+              2394
+            ],
+            "currentStandingFallbackWet": true,
+            "supportKind": 255
+          }
+        ]
+      }
+    ]
+  },
+  "geometryDiagnosis": {
+    "nearbyProbeOffsetM": 0.001,
+    "missingRibbonVertices": 16,
+    "onlyOneHasAnyNearbyCoverage": [
+      658,
+      3393
+    ],
+    "disableDescendingGuardOnlyRecovers": [
+      [
+        658,
+        3393
+      ],
+      [
+        658,
+        3394
+      ]
+    ],
+    "disableDescendingGuardAccepted": false,
+    "generalizedDescendingCornerCapAccepted": false,
+    "generalizedDescendingCornerCapRecovered": 0
+  },
+  "endpointPrototype": {
+    "status": "promising diagnostic; not promoted",
+    "sources": [
+      10573,
+      12761
+    ],
+    "terminalNativeNodes": [
+      10585,
+      12761
+    ],
+    "method": "Eight angular sectors across the open half-plane of each genuine graph terminal. Coincident measured ray sections carry the unchanged endpoint head/responses, using the existing landing record representation. Terrain/owner ray closure bounds every sector. No longitudinal record is replaced or changed.",
+    "filledNativeVertices": [
+      [
+        2489,
+        1992
+      ],
+      [
+        2490,
+        1993
+      ],
+      [
+        2490,
+        1994
+      ],
+      [
+        2938,
+        2419
+      ],
+      [
+        2938,
+        2420
+      ],
+      [
+        2939,
+        2418
+      ],
+      [
+        2939,
+        2419
+      ],
+      [
+        2939,
+        2420
+      ],
+      [
+        2940,
+        2419
+      ],
+      [
+        2940,
+        2420
+      ]
+    ],
+    "existingRecordsUnchanged": 1584,
+    "cost": {
+      "records": 16,
+      "triangles": 451,
+      "unrefinedMeshBytes": 67650
+    },
+    "ownershipScreen": {
+      "scope": "Native vertices below candidate peak within each sector; duplicate vertices across sectors counted separately. Does not prove subcell boundaries or access interpolation.",
+      "potentialSamplesIncludingDuplicates": 566,
+      "incompatibleSamples": 0
+    },
+    "acceptanceStillRequired": [
+      "General terminal selection, distinguishing true authored ends from rejected/truncated reaches and coincident different heads",
+      "Bank/access and standing-boundary checks between angular rays; angular coverage convergence",
+      "Original low/base coverage and pool contacts using final native-refined meshes",
+      "Global record/triangle/streaming cost before default emission"
+    ]
+  },
+  "next": "Implement and validate terminal geometry generically; diagnose the six other mesh misses and three height/owner cases. Then compile fresh higher-stage native fields before selecting upper limits. Do not tune a global upper stage to the anomalous standing donor at native[2677,1977].",
+  "disposableArtifacts": {
+    "/tmp/compile-water-peak-envelope.py": "a8986a8f7e9b4aa7d5bb5edeb6c4023b8884b32cd834c07761416a4b91bb413c",
+    "/tmp/water-peak-envelope-ribbons.json": "fa70a614878ad9b06580624aa7e2b686e2c79d1b3e07fb3a33d37f0d2df4bf78",
+    "/tmp/water-peak-envelope-screen.json": "4f9e8ea4aecfd7bb2d60f26af15adb508c5113e51be093f239d606f5af730d4f",
+    "/tmp/prototype-water-terminal-fill.py": "97eb2d45ac8a70ef220757a565c815104ca1ec3670dc1e4065bf962b18a4d5bd",
+    "/tmp/water-terminal-fill-prototype.json": "c14df8ff3be61dea5978523295c11dc840154f24cbf201399b5b92f20a8d81f2",
+    "/tmp/water-terminal-fill-prototype-coverage.json": "381169108ce70d07d70cdc2c8a1d0fcceb13e3bf875767985366bb99b5bbf995",
+    "/tmp/water-terminal-fill-prototype-ownership.json": "b16cbbf7828bd8ed3ee4a11fde689a81bbef28fe7bbf40cf8bce0e4449a31739"
+  }
+}

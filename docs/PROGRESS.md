@@ -109,7 +109,11 @@ Landing fills, section precision and shared clip endpoints fix the earlier gaps.
 The final boundary search resolves to the rendered vertex.4,303 native authored
 vertices gain45 wet samples and lose0;170 remain dry. The32,007-vertex comparison
 also loses0. All645 selected centres and1,152 five-stage pool contacts pass.
-Boundary/seasonal tests pass; runtime unchanged since c725181's workspace gates.
+Higher-peak investigation:3m upper season/0.5m tide covers151 of those170 via
+ribbons or unchanged standing fields;19 remain. An end-fill prototype covers10
+terminal misses at unchanged heads; generic implementation and final mesh gates
+remain. Neither prototype nor higher stage is accepted. Details/evidence are in
+the water handoff. Production code is unchanged since the passing workspace gates.
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,
 59 retaining-bound violations and15,562 terrain corrections. Original impoundment
