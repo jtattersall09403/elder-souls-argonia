@@ -13,9 +13,9 @@ evidence. Its connected-component machinery and preservation checks are useful.
 
 The inefficient part is choosing successive local dry points before measuring
 the whole problem. The4,303-point regression set surrounds already changed
-heads. It cannot prioritise the province, and existing authored-footprint
-recovery covers only continuum channels and rivulets. The next work batch is
-one reproducible province-wide audit, followed by fixes grouped by cause.
+heads. It cannot prioritise the province. Province-wide channel and pond-hollow
+audits now support fixes grouped by cause; complete basin/swamp target recovery
+remains open.
 
 ## Proven map and semantic drift
 
@@ -186,6 +186,66 @@ enclosing basin slopes, pools within 40 metres of channels and connecting swamp
 sheets still require separate recovery. Other target families and final
 standing/native-refined meshes remain open. Never substitute this hollow mask
 for the complete intended pond footprint or for a map of actual water.
+
+### Shared pond-selection repair under verification
+
+The unsupported hollow group contains 48,278 vertices inside actual closed
+depressions and 77,632 outside them. Of the closed-depression group, 42,294
+fail the mean-ground-slope filter, 17,370 the area filter, 1,862 depth and 313
+coarse semantic allowance (overlapping counts). No affected component passes
+all existing selection gates. This is a measured selection defect, not evidence
+that simply raising the wet-season amplitude will fill every missing pond.
+
+`water_authored_pools.retain_authored_pool_basins` adds verified authored
+components using the existing marsh thresholds: maximum depth at least 0.10m
+and area at least 24 native vertices. It bypasses coarse semantic majority and
+mean ground slope only for that additive authored branch. Closed bowls may have
+steep sides while their water plane remains flat. Existing selection is retained
+verbatim, whole components are kept, and original-head preservation still runs
+after selection. Smaller/shallow hollows remain targets, not waived failures.
+
+The candidate adds 2,149 basins (263,520 basin vertices), including 31,745
+previously unsupported hollow targets. It is currently available only through
+the explicit `compute(authored_pool_hollows=...)` diagnostic argument; no public
+assets or accepted repair manifest have changed. The diagnostic caller verifies
+the footprint's exact natural replay and terrain/overlay/routing hashes.
+Twenty-four focused selection/domain/synthetic compiler tests pass; independent code review found no
+blocking selection defect. Evidence: `water-repair-inputs/pond-selection-proposal.json`.
+
+Fresh profile diagnostic: `/tmp/compile-water-authored-pond-profile.py`. Its
+first attempt correctly rejected the old seasonal proposal's stale geometry.
+The fresh unseasonal solve then completed in113seconds: 136 rejected channels
+(not comparable with the seasonal accepted62), 249,710 new pool vertices, but
+2,364 changed accepted pool heads. Of those changes, 2,363 lie where repaired
+spill potential differs from original potential: the original-only preservation
+guard cannot protect them. No raw basin contains incompatible accepted heads.
+
+The candidate now also accepts an explicit `retained_pool_reference` with
+accepted levels and their matching potential. It applies the existing head
+preserver before domain closure and locks those basins against later freeboard
+retuning, while keeping original spill/retaining references separate. Follow-up
+diagnostic: `/tmp/compile-water-authored-pond-retained-profile.py`; its result
+completed in125seconds with 249,380 new pool vertices. All but eight accepted
+pool vertices keep exact heads; those eight lose shoreline support and remain
+a preservation failure. The candidate is not accepted.
+
+Reinterpolating the reviewed seasonal budgets along geometrically unchanged
+courses on the new graph (`/tmp/rebase-water-authored-pond-seasonal.py`) gives
+93 rejected candidates and32 connected supporters. The cached-domain screen
+leaves76 failures,14 more than accepted:13 new limiting caps come from added
+low pond heads, while one added pond head exceeds a channel bank cap. This
+proposal still needs fresh response validation. Next fix is shared pond/outlet
+level reconciliation and retained fringe ownership; do not promote a selection
+change that adds ponds by removing accepted rivers. Saved fresh state:
+`/tmp/water-authored-pond-retained-profile.npz`; proposal and solved heads:
+`/tmp/water-authored-pond-seasonal-{proposal,solved}.npz`; conflict details:
+`/tmp/water-authored-pond-seasonal-conflicts.json`. Reuse these unchanged domains
+for connected-group diagnostics before another native compilation.
+
+Production acceptance still needs
+footprint provenance in CLI/cache/manifest, fresh seasonal response and low-water
+preservation checks, channel feasibility, new flat-plane/ownership checks and
+the shared map/semantic export. A profile-only solve cannot certify those.
 
 Next: complete target families and full actual geometry evidence, then derive
 the shared map/semantic coverage output. Keep source, terrain-stage and stage

@@ -124,7 +124,10 @@ now screened in157seconds:24,555 channel/5,525 rivulet entries remain unresolved
 Exact natural-terrain replay now adds1,500,146 pond-hollow targets;262,237 remain
 unresolved, mainly missing standing coverage or insufficient depth. Complete
 basin/swamp targets and final standing/native-refined meshes remain open.
-Fourteen focused tests pass; existing runtime source unchanged;
+Shared authored-pond selection candidate implemented; fresh solve adds pond
+domains but still conflicts with14 accepted rivers and loses8 fringe vertices.
+Not accepted; reconcile pond/outlet levels and fringe ownership next.24 focused
+selection/domain/compiler tests pass; existing runtime source unchanged;
 [implementation/results](research/rendering/water-coverage-pipeline.md).
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,

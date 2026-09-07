@@ -131,7 +131,8 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             bank_ground=None, terrain_flips=None, orientation_levels=None, routing_overrides=None,
             immutable_potential=None, close_reference_domains=False, reference_pool_levels=None,
             retaining_lower_bounds=None, stage=None, station_overrides=None, pool_response_reference=None,
-            seasonal_profile=None, capture_profile=False) -> dict:
+            seasonal_profile=None, capture_profile=False, authored_pool_hollows=None,
+            retained_pool_reference=None) -> dict:
     """Water fields on the hydrology grid and native terrain surface grid."""
     from .water_stage import stage_range
     stage = stage_range(stage)
@@ -261,6 +262,10 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
             hearty,
             (max_depth >= 0.10) & (areas2 >= 6 * (2 / web_step) ** 2),
             (max_depth >= MIN_POOL_DEPTH_M) & (areas2 >= MIN_POOL_PX * (2 / web_step) ** 2))
+        if authored_pool_hollows is not None:
+            from .water_authored_pools import retain_authored_pool_basins
+            keep2 = retain_authored_pool_basins(keep2, lbl2, authored_pool_hollows,
+                                                max_depth, areas2, web_step)
         # A flowing pool needs head over its sill. The old -5 cm offset
         # guaranteed a dry barrier at every river-pool outlet. Raise the
         # entire connected pool uniformly; closed ponds retain their level.
@@ -286,6 +291,16 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         pool_lvl,immutable_pool_labels,reference_pool_changes=preserve_reference_pool_heads(
             pool_lvl,lbl2,filled2,reference_pool_levels,immutable_potential,g2)
         w2[np.isfinite(pool_lvl)]=pool_lvl[np.isfinite(pool_lvl)]
+    if retained_pool_reference is not None:
+        # Adding authored ponds must also retain accepted repaired ponds,
+        # whose spill potential can differ from the original terrain's.
+        from .water_pool_domains import preserve_reference_pool_heads
+        pool_lvl, retained_labels, retained_changes = preserve_reference_pool_heads(
+            pool_lvl, lbl2, filled2, retained_pool_reference['levels'],
+            retained_pool_reference['potential'], g2)
+        immutable_pool_labels |= retained_labels
+        reference_pool_changes.extend(retained_changes)
+        w2[np.isfinite(pool_lvl)] = pool_lvl[np.isfinite(pool_lvl)]
     pool_fringe_count = 0
     if close_reference_domains:
         immutable_potential = filled2
