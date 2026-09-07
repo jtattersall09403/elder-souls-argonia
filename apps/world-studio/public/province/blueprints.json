@@ -507,6 +507,19 @@
           }
         }
       ],
+      "networkTerminals": [
+        {
+          "id": "terminal.mazzatun.terrace-head",
+          "kind": "track",
+          "positionM": [
+            1967.606,
+            1345.68
+          ],
+          "routeId": "track.dunmer-north.mazzatun",
+          "wayId": "route.mazzatun.terrace-head",
+          "why": "The ridge track from the rimfield reaches the shelf at its west end, where a cart can leave the shoulder without crossing the pens; the terrace carries it east past the frontage dais to the tower, so track and terrace are one line."
+        }
+      ],
       "parcels": [
         {
           "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar05",
@@ -1545,9 +1558,9 @@
           "spans": null,
           "use": "hoist",
           "why": {
-            "microGeography": "A pad at about 202 m on the lip.",
+            "microGeography": "A pad at about 202 m on the lip of the cut, 3 m above the yard floor.",
             "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
-            "what": "A timber hoist over the block face.",
+            "what": "A timber hoist standing over the block face, its beam out above the cut.",
             "whyHere": "Blocks are lifted out of the cut and onto the carts; the hoist is how the tribe raises what it cannot carry.",
             "whyNeighbours": "It stands between the cutting floor and the half-cut blocks.",
             "whySpot": "Between the cut face and the pile of half-cut blocks, so a block comes off the face, up the hoist and onto the pile in one movement."
@@ -1706,7 +1719,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 187.6,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -1852,7 +1865,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 144.2,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -1998,7 +2011,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 270.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -2691,7 +2704,7 @@
           "spans": null,
           "use": "scaffold",
           "why": {
-            "microGeography": "A pad at about 199 m on the yard floor.",
+            "microGeography": "A pad at about 199 m on the yard floor, at the foot of the fall the stair climbs.",
             "playerPurpose": "The LV30 npc socket: the keeper whose route knowledge exists nowhere else.",
             "what": "A timber scaffold stair, the walkway keeper's post.",
             "whyHere": "The scaffolds are climbed by their stairs. The keeper of the walkways stands at the foot of the stair nearest the gate.",
@@ -3120,7 +3133,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 180.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -3413,6 +3426,7 @@
         "fences": 6,
         "keptTrees": 3,
         "landmarks": 2,
+        "networkTerminals": 1,
         "parcels": 29,
         "questSockets": 8,
         "sitingCandidates": 3,
@@ -5052,11 +5066,11 @@
             3718.061
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "The swell lies along the ring's tangent on the level 4.0 m northern floor, where there is little fall for it to shed.",
+            "playerPurpose": "A waypoint on the outer walk round the ring. It is the join nearest to the elder trunk for a player who is asked to count the trees.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the elder and north-eastern trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "The dispute rests on the joins: one tree by the Hist's reckoning, nine by the tribes'. This one lies behind the hut of the egg-tenders, who are asked about it most often.",
+            "whyNeighbours": "Eight joins lie behind the eight built gaps. This one sits behind the east family hut, the first gap clockwise from the elder trunk.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the elder and north-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5070,11 +5084,11 @@
             3730.152
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "It lies along the tangent on 3.6 m ground and turns the clearing's run-off round the eastern side of the first guest hut.",
+            "playerPurpose": "A player walking outside the wall sees this join and the back of the first guest hut in one view.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-eastern and eastern trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "Root joins are the evidence in the village's long argument over whether nine trees stand here or one. A delegation lodged in the first guest hut is shown this one on arrival.",
+            "whyNeighbours": "It lies behind the first guest hut, one of eight joins spaced round the ring. The gate gap, two-thirds of the way round, has no join at all.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the north-eastern and eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5088,11 +5102,11 @@
             3748.677
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
+            "microGeography": "It lies on the eastern slope at about 3.8 m, its uphill face part buried and 2.8 m of swell standing on the downhill side.",
             "playerPurpose": "The join at which the felling claim is argued in One Tree or Nine; the evidence socket sits on it.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the eastern and south-eastern trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "The joins carry the argument between the Hist's count of one tree and the tribes' count of nine. This is the join at which the felling claim is made.",
+            "whyNeighbours": "It sits behind the second guest hut. The gate gap has no join, which is the gap the tribes cite when they count nine trees.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the eastern and south-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5106,11 +5120,11 @@
             3764.968
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "On the south-eastern fall it lies across the shoulder of the drop, so wet-season water passes on both sides of the third guest hut.",
+            "playerPurpose": "One of the eight joins counted on the outer walk. It sits where the ground begins to fall, so the swell shows more of its bulk on the downhill side.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the south-eastern and southern trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "The tribes count nine trees and the Hist's reckoning is one; the joins are the ground on which the two counts meet. This is the fourth join clockwise from the elder trunk.",
+            "whyNeighbours": "It lies behind the third guest hut at the end of the rented arc. It pairs with the join behind the store hut, on the far side of the southern trunk.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the south-eastern and southern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5124,11 +5138,11 @@
             3771.402
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "The southern ground is the lowest of the ring at 3.5 m. The swell stands clear of the store hut's plinth, which is not undercut in the wet season.",
+            "playerPurpose": "The join a player passes between the road spur and the gate; a walker who leaves the track early meets it before the arch.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the southern and road-side trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "A join is the place at which two of the nine share a root, which is the reason the Hist's reckoning gives one tree. This one lies behind the store hut.",
+            "whyNeighbours": "It lies behind the store hut on the road side of the ring, the last join a walker meets before the gate gap, which has none.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the southern and road-side gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5142,11 +5156,11 @@
             3748.677
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "It lies along the tangent on about 4.2 m ground on the western climb, above the level of the pitch shelf.",
+            "playerPurpose": "A landmark of the outer walk on the pitch side of the ring. It is the join nearest to the pitch path.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the water-side and western trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "The joins are the physical claim: root running unbroken from one trunk to the next. This one lies on the pitch-taker's side of the ring, where delegations pass it on the outer walk.",
+            "whyNeighbours": "It lies behind the pitch-taker's hut, the first join past the gate gap for a walker going clockwise round the outside.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the water-side and western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5160,11 +5174,11 @@
             3730.152
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "On the western rise at about 4.8 m, with the swell's flank turning run-off away from the west family hut's plinth.",
+            "playerPurpose": "A landmark of the outer walk on the western arc. It is the join by which a player returning from the pool rejoins the ring.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the western and north-western trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "A visitor who disputes the count is taken outside the wall to see a join. This one lies behind the boat household's hut.",
+            "whyNeighbours": "It lies behind the west family hut, between the joins of the pitch-taker's gap and the tree-minder's gap.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the western and north-western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5178,11 +5192,11 @@
             3718.061
           ],
           "why": {
-            "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts.",
-            "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
+            "microGeography": "It lies on the north-western fall from 5.0 m towards the elder trunk's floor, along the slope rather than across it.",
+            "playerPurpose": "The last of the eight joins on the outer walk, at the foot of the elder trunk.",
             "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-western and elder trunks.",
-            "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
-            "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+            "whyHere": "Both counts of the trees, the Hist's one and the tribes' nine, are argued from the joins. The tree-minder names them for guests. This join lies behind the minder's own hut.",
+            "whyNeighbours": "It lies behind the tree-minder's hut and closes the round of eight at the foot of the elder trunk.",
             "whySpot": "It lies on a 27.5 m radius outside the hut in the north-western and elder gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together."
           }
         },
@@ -5196,10 +5210,10 @@
             3722.902
           ],
           "why": {
-            "microGeography": "Ground at its base is 4.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
+            "microGeography": "Its base stands on the level 4.0 m floor at the north of the knoll, the broadest firm ground inside the ring; the fall to the south begins beyond the round house.",
             "playerPurpose": "The first thing seen on both approaches, above the canopy from 150 m. It is the mark by which the whole ring is found again after the canopy has hidden it.",
             "what": "The elder trunk of the ring, the tallest of the nine Hist columns and the one which the tree-minder watches.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+            "whyHere": "The village stands here because nine root-joined trunks grew on this knoll in one ring. The elder is the trunk that the tree-minder's deck faces across the clearing.",
             "whyNeighbours": "The naheesh's house stands at its foot inside the ring and the tree-minder's hut in the gap to its west, so the two offices of the village keep the elder trunk between them.",
             "whySpot": "The highest trunk stands at the north of the ring on 4.0 m ground, where the knoll is broadest. It is the tallest of the nine at 31 m."
           }
@@ -5214,11 +5228,11 @@
             3727.815
           ],
           "why": {
-            "microGeography": "Ground at its base is 3.6 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 3.6 m ground, the lowest footing of the northern arc; run-off off the clearing passes its root flare on the way to the eastern water.",
+            "playerPurpose": "A 25 m column of the ring's northern arc. Walking the ring walk, a player counts it second from the elder trunk.",
             "what": "Trunk 2 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "Nine root-joined trunks on this knoll are the reason for the village. This one closes the northern arc, where the ground begins to fall towards the eastern water.",
+            "whyNeighbours": "It is the corner post of the east family hut and the first guest hut; the woven panels of the wall line run from its bark to both.",
             "whySpot": "The north-eastern trunk stands on 3.6 m ground, the lowest point of the northern arc, at the head of the fall towards the eastern water."
           }
         },
@@ -5232,11 +5246,11 @@
             3740.255
           ],
           "why": {
-            "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 3.9 m ground on the eastern slope, where the knoll has given up about half of its 1.5 m of fall.",
+            "playerPurpose": "A 25 m column on the eastern arc. The ring walk passes its foot between the first and second guest huts.",
             "what": "Trunk 3 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The nine trunks grew here before any hut was built. This one stands on the eastern arc, whose gaps were given over to rented lodging.",
+            "whyNeighbours": "The first and second guest huts are panelled into its bark, so it is the middle post of the rented arc.",
             "whySpot": "The eastern trunk stands on 3.9 m ground and is the first of the nine to take the morning light."
           }
         },
@@ -5250,11 +5264,11 @@
             3754.402
           ],
           "why": {
-            "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 3.9 m ground at the point where the knoll turns downward towards the southern flats. The root flare takes the last of the drop.",
+            "playerPurpose": "A 25 m column at the south-east. It stands over the point at which the ring walk begins to drop with the knoll.",
             "what": "Trunk 4 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The ring of nine trunks is the site itself, not a decoration of it. This trunk carries the south-eastern quarter, where the knoll starts to shed towards the flats.",
+            "whyNeighbours": "It stands between the second and third guest huts and closes the rented arc at its southern end.",
             "whySpot": "The south-eastern trunk stands on 3.9 m ground where the knoll begins its fall to the flats."
           }
         },
@@ -5268,11 +5282,11 @@
             3763.636
           ],
           "why": {
-            "microGeography": "Ground at its base is 3.5 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 3.5 m ground, the lowest footing of the nine. Wet-season run-off leaves the clearing past it.",
+            "playerPurpose": "A 25 m column at the south. From the Archon–Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
             "what": "Trunk 5 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The trunks came first and the huts were fitted to the gaps between them. This one holds the south of the ring, above the store hut and the road beyond it.",
+            "whyNeighbours": "The third guest hut is panelled to its northern side and the store hut to its southern, so it divides the rented gaps from the tribe's own stores.",
             "whySpot": "The southern trunk stands on 3.5 m ground, the lowest footing of the nine. It is the trunk seen from the road."
           }
         },
@@ -5286,11 +5300,11 @@
             3763.636
           ],
           "why": {
-            "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 3.9 m ground on the rise out of the southern low point, so the arch beside it stands a little above the road side of the ring.",
+            "playerPurpose": "The left-hand post of the gate for a walker coming up the spur. It is the mark by which the arch is found from the pitch shelf.",
             "what": "Trunk 6 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "Nine trunks grew root-joined on the knoll. Two of them stand either side of the gate. This is the road-side post of that gap.",
+            "whyNeighbours": "The store hut is panelled to one side of it. On the other side the wall line stops, because the next gap is the gate.",
             "whySpot": "The trunk on the road side of the gate stands on 3.9 m ground and is the left-hand post of the entrance for a walker."
           }
         },
@@ -5304,11 +5318,11 @@
             3754.402
           ],
           "why": {
-            "microGeography": "Ground at its base is 4.4 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 4.4 m ground, at the point where the landing path finishes its climb from the pool.",
+            "playerPurpose": "The right-hand post of the gate. The landing path bends round it before the arch opens on the left hand.",
             "what": "Trunk 7 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The trunks are the reason for the settlement. This is the water-side post of the gate gap. It is the first of the nine that a boat party passes.",
+            "whyNeighbours": "The gate gap lies to its north and the pitch-taker's hut to its south, so it is the post that a walker passes on the right hand under the arch.",
             "whySpot": "The trunk on the water side of the gate stands on 4.4 m ground and is the right-hand post of the entrance for a walker."
           }
         },
@@ -5322,11 +5336,11 @@
             3740.255
           ],
           "why": {
-            "microGeography": "Ground at its base is 5.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 5.0 m ground on the western rise. The pool lies 60 m west-north-west and about 3.8 m below it.",
+            "playerPurpose": "The column with the highest footing of the nine, at 5.0 m. A player passes it on the outer walk between the pool and the ring.",
             "what": "Trunk 8 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The nine trunks stand on a 21 m radius. This one has the highest footing of them, on the western rise which keeps the pool clear of the ring.",
+            "whyNeighbours": "The pitch-taker's hut and the west family hut are panelled into it. Their two doors open onto the clearing either side of it.",
             "whySpot": "The western trunk stands on 5.0 m ground, the highest footing of the nine, on the rise which the western pool skirts."
           }
         },
@@ -5340,11 +5354,11 @@
             3727.815
           ],
           "why": {
-            "microGeography": "Ground at its base is 5.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference.",
-            "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
+            "microGeography": "Its base is on 5.0 m ground on the north-western rise, where the ring's 1.5 m of fall begins; it ends at the southern trunk.",
+            "playerPurpose": "A 25 m column at the north-west. The tree-minder's hut is panelled to it, so a player following the ring walk finds the minder's door at its foot.",
             "what": "Trunk 9 of the nine Hist columns which stand in one ring on a 21 m radius.",
-            "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
-            "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
+            "whyHere": "The trunks decided the plan of the village. This one stands on the north-western rise which shelters the ring from the west.",
+            "whyNeighbours": "The west family hut stands to its south and the tree-minder's hut to its north, so it is the post between the boat household and the minder.",
             "whySpot": "The north-western trunk stands on 5.0 m ground beside the tree-minder's hut, on the rise which shelters the ring from the west."
           }
         },
@@ -5365,6 +5379,19 @@
             "whyNeighbours": "The two households charged with the eggs, the naheesh's and the eastern family's, have their doors within twelve paces of it.",
             "whySpot": "It stands on the north-eastern side of the clearing, between the naheesh's house and the first family hut, off the paths and out of the fighting ground to the east."
           }
+        }
+      ],
+      "networkTerminals": [
+        {
+          "id": "terminal.nine-trunks.gate-head",
+          "kind": "track",
+          "positionM": [
+            4959.106,
+            3757.983
+          ],
+          "routeId": "track.hist-heartland.nine-trunks",
+          "wayId": "route.nine-trunks.spur",
+          "why": "The heartland track reaches the village on the one shoulder that carries a cart above the pool's flood line; it crosses the boundary here and the spur carries it the last 120 m to the gate gap, so track and street are one line."
         }
       ],
       "parcels": [
@@ -5442,7 +5469,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 240.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -5588,7 +5615,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 280.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -5734,7 +5761,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 320.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -5880,7 +5907,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 200.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -5895,7 +5922,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+          "orientationWhy": "Its long side follows the ring's tangent at 20°, between the elder trunk and the north-eastern trunk. The door opens inward to the clearing, because no door faces out of the ring.",
           "polygon": [
             [
               4977.444,
@@ -6026,7 +6053,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 120.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -6041,7 +6068,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+          "orientationWhy": "Set on the tangent at 300°, between the western and north-western trunks, with the door inward to the clearing; the boat household walks out through the gate like everyone else.",
           "polygon": [
             [
               4952.85,
@@ -6172,7 +6199,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 80.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -6318,7 +6345,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 160.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -6333,7 +6360,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+          "orientationWhy": "Set on the tangent at 340°, in the gap next to the elder trunk, with the door inward so the minder steps out facing the trunk that is watched.",
           "polygon": [
             [
               4962.778,
@@ -6977,7 +7004,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 217.9,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -7121,7 +7148,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 0.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -7420,6 +7447,7 @@
         "fences": 20,
         "keptTrees": 9,
         "landmarks": 19,
+        "networkTerminals": 1,
         "parcels": 15,
         "questSockets": 9,
         "sitingCandidates": 3,
@@ -7549,7 +7577,7 @@
               3722.646
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the east family hut and the elder trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7580,7 +7608,7 @@
               3725.776
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the east family hut and the north-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7611,7 +7639,7 @@
               3729.332
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the north-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7642,7 +7670,7 @@
               3737.472
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7673,7 +7701,7 @@
               3742.92
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7704,7 +7732,7 @@
               3752.177
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the south-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7735,7 +7763,7 @@
               3756.968
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the south-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7766,7 +7794,7 @@
               3763.01
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the southern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7797,7 +7825,7 @@
               3764.902
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the store hut and the southern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7828,7 +7856,7 @@
               3764.902
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the store hut and the road-side trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7859,7 +7887,7 @@
               3763.01
             ]
           ],
-          "why": "A woven panel closing the gap between the arch and the trunk beside it, so the stockade line is unbroken but for the arch itself.",
+          "why": "A woven panel between the arch and the road-side trunk, closing the northern shoulder of the gate gap.",
           "widthM": 0.3
         },
         {
@@ -7890,7 +7918,7 @@
               3756.968
             ]
           ],
-          "why": "A woven panel closing the gap between the arch and the trunk beside it, so the stockade line is unbroken but for the arch itself.",
+          "why": "A woven panel between the arch and the water-side trunk, closing the southern shoulder of the gate gap.",
           "widthM": 0.3
         },
         {
@@ -7921,7 +7949,7 @@
               3752.177
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the water-side trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7952,7 +7980,7 @@
               3742.92
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -7983,7 +8011,7 @@
               3737.472
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the west family hut and the western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -8014,7 +8042,7 @@
               3729.332
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the west family hut and the north-western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -8045,7 +8073,7 @@
               3725.776
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the north-western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -8076,7 +8104,7 @@
               3722.646
             ]
           ],
-          "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+          "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the elder trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
           "widthM": 0.3
         },
         {
@@ -8820,6 +8848,19 @@
           }
         }
       ],
+      "networkTerminals": [
+        {
+          "id": "terminal.sap-tapping-licensed.track-head",
+          "kind": "footpath",
+          "positionM": [
+            3503.0,
+            4411.999
+          ],
+          "routeId": "track.hist-heartland.sap-tapping-licensed",
+          "wayId": "route.sap-tapping-licensed.track",
+          "why": "The stage is licensed but not advertised: one worn line leaves the heartland network to the south-east and dies at the foot of the stair. This is where it reaches the camp. It is walked ground, not drawn ground, so the path is routed and left off the map."
+        }
+      ],
       "parcels": [
         {
           "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
@@ -8833,7 +8874,7 @@
             {
               "arcM": 1.3,
               "bearingDeg": 225.0,
-              "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+              "interiorRef": "mudmother-hut-int",
               "kind": "opening",
               "source": "geometry",
               "worldM": [
@@ -9553,6 +9594,7 @@
         "fences": 0,
         "keptTrees": 4,
         "landmarks": 2,
+        "networkTerminals": 1,
         "parcels": 7,
         "questSockets": 5,
         "sitingCandidates": 3,
@@ -11099,7 +11141,7 @@
             6328.005
           ],
           "why": {
-            "microGeography": "Level crest at 22 m.",
+            "microGeography": "Level crest at 22 m, in the shade of the trunk for most of the day.",
             "playerPurpose": "An offering component for the Hist scenes.",
             "what": "A hist flower growing at the foot of the trunk.",
             "whyHere": "The flowers come up from the root and the tenders leave them.",
@@ -11117,9 +11159,9 @@
             6473.005
           ],
           "why": {
-            "microGeography": "Level flat at 2 m behind the south row.",
+            "microGeography": "Level flat at 2 m behind the south row, clear of the huts and open on three sides.",
             "playerPurpose": "A source of dried fish and the fishers’ working ground.",
-            "what": "A drying rack for the estuary catch.",
+            "what": "A drying rack for the estuary catch, standing 2.5 m at the back of the fishers' row.",
             "whyHere": "The fishers dry their catch on the flat behind the houses.",
             "whyNeighbours": "The fishers’ huts are north of it; the flat runs to the pole wall east.",
             "whySpot": "It stands behind the third fisher’s hut, on the south side of the row."
@@ -11225,7 +11267,7 @@
             6402.006
           ],
           "why": {
-            "microGeography": "On the bed at 12 m, inside the block.",
+            "microGeography": "On the bed at 12 m, inside the block and out of the channel current.",
             "playerPurpose": "The focus of the Offerings in the Mouth quest.",
             "what": "The idol of Xhon-Mehl the Fisher, a 2 m carved totem at the back of the shrine.",
             "whyHere": "The shrine to the Ancestral Organ Lord of Lilmoth was in the lower town and drowned with it.",
@@ -11250,6 +11292,52 @@
             "whyNeighbours": "The altar and idol are behind it inside the block.",
             "whySpot": "It stands at the western opening of the shrine block."
           }
+        }
+      ],
+      "networkTerminals": [
+        {
+          "id": "terminal.lilmoth.land-gate",
+          "kind": "road",
+          "positionM": [
+            3591.511,
+            6389.095
+          ],
+          "routeId": "route.road.blackrose-lilmoth",
+          "wayId": "route.lilmoth.gate-road",
+          "why": "The Blackrose road runs in along the pond's north shore and reaches the bluff foot here, on the one line of firm ground between the pond and the tidal flat; the city walls its gate across that line, so the road and the gate yard inside are one street."
+        },
+        {
+          "id": "terminal.lilmoth.lighter-quay-archon",
+          "kind": "lane",
+          "positionM": [
+            3902.003,
+            6368.007
+          ],
+          "routeId": "route.boat.lilmoth-archon",
+          "wayId": "boardwalk.lilmoth.lighter-pier",
+          "why": "The Archon lane leaves from the berth at which it arrives. A boat bound north is loaded at the quay off the pier, so the lane starts where the pier ends rather than at a second landing that the city never built."
+        },
+        {
+          "id": "terminal.lilmoth.lighter-quay-blackrose",
+          "kind": "lane",
+          "positionM": [
+            3902.003,
+            6368.007
+          ],
+          "routeId": "route.boat.blackrose-lilmoth",
+          "wayId": "boardwalk.lilmoth.lighter-pier",
+          "why": "The Blackrose lane comes down out of the marsh from the north-west and joins the same channel head. Poled craft come alongside the quay from the landward side of the berth, so one quay serves all three lanes."
+        },
+        {
+          "id": "terminal.lilmoth.lighter-quay-soulrest",
+          "kind": "lane",
+          "positionM": [
+            3902.003,
+            6368.007
+          ],
+          "routeId": "route.boat.soulrest-lilmoth",
+          "wayId": "boardwalk.lilmoth.lighter-pier",
+          "why": "The Soulrest lane comes up the estuary from the west and can go no further than the channel head. The shelf inside is too shallow for a laden hull, so the run ends at the lighter quay and the pier carries the cargo up to the deck."
         }
       ],
       "parcels": [
@@ -11743,7 +11831,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 311.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -11864,7 +11952,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+          "orientationWhy": "The ridge block keeps the 24° line of the old Imperial street, on which the villas of the lower town were set out.",
           "polygon": [
             [
               3886.155,
@@ -11910,7 +11998,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+          "orientationWhy": "The hall is set to 24° with the rest of the drowned grid; its opening faces the diving stair on that bearing.",
           "polygon": [
             [
               3944.155,
@@ -12015,7 +12103,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 344.7,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12112,7 +12200,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "The bench is level here at 12 m.",
+            "microGeography": "The crest bench is level here at 12 m, so the hut's stilts stand short and even.",
             "playerPurpose": "The Retired Rota quest and a source of judgement outside the council.",
             "what": "The elders’ house, where the retired Shadowscales who settle disputes are found.",
             "whyHere": "In Lilmoth people look to their elders, including retired Shadowscales, for judgement.",
@@ -12133,7 +12221,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 187.2,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12230,7 +12318,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "The bench falls 1 m northward under it.",
+            "microGeography": "The bench falls about a metre northward under the plot. The stilts on the north side are the longer pair.",
             "playerPurpose": "The quest-giver of the tariff line, at home in the evening.",
             "what": "The council factor’s house, a bamboo hut east of the hall.",
             "whyHere": "The factor who holds the tariff line lives on the bench, within a few steps of the hall.",
@@ -12397,7 +12485,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 17.3,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12412,7 +12500,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Turned to put the shipped doorway on shore lane.",
+          "orientationWhy": "Turned to 60° to put the shipped doorway on the shore lane, with the blank end wall to the boat awning.",
           "polygon": [
             [
               3714.638,
@@ -12494,7 +12582,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "The flat is 2 m and drains slowly.",
+            "microGeography": "The flat is 2 m and drains slowly, so the westernmost plot of the row stands wet longest after a high tide.",
             "playerPurpose": "A dwelling to enter; the fisher keeps the offering season.",
             "what": "A fisher’s hut at the west end of the row.",
             "whyHere": "The fishers of the estuary live on the low flat south of the bluff, near their boats.",
@@ -12515,7 +12603,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 26.4,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12613,11 +12701,11 @@
           "use": "dwelling",
           "why": {
             "microGeography": "The flat is 2–3 m here, the highest of the row.",
-            "playerPurpose": "A dwelling to enter.",
+            "playerPurpose": "A dwelling to enter. The row's boats are counted out from this door at dawn.",
             "what": "A fisher’s hut in the middle of the south row.",
             "whyHere": "The row holds the households who fish the shelf and the estuary mouth.",
-            "whyNeighbours": "Fishers live on both sides of it.",
-            "whySpot": "It is the second hut of the south row."
+            "whyNeighbours": "Fishers live on both sides of it and the drying rack stands behind its south wall.",
+            "whySpot": "It is the second hut of the south row, on the highest ground the row has."
           },
           "yawDeg": 68.9
         },
@@ -12633,7 +12721,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 8.3,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12751,7 +12839,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 35.4,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12869,7 +12957,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 197.4,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -12967,10 +13055,10 @@
           "use": "dwelling",
           "why": {
             "microGeography": "Level 2 m flat, drier than the south row.",
-            "playerPurpose": "A dwelling to enter.",
+            "playerPurpose": "A dwelling to enter, on the drier northern side of the lane.",
             "what": "A fisher’s hut on the north side of the shore lane.",
             "whyHere": "The row is two deep where the flat is widest.",
-            "whyNeighbours": "The south row faces it across the lane.",
+            "whyNeighbours": "The south row faces it across the shore lane. The bluff foot is behind it.",
             "whySpot": "It stands north of the lane opposite the first two south huts."
           },
           "yawDeg": 239.9
@@ -12987,7 +13075,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 197.3,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13002,7 +13090,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "Turned to put the shipped doorway on shore lane.",
+          "orientationWhy": "Turned to 240° to put the shipped doorway on the shore lane, so the north row's doors face the south row's across it.",
           "polygon": [
             [
               3739.358,
@@ -13084,12 +13172,12 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Level flat at 2 m under the bluff.",
-            "playerPurpose": "The Sixth Recitation quest.",
+            "microGeography": "Level flat at 2 m under the bluff, which rises 60 m behind the plot.",
+            "playerPurpose": "The Sixth Recitation quest begins here, at the door of one of the six speakers.",
             "what": "A fisher’s hut on the north side of the lane, kept by a recitation speaker.",
             "whyHere": "Two of the six speakers for the Sixth Recitation now work the quay and live in the shore quarter.",
             "whyNeighbours": "Fishers live on either side; the bluff rises 60 m to the north.",
-            "whySpot": "It is the middle hut of the north side."
+            "whySpot": "It is the middle hut of the north side, opposite the second hut of the south row."
           },
           "yawDeg": 239.8
         },
@@ -13105,7 +13193,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 204.4,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13589,7 +13677,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 105.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13707,7 +13795,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 105.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13804,7 +13892,7 @@
           "spans": null,
           "use": "storage",
           "why": {
-            "microGeography": "Level flat at 1–2 m.",
+            "microGeography": "The quay flat runs 1 to 2 m here, level enough for a cargo barrow between the shed door and the deck.",
             "playerPurpose": "The store in which cargo off the ledger is found.",
             "what": "The lighter shed, where landed cargo waits under a roof for the porters.",
             "whyHere": "Cargo landed at night cannot sit on the open deck in the rain.",
@@ -13825,7 +13913,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 209.7,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13943,7 +14031,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 287.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -13958,7 +14046,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
+          "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 330° to bring it onto the west side of the Pusbottom loop.",
           "polygon": [
             [
               3799.014,
@@ -14061,7 +14149,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 107.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14159,7 +14247,7 @@
           "use": "dwelling",
           "why": {
             "microGeography": "The bluff foot keeps the ground here dry at 2 m.",
-            "playerPurpose": "The Untouched House quest begins here.",
+            "playerPurpose": "The Untouched House quest begins at this door. The broker will price a Rockpark deed for anyone who asks.",
             "what": "The house of the broker who sells deeds to emptied Rockpark houses.",
             "whyHere": "Deeds to plague houses sell in a slum, where buyers ask few questions.",
             "whyNeighbours": "The vault house is north of it and the reed-cutter’s house south.",
@@ -14179,7 +14267,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 287.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14277,7 +14365,7 @@
           "use": "dwelling",
           "why": {
             "microGeography": "Level ground at 2 m, a few steps from the quay deck.",
-            "playerPurpose": "A dwelling to enter.",
+            "playerPurpose": "A porter's dwelling to enter. It is the first door on the cross lane for a player coming off the spine.",
             "what": "A bamboo hut on the cross lane, home to a quay porter.",
             "whyHere": "The porters who carry from the lighters live nearest the quay.",
             "whyNeighbours": "The spine passes its north side; the next porter’s hut is south.",
@@ -14297,7 +14385,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 294.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14394,12 +14482,12 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Level ground at 2 m.",
-            "playerPurpose": "A dwelling to enter.",
-            "what": "A porter’s hut on the cross lane.",
+            "microGeography": "Level ground at 2 m, on the same flat that carries the whole cross lane.",
+            "playerPurpose": "A dwelling to enter. The quay shift sleeps here by day.",
+            "what": "A porter's hut on the cross lane, one of a shift of four who work the lighters together.",
             "whyHere": "The cross lane holds the porters’ households, who work the quay in shifts.",
-            "whyNeighbours": "Porters live on both sides of it; the east lane runs behind it.",
-            "whySpot": "It is the second hut on the cross lane."
+            "whyNeighbours": "Porters live on both sides of it and the east lane runs behind its back wall.",
+            "whySpot": "It is the second hut on the cross lane, between the first porter's hut and the diver's."
           },
           "yawDeg": 337.3
         },
@@ -14415,7 +14503,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 294.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14512,7 +14600,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Level ground at 2 m.",
+            "microGeography": "Level ground at 2 m, level with the divers' shed across on the quay.",
             "playerPurpose": "A diver who knows the drowned hall and the Second Room quest.",
             "what": "A hut on the cross lane kept by a diver who works the drowned quarter.",
             "whyHere": "The free-divers of the salvage yard live in Pusbottom and walk to the diving stair.",
@@ -14533,7 +14621,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 280.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14630,8 +14718,8 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "The flat is 1.5–2 m here.",
-            "playerPurpose": "A dwelling to enter.",
+            "microGeography": "The flat runs 1.5 to 2 m here and takes standing water at the south corner in the wet season.",
+            "playerPurpose": "A dwelling to enter. Six live under this roof, the largest household in Pusbottom.",
             "what": "The last hut on the cross lane, home to a family of six.",
             "whyHere": "The cheapest ground in the city fills first with the largest families.",
             "whyNeighbours": "The diver’s hut is north of it; the south-lane huts are round the corner.",
@@ -14651,7 +14739,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 280.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14748,7 +14836,7 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Level ground at 2 m.",
+            "microGeography": "Level ground at 2 m at the south corner of the loop, where the lane turns back towards the cross lane.",
             "playerPurpose": "The Barge Debt and Cargo Off the Ledger quests.",
             "what": "The hut of the runner who carries stakes to the dice barge.",
             "whyHere": "The dice tables are on a barge outside the city; their business in the city runs through this door.",
@@ -14769,7 +14857,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 301.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -14867,7 +14955,7 @@
           "use": "dwelling",
           "why": {
             "microGeography": "Level ground at 2 m, a hand above the wet-season mark.",
-            "playerPurpose": "The Licensed Lot quest.",
+            "playerPurpose": "The Licensed Lot quest begins here, with the family who recognised their own goods in the salvage sale.",
             "what": "The house of the family who recognised their own goods in a licensed salvage lot.",
             "whyHere": "Salvage from the drowned quarter comes up under licence; the drowned owners’ heirs live in Pusbottom.",
             "whyNeighbours": "The agent’s room is north of it and the dice-runner’s hut south.",
@@ -14887,7 +14975,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 115.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15005,7 +15093,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 99.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15123,7 +15211,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 301.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15241,7 +15329,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 17.9,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15256,7 +15344,7 @@
             "kind": "dwelling"
           },
           "notes": null,
-          "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
+          "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 60° to bring it onto the south lane of the loop.",
           "polygon": [
             [
               3802.682,
@@ -15338,8 +15426,8 @@
           "spans": null,
           "use": "dwelling",
           "why": {
-            "microGeography": "Level 2 m ground, open to the south.",
-            "playerPurpose": "A dwelling to enter.",
+            "microGeography": "Level 2 m ground open to the south, with no building between the hut and the shore.",
+            "playerPurpose": "A dwelling to enter, kept by one of the newest households in the district.",
             "what": "A bamboo hut on the south lane of the loop, facing the shore.",
             "whyHere": "The south lane is the edge of the district, where the newest arrivals build.",
             "whyNeighbours": "The south-corner hut is west of it and the second south hut east.",
@@ -15359,7 +15447,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 17.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15477,7 +15565,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 123.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15704,7 +15792,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 91.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -15822,7 +15910,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 268.0,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16123,7 +16211,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 88.0,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16241,7 +16329,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 187.2,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16359,7 +16447,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 90.0,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16477,7 +16565,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 149.8,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16595,7 +16683,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 181.7,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16822,7 +16910,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 134.1,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -16940,7 +17028,7 @@
             {
               "arcM": 1.61,
               "bearingDeg": 105.2,
-              "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+              "interiorRef": "htbm-hut-int",
               "kind": "open-front",
               "source": "geometry",
               "worldM": [
@@ -17388,7 +17476,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+          "orientationWhy": "The rubble floor lies on the 24° street line, the last full course of a villa on the north side of the channel.",
           "polygon": [
             [
               3942.624,
@@ -17470,7 +17558,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+          "orientationWhy": "The southern rubble floor holds the same 24° street line, so the two floors read as one street across the channel cut.",
           "polygon": [
             [
               3918.776,
@@ -17532,7 +17620,7 @@
             "kind": "none"
           },
           "notes": null,
-          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+          "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth at 24°, which ran at a slant to the channel cut later through it.",
           "polygon": [
             [
               3923.156,
@@ -17555,7 +17643,7 @@
           "use": "ruin",
           "why": {
             "microGeography": "The bed here is 3–4 m down and the block sits on the old street level.",
-            "playerPurpose": "A swim-through room and a salvage find.",
+            "playerPurpose": "A swim-through room with a salvage find inside it.",
             "what": "A hollow block of a drowned villa, its roof gone, north of the channel.",
             "whyHere": "The villas along the old Imperial street sank into the shelf and have not been cleared.",
             "whyNeighbours": "The ridge block is inshore of it and a rubble floor beside it.",
@@ -17949,6 +18037,7 @@
         "fences": 4,
         "keptTrees": 4,
         "landmarks": 9,
+        "networkTerminals": 4,
         "parcels": 61,
         "questSockets": 17,
         "sitingCandidates": 3,
@@ -19509,9 +19598,9 @@
             4406.004
           ],
           "why": {
-            "microGeography": "On the east bank at 9.45 m.",
+            "microGeography": "On the east bank at 9.45 m, five centimetres above the first cairn's footing.",
             "playerPurpose": "Cover on the retreat ground and the middle mark of the line read from the water.",
-            "what": "The middle of the three grave-cairns.",
+            "what": "The middle of the three grave-cairns, 2.56 m tall and narrower at the base than the one below it.",
             "whyHere": "The line of cairns is what makes the east bank read as a burial ground rather than a rock fall.",
             "whyNeighbours": "It continues the step from the first cairn toward the third, 7 m apart.",
             "whySpot": "Halfway up the east bank between the first and third cairns."
@@ -19732,6 +19821,19 @@
             "whyNeighbours": "It stands between the platform and the stake line, with the lantern to its east.",
             "whySpot": "Directly behind the platform, so the face looks over the offerings and out to the pan."
           }
+        }
+      ],
+      "networkTerminals": [
+        {
+          "id": "terminal.wamasu-pond-adult.knoll-head",
+          "kind": "footpath",
+          "positionM": [
+            2443.087,
+            4369.807
+          ],
+          "routeId": "track.naga-kur-deeps.wamasu-pond-adult",
+          "wayId": "route.wamasu-pond-adult.stand-path",
+          "why": "Hunters cross the rootland from the west and take the one dry rise to the pond, so the land approach reaches the knoll at the foot of the stand's ramp; the stand path carries it round the west and south banks to the offering shelf. Nothing about the charge is published, so the line is routed and left off the map."
         }
       ],
       "parcels": [
@@ -20103,6 +20205,7 @@
         "fences": 1,
         "keptTrees": 6,
         "landmarks": 15,
+        "networkTerminals": 1,
         "parcels": 3,
         "questSockets": 6,
         "sitingCandidates": 3,

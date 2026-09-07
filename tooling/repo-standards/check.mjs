@@ -327,22 +327,52 @@ function checkCredits() {
 // Standard 13 — the placement playbook moves with the placement work
 // ---------------------------------------------------------------------------
 // The owner asked (2026-09-05) for a MECHANISM, not a reminder: if a blueprint,
-// a design record or a placement tool changes in the working tree and the
-// playbook (docs/world/96-placement-playbook.md) or the Phase 11 decision record
-// does not, the round's lesson has not been written down. Checked against git
-// (staged + unstaged vs HEAD), so it fires in `npm test` before a commit.
+// a design record or a placement tool changes and the playbook
+// (docs/world/96-placement-playbook.md) or the Phase 11 decision record does
+// not, the round's lesson has not been written down. Two views are unioned so
+// the check holds before AND after a commit (review 2026-09-07: the earlier
+// working-tree-only check passed vacuously on a clean tree, so CI could never
+// fire it): the working tree vs HEAD, plus every commit since the merge-base
+// with the default branch. On the default branch itself the second view is
+// the last commit, so a placement commit that forgot the playbook still fails
+// the next `npm test` until a follow-up commit records it.
 const PLAYBOOK = "docs/world/96-placement-playbook.md";
 const PLAYBOOK_ALSO_OK = ["docs/decisions/0041-phase11-settlement-decisions.md"];
 const PLACEMENT_WORK = [
   /^world\/sources\/blueprints\/place\./,
-  /^tooling\/world-generation\/worldgen\/(blueprint|blueprint_footprints|blueprint_integration|compile_settlement|street_router|apply_sitings|export_blueprints|render_blueprint)\.py$/,
+  /^world\/sources\/(placement|routes)\/(lane-terminals|route-structures|kit-assemblies)/,
+  /^tooling\/world-generation\/worldgen\/(blueprint|blueprint_footprints|blueprint_integration|blueprint_interiors|blueprint_promises|compile_settlement|street_router|apply_sitings|export_blueprints|render_blueprint|derive_services|macro_plot|compile_route_structures|author_route_structures|grade_routes|mine_assemblies)\.py$/,
+  /^tooling\/asset-pipeline\/pipeline\/(interiors_index|measure_footprints|build_kit)\.py$/,
+  /^tooling\/asset-pipeline\/pipeline\/config\/kits\//,
 ];
+
+function git(args) {
+  return execSync(`git ${args}`, { cwd: ROOT, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] });
+}
+
+function changedSinceBase() {
+  // Working tree (staged + unstaged + untracked) vs HEAD.
+  const tree = git("status --porcelain=v1 --untracked-files=all")
+    .split("\n").filter(Boolean).map((l) => l.slice(3).trim().replace(/^"|"$/g, ""));
+  // Commits since the merge-base with the default branch; on the default
+  // branch itself, the last commit.
+  let range = "HEAD~1..HEAD";
+  for (const ref of ["origin/main", "main"]) {
+    try {
+      const base = git(`merge-base ${ref} HEAD`).trim();
+      const head = git("rev-parse HEAD").trim();
+      if (base && base !== head) { range = `${base}..HEAD`; break; }
+    } catch { /* ref absent (shallow clone, detached CI checkout) */ }
+  }
+  let committed = [];
+  try { committed = git(`diff --name-only ${range}`).split("\n").filter(Boolean); } catch { /* single-commit history */ }
+  return [...new Set([...tree, ...committed])];
+}
 
 function checkPlaybookMoves() {
   let changed;
   try {
-    changed = execSync("git status --porcelain=v1 --untracked-files=all", { cwd: ROOT, encoding: "utf8" })
-      .split("\n").filter(Boolean).map((l) => l.slice(3).trim().replace(/^"|"$/g, ""));
+    changed = changedSinceBase();
   } catch {
     note("standard 13: git unavailable; playbook drift not checked");
     return;
@@ -356,13 +386,33 @@ function checkPlaybookMoves() {
       PLAYBOOK,
       0,
       `placement work changed (${placement.slice(0, 3).join(", ")}${placement.length > 3 ? ", …" : ""}) but neither the ` +
-        `placement playbook nor decision 0041 did. Write the round's lesson or steer (a one-line row is enough), then re-run.`,
+        `placement playbook nor decision 0041 did (working tree + commits since the base). Write the round's lesson or steer (a one-line row is enough), then re-run.`,
     );
+}
+
+// ---------------------------------------------------------------------------
+// Standard 8 (prose) — the prose linter is a gate, not a report
+// ---------------------------------------------------------------------------
+// docs/text/style-guide.md's hard rules are checked by
+// tooling/world-generation/worldgen/lint_prose.py. It was documented as an
+// `npm test` gate but nothing ran it (review 2026-09-07); it runs here in
+// ~2 s. Python missing is a note, not a pass: CI installs it.
+function checkProse() {
+  const cwd = join(ROOT, "tooling", "world-generation");
+  try {
+    execSync("python3 -m worldgen.lint_prose --strict --quiet --report -", { cwd, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) {
+    if (e && e.code === "ENOENT") { note("prose: python3 unavailable; prose linter not run"); return; }
+    const out = `${e.stdout ?? ""}${e.stderr ?? ""}`.trim().split("\n").slice(-6).join("\n");
+    fail(8, "tooling/world-generation/worldgen/lint_prose.py", 0,
+      `prose linter --strict failed (hard hits or a density ceiling): run it from tooling/world-generation for the report.\n${out}`);
+  }
 }
 
 // ---------------------------------------------------------------------------
 
 checkDeterminism();
+checkProse();
 checkSingletons();
 checkIds();
 checkSchemaVersions();

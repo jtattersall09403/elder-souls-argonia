@@ -107,16 +107,27 @@ FLAT_WIDTH_M = {
 # How far the graded way may leave the natural ground, metres (cut, fill).
 # Without this a capped profile happily floats a 36 m embankment across a
 # hollow: past these depths the honest answer is a steeper way, not a viaduct.
+# Cut is generous and fill is mean on purpose: a side-hill CUT leaves a bank
+# the hill already supports, an embankment has to be built out of nothing and
+# is what buried the terrace lips the owner reported. Where the profile cannot
+# be met inside these, the stretch is left ungraded and reported (see
+# MAX_FILL_M and the bench feasibility test in `grade`).
 MAX_OFFSET_M = {
-    "road": (8.0, 6.0),
-    "trunk_road": (8.0, 6.0),
-    "track": (5.0, 4.0),
-    "causeway": (5.0, 4.0),
-    "footpath": (3.0, 2.5),
+    "road": (14.0, 6.0),
+    "trunk_road": (14.0, 6.0),
+    "track": (10.0, 4.0),
+    "causeway": (10.0, 4.0),
+    "footpath": (8.0, 2.5),
 }
+# Hard ceiling on how much ground grading may ADD anywhere, metres. Anything
+# deeper is an earth wall, not a road: the stretch is left alone and handed to
+# `author_route_structures` as an over-cap window (a deck, span or flight).
+MAX_FILL_M = 6.0
 MIN_FLAT_PX = 1.5              # resolution floor for the flat band, samples
 SHOULDER_FACTOR = 2.5          # shoulder length = this x the flat width ...
 MAX_SHOULDER_M = 70.0          # ... extended to bench a lip, up to this
+BENCH_ITERS = 4                # shoulder-radius fixed-point iterations
+SHOULDER_FEATHER_PX = 1.5      # blur applied to the shoulder's delta, samples
 RIM_MAX_DEG = 30.0             # steepest face the blend may leave
 CROSS_SLOPE_MAX_DEG = 3.0      # the running surface itself is flat (0) by build
 SMOOTH_ITERS = 24              # low-pass / redistribute alternations
@@ -206,6 +217,40 @@ def over_cap_stretches(chain: np.ndarray, slopes: np.ndarray, ok: np.ndarray,
                     "overM": round(float((chain[b + 1] - chain[a])), 2),
                     "worstDeg": round(float(seg.max()), 2),
                     "atFrac": round(a / max(len(slopes) - 1, 1), 3)})
+    return out
+
+
+def over_cap_runs(chain: np.ndarray, flag: np.ndarray, deg: np.ndarray,
+                  cap: float) -> list[dict]:
+    """Contiguous runs of flagged samples as chainage windows, in the same
+    shape `over_cap_stretches` produces, so `author_route_structures` consumes
+    them unchanged. Used for the stretches no 30 deg bench can carry: the
+    grader leaves the ground alone there and a deck, span or flight is
+    authored over it instead of a 50 m embankment."""
+    out: list[dict] = []
+    n = len(flag)
+    i = 0
+    while i < n:
+        if not flag[i]:
+            i += 1
+            continue
+        j = i
+        while j + 1 < n and flag[j + 1]:
+            j += 1
+        z0 = max(0.0, float(chain[i]) - STRETCH_LANDING_M)
+        z1 = min(float(chain[-1]), float(chain[min(j + 1, n - 1)]) + STRETCH_LANDING_M)
+        if out and z0 - out[-1]["toM"] <= STRETCH_MERGE_GAP_M:
+            out[-1]["toM"] = round(z1, 2)
+            out[-1]["worstDeg"] = max(out[-1]["worstDeg"],
+                                      round(float(deg[i:j + 1].max()), 2))
+            out[-1]["overM"] = round(out[-1]["toM"] - out[-1]["fromM"], 2)
+        else:
+            out.append({"fromM": round(z0, 2), "toM": round(z1, 2),
+                        "overM": round(z1 - z0, 2),
+                        "worstDeg": round(max(float(deg[i:j + 1].max()), cap + 0.1), 2),
+                        "atFrac": round(i / max(n - 1, 1), 3),
+                        "reason": "bench"})
+        i = j + 1
     return out
 
 
@@ -450,21 +495,63 @@ def grade(h: np.ndarray, ways_list: list[dict],
         wmax = np.zeros_like(wz)
         graded_m = 0.0
 
+        unbenchable = np.zeros(len(pts), dtype=bool)
+        local_deg = np.zeros(len(pts), dtype=np.float64)
         for i in range(len(pts)):
             if skip[i]:
                 continue
             cx, cy, cz = xs[i], ys[i], g[i]
-            # Bench the shoulder: the blend carries the cut/fill depth under
-            # the way back to untouched ground, so it must be at least
-            # 1.5 x depth / tan(RIM_MAX_DEG) long (1.5 = a smoothstep's peak
-            # slope over its average).
+            # Running surface: an embankment taller than MAX_FILL_M is not a
+            # road, it is a wall. Hand the sample to the structure author.
             rf = int(math.ceil(r_flat)) + 1
-            y0, y1 = max(0, int(cy) - rf), min(ny, int(cy) + rf + 1)
-            x0, x1 = max(0, int(cx) - rf), min(nx, int(cx) + rf + 1)
-            if y1 <= y0 or x1 <= x0:
+            fy0, fy1 = max(0, int(cy) - rf), min(ny, int(cy) + rf + 1)
+            fx0, fx1 = max(0, int(cx) - rf), min(nx, int(cx) + rf + 1)
+            if fy1 <= fy0 or fx1 <= fx0:
                 continue
-            depth = float(np.abs(cur[y0:y1, x0:x1] - cz).max())
-            r_out = min(max(r_base, 1.5 * depth / rim_tan / RAW_M + r_flat), r_max)
+            band = cur[fy0:fy1, fx0:fx1]
+            fill_here = float(cz - band.min())
+            # Bench the shoulder against the change the blend will actually
+            # APPLY, not against the natural relief and not against a 4 px
+            # peephole: at radius r the smoothstep writes w(d) * |cz - ground|,
+            # so the face the blend leaves is sized by the largest weighted
+            # offset anywhere inside r. A terrace lip sitting just outside the
+            # flat band is therefore seen (it used to be invisible, and got
+            # buried under a 50 m fill). Solve r by fixed point: a bigger r
+            # sees more relief, which asks for a bigger r, and it converges in
+            # a few passes or runs out of shoulder.
+            r_out, need = r_base, r_base
+            for _ in range(BENCH_ITERS):
+                rr = int(math.ceil(r_out)) + 1
+                dy0, dy1 = max(0, int(cy) - rr), min(ny, int(cy) + rr + 1)
+                dx0, dx1 = max(0, int(cx) - rr), min(nx, int(cx) + rr + 1)
+                yy = np.arange(dy0, dy1)[:, None] - cy
+                xx = np.arange(dx0, dx1)[None, :] - cx
+                t = np.clip((r_out - np.hypot(yy, xx)) / max(r_out - r_flat, 1e-6), 0.0, 1.0)
+                w_i = t * t * (3.0 - 2.0 * t)
+                raise_i = w_i * (cz - cur[dy0:dy1, dx0:dx1])
+                applied = np.abs(w_i * (cur[dy0:dy1, dx0:dx1] - cz))
+                depth = float(applied.max()) if applied.size else 0.0
+                # Fill is what the blend ADDS, anywhere under the shoulder —
+                # not just under the running surface. Measuring it only in the
+                # flat band is how a lip a few metres off the centreline used
+                # to end up under tens of metres of made ground.
+                fill_here = max(fill_here,
+                                float(raise_i.max()) if raise_i.size else 0.0)
+                need = max(r_base, 1.5 * depth / rim_tan / RAW_M + r_flat)
+                if need <= r_out * 1.02 + 1e-6:
+                    break
+                r_out = min(need, r_max)
+                if need > r_max:
+                    break
+            if need > r_max or fill_here > MAX_FILL_M:
+                # The face a clamped shoulder would leave here, for the report.
+                local_deg[i] = math.degrees(math.atan(
+                    1.5 * depth / max((r_max - r_flat) * RAW_M, 1e-6)))
+                # No 30 deg bench fits inside MAX_SHOULDER_M, or the only way
+                # to hold the line here is an embankment. Leave the ground.
+                unbenchable[i] = True
+                continue
+            r_out = min(need, r_max)
 
             rr = int(math.ceil(r_out)) + 1
             y0, y1 = max(by0, int(cy) - rr), min(by1, int(cy) + rr + 1)
@@ -487,11 +574,37 @@ def grade(h: np.ndarray, ways_list: list[dict],
             eff = np.where(submerged[bb], 0.0, eff)   # never fill open water
         touched = eff > 0
         tgt = wz[touched] / np.maximum(ws[touched], 1e-6)
-        cur[bb][touched] = (cur[bb][touched] * (1.0 - eff[touched])
-                            + tgt * eff[touched]).astype(np.float32)
+        blended = (cur[bb][touched] * (1.0 - eff[touched])
+                   + tgt * eff[touched]).astype(np.float32)
+        # Hard fill ceiling. Samples that needed more than this were already
+        # dropped above, so on the running surface this is a no-op; out on the
+        # shoulder it stops a blend stacking an earth wall against a lip.
+        blended = np.minimum(blended, h[bb][touched] + np.float32(MAX_FILL_M))
+        base = cur[bb].copy()
+        cur[bb][touched] = blended
+        # Feather the shoulder. Neighbouring samples can want quite different
+        # shoulder radii (the relief under them differs), and the per-cell max
+        # of their weights leaves a one-cell wrinkle where the radii step —
+        # small in metres, but a metre over 1.8 m is a 30 deg face. Smoothing
+        # the DELTA (never the natural ground) removes the wrinkle and leaves
+        # the running surface, where the blend is at full weight, untouched.
+        delta = cur[bb] - base
+        smooth = ndimage.gaussian_filter(delta, SHOULDER_FEATHER_PX)
+        # Protect the running surfaces (ours, and any earlier way's, which is
+        # locked and gets no delta at all); everything between them feathers,
+        # so the lock boundary tapers instead of leaving a bare step.
+        k = np.clip((np.maximum(eff, locked[bb]) - 0.96) / 0.04, 0.0, 1.0)
+        k = k * k * (3.0 - 2.0 * k)          # no seam where the feather starts
+        add = k * delta + (1.0 - k) * smooth
+        if submerged is not None:
+            add = np.where(submerged[bb], 0.0, add)   # never fill open water
+        cur[bb] = (base + add).astype(np.float32)
         np.maximum(locked[bb], wmax, out=locked[bb])
 
+        bench = over_cap_runs(chain, unbenchable & ~skip, local_deg,
+                              GRADIENT_CAP_DEG[kind])
         stats.append({"id": way["id"], "kind": kind, "graded": True,
+                      "benchStretches": bench,
                       "before": before, "after": before, "metres": graded_m,
                       "crossingM": float(ds[crossing[:-1]].sum()) if len(ds) else 0.0,
                       "structureM": float(sum(min(b, chain[-1]) - max(a, 0.0)
@@ -514,8 +627,11 @@ def grade(h: np.ndarray, ways_list: list[dict],
             wi = int(idx[np.argmax(slopes[idx])])
             cap = GRADIENT_CAP_DEG[s["kind"]]
             over = seg_ok & (slopes > cap)
-            s["stretches"] = over_cap_stretches(
-                np.concatenate([[0.0], np.cumsum(ds)]), slopes, seg_ok, cap)
+            s["stretches"] = sorted(
+                over_cap_stretches(np.concatenate([[0.0], np.cumsum(ds)]),
+                                   slopes, seg_ok, cap)
+                + s.get("benchStretches", []),
+                key=lambda w: w["fromM"])
             s["worst"] = {"deg": float(slopes[wi]),
                           "km": [round(float(pts[wi, 0]) * RAW_M / 1000.0, 3),
                                  round(float(pts[wi, 1]) * RAW_M / 1000.0, 3)],
@@ -619,8 +735,13 @@ def write_report(stats: list[dict], path: Path, cells: int,
              "",
              "Generated by `python3 -m worldgen.grade_routes` (deterministic).",
              "Longitudinal gradient along every way's centreline, before and after",
-             "grading; the shoulder is benched so no blend face exceeds "
-             f"{RIM_MAX_DEG:.0f} deg.",
+             "grading. The shoulder is sized from the change the blend "
+             f"actually applies, so where a {RIM_MAX_DEG:.0f} deg bench fits "
+             f"inside a {MAX_SHOULDER_M:.0f} m shoulder the blend face is "
+             f"under {RIM_MAX_DEG:.0f} deg and no fill exceeds "
+             f"{MAX_FILL_M:.0f} m; where it does not fit, the stretch is left "
+             "ungraded and reported as an over-cap window for authored "
+             "geometry, never buried under an embankment.",
              "",
              "| class | ways | cap deg | max grad before | max grad after | metres graded | ford/bridge m |",
              "| --- | --- | --- | --- | --- | --- | --- |"]
@@ -682,6 +803,63 @@ def write_report(stats: list[dict], path: Path, cells: int,
     return text
 
 
+# --------------------------------------------------------------------------
+# rim audit (the guarantee, measured)
+# --------------------------------------------------------------------------
+def slope_deg_field(field: np.ndarray) -> np.ndarray:
+    gy, gx = np.gradient(field.astype(np.float64), RAW_M)
+    return np.degrees(np.arctan(np.hypot(gx, gy)))
+
+
+def reported_window_mask(ways_list: list[dict], stats: list[dict], shape,
+                         step: int = STEP) -> np.ndarray:
+    """Cells the grader has already declared it cannot bench: everything within
+    a full shoulder of a reported over-cap window. Nothing inside is a defect —
+    it is the ground an authored piece is placed over."""
+    m = np.zeros(shape, dtype=bool)
+    by_id = {s["id"]: s for s in stats}
+    ny, nx = shape
+    for way in ways_list:
+        st = by_id.get(way["id"])
+        if not st or not st.get("stretches"):
+            continue
+        pts = resample(way["px"], step)
+        if len(pts) < 2:
+            continue
+        ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
+        chain = np.concatenate([[0.0], np.cumsum(ds)])
+        rr = int(math.ceil((0.5 * max(FLAT_WIDTH_M.values()) + MAX_SHOULDER_M) / RAW_M)) + 2
+        for w in st["stretches"]:
+            idx = np.flatnonzero((chain >= w["fromM"]) & (chain <= w["toM"]))
+            for i in idx:
+                cy, cx = int(pts[i, 1]), int(pts[i, 0])
+                m[max(0, cy - rr):min(ny, cy + rr + 1),
+                  max(0, cx - rr):min(nx, cx + rr + 1)] = True
+    return m
+
+
+def audit_rims(natural: np.ndarray, graded: np.ndarray,
+               ways_list: list[dict], stats: list[dict]) -> dict:
+    """The province numbers behind the printed guarantee."""
+    delta = graded - natural
+    changed = np.abs(delta) > 1e-4
+    before, after = slope_deg_field(natural), slope_deg_field(graded)
+    steeper = changed & (after > RIM_MAX_DEG + 1.0) & (after > before + 1.0)
+    excused = reported_window_mask(ways_list, stats, natural.shape)
+    bad = steeper & ~excused
+    rim = after[changed]
+    windows = sum(len(s.get("stretches", [])) for s in stats)
+    return {"cellsFilledOver10m": int((delta > 10.0).sum()),
+            "cellsFilledOver30m": int((delta > 30.0).sum()),
+            "maxFillM": round(float(delta.max()), 2),
+            "maxCutM": round(float(-delta.min()), 2),
+            "rimCellsMadeSteeper": int(steeper.sum()),
+            "rimCellsMadeSteeperOutsideWindows": int(bad.sum()),
+            "rimP95Deg": round(float(np.percentile(rim, 95)) if rim.size else 0.0, 2),
+            "rimMaxDeg": round(float(rim.max()) if rim.size else 0.0, 2),
+            "overCapWindows": int(windows)}
+
+
 def snapshot_natural_state(height_path: Path, province: Path) -> tuple[Path, Path]:
     """Freeze the pre-grading state and return the ungraded heightfield path.
 
@@ -720,16 +898,29 @@ def main() -> None:
     ap.add_argument("heights", nargs="?", default=str(DEFAULT_HEIGHTS))
     ap.add_argument("--province", default=str(PROVINCE))
     ap.add_argument("--dry-run", action="store_true", help="report only, write no rasters")
+    ap.add_argument("--audit-rims", action="store_true",
+                    help="print the province rim/fill numbers and exit without writing")
     args = ap.parse_args()
 
     height_path = Path(args.heights)
     province = Path(args.province)
-    ungraded, marker = snapshot_natural_state(height_path, province)
+    if args.audit_rims:
+        # Read-only: never take (or refresh) a snapshot just to measure.
+        ungraded = height_path.with_name("refined-height-ungraded-f32.npy")
+        marker = height_path.with_name("refined-height-graded-by.json")
+        if not ungraded.exists():
+            raise SystemExit("no ungraded snapshot to audit against; run the "
+                             "grader once first")
+    else:
+        ungraded, marker = snapshot_natural_state(height_path, province)
     h = np.load(ungraded)
     level, wet = _water_fields(province, h.shape)
     graded, stats = grade(h, ways(province), level, wet,
                           spans=load_structure_spans())
     cells = int((graded != h).sum())
+    if args.audit_rims:
+        print(json.dumps(audit_rims(h, graded, ways(province), stats), indent=2))
+        return
     write_stretches(stats)
     print(write_report(stats, REPORT_PATH, cells, province))
     if args.dry_run:

@@ -40,7 +40,7 @@ The catalogue's `vibe.approach` ("the pole line marks what is out there long bef
 
 ## The design
 
-Three districts, two parcels, fifteen landmarks, one dock, four ways, no doors.
+Three districts, three parcels (the stand's deck is stacked on the stand and counts as one), fifteen landmarks, one dock, three ways and one fence line, no doors.
 
 **`district.wamasu-pond-adult.bank` — the pond** (kit set `argonian-mud`, 70 x 70 m). The pan and its bank ring. On the south shelf, level with the water for 20 m back: the offering platform at the waterline, the totem behind it facing the water, the lantern beside it, the bone chime closing the shelf on the east, the stake line closing it on the south. Three grave-cairns step up the east bank from the shelf to the tree line. Three dead trees stand on the rim: a scaled 40 m cypress on the north rim, a 26.5 m cypress at the north-east waterline, a 17 m willow leaning over the west shallows. The cave mouth opens in the 6-deg west bank at water level.
 
@@ -85,7 +85,7 @@ Descending 100 m to the knoll (16 m to 11.7 m) the live trees hide the water. On
 | 11 | No way ends at a blank wall; dead ends pay | Yes: channel ends at the landing, bank path at the platform, stand path at the ramp; the stand pays with the survey view and the evidence |
 | 12 | Every raised level has its ascent visible from below | Yes: the ramp landmark faces the arriving walker and the path ends at its foot |
 | 13 | The edge reads from inside as well as outside | Yes: the water line, the stake line on the shelf's landward side, the hard-clear ring |
-| 14 | Building count matches population within 25 %, lore source named | Yes: 2 parcels for `buildingsPlanned` 2; population 1 wamasu from the type recipe (lair rule 1) |
+| 14 | Building count matches population within 25 %, lore source named | Yes: 3 parcels for `buildingsPlanned` 3; population 1 wamasu from the type recipe (lair rule 1) |
 | 15 | Approach cue describable in one clause | Yes: "follow the poles up the creek to the landing, then the path uphill"; "walk toward the bare crown" |
 | 16 | Any forced detour pays | Yes: the 180 m climb from the landing pays with the sky-hole reveal at its last bend; the west-bank descent pays with the cave mouth found on the way |
 

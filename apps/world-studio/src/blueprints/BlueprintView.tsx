@@ -38,7 +38,7 @@ import {
   toggleIn, wayStyle, WHY_HEADINGS,
   type Blueprint, type BlueprintBundle, type BlueprintUrlState, type BpApproach,
   type BpWhy, type Poly, type Pt,
-} from "./blueprintsData";
+ clipPolylineToBox } from "./blueprintsData";
 import {
   CONTEXT_OVERLAY_FILES, cropProvinceMap, decodeProvinceHeights, loadOverlayImages,
   loadProvinceMeta, paintProvinceMap,
@@ -274,8 +274,8 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
       .map((d) => ({ ...d, at: [d.u * ext, d.v * ext] as Pt }))
       .filter((d) => inside(d.at));
     const lines = overlay.lines
-      .map((l) => ({ mode: l.mode, pts: l.px.map(([c, r]) => [c * perPx, r * perPx] as Pt) }))
-      .filter((l) => l.pts.some(inside));
+      .flatMap((l) => clipPolylineToBox(l.px.map(([c, r]) => [c * perPx, r * perPx] as Pt), b)
+        .map((pts) => ({ mode: l.mode, pts })));
     return { dots, lines };
   }, [bp, bundle, overlay]);
 
@@ -467,6 +467,15 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
                       strokeLinecap="round" strokeLinejoin="round" />
                   );
                 })}
+                {/* where each province route lands: a ring at the terminal, named */}
+                {(bp.networkTerminals ?? []).map((t) => t.positionM && (
+                  <g key={t.id}>
+                    <circle cx={t.positionM[0]} cy={t.positionM[1]} r={px(7)} fill="none"
+                      stroke={t.kind === "lane" ? "#5fd6e8" : "#e0b072"} strokeWidth={px(2)} />
+                    <text x={t.positionM[0] + px(9)} y={t.positionM[1] - px(6)} fontSize={px(10)} fill="#dfe8f2"
+                      stroke="#0c1016" strokeWidth={px(2.5)} paintOrder="stroke">{t.routeId ?? t.id}</text>
+                  </g>
+                ))}
                 {context.dots.map((d) => (
                   <g key={d.id} opacity={d.dead ? 0.6 : 0.95}>
                     <circle cx={d.at[0]} cy={d.at[1]} r={px(5)} fill={d.colour}

@@ -318,6 +318,18 @@ def kit_config_names() -> frozenset[str]:
         return frozenset()
     return frozenset(path.stem for path in KIT_CONFIG_DIR.glob("*.json"))
 
+
+@lru_cache(maxsize=1)
+def built_kit_names(kits_dir: Path = bi.KITS_DIR) -> frozenset[str]:
+    """Every kit that has actually been BUILT — `output/kits/<name>.kit.json`.
+
+    A config is an intention; the door teleports the player into the built kit,
+    so an `interiorRef` naming a config nobody has run is a door onto nothing
+    (review 2026-09-07)."""
+    if not kits_dir.exists():
+        return frozenset()
+    return frozenset(path.name[: -len(".kit.json")] for path in kits_dir.glob("*.kit.json"))
+
 REQUIRED = [
     "id", "seed", "causalModel", "boundary", "districts", "parcels",
     "doors", "clearance", "variants", "occupants", "budget",
@@ -495,6 +507,73 @@ def boundary_area_ha(bp: dict, extent_m: float = fp.PROVINCE_EXTENT_M) -> float:
         x2, y2 = poly[(i + 1) % len(poly)]
         a += x1 * y2 - x2 * y1
     return abs(a) / 2.0 * extent_m * extent_m / 10_000.0
+
+
+# --- WARN-grade quality reports (review 2026-09-07) ------------------------ #
+# A `why` is the record of a decision. One that is a dozen words long, or that
+# was pasted onto a second record, is not a decision — it is a field filled in.
+# These are WARN because the prose is being rewritten; they measure, they do not
+# block.
+WHY_QUALITY_MIN_CHARS = 40
+
+
+def _why_texts(node, path: str = "") -> list[tuple[str, str]]:
+    """Every `why`-ish string in a blueprint, as (where, text). A key named
+    `why` or ending in `Why`, and every sentence inside a `why` block."""
+    out: list[tuple[str, str]] = []
+    if isinstance(node, dict):
+        here = node.get("id") or node.get("slotId") or path
+        for k, v in node.items():
+            if isinstance(v, str) and (k == "why" or k.endswith("Why")):
+                out.append((f"{here}.{k}", v))
+            elif k == "why" and isinstance(v, dict):
+                out += [(f"{here}.why.{wk}", wv) for wk, wv in v.items() if isinstance(wv, str)]
+            elif isinstance(v, (dict, list)):
+                out += _why_texts(v, f"{here}.{k}" if here != path else f"{path}.{k}")
+    elif isinstance(node, list):
+        for item in node:
+            out += _why_texts(item, path)
+    return out
+
+
+def _normalise_why(text: str) -> str:
+    return " ".join(text.split()).casefold()
+
+
+def _why_quality_warnings(bp: dict) -> list[str]:
+    bid = bp.get("id", "<missing id>")
+    texts = _why_texts(bp, bid)
+    warnings: list[str] = []
+    short = [(where, t) for where, t in texts if len(t.strip()) < WHY_QUALITY_MIN_CHARS]
+    if short:
+        shown = ", ".join(f"{w} ({len(t.strip())} chars)" for w, t in sorted(short)[:5])
+        warnings.append(f"{bid}: why-quality — {len(short)} of {len(texts)} why fields are under "
+                        f"{WHY_QUALITY_MIN_CHARS} characters, which is too short to carry a reason: {shown}")
+    seen: dict[str, list[str]] = {}
+    for where, t in texts:
+        seen.setdefault(_normalise_why(t), []).append(where)
+    dupes = {k: v for k, v in seen.items() if len(v) > 1}
+    if dupes:
+        shown = "; ".join(f"{len(v)}x {', '.join(sorted(v)[:3])}" for v in list(dupes.values())[:3])
+        warnings.append(f"{bid}: why-quality — {len(dupes)} why text(s) appear on more than one record "
+                        f"(the same reason cannot be true of two different places): {shown}")
+    return warnings
+
+
+def _occupancy_warnings(bp: dict) -> list[str]:
+    """`scaleGrounding.npcsPlanned` is the size the lore justifies; the
+    `occupants[]` slots are the people actually authored. A place with a
+    fraction of its planned population is a plan nobody has drawn yet."""
+    sg = bp.get("scaleGrounding")
+    planned = (sg or {}).get("npcsPlanned")
+    if not isinstance(planned, int) or planned <= 0:
+        return []
+    authored = len(bp.get("occupants", []) or [])
+    if authored >= 0.5 * planned:
+        return []
+    return [f"{bp.get('id', '<missing id>')}: scaleGrounding.npcsPlanned is {planned} but only "
+            f"{authored} occupant slot(s) are authored ({authored / planned * 100:.0f} % — the floor is "
+            f"50 %); either author the people or ground the smaller number in the lore"]
 
 
 def _placement_warnings(bp: dict) -> list[str]:
@@ -682,6 +761,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
     bid = bp.get("id", "<missing id>")
     if warnings is not None:
         warnings += _placement_warnings(bp)
+        warnings += _why_quality_warnings(bp)
+        warnings += _occupancy_warnings(bp)
 
     def fail(msg: str) -> None:
         errors.append(f"{bid}: {msg}")
@@ -931,9 +1012,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
              "where it meets the boundary and the way that carries it inside")
 
     approaches = bp.get("approaches") or []
-    mag = str(bp.get("magnitude") or "")
     if len(approaches) < 1:
         fail("approaches: at least one walking/boat approach must be designed (the place is judged from the ground)")
+    elif len(approaches) < 2 and size_class(bp) in ("M3", "M4", "M5"):
+        fail(f"approaches: a {size_class(bp)} place is reached from more than one side; design at least "
+             f"two approaches (research/placement-settlements/openworld-approach-and-wayfinding.md §5 item 1)")
     for ap_ in approaches:
         if ap_.get("mode") not in APPROACH_MODES:
             fail(f"approach {ap_.get('id')}: mode must be one of {sorted(APPROACH_MODES)}")
@@ -1030,10 +1113,15 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                  f"is {want!r} (interior kind {record.get('interior')!r})")
         if isinstance(got, str) and got.strip() and ":" not in got:
             known_kits = kit_config_names()
+            built = built_kit_names()
             if known_kits and got not in known_kits:
                 fail(f"door {d.get('id')}: interiorClaim.interiorRef {got!r} names no interior kit — the door "
                      f"teleports the player into that kit, so it must have a config in "
-                     f"{KIT_CONFIG_DIR} (built kits: {', '.join(sorted(known_kits)[:6])}…)")
+                     f"{KIT_CONFIG_DIR} (configured kits: {', '.join(sorted(known_kits)[:6])}…)")
+            elif built and got not in built:
+                fail(f"door {d.get('id')}: interiorClaim.interiorRef {got!r} has a kit config but no BUILT kit "
+                     f"({bi.KITS_DIR}/{got}.kit.json is missing) — a config is an intention, and the door "
+                     f"teleports the player into the built kit; build it before the door can claim it")
         measured_class = record.get("sizeClass")
         if measured_class and (d.get("interiorClaim") or {}).get("sizeClass") != measured_class:
             area = record.get("planAreaM2", 0.0)
@@ -1139,10 +1227,34 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
     return errors
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    import argparse
+    ap = argparse.ArgumentParser(
+        description="Validate the authored blueprints (schema + module 97 placement rules).")
+    # `--check` is the name the README and the placement playbook use. The
+    # module only ever validates, so it is accepted and is the default.
+    ap.add_argument("--check", action="store_true",
+                    help="validate the blueprints (the default; accepted for the documented spelling)")
+    ap.add_argument("--id", help="validate ONE blueprint, by id (place.x.y) or slug (y)")
+    args = ap.parse_args(argv)
+
     ids = catalogue_ids()
     warnings: list[str] = []
-    errors = validate_all(known_place_ids=ids, warnings=warnings)
+    if args.id:
+        paths = [p for p in sorted(BLUEPRINT_DIR.glob("*.json"))
+                 if p.stem == args.id or p.stem.rsplit(".", 1)[-1] == args.id]
+        if not paths:
+            print(f"blueprint: no blueprint matches --id {args.id!r} in {BLUEPRINT_DIR}", file=sys.stderr)
+            return 2
+        errors = []
+        for path in paths:
+            data = json.loads(path.read_text())
+            if data.get("schemaVersion") != SCHEMA_VERSION:
+                errors.append(f"{path.name}: schemaVersion must be {SCHEMA_VERSION}")
+                continue
+            errors += validate_blueprint(data.get("blueprint", {}), ids, None, warnings)
+    else:
+        errors = validate_all(known_place_ids=ids, warnings=warnings)
     for w in warnings:
         print(f"blueprint: WARN: {w}", file=sys.stderr)
     for e in errors:

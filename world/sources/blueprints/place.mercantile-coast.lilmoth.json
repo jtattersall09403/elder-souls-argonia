@@ -1531,7 +1531,7 @@
           "whySpot": "It stands on the walkway between the market deck and the council floor, in the middle of civic ground.",
           "whyNeighbours": "The market deck is west of it and the council floor east.",
           "playerPurpose": "The Retired Rota quest and a source of judgement outside the council.",
-          "microGeography": "The bench is level here at 12 m."
+          "microGeography": "The crest bench is level here at 12 m, so the hut's stilts stand short and even."
         },
         "footprint": [
           [
@@ -1793,7 +1793,7 @@
           "whySpot": "It fills the gap between the hall and the bell, on the north side of the walkway.",
           "whyNeighbours": "The hall is on its west and the bell kiosk on its east.",
           "playerPurpose": "The quest-giver of the tariff line, at home in the evening.",
-          "microGeography": "The bench falls 1 m northward under it."
+          "microGeography": "The bench falls about a metre northward under the plot. The stilts on the north side are the longer pair."
         },
         "footprint": [
           [
@@ -2243,7 +2243,7 @@
           "whyHere": "Deeds to plague houses sell in a slum, where buyers ask few questions.",
           "whySpot": "It is the second hut on the west side of the loop, under the bluff.",
           "whyNeighbours": "The vault house is north of it and the reed-cutter’s house south.",
-          "playerPurpose": "The Untouched House quest begins here.",
+          "playerPurpose": "The Untouched House quest begins at this door. The broker will price a Rockpark deed for anyone who asks.",
           "microGeography": "The bluff foot keeps the ground here dry at 2 m."
         },
         "footprint": [
@@ -2336,7 +2336,7 @@
           0.864853
         ],
         "yawDeg": 330.3,
-        "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
+        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 330° to bring it onto the west side of the Pusbottom loop.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -2552,7 +2552,7 @@
           "whyHere": "Salvage from the drowned quarter comes up under licence; the drowned owners’ heirs live in Pusbottom.",
           "whySpot": "It is the third hut on the east side of the west lane.",
           "whyNeighbours": "The agent’s room is north of it and the dice-runner’s hut south.",
-          "playerPurpose": "The Licensed Lot quest.",
+          "playerPurpose": "The Licensed Lot quest begins here, with the family who recognised their own goods in the salvage sale.",
           "microGeography": "Level ground at 2 m, a hand above the wet-season mark."
         },
         "footprint": [
@@ -2759,7 +2759,7 @@
           "whySpot": "It is the fourth hut on the east side of the west lane, nearest the south corner.",
           "whyNeighbours": "The lot-family house is north of it; the cross-lane huts are behind it.",
           "playerPurpose": "The Barge Debt and Cargo Off the Ledger quests.",
-          "microGeography": "Level ground at 2 m."
+          "microGeography": "Level ground at 2 m at the south corner of the loop, where the lane turns back towards the cross lane."
         },
         "footprint": [
           [
@@ -2964,7 +2964,7 @@
           "whyHere": "The porters who carry from the lighters live nearest the quay.",
           "whySpot": "It is the first hut on the cross lane, just south of the spine.",
           "whyNeighbours": "The spine passes its north side; the next porter’s hut is south.",
-          "playerPurpose": "A dwelling to enter.",
+          "playerPurpose": "A porter's dwelling to enter. It is the first door on the cross lane for a player coming off the spine.",
           "microGeography": "Level ground at 2 m, a few steps from the quay deck."
         },
         "footprint": [
@@ -3063,12 +3063,12 @@
           "kind": "dwelling"
         },
         "why": {
-          "what": "A porter’s hut on the cross lane.",
+          "what": "A porter's hut on the cross lane, one of a shift of four who work the lighters together.",
           "whyHere": "The cross lane holds the porters’ households, who work the quay in shifts.",
-          "whySpot": "It is the second hut on the cross lane.",
-          "whyNeighbours": "Porters live on both sides of it; the east lane runs behind it.",
-          "playerPurpose": "A dwelling to enter.",
-          "microGeography": "Level ground at 2 m."
+          "whySpot": "It is the second hut on the cross lane, between the first porter's hut and the diver's.",
+          "whyNeighbours": "Porters live on both sides of it and the east lane runs behind its back wall.",
+          "playerPurpose": "A dwelling to enter. The quay shift sleeps here by day.",
+          "microGeography": "Level ground at 2 m, on the same flat that carries the whole cross lane."
         },
         "footprint": [
           [
@@ -3171,7 +3171,7 @@
           "whySpot": "It is the third hut on the cross lane, level with the divers’ shed on the quay.",
           "whyNeighbours": "Porters live north of it; the last cross-lane hut is south.",
           "playerPurpose": "A diver who knows the drowned hall and the Second Room quest.",
-          "microGeography": "Level ground at 2 m."
+          "microGeography": "Level ground at 2 m, level with the divers' shed across on the quay."
         },
         "footprint": [
           [
@@ -3273,8 +3273,8 @@
           "whyHere": "The cheapest ground in the city fills first with the largest families.",
           "whySpot": "It is the southern end of the cross lane, near the south corner of the loop.",
           "whyNeighbours": "The diver’s hut is north of it; the south-lane huts are round the corner.",
-          "playerPurpose": "A dwelling to enter.",
-          "microGeography": "The flat is 1.5–2 m here."
+          "playerPurpose": "A dwelling to enter. Six live under this roof, the largest household in Pusbottom.",
+          "microGeography": "The flat runs 1.5 to 2 m here and takes standing water at the south corner in the wet season."
         },
         "footprint": [
           [
@@ -3366,7 +3366,7 @@
           0.872589036
         ],
         "yawDeg": 60.4,
-        "orientationWhy": "The doorway is fixed on the hut, so the hut faces pusbottom loop.",
+        "orientationWhy": "The doorway is fixed on the hut, so the plot is turned to 60° to bring it onto the south lane of the loop.",
         "assetRef": "composite:stilt/bamboohut02-with-door",
         "interior": {
           "kind": "dwelling"
@@ -3376,8 +3376,8 @@
           "whyHere": "The south lane is the edge of the district, where the newest arrivals build.",
           "whySpot": "It stands south of the lane between the west corner and the cross lane.",
           "whyNeighbours": "The south-corner hut is west of it and the second south hut east.",
-          "playerPurpose": "A dwelling to enter.",
-          "microGeography": "Level 2 m ground, open to the south."
+          "playerPurpose": "A dwelling to enter, kept by one of the newest households in the district.",
+          "microGeography": "Level 2 m ground open to the south, with no building between the hut and the shore."
         },
         "footprint": [
           [
@@ -3841,7 +3841,7 @@
           "whySpot": "It is between the licence house and the deck, on the west side of the quay lane.",
           "whyNeighbours": "The deck is a few steps south; the licence house is north.",
           "playerPurpose": "The store in which cargo off the ledger is found.",
-          "microGeography": "Level flat at 1–2 m."
+          "microGeography": "The quay flat runs 1 to 2 m here, level enough for a cargo barrow between the shed door and the deck."
         },
         "footprint": [
           [
@@ -4139,7 +4139,7 @@
           0.87636881
         ],
         "yawDeg": 59.8,
-        "orientationWhy": "Turned to put the shipped doorway on shore lane.",
+        "orientationWhy": "Turned to 60° to put the shipped doorway on the shore lane, with the blank end wall to the boat awning.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -4150,7 +4150,7 @@
           "whySpot": "It is the westernmost hut of the row, beside the boat awning.",
           "whyNeighbours": "The boat awning is west of it and the second fisher’s hut east.",
           "playerPurpose": "A dwelling to enter; the fisher keeps the offering season.",
-          "microGeography": "The flat is 2 m and drains slowly."
+          "microGeography": "The flat is 2 m and drains slowly, so the westernmost plot of the row stands wet longest after a high tide."
         },
         "footprint": [
           [
@@ -4250,9 +4250,9 @@
         "why": {
           "what": "A fisher’s hut in the middle of the south row.",
           "whyHere": "The row holds the households who fish the shelf and the estuary mouth.",
-          "whySpot": "It is the second hut of the south row.",
-          "whyNeighbours": "Fishers live on both sides of it.",
-          "playerPurpose": "A dwelling to enter.",
+          "whySpot": "It is the second hut of the south row, on the highest ground the row has.",
+          "whyNeighbours": "Fishers live on both sides of it and the drying rack stands behind its south wall.",
+          "playerPurpose": "A dwelling to enter. The row's boats are counted out from this door at dawn.",
           "microGeography": "The flat is 2–3 m here, the highest of the row."
         },
         "footprint": [
@@ -4560,8 +4560,8 @@
           "what": "A fisher’s hut on the north side of the shore lane.",
           "whyHere": "The row is two deep where the flat is widest.",
           "whySpot": "It stands north of the lane opposite the first two south huts.",
-          "whyNeighbours": "The south row faces it across the lane.",
-          "playerPurpose": "A dwelling to enter.",
+          "whyNeighbours": "The south row faces it across the shore lane. The bluff foot is behind it.",
+          "playerPurpose": "A dwelling to enter, on the drier northern side of the lane.",
           "microGeography": "Level 2 m flat, drier than the south row."
         },
         "footprint": [
@@ -4654,7 +4654,7 @@
           0.87471003
         ],
         "yawDeg": 239.8,
-        "orientationWhy": "Turned to put the shipped doorway on shore lane.",
+        "orientationWhy": "Turned to 240° to put the shipped doorway on the shore lane, so the north row's doors face the south row's across it.",
         "assetRef": "composite:stilt/bamboohut01-with-door",
         "interior": {
           "kind": "dwelling"
@@ -4662,10 +4662,10 @@
         "why": {
           "what": "A fisher’s hut on the north side of the lane, kept by a recitation speaker.",
           "whyHere": "Two of the six speakers for the Sixth Recitation now work the quay and live in the shore quarter.",
-          "whySpot": "It is the middle hut of the north side.",
+          "whySpot": "It is the middle hut of the north side, opposite the second hut of the south row.",
           "whyNeighbours": "Fishers live on either side; the bluff rises 60 m to the north.",
-          "playerPurpose": "The Sixth Recitation quest.",
-          "microGeography": "Level flat at 2 m under the bluff."
+          "playerPurpose": "The Sixth Recitation quest begins here, at the door of one of the six speakers.",
+          "microGeography": "Level flat at 2 m under the bluff, which rises 60 m behind the plot."
         },
         "footprint": [
           [
@@ -4955,7 +4955,7 @@
           0.861191
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The ridge block keeps the 24° line of the old Imperial street, on which the villas of the lower town were set out.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -4998,7 +4998,7 @@
           0.860784
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth at 24°, which ran at a slant to the channel cut later through it.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -5008,7 +5008,7 @@
           "whyHere": "The villas along the old Imperial street sank into the shelf and have not been cleared.",
           "whySpot": "It lies on the old street line, 70 m off the quay, in 3–4 m of water.",
           "whyNeighbours": "The ridge block is inshore of it and a rubble floor beside it.",
-          "playerPurpose": "A swim-through room and a salvage find.",
+          "playerPurpose": "A swim-through room with a salvage find inside it.",
           "microGeography": "The bed here is 3–4 m down and the block sits on the old street level."
         },
         "footprint": [
@@ -5041,7 +5041,7 @@
           0.861191
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The rubble floor lies on the 24° street line, the last full course of a villa on the north side of the channel.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl05",
         "interior": {
           "kind": "none"
@@ -5120,7 +5120,7 @@
           0.867159
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The southern rubble floor holds the same 24° street line, so the two floors read as one street across the channel cut.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/aruniquerubblewalkablefl01",
         "interior": {
           "kind": "none"
@@ -5179,7 +5179,7 @@
           0.866887
         ],
         "yawDeg": 24.0,
-        "orientationWhy": "The block keeps the old street grid of Imperial Lilmoth, which ran at a slant to the channel cut later through it.",
+        "orientationWhy": "The hall is set to 24° with the rest of the drowned grid; its opening faces the diving stair on that bearing.",
         "assetRef": "sirenroot:creationclub/_shared/dungeons/ayleidruins/evgruinsset/arblockfreehollow",
         "interior": {
           "kind": "none"
@@ -7130,7 +7130,7 @@
           "whySpot": "It grows on the north-west side of the trunk.",
           "whyNeighbours": "It is inside the court ring, between the trunk and the minder’s lodge.",
           "playerPurpose": "An offering component for the Hist scenes.",
-          "microGeography": "Level crest at 22 m."
+          "microGeography": "Level crest at 22 m, in the shade of the trunk for most of the day."
         }
       },
       {
@@ -7176,12 +7176,12 @@
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/fishracksmall",
         "why": {
-          "what": "A drying rack for the estuary catch.",
+          "what": "A drying rack for the estuary catch, standing 2.5 m at the back of the fishers' row.",
           "whyHere": "The fishers dry their catch on the flat behind the houses.",
           "whySpot": "It stands behind the third fisher’s hut, on the south side of the row.",
           "whyNeighbours": "The fishers’ huts are north of it; the flat runs to the pole wall east.",
           "playerPurpose": "A source of dried fish and the fishers’ working ground.",
-          "microGeography": "Level flat at 2 m behind the south row."
+          "microGeography": "Level flat at 2 m behind the south row, clear of the huts and open on three sides."
         }
       },
       {
@@ -7215,7 +7215,7 @@
           "whySpot": "It stands against the east wall of the shrine block, facing the opening.",
           "whyNeighbours": "The altar block is in front of it and the marker at the opening.",
           "playerPurpose": "The focus of the Offerings in the Mouth quest.",
-          "microGeography": "On the bed at 12 m, inside the block."
+          "microGeography": "On the bed at 12 m, inside the block and out of the channel current."
         },
         "yawDeg": 264
       },
@@ -7610,7 +7610,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7625,7 +7625,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7656,7 +7656,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7671,7 +7671,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7686,7 +7686,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7701,7 +7701,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7748,7 +7748,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7763,7 +7763,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7778,7 +7778,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7793,7 +7793,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7808,7 +7808,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7823,7 +7823,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7838,7 +7838,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7853,7 +7853,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7868,7 +7868,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7883,7 +7883,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7898,7 +7898,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7913,7 +7913,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7928,7 +7928,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7943,7 +7943,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7958,7 +7958,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -7989,7 +7989,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8004,7 +8004,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8019,7 +8019,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8034,7 +8034,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8049,7 +8049,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8064,7 +8064,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8079,7 +8079,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8094,7 +8094,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8109,7 +8109,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8124,7 +8124,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8139,7 +8139,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+          "interiorRef": "htbm-hut-int"
         },
         "doorwayRef": 0
       },
@@ -8172,7 +8172,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+          "interiorRef": "htbm-hut-int",
           "owner": "the spine trader"
         },
         "doorwayRef": 0
@@ -8189,7 +8189,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+          "interiorRef": "htbm-hut-int",
           "owner": "the apothecary"
         },
         "doorwayRef": 0
@@ -8240,7 +8240,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int",
+          "interiorRef": "htbm-hut-int",
           "owner": "the quay smith"
         },
         "doorwayRef": 0
@@ -8257,7 +8257,7 @@
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int",
+          "interiorRef": "htbm-hut-int",
           "owner": "the boatwright"
         },
         "doorwayRef": 0

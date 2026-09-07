@@ -9,7 +9,7 @@ checks over the real province raster.
 import numpy as np
 import pytest
 
-from .blueprint_integration import check_integration
+from .blueprint_integration import check_integration, check_network_stitch
 
 EXTENT_M = 1000.0
 PX_M = 10.0
@@ -349,3 +349,83 @@ def test_stitch_checks_the_approach_arrow(survey):
     assert any("off route" in e for e in check_network_stitch(stitch_bp(approaches=offline), survey, net()))
     missing = [{"id": "a1", "fromRouteId": "route.road.stub"}]
     assert any("no viaUV" in e for e in check_network_stitch(stitch_bp(approaches=missing), survey, net()))
+
+
+# --- canal-bound (review 2026-09-07) --------------------------------------- #
+# The place is a 200 m square of boundary in the water half of the stub survey.
+BOUND = [uv(600.0, 100.0), uv(800.0, 100.0), uv(800.0, 300.0), uv(600.0, 300.0)]
+
+
+def test_canal_bound_fails_when_a_channel_runs_out_to_sea(survey):
+    bp = _bp(boundary=BOUND,
+             canals=[way("canal.stub.channel", [(700.0, 200.0), (990.0, 200.0)], kind="channel")])
+    errs = check_integration(bp, survey)
+    assert any("canal-bound" in e and "canal.stub.channel" in e for e in errs)
+
+
+def test_canal_bound_allows_a_channel_inside_its_own_boundary(survey):
+    bp = _bp(boundary=BOUND,
+             canals=[way("canal.stub.cut", [(650.0, 200.0), (780.0, 200.0)], kind="channel")])
+    assert not [e for e in check_integration(bp, survey) if "canal-bound" in e]
+
+
+def test_canal_bound_allows_a_channel_that_ends_at_a_declared_berth(survey):
+    bp = _bp(boundary=BOUND,
+             canals=[way("canal.stub.navigation", [(700.0, 200.0), (960.0, 200.0)], kind="channel")],
+             networkTerminals=[{"id": "terminal.stub.roadstead", "kind": "lane",
+                                "entryUV": uv(960.0, 200.0), "wayId": "canal.stub.navigation"}])
+    assert not [e for e in check_integration(bp, survey) if "canal-bound" in e]
+
+
+# --- door-sightline (review 2026-09-07) ------------------------------------ #
+def test_door_sightline_fails_when_the_line_to_the_way_crosses_a_neighbour(survey):
+    # the road runs at z = 60; the door is at z = 100 and the neighbour's hull
+    # sits between them
+    bp = _bp(parcels=[parcel("parcel.stub.tower", 100, 110, half=6.0),
+                      parcel("parcel.stub.gatehouse", 100, 80, half=8.0)],
+             routes=[way("route.stub.street", [(40, 60), (160, 60)], kind="road")],
+             doors=[{"id": "door.stub.1", "parcelId": "parcel.stub.tower",
+                     "thresholdUV": uv(100, 104)}])
+    errs = check_integration(bp, survey)
+    assert any("door-sightline" in e and "parcel.stub.gatehouse" in e for e in errs)
+
+
+def test_door_sightline_passes_on_a_clear_face(survey):
+    bp = _bp(parcels=[parcel("parcel.stub.tower", 100, 110, half=6.0),
+                      parcel("parcel.stub.gatehouse", 160, 80, half=8.0)],
+             routes=[way("route.stub.street", [(40, 60), (200, 60)], kind="road")],
+             doors=[{"id": "door.stub.1", "parcelId": "parcel.stub.tower",
+                     "thresholdUV": uv(100, 104)}])
+    assert not [e for e in check_integration(bp, survey) if "door-sightline" in e]
+
+
+def test_door_sightline_exempts_a_declared_abuts(survey):
+    bp = _bp(parcels=[parcel("parcel.stub.tower", 100, 110, half=6.0,
+                             abuts=["parcel.stub.gatehouse"]),
+                      parcel("parcel.stub.gatehouse", 100, 80, half=8.0)],
+             routes=[way("route.stub.street", [(40, 60), (160, 60)], kind="road")],
+             doors=[{"id": "door.stub.1", "parcelId": "parcel.stub.tower",
+                     "thresholdUV": uv(100, 104)}])
+    assert not [e for e in check_integration(bp, survey) if "door-sightline" in e]
+
+
+# --- a check that cannot run FAILS (review 2026-09-07) --------------------- #
+def test_water_read_failure_raises_rather_than_reading_dry(survey):
+    class Broken(StubSurvey):
+        def __init__(self):
+            super().__init__()
+            self.open_water = None
+    bp = _bp(canals=[way("canal.stub.cut", [(600.0, 200.0), (700.0, 200.0)], kind="channel")])
+    with pytest.raises(RuntimeError, match="cannot read the water raster"):
+        check_integration(bp, Broken())
+
+
+def test_a_missing_province_network_raises_rather_than_passing(monkeypatch):
+    from . import province_network as pn
+    monkeypatch.setattr(pn, "load_network", _boom)
+    with pytest.raises(RuntimeError, match="no bundles"):
+        check_network_stitch(stitch_bp(), StubSurvey())
+
+
+def _boom(*_a, **_k):
+    raise RuntimeError("province network: no bundles")

@@ -2,7 +2,7 @@
 
 `place.mercantile-coast.lilmoth` · major city, rebuilt-stilt-city, M5, D1, mercantile coast · blueprint `place.mercantile-coast.lilmoth.json` · dossier `world/sources/sites/dossiers/lilmoth.{json,md}` · map `tooling/world-generation/output/blueprint-maps/place.mercantile-coast.lilmoth.png`
 
-This is the exemplar **city**, re-authored to the full v2 schema after the owner's Round A findings. Every district is fully parcelled (54 parcels, 37 doors, 21 ways, 9 landmarks, 3 docks); every district, parcel, landmark and dock carries a plain-English `why` block; every way is authored as waypoints with a `why` and routed over the ground; every building with an inside has a door; three approaches are designed from the walking (or boating) player's eye. `blueprint --check` passes, `compile_settlement` reports 56 placements, 0 errors and 37 of 37 doors reachable; the prose linter shows no hard hit on any Lilmoth id.
+This is the exemplar **city**, re-authored to the full v2 schema after the owner's Round A findings. Every district is fully parcelled (61 parcels, 43 doors, 21 ways, 9 landmarks, 3 docks); every district, parcel, landmark and dock carries a plain-English `why` block; every way is authored as waypoints with a `why` and routed over the ground; every building with an inside has a door; three approaches are designed from the walking (or boating) player's eye. `blueprint --check` passes, `compile_settlement` reports 64 placements, 0 errors and 43 of 43 doors reachable; the prose linter shows no hard hit on any Lilmoth id.
 
 ## 1. The ground, and the three candidates
 
@@ -49,7 +49,7 @@ Eight districts, one kit set each.
 
 ## 3. Size grounding
 
-`scaleGrounding`: population 190–230, 26 households, 52 buildings planned, 70 named residents. Lore source: the settlement register (M5, rebuilt smaller); the owner's binding decision of 2026-08-24 (smaller, lower, over a mass grave); module 95's M5 quest band (35–60 quests, of which 37 name Lilmoth). No UESP source gives a headcount, so the count is built up: 26 dwellings (two lodges, three houses on the bench, the tall block and fifteen huts in Pusbottom, seven fishers' huts) at about five to a household is 130; the council, patrol, tenders, licence and salvage staff and the crews housed on the quay add another 60 to 100 people. Morrowind's ratio is the check: Balmora has about 40 buildings; Lilmoth at 52 placed structures is a quarter larger, which is the right size for a major city rebuilt smaller than the one that it replaced. 51 parcels count against the plan (the two wall stubs are excluded by the validator), within the ±25 % band.
+`scaleGrounding`: population 190–230, 26 households, 53 buildings planned, 70 named residents. Lore source: the settlement register (M5, rebuilt smaller); the owner's binding decision of 2026-08-24 (smaller, lower, over a mass grave); module 95's M5 quest band (35–60 quests, of which 37 name Lilmoth). No UESP source gives a headcount, so the count is built up: 28 dwellings (two tenders' lodges, two houses on the bench, the tall block and fifteen more huts in Pusbottom, seven fishers' huts and the lodging at the gate) hold 26 households at about five to a household, which is 130; the council, patrol, tenders, licence and salvage staff and the crews housed on the quay add another 60 to 100 people. Morrowind's ratio is the check: Balmora has about 40 buildings; Lilmoth at 53 placed structures is a third larger, which is the right size for a major city rebuilt smaller than the one that it replaced. 59 parcels count against the plan of 53 (the two wall stubs are excluded by the validator), within the ±25 % band.
 
 ## 4. Asset picks, orientation and footprints
 
@@ -104,9 +104,9 @@ The two pieces ruled out in Part 6 stay ruled out (`composite:quay/stone-quay- w
 
 **Ground fit.** Every Argonian piece is `stilt`, which the ground confirms (Δ up to 3.4 m under the tall block, 2.6 m under the second tender's lodge). The Imperial masonry sank: tower and rubble `dug-in` (Δ 3.0, 2.8), arch and stubs `pad`. The council floor's stones are set into the 2.1 m fall at the south edge of the bench (`dug-in`). Compile grades three pads (arch, both stubs), all under 2 m.
 
-**Doors and interiors.** 37 doors. The bamboo huts are matched to their HTBM interiors (`bamboohut01_int`/`02_int`, medium); the two kiosks and the guard tower carry their index tilesets (`dungeon-root-v1`, `vanilla-imperial-int`); the two `stilthouseext` shells name `settlement-stilt-v1` as the kit from which Phase 12 dresses them, because no stilt-house interior tileset exists yet (owner question 3). Every door threshold lies within 4 m of a way, on land, inside a hard-clear polygon and on ground under 30° — the compiler proves all 37.
+**Doors and interiors.** 43 doors. The bamboo huts are matched to their HTBM interiors (`bamboohut01_int`/`02_int`, medium); the two kiosks and the guard tower carry their index tilesets (`dungeon-root-v1`, `vanilla-imperial-int`); the two `stilthouseext` shells name `settlement-stilt-v1` as the kit from which Phase 12 dresses them, because no stilt-house interior tileset exists yet (owner question 3). Every door threshold lies within 4 m of a way, on land, inside a hard-clear polygon and on ground under 30° — the compiler proves all 43.
 
-**Budget.** 56 placements, 16 unique assets, 78 unique materials, 301k triangles, within the declared budget (2400 instances, 110 materials, 260 MB, 1800 colliders). Materials, not instances, remain the tight constraint.
+**Budget.** 64 placements, 18 unique assets, 113 unique materials, 390k triangles, within the declared budget (2400 instances, 125 materials, 260 MB, 1800 colliders). Materials, not instances, remain the tight constraint.
 
 ## 5. Approach and wayfinding
 
@@ -135,11 +135,11 @@ First seen: `parcel.lilmoth.tariff-bell`. From the south flat (3720, 6560; groun
 | 7 | Threshold spanned, not passed | Yes: `gate-arch` spans `route.lilmoth.gate-road`, checked by the integration pass. |
 | 8 | One spine, wider than the rest; no duplicated movement | Roads 4.3 m, spine track and boardwalks 3 m, quay lane 2.5 m, loop and lanes 2 m, footpaths 1.5 m; overlap check passes. |
 | 9 | Landmark hierarchy | Beacon: the Hist (road) and the bell (water, shore); mid-place: the gate lantern, the quay lantern, the roadstead mark; no rival to the beacon. |
-| 10 | Every socketed or service building presents its door to a way | Yes: 37 doors, each within 4 m of its way, all reachable. |
+| 10 | Every socketed or service building presents its door to a way | Yes: 43 doors, each within 4 m of its way, all reachable. |
 | 11 | No way ends at a blank wall | Every way `endsAt` a deck, a door, a dock or the tree; the roads meet at the arch and the lantern. |
 | 12 | Every raised level has its ascent visible from below | The bluff stair leaves from the bell's foot and lands at the loop junction under the tall block; the quay lane runs to its foot. |
 | 13 | The edge reads as an edge from inside | West: the standing curtain. North: the broken curtain. East: the water. South: the pole wall and the reed fringe. |
-| 14 | Building count matches population within ±25 %, source stated | 51 counted parcels against 52 planned; sources in §3. |
+| 14 | Building count matches population within ±25 %, source stated | 59 counted parcels against 53 planned; sources in §3. |
 | 15 | Approach cue describable in one clause | "Keep the pond on the left and go through the arch"; "steer for the upper lamp"; "walk the shore to the pole wall". |
 | 16 | Any forced detour pays | The pond forces the road round the gate and pays with the view of the tower and curtain; the bluff forces the stair and pays with the bell's view over the quay; the channel forces the swimmer round the ridge and pays with the ridge itself. |
 
@@ -150,11 +150,14 @@ First seen: `parcel.lilmoth.tariff-bell`. From the south flat (3720, 6560; groun
 | `terminal.lilmoth.land-gate` (road) | `route.road.blackrose-lilmoth` | 0.4 m | 0.0 m | 2.2° | 2.2° |
 
 The three boat lanes that name Lilmoth (`route.boat.soulrest-lilmoth`,
-`route.boat.lilmoth-archon`, `route.boat.blackrose-lilmoth`) all end at the
-plotted dot inland of the gate yard rather than at the lighter quay. The
-compiled lighter channel is 93 m short of the nearest of them, so no water
-terminal is declared here. That is a Phase 4 defect in the lanes rather than a
-blueprint one; it is listed in the open questions.
+`route.boat.lilmoth-archon`, `route.boat.blackrose-lilmoth`) once ended at the
+plotted dot inland of the gate yard, 295 m from the head of the compiled
+lighter channel. `world/sources/routes/lane-terminals.json` now names the
+berth those lanes serve, so `compile_society` runs all three to the lighter
+quay at 0.529192, 0.863633 and the blueprint declares a terminal on each:
+`terminal.lilmoth.lighter-quay-soulrest`, `-archon` and `-blackrose`, all three
+continued inside the city by `boardwalk.lilmoth.lighter-pier`. The pier carries
+the cargo up to the quay deck and the quay lane takes it into the city.
 
 ## 6. What the integration checks made me change
 

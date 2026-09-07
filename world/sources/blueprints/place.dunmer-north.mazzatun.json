@@ -2897,7 +2897,7 @@
           "whySpot": "Against the south side of the four-sided base, the flight facing the yard so the climb is seen from the road.",
           "whyNeighbours": "It stands beside the cart and the block face; the keeper watches the gate from here.",
           "playerPurpose": "The LV30 npc socket: the keeper whose route knowledge exists nowhere else.",
-          "microGeography": "A pad at about 199 m on the yard floor."
+          "microGeography": "A pad at about 199 m on the yard floor, at the foot of the fall the stair climbs."
         },
         "footprint": [
           [
@@ -3060,12 +3060,12 @@
         "orientationWhy": "The hoist beam overhangs down the fall, out over the block face below.",
         "assetRef": "vanilla:dungeons/mines/scaffolding/minescaffoldbasesupportw01",
         "why": {
-          "what": "A timber hoist over the block face.",
+          "what": "A timber hoist standing over the block face, its beam out above the cut.",
           "whyHere": "Blocks are lifted out of the cut and onto the carts; the hoist is how the tribe raises what it cannot carry.",
           "whySpot": "Between the cut face and the pile of half-cut blocks, so a block comes off the face, up the hoist and onto the pile in one movement.",
           "whyNeighbours": "It stands between the cutting floor and the half-cut blocks.",
           "playerPurpose": "Cover and a vertical marker at the yard's south edge; a rope and beam over the stream.",
-          "microGeography": "A pad at about 202 m on the lip."
+          "microGeography": "A pad at about 202 m on the lip of the cut, 3 m above the yard floor."
         },
         "footprint": [
           [
@@ -3809,7 +3809,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
         },
         "doorwayRef": 0
@@ -3825,7 +3825,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
         },
         "doorwayRef": 0
@@ -3841,7 +3841,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
         },
         "doorwayRef": 0
@@ -3857,7 +3857,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the Xit-Xaht works"
         },
         "doorwayRef": 0

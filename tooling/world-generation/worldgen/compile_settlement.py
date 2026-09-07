@@ -53,6 +53,7 @@ import argparse
 import hashlib
 import json
 import math
+import os
 import sys
 from pathlib import Path
 
@@ -435,12 +436,30 @@ def _point_in_any(pt: list[float], polys: list[list[list[float]]]) -> bool:
     return False
 
 
+def resolve_out(arg: str | None, bp_id: str) -> tuple[Path, Path]:
+    """`(settlement file, directory the ledger goes in)` for a `--out` value.
+
+    `--out` takes a DIRECTORY (write `<id>.settlement.json` into it) or a file
+    path. Review 2026-09-07: a directory used to raise IsADirectoryError, and
+    the promise ledger went to `output/settlements/` whatever `--out` said, so
+    a throwaway run wrote into the tree. The ledger now follows the output.
+    """
+    if not arg:
+        return OUT_DIR / f"{bp_id}.settlement.json", OUT_DIR
+    target = Path(arg)
+    if target.is_dir() or arg.endswith(("/", os.sep)) or not target.suffix:
+        return target / f"{bp_id}.settlement.json", target
+    return target, target.parent
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--blueprint", required=True)
     ap.add_argument("--skip-catalogue", action="store_true",
                     help="skip the blueprint-id-in-catalogue check (fixtures)")
-    ap.add_argument("--out", default=None)
+    ap.add_argument("--out", default=None,
+                    help="a file path, or a DIRECTORY to write <id>.settlement.json into; the promise "
+                         "ledger is written beside it, so --out /tmp/x touches nothing in the tree")
     args = ap.parse_args()
 
     data = json.loads(Path(args.blueprint).read_text())
@@ -456,7 +475,7 @@ def main() -> int:
         return 1
 
     result = compile_blueprint(bp, survey, KitShelf(), schema_warnings)
-    out = Path(args.out) if args.out else OUT_DIR / f"{bp['id']}.settlement.json"
+    out, out_dir = resolve_out(args.out, bp["id"])
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(result, indent=1, sort_keys=True) + "\n")
     from .blueprint_promises import Promise, load_record
@@ -464,7 +483,7 @@ def main() -> int:
     if rec is not None:
         ledger = [Promise(**{k: v for k, v in pr.items() if k != "met"})
                   for pr in result["promiseLedger"]]
-        print(f"compile_settlement: promise ledger -> {write_ledger(bp['id'], rec, ledger)}")
+        print(f"compile_settlement: promise ledger -> {write_ledger(bp['id'], rec, ledger, out_dir)}")
     for w in result["warnings"][len(schema_warnings):]:
         print(f"compile_settlement: WARN: {w}", file=sys.stderr)
     for e in result["errors"]:

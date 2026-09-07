@@ -1705,6 +1705,108 @@ cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
 [research/phase11/phase11-part6-round-a.md](../research/phase11/phase11-part6-round-a.md).
 
+### Review 2026-09-07 — every round claim checked against the code (Fable planned, four Opus audits, four Opus fix batches)
+
+The owner asked for an audit of what the rounds *claimed* against what the
+repo *does*, plus a plan for the gaps. Four read-only audits (blueprint
+chain, studio UI, routes/terrain/network, process gates) ran against the
+Assemblies, Doors, Promise-ledger, Round A feedback and Round A follow-up
+records and the owner's own ask list. The open batches are in
+[research/phase11/phase11-gap-plan.md](../research/phase11/phase11-gap-plan.md).
+
+**Claim ledger** (V = verified as written; P = partly true; F = false as
+written).
+
+| Claim | Result | What the audit measured |
+|---|---|---|
+| Five blueprints validate, compile 0 errors, every promise met | V | 0 errors each; ledgers 8/8, 8/8, 3/3, 46/46, 2/2. `blueprint --check` did not exist as a flag (now does) |
+| "49 of 49 buildings with an interior have a derived doorway and a linked kit that exists" | P | 49 are kit index rows, not buildings; 58 of 58 placed doors carry a `doorwayRef`; every parcel without a door declares `interior: none`. **Three interior links pointed at NIFs no kit had built** (mud hut, two bamboo huts: 50 doors' worth) — built this session. The front-face criterion's "0.00 or 1.00" evidence was false: 31 of the 49 failed the gate and were reinstated by door promotion |
+| Doors only on derived doorways, `door-on-way` HARD, `--orient` | V | `blueprint.py` 1051–1058, 562–647; `solve_yaw` idempotent |
+| 14 composites from mined templates, footprints re-measured, Lilmoth on them | V | offsets spot-checked against `kit-assemblies-mined.json`; 43 of 61 Lilmoth parcels reference composites |
+| "Seven" integration checks, real geometry | V (nine) | shapely, each with paired fail/pass tests. Owner problems a–f fixed in the data; **(g) canal to sea could not be caught** (only "in water" was tested) and **(e) door into a neighbour passed on luck** (no sightline test) — both are checks now |
+| Six-paragraph `why` on everything | P | 100 % coverage, but districts/docks carry five by design; 35 fields under 40 chars and 14 texts repeated over 76 paragraphs — rewritten and text-reviewed this session; a WARN now reports both |
+| `approaches[]` + 16-item checklist; `scaleGrounding` | P | present and required; the "≥2 for M3+" rule was dead code (now enforced); `npcsPlanned` 70 vs 11 authored occupants was silent (now a WARN); `lilmoth.md` was stale against its JSON (corrected) |
+| Fences as ways; every district parcelled | V | Lilmoth 8 districts, 0 orphans |
+| `street_router` A*, straight only where the culture surveys | P | genuine A*; but 10 of Lilmoth's 21 ways are declared `straight`, including 8 Argonian boardwalks (gap plan B8) |
+| `services[]` on 149 records, 19-word vocabulary, drift test | V | consistency gate, not a correctness gate |
+| Lanes end at the quay "at 0.0 m", "were 93 m short"; owner saw lanes going inland | P | lanes end 5.3 m from the quay (1.85 m from the terminal, the two-extent bug, plan B6); pre-fix distance was 295 m, not 93; what the owner saw was the **road** tail — the export dropped `networkTerminals` and the view drew whole province polylines through the box (both fixed) |
+| Parcels are real hulls, not squares | P | parcels yes (2 of 115 axis-aligned, both real); **all 24 district and combat-space boundaries are hand-drawn boxes** (plan B3) |
+| Route grading + structures: 55→35→0 survivors, 162 structures | V numbers, F guarantee | the chain does cut the heightmap and it shipped; but the "no rim over 30°" guarantee was false (fills to 70 m, 21,688 rim cells made steeper) — grader fixed this session, rasters not yet rebuilt (plan B2); "survivors 0" is near-tautological (structures exempt their own windows) |
+| `apply_sitings` moves dot, paths, waterways, exports | P | four moves, not five (Lilmoth is an anchor); 115 m and 108 m, not 120 and 117; `export_blueprints` was not in the chain (added) |
+| Clark–Evans R ≈ 1.8, "more even than random" | P | numbers reproduce; the null in these thin masks is 1.07–1.36, so the excess is ~1.4; the `SEPARATION_M` floor guarantees R > 1 (plan B5) |
+| Module 97 §G rows CLOSED as claimed | V | no fabricated row; but no Python test runs in CI (plan B7) |
+| Standard 13 fails `npm test` when placement work changes without the playbook | F | it read `git status` only, so it passed vacuously on a clean tree and could never fire in CI — now unions the working tree with the commits since the merge-base and covers the kits/interiors/grading tools |
+| Prose linter is an `npm test` gate | F | nothing in `npm test` ran Python — `check.mjs` now runs `lint_prose --strict` (2 s) |
+| Fable-plans/Opus-delivers is automatic for fresh agents | F | prose only; `.claude/agents/deliver.md` and `research.md` (Opus, low effort) now exist and CLAUDE.md names them, with the owner's 2026-09-07 addition: root causes, shared causes across a batch, batched fixes are Fable's job |
+| Studio: labels only when zoomed, doorways drawn, hatched spans, bp ground, markers from data | V | all present. Owner's two complaints root-caused: every tier 0/1 marker was drawn with no distance cull and `depthTest=false` (~90 names); `bpground` drew depth-test-off and substituted y=0 wherever the fine chunk was not resident, then rebuilt as chunks streamed (the "moving" outlines). Fixed |
+| `docs/research` in ten folders; links clean; rendering + wayfinding research sourced | V | 0 dangling links; the rendering doc's 30-item checklist covers every item of the owner's brainstorm with sources |
+| Sourcing register, credits | V | no OPEN row; hashes live in the log, not the README (plan B8) |
+
+**Fixed in the review session** (all gates green: 770 game-core, 93 studio,
+139 placement + 12 grading + 48 interiors-index tests, repo-standards with
+the two new gates, typecheck): studio marker culling/fade/depth and ground
+outline depth/no-zero/rebuild; export of `networkTerminals` and clipped
+context routes; `apply_sitings` re-exports blueprints; `reroute_majors`
+fingerprint by content hash (the mtime one re-baptised its own repair);
+two hard-coded vault paths made relative; M3+ two-approach rule; `--check`
+and `--id` on the validator; `_water_at`/`check_network_stitch`/registry
+loads raise instead of passing; `canal-bound` and `door-sightline` HARD;
+why-quality and occupancy WARNs; `compile_settlement --out` honours a dir
+and writes the ledger there; `interiorRef` must be a BUILT kit; kits
+`htbm-hut-int` (9) and `mudmother-hut-int` (24) built and indexed;
+`grade_routes` rim fix (fill cap 6 m, cut before embankment, shoulder
+sized from the real relief, infeasible stretches handed to structures,
+`--audit-rims`), province-level tests, `scripts/terrain-chain.sh` as the
+one place the chain order lives; prose rewrite of 35 short and 76
+duplicated why paragraphs with a text-review pass; five design records
+recounted against their JSON.
+
+**Recommendations on the open calls** (owner decides; the reasoning is
+short on purpose):
+
+1. *Plot evenness re-solve* — yes, but **after** Round B on Lilmoth and
+   before Part 8 rollout: nothing in Round B reads the plot, every future
+   meso dossier does, and the fix is a clustering prior rather than "remove
+   the lattice" (plan B5).
+2. *Gate tower and Ayleid stair block as masses* — accept. Neither is a
+   promise; a guard post that must be entered uses the keep tower pieces
+   that carry a baked door leaf.
+3. *Argonian records promise a shrine, not a temple* — confirm. The Hist
+   court is the sacred ground (lore dossier); the only check to keep is
+   that Imperial- or Dunmer-founded places still promise their chapel or
+   temple under their own culture.
+4. *Hostile-or-clearable floor at 55.5 % vs 55 %* — make the 55 % a soft
+   ceiling (WARN) with a hard floor at 50 %, so one justified cut does not
+   break the build while the intent (touchpoint ①) holds.
+5. *Combat spaces in a safe city* — intentional (97 D9): each of Lilmoth's
+   four is tied to a quest or a hostility flip. Keep.
+6. *Lilmoth* — (1) rename the gate for the road it faces (the Blackrose
+   gate) rather than spend a 300 m spur; (2) keep the drowned quarter at
+   1–15 m under your own walkway — the expeditionary dive belongs to a
+   wreck place, not the capital; (3) accept hut-interior dressing at hall
+   scale for the two stilt halls until Phase 12 finds it thin; (4)
+   **climbing free on the piles and house sides** — module 00-core's
+   acceptance rule says large logical surfaces are climbable by default, so
+   quest gates must never assume the stair is the only way up.
+7. *Nine-Trunks* — accept the houses grown into the trunks, canvas outside
+   the gate for delegations, 22.6 m as the village default, and the 149 m
+   move.
+8. *Mazzatun* — the building site of rising courses (the finished pyramid
+   swallows the shelf); keep the Hist below with the conduits climbing;
+   pens behind the rise (a reveal); the haul road as a switchback.
+9. *The Standing Charge* — 2.5 m (a swimmable fight: the swimming pillar
+   needs its first fight); charged water as heavy damage over time, not
+   lethal; the loud outcome (detour abandoned, travel times drop — legible
+   fixed world state); the offering-makers right and the hunter wrong.
+10. *The Licensed Stage* — the 54 m hero Hist (the licence is meant to be
+    read from the water, so the camp is a landmark, not a hide); the mud
+    hut; readable from the boat; accept the 190 m² clearing as the first
+    canopy data point.
+11. *Round B massing* — the previous round gated it on a Round A approval;
+    the pipeline does not depend on one, only the final judgement of a place
+    does. It is batch B1, deferred in this session only because it lives in
+    the studio scene files the water pass is editing.
+
 ### Assemblies round — the queued list, delivered (2026-09-05, Fable planned, Opus delivered)
 
 The six items queued at the end of Round A feedback, minus Round B massing,

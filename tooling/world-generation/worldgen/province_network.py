@@ -70,10 +70,16 @@ class NetworkRoute:
 
 
 def _registry_classes(registry_path: Path = REGISTRY_PATH) -> dict[str, str]:
+    # A missing or unreadable registry is a FAILURE (review 2026-09-07): it used
+    # to return {}, which silently re-classed every route to its bundle default
+    # and disabled the class-rank half of the C-stitch check.
     try:
         doc = json.loads(registry_path.read_text())
-    except OSError:
-        return {}
+    except OSError as exc:
+        raise RuntimeError(
+            f"province network: cannot read the route registry at {registry_path} — {exc}. "
+            f"Route classes come from it, so a missing registry turns the class checks off; "
+            f"restore the file rather than running without it") from exc
     routes = doc["routes"] if isinstance(doc, dict) else doc
     return {r["id"]: r.get("class") or "" for r in routes if r.get("id")}
 
@@ -136,7 +142,8 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
 
 
 def route_ids(province: Path = PROVINCE) -> set[str]:
-    try:
-        return set(load_network(province))
-    except Exception:      # noqa: BLE001 — a partial checkout must not fail the schema check
-        return set()
+    """Every addressable route id. RAISES if the network cannot be loaded
+    (review 2026-09-07): this used to return an empty set on any failure, and
+    an empty set passes every `routeId` the schema check looks up — the check
+    was off, not passing."""
+    return set(load_network(province))

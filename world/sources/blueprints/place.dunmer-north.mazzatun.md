@@ -2,7 +2,7 @@
 
 `place.dunmer-north.mazzatun` · heretic-stone-village · M3 · D3 (approach D4) · dossier `world/sources/sites/dossiers/mazzatun.{json,md}` · map `tooling/world-generation/output/blueprint-maps/place.dunmer-north.mazzatun.png`
 
-Exemplar brief: a **stone kit on sloping ground**, designed from the walking player's eye. The city is met twice: from below, up 52 m of escarpment beside the amber conduit, then from above, down the ridge shoulder into the pens. The v2 schema is filled in full: a `why` on every district, parcel and landmark, ways authored as waypoints and routed over the ground, the risers and the pen fence as `fences[]`, a door on every piece the kit index says has an inside, four combat spaces with their reasons, two approaches and a scale grounding. `blueprint --check`, `compile_settlement` (27 placements, 0 errors) and `render_blueprint` all pass on the committed file.
+Exemplar brief: a **stone kit on sloping ground**, designed from the walking player's eye. The city is met twice: from below, up 52 m of escarpment beside the amber conduit, then from above, down the ridge shoulder into the pens. The v2 schema is filled in full: a `why` on every district, parcel and landmark, ways authored as waypoints and routed over the ground, the risers and the pen fence as `fences[]`, a door on every piece the kit index says has an inside, four combat spaces with their reasons, two approaches and a scale grounding. `blueprint --check`, `compile_settlement` (29 placements, 0 errors) and `render_blueprint` all pass on the committed file.
 
 ## 1. The ground and the siting
 
@@ -39,7 +39,7 @@ The terrace rules, each of them visible in the data:
 
 1. **Every course runs along a riser; every stair runs on the fall line.** The works district declares `routing: "straight"` (97 C2/C8): a xanmeer is laid on a 90-degree grid, the two risers are built straight walls, and the courses, the statue wall, the dais and the stairs are squared to them at 0° or 90°; the tower and the east course take the lip's own bearing. The shared cardinal bearing is the grid culture's exception to the yaw-diversity rule, declared on the district with its why.
 2. **The risers are built, not painted.** Heightfields cannot hold a vertical, so the two risers are `fences[]` of kind `wall` with the quad-block asset: `fence.mazzatun.riser-upper-{west,east}` at z 1332.5 (either side of the pens stair) and `fence.mazzatun.riser-lower-{west,east}` at z 1349.5 (either side of the great stair). Buildings on a riser stand on the course.
-3. **The slope ladder is obeyed by measurement.** Ten parcels are pads (Δ < 2 m) and seventeen are dug-in; nothing is graded above 2 m and nothing is stilted. The compiler's own Δ pushed six parcels from pad to dug-in this round (course-n1, pen-b, half-cut blocks, scaffolds a/b/c), which is the permitted downward relaxation of the ladder.
+3. **The slope ladder is obeyed by measurement.** Seven parcels are pads (Δ < 2 m), twenty-one are dug in and the scaffold stair is stilted against the base it climbs; nothing is graded above 2 m. The compiler's own Δ pushed six parcels from pad to dug-in this round (course-n1, pen-b, half-cut blocks, scaffolds a/b/c), which is the permitted downward relaxation of the ladder.
 4. **The pens are mud and the works are stone**, by district, never blended; the IGS Ayleid pieces and the Here There Be Monsters xanmeer pieces stand in separate parcels and never abut (tower to course-e1: 0.33 m, the closest).
 5. **Authority is high and last.** The tower (shaper's station) stands at the lip at the far end of the terrace track; the pens are higher still, which is the point: the labour is above the masters and looks down at their stone, while the masters look up into the pens from the court.
 
@@ -128,7 +128,7 @@ The haul road keeps its own approach from the gorge floor, but it carries no pro
 | 11 | No dead end at a blank wall | Yes: the track ends at the dais (the view) and the tower (the station); the lane ends at the rack and the east pen |
 | 12 | Ascent visible from the node below | Yes: the great stair from the gate; the pens stair from the track beside the throat |
 | 13 | Edge reads from inside and out | Yes: gate wall and lip east, fence north and east of the pens, stream lip south; west is the shelf running out, marked by the single block |
-| 14 | Buildings match population ±25 % | Yes: 27 planned, 27 authored |
+| 14 | Buildings match population ±25 % | Yes: 27 planned, 29 authored |
 | 15 | Approach cue in one clause | Yes: "follow the amber up the face to the gate"; "keep the column ahead and the fence on the left" |
 | 16 | Forced detours pay | Yes: the climb pays with the overlook socket at the lip |
 
@@ -199,7 +199,7 @@ Each line is a check the compiler or the validator reports and the reason the de
 
 ## 14. What the integration checks caught in the first v2 draft
 
-Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the gatehouse door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening). The final compile is 27 placements, 0 errors, budget OK.
+Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the gatehouse door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening). The final compile is 29 placements, 0 errors, budget OK.
 
 ## Doors and assemblies (stream A2, 2026-09-05)
 

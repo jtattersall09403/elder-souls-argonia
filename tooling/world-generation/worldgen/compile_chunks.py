@@ -31,11 +31,12 @@ from scipy import ndimage
 CHUNK = 256          # samples per chunk edge (LOD0), ~1.4 km at 5.48 m
 LODS = (1, 2, 4)     # decimation factors
 from .scale import RAW_M, VERTICAL_SCALE_AT_GEOMETRY
-DEFAULT_HEIGHTS = Path(
-    "/home/analyticalplatform/workspace/elder-souls-dev/elder-scrolls-asset-pipeline/"
-    "skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/"
-    "Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy")
 REPO_ROOT = Path(__file__).resolve().parents[3]
+# The asset vault is the sibling checkout (memory: analytical-platform-environment);
+# never an absolute path, so another checkout or CI resolves it the same way.
+VAULT_ROOT = REPO_ROOT.parent / "elder-scrolls-asset-pipeline"
+DEFAULT_HEIGHTS = (VAULT_ROOT / "skyrim-source/mod-sources/tamriel-worldspaces-118678/extracted/"
+                   "Argonia Worldspace/argonia-heightfield/province-refined/refined-height-f32.npy")
 META_PATH = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined" / "meta.json"
 
 

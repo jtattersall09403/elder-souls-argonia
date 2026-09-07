@@ -51,6 +51,12 @@ checks run inside `compile_settlement` and FAIL the compile:
                     terminal's route must put its first `viaUV` point on that
                     route, at least APPROACH_STANDOFF_M out, so the sequence
                     the designer wrote is a walk along the real road.
+  canal-bound       a canal must stay inside the boundary (+CANAL_BOUND_M) or
+                    end at a declared water terminal — `water-way` only asks
+                    "is it wet?", so a channel drawn out to sea passed it.
+  door-sightline    the straight line from a door threshold to the way it
+                    serves may not cross another parcel's footprint (a doorway
+                    pointing into the side of its neighbour).
   water-way         a canal/channel must be over published water for most of
                     its length (a channel drawn over dry ground is a mistake);
                     a boardwalk/pier may cross water, a road may not for more
@@ -131,11 +137,36 @@ def _line(survey, uv_pts) -> LineString | None:
 
 
 def _water_at(survey, x: float, z: float) -> bool:
+    """Is the published water raster wet here?
+
+    This RAISES on a broken survey (review 2026-09-07). It used to answer
+    "dry" for any failure, which turned the `water-way` check off silently:
+    a renamed raster or an out-of-range point read as land, and every canal
+    passed.
+    """
     row, col = survey.grid_px(x, z)
     try:
         return bool(survey.open_water[row, col])
-    except Exception:
-        return False
+    except Exception as exc:      # noqa: BLE001 — re-raised with the point that broke it
+        raise RuntimeError(
+            f"water-way: cannot read the water raster at ({x:.1f}, {z:.1f}) m "
+            f"= px ({row}, {col}) — {exc}. A survey that cannot answer 'is this "
+            f"water?' fails the check; it does not pass it") from exc
+
+
+# --- canal-bound (97 E-integration, owner 2026-09-05) ---------------------- #
+# A canal is a cut a place made in its own water. The `water-way` check only
+# asks "is it wet?", so a five-kilometre channel drawn out to sea passed. A
+# canal must therefore stay inside the blueprint boundary (with a berth's
+# slack) unless it runs out to a declared water terminal.
+CANAL_BOUND_M = 10.0
+WATER_TERMINAL_KINDS = {"lane", "channel", "canal", "water", "berth"}
+
+# --- door-sightline (97 E-integration, review 2026-09-07) ------------------ #
+# A door opens onto the way it serves. If the straight line from its threshold
+# to that way passes through another building, the door points into the side of
+# its neighbour (the gate tower's doorway opening into the gate house).
+SIGHTLINE_CLEAR_M2 = 0.25
 
 
 def check_integration(bp: dict, survey) -> list[str]:
@@ -264,6 +295,57 @@ def check_integration(bp: dict, survey) -> list[str]:
                         f"integration: 97 C3 — {key} {w['id']} passes between {ia} and {ib}, which leave "
                         f"{gap:.2f} m between their hulls; a player needs {PASSAGE_MIN_M} m (two character widths)")
 
+    # canal-bound (97 E-integration): a canal stays in its own place unless it
+    # runs out to a declared water terminal.
+    boundary_poly = _poly(survey, bp.get("boundary") or [])
+    if boundary_poly is not None and not boundary_poly.is_empty:
+        bound = boundary_poly.buffer(CANAL_BOUND_M)
+        berths = [Point(*_m(survey, t["entryUV"])) for t in (bp.get("networkTerminals") or [])
+                  if (t.get("kind") or "") in WATER_TERMINAL_KINDS
+                  and isinstance(t.get("entryUV"), list) and len(t["entryUV"]) == 2]
+        for key, w, ln in ways:
+            if key != "canals":
+                continue
+            outside = ln.difference(bound)
+            if outside.is_empty:
+                continue
+            geoms = [outside] if outside.geom_type == "LineString" else list(getattr(outside, "geoms", []))
+            far = max((boundary_poly.distance(Point(c)) for g in geoms for c in g.coords), default=0.0)
+            ends = (Point(ln.coords[0]), Point(ln.coords[-1]))
+            if berths and min(b.distance(e) for b in berths for e in ends) <= CANAL_BOUND_M:
+                continue
+            errors.append(
+                f"integration: canal-bound — {w.get('kind', 'canal')} {w['id']} runs "
+                f"{far:.0f} m outside the blueprint boundary (limit {CANAL_BOUND_M:.0f} m) and does "
+                f"not end at a declared water terminal; a canal is a cut this place made in its own "
+                f"water, not a line out to sea — shorten it, or declare a networkTerminal berth at its end")
+
+    # door-sightline (97 E-integration): the line from a door to the way it
+    # serves may not run through a neighbour's footprint.
+    for d in bp.get("doors", []) or []:
+        if not walk_ways:
+            break
+        pt = Point(*_m(survey, d["thresholdUV"]))
+        own = d.get("parcelId")
+        serves = min(walk_ways, key=lambda ln: ln.distance(pt))
+        sight = LineString([pt, nearest_points(serves, pt)[0]])
+        if sight.length <= 0:
+            continue
+        exempt = {own} | set((parcels.get(own) or {}).get("abuts") or [])
+        stacks = (parcels.get(own) or {}).get("stacksOn")
+        if stacks:
+            exempt.add(stacks)
+        for pid, poly in sorted(polys.items()):
+            if pid in exempt or parcels[pid].get("stacksOn") == own:
+                continue
+            crossed = sight.intersection(poly)
+            if crossed.is_empty or crossed.length <= 0:
+                continue
+            errors.append(
+                f"integration: door-sightline — door {d.get('id')} on {own} reaches its way only by "
+                f"crossing {crossed.length:.1f} m of parcel {pid}; the door points into the side of a "
+                f"neighbour — turn the door to a clear face, or move the piece")
+
     # water-way
     for key, w, ln in ways:
         n = max(2, int(ln.length / 4.0))
@@ -320,10 +402,10 @@ def check_network_stitch(bp: dict, survey, network: dict | None = None) -> list[
     errors: list[str] = []
     terminals = bp.get("networkTerminals") or []
     if network is None:
-        try:
-            network = pn.load_network()
-        except Exception:      # noqa: BLE001 — a partial checkout cannot geometry-check
-            return errors
+        # A failure here is a FAILURE, not a pass (review 2026-09-07): this used
+        # to swallow the error and return no findings, so a renamed bundle
+        # turned the whole C-stitch check off in silence.
+        network = pn.load_network()
 
     ways: dict[str, tuple[str, dict, LineString]] = {}
     for key in ("routes", "boardwalks", "canals"):

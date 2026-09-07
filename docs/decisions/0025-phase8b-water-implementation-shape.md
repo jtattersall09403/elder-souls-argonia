@@ -39,6 +39,7 @@ starting checklist for the Phase P water re-review) (deployed studio:
 
 **Rebuild chain** (after ANY worldgen change; ~10 min, from
 `tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
+The order below is executable as `tooling/world-generation/scripts/terrain-chain.sh` (`--from <stage>` to resume), which is where the chain order now lives — change it there.
 `refine_province <vault>/heightfield-f32.npy <vault>/hydrology-pass1.npz`
 → `reroute_majors` → `compile_minor_routes` → **`grade_routes`** →
 `author_route_structures` → `grade_routes` again →

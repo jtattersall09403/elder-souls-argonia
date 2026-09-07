@@ -152,6 +152,11 @@ export interface BpDock {
   id: string; waterBodyId: string | null; piledToBed: boolean | null; why: BpWhy | null;
   notes: string | null; positionM: Pt | null;
 }
+/** Where a province route lands on the blueprint (97 C-stitch). */
+export interface BpTerminal {
+  id: string; routeId: string | null; wayId: string | null; kind: string | null;
+  why: string | null; positionM: Pt | null;
+}
 export interface BpCombatSpace {
   id: string; clearanceClass: string | null; why: string | null; notes: string | null; polygon: Poly | null;
 }
@@ -188,6 +193,7 @@ export interface Blueprint {
   combatSpaces: BpCombatSpace[];
   questSockets: BpSocket[];
   approaches: BpApproach[];
+  networkTerminals: BpTerminal[];
   scaleGrounding: BpScaleGrounding | null;
   /** Metre box the province-map backdrop and the neighbour context cover. */
   contextM: Bounds;
@@ -355,6 +361,27 @@ export function blueprintBounds(bp: Blueprint): Bounds {
   if (!Number.isFinite(x0)) return { x0: 0, z0: 0, x1: 100, z1: 100 };
   const pad = Math.max(4, Math.max(x1 - x0, z1 - z0) * 0.03);
   return { x0: x0 - pad, z0: z0 - pad, x1: x1 + pad, z1: z1 + pad };
+}
+
+/** Split a polyline into the runs that lie inside a box, so a province route
+ * that merely passes the context box is drawn there and nowhere else (the
+ * whole line used to be drawn, trailing kilometres of road across the view). */
+export function clipPolylineToBox(pts: Poly, b: Bounds): Poly[] {
+  const inside = (p: Pt) => p[0] >= b.x0 && p[0] <= b.x1 && p[1] >= b.z0 && p[1] <= b.z1;
+  const runs: Poly[] = [];
+  let run: Poly = [];
+  for (let i = 0; i < pts.length; i++) {
+    if (inside(pts[i])) {
+      if (!run.length && i > 0) run.push(pts[i - 1]);   // one vertex outside, for the crossing
+      run.push(pts[i]);
+    } else if (run.length) {
+      run.push(pts[i]);
+      runs.push(run);
+      run = [];
+    }
+  }
+  if (run.length) runs.push(run);
+  return runs.filter((r) => r.length >= 2);
 }
 
 export function polyPath(poly: Poly, close = true): string {

@@ -19,10 +19,18 @@ import {
 
 /** Metres between conform samples along an edge. */
 const STEP_M = 2;
-/** Lift above the terrain so lines are not z-fighting the ground. */
-const LIFT_M = 0.15;
-/** Only blueprints whose boundary comes within this of the player are drawn. */
-export const NEAR_M = 600;
+/** Lift above the terrain so lines are not z-fighting the ground. Lines take
+ * no polygon offset, so this is the whole margin against the rendered mesh;
+ * it is sized for the finest chunk LOD (the only one `groundAt` reads). */
+const LIFT_M = 0.35;
+/** Only blueprints whose boundary comes within this of the player are drawn.
+ * Held inside the finest-LOD residency ring (owner 2026-09-07: outlines were
+ * "floating" and "moving" — vertices beyond the ring had no fine height and
+ * were drawn at sea level, then jumped as chunks streamed). A vertex with no
+ * height is now skipped, never drawn at zero. */
+export const NEAR_M = 450;
+/** Rebuild while ground is still missing, at most this many times (2 s apart). */
+const MAX_REBUILDS = 60;
 /** Parcel id labels appear inside this radius… */
 const LABEL_M = 40;
 /** …but not right under the camera: a billboard the player is standing on
@@ -75,27 +83,31 @@ function buildLines(
   const col: number[] = [];
   let missing = false;
   const c = new THREE.Color();
-  const push = (x: number, z: number, hex: string) => {
-    const y = ground(x, z);
-    if (y === null) missing = true;
-    pos.push(x, (y ?? 0) + LIFT_M, z);
+  const push = (x: number, y: number, z: number, hex: string) => {
+    pos.push(x, y + LIFT_M, z);
     c.set(hex);
     col.push(c.r, c.g, c.b);
   };
+  /** A segment is drawn only when BOTH ends have a decoded ground height;
+   * a missing end marks the build incomplete so it is retried, not faked. */
   const strip = (points: Poly, hex: string, close: boolean) => {
     if (points.length < 2) return;
     const line = close ? [...points, points[0]] : points;
     const pts = resample(line);
+    const ys = pts.map(([x, z]) => ground(x, z));
     for (let i = 0; i + 1 < pts.length; i++) {
-      push(pts[i][0], pts[i][1], hex);
-      push(pts[i + 1][0], pts[i + 1][1], hex);
+      const y0 = ys[i];
+      const y1 = ys[i + 1];
+      if (y0 === null || y1 === null) { missing = true; continue; }
+      push(pts[i][0], y0, pts[i][1], hex);
+      push(pts[i + 1][0], y1, pts[i + 1][1], hex);
     }
   };
   /** A short vertical pin plus a ground cross — reads as a marker at eye level. */
   const pin = (x: number, z: number, hex: string, heightM: number) => {
     const y = ground(x, z);
-    if (y === null) missing = true;
-    const base = (y ?? 0) + LIFT_M;
+    if (y === null) { missing = true; return; }
+    const base = y + LIFT_M;
     c.set(hex);
     const seg = (ax: number, ay: number, az: number, bx: number, by: number, bz: number) => {
       pos.push(ax, ay, az, bx, by, bz);
@@ -127,42 +139,56 @@ function buildLines(
   return { geometry, missing };
 }
 
-function buildRibbons(bps: Blueprint[], ground: Ground): THREE.BufferGeometry {
+function buildRibbons(bps: Blueprint[], ground: Ground): { geometry: THREE.BufferGeometry; missing: boolean } {
   const pos: number[] = [];
   const col: number[] = [];
   const idx: number[] = [];
   const c = new THREE.Color();
+  let missing = false;
   for (const bp of bps) {
     for (const way of bp.ways) {
       const pts = resample(way.points);
       if (pts.length < 2) continue;
       const half = Math.max(0.3, (way.widthM ?? 1) / 2);
       c.set(WAY_STYLE[way.group]?.colour ?? "#cccccc");
-      const first = pos.length / 3;
+      const ys = pts.map(([x, z]) => ground(x, z));
+      // Only runs of consecutive decoded samples become quads; a gap where a
+      // chunk has not decoded is left empty and the build is retried.
+      let runStart = -1;
+      const flush = (end: number) => {
+        if (runStart < 0 || end - runStart < 2) { runStart = -1; return; }
+        const first = pos.length / 3;
+        for (let i = runStart; i < end; i++) {
+          const prev = pts[Math.max(runStart, i - 1)];
+          const next = pts[Math.min(end - 1, i + 1)];
+          const tx = next[0] - prev[0];
+          const tz = next[1] - prev[1];
+          const len = Math.hypot(tx, tz) || 1;
+          const nx = (-tz / len) * half;
+          const nz = (tx / len) * half;
+          const [x, z] = pts[i];
+          const y = (ys[i] as number) + LIFT_M;
+          pos.push(x + nx, y, z + nz, x - nx, y, z - nz);
+          col.push(c.r, c.g, c.b, c.r, c.g, c.b);
+        }
+        for (let i = 0; i + 1 < end - runStart; i++) {
+          const a = first + i * 2;
+          idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
+        }
+        runStart = -1;
+      };
       for (let i = 0; i < pts.length; i++) {
-        const prev = pts[Math.max(0, i - 1)];
-        const next = pts[Math.min(pts.length - 1, i + 1)];
-        const tx = next[0] - prev[0];
-        const tz = next[1] - prev[1];
-        const len = Math.hypot(tx, tz) || 1;
-        const nx = (-tz / len) * half;
-        const nz = (tx / len) * half;
-        const [x, z] = pts[i];
-        const y = (ground(x, z) ?? 0) + LIFT_M;
-        pos.push(x + nx, y, z + nz, x - nx, y, z - nz);
-        col.push(c.r, c.g, c.b, c.r, c.g, c.b);
+        if (ys[i] === null) { missing = true; flush(i); continue; }
+        if (runStart < 0) runStart = i;
       }
-      for (let i = 0; i + 1 < pts.length; i++) {
-        const a = first + i * 2;
-        idx.push(a, a + 1, a + 2, a + 1, a + 3, a + 2);
-      }
+      flush(pts.length);
     }
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
   geometry.setAttribute("color", new THREE.Float32BufferAttribute(col, 3));
   geometry.setIndex(idx);
-  return geometry;
+  return { geometry, missing };
 }
 
 function labelTexture(text: string): THREE.CanvasTexture {
@@ -189,6 +215,7 @@ export function BlueprintGround({ blueprints, focusRef, groundAt }: {
   const [attempt, setAttempt] = useState(0);
   const incomplete = useRef(false);
   const lastCheck = useRef(0);
+  const lastRebuild = useRef(0);
   useFrame(() => {
     const now = performance.now();
     if (now - lastCheck.current < 500) return;
@@ -196,9 +223,12 @@ export function BlueprintGround({ blueprints, focusRef, groundAt }: {
     const { x, z } = focusRef.current;
     const ids = blueprintsNear(blueprints, x, z);
     setNearIds((prev) => (prev.join() === ids.join() ? prev : ids));
-    // Bounded retry: chunks decode within a few seconds, and a blueprint whose
-    // ground never arrives must not rebuild forever.
-    if (incomplete.current) setAttempt((a) => (a < 20 ? a + 1 : a));
+    // Bounded retry while ground is missing: a build is milliseconds, chunks
+    // decode within seconds, and nothing is ever drawn at a guessed height.
+    if (incomplete.current && now - lastRebuild.current >= 2000) {
+      lastRebuild.current = now;
+      setAttempt((a) => (a < MAX_REBUILDS ? a + 1 : a));
+    }
   });
 
   useEffect(() => setAttempt(0), [nearIds]);
@@ -212,17 +242,22 @@ export function BlueprintGround({ blueprints, focusRef, groundAt }: {
     if (!near.length) return null;
     const t0 = performance.now();
     const { geometry, missing } = buildLines(near, groundAt);
-    incomplete.current = missing;
-    const ribbons = buildRibbons(near, groundAt);
+    const { geometry: ribbons, missing: ribbonsMissing } = buildRibbons(near, groundAt);
+    let labelsMissing = false;
     const labels = near.flatMap((bp) => bp.parcels
       .filter((p) => p.centreM)
-      .map((p) => ({
-        id: p.id,
-        x: p.centreM![0],
-        z: p.centreM![1],
-        y: (groundAt(p.centreM![0], p.centreM![1]) ?? 0) + 2,
-        tex: labelTexture(p.id.split(".").pop() ?? p.id),
-      })));
+      .flatMap((p) => {
+        const y = groundAt(p.centreM![0], p.centreM![1]);
+        if (y === null) { labelsMissing = true; return []; }
+        return [{
+          id: p.id,
+          x: p.centreM![0],
+          z: p.centreM![1],
+          y: y + 2,
+          tex: labelTexture(p.id.split(".").pop() ?? p.id),
+        }];
+      }));
+    incomplete.current = missing || ribbonsMissing || labelsMissing;
     // Kept deliberately: this layer is temporary and its cost is the thing
     // the owner asked about (three draw calls plus the labels).
     console.info("[bpground] build", {
@@ -231,7 +266,7 @@ export function BlueprintGround({ blueprints, focusRef, groundAt }: {
       lineVerts: geometry.getAttribute("position").count,
       ribbonVerts: ribbons.getAttribute("position").count,
       labels: labels.length,
-      missingGround: missing,
+      missingGround: missing || ribbonsMissing || labelsMissing,
     });
     return { geometry, ribbons, labels };
     // `attempt` re-runs the build while chunks are still decoding.
@@ -264,14 +299,14 @@ export function BlueprintGround({ blueprints, focusRef, groundAt }: {
   if (!built) return null;
   return (
     <group>
+      {/* Outlines and ribbons are both depth-tested (owner 2026-09-07:
+          outlines drawn through hills that should hide them were confusing);
+          the lines sit LIFT_M above the ground instead of a polygon offset,
+          which GL does not apply to lines. Ribbons keep a polygon offset so
+          they do not z-fight the ground. */}
       <lineSegments geometry={built.geometry} renderOrder={900}>
-        <lineBasicMaterial vertexColors transparent opacity={0.95} depthTest={false} depthWrite={false} />
+        <lineBasicMaterial vertexColors transparent opacity={0.95} depthWrite={false} />
       </lineSegments>
-      {/* Ribbons keep their depth test (with a polygon offset so they do not
-          z-fight the ground): drawn depth-test-off they blend across the whole
-          screen when the player stands on one, which is the only real fill
-          cost this layer has. The thin outlines above stay depth-test-off, so
-          the plan still reads through grass. */}
       <mesh geometry={built.ribbons} renderOrder={899}>
         <meshBasicMaterial vertexColors transparent opacity={0.35} depthWrite={false}
           polygonOffset polygonOffsetFactor={-4} polygonOffsetUnits={-4} side={THREE.DoubleSide} />

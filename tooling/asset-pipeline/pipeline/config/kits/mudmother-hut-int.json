@@ -1,0 +1,92 @@
+{
+ "id": "mudmother-hut-int",
+ "description": "The Mud Mother Grove mud-hut INTERIOR, packaged as the linked inside for `mudmother:gv_meshes/argoniannest/mudhut01`. The mod ships `MudHut01IntNew` as that hut's matched interior \u2014 one round mud room authored to sit inside that one shell \u2014 so this kit packages the half that was already made to fit and adds only the dressing from the same folder. It is a single-room grammar: there are no wall bays and no corridor, and nothing here tiles. Everything already packaged in the exterior kit `settlement-mud-v1` (the hut shell, its thatch roof, the round floor plate, the woven table and chair, the outdoor braziers and fences) is deliberately not repeated; this kit holds the room and the props that only ever appear inside it. Built 2026-09-07: the blueprints named `mudhut01intnew` as the interior of fourteen parcels while no kit packaged it.",
+ "culture": "argonian-mud",
+ "output": "tooling/asset-pipeline/output/kits/mudmother-hut-int.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "room": "`mudhut01intnew` is a whole room, not a tile. It is placed at the same origin and yaw as the `mudhut01` exterior it belongs to; its doorway is the one modelled into that shell, so the two share a single opening and there is no separate door leaf in this pool.",
+  "shelving": "`bookshelf`, `shelfsingle`, `hangingshelf` and `cavegbalconyshelf01` mount on the room's curved wall \u2014 the first two stand on the floor against it, the last two hang, so their origin sits at the wall plane rather than the floor plane.",
+  "furniture": "`chitinchair01` and `argonianpillow01` are the floor seating; `ovennew` is the indoor hearth and wants the room's centre, clear of the wall.",
+  "dressing": "`potterycup`, `potteryplate01-03`, `shellhalf`, `clam01`, `argonianbone01` and `drum01` are surface props for the shelves and the floor; `candle01`, `argonianlanterns01`, `argonianlanterns04` and `argonianbonechime02` are the light and the hanging dressing; `banner01` and `wallhanging01-03` are wall cloths and hang at the wall plane like the shelves.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/mudmother-hut-int.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/bookshelf"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/shelfsingle"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/hangingshelf"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/cavegbalconyshelf01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/chitinchair01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianpillow01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/ovennew"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/potterycup"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/potteryplate01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/potteryplate02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/potteryplate03"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/shellhalf"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/clam01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbone01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/drum01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/candle01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianlanterns04"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianbonechime02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/banner01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wallhanging01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wallhanging02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/wallhanging03"
+  }
+ ]
+}

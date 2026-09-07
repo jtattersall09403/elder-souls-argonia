@@ -78,9 +78,10 @@ takes the top of the recipe band because it is rich on rent. By gap bearing:
 | 300° | `hut-family-west` | tribe family, the boat household |
 | 340° | `hut-tree-minder` | the tree-minder |
 | inside | `naheesh-house`, `minder-deck` | the round house; the watcher's platform |
+| outside | `pitch-store` | the store at the village end of the pitch path (promise round) |
 | outside | `pitch-1`, `pitch-2`, `pitch-rack` | the rented pitch ground |
 
-`scaleGrounding`: population 8, households 5, buildingsPlanned 14, parcels 14.
+`scaleGrounding`: population 8, households 5, buildingsPlanned 14, parcels 15 (the pitch store was added in the promise round).
 Guests are counted only in the convocation variant: up to twelve, in four
 rented huts and two pitches.
 
@@ -105,7 +106,7 @@ from `tooling/asset-pipeline/output/kits/*.footprints.json`, before scale.
 
 The closed tent `argoniantent01` was dropped: the interiors index reads it as a
 shell, so the validator demands a door; a canvas cannot honour an interior
-claim. The compiler reports 15 placements, 0 errors, inside the budget.
+claim. The compiler reports 16 placements, 0 errors, inside the budget.
 
 ## 4. Orientation, doors and footprints
 
@@ -116,7 +117,7 @@ equals its gap bearing has its door facing `bearing + 180°`, which is inward.
 The first draft had this the wrong way round (yaw = bearing + 180, doors
 facing out through the stockade); the index caught it.
 
-Doors: nine. Eight hut doors face the clearing and stand 2.2–2.4 m from the
+Doors: ten. Eight hut doors face the clearing and stand 2.2–2.4 m from the
 ring walk; the round house's door faces 209°, the bearing of the arch; the
 talk path ends on its threshold. The deck, the arch, the shelters and the rack
 have no interior and so no door. Interior claims: the eight huts carry the
@@ -199,7 +200,7 @@ inside is the same: the talk path and the round house door.
 | 11 | No way ends at a blank wall | **yes** — spur → arch; talk path → the naheesh's door; landing path → arch; pitch path → the first shelter; pier → dock |
 | 12 | Every raised level shows its ascent | **yes** — the deck is 0.34 m; nothing else is raised |
 | 13 | The edge reads from inside and outside | **yes** — trunks, huts and panels make one closed wall; the root swells outside and the ring walk inside both follow it |
-| 14 | Building count within ±25 % of the stated population, lore source named | **yes** — 14 parcels against 14 planned; `scaleGrounding` cites the type recipe and the settlement register |
+| 14 | Building count within ±25 % of the stated population, lore source named | **yes** — 15 parcels against 14 planned; `scaleGrounding` cites the type recipe and the settlement register |
 | 15 | Each cue fits one signpost clause | **yes** — "keep the tallest trunk ahead; the arch is the one gap in the wall"; "from the pier, climb towards the gap in the trunks" |
 | 16 | Forced detours pay | **yes** — the spur's dip into low ground buys the wall's re-appearance from the pitch shelf; the landing path's bend round the trunk buys the arch opening on the left |
 
@@ -252,7 +253,7 @@ inside is the same: the talk path and the round house door.
 
 ## 9. Open questions for the owner
 
-**Q1 — eight villagers in a fourteen-structure village.** The recipe's 3–8
+**Q1 — eight villagers in a fifteen-structure village.** The recipe's 3–8
 villagers and the register's M3 band (12–35) disagree; this record takes the
 recipe for residents and reaches the M3 band only with guests. If the owner
 prefers the register, two guest huts become family huts and the population
@@ -287,8 +288,8 @@ for 27 villages; tighter reads more like a stockade and holds a smaller crowd.
 
 ## 11. Deviations from module 97 (Round A review, 2026-09-05)
 
-- **97 C6, 3.3 buildings/ha against 7–16/ha.** The blueprint boundary (4.26 ha) carries the spur, the pool, the pier and the pitch ground; the built ring itself is 0.14 ha with fourteen structures. Nearest-neighbour spacing, the rule behind the band, is met exactly: hut centres sit on a 14.4 m chord (97 C5, p50 13–16 m). The band should be measured over the built hull, not the boundary.
-- **97 C7, work 7 % and civic 21 %.** Fourteen parcels make each one 7 %; a Hist village's three civic pieces (round house, minder's deck, arch) and its one work piece (the rack) are what the type recipe names. Hamlet counts are too small for a percentage band.
+- **97 C6, 3.3 buildings/ha against 7–16/ha.** The blueprint boundary (4.26 ha) carries the spur, the pool, the pier and the pitch ground; the built ring itself is 0.14 ha with fifteen structures. Nearest-neighbour spacing, the rule behind the band, is met exactly: hut centres sit on a 14.4 m chord (97 C5, p50 13–16 m). The band should be measured over the built hull, not the boundary.
+- **97 C7, work 7 % and civic 21 %.** Fifteen parcels make each one about 7 %; a Hist village's three civic pieces (round house, minder's deck, arch) and its one work piece (the rack) are what the type recipe names. Hamlet counts are too small for a percentage band.
 - **97 C10 and Part F, argonian-mud enclosure (pens only).** The ring of trunks, huts and woven panels is a closed wall by design: it is the catalogue's signature feature and the reason the tribe counts nine trees. The panels are the mud kit's own fence piece. Owner check whether a closed ring is the village's edge or an enclosure the grammar forbids.
 - **97 D2, the elder trunk (31 m) against the region's 36.1 m canopy.** The compiler compares against the palette's tallest species; the sightline measured in §6 crosses mangroves of 10.6 m; the trunk clears them by 20 m. The local canopy on the ray, not the regional maximum, is the honest test.
 - **97 C7, the uxith.** The egg-tending place is the east family hut, not a separate structure; the recipe allows it, the principle's wording does not say.

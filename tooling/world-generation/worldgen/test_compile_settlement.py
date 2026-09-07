@@ -92,3 +92,17 @@ def test_pad_grades_emitted_only_for_pad(survey, shelf):
     result = cs.compile_blueprint(bp, survey, shelf)
     assert result["grades"] == []  # all-stilt blueprint grades nothing
     assert result["clearance"]["affectedChunks"]  # clearing touches chunks
+
+
+# --- `--out` resolution (review 2026-09-07) -------------------------------- #
+def test_out_accepts_a_directory_and_keeps_the_ledger_beside_it(tmp_path):
+    out, out_dir = cs.resolve_out(str(tmp_path / "run"), "place.stub.camp")
+    assert out == tmp_path / "run" / "place.stub.camp.settlement.json"
+    assert out_dir == tmp_path / "run"
+
+
+def test_out_accepts_a_file_path_and_defaults_to_the_tree(tmp_path):
+    out, out_dir = cs.resolve_out(str(tmp_path / "one.json"), "place.stub.camp")
+    assert out == tmp_path / "one.json" and out_dir == tmp_path
+    assert cs.resolve_out(None, "place.stub.camp") == (
+        cs.OUT_DIR / "place.stub.camp.settlement.json", cs.OUT_DIR)

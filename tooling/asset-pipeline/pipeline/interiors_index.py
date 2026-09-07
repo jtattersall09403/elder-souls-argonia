@@ -22,7 +22,10 @@ Classification, in order (first rule that fires wins):
      ``<base>*int*`` in the same directory (HTBM's ``bamboohut01`` +
      ``bamboohut01_int``, Mud Mother Grove's ``mudhut01`` +
      ``mudhut01intnew``). The pair was authored to fit: use it.
-     ``interiorAssetRef`` names the sibling.
+     ``interiorAssetRef`` names the sibling. A sibling that a kit PACKAGES is
+     reported as rule (b) against that kit instead, with the mesh kept in
+     ``matchedInteriorMesh``: the door links to a built kit, not to a loose
+     mesh id, so the interior it promises can actually be loaded.
   b. **tileset**  — the family is exterior-only shells whose interiors come
      from a tileset (``world/sources/placement/settlement-asset-inventory.json``
      records this per family in prose; ``TILESET_RULES`` below is that prose as
@@ -279,6 +282,17 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
     ("bmv:telvanni/",
      "dungeon-root-v1",
      "grown/organic exteriors; the root dungeon kit is the interior grammar that matches them"),
+    ("mudmother:gv_meshes/argoniannest/mudhut01",
+     "mudmother-hut-int",
+     "the mud hut's own matched interior, `mudhut01intnew`, packaged with its indoor dressing "
+     "as mudmother-hut-int"),
+    ("htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut",
+     "htbm-hut-int",
+     "the bamboo huts' own matched `_int` rooms, packaged with the mod's wicker furniture as "
+     "htbm-hut-int"),
+    ("htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/swamp house",
+     "htbm-hut-int",
+     "the Kothringi swamp house takes the Kothringi `bamboohut01_int` room, packaged in htbm-hut-int"),
     ("mudmother:gv_meshes/argoniannest/",
      "vanilla-farmhouse-int",
      "Argonian nest exteriors are one-room mud dwellings; the farmhouse interior tileset is the "
@@ -300,7 +314,8 @@ TILESET_RULES: tuple[tuple[str, str, str], ...] = (
 )
 
 # Kits that ARE interiors: their modules are the inside, so they never claim one.
-INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1", "vanilla-farmhouse-int", "vanilla-imperial-int")
+INTERIOR_KITS = ("xanmeer-interior-v1", "dungeon-root-v1", "vanilla-farmhouse-int",
+                 "vanilla-imperial-int", "htbm-hut-int", "mudmother-hut-int")
 
 # Path fragments that mark a piece as an interior module wherever it lives.
 INTERIOR_PATH_MARKERS = ("/interior/", "/interiors/")
@@ -612,8 +627,11 @@ def faces_inward(probe: dict) -> bool:
     kits, most exterior shells ship no floor mesh at all (the ground is the
     terrain), so a down-ray floor test would demote every open-fronted stable
     and shed along with the props, and plenty of genuine single-sided kit roofs
-    show their back face to a stander underneath. The ring is 72 samples and
-    separates the two populations cleanly (0.00 or 1.00 in almost every case).
+    show their back face to a stander underneath. The ring is 72 samples, and it
+    separates the populations well but not cleanly: measured 2026-09-07 over the
+    built kits, 47 of 379 measured pieces score strictly between 0.00 and 1.00,
+    and 31 of the 49 pieces that fail this 0.6 gate are reinstated as buildings
+    by the door-promotion branch below.
     """
     return probe.get("frontFaceFraction", 1.0) >= ENCLOSURE_MIN_FRONT_FACE
 
@@ -1223,9 +1241,17 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
                 "own-geometry-door" if record["doorways"] else "door-piece")
 
     if matched:
-        record.update(interior="matched", interiorAssetRef=matched,
-                      why=(f"the {asset_id.split(':', 1)[0]} pool ships {matched} as this piece's "
-                           f"matched interior, authored to fit it"))
+        # A matched sibling that a kit PACKAGES is reported against the kit: a
+        # door links to a built, measured interior, and a loose mesh id is not
+        # one. The mesh stays on the record as `matchedInteriorMesh`.
+        packaged = find_tileset(anchor_id or asset_id)
+        if packaged:
+            record.update(interior="tileset", tileset=packaged[0],
+                          matchedInteriorMesh=matched, why=packaged[1])
+        else:
+            record.update(interior="matched", interiorAssetRef=matched,
+                          why=(f"the {asset_id.split(':', 1)[0]} pool ships {matched} as this piece's "
+                               f"matched interior, authored to fit it"))
         return record
 
     # A composite has an id of its own (``composite:<family>/<name>``) that no

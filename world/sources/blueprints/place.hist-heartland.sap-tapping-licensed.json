@@ -984,7 +984,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the licensed tapper"
         },
         "notes": "The door sits on the hut's measured doorway; the blank wall stands opposite, to the channel. The interior is the hut's own volume, dressed from settlement-mud-v1 rather than held as a separate cell.",

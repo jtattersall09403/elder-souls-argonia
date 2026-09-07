@@ -40,10 +40,11 @@ door?" (owner ruling 2026-09-05: *very few buildings have doors; everything
 intended to have an interior must have one*). Run
 `python3 -m pipeline.interiors_index` after building kits; it writes
 `output/kits/<kit>.interiors.json`, classifying every asset as **matched** (its
-own pool ships a sibling `*_int` mesh authored to fit it — HTBM's bamboo huts,
-Mud Mother Grove's mud hut), **tileset** (an exterior-only shell whose interior
-Phase 12 builds from a named interior kit — `vanilla-farmhouse-int`,
-`vanilla-imperial-int`, `xanmeer-interior-v1`, `dungeon-root-v1`), **shell**
+own pool ships a sibling `*_int` mesh authored to fit it, and no kit packages
+that sibling), **tileset** (an exterior-only shell, or a shell whose matched
+sibling a kit packages, whose interior Phase 12 builds from a named interior
+kit — `vanilla-farmhouse-int`, `vanilla-imperial-int`, `xanmeer-interior-v1`,
+`dungeon-root-v1`, `htbm-hut-int`, `mudmother-hut-int`), **shell**
 (measured to enclose a volume, interior still to be claimed) or **none**. The
 enclosure test is geometric, never a label: it stands an eye 1.6 m above a
 candidate floor inside the piece and fires 72 rays outwards plus one up and one

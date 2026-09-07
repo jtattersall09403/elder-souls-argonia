@@ -53,7 +53,10 @@ from .site_fields import ProvinceSurvey
 MOVE_THRESHOLD_M = 5.0
 NEIGHBOUR_WARN_M = 120.0
 CHAIN = ["worldgen.compile_minor_routes", "worldgen.compile_minor_waterways",
-         "worldgen.hostility_frequency", "worldgen.export_places", "worldgen.export_routes"]
+         "worldgen.hostility_frequency", "worldgen.export_places", "worldgen.export_routes",
+         # the studio blueprint bundle carries the neighbour context and the
+         # city markers stand on it: it goes stale after every move (review 2026-09-07)
+         "worldgen.export_blueprints"]
 
 
 def apply_incremental(s: ProvinceSurvey, overrides: list[dict]) -> list[str]:

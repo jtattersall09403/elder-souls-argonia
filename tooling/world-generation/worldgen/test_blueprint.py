@@ -712,3 +712,67 @@ def test_orient_turns_a_parcel_until_its_doorway_faces_its_way():
     assert not any("the ruling allows" in e for e in errs)
     # a second pass is a no-op: the parcel already faces its way
     assert blueprint_footprints.orient_blueprint(bp)[0]["moved"] is False
+
+
+# --------------------------------------------------------------------------- #
+# Review 2026-09-07: the CLI, the built-kit rule and the WARN-grade quality
+# reports. Each is a paired fail/pass.
+# --------------------------------------------------------------------------- #
+def test_interior_ref_must_name_a_BUILT_kit(stub_index, monkeypatch):
+    stub_index(SHELL)
+    monkeypatch.setattr(blueprint, "kit_config_names", lambda: frozenset({"planned-int", "built-int"}))
+    monkeypatch.setattr(blueprint, "built_kit_names", lambda: frozenset({"built-int"}))
+    errs = blueprint.validate_blueprint(
+        _bp(doors=[_door(interiorClaim=_claim(interiorRef="planned-int"))]), KNOWN)
+    assert any("has a kit config but no BUILT kit" in e for e in errs)
+
+
+def test_interior_ref_passes_when_the_kit_is_built(stub_index, monkeypatch):
+    stub_index(SHELL)
+    monkeypatch.setattr(blueprint, "kit_config_names", lambda: frozenset({"planned-int", "built-int"}))
+    monkeypatch.setattr(blueprint, "built_kit_names", lambda: frozenset({"built-int"}))
+    errs = blueprint.validate_blueprint(
+        _bp(doors=[_door(interiorClaim=_claim(interiorRef="built-int"))]), KNOWN)
+    assert not [e for e in errs if "BUILT kit" in e or "names no interior kit" in e]
+
+
+def test_why_quality_warns_on_a_stub_why_and_on_a_repeated_one():
+    short = dict(_bp()["parcels"][0], why=dict(_why(), microGeography="It sits there."))
+    warns = blueprint._why_quality_warnings(_bp(parcels=[short]))
+    assert any("under 40 characters" in w for w in warns)
+
+    # the fixture's district and parcel already share one why block verbatim
+    warns = blueprint._why_quality_warnings(_bp())
+    assert any("appear on more than one record" in w for w in warns)
+
+
+def _distinct_why_bp():
+    """The fixture with the district's why rewritten, so no two records share
+    a sentence — the clean case the report must stay silent on."""
+    district = dict(_bp()["districts"][0], why={
+        "what": "The whole camp, which is one hut, a drying frame and the cut below them.",
+        "whyHere": "The district is the hummock; there is no other ground here to build on.",
+        "whyNeighbours": "Nothing adjoins it, so the district's edge is the edge of the dry ground.",
+        "playerPurpose": "The player crosses it in a minute and leaves knowing what a cut is.",
+        "microGeography": "The hummock falls away to reed water on three of its four sides."})
+    return _bp(districts=[district])
+
+
+def test_why_quality_is_silent_on_distinct_full_sentences():
+    assert blueprint._why_quality_warnings(_distinct_why_bp()) == []
+
+
+def test_occupancy_warns_when_the_people_are_not_authored():
+    thin = dict(_bp()["scaleGrounding"], npcsPlanned=20)
+    warns = blueprint._occupancy_warnings(_bp(scaleGrounding=thin))
+    assert warns and "only 1 occupant slot(s)" in warns[0] and "20" in warns[0]
+
+
+def test_occupancy_is_silent_when_half_the_people_are_authored():
+    assert blueprint._occupancy_warnings(_bp()) == []
+
+
+def test_cli_accepts_check_and_id(capsys):
+    assert blueprint.main(["--check"]) in (0, 1)
+    assert blueprint.main(["--id", "no-such-place"]) == 2
+    assert "no blueprint matches" in capsys.readouterr().err

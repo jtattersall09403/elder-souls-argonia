@@ -65,6 +65,7 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
     combatSpaces: [{ id: "combat.nine-trunks.clearing", clearanceClass: "open",
       why: "the night attack in the local quest happens in the ring", notes: null, polygon: [[118, 218], [126, 218], [126, 226], [118, 226]] }],
     questSockets: [{ id: "socket.nine-trunks.pitch-ledger", kind: "station", parcelId: null, ownerQuestTier: 3, notes: null, positionM: [122, 232] }],
+    networkTerminals: [],
     approaches: [{
       id: "approach.nine-trunks.road", mode: "walk", fromRouteId: "route.nine-trunks.approach",
       fromDirection: null, firstSeen: "landmark.nine-trunks.root-join-1",

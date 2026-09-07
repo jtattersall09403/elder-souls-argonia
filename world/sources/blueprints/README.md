@@ -2,7 +2,9 @@
 
 One `<place-id>.json` per authored place; the deterministic compiler consumes
 these. Schema + validator: `tooling/world-generation/worldgen/blueprint.py`
-(its docstring is the field reference; `python -m worldgen.blueprint --check`).
+(its docstring is the field reference). Run from `tooling/world-generation/`:
+`python3 -m worldgen.blueprint --check` validates every blueprint;
+`--check` is the default, and `--id <place-id|slug>` validates one.
 Blueprint IDs must exist in `world/sources/catalogue/`. Register each new
 file in `tooling/repo-standards/id-registry.json` with `"references": ["place"]`
 (the blueprint's own id is the catalogue place it details; every object

@@ -1,0 +1,46 @@
+{
+ "id": "htbm-hut-int",
+ "description": "The HTBM bamboo-hut INTERIORS, packaged as the linked inside for the stilt-village shells (`bamboohut01`, `bamboohut02` and the composites that hang `bamboohutdoor01` on them). The mod ships each hut as a matched pair \u2014 the exterior shell and a `_Int` room authored to sit inside exactly that shell \u2014 so this kit is pure packaging of the halves that were already authored to fit: nothing here is combined with anything it was not made for. `Villages/Argonian/BambooHut01_Int` and `BambooHut02_Int` are the two Argonian-quarter rooms; `Villages/Kothringi/BambooHut01_Int` is the Kothringi variant of the same room, kept separate because it is a different authored mesh with its own dressing, not a retexture. The hut door leaf travels with them: it is the visible half of the teleport link. Interior dressing is the wicker furniture the mod's own village folder ships alongside the huts and nothing else \u2014 no piece is borrowed from another pool, because a bamboo room dressed in Imperial or Nord furniture would read as the wrong culture inside an Argonian silhouette. Built 2026-09-07: the five blueprints already named these `_Int` meshes as their interiors while no kit packaged them, so the link they promised could not be built.",
+ "culture": "argonian-stilt",
+ "output": "tooling/asset-pipeline/output/kits/htbm-hut-int.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "snapLogic": {
+  "rooms": "Each `*_int` mesh is a WHOLE room, not a tile: it is placed at the same origin and yaw as the exterior shell it belongs to, and it snaps to nothing else. `bamboohut01_int` goes inside `bamboohut01`, `bamboohut02_int` inside `bamboohut02` (and inside the `composite:stilt/bamboohut0*-with-door` composites, which are those shells with the door hung on). The Kothringi `bamboohut01_int` is the room for the Kothringi quarter's huts and is never mixed with the Argonian pair in one village.",
+  "door": "`bamboohutdoor01` is the leaf the link uses. It hangs in the exterior shell's opening at the offset the mod's own placements use (recorded as the stilt kit's composites); the interior side of the same doorway is modelled into the `_int` room.",
+  "dressing": "`wickerchair01`, `wickersofa01`, `wickertable01`, `wickerbasket01` and `chestwicker01` are the mod's own village furniture. They are loose props placed on the room's floor plane, not snapped: seat and table against a wall bay, baskets and the wicker chest in the corners.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents per piece in tooling/asset-pipeline/output/kits/htbm-hut-int.kit.json."
+ },
+ "assets": [
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut02_int"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/bamboohut01_int"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohutdoor01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerchair01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickersofa01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickertable01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/wickerbasket01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/chestwicker01"
+  }
+ ]
+}

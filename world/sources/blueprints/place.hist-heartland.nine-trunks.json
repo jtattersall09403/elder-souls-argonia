@@ -242,7 +242,7 @@
           0.505074
         ],
         "yawDeg": 20.0,
-        "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+        "orientationWhy": "Its long side follows the ring's tangent at 20°, between the elder trunk and the north-eastern trunk. The door opens inward to the clearing, because no door faces out of the ring.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1029,7 +1029,7 @@
           0.5063263
         ],
         "yawDeg": 300.0,
-        "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+        "orientationWhy": "Set on the tangent at 300°, between the western and north-western trunks, with the door inward to the clearing; the boat household walks out through the gate like everyone else.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -1160,7 +1160,7 @@
           0.505074
         ],
         "yawDeg": 340.0,
-        "orientationWhy": "Its long side follows the ring's tangent between two trunks and its door opens inward to the clearing, because the ring is the stockade and no door faces out.",
+        "orientationWhy": "Set on the tangent at 340°, in the gap next to the elder trunk, with the door inward so the minder steps out facing the trunk that is watched.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
@@ -2314,7 +2314,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the east family hut and the elder trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6750135,
@@ -2342,7 +2342,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the east family hut and the north-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6757909,
@@ -2370,7 +2370,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the north-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6766877,
@@ -2398,7 +2398,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the first guest hut and the eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6771014,
@@ -2426,7 +2426,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6773047,
@@ -2454,7 +2454,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the second guest hut and the south-eastern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.677161,
@@ -2482,7 +2482,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the south-eastern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6765757,
@@ -2510,7 +2510,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the third guest hut and the southern trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6759419,
@@ -2538,7 +2538,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the store hut and the southern trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6748417,
@@ -2566,7 +2566,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the store hut and the road-side trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6740145,
@@ -2594,7 +2594,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the water-side trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6716952,
@@ -2622,7 +2622,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the pitch-taker's hut and the western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6715515,
@@ -2650,7 +2650,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the west family hut and the western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6717548,
@@ -2678,7 +2678,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the west family hut and the north-western trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6721685,
@@ -2706,7 +2706,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the north-western trunk on its anticlockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6730653,
@@ -2734,7 +2734,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the hut's end wall and the trunk beside it, so the ring reads as one wall from outside and from inside.",
+        "why": "A woven panel of 1.5 m closing the gap between the tree-minder's hut and the elder trunk on its clockwise side, so the wall line runs unbroken from bark to bark.",
         "points": [
           [
             0.6738427,
@@ -2762,7 +2762,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the arch and the trunk beside it, so the stockade line is unbroken but for the arch itself.",
+        "why": "A woven panel between the arch and the road-side trunk, closing the northern shoulder of the gate gap.",
         "points": [
           [
             0.6728779,
@@ -2790,7 +2790,7 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
-        "why": "A woven panel closing the gap between the arch and the trunk beside it, so the stockade line is unbroken but for the arch itself.",
+        "why": "A woven panel between the arch and the water-side trunk, closing the southern shoulder of the gate gap.",
         "points": [
           [
             0.6723169,
@@ -2873,11 +2873,11 @@
         "notes": "The elder trunk: 5.8 m across and 31 m tall at scale 0.55, the beacon of both approaches.",
         "why": {
           "what": "The elder trunk of the ring, the tallest of the nine Hist columns and the one which the tree-minder watches.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The village stands here because nine root-joined trunks grew on this knoll in one ring. The elder is the trunk that the tree-minder's deck faces across the clearing.",
           "whySpot": "The highest trunk stands at the north of the ring on 4.0 m ground, where the knoll is broadest. It is the tallest of the nine at 31 m.",
           "whyNeighbours": "The naheesh's house stands at its foot inside the ring and the tree-minder's hut in the gap to its west, so the two offices of the village keep the elder trunk between them.",
           "playerPurpose": "The first thing seen on both approaches, above the canopy from 150 m. It is the mark by which the whole ring is found again after the canopy has hidden it.",
-          "microGeography": "Ground at its base is 4.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "microGeography": "Its base stands on the level 4.0 m floor at the north of the knoll, the broadest firm ground inside the ring; the fall to the south begins beyond the round house."
         }
       },
       {
@@ -2893,11 +2893,11 @@
         "notes": "Ring trunk 2 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 2 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "Nine root-joined trunks on this knoll are the reason for the village. This one closes the northern arc, where the ground begins to fall towards the eastern water.",
           "whySpot": "The north-eastern trunk stands on 3.6 m ground, the lowest point of the northern arc, at the head of the fall towards the eastern water.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 3.6 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "It is the corner post of the east family hut and the first guest hut; the woven panels of the wall line run from its bark to both.",
+          "playerPurpose": "A 25 m column of the ring's northern arc. Walking the ring walk, a player counts it second from the elder trunk.",
+          "microGeography": "Its base is on 3.6 m ground, the lowest footing of the northern arc; run-off off the clearing passes its root flare on the way to the eastern water."
         }
       },
       {
@@ -2913,11 +2913,11 @@
         "notes": "Ring trunk 3 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 3 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The nine trunks grew here before any hut was built. This one stands on the eastern arc, whose gaps were given over to rented lodging.",
           "whySpot": "The eastern trunk stands on 3.9 m ground and is the first of the nine to take the morning light.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The first and second guest huts are panelled into its bark, so it is the middle post of the rented arc.",
+          "playerPurpose": "A 25 m column on the eastern arc. The ring walk passes its foot between the first and second guest huts.",
+          "microGeography": "Its base is on 3.9 m ground on the eastern slope, where the knoll has given up about half of its 1.5 m of fall."
         }
       },
       {
@@ -2933,11 +2933,11 @@
         "notes": "Ring trunk 4 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 4 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The ring of nine trunks is the site itself, not a decoration of it. This trunk carries the south-eastern quarter, where the knoll starts to shed towards the flats.",
           "whySpot": "The south-eastern trunk stands on 3.9 m ground where the knoll begins its fall to the flats.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "It stands between the second and third guest huts and closes the rented arc at its southern end.",
+          "playerPurpose": "A 25 m column at the south-east. It stands over the point at which the ring walk begins to drop with the knoll.",
+          "microGeography": "Its base is on 3.9 m ground at the point where the knoll turns downward towards the southern flats. The root flare takes the last of the drop."
         }
       },
       {
@@ -2953,11 +2953,11 @@
         "notes": "Ring trunk 5 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 5 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The trunks came first and the huts were fitted to the gaps between them. This one holds the south of the ring, above the store hut and the road beyond it.",
           "whySpot": "The southern trunk stands on 3.5 m ground, the lowest footing of the nine. It is the trunk seen from the road.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 3.5 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The third guest hut is panelled to its northern side and the store hut to its southern, so it divides the rented gaps from the tribe's own stores.",
+          "playerPurpose": "A 25 m column at the south. From the Archon–Gideon road it is the trunk nearest to a traveller. It stands over the store hut's blank wall.",
+          "microGeography": "Its base is on 3.5 m ground, the lowest footing of the nine. Wet-season run-off leaves the clearing past it."
         }
       },
       {
@@ -2973,11 +2973,11 @@
         "notes": "Ring trunk 6 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 6 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "Nine trunks grew root-joined on the knoll. Two of them stand either side of the gate. This is the road-side post of that gap.",
           "whySpot": "The trunk on the road side of the gate stands on 3.9 m ground and is the left-hand post of the entrance for a walker.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 3.9 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The store hut is panelled to one side of it. On the other side the wall line stops, because the next gap is the gate.",
+          "playerPurpose": "The left-hand post of the gate for a walker coming up the spur. It is the mark by which the arch is found from the pitch shelf.",
+          "microGeography": "Its base is on 3.9 m ground on the rise out of the southern low point, so the arch beside it stands a little above the road side of the ring."
         }
       },
       {
@@ -2993,11 +2993,11 @@
         "notes": "Ring trunk 7 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 7 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The trunks are the reason for the settlement. This is the water-side post of the gate gap. It is the first of the nine that a boat party passes.",
           "whySpot": "The trunk on the water side of the gate stands on 4.4 m ground and is the right-hand post of the entrance for a walker.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 4.4 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The gate gap lies to its north and the pitch-taker's hut to its south, so it is the post that a walker passes on the right hand under the arch.",
+          "playerPurpose": "The right-hand post of the gate. The landing path bends round it before the arch opens on the left hand.",
+          "microGeography": "Its base is on 4.4 m ground, at the point where the landing path finishes its climb from the pool."
         }
       },
       {
@@ -3013,11 +3013,11 @@
         "notes": "Ring trunk 8 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 8 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The nine trunks stand on a 21 m radius. This one has the highest footing of them, on the western rise which keeps the pool clear of the ring.",
           "whySpot": "The western trunk stands on 5.0 m ground, the highest footing of the nine, on the rise which the western pool skirts.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 5.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The pitch-taker's hut and the west family hut are panelled into it. Their two doors open onto the clearing either side of it.",
+          "playerPurpose": "The column with the highest footing of the nine, at 5.0 m. A player passes it on the outer walk between the pool and the ring.",
+          "microGeography": "Its base is on 5.0 m ground on the western rise. The pool lies 60 m west-north-west and about 3.8 m below it."
         }
       },
       {
@@ -3033,11 +3033,11 @@
         "notes": "Ring trunk 9 of nine: 4.7 m across and 25 m tall at scale 0.45, 14.4 m from each neighbour along the chord.",
         "why": {
           "what": "Trunk 9 of the nine Hist columns which stand in one ring on a 21 m radius.",
-          "whyHere": "The village exists because nine root-joined trunks grew here in one ring; the Hist is the reason for the place, not an ornament of it.",
+          "whyHere": "The trunks decided the plan of the village. This one stands on the north-western rise which shelters the ring from the west.",
           "whySpot": "The north-western trunk stands on 5.0 m ground beside the tree-minder's hut, on the rise which shelters the ring from the west.",
-          "whyNeighbours": "It is the corner post of the two huts either side of it; the wall line of the village runs from its bark to theirs.",
-          "playerPurpose": "One tooth of the comb which reads on the horizon from the water. It is also one post of the wall along which the player walks inside the ring.",
-          "microGeography": "Ground at its base is 5.0 m above datum; the ring carries 1.5 m of fall from north-west to south, so the trunk stands on a shallow pad and its root flare takes the difference."
+          "whyNeighbours": "The west family hut stands to its south and the tree-minder's hut to its north, so it is the post between the boat household and the minder.",
+          "playerPurpose": "A 25 m column at the north-west. The tree-minder's hut is panelled to it, so a player following the ring walk finds the minder's door at its foot.",
+          "microGeography": "Its base is on 5.0 m ground on the north-western rise, where the ring's 1.5 m of fall begins; it ends at the southern trunk."
         }
       },
       {
@@ -3053,11 +3053,11 @@
         "notes": "Root swell outside the wall line between the elder and north-eastern trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the elder and north-eastern trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "The dispute rests on the joins: one tree by the Hist's reckoning, nine by the tribes'. This one lies behind the hut of the egg-tenders, who are asked about it most often.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the elder and north-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "Eight joins lie behind the eight built gaps. This one sits behind the east family hut, the first gap clockwise from the elder trunk.",
+          "playerPurpose": "A waypoint on the outer walk round the ring. It is the join nearest to the elder trunk for a player who is asked to count the trees.",
+          "microGeography": "The swell lies along the ring's tangent on the level 4.0 m northern floor, where there is little fall for it to shed."
         }
       },
       {
@@ -3073,11 +3073,11 @@
         "notes": "Root swell outside the wall line between the north-eastern and eastern trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-eastern and eastern trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "Root joins are the evidence in the village's long argument over whether nine trees stand here or one. A delegation lodged in the first guest hut is shown this one on arrival.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the north-eastern and eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the first guest hut, one of eight joins spaced round the ring. The gate gap, two-thirds of the way round, has no join at all.",
+          "playerPurpose": "A player walking outside the wall sees this join and the back of the first guest hut in one view.",
+          "microGeography": "It lies along the tangent on 3.6 m ground and turns the clearing's run-off round the eastern side of the first guest hut."
         }
       },
       {
@@ -3093,11 +3093,11 @@
         "notes": "Root swell outside the wall line between the eastern and south-eastern trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the eastern and south-eastern trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "The joins carry the argument between the Hist's count of one tree and the tribes' count of nine. This is the join at which the felling claim is made.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the eastern and south-eastern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
+          "whyNeighbours": "It sits behind the second guest hut. The gate gap has no join, which is the gap the tribes cite when they count nine trees.",
           "playerPurpose": "The join at which the felling claim is argued in One Tree or Nine; the evidence socket sits on it.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "microGeography": "It lies on the eastern slope at about 3.8 m, its uphill face part buried and 2.8 m of swell standing on the downhill side."
         }
       },
       {
@@ -3113,11 +3113,11 @@
         "notes": "Root swell outside the wall line between the south-eastern and southern trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the south-eastern and southern trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "The tribes count nine trees and the Hist's reckoning is one; the joins are the ground on which the two counts meet. This is the fourth join clockwise from the elder trunk.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the south-eastern and southern gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the third guest hut at the end of the rented arc. It pairs with the join behind the store hut, on the far side of the southern trunk.",
+          "playerPurpose": "One of the eight joins counted on the outer walk. It sits where the ground begins to fall, so the swell shows more of its bulk on the downhill side.",
+          "microGeography": "On the south-eastern fall it lies across the shoulder of the drop, so wet-season water passes on both sides of the third guest hut."
         }
       },
       {
@@ -3133,11 +3133,11 @@
         "notes": "Root swell outside the wall line between the southern and road-side trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the southern and road-side trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "A join is the place at which two of the nine share a root, which is the reason the Hist's reckoning gives one tree. This one lies behind the store hut.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the southern and road-side gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the store hut on the road side of the ring, the last join a walker meets before the gate gap, which has none.",
+          "playerPurpose": "The join a player passes between the road spur and the gate; a walker who leaves the track early meets it before the arch.",
+          "microGeography": "The southern ground is the lowest of the ring at 3.5 m. The swell stands clear of the store hut's plinth, which is not undercut in the wet season."
         }
       },
       {
@@ -3153,11 +3153,11 @@
         "notes": "Root swell outside the wall line between the water-side and western trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the water-side and western trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "The joins are the physical claim: root running unbroken from one trunk to the next. This one lies on the pitch-taker's side of the ring, where delegations pass it on the outer walk.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the water-side and western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the pitch-taker's hut, the first join past the gate gap for a walker going clockwise round the outside.",
+          "playerPurpose": "A landmark of the outer walk on the pitch side of the ring. It is the join nearest to the pitch path.",
+          "microGeography": "It lies along the tangent on about 4.2 m ground on the western climb, above the level of the pitch shelf."
         }
       },
       {
@@ -3173,11 +3173,11 @@
         "notes": "Root swell outside the wall line between the western and north-western trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the western and north-western trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "A visitor who disputes the count is taken outside the wall to see a join. This one lies behind the boat household's hut.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the western and north-western gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the west family hut, between the joins of the pitch-taker's gap and the tree-minder's gap.",
+          "playerPurpose": "A landmark of the outer walk on the western arc. It is the join by which a player returning from the pool rejoins the ring.",
+          "microGeography": "On the western rise at about 4.8 m, with the swell's flank turning run-off away from the west family hut's plinth."
         }
       },
       {
@@ -3193,11 +3193,11 @@
         "notes": "Root swell outside the wall line between the north-western and elder trunks; 6.5 x 4.6 x 2.8 m at scale 0.45.",
         "why": {
           "what": "A root swell which lies along the ring outside the wall, joining the bases of the north-western and elder trunks.",
-          "whyHere": "The joins are the ground truth of the village's dispute: one tree by the Hist's reckoning, nine by the tribes' reckoning. The joins are the thing to which both sides point.",
+          "whyHere": "Both counts of the trees, the Hist's one and the tribes' nine, are argued from the joins. The tree-minder names them for guests. This join lies behind the minder's own hut.",
           "whySpot": "It lies on a 27.5 m radius outside the hut in the north-western and elder gap, clear of the wall so that a walker outside the ring sees the join and the hut behind it together.",
-          "whyNeighbours": "Eight joins lie in eight gaps; the ninth gap, the gate, has none, which is the gap that the tribes cite when they count nine trees.",
-          "playerPurpose": "A landmark of the outer walk round the ring and a thing to be counted by a player who is asked how many trees stand here.",
-          "microGeography": "The swell follows the ring's tangent, so it lies along the slope rather than across it and sheds the wet-season run-off round the huts."
+          "whyNeighbours": "It lies behind the tree-minder's hut and closes the round of eight at the foot of the elder trunk.",
+          "playerPurpose": "The last of the eight joins on the outer walk, at the foot of the elder trunk.",
+          "microGeography": "It lies on the north-western fall from 5.0 m towards the elder trunk's floor, along the slope rather than across it."
         }
       },
       {
@@ -3490,7 +3490,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the eastern tribe family",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3506,7 +3506,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "a paying delegation",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3522,7 +3522,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "an absent delegation",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3538,7 +3538,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "an absent delegation",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3554,7 +3554,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the tribe",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3570,7 +3570,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the pitch-rights taker",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3586,7 +3586,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the western tribe family",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3602,7 +3602,7 @@
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the tree-minder",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew"
+          "interiorRef": "mudmother-hut-int"
         },
         "doorwayRef": 0
       },
@@ -3633,7 +3633,7 @@
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
-          "interiorRef": "mudmother:gv_meshes/argoniannest/mudhut01intnew",
+          "interiorRef": "mudmother-hut-int",
           "owner": "the pitch-taker"
         },
         "doorwayRef": 0

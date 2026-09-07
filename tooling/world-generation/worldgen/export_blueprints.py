@@ -345,6 +345,15 @@ def project(doc: dict, extent_m: float) -> dict:
 
     parcels = _parcels(bp, extent_m)
     ways = _ways(bp, extent_m)
+    # Where the province network lands (97 C-stitch): drawn so a reviewer can
+    # see which line ends where (the owner read an inland road tail as a lane
+    # going to the wrong place, 2026-09-06, because nothing marked the landing).
+    terminals = sorted(
+        ({"id": t.get("id"), "routeId": t.get("routeId"), "wayId": t.get("wayId"),
+          "kind": t.get("kind"), "why": _why_text(t),
+          "positionM": _point_m(t.get("entryUV"), extent_m)}
+         for t in bp.get("networkTerminals") or []),
+        key=lambda t: str(t["id"]))
     entry = {
         "id": bp["id"],
         "seed": bp.get("seed"),
@@ -359,6 +368,7 @@ def project(doc: dict, extent_m: float) -> dict:
         "combatSpaces": combat,
         "questSockets": sockets,
         "approaches": _approaches(bp),
+        "networkTerminals": terminals,
         "scaleGrounding": bp.get("scaleGrounding") if isinstance(bp.get("scaleGrounding"), dict) else None,
         "contextM": context_box(bp, extent_m),
         "clearance": _clearance(bp, extent_m),
@@ -374,6 +384,7 @@ def project(doc: dict, extent_m: float) -> dict:
         "combatSpaces": len(combat), "questSockets": len(sockets),
         "fences": len([w for w in ways if w["group"] == "fences"]),
         "approaches": len(entry["approaches"]),
+        "networkTerminals": len(terminals),
         "keptTrees": len(entry["clearance"]["kept"]),
         "sitingCandidates": len((entry["siting"] or {}).get("candidates") or []),
     }

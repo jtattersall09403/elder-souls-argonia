@@ -196,10 +196,17 @@ def snapshot_natural_routes(province: Path) -> None:
     src = province / "routes.json"
     snap = province / "routes-natural.json"
     marker = province / "routes-repaired-by.json"
-    fingerprint = {"size": src.stat().st_size, "mtime_ns": src.stat().st_mtime_ns}
+    # Content hash, not size+mtime (review 2026-09-07): `route_registry.attach`
+    # rewrites routes.json in place on every `compile_society`, which bumped the
+    # mtime and made this tool re-baptise its own REPAIR as the natural state.
+    fingerprint = {"routesSha256": _sha256(src)}
     stamped = json.loads(marker.read_text()) if marker.exists() else {}
-    if not snap.exists() or {k: stamped.get(k) for k in fingerprint} != fingerprint:
+    if not snap.exists() or stamped.get("routesSha256") != fingerprint["routesSha256"]:
         snap.write_text(src.read_text())
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else ""
 
 
 def natural_sha256(province: Path) -> str:
@@ -220,7 +227,7 @@ def _stamp(province: Path, report: list[dict] | None = None) -> None:
     gradient story stays in one file."""
     src = province / "routes.json"
     (province / "routes-repaired-by.json").write_text(json.dumps(
-        {"size": src.stat().st_size, "mtime_ns": src.stat().st_mtime_ns,
+        {"routesSha256": _sha256(src),
          "naturalSha256": natural_sha256(province),
          "roads": report or []}, indent=1))
 

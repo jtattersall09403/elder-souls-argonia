@@ -226,6 +226,8 @@ author intended; never interleave two sets piece-for-piece.
 | `settlement-imperial-v1` | 11 | imperial | **yes** | vanilla | Imperial stone-timber |
 | `vanilla-farmhouse-int` | 76 | imperial-colonial | no | vanilla | walkable **farmhouse interiors** — the linked inside for `vanilla:architecture/farmhouse/` shells (cottage, inn, longhouse, cellar) |
 | `vanilla-imperial-int` | 65 | imperial-colonial | no | vanilla | walkable **Imperial fort/keep interiors** — the linked inside for Imperial, `mwkeep` and `hlaalu` shells (rooms, halls, load doors) |
+| `htbm-hut-int` | 9 | argonian-stilt | no | htbm | walkable **bamboo-hut interiors** — the HTBM `_Int` rooms authored to sit inside `bamboohut01/02` (and the Kothringi variant), the hut door leaf and the mod's wicker furniture |
+| `mudmother-hut-int` | 24 | argonian-mud | no | mudmother | walkable **mud-hut interior** — `mudhut01intnew`, the room authored to sit inside `mudhut01`, plus the indoor shelving, seating, hearth and dressing from the same folder |
 | `imperial-keep` | 88 | imperial | no | mwkeep | Imperial civic/military tier |
 | `hlaalu-domestic` | 68 | imperial | no | hlaalu, mwkeep | Morrowind-Imperial domestic tier |
 | `ruin-monumental-v1` | — | xanmeer-ancient | no | ayleidkit, ayleidcc | monumental dressed stone |

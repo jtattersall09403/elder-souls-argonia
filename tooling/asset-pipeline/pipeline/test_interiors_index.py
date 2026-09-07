@@ -183,16 +183,47 @@ def test_a_roofed_shell_with_no_matched_interior_and_no_rule_is_a_shell():
     assert "enclose" in record["why"]
 
 
-def test_a_matched_sibling_beats_the_tileset_rule():
+def test_a_matched_sibling_a_kit_packages_is_reported_against_that_kit():
+    """The door must link to a BUILT interior kit, so a matched sibling that a
+    kit packages reports as `tileset`, keeping the mesh in matchedInteriorMesh."""
     tris = room()
     pools = {"vanilla": ["vanilla:architecture/farmhouse/farmhouse01",
                          "vanilla:architecture/farmhouse/farmhouse01_int"]}
     record = ix.classify_asset(
         {"id": "vanilla:architecture/farmhouse/farmhouse01", "category": "architecture"},
         "settlement-imperial-v1", _verts(tris), tris, pools)
+    assert record["interior"] == "tileset"
+    assert record["tileset"] == "vanilla-farmhouse-int"
+    assert record["matchedInteriorMesh"].endswith("_int")
+    assert "interiorAssetRef" not in record
+
+
+def test_a_matched_sibling_with_no_kit_rule_stays_matched():
+    tris = room()
+    pools = {"nokit": ["nokit:architecture/shack/shack01",
+                       "nokit:architecture/shack/shack01_int"]}
+    record = ix.classify_asset(
+        {"id": "nokit:architecture/shack/shack01", "category": "architecture"},
+        "settlement-imperial-v1", _verts(tris), tris, pools)
     assert record["interior"] == "matched"
     assert record["interiorAssetRef"].endswith("_int")
     assert "tileset" not in record
+
+
+def test_the_hut_interiors_resolve_to_their_built_kits():
+    tris = room()
+    pools = {"mudmother": ["mudmother:gv_meshes/argoniannest/mudhut01",
+                           "mudmother:gv_meshes/argoniannest/mudhut01intnew"]}
+    record = ix.classify_asset(
+        {"id": "mudmother:gv_meshes/argoniannest/mudhut01", "category": "architecture"},
+        "settlement-mud-v1", _verts(tris), tris, pools)
+    assert record["tileset"] == "mudmother-hut-int"
+    htbm = "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/"
+    pools = {"htbm": [htbm + "bamboohut01", htbm + "bamboohut01_int"]}
+    record = ix.classify_asset(
+        {"id": htbm + "bamboohut01", "category": "architecture"},
+        "settlement-stilt-v1", _verts(tris), tris, pools)
+    assert record["tileset"] == "htbm-hut-int"
 
 
 def test_a_tileset_rule_applies_only_when_the_piece_measures_enclosed():

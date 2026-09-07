@@ -49,6 +49,7 @@ sourcing rule); the register only records outcomes.
 
 | Round | Lesson | Where it now lives |
 |---|---|---|
+| Review 2026-09-07 | A check that swallows its own failure is a check that is off; a canal needs a bound, a door needs a sightline; the claims in a round record are measured, not repeated | `canal-bound`, `door-sightline`, raise-on-failure in `_water_at` / `check_network_stitch` |
 | Part 6 | The macro plot places by landform *class*; four of five plots could not carry the place as recorded (no standing water for a pond, a 47° hillside, 4.3 m of relief across a ring, no navigable water). The meso pass exists to measure; expect 60–150 m moves and write them back | `apply_sitings`; 0041 § Part 6 delivery record |
 | Part 6 | Kits only combine pieces designed to combine, so a district is ONE kit set | `blueprint.KIT_SETS` |
 | Part 6 | A piece is chosen on measured size, never on its label; the record's `assetPlan` can name kits that cannot serve the place (a 55 m root house for a three-person camp) | `assetRef`; the design record's "catalogue should change" list |
