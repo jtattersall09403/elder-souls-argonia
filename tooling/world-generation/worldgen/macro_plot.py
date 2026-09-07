@@ -757,8 +757,219 @@ def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candida
         anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1])))
 
 
+# --------------------------------------------------------------------------- #
+# the committed plot as the SEED of the solve (2026-09-07)
+# --------------------------------------------------------------------------- #
+# The scorer is globally sensitive to its input rasters: a small, legitimate
+# terrain edit (river channels carved to their water profile, 2026-09-07)
+# moved 342 of 579 records in a from-scratch solve. Phase 11 blueprints,
+# routes and quests are built on the COMMITTED plot, and decision 0041
+# reserves a re-plot for a deliberate owner-approved step. So the committed
+# position is the seed: every record keeps it unless its cell is no longer
+# VALID under the current fields, and only the invalid ones are re-sited.
+# `--resolve-all` restores the from-scratch solve for that owner step.
+COMMITTED_SEED_KIND = "committed"
+SUBMERGED_MIN_DEPTH_M = 0.4      # score_pair's RELAXED `submerged` gate: the
+                                 # committed plot contains relaxed placements,
+                                 # so the seed must judge by the same bar
+# Standing water a DRY record tolerates at its own dot. Measured at the dot,
+# not over a reach: a marsh village is meant to have water beside it, but a
+# metre of it on the dot means the dot is now channel, not bank.
+OPEN_WATER_ALLOWANCE_M = 1.0
+DRY_RECORD_SHORE_M = 25.0        # why_text's "at the water's edge" threshold
+
+
+def _point_depth_m(s: ProvinceSurvey, x: float, z: float) -> float:
+    n = s.water_depth_m.shape[0]
+    px = s.extent_m / n
+    return float(s.water_depth_m[min(n - 1, max(0, int(z / px))), min(n - 1, max(0, int(x / px)))])
+
+
+def committed_candidate(s: ProvinceSurvey, rec: dict, x: float, z: float) -> Candidate:
+    """The committed dot as a candidate. Region class, danger band, landform
+    and the route/water distances are read from the record's own `plotFacts`
+    (they ARE the winning candidate's facts, and the grid at the dot can
+    disagree by a pixel with the scour site that won it); the water depth and
+    the ground classification are re-measured off the CURRENT survey, because
+    those are what a terrain edit moves."""
+    rid = rec["id"]
+    facts = rec.get("plotFacts") or {}
+    row, col = s.grid_px(x, z)
+    anchors = s.anchor_points_m
+    wm = float(facts.get("distanceToWaterM", s.dist_to_water_m[row, col]))
+    return Candidate(
+        id=f"committed.{rid.rsplit('.', 1)[-1]}", kind=COMMITTED_SEED_KIND,
+        landform=facts.get("landform") or _classify_free(s, row, col) or "off-lattice",
+        x=x, z=z,
+        region=facts.get("regionClass") or REGION_CLASSES[int(s.region_grid[row, col])][0],
+        danger=int(facts.get("dangerBand", s.danger[row, col])),
+        zone=s.culture_names.get(int(s.culture[row, col])),
+        route_m=float(facts.get("distanceToRouteM", s.dist_to_route_m[row, col])),
+        water_m=wm, depth_m=0.0,
+        slope=float(s.slope_grid[row, col]), prominence=0.0, visibility=0.0, concealment=0.0,
+        water_relation=max(0.0, 1.0 - wm / 300.0),
+        anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
+        anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1])))
+
+
+def _raster_still_reads(grid, row: int, col: int, value) -> bool:
+    """True when `value` is still what the raster says at (row, col) or in its
+    immediate neighbourhood — the tolerance that separates a raster EDIT from a
+    one-pixel disagreement between a scour site and the survey grid."""
+    r0, r1 = max(0, row - 1), min(grid.shape[0], row + 2)
+    c0, c1 = max(0, col - 1), min(grid.shape[1], col + 2)
+    return bool((grid[r0:r1, c0:c1] == value).any())
+
+
+def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
+                             s: ProvinceSurvey) -> str | None:
+    """Why the committed cell can no longer carry this record, or None.
+
+    Only the HARD constraints a terrain or water edit can break:
+      * water: a submerged record must still have real depth, and a dry
+        record must not now stand in open water at its own dot;
+      * danger band and region class, if the RASTER has moved under the dot
+        (not merely disagreed by a pixel) and the new value fails the gate;
+      * sightline and bind gates, re-measured against the current terrain.
+    Crowding (separation, hostile clustering, purpose repetition) is not
+    re-judged: those gates were satisfied when the plot was solved, and
+    re-judging them against the whole committed plot would evict records the
+    greedy solve legitimately placed."""
+    row, col = s.grid_px(c.x, c.z)
+    if d.hints.get("submerged"):
+        if c.depth_m < SUBMERGED_MIN_DEPTH_M:
+            return f"submerged record now in {c.depth_m:.1f} m of water"
+    elif c.water_m > DRY_RECORD_SHORE_M:
+        # A record the plot placed AWAY from water (its own plotFacts say so)
+        # that now stands in open water has had its ground taken by a channel.
+        # A record plotted at the water's edge was always wet-footed: that is
+        # the committed plot's own choice, not a change, and re-judging it here
+        # would re-plot the whole waterfront.
+        point = _point_depth_m(s, c.x, c.z)
+        if point > OPEN_WATER_ALLOWANCE_M:
+            return f"dry record now stands in {point:.1f} m of open water"
+    # Danger band and region class are authored rasters, and the committed
+    # facts are the winning candidate's own (a scour site's cell can disagree
+    # with the grid by a pixel), so the test is "did the RASTER move": the
+    # recorded value must still be somewhere in the dot's 3x3 neighbourhood.
+    if not _raster_still_reads(s.danger, row, col, c.danger):
+        gap = abs(int(s.danger[row, col]) - d.danger)
+        allowed = (DANGER_GAP_LIVED if d.cls in LIVED_IN_CLASSES else DANGER_GAP_OTHER) + 1
+        if gap > allowed and d.tier != 0:
+            return f"danger band moved to {int(s.danger[row, col])}, {gap} off the record's D{d.danger}"
+    if d.regions and d.cls in HARD_REGION_CLASSES \
+            and not _raster_still_reads(s.region_grid, row, col, REGION_NAME_TO_ID.get(c.region, -1)):
+        now_region = REGION_CLASSES[int(s.region_grid[row, col])][0]
+        if now_region not in d.regions:
+            return f"region class moved {c.region} -> {now_region}, outside {sorted(d.regions)}"
+    # Sightlines: only the TERRAIN test. The distance test and the bind
+    # (`bound_to`) distance are pure geometry between two committed dots —
+    # nothing a raster edit can change — so re-judging them here would re-plot
+    # records the committed solve accepted, which is `apply_sitings`' job.
+    for ref in d.sightline_to:
+        if ref in plotted and math.hypot(c.x - plotted[ref][0], c.z - plotted[ref][1]) <= SIGHTLINE_MAX_M:
+            rx, rz = plotted[ref]
+            if not s.line_of_sight(c.x, c.z, rx, rz, eye_a=1.7, eye_b=8.0):
+                return f"sightline to {ref} no longer clears the terrain"
+    return None
+
+
+# Records whose committed cell the CURRENT fields invalidate, and which we
+# deliberately keep on their committed dot anyway until the owner-approved
+# re-plot (decision 0041). Every entry here is fallout of the Phase P water
+# rescue (2026-09-07): pools were filled, channels re-carved to the water
+# profile and the depth raster republished, so ground that was bank when the
+# plot was solved now reads as open water (and two sightlines and three binds
+# no longer clear the new terrain). Moving these dots now would move them
+# twice — the water pass is still running — and would strand the blueprints,
+# routes and quests already built on the committed plot.
+#
+# So this is a BACKLOG, not an excuse: each id is a place that needs a real
+# decision at the re-plot (move the dot, or re-write the record's identity to
+# match the water it now stands in). A record that goes wrong for a NEW reason
+# is not pinned and fails the test.
+RESITE_PINS: dict[str, str] = {
+    "place.dunmer-north.breathes-underneath": "pond fill (Phase P water rescue) put 1.6 m of standing water on the dot",
+    "place.dunmer-north.loriasel-caverns": "pond fill put 1.9 m of standing water on the dot",
+    "place.dunmer-north.the-charge-pond": "pond fill put 1.9 m of standing water on the dot",
+    "place.dunmer-north.the-tear-wreck": "pond fill put 1.5 m of standing water on the dot",
+    "place.dunmer-north.the-whispers-dig": "pond fill put 1.8 m of standing water on the dot",
+    "place.hist-heartland.beast-keeper-lizard-steed": "pond fill put 1.7 m of standing water on the dot",
+    "place.hist-heartland.dream-wallow-sap-pool": "pond fill put 2.8 m of standing water on the dot",
+    "place.hist-heartland.miregaunt-ward-approach": "bind to sealed-xanmeer-living broken by the re-carved channel between them",
+    "place.hist-heartland.nightbound-lightless": "pond fill put 1.9 m of standing water on the dot",
+    "place.hist-heartland.porter-relay-poling": "pond fill put 1.9 m of standing water on the dot",
+    "place.hist-heartland.sap-tapping-licensed": "sightline to harmed-hist-tapped blocked by the re-carved channel bank",
+    "place.hist-heartland.waterfall-chamber-root-fall": "pond fill put 1.1 m of standing water on the dot",
+    "place.hist-heartland.xal-meeruth-station": "channel re-carve put 4.3 m of water on the dot",
+    "place.imperial-fringe.glenbridge": "sightline to glenbridge-sermon-xanmeer blocked by the re-carved channel bank",
+    "place.imperial-penal-south.ledgered-blackguards": "pond fill put 3.0 m of standing water on the dot",
+    "place.imperial-penal-south.longmont": "pond fill put 1.5 m of standing water on the dot",
+    "place.imperial-penal-south.prison-born-refuge": "bind to longmont broken by longmont's own flooding",
+    "place.imperial-penal-south.rose-outworks": "pond fill put 2.3 m of standing water on the dot",
+    "place.mercantile-coast.alten-meerhleel": "channel re-carve put 4.6 m of water on the dot",
+    "place.mercantile-coast.lighter-flotilla": "pond fill put 1.3 m of standing water on the dot",
+    "place.mercantile-coast.whitebone-reef": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
+    "place.naga-kur-deeps.drifting-village-wet-mooring": "bind to leviathan-bone-field broken by the republished depth field",
+    "place.naga-kur-deeps.drowned-village-lake-deeps": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
+    "place.naga-kur-deeps.flooded-passage-tunnel-deeps": "submerged record: the republished depth reads 0.4 m, under the 0.8 m gate",
+    "place.naga-kur-deeps.legendary-deep-feather-serpent": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
+    "place.naga-kur-deeps.wreck-submerged-barge": "submerged record: the republished depth reads 0.0 m, under the 0.8 m gate",
+    "place.pirate-freeholds.channel-pirate-anchorage": "pond fill put 1.3 m of standing water on the dot",
+    "place.saxhleel-coast.mangrove-air-pocket": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
+}
+
+
+def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
+                        files: dict[str, catalogue.RegionFile]) -> tuple[dict[str, dict], list[dict], list[dict]]:
+    """{record id: pre-placed result} for every live record whose committed
+    cell is still valid, the list of records that must be re-sited, and the
+    list of invalidated records PINNED to their committed dot (`RESITE_PINS`)."""
+    committed = {rec["id"]: rec for rf in files.values() for rec in rf.places}
+    # a record pinned by a Part 6 blueprint siting is never re-judged here:
+    # `pin_overrides` is the authority for those dots (owner ruling, 0041)
+    pinned_ids = {o["id"] for o in load_overrides()}
+    scour_depth = {c.id: c.depth_m for c in load_scour(s)}
+    cands: dict[str, Candidate] = {}
+    plotted: dict[str, tuple[float, float]] = {}
+    for d in demands:
+        pos = committed.get(d.id, {}).get("positionM")
+        if isinstance(pos, list) and len(pos) == 2:
+            c0 = committed_candidate(s, committed[d.id], float(pos[0]), float(pos[1]))
+            # the solver's own depth for this dot: the scour site's published
+            # depth, maxed with the raster (`attach_water_depth`), so the seed
+            # gate judges exactly what the solve judged
+            c0.depth_m = scour_depth.get(committed[d.id].get("scourSiteId", ""), 0.0)
+            cands[d.id] = c0
+            plotted[d.id] = (float(pos[0]), float(pos[1]))
+    attach_zone_distances(s, list(cands.values()))
+    attach_water_depth(s, list(cands.values()))
+    seeded: dict[str, dict] = {}
+    resite: list[dict] = []
+    pinned: list[dict] = []
+    for d in sorted(demands, key=lambda d: d.id):
+        c = cands.get(d.id)
+        if c is None:
+            resite.append({"id": d.id, "reason": "no committed position"})
+            continue
+        why = None if (d.id in pinned_ids or committed.get(d.id, {}).get("plotOverride")) \
+            else committed_invalid_reason(d, c, plotted, s)
+        if why is not None:
+            entry = {"id": d.id, "reason": why, "fromM": [round(c.x, 1), round(c.z, 1)]}
+            if d.id not in RESITE_PINS:
+                resite.append(entry)
+                continue
+            pinned.append({**entry, "pin": RESITE_PINS[d.id]})
+        c.used_by = d.id
+        seeded[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
+                        "seeded": True, "demand": d,
+                        "why": committed.get(d.id, {}).get("whySiteWon", "")}
+    return seeded, resite, pinned
+
+
 def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
-           anchors: dict[str, tuple[float, float]]) -> tuple[dict[str, dict], list[dict]]:
+           anchors: dict[str, tuple[float, float]],
+           preplaced: dict[str, dict] | None = None) -> tuple[dict[str, dict], list[dict]]:
     """Tier by tier, best-pair-first. Returns {record id: assignment} and the
     homeless batch (with the reason each record could not be honestly placed)."""
     plotted_xy: dict[str, tuple[float, float]] = {}
@@ -780,6 +991,18 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             plotted_d[d.id] = (d, c)
             result[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
                             "why": f"Owner-approved settlement anchor '{slug}' (world/sources/anchors, Phase 2 gate); position kept exactly."}
+
+    # 1b. the committed plot, seeded: these records are already on the map, so
+    # every gate the solver judges (sightlines, binds, separation, clustering)
+    # sees them, and only the re-sited records compete for ground.
+    by_did_all = {d.id: d for d in demands}
+    for did, entry in (preplaced or {}).items():
+        if did in result or did not in by_did_all:
+            continue
+        c = entry["candidate"]
+        result[did] = entry
+        plotted_xy[did] = (c.x, c.z)
+        plotted_d[did] = (by_did_all[did], c)
 
     homeless: list[dict] = []
 
@@ -909,7 +1132,8 @@ def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, De
     for rid, r in result.items():
         r.setdefault("demand", by_d[rid])
     movable = [rid for rid, r in result.items() if r.get("score") is not None and by_d[rid].tier > 0
-               and r["candidate"].kind not in ("anchor", "pinned")
+               and r["candidate"].kind not in ("anchor", "pinned", COMMITTED_SEED_KIND)
+               and not r.get("seeded")
                and not by_d[rid].bound_to and not by_d[rid].sightline_to]
     movable.sort(key=lambda rid: (result[rid]["score"], rid))
     worst = movable[: max(1, len(movable) // 4)]
@@ -987,6 +1211,8 @@ def apply_to_records(files: dict[str, catalogue.RegionFile], demands: list[Deman
                     if rec.get("workflow") == "plotted":
                         rec["workflow"] = "derived"
                 continue
+            if r.get("seeded"):
+                continue    # committed dot kept: the record is not rewritten
             d = by_d[rec["id"]]
             c: Candidate = r["candidate"]
             u, v = s.m_to_uv(c.x, c.z)
@@ -1032,7 +1258,7 @@ def pin_overrides(result: dict[str, dict], cands: list[Candidate], s: ProvinceSu
     n = 0
     for o in load_overrides():
         r = result.get(o["id"])
-        if not r or r["candidate"].kind == "anchor":
+        if not r or r["candidate"].kind == "anchor" or r.get("seeded"):
             continue
         x, z = s.uv_to_m(float(o["u"]), float(o["v"]))
         r["candidate"].used_by = None
@@ -1358,8 +1584,13 @@ def positions_by_zone(by_id, demands) -> dict[str, list[tuple[float, float]]]:
 # --------------------------------------------------------------------------- #
 # main
 # --------------------------------------------------------------------------- #
-def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED):
-    """The whole solve, for `run` and for the determinism test alike."""
+def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False):
+    """The whole solve, for `run` and for the determinism test alike.
+
+    By default the COMMITTED plot is the seed: a record keeps its committed
+    cell unless that cell is no longer valid under the current fields, and the
+    solver re-sites only those. `resolve_all=True` (CLI `--resolve-all`) is the
+    owner's deliberate from-scratch re-plot (decision 0041)."""
     recipes = load_recipes()
     demands, files = build_demand(recipes)
     scour = load_scour(s)
@@ -1368,19 +1599,31 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED):
     attach_zone_distances(s, cands)
     attach_water_depth(s, cands)
     attach_anchor_ids(s, cands)
-    result, unresolved = assign(demands, cands, s, s.anchor_points_m)
+    seeded: dict[str, dict] = {}
+    resite: list[dict] = []
+    pinned: list[dict] = []
+    if not resolve_all:
+        seeded, resite, pinned = seed_from_committed(s, demands, files)
+    result, unresolved = assign(demands, cands, s, s.anchor_points_m, preplaced=seeded)
     swap_pass(demands, result, plotted_meta_of(result), s)
     pin_overrides(result, cands, s)
-    return demands, files, scour, free, result, unresolved
+    return demands, files, scour, free, result, unresolved, resite, pinned
 
 
-def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None) -> dict:
+def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | None = None,
+        resolve_all: bool = False) -> dict:
     s = ProvinceSurvey()
-    demands, files, scour, free, result, unresolved = solve(s, seed)
+    demands, files, scour, free, result, unresolved, resite, pinned = solve(s, seed, resolve_all=resolve_all)
     plotted = {did: (next(d for d in demands if d.id == did), r["candidate"]) for did, r in result.items()}
     apply_to_records(files, demands, result, s)
     rep = build_report(demands, result, unresolved, plotted, s, seed, len(scour), len(free))
     rep["feedbackChecks"] = feedback_checks(demands, result, s)
+    rep["seeding"] = {
+        "mode": "resolve-all" if resolve_all else "seeded-from-committed",
+        "seeded": sum(1 for r in result.values() if r.get("seeded")),
+        "reSited": sorted(resite, key=lambda h: h["id"]),
+        "pinnedInvalid": sorted(pinned, key=lambda h: h["id"]),
+    }
     rep["clarkEvans"] = plot_stats.clark_evans(
         positions_by_zone({did: r["candidate"] for did, r in result.items()}, demands),
         plot_stats.zone_land_area_m2(s))
@@ -1430,7 +1673,6 @@ NAVIGABLE_EXCEPTIONS = {
     "place.hist-heartland.alten-markmont": "0.0 m within 150 m — the plot put a foreign trading station on dry ground; needs a re-plot or a re-write of its 'landing' identity",
     "place.imperial-fringe.onkobra-ferry": "0.0 m within 150 m — a ferry stage whose Onkobra crossing the depth raster reads as marsh, not channel; re-plot onto the channel or re-class the crossing as a ford",
     "place.imperial-fringe.rufios-landing": "0.0 m within 150 m — a ravine lair whose prose says 'deep water'; the honest fix is the prose, not the ground",
-    "place.pirate-freeholds.alten-corimont": "2.7 m within 150 m against 3.0 m for a keeled berth — an owner-pinned anchor, 0.3 m short; the Part 6 blueprint decides whether its hulls lie off",
     "place.pirate-freeholds.half-chartered-anchorage": "0.0 m within 150 m — an anchorage on dry ground; re-plot or re-write",
     "place.saxhleel-coast.seafalls": "2.1 m within 150 m against 3.0 m for the head of navigation — arguably correct (a head of navigation is where the keels STOP), but the ladder cannot tell that from the type alone",
 }
@@ -1500,6 +1742,9 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--validate", action="store_true",
                     help="97 G5: check every navigable-hint record against its hull class over the "
                          "COMMITTED plot; exits non-zero on an unpinned violation")
+    ap.add_argument("--resolve-all", action="store_true",
+                    help="owner's deliberate re-plot (decision 0041): solve from scratch instead of "
+                         "seeding from the committed plot")
     ap.add_argument("--report-only", action="store_true",
                     help="97 G3: recompute the Clark-Evans clustering stats over the COMMITTED "
                          "plot and write them into the report; does not solve or move anything")
@@ -1521,7 +1766,16 @@ def main(argv: list[str] | None = None) -> None:
         return
     if a.dry_run:
         a.report_dir.mkdir(parents=True, exist_ok=True)
-    rep = run(a.seed, write=not a.dry_run, report_only_to=a.report_dir if a.dry_run else None)
+    rep = run(a.seed, write=not a.dry_run, report_only_to=a.report_dir if a.dry_run else None,
+              resolve_all=a.resolve_all)
+    sd = rep["seeding"]
+    print(f"[macro-plot] seeding {sd['mode']}: {sd['seeded']} records kept their committed cell, "
+          f"{len(sd['reSited'])} re-sited, "
+          f"{len(sd.get('pinnedInvalid', []))} pinned to their committed dot")
+    for h in sd["reSited"]:
+        print(f"   re-sited {h['id']}: {h['reason']}")
+    for h in sd.get("pinnedInvalid", []):
+        print(f"   PINNED {h['id']}: {h['reason']} — {h['pin']}")
     print(f"[macro-plot] plotted {rep['demand']['plotted']}/{rep['demand']['live']} live records; "
           f"unresolved {rep['demand']['homelessUnresolved']}; "
           f"dead route fraction {rep['routeVisibility']['deadFraction']}")

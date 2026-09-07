@@ -78,11 +78,25 @@ def test_places_stay_within_spill_distance_of_their_zone():
         assert z["plotted"] == z["live"], zone
 
 
-def test_resolve_reproduces_the_committed_plot():
-    """Determinism: a fresh solve lands every record exactly where the
-    catalogue says it is. Slow (~25 s); the whole point of the seed."""
-    _demands, _files, _scour, _free, result, unresolved = macro_plot.solve(ProvinceSurvey())
+def test_the_solve_keeps_every_committed_cell():
+    """The committed plot is the SEED (2026-09-07): a run re-sites only the
+    records whose committed cell is no longer valid under the current fields.
+    The 28 the Phase P water rescue invalidated are PINNED to their committed
+    dot in `macro_plot.RESITE_PINS` with a reason each, to be decided at the
+    owner-approved re-plot; anything else going wrong is a new break and fails
+    here. Slow (~25 s)."""
+    _d, _f, _sc, _fr, result, unresolved, resite, pinned = macro_plot.solve(ProvinceSurvey())
     assert not unresolved
+    assert not resite, (
+        "records the current fields invalidate and nothing pins — re-run the plot "
+        "and record the moves, or pin them in macro_plot.RESITE_PINS with a reason: "
+        + "; ".join(f"{h['id']} ({h['reason']})" for h in resite))
+    # Stale pins are printed, not asserted: the water pass is still republishing
+    # the depth field, so a pin can come and go between runs. They are cleared
+    # wholesale at the re-plot.
+    stale = sorted(set(macro_plot.RESITE_PINS) - {h["id"] for h in pinned})
+    if stale:
+        print("resite pins that no longer fire: " + ", ".join(stale))
     committed = {rec["id"]: rec["positionM"] for _z, rec in _live()}
     for did, r in result.items():
         c = r["candidate"]

@@ -30,6 +30,20 @@ section is the route through them.
 | 9. Owner Round A | the interactive blueprint view in World Studio + the design record's 2–4 questions | steers written to the Taste ledger as general rules |
 | 10. Rounds B–C | massing renders, then the dressed walk. **Before Round B**: the 30-item building-rendering checklist in [research/rendering/building-placement-rendering-treatments.md](../research/rendering/building-placement-rendering-treatments.md) §3 (anchoring depth, LOD tiers with matched atlases, fade with haze, shadow pair sync, contact AO, base skirt, foundation clutter, collider budget, navmesh cut, door transitions, night windows, wetness) — the vegetation rounds' mistakes must not repeat on buildings | owner declares the exemplar good, explicitly |
 
+**The seed rule (2026-09-07).** The committed plot is the SEED of the plot
+solve, not a by-product of it. `macro_plot` reads every record's committed
+`positionM` and keeps it; it re-sites only the records whose committed cell is
+no longer VALID under the current fields — water depth at the dot (a submerged
+record needs real depth; a dry record must not now stand in open water), a
+danger or region raster that has genuinely moved under the dot, a sightline the
+new terrain blocks. Crowding, score and the old fit are never re-judged: the
+scorer is globally sensitive, and a 0.55 m median terrain edit moved 342 of 579
+records in a from-scratch solve. Records pinned by a Part 6 blueprint siting
+are never re-judged at all (`pin_overrides` owns those dots). Every run reports
+what it re-sited and why (`macro-plot.json` → `seeding`). A deliberate
+province-wide re-plot is the owner's call and runs as
+`python3 -m worldgen.macro_plot --resolve-all` (decision 0041).
+
 **The write-back rule (owner 2026-09-05).** A place moved after the plot is
 not moved until step 8 has run. The blueprint's chosen siting is the source
 of truth for the position; `apply_sitings` is the only writer of
@@ -77,6 +91,12 @@ sourcing rule); the register only records outcomes.
 | Assemblies round | A lane ends at the berth, not the plotted dot; the survey keeps the anchor-to-anchor lanes for siting so a moved berth does not re-plot the province. A water terminal is checked as "lands here" not "continues the bearing" | `lane-terminals.json`, `waterways-natural.json`, `network-stitch` water rule; minor waterways loaded as terminals |
 | Doors round | A hollow prop reads as a room to a ray probe (game meshes are shells); enclosure needs walls whose FRONT faces the eye. Every real building then has a doorway from one of five evidences (opening, open front, baked leaf, mined placement, composed door part) and a linked interior kit that exists; the door is not a mesh that we place; it is the point around which the building is turned | `interiors_index` front-face criterion, doorway kinds, tileset-resolves test; `vanilla-farmhouse-int` / `vanilla-imperial-int` kits; `blueprint_footprints --orient`; `door-on-way` HARD |
 | Doors round | The macro layer promised services and named people in prose, so nothing checked the blueprint built them — Lilmoth's record said `service-hub` and its blueprint had one shop parcel. The promise is now typed (`services[]`, derived from magnitude x culture x purpose) and the delivery is checked object by object | `catalogue.SERVICES`, `derive_services`, `blueprint_promises` in `compile_settlement`; 97 E9 / G22 |
+| Review 2026-09-07 | One canonical entrance per piece, ranked from the mod's own door link down; a piece's front is the side its author left open, and gates/walls face out | `entrance`, `provenance`, `front`, `piece_front.py`, gate/wall outward rule |
+| Review 2026-09-07 | An enterable building earns its interior: every door carries a typed player purpose of medium tier or higher; flavour alone is decoration and stays outside | `player_purpose.py`, `playerPurpose[]` |
+| Round A audit | A parcel is not one thing: a rack, an oven and a notice board were counted, spaced and judged as buildings, so a works yard read as a village. Every parcel now derives a `kind` (building / structure / prop) from the interiors index and the measured mesh; props are dressing, a stacked piece is not a second structure, and the dressing kit is admitted to every kit set | `parcel_kinds.py`; 97 C1a / C5b / G23; `DRESSING_KITS` |
+| Round A audit | Spacing was measured between authored PIVOTS, which some pieces put 8–20 m from their own hulls; density was measured over a boundary that carried the approaches and the water; the canopy a beacon was held against was the region's tallest species rather than the trees on the ray | `parcel-gap` on footprint centroids; `built_hull_area_ha`; `_canopy_on_ray_m`; 97 C5 / C6 / D2 |
+| Round A audit | "Designed to touch" covered kit snaps only, so a hoist against the rock it works had to be mis-declared as a snap. A trade contact is `worksWith` + `worksWithWhy`: exempt from the 8 m floor, and held 0.5 m CLEAR, because nobody authored those two pieces to join | validator `worksWith`; `WORKS_WITH_CLEAR_M`; 97 C5a / G24 |
+| Round A audit | The prose linter read every hard-wrapped markdown line as a sentence, so "the road runs from" was reported as ending on a preposition (14 of 24 hits). Markdown is linted by paragraph, and a code span becomes a neutral word rather than nothing | `lint_prose.lint_markdown` |
 | Assemblies round | The macro plot is more even than random (Clark–Evans R ≈ 1.8 per zone, target < 1): a report can only say so; fixing it is a re-solve that the owner must call | `plot_stats`, 0041 § Assemblies round |
 
 ## 3. Automation-readiness checklist (Phase 15 gate)

@@ -1033,6 +1033,14 @@ as load-bearing. Record the outcome here either way.
 | 2026-09-07 | **A stone place on a slope is shown as a building site of rising courses** where the finished static would swallow the shelf; pens behind the rise (a reveal); haul road as a switchback; the Hist stays where it grew with conduits climbing | Mazzatun |
 | 2026-09-07 | **No lane is a ruled line and no huts stand in columns.** Two parallel ways of one width, or three or more buildings on one bearing at one spacing, read as a grid even in a stilt quarter; boardwalks run straight only from pile to pile between bends, footpaths are routed on the ground, and each dwelling takes its own offset (5.5–6.5 m off its lane) and its own spacing (12–19 m) | owner-eye review: Pusbottom's two parallel lanes and three hut columns at 15 m; the shore quarter's ruler row |
 | 2026-09-07 | **A ring that grew is not a polygon.** Trunk rings, hut rings and pole rings carry a seeded jitter (up to about 6° and 2 m per member) about the culture's default spacing; the default (22.6 m) is an average, never an exact chord | Nine-Trunks' exact nonagon; applies to all 27 tribal villages |
+| 2026-09-07 | **Props are not buildings.** Every parcel derives a `kind` — `building` (encloses a room or has an entrance), `structure` (deck, scaffold, gate, wall, tower), `prop` (rack, oven, cart, board). Props are exempt from the C5 8 m floor, the C6 density band and the C7 use histogram, and are counted as C12 dressing; structures count for C6 and not C7; a stacked piece adds nothing to any count | audit §7.1 (a works yard judged as a village); `worldgen.parcel_kinds`, 97 C5b |
+| 2026-09-07 | **Kit purity is held over what a place is built of.** The `works-v1` props and a neutral dressing pool are admitted to every kit set; only structures and buildings are tied to one kit per district. A district drawn round a single prop is deleted | audit §7.2; Lilmoth's dues-board district removed, the board moved into the lighter quay; `blueprint.DRESSING_KITS`, 97 C1a |
+| 2026-09-07 | **Where C2 and C4 want the same ground, the Hist wins.** Commerce sits on the spine at the first junction inside the threshold ON THE WAY to the sacred or authority node, not at a fixed distance from the gate | audit §7.3; Lilmoth, where the high ground is the ground nearest the gate; 97 C4 |
+| 2026-09-07 | **Argonians build no fence or wall piece except where the lore cites one** (Lilmoth's estuary pole wall); a closed ring of dwellings, trunks and woven panels between them IS the place's edge and counts as one | audit §7.4; Nine-Trunks; 97 C10 |
+| 2026-09-07 | **`abuts` covers kit snap pairs only.** A trade contact (a hoist against the rock it works, an oven beside its rack) is `worksWith` + `worksWithWhy`: exempt from the 8 m floor, and it must keep 0.5 m clear, because nobody authored those two pieces to touch | audit §7.5; validator + `parcel-gap` `WORKS_WITH_CLEAR_M`, 97 C5a |
+| 2026-09-07 | **The Morrowind ratio is the rule for structure counts** (Balmora ≈ 40, so an M5 is 50–80 buildings and structures); the settlement register's 150–400 band counts total placed objects including props and dressing | audit §7.6; 97 D7, module 92 §83b |
+| 2026-09-07 | **The gate piece sets the width through it.** A spine may narrow to the opening for the gate's length and widen again beyond it | audit §7.8; Mazzatun's 3 m roads through a 3 m gate; 97 C3 |
+| 2026-09-07 | **The Mazzatun raiders' back way is a climb, not a cut.** One way onto the shelf by the road; the raiders come down a climbable rock face (climbing by default, 00-core), and no terrain is cut for it | audit; the design record, gap plan B8 line removed |
 | 2026-09-07 | **A gate that can be walked round is not a gate.** No way of any class enters a place past a `spans` gate; a lore-grounded back way (a raiders' path, a smugglers' cut) is allowed only if it is walkable (≤30° in any 3 m), is not the line any `approaches[]` entry uses, and says on the way why it exists | Mazzatun's shoulder footpath skirted the shelf gate at 42–58°; removed, terrain request in gap plan B8 |
 | 2026-09-07 | **What the eye wants gets a path.** Where a walker at a node can see a quarter below within 150 m, a footpath joins them unless the ground forbids it; a 500 m detour to reach what is in plain view reads as fake | Lilmoth: the fishers' path from the gate yard to the shore quarter (120 m for a 500 m loop) |
 | 2026-09-07 | **Accepted answers are written into the record the same day.** A design record's open question is closed in place with the ruling and where it now lives; prose that still describes the rejected option (a tent for a hut) is a defect | the Licensed Stage still described the tent; the Standing Charge lacked its four rulings |
@@ -1723,6 +1731,18 @@ cannot serve the place, empty socket lists) are queued at the end of each
 design record for after the owner confirms the sitings. Round A packet:
 [research/phase11/phase11-part6-round-a.md](../research/phase11/phase11-part6-round-a.md).
 
+### Plot rule — the committed plot is the seed of the solve (2026-09-07)
+
+The owner-authorised terrain edits (channels carved to their water profile,
+deep basins filled; 155k cells, 0.55 m median) moved 342 of 579 records in a
+from-scratch solve, because the siting scorer is globally sensitive to its
+input rasters. `macro_plot` now seeds from the committed plot: a record keeps
+its committed cell unless that cell is no longer valid (water depth at the dot,
+a danger/region raster that moved under it, a sightline the new terrain
+blocks), and the run reports every re-siting. A province-wide re-plot stays the
+owner's deliberate step, behind `--resolve-all`. See playbook §1 "The seed
+rule".
+
 ### Review 2026-09-07 — every round claim checked against the code (Fable planned, four Opus audits, four Opus fix batches)
 
 #### Interiors, done at the root (2026-09-07)
@@ -1858,6 +1878,65 @@ short on purpose):
     the studio scene files the water pass is editing.
 
 **Owner-eye review of the five blueprints (2026-09-07, standing in for the owner):** [research/phase11/phase11-round-a-owner-eye-review.md](../research/phase11/phase11-round-a-owner-eye-review.md) — what each map showed, the walk-throughs, the fixes, and the ledger rows above dated the same day.
+
+### Review 2026-09-07, second pass — the owner's questions answered at the root (Fable decided, five Opus batches)
+
+**Owner rulings.** One canonical answer per building for where its door is;
+a derived front and back for pieces without a door, generalising to every
+plotted place, not settlements only; no black yaw stub; enterable buildings
+earn their interior (a purpose spectrum, not flavour); a defect found is
+never "out of scope"; there is more than one road-spanning gate in the
+mods we hold; Pusbottom's count follows the lore grounding; the remaining
+principle questions (props vs buildings, kit purity, C2/C4, C10, `abuts`,
+D7, C3, the Mazzatun back way) are the implementation lead's to decide.
+
+**What landed** (rules in module 97 with enforcement, rows in the Taste
+ledger, lessons in module 96):
+
+- *One entrance per piece.* `interiors_index.finalise_entrance` ranks the
+  evidence (plugin door link > kit assembly door part > door piece > baked
+  leaf > measured opening > open front) and writes one `entrance` with a
+  `provenance[]` audit trail; radial only where placements show the door
+  turned. 50 pieces carry an entrance (15 from the plugins). `doorwayRef` is
+  gone; the studio draws one red door tick and names the evidence on click.
+- *Front and back.* `piece_front.py`: the front is the side the piece's own
+  authors repeatedly left open (co-placement evidence, 31 pieces), else the
+  detailed face (triangle-density asymmetry, 419), else symmetric (631).
+  Validator: a piece with a front looks at its nearest way or approach
+  within 60° (WARN; HARD where it has an entrance); gates, walls and towers
+  face away from what the boundary polygon encloses, and a gate a way runs
+  through has that way's outer end on its front (HARD). The approach rule
+  is a WARN on curtain walls because a wall flanks the road through its own
+  gate (documented in `piece-front-derivation.md`). Lilmoth's gate arch
+  turned 58.7 → 342.6°, its south stub 58.7 → 71.9°; Mazzatun's two gates
+  turned.
+- *Player purposes.* `player_purpose.py`: twenty kinds in three tiers; every
+  door carries `playerPurpose[]` with a medium-or-higher entry (HARD),
+  distribution WARNs per place; 56 enterables authored, Pusbottom kept at 15
+  huts as the criminal economy (fence, safehouse, Owing brokerage, stash,
+  divers' cache, dice barge, bunks). Research:
+  `research/placement-settlements/player-purpose-spectrum.md`.
+- *Six tool defects fixed* (C5 on hull centroids, stacked-piece overlap,
+  C6 over the built hull and settlements only, D2 canopy along the ray,
+  `scaleGrounding` by kind, the linter by paragraph) and *eight decisions
+  as rules*: parcel `kind` building/structure/prop (props exempt from
+  spacing, density and the use mix; counted by dressing); works props and a
+  neutral dressing pool admitted to every kit set (the one-piece districts
+  are gone); the Hist keeps the high ground and commerce sits at the first
+  junction inside the threshold on the way to it; a ring of dwellings is an
+  edge, not a fence; `abuts` is a kit snap, `worksWith` a trade contact with
+  0.5 m clear; the Morrowind ratio rules structure counts and the
+  register's 150–400 band is total placed objects; a gate sets the width
+  through it; Mazzatun's back way is a climb, no cut.
+- *Gates sourced.* `enclosure-v1` (57 pieces, six never-mixed families):
+  nine real gates measured by ray aperture — the BM&V newcastle curtain gate
+  (5.52 m) and arch (8.96 m) pass the 4.3 m spine; Redoran, HTBM ancient,
+  Ayleid and Argonian arches take a track or footpath; the stockade gate is
+  modelled shut. Lilmoth's Imperial arch is 3.20 m, so the spine narrows
+  through it (C3). Xanmeer ships no gate: a standing gap, never faked.
+
+**Decisions for the owner that remain**, after this pass: none of the
+above; see the closing list in the next session's brief.
 
 ### Assemblies round — the queued list, delivered (2026-09-05, Fable planned, Opus delivered)
 
