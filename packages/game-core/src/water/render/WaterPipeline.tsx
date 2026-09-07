@@ -281,7 +281,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.effects.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
       for (const mesh of h.meshes) mesh.material = mesh.geometry.hasAttribute('waterRibbonFlow')
         ? (underwater ? h.materials.ribbonBelow : h.materials.ribbonAbove)
-        : (underwater ? h.materials.below : h.materials.above);
+        : mesh.geometry.hasAttribute('waterRasterOverride')
+          ? (underwater ? h.materials.inlandBelow : h.materials.inlandAbove)
+          : (underwater ? h.materials.below : h.materials.above);
     }
 
     // Restore every renderer/camera setting exactly once, including failures.

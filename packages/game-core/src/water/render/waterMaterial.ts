@@ -458,6 +458,7 @@ export interface WaterMaterialContext {
   uniforms: WaterUniforms;
   tier: WaterTier;
   nativeRibbonLayout?: boolean;
+  nativeInlandLayout?: boolean;
 }
 
 export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialContext): THREE.MeshPhysicalMaterial {
@@ -483,7 +484,13 @@ export function createWaterMaterial(variant: WaterVariant, ctx: WaterMaterialCon
         "#include <common>",
         /* glsl */ `#include <common>
 uniform float uVerticalScale;
-${ctx.nativeRibbonLayout ? `attribute vec3 waterRibbonFlow;
+${ctx.nativeInlandLayout ? `attribute vec3 waterRasterOverride;
+attribute vec2 waterRasterResponse;
+attribute float waterRasterExplicit;
+attribute float waterGround;
+#define waterOverride vec4(waterRasterOverride, 0.0)
+#define waterFlowY 0.0
+#define waterLevelResponse vec3(waterRasterResponse, waterRasterExplicit)` : ctx.nativeRibbonLayout ? `attribute vec3 waterRibbonFlow;
 attribute vec2 waterRibbonResponse;
 attribute float waterRibbonResponseValid;
 #define waterOverride vec4(position.y, waterRibbonFlow.xz, 1.0)
@@ -493,6 +500,7 @@ attribute float waterRibbonResponseValid;
 attribute float waterGround;
 attribute float waterFlowY;
 attribute vec3 waterLevelResponse;`}
+#define esSourceNormal ${ctx.nativeInlandLayout ? 'vec3(0.0, 1.0, 0.0)' : 'normal'}
 attribute float waterAccessOffset;
 attribute float waterBodyIndex;
 attribute float waterNative;
@@ -610,7 +618,7 @@ if (uOceanEnabled > 0.5 && esKl.r * 255.0 < 2.5) {
 // swell tilts the normal along the shoreward axis
 esW.normal.xz += esShoreDir * esSwellDHdd;
 esW.normal = normalize(esW.normal);
-if ((waterOverride.w > 0.5 && waterOverride.w < 1.5) || waterNative > 0.5) esW.normal = normalize(normal + vec3(esW.normal.x, 0.0, esW.normal.z));
+if ((waterOverride.w > 0.5 && waterOverride.w < 1.5) || waterNative > 0.5) esW.normal = normalize(esSourceNormal + vec3(esW.normal.x, 0.0, esW.normal.z));
 if (waterOverride.w > 1.5) {
   vec4 local = esLocalWaterSurface(esRestW.xz);
   esW.disp.y += local.x;
@@ -628,7 +636,7 @@ if (esFlowSp > 0.15) {
   vec2 esDownAt = esSurfaceAt(esDataXZ + (esFlowV / esFlowSp) * 7.0);
   esDropSlope = clamp((esSurf.x - esDownAt.x) / 7.0, 0.0, 1.0);
 }
-if (waterOverride.w > 0.5) esDropSlope = length(normal.xz) / max(normal.y, 0.001);
+if (waterOverride.w > 0.5) esDropSlope = length(esSourceNormal.xz) / max(esSourceNormal.y, 0.001);
 vEsFlow = vec3(esFlowV, esDropSlope);
 vec3 objectNormal = normalize(vec3(esW.normal.x, esW.normal.y / max(uVerticalScale, 0.001), esW.normal.z));
 vEsNormalW = objectNormal;`,
@@ -983,6 +991,6 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, max(e
   };
 
   applyAerial(material);
-  material.customProgramCacheKey = () => `es-water-v2-${variant}-${tier.name}-${ctx.nativeRibbonLayout ? "native-ribbon" : "general"}`;
+  material.customProgramCacheKey = () => `es-water-v2-${variant}-${tier.name}-${ctx.nativeInlandLayout ? "native-inland" : ctx.nativeRibbonLayout ? "native-ribbon" : "general"}`;
   return material;
 }

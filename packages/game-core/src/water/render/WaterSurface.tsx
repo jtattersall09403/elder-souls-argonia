@@ -97,7 +97,7 @@ export interface WaterSurfaceHandle {
   uniforms: WaterUniforms;
   mesh: THREE.Mesh;
   meshes: THREE.Mesh[];
-  materials: { above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial; ribbonAbove: THREE.MeshPhysicalMaterial; ribbonBelow: THREE.MeshPhysicalMaterial };
+  materials: { inlandAbove: THREE.MeshPhysicalMaterial; inlandBelow: THREE.MeshPhysicalMaterial; above: THREE.MeshPhysicalMaterial; below: THREE.MeshPhysicalMaterial; ribbonAbove: THREE.MeshPhysicalMaterial; ribbonBelow: THREE.MeshPhysicalMaterial };
   effects: WaterEffects;
   bubbles?: UnderwaterBubbles;
 }
@@ -123,6 +123,8 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     () => ({
       above: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }),
       below: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier }),
+      inlandAbove: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier, nativeInlandLayout: !!assets.data.nativeGround }),
+      inlandBelow: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier, nativeInlandLayout: !!assets.data.nativeGround }),
       ribbonAbove: createWaterMaterial("above", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier, nativeRibbonLayout: !!assets.data.nativeGround }),
       ribbonBelow: createWaterMaterial("below", { csm, applyAerial: runtime.applyAerial, assets, uniforms, tier, nativeRibbonLayout: !!assets.data.nativeGround }),
     }),
@@ -191,6 +193,8 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();
+    materials.inlandAbove.dispose();
+    materials.inlandBelow.dispose();
     materials.ribbonAbove.dispose();
     materials.ribbonBelow.dispose();
   }, [materials]);
@@ -230,7 +234,7 @@ export function WaterSurfaceMesh({ assets, tier, verticalScale, farExtentM, ripp
     const mesh = meshRef.current;
     if (!mesh) return;
     const geometryView = geometryCamera.update(camera, size.height * gl.getPixelRatio());
-    inland.update(camera.position.x, camera.position.z, mesh.material as THREE.Material, verticalScale, geometryView);
+    inland.update(camera.position.x, camera.position.z, mesh.material === materials.below ? materials.inlandBelow : materials.inlandAbove, verticalScale, geometryView);
     ribbons.update(geometryView, mesh.material === materials.below ? materials.ribbonBelow : materials.ribbonAbove, verticalScale);
     const surfaceFocus = runtime.surfaceFocus?.();
     marine?.update(camera.position.x, camera.position.z, surfaceFocus ?? {

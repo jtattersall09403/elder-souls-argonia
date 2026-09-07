@@ -23,24 +23,27 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Last verified live: `4b9f232`, successful Actions `34116428417`, studio bundle
-  `index-kUZ9R7gz.js` (2026-09-07). Root tests, typecheck, credits and build passed
+- Last verified live: `70a0762`, successful Actions `34121702407`, studio bundle
+  `index-DSB_cShX.js` (2026-09-07). Root tests, typecheck, credits and build passed
   in Actions. Live HTML references the successful build bundle; its downloaded
-  SHA-256 is `eb816a00e306430a93b92d8dc62a311cb0ff7a983b166560b3c591cd74f49423`. Public water metadata SHA-256:
+  SHA-256 is `1e50435d56bee842282c3e0f73d1ca7e36440f2a7fc6329bd6c7412a76b92576`. Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
-- New local checkpoint adds prepared cutouts, lossless river packing, native
+- The deployed checkpoint adds prepared cutouts, lossless river packing, native
   inland class subdivision reduction and zero-area face removal. All 815
-  standing tiles now total 1,026,192 triangles (about 35% fewer). Shared budget
-  allocation and displayed inland packing are next; native assets remain local.
+  standing tiles now total 1,026,192 triangles (about 35% fewer). Displayed
+  inland packing is now implemented locally and the actual normal
+  native view passes aggregate limits with a diagnostic allocation allowance.
+  Shared budget allocation and low-view validation are next; native assets remain local.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Do not describe a local source fix as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
-- The source through `4b9f232` is deployed; native accepted62 preview assets
-  remain local at `/tmp/water-live-preview`. Actual preview budget tests fail:
-  coarse constant-owner inland patches are implemented, but the complete view
-  still does not settle within its loading budget. Local lossless ribbon
+- The source through `70a0762` is deployed; native accepted62 preview assets
+  remain local at `/tmp/water-live-preview`. The unchanged per-system production
+  triangle quotas still reject standing
+  geometry; a diagnostic sharing the combined quota now settles the full normal
+  view within the original combined memory and triangle limits. Local lossless ribbon
   packing now fits all345 requested normal-view river patches into64MiB, with
-  both shader sides checked on WebGL2; other views and standing tiles remain open. The
+  both shader sides checked on WebGL2; low quality and moving views remain open. The
   current evidence and remaining shared costs are in the coverage pipeline doc. Read `git status` and
   the recent log for newer checkpoints.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;

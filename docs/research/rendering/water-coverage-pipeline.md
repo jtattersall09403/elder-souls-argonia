@@ -435,18 +435,39 @@ all 815 tiles, constructed in 14.40 seconds. No nonzero-area face is removed.
 Exact duplicate removal saved nothing and was discarded. Evidence:
 `/tmp/water-clean-standing-costs.json`; do not repeat unchanged.
 
-The next shared allocation fix has independent review: retain the combined
-2,048,576-triangle and 160 MiB normal-view limits, but share them between
-standing water and rivers rather than rejecting one while the other has spare
-capacity. A lossless displayed inland layout can remove constant/redundant
-attributes; retained-source and displayed costs must both count. Neither this
-shared ledger nor the displayed inland packing is implemented yet. Full
-residency and aggregate budgets still need proof in both quality modes.
+The displayed native inland merge now writes a compact layout directly:
+39 bytes/vertex instead of 49, with unchanged Float32 head, sample coordinates,
+ground and tide/season coefficients. Raster mode and up normals are validated
+constants; flags 0/1/2 remain exact Uint8 values. Unannotated tiles are promoted
+with flag zero, preserving raster sampling. Retained source tiles stay unchanged.
+Above/below material variants explicitly reconstruct the constants, share
+uniforms and are selected by the displayed geometry's attributes. Independent
+review found no field-loss or material-selection defect.
 
-Latest source checks: 18 focused tests pass; root typecheck passes; root tests
-pass all runtime suites (game-core 784 passed, one final-asset test skipped).
-The sole root failure is the unrelated uncommitted settlement prose lint.
-Deployment CI will test the water-only committed tree independently.
+A one-off actual native normal-view test passed in 29.1 seconds: all requested
+standing tiles and river patches finished, zero budget rejections, and aggregate
+geometry stayed below 2,048,576 triangles / 160 MiB. The test temporarily allowed
+standing water to use spare river triangle capacity; that allocation change is
+not yet in production. Evidence: `/tmp/waterNativePackedDiagnostic.test.ts` and
+`/tmp/water-native-inland-packed-budget.log`. Existing measured source rows plus
+the exact new merge layout calculate 54,471,767 standing source bytes +
+44,695,977 displayed bytes + 65,595,378 river bytes = 164,763,122 bytes. This is
+normal-view evidence only, not a low-quality or moving-camera acceptance claim.
+Do not repeat this unchanged diagnostic.
+
+Next: retain the combined 2,048,576-triangle limits and normal/low 160/128 MiB
+limits, but share them between standing water and rivers. One injected ledger
+must handle atomic replacements, eviction, disposal and old displayed batches
+still alive during resumable merges; do not release their memory early. Track
+bounded transient construction separately. Full residency and aggregate budgets
+still need proof with that implementation in both quality modes.
+
+Five compact merge checks pass, including absent optional fields and rejection
+of invalid constants. Six headless WebGL2 draws (general/ribbon/inland, above
+and below) link with zero errors, using Studio aerial bindings and no images
+(`/tmp/water-inland-layout-gpu.log`). Root typecheck passes. The final root
+run passes runtime suites (game-core 789 passed, one final-asset test skipped);
+its only failure is unrelated concurrent settlement prose lint. Results are in `/tmp/water-inland-packed-root-final.log`.
 
 ## Latest local evidence to retain, not repeat
 

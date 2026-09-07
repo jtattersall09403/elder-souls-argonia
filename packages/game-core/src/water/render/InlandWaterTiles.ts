@@ -3,6 +3,7 @@ import type { WaterData, WaterBoundaryStaticSample } from "../waterData";
 import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
 import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell, type RasterDomainBounds } from "./rasterWaterDomain";
+import { inlandBatchGeometry } from "./inlandBatchGeometry";
 import { inlandBatchBudget } from "./inlandBatchBudget";
 import { clipRasterBounds } from "./clipRasterBounds";
 import { RasterOwnerIndex } from "./rasterOwnerIndex";
@@ -85,7 +86,7 @@ export class InlandWaterTiles {
   private batchReservation(key: string, omit?: THREE.Mesh, insert?: THREE.Mesh): number {
     const sources = [...this.tiles.values()].filter(tile => tile !== omit && tile.userData.waterBatch === key && (tile.geometry.index?.count ?? 0) > 0).map(tile => tile.geometry);
     if (insert && (insert.geometry.index?.count ?? 0) > 0) sources.push(insert.geometry);
-    return inlandBatchBudget(sources).totalBytes;
+    return inlandBatchBudget(sources, !!this.data.nativeGround && this.domain === 'inland').totalBytes;
   }
 
   /** A near overlay may copy only displayed, native-step coarse triangles.
@@ -195,7 +196,7 @@ export class InlandWaterTiles {
           continue;
         }
         const bounds = new THREE.Box3(); for (const tile of tiles) bounds.union(tile.userData.waterBounds);
-        this.merging = { key, bounds, build: this.mergeSteps(tiles.map(tile => tile.geometry)), tiles: tiles.map(tile => ({ ...tile.userData.waterTile, step: tile.userData.waterStep })) };
+        this.merging = { key, bounds, build: inlandBatchGeometry(tiles.map(tile => tile.geometry), !!this.data.nativeGround && this.domain === 'inland'), tiles: tiles.map(tile => ({ ...tile.userData.waterTile, step: tile.userData.waterStep })) };
       }
       if (this.merging) {
         this.atomicPhase = "batch-copy";
@@ -602,55 +603,6 @@ export class InlandWaterTiles {
     // Shader sets elevations; CPU bounding box would otherwise lie at sea level.
     mesh.frustumCulled = false; mesh.layers.set(3); mesh.receiveShadow = true;
     return mesh;
-  }
-  /** Fixed attribute layout; copy at most4096 scalar values per step.
-   * The outgoing GPU buffer is untouched throughout construction. */
-  private *mergeSteps(sources: THREE.BufferGeometry[]): Generator<void, THREE.BufferGeometry> {
-    const count = sources.reduce((sum, geometry) => sum + geometry.getAttribute("position").count, 0);
-    const indexCount = sources.reduce((sum, geometry) => sum + geometry.index!.count, 0);
-    const position = new Float32Array(count * 3); yield;
-    const normal = new Int8Array(count * 3); yield;
-    const enhanced = sources.some(source => source.hasAttribute('waterLevelResponse'));
-    const override = enhanced ? new Float32Array(count * 4) : new Int8Array(count * 4); yield;
-    const levels = enhanced ? new Float32Array(count * 3) : undefined; yield;
-    const ground = enhanced ? new Float32Array(count) : undefined; yield;
-    const owner = enhanced ? new Uint16Array(count) : undefined; yield;
-    const footprint = sources.some(source => source.hasAttribute('waterCellSize')) ? new Float32Array(count) : undefined; yield;
-    const indices = count > 65535 ? new Uint32Array(indexCount) : new Uint16Array(indexCount); yield;
-    let vertices = 0, cursor = 0;
-    for (const source of sources) {
-      for (const [name, target, width] of [["position", position, 3], ["normal", normal, 3], ["waterOverride", override, 4]] as const) {
-        const values = source.getAttribute(name).array;
-        for (let i = 0; i < values.length; i += 4096) {
-          target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
-        }
-      }
-      for (const [name, target, width] of [['waterLevelResponse', levels, 3], ['waterGround', ground, 1], ['waterBodyIndex', owner, 1], ['waterCellSize', footprint, 1]] as const) {
-        if (!target || !source.hasAttribute(name)) continue;
-        const values = source.getAttribute(name).array;
-        for (let i = 0; i < values.length; i += 4096) {
-          target.set(values.subarray(i, Math.min(values.length, i + 4096)), vertices * width + i); yield;
-        }
-      }
-      const input = source.index!.array;
-      for (let i = 0; i < input.length; i++) {
-        indices[cursor++] = input[i] + vertices;
-        if ((i & 1023) === 1023) yield;
-      }
-      vertices += source.getAttribute("position").count;
-    }
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute("position", new THREE.BufferAttribute(position, 3));
-    geometry.setAttribute("normal", new THREE.BufferAttribute(normal, 3, true));
-    geometry.setAttribute("waterOverride", new THREE.BufferAttribute(override, 4));
-    if (footprint) geometry.setAttribute('waterCellSize', new THREE.BufferAttribute(footprint, 1));
-    if (levels && ground && owner) {
-      geometry.setAttribute('waterLevelResponse', new THREE.BufferAttribute(levels, 3));
-      geometry.setAttribute('waterGround', new THREE.BufferAttribute(ground, 1));
-      geometry.setAttribute('waterBodyIndex', new THREE.BufferAttribute(owner, 1));
-    }
-    geometry.setIndex(new THREE.BufferAttribute(indices, 1));
-    return geometry;
   }
   dispose(): void {
     this.active?.build.return(undefined as never); this.active = undefined;
