@@ -23,10 +23,10 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Verified live checkpoint: `3cf2965`, Actions `34131751860`, bundle
-  `index-CPwMQa8_.js` (2026-09-07). Tests, typecheck, credits, build and deploy
+- Verified live checkpoint: `17a1ce6`, Actions `34133790571`, bundle
+  `index-rD1WEtih.js` (2026-09-07). Tests, typecheck, credits, build and deploy
   pass. Downloaded bundle SHA256:
-  `d6725b38133dedd1eea72278f37dca0991083f335087b1f5355790dc58af6c1e`.
+  `c5f26d9923ab942192a74d9ac23178f6e9fe062aa13ef4772a71a66062d46716`.
 - **Native river/terrain/map progress preview is now deployed**, selected by
   `?waterDataset=preview`. The ordinary Studio URL still selects public v2.
   Preview includes accepted62 native fields, matching corrected/adaptive terrain,
@@ -54,7 +54,8 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Renderer shoreline correction (2026-09-07)
 
-Root tests and typecheck pass; publishing this correction: preserve signed vertex depth until
+Deployed in17a1ce6; root and Actions tests/typecheck pass. Live bundle verified
+(`/tmp/water-pages-34133790571-live.json`). The correction: preserve signed vertex depth until
 fragment interpolation, preventing dry triangle corners from acquiring water
 from neighbouring wet corners. Actual generated material GLSL in a WebGL2
 numeric probe reduced excess dry-land pixels from496 to0 across1,921 samples,
@@ -70,6 +71,29 @@ missing from standing geometry are owned by channel ribbons. Two remaining
 wet samples at3828.25/1096.25 and3827.75/1096.75 remain unresolved; do not
 claim the native gaps are all fixed. Evidence `/tmp/water-live-shore-probe.json`;
 temporary diagnostic source archived outside the repository.
+
+## Ocean rendering correction ready for publication (2026-09-07)
+
+The terrain beach wet band still applied local shelter after seaward fetch,
+although the surface/CPU surf correction had removed it. Remove that duplicate
+factor here too. Underwater terrain/prop receivers now use the existing physical
+open-sea contract beyond the raster: base0, tidal response1, seasonal0,
+turbidity0.25, tannin0, owner65535 and supported water. Previously the receiver
+unconditionally suppressed caustics there and clamped inland chemistry/levels.
+A numeric WebGL probe of the actual receiver source verifies all four outside
+edges at tide0.5 and an unsupported interior control, GL error0
+(`/tmp/water-ocean-receiver-gpu.{mjs,json}`). This does not prove visible caustics
+within the province; marine chemistry there remains an open shared cause.
+
+Independent ocean review found geometry LOD removes the long-wave lighting and
+whitecap input: high-tier grid at400m has zero geometry spectrum; low-tier at200m
+likewise. Fragment lighting previously restored only short bands, and foam used
+only the filtered mesh crest. Restore all pixel-resolved spectral bands for
+lighting and foam without requiring finer geometry or changing physical waves. Root tests pass;
+actual WebGL links above/below, packed/unpacked water and terrain receiver
+variants with zero GL errors (`/tmp/water-ocean-release-gpu.json`).
+Barcode appearance remains unverified; this fixes a measured LOD dependency,
+not proof that every reported texture artefact has the same cause.
 
 ## Peak coverage correction (2026-09-06)
 

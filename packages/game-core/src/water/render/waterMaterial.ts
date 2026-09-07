@@ -411,7 +411,7 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant): string {
   varying float vEsAccess;
   varying float vWaterBodyIndex;
   varying float vRasterExplicit;
-  varying vec3 vOceanDetail;
+  varying vec4 vOceanDetail; // full spectral slope, amplitude, vertex spectral height
   ${SPECTRAL_OCEAN_GLSL}
   ${LOCAL_WATER_SURFACE_GLSL}
   ${NATIVE_WATER_GROUND_GLSL}
@@ -507,7 +507,7 @@ attribute float waterNative;
 attribute float waterCellSize;
 varying float vWaterBodyIndex;
 varying float vRasterExplicit;
-varying vec3 vOceanDetail;
+varying vec4 vOceanDetail; // full spectral slope, amplitude, vertex spectral height
 varying float vRibbon;
 varying float vEsFlowY;
 varying float vEsAccess;
@@ -594,11 +594,11 @@ float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
 float esWaveAmp = min(esExposure * esCharacter.b * uWindWave, esVDepth * 0.45);
 EsWave esW;
-vOceanDetail = vec3(0.0);
+vOceanDetail = vec4(0.0);
 if (uOceanEnabled > 0.5 && esKl.r * 255.0 < 2.5) {
   vec2 detailSlope;
   vec3 spectrum = esOceanSpectrum(esRestW.xz, max(waterCellSize, 0.125), detailSlope) * esWaveAmp;
-  vOceanDetail = vec3(detailSlope * esWaveAmp, esWaveAmp);
+  vOceanDetail = vec4(spectrum.yz, esWaveAmp, spectrum.x);
   esW.disp = vec3(0.0, spectrum.x, 0.0);
   esW.normal = normalize(vec3(-spectrum.y, 1.0, -spectrum.z));
   esW.height = spectrum.x;
@@ -709,13 +709,20 @@ uniform float uVerticalScale;`,
         /* glsl */ `
 float faceDirection = gl_FrontFacing ? 1.0 : -1.0;
 vec3 esNBase = normalize(vEsNormalW);
+float esWhitecapCrest = vEsWorldPos.y / max(uVerticalScale, 0.001) - vEsData.x;
+// Derivatives are evaluated outside the varying marine branch so mixed
+// shoreline pixel quads have a defined screen footprint.
+float esOceanPixelM = max(length(dFdx(vEsWorldPos.xz)), length(dFdy(vEsWorldPos.xz)));
 if (uOceanEnabled > 0.5 && vOceanDetail.z > 0.00001) {
-  float pixelM = max(length(dFdx(vEsWorldPos.xz)), length(dFdy(vEsWorldPos.xz)));
-  vec2 detail = (esOceanBand(vEsWorldPos.xz, 1, pixelM).yz + esOceanBand(vEsWorldPos.xz, 2, pixelM).yz) * vOceanDetail.z;
-  // Replace only mesh-filtered detail; retain the long swell and shoreline
-  // normal. Never rotate world coordinates or double-count vertex slopes.
-  vec2 gradient = esNBase.xz / max(esNBase.y, 0.001) + (vOceanDetail.xy - detail) * uVerticalScale;
+  vec2 unusedDetailSlope;
+  vec3 spectrum = esOceanSpectrum(vEsWorldPos.xz, esOceanPixelM, unusedDetailSlope) * vOceanDetail.z;
+  // Geometry filtering eventually removes even the long swell. Replace
+  // every spectral slope at screen resolution, retaining shore/local normals.
+  vec2 gradient = esNBase.xz / max(esNBase.y, 0.001) + (vOceanDetail.xy - spectrum.yz) * uVerticalScale;
   esNBase = normalize(vec3(gradient.x, 1.0, gradient.y));
+  // Whitecaps follow the resolved wave field, not the camera mesh spacing.
+  // Keep any additional local displacement by replacing only spectral height.
+  esWhitecapCrest += spectrum.x - vOceanDetail.w;
 }
 // A conservative flat patch may have vertices in a neighbour's channel.
 // Its visible standing-water pixels retain their own flow, with zero grade.
@@ -847,7 +854,7 @@ float esFoamE = (1.0 - smoothstep(0.015, 0.24, esThick))
   esFoamE += esSurfFoam(esShoreD + bn * 4.0, vEsSurf.x, uWaveTime, esSurfWindF) * 0.85;
 }
 // 3. whitecaps on genuinely exposed water, never in the far shimmer zone
-float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
+float esCrest = esWhitecapCrest;
 esFoamE += smoothstep(0.16, 0.34, esCrest) * esExpo * 0.8 * (1.0 - smoothstep(1200.0, 2400.0, esDist));
 // 4. rapids churn near banks + aerated cascades wherever water descends
 // (coverage CAPPED — a saturated threshold was the round-6 solid crust)

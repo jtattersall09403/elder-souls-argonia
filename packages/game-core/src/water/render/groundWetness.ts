@@ -107,7 +107,12 @@ ${CONNECTED_STAGE_GLSL}
 ${LOCAL_WATER_SURFACE_GLSL}
 ${LOCAL_WATER_CAUSTICS_GLSL}
 
+bool esWetInsideProvince(vec2 p) {
+  return all(greaterThanEqual(p, vec2(0.0)))
+    && all(lessThan(p, vec2(uWetParams.z * uWetParams.w)));
+}
 vec3 esWetStage(vec2 p, float salinity, float season) {
+  if (!esWetInsideProvince(p)) return vec3(-2.0, 1.0, 0.0);
   if (uWetAccessParams.x < 0.5) return vec3(-2.0, smoothstep(0.02, 0.15, salinity), season);
   return esConnectedStage(p, uWetSurf, uWetSupport, uWetShore,
     uWetParams.z, uWetParams.w, uWetOrigin, uWetAccessParams.y, uWetAccessParams.z);
@@ -126,6 +131,7 @@ vec2 esWetLevelDepth(ivec2 texel) {
   return vec2(uWetParams.x + level * uWetParams.y, sampleValue.b * 25.5 + uWetDepthMin);
 }
 vec2 esWetSampleSurface(vec2 worldXZ) {
+  if (!esWetInsideProvince(worldXZ)) return vec2(0.0, 25.5);
   if (uWetNativeCoverage > 0.5) {
     vec4 value = esOwnedRaster(worldXZ, uWetSurf, uWetSupport, uWetParams.z, uWetParams.w, uWetOrigin);
     float level = dot(value.rg, vec2(65280.0, 255.0)) / 65535.0;
@@ -161,21 +167,24 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
   receiver.y /= max(${verticalScale}, 0.001);
   vec3 receiverNormal = normalize(${normal});
   vec2 suv = esWetSurfaceUv(receiver.xz);
-  vec3 shore = texture2D(uWetShore, suv).rgb;
-  vec3 klass = texture2D(uWetKlass, esWetClassUv(receiver.xz)).rgb;
+  // The physical query and ocean surface continue beyond the raster as
+  // tidal open sea. Receivers must use that same column and chemistry.
+  float outside = float(!esWetInsideProvince(receiver.xz));
+  vec3 shore = mix(texture2D(uWetShore, suv).rgb, vec3(1.0, 0.0, 0.0), outside);
+  vec3 klass = mix(texture2D(uWetKlass, esWetClassUv(receiver.xz)).rgb,
+    vec3(1.0 / 255.0, 0.25, 1.0), outside);
   vec2 column = esWetSampleSurface(receiver.xz);
   vec3 stage = esWetStage(receiver.xz, klass.b, shore.g);
   float offset = stage.y * uWetLevels.x + stage.z * uWetLevels.y;
   float level = column.x + offset;
   float supported = uWetHasSupport * step(0.5, texture2D(uWetSupport, suv).r);
-  supported *= float(all(greaterThanEqual(receiver.xz, vec2(0.0)))
-    && all(lessThan(receiver.xz, vec2(uWetParams.z * uWetParams.w))));
+  supported = mix(supported, 1.0, outside) * step(0.5, uWetParams.z);
   if (uWetAccessParams.x > 0.5 && stage.x > offset + 0.001) supported = 0.0;
   float focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
     uWetSun, supported, uWetTime, clamp(uWetWind * 0.3, 0.15, 1.0));
   outgoingLight += reflectedLight.directDiffuse * focus * 0.8;
   vec2 localOwner = texture2D(uWetSupport, suv).gb;
-  float localBody = dot(localOwner, vec2(65280.0, 255.0));
+  float localBody = mix(dot(localOwner, vec2(65280.0, 255.0)), 65535.0, outside);
   float localFocus = esLocalWaterCaustic(receiver, receiverNormal, level, uWetSun);
   // The physical patch must not make opaque tannin/turbidity transparent.
   float localVisibility = esCausticVisibility(level - receiver.y, klass.g, shore.b,
@@ -218,9 +227,8 @@ if (uWetParams.z > 0.5) {
         float esWetGradientLength = length(esWetGradient);
         float esWetSeaward = esWetGradientLength > 0.05 * esWetStep
           ? esWetShoreAt(esWetXZ + esWetGradient / esWetGradientLength * 30.0) : esWetShore;
-        float esWetShelter = uWetHasCharacter > 0.5 ? esWetK.a : 1.0;
         esWetFetch = clamp(max(esWetShore, esWetSeaward) / ${SHORE_SWELL.fetchM.toFixed(1)}, 0.0, 1.0)
-          * (1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0)) * esWetShelter;
+          * (1.0 - 0.85 * clamp(max(esWetK.g, esWetSS.b), 0.0, 1.0));
       }
       float esWetLift = ${(0.75 * SWASH.amplitudeM).toFixed(6)} * clamp(pow(uWetWind, 0.8), 0.6, 3.2)
         * max(1.0 - esWetShore / ${SWASH.bandM.toFixed(1)}, 0.0) * clamp(esWetFetch * 1.6, 0.0, 1.0) + 0.08;
