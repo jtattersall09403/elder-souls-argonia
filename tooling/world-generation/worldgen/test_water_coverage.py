@@ -1,7 +1,7 @@
 """Coverage screening must expose missing geometry and disconnected wet ground."""
 import numpy as np
 import pytest
-from .water_coverage import screen_field_tile
+from .water_coverage import screen_field_tile, require_compiled_stage
 from .audit_water_coverage import audit_targets
 
 
@@ -43,3 +43,24 @@ def test_tiled_audit_counts_complete_overlapping_families_once_per_family():
     assert small['footprints']['all']['problemGroups'] == [
         {'bodyIndex': 1, 'classification': 'flowing-geometry-unverified', 'nativeVertices': 1,
          'representativeNativeVertex': [2, 4]}]
+
+
+def test_old_flood_sentinels_cannot_certify_a_higher_stage():
+    higher = dict(tidalAmplitudeM=.5, seasonalAmplitudeM=3., lowTideAmplitudeM=.5, drySeasonAmplitudeM=.28)
+    with pytest.raises(ValueError, match='compile fresh fields'):
+        require_compiled_stage(higher, None)
+    assert require_compiled_stage(higher, higher) == higher
+
+
+def test_mesh_coverage_removes_proxy_failures_from_problem_groups():
+    shape = (2, 3)
+    fields = dict(ground2=np.zeros(shape), w2=np.ones(shape), access2=np.zeros(shape),
+                  season2=np.ones(shape), tidal2=np.ones(shape), support_kind2=np.full(shape, 128),
+                  bodies2=np.ones(shape, np.uint16))
+    target = np.ones(shape, bool)
+    mesh_bits = np.full(shape, 4, np.uint8)
+    row = audit_targets(fields, {'river': target}, channel_coverage=(target, mesh_bits))['footprints']['river']
+    assert row['standingFieldWet']['maximum'] == 0
+    assert row['channelOrStandingFieldWet']['maximum'] == 6
+    assert row['maximumUnresolvedAfterSuppliedGeometry'] == 0
+    assert row['problemGroups'] == []

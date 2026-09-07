@@ -359,8 +359,9 @@ All645 selected centres and1,152 pool contacts pass. Original interior pools,
 spill potential, marine coverage and482,066 standing samples are preserved.
 
 The higher-peak screen now separates insufficient height from missing geometry:
-at3m upper season/0.5m tide,151 of those170 vertices have ribbon or standing-field
-coverage;19 remain. Lows stay unchanged. This is a fixed-field diagnostic,
+at3m upper season/0.5m tide,139 of those170 vertices have supported ribbon or
+standing-field evidence;31 remain dry or unverified. The earlier151 count
+included12 unvisited flood sentinels, not measured access paths. Lows stay unchanged. This is a fixed-field diagnostic,
 not a selected production stage or final standing-mesh acceptance. Ten remaining
 misses initially appeared to lie beyond channel terminals. Generic topology
 checks now identify only three true-end misses; the other seven belong to the

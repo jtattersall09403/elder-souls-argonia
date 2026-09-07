@@ -20,6 +20,14 @@ def stage_samples(stage=None):
             'maximum': (bounds['tidalAmplitudeM'], bounds['seasonalAmplitudeM'])}
 
 
+def require_compiled_stage(requested, compiled):
+    """Never reinterpret a flood's unvisited sentinel as a higher-stage sill."""
+    requested, compiled = stage_range(requested), stage_range(compiled)
+    if any(requested[key] > compiled[key] for key in requested):
+        raise ValueError('Requested stage exceeds captured field bounds; compile fresh fields first')
+    return requested
+
+
 def screen_field_tile(ground, level, access, season_response, tide_response, support_kind, stage=None):
     """Classify a tile with the runtime's still-water depth/access thresholds.
 

@@ -109,8 +109,9 @@ Landing fills, section precision and shared clip endpoints fix the earlier gaps.
 The final boundary search resolves to the rendered vertex.4,303 native authored
 vertices gain45 wet samples and lose0;170 remain dry. The32,007-vertex comparison
 also loses0. All645 selected centres and1,152 five-stage pool contacts pass.
-Higher-peak investigation:3m upper season/0.5m tide covers151 of those170 via
-ribbons or unchanged standing fields;19 remain. Generic end-fill code covers3
+Higher-peak correction:3m upper season/0.5m tide has supported ribbon/field
+evidence for139 of170;31 are dry or unverified (12 earlier positives used an
+unvisited flood sentinel). Generic end-fill code covers3
 true-end misses;7 apparent end gaps instead need rejected upstream reach12745
 repaired. Terminal geometry stays diagnostic-only pending final mesh gates;
 no higher stage is accepted. Tests/typecheck pass (one sandbox-denied suite
@@ -118,8 +119,10 @@ passed on targeted retry). Details/evidence are in the water handoff.
 Owner addition and independent review: prioritise a province-wide classified
 coverage audit and shared Studio-map/physical-semantic coverage output over
 further isolated point repairs. Tiled field screen implemented:362,040 channel
-and163,667 rivulet entries, grouped by body/cause; actual meshes and other
-footprint families remain unverified. Three focused tests pass;
+and163,667 rivulet entries, grouped by body/cause. Full accepted channel meshes
+now screened in157seconds:24,555 channel/5,525 rivulet entries remain unresolved;
+other footprint families and final standing/native-refined meshes remain open.
+Eight focused tests pass; existing runtime source unchanged;
 [implementation/results](research/rendering/water-coverage-pipeline.md).
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,

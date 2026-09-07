@@ -20,8 +20,7 @@
   "peakScreen": {
     "targets": 170,
     "ribbonCovered": 125,
-    "standingFieldAdditionalCovered": 26,
-    "combinedDiagnosticCovered": 151,
+    "standingFieldAdditionalCovered": 14,
     "remaining": [
       {
         "native": [
@@ -240,10 +239,63 @@
         "covered": 125,
         "withoutGeometry": 39
       }
-    ]
+    ],
+    "historicalCombinedDiagnosticCovered": 151,
+    "combinedSupportedCoverage": 139,
+    "unverifiedStandingTargets": [
+      [
+        662,
+        3389
+      ],
+      [
+        2473,
+        2017
+      ],
+      [
+        2473,
+        2018
+      ],
+      [
+        2474,
+        2018
+      ],
+      [
+        2478,
+        2007
+      ],
+      [
+        2478,
+        2008
+      ],
+      [
+        2479,
+        2006
+      ],
+      [
+        2479,
+        2007
+      ],
+      [
+        2479,
+        2008
+      ],
+      [
+        2675,
+        2000
+      ],
+      [
+        2676,
+        2000
+      ],
+      [
+        2677,
+        2000
+      ]
+    ],
+    "correction": "12 of the previous26 standing additions used the old unvisited access sentinel2, not measured flood paths.139 of170 have supported fixed-field/ribbon evidence;31 remain dry or unverified. Fresh3m fields are required."
   },
   "preservation": {
-    "scope": "Selected ribbon queries plus unchanged standing FIELD fallback, not final standing mesh ownership. Every channel-only loss has wet standing support at the corresponding stage. No physical inputs or response coefficients changed. Positive upper stage increases cannot reduce unchanged standing-field depth.",
+    "scope": "Low/base channel-only losses have measured standing-field fallback. Two maximum-stage losses use the old unvisited sentinel and remain unverified; do not claim peak preservation until fresh higher-stage fields and final geometry pass.",
     "samples": [
       {
         "label": "low",
@@ -407,8 +459,9 @@
               2676,
               1994
             ],
-            "currentStandingFallbackWet": true,
-            "supportKind": 255
+            "currentStandingFallbackWet": null,
+            "supportKind": 255,
+            "oldInaccessibleSentinel": true
           },
           {
             "native": [
@@ -423,8 +476,9 @@
               2940,
               2394
             ],
-            "currentStandingFallbackWet": true,
-            "supportKind": 255
+            "currentStandingFallbackWet": null,
+            "supportKind": 255,
+            "oldInaccessibleSentinel": true
           }
         ]
       }
@@ -588,5 +642,6 @@
     ],
     "boundedPreservationScope": "4303 local authored vertices; actual ribbon queries at identical stages on both sides, no native-ground refinement or final standing mesh. This is additive geometry acceptance evidence only.",
     "existingRecordsExactlyPreserved": 1584
-  }
+  },
+  "stageGuardCorrection": "audit_water_coverage now rejects requested amplitudes above declared captured-field bounds. A finite unvisited sentinel must never be treated as a measured sill."
 }

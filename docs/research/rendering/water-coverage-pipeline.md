@@ -98,11 +98,65 @@ python3 -m worldgen.audit_water_coverage --fields /tmp/water-drainage-seasonal-f
 ```
 
 The ground path is `worldgen.compile_chunks.DEFAULT_HEIGHTS`; overlay corrections
-are applied in memory. Optional `--stage-range` reads all four bounds from JSON;
-it is only a fixed-field screen, never proof of fresh higher-stage fields.
-Next: complete target families and add tile-based actual geometry evidence,
-then derive the shared map/semantic coverage output. Do not perform slow
-individual sampler queries over every province vertex.
+are applied in memory. Optional `--stage-range` reads all four bounds from JSON.
+It cannot exceed `--field-stage-range` (original bounds by default): unvisited
+access sentinels are not measured sills. Fresh higher-stage fields are required.
+This guard invalidated12 standing additions and two claimed peak-preservation
+fallbacks in the old3m experiment; corrected evidence is in the main handoff.
+
+## Implemented channel triangle audit
+
+`export_water_audit_mesh.cjs` invokes the actual runtime triangle builder via
+TypeScript transpilation, without copying or changing runtime source. It writes
+hash-bound binary batches with compiled stage bounds and source identities.
+`worldgen.water_mesh_coverage` evaluates those Float32 triangles against actual
+native terrain vertices with the sampler's depth/access/barycentric rules.
+Overlapping blocked faces cannot hide lower wet faces. Scratch work is tiled;
+results accumulate across batches. No slow individual sampler scan is needed.
+
+Pass `--channel-mesh DIRECTORY` to the existing coverage command. It reports
+channel wetness and its union with standing-field evidence separately, and
+removes mesh-covered samples from unresolved body/class groups. Optional
+`--channel-result FILE.npz` retains the sampled mask and coverage for reuse;
+unsampled zeros never mean dry land. This is still not final native-refined
+standing/channel mesh or map acceptance.
+
+The first1,584-record/318,260-triangle pass took16.06seconds over the recovered
+channel families plus the local regression set. It reproduced all3,847 local
+channel peak positives and4,136 combined positives (including three falling
+sheet cases excluded from the older4,133 ordinary-water count). Evidence:
+`/tmp/water-province-selected-mesh-screen.json`.
+
+The full accepted62-state export is now captured in
+`/tmp/water-all-accepted-ribbons.json`:15,085 accepted longitudinal records plus
+1,309 landing fills. It preserves all1,584 earlier records exactly. Binary mesh:
+`/tmp/water-all-accepted-mesh/manifest.json`,3,364,584 triangles in257 batches.
+The full target audit took156.59seconds; geometry export took506.37seconds and
+did not rebuild physical fields or change the accepted solution.
+
+| Family | Peak channel/standing-field union | Still unresolved | Of those: mesh present / absent |
+|---|---:|---:|---:|
+| Continuum channels | 337,485 / 362,040 | 24,555 | 10,438 / 14,117 |
+| Rivulets | 158,142 / 163,667 | 5,525 | 1,655 / 3,870 |
+| Local regression | 4,136 / 4,303 | 167 | 96 / 71 |
+
+These remain screening counts, not final rendered-water acceptance. The local
+ordinary-water count remains4,133 plus three falling-sheet cases. Body/class
+groups now exclude samples covered by supplied channel meshes. There are206
+continuum and497 rivulet unresolved groups; families can overlap.
+Durable summary/provenance: `water-repair-inputs/province-channel-mesh-screen.json`.
+Full groups: `/tmp/water-province-all-channel-mesh-screen.json`. Reusable sampled
+mask, mesh presence and stage bits: `/tmp/water-all-accepted-channel-coverage.npz`.
+Do not rerun this unchanged baseline. `/tmp/compile-water-all-accepted-ribbons.py`
+rebuilds the disposable complete geometry from the matching saved state.
+
+Other target families and final standing/native-refined meshes remain separate
+work. The dominant missing-surface versus height/access split now comes from
+the whole recovered channel domain, not from selecting another isolated point.
+
+Next: complete target families and full actual geometry evidence, then derive
+the shared map/semantic coverage output. Keep source, terrain-stage and stage
+provenance when reusing any diagnostic cache.
 
 ## Latest local evidence to retain, not repeat
 

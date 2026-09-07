@@ -352,12 +352,15 @@ Scripts: `/tmp/compile-water-full-owner-resolution.py`,
 `water-repair-inputs/peak-envelope-investigation.json` records a geometry-only
 screen at seasonal upper3m/tide0.5m, preserving dry0.28m/low-tide0.5m. Of the170
 local ordinary-uncovered vertices,125 have wet ribbons (including falling
-sheets) and26 more have standing-field support:19 remain. This uses unchanged
+sheets) and14 more have measured standing-field support:31 remain dry or
+unverified. **Correction:**12 of the formerly counted26 standing additions
+used the old unvisited access sentinel2, not measured sills. This uses unchanged
 standing fields/responses, **not fresh3m native fields or final standing meshes**.
-All channel-only losses at low/base/peak have wet standing-field fallback;
+All channel-only losses at low/base have wet standing-field fallback. Two peak
+losses ([2676,1994],[2940,2394]) also used that sentinel and remain unverified;
 final rendered ownership still needs verification. No default stage changed.
 
-Of the19,16 have flowing-field support but no ribbon; three need height/owner
+Among the19 definite misses,16 have flowing-field support but no ribbon; three need height/owner
 diagnosis. Fifteen of the16 mesh misses persist at all four ±1mm probes. Removing
 the descending guard only fills two; do not remove it. The generalized
 descending-corner cap prototype fills none. The ownership ray to[658,3393] is
