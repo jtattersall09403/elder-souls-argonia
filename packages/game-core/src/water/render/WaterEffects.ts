@@ -508,7 +508,10 @@ export class WaterEffects {
           z: current.z * 0.35 + normal.z * speed * side + tangent.z * speed * Math.cos(theta) * 0.3 };
         particle.sheetSpray = true;
       }
-      if (falling) {
+      // The plunge sample can sit above the emitter (a higher body at the lip's
+      // own x/z, or a pool that rose past a low lip): then there is no
+      // descending sheet and the droplet is ordinary spray, never an exception.
+      if (falling && fallFrom.y > surface.surfaceHeight + 0.05) {
         particle.plunge = { x, y: surface.surfaceHeight, z };
         particle.trajectory = fallingSprayTrajectory(fallFrom, particle.plunge, this.random() * 0.8);
         advanceFallingSpray(particle.trajectory, 0, particle.position, particle.velocity);

@@ -31,7 +31,7 @@ and are not required reading.
   `SHOT_BASE`, `SHOT_VARIANTS` JSON). SwiftShader runs the studio at ~2 fps;
   budget 2–4 min per capture and never run captures in parallel with tests.
 
-## Key sites (studio URL fragments, `ex=1&d=8-17`)
+## Key sites (studio URL fragments, add `ex=1&d=8-17`; fly mode also takes `alt`, `yaw` compass degrees, `pitch`)
 
 | What | URL fragment |
 | --- | --- |
@@ -40,10 +40,12 @@ and are not required reading.
 | Bay, noon, orbit (whitecaps/surf; add `&w=storm` for a squall) | `view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00` |
 | Mountain tarn | `view=fly3d&cam=orbit&x=0.38&z=1.44&t=12:00` |
 | Marsh, morning walk | `view=character&x=1.50&z=5.28&t=09:00` |
-| Steep strip `strip-76` (243 m descent, band 1) | `view=fly3d&cam=orbit&x=1.75&z=1.74&t=12:00` |
-| Cascade `fall-63` (22 m drop) | `view=fly3d&cam=orbit&x=1.68&z=1.86&t=12:00` |
-| Cascade `fall-89` (32 m drop) | `view=fly3d&cam=orbit&x=0.90&z=2.74&t=12:00` |
-| Cascade `fall-34` (11 m, free flight) | `view=fly3d&cam=orbit&x=6.26&z=0.90&t=12:00` |
+| Steep strip `strip-64` (241 m descent, band 1) | `view=fly3d&cam=orbit&x=1.75&z=1.74&t=12:00` |
+| Waterfall `fall-78` (42 m drop), aimed fly camera | `view=fly3d&cam=fly&x=1.827&z=2.093&alt=54&yaw=270&pitch=4&t=12:00` |
+| Waterfall `fall-60` (40 m drop), aimed fly camera | `view=fly3d&cam=fly&x=1.816&z=1.810&alt=84&yaw=311&pitch=3&t=12:00` |
+| Re-carved band-2 channel (was a dry bed) | `view=character&x=2.66&z=0.90&t=12:00` |
+| Waterfall base that landed on dry ground | `view=character&x=2.53&z=0.32&t=12:00` |
+| Deep basin, now a 28 m lake (sunken-loot candidate) | `view=character&x=1.47&z=4.13&t=12:00` |
 
 ## Open
 

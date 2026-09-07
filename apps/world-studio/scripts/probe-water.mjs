@@ -126,6 +126,22 @@ const SCENARIOS = [
     brightness: [20, 235],
     debugMin: { "falls.count": 1, "falls.triangles": 50 },
   },
+  {
+    // owner's dry-riverbed site (band-2 channel), re-carved 2026-09-07: W 25.9 m
+    id: "recarved-channel-walk",
+    q: "view=character&x=2.66&z=0.90&ex=1&t=12:00&d=8-17&wq=high",
+    underwater: false,
+    surfaceAtCam: [25.2, 26.8],
+    brightness: [20, 235],
+  },
+  {
+    // deep enclosed basin, was a 4 cm film pinned to the sea plane; now a lake at ~28 m
+    id: "filled-basin-walk",
+    q: "view=character&x=1.47&z=4.13&ex=1&t=12:00&d=8-17&wq=high",
+    underwater: true, // spawns on the 25 m lake bed; the camera is submerged
+    surfaceAtCam: [28.0, 30.0], // W 28.17 + wet-season lift
+    brightness: [15, 235],
+  },
 ];
 
 const server = spawn(

@@ -18,7 +18,7 @@ for (const [id, q] of Object.entries(variants)) {
       return { t: Math.round(performance.now()/1000), frames: w?.frames, wkeys: w ? Object.keys(w).length : 0, ground: c?.groundMeshes ?? c?.chunks ?? null, fps: w?.fps ?? null };
     }));
   }
-  await page.screenshot({ path: `/tmp/shots/${id}.png`, timeout: 150000 });
+  await page.screenshot({ path: `/tmp/shots/${id}.png`, timeout: 420000 });
   const dbg = await page.evaluate(() => JSON.stringify(window.__STUDIO_WATER_DEBUG__ ?? null).slice(0, 1500));
   console.log(`== ${id} (${Math.round((Date.now()-t0)/1000)}s)`);
   console.log(JSON.stringify(samples));
