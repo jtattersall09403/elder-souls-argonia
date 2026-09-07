@@ -251,6 +251,59 @@ Next: complete target families and full actual geometry evidence, then derive
 the shared map/semantic coverage output. Keep source, terrain-stage and stage
 provenance when reusing any diagnostic cache.
 
+## Accepted62 preview assembly and rendering costs (2026-09-07)
+
+The owner requested a live progress deployment. Source through `10eecc5` is
+live (Actions `34110124664`); HTML, JS and unchanged public water metadata
+match the Pages artifact byte-for-byte. Native preview assets are not live.
+
+Reuse `/tmp/water-live-preview/`: accepted62 channels/cascades, native ground,
+all256 adaptive terrain chunks in six variants, and the matching46446-texel
+gradient patch have finished. The publication surface is2017²/3.65568m;
+native terrain remains4033²/1.82784m. `/tmp/export-water-accepted-preview.py`
+verified every cached feature field and every emitted channel record against
+the accepted full export before reusing it. `/tmp/assemble-water-live-preview.py`
+finished all assets before its old map-grid assumption failed; the corrected
+map exporter subsequently completed. Do not rerun either expensive assembly.
+
+`export_water_coverage.py` samples graded public terrain on the publication
+grid and combines standing fields with the existing accepted channel mesh
+archive. Its preview maps contain low/base/maximum wet counts of
+1459703/1650020/2393980. They explicitly do not certify final rendered/native
+coverage. Map/semantic acceptance remains open. Local Studio plumbing selects
+the matching water/terrain/gradient/maps with `?waterDataset=preview` (separate
+from the existing waterways toggle `water=1`), preserves the query parameter,
+and scales the lower-resolution maps. Those assets are not in public yet.
+
+The actual dataset fails the unchanged runtime budgets. Use
+`WATER_COMPILED_ASSETS=/tmp/water-live-preview` and
+`WATER_COMPILED_PROVINCE=$PWD/apps/world-studio/public/province` with the
+`waterProductionBudget.test.ts` test; optional `WATER_BUDGET_REPORT=1` prints
+counts. Passing the legacy/default asset test does not certify this preview.
+Lossless, resumable vertex indexing now removes duplicated inland clipping
+vertices. Before:527603 inland triangles used100594922bytes; after:999979
+triangles use92737184bytes, with698 tiles still pending at the triangle cap.
+Ribbons still exhaust64MiB:754869 triangles/67106806bytes,59 failed admissions.
+Do not increase caps, omit visible water or publish this as a coherent preview.
+
+Independent review found a shared inland triangle floor: owner/class/support
+differences force native leaves, then `rasterDomainCells` inserts every half
+surface-pixel and class-grid knot even across unchanged same-owner fields.
+Partition actual hydraulic discontinuities first, then coalesce compatible
+interior cells while preserving rendered planes, stage responses, proxy
+ground and shared edge knots. First measure one expensive tile's leaves,
+partition cells and clipping fragments to identify the dominant count.
+Do not simply remove the ownership/refinement checks.
+
+One bounded ribbon diagnostic (`/tmp/water-ribbon-storage.json`) ruled out
+large normal-only welding savings for representative distant patch4,27:
+6724 cross-section samples already reduce to1545;2280 triangles use2279
+vertices/154978bytes. Int16 normals give2272vertices/140912bytes; removing
+normals diagnostically gives2268vertices/127080bytes. Neither change was
+applied. Normals feed actual slope/wave shading; do not discard them. Review
+the remaining longitudinal topology and attribute storage together instead
+of repeating already-active cross-section LOD and indexing work.
+
 ## Latest local evidence to retain, not repeat
 
 - Generic terminal selection excludes rejected continuations. Of ten apparent

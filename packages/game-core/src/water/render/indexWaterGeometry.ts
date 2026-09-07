@@ -4,6 +4,12 @@ import { BufferAttribute, BufferGeometry } from 'three';
  * no welding across a hydraulic/material boundary. Hash collisions receive
  * a full typed-value comparison, so they cannot silently corrupt geometry. */
 export function indexWaterGeometry(source: BufferGeometry): BufferGeometry {
+  const work = indexWaterGeometrySteps(source);
+  for (;;) { const result = work.next(); if (result.done) return result.value; }
+}
+
+/** The same lossless indexing, resumable within a streaming frame budget. */
+export function* indexWaterGeometrySteps(source: BufferGeometry): Generator<void, BufferGeometry> {
   const attributes = Object.entries(source.attributes) as [string, BufferAttribute][];
   const count = source.getAttribute('position').count;
   const heads = new Map<number, number>(), previous = new Int32Array(count), representatives = new Uint32Array(count);
@@ -33,16 +39,23 @@ export function indexWaterGeometry(source: BufferGeometry): BufferGeometry {
       previous[match] = (heads.get(hash) ?? -1) + 1; heads.set(hash, match);
     }
     remap[vertex] = match;
+    if ((vertex & 127) === 127) yield;
   }
   const geometry = new BufferGeometry();
   for (const [name, attribute] of attributes) {
     const ArrayType = attribute.array.constructor as { new(size: number): typeof attribute.array };
     const values = new ArrayType(unique * attribute.itemSize);
-    for (let i = 0; i < unique; i++) for (let c = 0; c < attribute.itemSize; c++) values[i * attribute.itemSize + c] = attribute.array[representatives[i] * attribute.itemSize + c];
+    for (let i = 0; i < unique; i++) {
+      for (let c = 0; c < attribute.itemSize; c++) values[i * attribute.itemSize + c] = attribute.array[representatives[i] * attribute.itemSize + c];
+      if ((i & 1023) === 1023) yield;
+    }
     geometry.setAttribute(name, new BufferAttribute(values, attribute.itemSize, attribute.normalized));
   }
   const sourceIndices = source.index, indices = unique <= 65535 ? new Uint16Array(sourceIndices?.count ?? count) : new Uint32Array(sourceIndices?.count ?? count);
-  for (let i = 0; i < indices.length; i++) indices[i] = remap[sourceIndices ? sourceIndices.getX(i) : i];
+  for (let i = 0; i < indices.length; i++) {
+    indices[i] = remap[sourceIndices ? sourceIndices.getX(i) : i];
+    if ((i & 2047) === 2047) yield;
+  }
   geometry.setIndex(new BufferAttribute(indices, 1));
   return geometry;
 }

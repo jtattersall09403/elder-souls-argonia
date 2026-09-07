@@ -23,14 +23,18 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
 
 ## Release and ownership
 
-- Last verified live: `93904c2`, successful Actions `34047707975`, studio bundle
-  `index-IZqpLs8B.js`. Public water metadata SHA-256:
+- Last verified live: `10eecc5`, successful Actions `34110124664`, studio bundle
+  `index-DaL0_UwK.js`. Live HTML, bundle and water metadata match the downloaded
+  Pages artifact byte-for-byte (2026-09-07). Public water metadata SHA-256:
   `669f5f70348d248803ce76fc2da77e5af1ecab5482e7919809e6902e52fdc2ba`.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Do not describe a local source fix as live. Recheck remote and Actions before
   every push: combat work is independently owned and must survive deployment.
-- Local committed source checkpoints include `c4d9dd1`, `a103eeb` and `08e2ada` after the
-  live commit. Read `git status` and the recent log for newer checkpoints.
+- The source through `10eecc5` is deployed; native accepted62 preview assets
+  remain local at `/tmp/water-live-preview`. Actual preview budget tests fail:
+  inland reaches the triangle cap and ribbons exhaust64MiB. Publishing the
+  preview requires fixing those shared geometry costs. Read `git status` and
+  the recent log for newer checkpoints.
 - Dirty `docs/polish-backlog.md` and untracked `output/` belong to the owner;
   never stage, discard or clean them as part of water work.
 - The combat agent is actively editing combat/character/UI/asset-pipeline files

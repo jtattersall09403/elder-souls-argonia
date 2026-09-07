@@ -4,6 +4,7 @@ import type { ChannelRibbonFootprintTriangle } from "../channelRibbons";
 import { subtractRibbonFootprintSteps } from "./ribbonFootprint";
 import { rasterDomainAxis, rasterDomainCells, rasterDomainVertex, type RasterDomainCell, type RasterDomainBounds } from "./rasterWaterDomain";
 import { inlandBatchBudget } from "./inlandBatchBudget";
+import { indexWaterGeometrySteps } from "./indexWaterGeometry";
 import { inlandAdaptiveLeavesSteps, inlandPotentiallyWet, rasterWaterClassInDomain, type InlandStageRange, type RasterWaterDomain } from "./inlandAdaptiveLeaves";
 import { waterPatchDistance, waterPatchErrorM, waterPatchVisible, type WaterGeometryView } from "./waterStreaming";
 
@@ -478,7 +479,14 @@ export class InlandWaterTiles {
       geometry.setAttribute('waterBodyIndex', new THREE.BufferAttribute(owners, 1));
     }
     geometry.setIndex(compactIndices);
-    const mesh = new THREE.Mesh(geometry, material);
+    // Owner clipping can repeat the same complete vertex in neighbouring
+    // polygons. Weld only bit-identical attributes, before admission and
+    // batch copies; keep this work inside the resumable build budget.
+    this.atomicPhase = "vertex-index";
+    let compact: THREE.BufferGeometry;
+    try { compact = yield* indexWaterGeometrySteps(geometry); }
+    finally { geometry.dispose(); }
+    const mesh = new THREE.Mesh(compact, material);
     mesh.userData.waterStep = requestedStep;
     mesh.userData.waterTile = { tx, tz, generation: ++this.sourceVersion };
     mesh.userData.effectiveWaterStep = Math.min(requestedStep, ...leaves.map(leaf => leaf.step));

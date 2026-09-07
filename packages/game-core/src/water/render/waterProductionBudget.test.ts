@@ -5,10 +5,16 @@ import { WaterRibbonTiles } from "./WaterRibbonTiles";
 import { productionWaterData } from "./waterRasterTestFixture";
 import { WaterGeometryCamera, waterGeometryBytes } from "./waterStreaming";
 import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 describe("shipped water geometry budget", () => {
   it.each([false, true])("retains complete far coverage without exhausting resident budgets (low=%s)", (low) => {
-    const data = productionWaterData(), material = new MeshBasicMaterial();
+    const assets = process.env.WATER_COMPILED_ASSETS
+      ? pathToFileURL(`${resolve(process.env.WATER_COMPILED_ASSETS)}/`) : undefined;
+    const province = process.env.WATER_COMPILED_PROVINCE
+      ? pathToFileURL(`${resolve(process.env.WATER_COMPILED_PROVINCE)}/`) : undefined;
+    const data = productionWaterData(assets, province), material = new MeshBasicMaterial();
     const stage = JSON.parse(readFileSync(new URL("../../../../../apps/world-studio/public/province/refined/flood-states.json", import.meta.url), "utf8")).basins[0];
     const tiles = new InlandWaterTiles(data, low, { stage }), ribbons = new WaterRibbonTiles(data, low);
     const camera = new PerspectiveCamera(60, 16 / 9, 0.1, 10000);
