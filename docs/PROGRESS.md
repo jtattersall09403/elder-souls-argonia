@@ -110,10 +110,11 @@ The final boundary search resolves to the rendered vertex.4,303 native authored
 vertices gain45 wet samples and lose0;170 remain dry. The32,007-vertex comparison
 also loses0. All645 selected centres and1,152 five-stage pool contacts pass.
 Higher-peak investigation:3m upper season/0.5m tide covers151 of those170 via
-ribbons or unchanged standing fields;19 remain. An end-fill prototype covers10
-terminal misses at unchanged heads; generic implementation and final mesh gates
-remain. Neither prototype nor higher stage is accepted. Details/evidence are in
-the water handoff. Production code is unchanged since the passing workspace gates.
+ribbons or unchanged standing fields;19 remain. Generic end-fill code covers3
+true-end misses;7 apparent end gaps instead need rejected upstream reach12745
+repaired. Terminal geometry stays diagnostic-only pending final mesh gates;
+no higher stage is accepted. Tests/typecheck pass (one sandbox-denied suite
+passed on targeted retry). Details/evidence are in the water handoff.
 Whole authored peak footprints and final geometry/deployment gates remain open
 (water handoff). The durable accepted checkpoint now has62 channel constraints,
 59 retaining-bound violations and15,562 terrain corrections. Original impoundment

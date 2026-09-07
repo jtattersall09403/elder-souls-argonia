@@ -452,7 +452,7 @@
     "generalizedDescendingCornerCapRecovered": 0
   },
   "endpointPrototype": {
-    "status": "promising diagnostic; not promoted",
+    "status": "historical manual prototype; not promotable: node12761 has rejected authored upstream source12745",
     "sources": [
       10573,
       12761
@@ -461,7 +461,7 @@
       10585,
       12761
     ],
-    "method": "Eight angular sectors across the open half-plane of each genuine graph terminal. Coincident measured ray sections carry the unchanged endpoint head/responses, using the existing landing record representation. Terrain/owner ray closure bounds every sector. No longitudinal record is replaced or changed.",
+    "method": "Eight angular sectors across the open half-plane of each manually selected apparent terminal. Coincident measured ray sections carry the unchanged endpoint head/responses, using the existing landing record representation. Terrain/owner ray closure bounds every sector. No longitudinal record is replaced or changed.",
     "filledNativeVertices": [
       [
         2489,
@@ -522,7 +522,7 @@
       "Global record/triangle/streaming cost before default emission"
     ]
   },
-  "next": "Implement and validate terminal geometry generically; diagnose the six other mesh misses and three height/owner cases. Then compile fresh higher-stage native fields before selecting upper limits. Do not tune a global upper stage to the anomalous standing donor at native[2677,1977].",
+  "next": "Validate between-ray/native mesh boundaries for the generic true-terminal fill. Repair rejected upstream source12745 for the seven apparent end gaps. Continue six other mesh misses and three height/owner cases; no higher stage or new terminal geometry is production-accepted.",
   "disposableArtifacts": {
     "/tmp/compile-water-peak-envelope.py": "a8986a8f7e9b4aa7d5bb5edeb6c4023b8884b32cd834c07761416a4b91bb413c",
     "/tmp/water-peak-envelope-ribbons.json": "fa70a614878ad9b06580624aa7e2b686e2c79d1b3e07fb3a33d37f0d2df4bf78",
@@ -531,5 +531,62 @@
     "/tmp/water-terminal-fill-prototype.json": "c14df8ff3be61dea5978523295c11dc840154f24cbf201399b5b92f20a8d81f2",
     "/tmp/water-terminal-fill-prototype-coverage.json": "381169108ce70d07d70cdc2c8a1d0fcceb13e3bf875767985366bb99b5bbf995",
     "/tmp/water-terminal-fill-prototype-ownership.json": "b16cbbf7828bd8ed3ee4a11fde689a81bbef28fe7bbf40cf8bce0e4449a31739"
+  },
+  "genericTerminalImplementation": {
+    "status": "diagnostic opt-in; not enabled in production feature inputs",
+    "module": "worldgen/water_terminal_fills.py",
+    "parameter": "compile_features(..., terminal_authored_links=unrejected_links)",
+    "eligibleProvinceStations": 1035,
+    "topology": "Requires degree one in the unrejected authored graph and matching degree-one geometry in both authored and accepted native paths. Excludes inconsistent coincident heads, coordinate junctions, rejected continuations and backtracking interior stations.",
+    "trueTerminal": 10585,
+    "source": 10573,
+    "filledNativeVertices": [
+      [
+        2489,
+        1992
+      ],
+      [
+        2490,
+        1993
+      ],
+      [
+        2490,
+        1994
+      ]
+    ],
+    "falseTerminal": {
+      "node": 12761,
+      "rejectedUpstreamSource": 12745,
+      "upstreamNativePoint": [
+        2939,
+        2415
+      ],
+      "misses": 7
+    },
+    "export": "/tmp/water-terminal-generic-ribbons.json",
+    "sourceScript": "/tmp/compile-water-terminal-generic.py",
+    "tests": "79 geometry/boundary/terminal tests passed, then all5 terminal tests passed after adding the authored-degree hairpin guard; workspace typecheck passed; workspace tests passed apart from sandbox-denied subprocess suite, whose7 tests passed on targeted permitted retry.",
+    "boundedPreservation": [
+      {
+        "label": "low",
+        "oldWet": 627,
+        "newWet": 627,
+        "lost": []
+      },
+      {
+        "label": "base",
+        "oldWet": 1580,
+        "newWet": 1581,
+        "lost": []
+      },
+      {
+        "label": "maximum",
+        "oldWet": 4120,
+        "newWet": 4128,
+        "lost": []
+      }
+    ],
+    "boundedPreservationScope": "4303 local authored vertices; actual ribbon queries at identical stages on both sides, no native-ground refinement or final standing mesh. This is additive geometry acceptance evidence only.",
+    "existingRecordsExactlyPreserved": 1584
   }
 }

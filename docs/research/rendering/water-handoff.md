@@ -351,16 +351,18 @@ The higher-peak screen now separates insufficient height from missing geometry:
 at3m upper season/0.5m tide,151 of those170 vertices have ribbon or standing-field
 coverage;19 remain. Lows stay unchanged. This is a fixed-field diagnostic,
 not a selected production stage or final standing-mesh acceptance. Ten remaining
-misses lie beyond channel terminals; an additive end-fill prototype covers them
-at unchanged endpoint heads, preserves existing ribbons and passes its bounded
-native owner screen. Generic terminal selection, between-ray boundaries and
-final mesh/cost checks remain before accepting it. Six other mesh misses and
+misses initially appeared to lie beyond channel terminals. Generic topology
+checks now identify only three true-end misses; the other seven belong to the
+rejected upstream reach12745 and must be repaired there. Diagnostic end-fill
+code covers the three true-end misses at unchanged heads and preserves existing
+ribbons. Between-ray boundaries and final mesh/cost checks remain before
+enabling it in production. Six other mesh misses and
 three height/owner cases are separate. See `peak-envelope-investigation.json`
 and the compiler handoff for exact targets and the next implementation step.
 
 See `seasonal-supporting-acceptance.json` and the repair-input manifest for the
 accepted checkpoint. Runtime remains at c725181's passing workspace gates;
-this investigation changes no production code or physical input. Continue the
+the new Python terminal export is diagnostic opt-in and changes no physical input. Continue the
 remaining constraints and authored peak footprints, then final coherent native
 data and rendering gates.
 Nothing from the diagnostic asset bundles has been deployed.

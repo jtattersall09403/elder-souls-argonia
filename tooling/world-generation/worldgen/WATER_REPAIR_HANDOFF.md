@@ -363,22 +363,45 @@ the descending guard only fills two; do not remove it. The generalized
 descending-corner cap prototype fills none. The ownership ray to[658,3393] is
 compatible throughout; an intervening owner barrier was ruled out there.
 
-Ten misses lie beyond true terminals10585/12761 (sources10573/12761). A bounded
-end-fill prototype at their existing heads fills all ten, keeps all1,584 prior
-records identical, and has zero owner conflicts at566 native potential samples
-(duplicates across sectors included). Its16 existing-format landing records
-add451 unrefined triangles/67,650mesh bytes. **Not accepted:** generic terminal
-selection must exclude rejected/truncated reaches and inconsistent coincident
-heads; between-ray access/owner boundaries, angular convergence, final refined
-meshes, original pool contacts and province-wide cost remain to verify.
+The manual two-end prototype filled ten misses, but **its terminal selection was
+wrong**:12761 has rejected authored upstream source12745 (starting[2939,2415]).
+Repair that reach for its seven misses; do not hide it with a terminal cap.
+Only10585 (source10573) is a true end, covering the other three misses.
+
+`water_terminal_fills.py` now provides generic selection and emission through
+`compile_features(..., terminal_authored_links=...)`, an explicit diagnostic
+opt-in; production feature inputs do not enable it yet. Selection requires
+degree one in the unrejected authored graph and consistent endpoint geometry
+in both graphs. It excludes coordinate junctions, conflicting coincident heads,
+rejected continuations and routed hairpins. There are1,035 eligible province
+stations. The generic two-source export emits only the eight valid cap sectors,
+fills the three true-end misses and correctly leaves12761 uncapped. Existing
+longitudinal sections stay intact; outer rays reuse exact serialized sections
+and adjacent sectors share their ray objects.
+The4,303-vertex same-stage ribbon comparison loses no coverage: low627→627,
+base1,580→1,581, peak4,120→4,128. All1,584 preceding records are exactly preserved.
+These queries omit native-ground refinement and final standing meshes.
+
+Still required before production: between-ray access/owner boundaries, angular
+convergence, final refined meshes, original pool contacts and province-wide
+cost. The manual prototype's zero conflicts at566 native potential samples
+and451 triangles are historical, not a substitute for those checks.79 focused
+geometry/boundary/terminal tests passed; all five terminal tests then passed
+after the authored-degree guard. Workspace typecheck passed. Workspace tests
+passed except a sandbox-denied subprocess suite; its seven tests passed on a
+targeted permitted retry. No visual ingestion or broad rerun was needed.
 
 Disposable scripts: `/tmp/compile-water-peak-envelope.py`,
 `/tmp/prototype-water-terminal-fill.py`, `/tmp/audit-water-terminal-fill-prototype.py`;
 runtime probes in `/tmp/water-fringe-runtime/{peak-envelope-screen,peak-missing-geometry-detail,terminal-fill-prototype}.mjs`.
 Geometry: `/tmp/water-peak-envelope-ribbons.json` and
 `/tmp/water-terminal-fill-prototype.json`. Durable evidence records hashes,
-exact remaining targets and acceptance limits. Start with generic terminal
-geometry, then the six other mesh misses and three height/owner cases. Do not
+exact remaining targets and acceptance limits. Generic export/probes:
+`/tmp/compile-water-terminal-generic.py`,
+`/tmp/water-terminal-generic-ribbons.json`, and
+`/tmp/water-fringe-runtime/terminal-generic{,-preservation}.mjs`.
+Finish generic terminal geometry acceptance and source12745, then the six other
+mesh misses and three height/owner cases. Do not
 choose a global upper stage from the anomalous standing donor at[2677,1977].
 
 Continue whole continuum/rivulet/pond/swamp coverage and the62 channel/59 bank

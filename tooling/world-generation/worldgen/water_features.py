@@ -31,7 +31,8 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                      terrain_flips=None, season_response=None, tide_response=None, orientation_levels=None,
                      marine_ground=None, wetland_rivulets=None, pool_domain=None, maximum_offset=MAX_LEVEL_OFFSET_M,
                      source_filter=None, seasonal_sources=(), stage=None,
-                     season_response_anchors=None, tide_response_anchors=None):
+                     season_response_anchors=None, tide_response_anchors=None,
+                     terminal_authored_links=None):
     seasonal_sources = frozenset(seasonal_sources)
     if seasonal_sources:
         from .water_stage import stage_range
@@ -78,6 +79,13 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
     landing_normals = flat_landing_normals(points, links, original_count, original_links, levels)
     landing_caps = []
     shared_profiles = {}
+    terminal_normals, emitted_terminals = {}, set()
+    if terminal_authored_links is not None:
+        # Explicit diagnostic opt-in: accepted links alone cannot distinguish
+        # a real channel end from a rejected continuation.
+        from .water_terminal_fills import terminal_directions
+        terminal_normals = terminal_directions(points, links, original_count,
+                                               original_links, terminal_authored_links, levels)
 
     def sample(field, point, order=1):
         if field is detail:
@@ -194,6 +202,12 @@ def compile_features(ground, surface, support, bodies, points, links, levels, ra
                                                 wetland_rivulets[source] else 'banked-river')})
             if source in seasonal_sources:
                 ribbons[-1]['baseMayBeDry'] = True
+            if terminal_normals:
+                from .water_terminal_fills import terminal_fill_records
+                landing_caps.extend(terminal_fill_records(ribbons[-1], path, terminal_normals,
+                    lambda i, normal: vertex(path[i], path[max(i - 1, 0)],
+                                              path[min(i + 1, len(path) - 1)], source, normal),
+                    emitted_terminals))
             for i, (first, second) in enumerate(zip(vertices, vertices[1:])):
                 normal = landing_normals[path[i]]
                 if normal is None or abs(first['y'] - second['y']) > 1e-4:
