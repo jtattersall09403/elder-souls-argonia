@@ -104,7 +104,8 @@ def select_channel_anchors(ground, centres, directions, radii, depths, terrain_f
     return selected
 
 
-def sample_standing_levels(ground, pool_levels, points, terrain_flips=None, pool_domain=None):
+def sample_standing_levels(ground, pool_levels, points, terrain_flips=None, pool_domain=None,
+                           return_owners=False):
     """Continue an exact pool plane to its real subpixel shoreline.
 
 Nearest-label sampling wrongly made a wet midpoint into a dry bank whenever
@@ -115,6 +116,7 @@ corner's exact level; never average different standing-water elevations.
     bed = sample_terrain(ground, points.T, terrain_flips)
     rows, cols, weights = terrain_weights(ground.shape, points.T, terrain_flips)
     result = np.full(len(points), -np.inf, np.float32)
+    owners = np.full(len(points), -1, np.int64) if return_owners else None
     potential = None if pool_domain is None else sample_terrain(pool_domain[1], points.T, terrain_flips)
     for corner in range(3):
         level = pool_levels[rows[corner], cols[corner]]
@@ -127,8 +129,11 @@ corner's exact level; never average different standing-water elevations.
         if pool_domain is not None:
             # Corner presence cannot project a pool downhill past its spill.
             connected &= potential >= pool_domain[0][rows[corner],cols[corner]]-1e-5
+        if return_owners:
+            selected = connected & (level > result)
+            owners[selected] = (rows[corner] * ground.shape[1] + cols[corner])[selected]
         result = np.where(connected, np.maximum(result, level), result)
-    return result
+    return (result, owners) if return_owners else result
 
 
 def contain_pool_freeboards(pool_levels, pool_labels, filled, points, conflicts, minimum_head=.015,

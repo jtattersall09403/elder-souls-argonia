@@ -666,6 +666,14 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
     del response_owners
     channel_season = season2[tuple(channel_response_sources)].copy()
     channel_tide = tidal2[tuple(channel_response_sources)].copy()
+    from .water_geometry import sample_standing_levels
+    contact_levels, contact_owners = sample_standing_levels(
+        g2, pool_lvl, geometry_points, terrain_flips, pool_domain, return_owners=True)
+    contacts = (contact_owners >= 0) & (np.abs(contact_levels - geometry_levels) < .001)
+    season_anchors = np.full(len(geometry_points), np.nan, np.float32)
+    tide_anchors = season_anchors.copy()
+    season_anchors[contacts] = season2.ravel()[contact_owners[contacts]]
+    tide_anchors[contacts] = tidal2.ravel()[contact_owners[contacts]]
     # A dry flood margin carries its own nearest water's level response,
     # not an interpolated fade toward zero that domes seasonal shorelines.
     if np.any(wet2):
@@ -695,6 +703,7 @@ def compute(z: np.ndarray, refined: np.ndarray, npz, web_step: int = 1, profiles
         # Original station owners supply level response; interpolation is
         # longitudinal only and never samples another bank/reach at an edge.
         "season_response": channel_season, "tide_response": channel_tide,
+        "season_response_anchors": season_anchors, "tide_response_anchors": tide_anchors,
         "maximum_offset": maximum_offset,
     }
     ribbons, cascades = compile_features(g2, w2, support2, bodies2,

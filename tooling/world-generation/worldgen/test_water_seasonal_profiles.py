@@ -68,3 +68,30 @@ def test_export_requires_a_seasonal_regime_and_an_actual_reaching_stage():
     shallow = {**stage_range(), 'seasonalAmplitudeM': .01, 'tidalAmplitudeM': 0.}
     with pytest.raises(ValueError, match='below its native bed'):
         export({0, 1}, stage=shallow)
+
+
+def test_export_keeps_intermediate_pool_stage_contacts_and_blends_between_them():
+    ground = np.ones((7, 7))
+    # Original endpoints first; the native reach crosses a pool internally.
+    points = np.array([[3., 1.], [3., 5.], [3., 2.], [3., 3.], [3., 4.]])
+    links = np.array([2, -1, 3, 4, 1])
+    anchors = np.array([np.nan, np.nan, np.nan, 1., np.nan])
+    records, _ = compile_features(ground, ground, np.ones_like(ground, bool),
+        np.ones_like(ground, np.uint16), points, links, np.full(5, 1.1),
+        np.ones(5), 2, np.array([1, -1]), np.array([1, 5]), 7, np.ones(2), 1.,
+        all_channels=True, season_response=np.zeros(2), tide_response=np.zeros(2),
+        season_response_anchors=anchors, tide_response_anchors=anchors)
+    assert len(records) == 1
+    for key in ('seasonResponse', 'tideResponse'):
+        assert [p[key] for p in records[0]['points']] == [0., .5, 1., .5, 0.]
+
+
+def test_standing_contact_owner_is_the_same_triangle_corner_as_its_plane():
+    from .water_geometry import sample_standing_levels
+    ground = np.zeros((3, 3))
+    pools = np.full((3, 3), -np.inf)
+    pools[1, 1] = 2.
+    points = np.array([[1., 1.], [0., 0.]])
+    levels, owners = sample_standing_levels(ground, pools, points, return_owners=True)
+    np.testing.assert_array_equal(owners, [4, -1])
+    assert levels[0] == pools.flat[owners[0]] and np.isneginf(levels[1])

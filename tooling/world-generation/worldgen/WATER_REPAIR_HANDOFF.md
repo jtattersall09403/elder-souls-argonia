@@ -671,14 +671,38 @@ checks, not whole footprints or five-stage confluence acceptance. All accepted
 owners participated; the source filter restricts emission only. The earlier17
 candidate negative-depth/function-copy prototype is superseded; do not reuse it.
 
-Next: integrate deterministic seasonal selection using freshly compiled stage
-responses. The profile solve precedes field responses, so a deferred response
-pass may be needed; do not silently use inherited coefficients as authority.
-Protect all shared/permanent nodes, verify actual candidate response budgets,
-compare fresh failure source sets, preserve original pool planes and the durable
-pool-stage reference, and check actual five-stage confluences. The audit solve
-currently needs explicit budget wiring too; temporary scripts inject it through
-a wrapper. Full authored footprints,69 retaining violations and export remain open.
+Fresh investigation: `/tmp/probe-water-seasonal-fresh-fields.py` runs the full
+native compiler with the existing diagnostic budget injected through a wrapper;
+it verifies exact point/link identity and unchanged failure source sets. Fresh
+`/tmp/water-seasonal-fresh-{fields.npz,profile.npz,ribbons.json,summary.json}`
+retains77 constraints. Sixteen station responses differ from inherited c068 data;
+minimum candidate peak centre depth is0.381m before the pool-contact correction.
+Reviewed pool-stage range enforcement runs in the fresh compiler.
+
+The five-stage native pool-contact check found97 wet comparisons separated by
+more than1mm, maximum0.39645m. Endpoint-only response interpolation skipped
+pools crossed inside a reach. `sample_standing_levels(..., return_owners=True)`
+now exposes the exact admissible triangle donor; the compiler anchors native
+contacts to that donor's season/tide response after reviewed range preservation.
+`compile_features` interpolates piecewise between these contacts. The pool
+planes and pool response fields themselves are unchanged.
+`/tmp/probe-water-seasonal-pool-anchors.py` re-exports the909 selected records
+from the fresh fields; no second full-domain solve needed. Result:
+`/tmp/water-seasonal-pool-anchor-{ribbons.json,joins.json,runtime-audit.json,boundary-audit.json}`
+and `/tmp/water-seasonal-pool-anchors.npz`. All554 wet contact comparisons pass
+within0.00004686m. Actual runtime centre coverage remains367 original-coordinate
+ordinary columns, eight additional exported-centre columns, one falling sheet.
+These are point/contact checks, not final generated confluence mesh acceptance.
+
+Next: integrate deterministic seasonal selection and reconcile depth budgets
+with freshly compiled, pool-anchored responses. Profiles precede field responses;
+a deferred response pass may be needed. Do not treat the inherited1.4m budget as
+proved merely because these centres remain wet. Protect permanent/shared nodes,
+compare fresh failure source sets, preserve original pools and reviewed ranges,
+and run final whole-footprint/five-stage rendered confluence gates. Seasonal
+activation still uses a temporary wrapper; accepted data remains127/69/15,559.
+Ninety-nine distinct focused Python tests pass after the pool-contact change;
+root workspace tests/typecheck passed at c00c7ed, with no runtime edits since.
 
 Validation:74 focused Python tests; root `npm test` and `npm run typecheck` pass.
 Dependencies restored without changing package manifests/lockfile. A held NFS

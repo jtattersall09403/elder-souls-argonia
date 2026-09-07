@@ -174,9 +174,45 @@
     "actualRuntimeSeasonalRecordsValidated": 50
   },
   "limitations": [
-    "Inherited stage responses and cached standing domains; full fresh compiler integration still required",
-    "Eight previously active heads rise, so rebuild all associated fields and current coherently",
-    "Centre and selected-triangle checks do not prove whole authored footprint coverage or five-stage confluence coherence",
-    "Accepted constraint count remains 127; diagnostic 77 is not an accepted checkpoint; protect permanent/shared nodes and original pool stage ranges"
-  ]
+    "Fresh response investigation below supersedes the inherited-response evidence above",
+    "Automatic seasonal compiler selection and budget reconciliation remain pending",
+    "Accepted count remains 127; final whole-footprint and rendered-confluence gates remain open"
+  ],
+  "freshResponseInvestigation": {
+    "status": "unaccepted-fresh-candidate",
+    "remaining": 77,
+    "newFailureSources": [],
+    "nativeCompilation": "/tmp/water-seasonal-fresh-fields.npz",
+    "freshProfile": "/tmp/water-seasonal-fresh-profile.npz",
+    "minimumPreAnchorPeakCentreDepthM": 0.38112678523513566,
+    "inheritedResponseStationsChanged": 16,
+    "responseAnchors": "/tmp/water-seasonal-pool-anchors.npz",
+    "selectedRibbons": "/tmp/water-seasonal-pool-anchor-ribbons.json",
+    "beforePoolContacts": {
+      "scope": "Fresh seasonal channel/native standing-pool point contacts at five stages; not rendered confluence acceptance",
+      "pinnedNodesExamined": 145,
+      "wetContactsChecked": 553,
+      "maximumAbsoluteHeadDifferenceM": 0.39645059545898453,
+      "mismatchesAbove1mm": 97
+    },
+    "afterPoolContacts": {
+      "scope": "Fresh seasonal channel/native standing-pool point contacts at five stages; not rendered confluence acceptance",
+      "pinnedNodesExamined": 145,
+      "wetContactsChecked": 554,
+      "maximumAbsoluteHeadDifferenceM": 4.685115814240248e-05,
+      "mismatchesAbove1mm": 0
+    },
+    "runtimeCentreCoverage": {
+      "targets": 376,
+      "baseWet": 254,
+      "peakWet": 367
+    },
+    "compilerSourceSha256": "ab8ee706d90ab6033958d39c5a1c879c1b9653d4e72153a0dcb9cfe94207df2b",
+    "limitations": [
+      "Seasonal budgets are still injected by a diagnostic wrapper; compiler automatic selection is not activated",
+      "Fresh fields used the full native computation and reviewed pool-stage reference; pool-contact response correction was then re-exported from those fields",
+      "Recalculate proposed depth budgets against anchored responses before accepting profiles",
+      "Selected centre/pool-contact checks do not certify whole footprints or final rendered confluences"
+    ]
+  }
 }

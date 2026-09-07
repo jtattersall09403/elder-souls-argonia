@@ -269,7 +269,15 @@ with no new failures (77 diagnostic constraints; still127 accepted).
 Selected909-ribbon geometry checks cover376 new path centres:367 ordinary
 peak samples at original coordinates, eight more at exported Float32 centres,
 and one falling-sheet-only sample. This does not certify whole footprints.
-Fresh stage responses and five-stage connections remain essential: inherited
-responses were used, and eight previously active heads rise by up to0.481m.
-Seventy-four focused Python tests, root workspace tests and typecheck pass.
+Fresh native candidate fields also retain77 constraints with no new failures.
+They exposed a separate response defect: coarse endpoint interpolation ignored
+intermediate pool contacts, separating surfaces by up to0.396m across tides.
+The compiler now anchors each native pool contact to that exact pool's response
+and interpolates only between contacts. Selected re-exported geometry passes554
+wet point contacts over five stages within0.05mm (previously97 above1mm).
+Runtime centre coverage is unchanged. This is not final rendered-confluence or
+whole-footprint acceptance. Reconcile seasonal depth budgets with the new
+anchored responses before activating compiler selection. Accepted count stays127.
+Ninety-nine focused Python cases pass across profiles, features, pools and stage;
+root workspace tests/typecheck passed at c00c7ed (no runtime edits since).
 See `seasonal-rivulet-proposal-audit.json` and compiler handoff for integration.

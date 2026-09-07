@@ -102,10 +102,13 @@ exactly. Final exports require the pool-stage reference (water handoff).
 No diagnostic assets are promoted.
 Explicit seasonal profile/export/runtime validation now supports base-dry
 wetland rivulets only when their peak clears the native bed. Compiler activation
-is still pending:50 cached candidates are promising, but require fresh stage
-responses and connection checks. Default accepted profiles are unchanged.
-Seventy-four focused Python tests, root workspace tests and typecheck pass;
-workspace dependencies are restored. See the handoff for bounded evidence.
+is still pending:50 candidates survive fresh field compilation. A discovered
+pool-contact response mismatch is fixed by anchoring channel responses to each
+crossed pool;554 wet contacts over five stages agree within0.05mm. Reconcile
+seasonal budgets and verify final geometry before accepting these candidates.
+Default accepted profiles are unchanged. Ninety-nine focused Python cases pass;
+root workspace gates passed at c00c7ed, and dependencies are restored.
+See the handoff for bounded evidence.
 The durable accepted repair checkpoint has127 channel constraints,69
 retaining-bound violations and15,559 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
