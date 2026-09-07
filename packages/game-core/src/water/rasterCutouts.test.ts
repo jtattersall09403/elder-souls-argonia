@@ -13,6 +13,7 @@ function fixture() {
   const compressed = gzipSync(bytes), hash = (bytes: Uint8Array | string) => createHash('sha256').update(bytes).digest('hex');
   const meta: RasterCutoutDescriptor = { schemaVersion: 1, file: 'water-cutouts.bin.gz', compression: 'gzip', complete: true,
     bytes: bytes.length, downloadBytes: compressed.length, sha256: hash(bytes), sourceRibbonsSha256: hash('[]'),
+    surfaceOriginM: 0.5, classGrid: { size: 65, metresPerPixel: 1, gridOriginM: 0.5 },
     gridSize: 65, metresPerPixel: 1, tileCells: 64, steps: [4, 8, 16], cells: 2, triangles: 1 };
   return { bytes, compressed, meta };
 }
@@ -42,10 +43,13 @@ it('validates source records and compressed data before publishing cutouts', asy
   const { meta, compressed } = fixture();
   vi.stubGlobal('crypto', webcrypto);
   const fetcher = vi.fn(async () => new Response(compressed)); vi.stubGlobal('fetch', fetcher);
-  const water = { surface: { size: 65, metresPerPixel: 1 }, ribbons: [], rasterCutouts: meta } as unknown as WaterMeta;
+  const water = { surface: { size: 65, metresPerPixel: 1 }, klass: { size: 65, metresPerPixel: 1 }, ribbons: [], rasterCutouts: meta } as unknown as WaterMeta;
   expect((await fetchRasterCutouts('/province/', water, new AbortController().signal))?.byteLength).toBe(56);
   await expect(fetchRasterCutouts('/province/', { ...water, rasterCutouts: { ...meta, sourceRibbonsSha256: '0'.repeat(64) } }, new AbortController().signal)).rejects.toThrow('channel records');
   await expect(fetchRasterCutouts('/province/', { ...water, rasterCutouts: { ...meta, metresPerPixel: 2 } }, new AbortController().signal)).rejects.toThrow('grid');
   await expect(fetchRasterCutouts('/province/', { ...water, rasterCutouts: { ...meta, sha256: '0'.repeat(64) } }, new AbortController().signal)).rejects.toThrow('integrity mismatch');
+  for (const change of [{ surfaceOriginM: 0 }, { classGrid: { ...meta.classGrid, gridOriginM: 0 } },
+    { classGrid: { ...meta.classGrid, size: 129 } }, { classGrid: { ...meta.classGrid, metresPerPixel: 2 } }])
+    await expect(fetchRasterCutouts('/province/', { ...water, rasterCutouts: { ...meta, ...change } }, new AbortController().signal)).rejects.toThrow('grid');
   expect(fetcher).toHaveBeenCalledTimes(2);
 });

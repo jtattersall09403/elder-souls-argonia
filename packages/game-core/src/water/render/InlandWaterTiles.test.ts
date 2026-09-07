@@ -218,6 +218,17 @@ describe("inland geometry isolation and draw budget", () => {
     expect(retained.reduce((sum, polygon) => sum + polygonArea(polygon), 0)).toBeCloseTo(48, 8);
   });
 
+  it('preserves exact clipping with distant and touching cutters in the same list', () => {
+    const triangle = [{x:0,z:0},{x:0,z:10},{x:10,z:0}];
+    const cut = {a:{x:1,y:0,z:1},b:{x:1,y:0,z:3},c:{x:3,y:0,z:1}};
+    const touching = {a:{x:10,y:0,z:0},b:{x:10,y:0,z:10},c:{x:20,y:0,z:0}};
+    const distant = Array.from({length:256},(_,i)=>({a:{x:100+i,y:0,z:0},b:{x:100+i,y:0,z:10},c:{x:101+i,y:0,z:0}}));
+    const unchanged = subtractRibbonFootprints(triangle,[...distant,touching]);
+    expect(unchanged).toHaveLength(1);
+    triangle.forEach((point,i)=>expect(unchanged[0][i]).toBe(point));
+    expect(subtractRibbonFootprints(triangle,[...distant,touching,cut,...distant])).toEqual(subtractRibbonFootprints(triangle,[cut]));
+  });
+
   it("refines same-body stepped pools and narrow wet features but preserves true planar slopes", () => {
     const stepped = poolData(66, [], x => x < 29 ? 5 : 8, x => x >= 20 && x < 25 ? -3 : 2);
     expect(inlandEffectiveStep(stepped, 0, 0, 16)).toBe(1);

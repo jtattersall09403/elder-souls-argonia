@@ -33,8 +33,9 @@ gate once coherent. No repeated screenshot attempts or broad research loops.
   additionally packs displayed inland attributes, shares the original combined
   geometry limits, and reuses immutable displayed backing through source spans.
   Both actual-native views now load completely with zero rejections: normal
-  110,291,355 array bytes, low 105,554,964. About nine thousand update cycles are
-  still needed; loading latency and full water coverage remain open.
+  110,291,355 array bytes, low 105,554,964. Bounds rejection and unchanged-triangle reuse reduce settling to 7,912 normal
+  / 6,734 low updates, still too slow. Loading latency and physical coverage
+  remain open. Prepared cutouts now validate class-grid and surface origins.
 - Final hydraulic/native/adaptive/terrain-gradient assets are **not deployed**.
   Accepted62 preview assets remain local at `/tmp/water-live-preview`. Next:
   address runtime construction latency, verify prepared-asset provenance and

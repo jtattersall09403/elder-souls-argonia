@@ -41,13 +41,25 @@ export function subtractRibbonFootprints(triangle: readonly FootprintPoint[],
 export function* subtractRibbonFootprintSteps(triangle: readonly FootprintPoint[],
   cutters: readonly ChannelRibbonFootprintTriangle[]): Generator<void, FootprintPoint[][]> {
   let polygons: FootprintPoint[][] = [[...triangle]];
+  if (!triangle.length) return polygons;
+  const minX = Math.min(...triangle.map(p => p.x)), maxX = Math.max(...triangle.map(p => p.x));
+  const minZ = Math.min(...triangle.map(p => p.z)), maxZ = Math.max(...triangle.map(p => p.z));
+  let visited = 0;
   for (const cutter of cutters) {
+    if ((++visited & 63) === 0) yield;
+    const clipMinX = Math.min(cutter.a.x, cutter.b.x, cutter.c.x), clipMaxX = Math.max(cutter.a.x, cutter.b.x, cutter.c.x);
+    const clipMinZ = Math.min(cutter.a.z, cutter.b.z, cutter.c.z), clipMaxZ = Math.max(cutter.a.z, cutter.b.z, cutter.c.z);
+    // A subtraction cannot expand its input. Strictly disjoint boxes prove
+    // no intersection, without constructing temporary clipped polygons.
+    if (clipMaxX < minX || clipMinX > maxX || clipMaxZ < minZ || clipMinZ > maxZ) continue;
     const clip = [cutter.a, cutter.b, cutter.c];
     const orientation = Math.sign(area(clip));
     if (!orientation) continue;
     const next: FootprintPoint[][] = [];
     for (const polygon of polygons) {
       yield;
+      if (polygon.every(p => p.x < clipMinX) || polygon.every(p => p.x > clipMaxX)
+        || polygon.every(p => p.z < clipMinZ) || polygon.every(p => p.z > clipMaxZ)) { next.push(polygon); continue; }
       let intersection = polygon;
       for (let edge = 0; edge < 3 && intersection.length >= 3; edge++) {
         intersection = halfPlane(intersection, clip[edge], clip[(edge + 1) % 3], orientation);

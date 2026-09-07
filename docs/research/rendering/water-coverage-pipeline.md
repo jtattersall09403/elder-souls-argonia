@@ -518,6 +518,50 @@ sole root failure is concurrent settlement prose lint
 (`/tmp/water-shared-storage-root.log`). Standalone preview assets are about 481 MiB, current Studio public assets about
 166 MiB; combined Pages size needs to include the other app before publication.
 
+## Loading-path optimisation and prepared-grid provenance
+
+A one-off full-view phase profile attributed about 12 seconds to leaf clipping,
+not buffer copying (~0.33s) or initial sampling (~1.37s). Instrumentation itself
+pushed that run to 10,000 updates with work remaining; it is diagnostic evidence,
+not a residency acceptance result. The profile is retained at
+`/tmp/water-loading-profile-normal.json`, script `/tmp/waterLoadingProfile.test.ts`.
+
+The clipping routine previously ran polygon intersection against every cutter
+in a coarse cell, even when their bounds were disjoint. It now skips strictly
+disjoint original/polygon bounds, retains touching bounds for exact clipping,
+and yields periodically through long skipped lists. When subtraction returns
+its original points unchanged, InlandWaterTiles retains their original vertices
+and hydraulic fields instead of rebuilding/re-interpolating them.
+
+The twelve previously most expensive tiles retain identical triangle counts.
+Their measured leaf-clip work fell from 4,475.7ms to 1,846.9ms. Bounds alone gave
+2,296.3ms. An immutable cutter BVH gave 2,337.8ms (no useful additional saving)
+and was removed; do not reintroduce it without new evidence. Retained evidence:
+`/tmp/water-clip-profile{,-before-bounds,-bounds-only,-rejected-bvh}.json`,
+`/tmp/waterClipProfile.test.ts`, `/tmp/water-rejected-RibbonFootprintIndex.ts`.
+
+Both final actual-native views still pass with exactly the same total triangles
+and array bytes as the shared-storage checkpoint. Normal settles in 7,912
+updates; low in 6,734 (previously 9,285 / 8,740). Both tests took 51.36 seconds
+total on this run. Timings vary with host load; this is useful reduced work,
+**not acceptable final loading latency**. Reports:
+`/tmp/water-fast-clip-budget-{normal,low}.json`, `/tmp/water-fast-clip-native.log`.
+Do not repeat unchanged. Keep the outstanding physical coverage work active;
+preparing static geometry should follow stable hydraulic inputs where possible.
+
+Prepared cutout descriptors now bind the surface sample origin and the full
+class grid (size, spacing, origin), in addition to existing channel/section
+hashes and surface spacing. The loader rejects mismatches before fetching.
+The Python builder emits these fields; the existing local preview descriptor
+was upgraded directly from its verified original footprint header, checking
+both footprint-file and binary hashes. The dependent coverage metadata input
+hash was refreshed. Geometry, stages and map pixels were not regenerated.
+Canonical channel-record hash still matches. Three loader tests and four
+Python cutout tests pass, including distinct class-grid origin/spacing cases.
+Final root runtime suites pass (game-core 796 passed, one final-asset test
+skipped), and typecheck passes. Only concurrent settlement prose lint fails
+(`/tmp/water-fast-clip-root.log`).
+
 Five compact merge checks pass, including absent optional fields and rejection
 of invalid constants. Six headless WebGL2 draws (general/ribbon/inland, above
 and below) link with zero errors, using Studio aerial bindings and no images

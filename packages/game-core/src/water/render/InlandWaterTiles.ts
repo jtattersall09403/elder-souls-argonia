@@ -362,7 +362,13 @@ export class InlandWaterTiles {
     const triangle = function* (a: number, b: number, c: number, cutters?: ChannelRibbonFootprintTriangle[]): Generator<void> {
       if (!(wet[a] || wet[b] || wet[c]) || body[a] !== body[b] || body[b] !== body[c]) return;
       if (!cutters?.length) { indices.push(a, b, c); return; }
-      const polygons = yield* subtractRibbonFootprintSteps([a, b, c].map(i => ({ x: positions[i * 3], z: positions[i * 3 + 2] })), cutters);
+      const points = [a, b, c].map(i => ({ x: positions[i * 3], z: positions[i * 3 + 2] }));
+      const polygons = yield* subtractRibbonFootprintSteps(points, cutters);
+      // If subtraction retained the input points verbatim, retain its original
+      // vertices and fields too. Re-interpolating them adds work and rounding.
+      if (polygons.length === 1 && polygons[0].length === 3 && polygons[0].every((point, i) => point === points[i])) {
+        indices.push(a, b, c); return;
+      }
       for (const polygon of polygons) {
         // Clipped points retain the original triangle's domain. Sampling
         // the exact boundary would select the ribbon we just removed.
@@ -477,6 +483,7 @@ export class InlandWaterTiles {
     // Constant owner planes may cover dry/other-owner pixels conservatively:
     // fragment ownership, support, access and native ground define their exact
     // shore. The regular interior grid follows view LOD, not semantic pixels.
+    this.atomicPhase = "flat-owner-clip";
     const ownerIndices = new Map<number, RasterOwnerIndex>();
     const flatVertex = (patch: ConstantRasterOwner, x: number, z: number): number => {
       x = Math.fround(x); z = Math.fround(z);

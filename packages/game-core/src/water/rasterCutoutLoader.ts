@@ -7,6 +7,9 @@ export async function fetchRasterCutouts(baseUrl: string, meta: WaterMeta, signa
   if (!descriptor) return undefined;
   validateRasterCutoutMeta(descriptor);
   if (descriptor.gridSize !== meta.surface.size || descriptor.metresPerPixel !== meta.surface.metresPerPixel
+    || descriptor.surfaceOriginM !== (meta.surface.gridOriginM ?? meta.surface.metresPerPixel * 0.5)
+    || descriptor.classGrid.size !== meta.klass.size || descriptor.classGrid.metresPerPixel !== meta.klass.metresPerPixel
+    || descriptor.classGrid.gridOriginM !== (meta.klass.gridOriginM ?? meta.klass.metresPerPixel * 0.5)
     || descriptor.crossSectionsSha256 !== meta.crossSections?.sha256)
     throw new Error('Raster cutouts do not match water grid or cross sections');
   // Capture the serialized source before PackedCrossSections attaches getters.

@@ -110,6 +110,8 @@ def prepare(source: Path, output: Path, tile: tuple[int, int] | None = None) -> 
     result = {"schemaVersion": 1, "file": "water-cutouts.bin.gz", "compression": "gzip",
               "sha256": hashlib.sha256(content).hexdigest(), "bytes": len(content), "downloadBytes": len(compressed),
               "sourceRibbonsSha256": header["sourceRibbonsSha256"], "crossSectionsSha256": header.get("crossSectionsSha256"),
+              "surfaceOriginM": header["surfaceGrid"].get("gridOriginM", mpp * .5),
+              "classGrid": {**header["classGrid"], "gridOriginM": header["classGrid"].get("gridOriginM", header["classGrid"]["metresPerPixel"] * .5)},
               "gridSize": header["gridSize"], "metresPerPixel": mpp, "tileCells": 64, "steps": list(STEPS),
               "cells": records, "triangles": triangles, "complete": tile is None,
               "sourceFootprintsSha256": hashlib.sha256(source.read_bytes()).hexdigest(), "builderSourceHashes": header["builderSourceHashes"]}

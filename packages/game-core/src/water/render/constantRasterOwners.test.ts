@@ -121,7 +121,7 @@ it('removes a prepared face that collapses onto the boundary of a small owner', 
   [3.5, 0, 3.5, 16, 16, 0].forEach((value, i) => view.setFloat32(24 + i * 4, value, true));
   const cuts = new RasterCutouts({ schemaVersion: 1, file: 'water-cutouts.bin.gz', compression: 'gzip', complete: true,
     sha256: '0'.repeat(64), sourceRibbonsSha256: '0'.repeat(64), bytes: 48, downloadBytes: 40,
-    gridSize: 129, metresPerPixel: 1, tileCells: 64, steps: [4, 8, 16], cells: 1, triangles: 1 }, bytes.buffer);
+    surfaceOriginM: 0, classGrid: { size: 129, metresPerPixel: 1, gridOriginM: 0 }, gridSize: 129, metresPerPixel: 1, tileCells: 64, steps: [4, 8, 16], cells: 1, triangles: 1 }, bytes.buffer);
   const { data } = fixture(cuts), material = new MeshBasicMaterial(), tiles = new InlandWaterTiles(data, false);
   const build = tiles as unknown as { build(tx: number, tz: number, step: number, material: MeshBasicMaterial): Generator<void, Mesh> };
   const geometry = finish(build.build(0, 0, 16, material)).geometry;

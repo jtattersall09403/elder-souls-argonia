@@ -27,3 +27,18 @@ def test_preserves_every_shared_edge_knot_after_triangulation():
 
 def test_empty_cell_has_no_triangles():
     assert cutout_triangles(Polygon(), (0, 0, 64, 64), HEADER).shape == (0, 6)
+
+
+def test_manifest_binds_surface_and_class_sampling_grids(tmp_path):
+    import json
+    from worldgen.prepare_water_cutouts import prepare
+    header = {"schemaVersion": 1, "gridSize": 65, "metresPerPixel": 1, "tileCells": 64,
+              "surfaceGrid": {"size": 65, "metresPerPixel": 1},
+              "classGrid": {"size": 33, "metresPerPixel": 2, "gridOriginM": 1.25},
+              "sourceRibbonsSha256": "0" * 64, "builderSourceHashes": {}}
+    source = tmp_path / "footprints.jsonl"
+    source.write_text(json.dumps(header) + "\n")
+    result = prepare(source, tmp_path / "output")
+    assert result["surfaceOriginM"] == .5
+    assert result["classGrid"] == header["classGrid"]
+    assert result["triangles"] == 0 and result["complete"]

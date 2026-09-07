@@ -4,6 +4,8 @@
 export interface RasterCutoutDescriptor {
   schemaVersion: 1; file: string; compression: 'gzip'; sha256: string;
   bytes: number; downloadBytes: number; sourceRibbonsSha256: string; crossSectionsSha256?: string;
+  surfaceOriginM: number;
+  classGrid: { size: number; metresPerPixel: number; gridOriginM: number };
   gridSize: number; metresPerPixel: number; tileCells: 64; steps: [4, 8, 16];
   cells: number; triangles: number; complete: true;
 }
@@ -15,6 +17,9 @@ export function validateRasterCutoutMeta(value: unknown): asserts value is Raste
     || !hash(m.sha256) || !hash(m.sourceRibbonsSha256) || (m.crossSectionsSha256 !== undefined && !hash(m.crossSectionsSha256))
     || !Number.isSafeInteger(m.bytes) || m.bytes! < 16 || m.bytes! > 128 * 1024 ** 2 || m.bytes! % 4
     || !Number.isSafeInteger(m.downloadBytes) || m.downloadBytes! < 1 || m.downloadBytes! > 128 * 1024 ** 2
+    || !Number.isFinite(m.surfaceOriginM) || !m.classGrid
+    || !Number.isSafeInteger(m.classGrid.size) || m.classGrid.size < 2 || m.classGrid.size > 65536
+    || !Number.isFinite(m.classGrid.metresPerPixel) || m.classGrid.metresPerPixel <= 0 || !Number.isFinite(m.classGrid.gridOriginM)
     || !Number.isSafeInteger(m.gridSize) || m.gridSize! < 2 || m.gridSize! > 65536
     || !Number.isFinite(m.metresPerPixel) || m.metresPerPixel! <= 0 || m.tileCells !== 64
     || !Array.isArray(m.steps) || m.steps.join(',') !== '4,8,16'
