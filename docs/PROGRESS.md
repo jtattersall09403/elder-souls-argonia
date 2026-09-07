@@ -96,8 +96,8 @@ occupancy must not justify further cutting. Preserve original retaining banks,
 existing low-water limits and every actual carved channel. Upper tidal/seasonal limits may increase to fill all terrain-authored water areas at peak stage (owner 2026-09-06).
 Compiler source checkpoint passes86 focused Python tests; unresolved final
 hydraulic constraints remain explicit and no diagnostic assets are promoted.
-The durable accepted repair checkpoint has131 channel constraints,69
-retaining-bound violations and15,568 terrain corrections. Original impoundment
+The durable accepted repair checkpoint has130 channel constraints,69
+retaining-bound violations and15,555 terrain corrections. Original impoundment
 spill potential/planes, marine coverage and previously accepted original wet
 fringes are preserved. Complete-reach solving and original-pool sampling
 corrections replaced ineffective single-obstruction repairs; the latest solver correction

@@ -45,17 +45,17 @@ Independent high/low `stageRange` is implemented through compilation, runtime,
 adaptive water and terrain protection. Defaults and public assets are unchanged.
 Next: combine actual carved footprint targets with connected peak coverage and
 correct unrelated slope paint; include standing ponds/swamps, not just stations.
-The131 base constraints below still require resolution before final export.
+The130 base constraints below still require resolution before final export.
 
 ## Immediate compiler work
 
 Authoritative terrain: `tooling/world-generation/water-repair-inputs/bed-overlay.json`.
-Matching solver cache: `/tmp/water-accepted-131-state.npz`; check the input
+Matching solver cache: `/tmp/water-accepted-130-state.npz`; check the input
 manifest/compiler handoff for any newer accepted checkpoint before proceeding.
 All423,268 original wet samples preserve their spill potential exactly, their
 coverage, and their original planes within0.1mm. Restored345 retaining supports plus182 minimum-bound restorations,
 1,103 unnecessary submerged floor cuts and3 artificial-anchor supports;
-15,568 corrections remain. **131 channel constraints remain**, not completed
+15,555 corrections remain. **130 channel constraints remain**, not completed
 geometry. Immutable retaining bounds are enforced. Two reviewed full-river
 groups passed fresh checks. A routine local-bank proposal resolved91 but caused
 16 new failures and was rejected wholesale. A subsequent shared-support proposal
@@ -221,3 +221,17 @@ The old142-state ordinary-river proposal (`/tmp/water-remaining-ordinary-proposa
 is unaccepted: it proposes four additional repairs against superseded bank
 measurements. Prefer the exact-geometry baseline before reviewing any of those
 cuts. Peak coverage,69 retaining violations and final export remain open.
+
+The subsequent exact-bank connected proposal repairs2497 within the routine
+budget:14 cuts and36 restorations, maximum resulting cut1.441132m, instead of
+the earlier3.262788m proposal. Fresh domains preserve all original and prior
+repair-created pool coverage/planes. Accepted count130,15,555 corrections,
+69 retaining violations. No higher stage or final assets are deployed.
+
+The full original-pool fringe remains a separate final-ownership check:
+at131,249 originally wet fringe vertices have no current pool-plane field and
+eight have different planes; none belongs to the preserved423,268-sample
+impoundment interior. These may be channel handoffs, but that is unproven
+until queried against actual exported ribbons and standing-water geometry.
+Do not equate a missing pool field with dry rendered water, or waive coverage.
+`/tmp/water-original-fringe-131.json` records examples.

@@ -145,3 +145,8 @@ respect every retained cap; failed trials roll back completely. The accepted
 131-constraint result restores11 reaches without terrain edits, with original
 water preservation checked in fresh domains. The remaining exclusions remain
 explicit; this is maximal feasible coverage, not a globally optimal subset.
+
+Reevaluate excavation after solver changes: the exact-bank/connected repair
+for2497 needs at most1.441132m of original lowering, with36 old cuts restored,
+instead of the preceding3.262788m exception proposal. Only the fresh-verified
+routine repair is accepted, taking the checkpoint to130 constraints.

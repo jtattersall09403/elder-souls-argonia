@@ -17,7 +17,7 @@ asset vault at the paths resolved by `worldgen.compile_chunks.DEFAULT_HEIGHTS`.
 Native grid 4033, spacing 1.82784 m, origin 0; 67 original-height-preserving diagonal
 flips are derived deterministically from those sources.
 
-Current overlay:15,568 corrections;131 unresolved channels
+Current overlay:15,555 corrections;130 unresolved channels
 (5 pinned; these are not completion counts).
 Strict preservation: 423,268 original wet samples, zero missing or shifted
 original planes over 0.1 mm, **exactly zero original spill-potential difference**.
@@ -40,7 +40,7 @@ Useful disposable caches on this VM:
 | Path | Meaning |
 |---|---|
 | `/tmp/water-spill-guard-reference.npz` | Corrected immutable-source pool/geometry reference |
-| `/tmp/water-accepted-131-state.npz` | Matching131-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
+| `/tmp/water-accepted-130-state.npz` | Matching130-constraint geometry, immutable bounds and durable overlay hash; use for proposals |
 | `/tmp/water-independent-local-fresh-audit.json` | Fresh global proof accepting the independent shared-support components |
 | `/tmp/water-two-reach-fresh-audit.json` | Fresh global proof accepting the two reviewed joint groups |
 | `/tmp/water-retaining-restoration-audit.json` | Fresh global evaluation accepting the last 104 restorations |
@@ -528,3 +528,25 @@ An ordinary-river cut-only proposal on the OLD142 algorithm found four cached
 repairs:2497,2517,1071,14047 (`/tmp/water-remaining-ordinary-proposal.json`). It
 has NOT passed fresh domains and is not accepted. Do not promote those cuts
 without reevaluating them against the exact solver and existing bounds.
+
+## Routine repair after exact-bank correction (2026-09-07)
+
+The connected signed proposal on131 fixes2497 with14 cuts and36 restorations;
+maximum resulting original cut1.441132m. The old3.262788m exception proposal
+for that source is unnecessary and remains unaccepted. Fresh report/proof:
+`/tmp/water-exact-bank-connected-fresh.json` and
+`/tmp/water-exact-bank-connected-preservation.json`. No original or earlier
+repair-created pool coverage/planes change, no new failures. Current130
+checkpoint has15,555 corrections and69 retaining violations. The preserved
+solver-source hashes in the manifest still apply; its131 solver-acceptance
+record is historical, while the checkpoint count and newest coupled fresh
+acceptance record describe130.
+
+Full-fringe audit `/tmp/water-original-fringe-131.json`:249 original wet fringe
+vertices lack a current pool plane and eight have a different one. None is in
+the protected impoundment interior. Check actual channel/standing ownership
+and peak coverage before classifying these as physical losses or legitimate
+flow handoffs. One missing pool-field vertex is now marine; that alone does
+not certify its original water-plane requirement. The exact solver recovered
+six previously missing fringe pool samples versus142, but the remaining
+fringe scope is not closed.
