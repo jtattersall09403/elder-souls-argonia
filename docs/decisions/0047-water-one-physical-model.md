@@ -121,3 +121,29 @@ every level a flood on the real terrain removes the class.
 Delivery: PROGRESS.md Phase P row; handoff in
 [research/rendering/water-handoff.md](../research/rendering/water-handoff.md);
 probe and runbook in [water-quality.md](../research/rendering/water-quality.md).
+
+## Addendum 2026-09-08 — vanilla waterfall assets: merge, do not mount
+
+The vault audit ([waterfall-assets-vault-audit.md](../research/rendering/waterfall-assets-vault-audit.md))
+found the whole vanilla waterfall kit in the vault, converting cleanly, with
+measured scroll rates and Bethesda's placement stacks mined from Skyrim.esm.
+The owner asked whether using it fits the rest of our water. Decision:
+
+- **Not as runtime meshes.** The pieces are authored for a forward LDR
+  renderer: unlit emissive grey at fixed alpha, snapped by hand to hand-built
+  rock, with particle systems we cannot run. Mounted as-is they sit outside our
+  light rig, exposure, aerial haze, scene-depth soft edges, foam field and
+  clock, and read as foreign objects — the same class of failure as the two
+  previous attempts.
+- **As data, yes.** Fall bodies are built along the traced path using
+  Bethesda's stacking rules (piece families 7.5 / 29 / 44 / 58 m, vertical
+  overlap at ~2/3 height, ~2× lateral overlap), rendered by our own shader
+  inside our pipeline. The vanilla whitewater and steam textures become the
+  **one foam texture family for the whole system** — sheets, chute strips,
+  plunge quads, mist particles, and the dissolve texture behind sea, beach and
+  river foam — so a fall meets its strip at the lip and its pool at the base
+  with the same texture and the same foam field on both sides.
+- **Fit is measured**: luminance of a fall against adjacent foam in one frame
+  within a band; no colour step across the lip and plunge joins under the
+  layer toggles; correct from underwater; no frame-rate change. This is the
+  integration pass that closes the waterfall item.
