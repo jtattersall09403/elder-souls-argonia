@@ -6,6 +6,8 @@ import { RIPPLE_ADVECTION_GLSL } from './rippleAdvection';
 export const RIPPLE_PATCH_M = 64;
 const FIXED_STEP = 1 / 60;
 const MAX_DROPS = 32;
+/** Most drops one swept path may stamp in a frame. */
+const MAX_PATH_STAMPS = 6;
 const MIN_WET_MARGIN_M = 0.02;
 const MAX_STALE_STAGE_M = 0.008;
 
@@ -437,6 +439,19 @@ export class RippleSim {
     if (this.disposed || ![x, z, radiusM, strength].every(Number.isFinite) || radiusM <= 0 || strength === 0) return;
     if (this.pendingDrops.length >= MAX_DROPS) return;
     this.pendingDrops.push({ x, z, radiusM: Math.min(this.maxDropRadiusM, radiusM), strength: THREE.MathUtils.clamp(strength, -0.3, 0.3) });
+  }
+
+  /** Swept-path stamping (study §1.4): a wading player or a moving contact
+   * stamps along the distance travelled since the last frame — drops spaced
+   * under a radius apart along the segment, never one point every tick. */
+  addPath(x0: number, z0: number, x1: number, z1: number, radiusM: number, strength: number): void {
+    if (![x0, z0, x1, z1, radiusM].every(Number.isFinite) || radiusM <= 0) return;
+    const len = Math.hypot(x1 - x0, z1 - z0);
+    const n = Math.min(MAX_PATH_STAMPS, Math.max(1, Math.ceil(len / (radiusM * 0.9))));
+    for (let i = 0; i < n; i++) {
+      const t = n === 1 ? 1 : i / (n - 1);
+      this.addDrop(x0 + (x1 - x0) * t, z0 + (z1 - z0) * t, radiusM, strength);
+    }
   }
 
   step(renderer: THREE.WebGLRenderer, focusX: number, focusZ: number, deltaS: number): void {

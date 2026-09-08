@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { WaterClock } from './WaterClock';
-import { windWaveSpeed } from './waves';
+import { WAVES, gerstnerAt, windWaveSpeed } from './waves';
 
 describe('wave-phase and physical-transport clocks', () => {
   it('keeps 3m/s flow exact at 2.5–144 FPS through calm/storm and paused/accelerated previews', () => {
@@ -20,6 +20,17 @@ describe('wave-phase and physical-transport clocks', () => {
     clock.advance(.4, 8, 6);
     expect(clock.transportS).toBe(.8); expect(clock.phaseS).toBeCloseTo(.4 + .4 * 8 * windWaveSpeed(6), 12);
     expect(clock.deltaS).toBe(.4);
+  });
+  it('folds the phase clock on the 8192 s loop with no visible seam', () => {
+    const clock = new WaterClock();
+    for (let i = 0; i < 100; i++) clock.advance(100, 1, 1);
+    expect(clock.transportS).toBeCloseTo(10000, 9);
+    expect(clock.phaseS).toBeCloseTo(10000 - WAVES.timePeriodS, 9);
+    expect(clock.phaseS).toBeLessThan(WAVES.timePeriodS);
+    const a = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 }, b = { ...a };
+    gerstnerAt(40, 70, 10000, 1, a);
+    gerstnerAt(40, 70, clock.phaseS, 1, b);
+    expect(b.height).toBeCloseTo(a.height, 6);
   });
   it('keeps separate owners and rejects invalid/backwards deltas without resetting phases', () => {
     const a = new WaterClock(), b = new WaterClock(); a.advance(1, 1, 1);

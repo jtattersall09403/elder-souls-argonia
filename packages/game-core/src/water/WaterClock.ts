@@ -1,7 +1,14 @@
-import { windWaveSpeed } from './waves';
+import { WAVES, windWaveSpeed } from './waves';
 
 /** Caller-owned dual clock. Epoch tide/season time remains a separate input.
- * Wind and preview rate accelerate wave phase, never physical m/s transport. */
+ * Wind and preview rate accelerate wave phase, never physical m/s transport.
+ *
+ * `phaseS` is FOLDED modulo `WAVES.timePeriodS` (8192 s): every angular
+ * frequency in waves.ts sits on the 2π/8192 grid, so the wave field is
+ * exactly periodic on it and the fold is invisible, while float32 phase
+ * precision in the shader stays sub-millisecond after hours of play (study
+ * §1.2). `transportS` is NOT folded: event lifetimes and dual-phase cycles
+ * are differences of it, and float32 keeps ~4 ms at ten hours. */
 export class WaterClock {
   phaseS = 0;
   transportS = 0;
@@ -25,6 +32,6 @@ export class WaterClock {
     const wind = Number.isFinite(windScale) ? windScale : 1;
     this.deltaS = deltaS;
     this.transportS += deltaS;
-    this.phaseS += deltaS * previewRate * windWaveSpeed(wind);
+    this.phaseS = (this.phaseS + deltaS * previewRate * windWaveSpeed(wind)) % WAVES.timePeriodS;
   }
 }

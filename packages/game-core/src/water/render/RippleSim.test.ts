@@ -306,4 +306,18 @@ describe("ripple render scheduling", () => {
     expect(calls).toHaveLength(0);
     sim.dispose(); sim.dispose();
   });
+
+  it('stamps a swept path as drops spaced under a radius apart, bounded per frame', () => {
+    const sim = new RippleSim({ boundarySize: 16, sampleBoundary: () => ({ waterBodyId: 'lake', depth: 2, surfaceHeight: 0 }) });
+    const pending = () => (sim as unknown as { pendingDrops: unknown[] }).pendingDrops.length;
+    sim.addPath(0, 0, 0, 0, 0.45, 0.04);
+    expect(pending()).toBe(1);
+    sim.addPath(0, 0, 1.0, 0, 0.45, 0.04);
+    expect(pending()).toBe(1 + 3);
+    sim.addPath(0, 0, 40, 0, 0.45, 0.04);
+    expect(pending()).toBe(4 + 6);
+    sim.addPath(NaN, 0, 1, 0, 0.45, 0.04);
+    expect(pending()).toBe(10);
+    sim.dispose();
+  });
 });
