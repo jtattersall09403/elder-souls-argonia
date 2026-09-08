@@ -2,6 +2,8 @@
 
 import math
 
+import pytest
+
 from . import macro_plot
 
 
@@ -36,13 +38,36 @@ def test_thomas_parents_are_seeded_deterministic_and_clear_culture_floor():
                for b in cluster["parents"][i + 1:])
 
 
-def test_children_are_strictly_clumped_with_relaxed_escape_hatch():
+def test_children_stay_strictly_clumped_even_in_relaxed_placement_stages():
     d = demand("place.hist-heartland.child")
     prior = {"hist-heartland": {"parents": [(0.0, 0.0)], "sigmaM": 100.0,
                                   "childRadiusM": 300.0}}
     assert macro_plot.thomas_prior_score(d, candidate("near", 100, 0), prior, False) > 0
     assert macro_plot.thomas_prior_score(d, candidate("far", 301, 0), prior, False) is None
-    assert macro_plot.thomas_prior_score(d, candidate("far", 301, 0), prior, True) < 0
+    assert macro_plot.thomas_prior_score(d, candidate("far", 301, 0), prior, True) is None
+
+
+def test_parent_shortfall_is_a_failure_not_a_quietly_weaker_prior():
+    demands = [demand(f"place.hist-heartland.test-{i}") for i in range(17)]
+    cands = [candidate("site.a", 0, 0), candidate("site.b", 100, 0)]
+    with pytest.raises(ValueError, match="needs 3 Thomas parents but only 1"):
+        macro_plot.build_thomas_prior(demands, cands, seed=42)
+
+
+def test_outcome_gate_checks_homeless_radius_and_parent_occupancy(monkeypatch):
+    monkeypatch.setattr(macro_plot, "load_overrides", lambda: [])
+    demands = [demand("place.hist-heartland.a"), demand("place.hist-heartland.b")]
+    prior = {"hist-heartland": {"parents": [(0.0, 0.0), (600.0, 0.0), (1200.0, 0.0)],
+                                  "childRadiusM": 300.0}}
+    result = {
+        demands[0].id: {"candidate": candidate("near", 10, 0)},
+        demands[1].id: {"candidate": candidate("far", 1800, 0)},
+    }
+    audit, errors = macro_plot.thomas_outcome(
+        prior, demands, result, [{"id": "place.hist-heartland.missing"}])
+    assert audit["outsideRadius"] == [demands[1].id]
+    assert audit["emptyParents"] == {"hist-heartland": [1]}
+    assert len(errors) == 3
 
 
 def test_general_even_spacing_floor_is_gone_but_collision_and_repetition_remain():

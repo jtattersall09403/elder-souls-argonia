@@ -272,6 +272,11 @@ def build_thomas_prior(demands: list[Demand], cands: list[Candidate], seed: int)
                     break
         if not parents:
             raise ValueError(f"culture {zone!r} has demand but no candidate ground for a Thomas parent")
+        if len(parents) != target:
+            raise ValueError(
+                f"culture {zone!r} needs {target} Thomas parents but only {len(parents)} "
+                f"clear the {floor:.0f} m floor; adjust the culture policy or candidate mask"
+            )
         out[zone] = {**cfg, "childRadiusM": THOMAS_CHILD_RADIUS_M,
                      "targetParents": target, "parents": parents}
     return out
@@ -287,11 +292,50 @@ def thomas_prior_score(d: Demand, c: Candidate, prior: dict[str, dict], relaxed:
     cluster = prior[d.zone]
     distance = min(math.hypot(c.x - px, c.z - pz) for px, pz in cluster["parents"])
     radius = float(cluster["childRadiusM"])
-    if distance > radius and not relaxed:
+    if distance > radius:
         return None
     sigma = float(cluster["sigmaM"])
     gaussian = math.exp(-0.5 * (distance / sigma) ** 2)
-    return THOMAS_WEIGHT * gaussian if distance <= radius else -min(THOMAS_WEIGHT, (distance - radius) / radius)
+    return THOMAS_WEIGHT * gaussian
+
+
+def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[str, dict],
+                   unresolved: list[dict]) -> tuple[dict, list[str]]:
+    """Audit the delivered assignment, not only the clustering primitives.
+
+    Owner anchors and explicit blueprint pins are declared exceptions; every
+    other resolved child must occupy one of the requested parents' 300 m
+    kernels, every latent parent must have a child, and a resolve-all result
+    must not hide homeless records.
+    """
+    by_id = {d.id: d for d in demands}
+    pinned = {row["id"] for row in load_overrides()}
+    occupancy = {zone: [0] * len(row["parents"]) for zone, row in prior.items()}
+    outside: list[str] = []
+    for did, assignment in result.items():
+        demand = by_id.get(did)
+        if demand is None or demand.tier == 0 or did in pinned:
+            continue
+        cluster = prior[demand.zone]
+        candidate = assignment["candidate"]
+        distances = [math.hypot(candidate.x - x, candidate.z - z)
+                     for x, z in cluster["parents"]]
+        nearest = min(range(len(distances)), key=distances.__getitem__)
+        occupancy[demand.zone][nearest] += 1
+        if distances[nearest] > float(cluster["childRadiusM"]) + 1e-6:
+            outside.append(did)
+    empty = {zone: [i for i, count in enumerate(counts) if count == 0]
+             for zone, counts in occupancy.items() if any(count == 0 for count in counts)}
+    unresolved_ids = sorted(row["id"] for row in unresolved)
+    errors = []
+    if unresolved_ids:
+        errors.append(f"resolve-all left homeless records {unresolved_ids}")
+    if outside:
+        errors.append(f"Thomas children outside {THOMAS_CHILD_RADIUS_M:.0f} m kernels {sorted(outside)}")
+    if empty:
+        errors.append(f"Thomas parents with no children {empty}")
+    return ({"unresolved": unresolved_ids, "outsideRadius": sorted(outside),
+             "parentOccupancy": occupancy, "emptyParents": empty}, errors)
 
 
 # --------------------------------------------------------------------------- #
@@ -1696,6 +1740,10 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
             for zone, row in prior.items()
         },
     }
+    rep["clusteringOutcome"], clustering_errors = thomas_outcome(
+        prior, demands, result, unresolved)
+    if resolve_all and clustering_errors:
+        raise RuntimeError("; ".join(clustering_errors))
     rep["clarkEvans"] = plot_stats.clark_evans(
         positions_by_zone({did: r["candidate"] for did, r in result.items()}, demands),
         plot_stats.zone_land_area_m2(s), plot_stats.zone_land_masks(s), s.grid_px_m,
