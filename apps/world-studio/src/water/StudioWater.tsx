@@ -1,6 +1,7 @@
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { RippleSim } from "@elder-souls/game-core/water/render/RippleSim";
-import { sharedWaterAssets, type WaterAssets } from "./waterAssets";
+import { sharedWaterAssets, waterGroundHeight, type WaterAssets } from "./waterAssets";
+import { createWaterProbe, type WaterProbeSummary } from "@elder-souls/game-core/water/render/waterProbe";
 import { SkyContext, sharedAerialUniforms } from "../sky/WorldSky";
 import { applyAerialPerspective } from "../sky/aerial";
 import { worldClock } from "../sky/timeState";
@@ -31,6 +32,9 @@ declare global {
     /** Live override of ?waterLayers= — a probe flips layers without the
      * page reload that a 2 fps software-GL run cannot afford. */
     __STUDIO_WATER_LAYERS__?: string | null;
+    /** Numeric CPU-model probe (decision 0047 item 8): still surface, signed
+     * depth + lift, real ground, class and speed at each (x, z) in metres. */
+    __STUDIO_WATER_PROBE__?: (points: readonly { x: number; z: number }[]) => WaterProbeSummary;
   }
 }
 
@@ -110,6 +114,15 @@ export function StudioWater({ base, verticalScale, farExtentM, contactBodies, su
       alive = false;
     };
   }, [base]);
+  // Dev hook for the numeric browser probe — installed by the app, built in
+  // the package (no global state inside packages/).
+  useEffect(() => {
+    if (!assets) return;
+    window.__STUDIO_WATER_PROBE__ = createWaterProbe(assets, {
+      epochMinutes: runtime.epochMinutes, groundHeight: waterGroundHeight,
+    });
+    return () => { delete window.__STUDIO_WATER_PROBE__; };
+  }, [assets, runtime]);
 
   if (!assets) return null;
   return (

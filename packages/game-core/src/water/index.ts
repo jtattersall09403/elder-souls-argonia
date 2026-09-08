@@ -1,6 +1,6 @@
-export { WAVES, SWASH, SHORE_SWELL, gerstnerAt, surfaceWaveAt, swashAt, swashMax, surfGroup, fetchExposure, shoreSwellAt, waveExposure, waveBands, gerstnerGlsl, surfGlsl, setWindWaveScale, getWindWaveScale, windWaveSpeed, surfWindScale } from "./waves";
+export { WAVES, SWASH, SHORE_SWELL, FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, flowWaveAt, flowWaveGlsl, gerstnerAt, surfaceWaveAt, swashAt, swashMax, surfGroup, fetchExposure, shoreSwellAt, waveExposure, waveBands, gerstnerGlsl, surfGlsl, setWindWaveScale, getWindWaveScale, windWaveSpeed, surfWindScale } from "./waves";
 export type { WaveSample } from "./waves";
-export { WaterData } from "./waterData";
+export { WaterData, BURIED_DEPTH_M, OPEN_SEA_DEPTH_M, buriedThresholdM, decodeDepthByte, tideResponseOf } from "./waterData";
 export type { WaterMeta, WaterStaticSample } from "./waterData";
 export { tideOffset, seasonOffset, springFactor, SEMIDIURNAL_MINUTES } from "./tide";
 export { WaterWorld } from "./waterWorld";

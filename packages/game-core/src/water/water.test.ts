@@ -3,7 +3,8 @@ import { WaterData, type WaterMeta } from "./waterData";
 import { WaterWorld } from "./waterWorld";
 import { computeBuoyancy } from "./buoyancy";
 import { SEMIDIURNAL_MINUTES, tideOffset, seasonOffset } from "./tide";
-import { SHORE_SWELL, SWASH, WAVES, fetchExposure, gerstnerAt, gerstnerGlsl, shoreSwellAt, surfGlsl, surfaceWaveAt, swashAt, waveExposure } from "./waves";
+import { FLOW_WAVES, FLOW_WAVE_MIN_SPEED_MS, SHORE_SWELL, SWASH, WAVES, fetchExposure, flowWaveAt, flowWaveGlsl, gerstnerAt,
+  gerstnerGlsl, shoreSwellAt, surfGlsl, surfaceWaveAt, swashAt, waveExposure } from "./waves";
 
 // ---------------------------------------------------------------------------
 // Waves — the CPU/GLSL lockstep model
@@ -121,6 +122,63 @@ describe("waves", () => {
   });
 });
 
+describe("flow waves (decision 0047 item 6)", () => {
+  const out = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
+
+  it("stays within the speed-scaled amplitude and never displaces horizontally", () => {
+    for (const speed of [0.2, 0.8, 2, 3]) {
+      const amp = FLOW_WAVES.ampBase + FLOW_WAVES.ampPerMS * Math.min(speed, FLOW_WAVES.ampSpeedCapMS);
+      let peak = 0;
+      for (let i = 0; i < 400; i++) {
+        flowWaveAt(i * 0.37, i * 0.11, 0.6, 0.8, speed, i * 0.13, out);
+        peak = Math.max(peak, Math.abs(out.height));
+        expect(out.dx).toBe(0);
+        expect(out.ny).toBeGreaterThan(0.9);
+      }
+      expect(peak).toBeLessThanOrEqual(amp + 1e-9);
+      expect(peak).toBeGreaterThan(amp * 0.5);
+    }
+  });
+
+  it("crests travel DOWNSTREAM at speed + 0.4 m/s", () => {
+    // a crest at along-distance s at time t is at s + c·dt at t + dt
+    const speed = 0.5;
+    const c = speed + FLOW_WAVES.phaseSpeedAddMS;
+    const dir = [1, 0] as const;
+    for (const [x0, t0, dt] of [[3.2, 1, 0.7], [10.1, 5, 1.3], [0.4, 12, 2.2]]) {
+      const h0 = flowWaveAt(x0, 2, dir[0], dir[1], speed, t0, out).height;
+      const h1 = flowWaveAt(x0 + c * dt, 2, dir[0], dir[1], speed, t0 + dt, out).height;
+      expect(h1).toBeCloseTo(h0, 9);
+    }
+  });
+
+  it("GLSL twin bakes the same table and gate", () => {
+    const glsl = flowWaveGlsl();
+    expect(glsl).toContain("float esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal)");
+    for (const b of FLOW_WAVES.bands) {
+      expect(glsl).toContain(String((2 * Math.PI) / b.wavelengthM));
+      expect(glsl).toContain(`amp * ${b.weight}`);
+    }
+    expect(glsl).toContain(`min(speed, ${FLOW_WAVES.ampSpeedCapMS.toFixed(1)})`);
+    expect(glsl).toContain(`speed + ${FLOW_WAVES.phaseSpeedAddMS}`);
+    expect(FLOW_WAVE_MIN_SPEED_MS).toBe(0.15);
+  });
+
+  it("the analytic normal matches a finite difference of the height", () => {
+    const e = 1e-4;
+    for (const [x, z, t] of [[5, 7, 3], [120.3, 44.1, 9.5], [1000, 2000, 60]]) {
+      flowWaveAt(x, z, 0.28, 0.96, 1.2, t, out);
+      const nx = out.nx / out.ny, nz = out.nz / out.ny;
+      const hx = (flowWaveAt(x + e, z, 0.28, 0.96, 1.2, t, { ...out }).height
+        - flowWaveAt(x - e, z, 0.28, 0.96, 1.2, t, { ...out }).height) / (2 * e);
+      const hz = (flowWaveAt(x, z + e, 0.28, 0.96, 1.2, t, { ...out }).height
+        - flowWaveAt(x, z - e, 0.28, 0.96, 1.2, t, { ...out }).height) / (2 * e);
+      expect(-nx).toBeCloseTo(hx, 4);
+      expect(-nz).toBeCloseTo(hz, 4);
+    }
+  });
+});
+
 // ---------------------------------------------------------------------------
 // Tide and season
 // ---------------------------------------------------------------------------
@@ -226,6 +284,42 @@ describe("wet-aware surface interpolation", () => {
       new Float32Array(4), new Uint8ClampedArray(16), new Uint8ClampedArray(16));
     expect(dry.surfaceBase(10, 10)).toBeCloseTo(7, 6);
   });
+
+  // decision 0047: signed depth. West = wet (+2), east = TABLE cell (−1: dry
+  // now, floodable; carries the body's W) or BURIED (−3: W = ground − 3).
+  function signed(eastDepth: number, eastW: number) {
+    const size = 2;
+    const meta: WaterMeta = {
+      schemaVersion: 2,
+      surface: { file: "", size, metresPerPixel: 10, minM: -10, maxM: 10, buryM: 3, depthMinM: -6, depthSpanM: 30.6 },
+      flow: { file: "", size, metresPerPixel: 10, flowMax: 3, shoreMaxM: 160 },
+      klass: { file: "", size, metresPerPixel: 10, classes: ["none", "lake"] },
+    };
+    const shore = new Float32Array(4);
+    const season = new Float32Array([1, 1, 1, 1]);
+    return new WaterData(meta, new Float32Array([1.5, eastW, 1.5, eastW]),
+      new Float32Array([2, eastDepth, 2, eastDepth]), new Uint8ClampedArray(16), new Uint8ClampedArray(16), shore, season);
+  }
+
+  it("extends the level plane over a table texel but never into a buried one", () => {
+    const table = signed(-1, 1.5);
+    for (const x of [5, 10, 14]) expect(table.surfaceBase(x, 5)).toBeCloseTo(1.5, 6);
+    const buried = signed(-3, -0.5);
+    for (const x of [5, 10, 14]) expect(buried.surfaceBase(x, 5)).toBeCloseTo(1.5, 6);
+    // …and the depth itself keeps the plain mix, so the buried side reads buried
+    expect(buried.depthProxy(14.9, 5)).toBeLessThan(-2.5);
+  });
+
+  it("signed depth + lift decides wetness: a season floods the table band and a drought drains shallows", () => {
+    const table = signed(-1, 1.5);
+    expect(table.depthProxy(15, 5)).toBeCloseTo(-1, 1);
+    expect(table.isWet(15, 5)).toBe(false);
+    expect(table.isWet(15, 5, 0, 1.4)).toBe(true);      // wet season +1.4 m
+    expect(table.depthAt(15, 5, 0, 1.4)).toBeCloseTo(0.4, 1);
+    const shallow = signed(0.2, 1.5);
+    expect(shallow.isWet(15, 5)).toBe(true);
+    expect(shallow.isWet(15, 5, 0, -0.28)).toBe(false);  // dry season −0.28 m
+  });
 });
 
 describe("WaterWorld", () => {
@@ -243,6 +337,33 @@ describe("WaterWorld", () => {
     expect(w.waterBodyId).toBeNull();
     expect(w.depth).toBe(0);
     expect(w.immersion).toBe(0);
+  });
+
+  it("rides the flow-wave twin on moving water so buoyancy matches the vertex stage", () => {
+    // a 2x2 raster of river water flowing +x at 1 m/s, no real ground hook
+    const size = 2;
+    const meta: WaterMeta = {
+      surface: { file: "", size, metresPerPixel: 10, minM: -10, maxM: 10, buryM: 3 },
+      flow: { file: "", size, metresPerPixel: 10, flowMax: 3, shoreMaxM: 160 },
+      klass: { file: "", size, metresPerPixel: 10, classes: ["none", "coast", "estuary", "river"] },
+    };
+    const flow = new Uint8ClampedArray(16);
+    const klass = new Uint8ClampedArray(16);
+    for (let i = 0; i < 4; i++) {
+      flow[i * 4] = Math.round((1 / 3 / 2 + 0.5) * 255); flow[i * 4 + 1] = 128; flow[i * 4 + 3] = 0;
+      klass[i * 4] = 3; klass[i * 4 + 1] = 0; klass[i * 4 + 2] = 0;
+    }
+    const data = new WaterData(meta, new Float32Array([2, 2, 2, 2]), new Float32Array([3, 3, 3, 3]), flow, klass,
+      new Float32Array(4), new Float32Array(4));
+    let t = 0;
+    const world = new WaterWorld(data, { tidalAmplitudeM: 0, seasonalAmplitudeM: 0, seasonScalar: () => 0, waveTimeS: () => t });
+    const heights: number[] = [];
+    for (t = 0; t < 6; t += 0.25) heights.push(world.sample({ x: 10, y: 2, z: 10 }, 0).surfaceHeight);
+    const span = Math.max(...heights) - Math.min(...heights);
+    expect(span).toBeGreaterThan(0.02); // it moves
+    expect(span).toBeLessThan(0.1);     // a few centimetres at 1 m/s
+    const n = world.sample({ x: 10, y: 2, z: 10 }, 0).surfaceNormal;
+    expect(Math.hypot(n.x, n.y, n.z)).toBeCloseTo(1, 6);
   });
 
   it("tide moves the coast surface over time", () => {

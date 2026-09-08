@@ -1,11 +1,19 @@
-// Phase 8b water probe: boots the built studio at fixed WorldInstants over
-// real water bodies (bay, major river, Blackrose basin, mountain tarn,
-// marsh), reads window.__STUDIO_WATER_DEBUG__ and __STUDIO_SKY_DEBUG__, and
-// fails on any page/shader error. Covers BOTH fly and character views (the
-// 8a lesson: per-mode canvas wiring hides per-mode defects), including a
-// deep-water character spawn that exercises the underwater pipeline.
-// Run from apps/combat-sandbox (owns the playwright dep):
-//   node ../world-studio/scripts/probe-water.mjs
+// Water probe (decision 0047 item 8): ONE browser session against the BUILT
+// studio, served locally, low tier, 480x270, numeric assertions at the owner's
+// key sites (docs/research/rendering/water-handoff.md § Key sites) plus the
+// wet/dry season toggles at the marsh. No screenshot is ever read by an agent:
+// every pass/fail comes from `window.__STUDIO_WATER_PROBE__` (the CPU water
+// model: still surface, signed depth + lift, real chunk ground, class, speed)
+// and `window.__STUDIO_WATER_DEBUG__` (frames, strip/sheet counts). One
+// 480x270 screenshot per site lands in apps/world-studio/artifacts/ for the
+// owner's eye.
+//
+//   npm run build -w @elder-souls/world-studio
+//   node apps/world-studio/scripts/probe-water.mjs            # all sites
+//   WATER_SITE=marsh-wet,basin node .../probe-water.mjs       # a subset
+//   WATER_LAYER_DIFF=1 node .../probe-water.mjs               # + per-layer
+//       pixel attribution at the fall-78 chute (field/strips/falls/effects)
+//   WATER_REUSE_SERVER=1 WATER_PORT=4323 ...                  # server already up
 import { mkdirSync, writeFileSync } from "node:fs";
 import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
@@ -15,138 +23,39 @@ const studioDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..
 const artifacts = path.join(studioDir, "artifacts");
 mkdirSync(artifacts, { recursive: true });
 
-const PORT = 4323;
+const PORT = Number(process.env.WATER_PORT ?? 4323);
 const BASE = `http://127.0.0.1:${PORT}/elder-souls-argonia/studio/`;
+const W = 480;
+const H = 270;
+const COMMON = "ex=1&d=8-17&wq=low&smsize=512&w=clear&lanes=0&markers=0&hud=0";
+/** Frames to wait for before judging a site (software GL: a few seconds). */
+const SETTLE_FRAMES = 6;
+const SITE_TIMEOUT_MS = 90_000;
 
-const SCENARIOS = [
-  {
-    id: "bay-noon-fly",
-    q: "view=fly3d&cam=orbit&x=6.16&z=5.07&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    surfaceAtCam: [-1.2, 1.2], // open sea: 0 ± tide
-    brightness: [25, 235],
-    // bottom half of frame = open water at noon: must read blue/teal (not
-    // brown/grey), not blown out, and textured (waves/ripples, not flat)
-    waterRegion: { coolMin: 0.95, meanMax: 210, stdMin: 3 },
-  },
-  {
-    id: "river-walk",
-    q: "view=character&x=1.85&z=4.89&ex=1&t=12:00&d=8-17&wq=high",
-    // 2026-09-07: the channel is carved to its water profile, so the spawn on
-    // the bed is deep enough that the third-person camera is submerged
-    underwater: true,
-    // round 6: the unified fill model puts this near-coast reach at its
-    // physical level (~0, draining to the sea); it holds 4+ m of water
-    surfaceAtCam: [-0.6, 3.5],
-    brightness: [25, 235],
-  },
-  {
-    id: "blackrose-dusk-fly",
-    q: "view=fly3d&cam=orbit&x=2.74&z=3.15&ex=1&t=18:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [2, 200],
-  },
-  {
-    id: "tarn-fly",
-    q: "view=fly3d&cam=orbit&x=0.38&z=1.44&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    surfaceAtCam: [250, 320], // the mountain tarn holds water at ~290 m
-    brightness: [25, 235],
-  },
-  {
-    id: "marsh-morning-walk",
-    q: "view=character&x=1.50&z=5.28&ex=1&t=09:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [20, 235],
-  },
-  {
-    id: "underwater-bay-fly",
-    q: "view=fly3d&cam=orbit&x=6.16&z=5.07&ex=1&t=12:00&d=8-17&wq=high&alt=-8",
-    underwater: true, // underwater free camera 8 m down in the bay
-    brightness: [0.2, 200],
-  },
-  {
-    // PointerLock fly camera (cam=fly is the default mode the owner uses):
-    // the render loop must keep advancing even without pointer lock — round-1
-    // defect 7 was fly view freezing.
-    id: "bay-noon-flycam",
-    q: "view=fly3d&cam=fly&x=6.16&z=5.07&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [25, 235],
-  },
-  {
-    id: "marsh-wet-season-fly",
-    q: "view=fly3d&cam=orbit&x=1.50&z=5.28&ex=1&t=09:00&d=8-17&wet=1&wq=high",
-    underwater: false,
-    seasonMin: 1.0, // the wet toggle raises fresh lowland water by ~1.4 m
-    brightness: [20, 235],
-  },
-  {
-    id: "bay-lowtier-fly",
-    q: "view=fly3d&cam=orbit&x=6.16&z=5.07&ex=1&t=12:00&d=8-17&wq=low",
-    underwater: false,
-    tier: "low",
-    brightness: [25, 235],
-  },
-  {
-    // decision 0046: the owner's "hovering water" repro — dry mud, the
-    // field surface buried ~1.7 m under the 4.2 m ground; no water here
-    id: "owner-dry-site-walk",
-    q: "view=character&x=4.57&z=3.87&ex=1&t=10:00&d=8-17&wq=high",
-    underwater: false,
-    surfaceAtCam: [2.3, 2.8],
-    brightness: [20, 235],
-  },
-  {
-    // Submerged caustics A/B on a wide shallow sunlit shelf found by
-    // decoding water-surface.png: 0.3-2.6 m of water, turbidity 0.12,
-    // tannin 0, surface at ~0 m. Eye height, because the focus term is
-    // footprint-limited and an orbit at altitude cannot resolve the pattern.
-    // Renders the SAME page at gain 0, 1 and an exaggerated gain: the
-    // exaggerated pass is the assertion (a mean-luminance delta this probe
-    // can separate from software-GL frame noise), the gain-1 delta is
-    // reported for the owner's eye.
-    id: "caustics-bay-fly",
-    q: "view=character&x=6.10&z=1.64&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [20, 235],
-    causticsAB: { gain: 6, minMeanDeltaPct: 2.0, minUnitDeltaPct: 0.8 },
-  },
-  {
-    // steep stream strip (compiled `channels`): strips must be built
-    id: "steep-strip-fly",
-    q: "view=fly3d&cam=orbit&x=1.75&z=1.74&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [20, 235],
-    debugMin: { "strips.count": 1, "strips.triangles": 100 },
-  },
-  {
-    // cascade fall-63 (22 m drop, interior): waterfall sheets must be built
-    id: "cascade-fly",
-    q: "view=fly3d&cam=orbit&x=1.68&z=1.86&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    brightness: [20, 235],
-    debugMin: { "falls.count": 1, "falls.triangles": 50 },
-  },
-  {
-    // owner's dry-riverbed site (band-2 channel), re-carved 2026-09-07: W 25.9 m
-    id: "recarved-channel-walk",
-    q: "view=character&x=2.66&z=0.90&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
-    surfaceAtCam: [25.2, 26.8],
-    brightness: [20, 235],
-  },
-  {
-    // deep enclosed basin, was a 4 cm film pinned to the sea plane; now a lake at ~28 m
-    id: "filled-basin-walk",
-    q: "view=character&x=1.47&z=4.13&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: true, // spawns on the 25 m lake bed; the camera is submerged
-    surfaceAtCam: [28.0, 30.0], // W 28.17 + wet-season lift
-    brightness: [15, 235],
-  },
+// x/z in km (the studio URL unit); points are probed at the site centre in
+// metres. `expect` is what the CPU model must say there.
+const SITES = [
+  { id: "dry-site", q: "view=character&x=4.57&z=3.87&t=10:00", expect: "dry" },
+  { id: "lowland-river", q: "view=character&x=1.85&z=4.89&t=12:00", expect: "wet", flowing: true },
+  { id: "bay", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00", expect: "wet" },
+  // 8 m under the bay: compiles and runs the `below` field/strip variants
+  { id: "bay-underwater", q: "view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00&alt=-8", expect: "wet", underwater: true },
+  { id: "tarn", q: "view=fly3d&cam=orbit&x=0.38&z=1.44&t=12:00", expect: "wet" },
+  { id: "marsh", q: "view=character&x=1.50&z=5.28&t=09:00", expect: "any", grid: true },
+  { id: "strip-64", q: "view=fly3d&cam=orbit&x=1.75&z=1.74&t=12:00", expect: "any", strips: true },
+  { id: "fall-78", q: "view=fly3d&cam=fly&x=1.827&z=2.093&alt=54&yaw=270&pitch=4&t=12:00", expect: "any", falls: true, layerDiff: true },
+  { id: "fall-60", q: "view=fly3d&cam=fly&x=1.816&z=1.810&alt=84&yaw=311&pitch=3&t=12:00", expect: "any", falls: true },
+  { id: "recarved-channel", q: "view=character&x=2.66&z=0.90&t=12:00", expect: "wet" },
+  { id: "fall-base", q: "view=character&x=2.53&z=0.32&t=12:00", expect: "any" },
+  { id: "basin", q: "view=character&x=1.47&z=4.13&t=12:00", expect: "wet", minDepth: 20 },
+  { id: "marsh-wet", q: "view=fly3d&cam=orbit&x=1.50&z=5.28&t=09:00&wet=1", expect: "any", grid: true, seasonMin: 1.0 },
+  { id: "marsh-dry", q: "view=fly3d&cam=orbit&x=1.50&z=5.28&t=09:00&wet=-1", expect: "any", grid: true, seasonMax: -0.2 },
 ];
 
-const server = spawn(
+const only = process.env.WATER_SITE;
+const RUN = only ? SITES.filter((s) => only.split(",").includes(s.id)) : SITES;
+const reuse = process.env.WATER_REUSE_SERVER === "1";
+const server = reuse ? null : spawn(
   "npx",
   ["vite", "preview", "--base", "/elder-souls-argonia/studio/", "--host", "127.0.0.1", "--port", String(PORT), "--strictPort"],
   { cwd: studioDir, detached: true, stdio: "ignore" },
@@ -154,200 +63,205 @@ const server = spawn(
 
 async function waitFor(url) {
   for (let i = 0; i < 120; i++) {
-    try {
-      const r = await fetch(url);
-      if (r.ok) return;
-    } catch {
-      /* retry */
-    }
+    try { const r = await fetch(url); if (r.ok) return; } catch { /* retry */ }
     await new Promise((res) => setTimeout(res, 500));
   }
   throw new Error(`server never came up at ${url}`);
 }
 
-const only = process.env.WATER_SCENARIO; // one id, or comma-separated ids
-const RUN = only ? SCENARIOS.filter((s) => only.split(",").includes(s.id)) : SCENARIOS;
-const { chromium } = await import("playwright");
+function siteXZ(q) {
+  const p = new URLSearchParams(q);
+  return { x: Number(p.get("x")) * 1000, z: Number(p.get("z")) * 1000 };
+}
+/** 9x9 grid, 4 m apart, around a centre — for footprint (wet count) comparisons. */
+function gridAround(c) {
+  const pts = [];
+  for (let i = -4; i <= 4; i++) for (let j = -4; j <= 4; j++) pts.push({ x: c.x + i * 4, z: c.z + j * 4 });
+  return pts;
+}
+
 const failures = [];
 const report = [];
+const marshWet = {};
+const t0 = Date.now();
+let browser;
 try {
   await waitFor(BASE);
-  const browser = await chromium.launch({
+  const { chromium } = await import("playwright");
+  browser = await chromium.launch({
     headless: true,
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
   });
-  const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
+  const page = await browser.newPage({ viewport: { width: W, height: H } });
   const pageErrors = [];
-  page.on("pageerror", (e) => pageErrors.push(`pageerror: ${e.message}`));
-  page.on("console", (m) => {
-    if (m.type() === "error") pageErrors.push(`console: ${m.text().slice(0, 500)}`);
-  });
+  page.on("pageerror", (e) => pageErrors.push(`pageerror: ${e.message.slice(0, 400)}`));
+  page.on("console", (m) => { if (m.type() === "error") pageErrors.push(`console: ${m.text().slice(0, 400)}`); });
 
   for (const s of RUN) {
-    console.log(`Checking water: ${s.id}`);
+    const ts = Date.now();
     const errBefore = pageErrors.length;
-    const testedQuery = `${s.q}&smsize=512&w=clear&lanes=0&markers=0&hud=0`;
-    await page.goto(`${BASE}?${testedQuery}`);
-    await page.waitForFunction(
-      // Inland geometry streams in bounded batches; judge the settled view.
-      () => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames > 70,
-      undefined,
-      { timeout: 420_000 },
-    );
-    await page.waitForTimeout(9_000);
-    const dbg = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
-    const sky = await page.evaluate(() => window.__STUDIO_SKY_DEBUG__);
-    await page.waitForTimeout(5_000);
-    const dbg2 = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
-    const shot = path.join(artifacts, `water-${s.id}.png`);
-    const buf = await page.screenshot({ path: shot, timeout: 180_000 });
-    const brightness = await page.evaluate(async (b64) => {
-      const img = new Image();
-      img.src = `data:image/png;base64,${b64}`;
-      await img.decode();
-      const c = document.createElement("canvas");
-      c.width = 160;
-      c.height = 90;
-      const g = c.getContext("2d");
-      g.drawImage(img, 0, 0, 160, 90);
-      const d = g.getImageData(0, 0, 160, 90).data;
-      let sum = 0;
-      for (let i = 0; i < 160 * 90 * 4; i += 4)
-        sum += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
-      // bottom-half stats for water-colour sanity
-      let r = 0, gg = 0, b = 0, n = 0, lsum = 0, lsq = 0;
-      for (let y = 50; y < 90; y++) {
-        for (let x = 20; x < 140; x++) {
-          const i = (y * 160 + x) * 4;
-          r += d[i]; gg += d[i + 1]; b += d[i + 2]; n++;
-          const l = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
-          lsum += l; lsq += l * l;
-        }
-      }
-      const lm = lsum / n;
-      return {
-        mean: sum / (160 * 90),
-        water: { r: r / n, g: gg / n, b: b / n, mean: lm, std: Math.sqrt(Math.max(lsq / n - lm * lm, 0)) },
-      };
-    }, buf.toString("base64"));
-
+    const url = `${BASE}?${s.q}&${COMMON}`;
     const checks = [];
-    const fail = (msg) => {
-      checks.push(`FAIL ${msg}`);
-      failures.push(`${s.id}: ${msg}`);
-    };
+    const fail = (msg) => { checks.push(`FAIL ${msg}`); failures.push(`${s.id}: ${msg}`); };
     const ok = (msg) => checks.push(`ok   ${msg}`);
+    console.log(`== ${s.id}`);
+    let dbg = null;
+    let probe = null;
+    try {
+      // "commit", not "load": chunk streaming keeps the load event away for
+      // minutes on software GL; the frame counter below is the real gate.
+      await page.goto(url, { waitUntil: "commit", timeout: SITE_TIMEOUT_MS });
+      await page.waitForFunction(
+        (n) => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames >= n && !!window.__STUDIO_WATER_PROBE__,
+        SETTLE_FRAMES, { timeout: SITE_TIMEOUT_MS, polling: 250 });
+      const centre = siteXZ(s.q);
+      const points = s.grid ? gridAround(centre) : [centre];
+      // Poll for real ground under the centre (chunks stream in), bounded.
+      const deadline = Date.now() + 8_000;
+      do {
+        probe = await page.evaluate((pts) => window.__STUDIO_WATER_PROBE__(pts), points);
+        if (probe.rows[Math.floor(points.length / 2)].groundM !== null) break;
+        await page.waitForTimeout(400);
+      } while (Date.now() < deadline);
+      const before = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__.frames);
+      await page.waitForFunction((f) => window.__STUDIO_WATER_DEBUG__.frames >= f + 2, before,
+        { timeout: 30_000, polling: 200 });
+      dbg = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
+      await page.screenshot({ path: path.join(artifacts, `water-${s.id}.png`), timeout: 60_000 });
+    } catch (e) {
+      fail(`site did not settle: ${String(e).slice(0, 200)}`);
+      // never let a stuck navigation queue behind the next site
+      try { await page.goto("about:blank", { timeout: 10_000 }); } catch { /* ignore */ }
+    }
 
     const newErrs = pageErrors.slice(errBefore);
     if (newErrs.length === 0) ok("no page/shader errors");
     else fail(`page errors: ${newErrs.slice(0, 3).join(" | ")}`);
-    if (dbg && dbg.frames > 5) ok(`pipeline live (${dbg.frames} frames, tier ${dbg.tier})`);
-    else fail("water pipeline never rendered");
-    // software GL can crawl at ~1 fps on heavy scenes — only a DEAD loop
-    // (zero new frames in 5 s) is a defect
-    if (dbg2 && dbg2.frames > dbg.frames + 1) ok(`render loop advancing (${dbg2.frames - dbg.frames} frames / 5 s)`);
-    else fail(`render loop stalled at frame ${dbg2?.frames} (was ${dbg?.frames})`);
-    if (dbg2?.contextLost) fail("WebGL context lost during scenario");
-    if (s.tier && dbg.tier !== s.tier) fail(`tier ${dbg.tier} != ${s.tier}`);
-    if (dbg.underwater === s.underwater) ok(`underwater=${dbg.underwater}`);
-    else fail(`underwater ${dbg.underwater}, expected ${s.underwater}`);
-    if (s.surfaceAtCam) {
-      if (dbg.surfaceAtCameraM >= s.surfaceAtCam[0] && dbg.surfaceAtCameraM <= s.surfaceAtCam[1])
-        ok(`surface@cam ${dbg.surfaceAtCameraM.toFixed(2)} m in [${s.surfaceAtCam}]`);
-      else fail(`surface@cam ${dbg.surfaceAtCameraM.toFixed(2)} m outside [${s.surfaceAtCam}]`);
-    }
-    if (Number.isFinite(dbg.tideOffsetM) && Math.abs(dbg.tideOffsetM) <= 0.75)
-      ok(`tide ${dbg.tideOffsetM.toFixed(3)} m`);
-    else fail(`tide offset bad: ${dbg.tideOffsetM}`);
-    if (s.debugMin) {
-      for (const [k, min] of Object.entries(s.debugMin)) {
-        const v = k.split(".").reduce((o, key) => (o == null ? undefined : o[key]), dbg2);
-        if (typeof v === "number" && v >= min) ok(`${k} = ${v} (>= ${min})`);
-        else fail(`${k} = ${v}, expected >= ${min}`);
+    if (dbg) {
+      ok(`frames advancing (${dbg.frames} frames, tier ${dbg.tier}, ${dbg.contextLost ? "CONTEXT LOST" : "context ok"})`);
+      if (dbg.contextLost) fail("WebGL context lost");
+      if (dbg.tier !== "low") fail(`tier ${dbg.tier} != low`);
+      if (s.underwater !== undefined) {
+        if (dbg.underwater === s.underwater) ok(`underwater=${dbg.underwater} (camera depth ${dbg.cameraDepthM.toFixed(1)} m)`);
+        else fail(`underwater ${dbg.underwater}, expected ${s.underwater}`);
+      }
+      if (s.strips) {
+        if (dbg.strips && dbg.strips.count >= 1 && dbg.strips.triangles >= 100) ok(`strips drawn: ${dbg.strips.count} chains, ${dbg.strips.triangles} tris`);
+        else fail(`strips not drawn: ${JSON.stringify(dbg.strips)}`);
+      }
+      if (s.falls) {
+        if (dbg.falls && dbg.falls.count >= 1 && dbg.falls.triangles >= 50) ok(`sheets drawn: ${dbg.falls.count} falls, ${dbg.falls.triangles} tris, ${dbg.falls.freeFlightCount} free-flight`);
+        else fail(`sheets not drawn: ${JSON.stringify(dbg.falls)}`);
+      }
+      if (s.seasonMin !== undefined) {
+        if (dbg.seasonOffsetM >= s.seasonMin) ok(`wet-season rise ${dbg.seasonOffsetM.toFixed(2)} m`);
+        else fail(`wet-season rise ${dbg.seasonOffsetM} < ${s.seasonMin}`);
+      }
+      if (s.seasonMax !== undefined) {
+        if (dbg.seasonOffsetM <= s.seasonMax) ok(`dry-season drawdown ${dbg.seasonOffsetM.toFixed(2)} m`);
+        else fail(`dry-season drawdown ${dbg.seasonOffsetM} > ${s.seasonMax}`);
       }
     }
-    if (s.seasonMin !== undefined) {
-      if (dbg.seasonOffsetM >= s.seasonMin) ok(`wet-season rise ${dbg.seasonOffsetM.toFixed(2)} m`);
-      else fail(`wet-season rise ${dbg.seasonOffsetM} < ${s.seasonMin}`);
+    if (probe) {
+      const c = probe.rows[Math.floor(probe.rows.length / 2)];
+      const desc = `still ${c.stillM.toFixed(2)} m · depth+lift ${c.depthM.toFixed(2)} m (raw ${c.rawDepthM.toFixed(2)})`
+        + ` · ground ${c.groundM === null ? "n/a" : c.groundM.toFixed(2) + " m"}`
+        + ` · class ${c.className} · flow ${c.speedMS.toFixed(2)} m/s · shore ${c.shoreDistM.toFixed(1)} m`
+        + ` · tide ${probe.tideM.toFixed(3)} season ${probe.seasonM.toFixed(2)} · data v${probe.schemaVersion}`
+        + ` (depth ${probe.depthMinM}…${(probe.depthMinM + probe.depthSpanM).toFixed(1)} m)`;
+      checks.push(`     ${desc}`);
+      if (s.expect === "wet") {
+        if (c.wet) ok("wet by the compiled signed depth");
+        else fail(`dry by the compiled signed depth (${c.depthM.toFixed(2)} m)`);
+        if (c.groundM !== null) {
+          // The compiled depth saturates at the encoding cap (v1 25.5 m, v2
+          // 24.6 m): a deeper basin is registered when the real depth is at
+          // least the cap, not when it equals it.
+          const cap = probe.depthMinM + probe.depthSpanM - 0.13;
+          const saturated = c.rawDepthM >= cap;
+          const gap = saturated ? Math.max(0, cap - c.physicalDepthM) : Math.abs(c.physicalDepthM - c.depthM);
+          const label = saturated ? `depth saturated at the ${cap.toFixed(1)} m cap, physical ${c.physicalDepthM.toFixed(2)} m` : `|still − ground − depth| = ${gap.toFixed(2)} m`;
+          if (gap < 0.15) ok(`${label} (registered)`);
+          else fail(`${label} (physical ${c.physicalDepthM.toFixed(2)} vs compiled ${c.depthM.toFixed(2)})`);
+        } else checks.push("     (no chunk ground loaded here: registration check skipped)");
+      } else if (s.expect === "dry") {
+        if (!c.wet) ok(`dry (${c.depthM.toFixed(2)} m)`);
+        else fail(`wet where the owner's repro must be dry mud (${c.depthM.toFixed(2)} m)`);
+        if (c.groundM !== null && c.physicalDepthM > 0) fail(`still surface above real ground by ${c.physicalDepthM.toFixed(2)} m`);
+      }
+      if (s.minDepth !== undefined) {
+        const d = c.groundM !== null ? c.physicalDepthM : c.depthM;
+        if (d >= s.minDepth) ok(`basin depth ${d.toFixed(1)} m >= ${s.minDepth}`);
+        else fail(`basin depth ${d.toFixed(1)} m < ${s.minDepth}`);
+      }
+      if (s.flowing) {
+        if (c.speedMS > 0.15) ok(`flowing at ${c.speedMS.toFixed(2)} m/s (> 0.15: undulation + flecks active)`);
+        else fail(`river not flowing (${c.speedMS.toFixed(2)} m/s)`);
+      }
+      if (s.grid) {
+        const wet = probe.rows.filter((r) => r.wet).length;
+        marshWet[s.id] = wet;
+        checks.push(`     marsh footprint: ${wet}/${probe.rows.length} grid points wet`);
+      }
     }
-    if (brightness.mean >= s.brightness[0] && brightness.mean <= s.brightness[1])
-      ok(`screen brightness ${brightness.mean.toFixed(1)} in [${s.brightness}]`);
-    else fail(`screen brightness ${brightness.mean.toFixed(1)} outside [${s.brightness}]`);
-    if (s.waterRegion) {
-      const w = brightness.water;
-      const cool = (w.g + w.b) / Math.max(2 * w.r, 1);
-      const desc = `rgb(${w.r.toFixed(0)},${w.g.toFixed(0)},${w.b.toFixed(0)}) std ${w.std.toFixed(1)}`;
-      if (cool >= s.waterRegion.coolMin && w.mean <= s.waterRegion.meanMax && w.std >= s.waterRegion.stdMin)
-        ok(`water colour sane: ${desc}`);
-      else fail(`water colour suspicious: ${desc} (cool ${cool.toFixed(2)})`);
-    }
-    if (s.causticsAB) {
-      // seabed band: the lower frame at eye height on the shelf
-      const bed = async () => await page.evaluate(async (b64) => {
-        const img = new Image();
-        img.src = `data:image/png;base64,${b64}`;
-        await img.decode();
-        const c = document.createElement("canvas");
-        c.width = 320; c.height = 180;
-        const g = c.getContext("2d");
-        g.drawImage(img, 0, 0, 320, 180);
-        const d = g.getImageData(0, 0, 320, 180).data;
-        let sum = 0, sq = 0, n = 0;
-        for (let y = 80; y < 175; y++) {
-          for (let x = 40; x < 280; x++) {
-            const i = (y * 320 + x) * 4;
-            const l = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
-            sum += l; sq += l * l; n++;
-          }
-        }
-        const mean = sum / n;
-        return { mean, std: Math.sqrt(Math.max(sq / n - mean * mean, 0)) };
-      }, (await page.screenshot({ timeout: 420_000 })).toString("base64"));
-      const at = async (gain) => {
-        await page.evaluate((g) => { window.__STUDIO_CAUSTICS__ = g; }, gain);
-        await page.waitForTimeout(15_000); // software GL renders ~2 fps
-        return await bed();
-      };
-      const off = await at(0);
-      const on = await at(1);
-      const loud = await at(s.causticsAB.gain);
-      await page.evaluate(() => { window.__STUDIO_CAUSTICS__ = 1; });
-      const pct = (v) => (v.mean - off.mean) / Math.max(off.mean, 1e-6) * 100;
-      const desc = `bed mean off ${off.mean.toFixed(2)} | on ${on.mean.toFixed(2)}`
-        + ` (${pct(on).toFixed(2)}%) | x${s.causticsAB.gain} ${loud.mean.toFixed(2)}`
-        + ` (${pct(loud).toFixed(2)}%), std ${off.std.toFixed(2)} -> ${loud.std.toFixed(2)}`;
-      if (pct(on) >= s.causticsAB.minUnitDeltaPct && pct(loud) >= s.causticsAB.minMeanDeltaPct && loud.std > off.std)
-        ok(`caustics reach the seabed and the debug scalar drives them: ${desc}`);
-      else fail(`caustics never reach the seabed: ${desc}`);
-    }
-    if (sky && Math.abs(sky.exposure - sky.exposureTarget) < sky.exposureTarget * 0.05 + 1e-6)
-      ok("sky exposure still converges with the water pipeline active");
-    else fail("sky exposure did not converge under the water pipeline");
 
-    report.push(
-      `## ${s.id}\nurl: ?${testedQuery}\n` +
-        checks.join("\n") +
-        `\nsurface@cam ${dbg.surfaceAtCameraM?.toFixed?.(2)} m · camDepth ${dbg.cameraDepthM?.toFixed?.(2)} m` +
-        ` · tide ${dbg.tideOffsetM?.toFixed?.(3)} m · season ${dbg.seasonOffsetM?.toFixed?.(2)} m` +
-        ` · rtSamples ${dbg.rtSamples}\nscreenshot: ${path.basename(shot)}\n`,
-    );
+    // Optional per-layer pixel attribution at the chute (folded from the old
+    // probe-water-chute.mjs): hide each water layer in turn and difference.
+    if (s.layerDiff && process.env.WATER_LAYER_DIFF === "1" && dbg) {
+      const grab = async (spec) => {
+        await page.evaluate((v) => { window.__STUDIO_WATER_LAYERS__ = v; }, spec);
+        const f0 = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__.frames);
+        await page.waitForFunction((f) => window.__STUDIO_WATER_DEBUG__.frames >= f + 2, f0, { timeout: 30_000, polling: 200 });
+        const buf = await page.screenshot({ timeout: 60_000 });
+        return page.evaluate(async (b64) => {
+          const img = new Image(); img.src = `data:image/png;base64,${b64}`; await img.decode();
+          const cv = document.createElement("canvas"); cv.width = img.width; cv.height = img.height;
+          const g = cv.getContext("2d"); g.drawImage(img, 0, 0);
+          return Array.from(g.getImageData(0, 0, cv.width, cv.height).data);
+        }, buf.toString("base64"));
+      };
+      const frames = {};
+      for (const [id, spec] of [["all", "field,strips,falls,effects"], ["none", "none"],
+        ["no-field", "strips,falls,effects"], ["no-strips", "field,falls,effects"], ["no-falls", "field,strips,effects"]]) {
+        frames[id] = await grab(spec);
+      }
+      await page.evaluate(() => { window.__STUDIO_WATER_LAYERS__ = undefined; });
+      const diff = (a, b) => { let d = 0; for (let i = 0; i < a.length; i += 4) d += Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]); return d / (a.length / 4) / 3; };
+      for (const id of ["none", "no-field", "no-strips", "no-falls"]) {
+        checks.push(`     layer diff ${id.padEnd(10)} mean |ΔRGB| ${diff(frames.all, frames[id]).toFixed(2)}`);
+      }
+      const stripsOwn = diff(frames.all, frames["no-strips"]);
+      if (stripsOwn > 0.05) ok(`strips change the frame (mean ΔRGB ${stripsOwn.toFixed(2)})`);
+      else fail(`hiding the strips changes nothing at the chute (ΔRGB ${stripsOwn.toFixed(2)})`);
+    }
+
+    const secs = ((Date.now() - ts) / 1000).toFixed(1);
+    report.push(`## ${s.id} (${secs} s)\nurl: ?${s.q}&${COMMON}\n${checks.join("\n")}\nscreenshot: water-${s.id}.png\n`);
+    console.log(checks.join("\n"));
   }
-  if (pageErrors.length) {
-    report.push(`## all page errors\n${pageErrors.slice(0, 20).join("\n")}`);
+
+  // Season footprint: the wet toggle must wet MORE of the marsh grid than the
+  // calendar view, and the dry toggle no more (decision 0047 item 7).
+  if (marshWet.marsh !== undefined && marshWet["marsh-wet"] !== undefined && marshWet["marsh-dry"] !== undefined) {
+    const line = `marsh wet points: dry-season ${marshWet["marsh-dry"]} · calendar ${marshWet.marsh} · wet-season ${marshWet["marsh-wet"]}`;
+    if (marshWet["marsh-wet"] >= marshWet.marsh && marshWet.marsh >= marshWet["marsh-dry"] && marshWet["marsh-wet"] > marshWet["marsh-dry"]) {
+      report.push(`## season footprint\nok   ${line}\n`);
+    } else {
+      failures.push(`season footprint not monotone: ${line}`);
+      report.push(`## season footprint\nFAIL ${line}\n`);
+    }
   }
-  await browser.close();
+  if (pageErrors.length) report.push(`## all page errors\n${pageErrors.slice(0, 20).join("\n")}\n`);
 } catch (e) {
   failures.push(String(e));
   report.push(`## crash\n${String(e)}`);
 } finally {
-  try {
-    process.kill(-server.pid);
-  } catch {
-    /* already gone */
-  }
+  await browser?.close();
+  if (server) { try { process.kill(-server.pid); } catch { /* already gone */ } }
 }
 
-const summary = `\n\n${report.join("\n")}`;
+const total = ((Date.now() - t0) / 1000).toFixed(0);
+const summary = `# water probe — ${RUN.length} sites in ${total} s — ${failures.length ? `${failures.length} FAIL` : "all ok"}\n\n${report.join("\n")}`;
 writeFileSync(path.join(artifacts, "water-probe-result.txt"), summary);
-console.log(summary);
+console.log(`\n${summary}`);
 process.exit(failures.length ? 1 : 0);

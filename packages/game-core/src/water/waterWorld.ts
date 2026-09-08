@@ -11,7 +11,8 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { WaterData } from "./waterData";
-import { fetchExposure, getWindWaveScale, shoreSwellAt, surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
+import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, getWindWaveScale, shoreSwellAt, surfaceWaveAt, swashAt,
+  waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
@@ -38,6 +39,7 @@ export class WaterWorld implements WorldWaterQuery {
   readonly displacementRegistry = new WaterDisplacementRegistry();
   private activeLocalPatch: LocalWaterPatch | null = null;
   private scratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
+  private flowScratch: WaveSample = { dx: 0, dz: 0, height: 0, nx: 0, ny: 1, nz: 0 };
 
   constructor(
     readonly data: WaterData,
@@ -64,6 +66,10 @@ export class WaterWorld implements WorldWaterQuery {
     const { tide, season } = this.levelOffsets(epochMinutes);
     const still = s.surfaceBase + tide * s.tideResponse + season * s.seasonResponse;
 
+    // Depth: the real terrain where a chunk is loaded, else the compiled
+    // SIGNED depth lifted by the same tide/season offsets as the surface
+    // (decision 0047: wet ⇔ signedDepth + lift > 0, so a season floods the
+    // table band and drains the shallows on the CPU exactly as on the GPU).
     const ground = this.opts.groundHeight?.(position.x, position.z) ?? null;
     const depth = ground !== null ? still - ground : s.depthProxy + tide * s.tideResponse + season * s.seasonResponse;
 
@@ -105,11 +111,27 @@ export class WaterWorld implements WorldWaterQuery {
       surf = swashAt(s.shoreDistM, fetch, waveTime)
         + shoreSwellAt(s.shoreDistM, Math.max(s.depthProxy, 0), fetch, waveTime);
     }
-    const surface = still + w.height + surf;
+    // Along-flow travelling undulation on moving water (decision 0047 item 6)
+    // — the GLSL vertex twin is `esFlowWave`; buoyancy rides the same crests.
+    const speed = Math.hypot(s.flowX, s.flowZ);
+    let nx = w.nx;
+    let ny = w.ny;
+    let nz = w.nz;
+    let flowH = 0;
+    if (speed > FLOW_WAVE_MIN_SPEED_MS) {
+      const fw = flowWaveAt(position.x, position.z, s.flowX / speed, s.flowZ / speed, speed, waveTime, this.flowScratch);
+      flowH = fw.height;
+      // combine normals as summed slopes (both are small-slope height fields)
+      nx = w.nx / w.ny + fw.nx / fw.ny;
+      nz = w.nz / w.ny + fw.nz / fw.ny;
+      const inv = 1 / Math.hypot(nx, 1, nz);
+      nx *= inv; nz *= inv; ny = inv;
+    }
+    const surface = still + w.height + surf + flowH;
     return {
       waterBodyId: s.className,
       surfaceHeight: surface,
-      surfaceNormal: { x: w.nx, y: w.ny, z: w.nz },
+      surfaceNormal: { x: nx, y: ny, z: nz },
       flowVelocity: { x: s.flowX, y: 0, z: s.flowZ },
       depth: Math.max(depth, 0),
       immersion: Math.max(0, Math.min(1, (surface - position.y) / 1.7 + 1)),

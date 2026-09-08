@@ -288,6 +288,96 @@ const f = (v: number) => {
 };
 
 /**
+ * Along-flow travelling undulation for moving water (decision 0047 item 6).
+ * A lowland river at 0.3 m/s used to be a flat still plate: every flow term
+ * was gated at 0.3 m/s and narrow rivers get no Gerstner exposure. Three
+ * sinusoids travel DOWNSTREAM at (speed + 0.4) m/s with a lateral phase
+ * wobble so the crests are not ruler-straight. ONE table generates the CPU
+ * sampler (`flowWaveAt`, used by `WaterWorld.sample`) and the GLSL vertex
+ * function (`flowWaveGlsl` → `esFlowWave`). KEEP IN LOCKSTEP.
+ */
+export const FLOW_WAVE_MIN_SPEED_MS = 0.15;
+export const FLOW_WAVES = {
+  /** Peak amplitude (m) = ampBase + ampPerMS · min(speed, ampSpeedCapMS). */
+  ampBase: 0.012,
+  ampPerMS: 0.02,
+  ampSpeedCapMS: 2.0,
+  /** Crest speed downstream = speed + phaseSpeedAddMS (m/s). */
+  phaseSpeedAddMS: 0.4,
+  /** Wavelength (m), weight (of the peak amplitude), lateral wobble rad/m,
+   * lateral wobble amplitude (rad), phase offset (rad). */
+  bands: [
+    { wavelengthM: 1.6, weight: 0.45, lateralK: 0.9, lateralAmp: 0.7, phase0: 0.0 },
+    { wavelengthM: 2.7, weight: 0.33, lateralK: 0.55, lateralAmp: 0.9, phase0: 1.9 },
+    { wavelengthM: 4.5, weight: 0.22, lateralK: 0.35, lateralAmp: 1.1, phase0: 4.1 },
+  ],
+} as const;
+
+/** CPU twin of `esFlowWave`: height + unit normal at world (x, z) for unit
+ * flow direction (dirX, dirZ) and speed (m/s). No horizontal displacement. */
+export function flowWaveAt(x: number, z: number, dirX: number, dirZ: number, speedMS: number, timeS: number,
+  out: WaveSample): WaveSample {
+  const amp = FLOW_WAVES.ampBase + FLOW_WAVES.ampPerMS * Math.min(speedMS, FLOW_WAVES.ampSpeedCapMS);
+  const along = x * dirX + z * dirZ;
+  const across = x * -dirZ + z * dirX;
+  const c = speedMS + FLOW_WAVES.phaseSpeedAddMS;
+  let h = 0;
+  let dhx = 0;
+  let dhz = 0;
+  for (const b of FLOW_WAVES.bands) {
+    const k = (2 * Math.PI) / b.wavelengthM;
+    const lat = b.lateralAmp * Math.sin(across * b.lateralK + b.phase0);
+    const ph = k * along - k * c * timeS + lat + b.phase0;
+    const a = amp * b.weight;
+    h += a * Math.sin(ph);
+    // dph/dx = k·dirX + lateralAmp·cos(...)·lateralK·(−dirZ); same for z
+    const dlat = b.lateralAmp * Math.cos(across * b.lateralK + b.phase0) * b.lateralK;
+    const cph = a * Math.cos(ph);
+    dhx += cph * (k * dirX + dlat * -dirZ);
+    dhz += cph * (k * dirZ + dlat * dirX);
+  }
+  const inv = 1 / Math.hypot(dhx, 1, dhz);
+  out.dx = 0;
+  out.dz = 0;
+  out.height = h;
+  out.nx = -dhx * inv;
+  out.ny = inv;
+  out.nz = -dhz * inv;
+  return out;
+}
+
+/** GLSL twin: `esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal)`
+ * returns the height; constants baked from FLOW_WAVES. */
+export function flowWaveGlsl(): string {
+  const rows = FLOW_WAVES.bands.map((b) => {
+    const k = (2 * Math.PI) / b.wavelengthM;
+    return `{
+      float lat = ${f(b.lateralAmp)} * sin(across * ${f(b.lateralK)} + ${f(b.phase0)});
+      float ph = ${f(k)} * along - ${f(k)} * c * t + lat + ${f(b.phase0)};
+      float a = amp * ${f(b.weight)};
+      h += a * sin(ph);
+      float dlat = ${f(b.lateralAmp)} * cos(across * ${f(b.lateralK)} + ${f(b.phase0)}) * ${f(b.lateralK)};
+      float cph = a * cos(ph);
+      dhx += cph * (${f(k)} * dir.x + dlat * -dir.y);
+      dhz += cph * (${f(k)} * dir.y + dlat * dir.x);
+    }`;
+  }).join("\n    ");
+  return /* glsl */ `
+  // KEEP IN LOCKSTEP with flowWaveAt().
+  float esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal) {
+    float amp = ${f(FLOW_WAVES.ampBase)} + ${f(FLOW_WAVES.ampPerMS)} * min(speed, ${f(FLOW_WAVES.ampSpeedCapMS)});
+    float along = dot(pos, dir);
+    float across = dot(pos, vec2(-dir.y, dir.x));
+    float c = speed + ${f(FLOW_WAVES.phaseSpeedAddMS)};
+    float h = 0.0, dhx = 0.0, dhz = 0.0;
+    ${rows}
+    normal = normalize(vec3(-dhx, 1.0, -dhz));
+    return h;
+  }
+  `;
+}
+
+/**
  * GLSL twin of the shore-surf closed forms (surfGroup / fetchExposure /
  * swashAt / shoreSwellAt). Included by BOTH the water vertex stage (geometry)
  * and the fragment stage (surf foam) — constants baked from the same tables.

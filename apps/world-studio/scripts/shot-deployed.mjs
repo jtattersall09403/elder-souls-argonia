@@ -1,7 +1,12 @@
+// Screenshot + debug dump of the DEPLOYED studio (or SHOT_BASE) for a set of
+// URL variants: SHOT_VARIANTS='{"id":"view=...&x=..."}'. Optional
+// SHOT_PROBE='[{"x":1850,"z":4890}]' (metres) prints the numeric water probe
+// (window.__STUDIO_WATER_PROBE__, decision 0047) at each variant.
 import { chromium } from "playwright";
 const BASE = process.env.SHOT_BASE ?? "https://jtattersall09403.github.io/elder-souls-argonia/studio/";
 const variants = JSON.parse(process.env.SHOT_VARIANTS);
 const waitMs = Number(process.env.SHOT_WAIT ?? 45000);
+const probePoints = process.env.SHOT_PROBE ? JSON.parse(process.env.SHOT_PROBE) : null;
 const browser = await chromium.launch({ headless: true, args: ["--use-gl=angle","--use-angle=swiftshader","--enable-unsafe-swiftshader"] });
 for (const [id, q] of Object.entries(variants)) {
   const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
@@ -20,6 +25,10 @@ for (const [id, q] of Object.entries(variants)) {
   }
   await page.screenshot({ path: `/tmp/shots/${id}.png`, timeout: 420000 });
   const dbg = await page.evaluate(() => JSON.stringify(window.__STUDIO_WATER_DEBUG__ ?? null).slice(0, 1500));
+  if (probePoints) {
+    const probe = await page.evaluate((pts) => window.__STUDIO_WATER_PROBE__ ? JSON.stringify(window.__STUDIO_WATER_PROBE__(pts)) : null, probePoints);
+    console.log("water probe:", probe);
+  }
   console.log(`== ${id} (${Math.round((Date.now()-t0)/1000)}s)`);
   console.log(JSON.stringify(samples));
   console.log("water dbg:", dbg);

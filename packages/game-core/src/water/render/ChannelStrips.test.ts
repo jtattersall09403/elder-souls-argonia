@@ -70,6 +70,36 @@ describe("channel strip meshes", () => {
   });
 });
 
+describe("ribbon UV (decision 0047 item 4)", () => {
+  it("carries arc metres, signed across metres and one scroll speed per ribbon", () => {
+    const built = buildChannelStripGeometry([chain]);
+    const arc = built.geometry.getAttribute("aArc");
+    const sideM = built.geometry.getAttribute("aSideM");
+    const scroll = built.geometry.getAttribute("aScroll");
+    expect(arc.getX(0)).toBeCloseTo(0, 6);
+    expect(arc.getX(arc.count - 1)).toBeCloseTo(20, 6);
+    for (let i = 2; i < arc.count; i += 2) expect(arc.getX(i)).toBeGreaterThan(arc.getX(i - 2));
+    expect(sideM.getX(0)).toBeCloseTo(-(1.5 + STRIP_BANK_M), 6);
+    expect(sideM.getX(1)).toBeCloseTo(1.5 + STRIP_BANK_M, 6);
+    for (let i = 0; i < scroll.count; i++) expect(scroll.getX(i)).toBeCloseTo(2, 6);
+  });
+
+  it("prefers the compiler's monotone arcM, falls back to the polyline arc otherwise", () => {
+    const authored: ChannelStrip = { ...chain, points: chain.points.map((p, i) => ({ ...p, arcM: i * 7 })) };
+    const stations = resampleStrip(authored.points);
+    expect(stations[stations.length - 1].arcM).toBeCloseTo(28, 6);
+    const broken: ChannelStrip = { ...chain, points: chain.points.map((p, i) => ({ ...p, arcM: i === 2 ? 1 : i * 7 })) };
+    expect(resampleStrip(broken.points)[stations.length - 1].arcM).toBeCloseTo(20, 6);
+  });
+
+  it("accepts v2 lip/plunge chain ends", () => {
+    const v2: ChannelStrip = { ...chain, points: [
+      { ...point(0, 30, "join") }, { ...point(5, 28, "steep") }, { ...point(10, 25, "lip") },
+    ] };
+    expect(buildChannelStripGeometry([v2]).stripCount).toBe(1);
+  });
+});
+
 describe("across-width coordinate", () => {
   it("marks the water edge at |aSide| = 1 and the bank margin beyond it", () => {
     const built = buildChannelStripGeometry([chain]);

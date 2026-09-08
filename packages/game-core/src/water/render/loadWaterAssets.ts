@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { WaterData, type WaterMeta } from "../waterData";
+import { WaterData, decodeDepthByte, type WaterMeta } from "../waterData";
 import { WaterWorld } from "../waterWorld";
 import type { WaterAssets } from "./types";
 
@@ -57,6 +57,28 @@ function dataTexture(img: ImageData, filter: THREE.MagnificationTextureFilter): 
   return tex;
 }
 
+/** Decoded CPU rasters from the raw RGBA bytes of water-surface.png and
+ * water-shore.png. Pure (no canvas) so the v1/v2 decode is unit-testable. */
+export function decodeWaterRasters(meta: WaterMeta, surfaceRgba: Uint8ClampedArray | Uint8Array,
+  shoreRgba: Uint8ClampedArray | Uint8Array): {
+  surface: Float32Array; depth: Float32Array; shore: Float32Array; season: Float32Array;
+} {
+  const n = meta.surface.size;
+  const span = meta.surface.maxM - meta.surface.minM;
+  const shoreMax = meta.surface.shoreMaxM ?? 160;
+  const surface = new Float32Array(n * n);
+  const depth = new Float32Array(n * n);
+  const shore = new Float32Array(n * n);
+  const season = new Float32Array(n * n);
+  for (let i = 0; i < n * n; i++) {
+    surface[i] = meta.surface.minM + ((surfaceRgba[i * 4] * 256 + surfaceRgba[i * 4 + 1]) / 65535) * span;
+    depth[i] = decodeDepthByte(surfaceRgba[i * 4 + 2], meta);
+    shore[i] = (shoreRgba[i * 4] / 255) * shoreMax;
+    season[i] = shoreRgba[i * 4 + 1] / 255;
+  }
+  return { surface, depth, shore, season };
+}
+
 export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<WaterAssets> {
   const base = options.baseUrl;
   const waterBase = `${base}${options.waterPath ?? "province/water"}/`;
@@ -73,22 +95,8 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     ownerFile ? fetchImageData(`${waterBase}${ownerFile}`) : Promise.resolve(null),
   ]);
 
-  // Dequantise W + depth proxy + shore distance for the CPU samplers.
-  const n = meta.surface.size;
-  const span = meta.surface.maxM - meta.surface.minM;
-  const shoreMax = meta.surface.shoreMaxM ?? 160;
-  const surface = new Float32Array(n * n);
-  const depth = new Float32Array(n * n);
-  const shore = new Float32Array(n * n);
-  const season = new Float32Array(n * n);
-  const px = surfImg.data;
-  const sp = shoreImg.data;
-  for (let i = 0; i < n * n; i++) {
-    surface[i] = meta.surface.minM + ((px[i * 4] * 256 + px[i * 4 + 1]) / 65535) * span;
-    depth[i] = px[i * 4 + 2] * 0.1;
-    shore[i] = (sp[i * 4] / 255) * shoreMax;
-    season[i] = sp[i * 4 + 1] / 255;
-  }
+  // Dequantise W + signed depth + shore distance for the CPU samplers.
+  const { surface, depth, shore, season } = decodeWaterRasters(meta, surfImg.data, shoreImg.data);
   const data = new WaterData(
     meta,
     surface,

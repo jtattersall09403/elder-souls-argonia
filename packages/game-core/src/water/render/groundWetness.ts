@@ -38,7 +38,9 @@ export function createGroundWetnessUniforms() {
     /** Surface minimum, range, texture size and metres per sample. */
     uWetParams: { value: new THREE.Vector4(0, 1, 0, 1) },
     uWetOrigin: { value: 0 },
+    /** Signed-depth decode of the surface B channel (decision 0047). */
     uWetDepthMin: { value: 0 },
+    uWetDepthSpan: { value: 25.5 },
     /** Class texture size, metres per sample and grid origin in metres. */
     uWetKlassParams: { value: new THREE.Vector3(1, 1, 0) },
     uWetShoreMax: { value: 160 },
@@ -81,6 +83,7 @@ export function primeGroundWetnessUniforms(uniforms: GroundWetnessUniforms, asse
   uniforms.uWetParams.value.set(surface.minM, surface.maxM - surface.minM, surface.size, surface.metresPerPixel);
   uniforms.uWetOrigin.value = surface.gridOriginM ?? surface.metresPerPixel * 0.5;
   uniforms.uWetDepthMin.value = surface.depthMinM ?? 0;
+  uniforms.uWetDepthSpan.value = surface.depthSpanM ?? 25.5;
   uniforms.uWetKlassParams.value.set(klass.size, klass.metresPerPixel, klass.gridOriginM ?? klass.metresPerPixel * 0.5);
   uniforms.uWetShoreMax.value = surface.shoreMaxM ?? 160;
 }
@@ -95,6 +98,7 @@ uniform float uWetNativeCoverage;
 uniform vec4 uWetParams;
 uniform float uWetOrigin;
 uniform float uWetDepthMin;
+uniform float uWetDepthSpan;
 uniform vec3 uWetKlassParams;
 uniform float uWetShoreMax;
 uniform float uWetHasSupport;
@@ -134,14 +138,14 @@ vec2 esWetClassUv(vec2 worldXZ) {
 vec2 esWetLevelDepth(ivec2 texel) {
   vec4 sampleValue = texelFetch(uWetSurf, clamp(texel, ivec2(0), ivec2(uWetParams.z) - 1), 0);
   float level = (sampleValue.r * 255.0 * 256.0 + sampleValue.g * 255.0) / 65535.0;
-  return vec2(uWetParams.x + level * uWetParams.y, sampleValue.b * 25.5 + uWetDepthMin);
+  return vec2(uWetParams.x + level * uWetParams.y, sampleValue.b * uWetDepthSpan + uWetDepthMin);
 }
 vec2 esWetSampleSurface(vec2 worldXZ) {
   if (!esWetInsideProvince(worldXZ)) return vec2(0.0, 25.5);
   if (uWetNativeCoverage > 0.5) {
     vec4 value = esOwnedRaster(worldXZ, uWetSurf, uWetSupport, uWetParams.z, uWetParams.w, uWetOrigin);
     float level = dot(value.rg, vec2(65280.0, 255.0)) / 65535.0;
-    return vec2(uWetParams.x + level * uWetParams.y, value.b * 25.5 + uWetDepthMin);
+    return vec2(uWetParams.x + level * uWetParams.y, value.b * uWetDepthSpan + uWetDepthMin);
   }
   vec2 pixel = clamp((worldXZ - uWetOrigin) / uWetParams.w, vec2(0.0), vec2(uWetParams.z - 1.0));
   ivec2 corner = ivec2(floor(pixel));
@@ -207,7 +211,7 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
 #include <opaque_fragment>`;
 }
 
-const SURFACE_WETNESS = /* glsl */`
+export const SURFACE_WETNESS_GLSL = /* glsl */`
 float esWetTotal = 0.0;
 if (uWetParams.z > 0.5) {
   vec2 esWetXZ = vEsWorldPos.xz;
@@ -250,10 +254,12 @@ if (uWetParams.z > 0.5) {
         * (1.0 - smoothstep(14.0, 22.0, esWetShore)) * (0.8 + 0.4 * esWetN);
       if (uWetAccessParams.x > 0.5) esWet *= 1.0 - smoothstep(esWetLift, esWetLift * 1.65,
         esWetStageValue.x - esWetOffset);
-      // Signed depth distinguishes genuinely reachable dry shore from far
-      // dry terrain inside a supported seasonal basin. Allow quantisation
-      // headroom (depth is encoded in 10 cm steps).
-      if (uWetHasSupport > 0.5) esWet *= 1.0 - smoothstep(esWetLift * 1.65 + 0.1, esWetLift * 1.65 + 0.3, -esWetDepth);
+      // Signed depth distinguishes genuinely reachable dry shore from dry
+      // terrain that merely sits near a body's raster level (a bundle with a
+      // support raster, or any signed-depth bundle: decision 0047 v2 ships
+      // depthMinM < 0). Allow quantisation headroom (0.1-0.12 m steps).
+      if (uWetHasSupport > 0.5 || uWetDepthMin < -0.5)
+        esWet *= 1.0 - smoothstep(esWetLift * 1.65 + 0.1, esWetLift * 1.65 + 0.3, -esWetDepth);
       esWet *= smoothstep(0.78, 0.9, normalize(esNrmW).y);
       esWetTotal = clamp(esWet * 0.85, 0.0, 1.0);
     }
@@ -286,10 +292,10 @@ export function applyGroundWetness(material: THREE.Material, uniforms: GroundWet
     Object.assign(shader.uniforms, uniforms);
     shader.fragmentShader = shader.fragmentShader
       .replace("#include <common>", `#include <common>\n${WATER_RECEIVER_DECLARATIONS}`)
-      .replace("#include <emissivemap_fragment>", SURFACE_WETNESS)
+      .replace("#include <emissivemap_fragment>", SURFACE_WETNESS_GLSL)
       .replace("#include <opaque_fragment>", waterReceiverLight('vEsWorldPos', 'esNrmW', 'uVerticalScale'));
   };
   const previousKey = material.customProgramCacheKey;
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v3`;
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|water-ground-wetness-v4`;
   material.needsUpdate = true;
 }

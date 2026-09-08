@@ -14,9 +14,15 @@ import type { WaterMeta } from "../waterData";
  * hydraulics rather than a raster fetch (`ES_STRIP`).
  *
  * The first and last point of every chain is a `join` point sitting exactly on
- * the field surface one station INTO the field, so the ribbon overlaps rather
- * than butts against it; `polygonOffset` on the strip material wins that
- * overlap and the material's scene-depth fade dissolves the banks.
+ * the field surface one station INTO the field (v2: or a `lip`/`plunge` where
+ * a sheet bridges a cliff), so the ribbon overlaps rather than butts against
+ * it; `polygonOffset` on the strip material wins that overlap and the bank
+ * profile (`aSide`) dissolves the margins.
+ *
+ * Decision 0047: the ribbon carries its own UV — `aSideM` (signed across
+ * metres) and `aArc` (cumulative metres, the compiler's `arcM` when present)
+ * — plus `aScroll`, the chain's mean speed, so the whitewater streaks scroll
+ * along the ribbon's own axis at one uniform rate per ribbon.
  */
 
 export type ChannelStrip = NonNullable<WaterMeta["channels"]>[number];
@@ -42,6 +48,8 @@ export interface ChannelStripGeometry {
 interface Station {
   x: number; z: number; y: number; bedY: number; halfWidthM: number;
   speedMS: number; season: number; tx: number; tz: number; dropPerM: number;
+  /** Cumulative metres along the chain. */
+  arcM: number;
 }
 
 function finitePoint(p: ChannelPoint): boolean {
@@ -60,6 +68,12 @@ export function resampleStrip(points: readonly ChannelPoint[], stepM = STRIP_STE
   for (let i = 1; i < pts.length; i++) {
     arc.push(arc[i - 1] + Math.hypot(pts[i].x - pts[i - 1].x, pts[i].z - pts[i - 1].z));
   }
+  // v2 chains carry their own cumulative arc; prefer it when it is a sane
+  // monotone series (it is measured along the smoothed centreline the
+  // compiler carved, which the resampled polyline approximates).
+  const authored = pts.map((p) => p.arcM);
+  const useAuthored = authored.every((a, i) => Number.isFinite(a) && (i === 0 || (a as number) >= (authored[i - 1] as number)));
+  const arcOut = useAuthored ? (authored as number[]) : arc;
   const total = arc[arc.length - 1];
   if (!(total > 1e-3)) return [];
   const count = Math.max(1, Math.ceil(total / stepM));
@@ -81,7 +95,7 @@ export function resampleStrip(points: readonly ChannelPoint[], stepM = STRIP_STE
       x: mix(a.x, b.x), z: mix(a.z, b.z), y: mix(a.y, b.y), bedY: mix(a.bedY, b.bedY),
       halfWidthM: Math.max(mix(a.halfWidthM, b.halfWidthM), MIN_HALF_WIDTH_M),
       speedMS: mix(a.speedMS, b.speedMS), season: mix(a.season, b.season),
-      tx, tz, dropPerM: 0,
+      tx, tz, dropPerM: 0, arcM: mix(arcOut[seg], arcOut[seg + 1]),
     });
   }
   // Along-chain drop per metre — the shader's cascade/rapids shading term,
@@ -123,12 +137,19 @@ export function buildChannelStripGeometry(
   // treated the margin as a shoreline and drew a bright foam line down both
   // sides of every chute.
   const aSide = new Float32Array(vertexCount);
+  // Ribbon UV for the whitewater streaks (decision 0047 item 4).
+  const aSideM = new Float32Array(vertexCount);
+  const aArc = new Float32Array(vertexCount);
+  const aScroll = new Float32Array(vertexCount);
   const index = new Uint32Array(triangleCount * 3);
 
   let v = 0;
   let k = 0;
   for (const chain of chains) {
     const base = v;
+    // one uniform scroll speed per ribbon: the chain's mean speed (never a
+    // per-vertex speed × time — that shears the streak field apart)
+    const scroll = Math.max(0.5, chain.reduce((n, st) => n + st.speedMS, 0) / chain.length);
     for (const st of chain) {
       const half = st.halfWidthM + bankM;
       const nx = -st.tz;
@@ -145,6 +166,9 @@ export function buildChannelStripGeometry(
         aSeason[v] = st.season;
         aDrop[v] = st.dropPerM;
         aSide[v] = side * (half / Math.max(st.halfWidthM, 1e-3));
+        aSideM[v] = side * half;
+        aArc[v] = st.arcM;
+        aScroll[v] = scroll;
         v++;
       }
     }
@@ -163,6 +187,9 @@ export function buildChannelStripGeometry(
   geometry.setAttribute("aSeason", new THREE.BufferAttribute(aSeason, 1));
   geometry.setAttribute("aDrop", new THREE.BufferAttribute(aDrop, 1));
   geometry.setAttribute("aSide", new THREE.BufferAttribute(aSide, 1));
+  geometry.setAttribute("aSideM", new THREE.BufferAttribute(aSideM, 1));
+  geometry.setAttribute("aArc", new THREE.BufferAttribute(aArc, 1));
+  geometry.setAttribute("aScroll", new THREE.BufferAttribute(aScroll, 1));
   geometry.setIndex(new THREE.BufferAttribute(index, 1));
   geometry.computeBoundingSphere();
   return { geometry, stationCount, vertexCount, triangleCount, stripCount: chains.length };

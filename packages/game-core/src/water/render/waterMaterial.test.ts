@@ -1,23 +1,30 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import * as THREE from "three";
 import {
-  OWNER_DILATE_M, STRIP_AERATION_GLSL, createWaterMaterial, createWaterUniforms,
-  stripAeration, stripBankProfile, WATER_TIERS,
+  BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_MAX_SLOPE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
+  STRIP_AERATION_GLSL, STRIP_WHITE, createWaterMaterial, createWaterUniforms,
+  stripAeration, stripAlbedo, stripBankProfile, stripStreakPhase, WATER_TIERS,
 } from "./waterMaterial";
 import { STRIP_BANK_M } from "./ChannelStrips";
+import { BURIED_DEPTH_M } from "../waterData";
 import type { WaterAssets } from "./types";
 
 const texture = new THREE.DataTexture(new Uint8Array(4), 1, 1);
-const assets = {
-  meta: {
-    surface: { file: "s.png", size: 2017, metresPerPixel: 3.65568, minM: -1, maxM: 500,
-      buryM: 3, ownerFile: "water-owner.png" },
-    flow: { file: "f.png", size: 1345, metresPerPixel: 5.48, flowMax: 3, shoreMaxM: 160 },
-    klass: { file: "k.png", size: 1345, metresPerPixel: 5.48, classes: ["none"] },
-  },
-  surfaceTex: texture, flowTex: texture, klassTex: texture, shoreTex: texture,
-  ownerTex: texture,
-} as unknown as WaterAssets;
+function assetsFor(version: 1 | 2): WaterAssets {
+  return {
+    meta: {
+      schemaVersion: version,
+      surface: { file: "s.png", size: 2017, metresPerPixel: 3.65568, minM: -1, maxM: 500,
+        buryM: 3, ownerFile: "water-owner.png",
+        ...(version === 2 ? { depthMinM: -6, depthSpanM: 30.6 } : {}) },
+      flow: { file: "f.png", size: 1345, metresPerPixel: 5.48, flowMax: 3, shoreMaxM: 160 },
+      klass: { file: "k.png", size: 1345, metresPerPixel: 5.48, classes: ["none"] },
+    },
+    surfaceTex: texture, flowTex: texture, klassTex: texture, shoreTex: texture,
+    ownerTex: texture,
+  } as unknown as WaterAssets;
+}
+const assets = assetsFor(2);
 
 /** The three.js chunk markers the water patch replaces. */
 const stubShader = () => ({
@@ -32,157 +39,241 @@ const stubShader = () => ({
   ].join("\n"),
 });
 
-function compile(mode: "field" | "strip") {
-  const uniforms = createWaterUniforms(assets);
+function compile(mode: "field" | "strip", a: WaterAssets = assets, tier = WATER_TIERS.high) {
+  const uniforms = createWaterUniforms(a);
   const material = createWaterMaterial("above",
-    { csm: null, applyAerial: () => {}, assets, uniforms, tier: WATER_TIERS.high }, mode);
+    { csm: null, applyAerial: () => {}, assets: a, uniforms, tier }, mode);
   const shader = stubShader();
   material.onBeforeCompile!(shader as unknown as THREE.WebGLProgramParametersWithUniforms,
     {} as THREE.WebGLRenderer);
   return { shader, uniforms, material };
 }
 
-describe("water material variants", () => {
-  it("discards the field wherever the compiled owner mask claims the cell", () => {
-    const { shader, uniforms } = compile("field");
-    expect(shader.fragmentShader).toContain("uOwnerTex");
-    // DILATED, not a single nearest texel: the mask is a 3.66 m raster and a
-    // mountain chute is narrower than one cell, so the exact test left a live
-    // field fringe either side of every strip.
-    expect(shader.fragmentShader).toContain("if (esOwnedNearby(vEsWorldPos.xz)) discard;");
-    expect(shader.fragmentShader).toContain(`float e = ${OWNER_DILATE_M.toFixed(2)};`);
-    expect(OWNER_DILATE_M).toBeLessThan(2 * STRIP_BANK_M + 1); // never outruns the ribbon
-    // the call site is preprocessor-gated text; only the field compiles the body
-    expect(compile("strip").shader.fragmentShader).not.toContain("bool esOwnedNearby(");
-    expect(uniforms.uHasOwner.value).toBe(1);
-    expect(uniforms.uSurfExtentM.value).toBeCloseTo(2017 * 3.65568, 3);
+/** Strip comments so a test cannot pass on a sentence in a comment. */
+const code = (src: string) => src.replace(/\/\/[^\n]*/g, "").replace(/\/\*[\s\S]*?\*\//g, "");
+
+describe("signed depth in the shader (decision 0047)", () => {
+  it("decodes v2 signed depth and v1 unsigned depth from the same uniforms", () => {
+    const v2 = compile("field", assetsFor(2)).uniforms;
+    expect(v2.uSurfDepthMin.value).toBe(-6);
+    expect(v2.uSurfDepthSpan.value).toBe(30.6);
+    expect(v2.uSurfBuried.value).toBe(BURIED_DEPTH_M);
+    const v1 = compile("field", assetsFor(1)).uniforms;
+    expect(v1.uSurfDepthMin.value).toBe(0);
+    expect(v1.uSurfDepthSpan.value).toBe(25.5);
+    // v1 dry texels carry depth 0: they must still be excluded from the
+    // level weighting, so the threshold sits just above zero
+    expect(v1.uSurfBuried.value).toBeGreaterThan(0);
+    expect(v1.uSurfBuried.value).toBeLessThan(0.1);
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(frag).toContain("return vec2(w, t.b * uSurfDepthSpan + uSurfDepthMin);");
+    expect(frag).not.toContain("t.b * 25.5");
+    expect(frag).toContain("step(uSurfBuried, s00.y)");
   });
 
-  it("draws plunge-pool foam on the field but never inside a strip", () => {
-    expect(compile("field").shader.fragmentShader).toContain("esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy)");
-    expect(compile("field").shader.fragmentShader).toContain("uPlunges[16]");
+  it("keeps the vertex depth signed + lifted, never clamped", () => {
+    const vert = code(compile("field").shader.vertexShader);
+    expect(vert).toContain("float esVDepth = esSurf.y + (esStill - esSurf.x);");
+    expect(vert).not.toContain("max(esSurf.y + (esStill - esSurf.x), 0.0)");
   });
 
-  it("drives the strip variant from per-vertex hydraulics, not the raster", () => {
-    const { shader, material } = compile("strip");
-    expect(shader.vertexShader).toContain("#define ES_STRIP 1");
-    for (const attribute of ["aStill", "aBedDepth", "aFlow", "aSeason", "aDrop"]) {
-      expect(shader.vertexShader).toContain(`attribute ${attribute === "aFlow" ? "vec2" : "float"} ${attribute};`);
+  it("discards the field only as a buried guard, a cliff guard and the owner mask", () => {
+    const frag = code(compile("field").shader.fragmentShader);
+    const discards = frag.match(/discard;/g) ?? [];
+    expect(discards).toHaveLength(3);
+    expect(frag).toContain(`${BURIED_GUARD.nearM.toFixed(2)} - ${BURIED_GUARD.perMetre.toFixed(3)} * esGuardDist`);
+    expect(frag).toContain(`${BURIED_GUARD.floorM.toFixed(1)})) discard;`);
+    expect(BURIED_GUARD.nearM).toBeLessThan(0);
+    expect(BURIED_GUARD.floorM).toBeGreaterThan(BURIED_DEPTH_M);
+    expect(frag).toContain(`> ${FIELD_MAX_SLOPE.toFixed(1)}) discard;`);
+    expect(frag).toContain("if (uHasOwner > 0.5 && esOwnedNearby(vEsWorldPos.xz)) discard;");
+    expect(frag).toContain(`float e = ${OWNER_DILATE_M.toFixed(2)};`);
+    expect(OWNER_DILATE_M).toBeLessThan(2 * STRIP_BANK_M + 1);
+    // the old per-fragment raster wetness cut and manual occlusion are gone
+    expect(frag).not.toContain("if (vEsData.y <= 0.004) discard;");
+    expect(frag).not.toContain(".y <= 0.004) discard;");
+    expect(frag).not.toContain("esSceneEye < esFragEye - 0.02");
+    // and no falling-water shading on the field (falls are sheets)
+    expect(frag).not.toContain("esFall");
+    // strips discard nothing at all
+    expect(code(compile("strip").shader.fragmentShader)).not.toContain("discard");
+  });
+
+  it("fades the shoreline by VERTICAL thickness from the unrefracted scene depth", () => {
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(frag).toContain("vec3 esCamFwd = -vec3(viewMatrix[0][2], viewMatrix[1][2], viewMatrix[2][2]);");
+    expect(frag).toContain("float esSceneT = esSceneEye / max(dot(esRay, esCamFwd), 1e-3);");
+    expect(frag).toContain("esTv = (vEsWorldPos.y - esSceneW.y) / max(uVerticalScale, 1e-3);");
+    expect(frag).toContain(`float esEdgeSoft = smoothstep(0.0, ${EDGE_FADE_M.toFixed(2)}, esTv);`);
+    expect(frag).toContain(`smoothstep(0.0, ${CONTACT_FOAM_M.toFixed(2)}, esTv + (esCn0 - 0.45) * 0.10)`);
+    // the refracted read is only for the transmitted colour, rejected in front
+    expect(frag).toContain("if (esSceneEyeR < esFragEye) { esRUV = esScreenUV; esSceneEyeR = esSceneEye; }");
+    expect(frag).toContain("texture2D(uSceneColor, esRUV).rgb * esT");
+    expect(frag).not.toContain("smoothstep(0.0, 0.10, esThick)");
+    expect(frag).not.toContain("smoothstep(0.015, 0.24, esThick)");
+  });
+});
+
+describe("flowing water (decision 0047 item 6)", () => {
+  it("compiles the flow-wave twin into the field vertex stage, gated at 0.15 m/s", () => {
+    const vert = code(compile("field").shader.vertexShader);
+    expect(vert).toContain("float esFlowWave(vec2 pos, vec2 dir, float speed, float t, out vec3 normal)");
+    expect(vert).toContain("if (esFlowSp > 0.15) {");
+    expect(vert).toContain("esFlowH = esFlowWave(esRestW.xz, esFlowV / esFlowSp, esFlowSp, uWaveTime, esFlowN) * esFlowFade;");
+    expect(vert).toContain("(esStill + esW.disp.y + esFlowH) * uVerticalScale");
+    // strips never undulate (a Gerstner-sized swing throws the ribbon off its bed)
+    const strip = code(compile("strip").shader.vertexShader);
+    expect(strip).not.toContain("esFlowH = esFlowWave(");
+  });
+
+  it("gates every flow term at 0.15 m/s on a 6 s transport cycle and drifts detail with the current", () => {
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(FOAM_CYCLE_S).toBe(6);
+    expect(frag).toContain("bool esFlowing = esSpeed > 0.15;");
+    expect(frag).not.toContain("esSpeed > 0.3)");
+    expect(frag).toContain("float esCycle = 6.0;");
+    expect(frag).toContain("float esPh1 = fract(uTransportTime / esCycle);");
+    expect(frag).not.toContain("fract(uTransportTime * 0.25)");
+    // scroll distance per cycle is speed x cycle: 1 m/s moves foam 1 m/s
+    expect(frag).toContain("(vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 0.55");
+    expect(frag).toContain("float esAdv = min(esSpeed, 2.5) * esCycle;");
+    // detail ripple follows esDrift on flowing water; the fixed drift is still-water only
+    expect(frag).toContain("vec2 esQ1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 2.3 + 17.0;");
+    expect(frag).toMatch(/else \{\s*esGF = esDetailGrad\(vEsWorldPos\.xz \* 2\.3 \+ 17\.0, vec2\(0\.11, 0\.07\) \* uWaveTime\)/);
+    // barcode guards stay
+    expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
+    expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
+    // waves and surf stay on the wave clock
+    expect(code(compile("field").shader.vertexShader)).toContain("esSwash(esShore, esFetch, uWaveTime, esSurfWind)");
+  });
+
+  it("draws river flecks only on flowing river-class water, advected 1:1", () => {
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(frag).toContain("if (esFlowing && vEsKlass.w > 2.5 && vEsKlass.w < 3.5) {");
+    expect(frag).toContain(`smoothstep(${FLECK.lo.toFixed(3)}, ${FLECK.hi.toFixed(3)}, esFk)`);
+    expect(code(compile("field").shader.vertexShader)).toContain("esKl.r * 255.0);");
+  });
+
+  it("fleck threshold covers a few percent of a river (esFbm ported)", () => {
+    // Port of the shader's esHash21 / esNoised / esFbm (2 octaves).
+    const fract = (v: number) => v - Math.floor(v);
+    const hash = (x: number, y: number) => {
+      let px = fract(x * 123.34);
+      let py = fract(y * 456.21);
+      const d = px * (px + 45.32) + py * (py + 45.32);
+      px += d; py += d;
+      return fract(px * py);
+    };
+    const noise = (x: number, y: number) => {
+      const px = Math.floor(x), py = Math.floor(y);
+      const fx = x - px, fy = y - py;
+      const ux = fx * fx * fx * (fx * (fx * 6 - 15) + 10);
+      const uy = fy * fy * fy * (fy * (fy * 6 - 15) + 10);
+      const a = hash(px, py), b = hash(px + 1, py), c = hash(px, py + 1), d = hash(px + 1, py + 1);
+      return a + (b - a) * ux + (c - a) * uy + (a - b - c + d) * ux * uy;
+    };
+    const fbm = (x: number, y: number, oct: number) => {
+      let amp = 0.5, sum = 0;
+      for (let i = 0; i < oct; i++) {
+        sum += amp * noise(x, y);
+        const nx = 1.6 * x - 1.2 * y, ny = 1.2 * x + 1.6 * y;
+        x = nx; y = ny; amp *= 0.5;
+      }
+      return sum;
+    };
+    const sstep = (e0: number, e1: number, v: number) => {
+      const t = Math.min(Math.max((v - e0) / (e1 - e0), 0), 1);
+      return t * t * (3 - 2 * t);
+    };
+    let cover = 0, n = 0;
+    for (let z = 0; z < 60; z += 0.25) {
+      for (let x = 0; x < 60; x += 0.25) {
+        // two phases half a cycle apart at 1 m/s, blended like the shader
+        const f1 = fbm((x - 1.5) * FLECK.scale + 5, z * FLECK.scale + 5, 2);
+        const f2 = fbm((x - 4.5) * FLECK.scale + 5, z * FLECK.scale + 5, 2);
+        cover += sstep(FLECK.lo, FLECK.hi, f1 * 0.5 + f2 * 0.5);
+        n++;
+      }
     }
-    expect(shader.vertexShader).toContain("vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));");
-    // tide response is zero on a steep inland reach
-    expect(shader.vertexShader).toContain("float esStill = esSurf.x + uLevelSeason * aSeason;");
-    expect(shader.vertexShader).toContain("vec2 esFlowV = aFlow;");
+    const pct = (cover / n) * 100;
+    expect(pct).toBeGreaterThan(3);
+    expect(pct).toBeLessThan(6);
+  });
+});
+
+describe("whitewater strips (decision 0047 item 4)", () => {
+  it("drives the strip from per-vertex hydraulics plus its own ribbon UV", () => {
+    const { shader, material } = compile("strip");
+    const vert = code(shader.vertexShader);
+    expect(vert).toContain("#define ES_STRIP 1");
+    for (const attribute of ["aStill", "aBedDepth", "aFlow", "aSeason", "aDrop", "aSide", "aSideM", "aArc", "aScroll"]) {
+      expect(vert).toContain(`attribute ${attribute === "aFlow" ? "vec2" : "float"} ${attribute};`);
+    }
+    expect(vert).toContain("vEsStrip = vec3(aSideM, aArc, aScroll);");
+    expect(vert).toContain("float esStill = esSurf.x + uLevelSeason * aSeason;");
     expect(material.polygonOffset).toBe(true);
     expect(material.customProgramCacheKey!()).toContain("strip");
   });
 
-  // decision 0046 batch: the four fixes lost in the restore + the domed edge.
-  it("never rotates absolute world coordinates by the flow direction (barcode)", () => {
-    const frag = compile("field").shader.fragmentShader;
-    expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
-    expect(frag).not.toContain("mat2 esAniso");
-    expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
-    // streaks: three taps of a world-anchored pattern at LOCAL offsets
-    expect(frag).toContain("vec2 esSmear = esFDirN * 0.85;");
-    expect(frag).toMatch(/esFbm\(esSP1 - esSmear, 2\) \+ esFbm\(esSP1, 2\) \+ esFbm\(esSP1 \+ esSmear, 2\)/);
-  });
-
-  it("advects foam and falling water on the transport clock, waves on the wave clock", () => {
-    const { shader, uniforms } = compile("field");
-    expect(uniforms.uTransportTime.value).toBe(0);
-    const frag = shader.fragmentShader;
-    expect(frag).toContain("uniform float uTransportTime;");
-    expect(frag).toContain("float esPh1 = fract(uTransportTime * 0.25);");
-    expect(frag).toContain("float esPh2 = fract(uTransportTime * 0.25 + 0.5);");
-    expect(frag).toContain("esY * 0.22 + uTransportTime * 2.6");
-    // waves and surf stay on the wind-scaled wave clock
-    expect(shader.vertexShader).toContain("esSwash(esShore, esFetch, uWaveTime, esSurfWind)");
-  });
-
-  it("keeps the vertex depth signed so dry corners are discarded", () => {
-    expect(compile("field").shader.vertexShader)
-      .toContain("float esVDepth = esSurf.y + (esStill - esSurf.x);");
-    expect(compile("field").shader.vertexShader)
-      .not.toContain("max(esSurf.y + (esStill - esSurf.x), 0.0)");
-  });
-
-  it("shades waterfalls from the authored grade, not screen derivatives", () => {
-    const strip = compile("strip").shader.fragmentShader;
-    // aDrop is CLAMPED to [0,1] by the strip builder, so the strip thresholds
-    // must live inside that range — the field's 1.2..3.0 window never fired.
-    expect(strip).toContain("esFall = smoothstep(0.25, 0.75, vEsFlow.z);");
-    // the field fallback keeps the derivative, unmultiplied by the exaggeration
-    expect(compile("field").shader.fragmentShader)
-      .toContain("vec2 esDW = vec2(dFdx(vEsData.x), dFdy(vEsData.x));");
-    expect(compile("field").shader.fragmentShader)
-      .not.toContain("dFdy(vEsData.x)) * uVerticalScale");
-  });
-
-  it("interpolates the surface height wet-aware and cuts wetness per fragment", () => {
-    const { shader } = compile("field");
-    const src = shader.vertexShader + shader.fragmentShader;
-    expect(src).toContain("vec4 esWet = vec4(step(0.0004, s00.y), step(0.0004, s10.y),");
-    expect(src).toContain("float esWsum = esWw.x + esWw.y + esWw.z + esWw.w;");
-    // the depth proxy keeps the plain mix so the fade still reaches zero
-    expect(src).toContain("return vec2(esH, esPlain.y);");
-    expect(shader.fragmentShader).toContain("if (esSurfaceAt(vEsWorldPos.xz).y <= 0.004) discard;");
-  });
-
-  it("drives whitecap density from pixels, not vertices", () => {
-    const frag = compile("field").shader.fragmentShader;
-    expect(frag).toContain("vec2 esCP = vEsWorldPos.xz * 0.085 - esDrift * uTransportTime * 0.05;");
-    expect(frag).toContain("esCrest = max(esCrest, (esCn - 0.62) * 1.6 * clamp(uWindWave, 0.0, 2.0));");
-    expect(frag).toContain("float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);");
-  });
-
-  it("keeps one shared look: the strip runs the same fragment shader", () => {
-    const field = compile("field").shader.fragmentShader;
-    const strip = compile("strip").shader.fragmentShader;
-    for (const term of ["esFoam", "esSsr", "esDetailGrad", "esCascade", "esEdgeSoft"]) {
-      expect(field).toContain(term);
-      expect(strip).toContain(term);
-    }
-    expect(strip).toContain("#define ES_STRIP 1");
-  });
-});
-
-describe("steep-strip whitewater", () => {
-  it("dissolves across the bank margin and is fully covered over the water", () => {
+  it("aeration follows the 0047 law and is monotone in slope and speed", () => {
+    expect(stripAeration(0, 0)).toBeCloseTo(0.25, 6);
+    expect(stripAeration(0.6, 4)).toBeCloseTo(1.0, 6);
+    expect(stripAeration(0.3, 1)).toBeGreaterThan(stripAeration(0.1, 1));
+    expect(stripAeration(0.3, 3)).toBeGreaterThan(stripAeration(0.3, 1));
+    // bank coverage is a separate profile: 1 over the water, 0 at the mesh edge
     expect(stripBankProfile(0)).toBe(1);
-    expect(stripBankProfile(0.7)).toBe(1);
     expect(stripBankProfile(1)).toBe(0);
-    expect(stripBankProfile(1.4)).toBe(0);
     expect(stripBankProfile(0.86)).toBeGreaterThan(0.3);
     expect(stripBankProfile(0.86)).toBeLessThan(0.7);
   });
 
-  it("whitens with slope and speed: a steep fast chute is near-opaque, a flat reach is not", () => {
-    const flatSlow = stripAeration(0.01, 0.2, 0);
-    const steepFast = stripAeration(0.6, 4, 0);
-    expect(flatSlow).toBeLessThan(0.25);
-    expect(steepFast).toBeGreaterThan(0.9);
-    // monotone in both drivers
-    expect(stripAeration(0.3, 1, 0)).toBeGreaterThan(stripAeration(0.1, 1, 0));
-    expect(stripAeration(0.3, 3, 0)).toBeGreaterThan(stripAeration(0.3, 1, 0));
+  it("albedo mixes toward aerated white and is never the silt-tan brown", () => {
+    const tan = [0.115, 0.085, 0.048];
+    for (const a of [0.25, 0.5, 0.8, 1]) {
+      for (const streak of [0, 0.5, 1]) {
+        for (const tannin of [0, 1]) {
+          const c = stripAlbedo(a, streak, 0, tannin);
+          // never a warm/brown hue: red never dominates green
+          expect(c[0]).toBeLessThanOrEqual(c[1] + 1e-9);
+          // never the silt-tan point
+          expect(Math.hypot(c[0] - tan[0], c[1] - tan[1], c[2] - tan[2])).toBeGreaterThan(0.02);
+        }
+      }
+    }
+    expect(stripAlbedo(1, 1, 0, 0)).toEqual([...STRIP_WHITE]);
+    expect(stripAlbedo(1, 1, 0, 0)[0]).toBeGreaterThan(stripAlbedo(0.25, 0, 0, 0)[0]);
   });
 
-  it("is always brighter mid-ribbon than at its edge (the defect was the reverse)", () => {
-    const centre = stripAeration(0.6, 4, 0);
-    const edge = stripAeration(0.6, 4, 1.2);
-    expect(centre).toBeGreaterThan(edge);
-    expect(edge).toBe(0);
+  it("scrolls streaks along the ribbon's own arc, downstream, at a uniform rate", () => {
+    // a feature at arc 10 at t=0 sits at arc 10 + 2.5 x 4 at t=4 (scroll 2.5 m/s)
+    expect(stripStreakPhase(10, 2.5, 0)).toBeCloseTo(stripStreakPhase(20, 2.5, 4), 9);
+    expect(stripStreakPhase(20, 2.5, 4)).toBeLessThan(stripStreakPhase(20, 2.5, 0));
+    const frag = code(compile("strip").shader.fragmentShader);
+    expect(frag).toContain("float esArcPh1 = vEsStrip.y - vEsStrip.z * uTransportTime;");
+    expect(frag).toContain("esFbm(vec2(vEsStrip.x * 0.9, esArcPh1 * 0.35), 3)");
+    expect(frag).toContain("float esAer = esStripAeration(vEsFlow.z, esSpeed);");
+    expect(frag).toContain(`vec3(${STRIP_WHITE.map((v) => v.toFixed(2)).join(", ")})`);
+    expect(frag).toContain("vec3 esT = vec3(1.0 - esAer);");
+    expect(frag).toContain("roughnessFactor = mix(0.5, 0.9, esWhite);");
+    // no silt albedo, no Beer-Lambert, no shoreline/surf terms, no SSR, no refraction
+    expect(frag).not.toContain("0.115, 0.085, 0.048");
+    expect(frag).not.toContain("exp(-esAbsorb");
+    expect(frag).not.toContain("esSurfFoam(esShoreD");
+    expect(frag).not.toContain("esPlungeFoam(vEsWorldPos");
+    expect(frag).not.toContain("esContactFoam(vEsWorldPos");
+    expect(frag).not.toContain("#define ES_SSR");
+    expect(frag).not.toContain("uRefractStrength *");
+    // bank overlap is the only fade
+    expect(frag).toContain("outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esBank);");
+    // the field never compiles the strip law
+    expect(code(compile("field").shader.fragmentShader)).not.toContain("float esStripAeration(float");
+    expect(frag).toContain(STRIP_AERATION_GLSL.trim().split("\n")[0]);
   });
 
-  it("compiles the same law into the strip shader and nothing into the field shader", () => {
-    const strip = compile("strip").shader;
-    expect(strip.fragmentShader).toContain(STRIP_AERATION_GLSL.trim().split("\n")[0]);
-    expect(strip.fragmentShader).toContain("esStripAeration(vEsFlow.z, esSpeed, vEsSide)");
-    expect(strip.vertexShader).toContain("vEsSide = aSide;");
-    // The call sites are preprocessor-gated text; the field must not compile
-    // the DEFINITIONS or declare the strip attributes.
-    const field = compile("field").shader;
-    expect(field.fragmentShader).not.toContain("float esStripAeration(float");
-    expect(strip.fragmentShader).toContain("float esStripAeration(float");
+  it("the field keeps SSR on the high tier and plunge foam", () => {
+    const frag = code(compile("field").shader.fragmentShader);
+    expect(frag).toContain("#define ES_SSR 1");
+    expect(frag).toContain("esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy)");
+    expect(code(compile("field", assets, WATER_TIERS.low).shader.fragmentShader)).not.toContain("#define ES_SSR");
   });
 });

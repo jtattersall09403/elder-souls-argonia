@@ -27,7 +27,12 @@ export interface WaterMeta {
    * field at each end. Points run downstream; `y` is non-increasing. */
   channels?: { id: string; band: number; points: {
     x: number; z: number; y: number; bedY: number; halfWidthM: number;
-    speedMS: number; season: number; kind: 'steep' | 'fall' | 'field' | 'join';
+    speedMS: number; season: number;
+    /** v1: steep|fall|field|join. v2 (decision 0047): join|steep|lip|plunge —
+     * a strip ends at a `lip` and resumes at the `plunge`; the sheet bridges. */
+    kind: 'steep' | 'fall' | 'field' | 'join' | 'lip' | 'plunge';
+    /** Cumulative metres along the chain (v2); computed when absent. */
+    arcM?: number;
   }[] }[];
   surface: {
     file: string;
@@ -38,7 +43,12 @@ export interface WaterMeta {
     buryM: number;
     /** Raster grid origin in metres; the field compile leaves it at mpp/2. */
     gridOriginM?: number;
+    /** Signed-depth encoding of the B channel (decision 0047):
+     * `depth = B/255 · depthSpanM + depthMinM`. v1 omits both (0 / 25.5:
+     * unsigned 0.1 m steps); v2 ships −6 / 30.6 so dry-but-floodable "table"
+     * cells sit in (−2, 0] and truly dry ground is buried at ≤ −2.5. */
     depthMinM?: number;
+    depthSpanM?: number;
     /** Fine access-barrier raster; the field compile emits none. */
     accessMinOffsetM?: number;
     accessSpanM?: number;
@@ -59,7 +69,9 @@ export interface WaterStaticSample {
    * this is the buried surface (ground − buryM) — callers use `depthProxy`
    * or a real ground height to decide wetness. */
   surfaceBase: number;
-  /** clamp(surface − ground, 0, 25.5) from the compile — 0 means dry. */
+  /** SIGNED compiled depth `W − ground` (m), bilinear. Wet ⇔ depth + lift > 0.
+   * v1 data cannot go below 0 (dry = 0); v2 carries the table band (−2, 0]
+   * and buried ground ≤ −2.5. */
   depthProxy: number;
   flowX: number;
   flowZ: number;
@@ -81,15 +93,39 @@ export function tideResponseOf(salinity: number): number {
   return t * t * (3 - 2 * t);
 }
 
-/** Depth proxy above which a texel counts as wet (mirrors the GLSL step()). */
-const WET_DEPTH_EPS = 0.0004;
+/** Signed depth at or below which a texel is BURIED (truly dry ground,
+ * W = ground − 3): it never contributes to the level-surface interpolation.
+ * Table cells (−2, 0] do, so the plane extends over the floodable band and a
+ * season/tide lift can wet it. KEEP IN LOCKSTEP with the GLSL `uSurfBuried`. */
+export const BURIED_DEPTH_M = -2.5;
+/** Depth reported beyond the province (open sea). */
+export const OPEN_SEA_DEPTH_M = 25.5;
+/** Default (v1) signed-depth encoding: B · 0.1 m, unsigned. */
+export const DEPTH_MIN_DEFAULT_M = 0;
+export const DEPTH_SPAN_DEFAULT_M = 25.5;
+
+/** The "not buried" threshold for a raster: v2 (depthMinM < 0) uses
+ * BURIED_DEPTH_M; v1 (unsigned) keeps "any nonzero depth" so its dry texels
+ * (depth 0, W buried) still never tilt the surface into the bank. */
+export function buriedThresholdM(meta: WaterMeta): number {
+  const min = meta.surface.depthMinM ?? DEPTH_MIN_DEFAULT_M;
+  return Math.max(BURIED_DEPTH_M, min + 1e-3);
+}
+
+/** Decode the B channel of water-surface.png (0..255) to signed metres. */
+export function decodeDepthByte(b: number, meta: WaterMeta): number {
+  return (b / 255) * (meta.surface.depthSpanM ?? DEPTH_SPAN_DEFAULT_M)
+    + (meta.surface.depthMinM ?? DEPTH_MIN_DEFAULT_M);
+}
 
 export class WaterData {
+  private readonly buriedBelow: number;
+
   constructor(
     readonly meta: WaterMeta,
     /** Dequantised W (m), surface.size², row 0 = north. */
     private readonly surface: Float32Array,
-    /** Depth proxy (m), surface.size². */
+    /** Signed depth (m), surface.size² (see `decodeDepthByte`). */
     private readonly depth: Float32Array,
     /** RGBA bytes of water-flow.png, flow.size². */
     private readonly flow: Uint8ClampedArray,
@@ -102,7 +138,9 @@ export class WaterData {
      * channel — canvas decoding premultiplies and destroys the RGB (the
      * round-3 tide bug). */
     private readonly season?: Float32Array,
-  ) {}
+  ) {
+    this.buriedBelow = buriedThresholdM(meta);
+  }
 
   private bilinear(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
     const fx = Math.min(Math.max(x / mpp - 0.5, 0), size - 1.001);
@@ -117,10 +155,11 @@ export class WaterData {
     return top * (1 - tz) + bot * tz;
   }
 
-  /** Bilinear over `a`, but weighted by the wet flag of the depth proxy.
-   *  Dry texels are BURIED (ground - buryM); mixing their W into the surface
-   *  tilts the last texel down into the bank and pulls the waterline ~2 m
-   *  short. Extend the level surface to the last wet texel instead.
+  /** Bilinear over `a`, but weighted by the NOT-BURIED flag of the signed
+   *  depth. Buried texels carry W = ground − buryM; mixing that into the
+   *  surface tilts the last texel down into the bank and pulls the waterline
+   *  ~2 m short. Table texels (dry now, floodable) carry their body's level and
+   *  DO count, so the plane runs level across the floodable band.
    *  KEEP IN LOCKSTEP with the GLSL esSurfaceAt(). */
   private bilinearWet(a: Float32Array, size: number, mpp: number, x: number, z: number): number {
     const fx = Math.min(Math.max(x / mpp - 0.5, 0), size - 1.001);
@@ -135,7 +174,7 @@ export class WaterData {
     let sum = 0;
     let acc = 0;
     for (let k = 0; k < 4; k += 1) {
-      if (this.depth[idx[k]] > WET_DEPTH_EPS) {
+      if (this.depth[idx[k]] > this.buriedBelow) {
         sum += bw[k];
         acc += bw[k] * a[idx[k]];
       }
@@ -155,15 +194,28 @@ export class WaterData {
     return this.bilinearWet(this.surface, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
   }
 
+  /** Signed compiled depth (m), bilinear; open sea beyond the province. */
   depthProxy(x: number, z: number): number {
-    if (this.outside(x, z)) return 25.5;
+    if (this.outside(x, z)) return OPEN_SEA_DEPTH_M;
     return this.bilinear(this.depth, this.meta.surface.size, this.meta.surface.metresPerPixel, x, z);
+  }
+
+  /** Signed depth including the level lift: `depth + tide·tideResponse +
+   * season·seasonResponse`. Wet ⇔ > 0. The renderer's `esVDepth` twin. */
+  depthAt(x: number, z: number, tideM = 0, seasonM = 0): number {
+    const s = this.sample(x, z);
+    return s.depthProxy + tideM * s.tideResponse + seasonM * s.seasonResponse;
+  }
+
+  /** True where the point is wet after the lift. */
+  isWet(x: number, z: number, tideM = 0, seasonM = 0): boolean {
+    return this.depthAt(x, z, tideM, seasonM) > 0;
   }
 
   sample(x: number, z: number): WaterStaticSample {
     if (this.outside(x, z)) {
       return {
-        surfaceBase: 0, depthProxy: 25.5, flowX: 0, flowZ: 0,
+        surfaceBase: 0, depthProxy: OPEN_SEA_DEPTH_M, flowX: 0, flowZ: 0,
         shoreDistM: this.meta.flow.shoreMaxM, classIndex: 1, className: "coast",
         turbidity: 0.25, salinity: 1, seasonResponse: 0, tideResponse: tideResponseOf(1),
       };
