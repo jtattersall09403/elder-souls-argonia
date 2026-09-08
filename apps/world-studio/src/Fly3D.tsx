@@ -39,6 +39,14 @@ export interface Fly3DProps {
   showVegetation?: boolean;  // Phase 10 scatter (exemplar + contrast areas only)
   onVegetationStats?: (stats: VegetationStats) => void;
   flySpeed?: number;     // m/s (owner slider: running pace up to fast skim)
+  // Camera start altitude (metres, may be negative — the underwater free
+  // camera, module 85 / Phase 8b) and aim (compass yaw degrees clockwise from
+  // north; pitch degrees, negative looks down). Owned by App so a teleport can
+  // reproduce a site without a page reload; absent = the 400 m default and the
+  // 4 km-north horizon stare.
+  startAltM?: number | null;
+  aimYawDeg?: number | null;
+  aimPitchDeg?: number | null;
   onPosition?: (xKm: number, zKm: number, altM: number, headingDeg: number) => void;
 }
 
@@ -190,32 +198,20 @@ function Terrain({ heights, size, metresPerPixel, textureCanvas, exaggeration }:
   );
 }
 
-// Initial camera altitude override (?alt= metres, may be negative — the
-// underwater free camera, module 85 / Phase 8b). Captured at module load:
-// the App re-serialises the query string and would drop unknown keys.
-const INITIAL_ALT = (() => {
-  const v = Number(new URLSearchParams(window.location.search).get("alt"));
-  return Number.isFinite(v) && v !== 0 ? v : null;
-})();
-
-// Camera aim overrides (?yaw= compass degrees clockwise from north, ?pitch=
-// degrees, negative looks down). Added for the probes (owner 2026-08-30):
-// screenshots must be able to frame WHATEVER needs judging, not only the
-// default 4 km-north horizon stare. Captured at module load like ?alt=.
-const INITIAL_AIM = (() => {
-  const q = new URLSearchParams(window.location.search);
-  if (!q.has("yaw") && !q.has("pitch")) return null;
-  const yaw = Number(q.get("yaw")) || 0;
-  const pitch = Number(q.get("pitch")) || 0;
-  const yawR = (yaw * Math.PI) / 180;
-  const pitchR = (pitch * Math.PI) / 180;
-  // North is −Z (compass convention shared with headingOf).
+/** Aim unit vector from compass yaw/pitch in degrees (north is −Z, the
+ * convention shared with headingOf); null when neither is set. */
+function aimVector(yawDeg: number | null | undefined, pitchDeg: number | null | undefined) {
+  if (yawDeg === null || yawDeg === undefined) {
+    if (pitchDeg === null || pitchDeg === undefined) return null;
+  }
+  const yawR = ((yawDeg ?? 0) * Math.PI) / 180;
+  const pitchR = ((pitchDeg ?? 0) * Math.PI) / 180;
   return new THREE.Vector3(
     Math.sin(yawR) * Math.cos(pitchR),
     Math.sin(pitchR),
     -Math.cos(yawR) * Math.cos(pitchR),
   );
-})();
+}
 
 export function Fly3D(props: Fly3DProps) {
   const speedRef = useRef(props.flySpeed ?? 60);
@@ -224,7 +220,8 @@ export function Fly3D(props: Fly3DProps) {
   // Default altitude 400 m (round 2, was 700): below the montane fog belt
   // (520±130 m) and the visual cloud line, so the flyover starts looking AT
   // the province rather than down through weather.
-  const start: [number, number, number] = [props.spawnKm.x * 1000, INITIAL_ALT ?? 400, props.spawnKm.z * 1000];
+  const start: [number, number, number] = [props.spawnKm.x * 1000, props.startAltM ?? 400, props.spawnKm.z * 1000];
+  const initialAim = aimVector(props.aimYawDeg, props.aimPitchDeg);
   // The flyover renders the SAME chunked terrain as the character mode (same
   // sampling, same splat material), so relief judged from the air matches
   // what the character walks on. LOD follows the camera.
@@ -263,11 +260,11 @@ export function Fly3D(props: Fly3DProps) {
       shadows="soft"
       style={{ width: "100%", height: "100%" }}
       onCreated={({ camera }) => {
-        if (INITIAL_AIM) {
+        if (initialAim) {
           camera.lookAt(
-            start[0] + INITIAL_AIM.x * 2000,
-            start[1] + INITIAL_AIM.y * 2000,
-            start[2] + INITIAL_AIM.z * 2000,
+            start[0] + initialAim.x * 2000,
+            start[1] + initialAim.y * 2000,
+            start[2] + initialAim.z * 2000,
           );
         } else {
           camera.lookAt(start[0], 0, start[2] - 4000);
@@ -335,8 +332,8 @@ export function Fly3D(props: Fly3DProps) {
         </>
       ) : (
         <MapControls
-          target={INITIAL_AIM
-            ? [start[0] + INITIAL_AIM.x * 2000, start[1] + INITIAL_AIM.y * 2000, start[2] + INITIAL_AIM.z * 2000]
+          target={initialAim
+            ? [start[0] + initialAim.x * 2000, start[1] + initialAim.y * 2000, start[2] + initialAim.z * 2000]
             : [start[0], 0, start[2] - 2000]}
           maxDistance={40000}
         />

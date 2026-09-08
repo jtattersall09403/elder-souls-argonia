@@ -25,6 +25,29 @@ import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 import { setWetSeasonOverride, sharedWaterAssets, type WaterAssets } from "./water/waterAssets";
 import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
 
+/** One probe site for `window.__STUDIO_GOTO__` (x/z in km, as the URL uses;
+ * `t` the HH:MM clock string; `wet` +1 wet season, -1 dry, 0/absent calendar). */
+export interface StudioGotoSite {
+  view?: "map" | "fly3d" | "character";
+  cam?: "fly" | "orbit";
+  x?: number;
+  z?: number;
+  alt?: number;
+  yaw?: number;
+  pitch?: number;
+  t?: string;
+  wet?: number;
+  /** Frames of the new scene to wait for before resolving (probe SETTLE_FRAMES). */
+  frames?: number;
+  timeoutMs?: number;
+}
+
+declare global {
+  interface Window {
+    __STUDIO_GOTO__?: (site?: StudioGotoSite) => Promise<void>;
+  }
+}
+
 const urlParams = new URLSearchParams(window.location.search);
 // World time from the URL (t=HH:MM, d=M-D, rate; lat is a debug override).
 applyTimeParams(urlParams);
@@ -95,6 +118,19 @@ export function App() {
   const [spawnKm, setSpawnKm] = useState<{ x: number; z: number }>({
     x: Number(urlParams.get("x")) || 10.4, z: Number(urlParams.get("z")) || 8.4,
   });
+  // Fly camera start altitude (?alt=, metres, may be negative — the
+  // underwater free camera) and aim (?yaw= compass degrees, ?pitch=). App
+  // state, not Fly3D module constants, so __STUDIO_GOTO__ can reproduce a
+  // site's camera without reloading the page (and losing every compiled
+  // shader). Parsed exactly as Fly3D used to parse them.
+  const [flyAltM, setFlyAltM] = useState<number | null>(() => {
+    const v = Number(urlParams.get("alt"));
+    return Number.isFinite(v) && v !== 0 ? v : null;
+  });
+  const [flyAim, setFlyAim] = useState<{ yaw: number | null; pitch: number | null }>(() =>
+    urlParams.has("yaw") || urlParams.has("pitch")
+      ? { yaw: Number(urlParams.get("yaw")) || 0, pitch: Number(urlParams.get("pitch")) || 0 }
+      : { yaw: null, pitch: null });
   const [exaggeration, setExaggeration] = useState(Number(urlParams.get("ex")) || 1);
   const [flySpeed, setFlySpeed] = useState(Number(urlParams.get("spd")) || 60);
   const [flyPos, setFlyPos] = useState("");
@@ -160,6 +196,55 @@ export function App() {
     setSpawnKm({ x: p.xKm, z: p.zKm });
     setPresetNonce((v) => v + 1);
   }, []);
+  // Dev hook: move the studio to a probe site IN PROCESS — same state the URL
+  // path sets, same remount a light preset does, no page load. A fresh page on
+  // software GL recompiles every terrain/vegetation/water program before its
+  // first frame (minutes per site); teleporting keeps them compiled. Resolves
+  // on the probe's own readiness signal: the water probe hook re-installed by
+  // the new scene, then SETTLE frames of the new debug state.
+  const gotoSite = useCallback(async (site: StudioGotoSite = {}) => {
+    const previousProbe = window.__STUDIO_WATER_PROBE__;
+    if (site.t !== undefined) {
+      const p = new URLSearchParams(window.location.search);
+      p.set("t", site.t);
+      applyTimeParams(p);
+      setTimeVersion((v) => v + 1);
+    }
+    if (site.view) setView(site.view);
+    if (site.cam) setCamMode(site.cam);
+    if (site.x !== undefined || site.z !== undefined) {
+      setSpawnKm((s) => ({ x: site.x ?? s.x, z: site.z ?? s.z }));
+    }
+    setFlyAltM(Number.isFinite(site.alt) && site.alt !== 0 ? site.alt! : null);
+    setFlyAim(site.yaw === undefined && site.pitch === undefined
+      ? { yaw: null, pitch: null }
+      : { yaw: site.yaw ?? 0, pitch: site.pitch ?? 0 });
+    setWetSeason(site.wet === 1 ? "wet" : site.wet === -1 ? "dry" : "auto");
+    setPresetNonce((v) => v + 1);
+
+    const deadline = Date.now() + (site.timeoutMs ?? 120_000);
+    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+    const expire = (what: string) => { throw new Error(`__STUDIO_GOTO__: ${what} within ${site.timeoutMs ?? 120_000} ms`); };
+    // The water probe hook is deleted on unmount and re-installed on mount, so
+    // a changed identity means the NEW scene is live.
+    while (!window.__STUDIO_WATER_PROBE__ || window.__STUDIO_WATER_PROBE__ === previousProbe) {
+      if (Date.now() > deadline) expire("the scene did not remount");
+      await sleep(100);
+    }
+    // Drop the old scene's debug state so the frame count below is the new one's.
+    delete window.__STUDIO_WATER_DEBUG__;
+    const frames = site.frames ?? 6;
+    const framesNow = () => (window as Window).__STUDIO_WATER_DEBUG__?.frames ?? -1;
+    while (framesNow() < frames) {
+      if (Date.now() > deadline) expire(`the new scene did not render ${frames} frames`);
+      await sleep(100);
+    }
+  }, []);
+  useEffect(() => {
+    window.__STUDIO_GOTO__ = gotoSite;
+    return () => { delete window.__STUDIO_GOTO__; };
+  }, [gotoSite]);
+
   useEffect(() => {
     fetch(`${import.meta.env.BASE_URL}province/refined/flood-states.json`)
       .then((r) => r.json())
@@ -188,6 +273,13 @@ export function App() {
       q.set("x", spawnKm.x.toFixed(2));
       q.set("z", spawnKm.z.toFixed(2));
       q.set("ex", String(exaggeration));
+      // Start camera: kept in the URL so a teleported (or hand-flown) site
+      // stays reproducible by pasting the address back in.
+      if (flyAltM !== null) q.set("alt", String(flyAltM));
+      if (flyAim.yaw !== null || flyAim.pitch !== null) {
+        q.set("yaw", String(flyAim.yaw ?? 0));
+        q.set("pitch", String(flyAim.pitch ?? 0));
+      }
       if (flySpeed !== 60) q.set("spd", String(flySpeed));
       if (matSet) q.set("mats", matSet);
       if (wetSeason !== "auto") q.set("wet", wetSeason === "wet" ? "1" : "-1");
@@ -227,7 +319,7 @@ export function App() {
     }
     const qs = q.toString();
     window.history.replaceState(null, "", qs ? `?${qs}` : window.location.pathname);
-  }, [view, camMode, spawnKm, exaggeration, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion]);
+  }, [view, camMode, spawnKm, exaggeration, flyAltM, flyAim, flySpeed, matSet, wetSeason, tintStrength, showLanes, showCatalogue, placesUrl, routesUrl, showBlueprints, blueprintUrl, timeVersion]);
   const overlaysRef = useRef<Record<string, HTMLImageElement>>({});
   const decodedPxRef = useRef<Record<string, Uint8ClampedArray>>({});
   const [layers, setLayers] = useState<Record<string, boolean>>({
@@ -532,6 +624,7 @@ export function App() {
       <Fly3D key={presetNonce} heights={displayHeights()!} size={meta.imageWidth}
         metresPerPixel={meta.metresPerPixel} textureCanvas={canvasRef.current}
         spawnKm={spawnKm} exaggeration={exaggeration} mode={camMode}
+        startAltM={flyAltM} aimYawDeg={flyAim.yaw} aimPitchDeg={flyAim.pitch}
         matSet={matSet || undefined}
         tintStrength={tintStrength} showLanes={showLanes} flySpeed={flySpeed}
         onPosition={(x, z, alt, headingDeg) => {

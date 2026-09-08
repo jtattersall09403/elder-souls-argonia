@@ -1,4 +1,5 @@
-// Water probe (decision 0047 item 8): ONE browser session against the BUILT
+// Water probe (decision 0047 item 8): ONE browser session, ONE page load,
+// against the BUILT
 // studio, served locally, low tier, 480x270, numeric assertions at the owner's
 // key sites (docs/research/rendering/water-handoff.md § Key sites) plus the
 // wet/dry season toggles at the marsh. No screenshot is ever read by an agent:
@@ -42,6 +43,9 @@ const SITE_TIMEOUT_MS = 90_000;
 /** The first flyover page in a fresh context compiles every terrain,
  * vegetation and water program on software GL before its first frame. */
 const FLY_SETTLE_TIMEOUT_MS = 240_000;
+/** A teleport (`window.__STUDIO_GOTO__`) keeps those programs compiled: only
+ * the scene remount and a handful of frames are left to wait for. */
+const TELEPORT_SETTLE_TIMEOUT_MS = 60_000;
 
 // x/z in km (the studio URL unit); points are probed at the site centre in
 // metres. `expect` is what the CPU model must say there.
@@ -86,6 +90,21 @@ async function waitFor(url) {
     await new Promise((res) => setTimeout(res, 500));
   }
   throw new Error(`server never came up at ${url}`);
+}
+
+/** A site's query string as a `window.__STUDIO_GOTO__` argument (x/z in km). */
+function gotoArg(q, timeoutMs) {
+  const p = new URLSearchParams(q);
+  const num = (k) => (p.has(k) ? Number(p.get(k)) : undefined);
+  return {
+    view: p.get("view") ?? "map",
+    cam: p.get("cam") === "orbit" ? "orbit" : "fly",
+    x: num("x"), z: num("z"), alt: num("alt"), yaw: num("yaw"), pitch: num("pitch"),
+    t: p.get("t") ?? undefined,
+    wet: num("wet") ?? 0,
+    frames: SETTLE_FRAMES,
+    timeoutMs,
+  };
 }
 
 function siteXZ(q) {
@@ -180,9 +199,11 @@ try {
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader"],
   });
   const pageErrors = [];
-  /** One browser context (renderer process) per site: a tab whose main thread
-   * hangs on software GL must not queue its navigation behind every later
-   * site (one hang turned into six "interrupted by another navigation"). */
+  /** A fresh browser context (renderer process): used for the first site and
+   * as the fallback whenever a site cannot be teleported to or has just
+   * failed — a tab whose main thread hangs on software GL must not queue its
+   * navigation behind every later site (one hang turned into six "interrupted
+   * by another navigation"). */
   let context = null;
   let page = null;
   const freshPage = async () => {
@@ -196,10 +217,18 @@ try {
     page.on("requestfailed", (r) => pageErrors.push(`request failed: ${r.url().slice(0, 200)} ${r.failure()?.errorText ?? ""}`));
   };
 
+  /** Boot once, teleport after: a fresh context recompiles every terrain,
+   * vegetation and water program on software GL (minutes per site). The
+   * in-page hook moves the studio without a reload, so the programs stay
+   * compiled; a site that cannot teleport falls back to a fresh context and
+   * says so, which also restores the old per-site failure isolation. */
+  let hookAvailable = false;
+  let needFreshContext = true;
+
   for (const s of RUN) {
     const ts = Date.now();
     const errBefore = pageErrors.length;
-    await freshPage();
+    const failuresBefore = failures.length;
     const url = `${BASE}?${s.q}&${COMMON}`;
     const checks = [];
     const fail = (msg) => { checks.push(`FAIL ${msg}`); failures.push(`${s.id}: ${msg}`); };
@@ -207,13 +236,31 @@ try {
     console.log(`== ${s.id}`);
     let dbg = null;
     let probe = null;
+    let loaded = "fresh page";
+    if (hookAvailable && !needFreshContext) {
+      try {
+        await Promise.race([
+          page.evaluate((site) => window.__STUDIO_GOTO__(site), gotoArg(s.q, TELEPORT_SETTLE_TIMEOUT_MS - 10_000)),
+          new Promise((_, rej) => setTimeout(() => rej(new Error("teleport did not resolve")), TELEPORT_SETTLE_TIMEOUT_MS)),
+        ]);
+        loaded = "teleport";
+      } catch (e) {
+        checks.push(`     teleport failed (${String(e).slice(0, 120)}) — falling back to a fresh context`);
+        needFreshContext = true;
+      }
+    }
+    if (loaded !== "teleport") await freshPage();
     try {
-      // "commit", not "load": chunk streaming keeps the load event away for
-      // minutes on software GL; the frame counter below is the real gate.
-      await page.goto(url, { waitUntil: "commit", timeout: SITE_TIMEOUT_MS });
-      await page.waitForFunction(
-        (n) => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames >= n && !!window.__STUDIO_WATER_PROBE__,
-        SETTLE_FRAMES, { timeout: s.q.includes("view=fly3d") ? FLY_SETTLE_TIMEOUT_MS : SITE_TIMEOUT_MS, polling: 250 });
+      if (loaded !== "teleport") {
+        // "commit", not "load": chunk streaming keeps the load event away for
+        // minutes on software GL; the frame counter below is the real gate.
+        await page.goto(url, { waitUntil: "commit", timeout: SITE_TIMEOUT_MS });
+        await page.waitForFunction(
+          (n) => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames >= n && !!window.__STUDIO_WATER_PROBE__,
+          SETTLE_FRAMES, { timeout: s.q.includes("view=fly3d") ? FLY_SETTLE_TIMEOUT_MS : SITE_TIMEOUT_MS, polling: 250 });
+        hookAvailable = await page.evaluate(() => typeof window.__STUDIO_GOTO__ === "function");
+      }
+      needFreshContext = false;
       const centre = siteXZ(s.q);
       const points = s.grid ? gridAround(centre) : [centre];
       // Poll for real ground under the centre (chunks stream in), bounded.
@@ -231,6 +278,7 @@ try {
     } catch (e) {
       fail(`site did not settle: ${String(e).slice(0, 200)}`);
       // the next site gets a fresh context; nothing to unwind here
+      needFreshContext = true;
     }
 
     // frame rate over a fixed window; at the fall sites, also with the falls
@@ -489,9 +537,12 @@ try {
       else fail(`hiding the strips changes nothing at the chute (ΔRGB ${stripsOwn.toFixed(2)})`);
     }
 
+    // A site that failed may have left its page in an unknown state: the next
+    // site starts from a fresh context rather than inheriting it.
+    if (failures.length > failuresBefore) needFreshContext = true;
     const secs = ((Date.now() - ts) / 1000).toFixed(1);
-    report.push(`## ${s.id} (${secs} s)\nurl: ?${s.q}&${COMMON}\n${checks.join("\n")}\nscreenshot: water-${s.id}.png\n`);
-    console.log(checks.join("\n"));
+    report.push(`## ${s.id} (${secs} s, ${loaded})\nurl: ?${s.q}&${COMMON}\n${checks.join("\n")}\nscreenshot: water-${s.id}.png\n`);
+    console.log(`${checks.join("\n")}\n     [${secs} s, ${loaded}]`);
   }
 
   // (e) no perf cliff at the falls: with the falls layer drawn, each fit site
