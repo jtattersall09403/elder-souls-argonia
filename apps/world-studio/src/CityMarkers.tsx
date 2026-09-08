@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { OVERLAY_LAYER } from "./water/waterMaterial";
+import { OVERLAY_LAYER } from "@elder-souls/game-core/water/render/waterMaterial";
 import { cityMarkers, type CityMarkerSpec } from "./cityMarkerData";
 import { loadPlaces } from "./places/placesData";
 import { loadBlueprints } from "./blueprints/blueprintsData";

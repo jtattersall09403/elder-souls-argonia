@@ -12,9 +12,9 @@ import { updateGroundLocalWater } from "@elder-souls/game-core/water/render/grou
 import { parseWaterLayers } from "@elder-souls/game-core/water/render/types";
 import type { WaterDebugState, WaterRuntime } from "@elder-souls/game-core/water/render/types";
 import type { Vec3 } from "@elder-souls/contracts";
-import { WATER_TIERS, type WaterTier } from "./waterMaterial";
-import { WaterPipeline } from "./WaterPipeline";
-import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "./WaterSurfaceMesh";
+import { WATER_TIERS, type WaterTier } from "@elder-souls/game-core/water/render/waterMaterial";
+import { WaterPipeline } from "@elder-souls/game-core/water/render/WaterPipeline";
+import { WaterSurfaceMesh, type ContactBody, type WaterSurfaceHandle } from "@elder-souls/game-core/water/render/WaterSurface";
 
 /**
  * The Phase 8b water stack for a studio canvas: loads the compiled water

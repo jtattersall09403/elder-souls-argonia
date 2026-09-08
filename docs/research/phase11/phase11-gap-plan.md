@@ -330,8 +330,10 @@ the record links it). Alongside water: yes.
 - `CityMarkers.tsx` grew a distance-faded label system in the review; when
   the game needs map/compass markers, extract it to `packages/game-core`
   (the data half, `cityMarkerData.ts`, already imports only contracts).
-- `apps/world-studio/src/water/legacy/*` duplicates the package water
-  renderer behind `?water=legacy` — the water agent's to delete at close.
+- ~~`apps/world-studio/src/water/legacy/*` duplicates the package water
+  renderer behind `?water=legacy`~~ — DONE 2026-09-08: the legacy copies, the
+  studio's four re-export shims and the `?water=legacy` flag are gone;
+  importers use `@elder-souls/game-core/water/...` directly.
 - `docs/PROGRESS.md` is 210 lines against its 80-line rule; ~96 of them are
   the water pass's narrative in *Waiting on user*, which duplicates
   `water-handoff.md`. The water agent trims it at close; the Phase 11 row

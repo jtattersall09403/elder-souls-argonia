@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { PRECIP_LAYER } from "../water/waterMaterial";
+import { PRECIP_LAYER } from "@elder-souls/game-core/water/render/waterMaterial";
 import { lastWeatherSample } from "./weatherState";
 
 /**

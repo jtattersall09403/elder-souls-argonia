@@ -560,7 +560,6 @@ export function WorldSky({
   const { scene, camera, gl } = useThree();
   const base = import.meta.env.BASE_URL;
   const rainBudget = useMemo(() => rainDropBudget(), []);
-  const legacyWater = useMemo(() => new URLSearchParams(window.location.search).get('water') === 'legacy', []);
   ensureAirPixels(base);
   (window as unknown as { __SCENE__?: THREE.Scene }).__SCENE__ = scene;
   (window as unknown as { __THREE__?: typeof THREE }).__THREE__ = THREE;
@@ -1083,7 +1082,7 @@ void main() {
     // its full delta. First frame seeds actual weather. Epoch scrubs alter
     // only the target, never reset phases or smooth authored tide/season.
     const waveDelta = document.hidden || state.current.waterWaveResume ? 0 : delta;
-    state.current.waterWaveScale = legacyWater ? waveTarget : advanceWaveAmplitude(state.current.waterWaveScale, waveTarget, waveDelta);
+    state.current.waterWaveScale = advanceWaveAmplitude(state.current.waterWaveScale, waveTarget, waveDelta);
     if (!document.hidden) state.current.waterWaveResume = false;
     setWindWaveScale(state.current.waterWaveScale);
     // Lightning also lifts the scene light for the flash frames.
@@ -1206,7 +1205,7 @@ void main() {
       shadowMapEnabled: gl.shadowMap.enabled,
       hemiIntensity: hemiRef.current?.intensity ?? -1,
     } as SkyDebugState;
-  }, legacyWater ? 0 : -2);
+  }, -2);
 
   return (
     <SkyContext.Provider value={{ csm }}>

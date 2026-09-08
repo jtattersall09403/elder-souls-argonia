@@ -262,7 +262,6 @@ export function App() {
   // Reproducible URLs: keep view state in the query string.
   useEffect(() => {
     const q = new URLSearchParams();
-    if (urlParams.get("water") === "legacy") q.set("water", "legacy");
     if (urlParams.get("waterDataset") === "preview") q.set("waterDataset", "preview");
     if (urlParams.has("wq")) q.set("wq", urlParams.get("wq")!);
     if (urlParams.get("hud") === "0") q.set("hud", "0");
