@@ -57,7 +57,7 @@ def test_production_registration_uses_real_terrain_support_not_a_magic_overhang(
             AUTHORED_UV_EXTENT_M)
 
 
-def test_all_fifteen_profiles_execute_with_distinct_signed_footprints_and_exact_manifest():
+def test_all_profiles_execute_with_distinct_signed_footprints_and_exact_manifest():
     records = [_record(kind, index) for index, kind in enumerate(sorted(tr.KIND_SPECS))]
     plan = _plan(records)
     wet = np.zeros((41, 41), dtype=bool)
@@ -70,9 +70,9 @@ def test_all_fifteen_profiles_execute_with_distinct_signed_footprints_and_exact_
 
     assert result.shape == (41, 41)
     assert np.all(np.isfinite(result))
-    assert len(stats) == len(tr.KIND_SPECS) == 15
-    assert len({row["profile"] for row in stats}) == 15
-    assert len({row["deltaSha256"] for row in stats}) == 15
+    assert len(stats) == len(tr.KIND_SPECS) == 16
+    assert len({row["profile"] for row in stats}) == 16
+    assert len({row["deltaSha256"] for row in stats}) == 16
     assert all(row["affectedSamples"] > 0 and row["meanAbsDeltaM"] > 0 for row in stats)
     for row in stats:
         if row["action"] == "carve":
@@ -208,6 +208,20 @@ def test_authored_orientation_overrides_derived_axis():
     _result, _manifest, stats = raster.apply_plan(_height(), _plan([record]), MPS)
     assert stats[0]["axis"] == [0.0, 1.0]
     assert stats[0]["axisSource"] == "authored-orientation"
+
+
+def test_explicitly_elevated_bench_builds_the_promised_cliff_and_level_shelf():
+    record = _record("elevated-cliff-bench", 0, radius=12.0)
+    record["terrainRequests"][0]["delivery"].update({
+        "heightM": 40.0, "access": "climb-only",
+    })
+    base = np.zeros((41, 41), dtype=np.float32)
+    result, _manifest, stats = raster.apply_plan(base, _plan([record]), MPS)
+    assert stats[0]["action"] == "raise"
+    assert stats[0]["profile"] == "one-sided-cliff-bench"
+    assert result[20, 20] == pytest.approx(40.0)
+    assert result[20, 15] == pytest.approx(40.0)
+    assert result[20, 26] == pytest.approx(0.0)
 
 
 def test_note_is_explanation_only_and_never_drives_raster_geometry():

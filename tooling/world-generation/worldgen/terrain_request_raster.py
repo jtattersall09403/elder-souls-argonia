@@ -226,6 +226,18 @@ def _profile_weight(profile: str, x: np.ndarray, z: np.ndarray, parameters: dict
         width = float(parameters["shelfWidthFraction"])
         cross = _plateau(np.abs(z - 0.12) / max(width, 1e-6), 0.45)
         weight = cross * _plateau(np.abs(x), 0.62)
+    elif profile == "one-sided-cliff-bench":
+        # ``x`` points downhill. Keep a broad, level shelf at and behind the
+        # authored centre, then shed the requested height over a short forward
+        # face. This is distinct from ``contour-shelf``, which only cuts a
+        # standing natural wall; an explicitly elevated bench must create the
+        # wall when the macro solve could not supply one.
+        width = float(parameters["shelfWidthFraction"])
+        face_start = float(parameters["faceStartFraction"])
+        face_end = float(parameters["faceEndFraction"])
+        lateral = _plateau(np.abs(z) / max(width, 1e-6), 0.30)
+        face = 1.0 - _smoothstep01((x - face_start) / max(face_end - face_start, 1e-6))
+        weight = lateral * face
     elif profile == "channel-link":
         bed = float(parameters["bedWidthFraction"])
         cross = _plateau(np.abs(z) / max(bed, 1e-6), 0.20)

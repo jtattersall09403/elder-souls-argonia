@@ -28283,7 +28283,7 @@
       },
       "terrainRequests": [
         {
-          "kind": "cliff-bench",
+          "kind": "elevated-cliff-bench",
           "radiusM": 30.0,
           "delivery": {
             "feature": "elevated-cliff-bench",

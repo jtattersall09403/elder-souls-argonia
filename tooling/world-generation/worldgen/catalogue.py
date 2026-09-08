@@ -224,7 +224,8 @@ REQUIRED_AT = {
 WHY_KEYS = {"founding", "siteAdvantages", "occupantsMotive", "pressures", "wouldChangeIf"}
 TERRAIN_REQUEST_KINDS = {
     "sinkhole", "dry-rise", "knoll", "terrace", "levee", "narrows", "islet", "cut",
-    "pool", "cave-mouth", "cliff-bench", "ford", "gorge", "spring", "hollow",
+    "pool", "cave-mouth", "cliff-bench", "elevated-cliff-bench", "ford", "gorge",
+    "spring", "hollow",
 }
 
 

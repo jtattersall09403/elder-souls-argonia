@@ -77,6 +77,10 @@ KIND_SPECS: dict[str, KindSpec] = {
                            (("floorWidthFraction", 0.24),)),
     "cliff-bench": KindSpec("carve", "contour-shelf", 2.5, 0.25, "local-contour",
                             (("shelfWidthFraction", 0.30),)),
+    "elevated-cliff-bench": KindSpec(
+        "raise", "one-sided-cliff-bench", 12.0, 0.18, "local-gradient",
+        (("shelfWidthFraction", 0.34), ("faceStartFraction", 0.12),
+         ("faceEndFraction", 0.42))),
     "cut": KindSpec("carve", "channel-link", 2.0, 0.35, "nearest-water-path",
                     (("bedWidthFraction", 0.12),)),
     "dry-rise": KindSpec("raise", "flat-top-mound", 2.5, 0.40, "none",
@@ -109,7 +113,7 @@ KIND_SPECS: dict[str, KindSpec] = {
 # a narrows with a pool, an islet with a landing bench, and a gorge with a cave.
 CONTRADICTORY_KINDS = {
     frozenset((raised, carved))
-    for raised in ("dry-rise", "knoll", "islet")
+    for raised in ("dry-rise", "knoll", "islet", "elevated-cliff-bench")
     for carved in ("sinkhole", "hollow", "gorge")
 }
 
