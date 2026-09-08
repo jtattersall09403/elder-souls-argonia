@@ -28,7 +28,6 @@ from . import catalogue, lint_prose
 REGISTRIES = catalogue.REPO_ROOT / "world" / "sources" / "registries"
 ROUTES = catalogue.REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 BLUEPRINTS = catalogue.REPO_ROOT / "world" / "sources" / "blueprints"
-DEBT_MANIFEST = catalogue.REPO_ROOT / "world" / "sources" / "sites" / "prose-link-debt.json"
 
 # The user-facing link names. questRef is explicit even though the B9b summary
 # accidentally omitted it from its enumerated list: quest titles are one of its
@@ -117,7 +116,6 @@ def load_entities(records: list[dict] | None = None,
                   blueprints: list[dict] | None = None) -> list[Entity]:
     records = records if records is not None else [
         place for region in catalogue.load_region_files() for place in region.places
-        if place.get("status") not in {"cut", "deferred"}
     ]
     entities: list[Entity] = []
     for kind, filename in (("quest", "quests.json"), ("npc", "npcs.json"),
@@ -539,7 +537,6 @@ def _blueprint_prose(bp: dict) -> list[tuple[str, str]]:
 def check_all(records: list[dict] | None = None, blueprints: list[dict] | None = None) -> Result:
     records = records if records is not None else [
         place for region in catalogue.load_region_files() for place in region.places
-        if place.get("status") not in {"cut", "deferred"}
     ]
     if blueprints is None:
         blueprints = [json.loads(path.read_text(encoding="utf-8")).get("blueprint", {})
@@ -571,37 +568,11 @@ def _live_entity_index() -> EntityIndex:
 
 
 def check_blueprint(bp: dict) -> list[str]:
-    """Blueprint validator hook: only new HARD debt blocks existing records."""
+    """Blueprint validator hook: every unresolved HARD mention blocks."""
     entities = _live_entities()
     result = check_record(bp, _blueprint_prose(bp), list(entities), _live_entity_index())
     return [f"{finding.record_id}: referential prose: {finding.message}"
-            for finding in new_hard_debt(result)]
-
-
-def load_debt(path: Path = DEBT_MANIFEST) -> set[str]:
-    if not path.exists():
-        return set()
-    return {row["key"] for row in json.loads(path.read_text(encoding="utf-8")).get("rows", [])}
-
-
-def new_hard_debt(result: Result, path: Path = DEBT_MANIFEST) -> list[Finding]:
-    """Return only HARD misses not recorded by the reviewed debt manifest."""
-    baseline = load_debt(path)
-    return [finding for finding in result.hard if finding.key not in baseline]
-
-
-def debt_document(result: Result) -> dict:
-    hard = sorted(result.hard, key=lambda finding: finding.key)
-    return {
-        "schemaVersion": 1,
-        "_": ("Reviewed Phase 11 B9b referential-prose debt. The gate permits these exact "
-              "record/field/entity joins while repairs land; resolved rows may disappear, and "
-              "every new row fails. Items remain WARN until the Phase 13 register closes."),
-        "counts": dict(sorted(Counter(f.entity_class for f in hard).items())),
-        # key is deliberately human-readable: record | prose field | class | id.
-        # Keeping one canonical string also makes review diffs pleasantly small.
-        "rows": [{"key": finding.key} for finding in hard],
-    }
+            for finding in result.hard]
 
 
 def migrate_record_prose_refs(record: dict, prose: list[tuple[str, str]],
@@ -673,7 +644,6 @@ def build_migration_plan() -> list[MigrationFile]:
     records = [
         record for _path, document in catalogue_docs
         for record in document.get("places") or []
-        if record.get("status") not in {"cut", "deferred"}
     ]
     blueprints = [document.get("blueprint", {}) for _path, document in blueprint_docs]
     entities = load_entities(records, blueprints)
@@ -685,9 +655,6 @@ def build_migration_plan() -> list[MigrationFile]:
         additions = 0
         migrated_places = []
         for record in document.get("places") or []:
-            if record.get("status") in {"cut", "deferred"}:
-                migrated_places.append(record)
-                continue
             migrated, count = migrate_record_prose_refs(
                 record, list(lint_prose.iter_catalogue_prose(record)), entities, index)
             migrated_places.append(migrated)
@@ -748,11 +715,9 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{result.records} records; " + ", ".join(
         f"{kind} {counts['mentions']} mentions/{counts['hard']} hard/{counts['warn']} warn"
         for kind, counts in result.counts().items()))
-    fresh = new_hard_debt(result)
-    print(f"reviewed hard debt {len(result.hard) - len(fresh)}; NEW hard debt {len(fresh)}")
     for finding in result.findings[:200]:
         print(f"{finding.severity.upper()} {finding.record_id} {finding.field}: {finding.message}")
-    return 1 if fresh else 0
+    return 1 if result.hard else 0
 
 
 if __name__ == "__main__":

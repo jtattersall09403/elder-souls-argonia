@@ -1019,6 +1019,8 @@
         ],
         "waterBodyId": "water.bay.mire",
         "piledToBed": true,
+        "assetRef": "vanilla:architecture/docks/dockstrsol01",
+        "groundFit": "stilt",
         "why": {
           "what": "The piled dock that reaches from the quay deck into the deep part of the bay.",
           "whyHere": "A laden boat cannot come to the bank, so the landing must come to the boat.",

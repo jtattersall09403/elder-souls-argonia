@@ -427,7 +427,13 @@
         "destinations": []
       },
       "sitingNote": "Bound to the southern channel its founding names: an outsiders' landing has to be on navigable water; the unconstrained plot left it 260 m dry of the nearest one.",
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.artisan-chime-makers",
@@ -1556,6 +1562,20 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "contents.loot[0].provenance",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "playerPurpose.hook",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.mnemic-egg"
+        }
       ]
     },
     {
@@ -1978,7 +1998,13 @@
             "provenance": "a crew that cannot spend what it takes"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.boardwalk-branching-many-ways",
@@ -2432,7 +2458,13 @@
             "provenance": "what the looters had already lifted and dropped"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.silhouette",
+          "itemRef": "item.pahnjee"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.bone-waystation-interior",
@@ -3082,6 +3114,12 @@
       },
       "assetGaps": [
         "Telvanni pod/tower statics retextured to root for the root-tower silhouette (BM&V mushroomtower/telvanni, retexture only, no new mesh)"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
       ]
     },
     {
@@ -3911,7 +3949,17 @@
             "provenance": "left for the next traveller, by shelter custom"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.climbable-ruin-roof-terrace",
@@ -4787,6 +4835,20 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
       ]
     },
     {
@@ -5621,7 +5683,13 @@
             "provenance": "left by whoever came last"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.hist-heartland.sap-touched-miredancer"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.dream-wallow-starblossom",
@@ -7133,6 +7201,20 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.hist-heartland.helstrom"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.hist-heartland.helstrom"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
       ]
     },
     {
@@ -8987,6 +9069,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
       ]
     },
     {
@@ -9836,7 +9924,13 @@
             "provenance": "left by whoever came last"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "itemRef": "item.mnemic-egg"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.hist-less-refuge-wild",
@@ -10073,7 +10167,13 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.league-of-open-water"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.hist-paatru-lowcrown",
@@ -11177,7 +11277,37 @@
             "provenance": "a civic quarter nobody has emptied"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "localStateVariants[0].when",
+          "itemRef": "item.eye-of-the-root"
+        },
+        {
+          "sourcePath": "vibe.approach",
+          "itemRef": "item.eye-of-the-root"
+        },
+        {
+          "sourcePath": "vibe.materials",
+          "itemRef": "item.eye-of-the-root"
+        },
+        {
+          "sourcePath": "vibe.mood",
+          "placeRef": "place.hist-heartland.helstrom"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.unbound-root"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "itemRef": "item.eye-of-the-root"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "itemRef": "item.eye-of-the-root"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.marsh-giant-ground-basin",
@@ -11388,7 +11518,13 @@
             "provenance": "what the giant has trodden into its own channels"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "itemRef": "item.depth-stick"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.mass-grave-flu-memorial",
@@ -14148,7 +14284,13 @@
             "provenance": "household goods, one family's whole holding"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.pilgrim-camp-hist-tsoko",
@@ -16536,7 +16678,13 @@
           }
         ]
       },
-      "sitingNote": "Its identity is the trunk root UNDER Helstrom, so it is bound to the city rather than left where an unconstrained plot put it (2.4 km north, by the Stormhold road). Round 4 network-role bind."
+      "sitingNote": "Its identity is the trunk root UNDER Helstrom, so it is bound to the city rather than left where an unconstrained plot put it (2.4 km north, by the Stormhold road). Round 4 network-role bind.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.root-gallery-kept-light",
@@ -17619,7 +17767,13 @@
             "provenance": "spoil the worm has pushed out of the root layer"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.rootworm-station-helstrom",
@@ -22301,7 +22455,17 @@
             "provenance": "untouched since the tenders stopped coming"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.urn-vault-blasphemers",
@@ -23533,7 +23697,13 @@
             "provenance": "nesting stock that nothing else approaches"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "itemRef": "item.depth-stick"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.wamasu-wallow-struck-ground",
@@ -24181,7 +24351,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.interior-swamp.gorge-045"
+      "scourSiteId": "site.scour.interior-swamp.gorge-045",
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.wild-hist-mad-one",
@@ -24380,7 +24556,21 @@
             "provenance": "left by whoever came last"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.track.hutan-tzel-totem-line"
+        },
+        {
+          "sourcePath": "vibe.condition",
+          "routeRef": "route.track.hutan-tzel-totem-line"
+        },
+        {
+          "sourcePath": "vibe.materials",
+          "routeRef": "route.track.hutan-tzel-totem-line"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.wild-hist-sleeper",
@@ -25029,7 +25219,13 @@
             "provenance": "the Last Warden was made here; what is left in the sap is the working out"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.unbound-root"
+        }
+      ]
     },
     {
       "id": "place.hist-heartland.xal-meeruth-station",

@@ -12,8 +12,32 @@
     },
     "macroEvidence": [
       {
-        "sourcePaths": ["assetPlan", "contents", "discovery", "eraLayers", "hostility", "notableNpcSlots", "playerPurpose", "questHooks", "relations", "rewardProfile", "season", "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe"],
-        "evidenceRefs": ["district.wamasu-pond-adult.bank", "parcel.wamasu-pond-adult.offering-platform", "landmark.wamasu-pond-adult.cave-mouth", "combat.wamasu-pond-adult.pond", "approach.wamasu-pond-adult.pole-lane", "o.wamasu"]
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe"
+        ],
+        "evidenceRefs": [
+          "district.wamasu-pond-adult.bank",
+          "parcel.wamasu-pond-adult.offering-platform",
+          "landmark.wamasu-pond-adult.cave-mouth",
+          "combat.wamasu-pond-adult.pond",
+          "approach.wamasu-pond-adult.pole-lane",
+          "o.wamasu"
+        ]
       }
     ],
     "boundary": [
@@ -202,20 +226,20 @@
             0.59983874
           ],
           [
-            0.340129007,
-            0.611423464
+            0.340128244,
+            0.611421802
           ],
           [
-            0.355366672,
-            0.637953326
+            0.354822879,
+            0.637409537
           ],
           [
-            0.359262424,
-            0.641850107
+            0.359262489,
+            0.641850063
           ],
           [
             0.359308008,
-            0.641819317
+            0.641819316
           ],
           [
             0.347872704,
@@ -743,20 +767,12 @@
             0.639587
           ],
           [
-            0.355801223,
-            0.637620704
+            0.35525874,
+            0.637078222
           ],
           [
-            0.355801223,
-            0.635179532
-          ],
-          [
-            0.35322443,
-            0.632602739
-          ],
-          [
-            0.353292,
-            0.631992
+            0.35525874,
+            0.633958946
           ],
           [
             0.352139464,
@@ -878,7 +894,8 @@
           0.331728,
           0.597002
         ],
-        "assetRef": "terrain.cave-mouth.flooded",
+        "assetRef": "bmv:architecture/philscaves/small/doorcaveb",
+        "groundFit": "dug-in",
         "yawDeg": 93.0,
         "notes": "West waterline at 9.24 m, bank slope 6.3 deg. Entered from the water; Phase 12 interior claim: flooded-cave delve, size band S1, wet fraction 0.4, one entrance, no exterior shell.",
         "why": {
@@ -1158,6 +1175,9 @@
         ],
         "waterBodyId": "water.creek.pole-lane",
         "piledToBed": true,
+        "groundFit": "stilt",
+        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+        "yawDeg": 177.0,
         "why": {
           "what": "A small piled landing at the head of the poling creek where boats stop.",
           "whyHere": "The pond has no water link, so a boat can come no nearer than the creek head 150 m south-east of it and 8 m below. The published channel already ends within a boat's length of the piles and carries 0.84 m of water on the approach, so the channel was re-ended on the authored berth (fit `water-to-dock`).",

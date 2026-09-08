@@ -74,6 +74,15 @@ def test_policy_refresh_reuses_measured_manifest_without_rebuilding_geometry(tmp
     assert validate_asset_placement(refreshed["assets"][0]) == []
 
 
+def test_policy_refresh_ignores_retired_probe_output(tmp_path):
+    manifest = tmp_path / "retired-probe.kit.json"
+    original = {"kit": "retired-probe", "assets": [_asset()]}
+    manifest.write_text(json.dumps(original))
+
+    assert refresh_built_manifests(tmp_path) == []
+    assert json.loads(manifest.read_text()) == original
+
+
 def test_vet_fails_absent_and_stale_placement_metadata(tmp_path):
     manifest = tmp_path / "sample.kit.json"
     manifest.write_text(json.dumps({"assets": [_asset()]}))
@@ -95,12 +104,9 @@ def test_repository_used_asset_coverage_is_dynamic_and_explicit():
     # determine it.  Every resolvable identity must have an asset-level review.
     assert report.resolved
     assert report.missing_policies == {}
-    # These are real, current blueprint gaps. Exact comparison means a newly
-    # introduced unresolved physical assetRef cannot quietly join the list.
-    assert set(report.unresolved) == {
-        "flora.hist.tsono-xuhil",
-        "terrain.cave-mouth.flooded",
-    }
+    # Exact zero means a newly introduced unresolved physical assetRef cannot
+    # quietly join a reviewed exception list.
+    assert report.unresolved == {}
     assert set(report.expanded) == {"dungeon-root-v1"}
     assert all("unresolved physical assetRef" in row for row in coverage_findings(report))
 

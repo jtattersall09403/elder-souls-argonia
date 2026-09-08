@@ -85,6 +85,24 @@ def _bp(**over):
 KNOWN = {"place.testreg.reed-cut-camp", "place.testreg.other"}
 
 
+def test_dock_requires_a_physical_asset():
+    bp = {
+        "id": "place.testreg.reed-cut-camp",
+        "docks": [{"id": "dock.reed-cut-camp.landing", "position": [0.15, 0.15],
+                   "hullClass": "canoe"}],
+        "networkTerminals": [{"id": "terminal.reed-cut-camp.landing", "kind": "channel",
+                              "dockId": "dock.reed-cut-camp.landing",
+                              "routeId": "waterway.reed-cut-camp"}],
+    }
+    bp["districts"] = []
+    bp["parcels"] = []
+    bp["landmarks"] = []
+    # With no live-catalogue set, the validator performs schema checks without
+    # loading province geometry; unrelated required-field findings are fine.
+    generic_errors = blueprint.validate_blueprint(bp)
+    assert any("physical berth cannot compile" in error for error in generic_errors)
+
+
 def _threshold():
     """A point on the derived outline: doors sit on the wall they claim."""
     poly = _derived()

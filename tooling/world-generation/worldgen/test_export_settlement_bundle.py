@@ -132,6 +132,17 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     assert len(bundle["groundTreatments"]) == len(bundle["navmeshCuts"]) == 1
     assert bundle["settlements"][0]["floodBandReport"] == {"warningCount": 0}
 
+    compiled_path = tmp_path / "sett/place.a.settlement.json"
+    compiled = json.loads(compiled_path.read_text())
+    compiled["placements"][0].pop("kit")
+    compiled["compiledObjects"], errors = cs.compiled_blueprint_objects(
+        bp["blueprint"], compiled["placements"], [], _MetreSurvey())
+    assert errors == []
+    _write(compiled_path, compiled)
+    with pytest.raises(ValueError, match="physical placement has no built kit"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, [structure]))
+
 
 @pytest.mark.parametrize("mutation, expected", [
     (lambda asset: asset.pop("placement"), "no placement metadata"),

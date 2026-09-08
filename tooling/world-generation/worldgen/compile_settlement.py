@@ -1102,7 +1102,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                           round(survey.height_at(x, z) + asset["sizeM"][2] * scale / 2, 3),
                           round(z, 3)],
             "yawDeg": float(landmark.get("yawDeg", 0.0)), "scale": scale,
-            "groundFit": "direct",
+            "groundFit": landmark.get("groundFit", "direct"),
             "provenance": _provenance(bp_id, seed, "landmark/authored", asset["id"], []),
         })
 
@@ -1114,22 +1114,21 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     for dock in sorted(bp.get("docks", []), key=lambda d: d["id"]):
         x, z = survey.uv_to_m(*dock["position"])
         asset = shelf.locate(dock["assetRef"]) if dock.get("assetRef") else None
-        if dock.get("assetRef") and asset is None:
-            errors.append(f"{dock['id']}: assetRef {dock.get('assetRef')!r} is not in a built kit")
+        if asset is None:
+            errors.append(f"{dock['id']}: physical dock assetRef {dock.get('assetRef')!r} "
+                          f"is missing or is not in a built kit")
             continue
         placements.append({
             "id": f"{bp_id}.{dock['id']}",
             "dockId": dock["id"], "objectKind": "dock",
-            "assetId": asset["id"] if asset else "dock-placeholder",
-            "kit": asset["kit"] if asset else None,
+            "assetId": asset["id"],
+            "kit": asset["kit"],
             "positionM": [round(x, 2), round(survey.height_at(x, z), 3), round(z, 2)],
             "yawDeg": float(dock.get("yawDeg", 0.0)),
             "scale": float(dock.get("scale", 1.0)),
-            "groundFit": "stilt",
+            "groundFit": dock.get("groundFit", "stilt"),
             "piledToBed": True,
-            "provenance": _provenance(bp_id, seed,
-                                       "dock/authored" if asset else "dock/specification",
-                                       asset["id"] if asset else "dock-placeholder", []),
+            "provenance": _provenance(bp_id, seed, "dock/authored", asset["id"], []),
         })
 
     # --- door reachability, every compile -------------------------------

@@ -3577,6 +3577,9 @@
         ],
         "waterBodyId": "water.pool.nine-trunks-west",
         "piledToBed": true,
+        "groundFit": "stilt",
+        "assetRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/kothringi/tamu_wooddock01",
+        "yawDeg": 42.0,
         "why": {
           "what": "The landing at the natural head of the authored poling channel south of the nine-trunk ring, where the boat from Uxaneet ties up.",
           "whyHere": "The village is reached by water from Uxaneet as often as by the road. The dock follows the independently solved channel endpoint (fit `to-water`), rather than moving that waterway to validate a preselected berth.",
@@ -4594,6 +4597,32 @@
         "kind": "channel",
         "dockId": "dock.nine-trunks.landing",
         "why": "The dock and pier meet the independently solved poling channel at its south-side natural head; the land path carries baggage north-west to the ring gate."
+      }
+    ],
+    "proseRefs": [
+      {
+        "sourcePath": "causalModel.pressures",
+        "placeRef": "place.hist-heartland.greenspring"
+      },
+      {
+        "sourcePath": "landmarks[2].why.whyHere",
+        "serviceRef": "lodging"
+      },
+      {
+        "sourcePath": "landmarks[4].why.playerPurpose",
+        "placeRef": "place.imperial-fringe.gideon"
+      },
+      {
+        "sourcePath": "landmarks[4].why.playerPurpose",
+        "placeRef": "place.saxhleel-coast.archon"
+      },
+      {
+        "sourcePath": "parcels[1].why.playerPurpose",
+        "serviceRef": "lodging"
+      },
+      {
+        "sourcePath": "parcels[2].why.whyHere",
+        "placeRef": "place.hist-heartland.greenspring"
       }
     ]
   }

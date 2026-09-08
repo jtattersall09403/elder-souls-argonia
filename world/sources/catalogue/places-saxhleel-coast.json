@@ -2528,7 +2528,21 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.veiled-reed"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.archon-trial-ground",
@@ -2893,7 +2907,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.college-of-whispers"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.banner-stack",
@@ -3100,7 +3120,21 @@
         "distanceToRouteM": 389.3,
         "distanceToWaterM": 27.4,
         "score": 1.832
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.saxhleel-coast.portdun-mont"
+        },
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "placeRef": "place.saxhleel-coast.portdun-mont"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.saxhleel-coast.portdun-mont"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.beached-hull-hall",
@@ -3254,7 +3288,13 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.boardwalk-high-stage",
@@ -3571,7 +3611,13 @@
         "reachedVia": [
           "place.saxhleel-coast.estuary-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.broken-xanmeer-coast",
@@ -4281,7 +4327,29 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.climbable-terrace-roof",
@@ -4589,7 +4657,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.coast-guide-camp",
@@ -4966,7 +5040,13 @@
         "score": 5.083
       },
       "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground.",
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.hissmir"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.coast-road-hearth-house",
@@ -5133,7 +5213,17 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.coast-road-tradehouse",
@@ -5438,7 +5528,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.coast-serpent-ground",
@@ -5593,7 +5689,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.seafalls"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.coast-treasure-hunters-camp",
@@ -5741,7 +5843,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.contested-bank",
@@ -5983,7 +6091,13 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.dance-barge-mooring",
@@ -7636,7 +7750,13 @@
           "place.saxhleel-coast.archon"
         ]
       },
-      "sitingNote": "Bound to Archon: the record's identity is 'step off a boat and into the root', so the terminus must sit inside a short walk of the estuary landing."
+      "sitingNote": "Bound to Archon: the record's identity is 'step off a boat and into the root', so the terminus must sit inside a short walk of the estuary landing.",
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.hist-heartland.helstrom"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.estuary-boom-tower",
@@ -7808,7 +7928,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.estuary-ferry-stage",
@@ -8758,7 +8884,13 @@
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
       },
-      "scourSiteId": "site.scour.tropical-jungle.river-mouth-005"
+      "scourSiteId": "site.scour.tropical-jungle.river-mouth-005",
+      "proseRefs": [
+        {
+          "sourcePath": "contents.loot[0].provenance",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
@@ -11947,7 +12079,13 @@
         "distanceToWaterM": 16.5,
         "score": 4.832
       },
-      "sitingNote": "The audit's 'names the Lilmoth-Archon lane but sits 281 m off it' is the record working as written: its hard constraint is no sightline from that lane. Bound to Archon instead, because the customs desk is what makes the lay-by the last stop."
+      "sitingNote": "The audit's 'names the Lilmoth-Archon lane but sits 281 m off it' is the record working as written: its hard constraint is no sightline from that lane. Bound to Archon instead, because the customs desk is what makes the lay-by the last stop.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "routeRef": "route.boat.lilmoth-archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.outer-reef",
@@ -12622,7 +12760,21 @@
         "distanceToRouteM": 27.4,
         "distanceToWaterM": 33.4,
         "score": 6.696
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "contents.loot[0].provenance",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.pirate-freeholds.alten-corimont"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.pearl-lots",
@@ -13701,7 +13853,13 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.quay-tradehouse",
@@ -13934,7 +14092,13 @@
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "serviceRef": "lodging"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.reef-air-pocket",
@@ -14689,7 +14853,17 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "placeRef": "place.saxhleel-coast.seafalls"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.saxhleel-coast.seafalls"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.seafalls-porter-relay",
@@ -14843,7 +15017,13 @@
           "porter"
         ],
         "destinations": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.seafalls-reach",
@@ -16232,7 +16412,13 @@
         "reachedVia": [
           "place.saxhleel-coast.estuary-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.tended-xanmeer-coast",
@@ -16417,7 +16603,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.terrace-village-ridge",
@@ -17160,7 +17352,13 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.tide-street-village",
@@ -17612,7 +17810,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "factionRef": "faction.umbriel-witness-society"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
@@ -18078,7 +18282,13 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.wall-hist-village",
@@ -18480,7 +18690,17 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-guide-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.saxhleel-coast.archon"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.saxhleel-coast.wall-vista-ledge",

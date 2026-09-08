@@ -488,8 +488,10 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
         ids = []
         for raw in doc.get("placements", []):
-            if not raw.get("kit"):  # dock-placeholder is debug data, not geometry
-                continue
+            if not raw.get("kit"):
+                raise ValueError(
+                    f"{raw.get('id', doc['id'])}: compiled physical placement has no built kit"
+                )
             asset = assets.get((raw["kit"], raw["assetId"]))
             if asset is None:
                 raise ValueError(f"{raw['id']}: asset absent from {raw['kit']} manifest")

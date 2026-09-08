@@ -1,7 +1,7 @@
 """Phase 11 B9b named-prose → typed-reference contract."""
 
 import copy
-import json
+from types import SimpleNamespace
 
 from . import prose_links as pl
 
@@ -179,11 +179,20 @@ def test_migration_is_deterministic_idempotent_and_reference_only():
     assert pl.check_record(migrated, prose, entities).findings == []
 
 
-def test_live_debt_is_visible_and_no_new_hard_row_appears():
+def test_province_gate_includes_cut_and_deferred_records(monkeypatch):
+    records = [
+        {"id": "place.test.cut", "name": "Cut Place", "status": "cut"},
+        {"id": "place.test.deferred", "name": "Deferred Place", "status": "deferred"},
+    ]
+    monkeypatch.setattr(
+        pl.catalogue,
+        "load_region_files",
+        lambda: [SimpleNamespace(places=records)],
+    )
+    result = pl.check_all(blueprints=[])
+    assert result.records == 2
+
+
+def test_live_referential_prose_has_zero_debt():
     result = pl.check_all()
-    baseline = pl.load_debt()
-    assert result.hard, "B9b debt was retired: remove the manifest and make this a zero-hard gate"
-    assert "place.dunmer-north.crystalgate|why.siteAdvantages|route|route.road.thorn-tear-road" in baseline
-    assert pl.new_hard_debt(result) == []
-    document = json.loads(pl.DEBT_MANIFEST.read_text(encoding="utf-8"))
-    assert document["counts"] == {"faction": 51, "place": 198, "route": 46, "service": 10}
+    assert result.findings == []

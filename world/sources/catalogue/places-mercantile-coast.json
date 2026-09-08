@@ -224,7 +224,13 @@
         "distanceToRouteM": 93.1,
         "distanceToWaterM": 49.0,
         "score": 3.008
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.alten-meerhleel",
@@ -736,7 +742,13 @@
           "place.mercantile-coast.chasepoint",
           "place.mercantile-coast.soulrest"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.ashfield-hearth",
@@ -887,7 +899,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.ashfield"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.ashroot-village",
@@ -1367,6 +1389,20 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.mnemic-egg"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
       ]
     },
     {
@@ -1759,7 +1795,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.bramman-river-ferry",
@@ -2005,6 +2047,20 @@
       ],
       "services": [
         "ferry"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
       ]
     },
     {
@@ -2230,7 +2286,13 @@
         "supplies": [
           "place.imperial-penal-south.bramman-head"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "serviceRef": "ferry"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.bright-throat-village",
@@ -3020,7 +3082,13 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.chime-relay",
@@ -3189,7 +3257,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.cinder-hermit",
@@ -3358,7 +3432,13 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.ashfield"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.cinderhome",
@@ -3522,7 +3602,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.clandestine-dig",
@@ -3682,7 +3768,17 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.coast-nisswo-house",
@@ -3836,7 +3932,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.coast-road-stage",
@@ -4044,7 +4150,13 @@
         "distanceToRouteM": 89.3,
         "distanceToWaterM": 44.2,
         "score": 5.408
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.coast-road-tradehouse",
@@ -4198,7 +4310,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.coast-toll-bridge",
@@ -4382,7 +4504,17 @@
             "provenance": "the toll box, under the third stone"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.cold-light",
@@ -4606,7 +4738,21 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.mangrove-forest.islet-041"
+      "scourSiteId": "site.scour.mangrove-forest.islet-041",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.long-bar-wreckers"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.collections-bond",
@@ -4796,7 +4942,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.cyrodilic-collections"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.collections-field-station",
@@ -4956,7 +5112,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.cyrodilic-collections"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.crocodile-pens",
@@ -5110,7 +5272,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.drowned-byre",
@@ -5417,7 +5585,17 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.mercantile-coast.alten-meerhleel"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.alten-meerhleel"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.expeditionary-fort",
@@ -5740,7 +5918,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.gar-keepers-village",
@@ -6465,7 +6653,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hajmota-shell-yard",
@@ -6617,7 +6811,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hammock-crown-murkmire",
@@ -7931,7 +8131,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "routeRef": "route.boat.soulrest-blackrose"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.screen-watch"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hestras-lane",
@@ -8083,7 +8293,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.high-junction",
@@ -8964,7 +9180,13 @@
           "place.mercantile-coast.hist-village-hammock",
           "place.mercantile-coast.lilmoth"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.boat.lilmoth-keel-sakka"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.hull-hall",
@@ -9297,7 +9519,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.inhabited-meer-murkmire",
@@ -9574,7 +9802,21 @@
           "place.hist-heartland.xanmeer-fort-defences-working"
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-003"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-003",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.insular-jungle-village",
@@ -9825,7 +10067,17 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.senses",
+          "routeRef": "route.track.hutan-tzel-totem-line"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.hutan-tzel-totem-line"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.ixtaxh-xanmeer",
@@ -10061,7 +10313,17 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.islet-004"
+      "scourSiteId": "site.scour.lake-standing-water.islet-004",
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "factionRef": "faction.an-xileel"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.keel-sakka-falls",
@@ -10220,7 +10482,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.lilmoth-keel-sakka"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.keel-sakka-head",
@@ -10385,7 +10653,13 @@
         "destinations": [
           "place.mercantile-coast.lilmoth"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.lilmoth-keel-sakka"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.keel-sakka-stilts",
@@ -10618,6 +10892,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.lilmoth-keel-sakka"
+        }
       ]
     },
     {
@@ -11259,6 +11539,12 @@
       },
       "services": [
         "ferry"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "serviceRef": "council"
+        }
       ]
     },
     {
@@ -11790,7 +12076,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.alten-meerhleel"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth-canoe-yard",
@@ -12196,7 +12488,13 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.lilmoth-quay-tradehouse",
@@ -12603,6 +12901,16 @@
           },
           "note": "A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks."
         }
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
       ]
     },
     {
@@ -12954,7 +13262,13 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.soulrest-blackrose"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.miregaunt-ward-murkmire",
@@ -13339,7 +13653,13 @@
         "distanceToRouteM": 34.7,
         "distanceToWaterM": 22.6,
         "score": 3.155
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.moonmarch",
@@ -13832,6 +14152,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
       ]
     },
     {
@@ -13985,7 +14311,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.naga-camp-north-road",
@@ -14139,7 +14471,13 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.naga-village-oliis",
@@ -14403,7 +14741,21 @@
         "rivals": [
           "place.mercantile-coast.naga-camp-north-road"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.necropolis-village-murkmire",
@@ -16277,7 +16629,13 @@
             "provenance": "cargo nobody has been able to claim without admitting how it got there"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "serviceRef": "council"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.owing-eviction-camp-west",
@@ -16596,7 +16954,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.nisswo"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.pilgrim-xanmeer",
@@ -17299,7 +17663,17 @@
           "place.mercantile-coast.moonmarch"
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-008"
+      "scourSiteId": "site.scour.lake-standing-water.cove-008",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.rockpark",
@@ -17540,7 +17914,13 @@
         "dependsOn": [
           "place.mercantile-coast.rockpark-dead-hist"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.rockpark-dead-hist",
@@ -17693,7 +18073,17 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.rockpark"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "itemRef": "item.mnemic-egg"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.root-gallery-murkmire",
@@ -18324,7 +18714,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.screen-watch",
@@ -18578,6 +18974,16 @@
       "sitingNote": "Bound to Bramman's Screen: the village exists only as the pilotage of that river mouth. Unbound it landed a mile clear of it in the next culture zone.",
       "services": [
         "ferry"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.boat.soulrest-blackrose"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.boat.soulrest-blackrose"
+        }
       ]
     },
     {
@@ -19212,7 +19618,25 @@
             "provenance": "the burial list, which is shorter than the city admits"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.an-xileel"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.smoulder-cuts",
@@ -19361,7 +19785,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest",
@@ -19692,6 +20122,12 @@
         "tavern",
         "temple",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
       ]
     },
     {
@@ -19918,7 +20354,13 @@
         ]
       },
       "services": [],
-      "scourSiteId": "site.scour.tidal-delta.river-mouth-011"
+      "scourSiteId": "site.scour.tidal-delta.river-mouth-011",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.long-bar-wreckers"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-broken-bond",
@@ -20249,7 +20691,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-divers-yard",
@@ -20446,7 +20894,13 @@
         "score": 5.496
       },
       "scourSiteId": "site.scour.lake-standing-water.cove-069",
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.long-bar-wreckers"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-fair",
@@ -20609,7 +21063,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-foreign-graves",
@@ -20785,7 +21249,17 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.soulrest"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-quay-tradehouse",
@@ -21179,7 +21653,21 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.synod"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.soulrest-whispers-house",
@@ -21339,7 +21827,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.southern-sea-listening-post",
@@ -21500,7 +21994,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.stripped-village-north",
@@ -21728,7 +22228,13 @@
         "rivals": [
           "place.mercantile-coast.stripped-village-quiet"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.stripped-village-quiet",
@@ -22596,7 +23102,13 @@
             "provenance": "ore carts that went in with the road"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.sunkfoot",
@@ -23002,7 +23514,13 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.ashroot-village"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.teeba-enoo-court",
@@ -23230,7 +23748,13 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.alten-meerhleel"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.teeth-of-sithis",
@@ -23507,7 +24031,13 @@
           "place.imperial-fringe.glenbridge"
         ]
       },
-      "scourSiteId": "site.scour.tropical-jungle.summit-049"
+      "scourSiteId": "site.scour.tropical-jungle.summit-049",
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.tempering-ground",
@@ -23741,7 +24271,17 @@
             "provenance": "training gear, including one unaccounted set"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.tidewrack-stilts",
@@ -24378,7 +24918,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.topal-salt-pans",
@@ -24768,7 +25314,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.tunnel-rat-gallery",
@@ -25672,7 +26224,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.vossa-satl"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.wallside-platforms",
@@ -26241,7 +26799,17 @@
         "reachedVia": [
           "place.mercantile-coast.guide-camp-jungle"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.chainbreakers"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.dunmer-north.bogmother"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.whitebone-reef",
@@ -26606,7 +27174,13 @@
         "reachedVia": [
           "place.mercantile-coast.bramman-river-ferry"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.umbriel-witness-society"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.wraxu-frieze",
@@ -27083,6 +27657,12 @@
           },
           "note": "One ledge low enough to land a boat crew on."
         }
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
       ]
     },
     {
@@ -27250,7 +27830,13 @@
         "reachedVia": [
           "place.mercantile-coast.coast-road-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.xanmeer-dive-shaft",
@@ -27629,7 +28215,13 @@
           "note": "The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin."
         }
       ],
-      "scourSiteId": "site.scour.fringe-marsh.isthmus-048"
+      "scourSiteId": "site.scour.fringe-marsh.isthmus-048",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.mercantile-coast.xinchei-konu",
@@ -27861,7 +28453,13 @@
             "provenance": "the keeper’s count, kept unbroken since before the Empire"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     }
   ]
 }

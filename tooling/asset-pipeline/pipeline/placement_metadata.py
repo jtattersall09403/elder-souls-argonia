@@ -195,6 +195,11 @@ def refresh_built_manifests(
         kit_id = document.get("kit")
         if not isinstance(kit_id, str) or not kit_id:
             raise ValueError(f"{path}: built manifest has no kit identity")
+        # Output may retain one-off historical probes after their configs are
+        # removed. They are not buildable or publishable kits, and therefore
+        # are outside the current policy inventory.
+        if kit_id not in inventory.get("kitPolicies", {}):
+            continue
         apply_placement_metadata(document, kit_id, inventory)
         pending.append((path, document))
     for path, document in pending:

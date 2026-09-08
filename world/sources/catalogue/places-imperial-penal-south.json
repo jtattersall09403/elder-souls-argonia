@@ -203,7 +203,13 @@
         "distanceToWaterM": 0.0,
         "score": 4.424
       },
-      "scourSiteId": "site.scour.fringe-marsh.island-012"
+      "scourSiteId": "site.scour.fringe-marsh.island-012",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -872,7 +878,13 @@
           "place.imperial-penal-south.rose-supply-town",
           "place.imperial-penal-south.three-gate-toll"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.rockspring"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.basin-hermit",
@@ -1043,7 +1055,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "routeRef": "route.road.deeps-narrows-drag"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.basin-sinkhole",
@@ -2128,7 +2146,13 @@
             "provenance": "weighted down the offering lines, never recovered"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.blackrose-prison",
@@ -2813,7 +2837,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.bog-iron"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.bramman-head",
@@ -3261,7 +3291,13 @@
         "reachedVia": [
           "place.imperial-penal-south.lake-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.cave-pool-glow",
@@ -3891,7 +3927,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.rose-causeway"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.cliff-vista-basin",
@@ -4292,7 +4334,17 @@
         "distanceToRouteM": 191.5,
         "distanceToWaterM": 55.9,
         "score": 3.636
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-penal-south.longmont"
+        },
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.track.blackrose-cordon-line"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.daril-den",
@@ -4882,7 +4934,13 @@
         ]
       },
       "scourSiteId": "site.scour.lake-standing-water.islet-036",
-      "sitingNote": "Pulled 150 m west onto zone ground (the old position read mercantile-coast on the culture raster) and the arm's compass corrected: it lies north-east of the city, not south."
+      "sitingNote": "Pulled 150 m west onto zone ground (the old position read mercantile-coast on the culture raster) and the arm's compass corrected: it lies north-east of the city, not south.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.rockspring"
+        }
+      ]
     },
     {
       "aliases": [],
@@ -5341,7 +5399,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-052"
+      "scourSiteId": "site.scour.fringe-marsh.water-narrows-052",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-penal-south.three-gate-toll"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -5696,7 +5760,13 @@
         "distanceToRouteM": 186.4,
         "distanceToWaterM": 12.3,
         "score": 3.908
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.flu-quarantine-village",
@@ -5952,7 +6022,13 @@
           "note": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
         }
       ],
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.soulrest-blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.frog-pond-farm-basin",
@@ -6571,7 +6647,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-penal-south.west-market-town"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "routeRef": "route.road.deeps-narrows-drag"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.intact-fort",
@@ -6813,7 +6899,13 @@
         "distanceToWaterM": 34.7,
         "score": 3.563
       },
-      "scourSiteId": "site.scour.fringe-marsh.flood-high-014"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-014",
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "routeRef": "route.road.soulrest-blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -7049,7 +7141,17 @@
         ]
       },
       "scourSiteId": "site.scour.firm-lowland.flood-high-018",
-      "sitingNote": "Moved into the empty marsh quarter north-west of the lake (352 m off any route, danger band 4). Four other fights stood within 250 m of it on the western feeder; a Flu-emptied Kothringi town reads better with empty ground around it."
+      "sitingNote": "Moved into the empty marsh quarter north-west of the lake (352 m off any route, danger band 4). Four other fights stood within 250 m of it on the western feeder; a Flu-emptied Kothringi town reads better with empty ground around it.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.rockspring"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.lake-boardwalk-village",
@@ -7984,7 +8086,21 @@
         "distanceToWaterM": 23.3,
         "score": 5.009
       },
-      "sitingNote": "Bound to the Blackrose–Lilmoth boat lane. The record used to claim it was where the north road ended, at a nine-hundred-metre narrows; neither is on the ground here, so those claims were cut rather than the stage itself."
+      "sitingNote": "Bound to the Blackrose–Lilmoth boat lane. The record used to claim it was where the north road ended, at a nine-hundred-metre narrows; neither is on the ground here, so those claims were cut rather than the stage itself.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.lake-raft-village",
@@ -8290,7 +8406,13 @@
         "creatures": [],
         "npcs": [],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.lake-submerged-xanmeer",
@@ -8802,7 +8924,21 @@
         "score": 4.792
       },
       "scourSiteId": "site.scour.lake-standing-water.cove-017",
-      "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it."
+      "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it.",
+      "proseRefs": [
+        {
+          "sourcePath": "contents.loot[0].provenance",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.blackguards"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.lilmothiit-quarry",
@@ -9032,7 +9168,17 @@
           }
         ]
       },
-      "sitingNote": "Moved 500 m north into the empty quarter (330 m off any route). The robbed substratum was one of five fights in a 250 m radius; a picked-over lost city should not be a roadside stop."
+      "sitingNote": "Moved 500 m north into the empty quarter (330 m off any route). The robbed substratum was one of five fights in a 250 m radius; a picked-over lost city should not be a roadside stop.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.living-treasure-camp",
@@ -9186,7 +9332,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-penal-south.lake-submerged-xanmeer"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.lake-submerged-xanmeer"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.longmont",
@@ -9470,6 +9626,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-penal-south.rockspring"
+        }
       ]
     },
     {
@@ -10152,7 +10314,21 @@
           }
         ]
       },
-      "sitingNote": "Deliberately on the naga-kur-deeps frontier. The verge is the boundary itself, the line at which Blackrose's basin stops being Blackrose's."
+      "sitingNote": "Deliberately on the naga-kur-deeps frontier. The verge is the boundary itself, the line at which Blackrose's basin stops being Blackrose's.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.natural-dive-shaft",
@@ -10947,7 +11123,21 @@
         "supplies": [
           "place.imperial-penal-south.disputed-estate-village"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-penal-south.west-market-town"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-penal-south.west-market-town"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.west-market-town"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.plague-cordon",
@@ -11136,7 +11326,17 @@
         "distanceToWaterM": 56.5,
         "score": 4.329
       },
-      "sitingNote": "The line runs east of Blackrose toward the coast hinterland, so the culture raster reads mercantile-coast on its far side. The record depends on that: the villages beyond the stones still call themselves outside. Kept in place; the 'southern' wording was corrected and the line given its surviving gate."
+      "sitingNote": "The line runs east of Blackrose toward the coast hinterland, so the culture raster reads mercantile-coast on its far side. The record depends on that: the villages beyond the stones still call themselves outside. Kept in place; the 'southern' wording was corrected and the line given its surviving gate.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.prison-born-refuge",
@@ -11398,7 +11598,13 @@
         ]
       },
       "sitingNote": "West of the lake on ground that the culture raster calls mercantile-coast. The refuge exists to be out from under Blackrose, so standing at the edge of its cultural reach suits the record.",
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.hissmir"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.raid-refugee-camp",
@@ -11784,7 +11990,13 @@
         ]
       },
       "sitingNote": "Converted from a hostile claim-gang delve to a wary licensed dig (round 4 hostility rebalance): it was one of sixteen fights inside 250 m of the city's roads, at D1, where the province is already twice Morrowind's fight density.",
-      "scourSiteId": "site.scour.firm-lowland.summit-039"
+      "scourSiteId": "site.scour.firm-lowland.summit-039",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -12105,7 +12317,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-penal-south.longmont"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-penal-south.longmont"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rockspring",
@@ -12341,7 +12563,17 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.longmont"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-penal-south.longmont"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.rose-bone-waystation",
@@ -13820,7 +14052,13 @@
         "distanceToWaterM": 17.3,
         "score": 4.609
       },
-      "sitingNote": "Converted from a hostile clearable delve to a guarded cellar under a working counting-house (round 4 hostility rebalance). Its purpose is a stealth challenge and an exposed ledger; the typed flip to hostile on exposure carries the fight; the quay it sits under is not a dungeon."
+      "sitingNote": "Converted from a hostile clearable delve to a guarded cellar under a working counting-house (round 4 hostility rebalance). Its purpose is a stealth challenge and an exposed ledger; the typed flip to hostile on exposure carries the fight; the quay it sits under is not a dungeon.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.three-gate-toll",
@@ -14355,7 +14593,17 @@
             "provenance": "Welloc's own order, in the field chest"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -14890,7 +15138,21 @@
         "temple",
         "trader"
       ],
-      "scourSiteId": "site.scour.fringe-marsh.ford-030"
+      "scourSiteId": "site.scour.fringe-marsh.ford-030",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "routeRef": "route.road.blackrose-lilmoth"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.lilmoth"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",
@@ -15085,7 +15347,17 @@
         "distanceToWaterM": 0.0,
         "score": 3.137
       },
-      "sitingNote": "Left on the Murkwood frontier where the culture raster reads naga-kur-deeps: the lure works only where there is no reason to walk. The prose claim that it sat on the Rose approach was cut, since the nearest track is 266 m away."
+      "sitingNote": "Left on the Murkwood frontier where the culture raster reads naga-kur-deeps: the lure works only where there is no reason to walk. The prose claim that it sat on the Rose approach was cut, since the nearest track is 266 m away.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-penal-south.rose-supply-town"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.xanmeer-span-bridge",
@@ -15249,7 +15521,13 @@
         "reachedVia": [
           "place.imperial-penal-south.lake-ferry-stage"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        }
+      ]
     },
     {
       "id": "place.imperial-penal-south.yespest-site",
@@ -15412,7 +15690,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-penal-south.blackrose"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-penal-south.lilmothiit-quarry"
+        }
+      ]
     }
   ]
 }

@@ -160,6 +160,14 @@ def test_deterministic(survey, shelf):
     assert cs.blueprint_sha256(changed) != a["sourceBlueprintSha256"]
 
 
+def test_landmark_carries_its_authored_ground_fit(compile_survey, shelf):
+    bp = _corrected(_blueprint())
+    bp["landmarks"][0]["groundFit"] = "dug-in"
+    result = cs.compile_blueprint(bp, compile_survey, shelf)
+    landmark = next(row for row in result["placements"] if row.get("landmarkId"))
+    assert landmark["groundFit"] == "dug-in"
+
+
 def test_phase11_receipt_names_validated_objects_and_compiled_terrain_operation():
     record = {
         "id": "place.test.receipt", "position": {"u": 0.5, "v": 0.5},
@@ -257,6 +265,18 @@ def test_asset_bearing_object_is_not_compiled_without_a_physical_placement(key, 
     assert any("no matching physical placement" in error for error in errors)
 
 
+def test_dock_without_a_built_asset_cannot_emit_a_placeholder(compile_survey, shelf):
+    bp = _corrected(_blueprint())
+    bp["docks"] = [{
+        "id": "dock.mire-landing.missing",
+        "position": [0.15, 0.15],
+        "assetRef": "asset.missing-dock",
+    }]
+    result = cs.compile_blueprint(bp, compile_survey, shelf)
+    assert not [row for row in result["placements"] if row.get("dockId")]
+    assert any("physical dock assetRef" in error for error in result["errors"])
+
+
 def test_budget_enforced(survey, shelf):
     bp = _corrected(_blueprint())
     bp["budget"]["maxInstances"] = 0
@@ -282,7 +302,7 @@ def test_pad_grade_carries_the_authored_tilt_axis(compile_survey, shelf):
     assert grade["tiltBearingDeg"] == parcel["yawDeg"]
 
 
-def test_optional_dock_asset_ref_becomes_runtime_geometry(compile_survey, shelf):
+def test_physical_dock_asset_ref_becomes_runtime_geometry(compile_survey, shelf):
     bp = _corrected(_blueprint())
     dock = bp["docks"][0]
     dock["assetRef"] = "vanilla:architecture/docks/dockstrsol01"

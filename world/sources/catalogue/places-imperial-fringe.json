@@ -444,7 +444,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.bog-iron"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.bonded-shed-of-the-onkobra",
@@ -725,7 +731,13 @@
           "place.imperial-fringe.gideon",
           "place.imperial-fringe.slough-point"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.cyrodilic-collections"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.bone-road-waystation",
@@ -2794,7 +2806,17 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.dreams-in-mud",
@@ -3049,7 +3071,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.fenmarch-village",
@@ -4128,7 +4160,13 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.stormhold-thorn"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.gideon",
@@ -4454,6 +4492,16 @@
         "tavern",
         "temple",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "factionRef": "faction.cyrodilic-collections"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.cyrodilic-collections"
+        }
       ]
     },
     {
@@ -5243,7 +5291,13 @@
             "provenance": "the besiegers' order book"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.glenbridge",
@@ -5520,6 +5574,20 @@
         "stable",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "contents.npcs[1].note",
+          "factionRef": "faction.nisswo"
+        },
+        {
+          "sourcePath": "occupants[1]",
+          "factionRef": "faction.nisswo"
+        },
+        {
+          "sourcePath": "questHooks.opportunity",
+          "factionRef": "faction.nisswo"
+        }
       ]
     },
     {
@@ -7661,7 +7729,13 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.low-water-fair",
@@ -8822,7 +8896,13 @@
         ]
       },
       "sitingNote": "Bound to the Blackwood Road west of Gideon (round 4): the record's identity is a stage on that road. 'One march' is the road's first stage at province scale, not a literal day.",
-      "scourSiteId": "site.scour.upland-hills.spring-head-031"
+      "scourSiteId": "site.scour.upland-hills.spring-head-031",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.fort-swampmoth"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.moonmarch-ground",
@@ -9054,7 +9134,37 @@
         ],
         "loot": []
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "contents.npcs[1].note",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "occupants[1]",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.mercantile-coast.moonmarch"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.moonrack-calcinator",
@@ -9759,7 +9869,17 @@
         "travelServiceEdges": [
           "road:route.road.gideon-blackwood-road"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.mercantile-coast.soulrest"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.ninth-milestone-house",
@@ -12574,7 +12694,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.rufios-landing",
@@ -13517,7 +13643,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.silverhand-cairns",
@@ -13745,7 +13877,17 @@
             "provenance": "Kothringi silverwork from the last generation before the Flu"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.sink-field",
@@ -13967,7 +14109,13 @@
         "distanceToRouteM": 1078.1,
         "distanceToWaterM": 21.9,
         "score": 2.98
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "contents.loot[0].provenance",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.slough-point",
@@ -14648,7 +14796,13 @@
         "distanceToRouteM": 439.9,
         "distanceToWaterM": 33.4,
         "score": 2.217
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.stonefoot-terrace-village",
@@ -15167,6 +15321,16 @@
         "smith",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.sul-xan"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "factionRef": "faction.marsh-charter"
+        }
       ]
     },
     {
@@ -15446,7 +15610,13 @@
         "tavern",
         "trader"
       ],
-      "scourSiteId": "site.scour.upland-hills.ridge-end-052"
+      "scourSiteId": "site.scour.upland-hills.ridge-end-052",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.takes-the-field",
@@ -15688,7 +15858,13 @@
         "distanceToRouteM": 55.9,
         "distanceToWaterM": 15.5,
         "score": 4.032
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.swampmoth-town"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-abandoned-survey",
@@ -16171,7 +16347,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.glenbridge-the-road-nisswo-house"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-back-kiln",
@@ -16439,7 +16621,17 @@
             "provenance": "whatever the current occupants have taken"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-black-tarn",
@@ -16679,7 +16871,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-borrowed-house",
@@ -17164,7 +17362,25 @@
         "distanceToRouteM": 83.9,
         "distanceToWaterM": 83.7,
         "score": 3.503
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.stormhold-thorn"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "serviceRef": "council"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-buried-spears",
@@ -17615,7 +17831,17 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "itemRef": "item.bog-iron"
+        },
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-cold-lights",
@@ -17853,7 +18079,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.fenmarch-village"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-cordon-stones",
@@ -18585,7 +18817,13 @@
           "note": "the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill"
         }
       ],
-      "sitingNote": "Moved to the valley floor at the channel that flooded it (round 4); the old site was a dry mountain shoulder with no water to cause a drowning."
+      "sitingNote": "Moved to the valley floor at the channel that flooded it (round 4); the old site was a dry mountain shoulder with no water to cause a drowning.",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.highwater-hamlet"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-drowned-mule",
@@ -19053,7 +19291,17 @@
           }
         ]
       },
-      "sitingNote": "Bound to the Blackwood Road's lowest crossing of the western plain (round 4). The record's identity is the point where the western road shuts; that road runs west of Gideon."
+      "sitingNote": "Bound to the Blackwood Road's lowest crossing of the western plain (round 4). The record's identity is the point where the western road shuts; that road runs west of Gideon.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-eight-steps",
@@ -20223,7 +20471,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.fig-market"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-glass-scar",
@@ -20453,7 +20707,17 @@
             "provenance": "a weapon carried through the gate and back"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "factionRef": "faction.synod"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.synod"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-hackwing-scarp",
@@ -20684,7 +20948,13 @@
             "provenance": "nest feathers and the leavings of forty years of kills"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "routeRef": "route.road.glenbridge-the-road-nisswo-house"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-hollow-pass-station",
@@ -20920,7 +21190,13 @@
           "place.imperial-fringe.the-ravine-doors",
           "place.imperial-fringe.ridge-runners-post"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-hollow-under-the-figs",
@@ -21161,7 +21437,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.fig-market"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-kept-terrace",
@@ -21397,7 +21679,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-knapping-floor-of-the-high-scree",
@@ -21629,7 +21917,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-lake-divers-yard",
@@ -22572,7 +22870,17 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.summit-017"
+      "scourSiteId": "site.scour.border-mountains.summit-017",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.stonewastes"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-ledge-of-tallies",
@@ -23269,7 +23577,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.hist-heartland.umpholo-mission"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-niben-crystal-workings",
@@ -24958,7 +25272,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.synod"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-road-nisswo-house",
@@ -25430,7 +25754,17 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.upland-hills.summit-016"
+      "scourSiteId": "site.scour.upland-hills.summit-016",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.imperial-fringe.gideon"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-second-hearth",
@@ -26310,7 +26644,13 @@
           }
         ]
       },
-      "sitingNote": "Moved to the drowned ground below Glenbridge (round 4), where the standing water actually reaches the sealed door that gives the record its name."
+      "sitingNote": "Moved to the drowned ground below Glenbridge (round 4), where the standing water actually reaches the sealed door that gives the record its name.",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.imperial-fringe.glenbridge"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-silent-halls",
@@ -27570,6 +27910,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.sul-xan"
+        }
       ]
     },
     {
@@ -28055,7 +28401,13 @@
           "place.pirate-freeholds.corimont-hiring-yard",
           "place.saxhleel-coast.owing-hiring-camp"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.the-two-lamps-hermitage",
@@ -29035,7 +29387,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.cliff-bench-073"
+      "scourSiteId": "site.scour.firm-lowland.cliff-bench-073",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.imperial-fringe.gideon"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.twyllbek-crown",
@@ -29270,7 +29628,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.gideon-blackwood-road"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.twyllbek-ruins",
@@ -30707,7 +31071,17 @@
             "provenance": "whatever the current occupants have taken"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "factionRef": "faction.college-of-whispers"
+        },
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.college-of-whispers"
+        }
+      ]
     },
     {
       "id": "place.imperial-fringe.xi-tsei-massacre-ground",

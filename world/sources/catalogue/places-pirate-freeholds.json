@@ -331,6 +331,12 @@
         "smith",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.hatching-pools"
+        }
       ]
     },
     {
@@ -4718,7 +4724,13 @@
         "opportunity": "a forged grade on the board would move a cargo between lawful and contraband before anyone checked",
         "tierOwnership": "LP05 · tier-3"
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.freehold-naga-camp",
@@ -5125,7 +5137,13 @@
         "tags": [],
         "opportunity": null,
         "tierOwnership": null
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "serviceRef": "lodging"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.freehold-smithy",
@@ -8240,7 +8258,17 @@
         "tags": [],
         "opportunity": null,
         "tierOwnership": null
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.rim-hearth-house",
@@ -10701,7 +10729,13 @@
         ]
       },
       "sitingNote": "Moved in round 4: the record claims river frontage downriver of the free port with a bar below it, but was plotted on a summit 71 m from any water and outside the freeholds' own culture ground. Bound to the head of the river that runs south out of the zone.",
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.trunk-ferry-stage",
@@ -11458,7 +11492,21 @@
           "note": "the hard-banked pinch the span crosses, the narrowest water on the Corimont road"
         }
       ],
-      "scourSiteId": "site.scour.firm-lowland.isthmus-042"
+      "scourSiteId": "site.scour.firm-lowland.isthmus-042",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.pirate-freeholds.alten-corimont"
+        }
+      ]
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",

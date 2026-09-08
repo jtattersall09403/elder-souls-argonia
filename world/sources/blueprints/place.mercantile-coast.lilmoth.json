@@ -8618,6 +8618,7 @@
           0.863633
         ],
         "assetRef": "bmv:sheogorad/dagon fel/dockspilings",
+        "groundFit": "stilt",
         "why": {
           "what": "An 8 m cluster of driven piles marking the roadstead where the hulls lie.",
           "whyHere": "Big hulls anchor out on the 10 m plateau because the shelf is too shallow; the mark shows them where.",
@@ -8691,6 +8692,9 @@
         ],
         "waterBodyId": "water.oliis-estuary",
         "piledToBed": true,
+        "groundFit": "stilt",
+        "assetRef": "composite:docks/quay-run-2",
+        "yawDeg": 90.0,
         "why": {
           "what": "The lighter berth at the pier head, where laden lighters come alongside.",
           "whyHere": "The shelf is too shallow for a hull, so cargo comes ashore in lighters and needs a berth at the channel head. The lanes already end at these piles and the approach carries 6.6 m of water, so the channel was re-ended on the authored berth (fit `water-to-dock`).",
@@ -8710,6 +8714,9 @@
         ],
         "waterBodyId": "water.oliis-estuary",
         "piledToBed": true,
+        "groundFit": "stilt",
+        "assetRef": "bmv:sheogorad/dagon fel/dockssteps",
+        "yawDeg": 90.0,
         "why": {
           "what": "The diving stair: a timber stair off the divers’ pier into the channel.",
           "whyHere": "The salvage divers enter the water from a stair, so the deck stays clear for cargo. The channel between the flooded rows already reaches the stair, so it was re-ended on it rather than the stair moved (fit `water-to-dock`).",
@@ -8729,6 +8736,9 @@
         ],
         "waterBodyId": "water.oliis-bay",
         "piledToBed": true,
+        "groundFit": "stilt",
+        "assetRef": "bmv:sheogorad/dagon fel/dockspilings",
+        "yawDeg": 90.0,
         "why": {
           "what": "The tender mooring at the roadstead, where the big hulls lie and the lighters load.",
           "whyHere": "The 10 m plateau is the nearest water to the city in which a hull can lie. The dredged channel already runs to its edge, so the channel was re-ended on the authored mooring (fit `water-to-dock`).",
@@ -10350,6 +10360,84 @@
         "kind": "channel",
         "dockId": "dock.lilmoth.roadstead-tender",
         "why": "The tender mooring is the sea-side end of the city. The dredged channel runs from the pier head out to it; no hull comes further in than its piles."
+      }
+    ],
+    "proseRefs": [
+      {
+        "sourcePath": "approaches[0].notes",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "districts[0].why.what",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "networkTerminals[0].why",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "networkTerminals[1].why",
+        "placeRef": "place.mercantile-coast.soulrest"
+      },
+      {
+        "sourcePath": "networkTerminals[2].why",
+        "placeRef": "place.saxhleel-coast.archon"
+      },
+      {
+        "sourcePath": "networkTerminals[3].why",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "parcels[0].why.what",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "parcels[19].playerPurpose[1].note",
+        "placeRef": "place.mercantile-coast.rockpark"
+      },
+      {
+        "sourcePath": "parcels[19].why.playerPurpose",
+        "placeRef": "place.mercantile-coast.rockpark"
+      },
+      {
+        "sourcePath": "parcels[19].why.what",
+        "placeRef": "place.mercantile-coast.rockpark"
+      },
+      {
+        "sourcePath": "parcels[20].playerPurpose[0].note",
+        "factionRef": "faction.an-xileel"
+      },
+      {
+        "sourcePath": "parcels[44].playerPurpose[1].note",
+        "placeRef": "place.mercantile-coast.stripped-village-north"
+      },
+      {
+        "sourcePath": "parcels[44].why.playerPurpose",
+        "placeRef": "place.mercantile-coast.stripped-village-north"
+      },
+      {
+        "sourcePath": "parcels[54].why.what",
+        "serviceRef": "lodging"
+      },
+      {
+        "sourcePath": "parcels[57].playerPurpose[1].note",
+        "factionRef": "faction.an-xileel"
+      },
+      {
+        "sourcePath": "parcels[59].why.whyHere",
+        "placeRef": "place.mercantile-coast.soulrest"
+      },
+      {
+        "sourcePath": "routes[0].why",
+        "placeRef": "place.imperial-penal-south.blackrose"
+      },
+      {
+        "sourcePath": "routes[10].why",
+        "serviceRef": "lodging"
+      },
+      {
+        "sourcePath": "routes[8].why",
+        "serviceRef": "lodging"
       }
     ]
   }

@@ -784,7 +784,13 @@
             "provenance": "the guard kit they were not allowed to hand back"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.branchmont",
@@ -1494,7 +1500,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "factionRef": "faction.an-xileel"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.channel-cross-village",
@@ -1749,6 +1761,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "placeRef": "place.dunmer-north.bogmother"
+        }
       ]
     },
     {
@@ -2246,6 +2264,12 @@
         "smith",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.thorn-tear-road"
+        }
       ]
     },
     {
@@ -2951,7 +2975,13 @@
           "place.dunmer-north.the-gravel-six"
         ]
       },
-      "sitingNote": "The northern rim basin reads 'border mountains' on the region raster: the rim's classification covers the lake and fen floor inside it, so the record's water identity and the raster class are describing the same ground."
+      "sitingNote": "The northern rim basin reads 'border mountains' on the region raster: the rim's classification covers the lake and fen floor inside it, so the record's water identity and the raster class are describing the same ground.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.dunmer-north.wolk-market"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.dreams-by-the-ash",
@@ -3644,7 +3674,17 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "serviceRef": "market"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.gandranen-library",
@@ -3892,7 +3932,13 @@
         ]
       },
       "services": [],
-      "scourSiteId": "site.scour.lake-standing-water.cliff-bench-025"
+      "scourSiteId": "site.scour.lake-standing-water.cliff-bench-025",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.gandranen-ruins",
@@ -4384,6 +4430,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.boat.stormhold-alten-corimont"
+        }
       ]
     },
     {
@@ -5740,6 +5792,16 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.senses",
+          "itemRef": "item.vossa-satl"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.xit-xaht"
+        }
       ]
     },
     {
@@ -6197,7 +6259,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "aliases": [],
@@ -6946,7 +7014,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "factionRef": "faction.xit-xaht"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "itemRef": "item.mnemic-egg"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.murkwater",
@@ -7216,6 +7294,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
       ]
     },
     {
@@ -7437,7 +7521,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.ravine-022"
+      "scourSiteId": "site.scour.firm-lowland.ravine-022",
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.saxhleel-coast.archon"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.names-the-year",
@@ -7941,6 +8031,16 @@
         "shrine",
         "stable",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
       ]
     },
     {
@@ -8431,7 +8531,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.ravine-025"
+      "scourSiteId": "site.scour.firm-lowland.ravine-025",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.wolk-market"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.one-house-high",
@@ -8637,7 +8743,13 @@
           "place.dunmer-north.murkwater",
           "place.dunmer-north.stormhold-causeway"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.puts-down-the-cup",
@@ -9590,6 +9702,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.pirate-freeholds.alten-corimont"
+        }
       ]
     },
     {
@@ -10619,7 +10737,17 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "itemRef": "item.vossa-satl"
+        },
+        {
+          "sourcePath": "why.founding",
+          "itemRef": "item.vossa-satl"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.sits-above-the-flood",
@@ -11635,6 +11763,12 @@
         "smith",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "factionRef": "faction.cyrodilic-collections"
+        }
       ]
     },
     {
@@ -12086,7 +12220,13 @@
         "destinations": [
           "place.dunmer-north.wolk-market"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.tearmouth",
@@ -12603,7 +12743,13 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.tenmar-wall"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.ten-thousand-nests",
@@ -13288,7 +13434,13 @@
         ],
         "loot": []
       },
-      "scourSiteId": "site.scour.seasonal-floodplain.spring-head-034"
+      "scourSiteId": "site.scour.seasonal-floodplain.spring-head-034",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-ash-holding",
@@ -14288,7 +14440,13 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-bound-urns",
@@ -15681,7 +15839,21 @@
         ]
       },
       "sitingNote": "Moved onto the rim gap at (5473, 406): a hostile, dungeon-like place at least 320 m from every route and 450 m from every other fight, filling the region’s listed off-route D3 gap (hostility-frequency.md, 2026-09-04).",
-      "scourSiteId": "site.scour.border-mountains.ridge-end-056"
+      "scourSiteId": "site.scour.border-mountains.ridge-end-056",
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.road.thorn-tear-road"
+        },
+        {
+          "sourcePath": "questHooks.opportunity",
+          "routeRef": "route.road.thorn-tear-road"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-crown-terrace",
@@ -16421,7 +16593,13 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-diggings-ladder",
@@ -16665,7 +16843,13 @@
         ]
       },
       "sitingNote": "Bound to Silyanorn Diggings: the tower exists only as the diggings' hoist route, so it is sited on the ravine wall above the working face rather than plotted freely. Its regionClasses now describe the ravine ground at the diggings, so the semantic audit will read a region mismatch until the next plot moves it off its old north-marsh position.",
-      "scourSiteId": "site.scour.upland-hills.ravine-088"
+      "scourSiteId": "site.scour.upland-hills.ravine-088",
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-divers-landing",
@@ -19080,7 +19264,13 @@
         ],
         "loot": []
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.root-stewards"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-flu-cordon",
@@ -19310,7 +19500,13 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.ridge-end-002"
+      "scourSiteId": "site.scour.border-mountains.ridge-end-002",
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-freed-rows",
@@ -20765,7 +20961,13 @@
           }
         ]
       },
-      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern."
+      "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.wouldChangeIf",
+          "factionRef": "faction.xit-xaht"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-level-line",
@@ -21668,7 +21870,17 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.cliff-bench-067"
+      "scourSiteId": "site.scour.firm-lowland.cliff-bench-067",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.occupantsMotive",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-ninth-chapel",
@@ -22381,7 +22593,17 @@
           }
         ]
       },
-      "sitingNote": "Converted from a hostile place to a neutral ruin (round 4 rebalance): three other fights already sit inside 250 m of the same route stretch; an abandoned roadworks reads better empty."
+      "sitingNote": "Converted from a hostile place to a neutral ruin (round 4 rebalance): three other fights already sit inside 250 m of the same route stretch; an abandoned roadworks reads better empty.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-north-holding-pit",
@@ -23065,7 +23287,13 @@
           "place.dunmer-north.the-pass-station"
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.ravine-044"
+      "scourSiteId": "site.scour.border-mountains.ravine-044",
+      "proseRefs": [
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-north-vista",
@@ -23281,7 +23509,13 @@
           "place.dunmer-north.the-pass-station"
         ]
       },
-      "scourSiteId": "site.scour.border-mountains.summit-014"
+      "scourSiteId": "site.scour.border-mountains.summit-014",
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-northern-rest",
@@ -23740,7 +23974,13 @@
           "place.dunmer-north.the-pass-station"
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.ravine-051"
+      "scourSiteId": "site.scour.firm-lowland.ravine-051",
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-outer-silyanorn",
@@ -24200,7 +24440,13 @@
           "place.dunmer-north.tear-road-stage"
         ]
       },
-      "sitingNote": "CUT (round 4, 2026-09-04). Its identity is a rim saddle the Thorn–Tear road crosses; the road has no saddle — its high point is 43 m in firm lowland, band 1, and the border crossing it claims is already held by Two-Gate Bridge 800 m away. There is nowhere in the region where the role exists, and a pass station rewritten into a roadside hut would be a different place. Quest LD48 re-anchored to place.dunmer-north.the-two-gate-bridge."
+      "sitingNote": "CUT (round 4, 2026-09-04). Its identity is a rim saddle the Thorn–Tear road crosses; the road has no saddle — its high point is 43 m in firm lowland, band 1, and the border crossing it claims is already held by Two-Gate Bridge 800 m away. There is nowhere in the region where the role exists, and a pass station rewritten into a roadside hut would be a different place. Quest LD48 re-anchored to place.dunmer-north.the-two-gate-bridge.",
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-pen-yard",
@@ -27115,7 +27361,21 @@
           }
         ]
       },
-      "sitingNote": "Converted from a hostile place to a neutral climb (round 4 rebalance): it stood 138 m off the route with four other fights inside 250 m; its value was the view, not the fight."
+      "sitingNote": "Converted from a hostile place to a neutral climb (round 4 rebalance): it stood 138 m off the route with four other fights inside 250 m; its value was the view, not the fight.",
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "questHooks.opportunity",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-slumped-hamlet",
@@ -28415,7 +28675,13 @@
             "provenance": "three seasons' takings, uncounted"
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.track.dres-slave-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-tear-wreck",
@@ -29168,7 +29434,13 @@
           "place.dunmer-north.tearmouth",
           "place.dunmer-north.thorn"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-thousand-birds",
@@ -29879,7 +30151,13 @@
         "reachedVia": [
           "place.dunmer-north.the-north-relay"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.college-of-whispers"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-two-gate-bridge",
@@ -31329,7 +31607,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.the-wild-mouth",
@@ -32380,7 +32664,13 @@
           }
         ],
         "loot": []
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.approach",
+          "routeRef": "route.road.thorn-tear-road"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.three-ways-over-water",
@@ -32585,7 +32875,13 @@
         "loot": []
       },
       "sitingNote": "The culture raster reads hist-heartland at this position because the record sits on the region's Argonian marsh side, where the two zones interleave; it is catalogued with the north because its trade, its levies and its neighbours are northern. Moved to the Thorn-side walkway water its prose describes; it had been plotted on the Stormhold side, three kilometres from any walkway network.",
-      "scourSiteId": "site.scour.mangrove-forest.island-023"
+      "scourSiteId": "site.scour.mangrove-forest.island-023",
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "placeRef": "place.dunmer-north.stormhold"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.ties-four-ways",
@@ -33289,7 +33585,17 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.an-xileel"
+        },
+        {
+          "sourcePath": "why.founding",
+          "factionRef": "faction.xit-xaht"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.waits-for-the-trial",
@@ -33530,7 +33836,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "factionRef": "faction.root-stewards"
+        }
+      ]
     },
     {
       "id": "place.dunmer-north.went-down-slowly",
@@ -34045,6 +34357,16 @@
         "stable",
         "tavern",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "vibe.materials",
+          "placeRef": "place.dunmer-north.stormhold"
+        },
+        {
+          "sourcePath": "why.founding",
+          "routeRef": "route.road.thorn-tear-road"
+        }
       ]
     },
     {
@@ -34293,7 +34615,13 @@
         "reachedVia": [
           "place.dunmer-north.the-pass-station"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.boat.stormhold-alten-corimont"
+        }
+      ]
     }
   ]
 }

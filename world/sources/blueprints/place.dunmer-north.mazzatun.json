@@ -13,8 +13,31 @@
     },
     "macroEvidence": [
       {
-        "sourcePaths": ["assetPlan", "contents", "discovery", "eraLayers", "hostility", "notableNpcSlots", "playerPurpose", "questHooks", "relations", "rewardProfile", "season", "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe"],
-        "evidenceRefs": ["district.mazzatun.works", "parcel.mazzatun.conduit-column", "landmark.mazzatun.hist", "combat.mazzatun.yard", "approach.mazzatun.haul-road"]
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe"
+        ],
+        "evidenceRefs": [
+          "district.mazzatun.works",
+          "parcel.mazzatun.conduit-column",
+          "landmark.mazzatun.hist",
+          "combat.mazzatun.yard",
+          "approach.mazzatun.haul-road"
+        ]
       }
     ],
     "boundary": [
@@ -304,24 +327,24 @@
             0.185340068
           ],
           [
-            0.269786328,
-            0.185377989
+            0.269797299,
+            0.185378214
           ],
           [
-            0.278740218,
-            0.184629119
+            0.278014705,
+            0.184356155
           ],
           [
-            0.281292471,
-            0.182076868
+            0.281299917,
+            0.182140547
           ],
           [
-            0.281196017,
-            0.180630077
+            0.281194316,
+            0.180767751
           ],
           [
-            0.276780409,
-            0.175615742
+            0.276786154,
+            0.175612443
           ]
         ],
         "notes": "The lower step and the stream lip, 196-203 m. Block face, hoist, scaffolds, gate and cart. The stockade scaffold family is placed per its own snap logic.",
@@ -370,39 +393,35 @@
           ],
           [
             0.280667004,
-            0.180850182
+            0.180985802
           ],
           [
-            0.279310797,
+            0.279175177,
             0.179493975
           ],
           [
-            0.279310797,
+            0.279175177,
+            0.181799526
+          ],
+          [
+            0.27781897,
             0.183291354
           ],
           [
-            0.278632694,
-            0.18261325
+            0.27781897,
+            0.183833837
           ],
           [
-            0.278632694,
-            0.183969457
+            0.277547728,
+            0.183833837
           ],
           [
-            0.278497073,
-            0.184105078
+            0.277140866,
+            0.183426975
           ],
           [
-            0.277005246,
-            0.184105078
-          ],
-          [
-            0.276869625,
-            0.183969457
-          ],
-          [
-            0.276869625,
-            0.181392664
+            0.277140866,
+            0.181663906
           ],
           [
             0.276598384,
@@ -438,10 +457,10 @@
           ],
           [
             0.274021591,
-            0.182884492
+            0.183020113
           ],
           [
-            0.273614729,
+            0.273750349,
             0.183291354
           ],
           [
@@ -3735,7 +3754,8 @@
           0.280734815,
           0.181867337
         ],
-        "assetRef": "flora.hist.tsono-xuhil",
+        "assetRef": "htbm:here there be monsters - curse of cipactli/trees/histtree",
+        "scale": 0.75,
         "notes": "Tsono-Xuhil, its own catalogue record (place.dunmer-north.mazzatun-hist), 85 m east and 55 m below the shelf. Never cleared and never built over.",
         "why": {
           "what": "Tsono-Xuhil, the harmed Hist, standing in the stream on the gorge floor.",
@@ -3997,28 +4017,28 @@
             0.183570273
           ],
           [
-            0.270614796,
-            0.184228559
+            0.270618047,
+            0.184249887
           ],
           [
-            0.276987431,
-            0.184647561
+            0.277542776,
+            0.18437632
           ],
           [
-            0.278721777,
-            0.184647561
+            0.277984805,
+            0.18437632
           ],
           [
-            0.281292471,
-            0.182076868
+            0.281299917,
+            0.182140547
           ],
           [
-            0.281196017,
-            0.180630077
+            0.281194316,
+            0.180767751
           ],
           [
-            0.276646203,
-            0.175463339
+            0.276652223,
+            0.175455812
           ]
         ],
         "clearanceClass": "tight",
@@ -4438,6 +4458,76 @@
         "wayId": "route.mazzatun.terrace-head",
         "kind": "track",
         "why": "The ridge track from the rimfield reaches the shelf at its west end, where a cart can leave the shoulder without crossing the pens; the terrace carries it east past the frontage dais to the tower, so track and terrace are one line."
+      }
+    ],
+    "proseRefs": [
+      {
+        "sourcePath": "causalModel.founding",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "causalModel.occupantsMotive",
+        "placeRef": "place.dunmer-north.mazzatun-hist"
+      },
+      {
+        "sourcePath": "districts[0].notes",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "districts[0].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "districts[1].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "fences[5].why",
+        "placeRef": "place.dunmer-north.mazzatun-hist"
+      },
+      {
+        "sourcePath": "landmarks[0].notes",
+        "placeRef": "place.dunmer-north.mazzatun-hist"
+      },
+      {
+        "sourcePath": "landmarks[0].why.what",
+        "placeRef": "place.dunmer-north.mazzatun-hist"
+      },
+      {
+        "sourcePath": "parcels[0].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[10].why.what",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[11].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[12].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[27].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[28].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[5].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "parcels[8].why.whyHere",
+        "factionRef": "faction.xit-xaht"
+      },
+      {
+        "sourcePath": "scaleGrounding.why",
+        "factionRef": "faction.xit-xaht"
       }
     ]
   }

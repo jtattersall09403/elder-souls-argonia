@@ -888,7 +888,13 @@
           "place.naga-kur-deeps.boardwalk-single-spine",
           "place.naga-kur-deeps.stilt-shallow-reed-stand"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.founding",
+          "serviceRef": "shrine"
+        }
+      ]
     },
     {
       "id": "place.naga-kur-deeps.bereaved-hist-less-since",
@@ -2875,7 +2881,13 @@
           }
         ]
       },
-      "services": []
+      "services": [],
+      "proseRefs": [
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.umbriel-witness-society"
+        }
+      ]
     },
     {
       "id": "place.naga-kur-deeps.dive-shaft-natural-deeps",
@@ -8636,6 +8648,12 @@
         "lodging",
         "shrine",
         "trader"
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "sitingNote",
+          "routeRef": "route.track.mercantile-coast.coast-road"
+        }
       ]
     },
     {
@@ -10264,7 +10282,13 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "why.occupantsMotive",
+          "factionRef": "faction.naga-kur"
+        }
+      ]
     },
     {
       "id": "place.naga-kur-deeps.root-gallery-drowned-lanes",
@@ -12630,7 +12654,21 @@
           "place.naga-kur-deeps.boardwalk-single-spine",
           "place.naga-kur-deeps.stilt-shallow-reed-stand"
         ]
-      }
+      },
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.naga-kur"
+        },
+        {
+          "sourcePath": "why.siteAdvantages",
+          "routeRef": "route.track.hissmir-pilgrim-water"
+        }
+      ]
     },
     {
       "id": "place.naga-kur-deeps.treasure-hunters-living-deeps",
@@ -13055,6 +13093,20 @@
             "feature": "dry-rise"
           },
           "note": "the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet"
+        }
+      ],
+      "proseRefs": [
+        {
+          "sourcePath": "playerPurpose.hook",
+          "factionRef": "faction.naga-kur"
+        },
+        {
+          "sourcePath": "vibe.signatureFeature",
+          "factionRef": "faction.naga-kur"
+        },
+        {
+          "sourcePath": "why.pressures",
+          "factionRef": "faction.naga-kur"
         }
       ]
     },
