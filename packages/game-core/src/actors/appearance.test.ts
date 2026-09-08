@@ -55,19 +55,22 @@ describe("colouring a character", () => {
     expect(colourOf(model, "Body").r).toBeCloseTo(0.25, 5);
   });
 
-  it("colourizes the dark shared humanoid diffuse to a selectable skin tone", () => {
+  it("uses Skyrim's FaceGen RGB overlay for a selectable skin tone", () => {
     const model = body(["Body"]);
     const material = (model.children[0] as THREE.Mesh).material as THREE.MeshStandardMaterial;
     const originalHook = material.onBeforeCompile;
-    const touched = applyAppearance(model, { ...appearance, skinTintMode: "colorize" });
+    const touched = applyAppearance(model, { ...appearance, skinTintMode: "skyrim-rgb-tint" });
     const shader = {
       uniforms: {} as Record<string, { value: unknown }>,
       fragmentShader: "void main() {\n#include <map_fragment>\n}",
     };
     material.onBeforeCompile(shader as never, {} as never);
-    expect(shader.fragmentShader).toContain("esSkinTone");
-    expect(shader.fragmentShader).toContain("esSkinDetail");
-    expect(shader.uniforms.esSkinTone).toBeDefined();
+    expect(shader.fragmentShader).toContain("skyrimTintOverlay");
+    expect(shader.fragmentShader).not.toContain("esSkinLuma");
+    expect(shader.uniforms.skyrimSkinTone).toBeDefined();
+    const tone = shader.uniforms.skyrimSkinTone.value as THREE.Color;
+    expect(tone.toArray()).toEqual([0.5, 0.4, 0.3]);
+    expect(shader.uniforms.skyrimSkinDetail).toBeDefined();
     expect(material.color.getHex()).toBe(0xffffff);
     clearAppearance(touched);
     expect(material.onBeforeCompile).toBe(originalHook);

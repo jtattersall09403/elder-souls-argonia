@@ -36,7 +36,10 @@ BLENDER_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_character.
 TOOLCHAIN = json.loads((Path(__file__).resolve().parent / "config" / "toolchain.json").read_text())
 BUILD_DIR = ROOT / "build"
 
-_TEXTURE_REF = re.compile(rb"textures\\[^\x00]{3,160}?\.dds", re.IGNORECASE)
+_TEXTURE_REF = re.compile(
+    rb"(?:data\\textures|textures|actors|cubemaps)\\[^\x00]{3,160}?\.dds",
+    re.IGNORECASE,
+)
 
 
 def _expand(path: str) -> Path:
@@ -82,10 +85,18 @@ def _copy_curated_file(src: str, dst: str, *, follow_symlinks: bool = True) -> s
 
 def _referenced_textures(nif: Path) -> set[str]:
     data = nif.read_bytes()
-    return {
-        m.group(0).decode("latin1").replace("\\", "/").lower()
-        for m in _TEXTURE_REF.finditer(data)
-    }
+    found = set()
+    for match in _TEXTURE_REF.finditer(data):
+        path = match.group(0).decode("latin1").replace("\\", "/").lower().lstrip("/")
+        # FaceGen exports are inconsistent here: ordinary slots may start at
+        # Actors/, while the generated tint may start at Data/Textures/.  A BSA
+        # always indexes both beneath textures/, so canonicalise once.
+        if path.startswith("data/"):
+            path = path[5:]
+        if not path.startswith("textures/"):
+            path = "textures/" + path
+        found.add(path)
+    return found
 
 
 def assemble_data_root(plan: BuildPlan) -> Path:
@@ -218,6 +229,23 @@ def write_blender_plan(
 ) -> Path:
     """Serialise a Windows-path plan the in-Blender script consumes verbatim."""
     plan_path = BUILD_DIR / plan.character_id / "blender-plan.json"
+    facegen_mesh = next((mesh for mesh in plan.meshes if mesh.name == "facegen"), None)
+    facegen_tint = None
+    facegen_detail = None
+    if facegen_mesh is not None:
+        relative = facegen_mesh.file.relative_to(plan.data_root).as_posix().lower()
+        facegen_tint_relative = relative.replace(
+            "meshes/actors/character/facegendata/facegeom/",
+            "textures/actors/character/facegendata/facetint/",
+        ).removesuffix(".nif") + ".dds"
+        facegen_tint = data_root / facegen_tint_relative
+        detail_refs = [
+            ref for ref in _referenced_textures(data_root / relative)
+            if "detail" in Path(ref).name.lower()
+        ]
+        if detail_refs:
+            facegen_detail = data_root / sorted(detail_refs)[0]
+
     payload = {
         "addon": TOOLCHAIN["addon"],
         "expected_bones": plan.expected_bones,
@@ -237,6 +265,8 @@ def write_blender_plan(
             for aux_id, aux in plan.auxiliary_bones.items()
         },
         "skin_tint": list(plan.skin_tint),
+        "facegen_tint": to_windows(facegen_tint) if facegen_tint else None,
+        "facegen_detail": to_windows(facegen_detail) if facegen_detail else None,
         "exports": [
             {**export, "path": to_windows((ROOT / export["path"]).resolve())}
             for export in plan.exports

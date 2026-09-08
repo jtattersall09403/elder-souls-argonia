@@ -112,10 +112,28 @@ export function footAnchoredVelocity(
   const config = clipConfig(state);
   const rate = config.playbackRate || 1;
   const offset = config.playbackStartTime ?? 0;
-  const from = groundTrackAt(state, offset + Math.max(0, elapsed - delta) * rate);
-  const to = groundTrackAt(state, offset + Math.max(0, elapsed) * rate);
-  // Source time advances `rate` times faster than action time, so the distance
-  // covered per second of action scales with it too.
+  const fromSourceTime = offset + Math.max(0, elapsed - delta) * rate;
+  const toSourceTime = offset + Math.max(0, elapsed) * rate;
+  return footAnchoredSourceVelocity(state, fromSourceTime, toSourceTime, delta, maximumSpeed);
+}
+
+/** Velocity between two explicit source-pose times.
+ *
+ * Bow drawing has a user-tunable playback rate, so its pose clock can advance
+ * by more or less than one real-time delta. Taking both sampled source times
+ * keeps the planted foot anchored at every multiplier without guessing the
+ * animation clock from wall time.
+ */
+export function footAnchoredSourceVelocity(
+  state: AnimationState,
+  fromSourceTime: number,
+  toSourceTime: number,
+  delta: number,
+  maximumSpeed = Infinity,
+): LocalDisplacement {
+  if (!(delta > 0)) return ZERO;
+  const from = groundTrackAt(state, fromSourceTime);
+  const to = groundTrackAt(state, toSourceTime);
   const forward = (to.forward - from.forward) / delta;
   const lateral = (to.lateral - from.lateral) / delta;
   const speed = Math.hypot(forward, lateral);
@@ -198,4 +216,24 @@ export function hasGroundTrack(state: AnimationState) {
 export function localMotionToWorld(motion: LocalDisplacement, heading: { x: number; z: number }) {
   return { x: heading.x * motion.forward + heading.z * motion.lateral,
     z: heading.z * motion.forward - heading.x * motion.lateral };
+}
+
+/** New body centre when a yaw change pivots about one planted world point. */
+export function plantedPivotTranslation(
+  position: { x: number; z: number },
+  pivot: { x: number; z: number },
+  currentYaw: number,
+  wantedYaw: number,
+) {
+  const delta = wantedYaw - currentYaw;
+  const cos = Math.cos(delta);
+  const sin = Math.sin(delta);
+  const relativeX = pivot.x - position.x;
+  const relativeZ = pivot.z - position.z;
+  const rotatedX = cos * relativeX + sin * relativeZ;
+  const rotatedZ = -sin * relativeX + cos * relativeZ;
+  return {
+    x: position.x + relativeX - rotatedX,
+    z: position.z + relativeZ - rotatedZ,
+  };
 }

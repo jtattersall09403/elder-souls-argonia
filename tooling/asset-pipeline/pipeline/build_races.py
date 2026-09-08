@@ -127,21 +127,25 @@ def build(
     # The reference race always goes first: it produces the rig and the manifest
     # everything else is validated against.
     ordered = [reference] + [race for race in wanted if race != reference]
-    if skip_reference and reference not in wanted:
-        # The rig and the manifest come from the reference race, so it is
-        # normally rebuilt with every batch. Skipping it is for the case where
-        # nothing about the rig has changed and only bodies are being redone —
-        # which is most of them, and the difference between a two-minute run
-        # and a six-minute one.
-        ordered = [race for race in wanted if race != reference]
-        print(f"[races] reusing the existing rig: {reference} not rebuilt")
+    if skip_reference:
+        # Reuse the rig and manifest while rebuilding any requested bodies,
+        # including the race that normally acts as the reference. The old
+        # branch silently turned `--only dunmer --skip-reference` back into a
+        # full 103-clip rig build precisely when a body-only fix most needed the
+        # fast path.
+        ordered = wanted
+        print(f"[races] reusing the existing rig: body-only build")
     elif only and reference not in only:
         print(f"[races] including reference race {reference}: the rig and manifest come from it")
 
     summaries = {}
     for race_id in ordered:
         print(f"[races] === {race_id} ===")
-        summaries[race_id] = build_race(roster, race_id, reference=race_id == reference)
+        summaries[race_id] = build_race(
+            roster,
+            race_id,
+            reference=race_id == reference and not skip_reference,
+        )
 
     roster_path = (ROOT / roster["rosterOutput"]).resolve()
     rig_glb = (ROOT / roster["rigOutput"]).resolve()
@@ -180,14 +184,12 @@ def build(
             # runtime scales about the foot-rooted actor origin, so this alters
             # silhouette without lifting or burying the feet.
             "heightScale": _race_config(race_id).get("heightScale", 1.0),
-            # A race is a *tint*, not a texture set: the same body art coloured
-            # differently, which is how the game itself does it. The tints are
-            # applied at runtime, so a character creator can move them without
-            # rebuilding anything, and these two lists are what tells the game
-            # which meshes they apply to.
+            # QNAM is Skyrim's own NPC body-tint colour and HCLF supplies the
+            # HairTint colour. Keep both live for first-person arms and a later
+            # character creator; the fixed head already carries FaceTint.
             "appearance": {
                 "skinTint": _race_config(race_id).get("skinTint", [1, 1, 1]),
-                "skinTintMode": _race_config(race_id).get("skinTintMode", "multiply"),
+                "skinTintMode": "skyrim-rgb-tint",
                 "hairTint": _race_config(race_id).get("hairTint", [1, 1, 1]),
                 "skinMeshes": summaries[race_id].get("skinMeshes", []),
                 "hairMeshes": summaries[race_id].get("hairMeshes", []),

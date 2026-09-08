@@ -4,19 +4,19 @@
   "sampleHz": 240,
   "reference": {
     "race": "dunmer",
-    "characterScale": 0.15356,
+    "characterScale": 0.15314,
     "origin": "starting actor axis",
     "targetRadius": 0,
     "criticals": "stationary weapon extent; entry limits remain paired choreography"
   },
   "provenance": {
-    "inputsSha256": "4792d4af06ecef02fa099d0efb0dcf0d8a58647bb95abf0636beb186761267dd",
-    "animationManifestSha256": "1c263833d2adce3b68ce897a1b180d46b7718553012b36dd07da196926a138c4",
+    "inputsSha256": "40ec578140bdebf4f40746318b7dc1c99e36467c5f72ca770e8bb993607e7674",
+    "animationManifestSha256": "37cf90fc4e6fd8095b47f806f32c38e7ceb317ec9f222a905784083a2f5a4d3d",
     "assets": {
-      "races/dunmer.glb": "86d58c15d894ca002ff70d907973b39f33f019da969d50e71743daf7fb681e5f",
+      "races/dunmer.glb": "90ad8fbc13001e9ec4ab80c2b70a0dafed32c5d614f9ca34165faad8bfaa1b86",
       "weapons/iron-dagger.glb": "d405a720f11bf7217ca7157ccc32b67ba8cbc94ba0f4b932cd4c1c54bfac6449",
-      "rig-skyrim-humanoid.oneHanded.glb": "f5f853e77c26e7ba678aa58c03ed13b2efc8f72f5a195740d858261483471fc0",
-      "rig-skyrim-humanoid.criticals.glb": "2689069326f89721a09815fdc18153368d4d55db46da9ef37a2439742dc0599c",
+      "rig-skyrim-humanoid.oneHanded.glb": "e9e401be7d8e63aa8170ac89315b73bd3c3580e0b364eb3cf66131ede094b450",
+      "rig-skyrim-humanoid.criticals.glb": "a95ddf321bbbce8a22b1a93996d86f2dce9886c6f1a92ea45b6a7f6392efd8eb",
       "weapons/steel-dagger.glb": "864a46456b2ed896f171f5eb88b994251972b41df857b37f1256b231c14da5e9",
       "weapons/elven-dagger.glb": "79b7483ae0a1fa577e4aeb4982b7349893b6cca75d838a47e4b9437d59ecf3ff",
       "weapons/ebony-dagger.glb": "0096f5fe334e2bb9dc7fe369e2ea7b069ab169d6abf17523881b1af7995ed7c2",
@@ -34,7 +34,7 @@
       "weapons/blades-sword.glb": "182f9b89882224e07cd036d2c89e55589b4cd4497fd4d12393f6ae16dd275800",
       "weapons/steel-scimitar.glb": "b3525df2cd90fa9fcf3cecfde9d921be7fe7ffe24659ddc5150b3cc5ad73d542",
       "weapons/iron-greatsword.glb": "d3513d5e2749366567a5aca2d29c2e6b86bfa55054fa01da10e76b5fe24ec52a",
-      "rig-skyrim-humanoid.greatsword.glb": "4e1aa18f9e87c570f7d2d01220df8f0b51e77b6401c7e4beaabbac0847b9fe84",
+      "rig-skyrim-humanoid.greatsword.glb": "9a35af8243ae432332deb060e6dd73f17406621c99cd593348f9326c6da5d716",
       "weapons/steel-greatsword.glb": "bc6391031398694e7d1e4716a78c2180f4accc2f2d0bf100e70294b4785df94a",
       "weapons/elven-greatsword.glb": "68934df7cb90e4da98506fab10740f09ef144ec52aeed7234debde717407e217",
       "weapons/ebony-greatsword.glb": "a5a5f38955fdc325ad3f029bea10b14ab9a91ce9be0dc3b8b39eb6a6bbed508d",
@@ -44,7 +44,7 @@
       "weapons/orcish-waraxe.glb": "25c17d6d0cf8019fa4a32dda5a5db277d553dbd937f2e5d7fce2c54467195a9b",
       "weapons/nordhero-waraxe.glb": "172734d86315e940f8f5567912c7428500b3ad0fe525a80167ca4fbd4107b42c",
       "weapons/iron-battleaxe.glb": "ebcd9a5707dce93171d26d1b880438e9b9db1e80867933c69f7eb451c0a357b4",
-      "rig-skyrim-humanoid.greataxe.glb": "2de4d65509366a02a2b43dce02e82b07bc66aed7ba6d51a6583ebb0d220080c3",
+      "rig-skyrim-humanoid.greataxe.glb": "5fecbb09b76c6205f60545a823be402c289420911db6afad94b0d71db49d6a37",
       "weapons/steel-battleaxe.glb": "37d875ff08383756aa0606158146e92c042859f23621ebd7758f91bfa3392af5",
       "weapons/dwarven-battleaxe.glb": "79ccea2c0c768c3d8de3c7510fdc6c97e1e9d2079a31d92754c20657b2dca960",
       "weapons/iron-mace.glb": "4a68b3cb52a08542176200a5ef8f0b826b7a355054d6382b51eb39ec4684e916",
@@ -65,8 +65,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.988814,
-          "stationaryRange": 1.02736,
+          "range": 0.986793,
+          "stationaryRange": 1.025142,
           "atSeconds": 0.43241,
           "sourceTime": 0.60057
         },
@@ -76,8 +76,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.813907,
-          "stationaryRange": 0.848703,
+          "range": 0.811923,
+          "stationaryRange": 0.846831,
           "atSeconds": 0.343564,
           "sourceTime": 0.477172
         },
@@ -87,8 +87,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.489146,
-          "stationaryRange": 1.354927,
+          "range": 1.485587,
+          "stationaryRange": 1.351732,
           "atSeconds": 0.50756,
           "sourceTime": 0.704944
         },
@@ -98,8 +98,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.348551,
-          "stationaryRange": 1.154622,
+          "range": 2.342782,
+          "stationaryRange": 1.15215,
           "atSeconds": 0.51802,
           "sourceTime": 0.719472
         },
@@ -109,8 +109,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.088252,
-          "stationaryRange": 1.097083,
+          "range": 1.085619,
+          "stationaryRange": 1.09469,
           "atSeconds": 0.555586,
           "sourceTime": 0.771647
         },
@@ -120,8 +120,8 @@
             2.535833,
             2.924722
           ],
-          "range": 0.940371,
-          "stationaryRange": 0.940371,
+          "range": 0.938598,
+          "stationaryRange": 0.938598,
           "atSeconds": 0.542882,
           "sourceTime": 2.919003
         },
@@ -131,8 +131,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.671941,
-          "stationaryRange": 0.671941,
+          "range": 0.670401,
+          "stationaryRange": 0.670401,
           "atSeconds": 1.128024,
           "sourceTime": 1.5667
         }
@@ -147,8 +147,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.989732,
-          "stationaryRange": 1.025805,
+          "range": 0.987718,
+          "stationaryRange": 1.023596,
           "atSeconds": 0.43241,
           "sourceTime": 0.60057
         },
@@ -158,8 +158,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.805289,
-          "stationaryRange": 0.843333,
+          "range": 0.803305,
+          "stationaryRange": 0.841473,
           "atSeconds": 0.343564,
           "sourceTime": 0.477172
         },
@@ -169,8 +169,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.48567,
-          "stationaryRange": 1.35106,
+          "range": 1.482193,
+          "stationaryRange": 1.347865,
           "atSeconds": 0.511692,
           "sourceTime": 0.710684
         },
@@ -180,8 +180,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.34885,
-          "stationaryRange": 1.155564,
+          "range": 2.343085,
+          "stationaryRange": 1.153097,
           "atSeconds": 0.51802,
           "sourceTime": 0.719472
         },
@@ -191,8 +191,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.079863,
-          "stationaryRange": 1.09591,
+          "range": 1.07724,
+          "stationaryRange": 1.093524,
           "atSeconds": 0.555586,
           "sourceTime": 0.771647
         },
@@ -202,8 +202,8 @@
             2.535833,
             2.924722
           ],
-          "range": 0.944323,
-          "stationaryRange": 0.944323,
+          "range": 0.942552,
+          "stationaryRange": 0.942552,
           "atSeconds": 0.542882,
           "sourceTime": 2.919003
         },
@@ -213,8 +213,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.662287,
-          "stationaryRange": 0.662287,
+          "range": 0.660747,
+          "stationaryRange": 0.660747,
           "atSeconds": 1.128024,
           "sourceTime": 1.5667
         }
@@ -229,8 +229,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.978722,
-          "stationaryRange": 1.016789,
+          "range": 0.976703,
+          "stationaryRange": 1.014572,
           "atSeconds": 0.43241,
           "sourceTime": 0.60057
         },
@@ -240,8 +240,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.815202,
-          "stationaryRange": 0.837392,
+          "range": 0.813226,
+          "stationaryRange": 0.835522,
           "atSeconds": 0.339482,
           "sourceTime": 0.471503
         },
@@ -251,8 +251,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.478149,
-          "stationaryRange": 1.34393,
+          "range": 1.474591,
+          "stationaryRange": 1.340735,
           "atSeconds": 0.50756,
           "sourceTime": 0.704944
         },
@@ -262,8 +262,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.338348,
-          "stationaryRange": 1.144537,
+          "range": 2.33258,
+          "stationaryRange": 1.142066,
           "atSeconds": 0.51802,
           "sourceTime": 0.719472
         },
@@ -273,8 +273,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.076366,
-          "stationaryRange": 1.086591,
+          "range": 1.073735,
+          "stationaryRange": 1.0842,
           "atSeconds": 0.555586,
           "sourceTime": 0.771647
         },
@@ -284,8 +284,8 @@
             2.535833,
             2.924722
           ],
-          "range": 0.930871,
-          "stationaryRange": 0.930871,
+          "range": 0.929097,
+          "stationaryRange": 0.929097,
           "atSeconds": 0.542882,
           "sourceTime": 2.919003
         },
@@ -295,8 +295,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.659833,
-          "stationaryRange": 0.659833,
+          "range": 0.658292,
+          "stationaryRange": 0.658292,
           "atSeconds": 1.128024,
           "sourceTime": 1.5667
         }
@@ -311,8 +311,8 @@
             0.4225,
             0.6695
           ],
-          "range": 0.984768,
-          "stationaryRange": 1.021733,
+          "range": 0.982751,
+          "stationaryRange": 1.01952,
           "atSeconds": 0.43241,
           "sourceTime": 0.60057
         },
@@ -322,8 +322,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.809617,
-          "stationaryRange": 0.840635,
+          "range": 0.80764,
+          "stationaryRange": 0.838771,
           "atSeconds": 0.339482,
           "sourceTime": 0.471503
         },
@@ -333,8 +333,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.482074,
-          "stationaryRange": 1.347854,
+          "range": 1.478515,
+          "stationaryRange": 1.344659,
           "atSeconds": 0.50756,
           "sourceTime": 0.704944
         },
@@ -344,8 +344,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.344122,
-          "stationaryRange": 1.150594,
+          "range": 2.338355,
+          "stationaryRange": 1.148125,
           "atSeconds": 0.51802,
           "sourceTime": 0.719472
         },
@@ -355,8 +355,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.078269,
-          "stationaryRange": 1.091708,
+          "range": 1.075643,
+          "stationaryRange": 1.08932,
           "atSeconds": 0.555586,
           "sourceTime": 0.771647
         },
@@ -366,8 +366,8 @@
             2.535833,
             2.924722
           ],
-          "range": 0.938269,
-          "stationaryRange": 0.938269,
+          "range": 0.936497,
+          "stationaryRange": 0.936497,
           "atSeconds": 0.542882,
           "sourceTime": 2.919003
         },
@@ -377,8 +377,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.661184,
-          "stationaryRange": 0.661184,
+          "range": 0.659643,
+          "stationaryRange": 0.659643,
           "atSeconds": 1.128024,
           "sourceTime": 1.5667
         }
@@ -393,8 +393,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.466416,
-          "stationaryRange": 1.40159,
+          "range": 1.464436,
+          "stationaryRange": 1.39966,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -404,8 +404,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.118542,
-          "stationaryRange": 1.149913,
+          "range": 1.117126,
+          "stationaryRange": 1.148412,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -415,8 +415,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.835577,
-          "stationaryRange": 1.677177,
+          "range": 1.832312,
+          "stationaryRange": 1.674342,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -426,8 +426,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.913315,
-          "stationaryRange": 1.578587,
+          "range": 2.907446,
+          "stationaryRange": 1.576298,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -437,8 +437,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.59526,
-          "stationaryRange": 1.461906,
+          "range": 1.592846,
+          "stationaryRange": 1.45969,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -448,8 +448,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.256205,
-          "stationaryRange": 1.256205,
+          "range": 1.254502,
+          "stationaryRange": 1.254502,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -459,8 +459,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.767164,
-          "stationaryRange": 0.767164,
+          "range": 0.765626,
+          "stationaryRange": 0.765626,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -475,8 +475,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.479716,
-          "stationaryRange": 1.415102,
+          "range": 1.477735,
+          "stationaryRange": 1.41317,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -486,8 +486,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.13249,
-          "stationaryRange": 1.163867,
+          "range": 1.131071,
+          "stationaryRange": 1.162363,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -497,8 +497,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.849341,
-          "stationaryRange": 1.690942,
+          "range": 1.846076,
+          "stationaryRange": 1.688108,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -508,8 +508,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.926496,
-          "stationaryRange": 1.591885,
+          "range": 2.920626,
+          "stationaryRange": 1.589595,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -519,8 +519,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.608687,
-          "stationaryRange": 1.475623,
+          "range": 1.606272,
+          "stationaryRange": 1.473406,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -530,8 +530,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.27001,
-          "stationaryRange": 1.27001,
+          "range": 1.268304,
+          "stationaryRange": 1.268304,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -541,8 +541,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.782958,
-          "stationaryRange": 0.782958,
+          "range": 0.78142,
+          "stationaryRange": 0.78142,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -557,8 +557,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.457924,
-          "stationaryRange": 1.393176,
+          "range": 1.455944,
+          "stationaryRange": 1.391245,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -568,8 +568,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.110289,
-          "stationaryRange": 1.141662,
+          "range": 1.108872,
+          "stationaryRange": 1.14016,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -579,8 +579,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.827257,
-          "stationaryRange": 1.668857,
+          "range": 1.823992,
+          "stationaryRange": 1.666022,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -590,8 +590,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.904779,
-          "stationaryRange": 1.570095,
+          "range": 2.89891,
+          "stationaryRange": 1.567805,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -601,8 +601,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.586815,
-          "stationaryRange": 1.453568,
+          "range": 1.584401,
+          "stationaryRange": 1.451352,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -612,8 +612,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.2479,
-          "stationaryRange": 1.2479,
+          "range": 1.246195,
+          "stationaryRange": 1.246195,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -623,8 +623,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.759593,
-          "stationaryRange": 0.759593,
+          "range": 0.758054,
+          "stationaryRange": 0.758054,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -639,8 +639,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.4413,
-          "stationaryRange": 1.38048,
+          "range": 1.439283,
+          "stationaryRange": 1.378517,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -650,8 +650,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.106107,
-          "stationaryRange": 1.137576,
+          "range": 1.104639,
+          "stationaryRange": 1.136023,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -661,8 +661,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.822244,
-          "stationaryRange": 1.662075,
+          "range": 1.81885,
+          "stationaryRange": 1.659118,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -672,8 +672,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.885461,
-          "stationaryRange": 1.55318,
+          "range": 2.879584,
+          "stationaryRange": 1.550872,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -683,8 +683,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.572395,
-          "stationaryRange": 1.444608,
+          "range": 1.569958,
+          "stationaryRange": 1.442368,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -694,8 +694,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.240899,
-          "stationaryRange": 1.240899,
+          "range": 1.23915,
+          "stationaryRange": 1.23915,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -705,8 +705,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.789286,
-          "stationaryRange": 0.789286,
+          "range": 0.787747,
+          "stationaryRange": 0.787747,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -721,8 +721,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.462132,
-          "stationaryRange": 1.399612,
+          "range": 1.46014,
+          "stationaryRange": 1.397663,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -732,8 +732,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.121295,
-          "stationaryRange": 1.152726,
+          "range": 1.11985,
+          "stationaryRange": 1.151197,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -743,8 +743,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.837698,
-          "stationaryRange": 1.677752,
+          "range": 1.834303,
+          "stationaryRange": 1.674917,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -754,8 +754,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.907702,
-          "stationaryRange": 1.57428,
+          "range": 2.901828,
+          "stationaryRange": 1.57198,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -765,8 +765,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.592346,
-          "stationaryRange": 1.462077,
+          "range": 1.589919,
+          "stationaryRange": 1.459848,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -776,8 +776,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.257398,
-          "stationaryRange": 1.257398,
+          "range": 1.25567,
+          "stationaryRange": 1.25567,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -787,8 +787,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.789317,
-          "stationaryRange": 0.789317,
+          "range": 0.787778,
+          "stationaryRange": 0.787778,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -803,8 +803,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.464217,
-          "stationaryRange": 1.398157,
+          "range": 1.462243,
+          "stationaryRange": 1.396236,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -814,8 +814,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.112547,
-          "stationaryRange": 1.143879,
+          "range": 1.111147,
+          "stationaryRange": 1.142394,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -825,8 +825,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.830583,
-          "stationaryRange": 1.672173,
+          "range": 1.827318,
+          "stationaryRange": 1.669338,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -836,8 +836,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.911803,
-          "stationaryRange": 1.576398,
+          "range": 2.905936,
+          "stationaryRange": 1.574115,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -847,8 +847,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.592786,
-          "stationaryRange": 1.457236,
+          "range": 1.590434,
+          "stationaryRange": 1.455028,
           "atSeconds": 0.652419,
           "sourceTime": 0.652419
         },
@@ -858,8 +858,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.25105,
-          "stationaryRange": 1.25105,
+          "range": 1.249359,
+          "stationaryRange": 1.249359,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -869,8 +869,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.750099,
-          "stationaryRange": 0.750099,
+          "range": 0.748561,
+          "stationaryRange": 0.748561,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -885,8 +885,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.47586,
-          "stationaryRange": 1.412918,
+          "range": 1.473871,
+          "stationaryRange": 1.410972,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -896,8 +896,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.133739,
-          "stationaryRange": 1.16516,
+          "range": 1.132299,
+          "stationaryRange": 1.163636,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -907,8 +907,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.850151,
-          "stationaryRange": 1.690625,
+          "range": 1.846757,
+          "stationaryRange": 1.68779,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -918,8 +918,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.921678,
-          "stationaryRange": 1.588013,
+          "range": 2.915805,
+          "stationaryRange": 1.585715,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -929,8 +929,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.605826,
-          "stationaryRange": 1.475004,
+          "range": 1.603402,
+          "stationaryRange": 1.472777,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -940,8 +940,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.270127,
-          "stationaryRange": 1.270127,
+          "range": 1.268403,
+          "stationaryRange": 1.268403,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -951,8 +951,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.798324,
-          "stationaryRange": 0.798324,
+          "range": 0.796786,
+          "stationaryRange": 0.796786,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -967,8 +967,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.446858,
-          "stationaryRange": 1.386903,
+          "range": 1.444837,
+          "stationaryRange": 1.384933,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -978,8 +978,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.114526,
-          "stationaryRange": 1.146009,
+          "range": 1.113045,
+          "stationaryRange": 1.144445,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -989,8 +989,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.830394,
-          "stationaryRange": 1.670228,
+          "range": 1.827,
+          "stationaryRange": 1.66727,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1000,8 +1000,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.890283,
-          "stationaryRange": 1.558598,
+          "range": 2.884405,
+          "stationaryRange": 1.556285,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1011,8 +1011,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.578389,
-          "stationaryRange": 1.451829,
+          "range": 1.575947,
+          "stationaryRange": 1.449583,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1022,8 +1022,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.248649,
-          "stationaryRange": 1.248649,
+          "range": 1.246891,
+          "stationaryRange": 1.246891,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1033,8 +1033,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.805038,
-          "stationaryRange": 0.805038,
+          "range": 0.803499,
+          "stationaryRange": 0.803499,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -1049,8 +1049,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.432352,
-          "stationaryRange": 1.372418,
+          "range": 1.43033,
+          "stationaryRange": 1.370447,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -1060,8 +1060,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.100089,
-          "stationaryRange": 1.131573,
+          "range": 1.098609,
+          "stationaryRange": 1.130009,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1071,8 +1071,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.81595,
-          "stationaryRange": 1.655784,
+          "range": 1.812556,
+          "stationaryRange": 1.652826,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1082,8 +1082,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.875758,
-          "stationaryRange": 1.544088,
+          "range": 2.86988,
+          "stationaryRange": 1.541775,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1093,8 +1093,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.563893,
-          "stationaryRange": 1.437363,
+          "range": 1.56145,
+          "stationaryRange": 1.435117,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1104,8 +1104,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.234196,
-          "stationaryRange": 1.234196,
+          "range": 1.232437,
+          "stationaryRange": 1.232437,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1115,8 +1115,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.79078,
-          "stationaryRange": 0.79078,
+          "range": 0.789241,
+          "stationaryRange": 0.789241,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -1131,8 +1131,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.458099,
-          "stationaryRange": 1.391966,
+          "range": 1.456125,
+          "stationaryRange": 1.390046,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -1142,8 +1142,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.106203,
-          "stationaryRange": 1.137533,
+          "range": 1.104804,
+          "stationaryRange": 1.136048,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1153,8 +1153,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.824294,
-          "stationaryRange": 1.665884,
+          "range": 1.82103,
+          "stationaryRange": 1.663049,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -1164,8 +1164,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.905725,
-          "stationaryRange": 1.570281,
+          "range": 2.899858,
+          "stationaryRange": 1.567998,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1175,8 +1175,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.586656,
-          "stationaryRange": 1.450969,
+          "range": 1.584304,
+          "stationaryRange": 1.448762,
           "atSeconds": 0.652419,
           "sourceTime": 0.652419
         },
@@ -1186,8 +1186,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.244755,
-          "stationaryRange": 1.244755,
+          "range": 1.243066,
+          "stationaryRange": 1.243066,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1197,8 +1197,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.743082,
-          "stationaryRange": 0.743082,
+          "range": 0.741544,
+          "stationaryRange": 0.741544,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -1213,8 +1213,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.419799,
-          "stationaryRange": 1.358028,
+          "range": 1.417787,
+          "stationaryRange": 1.356073,
           "atSeconds": 0.611867,
           "sourceTime": 0.611867
         },
@@ -1224,8 +1224,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.081448,
-          "stationaryRange": 1.112897,
+          "range": 1.079993,
+          "stationaryRange": 1.111357,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1235,8 +1235,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.797778,
-          "stationaryRange": 1.637606,
+          "range": 1.794384,
+          "stationaryRange": 1.634648,
           "atSeconds": 0.716702,
           "sourceTime": 0.716702
         },
@@ -1246,8 +1246,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.864757,
-          "stationaryRange": 1.531832,
+          "range": 2.858882,
+          "stationaryRange": 1.529528,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1257,8 +1257,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.550405,
-          "stationaryRange": 1.421239,
+          "range": 1.547974,
+          "stationaryRange": 1.419005,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1268,8 +1268,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.216975,
-          "stationaryRange": 1.216975,
+          "range": 1.215237,
+          "stationaryRange": 1.215237,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1279,8 +1279,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.756256,
-          "stationaryRange": 0.756256,
+          "range": 0.754717,
+          "stationaryRange": 0.754717,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -1295,8 +1295,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.428509,
-          "stationaryRange": 1.364395,
+          "range": 1.426525,
+          "stationaryRange": 1.362459,
           "atSeconds": 0.615983,
           "sourceTime": 0.615983
         },
@@ -1306,8 +1306,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.082815,
-          "stationaryRange": 1.114206,
+          "range": 1.08139,
+          "stationaryRange": 1.112696,
           "atSeconds": 0.597735,
           "sourceTime": 0.597735
         },
@@ -1317,8 +1317,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.799216,
-          "stationaryRange": 1.640821,
+          "range": 1.795951,
+          "stationaryRange": 1.637987,
           "atSeconds": 0.720868,
           "sourceTime": 0.720868
         },
@@ -1328,8 +1328,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.875004,
-          "stationaryRange": 1.540674,
+          "range": 2.869133,
+          "stationaryRange": 1.538381,
           "atSeconds": 0.732607,
           "sourceTime": 0.732607
         },
@@ -1339,8 +1339,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.55778,
-          "stationaryRange": 1.425396,
+          "range": 1.555362,
+          "stationaryRange": 1.423176,
           "atSeconds": 0.648256,
           "sourceTime": 0.648256
         },
@@ -1350,8 +1350,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.219996,
-          "stationaryRange": 1.219996,
+          "range": 1.218284,
+          "stationaryRange": 1.218284,
           "atSeconds": 0.4,
           "sourceTime": 0.5667
         },
@@ -1361,8 +1361,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.7376,
-          "stationaryRange": 0.7376,
+          "range": 0.736061,
+          "stationaryRange": 0.736061,
           "atSeconds": 1.5667,
           "sourceTime": 1.5667
         }
@@ -1377,10 +1377,10 @@
             0.4225,
             0.6695
           ],
-          "range": 1.491552,
-          "stationaryRange": 1.427132,
-          "atSeconds": 0.56636,
-          "sourceTime": 0.615609
+          "range": 1.48954,
+          "stationaryRange": 1.42516,
+          "atSeconds": 0.570492,
+          "sourceTime": 0.6201
         },
         "light2": {
           "animation": "LIGHT_2",
@@ -1388,8 +1388,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.130944,
-          "stationaryRange": 1.184992,
+          "range": 1.129552,
+          "stationaryRange": 1.183429,
           "atSeconds": 0.549666,
           "sourceTime": 0.597463
         },
@@ -1399,8 +1399,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.910872,
-          "stationaryRange": 1.711117,
+          "range": 1.907385,
+          "stationaryRange": 1.708172,
           "atSeconds": 0.659799,
           "sourceTime": 0.717173
         },
@@ -1410,8 +1410,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.855401,
-          "stationaryRange": 1.598426,
+          "range": 2.849682,
+          "stationaryRange": 1.596121,
           "atSeconds": 0.671654,
           "sourceTime": 0.730058
         },
@@ -1421,8 +1421,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.508064,
-          "stationaryRange": 1.490784,
+          "range": 1.505966,
+          "stationaryRange": 1.488538,
           "atSeconds": 0.600892,
           "sourceTime": 0.653143
         },
@@ -1432,8 +1432,8 @@
             0.5667,
             0.8467
           ],
-          "range": 1.289202,
-          "stationaryRange": 1.289202,
+          "range": 1.287442,
+          "stationaryRange": 1.287442,
           "atSeconds": 0.368,
           "sourceTime": 0.5667
         },
@@ -1443,8 +1443,8 @@
             1.5667,
             1.8467
           ],
-          "range": 0.847516,
-          "stationaryRange": 0.847516,
+          "range": 0.845977,
+          "stationaryRange": 0.845977,
           "atSeconds": 1.441364,
           "sourceTime": 1.5667
         }
@@ -1459,8 +1459,8 @@
             0.74,
             1.04
           ],
-          "range": 1.911829,
-          "stationaryRange": 1.699736,
+          "range": 1.909757,
+          "stationaryRange": 1.698242,
           "atSeconds": 1.015342,
           "sourceTime": 1.015342
         },
@@ -1470,8 +1470,8 @@
             0.65,
             0.916
           ],
-          "range": 1.431266,
-          "stationaryRange": 1.283687,
+          "range": 1.430324,
+          "stationaryRange": 1.283082,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -1481,8 +1481,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.393097,
-          "stationaryRange": 1.605814,
+          "range": 2.389641,
+          "stationaryRange": 1.604448,
           "atSeconds": 1.090549,
           "sourceTime": 1.090549
         },
@@ -1492,8 +1492,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.781313,
-          "stationaryRange": 1.866712,
+          "range": 1.779186,
+          "stationaryRange": 1.864354,
           "atSeconds": 1.017758,
           "sourceTime": 1.017758
         },
@@ -1503,8 +1503,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.953425,
-          "stationaryRange": 1.654199,
+          "range": 2.948214,
+          "stationaryRange": 1.65265,
           "atSeconds": 1.148799,
           "sourceTime": 1.148799
         },
@@ -1514,8 +1514,8 @@
             2.975,
             3.255
           ],
-          "range": 1.596986,
-          "stationaryRange": 1.596986,
+          "range": 1.595529,
+          "stationaryRange": 1.595529,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1525,8 +1525,8 @@
             2.975,
             3.255
           ],
-          "range": 1.596986,
-          "stationaryRange": 1.596986,
+          "range": 1.595529,
+          "stationaryRange": 1.595529,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
@@ -1541,8 +1541,8 @@
             0.74,
             1.04
           ],
-          "range": 1.90297,
-          "stationaryRange": 1.690857,
+          "range": 1.900899,
+          "stationaryRange": 1.689363,
           "atSeconds": 1.015342,
           "sourceTime": 1.015342
         },
@@ -1552,8 +1552,8 @@
             0.65,
             0.916
           ],
-          "range": 1.421784,
-          "stationaryRange": 1.27398,
+          "range": 1.420844,
+          "stationaryRange": 1.273379,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -1563,8 +1563,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.384018,
-          "stationaryRange": 1.596508,
+          "range": 2.380563,
+          "stationaryRange": 1.595144,
           "atSeconds": 1.090549,
           "sourceTime": 1.090549
         },
@@ -1574,8 +1574,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.771055,
-          "stationaryRange": 1.856472,
+          "range": 1.768928,
+          "stationaryRange": 1.854115,
           "atSeconds": 1.017758,
           "sourceTime": 1.017758
         },
@@ -1585,8 +1585,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.943586,
-          "stationaryRange": 1.644723,
+          "range": 2.938376,
+          "stationaryRange": 1.643176,
           "atSeconds": 1.148799,
           "sourceTime": 1.148799
         },
@@ -1596,8 +1596,8 @@
             2.975,
             3.255
           ],
-          "range": 1.587291,
-          "stationaryRange": 1.587291,
+          "range": 1.585834,
+          "stationaryRange": 1.585834,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1607,8 +1607,8 @@
             2.975,
             3.255
           ],
-          "range": 1.587291,
-          "stationaryRange": 1.587291,
+          "range": 1.585834,
+          "stationaryRange": 1.585834,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
@@ -1623,8 +1623,8 @@
             0.74,
             1.04
           ],
-          "range": 1.873421,
-          "stationaryRange": 1.661343,
+          "range": 1.871349,
+          "stationaryRange": 1.659848,
           "atSeconds": 1.015342,
           "sourceTime": 1.015342
         },
@@ -1634,8 +1634,8 @@
             0.65,
             0.916
           ],
-          "range": 1.393308,
-          "stationaryRange": 1.245892,
+          "range": 1.392364,
+          "stationaryRange": 1.245285,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -1645,8 +1645,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.354846,
-          "stationaryRange": 1.567728,
+          "range": 2.35139,
+          "stationaryRange": 1.566362,
           "atSeconds": 1.090549,
           "sourceTime": 1.090549
         },
@@ -1656,8 +1656,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.743905,
-          "stationaryRange": 1.829291,
+          "range": 1.741778,
+          "stationaryRange": 1.826934,
           "atSeconds": 1.017758,
           "sourceTime": 1.017758
         },
@@ -1667,8 +1667,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.91572,
-          "stationaryRange": 1.616237,
+          "range": 2.910509,
+          "stationaryRange": 1.614686,
           "atSeconds": 1.148799,
           "sourceTime": 1.148799
         },
@@ -1678,8 +1678,8 @@
             2.975,
             3.255
           ],
-          "range": 1.559178,
-          "stationaryRange": 1.559178,
+          "range": 1.55772,
+          "stationaryRange": 1.55772,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1689,8 +1689,8 @@
             2.975,
             3.255
           ],
-          "range": 1.559178,
-          "stationaryRange": 1.559178,
+          "range": 1.55772,
+          "stationaryRange": 1.55772,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
@@ -1705,8 +1705,8 @@
             0.74,
             1.04
           ],
-          "range": 1.824714,
-          "stationaryRange": 1.612613,
+          "range": 1.822643,
+          "stationaryRange": 1.611119,
           "atSeconds": 1.015342,
           "sourceTime": 1.015342
         },
@@ -1716,8 +1716,8 @@
             0.65,
             0.916
           ],
-          "range": 1.343884,
-          "stationaryRange": 1.196208,
+          "range": 1.342942,
+          "stationaryRange": 1.195605,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -1727,8 +1727,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.305888,
-          "stationaryRange": 1.518507,
+          "range": 2.302433,
+          "stationaryRange": 1.517142,
           "atSeconds": 1.090549,
           "sourceTime": 1.090549
         },
@@ -1738,8 +1738,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.693599,
-          "stationaryRange": 1.779006,
+          "range": 1.691472,
+          "stationaryRange": 1.776648,
           "atSeconds": 1.017758,
           "sourceTime": 1.017758
         },
@@ -1749,8 +1749,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.86589,
-          "stationaryRange": 1.566819,
+          "range": 2.86068,
+          "stationaryRange": 1.565272,
           "atSeconds": 1.148799,
           "sourceTime": 1.148799
         },
@@ -1760,8 +1760,8 @@
             2.975,
             3.255
           ],
-          "range": 1.509513,
-          "stationaryRange": 1.509513,
+          "range": 1.508056,
+          "stationaryRange": 1.508056,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1771,8 +1771,8 @@
             2.975,
             3.255
           ],
-          "range": 1.509513,
-          "stationaryRange": 1.509513,
+          "range": 1.508056,
+          "stationaryRange": 1.508056,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
@@ -1787,8 +1787,8 @@
             0.74,
             1.04
           ],
-          "range": 1.882087,
-          "stationaryRange": 1.669956,
+          "range": 1.880016,
+          "stationaryRange": 1.668462,
           "atSeconds": 1.015342,
           "sourceTime": 1.015342
         },
@@ -1798,8 +1798,8 @@
             0.65,
             0.916
           ],
-          "range": 1.40036,
-          "stationaryRange": 1.252363,
+          "range": 1.399422,
+          "stationaryRange": 1.251765,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -1809,8 +1809,8 @@
             0.900654,
             1.276315
           ],
-          "range": 2.362942,
-          "stationaryRange": 1.575237,
+          "range": 2.359487,
+          "stationaryRange": 1.573874,
           "atSeconds": 1.090549,
           "sourceTime": 1.090549
         },
@@ -1820,8 +1820,8 @@
             0.823346,
             1.09635
           ],
-          "range": 1.748945,
-          "stationaryRange": 1.834378,
+          "range": 1.746818,
+          "stationaryRange": 1.832021,
           "atSeconds": 1.017758,
           "sourceTime": 1.017758
         },
@@ -1831,8 +1831,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.921845,
-          "stationaryRange": 1.623304,
+          "range": 2.916636,
+          "stationaryRange": 1.621759,
           "atSeconds": 1.148799,
           "sourceTime": 1.148799
         },
@@ -1842,8 +1842,8 @@
             2.975,
             3.255
           ],
-          "range": 1.565676,
-          "stationaryRange": 1.565676,
+          "range": 1.56422,
+          "stationaryRange": 1.56422,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         },
@@ -1853,8 +1853,8 @@
             2.975,
             3.255
           ],
-          "range": 1.565676,
-          "stationaryRange": 1.565676,
+          "range": 1.56422,
+          "stationaryRange": 1.56422,
           "atSeconds": 0.675882,
           "sourceTime": 3.250882
         }
@@ -1869,8 +1869,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.270278,
-          "stationaryRange": 1.237926,
+          "range": 1.268167,
+          "stationaryRange": 1.235802,
           "atSeconds": 0.63902,
           "sourceTime": 0.602849
         },
@@ -1880,8 +1880,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.009725,
-          "stationaryRange": 1.035851,
+          "range": 1.008002,
+          "stationaryRange": 1.034088,
           "atSeconds": 0.633854,
           "sourceTime": 0.597975
         },
@@ -1891,8 +1891,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.692748,
-          "stationaryRange": 1.54578,
+          "range": 1.689222,
+          "stationaryRange": 1.542654,
           "atSeconds": 0.751942,
           "sourceTime": 0.709379
         },
@@ -1902,8 +1902,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.777481,
-          "stationaryRange": 1.386932,
+          "range": 2.771309,
+          "stationaryRange": 1.384537,
           "atSeconds": 0.770658,
           "sourceTime": 0.727036
         },
@@ -1913,8 +1913,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.459924,
-          "stationaryRange": 1.312632,
+          "range": 1.456796,
+          "stationaryRange": 1.310294,
           "atSeconds": 0.640985,
           "sourceTime": 0.604703
         },
@@ -1924,8 +1924,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.237926,
-          "stationaryRange": 1.237926,
+          "range": 1.235802,
+          "stationaryRange": 1.235802,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         },
@@ -1935,8 +1935,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.237926,
-          "stationaryRange": 1.237926,
+          "range": 1.235802,
+          "stationaryRange": 1.235802,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         }
@@ -1951,8 +1951,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.280119,
-          "stationaryRange": 1.246514,
+          "range": 1.278015,
+          "stationaryRange": 1.244415,
           "atSeconds": 0.63902,
           "sourceTime": 0.602849
         },
@@ -1962,8 +1962,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.015452,
-          "stationaryRange": 1.041977,
+          "range": 1.013741,
+          "stationaryRange": 1.040227,
           "atSeconds": 0.633854,
           "sourceTime": 0.597975
         },
@@ -1973,8 +1973,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.699275,
-          "stationaryRange": 1.553216,
+          "range": 1.695833,
+          "stationaryRange": 1.550172,
           "atSeconds": 0.756091,
           "sourceTime": 0.713293
         },
@@ -1984,8 +1984,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.788181,
-          "stationaryRange": 1.397239,
+          "range": 2.782011,
+          "stationaryRange": 1.394848,
           "atSeconds": 0.770658,
           "sourceTime": 0.727036
         },
@@ -1995,8 +1995,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.463568,
-          "stationaryRange": 1.321062,
+          "range": 1.460485,
+          "stationaryRange": 1.31873,
           "atSeconds": 0.645143,
           "sourceTime": 0.608626
         },
@@ -2006,8 +2006,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.246514,
-          "stationaryRange": 1.246514,
+          "range": 1.244415,
+          "stationaryRange": 1.244415,
           "atSeconds": 0.501876,
           "sourceTime": 0.473468
         },
@@ -2017,8 +2017,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.246514,
-          "stationaryRange": 1.246514,
+          "range": 1.244415,
+          "stationaryRange": 1.244415,
           "atSeconds": 0.501876,
           "sourceTime": 0.473468
         }
@@ -2033,8 +2033,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.267528,
-          "stationaryRange": 1.235059,
+          "range": 1.265418,
+          "stationaryRange": 1.232937,
           "atSeconds": 0.63902,
           "sourceTime": 0.602849
         },
@@ -2044,8 +2044,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.006593,
-          "stationaryRange": 1.032756,
+          "range": 1.004871,
+          "stationaryRange": 1.030995,
           "atSeconds": 0.633854,
           "sourceTime": 0.597975
         },
@@ -2055,8 +2055,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.68969,
-          "stationaryRange": 1.542738,
+          "range": 1.686164,
+          "stationaryRange": 1.539694,
           "atSeconds": 0.751942,
           "sourceTime": 0.709379
         },
@@ -2066,8 +2066,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.774813,
-          "stationaryRange": 1.384226,
+          "range": 2.76864,
+          "stationaryRange": 1.381831,
           "atSeconds": 0.770658,
           "sourceTime": 0.727036
         },
@@ -2077,8 +2077,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.45659,
-          "stationaryRange": 1.309752,
+          "range": 1.453463,
+          "stationaryRange": 1.307416,
           "atSeconds": 0.640985,
           "sourceTime": 0.604703
         },
@@ -2088,8 +2088,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.235059,
-          "stationaryRange": 1.235059,
+          "range": 1.232937,
+          "stationaryRange": 1.232937,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         },
@@ -2099,8 +2099,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.235059,
-          "stationaryRange": 1.235059,
+          "range": 1.232937,
+          "stationaryRange": 1.232937,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         }
@@ -2115,8 +2115,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.267759,
-          "stationaryRange": 1.235949,
+          "range": 1.265646,
+          "stationaryRange": 1.233822,
           "atSeconds": 0.63902,
           "sourceTime": 0.602849
         },
@@ -2126,8 +2126,8 @@
             0.3978,
             0.6019
           ],
-          "range": 1.00898,
-          "stationaryRange": 1.034932,
+          "range": 1.007251,
+          "stationaryRange": 1.033165,
           "atSeconds": 0.633854,
           "sourceTime": 0.597975
         },
@@ -2137,8 +2137,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.691641,
-          "stationaryRange": 1.544672,
+          "range": 1.688116,
+          "stationaryRange": 1.541547,
           "atSeconds": 0.751942,
           "sourceTime": 0.709379
         },
@@ -2148,8 +2148,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.774583,
-          "stationaryRange": 1.384212,
+          "range": 2.76841,
+          "stationaryRange": 1.381814,
           "atSeconds": 0.770658,
           "sourceTime": 0.727036
         },
@@ -2159,8 +2159,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.460108,
-          "stationaryRange": 1.310711,
+          "range": 1.456975,
+          "stationaryRange": 1.308371,
           "atSeconds": 0.640985,
           "sourceTime": 0.604703
         },
@@ -2170,8 +2170,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.235949,
-          "stationaryRange": 1.235949,
+          "range": 1.233822,
+          "stationaryRange": 1.233822,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         },
@@ -2181,8 +2181,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.235949,
-          "stationaryRange": 1.235949,
+          "range": 1.233822,
+          "stationaryRange": 1.233822,
           "atSeconds": 0.506032,
           "sourceTime": 0.477389
         }
@@ -2197,8 +2197,8 @@
             0.748,
             1.04
           ],
-          "range": 1.883856,
-          "stationaryRange": 1.663637,
+          "range": 1.880884,
+          "stationaryRange": 1.661261,
           "atSeconds": 1.015324,
           "sourceTime": 1.015324
         },
@@ -2208,8 +2208,8 @@
             0.65,
             0.916
           ],
-          "range": 1.406034,
-          "stationaryRange": 1.261541,
+          "range": 1.404242,
+          "stationaryRange": 1.260096,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -2219,8 +2219,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.34741,
-          "stationaryRange": 1.565019,
+          "range": 2.343117,
+          "stationaryRange": 1.562822,
           "atSeconds": 1.088784,
           "sourceTime": 1.088784
         },
@@ -2230,8 +2230,8 @@
             0.854,
             1.12
           ],
-          "range": 1.651507,
-          "stationaryRange": 1.80613,
+          "range": 1.648893,
+          "stationaryRange": 1.803102,
           "atSeconds": 1.024406,
           "sourceTime": 1.024406
         },
@@ -2241,8 +2241,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.906062,
-          "stationaryRange": 1.591159,
+          "range": 2.900125,
+          "stationaryRange": 1.588855,
           "atSeconds": 1.144666,
           "sourceTime": 1.144666
         },
@@ -2252,8 +2252,8 @@
             0.748,
             1.04
           ],
-          "range": 1.663637,
-          "stationaryRange": 1.663637,
+          "range": 1.661261,
+          "stationaryRange": 1.661261,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2263,8 +2263,8 @@
             0.748,
             1.04
           ],
-          "range": 1.663637,
-          "stationaryRange": 1.663637,
+          "range": 1.661261,
+          "stationaryRange": 1.661261,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
@@ -2279,8 +2279,8 @@
             0.748,
             1.04
           ],
-          "range": 1.853618,
-          "stationaryRange": 1.633342,
+          "range": 1.850646,
+          "stationaryRange": 1.630965,
           "atSeconds": 1.015324,
           "sourceTime": 1.015324
         },
@@ -2290,8 +2290,8 @@
             0.65,
             0.916
           ],
-          "range": 1.374246,
-          "stationaryRange": 1.2291,
+          "range": 1.372457,
+          "stationaryRange": 1.227661,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -2301,8 +2301,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.316562,
-          "stationaryRange": 1.533573,
+          "range": 2.312269,
+          "stationaryRange": 1.531379,
           "atSeconds": 1.088784,
           "sourceTime": 1.088784
         },
@@ -2312,8 +2312,8 @@
             0.854,
             1.12
           ],
-          "range": 1.617726,
-          "stationaryRange": 1.772436,
+          "range": 1.615113,
+          "stationaryRange": 1.769408,
           "atSeconds": 1.024406,
           "sourceTime": 1.024406
         },
@@ -2323,8 +2323,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.873681,
-          "stationaryRange": 1.559242,
+          "range": 2.867746,
+          "stationaryRange": 1.556942,
           "atSeconds": 1.144666,
           "sourceTime": 1.144666
         },
@@ -2334,8 +2334,8 @@
             0.748,
             1.04
           ],
-          "range": 1.633342,
-          "stationaryRange": 1.633342,
+          "range": 1.630965,
+          "stationaryRange": 1.630965,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2345,8 +2345,8 @@
             0.748,
             1.04
           ],
-          "range": 1.633342,
-          "stationaryRange": 1.633342,
+          "range": 1.630965,
+          "stationaryRange": 1.630965,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
@@ -2361,8 +2361,8 @@
             0.748,
             1.04
           ],
-          "range": 1.857183,
-          "stationaryRange": 1.636821,
+          "range": 1.854211,
+          "stationaryRange": 1.634445,
           "atSeconds": 1.015324,
           "sourceTime": 1.015324
         },
@@ -2372,8 +2372,8 @@
             0.65,
             0.916
           ],
-          "range": 1.375434,
-          "stationaryRange": 1.229309,
+          "range": 1.373651,
+          "stationaryRange": 1.227879,
           "atSeconds": 0.911844,
           "sourceTime": 0.911844
         },
@@ -2383,8 +2383,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.319157,
-          "stationaryRange": 1.535276,
+          "range": 2.314864,
+          "stationaryRange": 1.533085,
           "atSeconds": 1.088784,
           "sourceTime": 1.088784
         },
@@ -2394,8 +2394,8 @@
             0.854,
             1.12
           ],
-          "range": 1.615669,
-          "stationaryRange": 1.770513,
+          "range": 1.613057,
+          "stationaryRange": 1.767485,
           "atSeconds": 1.024406,
           "sourceTime": 1.024406
         },
@@ -2405,8 +2405,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.873872,
-          "stationaryRange": 1.560299,
+          "range": 2.867939,
+          "stationaryRange": 1.558007,
           "atSeconds": 1.144666,
           "sourceTime": 1.144666
         },
@@ -2416,8 +2416,8 @@
             0.748,
             1.04
           ],
-          "range": 1.636821,
-          "stationaryRange": 1.636821,
+          "range": 1.634445,
+          "stationaryRange": 1.634445,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         },
@@ -2427,8 +2427,8 @@
             0.748,
             1.04
           ],
-          "range": 1.636821,
-          "stationaryRange": 1.636821,
+          "range": 1.634445,
+          "stationaryRange": 1.634445,
           "atSeconds": 1.031775,
           "sourceTime": 1.031775
         }
@@ -2443,8 +2443,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.245946,
-          "stationaryRange": 1.219417,
+          "range": 1.243866,
+          "stationaryRange": 1.217318,
           "atSeconds": 0.675519,
           "sourceTime": 0.603142
         },
@@ -2454,8 +2454,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.989277,
-          "stationaryRange": 1.014895,
+          "range": 0.987548,
+          "stationaryRange": 1.013146,
           "atSeconds": 0.669972,
           "sourceTime": 0.598189
         },
@@ -2465,8 +2465,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.67149,
-          "stationaryRange": 1.52573,
+          "range": 1.667996,
+          "stationaryRange": 1.522638,
           "atSeconds": 0.796429,
           "sourceTime": 0.711097
         },
@@ -2476,8 +2476,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.808373,
-          "stationaryRange": 1.37044,
+          "range": 2.802083,
+          "stationaryRange": 1.368052,
           "atSeconds": 0.814819,
           "sourceTime": 0.727517
         },
@@ -2487,8 +2487,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.453871,
-          "stationaryRange": 1.294287,
+          "range": 1.450595,
+          "stationaryRange": 1.291957,
           "atSeconds": 0.662888,
           "sourceTime": 0.591864
         },
@@ -2498,8 +2498,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.219417,
-          "stationaryRange": 1.219417,
+          "range": 1.217318,
+          "stationaryRange": 1.217318,
           "atSeconds": 0.531005,
           "sourceTime": 0.474112
         },
@@ -2509,8 +2509,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.219417,
-          "stationaryRange": 1.219417,
+          "range": 1.217318,
+          "stationaryRange": 1.217318,
           "atSeconds": 0.531005,
           "sourceTime": 0.474112
         }
@@ -2525,8 +2525,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.274433,
-          "stationaryRange": 1.241241,
+          "range": 1.272387,
+          "stationaryRange": 1.23919,
           "atSeconds": 0.675519,
           "sourceTime": 0.603142
         },
@@ -2536,8 +2536,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.992616,
-          "stationaryRange": 1.021845,
+          "range": 0.990968,
+          "stationaryRange": 1.020169,
           "atSeconds": 0.669972,
           "sourceTime": 0.598189
         },
@@ -2547,8 +2547,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.68375,
-          "stationaryRange": 1.537749,
+          "range": 1.680341,
+          "stationaryRange": 1.534742,
           "atSeconds": 0.800591,
           "sourceTime": 0.714814
         },
@@ -2558,8 +2558,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.840628,
-          "stationaryRange": 1.400868,
+          "range": 2.83435,
+          "stationaryRange": 1.398509,
           "atSeconds": 0.814819,
           "sourceTime": 0.727517
         },
@@ -2569,8 +2569,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.438077,
-          "stationaryRange": 1.313541,
+          "range": 1.434907,
+          "stationaryRange": 1.311245,
           "atSeconds": 0.667042,
           "sourceTime": 0.595573
         },
@@ -2580,8 +2580,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.241241,
-          "stationaryRange": 1.241241,
+          "range": 1.23919,
+          "stationaryRange": 1.23919,
           "atSeconds": 0.531005,
           "sourceTime": 0.474112
         },
@@ -2591,8 +2591,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.241241,
-          "stationaryRange": 1.241241,
+          "range": 1.23919,
+          "stationaryRange": 1.23919,
           "atSeconds": 0.531005,
           "sourceTime": 0.474112
         }
@@ -2607,8 +2607,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.162358,
-          "stationaryRange": 1.141016,
+          "range": 1.16024,
+          "stationaryRange": 1.138867,
           "atSeconds": 0.67139,
           "sourceTime": 0.599455
         },
@@ -2618,8 +2618,8 @@
             0.3978,
             0.6019
           ],
-          "range": 0.959016,
-          "stationaryRange": 0.947918,
+          "range": 0.957137,
+          "stationaryRange": 0.946118,
           "atSeconds": 0.524504,
           "sourceTime": 0.468307
         },
@@ -2629,8 +2629,8 @@
             0.595881,
             1.112494
           ],
-          "range": 1.600175,
-          "stationaryRange": 1.45442,
+          "range": 1.596681,
+          "stationaryRange": 1.451328,
           "atSeconds": 0.796429,
           "sourceTime": 0.711097
         },
@@ -2640,8 +2640,8 @@
             0.58685,
             0.886692
           ],
-          "range": 2.722402,
-          "stationaryRange": 1.284784,
+          "range": 2.716053,
+          "stationaryRange": 1.282375,
           "atSeconds": 0.810673,
           "sourceTime": 0.723815
         },
@@ -2651,8 +2651,8 @@
             0.573319,
             0.777314
           ],
-          "range": 1.452725,
-          "stationaryRange": 1.216807,
+          "range": 1.449215,
+          "stationaryRange": 1.214453,
           "atSeconds": 0.642117,
           "sourceTime": 0.573319
         },
@@ -2662,8 +2662,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.141016,
-          "stationaryRange": 1.141016,
+          "range": 1.138867,
+          "stationaryRange": 1.138867,
           "atSeconds": 0.535134,
           "sourceTime": 0.477799
         },
@@ -2673,8 +2673,8 @@
             0.4225,
             0.6695
           ],
-          "range": 1.141016,
-          "stationaryRange": 1.141016,
+          "range": 1.138867,
+          "stationaryRange": 1.138867,
           "atSeconds": 0.535134,
           "sourceTime": 0.477799
         }
@@ -2689,8 +2689,8 @@
             0.748,
             1.04
           ],
-          "range": 1.824742,
-          "stationaryRange": 1.614631,
+          "range": 1.821786,
+          "stationaryRange": 1.612256,
           "atSeconds": 1.089678,
           "sourceTime": 0.998286
         },
@@ -2700,8 +2700,8 @@
             0.65,
             0.916
           ],
-          "range": 1.352382,
-          "stationaryRange": 1.204509,
+          "range": 1.350625,
+          "stationaryRange": 1.203086,
           "atSeconds": 0.995711,
           "sourceTime": 0.9122
         },
@@ -2711,8 +2711,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.427789,
-          "stationaryRange": 1.511046,
+          "range": 2.423171,
+          "stationaryRange": 1.508861,
           "atSeconds": 1.193213,
           "sourceTime": 1.093137
         },
@@ -2722,8 +2722,8 @@
             0.854,
             1.12
           ],
-          "range": 1.577966,
-          "stationaryRange": 1.74283,
+          "range": 1.575402,
+          "stationaryRange": 1.739818,
           "atSeconds": 1.118838,
           "sourceTime": 1.025
         },
@@ -2733,8 +2733,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.986974,
-          "stationaryRange": 1.535639,
+          "range": 2.980682,
+          "stationaryRange": 1.533352,
           "atSeconds": 1.248157,
           "sourceTime": 1.143473
         },
@@ -2744,8 +2744,8 @@
             0.748,
             1.04
           ],
-          "range": 1.614631,
-          "stationaryRange": 1.614631,
+          "range": 1.612256,
+          "stationaryRange": 1.612256,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         },
@@ -2755,8 +2755,8 @@
             0.748,
             1.04
           ],
-          "range": 1.614631,
-          "stationaryRange": 1.614631,
+          "range": 1.612256,
+          "stationaryRange": 1.612256,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         }
@@ -2771,8 +2771,8 @@
             0.748,
             1.04
           ],
-          "range": 1.710806,
-          "stationaryRange": 1.499809,
+          "range": 1.707845,
+          "stationaryRange": 1.497429,
           "atSeconds": 1.089678,
           "sourceTime": 0.998286
         },
@@ -2782,8 +2782,8 @@
             0.65,
             0.916
           ],
-          "range": 1.251282,
-          "stationaryRange": 1.114041,
+          "range": 1.249495,
+          "stationaryRange": 1.112555,
           "atSeconds": 0.995711,
           "sourceTime": 0.9122
         },
@@ -2793,8 +2793,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.314418,
-          "stationaryRange": 1.4109,
+          "range": 2.309799,
+          "stationaryRange": 1.408666,
           "atSeconds": 1.193213,
           "sourceTime": 1.093137
         },
@@ -2804,8 +2804,8 @@
             0.854,
             1.12
           ],
-          "range": 1.506131,
-          "stationaryRange": 1.669991,
+          "range": 1.50347,
+          "stationaryRange": 1.666885,
           "atSeconds": 1.11469,
           "sourceTime": 1.0212
         },
@@ -2815,8 +2815,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.892345,
-          "stationaryRange": 1.438587,
+          "range": 2.886042,
+          "stationaryRange": 1.436263,
           "atSeconds": 1.248157,
           "sourceTime": 1.143473
         },
@@ -2826,8 +2826,8 @@
             0.748,
             1.04
           ],
-          "range": 1.499809,
-          "stationaryRange": 1.499809,
+          "range": 1.497429,
+          "stationaryRange": 1.497429,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         },
@@ -2837,8 +2837,8 @@
             0.748,
             1.04
           ],
-          "range": 1.499809,
-          "stationaryRange": 1.499809,
+          "range": 1.497429,
+          "stationaryRange": 1.497429,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         }
@@ -2853,8 +2853,8 @@
             0.748,
             1.04
           ],
-          "range": 1.737425,
-          "stationaryRange": 1.526941,
+          "range": 1.734466,
+          "stationaryRange": 1.524564,
           "atSeconds": 1.089678,
           "sourceTime": 0.998286
         },
@@ -2864,8 +2864,8 @@
             0.65,
             0.916
           ],
-          "range": 1.270086,
-          "stationaryRange": 1.126199,
+          "range": 1.268317,
+          "stationaryRange": 1.124751,
           "atSeconds": 0.995711,
           "sourceTime": 0.9122
         },
@@ -2875,8 +2875,8 @@
             0.909987,
             1.234316
           ],
-          "range": 2.34078,
-          "stationaryRange": 1.428481,
+          "range": 2.336161,
+          "stationaryRange": 1.426261,
           "atSeconds": 1.193213,
           "sourceTime": 1.093137
         },
@@ -2886,8 +2886,8 @@
             0.854,
             1.12
           ],
-          "range": 1.506067,
-          "stationaryRange": 1.670079,
+          "range": 1.503407,
+          "stationaryRange": 1.666974,
           "atSeconds": 1.11469,
           "sourceTime": 1.0212
         },
@@ -2897,8 +2897,8 @@
             0.884321,
             1.227316
           ],
-          "range": 2.907792,
-          "stationaryRange": 1.454929,
+          "range": 2.901494,
+          "stationaryRange": 1.452627,
           "atSeconds": 1.248157,
           "sourceTime": 1.143473
         },
@@ -2908,8 +2908,8 @@
             0.748,
             1.04
           ],
-          "range": 1.526941,
-          "stationaryRange": 1.526941,
+          "range": 1.524564,
+          "stationaryRange": 1.524564,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         },
@@ -2919,8 +2919,8 @@
             0.748,
             1.04
           ],
-          "range": 1.526941,
-          "stationaryRange": 1.526941,
+          "range": 1.524564,
+          "stationaryRange": 1.524564,
           "atSeconds": 1.126933,
           "sourceTime": 1.032416
         }

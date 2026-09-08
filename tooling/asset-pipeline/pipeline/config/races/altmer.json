@@ -3,33 +3,21 @@
   "label": "Altmer",
   "description": "Tall, golden, and quietly certain of it.",
   "body": "male",
-  "morph": {
-    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
-    "targetMesh": "MaleHeadIMF",
-    "shapeKey": "HighElfRace",
-    "value": 1.0
-  },
   "skinTint": [
-    0.93,
-    0.9,
-    0.66
+    0.6000000238,
+    0.5529412031,
+    0.3333333433
   ],
-  "textureSubstitutions": {
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyehighelf.dds",
-    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/highelfmale/malehead_msn.dds"
-  },
-  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
-  "extraMeshes": [
-    {
-      "name": "hair",
-      "file": "meshes/actors/character/character assets/hair/male/hair14.nif"
-    }
-  ],
+  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
   "hairTint": [
-    0.78,
-    0.7,
-    0.48
+    0.6328125,
+    0.6015625,
+    0.4453125
   ],
   "heightScale": 1.08,
-  "skinTintMode": "colorize"
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0002BA3C",
+    "editorId": "Quaranir"
+  }
 }

@@ -3,33 +3,21 @@
   "label": "Bosmer",
   "description": "Valenwood-born, small and quick.",
   "body": "male",
-  "morph": {
-    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
-    "targetMesh": "MaleHeadIMF",
-    "shapeKey": "WoodElfRace",
-    "value": 1.0
-  },
   "skinTint": [
-    0.8,
-    0.66,
-    0.48
+    0.5058823824,
+    0.4196078777,
+    0.3529411852
   ],
-  "textureSubstitutions": {
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyewoodelf.dds",
-    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/woodelfmale/malehead_msn.dds"
-  },
-  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
-  "extraMeshes": [
-    {
-      "name": "hair",
-      "file": "meshes/actors/character/character assets/hair/male/hair07.nif"
-    }
-  ],
+  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
   "hairTint": [
-    0.3,
-    0.22,
-    0.14
+    0.546875,
+    0.5859375,
+    0.6640625
   ],
   "heightScale": 0.98,
-  "skinTintMode": "colorize"
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013480",
+    "editorId": "Faendal"
+  }
 }

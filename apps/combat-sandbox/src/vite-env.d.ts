@@ -47,6 +47,10 @@ type VisualScenarioTelemetry = {
     captureWallTimeMs: number;
     /** Horizontal rigid-body centre distance sampled with this rendered pose. */
     actorDistance: number | null;
+    lockedOn: boolean;
+    aiming: boolean;
+    /** Angular distance from screen centre to the lock target's aim point. */
+    lockTargetAimErrorDegrees: number | null;
     player: import("@elder-souls/game-core/validation/actorVisualMetrics").ActorVisualSample | null;
     enemy: import("@elder-souls/game-core/validation/actorVisualMetrics").ActorVisualSample | null;
   }>;

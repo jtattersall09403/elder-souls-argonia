@@ -18,10 +18,10 @@ describe("playable race appearance", () => {
     expect(RACES.bosmer.heightScale).toBe(0.98);
   });
 
-  it("colourizes shared humanoid art and preserves beast texture colour", () => {
-    expect(RACES.imperial.appearance.skinTintMode).toBe("colorize");
-    expect(RACES.dunmer.appearance.skinTintMode).toBe("colorize");
-    expect(RACES.argonian.appearance.skinTintMode).toBe("multiply");
-    expect(RACES.khajiit.appearance.skinTintMode).toBe("multiply");
+  it("uses Skyrim's body tint shader for every playable race", () => {
+    expect(RACES.imperial.appearance.skinTintMode).toBe("skyrim-rgb-tint");
+    expect(RACES.dunmer.appearance.skinTintMode).toBe("skyrim-rgb-tint");
+    expect(RACES.argonian.appearance.skinTintMode).toBe("skyrim-rgb-tint");
+    expect(RACES.khajiit.appearance.skinTintMode).toBe("skyrim-rgb-tint");
   });
 });

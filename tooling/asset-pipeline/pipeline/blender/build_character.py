@@ -158,6 +158,22 @@ for mesh in PLAN["meshes"]:
     for name in {o.name for o in bpy.data.objects if o.type == "MESH"} - before:
         MESH_ROLES[name] = mesh["name"]
 meshes = [o for o in bpy.data.objects if o.type == "MESH"]
+# Skyrim head-part NIFs store their vertices in NPC Head bone-local space. The
+# game attaches that NIF root to the actor's head node; a body NIF instead stores
+# vertices in armature space. PyNifly imports both onto the shared armature but
+# does not perform that engine attachment step, so untreated FaceGen eyes,
+# mouth, hair and skin animate around the head while remaining at foot height.
+# Bake the missing bone-local -> armature-space transform before glTF computes
+# its inverse bind matrices. The generic chargen head is already authored in
+# full-body armature space, so it deliberately remains untouched.
+head_attachment = arm.data.bones.get("NPC Head [Head]")
+if head_attachment is None:
+    raise RuntimeError("head attachment bone missing from humanoid rig")
+for obj in meshes:
+    if MESH_ROLES.get(obj.name) == "facegen":
+        obj.data.transform(head_attachment.matrix_local)
+
+VISIBLE_MESHES = [o for o in meshes if MESH_ROLES.get(o.name) != "support-head"]
 # The body proper: everything the character *is*, without the hairstyle.
 #
 # Hair is skinned to the head bone, so anything that measures the character from
@@ -165,8 +181,22 @@ meshes = [o for o in bpy.data.objects if o.type == "MESH"]
 # the skull. Height decides the scale every actor is built to, and the hurtbox
 # decides what a sword can touch; neither should move when someone changes their
 # hair.
-BODY_MESHES = [o for o in meshes if MESH_ROLES.get(o.name, "body") != "hair"]
-log("meshes=%d (body=%d)" % (len(meshes), len(BODY_MESHES)))
+HURTBOX_MESHES = [
+    o for o in meshes
+    if MESH_ROLES.get(o.name, "body") not in {"hair", "facegen"}
+]
+# FaceGen heads are the visible heads. Their imported transforms are not a
+# trustworthy floor reference, though, and the hidden generic head exists only
+# to give the hurtbox fitter stable human proportions. Ground contact must come
+# from geometry that can actually touch the ground. Keeping these sets separate
+# prevents a head reference from injecting a full-body vertical offset into
+# every animation support envelope.
+SUPPORT_MESHES = [
+    o for o in HURTBOX_MESHES
+    if MESH_ROLES.get(o.name, "body") != "support-head"
+]
+log("meshes=%d (visible=%d hurtbox-reference=%d support-reference=%d)"
+    % (len(meshes), len(VISIBLE_MESHES), len(HURTBOX_MESHES), len(SUPPORT_MESHES)))
 
 # validate skin binding
 for obj in meshes:
@@ -205,7 +235,7 @@ else:
         log("baked %s morph" % morph["shapeKey"])
 
 # ---------------------------------------------------------------------------
-# 4. Materials: fill + race overrides; rebuild as clean glTF-friendly Principled
+# 4. Materials: translate Skyrim material roles into glTF-friendly Principled
 # ---------------------------------------------------------------------------
 # Suffixes marking a support map (never the base-colour diffuse).
 _MAP_SUFFIXES = ("_n", "_msn", "_s", "_sk", "_g", "_m", "_em", "_e")
@@ -228,6 +258,24 @@ SKIN_TINT = tuple(PLAN.get("skin_tint") or (1.0, 1.0, 1.0))
 def _is_skin(img):
     base = os.path.splitext(os.path.basename(img.filepath or img.name))[0].lower()
     return any(base.startswith(name) for name in _SKIN_TEXTURES)
+
+
+def _is_hair_mesh(mesh):
+    """The head parts Skyrim feeds through its HairTint material path."""
+    names = [mesh.name.lower()]
+    names.extend(
+        slot.material.name.lower()
+        for slot in mesh.material_slots
+        if slot.material
+    )
+    return MESH_ROLES.get(mesh.name) == "hair" or any(
+        token in name
+        for name in names
+        # `brow` also matches an eye named "...Brown". Skyrim's brow head
+        # parts use the plural `Brows`, so keep the discriminator exact enough
+        # that brown irises retain their eye material.
+        for token in ("hair", "brows", "beard", "feather")
+    )
 
 
 def reload_all_images():
@@ -260,10 +308,76 @@ for override in PLAN["material_overrides"]:
 missing_images = reload_all_images()
 
 
+def _load_plan_image(key):
+    path = PLAN.get(key)
+    if not path:
+        return None
+    try:
+        return bpy.data.images.load(path, check_existing=True)
+    except RuntimeError as exc:
+        warn("could not load %s image %s: %s" % (key, path, exc))
+        return None
+
+
+FACEGEN_TINT_IMAGE = _load_plan_image("facegen_tint")
+FACEGEN_DETAIL_IMAGE = _load_plan_image("facegen_detail")
+
+
+def _image_path(image):
+    return (image.filepath or image.name).replace("\\", "/").lower()
+
+
+def _image_named(images, predicate):
+    return next((image for image in images if predicate(_image_path(image))), None)
+
+
+def _resampled_pixels(image, width, height):
+    sampled = image.copy()
+    if sampled.size[0] != width or sampled.size[1] != height:
+        sampled.scale(width, height)
+    pixels = np.empty(width * height * 4, dtype=np.float32)
+    sampled.pixels.foreach_get(pixels)
+    bpy.data.images.remove(sampled)
+    return pixels.reshape((-1, 4))
+
+
+def _bake_facegen_diffuse(diffuse, tint, detail, material_name):
+    """Bake the vanilla FaceGen pixel-shader colour stage for one fixed NPC.
+
+    The source shader combines the ordinary head diffuse, the exported NPC
+    FaceTint and the race detail texture.  A generic glTF PBR material has no
+    slots for the latter two, so baking this exact stage is the lossless way to
+    carry Skyrim's authored face into the browser without inventing a colour
+    grade.
+    """
+    width, height = int(diffuse.size[0]), int(diffuse.size[1])
+    base = _resampled_pixels(diffuse, width, height)
+    tint_pixels = _resampled_pixels(tint, width, height)
+    detail_pixels = _resampled_pixels(detail, width, height)
+    rgb = base[:, :3]
+    tint_rgb = tint_pixels[:, :3]
+    detail_rgb = (detail_pixels[:, :3] + (1.0 / 255.0)) * (255.0 / 64.0)
+    overlay = rgb * rgb + 2.0 * tint_rgb * rgb - 2.0 * tint_rgb * rgb * rgb
+    result = np.empty_like(base)
+    result[:, :3] = np.clip(overlay * detail_rgb, 0.0, 1.0)
+    result[:, 3] = base[:, 3]
+    baked = bpy.data.images.new(
+        name="FaceGen_%s" % re.sub(r"[^A-Za-z0-9]+", "_", material_name),
+        width=width,
+        height=height,
+        alpha=True,
+    )
+    baked.pixels.foreach_set(result.reshape(-1))
+    baked.pack()
+    return baked
+
+
 def rebuild_materials():
-    # PyNifly's Skyrim skin shader exports to glTF with white emission and BLEND
-    # alpha, washing the body out. Rebuild every material as a plain diffuse
-    # Principled BSDF so the real textures survive export intact.
+    # PyNifly exposes every Skyrim texture slot, but glTF only understands a
+    # PBR subset. Translate the roles explicitly. The old blanket rebuild kept
+    # only the first diffuse and forced every surface opaque and equally rough;
+    # that discarded FaceGen tint/detail, eye reflections, hair alpha and all
+    # compatible normal maps, producing the reported painted-statue faces.
     rebuilt = []
     seen = set()
     for obj in meshes:
@@ -273,19 +387,40 @@ def rebuild_materials():
                 continue
             seen.add(mat.name)
             diffuse = None
+            normal = None
+            tint = None
+            detail = None
             if mat.use_nodes:
                 images = [n.image for n in mat.node_tree.nodes
                           if n.type == "TEX_IMAGE" and n.image]
-                diffuse = next((im for im in images if _is_diffuse(im)), None)
+                tint = _image_named(images, lambda p: "/facegendata/facetint/" in p)
+                detail = _image_named(images, lambda p: "detail" in os.path.basename(p))
+                normal = _image_named(images, lambda p: os.path.splitext(os.path.basename(p))[0].endswith("_n"))
+                candidates = [im for im in images if _is_diffuse(im) and im != tint and im != detail]
+                diffuse = candidates[0] if candidates else None
                 if diffuse is None and images:
                     diffuse = images[0]
+            if MESH_ROLES.get(obj.name) == "facegen" and "head" in obj.name.lower():
+                tint = tint or FACEGEN_TINT_IMAGE
+                detail = detail or FACEGEN_DETAIL_IMAGE
+            if diffuse is not None and tint is not None and detail is not None:
+                diffuse = _bake_facegen_diffuse(diffuse, tint, detail, mat.name)
+            authored_color = tuple(mat.diffuse_color[:3])
             mat.use_nodes = True
             nt = mat.node_tree
             nt.nodes.clear()
             out = nt.nodes.new("ShaderNodeOutputMaterial")
             bsdf = nt.nodes.new("ShaderNodeBsdfPrincipled")
+            bsdf.inputs["Base Color"].default_value = (*authored_color, 1.0)
             bsdf.inputs["Metallic"].default_value = 0.0
-            bsdf.inputs["Roughness"].default_value = 0.62
+            path = _image_path(diffuse) if diffuse else ""
+            is_eye = "eye" in mat.name.lower() or "eye" in obj.name.lower() or "/eyes/" in path
+            is_hair = _is_hair_mesh(obj)
+            is_skin = tint is not None or (diffuse is not None and _is_skin(diffuse))
+            bsdf.inputs["Roughness"].default_value = 0.22 if is_eye else 0.58 if is_skin else 0.62
+            if is_eye and "Coat Weight" in bsdf.inputs:
+                bsdf.inputs["Coat Weight"].default_value = 0.65
+                bsdf.inputs["Coat Roughness"].default_value = 0.12
             nt.links.new(bsdf.outputs["BSDF"], out.inputs["Surface"])
             if diffuse is not None:
                 diffuse.colorspace_settings.name = "sRGB"
@@ -301,9 +436,21 @@ def rebuild_materials():
                 # shipped at full white. Tinting in the game also happens to be
                 # what a character creator needs.
                 nt.links.new(tex.outputs["Color"], bsdf.inputs["Base Color"])
+                if is_hair:
+                    nt.links.new(tex.outputs["Alpha"], bsdf.inputs["Alpha"])
+            # Tangent-space `_n` maps translate directly. Skyrim's `_msn`
+            # maps are model-space and cannot be connected to glTF's tangent
+            # normal slot without changing their meaning, so they remain out.
+            if normal is not None:
+                normal.colorspace_settings.name = "Non-Color"
+                normal_tex = nt.nodes.new("ShaderNodeTexImage")
+                normal_tex.image = normal
+                normal_node = nt.nodes.new("ShaderNodeNormalMap")
+                nt.links.new(normal_tex.outputs["Color"], normal_node.inputs["Color"])
+                nt.links.new(normal_node.outputs["Normal"], bsdf.inputs["Normal"])
             if hasattr(mat, "blend_method"):
                 try:
-                    mat.blend_method = "OPAQUE"
+                    mat.blend_method = "HASHED" if is_hair else "OPAQUE"
                 except TypeError:
                     pass
             rebuilt.append((mat.name, diffuse.name if diffuse else None))
@@ -744,6 +891,21 @@ def evaluated_world_coordinates(obj, depsgraph):
         evaluated.to_mesh_clear()
 
 
+def evaluated_world_min_z(obj, depsgraph):
+    """Lowest evaluated bounding-box corner without copying the full mesh.
+
+    Blender's dependency-graph object exposes the armature-deformed bounds.
+    Support sampling needs only their lowest world coordinate; materialising
+    every vertex of every body part at every animation sample made the single
+    reference-rig build exceed its 15-minute guard on busy machines.
+    """
+    evaluated = obj.evaluated_get(depsgraph)
+    if not evaluated.bound_box:
+        return None
+    matrix = evaluated.matrix_world
+    return min((matrix @ Vector(corner)).z for corner in evaluated.bound_box)
+
+
 support_envelopes = {}
 animation_specs_by_semantic = {
     spec["semantic"]: spec for spec in PLAN["animations"]
@@ -761,7 +923,7 @@ if missing_sole_markers:
 sole_marker_vertex_indices = {}
 for marker_id, bone_name in sole_marker_bones:
     marker_mesh_indices = []
-    for obj in meshes:
+    for obj in SUPPORT_MESHES:
         group = obj.vertex_groups.get(bone_name)
         if group is None:
             continue
@@ -782,6 +944,11 @@ for marker_id, bone_name in sole_marker_bones:
         marker_id,
         sum(len(indices) for _, indices in marker_mesh_indices),
     ))
+sole_coordinate_meshes = {
+    obj
+    for marker_mesh_indices in sole_marker_vertex_indices.values()
+    for obj, _ in marker_mesh_indices
+}
 #: Fraction of a clip's foot-height range that still counts as planted. Wide
 #: enough to survive a heel-strike/toe-off roll, tight enough to exclude swing.
 STANCE_HEIGHT_BAND = 0.18
@@ -954,13 +1121,13 @@ for semantic in SUMMARY["animationNames"]:
         minimum = None
         contact_mesh = None
         world_coordinates = {}
-        for obj in meshes:
-            coordinates = evaluated_world_coordinates(obj, depsgraph)
-            world_coordinates[obj.name] = coordinates
-            value = None if coordinates is None else float(np.min(coordinates[:, 2]))
+        for obj in SUPPORT_MESHES:
+            value = evaluated_world_min_z(obj, depsgraph)
             if value is not None and (minimum is None or value < minimum):
                 minimum = value
                 contact_mesh = obj.name
+            if obj in sole_coordinate_meshes:
+                world_coordinates[obj.name] = evaluated_world_coordinates(obj, depsgraph)
         if minimum is None:
             raise RuntimeError("%s: no visible mesh vertices for support envelope" % semantic)
         surface_min_z.append(round(minimum, 6))
@@ -1116,7 +1283,7 @@ HURTBOX_CLAIM_WEIGHT = 0.3
 def _bind_pose_vertices_by_bone():
     """Bind-pose world coordinates grouped by the bones that move them."""
     claims = {}
-    for obj in BODY_MESHES:
+    for obj in HURTBOX_MESHES:
         index_to_bone = {group.index: group.name for group in obj.vertex_groups}
         matrix = obj.matrix_world
         for vertex in obj.data.vertices:
@@ -1193,7 +1360,7 @@ def _fit_capsule(bone, span, points, min_radius):
 
 _bind_bounds = [
     (obj.matrix_world @ vertex.co).z
-    for obj in meshes
+    for obj in HURTBOX_MESHES
     for vertex in obj.data.vertices
 ]
 _actor_height = max(1e-6, max(_bind_bounds) - min(_bind_bounds))
@@ -1230,17 +1397,17 @@ for _segment in hurtbox_segments:
 SUMMARY["armature"] = arm.name
 SUMMARY["boneCount"] = bone_count
 SUMMARY["boneNames"] = [b.name for b in arm.data.bones]
-SUMMARY["meshNames"] = [m.name for m in meshes]
-SUMMARY["meshRoles"] = {m.name: MESH_ROLES.get(m.name, "body") for m in meshes}
+SUMMARY["meshNames"] = [m.name for m in VISIBLE_MESHES]
+SUMMARY["meshRoles"] = {m.name: MESH_ROLES.get(m.name, "body") for m in VISIBLE_MESHES}
 SUMMARY["skinMeshes"] = sorted(
-    m.name for m in meshes
+    m.name for m in VISIBLE_MESHES
     if any(_is_skin(s.material.node_tree.nodes[n].image)
            for s in m.material_slots if s.material and s.material.use_nodes
            for n in [nd.name for nd in s.material.node_tree.nodes
                      if nd.type == "TEX_IMAGE" and nd.image])
 )
 SUMMARY["hairMeshes"] = sorted(
-    m.name for m in meshes if MESH_ROLES.get(m.name) == "hair"
+    m.name for m in VISIBLE_MESHES if _is_hair_mesh(m)
 )
 # Which biped slot each body mesh occupies, read from the NIF's own dismember
 # partitions. Armour reports the slots it covers the same way, so "does this
@@ -1253,7 +1420,7 @@ SUMMARY["meshBipedSlots"] = {
         for group in mesh.vertex_groups
         for match in [_BIPED_SLOT.match(group.name)] if match
     })
-    for mesh in meshes
+    for mesh in VISIBLE_MESHES
 }
 SUMMARY["sockets"] = {}
 for key, bone_name in PLAN["sockets"].items():
@@ -1300,7 +1467,7 @@ bpy.context.view_layer.update()
 mins = [1e9, 1e9, 1e9]
 maxs = [-1e9, -1e9, -1e9]
 depsgraph = bpy.context.evaluated_depsgraph_get()
-for obj in BODY_MESHES:
+for obj in HURTBOX_MESHES:
     evaluated = obj.evaluated_get(depsgraph)
     deformed = evaluated.to_mesh()
     try:
@@ -1320,7 +1487,7 @@ for obj in BODY_MESHES:
     finally:
         evaluated.to_mesh_clear()
 SUMMARY["bboxSize"] = [round(maxs[i] - mins[i], 4) for i in range(3)]
-SUMMARY["bboxExcludes"] = sorted(m.name for m in meshes if m not in BODY_MESHES)
+SUMMARY["bboxExcludes"] = sorted(m.name for m in VISIBLE_MESHES if m not in HURTBOX_MESHES)
 reset_armature_pose(arm)
 
 # ---------------------------------------------------------------------------
@@ -1375,7 +1542,7 @@ def export_glb(path, *, animations, meshes_included, actions=None):
     bpy.ops.object.select_all(action="DESELECT")
     arm.select_set(True)
     if meshes_included:
-        for obj in meshes:
+        for obj in VISIBLE_MESHES:
             obj.select_set(True)
     bpy.context.view_layer.objects.active = arm
     log("exporting GLB (animations=%s meshes=%s clips=%s) -> %s" % (

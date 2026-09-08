@@ -3,33 +3,21 @@
   "label": "Redguard",
   "description": "Yokudan blood. The finest swords in Tamriel came with it.",
   "body": "male",
-  "morph": {
-    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
-    "targetMesh": "MaleHeadIMF",
-    "shapeKey": "RedguardRace",
-    "value": 1.0
-  },
   "skinTint": [
-    0.52,
-    0.38,
-    0.29
+    0.3176470697,
+    0.2392157018,
+    0.2078431547
   ],
-  "textureSubstitutions": {
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyeoldbrown.dds",
-    "textures/actors/character/male/malehead_msn.dds": "textures/actors/character/redguardmale/malehead_msn.dds"
-  },
-  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
-  "extraMeshes": [
-    {
-      "name": "hair",
-      "file": "meshes/actors/character/character assets/hair/maleredguardhair02.nif"
-    }
-  ],
+  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
   "hairTint": [
-    0.1,
-    0.08,
-    0.07
+    0.15625,
+    0.15625,
+    0.1875
   ],
   "heightScale": 1.005,
-  "skinTintMode": "colorize"
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "0001325F",
+    "editorId": "Ahtar"
+  }
 }

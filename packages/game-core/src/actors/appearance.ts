@@ -24,21 +24,27 @@ export type TintedMaterial = {
   originalProgramCacheKey: THREE.MeshStandardMaterial["customProgramCacheKey"];
 };
 
-const SKIN_SHADER_MARKER = "// elder-souls skin tone";
+const SKIN_SHADER_MARKER = "// skyrim facegen rgb tint";
 
-function colorizeSkin(material: THREE.MeshStandardMaterial, tint: Appearance["skinTint"]) {
-  const target = new THREE.Color().setRGB(tint[0], tint[1], tint[2], THREE.SRGBColorSpace);
+function applySkyrimRgbTint(material: THREE.MeshStandardMaterial, tint: Appearance["skinTint"]) {
+  // Actor::UpdateSkinColor passes the NPC's QNAM bytes to the shader as
+  // normalised floats. They are shader constants, not an sRGB texture sample,
+  // so converting them through Three's sRGB transfer curve makes every race
+  // substantially darker than Skyrim does.
+  const target = new THREE.Color().setRGB(tint[0], tint[1], tint[2]);
+  const detail = new THREE.Vector3(1.01172, 0.996094, 1.01172);
   const previousCompile = material.onBeforeCompile;
   const previousKey = material.customProgramCacheKey;
   material.color.set(0xffffff);
   material.onBeforeCompile = (shader, renderer) => {
     previousCompile.call(material, shader, renderer);
-    shader.uniforms.esSkinTone = { value: target };
+    shader.uniforms.skyrimSkinTone = { value: target };
+    shader.uniforms.skyrimSkinDetail = { value: detail };
     shader.fragmentShader = shader.fragmentShader
-      .replace("void main() {", `uniform vec3 esSkinTone;\n${SKIN_SHADER_MARKER}\nvoid main() {`)
-      .replace("#include <map_fragment>", `#include <map_fragment>\n${SKIN_SHADER_MARKER}\nfloat esSkinLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat esSkinDetail = clamp(0.82 + (esSkinLuma - 0.075) * 3.2, 0.52, 1.18);\ndiffuseColor.rgb = esSkinTone * esSkinDetail * diffuse;`);
+      .replace("void main() {", `uniform vec3 skyrimSkinTone;\nuniform vec3 skyrimSkinDetail;\n${SKIN_SHADER_MARKER}\nvoid main() {`)
+      .replace("#include <map_fragment>", `#include <map_fragment>\n${SKIN_SHADER_MARKER}\nvec3 skyrimBase = diffuseColor.rgb;\nvec3 skyrimTintOverlay = skyrimBase * skyrimBase + 2.0 * skyrimSkinTone * skyrimBase - 2.0 * skyrimSkinTone * skyrimBase * skyrimBase;\ndiffuseColor.rgb = skyrimTintOverlay * skyrimSkinDetail;`);
   };
-  material.customProgramCacheKey = () => `${previousKey.call(material)}|elder-souls-skin-v1`;
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|skyrim-facegen-rgb-tint-v1`;
   material.needsUpdate = true;
 }
 
@@ -65,11 +71,11 @@ export function applyAppearance(
         originalOnBeforeCompile: material.onBeforeCompile,
         originalProgramCacheKey: material.customProgramCacheKey,
       });
-      if (skin.has(name) && appearance.skinTintMode === "colorize") {
-        // Skyrim's shared body diffuse is dark baked albedo. A glTF base-colour
-        // multiply can only darken it, so reconstruct the selected skin tone
-        // from its luminance detail instead of treating it as white paint.
-        colorizeSkin(material, appearance.skinTint);
+      if (skin.has(name) && appearance.skinTintMode === "skyrim-rgb-tint") {
+        // This is Skyrim's FACEGEN_RGB_TINT overlay equation and constant
+        // body-detail factor, applied in linear colour space. The previous
+        // luminance remap was an invented grade that flattened the diffuse.
+        applySkyrimRgbTint(material, appearance.skinTint);
       } else {
         material.color.multiply(new THREE.Color(tint[0], tint[1], tint[2]));
       }

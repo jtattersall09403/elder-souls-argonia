@@ -1,6 +1,5 @@
-import { execFileSync } from "node:child_process";
-import { fileURLToPath } from "node:url";
-import { describe, expect, it } from "vitest";
+import { beforeAll, describe, expect, it } from "vitest";
+import { measureCriticalKnownAnswer } from "../measure-contact-windows.mjs";
 
 /**
  * The known-answer test for `measure-contact-windows.mjs --critical`.
@@ -29,35 +28,29 @@ import { describe, expect, it } from "vitest";
  * fail on the sampling grid rather than on a real disagreement.
  */
 
-const SCRIPT = fileURLToPath(new URL("../measure-contact-windows.mjs", import.meta.url));
 /** One frame of the 30 Hz source, plus a hair for the 120 Hz sampling grid. */
 const FRAME = 1 / 30 + 1e-3;
 
-function measure(args) {
-  const output = execFileSync(process.execPath, [SCRIPT, "--critical", ...args], {
-    encoding: "utf8",
-    cwd: fileURLToPath(new URL("../..", import.meta.url)),
+let measured;
+let greatsword;
+let greataxe;
+
+beforeAll(async () => {
+  // All three measurements share the imported rig packs and decoded node
+  // graphs. The old test started three Node processes and paid that cost three
+  // times before comparing the same results.
+  measured = await measureCriticalKnownAnswer();
+  greatsword = await measureCriticalKnownAnswer({
+    weaponId: "steel-greatsword",
+    clip: "GREATSWORD_RIPOSTE",
   });
-  const recommendation = output.match(
-    /-> startingSeparation ([\d.]+), contact ([\d.]+)s, release ([\d.]+)s/,
-  );
-  const trim = output.match(
-    /trim playbackStartTime ([\d.]+) playbackEndTime ([\d.]+)\s+\(contact at ([\d.]+)s/,
-  );
-  if (!recommendation || !trim) throw new Error(`no recommendation in:\n${output}`);
-  return {
-    separation: Number(recommendation[1]),
-    contact: Number(recommendation[2]),
-    release: Number(recommendation[3]),
-    trimStart: Number(trim[1]),
-    trimEnd: Number(trim[2]),
-    contactIntoTrim: Number(trim[3]),
-  };
-}
+  greataxe = await measureCriticalKnownAnswer({
+    weaponId: "steel-battleaxe",
+    clip: "GREATAXE_RIPOSTE",
+  });
+});
 
 describe("the critical measurement reproduces the hand-audited riposte", () => {
-  const measured = measure(["RIPOSTE"]);
-
   it("chooses the separation the audit chose", () => {
     expect(measured.separation).toBe(0.9);
   });
@@ -94,8 +87,6 @@ describe("the two-handed executions it was then used for", () => {
     // Not a tuned number: it falls out of the rule (the furthest separation
     // that still reaches the torso) applied to longer weapons. If these ever
     // invert, something is wrong with the weapon capsules.
-    const greatsword = measure(["--weapon", "steel-greatsword", "GREATSWORD_RIPOSTE"]);
-    const greataxe = measure(["--weapon", "steel-battleaxe", "GREATAXE_RIPOSTE"]);
     expect(greatsword.separation).toBeGreaterThan(0.9);
     expect(greataxe.separation).toBeGreaterThan(greatsword.separation);
     for (const measured of [greatsword, greataxe]) {

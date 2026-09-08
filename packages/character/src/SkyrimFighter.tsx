@@ -132,6 +132,7 @@ const SOLE_MARKERS = [
   { id: "toeL", boneName: "NPC_Toe0_ToeL" },
   { id: "toeR", boneName: "NPC_Toe0_ToeR" },
 ] as const;
+export type SoleBoneRefs = Partial<Record<"footL" | "footR", THREE.Object3D>>;
 const TARGET_ANCHOR_BONE_NAME = "NPC_Spine2_Spn2";
 
 /**
@@ -246,6 +247,7 @@ function PosedActor({
   targetAnchorRef,
   hurtboxRef,
   headBoneRef,
+  soleBoneRefs,
   aimPitchRef,
   animationTimeRef,
   animationPoseTimeRef,
@@ -288,6 +290,8 @@ function PosedActor({
    * camera pinned at a constant height would not.
    */
   headBoneRef?: MutableRefObject<THREE.Object3D | null>;
+  /** Live foot bones for controllers that rotate a planted stance about a sole. */
+  soleBoneRefs?: MutableRefObject<SoleBoneRefs | null>;
   /**
    * Radians the upper body should lean to look where the actor is aiming.
    * Positive is upward. Zero, or absent, leaves the authored pose alone.
@@ -621,6 +625,15 @@ function PosedActor({
     }),
     [model],
   );
+  useLayoutEffect(() => {
+    if (!soleBoneRefs) return;
+    soleBoneRefs.current = Object.fromEntries(
+      soleBones
+        .filter(({ id }) => id === "footL" || id === "footR")
+        .map(({ id, bone }) => [id, bone]),
+    ) as SoleBoneRefs;
+    return () => { soleBoneRefs.current = null; };
+  }, [soleBoneRefs, soleBones]);
   const footChains = useMemo(() => soleBones.flatMap(({ id, bone }) => {
     if (id !== "footL" && id !== "footR") return [];
     const chain = footContactChain(bone);

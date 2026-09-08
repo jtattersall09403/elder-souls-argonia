@@ -7,7 +7,9 @@ import unittest
 from .models import (
     ExportedContinuityCheck,
     QuaternionKeyRemoval,
+    facegen_mesh_path,
     parse_curve_conditioning,
+    resolve_character,
 )
 
 CONTINUITY = [{
@@ -105,6 +107,38 @@ class CurveConditioningConfigTests(unittest.TestCase):
             parse_curve_conditioning("ROLL", conditioning(
                 exportedContinuity=[{**CONTINUITY[0], "maxAngularStepDegrees": 0}],
             ))
+
+
+class FaceGenSourceTests(unittest.TestCase):
+    def test_derives_the_creation_kit_export_path_from_plugin_and_form_id(self):
+        self.assertEqual(
+            facegen_mesh_path({
+                "plugin": "Skyrim.esm",
+                "formId": "00013255",
+                "editorId": "Addvar",
+            }),
+            "meshes/actors/character/facegendata/facegeom/skyrim.esm/00013255.nif",
+        )
+
+    def test_rejects_an_untraceable_face_source(self):
+        with self.assertRaisesRegex(ValueError, "exactly plugin, formId and editorId"):
+            facegen_mesh_path({"plugin": "Skyrim.esm", "formId": "13255"})
+
+    def test_resolved_facegen_replaces_generic_visible_head_parts(self):
+        plan = resolve_character("skyrim-playable", {
+            "id": "facegen-contract-test",
+            "race": "nord",
+            "exports": [],
+            "output": "output/races/nord.glb",
+            "manifestOutput": "output/test.animations.json",
+        })
+        names = {mesh.name for mesh in plan.meshes}
+        self.assertIn("facegen", names)
+        self.assertIn("support-head", names)
+        self.assertNotIn("head", names)
+        self.assertNotIn("eyes", names)
+        self.assertNotIn("mouth", names)
+        self.assertIsNone(plan.morph)
 
 
 if __name__ == "__main__":

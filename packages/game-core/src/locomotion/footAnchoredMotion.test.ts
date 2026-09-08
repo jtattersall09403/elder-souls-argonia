@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { footAnchoredVelocity, localMotionToWorld, groundTrackTotal, hasGroundTrack } from "./footAnchoredMotion";
+import { footAnchoredSourceVelocity, footAnchoredVelocity, localMotionToWorld, groundTrackTotal, hasGroundTrack, plantedPivotTranslation } from "./footAnchoredMotion";
 
 /**
  * The rule these hold the measurement to is the owner's own statement of it:
@@ -65,6 +65,13 @@ describe("motion taken from the feet", () => {
     expect(footAnchoredVelocity("LIGHT_1", 0.4, 0)).toEqual({ forward: 0, lateral: 0 });
   });
 
+  it("follows an explicitly time-scaled source clock", () => {
+    const ordinary = footAnchoredVelocity("LIGHT_1", 0.4, 0.1);
+    const accelerated = footAnchoredSourceVelocity("LIGHT_1", 0.2, 0.4, 0.1);
+    expect(Math.hypot(accelerated.forward, accelerated.lateral))
+      .toBeGreaterThan(Math.hypot(ordinary.forward, ordinary.lateral));
+  });
+
   it("has a track for every clip an attack can play", () => {
     for (const state of ["LIGHT_1", "LIGHT_2", "LIGHT_3", "HEAVY", "HEAVY_2",
       "GREATSWORD_LIGHT_1", "GREATAXE_HEAVY", "ROLL", "BACKSTEP"] as const) {
@@ -76,4 +83,17 @@ describe("motion taken from the feet", () => {
 it("maps forward travel to the exported rig's +Z before applying actor yaw", () => {
   expect(localMotionToWorld({ forward: 1, lateral: .2 }, { x: 0, z: 1 })).toEqual({ x: .2, z: 1 });
   expect(localMotionToWorld({ forward: 1, lateral: .2 }, { x: 0, z: -1 })).toEqual({ x: -.2, z: -1 });
+});
+
+it("moves the body centre so a planted sole stays fixed through a turn", () => {
+  const position = plantedPivotTranslation(
+    { x: 0, z: 0 },
+    { x: -0.2, z: 0.3 },
+    0,
+    Math.PI / 2,
+  );
+  // Rotating the original sole offset by the same quarter-turn from the new
+  // centre lands back on the exact world point it started from.
+  expect(position.x + 0.3).toBeCloseTo(-0.2, 8);
+  expect(position.z + 0.2).toBeCloseTo(0.3, 8);
 });

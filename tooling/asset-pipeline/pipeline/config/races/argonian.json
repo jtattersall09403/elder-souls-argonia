@@ -3,29 +3,21 @@
   "label": "Argonian",
   "description": "Saxhleel. Black Marsh raised it, and Black Marsh is not gentle.",
   "body": "male-argonian",
-  "morph": null,
   "skinTint": [
-    1,
-    1,
-    1
+    0.250980407,
+    0.2078431547,
+    0.1647058874
   ],
-  "textureSubstitutions": {
-    "textures/actors/character/male/malebody_1.dds": "textures/actors/character/argonianmale/argonianmalebody.dds",
-    "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/argonianmale/argonianmalebody_msn.dds",
-    "textures/actors/character/male/malebody_1_s.dds": "textures/actors/character/argonianmale/argonianmalebody_s.dds",
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/argonianmale/eyeargonian.dds"
-  },
-  "notes": "Beast races carry their own head, eye and mouth meshes and their own body textures, so they substitute rather than tint. Tails are not built: the 99-bone humanoid skeleton this rig is cut from has no tail bones, and Skyrim animates tails from a separate auxbone skeleton and clip set.",
-  "extraMeshes": [
-    {
-      "name": "hair",
-      "file": "meshes/actors/character/character assets/hair/argonianmalehorns03.nif"
-    }
-  ],
+  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
   "hairTint": [
-    0.32,
-    0.34,
-    0.26
+    0.28125,
+    0.1796875,
+    0.1796875
   ],
-  "heightScale": 1.01
+  "heightScale": 1.01,
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013284",
+    "editorId": "GulumEi"
+  }
 }

@@ -62,6 +62,7 @@ import {
 } from "@elder-souls/game-core/combat/bowShot";
 import {
   AIM_CONVERGENCE_FAR_METERS,
+  aimAngles,
   aimConvergencePoint,
   angleBetweenDegrees,
   directionTo,
@@ -160,7 +161,7 @@ import {
   measureHeldObject,
   type HitCapsule,
 } from "@elder-souls/game-core/combat/hitVolume";
-import { footAnchoredLoopVelocity, footAnchoredVelocity, localMotionToWorld, hasGroundTrack } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
+import { footAnchoredLoopVelocity, footAnchoredSourceVelocity, footAnchoredVelocity, localMotionToWorld, hasGroundTrack, plantedPivotTranslation } from "@elder-souls/game-core/locomotion/footAnchoredMotion";
 import { lockedStrideClip, lockedStrideRateFor, strideRateForMagnitude } from "@elder-souls/game-core/locomotion/lockedStride";
 import {
   executionAnchor,
@@ -176,12 +177,43 @@ import {
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
 import { canBackstabState } from "@elder-souls/game-core/combat/backstab";
-import { FirstPersonBow, HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone } from "@elder-souls/character";
+import { FirstPersonBow, HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone, type SoleBoneRefs } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
 const UP = new THREE.Vector3(0, 1, 0);
 const ENEMY_FELLED_MESSAGE_DURATION = 1.8;
 const PLAYER_HURTBOX_NAME = "player-hurtbox";
+
+/** Rotate a planted stance about its sole instead of dragging both feet in arcs. */
+function rotateBodyAroundSole(
+  body: RapierRigidBody,
+  rotation: THREE.Quaternion,
+  sole: THREE.Object3D | null,
+  soleWorld: THREE.Vector3,
+) {
+  if (!sole) {
+    body.setRotation(rotation, true);
+    return;
+  }
+  sole.getWorldPosition(soleWorld);
+  const position = body.translation();
+  const current = body.rotation();
+  const currentYaw = Math.atan2(
+    2 * (current.w * current.y + current.x * current.z),
+    1 - 2 * (current.y * current.y + current.z * current.z),
+  );
+  const wantedYaw = Math.atan2(
+    2 * (rotation.w * rotation.y + rotation.x * rotation.z),
+    1 - 2 * (rotation.y * rotation.y + rotation.z * rotation.z),
+  );
+  const planted = plantedPivotTranslation(position, soleWorld, currentYaw, wantedYaw);
+  body.setTranslation({
+    x: planted.x,
+    y: position.y,
+    z: planted.z,
+  }, true);
+  body.setRotation(rotation, true);
+}
 
 /**
  * Where the archer's eye is, relative to the physics body's centre.
@@ -297,9 +329,9 @@ const AIM_PITCH_LIMIT = 1.15;
  * The direction the archer is looking, from camera yaw and aim pitch.
  *
  * Matches `cameraRelativeDirection`'s convention — the camera sits at
- * `(+sin yaw, +cos yaw)` behind the player and looks the other way — so the
- * This produces the direct crosshair ray. `bowSight` separately raises the
- * physical and visible launch axis by the configured thirty degrees.
+ * `(+sin yaw, +cos yaw)` behind the player and looks the other way. This
+ * produces the direct crosshair ray; `bowSight` applies the configured sight
+ * elevation to both the visible and physical launch axis.
  */
 /**
  * Whether a shot came from somewhere the defender's guard is covering.
@@ -681,6 +713,9 @@ function aimEnemyBow(runtime: EnemyRuntime, ranged: RangedStats, target: THREE.V
 
 /** Where on the player an archer aims, above the capsule centre, metres. */
 const ARCHER_AIM_ABOVE_CENTRE = 0.25;
+const COMMITTED_BOW_FOOTWORK = new Set<AnimationState>([
+  "BOW_DRAW", "BOW_RELEASE", "BOW_EQUIP", "BOW_UNEQUIP",
+]);
 /** How far off its target an archer may still be facing when it looses, radians. */
 const BOW_LOOSE_FACING_TOLERANCE = 0.06;
 /** The longest an archer waits at full draw for its turn to finish, seconds. */
@@ -1158,6 +1193,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
    */
   const clipDrivenState = useRef<AnimationState | null>(null);
   const clipDrivenTime = useRef(0);
+  const bowFootAnchorState = useRef<AnimationState | null>(null);
+  const bowFootAnchorSourceTime = useRef(0);
   const crouchFacing = useRef<THREE.Vector3 | null>(null);
   const crouchFacingVector = useRef(new THREE.Vector3());
   /**
@@ -1212,6 +1249,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const aimPitch = useRef(0);
   /** Locked target last used to initialise bow aim; null means centre again. */
   const bowAimCentredTarget = useRef<number | null>(null);
+  /** False until the player deliberately moves off the centred lock target. */
+  const bowAimDetachedFromTarget = useRef(false);
+  const bowAimSnapTarget = useRef<number | null>(null);
   /** 0 = wide, 1 = fully zoomed. Reset whenever the bow comes down. */
   const aimZoom = useRef(0);
   /** Last frame's aim-camera position: the crosshair ray starts here. */
@@ -1228,6 +1268,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   const aimMoveSpeed = useRef(AIM_MOVE_SPEED);
   const aimBlendAmount = useRef(0);
   const playerHeadBone = useRef<THREE.Object3D | null>(null);
+  const playerSoleBones = useRef<SoleBoneRefs | null>(null);
+  const bowPivotAnimation = useRef<AnimationState | null>(null);
+  const bowPivotSide = useRef<"footL" | "footR">("footL");
   /** Where the shot is going, shared with anything that has to point along it. */
   const playerAimDirection = useRef(new THREE.Vector3(0, 0, -1));
   /** Where the nocked shaft's tail is, world space; the shot leaves from it. */
@@ -1272,6 +1315,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     desiredLook: new THREE.Vector3(),
     forward: new THREE.Vector3(),
     cameraRight: new THREE.Vector3(),
+    soleL: new THREE.Vector3(),
+    soleR: new THREE.Vector3(),
+    soleWorld: new THREE.Vector3(),
     quaternion: new THREE.Quaternion(),
   });
   const { camera } = useThree();
@@ -2368,7 +2414,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // side of it and lower — so a shot fired *parallel* to the camera runs
       // beside the sight line forever, low and to the left by exactly that
       // offset. Both are now aimed at the point the ray hits, and the body and
-      // `bowSight` then applies the fixed upward launch attitude. Body, spine,
+      // `bowSight` then applies the shared configured launch attitude. Body, spine,
       // nocked shaft and released arrow all consume that same direction.
       if (isAiming(bowStep.cycle)) {
         camera.getWorldDirection(tmp.current.aimLook);
@@ -2498,7 +2544,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerNockVisible.current = false;
       if (playerAction.current === "aim") finishPlayerAction();
     }
-    if (!isAiming(bowCycle.current)) bowAimCentredTarget.current = null;
+    if (!isAiming(bowCycle.current)) {
+      bowAimCentredTarget.current = null;
+      bowAimDetachedFromTarget.current = false;
+      bowAimSnapTarget.current = null;
+    }
 
     const canStartAction = playerAction.current === "idle" || playerAction.current === "guard";
     if (canStartAction && intent.equipPressed) {
@@ -2932,7 +2982,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // would drag a stationary pose across the floor.
     const guarding = playerAction.current === "guard";
     const aiming = playerAction.current === "aim";
-    const movementAllowed = playerAction.current === "idle" || aiming;
+    const bowFootworkState = playerAnimationCommand.current.state;
+    const bowFootworkCommitted = COMMITTED_BOW_FOOTWORK.has(bowFootworkState);
+    // Draw, release and bow handling are authored as planted one-shots. Let
+    // their measured feet move the actor just as melee attacks do; full-draw
+    // locomotion remains steerable through its dedicated loop clips.
+    const movementAllowed = (playerAction.current === "idle" || aiming) && !bowFootworkCommitted;
     movementAllowedRef.current = movementAllowed;
     // Locked-on movement plays WALK_BACK / the strafes, and by default moves
     // at the speed those clips were authored for — the same rule as the
@@ -3013,7 +3068,33 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       body.setLinvel({ x: dodgeDirection.current.x * speed, y: body.linvel().y, z: dodgeDirection.current.z * speed }, true);
     }
 
-    if (playerAction.current === "idle") {
+    if (bowFootworkCommitted && handle.isOnGround && footDrivenMotion && hasGroundTrack(bowFootworkState)) {
+      // Equip/unequip use the ordinary action clock; ensure they never inherit
+      // a locomotion or bow-draw playback multiplier from the preceding state.
+      playerAnimationSpeed.current = 1;
+      // Draw is scrubbed directly by nock/draw progress. Release and handling
+      // clips run normally on the action clock.
+      const sourceTime = bowFootworkState === "BOW_DRAW"
+        ? (playerBowPoseTime.current ?? 0)
+        : playerActionTime.current;
+      if (bowFootAnchorState.current !== bowFootworkState) {
+        bowFootAnchorState.current = bowFootworkState;
+        bowFootAnchorSourceTime.current = 0;
+      }
+      const fromSourceTime = sourceTime >= bowFootAnchorSourceTime.current
+        ? bowFootAnchorSourceTime.current
+        : 0;
+      const step = footAnchoredSourceVelocity(
+        bowFootworkState,
+        fromSourceTime,
+        sourceTime,
+        delta,
+      );
+      bowFootAnchorSourceTime.current = sourceTime;
+      const motion = localMotionToWorld(step, handle.bodyZAxis);
+      body.setLinvel({ ...motion, y: body.linvel().y }, true);
+      clipDrivenState.current = null;
+    } else if (playerAction.current === "idle") {
       const lockWarp = lockedOn.current
         ? lockOnOrientationWarp(intent.move, playerLocomotionReversing.current)
         : null;
@@ -3123,6 +3204,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerLocomotionReversing.current = false;
       playerAnimationSpeed.current = 1;
       clipDrivenState.current = null;
+      bowFootAnchorState.current = null;
+      bowFootAnchorSourceTime.current = 0;
     }
 
     // Utility selection chooses a tactical intent; the state machine below owns
@@ -3697,6 +3780,27 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
 
     const lockTargetActive = lockTarget !== null && (lockTarget.fighter.health > 0 || lockTarget.fighter.state === "critical");
+    // A stationary archer turns about a planted sole. Rotating the capsule
+    // about its centre makes both feet trace broad circles across the floor;
+    // preserving the lower foot lets the other step around it like a real
+    // stance. Keep the choice for the current clip so tiny height noise cannot
+    // alternate the pivot every frame.
+    let bowAimPivot: THREE.Object3D | null = null;
+    if (isAiming(bowCycle.current) && moveMagnitude <= 0.12 && handle.isOnGround) {
+      const soles = playerSoleBones.current;
+      const animation = playerAnimationCommand.current.state;
+      if (soles?.footL && soles.footR) {
+        if (bowPivotAnimation.current !== animation) {
+          soles.footL.getWorldPosition(tmp.current.soleL);
+          soles.footR.getWorldPosition(tmp.current.soleR);
+          bowPivotSide.current = tmp.current.soleL.y <= tmp.current.soleR.y ? "footL" : "footR";
+          bowPivotAnimation.current = animation;
+        }
+        bowAimPivot = soles[bowPivotSide.current] ?? null;
+      }
+    } else {
+      bowPivotAnimation.current = null;
+    }
     // Zoom belongs to the bow, not to the camera mode. It used to live inside
     // the free-aim branch below, which is skipped entirely while a target is
     // locked, so a locked-on archer had no zoom at all. Nothing about lock-on
@@ -3721,33 +3825,55 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       const yaws = lockOnYaws(playerPos, lockTarget.position);
       if (isAiming(bowCycle.current)) {
         // Lock-on initialises bow aim, then leaves the crosshair under direct
-        // camera control. Re-centre only for a newly acquired/switched target.
-        if (bowAimCentredTarget.current !== lockTarget.id) {
-          cameraYaw.current = yaws.cameraYaw;
-          const flatRange = Math.hypot(
-            lockTarget.position.x - playerPos.x,
-            lockTarget.position.z - playerPos.z,
+        // camera control. Keep it centred through the shoulder-camera
+        // transition; the first deliberate mouse movement detaches it.
+        const newlyAcquired = bowAimCentredTarget.current !== lockTarget.id;
+        if (newlyAcquired) {
+          bowAimCentredTarget.current = lockTarget.id;
+          bowAimDetachedFromTarget.current = false;
+        }
+        const hasCameraInput = Math.abs(intent.camera.x) > 1e-6
+          || Math.abs(intent.camera.y) > 1e-6;
+        if (!bowAimDetachedFromTarget.current && (!hasCameraInput || newlyAcquired)) {
+          // Solve from the actual sight camera. The old player-centre solve was
+          // visibly off in first-person/shoulder view because both cameras are
+          // displaced from the capsule. Repeating this while the player has
+          // not moved the mouse also absorbs the camera's transition itself.
+          const targetPoint = tmp.current.aimRayFallback.set(
+            lockTarget.position.x,
+            lockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE,
+            lockTarget.position.z,
           );
+          const centred = aimAngles(directionTo(camera.position, targetPoint));
+          cameraYaw.current = centred.yaw;
           aimPitch.current = THREE.MathUtils.clamp(
-            Math.atan2(
-              lockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE - (playerPos.y + PLAYER_EYE_OFFSET_Y),
-              Math.max(flatRange, 0.001),
-            ),
+            centred.pitch,
             -AIM_PITCH_LIMIT,
             AIM_PITCH_LIMIT,
           );
-          bowAimCentredTarget.current = lockTarget.id;
+          bowAimSnapTarget.current = lockTarget.id;
+        } else {
+          if (!bowAimDetachedFromTarget.current) {
+            // Begin from the exact direction currently on screen so detaching
+            // cannot introduce a one-frame jump after the camera moved.
+            const currentView = aimAngles(camera.getWorldDirection(tmp.current.aimLook));
+            cameraYaw.current = currentView.yaw;
+            aimPitch.current = currentView.pitch;
+            bowAimDetachedFromTarget.current = true;
+          }
+          const zoomedTurn = aimFieldOfView(aimZoom.current) / AIM_FIELD_OF_VIEW;
+          cameraYaw.current -= intent.camera.x * delta * 2.35 * zoomedTurn;
+          aimPitch.current = THREE.MathUtils.clamp(
+            aimPitch.current - intent.camera.y * delta * 1.7 * zoomedTurn,
+            -AIM_PITCH_LIMIT,
+            AIM_PITCH_LIMIT,
+          );
         }
-        const zoomedTurn = aimFieldOfView(aimZoom.current) / AIM_FIELD_OF_VIEW;
-        cameraYaw.current -= intent.camera.x * delta * 2.35 * zoomedTurn;
-        aimPitch.current = THREE.MathUtils.clamp(
-          aimPitch.current - intent.camera.y * delta * 1.7 * zoomedTurn,
-          -AIM_PITCH_LIMIT,
-          AIM_PITCH_LIMIT,
-        );
       } else {
         cameraYaw.current = yaws.cameraYaw;
         bowAimCentredTarget.current = null;
+        bowAimDetachedFromTarget.current = false;
+        bowAimSnapTarget.current = null;
       }
       tmp.current.quaternion.setFromAxisAngle(UP, yaws.playerFacingYaw);
       if (!playerAttack.current && playerAction.current !== "roll" && playerAction.current !== "backstep") {
@@ -3763,8 +3889,17 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         tmp.current.quaternion.setFromAxisAngle(UP, playerAimBodyYaw.current + Math.PI);
         body.setAngvel({ x: 0, y: 0, z: 0 }, true);
       }
-      if (playerAction.current === "idle" || playerAction.current === "guard" || playerAction.current === "aim") body.setRotation(tmp.current.quaternion, true);
+      if (playerAction.current === "aim") {
+        rotateBodyAroundSole(body, tmp.current.quaternion, bowAimPivot, tmp.current.soleWorld);
+      } else if (playerAction.current === "idle" || playerAction.current === "guard") {
+        body.setRotation(tmp.current.quaternion, true);
+      }
     } else if (isAiming(bowCycle.current)) {
+      // Unlocking while the bow stays raised must arm the next acquisition;
+      // otherwise locking the same target again inherits its old mouse offset.
+      bowAimCentredTarget.current = null;
+      bowAimDetachedFromTarget.current = false;
+      bowAimSnapTarget.current = null;
       // Aiming looks where the archer looks: the same stick, a wider arc, and
       // no orbit. Inverted relative to the third-person pitch because that one
       // raises the camera while this one raises the bow.
@@ -3801,7 +3936,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // camera's yaw pointed the bow parallel to the sight line instead of
         // at what the crosshair was on.
         tmp.current.quaternion.setFromAxisAngle(UP, playerAimBodyYaw.current + Math.PI);
-        body.setRotation(tmp.current.quaternion, true);
+        rotateBodyAroundSole(body, tmp.current.quaternion, bowAimPivot, tmp.current.soleWorld);
       }
     } else {
       cameraYaw.current -= intent.camera.x * delta * 2.35;
@@ -3888,7 +4023,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         tmp.current.flat.set(shoulder.x, shoulder.y, shoulder.z);
       }
       // The direct crosshair ray starts here. `bowSight` converges from the
-      // nock to its point, then raises the shared visible/physical launch axis.
+      // nock to its point, then applies the shared visible/physical launch axis.
       aimCameraOrigin.current.copy(tmp.current.flat);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
@@ -3896,6 +4031,16 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       tmp.current.desiredLook
         .copy(tmp.current.flat)
         .addScaledVector(tmp.current.aimDirection, AIM_LOOK_DISTANCE_METERS);
+      if (lockTarget && bowAimSnapTarget.current === lockTarget.id) {
+        // Make the acquisition frame exact on screen. From the next frame the
+        // camera ray owns the crosshair again, so moving the mouse remains
+        // fully persistent while lock-on continues to own movement/facing.
+        tmp.current.desiredLook.set(
+          lockTarget.position.x,
+          lockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE,
+          lockTarget.position.z,
+        );
+      }
       // Target acquisition already centred yaw and pitch once. Keeping this
       // on the camera ray makes subsequent locked-on mouse motion persistent.
     } else {
@@ -3918,13 +4063,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // An aimed camera has to answer the stick immediately: the smoothing that
     // makes a third-person follow feel weighty makes a crosshair feel broken.
     const aimed = aimBlendAmount.current >= 1;
+    const acquiringLockedBowTarget = lockTarget !== null
+      && bowAimSnapTarget.current === lockTarget.id;
     cameraPosition.current.lerp(
       tmp.current.desiredCamera,
       aimed ? 1 : 1 - Math.exp(-delta * (criticalCameraActive ? 7 : 9)),
     );
-    cameraLook.current.lerp(tmp.current.desiredLook, aimed ? 1 : 1 - Math.exp(-delta * 12));
+    cameraLook.current.lerp(
+      tmp.current.desiredLook,
+      aimed || acquiringLockedBowTarget ? 1 : 1 - Math.exp(-delta * 12),
+    );
     camera.position.copy(cameraPosition.current);
     camera.lookAt(cameraLook.current);
+    bowAimSnapTarget.current = null;
     if (camera instanceof THREE.PerspectiveCamera) {
       const wanted = THREE.MathUtils.lerp(
         BASE_FIELD_OF_VIEW,
@@ -4002,6 +4153,19 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const actorDistance = enemy
       ? Math.hypot(enemy.position.x - playerPos.x, enemy.position.z - playerPos.z)
       : null;
+    const visualLockTarget = lockedOn.current
+      ? activeEnemies.find((candidate) => candidate.id === lockTargetIndex.current) ?? null
+      : null;
+    const lockTargetAimErrorDegrees = visualLockTarget
+      ? angleBetweenDegrees(
+          camera.getWorldDirection(tmp.current.aimLook),
+          directionTo(camera.position, {
+            x: visualLockTarget.position.x,
+            y: visualLockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE,
+            z: visualLockTarget.position.z,
+          }),
+        )
+      : null;
     visualObserved.current.playerActions.add(playerAction.current);
     visualObserved.current.playerAnimations.add(playerAnimation);
     visualObserved.current.enemyActions.add(enemyAction);
@@ -4065,6 +4229,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         simulationFrame,
         captureWallTimeMs: performance.timeOrigin + performance.now(),
         actorDistance: actorDistance === null ? null : Number(actorDistance.toFixed(3)),
+        lockedOn: lockedOn.current,
+        aiming: isAiming(bowCycle.current),
+        lockTargetAimErrorDegrees: lockTargetAimErrorDegrees === null
+          ? null
+          : Number(lockTargetAimErrorDegrees.toFixed(3)),
         player: playerVisualProbe.current.current,
         enemy: enemy?.visualProbe.current ?? null,
       });
@@ -4098,6 +4267,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           offHandRef={playerOffHandObject}
           hurtboxRef={playerHurtbox}
           headBoneRef={playerHeadBone}
+          soleBoneRefs={playerSoleBones}
           // The lean follows the *shot*, not the camera: the converged aim's
           // own pitch, so the bow points along the line the arrow leaves on.
           aimPitchRef={playerAimSpinePitch}

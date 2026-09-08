@@ -528,8 +528,6 @@
     "BOW_DRAW": {
       "pack": "bow",
       "source": "bow_drawlight",
-      "preserveRootMotion": true,
-      "recentreRootMotion": true,
       "provenance": "vanilla bow_drawlight (nock through to full draw); the game scales it to the bow's own draw time",
       "tailSource": "mt_idle"
     },
@@ -545,24 +543,18 @@
     "BOW_RELEASE": {
       "pack": "bow",
       "source": "bow_release",
-      "preserveRootMotion": true,
-      "recentreRootMotion": true,
       "provenance": "vanilla bow_release (loose and follow-through)",
       "tailSource": "mt_idle"
     },
     "BOW_EQUIP": {
       "pack": "bow",
       "source": "bow_equip",
-      "preserveRootMotion": true,
-      "recentreRootMotion": true,
       "provenance": "vanilla bow_equip (bow off the back into the hand)",
       "tailSource": "mt_idle"
     },
     "BOW_UNEQUIP": {
       "pack": "bow",
       "source": "bow_unequip",
-      "preserveRootMotion": true,
-      "recentreRootMotion": true,
       "provenance": "vanilla bow_unequip (bow back onto the back)",
       "tailSource": "mt_idle"
     },

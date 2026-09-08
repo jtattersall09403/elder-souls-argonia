@@ -3,32 +3,21 @@
   "label": "Nord",
   "description": "Skyrim's own: pale, broad and made for cold.",
   "body": "male",
-  "morph": {
-    "tri": "skyrim-source/extracted/racemorphs/meshes/actors/character/character assets/maleheadraces.tri",
-    "targetMesh": "MaleHeadIMF",
-    "shapeKey": "NordRace",
-    "value": 1.0
-  },
   "skinTint": [
-    1.0,
-    0.94,
-    0.88
+    0.7764706612,
+    0.6901960969,
+    0.6588235497
   ],
-  "textureSubstitutions": {
-    "textures/actors/character/eyes/eyebrown.dds": "textures/actors/character/eyes/eyeblue.dds"
-  },
-  "notes": "Skin colour is a tint on the shared vanilla body textures, which is how the game itself does it: every humanoid race uses the same meshes and the same diffuse, and differs by head morph, head normal, eyes and tint. No curated per-race texture tree is needed or wanted.",
-  "extraMeshes": [
-    {
-      "name": "hair",
-      "file": "meshes/actors/character/character assets/hair/male/hair12.nif"
-    }
-  ],
+  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
   "hairTint": [
-    0.44,
-    0.35,
-    0.24
+    0.203125,
+    0.21875,
+    0.21875
   ],
   "heightScale": 1.03,
-  "skinTintMode": "colorize"
+  "faceGen": {
+    "plugin": "Skyrim.esm",
+    "formId": "00013255",
+    "editorId": "Addvar"
+  }
 }

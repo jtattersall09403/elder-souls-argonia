@@ -354,6 +354,40 @@ def parse_skin_tint(raw: object) -> tuple[float, float, float]:
     return tuple(float(v) for v in raw)  # type: ignore[return-value]
 
 
+def facegen_mesh_path(raw: object) -> str | None:
+    """Resolve an exported Skyrim FaceGen head from its owning source record.
+
+    Skyrim stores the finished head parts for an NPC together in one NIF and
+    keys it by plugin + FormID.  Keeping that identity in the race profile is
+    both less error-prone than choosing head, hair and eyes independently and
+    the same seam a future character creator can populate with its own FaceGen
+    export.
+    """
+    if raw is None:
+        return None
+    if not isinstance(raw, dict):
+        raise ValueError("faceGen must be an object")
+    if set(raw) != {"plugin", "formId", "editorId"}:
+        raise ValueError("faceGen must contain exactly plugin, formId and editorId")
+    plugin = raw.get("plugin")
+    form_id = raw.get("formId")
+    editor_id = raw.get("editorId")
+    if not isinstance(plugin, str) or not plugin.lower().endswith((".esm", ".esp")):
+        raise ValueError("faceGen.plugin must be an ESM or ESP filename")
+    if not isinstance(form_id, str) or len(form_id) != 8:
+        raise ValueError("faceGen.formId must be an eight-digit hexadecimal FormID")
+    try:
+        int(form_id, 16)
+    except ValueError as exc:
+        raise ValueError("faceGen.formId must be an eight-digit hexadecimal FormID") from exc
+    if not isinstance(editor_id, str) or not editor_id.strip():
+        raise ValueError("faceGen.editorId must identify the source NPC")
+    return (
+        "meshes/actors/character/facegendata/facegeom/"
+        f"{plugin.lower()}/{form_id.lower()}.nif"
+    )
+
+
 def resolve_character(character_id: str, overrides: dict | None = None) -> BuildPlan:
     """Resolve a character config, optionally overriding the race and outputs.
 
@@ -374,9 +408,15 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
         else ROOT / "build" / char["id"] / "data-root"
     )
     mesh_dir = body["meshDir"]
+    facegen_path = facegen_mesh_path(race.get("faceGen"))
+    replaced_by_facegen = {"eyes", "mouth"} if facegen_path else set()
     meshes = [
-        MeshSpec(m["name"], data_root / mesh_dir / m["file"]) for m in body["meshes"]
+        MeshSpec("support-head" if facegen_path and m["name"] == "head" else m["name"],
+                 data_root / mesh_dir / m["file"])
+        for m in body["meshes"] if m["name"] not in replaced_by_facegen
     ]
+    if facegen_path:
+        meshes.append(MeshSpec("facegen", data_root / facegen_path))
     # Hair, horns and beards are the race's, not the body's: they are skinned to
     # the same head bone the face is, so they ride along in the race GLB rather
     # than needing a mount of their own. Paths are archive-relative like every
@@ -384,7 +424,10 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
     for extra in race.get("extraMeshes", []):
         meshes.append(MeshSpec(extra["name"], data_root / extra["file"]))
 
-    morph = dict(race["morph"]) if race.get("morph") else None
+    # A FaceGen NIF is already the Creation Kit's resolved result: broad race
+    # morph, facial sliders and selected head parts. Applying the race TRI to
+    # it a second time would double the race shape.
+    morph = dict(race["morph"]) if race.get("morph") and not facegen_path else None
     if morph:
         morph["tri"] = str((ROOT / morph["tri"]).resolve())
 

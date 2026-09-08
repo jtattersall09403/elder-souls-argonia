@@ -1,4 +1,6 @@
 import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 import * as THREE from "three";
 
 /**
@@ -228,7 +230,16 @@ function actorFrame(nodes) {
   return { forward, pelvis };
 }
 
-function measure(gltf, nodes, order, animationName, socketRotation, scale, victimPack) {
+function measure(
+  gltf,
+  nodes,
+  order,
+  animationName,
+  socketRotation,
+  scale,
+  victimPack,
+  criticalConfig = null,
+) {
   const animation = gltf.json.animations.find((entry) => entry.name === animationName);
   if (!animation) throw new Error(`no clip named ${animationName}`);
   const socket = nodes.find((node) => node.name === "Weapon");
@@ -394,16 +405,25 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
   const first = usable[live.from];
   const last = usable[live.to];
 
-  if (criticalFlag) {
-    const weapon = weaponCapsule(WEAPON_ID);
-    const victim = victimHurtbox(victimPack, VICTIM_CLIP, VICTIM_TIME, scale);
+  let criticalRecommendation = null;
+  if (criticalConfig) {
+    const {
+      weaponId,
+      victimClip,
+      victimTime,
+      victimFacing,
+      gateWindow,
+      report = console.log,
+    } = criticalConfig;
+    const weapon = weaponCapsule(weaponId);
+    const victim = victimHurtbox(victimPack, victimClip, victimTime, scale);
     // The attacker's own frame at the start of the clip: the pairing places the
     // victim relative to where the attacker *stands*, not to world axes.
     const anchor = samples[0].origin.clone().multiplyScalar(scale).setY(0);
-    console.log(`  ${animationName}: ${WEAPON_ID} capsule vs a ${VICTIM_CLIP} hurtbox`);
+    report(`  ${animationName}: ${weaponId} capsule vs a ${victimClip} hurtbox`);
     const rows = [];
     for (const separation of SEPARATIONS) {
-      const placed = placeVictim(victim, anchor, forward, separation, VICTIM_FACING);
+      const placed = placeVictim(victim, anchor, forward, separation, victimFacing);
       // Depth per frame, then the *first* contiguous phase of it. A packaged
       // execution strikes three or four times; the game plays one, and it is
       // the first that the trim and the damage time belong to. Taking first and
@@ -432,7 +452,7 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
       });
       const phases = contactPhases(depths, samples);
       if (process.env.CRITICAL_PHASES) {
-        console.log(`    ${separation.toFixed(2)} phases`, phases
+        report(`    ${separation.toFixed(2)} phases`, phases
           .map((x) => `${x.opens.toFixed(3)}..${x.closes.toFixed(3)}@${x.depth.toFixed(3)}`).join(" "));
       }
       const phase = null;
@@ -446,7 +466,7 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
         ? `no contact (closest ${(-closest.depth).toFixed(3)} m at t=${closest.time.toFixed(4)}s)`
         : `contact ${hit.opens.toFixed(4)}..${hit.closes.toFixed(4)}s, deepest ${hit.depth.toFixed(3)} m at t=${hit.contact.toFixed(4)}s`;
       rows.push({ separation, hit });
-      console.log(`    ${separation.toFixed(2)} m  ->  ${verdict}`);
+      report(`    ${separation.toFixed(2)} m  ->  ${verdict}`);
     }
 
     // The recommendation: the *furthest* separation that still reaches the
@@ -467,15 +487,16 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
     // the greatsword that is a shoulder graze at 1.45 s — while the moment the
     // blade actually goes into the chest is at 2.98 s. Only the gate's own
     // measure tells those apart.
-    const torso = victimTorsoPoints(victimPack, VICTIM_CLIP, VICTIM_TIME, scale);
-    console.log("    gate check (grip-to-tip vs spine and pelvis):");
+    const torso = victimTorsoPoints(victimPack, victimClip, victimTime, scale);
+    report("    gate check (grip-to-tip vs spine and pelvis):");
     const gate = [];
     for (const separation of SEPARATIONS) {
-      const points = placePoints(torso, anchor, forward, separation, VICTIM_FACING);
+      const points = placePoints(torso, anchor, forward, separation, victimFacing);
       let best = { distance: Infinity, time: 0 };
       let leaves = null;
       for (const sample of samples) {
-        if (!inGateWindow(sample.time, duration)) continue;
+        if (gateWindow && (sample.time / duration < gateWindow[0]
+            || sample.time / duration > gateWindow[1])) continue;
         const blade = weaponSegment(sample, weapon, scale, 1);
         for (const point of points) {
           const distance = pointSegmentDistance(point, blade.a, blade.b);
@@ -489,24 +510,32 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
         if (distance > GATE_RELEASE_METERS) { leaves = sample.time; break; }
       }
       gate.push({ separation, ...best, leaves });
-      console.log(`      ${separation.toFixed(2)} m  ->  closest ${best.distance.toFixed(3)} m at t=${best.time.toFixed(4)}s`
+      report(`      ${separation.toFixed(2)} m  ->  closest ${best.distance.toFixed(3)} m at t=${best.time.toFixed(4)}s`
         + (best.distance <= GATE_STANDING_LIMIT_METERS ? "   reaches" : ""));
     }
 
     const reaching = gate.filter((row) => row.distance <= GATE_STANDING_LIMIT_METERS);
     const pick = reaching[reaching.length - 1];
     if (!pick) {
-      console.log("    -> no separation reaches the torso; this clip needs a different victim pose");
+      report("    -> no separation reaches the torso; this clip needs a different victim pose");
     } else {
       const release = pick.leaves ?? Math.min(duration, pick.time + 0.1);
       const start = Math.max(0, pick.time - CRITICAL_LEAD_IN_SECONDS);
       const end = Math.min(duration, pick.time + CRITICAL_TAIL_SECONDS);
-      console.log(`    -> startingSeparation ${pick.separation.toFixed(2)}`
+      report(`    -> startingSeparation ${pick.separation.toFixed(2)}`
         + `, contact ${pick.time.toFixed(4)}s`
         + `, release ${release.toFixed(4)}s`);
-      console.log(`       trim playbackStartTime ${start.toFixed(4)} playbackEndTime ${end.toFixed(4)}`
+      report(`       trim playbackStartTime ${start.toFixed(4)} playbackEndTime ${end.toFixed(4)}`
         + `  (contact at ${(pick.time - start).toFixed(4)}s into the trimmed clip,`
         + ` release at ${(release - start).toFixed(4)}s)`);
+      criticalRecommendation = {
+        separation: pick.separation,
+        contact: pick.time,
+        release,
+        trimStart: start,
+        trimEnd: end,
+        contactIntoTrim: pick.time - start,
+      };
     }
   }
 
@@ -518,6 +547,7 @@ function measure(gltf, nodes, order, animationName, socketRotation, scale, victi
     end: last.time / duration,
     startSeconds: first.time,
     endSeconds: last.time,
+    criticalRecommendation,
   };
 }
 
@@ -996,8 +1026,6 @@ const SEPARATIONS = [0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2, 1.3, 1.4, 1.6, 1.8, 2.0]
  */
 const gateWindow = flagValue("--window", null);
 const GATE_WINDOW = gateWindow ? gateWindow.split(",").map(Number) : null;
-const inGateWindow = (time, duration) =>
-  !GATE_WINDOW || (time / duration >= GATE_WINDOW[0] && time / duration <= GATE_WINDOW[1]);
 
 /** Parry mode — see `measureParry`. */
 const parryFlag = process.argv.includes("--parry");
@@ -1012,29 +1040,92 @@ const wanted = clips.length > 0
   ? clips
   : ["LIGHT_1", "LIGHT_2", "LIGHT_3", "HEAVY", "HEAVY_2"];
 
-if (parryFlag) {
-  // The named clips are one performance in order — raise then catch — so they
-  // are measured as a single timeline rather than one at a time.
-  await measureParry(wanted);
-  process.exit(0);
+/**
+ * Measure one shipped critical without starting another Node process.
+ *
+ * The known-answer suite used to execute this CLI three times. Each process
+ * reparsed the same multi-megabyte rig packs and rebuilt their node graphs,
+ * while the assertions themselves took almost no time. Keeping the reusable
+ * measurement behind this export lets Vitest share the module's pack cache.
+ */
+export async function measureCriticalKnownAnswer({
+  weaponId = "steel-sword",
+  clip = "RIPOSTE",
+  victimClip = "GUARD_BREAK",
+  victimTime = 0.55,
+  victimFacing = Math.PI,
+  gateWindow = null,
+} = {}) {
+  const { gltf, nodes, order } = await packFor(clip);
+  const victimPack = await packFor(victimClip);
+  const result = measure(
+    gltf,
+    nodes,
+    order,
+    clip,
+    socketRotation,
+    scale,
+    victimPack,
+    {
+      weaponId,
+      victimClip,
+      victimTime,
+      victimFacing,
+      gateWindow,
+      report: () => {},
+    },
+  );
+  if (!result.criticalRecommendation) {
+    throw new Error(`${clip} has no critical recommendation for ${weaponId}`);
+  }
+  return result.criticalRecommendation;
 }
 
-console.log(`blade ${BLADE_LENGTH} m`);
-console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
-for (const name of wanted) {
-  const { gltf, nodes, order } = await packFor(name);
-  // The victim's clip lives in whichever pack carries it, which is rarely the
-  // attacker's — a guard-break stagger is core, not criticals.
-  const victimPack = criticalFlag ? await packFor(VICTIM_CLIP) : null;
-  const result = measure(gltf, nodes, order, name, socketRotation, scale, victimPack);
-  if (result.start === null) {
-    console.log(`${name.padEnd(24)} ${result.duration.toFixed(3)}  no sweep found in reach`);
-    continue;
+async function main() {
+  if (parryFlag) {
+    // The named clips are one performance in order — raise then catch — so they
+    // are measured as a single timeline rather than one at a time.
+    await measureParry(wanted);
+    return;
   }
-  console.log(
-    `${name.padEnd(24)} ${result.duration.toFixed(3)}  `
-    + `${result.start.toFixed(3)} .. ${result.end.toFixed(3)}          `
-    + `${result.startSeconds.toFixed(3)}..${result.endSeconds.toFixed(3)}   `
-    + `${result.peakTipSpeed.toFixed(1)}`,
-  );
+
+  console.log(`blade ${BLADE_LENGTH} m`);
+  console.log("clip                     dur    sweep start..end (fraction)   seconds        peak tip m/s");
+  for (const name of wanted) {
+    const { gltf, nodes, order } = await packFor(name);
+    // The victim's clip lives in whichever pack carries it, which is rarely the
+    // attacker's — a guard-break stagger is core, not criticals.
+    const victimPack = criticalFlag ? await packFor(VICTIM_CLIP) : null;
+    const criticalConfig = criticalFlag ? {
+      weaponId: WEAPON_ID,
+      victimClip: VICTIM_CLIP,
+      victimTime: VICTIM_TIME,
+      victimFacing: VICTIM_FACING,
+      gateWindow: GATE_WINDOW,
+    } : null;
+    const result = measure(
+      gltf,
+      nodes,
+      order,
+      name,
+      socketRotation,
+      scale,
+      victimPack,
+      criticalConfig,
+    );
+    if (result.start === null) {
+      console.log(`${name.padEnd(24)} ${result.duration.toFixed(3)}  no sweep found in reach`);
+      continue;
+    }
+    console.log(
+      `${name.padEnd(24)} ${result.duration.toFixed(3)}  `
+      + `${result.start.toFixed(3)} .. ${result.end.toFixed(3)}          `
+      + `${result.startSeconds.toFixed(3)}..${result.endSeconds.toFixed(3)}   `
+      + `${result.peakTipSpeed.toFixed(1)}`,
+    );
+  }
 }
+
+const isMain = process.argv[1]
+  && import.meta.url === pathToFileURL(resolve(process.argv[1])).href;
+if (isMain) await main();

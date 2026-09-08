@@ -6,7 +6,7 @@
  * canonical ecctrl player body behind the `PlayerMovementController` boundary.
  * Consumers must sit inside an `@react-three/rapier` `<Physics>` world.
  */
-export { SkyrimFighter } from "./SkyrimFighter";
+export { SkyrimFighter, type SoleBoneRefs } from "./SkyrimFighter";
 export {
   SkeletalHurtbox,
   HAS_SKELETAL_HURTBOX,

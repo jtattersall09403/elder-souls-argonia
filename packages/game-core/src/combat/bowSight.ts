@@ -1,9 +1,9 @@
 import { aimAngles, directionTo, type Vec3 } from "./aimConvergence";
 
-/** Deliberate elevation above the crosshair ray requested for every player shot. */
-export const BOW_SIGHT_ELEVATION_RADIANS = Math.PI / 6;
+/** Deliberate elevation above the crosshair ray, kept as one tunable value. */
+export const BOW_SIGHT_ELEVATION_RADIANS = 0;
 
-/** Point the shaft thirty degrees above the line to the crosshair.
+/** Point the shaft at the line to the crosshair, plus the configured elevation.
  * This is a fixed launch attitude rather than a range-dependent ballistic
  * correction: gravity and drag still act independently after release. Body
  * yaw follows the camera or target from the actor centre, so
