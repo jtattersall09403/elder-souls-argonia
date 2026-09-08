@@ -217,3 +217,27 @@ def test_note_is_explanation_only_and_never_drives_raster_geometry():
     first, _manifest, _stats = raster.apply_plan(_height(), _plan([first_record]), MPS)
     second, _manifest, _stats = raster.apply_plan(_height(), _plan([second_record]), MPS)
     np.testing.assert_array_equal(first, second)
+
+
+def test_layered_islet_then_landing_ledge_are_composed_not_cancelled():
+    record = {
+        "id": "place.test.stacks", "position": {"u": 0.5, "v": 0.5},
+        "terrainRequests": [
+            {"kind": "cliff-bench", "radiusM": 4,
+             "delivery": {"feature": "landing-ledge", "ledgeCount": 1},
+             "note": "Cut a landing into the stack."},
+            {"kind": "islet", "radiusM": 9,
+             "delivery": {"feature": "rock-stacks", "isletCount": 2},
+             "note": "Raise the stack first."},
+        ],
+    }
+    result, manifest, stats = raster.apply_plan(
+        np.zeros((41, 41), dtype=np.float32), _plan([record]), MPS)
+    assert [row["action"] for row in stats] == ["raise", "carve"]
+    evidence = {row["operationEvidence"][0]["action"]: row["operationEvidence"][0]
+                for row in manifest["fulfillments"]}
+    for action, row in evidence.items():
+        sign = 1.0 if action == "raise" else -1.0
+        assert all(witness["appliedDeltaM"] * sign > 0 for witness in row["witnesses"])
+    assert result.max() > 0
+    assert result.min() < 0

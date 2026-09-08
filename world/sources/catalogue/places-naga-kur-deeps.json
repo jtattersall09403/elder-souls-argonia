@@ -2582,7 +2582,7 @@
           "radiusM": 90,
           "delivery": {
             "feature": "three-sided-water-rise",
-            "waterRelation": "ringed-by-water",
+            "waterRelation": "water-on-three-sides",
             "access": "poling",
             "sides": 3,
             "heightClass": "flood-free"
@@ -3946,10 +3946,10 @@
           "delivery": {
             "feature": "single-root-wall-outlet",
             "bank": "root-walled",
-            "current": "tidal",
+            "current": "lethal-wet-season",
             "connectionCount": 1
           },
-          "note": "the single outlet of the inner swamp, pinched between two root walls — the tidal gate the place is named for"
+          "note": "the single outlet of the inner swamp, pinched between two root walls, where the post-rain flood pulse becomes lethal"
         }
       ]
     },
@@ -13610,7 +13610,8 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.naga-kur-deeps.wamasu-pond-adult.json): The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held."
+        "why": "The one closed body of standing water within 300 m of the plot: 962 m2, 38 x 38 m, water level 9.24 m, bank rim 9.37-10.59 m, bank slope p50 1.2 deg / p90 3.6 deg, 69 m from the plotted position, 156 m from the place's own poling lane, 278 m from the nearest road, canopy 0.63 against 0.82 at the plot. Not connected to the tidal system, so it is still and it can be held.",
+        "candidateId": "candidate.wamasu-pond-adult.pan"
       }
     },
     {

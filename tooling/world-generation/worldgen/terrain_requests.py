@@ -43,7 +43,7 @@ CURRENT_CLASSES = {"standing", "slack", "slow", "flowing", "swift", "lethal-wet-
 WATER_RELATIONS = {
     "above-flood", "above-storm-water", "below-lake-bed", "channel-edge", "channel-linked",
     "flooded-to-rim", "open-water", "ringed-by-water", "standing-water", "underwater-entry",
-    "water-over-threshold", "waterward-outlet",
+    "water-over-threshold", "waterward-outlet", "water-on-three-sides",
 }
 ACCESS_FORMS = {"boat-landing", "causeway-only", "climb-only", "one-landing", "poling", "swimming"}
 DEPTH_CLASSES = {"shallow", "navigable", "swimming", "diving", "dark-from-surface", "below-bed"}

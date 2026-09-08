@@ -11867,7 +11867,7 @@
         "neighbourRelation": "on the route graph; its owner lives within sight",
         "hardConstraints": [
           "slow shallow water",
-          "no piling",
+          "bottom firm enough to take driven piles",
           "must span open water at least 1.5 m deep"
         ],
         "preferences": [

@@ -180,3 +180,51 @@ def test_requested_depth_failure_is_not_hidden_by_operation_manifest():
                    if row["field"] == "depthM")
     assert finding["status"] == "fail"
     assert finding["measured"] == {"maxDepthM": 2.0}
+
+
+def test_current_is_measured_only_on_final_wet_samples():
+    plan, fulfillment, height, water, height_hash = _documents(
+        {"feature": "test-pool", "current": "standing"})
+    water["wet_full"][:] = False
+    report = post.build_report(plan, fulfillment, height, water,
+                               artifact_hashes={"fixture": "a" * 64},
+                               water_height_sha256=height_hash)
+    finding = next(row for row in report["requests"][0]["findings"]
+                   if row["field"] == "current")
+    assert finding["status"] == "fail"
+    assert finding["measured"] == {"medianSpeedMS": 0.0, "classes": []}
+
+
+def test_above_flood_uses_nearest_bounded_wet_component_outside_sculpt_radius():
+    plan, fulfillment, height, water, height_hash = _documents(
+        {"feature": "dry-rise", "waterRelation": "above-flood"})
+    water["wet_full"][:] = False
+    water["w_full"][:] = -np.inf
+    # The wet component is outside the 20 m operation disc but well inside
+    # the explicitly bounded context search.
+    water["wet_full"][0, 0:4] = True
+    water["w_full"][0, 0:4] = -2.0
+    report = post.build_report(plan, fulfillment, height, water,
+                               artifact_hashes={"fixture": "a" * 64},
+                               water_height_sha256=height_hash)
+    finding = next(row for row in report["requests"][0]["findings"]
+                   if row["field"] == "waterRelation")
+    assert finding["status"] == "pass"
+
+
+def test_three_sided_water_does_not_require_a_false_island_contract():
+    plan, fulfillment, height, water, height_hash = _documents(
+        {"feature": "three-sided-rise", "waterRelation": "water-on-three-sides"})
+    water["wet_full"][:] = False
+    water["w_full"][:] = -np.inf
+    water["wet_full"][20, 10] = True   # west
+    water["wet_full"][20, 30] = True   # east
+    water["wet_full"][10, 20] = True   # north; south remains the approach
+    water["w_full"][water["wet_full"]] = -1.0
+    report = post.build_report(plan, fulfillment, height, water,
+                               artifact_hashes={"fixture": "a" * 64},
+                               water_height_sha256=height_hash)
+    finding = next(row for row in report["requests"][0]["findings"]
+                   if row["field"] == "waterRelation")
+    assert finding["status"] == "pass"
+    assert finding["measured"] == {"wetSides": 3, "centreDry": True}

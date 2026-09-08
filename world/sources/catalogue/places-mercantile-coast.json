@@ -18808,12 +18808,10 @@
           "kind": "knoll",
           "radiusM": 60,
           "delivery": {
-            "feature": "water-ringed-knoll",
-            "current": "standing",
-            "waterRelation": "ringed-by-water",
+            "feature": "low-xanmeer-knoll",
             "heightClass": "low"
           },
-          "note": "A low rise the meer stands on, ringed by standing water on every side."
+          "note": "A low raised knoll for the meer; surrounding marsh remains a siting preference, not a promise of an island."
         }
       ]
     },

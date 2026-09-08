@@ -1430,7 +1430,7 @@
           "delivery": {
             "feature": "screened-hull-creek",
             "waterRelation": "channel-linked",
-            "depthClass": "navigable",
+            "depthM": 2.0,
             "capacity": "sea-going-hull"
           },
           "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"

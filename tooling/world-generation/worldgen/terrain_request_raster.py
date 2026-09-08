@@ -416,11 +416,17 @@ def apply_plan(
     if wet is not None and (wet.shape != height.shape or wet.dtype.kind != "b"):
         raise TerrainRequestRasterError("wet_mask must be boolean and match height_m.shape")
 
-    total_delta = np.zeros(height.shape, dtype=np.float64)
+    # Compose compatible layered operations deliberately. Positive landforms
+    # establish their mass first; cuts, shelves and pools are then cut into
+    # that finished mass. Summing every delta against the original raster made
+    # an islet and its landing ledge cancel one another while still claiming
+    # that both operations had run.
+    result = height.astype(np.result_type(height.dtype, np.float32), copy=True)
     stats: list[dict[str, Any]] = []
-    witness_candidates: dict[str, list[tuple[int, int, float]]] = {}
-    for operation in sorted(plan["operations"], key=lambda row: row["id"]):
-        (axis_x, axis_z), axis_source = _resolve_axis(operation, height, mps, flow, wet)
+    witness_records: dict[str, list[dict[str, float | int]]] = {}
+    operations = sorted(plan["operations"], key=lambda row: (row["action"] != "raise", row["id"]))
+    for operation in operations:
+        (axis_x, axis_z), axis_source = _resolve_axis(operation, result, mps, flow, wet)
         center_x, center_z = map(float, operation["centerM"])
         radius = float(operation["radiusM"])
         x0 = max(0, int(math.floor((center_x - radius) / mps)))
@@ -436,10 +442,20 @@ def apply_plan(
         weight = _profile_weight(operation["profile"], along, across, profile_parameters)
         sign = -1.0 if operation["action"] == "carve" else 1.0
         delta = sign * float(operation["parameters"]["deltaM"]) * weight
-        total_delta[z0:z1 + 1, x0:x1 + 1] += delta
+        before = result[z0:z1 + 1, x0:x1 + 1].copy()
+        result[z0:z1 + 1, x0:x1 + 1] += delta.astype(result.dtype, copy=False)
         affected = np.abs(delta) > 1e-9
         delta_hash = hashlib.sha256(np.ascontiguousarray(delta, dtype="<f4").tobytes()).hexdigest()
-        witness_candidates[operation["id"]] = _witness_candidates(delta, x0, z0)
+        witnesses = []
+        for z, x, individual_delta in _witness_candidates(delta, x0, z0):
+            local_z, local_x = z - z0, x - x0
+            witnesses.append({
+                "x": x, "z": z,
+                "baseHeightM": round(float(before[local_z, local_x]), 6),
+                "appliedDeltaM": round(float(result[z, x] - before[local_z, local_x]), 6),
+                "operationDeltaM": round(individual_delta, 6),
+            })
+        witness_records[operation["id"]] = witnesses
         values = delta[affected]
         stats.append({
             "operationId": operation["id"],
@@ -458,22 +474,13 @@ def apply_plan(
             "deltaSha256": delta_hash,
         })
 
-    result = height.astype(np.result_type(height.dtype, np.float32), copy=True)
-    result += total_delta.astype(result.dtype, copy=False)
     if not np.all(np.isfinite(result)):
         raise TerrainRequestRasterError("terrain operations produced non-finite heights")
     evidence_by_operation = {}
     stats_by_operation = {row["operationId"]: row for row in stats}
     for operation in plan["operations"]:
         operation_id = operation["id"]
-        witnesses = []
-        for z, x, individual_delta in witness_candidates[operation_id]:
-            witnesses.append({
-                "x": x, "z": z,
-                "baseHeightM": round(float(height[z, x]), 6),
-                "appliedDeltaM": round(float(result[z, x] - height[z, x]), 6),
-                "operationDeltaM": round(individual_delta, 6),
-            })
+        witnesses = witness_records[operation_id]
         evidence = {
             "operationId": operation_id,
             "deliverySha256": _digest(operation["parameters"]["delivery"]),

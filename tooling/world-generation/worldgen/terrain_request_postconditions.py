@@ -57,6 +57,8 @@ WET_MIN_M = 0.05
 FLOOD_CLEARANCE_M = 1.4
 STORM_CLEARANCE_M = 2.0
 RIM_TOLERANCE_M = 0.35
+WATER_CONTEXT_M = 150.0
+LOW_RISE_MAX_M = 5.0
 DEPTH_MINIMUMS = {
     "navigable": 0.6, "swimming": 1.2, "diving": 3.0,
     "dark-from-surface": 6.0, "below-bed": 1.2,
@@ -120,6 +122,24 @@ def _coarse_values(array: np.ndarray, operation: dict, full_shape: tuple[int, in
     coarse_z = np.clip(np.rint((full_z - 1) / 3).astype(int), 0, array.shape[0] - 1)
     coarse_x = np.clip(np.rint((full_x - 1) / 3).astype(int), 0, array.shape[1] - 1)
     return array[coarse_z, coarse_x]
+
+
+def _nearest_wet_component_levels(operation: dict, height: np.ndarray,
+                                  water: dict) -> np.ndarray:
+    """Water levels from the nearest contiguous wet component in bounded context."""
+    expanded = dict(operation)
+    expanded["radiusM"] = float(operation["radiusM"]) + WATER_CONTEXT_M
+    zs, xs, mask = _support(expanded, height.shape, RAW_M)
+    local_wet = water["wet_full"][zs, xs].astype(bool) & mask
+    if not np.any(local_wet):
+        return np.empty(0, dtype=np.float32)
+    labels, _ = ndimage.label(local_wet)
+    cx = int(round(float(operation["centerM"][0]) / RAW_M)) - int(xs.start)
+    cz = int(round(float(operation["centerM"][1]) / RAW_M)) - int(zs.start)
+    wet_z, wet_x = np.nonzero(local_wet)
+    nearest = int(np.argmin((wet_x - cx) ** 2 + (wet_z - cz) ** 2))
+    component = labels[wet_z[nearest], wet_x[nearest]]
+    return water["w_full"][zs, xs][labels == component]
 
 
 def _execution_findings(request: dict, evidence: list[dict], height: np.ndarray) -> list[dict]:
@@ -293,12 +313,32 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
         ok = bool(label and not touches_edge and np.any(local_wet & mask))
         findings.append(_finding("waterRelation", "pass" if ok else "fail",
                                  "centre dry component must be enclosed by water inside support"))
+    elif relation == "water-on-three-sides":
+        local_wet = water["wet_full"][zs, xs].astype(bool) & mask
+        zz, xx = np.indices(local_wet.shape)
+        cx = centre_x - int(xs.start)
+        cz = centre_z - int(zs.start)
+        dx, dz = xx - cx, zz - cz
+        sides = (
+            local_wet & (dx >= np.abs(dz)),
+            local_wet & (-dx >= np.abs(dz)),
+            local_wet & (dz >= np.abs(dx)),
+            local_wet & (-dz >= np.abs(dx)),
+        )
+        wet_sides = sum(bool(np.any(side)) for side in sides)
+        centre_dry = not bool(water["wet_full"][centre_z, centre_x])
+        ok = centre_dry and wet_sides >= 3
+        findings.append(_finding("waterRelation", "pass" if ok else "fail",
+                                 "dry centre must have final water on at least three sides",
+                                 {"wetSides": wet_sides, "centreDry": centre_dry}))
     elif relation in {"above-flood", "above-storm-water"}:
         clearance = FLOOD_CLEARANCE_M if relation == "above-flood" else STORM_CLEARANCE_M
-        if not water_levels.size:
-            findings.append(_finding("waterRelation", "fail", "no final water level in request support"))
+        contextual_levels = water_levels if water_levels.size else _nearest_wet_component_levels(
+            operation, height, water)
+        if not contextual_levels.size:
+            findings.append(_finding("waterRelation", "fail", "no final connected water in bounded context"))
         else:
-            value = centre_ground - float(water_levels.max())
+            value = centre_ground - float(contextual_levels.max())
             findings.append(_finding("waterRelation", "pass" if value >= clearance else "fail",
                                      f"centre ground clearance must be >= {clearance:.2f} m",
                                      {"clearanceM": round(value, 3)}))
@@ -306,7 +346,9 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
     height_class = delivery.get("heightClass")
     if height_class in {"flood-free", "storm-free"}:
         clearance = FLOOD_CLEARANCE_M if height_class == "flood-free" else STORM_CLEARANCE_M
-        value = centre_ground - float(water_levels.max()) if water_levels.size else None
+        contextual_levels = water_levels if water_levels.size else _nearest_wet_component_levels(
+            operation, height, water)
+        value = centre_ground - float(contextual_levels.max()) if contextual_levels.size else None
         ok = value is not None and value >= clearance
         findings.append(_finding("heightClass", "pass" if ok else "fail",
                                  f"centre ground clearance must be >= {clearance:.2f} m",
@@ -314,8 +356,8 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
     elif height_class == "low":
         median = float(np.median(ground))
         rise = centre_ground - median
-        findings.append(_finding("heightClass", "pass" if 0 <= rise <= 3.5 else "fail",
-                                 "low rise must sit 0..3.5 m above support median",
+        findings.append(_finding("heightClass", "pass" if 0 <= rise <= LOW_RISE_MAX_M else "fail",
+                                 f"low rise must sit 0..{LOW_RISE_MAX_M:.1f} m above support median",
                                  {"relativeHeightM": round(rise, 3)}))
     elif height_class == "tiered-roosts":
         findings.append(_finding("heightClass", survival,
@@ -337,6 +379,12 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
             velocity = np.hypot(water["vx"], water["vz"])
             speeds = _coarse_values(velocity, operation, height.shape, mask, zs, xs)
             classes = _coarse_values(water["cls"], operation, height.shape, mask, zs, xs)
+            selected = wet
+            if relation in {"channel-edge", "channel-linked", "waterward-outlet"} \
+                    and water.get("chan_full") is not None:
+                selected &= water["chan_full"][zs, xs][mask].astype(bool)
+            speeds = speeds[selected]
+            classes = classes[selected]
             speed = float(np.median(speeds)) if speeds.size else 0.0
             ranges = {
                 "standing": (0.0, 0.05), "slack": (0.0, 0.15),
@@ -344,9 +392,9 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
             }
             if current in ranges:
                 lo, hi = ranges[current]
-                ok = lo <= speed <= hi
+                ok = bool(speeds.size) and lo <= speed <= hi
             elif current == "tidal":
-                ok = bool(np.any(np.isin(classes, (1, 2))))
+                ok = bool(speeds.size) and bool(np.any(np.isin(classes, (1, 2))))
             else:
                 findings.append(_finding("current", "unsupported",
                                          "current class has no documented final-state threshold", current))
