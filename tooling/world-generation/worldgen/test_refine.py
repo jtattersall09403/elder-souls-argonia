@@ -2,8 +2,18 @@ import numpy as np
 
 from .refine_province import (CHANNELS, LAKE_BED_M, RAW_M, TERRACE_FRAC,
                                carve_channels, carve_polyline,
-                               carve_to_profile, detail_noise,
+                               carve_to_profile, detail_noise, _flow_vectors,
                                impose_blackrose_lake)
+
+
+def test_d8_targets_decode_to_world_xz_unit_vectors():
+    # 0 -> east, 1 -> south, 2 is outlet, 3 -> north-west.
+    flow = np.array([1, 3, -1, 0], dtype=np.int64)
+    vectors = _flow_vectors(flow, (2, 2))
+    np.testing.assert_allclose(vectors[0, 0], [1.0, 0.0])
+    np.testing.assert_allclose(vectors[0, 1], [0.0, 1.0])
+    np.testing.assert_allclose(vectors[1, 0], [0.0, 0.0])
+    np.testing.assert_allclose(vectors[1, 1], [-2 ** -0.5, -2 ** -0.5])
 
 
 def test_carve_channels_cuts_a_terrace_not_a_ditch():

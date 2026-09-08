@@ -19,7 +19,10 @@ Usage:
 from __future__ import annotations
 
 import json
+import hashlib
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 import numpy as np
@@ -68,6 +71,38 @@ FEEDER_START_FRAC = 0.55   # start radius as a fraction of the lake rim
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 STUDIO_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "refined"
+
+
+def _atomic_json(path: Path, value: dict | list) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, temp_name = tempfile.mkstemp(prefix=f".{path.name}.", dir=path.parent)
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            json.dump(value, handle, indent=2, ensure_ascii=False, sort_keys=True)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp_name, path)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+
+
+def _flow_vectors(flow_to: np.ndarray, shape: tuple[int, int]) -> np.ndarray:
+    """Decode flattened D8 targets into +X/+Z unit vectors."""
+    h, w = shape
+    target = np.asarray(flow_to).reshape(h, w)
+    source = np.arange(h * w, dtype=np.int64).reshape(h, w)
+    valid = target >= 0
+    target_safe = np.where(valid, target, source)
+    tr, tc = np.divmod(target_safe, w)
+    sr, sc = np.indices((h, w))
+    dx, dz = (tc - sc).astype(np.float32), (tr - sr).astype(np.float32)
+    norm = np.hypot(dx, dz)
+    nz = norm > 0
+    dx[nz] /= norm[nz]
+    dz[nz] /= norm[nz]
+    return np.dstack((dx, dz)).astype(np.float32)
 
 
 def deterrace(h):
@@ -143,7 +178,19 @@ def carve_to_profile(h, npz, save_path=None):
     # ~16 m) and never raise a bed or a rim (a levee across an outlet dams it)
     water = bodies.wet | bodies.sea
     collar = ndimage.binary_dilation(water, iterations=9) & ~water
-    h, stats = channels.carve(h, sol, protect=collar, body_level=bodies.level_with_sea)
+    # a CAPTURED lake drains to the channel cut through it: its bed is not
+    # protected from the shoulder (the levee beside the channel must seal
+    # what will be dry ground)
+    body_level = bodies.level_with_sea.copy()
+    cap = sol.captured
+    if cap.any():
+        cy = np.clip(np.round(sol.y[cap]).astype(int), 0, h.shape[0] - 1)
+        cx = np.clip(np.round(sol.x[cap]).astype(int), 0, h.shape[1] - 1)
+        ids = np.unique(bodies.body[cy, cx])
+        ids = ids[ids > 0]
+        if len(ids):
+            body_level[np.isin(bodies.body, ids)] = -np.inf
+    h, stats = channels.carve(h, sol, protect=collar, body_level=body_level)
     h, n_islands = sw.lower_islands(h, bodies)
     # self-consistency report: the compiler floods THIS terrain and keeps the
     # profile above; a lake the trench breached, or a hollow the levee made
@@ -365,6 +412,24 @@ def main() -> None:
         filled=npz["filled"], step=STEP)
     print("fluvial:", fluvial_stats)
 
+    # G11: the current macro plot is the authority for request positions. The
+    # typed, content-addressed operations run after general fluvial shaping so
+    # that broad noise cannot erase them, and before the shared channel profile
+    # makes the final water/terrain join. Final water-relative postconditions
+    # are checked downstream against the published water solve.
+    from . import catalogue as catalogue_mod, terrain_request_raster, terrain_requests
+    terrain_plan, terrain_errors = terrain_requests.build_plan(
+        [record for region in catalogue_mod.load_region_files() for record in region.places])
+    if terrain_errors:
+        raise ValueError("invalid terrain-request plan: " + "; ".join(terrain_errors))
+    coarse_flow = _flow_vectors(npz["flow_to"], rivers.shape)
+    flow_up = np.repeat(np.repeat(coarse_flow, STEP, 0), STEP, 1)[: h.shape[0], : h.shape[1]]
+    h, terrain_fulfillment, terrain_stats = terrain_request_raster.apply_plan(
+        h, terrain_plan, RAW_M, flow_vectors=flow_up, wet_mask=wet_mask)
+    terrain_applied_sha = hashlib.sha256(h.tobytes()).hexdigest()
+    del coarse_flow, flow_up
+    print("terrain requests:", len(terrain_stats), "typed operations")
+
     # Channel bed LAST: cut to the water profile on the final terrain; the
     # solution is saved so the compiler fills the very trench that was cut
     # (owner permission 2026-09-07 to edit terrain for water; decision 0047).
@@ -373,6 +438,16 @@ def main() -> None:
     h, channel_stats = carve_to_profile(h, npz, save_path=vault_dir / "channels-pass1.npz")
     print("channel carve:", json.dumps(channel_stats))
     np.save(vault_dir / "refined-height-f32.npy", h)
+    terrain_fulfillment["appliedHeightSha256"] = terrain_applied_sha
+    terrain_fulfillment["finalHeightSha256"] = hashlib.sha256(h.tobytes()).hexdigest()
+    terrain_artifacts = {
+        "terrain-request-plan.json": terrain_plan,
+        "terrain-request-fulfillments.json": terrain_fulfillment,
+        "terrain-request-stats.json": terrain_stats,
+    }
+    for filename, document in terrain_artifacts.items():
+        _atomic_json(vault_dir / filename, document)
+        _atomic_json(STUDIO_DIR / filename, document)
 
     # studio raster at half resolution (RG 16-bit packing), low-passed before
     # decimation (naive [::2] aliased the finest relief octave into moiré).
@@ -466,6 +541,12 @@ def main() -> None:
             "portages": sum(1 for f in portage_features if f["mode"] == "portage"),
         },
         "channelCarve": channel_stats,
+        "terrainRequests": {
+            "requests": len(terrain_plan["requests"]),
+            "operations": len(terrain_stats),
+            "planDigest": terrain_plan["planDigest"],
+            "fulfillment": "terrain-request-fulfillments.json",
+        },
         "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
     }
     (STUDIO_DIR / "meta.json").write_text(json.dumps(meta, indent=2))
