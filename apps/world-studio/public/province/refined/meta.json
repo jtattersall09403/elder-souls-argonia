@@ -22,14 +22,67 @@
     "portages": 6
   },
   "channelCarve": {
-    "cellsLowered": 155163,
-    "medianM": 0.549,
-    "p90M": 1.734,
-    "p99M": 2.766,
-    "maxM": 3.89,
-    "intentFootprintCells": 178687,
-    "stations": 9279
+    "stations": 31688,
+    "reaches": 162,
+    "cellsLowered": 132338,
+    "cellsRaised": 18568,
+    "medianM": 0.739,
+    "p90M": 2.657,
+    "maxM": 22.433,
+    "maxRaiseM": 1.5,
+    "trenchCells": 93170,
+    "pooledStations": 16018,
+    "shoreStations": 181,
+    "fordStations": 767,
+    "fallStations": 262,
+    "lostStations": 6,
+    "steepStations": 6167,
+    "falls": 34,
+    "plungeBasins": 34,
+    "islandsLowered": 106,
+    "carveRounds": [
+      {
+        "round": 0,
+        "profileDriftM": 7.158,
+        "pooledFlips": 1585,
+        "bodies": 2715
+      },
+      {
+        "round": 1,
+        "profileDriftM": 6.785,
+        "pooledFlips": 1211,
+        "bodies": 2728
+      },
+      {
+        "round": 2,
+        "profileDriftM": 5.861,
+        "pooledFlips": 1084,
+        "bodies": 2730
+      },
+      {
+        "round": 3,
+        "profileDriftM": 7.158,
+        "pooledFlips": 1019,
+        "bodies": 2728
+      }
+    ],
+    "forcedBasins": 3,
+    "lostReaches": 1,
+    "cutBelowFloorP90M": 0.21,
+    "cutBelowFloorMaxM": 7.85,
+    "bodies": {
+      "depressions": 77221,
+      "acceptedDepressions": 2594,
+      "rescuedBasins": 189,
+      "sheets": 1905,
+      "roadCapped": 42,
+      "roadRejected": 0,
+      "nestedAccepted": 38,
+      "nestedCandidates": 6598,
+      "bodies": 2728,
+      "sheetBodies": 1922,
+      "bodyCells": 612491
+    }
   },
-  "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks",
-  "naturalHeight": "height-natural-rg.png"
+  "note": "whole province, true metres (x1 at geometry time, 0015); mild conditioning (0005); chunks via worldgen.compile_chunks"
 }
