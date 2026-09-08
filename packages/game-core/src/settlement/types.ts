@@ -53,6 +53,14 @@ export interface SettlementBundle {
     colliderPartBudget: number;
   };
   kits: Record<string, { id: string; glb: string; manifest: string }>;
+  settlements: {
+    id: string;
+    placementIds: string[];
+    boundaryM: [number, number][];
+    budgetReport: Record<string, unknown> | null;
+    floodBandReport: Record<string, unknown>;
+    variants: Record<string, unknown>[];
+  }[];
   placements: SettlementPlacement[];
   groundTreatments: GroundTreatment[];
   stats: { settlements: number; settlementPlacements: number; routeStructurePlacements: number };

@@ -289,12 +289,7 @@ def _point_in_polygon_uv(u: float, v: float, poly) -> bool:
 
 
 def _parcel_sample_uvs(parcel: dict) -> list[tuple[float, float]]:
-    """Deterministic footprint evidence: centre, vertices and edge midpoints.
-
-    A centre-only check misses a hut whose piles straddle a waterline. Raster
-    area integration would imply more precision than the authored/measured
-    outline and 3.7--5.5 m fields support, so G8 uses explicit samples.
-    """
+    """Deterministic authored control points, augmented per raster below."""
     footprint = parcel.get("footprint") or []
     raw = [parcel.get("centreUV")]
     raw.extend(footprint)
@@ -319,6 +314,28 @@ def _parcel_flood_evidence(parcel: dict, survey: ProvinceSurvey) -> dict:
     open_count = flood_count = wet_count = 0
     max_flood = 0
     samples = _parcel_sample_uvs(parcel)
+    footprint = parcel.get("footprint") or []
+    if len(footprint) >= 3:
+        # Cover the whole polygon at the finest published flood/water grid.
+        # Centre/vertex/midpoint sampling can miss a wet tongue through a large
+        # or concave footprint. Cell centres are the actual raster evidence;
+        # authored controls remain as a conservative fallback for tiny huts.
+        wet_n = int(survey.wet_season.shape[0])
+        step_m = min(float(survey.grid_px_m), float(survey.extent_m) / wet_n)
+        poly_m = [survey.uv_to_m(float(p[0]), float(p[1])) for p in footprint]
+        min_x, max_x = min(p[0] for p in poly_m), max(p[0] for p in poly_m)
+        min_z, max_z = min(p[1] for p in poly_m), max(p[1] for p in poly_m)
+        c0, c1 = math.floor(min_x / step_m), math.floor(max_x / step_m)
+        r0, r1 = math.floor(min_z / step_m), math.floor(max_z / step_m)
+        existing = set(samples)
+        for row in range(max(0, r0), min(wet_n - 1, r1) + 1):
+            for col in range(max(0, c0), min(wet_n - 1, c1) + 1):
+                x, z = (col + 0.5) * step_m, (row + 0.5) * step_m
+                if _point_in_polygon_uv(x, z, poly_m):
+                    uv = (x / survey.extent_m, z / survey.extent_m)
+                    if uv not in existing:
+                        samples.append(uv)
+                        existing.add(uv)
     centre_open = False
     centre_flood = 0
     centre_wet = False
@@ -467,7 +484,7 @@ def flood_band_report(bp: dict, survey: ProvinceSurvey,
 
     report = {
         "sampling": {
-            "points": "parcel centre + footprint vertices + edge midpoints",
+            "points": "all finest-grid cell centres inside footprint + centre/vertices/edge midpoints",
             "openWater": "ProvinceSurvey.open_water",
             "floodBand": "ProvinceSurvey.flood; any non-zero band is exposed",
             "wetSeason": "ProvinceSurvey.wet_season",

@@ -203,6 +203,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         if doc.get("errors"):
             raise ValueError(f"{doc['id']} has {len(doc['errors'])} compile errors; "
                              "refusing to publish stale/incomplete massing")
+        flood_report = doc.get("floodBandReport")
+        if not isinstance(flood_report, dict):
+            raise ValueError(f"{doc['id']} has no floodBandReport; refusing unchecked section placement")
+        warnings = doc.get("warnings")
+        if not isinstance(warnings, list) or flood_report.get("warningCount") != len(warnings):
+            raise ValueError(f"{doc['id']} warning ledger disagrees with floodBandReport")
+        if warnings:
+            raise ValueError(f"{doc['id']} has {len(warnings)} unclosed placement warnings; "
+                             "review and resolve them before runtime export")
         bp = blueprint_by_id.get(doc["id"])
         if bp is None:
             raise ValueError(f"compiled settlement has no authored blueprint: {doc['id']}")
@@ -293,6 +302,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
             "id": doc["id"], "placementIds": ids,
             "boundaryM": _metres(bp.get("boundary", []), survey),
             "budgetReport": doc.get("budgetReport"),
+            "floodBandReport": doc["floodBandReport"],
             "variants": bp.get("variants", []),
         })
 

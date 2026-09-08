@@ -28,7 +28,8 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
                  "yawDeg": 17, "scale": 1, "groundFit": "plinth", "provenance": {}}
     _write(tmp_path / "sett/place.a.settlement.json",
            {"id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(bp["blueprint"]),
-            "errors": [], "placements": [placement], "doors": [], "budgetReport": {}})
+            "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
+            "placements": [placement], "doors": [], "budgetReport": {}})
     structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
                  "fromM": 10, "toM": 20}
     route = {"id": "structure.a.1.p1", "assetId": "asset.bridge", "posM": [9, 2, 8],
@@ -49,6 +50,7 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     assert house["anchor"]["mode"] == "streamed-perimeter"
     assert house["collision"]["frame"] == ex.COLLISION_FRAME
     assert len(bundle["groundTreatments"]) == len(bundle["navmeshCuts"]) == 1
+    assert bundle["settlements"][0]["floodBandReport"] == {"warningCount": 0}
 
 
 def test_refuses_compiler_errors(tmp_path, monkeypatch):
@@ -60,12 +62,27 @@ def test_refuses_compiler_errors(tmp_path, monkeypatch):
                         tmp_path / "kits", _route_source(tmp_path, []))
 
 
+def test_refuses_unclosed_flood_warning_before_runtime_export(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    bp = {"id": "place.a"}
+    _write(tmp_path / "bp/place.a.json", {"blueprint": bp})
+    _write(tmp_path / "sett/place.a.settlement.json", {
+        "id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(bp),
+        "errors": [], "warnings": ["wet civic floor"],
+        "floodBandReport": {"warningCount": 1}, "placements": [],
+    })
+    with pytest.raises(ValueError, match="unclosed placement warnings"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", _route_source(tmp_path, []))
+
+
 def test_refuses_stale_success_after_blueprint_mutation(tmp_path, monkeypatch):
     monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
     original = {"id": "place.a", "boundary": [[0, 0], [1, 0], [1, 1]]}
     compiled = tmp_path / "sett/place.a.settlement.json"
     _write(compiled, {"id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(original),
-                      "errors": [], "placements": []})
+                      "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
+                      "placements": []})
     # A schema-failing recompile leaves the prior successful output in place;
     # a semantic source mutation must invalidate it regardless of mtimes.
     changed = {**original, "boundary": [[0, 0], [2, 0], [1, 1]]}

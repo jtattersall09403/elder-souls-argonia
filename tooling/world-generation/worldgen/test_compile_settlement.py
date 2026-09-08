@@ -217,7 +217,7 @@ def test_flood_report_samples_real_footprint_and_accepts_stilt_share_and_section
     over = next(p for p in report["parcels"] if p["parcelId"] == "over")
     assert over["centre"]["openWater"] is False
     assert over["overOpenWater"] is True
-    assert over["sampleCount"] == 9  # centre + four vertices + four midpoints
+    assert over["sampleCount"] > 9  # authored controls plus interior raster cells
     assert all(r["conforms"] for r in report["sectionRules"])
     over_rule = next(r for r in report["sectionRules"] if r["parcelId"] == "over")
     assert over_rule["rule"] == "argonian-stilt-dwelling-water-section"
@@ -247,3 +247,22 @@ def test_flood_report_warns_without_failing_and_holds_root_and_section_rules():
     assert any("civic-sacred-dry" in warning for warning in warnings)
     assert any("works-quays-flood-section" in warning for warning in warnings)
     assert report["districts"][0]["conforms"] is False
+
+
+def test_flood_report_covers_raster_cells_inside_large_footprint():
+    survey = FloodSurvey()
+    # This wet cell is inside the footprint but is neither its centre, a
+    # vertex, nor an edge midpoint: the old nine-point sample missed it.
+    survey.open_water[3, 3] = True
+    bp = {
+        "id": "place.fixture.full-raster-footprint",
+        "districts": [{"id": "root", "cultureKit": "argonian-root"}],
+        "parcels": [_flood_parcel(
+            "large", "root", "dwelling", [0.5, 0.5],
+            [[0.1, 0.1], [0.9, 0.1], [0.9, 0.9], [0.1, 0.9]])],
+    }
+    report, warnings = cs.flood_band_report(bp, survey)
+    evidence = report["parcels"][0]
+    assert evidence["sampleCount"] > 9
+    assert evidence["overOpenWater"] is True
+    assert warnings
