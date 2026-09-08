@@ -160,6 +160,7 @@ def test_route_cache_is_content_keyed_and_returns_fresh_points(monkeypatch):
     bp = {"boundary": [uv(140, 140), uv(190, 140), uv(190, 190), uv(140, 190)],
           "parcels": [], "routes": [way]}
     survey = SurveyStub()
+    survey.routing_cache_token = "unchanged-v1"
     calls = 0
     original = sr._route_way_uncached
 
@@ -189,6 +190,27 @@ def test_route_cache_is_content_keyed_and_returns_fresh_points(monkeypatch):
     assert calls == 2
     sr.route_way(way, bp, SurveyStub())
     assert calls == 3
+
+
+def test_mutable_survey_without_revision_never_reuses_a_cached_route(monkeypatch):
+    way = {"id": "route.t.mutable", "kind": "track", "widthM": 3.0,
+           "routing": "terrain", "via": [uv(150, 150), uv(180, 180)]}
+    bp = _bp(way)
+    survey = SurveyStub()
+    calls = 0
+    original = sr._route_way_uncached
+
+    def counted(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        return original(*args, **kwargs)
+
+    monkeypatch.setattr(sr, "_route_way_uncached", counted)
+    sr._ROUTE_CACHE.clear()
+    sr.route_way(way, bp, survey)
+    survey.height_grid[15][15] += 100.0
+    sr.route_way(way, bp, survey)
+    assert calls == 2
 
 
 def test_apply_then_check_is_clean():

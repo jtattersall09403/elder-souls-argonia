@@ -167,6 +167,26 @@ _HEIGHT_CACHE: dict = {}
 _OFFSETS = ((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
 
 
+def _survey_cache_token(survey):
+    """Return a safe raster identity, or ``None`` for mutable surveys.
+
+    Production surveys expose read-only NumPy fields, so object identity is a
+    valid content identity for their lifetime. Tests/tools with mutable lists
+    are deliberately uncached unless they expose and maintain an explicit
+    ``routing_cache_token`` revision. This keeps the speed-up without letting
+    an in-place raster edit reuse stale paths.
+    """
+    explicit = getattr(survey, "routing_cache_token", None)
+    if explicit is not None:
+        return (id(survey), explicit)
+    for name in ("height_grid", "open_water"):
+        value = getattr(survey, name, None)
+        flags = getattr(value, "flags", None)
+        if flags is None or bool(flags.writeable):
+            return None
+    return id(survey)
+
+
 # --------------------------------------------------------------------------- #
 # survey sampling (duck-typed: height_grid, open_water, grid_px_m, grid_n)
 # --------------------------------------------------------------------------- #
@@ -387,12 +407,17 @@ class LocalField:
 
         # heights do not depend on the way, so every way in one blueprint
         # shares the sampled block (the router is called once per way)
-        key = (id(survey), round(self.x0, 3), round(self.z0, 3), self.w, self.h, cell_m)
-        if _HEIGHT_CACHE.get("key") != key:
-            _HEIGHT_CACHE["key"] = key
-            _HEIGHT_CACHE["grid"] = [[sample_height_m(survey, *self.xz(r, c))
-                                      for c in range(self.w)] for r in range(self.h)]
-        self.height = _HEIGHT_CACHE["grid"]
+        survey_token = _survey_cache_token(survey)
+        key = (survey_token, round(self.x0, 3), round(self.z0, 3), self.w, self.h, cell_m)
+        if survey_token is None:
+            self.height = [[sample_height_m(survey, *self.xz(r, c))
+                            for c in range(self.w)] for r in range(self.h)]
+        else:
+            if _HEIGHT_CACHE.get("key") != key:
+                _HEIGHT_CACHE["key"] = key
+                _HEIGHT_CACHE["grid"] = [[sample_height_m(survey, *self.xz(r, c))
+                                          for c in range(self.w)] for r in range(self.h)]
+            self.height = _HEIGHT_CACHE["grid"]
         wet = self._is_wet_way(way)
         ends = set(way.get("endsAt") or [])
 
@@ -716,7 +741,10 @@ def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M,
     the cache; a *different* survey object misses it too. Read-only after
     construction, so sharing one is safe."""
     try:
-        key = (id(survey), cell_m, is_fence, json.dumps(
+        survey_token = _survey_cache_token(survey)
+        if survey_token is None:
+            return LocalField(way, bp, survey, cell_m, is_fence)
+        key = (survey_token, cell_m, is_fence, json.dumps(
             [way, bp.get("boundary"), [(p.get("id"), p.get("footprint")) for p in bp.get("parcels") or []],
              [[(w.get("id"), w.get("kind"), w.get("via")) for w in bp.get(k) or []] for k in WAY_KEYS]],
             sort_keys=True, default=str))
@@ -789,7 +817,10 @@ def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
                              ensure_ascii=False).encode("utf-8")
     except (TypeError, ValueError):                    # uncacheable fixture/input
         return _route_way_uncached(way, bp, survey)
-    key = (id(survey), hashlib.sha256(content).digest())
+    survey_token = _survey_cache_token(survey)
+    if survey_token is None:
+        return _route_way_uncached(way, bp, survey)
+    key = (survey_token, hashlib.sha256(content).digest())
     hit = _ROUTE_CACHE.get(key)
     if hit is not None and hit[0] is survey:
         return [point[:] for point in hit[1]]

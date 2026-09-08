@@ -261,7 +261,9 @@ class ProvinceSurvey:
     @cached_property
     def height_grid(self) -> np.ndarray:
         """Refined height resampled onto the 1345 analysis grid, metres."""
-        return _bilinear(self.fields.height_m, self.grid_n)
+        result = _bilinear(self.fields.height_m, self.grid_n)
+        result.setflags(write=False)
+        return result
 
     @cached_property
     def slope_grid(self) -> np.ndarray:
@@ -286,7 +288,9 @@ class ProvinceSurvey:
         Shallower standing water is marsh — authored, played-on ground.
         """
         deep = _resample(self.water_depth_m, self.grid_n) > 0.5
-        return np.isin(self.region_grid, OPEN_WATER_REGIONS) | deep
+        result = np.isin(self.region_grid, OPEN_WATER_REGIONS) | deep
+        result.setflags(write=False)
+        return result
 
     @cached_property
     def land(self) -> np.ndarray:
