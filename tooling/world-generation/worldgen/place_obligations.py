@@ -561,6 +561,8 @@ def _accepted_compiled_kinds(obligation: Obligation) -> frozenset[str] | None:
     if obligation.kind in {"named-npc", "npc-role"} or path.startswith(
             ("contents.npcs", "occupants", "notableNpcSlots", "ownerFaction")):
         return frozenset({"npc", "occupant"})
+    if path.startswith("factionPresence"):
+        return frozenset({"parcel", "landmark", "occupant"})
     if obligation.kind in {"socket", "provision"} or path.startswith(
             ("sockets", "questHooks", "deedCounterKeys")):
         return frozenset({"quest", "quest-socket", "socket", "provision"})

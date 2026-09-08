@@ -247,6 +247,27 @@ def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():
                                            object_registry=malformed))
 
 
+def test_faction_presence_cannot_be_delivered_by_an_unrelated_object_kind():
+    obligations = [po.Obligation(
+        "o.presence", "place.x", "factionPresence[seat].role", "factionPresence",
+        {"value": "seat"}, ("district.x",), "phase-11-compiled")]
+    registry = {"district.x": {
+        "kind": "district", "placeId": "place.x",
+        "deliversObligationIds": ["o.presence"],
+    }}
+    manifest = {
+        "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries", "owner": "phase-11-compiled",
+        "obligationsSha256": po.owner_obligations_sha256(
+            obligations, "phase-11-compiled"),
+        "objectRegistrySha256": po.compiled_object_registry_sha256(registry),
+        "deliveries": [{"obligationId": "o.presence", "objectRefs": ["district.x"]}],
+    }
+    errors = po.verify_delivery_manifest(
+        obligations, manifest, "phase-11-compiled", object_registry=registry)
+    assert any("expected one of" in error for error in errors)
+
+
 def test_named_person_cannot_be_delivered_by_an_unrelated_same_place_object():
     obligations = [po.Obligation("o.person", "place.x", "contents.npcs[n1]", "contents",
                                  {"value": "n1"}, ("occupant.n1",), "phase-13")]
