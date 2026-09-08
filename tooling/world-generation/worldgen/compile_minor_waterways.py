@@ -57,6 +57,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
@@ -65,7 +66,7 @@ from scipy import ndimage
 
 from . import blueprint as bp_mod
 from . import catalogue
-from .compile_minor_routes import OUT_MD, multi_source_field, trace
+from .compile_minor_routes import OUT_MD, StepGraph, trace
 from .routes import boat_cost_surface
 from .site_fields import ProvinceSurvey
 
@@ -275,20 +276,55 @@ def classify(s: ProvinceSurvey, path: list[tuple[int, int]], length_m: float, re
     return "river" if corridor >= 0.5 else "channel"
 
 
-def _solve(*, fit_docks: bool) -> dict:
+@dataclass(frozen=True)
+class SolveContext:
+    """Immutable inputs shared by the natural and berth-fitted solves.
+
+    Constructing the sparse step graph is the expensive part of this compiler.
+    Natural and fitted publication use the same physical cost surface, so one
+    graph is sufficient; each solve still computes its own distance fields as
+    its growing channel network can differ.
+    """
+
+    survey: ProvinceSurvey
+    files: list[catalogue.RegionFile]
+    nav: np.ndarray
+    seed: np.ndarray
+    depth: np.ndarray
+    docks: dict[str, list[dict]]
+    graph: StepGraph
+
+
+def solve_context() -> SolveContext:
     s = ProvinceSurvey()
     files = catalogue.load_region_files()
     cost = cost_surface(s)
     nav = navigable(s)
-    network = seed_network(s)
-    depth_grid = centre_depth_grid(s)
-    docks_by_place = blueprint_docks()
+    return SolveContext(
+        survey=s,
+        files=files,
+        nav=nav,
+        seed=seed_network(s),
+        depth=centre_depth_grid(s),
+        docks=blueprint_docks(),
+        graph=StepGraph(cost, s.grid_px_m),
+    )
+
+
+def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
+    context = context or solve_context()
+    s = context.survey
+    files = context.files
+    nav = context.nav
+    network = context.seed.copy()
+    depth_grid = context.depth
+    docks_by_place = context.docks
     w, px_m = s.grid_n, s.grid_px_m
     channels: list[dict] = []
     unconnected: list[dict] = []
     on_network: dict[str, dict] = {}
     for bi, batch in enumerate(demand(files), start=1):
-        dist, prev = multi_source_field(cost, network, px_m)
+        dist, prev = context.graph.field(network)
         reachable = np.isfinite(dist) & nav
         new_cells = np.zeros_like(network)
         for rec in batch:
@@ -413,8 +449,9 @@ def publish(natural: dict, fitted: dict, *, write: bool = True) -> dict:
 
 
 def run(write: bool = True) -> dict:
-    natural = _solve(fit_docks=False)
-    fitted = _solve(fit_docks=True)
+    context = solve_context()
+    natural = _solve(fit_docks=False, context=context)
+    fitted = _solve(fit_docks=True, context=context)
     return publish(natural, fitted, write=write)
 
 
@@ -488,8 +525,9 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--registry", action="store_true",
                     help="also attach geometryId / solved:true to world/sources/routes/registry.json")
     a = ap.parse_args(argv)
-    natural = _solve(fit_docks=False)
-    fitted = _solve(fit_docks=True)
+    context = solve_context()
+    natural = _solve(fit_docks=False, context=context)
+    fitted = _solve(fit_docks=True, context=context)
     doc = publish(natural, fitted, write=not a.dry_run)
     solved: list[dict] = []
     if not a.dry_run and a.registry:

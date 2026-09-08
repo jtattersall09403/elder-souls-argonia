@@ -98,5 +98,16 @@ def test_boat_stations_are_channelled_or_explained():
     assert served == expected
 
 
-def test_recompile_is_deterministic():
+def test_recompile_is_deterministic_and_shares_one_step_graph_per_run(monkeypatch):
+    real = mw.StepGraph
+    builds = 0
+
+    class CountedStepGraph(real):
+        def __init__(self, *args, **kwargs):
+            nonlocal builds
+            builds += 1
+            super().__init__(*args, **kwargs)
+
+    monkeypatch.setattr(mw, "StepGraph", CountedStepGraph)
     assert mw.run(write=False) == mw.run(write=False)
+    assert builds == 2
