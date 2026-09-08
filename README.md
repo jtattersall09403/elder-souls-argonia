@@ -57,7 +57,10 @@ asset registry.
 
 - **ecctrl** (Erdong Chen / pmndrs) — character controller used by the combat
   sandbox, MIT.
-- Skyrim vanilla assets (Bethesda) — processed via `tooling/asset-pipeline` for
+- Skyrim vanilla assets (Bethesda) — **meshes and textures** (including the
+  waterfall/whitewater FX texture set at
+  `apps/world-studio/public/kits/waterfall-fx-textures/`, exported from
+  `Skyrim - Textures.bsa`) — processed via `tooling/asset-pipeline` for
   this non-commercial fan project; source archives stay out of the repo.
 - **The Elder Scrolls V: Skyrim** game data — `Skyrim.esm` / `Update.esm` from
   the owner's own legally-purchased Steam copy, installed to the local asset

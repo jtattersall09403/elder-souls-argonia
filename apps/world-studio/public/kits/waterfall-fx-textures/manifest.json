@@ -1,0 +1,471 @@
+{
+ "schemaVersion": 1,
+ "id": "waterfall-fx-textures",
+ "source": "Vanilla Skyrim (Bethesda Softworks) - Skyrim - Textures.bsa",
+ "credit": "Bethesda Softworks (Skyrim vanilla art); see root README Credits.",
+ "audit": "docs/research/rendering/waterfall-assets-vault-audit.md",
+ "notes": "Alpha blend SRC_ALPHA/INV_SRC_ALPHA, depth-write off, double-sided, UV wrap in both axes; scroll the UV offset, never the vertices. Scroll rates are in UV tiles/second (negative = downward).",
+ "maxTilePx": 512,
+ "textures": [
+  {
+   "id": "fxfluidtile01",
+   "file": "fxfluidtile01.png",
+   "role": "sheet-main",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxfluidtile01.dds",
+   "sha256Dds": "213d9c4a10953b941cdc919a2c354c56b2f7b9ec314d9678ac1ea959b04501e7",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "thin sheets + body inner shell; V -0.857, U +0.030 (falls); -0.760 weir; -1.250 spray sheet",
+   "pngBytes": 603040
+  },
+  {
+   "id": "fxfluidsub01",
+   "file": "fxfluidsub01.png",
+   "role": "sheet-second",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxfluidsub01.dds",
+   "sha256Dds": "24fb2abf50a5d15a42c11a69d1e5b427d22209b3d94a5695c027b53471647957",
+   "ddsBytes": 174928,
+   "sourcePx": [
+    512,
+    256
+   ],
+   "px": [
+    512,
+    256
+   ],
+   "tiles": true,
+   "scroll": "second, slower sheet layer; pair with the main tile at a near-but-unequal rate",
+   "pngBytes": 231932
+  },
+  {
+   "id": "fxwatertile01",
+   "file": "fxwatertile01.png",
+   "role": "body-inner-albedo",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwatertile01.dds",
+   "sha256Dds": "b13c49d99bf0a9ef9f38378dd8f3e7935bf6388930fa66c6aa043aacc0fb0662",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "lit inner shell; V -0.120, U +-0.036 wobble",
+   "pngBytes": 226902
+  },
+  {
+   "id": "fxwatertile01_n",
+   "file": "fxwatertile01_n.png",
+   "role": "body-inner-normal",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwatertile01_n.dds",
+   "sha256Dds": "1d09f041133057a91cf9a6ab7797b471aa261252011ed894cb5eafd370cde18c",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "normal for the lit inner shell; same -0.120 / +-0.036",
+   "pngBytes": 584127
+  },
+  {
+   "id": "fxwatertile02_n",
+   "file": "fxwatertile02_n.png",
+   "role": "body-normal",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwatertile02_n.dds",
+   "sha256Dds": "f598ba954f7ce106642fa81a0cccbbc93978b80111efd37002047b64cb63da49",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "body normal; body unlit layers scroll -0.313 and -0.333",
+   "pngBytes": 488117
+  },
+  {
+   "id": "fxwhitewater01",
+   "file": "fxwhitewater01.png",
+   "role": "whitewater-main",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwhitewater01.dds",
+   "sha256Dds": "e24f2261116f6592e3d862a13ae9b000fe7f3635f21e888414f72da908ee2f0c",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "rapids/foam/cross-stream; rapids planes -0.150/-0.150/-0.500, big runs -0.300",
+   "pngBytes": 590409
+  },
+  {
+   "id": "fxwhitewater02",
+   "file": "fxwhitewater02.png",
+   "role": "whitewater-second",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwhitewater02.dds",
+   "sha256Dds": "e4a14abb62fc957e3c2a5dac8f84d3262b9e475c0fbf3c6425a3674b4de72d63",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "rapids second layer; crest strip -0.500/-0.075/-0.150",
+   "pngBytes": 397199
+  },
+  {
+   "id": "fxwhitewater",
+   "file": "fxwhitewater.png",
+   "role": "plunge-ring",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwhitewater.dds",
+   "sha256Dds": "e21b5bc33b61d4492efd665eea6d86be976f5ead46e3329ae7c172843dd384bf",
+   "ddsBytes": 174928,
+   "sourcePx": [
+    512,
+    256
+   ],
+   "px": [
+    512,
+    256
+   ],
+   "tiles": true,
+   "scroll": "plunge-pool foam ring; ripples -0.667 x2, puffs +0.375 (counter-scroll)",
+   "pngBytes": 232273
+  },
+  {
+   "id": "fxwaterfalllitscrolling",
+   "file": "fxwaterfalllitscrolling.png",
+   "role": "falls-lit-albedo",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwaterfalllitscrolling.dds",
+   "sha256Dds": "ebcd42d0e2ca0128de964bce278a83100c74e1a8c3fcc46b6f7031a526e64fd2",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "lit scrolling falls layer; sheet lit layer -0.30",
+   "pngBytes": 367622
+  },
+  {
+   "id": "fxwaterfalllitscrolling_n",
+   "file": "fxwaterfalllitscrolling_n.png",
+   "role": "falls-lit-normal",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwaterfalllitscrolling_n.dds",
+   "sha256Dds": "89fcbd186af9c25be936d328cbcf28488d38a5449302eaa812cdb015a31611d7",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "normal for the lit scrolling falls layer",
+   "pngBytes": 451077
+  },
+  {
+   "id": "fxwaterfallwhitestrip",
+   "file": "fxwaterfallwhitestrip.png",
+   "role": "falls-white-strip",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwaterfallwhitestrip.dds",
+   "sha256Dds": "fe6dae4e295f5d658ddb07f69c0dc8d19cdf842314f5323f8daddb35471f44cb",
+   "ddsBytes": 44176,
+   "sourcePx": [
+    32,
+    1024
+   ],
+   "px": [
+    32,
+    1024
+   ],
+   "tiles": true,
+   "scroll": "cross-stream white strip on the body; -0.313 / -0.333",
+   "pngBytes": 48289
+  },
+  {
+   "id": "fxwaterfallwhitestriplite",
+   "file": "fxwaterfallwhitestriplite.png",
+   "role": "falls-white-strip-lite",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxwaterfallwhitestriplite.dds",
+   "sha256Dds": "7f50a10a704fb891c5a7c0b1fcad70936d88f3e60ac765325cf6cf869b62805a",
+   "ddsBytes": 44176,
+   "sourcePx": [
+    32,
+    1024
+   ],
+   "px": [
+    32,
+    1024
+   ],
+   "tiles": true,
+   "scroll": "lighter white strip variant; same -0.313 / -0.333 pair",
+   "pngBytes": 50227
+  },
+  {
+   "id": "vaportile01",
+   "file": "vaportile01.png",
+   "role": "spray",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/vaportile01.dds",
+   "sha256Dds": "4c520e330a5dc33970b647d49d15f00466cfd5f8dfa91e84b3ce0e34dc1cec94",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": true,
+   "scroll": "sheet spray/vapor; V -0.200, U +0.015 (softFalloffDepth 1.07 m)",
+   "pngBytes": 338592
+  },
+  {
+   "id": "fxcloudroundtile",
+   "file": "fxcloudroundtile.png",
+   "role": "mist-cloud",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxcloudroundtile.dds",
+   "sha256Dds": "b2112a6caeecf128d8753b94ea0491a9e7002ea942d815e34d82546d942ce12e",
+   "ddsBytes": 87536,
+   "sourcePx": [
+    256,
+    256
+   ],
+   "px": [
+    256,
+    256
+   ],
+   "tiles": true,
+   "scroll": "mist blast / skirt fog card; -0.158",
+   "pngBytes": 113780
+  },
+  {
+   "id": "fxcloudroundtilestrip",
+   "file": "fxcloudroundtilestrip.png",
+   "role": "mist-cloud-strip",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxcloudroundtilestrip.dds",
+   "sha256Dds": "83a982715ee7f8ff5740b233879ceaba0d8ea595c01c21a936ae3a9f314a276b",
+   "ddsBytes": 87696,
+   "sourcePx": [
+    64,
+    1024
+   ],
+   "px": [
+    64,
+    1024
+   ],
+   "tiles": true,
+   "scroll": "skirt fog strip; skirt foam -0.545 x2 and +0.362 (one layer scrolls up)",
+   "pngBytes": 48198
+  },
+  {
+   "id": "fxsteamthinanim",
+   "file": "fxsteamthinanim.png",
+   "role": "mist-anim",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/fxsteamthinanim.dds",
+   "sha256Dds": "df705c92558a9ae9dab0c195d665f3dce04263fdedf71de8f05172490210e9d6",
+   "ddsBytes": 349680,
+   "sourcePx": [
+    512,
+    512
+   ],
+   "px": [
+    512,
+    512
+   ],
+   "tiles": false,
+   "scroll": "mist blast animated sheet; card scroll -0.158",
+   "pngBytes": 396557
+  },
+  {
+   "id": "foamtile01",
+   "file": "foamtile01.png",
+   "role": "foam-tile",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/foamtile01.dds",
+   "sha256Dds": "c74d7a390364de5e1bc775e4405e4e4929cb784919472676c3ea047e6b0c885e",
+   "ddsBytes": 87536,
+   "sourcePx": [
+    256,
+    256
+   ],
+   "px": [
+    256,
+    256
+   ],
+   "tiles": true,
+   "scroll": "seamless foam tile, unused by the vanilla NIFs; for our own pool/run-out foam",
+   "pngBytes": 86186
+  },
+  {
+   "id": "gradwhitewater",
+   "file": "gradwhitewater.png",
+   "role": "ramp-whitewater",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradwhitewater.dds",
+   "sha256Dds": "8b55da8d752c7d86213b8ba7fe1710c84dff73014cfe36c87fca55fe3d03a2ce",
+   "ddsBytes": 87568,
+   "sourcePx": [
+    512,
+    128
+   ],
+   "px": [
+    512,
+    128
+   ],
+   "tiles": false,
+   "scroll": "alpha/colour ramp for the whitewater layers (second shader slot; no scroll)",
+   "pngBytes": 36018
+  },
+  {
+   "id": "gradwhitewatermedsoft",
+   "file": "gradwhitewatermedsoft.png",
+   "role": "ramp-whitewater-medsoft",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradwhitewatermedsoft.dds",
+   "sha256Dds": "72e424466c10f7ce6598a6378b8cf6290d90c8ae0a2b8a28bafca45e94c46572",
+   "ddsBytes": 87568,
+   "sourcePx": [
+    512,
+    128
+   ],
+   "px": [
+    512,
+    128
+   ],
+   "tiles": false,
+   "scroll": "softer whitewater ramp (no scroll)",
+   "pngBytes": 38714
+  },
+  {
+   "id": "gradwhitewatermedsoftinv",
+   "file": "gradwhitewatermedsoftinv.png",
+   "role": "ramp-whitewater-medsoftinv",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradwhitewatermedsoftinv.dds",
+   "sha256Dds": "491a359fd4b1dcad8668416d215380aa7267a5ac243a7c986306c3815a8fedcf",
+   "ddsBytes": 87568,
+   "sourcePx": [
+    512,
+    128
+   ],
+   "px": [
+    512,
+    128
+   ],
+   "tiles": false,
+   "scroll": "inverted soft whitewater ramp (no scroll)",
+   "pngBytes": 31994
+  },
+  {
+   "id": "gradwhitewatersoft",
+   "file": "gradwhitewatersoft.png",
+   "role": "ramp-whitewater-soft",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradwhitewatersoft.dds",
+   "sha256Dds": "902aa6877454e4f2f4bebf2951ce55cc3099c81219b9c512b56cc55ce15f1190",
+   "ddsBytes": 5616,
+   "sourcePx": [
+    64,
+    64
+   ],
+   "px": [
+    64,
+    64
+   ],
+   "tiles": false,
+   "scroll": "softest whitewater ramp (no scroll)",
+   "pngBytes": 4105
+  },
+  {
+   "id": "gradsteamthin",
+   "file": "gradsteamthin.png",
+   "role": "ramp-steam",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradsteamthin.dds",
+   "sha256Dds": "b1be3cac7fa680954043609a2be5a232bd7cdbbbe7603888a4f3b8d34dfdcb9b",
+   "ddsBytes": 87536,
+   "sourcePx": [
+    256,
+    256
+   ],
+   "px": [
+    256,
+    256
+   ],
+   "tiles": false,
+   "scroll": "mist/steam ramp for the mist cards (no scroll)",
+   "pngBytes": 28662
+  },
+  {
+   "id": "gradsmokediss",
+   "file": "gradsmokediss.png",
+   "role": "ramp-smoke-diss",
+   "sourceBsa": "Skyrim - Textures.bsa",
+   "sourcePath": "textures/effects/gradients/gradsmokediss.dds",
+   "sha256Dds": "04f60a6fc48cbe7db9ae86d8926e66b3f2da21ae560bb4d862e91b80c3cc0d0f",
+   "ddsBytes": 87536,
+   "sourcePx": [
+    256,
+    256
+   ],
+   "px": [
+    256,
+    256
+   ],
+   "tiles": false,
+   "scroll": "mist dissolve ramp (no scroll)",
+   "pngBytes": 18553
+  }
+ ]
+}
