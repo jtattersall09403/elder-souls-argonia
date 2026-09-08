@@ -544,6 +544,30 @@ def _check_compiled_object_registry(object_registry) -> list[str]:
     return errors
 
 
+def _accepted_compiled_kinds(obligation: Obligation) -> frozenset[str] | None:
+    """Closed final-object types where the promise itself is unambiguous.
+
+    More visual or spatial promises can legitimately be delivered by several
+    future compiler object types, but a named person, door, interior or quest
+    socket cannot be evidenced by an unrelated parcel merely because it is in
+    the same place.
+    """
+    path = obligation.sourcePath
+    if obligation.kind in {"named-npc", "npc-role"} or path.startswith(
+            ("contents.npcs", "occupants", "notableNpcSlots", "ownerFaction")):
+        return frozenset({"npc", "occupant"})
+    if obligation.kind in {"socket", "provision"} or path.startswith(
+            ("sockets", "questHooks", "deedCounterKeys")):
+        return frozenset({"quest", "quest-socket", "socket", "provision"})
+    if path.startswith("entrance"):
+        return frozenset({"door", "entrance"})
+    if path.startswith("interior"):
+        return frozenset({"interior", "room"})
+    if path.startswith("terrainRequests"):
+        return frozenset({"terrain-feature", "terrain-operation"})
+    return None
+
+
 def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
                              owner: str, *, object_registry: Mapping[str, Mapping[str, str]]) -> list[str]:
     """Generic hard gate consumed by Phase 12, 13, quests and final assembly."""
@@ -595,6 +619,17 @@ def verify_delivery_manifest(obligations: Iterable[Obligation], manifest: dict,
             elif (obligation is not None and isinstance(entry, Mapping)
                   and entry.get("placeId") != obligation.placeId):
                 errors.append(f"{owner}: {oid} has cross-place object ref {ref!r}")
+            elif obligation is not None and isinstance(entry, Mapping):
+                claimed = entry.get("deliversObligationIds")
+                if not isinstance(claimed, list) or oid not in claimed:
+                    errors.append(
+                        f"{owner}: {oid} object ref {ref!r} does not explicitly "
+                        "declare that it delivers this obligation")
+                accepted = _accepted_compiled_kinds(obligation)
+                if accepted is not None and entry.get("kind") not in accepted:
+                    errors.append(
+                        f"{owner}: {oid} object ref {ref!r} has kind "
+                        f"{entry.get('kind')!r}; expected one of {sorted(accepted)}")
     expected = set(expected_rows)
     missing = sorted(expected - set(delivered))
     stale = sorted(set(delivered) - expected)

@@ -157,7 +157,8 @@ def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
     obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
                                  {"value": "n1"}, ("parcel.x",), "phase-13")]
     digest = po.owner_obligations_sha256(obligations, "phase-13")
-    registry = {"npc.one": {"kind": "npc", "placeId": "place.x"}}
+    registry = {"npc.one": {"kind": "npc", "placeId": "place.x",
+                            "deliversObligationIds": ["o.one"]}}
     registry_digest = po.compiled_object_registry_sha256(registry)
     assert po.verify_delivery_manifest(obligations, {"schemaVersion": po.MANIFEST_SCHEMA_VERSION,
                                        "kind": "place-obligation-deliveries", "owner": "phase-13",
@@ -192,7 +193,8 @@ def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
 def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():
     obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
                                  {"value": "n1"}, ("parcel.x",), "phase-13")]
-    registry = {"npc.one": {"kind": "npc", "placeId": "place.x"}}
+    registry = {"npc.one": {"kind": "npc", "placeId": "place.x",
+                            "deliversObligationIds": ["o.one"]}}
     manifest = {
         "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
         "kind": "place-obligation-deliveries", "owner": "phase-13",
@@ -203,7 +205,8 @@ def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():
     assert any("unknown compiled object ref" in error for error in
                po.verify_delivery_manifest(obligations, manifest, "phase-13",
                                            object_registry=registry))
-    cross_registry = {"npc.one": {"kind": "npc", "placeId": "place.other"}}
+    cross_registry = {"npc.one": {"kind": "npc", "placeId": "place.other",
+                                  "deliversObligationIds": ["o.one"]}}
     manifest["deliveries"][0]["objectRefs"] = ["npc.one"]
     manifest["objectRegistrySha256"] = po.compiled_object_registry_sha256(cross_registry)
     assert any("cross-place object ref" in error for error in
@@ -214,3 +217,22 @@ def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():
     assert any("no concrete kind" in error for error in
                po.verify_delivery_manifest(obligations, manifest, "phase-13",
                                            object_registry=malformed))
+
+
+def test_named_person_cannot_be_delivered_by_an_unrelated_same_place_object():
+    obligations = [po.Obligation("o.person", "place.x", "contents.npcs[n1]", "contents",
+                                 {"value": "n1"}, ("occupant.n1",), "phase-13")]
+    registry = {"parcel.unrelated": {
+        "kind": "parcel", "placeId": "place.x",
+        "deliversObligationIds": ["o.person"],
+    }}
+    manifest = {
+        "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries", "owner": "phase-13",
+        "obligationsSha256": po.owner_obligations_sha256(obligations, "phase-13"),
+        "objectRegistrySha256": po.compiled_object_registry_sha256(registry),
+        "deliveries": [{"obligationId": "o.person", "objectRefs": ["parcel.unrelated"]}],
+    }
+    errors = po.verify_delivery_manifest(obligations, manifest, "phase-13",
+                                         object_registry=registry)
+    assert any("expected one of" in error for error in errors)
