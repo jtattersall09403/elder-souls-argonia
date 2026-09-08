@@ -129,7 +129,8 @@ def _canonical_sha256(value: object) -> str:
     return hashlib.sha256(encoded).hexdigest()
 
 
-def phase11_obligation_receipt(bp: dict, record: dict) -> tuple[dict, list[str]]:
+def phase11_obligation_receipt(bp: dict, record: dict,
+                               compiled_objects: list[dict]) -> tuple[dict, list[str]]:
     """Bind this compile to every Phase-11-owned macro obligation.
 
     Most rows point at the exact blueprint objects already checked by the
@@ -139,18 +140,20 @@ def phase11_obligation_receipt(bp: dict, record: dict) -> tuple[dict, list[str]]
     """
     obligations, errors = place_obligations.build_obligations(record, bp)
     owned = [row for row in obligations if row.deliveryOwner == "phase-11-compiled"]
-    source_registry, registry_errors = place_obligations.blueprint_object_registry(bp)
-    errors += registry_errors
+    compiled_by_id: dict[str, dict] = {}
+    for obj in compiled_objects:
+        ref = obj.get("id") if isinstance(obj, dict) else None
+        if not isinstance(ref, str) or not ref:
+            errors.append(f"{record['id']}: compiled object has no stable id")
+        elif ref in compiled_by_id:
+            errors.append(f"{record['id']}: duplicate compiled object id {ref!r}")
+        else:
+            compiled_by_id[ref] = obj
 
-    terrain_plan, terrain_errors = terrain_requests.build_plan([record])
-    errors += terrain_errors
     terrain_operations: dict[str, list[dict]] = {}
-    if not terrain_errors:
-        for operation in terrain_plan.get("operations", []):
-            request = next((row for row in terrain_plan.get("requests", [])
-                            if row["id"] == operation["requestId"]), None)
-            if request is not None:
-                terrain_operations.setdefault(request["kind"], []).append(operation)
+    for obj in compiled_objects:
+        if obj.get("kind") == "terrain-operation":
+            terrain_operations.setdefault(obj.get("terrainRequestKind"), []).append(obj)
 
     registry: dict[str, dict] = {}
     deliveries = []
@@ -160,22 +163,17 @@ def phase11_obligation_receipt(bp: dict, record: dict) -> tuple[dict, list[str]]
             kind = obligation.sourcePath.split("[", 1)[1].split("]", 1)[0]
             operations = terrain_operations.get(kind, [])
             refs = [operation["id"] for operation in operations]
-            for operation in operations:
-                registry.setdefault(operation["id"], {
-                    "kind": "terrain-operation", "placeId": record["id"],
-                    "sourceObjectSha256": _canonical_sha256(operation),
-                    "deliversObligationIds": [],
-                })
         for ref in refs:
             if ref not in registry:
-                source = source_registry.get(ref)
-                if source is None:
+                compiled = compiled_by_id.get(ref)
+                if compiled is None:
                     errors.append(f"{record['id']}: phase-11 obligation {obligation.id} "
-                                  f"uses unknown compiled source object {ref!r}")
+                                  f"uses object {ref!r} that the compiler did not emit")
                     continue
                 registry[ref] = {
-                    **source,
-                    "sourceObjectSha256": _canonical_sha256(source),
+                    "kind": compiled.get("kind"),
+                    "placeId": compiled.get("placeId"),
+                    "compiledObjectSha256": _canonical_sha256(compiled),
                     "deliversObligationIds": [],
                 }
             registry[ref]["deliversObligationIds"].append(obligation.id)
@@ -196,6 +194,107 @@ def phase11_obligation_receipt(bp: dict, record: dict) -> tuple[dict, list[str]]
         obligations, manifest, "phase-11-compiled", object_registry=registry)
     payload = {"placeId": record["id"], "objectRegistry": registry, "manifest": manifest}
     return {**payload, "receiptSha256": _canonical_sha256(payload)}, list(dict.fromkeys(errors))
+
+
+def compiled_terrain_objects(record: dict, *, plan: dict | None = None,
+                             fulfillment: dict | None = None,
+                             postconditions: dict | None = None) -> tuple[list[dict], list[str]]:
+    """Compile catalogue terrain requests into the same final-object stream.
+
+    Terrain operations are produced by a separate terrain pass, but the
+    settlement receipt must bind the exact operation specification rather than
+    treating an authored route near it as delivery.  Keeping these records in
+    ``compiledObjects`` also lets the exporter verify the receipt without
+    trusting the receipt's own private copy.
+    """
+    if not (record.get("terrainRequests") or []):
+        return [], []
+    supplied = any(value is not None for value in (plan, fulfillment, postconditions))
+    if supplied and not all(value is not None for value in (plan, fulfillment, postconditions)):
+        return [], [f"{record['id']}: terrain delivery needs plan, fulfillment and final postconditions"]
+    if not supplied:
+        from .compile_chunks import DEFAULT_HEIGHTS
+        evidence_dir = DEFAULT_HEIGHTS.parent
+        paths = {
+            "plan": evidence_dir / "terrain-request-plan.json",
+            "fulfillment": evidence_dir / "terrain-request-fulfillments.json",
+            "postconditions": evidence_dir / "terrain-request-postconditions.json",
+        }
+        missing = [str(path) for path in paths.values() if not path.exists()]
+        if missing:
+            return [], [f"{record['id']}: missing applied terrain evidence {', '.join(missing)}"]
+        try:
+            plan = json.loads(paths["plan"].read_text())
+            fulfillment = json.loads(paths["fulfillment"].read_text())
+            postconditions = json.loads(paths["postconditions"].read_text())
+        except (OSError, json.JSONDecodeError) as exc:
+            return [], [f"{record['id']}: cannot read applied terrain evidence: {exc}"]
+
+    assert plan is not None and fulfillment is not None and postconditions is not None
+    errors: list[str] = []
+    if plan.get("kind") != "terrain-request-plan":
+        errors.append(f"{record['id']}: terrain evidence has no compiled plan")
+    errors += [f"{record['id']}: {error}"
+               for error in terrain_requests.verify_fulfillment_manifest(plan, fulfillment)]
+    report_payload = {key: value for key, value in postconditions.items()
+                      if key not in {"schemaVersion", "kind", "status", "reportDigest"}}
+    if (postconditions.get("kind") != "terrain-request-postconditions"
+            or postconditions.get("reportDigest") != _canonical_sha256(report_payload)):
+        errors.append(f"{record['id']}: final terrain postcondition report is stale or corrupt")
+    if (postconditions.get("planDigest") != plan.get("planDigest")
+            or postconditions.get("sourceDigest") != plan.get("sourceDigest")):
+        errors.append(f"{record['id']}: final terrain postconditions do not match the applied plan")
+    if postconditions.get("status") != "pass":
+        errors.append(f"{record['id']}: final terrain postconditions have not passed")
+
+    local_plan, local_errors = terrain_requests.build_plan([record])
+    errors += local_errors
+    local_requests = {row["id"]: row for row in local_plan.get("requests", [])}
+    requests = {row["id"]: row for row in plan.get("requests", [])
+                if row.get("placeId") == record["id"]}
+    if requests != local_requests:
+        errors.append(f"{record['id']}: applied terrain plan does not match the exact current requests")
+    operations = {row["requestId"]: row for row in plan.get("operations", [])
+                  if row.get("placeId") == record["id"]}
+    fulfillments = {row.get("requestId"): row for row in fulfillment.get("fulfillments", [])
+                    if isinstance(row, dict) and row.get("requestId") in requests}
+    results = {row.get("requestId"): row for row in postconditions.get("requests", [])
+               if isinstance(row, dict) and row.get("requestId") in requests}
+    for request_id, request in requests.items():
+        if request_id not in operations:
+            errors.append(f"{record['id']}: terrain request {request_id} has no compiled operation")
+        if request_id not in fulfillments:
+            errors.append(f"{record['id']}: terrain request {request_id} has no applied fulfillment")
+        row = results.get(request_id)
+        if not isinstance(row, dict) or row.get("status") != "pass":
+            errors.append(f"{record['id']}: terrain request {request_id} has no passing final postcondition")
+        if row and row.get("deliverySha256") != terrain_requests.delivery_digest(request["delivery"]):
+            errors.append(f"{record['id']}: terrain request {request_id} final delivery digest is stale")
+    if errors:
+        return [], list(dict.fromkeys(errors))
+
+    out = []
+    for request_id, request in sorted(requests.items()):
+        operation = operations[request_id]
+        applied = fulfillments[request_id]
+        final = results[request_id]
+        out.append({
+            "id": operation["id"],
+            "kind": "terrain-operation",
+            "placeId": record["id"],
+            "terrainRequestKind": request.get("kind"),
+            "operation": operation,
+            "appliedFulfillment": applied,
+            "finalPostcondition": final,
+            "evidenceDigests": {
+                "plan": plan["planDigest"],
+                "fulfillment": _canonical_sha256(fulfillment),
+                "postconditions": postconditions["reportDigest"],
+            },
+            "provenance": _provenance(record["id"], "catalogue", "terrain-request",
+                                        operation["id"], []),
+        })
+    return sorted(out, key=lambda row: row["id"]), []
 
 
 def dressing_count(seed: str, parcel: dict) -> int:
@@ -286,6 +385,22 @@ class KitShelf:
         (review 2026-09-07).
         """
         for kit in bp_mod.kits_for_district(culture, kind):
+            for asset in self.assets_by_kit.get(kit, []):
+                if asset["id"] == asset_ref:
+                    return {"kit": kit, **asset}
+        return None
+
+    def locate(self, asset_ref: str, preferred_kits: tuple[str, ...] = ()) -> dict | None:
+        """Find an exact measured asset for a freestanding authored object.
+
+        Landmarks and routed fences are not parcels, so they do not always
+        belong to one district shelf.  Prefer any explicitly relevant kit,
+        then use the first deterministic built-kit occurrence.  The asset id
+        remains the identity; choosing a manifest only tells the runtime which
+        packaged GLB to load.
+        """
+        order = list(dict.fromkeys([*preferred_kits, *sorted(self.assets_by_kit)]))
+        for kit in order:
             for asset in self.assets_by_kit.get(kit, []):
                 if asset["id"] == asset_ref:
                     return {"kit": kit, **asset}
@@ -689,6 +804,168 @@ def _provenance(bp_id: str, seed: str, rule: str, asset_id: str, hashes: list[st
     }
 
 
+def _polyline_point(points: list[tuple[float, float]], distance_m: float) \
+        -> tuple[float, float, float]:
+    """Return x, z and clockwise-from-north bearing at a chainage."""
+    remaining = max(0.0, distance_m)
+    for (ax, az), (bx, bz) in zip(points, points[1:]):
+        length = math.hypot(bx - ax, bz - az)
+        if length <= 1e-9:
+            continue
+        if remaining <= length:
+            t = remaining / length
+            return (ax + (bx - ax) * t, az + (bz - az) * t,
+                    math.degrees(math.atan2(bx - ax, bz - az)) % 360.0)
+        remaining -= length
+    ax, az = points[-2]
+    bx, bz = points[-1]
+    return bx, bz, math.degrees(math.atan2(bx - ax, bz - az)) % 360.0
+
+
+def _place_fence(bp_id: str, seed: str, fence: dict, survey: ProvinceSurvey,
+                 shelf: KitShelf) -> tuple[list[dict], list[str]]:
+    """Tile the measured fence piece along the compiler-approved routed line."""
+    asset = shelf.locate(fence.get("assetRef", ""))
+    if asset is None:
+        return [], [f"{fence.get('id')}: assetRef {fence.get('assetRef')!r} is not in a built kit"]
+    points = [survey.uv_to_m(float(u), float(v)) for u, v in fence.get("points", [])]
+    if len(points) < 2:
+        return [], [f"{fence.get('id')}: routed points were not compiled"]
+    total = sum(math.hypot(bx - ax, bz - az)
+                for (ax, az), (bx, bz) in zip(points, points[1:]))
+    module = float(fence.get("moduleM") or max(asset.get("sizeM") or [1.0, 1.0, 1.0])[:2])
+    count = max(1, int(math.ceil(total / module)))
+    placements = []
+    for index in range(count):
+        chainage = min((index + 0.5) * module, max(total - module * 0.5, total * 0.5))
+        x, z, yaw = _polyline_point(points, chainage)
+        placements.append({
+            "id": f"{bp_id}.{fence['id']}.piece.{index + 1}",
+            "fenceId": fence["id"],
+            "objectKind": "fence",
+            "assetId": asset["id"], "kit": asset["kit"],
+            "positionM": [round(x, 3), round(survey.height_at(x, z), 3), round(z, 3)],
+            "yawDeg": round(yaw, 3), "scale": 1.0, "groundFit": "direct",
+            "provenance": _provenance(bp_id, seed, "fence/routed-piece", asset["id"], []),
+        })
+    return placements, []
+
+
+def _metres_value(value, survey: ProvinceSurvey):
+    if not isinstance(value, list):
+        return value
+    if len(value) == 2 and all(isinstance(part, (int, float)) for part in value):
+        return [round(part, 3) for part in survey.uv_to_m(float(value[0]), float(value[1]))]
+    return [_metres_value(child, survey) for child in value]
+
+
+def compiled_blueprint_objects(bp: dict, placements: list[dict], doors_out: list[dict],
+                               survey: ProvinceSurvey) -> tuple[list[dict], list[str]]:
+    """Emit the exact addressable objects that survived settlement compilation.
+
+    This is deliberately not the authoring registry.  Spatial values are
+    converted to runtime metres, door reachability is the compiler's measured
+    result, and every object carrying an ``assetRef`` is absent (and an error)
+    unless a matching physical placement was emitted.
+    """
+    place_id = bp["id"]
+    errors: list[str] = []
+    placement_fields = {
+        "parcels": "parcelId", "landmarks": "landmarkId",
+        "fences": "fenceId", "docks": "dockId",
+    }
+    placements_by_ref: dict[str, list[dict]] = {}
+    for raw in placements:
+        for field in placement_fields.values():
+            if isinstance(raw.get(field), str):
+                placements_by_ref.setdefault(raw[field], []).append(raw)
+
+    records: list[dict] = []
+
+    def emit(source: dict, kind: str, *, measured: dict | None = None,
+             physical: bool = False) -> None:
+        ref = source.get("id") or source.get("slotId")
+        if not isinstance(ref, str) or not ref:
+            return
+        # A skeleton marker (the current asset-less dock specification) is
+        # useful to the compiler's spatial checks but is deliberately absent
+        # from runtime geometry. Do not misreport it as a physical placement.
+        linked = sorted((row for row in placements_by_ref.get(ref, []) if row.get("kit")),
+                        key=lambda row: row["id"])
+        if physical:
+            asset_ref = source.get("assetRef")
+            matches = [row for row in linked if row.get("assetId") == asset_ref and row.get("kit")]
+            if not matches:
+                errors.append(f"{ref}: asset-bearing compiled object has no matching physical placement")
+                return
+            linked = matches
+        spec = {}
+        for key, value in source.items():
+            if key in {"id", "slotId", "why", "notes", "position", "centreUV",
+                       "thresholdUV", "boundary", "via", "viaUV", "points", "footprint"}:
+                continue
+            spec[key] = value
+        for source_key, target_key in (
+                ("position", "positionM"), ("centreUV", "centreM"),
+                ("thresholdUV", "thresholdM"), ("boundary", "boundaryM"),
+                ("via", "viaM"), ("viaUV", "viaM"), ("points", "pointsM"),
+                ("footprint", "footprintM")):
+            if source_key in source:
+                spec[target_key] = _metres_value(source[source_key], survey)
+        if measured:
+            spec.update(measured)
+        record = {
+            "id": ref, "kind": kind, "placeId": place_id,
+            "sourceObjectSha256": _canonical_sha256(source),
+            "spec": spec,
+            "placementIds": [row["id"] for row in linked],
+            "provenance": _provenance(place_id, str(bp.get("seed", "")),
+                                        f"compiled-object/{kind}", ref, []),
+        }
+        records.append(record)
+
+    collection_kinds = {
+        "districts": "district", "parcels": "parcel", "routes": "route",
+        "canals": "canal", "boardwalks": "boardwalk", "fences": "fence",
+        "landmarks": "landmark", "docks": "dock", "combatSpaces": "combat",
+        "questSockets": "socket", "variants": "variant",
+        "travelServices": "travel", "approaches": "approach",
+        "networkTerminals": "terminal",
+    }
+    for key, kind in collection_kinds.items():
+        for source in sorted(bp.get(key, []) or [], key=lambda row: row.get("id", "")):
+            emit(source, kind, physical=bool(source.get("assetRef")))
+
+    measured_doors = {row.get("id"): row for row in doors_out}
+    for source in sorted(bp.get("doors", []) or [], key=lambda row: row.get("id", "")):
+        measured = measured_doors.get(source.get("id"))
+        if measured is None:
+            errors.append(f"{source.get('id')}: door was not emitted by the reachability compiler")
+            continue
+        emit(source, "door", measured={
+            "reachable": bool(measured.get("reachable")),
+            "access": measured.get("access"),
+        })
+    for source in sorted(bp.get("occupants", []) or [], key=lambda row: row.get("slotId", "")):
+        emit(source, "occupant")
+    for source in sorted((bp.get("clearance") or {}).get("kept", []) or [],
+                         key=lambda row: row.get("id", "")):
+        emit(source, str(source.get("id", "kept")).split(".", 1)[0])
+    if bp.get("scaleGrounding"):
+        emit({"id": f"field:{place_id}:scaleGrounding", "value": bp["scaleGrounding"]},
+             "blueprint-field")
+    for key, value in sorted((bp.get("causalModel") or {}).items()):
+        if value:
+            emit({"id": f"field:{place_id}:causalModel.{key}", "value": value},
+                 "blueprint-field")
+
+    ids = [row["id"] for row in records]
+    duplicates = sorted({ref for ref in ids if ids.count(ref) > 1})
+    if duplicates:
+        errors.append(f"{place_id}: duplicate compiled object ids {duplicates}")
+    return sorted(records, key=lambda row: row["id"]), errors
+
+
 def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                       warnings: list[str] | None = None) -> dict:
     bp_id = bp["id"]
@@ -748,6 +1025,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 "targetHeightM": max(heights),
                 "falloffRatio": PAD_FALLOFF_RATIO,
                 "residualTiltDeg": PAD_RESIDUAL_TILT_DEG,
+                # The grading consumer needs an authored axis, otherwise the
+                # requested residual tilt has a magnitude but no direction.
+                "tiltBearingDeg": float(parcel["yawDeg"]),
             })
         # orientation is authored, with a reason (orientationWhy) — the
         # compiler never invents a turn (owner ruling 2026-09-05)
@@ -756,6 +1036,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         placements.append({
             "id": f"{bp_id}.{pid}.building",
             "parcelId": pid,
+            "objectKind": "parcel",
             "assetId": asset["id"],
             "kit": asset["kit"],
             # grid transform, centred pivot — never flora bottom-anchoring
@@ -792,6 +1073,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 placements.append({
                     "id": f"{bp_id}.{pid}.dressing.{i + 1}",
                     "parcelId": pid,
+                    "objectKind": "dressing",
                     "dressingFor": parcel.get("use"),
                     "assetId": aid,
                     "kit": next((k for k, rows in shelf.assets_by_kit.items()
@@ -805,16 +1087,49 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
                 })
             dressing_report[pid] = count
 
+    for landmark in sorted(bp.get("landmarks", []), key=lambda row: row["id"]):
+        asset = shelf.locate(landmark.get("assetRef", ""))
+        if asset is None:
+            errors.append(f"{landmark['id']}: assetRef {landmark.get('assetRef')!r} is not in a built kit")
+            continue
+        x, z = survey.uv_to_m(*landmark["position"])
+        scale = float(landmark.get("scale", 1.0))
+        placements.append({
+            "id": f"{bp_id}.{landmark['id']}",
+            "landmarkId": landmark["id"], "objectKind": "landmark",
+            "assetId": asset["id"], "kit": asset["kit"],
+            "positionM": [round(x, 3),
+                          round(survey.height_at(x, z) + asset["sizeM"][2] * scale / 2, 3),
+                          round(z, 3)],
+            "yawDeg": float(landmark.get("yawDeg", 0.0)), "scale": scale,
+            "groundFit": "direct",
+            "provenance": _provenance(bp_id, seed, "landmark/authored", asset["id"], []),
+        })
+
+    for fence in sorted(bp.get("fences", []), key=lambda row: row["id"]):
+        fence_placements, fence_errors = _place_fence(bp_id, seed, fence, survey, shelf)
+        placements.extend(fence_placements)
+        errors.extend(fence_errors)
+
     for dock in sorted(bp.get("docks", []), key=lambda d: d["id"]):
         x, z = survey.uv_to_m(*dock["position"])
+        asset = shelf.locate(dock["assetRef"]) if dock.get("assetRef") else None
+        if dock.get("assetRef") and asset is None:
+            errors.append(f"{dock['id']}: assetRef {dock.get('assetRef')!r} is not in a built kit")
+            continue
         placements.append({
             "id": f"{bp_id}.{dock['id']}",
-            "assetId": "dock-placeholder",
-            "kit": None,
+            "dockId": dock["id"], "objectKind": "dock",
+            "assetId": asset["id"] if asset else "dock-placeholder",
+            "kit": asset["kit"] if asset else None,
             "positionM": [round(x, 2), round(survey.height_at(x, z), 3), round(z, 2)],
-            "yawDeg": 0.0,
+            "yawDeg": float(dock.get("yawDeg", 0.0)),
+            "scale": float(dock.get("scale", 1.0)),
+            "groundFit": "stilt",
             "piledToBed": True,
-            "provenance": _provenance(bp_id, seed, "dock/skeleton", "dock-placeholder", []),
+            "provenance": _provenance(bp_id, seed,
+                                       "dock/authored" if asset else "dock/specification",
+                                       asset["id"] if asset else "dock-placeholder", []),
         })
 
     # --- door reachability, every compile -------------------------------
@@ -856,10 +1171,19 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     errors += promise_errors
     warns += promise_warnings
 
+    compiled_objects, compiled_object_errors = compiled_blueprint_objects(
+        bp, placements, doors_out, survey)
+    errors += compiled_object_errors
+
     macro_record = load_record(bp_id)
     obligation_receipt = None
     if macro_record is not None:
-        obligation_receipt, obligation_errors = phase11_obligation_receipt(bp, macro_record)
+        terrain_objects, terrain_object_errors = compiled_terrain_objects(macro_record)
+        errors += terrain_object_errors
+        compiled_objects.extend(terrain_objects)
+        compiled_objects.sort(key=lambda row: row["id"])
+        obligation_receipt, obligation_errors = phase11_obligation_receipt(
+            bp, macro_record, compiled_objects)
         errors += obligation_errors
 
     # --- 97 B6/D2: does the first-seen object actually read from the approach?
@@ -912,6 +1236,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         "seed": seed,
         "generator": {"id": GENERATOR_ID, "version": GENERATOR_VERSION},
         "placements": placements,
+        "compiledObjects": compiled_objects,
         "doors": doors_out,
         "grades": grades,
         "clearance": {

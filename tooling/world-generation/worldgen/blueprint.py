@@ -187,7 +187,8 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     Parcels may carry `scale` under the same rule; the derived
                     footprint and the compiler honour it)
   docks[]           {id, position, waterBodyId, piledToBed: true, hullClass,
-                    fit?, fixedBerthReason?} — a dock is a WATER TERMINAL, not a deck the design
+                    fit?, fixedBerthReason?, assetRef?, yawDeg?, scale?} — a
+                    dock is a WATER TERMINAL, not a deck the design
                     drew near some water (owner review 2026-09-08). Every dock
                     must be answered by a `networkTerminals[]` entry of kind
                     `lane` or `channel` carrying `dockId`, and the serving
@@ -1987,6 +1988,13 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                 fail(f"{key} {item.get('id')}: scale must be a uniform factor in 0.2–5")
             if key == "landmarks" and "yawDeg" in item and not isinstance(item["yawDeg"], (int, float)):
                 fail(f"landmark {item.get('id')}: yawDeg must be a number")
+            if key == "landmarks" and not isinstance(item.get("assetRef"), str):
+                fail(f"landmark {item.get('id')}: assetRef is required for physical compilation")
+            if key == "docks" and "assetRef" in item and not (
+                    isinstance(item["assetRef"], str) and item["assetRef"]):
+                fail(f"dock {item.get('id')}: assetRef must be a non-empty built asset id")
+            if key == "docks" and "yawDeg" in item and not isinstance(item["yawDeg"], (int, float)):
+                fail(f"dock {item.get('id')}: yawDeg must be a number")
 
     _validate_socket_purposes(bp, fail)
     for s in bp.get("questSockets", []):

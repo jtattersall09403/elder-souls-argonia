@@ -1,6 +1,7 @@
 """Settlement compiler walking-skeleton tests (Phase 11 Part 0 item 4)."""
 
 import copy
+import hashlib
 import json
 from pathlib import Path
 
@@ -8,7 +9,9 @@ import numpy as np
 import pytest
 
 from . import compile_settlement as cs
+from . import blueprint as blueprint_schema
 from . import place_obligations
+from . import terrain_requests
 from .site_fields import ProvinceSurvey
 
 FIXTURE = Path(__file__).parent / "testdata" / "place.fixture.mire-landing.json"
@@ -21,11 +24,76 @@ def survey():
 
 @pytest.fixture(scope="module")
 def shelf():
-    return cs.KitShelf()
+    built = cs.KitShelf()
+    # The Part-0 fixture predates the built landmark kit. Keep the fixture
+    # independent of the live asset build while still exercising the hard rule
+    # that its assetRef becomes a measured placement.
+    asset = {"id": "histtree:hist/histshoot01", "sizeM": [4.0, 4.0, 12.0],
+             "materials": [], "triangles": 10}
+    built.assets_by_kit.setdefault("flora-province-v1", []).append(asset)
+    built.by_asset[asset["id"]] = asset
+    return built
+
+
+@pytest.fixture(scope="module")
+def compile_survey(survey):
+    class StableSurvey:
+        # The walking-skeleton fixture tests settlement compilation. Published
+        # route stitching has dedicated synthetic tests and may be regenerating
+        # concurrently, so it is deliberately not an input to this fixture.
+        province = None
+
+        def __getattr__(self, name):
+            return getattr(survey, name)
+
+    return StableSurvey()
 
 
 def _blueprint():
     return json.loads(FIXTURE.read_text())["blueprint"]
+
+
+def _terrain_evidence(record, *, passing=True):
+    plan, errors = terrain_requests.build_plan([record])
+    assert errors == []
+    fulfillment_rows = []
+    for request in plan["requests"]:
+        operation = next(row for row in plan["operations"]
+                         if row["requestId"] == request["id"])
+        evidence = {
+            "operationId": operation["id"],
+            "deliverySha256": terrain_requests.delivery_digest(request["delivery"]),
+            "coveredFields": sorted(request["delivery"]),
+            "witnesses": [{"x": 1, "z": 2, "appliedDeltaM": -1.0}],
+        }
+        evidence["evidenceSha256"] = hashlib.sha256(
+            terrain_requests._canonical(evidence).encode()).hexdigest()
+        fulfillment_rows.append({
+            "requestId": request["id"], "operationIds": request["operationIds"],
+            "deliverySha256": terrain_requests.delivery_digest(request["delivery"]),
+            "operationEvidence": [evidence],
+            "evidenceRefs": [f"terrain-operation-evidence.{operation['id']}.sha256."
+                             f"{evidence['evidenceSha256']}"],
+        })
+    fulfillment = {
+        "schemaVersion": terrain_requests.FULFILLMENT_SCHEMA_VERSION,
+        "kind": "terrain-request-fulfillments", "sourceDigest": plan["sourceDigest"],
+        "planDigest": plan["planDigest"], "fulfillments": fulfillment_rows,
+    }
+    report_payload = {
+        "planDigest": plan["planDigest"], "sourceDigest": plan["sourceDigest"],
+        "globalFindings": [],
+        "requests": [{"requestId": row["id"], "placeId": row["placeId"],
+                      "deliverySha256": terrain_requests.delivery_digest(row["delivery"]),
+                      "status": "pass" if passing else "fail", "findings": []}
+                     for row in plan["requests"]],
+    }
+    postconditions = {
+        "schemaVersion": 1, "kind": "terrain-request-postconditions",
+        "status": "pass" if passing else "fail", **report_payload,
+        "reportDigest": cs._canonical_sha256(report_payload),
+    }
+    return plan, fulfillment, postconditions
 
 
 def _corrected(bp):
@@ -55,8 +123,8 @@ def test_ground_fit_ladder_rejects_underdeclared_fits(survey, shelf):
     assert any("unreachable" in e for e in result["errors"])
 
 
-def test_corrected_blueprint_compiles_clean(survey, shelf):
-    result = cs.compile_blueprint(_corrected(_blueprint()), survey, shelf)
+def test_corrected_blueprint_compiles_clean(compile_survey, shelf):
+    result = cs.compile_blueprint(_corrected(_blueprint()), compile_survey, shelf)
     assert result["errors"] == []
     assert all(d["reachable"] for d in result["doors"])
     assert result["budgetReport"]["withinBudget"]
@@ -69,10 +137,17 @@ def test_corrected_blueprint_compiles_clean(survey, shelf):
         parcel = parcels.get(p.get("parcelId"))
         if parcel is None or "dressingFor" in p:
             continue
-        cx, cz = survey.uv_to_m(*parcel["centreUV"])
+        cx, cz = compile_survey.uv_to_m(*parcel["centreUV"])
         assert abs(p["positionM"][0] - cx) < 1e-3
         assert abs(p["positionM"][2] - cz) < 1e-3
         assert p["yawDeg"] == parcel["yawDeg"]
+    landmark = [p for p in result["placements"] if p.get("landmarkId")]
+    fence = [p for p in result["placements"] if p.get("fenceId")]
+    assert [p["landmarkId"] for p in landmark] == ["landmark.mire-landing.hist-shoot"]
+    assert fence and {p["fenceId"] for p in fence} == {"fence.mire-landing.yard"}
+    compiled = {row["id"]: row for row in result["compiledObjects"]}
+    assert compiled["landmark.mire-landing.hist-shoot"]["placementIds"]
+    assert compiled["fence.mire-landing.yard"]["placementIds"]
 
 
 def test_deterministic(survey, shelf):
@@ -104,7 +179,17 @@ def test_phase11_receipt_names_validated_objects_and_compiled_terrain_operation(
             "evidenceRefs": ["route.receipt.landing"],
         }],
     }
-    receipt, errors = cs.phase11_obligation_receipt(bp, record)
+    class Survey:
+        @staticmethod
+        def uv_to_m(u, v):
+            return u * 100, v * 100
+
+    compiled, object_errors = cs.compiled_blueprint_objects(bp, [], [], Survey())
+    terrain, terrain_errors = cs.compiled_terrain_objects(
+        record, **dict(zip(("plan", "fulfillment", "postconditions"),
+                           _terrain_evidence(record))))
+    assert object_errors == terrain_errors == []
+    receipt, errors = cs.phase11_obligation_receipt(bp, record, compiled + terrain)
     assert errors == []
     assert receipt["receiptSha256"] == cs._canonical_sha256({
         key: receipt[key] for key in ("placeId", "objectRegistry", "manifest")
@@ -121,6 +206,57 @@ def test_phase11_receipt_names_validated_objects_and_compiled_terrain_operation(
                for ref in terrain_refs)
 
 
+def test_receipt_cannot_certify_an_authored_object_the_compiler_did_not_emit():
+    record = {"id": "place.test.omission", "position": {"u": .5, "v": .5},
+              "vibe": "A visibly worked landing with a guarded landward threshold."}
+    bp = {"id": record["id"], "routes": [{"id": "route.omission.channel"}],
+          "macroEvidence": [{"sourcePaths": ["vibe"],
+                             "evidenceRefs": ["route.omission.channel"]}]}
+    _receipt, errors = cs.phase11_obligation_receipt(bp, record, [])
+    assert any("compiler did not emit" in error for error in errors)
+
+
+def test_planned_but_unapplied_terrain_cannot_become_a_compiled_object():
+    record = {"id": "place.test.unapplied", "position": {"u": .5, "v": .5},
+              "terrainRequests": [{"kind": "cut", "radiusM": 10,
+                                    "delivery": {"feature": "channel"}, "note": "real cut"}]}
+    plan, fulfillment, postconditions = _terrain_evidence(record)
+    fulfillment["fulfillments"] = []
+    objects, errors = cs.compiled_terrain_objects(
+        record, plan=plan, fulfillment=fulfillment, postconditions=postconditions)
+    assert objects == []
+    assert any("missing fulfillment" in error for error in errors)
+
+
+def test_applied_terrain_with_failed_final_postcondition_cannot_be_certified():
+    record = {"id": "place.test.failed-final", "position": {"u": .5, "v": .5},
+              "terrainRequests": [{"kind": "pool", "radiusM": 10,
+                                    "delivery": {"feature": "pool"}, "note": "real pool"}]}
+    plan, fulfillment, postconditions = _terrain_evidence(record, passing=False)
+    objects, errors = cs.compiled_terrain_objects(
+        record, plan=plan, fulfillment=fulfillment, postconditions=postconditions)
+    assert objects == []
+    assert any("postconditions have not passed" in error for error in errors)
+
+
+@pytest.mark.parametrize(("key", "source"), [
+    ("landmarks", {"id": "landmark.omission.beacon", "assetRef": "asset.beacon",
+                   "position": [.2, .3]}),
+    ("fences", {"id": "fence.omission.wall", "assetRef": "asset.wall",
+                "points": [[.1, .1], [.2, .1]]}),
+])
+def test_asset_bearing_object_is_not_compiled_without_a_physical_placement(key, source):
+    class Survey:
+        @staticmethod
+        def uv_to_m(u, v):
+            return u * 100, v * 100
+
+    objects, errors = cs.compiled_blueprint_objects(
+        {"id": "place.test.omission", key: [source]}, [], [], Survey())
+    assert source["id"] not in {row["id"] for row in objects}
+    assert any("no matching physical placement" in error for error in errors)
+
+
 def test_budget_enforced(survey, shelf):
     bp = _corrected(_blueprint())
     bp["budget"]["maxInstances"] = 0
@@ -134,6 +270,37 @@ def test_pad_grades_emitted_only_for_pad(survey, shelf):
     result = cs.compile_blueprint(bp, survey, shelf)
     assert result["grades"] == []  # all-stilt blueprint grades nothing
     assert result["clearance"]["affectedChunks"]  # clearing touches chunks
+
+
+def test_pad_grade_carries_the_authored_tilt_axis(compile_survey, shelf):
+    bp = _corrected(_blueprint())
+    parcel = bp["parcels"][0]
+    parcel["groundFit"] = "pad"
+    result = cs.compile_blueprint(bp, compile_survey, shelf)
+    grade = next(row for row in result["grades"] if row["parcelId"] == parcel["id"])
+    assert grade["residualTiltDeg"] == cs.PAD_RESIDUAL_TILT_DEG
+    assert grade["tiltBearingDeg"] == parcel["yawDeg"]
+
+
+def test_optional_dock_asset_ref_becomes_runtime_geometry(compile_survey, shelf):
+    bp = _corrected(_blueprint())
+    dock = bp["docks"][0]
+    dock["assetRef"] = "vanilla:architecture/docks/dockstrsol01"
+    dock["yawDeg"] = 35.0
+    result = cs.compile_blueprint(bp, compile_survey, shelf)
+    placement = next(row for row in result["placements"] if row.get("dockId") == dock["id"])
+    assert placement["kit"] == "docks-v1"
+    assert placement["assetId"] == dock["assetRef"]
+    assert placement["yawDeg"] == 35.0
+    compiled = next(row for row in result["compiledObjects"] if row["id"] == dock["id"])
+    assert compiled["placementIds"] == [placement["id"]]
+
+
+def test_dock_asset_ref_schema_rejects_empty_values(compile_survey):
+    bp = _corrected(_blueprint())
+    bp["docks"][0]["assetRef"] = ""
+    errors = blueprint_schema.validate_blueprint(bp, None, compile_survey)
+    assert any("assetRef must be a non-empty built asset id" in error for error in errors)
 
 
 # --- `--out` resolution (review 2026-09-07) -------------------------------- #

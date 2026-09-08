@@ -1,9 +1,11 @@
 import json
+import hashlib
 
 import pytest
 
 from . import export_settlement_bundle as ex
 from . import compile_settlement as cs
+from . import terrain_requests
 
 
 def _write(path, data):
@@ -17,6 +19,44 @@ def _route_source(root, structures):
     return path
 
 
+class _MetreSurvey:
+    @staticmethod
+    def uv_to_m(u, v):
+        return u * 100, v * 100
+
+
+def _terrain_evidence(record):
+    plan, errors = terrain_requests.build_plan([record])
+    assert errors == []
+    rows = []
+    results = []
+    for request in plan["requests"]:
+        operation = next(row for row in plan["operations"] if row["requestId"] == request["id"])
+        evidence = {"operationId": operation["id"],
+                    "deliverySha256": terrain_requests.delivery_digest(request["delivery"]),
+                    "coveredFields": sorted(request["delivery"]),
+                    "witnesses": [{"x": 1, "z": 2, "appliedDeltaM": -1.0}]}
+        evidence["evidenceSha256"] = hashlib.sha256(
+            terrain_requests._canonical(evidence).encode()).hexdigest()
+        rows.append({"requestId": request["id"], "operationIds": request["operationIds"],
+                     "deliverySha256": terrain_requests.delivery_digest(request["delivery"]),
+                     "operationEvidence": [evidence],
+                     "evidenceRefs": [f"terrain-operation-evidence.{operation['id']}.sha256."
+                                      f"{evidence['evidenceSha256']}"]})
+        results.append({"requestId": request["id"], "placeId": request["placeId"],
+                        "deliverySha256": terrain_requests.delivery_digest(request["delivery"]),
+                        "status": "pass", "findings": []})
+    fulfillment = {"schemaVersion": terrain_requests.FULFILLMENT_SCHEMA_VERSION,
+                   "kind": "terrain-request-fulfillments", "sourceDigest": plan["sourceDigest"],
+                   "planDigest": plan["planDigest"], "fulfillments": rows}
+    payload = {"planDigest": plan["planDigest"], "sourceDigest": plan["sourceDigest"],
+               "globalFindings": [], "requests": results}
+    postconditions = {"schemaVersion": 1, "kind": "terrain-request-postconditions",
+                      "status": "pass", **payload,
+                      "reportDigest": cs._canonical_sha256(payload)}
+    return plan, fulfillment, postconditions
+
+
 def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     monkeypatch.setattr(ex, "ProvinceSurvey", lambda: type("Survey", (), {
         "uv_to_m": staticmethod(lambda u, v: (u * 100, v * 100))})())
@@ -27,10 +67,14 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
     placement = {"id": "place.a.parcel.a.building", "parcelId": "parcel.a",
                  "assetId": "asset.house", "kit": "kit-a", "positionM": [20, 4, 30],
                  "yawDeg": 17, "scale": 1, "groundFit": "plinth", "provenance": {}}
+    compiled_objects, errors = cs.compiled_blueprint_objects(
+        bp["blueprint"], [placement], [], _MetreSurvey())
+    assert errors == []
     _write(tmp_path / "sett/place.a.settlement.json",
            {"id": "place.a", "sourceBlueprintSha256": ex.blueprint_sha256(bp["blueprint"]),
             "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
-            "placements": [placement], "doors": [], "budgetReport": {}})
+            "placements": [placement], "doors": [], "budgetReport": {},
+            "compiledObjects": compiled_objects})
     structure = {"id": "structure.a.1", "wayId": "route.a", "kind": "bridge",
                  "fromM": 10, "toM": 20}
     route = {"id": "structure.a.1.p1", "assetId": "asset.bridge", "posM": [9, 2, 8],
@@ -186,7 +230,14 @@ def _obligation_bundle_fixture(tmp_path):
         "macroEvidence": [{"sourcePaths": ["terrainRequests"],
                             "evidenceRefs": ["route.receipt.landing"]}],
     }
-    receipt, errors = cs.phase11_obligation_receipt(bp, record)
+    evidence = _terrain_evidence(record)
+    compiled, compiled_errors = cs.compiled_blueprint_objects(bp, [], [], _MetreSurvey())
+    terrain, terrain_errors = cs.compiled_terrain_objects(
+        record, **dict(zip(("plan", "fulfillment", "postconditions"), evidence)))
+    assert compiled_errors == terrain_errors == []
+    compiled += terrain
+    compiled.sort(key=lambda row: row["id"])
+    receipt, errors = cs.phase11_obligation_receipt(bp, record, compiled)
     assert errors == []
     _write(tmp_path / "bp/place.test.receipt.json", {"blueprint": bp})
     settlement_path = tmp_path / "sett/place.test.receipt.settlement.json"
@@ -194,33 +245,69 @@ def _obligation_bundle_fixture(tmp_path):
         "id": record["id"], "sourceBlueprintSha256": ex.blueprint_sha256(bp),
         "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
         "placements": [], "doors": [], "budgetReport": {},
+        "compiledObjects": compiled,
         "phase11ObligationReceipt": receipt,
     })
     _write(tmp_path / "kits/route-structures-v1.kit.json",
            {"kit": "route-structures-v1", "assets": []})
     source = _route_source(tmp_path, [])
-    return record, settlement_path, source
+    return record, settlement_path, source, evidence
 
 
 def test_bundle_verifies_and_carries_phase11_compiled_receipt(tmp_path, monkeypatch):
     monkeypatch.setattr(ex, "ProvinceSurvey", lambda: type("Survey", (), {
         "uv_to_m": staticmethod(lambda u, v: (u * 100, v * 100))})())
-    record, _settlement, source = _obligation_bundle_fixture(tmp_path)
+    record, _settlement, source, evidence = _obligation_bundle_fixture(tmp_path)
     bundle = ex.build_bundle(
         tmp_path / "sett", tmp_path / "routes", tmp_path / "bp", tmp_path / "kits",
-        source, catalogue_records_by_id={record["id"]: record})
+        source, catalogue_records_by_id={record["id"]: record}, terrain_evidence=evidence)
     assert [row["placeId"] for row in bundle["phase11ObligationReceipts"]] == [record["id"]]
+    assert {row["id"] for row in bundle["compiledObjects"]} == {
+        row["id"] for row in json.loads(_settlement.read_text())["compiledObjects"]}
+
+
+def test_bundle_rejects_omitted_non_rendered_compiled_object(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", _MetreSurvey)
+    record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
+    document = json.loads(settlement_path.read_text())
+    document["compiledObjects"] = [row for row in document["compiledObjects"]
+                                   if row["id"] != "route.receipt.landing"]
+    _write(settlement_path, document)
+    with pytest.raises(ValueError, match="compiledObjects do not match"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", source,
+                        catalogue_records_by_id={record["id"]: record},
+                        terrain_evidence=evidence)
+
+
+def test_bundle_rejects_receipt_hash_not_bound_to_compiled_object(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", _MetreSurvey)
+    record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
+    document = json.loads(settlement_path.read_text())
+    receipt = document["phase11ObligationReceipt"]
+    ref = next(iter(receipt["objectRegistry"]))
+    receipt["objectRegistry"][ref]["compiledObjectSha256"] = "0" * 64
+    receipt["manifest"]["objectRegistrySha256"] = (
+        ex.place_obligations.compiled_object_registry_sha256(receipt["objectRegistry"]))
+    payload = {key: receipt[key] for key in ("placeId", "objectRegistry", "manifest")}
+    receipt["receiptSha256"] = cs._canonical_sha256(payload)
+    _write(settlement_path, document)
+    with pytest.raises(ValueError, match="receipt hash does not match compiled object"):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", source,
+                        catalogue_records_by_id={record["id"]: record},
+                        terrain_evidence=evidence)
 
 
 @pytest.mark.parametrize("mutation, expected", [
     ("missing", "no phase-11-compiled obligation receipt"),
-    ("stale", "exact current requirements"),
-    ("wrong-kind", "expected one of"),
+    ("stale", "exact current requests"),
+    ("wrong-kind", "type does not match compiled object"),
 ])
 def test_bundle_fails_closed_on_bad_phase11_compiled_receipt(
         tmp_path, monkeypatch, mutation, expected):
     monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
-    record, settlement_path, source = _obligation_bundle_fixture(tmp_path)
+    record, settlement_path, source, evidence = _obligation_bundle_fixture(tmp_path)
     document = json.loads(settlement_path.read_text())
     if mutation == "missing":
         document.pop("phase11ObligationReceipt")
@@ -238,7 +325,7 @@ def test_bundle_fails_closed_on_bad_phase11_compiled_receipt(
     with pytest.raises(ValueError, match=expected):
         ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                         tmp_path / "kits", source,
-                        catalogue_records_by_id={record["id"]: record})
+                        catalogue_records_by_id={record["id"]: record}, terrain_evidence=evidence)
 
 
 def test_atomic_writer_replaces_complete_json(tmp_path):

@@ -24,7 +24,10 @@ import tempfile
 from pathlib import Path
 
 from .site_fields import ProvinceSurvey
-from .compile_settlement import blueprint_sha256, _canonical_sha256
+from .compile_settlement import (
+    blueprint_sha256, _canonical_sha256, compiled_blueprint_objects,
+    compiled_terrain_objects,
+)
 from . import catalogue, place_obligations
 
 SCHEMA_VERSION = 1
@@ -187,7 +190,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  blueprints_dir: Path = BLUEPRINTS,
                  kits_dir: Path = KITS,
                  route_structures_source: Path = ROUTE_STRUCTURES_SOURCE,
-                 catalogue_records_by_id: dict[str, dict] | None = None) -> dict:
+                 catalogue_records_by_id: dict[str, dict] | None = None,
+                 terrain_evidence: tuple[dict, dict, dict] | None = None) -> dict:
     survey = ProvinceSurvey()
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
@@ -249,6 +253,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
 
     settlements = []
     obligation_receipts = []
+    all_compiled_objects = []
     all_placements = []
     treatments = []
     navmesh = []
@@ -256,6 +261,26 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     doors = []
     for doc, bp in compiled:
         record = catalogue_records_by_id.get(doc["id"])
+        expected_objects, object_errors = compiled_blueprint_objects(
+            bp, doc.get("placements", []), doc.get("doors", []), survey)
+        if record is not None:
+            evidence_kwargs = (dict(zip(("plan", "fulfillment", "postconditions"), terrain_evidence))
+                               if terrain_evidence is not None else {})
+            terrain_objects, terrain_errors = compiled_terrain_objects(record, **evidence_kwargs)
+            expected_objects.extend(terrain_objects)
+            expected_objects.sort(key=lambda row: row["id"])
+            object_errors += terrain_errors
+        if object_errors:
+            raise ValueError(f"{doc['id']} compiled object set is incomplete: "
+                             + "; ".join(object_errors))
+        actual_objects = doc.get("compiledObjects")
+        if not isinstance(actual_objects, list):
+            raise ValueError(f"{doc['id']} has no compiledObjects final-delivery record")
+        if actual_objects != expected_objects:
+            raise ValueError(f"{doc['id']} compiledObjects do not match the exact compiler output")
+        compiled_by_id = {obj["id"]: obj for obj in actual_objects}
+        if len(compiled_by_id) != len(actual_objects):
+            raise ValueError(f"{doc['id']} compiledObjects contain duplicate ids")
         if record is not None:
             obligations, obligation_errors = place_obligations.build_obligations(record, bp)
             if obligation_errors:
@@ -269,6 +294,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 raise ValueError(f"{doc['id']} phase-11-compiled obligation receipt is stale or corrupt")
             if payload["placeId"] != doc["id"] or not isinstance(payload["objectRegistry"], dict):
                 raise ValueError(f"{doc['id']} phase-11-compiled obligation receipt has invalid identity")
+            for ref, receipt_object in payload["objectRegistry"].items():
+                compiled_object = compiled_by_id.get(ref)
+                if compiled_object is None:
+                    raise ValueError(f"{doc['id']} phase-11 receipt names non-emitted compiled object {ref!r}")
+                if receipt_object.get("compiledObjectSha256") != _canonical_sha256(compiled_object):
+                    raise ValueError(f"{doc['id']} phase-11 receipt hash does not match compiled object {ref!r}")
+                if (receipt_object.get("kind"), receipt_object.get("placeId")) != (
+                        compiled_object.get("kind"), compiled_object.get("placeId")):
+                    raise ValueError(f"{doc['id']} phase-11 receipt type does not match compiled object {ref!r}")
             delivery_errors = place_obligations.verify_delivery_manifest(
                 obligations, payload["manifest"], "phase-11-compiled",
                 object_registry=payload["objectRegistry"])
@@ -276,6 +310,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 raise ValueError(f"{doc['id']} phase-11-compiled obligations are not delivered: "
                                  + "; ".join(delivery_errors))
             obligation_receipts.append(receipt)
+        all_compiled_objects.extend(actual_objects)
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
         ids = []
         for raw in doc.get("placements", []):
@@ -286,11 +321,13 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 raise ValueError(f"{raw['id']}: asset absent from {raw['kit']} manifest")
             fit = raw.get("groundFit", "direct")
             parcel = parcels.get(raw.get("parcelId"), {})
-            is_dressing = "dressingFor" in raw
+            object_kind = raw.get("objectKind") or (
+                "dressing" if "dressingFor" in raw else "parcel")
+            is_dressing = object_kind == "dressing"
             footprint = [] if is_dressing else _metres(parcel.get("footprint", []), survey)
             placement = {
                 "id": raw["id"], "sourceId": doc["id"],
-                "kind": "dressing" if is_dressing else "settlement",
+                "kind": "settlement" if object_kind == "parcel" else object_kind,
                 "assetId": raw["assetId"], "kit": raw["kit"],
                 "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
                 "scale": raw.get("scale", 1), "footprintM": footprint,
@@ -330,6 +367,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                           "navmeshSides": ["exterior", "interior"]})
         settlements.append({
             "id": doc["id"], "placementIds": ids,
+            "compiledObjectIds": sorted(compiled_by_id),
             "boundaryM": _metres(bp.get("boundary", []), survey),
             "budgetReport": doc.get("budgetReport"),
             "floodBandReport": doc["floodBandReport"],
@@ -366,6 +404,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "kits": kits, "settlements": settlements,
         "phase11ObligationReceipts": sorted(obligation_receipts,
                                               key=lambda receipt: receipt["placeId"]),
+        "compiledObjects": sorted(all_compiled_objects, key=lambda row: row["id"]),
         "placements": all_placements, "groundTreatments": treatments,
         "navmeshCuts": navmesh, "navmeshLinks": navmesh_links, "doors": doors,
         "stats": {"settlements": len(settlements),
