@@ -15,6 +15,24 @@ owner's own ask list. The claim-by-claim ledger is in 0041 § Review
 2026-09-07. What was fixed in the review session is listed there too; this
 file is only what is still open.
 
+**Running alongside the water agent (owner decision 2026-09-08).** The water
+round 2 ([0047](../../decisions/0047-water-one-physical-model.md)) is live in
+this tree. Its renderer half is committed; its compiler half is running the
+terrain chain. A Phase 11 agent may work now under these rules:
+- Do not edit `packages/game-core/src/water/**`, `apps/world-studio/src/water/**`,
+  the water pass of the pipeline, `worldgen/compile_water.py`, `channels.py`,
+  `refine_province.py`, or anything under `apps/world-studio/public/province/water/`.
+- Do not run `scripts/terrain-chain.sh`, `compile_water`, `compile_chunks`,
+  `export_web_chunks`, `rebake_landcover` or `compile_scatter`: the chain is
+  running and every raster and scatter bundle changes under it.
+- **B2 is being done by the water round** (the chain runs with the corrected
+  grader); tick it when the water hand-off lands, do not rerun it.
+- **B5, B6, G8 and G11 wait for the final rasters** (after the water hand-off).
+  B1 and every batch marked "alongside water: yes" are safe now (the studio
+  scene files B1 needs are no longer being edited).
+- Shared worktree: edit only your own files, commit by explicit pathspec,
+  never `git add -A`; in PROGRESS.md touch only the Phase 11 row.
+
 ## Batches, in order
 
 ### B1 — Round B massing pipeline (the big one) — NOT blocked on a Round A approval
