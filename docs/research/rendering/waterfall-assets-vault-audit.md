@@ -276,7 +276,7 @@ the rock; ground mist is always level.
 
 ## 6. Conversion results — `waterfall-fx-v1`
 
-Kit config `tooling/asset-pipeline/pipeline/config/kits/waterfall-fx-v1.json`
+Kit config: kept out of the repo (decision 0047 addendum: the meshes are never mounted; `check_credits` rejects kits whose vanilla effects meshes have no registry row). The asset list above regenerates it; a copy sits in the vault audit output.
 (26 assets), built to `output/kits/waterfall-fx-v1.glb` (4.0 MB, textures
 capped at 512 px), contact sheet at `output/sheets/waterfall-fx-v1/`
 (26 PNGs + `sheet.md`, each with a 1.8 m human bar).
