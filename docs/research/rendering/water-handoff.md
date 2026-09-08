@@ -46,7 +46,31 @@ continue from the repo alone at any moment, with nothing to be explained.
    then `python3 -m pytest -q -n auto` and `npm run test:placement`.
 4. Data contract v2 is frozen (0047 § Decision): the runtime is coded to it.
 
-### Open on the compiler at this update (2026-09-08 evening)
+### Closed 2026-09-08 late evening
+
+The round's own work is delivered and measured — the evidence, one row per
+owner item, is [water-round2-evidence.md](water-round2-evidence.md). What is
+left is a handover, not a loose end:
+
+1. **The authored local hydrology contract is half done.** The carve now makes
+   an authored centreline real water (`worldgen/authored_waterways.py`: the
+   Nine-Trunks poling channel carries 1.32 m against its 0.6 m promise, all 59
+   points). But `compile_minor_waterways` still publishes an A\*-routed path of
+   its own instead of the authored line, so `test_blueprint::test_live_dir_validates`
+   measures the wrong geometry and fails. That file is the placement side's.
+   `terrain_request_postconditions` reports 66 requests / 26 non-passing
+   findings of the same family ("channel-edge requires a final labelled wet
+   channel", "final water must satisfy 'diving' depth") — that is the rest of
+   this contract, and it is the next water job.
+2. **`npm run test:placement` fails on four `test_compile_settlement` tests on
+   a clean checkout of `main`.** They are not water's: they fail identically at
+   the commit before the province rebuild. They entered the CI gate when the
+   settlement workstream added their file to `test:placement`. Until they pass,
+   the Pages deploy is blocked for everyone.
+3. One hovering cell remains, pinned by site in the invariant with its
+   diagnosis (113 E / 1201 S, a 0.16 m step beside an 81° chute).
+
+### How the compiler got there (2026-09-08 evening)
 
 - **Phase 11 authored local hydrology is now part of the water compiler
   hand-off.** The plot/blueprint side owns the promise and the exact authored
