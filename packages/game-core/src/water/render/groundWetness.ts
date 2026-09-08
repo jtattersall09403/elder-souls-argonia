@@ -105,6 +105,9 @@ uniform float uWetWind;
 uniform float uWetTime;
 uniform vec3 uWetSun;
 uniform float uWetCausticDebug;
+// Base gain: the focused-ray density is sparse, so a unit gain reads as a
+// 0.3 % bed lift in probes; 3x brings a 1 m sunlit bed into the visible band.
+#define CAUSTIC_STRENGTH 3.0
 ${WATER_CAUSTICS_GLSL}
 ${CONNECTED_STAGE_GLSL}
 ${LOCAL_WATER_SURFACE_GLSL}
@@ -190,8 +193,8 @@ export function waterReceiverLight(position: string, normal: string, verticalSca
   supported = mix(supported, 1.0, outside) * step(0.5, uWetParams.z);
   if (uWetAccessParams.x > 0.5 && stage.x > offset + 0.001) supported = 0.0;
   float focus = esWaterCaustics(receiver, receiverNormal, level, klass.g, shore.b,
-    uWetSun, supported, uWetTime, clamp(uWetWind * 0.3, 0.15, 1.0));
-  outgoingLight += reflectedLight.directDiffuse * focus * uWetCausticDebug;
+    uWetSun, supported, uWetTime, clamp(0.45 + uWetWind * 0.3, 0.45, 1.0));
+  outgoingLight += reflectedLight.directDiffuse * focus * CAUSTIC_STRENGTH * uWetCausticDebug;
   vec2 localOwner = texture2D(uWetSupport, suv).gb;
   float localBody = mix(dot(localOwner, vec2(65280.0, 255.0)), 65535.0, outside);
   float localFocus = esLocalWaterCaustic(receiver, receiverNormal, level, uWetSun);

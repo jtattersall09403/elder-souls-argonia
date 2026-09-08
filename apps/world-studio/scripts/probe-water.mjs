@@ -32,7 +32,9 @@ const SCENARIOS = [
   {
     id: "river-walk",
     q: "view=character&x=1.85&z=4.89&ex=1&t=12:00&d=8-17&wq=high",
-    underwater: false,
+    // 2026-09-07: the channel is carved to its water profile, so the spawn on
+    // the bed is deep enough that the third-person camera is submerged
+    underwater: true,
     // round 6: the unified fill model puts this near-coast reach at its
     // physical level (~0, draining to the sea); it holds 4+ m of water
     surfaceAtCam: [-0.6, 3.5],
@@ -108,7 +110,7 @@ const SCENARIOS = [
     q: "view=character&x=6.10&z=1.64&ex=1&t=12:00&d=8-17&wq=high",
     underwater: false,
     brightness: [20, 235],
-    causticsAB: { gain: 40, minMeanDeltaPct: 1.5 },
+    causticsAB: { gain: 6, minMeanDeltaPct: 2.0, minUnitDeltaPct: 0.8 },
   },
   {
     // steep stream strip (compiled `channels`): strips must be built
@@ -190,7 +192,7 @@ try {
       // Inland geometry streams in bounded batches; judge the settled view.
       () => window.__STUDIO_WATER_DEBUG__ && window.__STUDIO_WATER_DEBUG__.frames > 70,
       undefined,
-      { timeout: 180_000 },
+      { timeout: 420_000 },
     );
     await page.waitForTimeout(9_000);
     const dbg = await page.evaluate(() => window.__STUDIO_WATER_DEBUG__);
@@ -300,7 +302,7 @@ try {
         }
         const mean = sum / n;
         return { mean, std: Math.sqrt(Math.max(sq / n - mean * mean, 0)) };
-      }, (await page.screenshot({ timeout: 180_000 })).toString("base64"));
+      }, (await page.screenshot({ timeout: 420_000 })).toString("base64"));
       const at = async (gain) => {
         await page.evaluate((g) => { window.__STUDIO_CAUSTICS__ = g; }, gain);
         await page.waitForTimeout(15_000); // software GL renders ~2 fps
@@ -314,7 +316,7 @@ try {
       const desc = `bed mean off ${off.mean.toFixed(2)} | on ${on.mean.toFixed(2)}`
         + ` (${pct(on).toFixed(2)}%) | x${s.causticsAB.gain} ${loud.mean.toFixed(2)}`
         + ` (${pct(loud).toFixed(2)}%), std ${off.std.toFixed(2)} -> ${loud.std.toFixed(2)}`;
-      if (pct(loud) >= s.causticsAB.minMeanDeltaPct && loud.std > off.std)
+      if (pct(on) >= s.causticsAB.minUnitDeltaPct && pct(loud) >= s.causticsAB.minMeanDeltaPct && loud.std > off.std)
         ok(`caustics reach the seabed and the debug scalar drives them: ${desc}`);
       else fail(`caustics never reach the seabed: ${desc}`);
     }
