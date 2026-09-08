@@ -151,7 +151,7 @@ Mechanism: `PROVINCE_EXTENT_M` and `HYDRO_PX_M` in `scale.py`, every
 converter imports them, a test asserts uv→px→uv round-trips within 1e-6.
 Alongside water: **no** (`compile_water.py` carries the constant).
 
-### B7 — Python tests as a CI gate
+### B7 — Python tests as a CI gate — DONE 2026-09-08
 
 `npm test` runs no Python beyond the prose linter (added in the review).
 The blueprint/integration/catalogue suites (119 blueprint tests, ~150 s)
@@ -160,6 +160,12 @@ Mechanism: a `placement-tests` job in `.github/workflows/` (pytest over
 `worldgen/test_blueprint*.py test_catalogue.py test_grade_routes.py`,
 cached pip, ~3 min) and an `npm run test:placement` script. Alongside
 water: yes.
+
+Delivered: Pages now has an independent eight-minute `placement-tests` job,
+with Python 3.12, a pip cache and a small test-only requirements file. The
+root `test:placement` script runs only the blueprint, catalogue, route-grading
+and plot-stat suites (rather than the full world-generation suite); deployment
+requires both it and the normal build job.
 
 ### B9 — Everything the prose names is a typed link (owner 2026-09-08)
 
