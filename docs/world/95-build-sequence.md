@@ -75,7 +75,11 @@ out as data:
    danger band) — the contrast set is where configurability is proven. Each
    placement phase opens by *proposing its contrast set* for owner sign-off;
 4. roll out as data, region packet by region packet (Phase 15), with owner
-   gates at the exemplar and the contrast set, not per instance.
+   gates at the exemplar and the contrast set, not per instance. **Done
+   early for vegetation**: the terrain chain's final `compile_scatter` stage
+   bakes every chunk, so flora has been province-wide since 2026-09-07
+   (decision 0036, 2026-09-08 record) — the gates were the six Phase 10
+   exemplar rings, and per-region palette tuning continues as data.
 
 Whole-province-at-once remains right for global fields and systems (terrain,
 hydrology, light, water, weather, streaming) — exactly as Phases 2–8 were

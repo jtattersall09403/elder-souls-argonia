@@ -3,7 +3,7 @@
  "assets": [
   {
    "id": "bmv:landscape/trees/dwarfjunip05",
-   "node": "bmv__landscape/trees/dwarfjunip05",
+   "node": "es|4d6a30cf1d|bmv__landscape_trees_dwarfjunip05",
    "category": "tree",
    "sizeM": [
     4.415,
@@ -164,7 +164,7 @@
   },
   {
    "id": "bmv:landscape/rocks/moss_rockcliff01",
-   "node": "bmv__landscape/rocks/moss_rockcliff01",
+   "node": "es|d09100ca4e|bmv__landscape_rocks_moss_rockcliff01",
    "category": "plant",
    "sizeM": [
     10.506,
@@ -200,7 +200,7 @@
   },
   {
    "id": "bmv:landscape/trees/cedartree3",
-   "node": "es|bmv__landscape/trees/cedartree3",
+   "node": "es|92b99cf6f9|bmv__landscape_trees_cedartree3",
    "category": "tree",
    "sizeM": [
     23.12,
@@ -706,7 +706,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbfallforestshrub02",
-   "node": "es|bmv__landscape/trees/gkbfallforestshrub02",
+   "node": "es|51cfb9dfb1|mv__landscape_trees_gkbfallforestshrub02",
    "category": "shrub",
    "sizeM": [
     2.571,
@@ -741,7 +741,7 @@
   },
   {
    "id": "bmv:vvardenfell/flora/algrass03b",
-   "node": "bmv__vvardenfell/flora/algrass03b",
+   "node": "es|37f85495c7|bmv__vvardenfell_flora_algrass03b",
    "category": "grass",
    "sizeM": [
     2.621,
@@ -771,7 +771,7 @@
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb9",
-   "node": "es|bmv__landscape/trees/mangrovereachtree0gkb9",
+   "node": "es|61447ef50c|__landscape_trees_mangrovereachtree0gkb9",
    "category": "tree",
    "sizeM": [
     6.186,
@@ -1234,7 +1234,7 @@
   },
   {
    "id": "bmv:landscape/grass/vurt_reeds",
-   "node": "bmv__landscape/grass/vurt_reeds",
+   "node": "es|fca79d0325|bmv__landscape_grass_vurt_reeds",
    "category": "aquatic-plant",
    "sizeM": [
     0.903,
@@ -1264,7 +1264,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkblillipad2",
-   "node": "bmv__landscape/trees/gkblillipad2",
+   "node": "es|fa95577a4a|bmv__landscape_trees_gkblillipad2",
    "category": "aquatic-plant",
    "sizeM": [
     0.938,
@@ -1296,7 +1296,7 @@
   },
   {
    "id": "bmv:landscape/trees/mangrovereachtree0gkb3",
-   "node": "es|bmv__landscape/trees/mangrovereachtree0gkb3",
+   "node": "es|39e2a805e3|__landscape_trees_mangrovereachtree0gkb3",
    "category": "tree",
    "sizeM": [
     9.275,
@@ -1614,7 +1614,7 @@
   },
   {
    "id": "bmv:landscape/trees/beachpalm2",
-   "node": "es|bmv__landscape/trees/beachpalm2",
+   "node": "es|f5e7657189|bmv__landscape_trees_beachpalm2",
    "category": "tree",
    "sizeM": [
     9.313,
@@ -1736,7 +1736,7 @@
   },
   {
    "id": "bmv:landscape/grass/waterkelptall01",
-   "node": "bmv__landscape/grass/waterkelptall01",
+   "node": "es|a5069ab6b2|bmv__landscape_grass_waterkelptall01",
    "category": "aquatic-plant",
    "sizeM": [
     1.522,
@@ -1766,7 +1766,7 @@
   },
   {
    "id": "bmv:landscape/trees/cypress3",
-   "node": "es|bmv__landscape/trees/cypress3",
+   "node": "es|f3de553f58|bmv__landscape_trees_cypress3",
    "category": "tree",
    "sizeM": [
     24.815,
@@ -3072,7 +3072,7 @@
   },
   {
    "id": "bmv:landscape/plants/kelptallstatic01aaa",
-   "node": "bmv__landscape/plants/kelptallstatic01aaa",
+   "node": "es|c322fbe313|mv__landscape_plants_kelptallstatic01aaa",
    "category": "aquatic-plant",
    "sizeM": [
     1.476,
@@ -3102,7 +3102,7 @@
   },
   {
    "id": "bmv:landscape/trees/cypress1",
-   "node": "es|bmv__landscape/trees/cypress1",
+   "node": "es|4913399a45|bmv__landscape_trees_cypress1",
    "category": "tree",
    "sizeM": [
     20.174,
@@ -4405,7 +4405,7 @@
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss02aaa",
-   "node": "bmv__landscape/plants/florahangingmoss02aaa",
+   "node": "es|61b2f8bb17|__landscape_plants_florahangingmoss02aaa",
    "category": "plant",
    "sizeM": [
     1.348,
@@ -4435,7 +4435,7 @@
   },
   {
    "id": "bmv:landscape/plants/fernlarge03",
-   "node": "bmv__landscape/plants/fernlarge03",
+   "node": "es|58c2666303|bmv__landscape_plants_fernlarge03",
    "category": "plant",
    "sizeM": [
     3.671,
@@ -4465,7 +4465,7 @@
   },
   {
    "id": "bmv:landscape/plants/braken",
-   "node": "bmv__landscape/plants/braken",
+   "node": "es|ed57a6f026|bmv__landscape_plants_braken",
    "category": "shrub",
    "sizeM": [
     2.836,
@@ -4495,7 +4495,7 @@
   },
   {
    "id": "bmv:vurt_shroom/vurt_shroom_big1",
-   "node": "bmv__vurt_shroom/vurt_shroom_big1",
+   "node": "es|ee458f1f47|bmv__vurt_shroom_vurt_shroom_big1",
    "category": "fungus",
    "sizeM": [
     7.096,
@@ -4533,7 +4533,7 @@
   },
   {
    "id": "bmv:landscape/trees/treewillow01a",
-   "node": "es|bmv__landscape/trees/treewillow01a",
+   "node": "es|b7bae381eb|bmv__landscape_trees_treewillow01a",
    "category": "tree",
    "sizeM": [
     20.208,
@@ -5830,7 +5830,7 @@
   },
   {
    "id": "bmv:landscape/trees/hangingvines1",
-   "node": "bmv__landscape/trees/hangingvines1",
+   "node": "es|bfe5f07d0d|bmv__landscape_trees_hangingvines1",
    "category": "plant",
    "sizeM": [
     1.567,
@@ -5860,7 +5860,7 @@
   },
   {
    "id": "bmv:landscape/trees/tropicalplant01",
-   "node": "bmv__landscape/trees/tropicalplant01",
+   "node": "es|82676f5e82|bmv__landscape_trees_tropicalplant01",
    "category": "tree",
    "sizeM": [
     2.198,
@@ -5900,7 +5900,7 @@
   },
   {
    "id": "bmv:landscape/plants/bigshrub2(colorful)",
-   "node": "bmv__landscape/plants/bigshrub2(colorful)",
+   "node": "es|f6ad537c76|mv__landscape_plants_bigshrub2(colorful)",
    "category": "shrub",
    "sizeM": [
     4.246,
@@ -5930,7 +5930,7 @@
   },
   {
    "id": "bmv:landscape/grass/waterkelpshort01",
-   "node": "bmv__landscape/grass/waterkelpshort01",
+   "node": "es|2693eff447|bmv__landscape_grass_waterkelpshort01",
    "category": "aquatic-plant",
    "sizeM": [
     0.737,
@@ -5960,7 +5960,7 @@
   },
   {
    "id": "bmv:landscape/trees/treewillow02a",
-   "node": "es|bmv__landscape/trees/treewillow02a",
+   "node": "es|33a98c9fa7|bmv__landscape_trees_treewillow02a",
    "category": "tree",
    "sizeM": [
     19.083,
@@ -7257,7 +7257,7 @@
   },
   {
    "id": "bmv:landscape/plants/esloebush08",
-   "node": "bmv__landscape/plants/esloebush08",
+   "node": "es|24256bdf94|bmv__landscape_plants_esloebush08",
    "category": "shrub",
    "sizeM": [
     1.906,
@@ -7287,7 +7287,7 @@
   },
   {
    "id": "bmv:landscape/plants/fern01",
-   "node": "bmv__landscape/plants/fern01",
+   "node": "es|7adbb0f8c0|bmv__landscape_plants_fern01",
    "category": "plant",
    "sizeM": [
     3.705,
@@ -7317,7 +7317,7 @@
   },
   {
    "id": "bmv:landscape/trees/treewillow03a",
-   "node": "es|bmv__landscape/trees/treewillow03a",
+   "node": "es|02680654b8|bmv__landscape_trees_treewillow03a",
    "category": "tree",
    "sizeM": [
     11.591,
@@ -8614,7 +8614,7 @@
   },
   {
    "id": "bmv:landscape/plants/chickweed",
-   "node": "bmv__landscape/plants/chickweed",
+   "node": "es|8718b0753c|bmv__landscape_plants_chickweed",
    "category": "plant",
    "sizeM": [
     0.843,
@@ -8646,7 +8646,7 @@
   },
   {
    "id": "bmv:landscape/trees/beachpalm3",
-   "node": "es|bmv__landscape/trees/beachpalm3",
+   "node": "es|6bcec90fcd|bmv__landscape_trees_beachpalm3",
    "category": "tree",
    "sizeM": [
     9.313,
@@ -8924,7 +8924,7 @@
   },
   {
    "id": "bmv:landscape/trees/fanpalm1",
-   "node": "es|bmv__landscape/trees/fanpalm1",
+   "node": "es|bf44b41941|bmv__landscape_trees_fanpalm1",
    "category": "tree",
    "sizeM": [
     9.664,
@@ -9257,7 +9257,7 @@
   },
   {
    "id": "bmv:landscape/trees/bambooplant",
-   "node": "bmv__landscape/trees/bambooplant",
+   "node": "es|42d9500adc|bmv__landscape_trees_bambooplant",
    "category": "tree",
    "sizeM": [
     1.266,
@@ -9297,7 +9297,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew1",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew1",
+   "node": "es|34cc2bcf56|bmv__landscape_trees_gkbjungletreenew1",
    "category": "tree",
    "sizeM": [
     7.614,
@@ -9713,7 +9713,7 @@
   },
   {
    "id": "bmv:landscape/trees/tropicalshrub01",
-   "node": "bmv__landscape/trees/tropicalshrub01",
+   "node": "es|b9afdc23f1|bmv__landscape_trees_tropicalshrub01",
    "category": "shrub",
    "sizeM": [
     1.765,
@@ -9743,7 +9743,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew12v3",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew12v3",
+   "node": "es|2b6e5e6a26|mv__landscape_trees_gkbjungletreenew12v3",
    "category": "tree",
    "sizeM": [
     8.56,
@@ -10132,7 +10132,7 @@
   },
   {
    "id": "bmv:landscape/trees/beachpalm1",
-   "node": "es|bmv__landscape/trees/beachpalm1",
+   "node": "es|7b203031c4|bmv__landscape_trees_beachpalm1",
    "category": "tree",
    "sizeM": [
     9.313,
@@ -10449,7 +10449,7 @@
   },
   {
    "id": "bmv:landscape/trees/hangingvines2",
-   "node": "bmv__landscape/trees/hangingvines2",
+   "node": "es|541c9ef058|bmv__landscape_trees_hangingvines2",
    "category": "plant",
    "sizeM": [
     0.873,
@@ -10479,7 +10479,7 @@
   },
   {
    "id": "bmv:landscape/plants/florahangingmoss03aaa",
-   "node": "bmv__landscape/plants/florahangingmoss03aaa",
+   "node": "es|441451e9ea|__landscape_plants_florahangingmoss03aaa",
    "category": "plant",
    "sizeM": [
     0.716,
@@ -10509,7 +10509,7 @@
   },
   {
    "id": "tropical:plants/tropical/manfern",
-   "node": "tropical__plants/tropical/manfern",
+   "node": "es|0550282e83|tropical__plants_tropical_manfern",
    "category": "plant",
    "sizeM": [
     9.434,
@@ -10581,7 +10581,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew17v2tropical",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew17v2tropical",
+   "node": "es|d9036cc551|scape_trees_gkbjungletreenew17v2tropical",
    "category": "tree",
    "sizeM": [
     10.07,
@@ -11455,7 +11455,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew19v3",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew19v3",
+   "node": "es|e35a9dbb04|mv__landscape_trees_gkbjungletreenew19v3",
    "category": "tree",
    "sizeM": [
     9.857,
@@ -11950,7 +11950,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew21v3",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew21v3",
+   "node": "es|87fa3ebedd|mv__landscape_trees_gkbjungletreenew21v3",
    "category": "tree",
    "sizeM": [
     9.457,
@@ -12392,7 +12392,7 @@
   },
   {
    "id": "vanilla:landscape/rocks/rockl04",
-   "node": "vanilla__landscape/rocks/rockl04",
+   "node": "es|3fa2200190|vanilla__landscape_rocks_rockl04",
    "category": "rock",
    "sizeM": [
     3.078,
@@ -12435,7 +12435,7 @@
   },
   {
    "id": "vanilla:landscape/rocks/rockl02",
-   "node": "vanilla__landscape/rocks/rockl02",
+   "node": "es|344c2007f1|vanilla__landscape_rocks_rockl02",
    "category": "rock",
    "sizeM": [
     8.823,
@@ -12480,7 +12480,7 @@
   },
   {
    "id": "vanilla:landscape/rocks/rockm03",
-   "node": "vanilla__landscape/rocks/rockm03",
+   "node": "es|ca33321979|vanilla__landscape_rocks_rockm03",
    "category": "rock",
    "sizeM": [
     4.003,
@@ -12523,7 +12523,7 @@
   },
   {
    "id": "vanilla:landscape/rocks/rockm02",
-   "node": "vanilla__landscape/rocks/rockm02",
+   "node": "es|941b8f2cf2|vanilla__landscape_rocks_rockm02",
    "category": "container",
    "sizeM": [
     2.35,
@@ -12566,7 +12566,7 @@
   },
   {
    "id": "vanilla:landscape/rocks/rocks03",
-   "node": "vanilla__landscape/rocks/rocks03",
+   "node": "es|abec145a85|vanilla__landscape_rocks_rocks03",
    "category": "rock",
    "sizeM": [
     1.451,
@@ -12609,7 +12609,7 @@
   },
   {
    "id": "bmv:landscape/trees/fanpalm3",
-   "node": "es|bmv__landscape/trees/fanpalm3",
+   "node": "es|5f078ba5e3|bmv__landscape_trees_fanpalm3",
    "category": "tree",
    "sizeM": [
     9.664,
@@ -12903,7 +12903,7 @@
   },
   {
    "id": "bmv:landscape/trees/treeofwolene4",
-   "node": "es|bmv__landscape/trees/treeofwolene4",
+   "node": "es|10511b70c0|bmv__landscape_trees_treeofwolene4",
    "category": "tree",
    "sizeM": [
     19.533,
@@ -14204,7 +14204,7 @@
   },
   {
    "id": "bmv:landscape/trees/gkbjungletreenew30v3",
-   "node": "es|bmv__landscape/trees/gkbjungletreenew30v3",
+   "node": "es|9d7569ea49|mv__landscape_trees_gkbjungletreenew30v3",
    "category": "tree",
    "sizeM": [
     10.985,
@@ -15507,7 +15507,7 @@
   },
   {
    "id": "bmv:landscape/trees/fanpalm4",
-   "node": "es|bmv__landscape/trees/fanpalm4",
+   "node": "es|7f5b2f8948|bmv__landscape_trees_fanpalm4",
    "category": "tree",
    "sizeM": [
     9.664,
@@ -15723,7 +15723,7 @@
   },
   {
    "id": "bmv:landscape/trees/fanpalm6",
-   "node": "es|bmv__landscape/trees/fanpalm6",
+   "node": "es|6823aebdbb|bmv__landscape_trees_fanpalm6",
    "category": "tree",
    "sizeM": [
     9.664,
@@ -16251,7 +16251,7 @@
   },
   {
    "id": "composite:jungle/anvil-canopy-tree",
-   "node": "es|composite__jungle/anvil-canopy-tree",
+   "node": "es|0625fb7b55|composite__jungle_anvil-canopy-tree",
    "category": "tree",
    "sizeM": [
     33.849,
@@ -16927,7 +16927,7 @@
   },
   {
    "id": "composite:jungle/anvil-emergent-giant",
-   "node": "es|composite__jungle/anvil-emergent-giant",
+   "node": "es|8c25ccbfad|composite__jungle_anvil-emergent-giant",
    "category": "tree",
    "sizeM": [
     36.667,
@@ -17058,29 +17058,13163 @@
      ]
     }
    ]
+  },
+  {
+   "id": "bmv:landscape/trees/scottish-pine22",
+   "node": "es|70c0a37ce5|bmv__landscape_trees_scottish-pine22",
+   "category": "tree",
+   "sizeM": [
+    18.87,
+    17.897,
+    29.255
+   ],
+   "originOffsetM": [
+    10.039,
+    6.574,
+    -0.0
+   ],
+   "triangles": 890,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "bark01.dds",
+    "pine1possible.dds",
+    "tamrieltreelod.dds",
+    "thing1.dds"
+   ],
+   "materials": [
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat.003",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.002",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "TreePineForest05_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.25,
+    "heightM": 29.255,
+    "baseOffsetM": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 1.186,
+     "aM": [
+      5.931,
+      16.848,
+      -2.636
+     ],
+     "bM": [
+      5.931,
+      18.379,
+      -2.636
+     ]
+    },
+    {
+     "radiusM": 0.54,
+     "aM": [
+      -0.906,
+      22.973,
+      0.579
+     ],
+     "bM": [
+      -0.906,
+      24.505,
+      0.579
+     ]
+    },
+    {
+     "radiusM": 0.531,
+     "aM": [
+      -0.023,
+      0.003,
+      -0.068
+     ],
+     "bM": [
+      -0.023,
+      1.534,
+      -0.068
+     ]
+    },
+    {
+     "radiusM": 0.528,
+     "aM": [
+      2.247,
+      13.785,
+      -0.196
+     ],
+     "bM": [
+      2.247,
+      15.316,
+      -0.196
+     ]
+    },
+    {
+     "radiusM": 0.51,
+     "aM": [
+      -1.302,
+      21.442,
+      -3.247
+     ],
+     "bM": [
+      -1.302,
+      22.973,
+      -3.247
+     ]
+    },
+    {
+     "radiusM": 0.493,
+     "aM": [
+      0.038,
+      1.534,
+      0.039
+     ],
+     "bM": [
+      0.038,
+      4.597,
+      0.039
+     ]
+    },
+    {
+     "radiusM": 0.468,
+     "aM": [
+      0.023,
+      4.597,
+      -0.079
+     ],
+     "bM": [
+      0.023,
+      7.66,
+      -0.079
+     ]
+    },
+    {
+     "radiusM": 0.443,
+     "aM": [
+      -1.302,
+      22.208,
+      -3.247
+     ],
+     "bM": [
+      -2.1,
+      23.739,
+      -4.128
+     ]
+    },
+    {
+     "radiusM": 0.443,
+     "aM": [
+      -2.1,
+      22.973,
+      -4.128
+     ],
+     "bM": [
+      -2.1,
+      24.505,
+      -4.128
+     ]
+    },
+    {
+     "radiusM": 0.394,
+     "aM": [
+      0.098,
+      7.66,
+      -0.044
+     ],
+     "bM": [
+      0.098,
+      10.722,
+      -0.044
+     ]
+    },
+    {
+     "radiusM": 0.384,
+     "aM": [
+      3.251,
+      18.379,
+      0.627
+     ],
+     "bM": [
+      3.251,
+      19.911,
+      0.627
+     ]
+    },
+    {
+     "radiusM": 0.38,
+     "aM": [
+      0.323,
+      12.254,
+      -0.103
+     ],
+     "bM": [
+      0.323,
+      13.785,
+      -0.103
+     ]
+    },
+    {
+     "radiusM": 0.38,
+     "aM": [
+      0.773,
+      24.505,
+      -0.49
+     ],
+     "bM": [
+      0.773,
+      26.036,
+      -0.49
+     ]
+    },
+    {
+     "radiusM": 0.364,
+     "aM": [
+      0.52,
+      16.848,
+      -0.127
+     ],
+     "bM": [
+      0.52,
+      18.379,
+      -0.127
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      -1.35,
+      15.316,
+      -0.565
+     ],
+     "bM": [
+      -1.35,
+      16.848,
+      -0.565
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      0.306,
+      15.316,
+      -0.179
+     ],
+     "bM": [
+      0.306,
+      16.848,
+      -0.179
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      0.306,
+      16.082,
+      -0.179
+     ],
+     "bM": [
+      0.52,
+      17.614,
+      -0.127
+     ]
+    },
+    {
+     "radiusM": 0.356,
+     "aM": [
+      0.193,
+      10.722,
+      -0.081
+     ],
+     "bM": [
+      0.193,
+      12.254,
+      -0.081
+     ]
+    },
+    {
+     "radiusM": 0.349,
+     "aM": [
+      0.758,
+      21.442,
+      -0.172
+     ],
+     "bM": [
+      0.758,
+      22.973,
+      -0.172
+     ]
+    },
+    {
+     "radiusM": 0.346,
+     "aM": [
+      0.47,
+      13.785,
+      -1.168
+     ],
+     "bM": [
+      0.47,
+      15.316,
+      -1.168
+     ]
+    },
+    {
+     "radiusM": 0.344,
+     "aM": [
+      0.394,
+      15.316,
+      -3.987
+     ],
+     "bM": [
+      0.394,
+      16.848,
+      -3.987
+     ]
+    },
+    {
+     "radiusM": 0.344,
+     "aM": [
+      6.12,
+      21.442,
+      1.185
+     ],
+     "bM": [
+      6.12,
+      22.973,
+      1.185
+     ]
+    },
+    {
+     "radiusM": 0.343,
+     "aM": [
+      -0.016,
+      16.848,
+      1.199
+     ],
+     "bM": [
+      -0.016,
+      18.379,
+      1.199
+     ]
+    },
+    {
+     "radiusM": 0.337,
+     "aM": [
+      -3.178,
+      16.848,
+      -0.79
+     ],
+     "bM": [
+      -3.178,
+      18.379,
+      -0.79
+     ]
+    },
+    {
+     "radiusM": 0.332,
+     "aM": [
+      -3.857,
+      16.848,
+      -0.988
+     ],
+     "bM": [
+      -3.857,
+      18.379,
+      -0.988
+     ]
+    },
+    {
+     "radiusM": 0.326,
+     "aM": [
+      1.62,
+      18.379,
+      0.279
+     ],
+     "bM": [
+      1.62,
+      19.911,
+      0.279
+     ]
+    },
+    {
+     "radiusM": 0.325,
+     "aM": [
+      3.147,
+      13.785,
+      -0.601
+     ],
+     "bM": [
+      3.147,
+      15.316,
+      -0.601
+     ]
+    },
+    {
+     "radiusM": 0.325,
+     "aM": [
+      0.542,
+      13.785,
+      -0.172
+     ],
+     "bM": [
+      0.542,
+      15.316,
+      -0.172
+     ]
+    },
+    {
+     "radiusM": 0.325,
+     "aM": [
+      0.542,
+      14.551,
+      -0.172
+     ],
+     "bM": [
+      0.306,
+      16.082,
+      -0.179
+     ]
+    },
+    {
+     "radiusM": 0.324,
+     "aM": [
+      0.323,
+      13.019,
+      -0.103
+     ],
+     "bM": [
+      0.151,
+      14.551,
+      -0.208
+     ]
+    },
+    {
+     "radiusM": 0.324,
+     "aM": [
+      0.151,
+      13.785,
+      -0.208
+     ],
+     "bM": [
+      0.151,
+      15.316,
+      -0.208
+     ]
+    },
+    {
+     "radiusM": 0.32,
+     "aM": [
+      -0.225,
+      16.848,
+      -7.235
+     ],
+     "bM": [
+      -0.225,
+      18.379,
+      -7.235
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      5.175,
+      19.911,
+      1.427
+     ],
+     "bM": [
+      5.175,
+      21.442,
+      1.427
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      5.175,
+      20.676,
+      1.427
+     ],
+     "bM": [
+      6.12,
+      22.208,
+      1.185
+     ]
+    },
+    {
+     "radiusM": 0.299,
+     "aM": [
+      -2.529,
+      16.848,
+      -0.669
+     ],
+     "bM": [
+      -2.529,
+      18.379,
+      -0.669
+     ]
+    },
+    {
+     "radiusM": 0.292,
+     "aM": [
+      -0.69,
+      15.316,
+      -0.401
+     ],
+     "bM": [
+      -0.69,
+      16.848,
+      -0.401
+     ]
+    },
+    {
+     "radiusM": 0.288,
+     "aM": [
+      -3.156,
+      18.379,
+      4.312
+     ],
+     "bM": [
+      -3.156,
+      19.911,
+      4.312
+     ]
+    },
+    {
+     "radiusM": 0.281,
+     "aM": [
+      0.538,
+      19.911,
+      -0.293
+     ],
+     "bM": [
+      0.538,
+      21.442,
+      -0.293
+     ]
+    },
+    {
+     "radiusM": 0.281,
+     "aM": [
+      0.538,
+      20.676,
+      -0.293
+     ],
+     "bM": [
+      0.758,
+      22.208,
+      -0.172
+     ]
+    },
+    {
+     "radiusM": 0.279,
+     "aM": [
+      1.284,
+      13.785,
+      -0.192
+     ],
+     "bM": [
+      1.284,
+      15.316,
+      -0.192
+     ]
+    },
+    {
+     "radiusM": 0.279,
+     "aM": [
+      1.284,
+      14.551,
+      -0.192
+     ],
+     "bM": [
+      0.306,
+      16.082,
+      -0.179
+     ]
+    },
+    {
+     "radiusM": 0.275,
+     "aM": [
+      1.752,
+      26.036,
+      -0.29
+     ],
+     "bM": [
+      1.752,
+      27.567,
+      -0.29
+     ]
+    },
+    {
+     "radiusM": 0.273,
+     "aM": [
+      0.505,
+      15.316,
+      -2.652
+     ],
+     "bM": [
+      0.505,
+      16.848,
+      -2.652
+     ]
+    },
+    {
+     "radiusM": 0.26,
+     "aM": [
+      -0.088,
+      19.911,
+      -0.814
+     ],
+     "bM": [
+      -0.088,
+      21.442,
+      -0.814
+     ]
+    },
+    {
+     "radiusM": 0.26,
+     "aM": [
+      -0.088,
+      20.676,
+      -0.814
+     ],
+     "bM": [
+      0.758,
+      22.208,
+      -0.172
+     ]
+    },
+    {
+     "radiusM": 0.247,
+     "aM": [
+      0.499,
+      13.785,
+      -1.793
+     ],
+     "bM": [
+      0.499,
+      15.316,
+      -1.793
+     ]
+    },
+    {
+     "radiusM": 0.238,
+     "aM": [
+      0.758,
+      22.208,
+      -0.172
+     ],
+     "bM": [
+      0.892,
+      23.739,
+      -0.337
+     ]
+    },
+    {
+     "radiusM": 0.238,
+     "aM": [
+      0.892,
+      22.973,
+      -0.337
+     ],
+     "bM": [
+      0.892,
+      24.505,
+      -0.337
+     ]
+    },
+    {
+     "radiusM": 0.238,
+     "aM": [
+      0.892,
+      23.739,
+      -0.337
+     ],
+     "bM": [
+      0.773,
+      25.27,
+      -0.49
+     ]
+    },
+    {
+     "radiusM": 0.237,
+     "aM": [
+      0.992,
+      18.379,
+      -0.886
+     ],
+     "bM": [
+      0.992,
+      19.911,
+      -0.886
+     ]
+    },
+    {
+     "radiusM": 0.234,
+     "aM": [
+      5.18,
+      15.316,
+      -1.818
+     ],
+     "bM": [
+      5.18,
+      16.848,
+      -1.818
+     ]
+    },
+    {
+     "radiusM": 0.234,
+     "aM": [
+      5.18,
+      16.082,
+      -1.818
+     ],
+     "bM": [
+      5.931,
+      17.614,
+      -2.636
+     ]
+    },
+    {
+     "radiusM": 0.229,
+     "aM": [
+      2.499,
+      18.379,
+      0.448
+     ],
+     "bM": [
+      2.499,
+      19.911,
+      0.448
+     ]
+    },
+    {
+     "radiusM": 0.221,
+     "aM": [
+      -0.939,
+      21.442,
+      -2.376
+     ],
+     "bM": [
+      -0.939,
+      22.973,
+      -2.376
+     ]
+    },
+    {
+     "radiusM": 0.22,
+     "aM": [
+      1.635,
+      19.911,
+      -2.14
+     ],
+     "bM": [
+      1.635,
+      21.442,
+      -2.14
+     ]
+    },
+    {
+     "radiusM": 0.217,
+     "aM": [
+      -6.061,
+      16.848,
+      -1.406
+     ],
+     "bM": [
+      -6.061,
+      18.379,
+      -1.406
+     ]
+    },
+    {
+     "radiusM": 0.216,
+     "aM": [
+      2.716,
+      24.505,
+      -1.16
+     ],
+     "bM": [
+      2.716,
+      26.036,
+      -1.16
+     ]
+    },
+    {
+     "radiusM": 0.215,
+     "aM": [
+      3.506,
+      24.505,
+      -1.5
+     ],
+     "bM": [
+      3.506,
+      26.036,
+      -1.5
+     ]
+    },
+    {
+     "radiusM": 0.214,
+     "aM": [
+      0.072,
+      15.316,
+      -6.081
+     ],
+     "bM": [
+      0.072,
+      16.848,
+      -6.081
+     ]
+    },
+    {
+     "radiusM": 0.207,
+     "aM": [
+      -0.185,
+      21.442,
+      0.5
+     ],
+     "bM": [
+      -0.185,
+      22.973,
+      0.5
+     ]
+    },
+    {
+     "radiusM": 0.207,
+     "aM": [
+      -0.185,
+      22.208,
+      0.5
+     ],
+     "bM": [
+      -0.906,
+      23.739,
+      0.579
+     ]
+    },
+    {
+     "radiusM": 0.206,
+     "aM": [
+      0.499,
+      14.551,
+      -1.793
+     ],
+     "bM": [
+      0.515,
+      16.082,
+      -1.979
+     ]
+    },
+    {
+     "radiusM": 0.206,
+     "aM": [
+      0.47,
+      14.551,
+      -1.168
+     ],
+     "bM": [
+      0.515,
+      16.082,
+      -1.979
+     ]
+    },
+    {
+     "radiusM": 0.206,
+     "aM": [
+      0.515,
+      15.316,
+      -1.979
+     ],
+     "bM": [
+      0.515,
+      16.848,
+      -1.979
+     ]
+    },
+    {
+     "radiusM": 0.206,
+     "aM": [
+      -7.188,
+      16.848,
+      -1.812
+     ],
+     "bM": [
+      -7.188,
+      18.379,
+      -1.812
+     ]
+    },
+    {
+     "radiusM": 0.205,
+     "aM": [
+      3.838,
+      18.379,
+      0.944
+     ],
+     "bM": [
+      3.838,
+      19.911,
+      0.944
+     ]
+    },
+    {
+     "radiusM": 0.205,
+     "aM": [
+      0.836,
+      18.379,
+      -0.876
+     ],
+     "bM": [
+      0.836,
+      19.911,
+      -0.876
+     ]
+    },
+    {
+     "radiusM": 0.205,
+     "aM": [
+      0.836,
+      19.145,
+      -0.876
+     ],
+     "bM": [
+      0.538,
+      20.676,
+      -0.293
+     ]
+    },
+    {
+     "radiusM": 0.204,
+     "aM": [
+      0.298,
+      13.785,
+      -0.898
+     ],
+     "bM": [
+      0.298,
+      15.316,
+      -0.898
+     ]
+    },
+    {
+     "radiusM": 0.204,
+     "aM": [
+      0.298,
+      14.551,
+      -0.898
+     ],
+     "bM": [
+      0.306,
+      16.082,
+      -0.179
+     ]
+    },
+    {
+     "radiusM": 0.202,
+     "aM": [
+      0.217,
+      16.848,
+      0.444
+     ],
+     "bM": [
+      0.217,
+      18.379,
+      0.444
+     ]
+    },
+    {
+     "radiusM": 0.186,
+     "aM": [
+      -2.709,
+      18.379,
+      3.889
+     ],
+     "bM": [
+      -2.709,
+      19.911,
+      3.889
+     ]
+    },
+    {
+     "radiusM": 0.178,
+     "aM": [
+      4.791,
+      15.316,
+      -1.512
+     ],
+     "bM": [
+      4.791,
+      16.848,
+      -1.512
+     ]
+    },
+    {
+     "radiusM": 0.178,
+     "aM": [
+      4.791,
+      16.082,
+      -1.512
+     ],
+     "bM": [
+      5.931,
+      17.614,
+      -2.636
+     ]
+    },
+    {
+     "radiusM": 0.175,
+     "aM": [
+      1.316,
+      22.973,
+      -3.388
+     ],
+     "bM": [
+      1.316,
+      24.505,
+      -3.388
+     ]
+    },
+    {
+     "radiusM": 0.173,
+     "aM": [
+      0.134,
+      16.848,
+      0.705
+     ],
+     "bM": [
+      0.134,
+      18.379,
+      0.705
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.52,
+      17.614,
+      -0.127
+     ],
+     "bM": [
+      0.336,
+      19.145,
+      -0.118
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.217,
+      17.614,
+      0.444
+     ],
+     "bM": [
+      0.336,
+      19.145,
+      -0.118
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.134,
+      17.614,
+      0.705
+     ],
+     "bM": [
+      0.336,
+      19.145,
+      -0.118
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.336,
+      18.379,
+      -0.118
+     ],
+     "bM": [
+      0.336,
+      19.911,
+      -0.118
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.336,
+      19.145,
+      -0.118
+     ],
+     "bM": [
+      0.538,
+      20.676,
+      -0.293
+     ]
+    },
+    {
+     "radiusM": 0.168,
+     "aM": [
+      4.45,
+      15.316,
+      -1.275
+     ],
+     "bM": [
+      4.45,
+      16.848,
+      -1.275
+     ]
+    },
+    {
+     "radiusM": 0.168,
+     "aM": [
+      -5.431,
+      16.848,
+      -1.282
+     ],
+     "bM": [
+      -5.431,
+      18.379,
+      -1.282
+     ]
+    },
+    {
+     "radiusM": 0.168,
+     "aM": [
+      -2.111,
+      18.379,
+      3.376
+     ],
+     "bM": [
+      -2.111,
+      19.911,
+      3.376
+     ]
+    },
+    {
+     "radiusM": 0.166,
+     "aM": [
+      0.325,
+      15.316,
+      -4.546
+     ],
+     "bM": [
+      0.325,
+      16.848,
+      -4.546
+     ]
+    },
+    {
+     "radiusM": 0.165,
+     "aM": [
+      3.616,
+      13.785,
+      -0.805
+     ],
+     "bM": [
+      3.616,
+      15.316,
+      -0.805
+     ]
+    },
+    {
+     "radiusM": 0.162,
+     "aM": [
+      -0.545,
+      16.848,
+      2.003
+     ],
+     "bM": [
+      -0.545,
+      18.379,
+      2.003
+     ]
+    },
+    {
+     "radiusM": 0.161,
+     "aM": [
+      -0.906,
+      23.739,
+      0.579
+     ],
+     "bM": [
+      -2.008,
+      25.27,
+      0.646
+     ]
+    },
+    {
+     "radiusM": 0.161,
+     "aM": [
+      -2.008,
+      24.505,
+      0.646
+     ],
+     "bM": [
+      -2.008,
+      26.036,
+      0.646
+     ]
+    },
+    {
+     "radiusM": 0.159,
+     "aM": [
+      3.838,
+      19.145,
+      0.944
+     ],
+     "bM": [
+      4.481,
+      20.676,
+      1.344
+     ]
+    },
+    {
+     "radiusM": 0.159,
+     "aM": [
+      4.481,
+      19.911,
+      1.344
+     ],
+     "bM": [
+      4.481,
+      21.442,
+      1.344
+     ]
+    },
+    {
+     "radiusM": 0.159,
+     "aM": [
+      0.773,
+      25.27,
+      -0.49
+     ],
+     "bM": [
+      0.106,
+      26.802,
+      -0.715
+     ]
+    },
+    {
+     "radiusM": 0.159,
+     "aM": [
+      0.106,
+      26.036,
+      -0.715
+     ],
+     "bM": [
+      0.106,
+      27.567,
+      -0.715
+     ]
+    },
+    {
+     "radiusM": 0.156,
+     "aM": [
+      -4.448,
+      16.848,
+      -1.157
+     ],
+     "bM": [
+      -4.448,
+      18.379,
+      -1.157
+     ]
+    },
+    {
+     "radiusM": 0.155,
+     "aM": [
+      1.238,
+      22.973,
+      -0.566
+     ],
+     "bM": [
+      1.238,
+      24.505,
+      -0.566
+     ]
+    },
+    {
+     "radiusM": 0.155,
+     "aM": [
+      1.238,
+      23.739,
+      -0.566
+     ],
+     "bM": [
+      0.773,
+      25.27,
+      -0.49
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbtreeaspen02jungle",
+   "node": "es|73dc4c305a|mv__landscape_trees_gkbtreeaspen02jungle",
+   "category": "tree",
+   "sizeM": [
+    10.249,
+    11.399,
+    18.987
+   ],
+   "originOffsetM": [
+    4.52,
+    5.649,
+    0.235
+   ],
+   "triangles": 380,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark31.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "gkbtreeaspen02:1.Mat",
+    "gkbtreeaspen02:2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbtreeaspen02jungle_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.25,
+    "heightM": 18.987,
+    "baseOffsetM": [
+     0.0,
+     -0.235,
+     0.0
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.381,
+     "aM": [
+      0.167,
+      -0.23,
+      -0.033
+     ],
+     "bM": [
+      0.167,
+      1.203,
+      -0.033
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      0.225,
+      1.203,
+      -0.01
+     ],
+     "bM": [
+      0.225,
+      4.069,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 0.315,
+     "aM": [
+      0.016,
+      5.503,
+      -0.153
+     ],
+     "bM": [
+      0.016,
+      6.936,
+      -0.153
+     ]
+    },
+    {
+     "radiusM": 0.3,
+     "aM": [
+      0.333,
+      6.936,
+      0.263
+     ],
+     "bM": [
+      0.333,
+      8.369,
+      0.263
+     ]
+    },
+    {
+     "radiusM": 0.257,
+     "aM": [
+      0.318,
+      9.802,
+      0.785
+     ],
+     "bM": [
+      0.318,
+      11.235,
+      0.785
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      0.182,
+      3.353,
+      -0.046
+     ],
+     "bM": [
+      0.011,
+      4.786,
+      -0.121
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      0.011,
+      4.069,
+      -0.121
+     ],
+     "bM": [
+      0.011,
+      5.503,
+      -0.121
+     ]
+    },
+    {
+     "radiusM": 0.246,
+     "aM": [
+      1.019,
+      9.802,
+      -0.944
+     ],
+     "bM": [
+      1.019,
+      11.235,
+      -0.944
+     ]
+    },
+    {
+     "radiusM": 0.242,
+     "aM": [
+      0.333,
+      7.652,
+      0.263
+     ],
+     "bM": [
+      0.444,
+      9.085,
+      0.407
+     ]
+    },
+    {
+     "radiusM": 0.242,
+     "aM": [
+      0.444,
+      8.369,
+      0.407
+     ],
+     "bM": [
+      0.444,
+      9.802,
+      0.407
+     ]
+    },
+    {
+     "radiusM": 0.242,
+     "aM": [
+      0.444,
+      9.085,
+      0.407
+     ],
+     "bM": [
+      0.318,
+      10.518,
+      0.785
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.259,
+      8.369,
+      -0.822
+     ],
+     "bM": [
+      0.259,
+      9.802,
+      -0.822
+     ]
+    },
+    {
+     "radiusM": 0.172,
+     "aM": [
+      0.259,
+      9.085,
+      -0.822
+     ],
+     "bM": [
+      1.019,
+      10.518,
+      -0.944
+     ]
+    },
+    {
+     "radiusM": 0.149,
+     "aM": [
+      0.016,
+      6.219,
+      -0.153
+     ],
+     "bM": [
+      0.077,
+      7.652,
+      -0.563
+     ]
+    },
+    {
+     "radiusM": 0.149,
+     "aM": [
+      0.077,
+      6.936,
+      -0.563
+     ],
+     "bM": [
+      0.077,
+      8.369,
+      -0.563
+     ]
+    },
+    {
+     "radiusM": 0.149,
+     "aM": [
+      0.077,
+      7.652,
+      -0.563
+     ],
+     "bM": [
+      0.259,
+      9.085,
+      -0.822
+     ]
+    },
+    {
+     "radiusM": 0.147,
+     "aM": [
+      0.12,
+      9.802,
+      1.066
+     ],
+     "bM": [
+      0.12,
+      11.235,
+      1.066
+     ]
+    },
+    {
+     "radiusM": 0.146,
+     "aM": [
+      0.318,
+      10.518,
+      0.785
+     ],
+     "bM": [
+      -0.105,
+      11.952,
+      1.121
+     ]
+    },
+    {
+     "radiusM": 0.146,
+     "aM": [
+      0.12,
+      10.518,
+      1.066
+     ],
+     "bM": [
+      -0.105,
+      11.952,
+      1.121
+     ]
+    },
+    {
+     "radiusM": 0.146,
+     "aM": [
+      -0.105,
+      11.235,
+      1.121
+     ],
+     "bM": [
+      -0.105,
+      12.668,
+      1.121
+     ]
+    },
+    {
+     "radiusM": 0.124,
+     "aM": [
+      0.417,
+      8.369,
+      -1.04
+     ],
+     "bM": [
+      0.417,
+      9.802,
+      -1.04
+     ]
+    },
+    {
+     "radiusM": 0.124,
+     "aM": [
+      0.417,
+      9.085,
+      -1.04
+     ],
+     "bM": [
+      1.019,
+      10.518,
+      -0.944
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbtreeaspen03jungle",
+   "node": "es|3a1f5eebac|mv__landscape_trees_gkbtreeaspen03jungle",
+   "category": "tree",
+   "sizeM": [
+    9.9,
+    12.032,
+    14.237
+   ],
+   "originOffsetM": [
+    4.784,
+    5.722,
+    0.168
+   ],
+   "triangles": 379,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark31.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "gkbtreeaspen03:1.Mat",
+    "gkbtreeaspen03:2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbtreeaspen03jungle_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.233,
+    "heightM": 14.237,
+    "baseOffsetM": [
+     0.032,
+     -0.168,
+     -0.107
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.451,
+     "aM": [
+      0.232,
+      2.708,
+      0.099
+     ],
+     "bM": [
+      0.232,
+      4.133,
+      0.099
+     ]
+    },
+    {
+     "radiusM": 0.379,
+     "aM": [
+      0.914,
+      6.984,
+      -1.277
+     ],
+     "bM": [
+      0.914,
+      8.41,
+      -1.277
+     ]
+    },
+    {
+     "radiusM": 0.324,
+     "aM": [
+      0.592,
+      5.559,
+      0.723
+     ],
+     "bM": [
+      0.592,
+      6.984,
+      0.723
+     ]
+    },
+    {
+     "radiusM": 0.312,
+     "aM": [
+      0.036,
+      -0.143,
+      -0.007
+     ],
+     "bM": [
+      0.036,
+      2.708,
+      -0.007
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      0.065,
+      1.995,
+      -0.02
+     ],
+     "bM": [
+      0.232,
+      3.421,
+      0.099
+     ]
+    },
+    {
+     "radiusM": 0.26,
+     "aM": [
+      0.189,
+      5.559,
+      -1.112
+     ],
+     "bM": [
+      0.189,
+      6.984,
+      -1.112
+     ]
+    },
+    {
+     "radiusM": 0.26,
+     "aM": [
+      0.189,
+      6.272,
+      -1.112
+     ],
+     "bM": [
+      0.914,
+      7.697,
+      -1.277
+     ]
+    },
+    {
+     "radiusM": 0.257,
+     "aM": [
+      0.232,
+      3.421,
+      0.099
+     ],
+     "bM": [
+      0.624,
+      4.846,
+      0.404
+     ]
+    },
+    {
+     "radiusM": 0.257,
+     "aM": [
+      0.624,
+      4.133,
+      0.404
+     ],
+     "bM": [
+      0.624,
+      5.559,
+      0.404
+     ]
+    },
+    {
+     "radiusM": 0.257,
+     "aM": [
+      0.624,
+      4.846,
+      0.404
+     ],
+     "bM": [
+      0.592,
+      6.272,
+      0.723
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      0.023,
+      4.133,
+      -0.415
+     ],
+     "bM": [
+      0.023,
+      5.559,
+      -0.415
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      0.023,
+      4.846,
+      -0.415
+     ],
+     "bM": [
+      0.189,
+      6.272,
+      -1.112
+     ]
+    },
+    {
+     "radiusM": 0.138,
+     "aM": [
+      0.592,
+      6.272,
+      0.723
+     ],
+     "bM": [
+      0.34,
+      7.697,
+      1.196
+     ]
+    },
+    {
+     "radiusM": 0.138,
+     "aM": [
+      0.34,
+      6.984,
+      1.196
+     ],
+     "bM": [
+      0.34,
+      8.41,
+      1.196
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbtreeaspen05jungle",
+   "node": "es|06fc1b64d3|mv__landscape_trees_gkbtreeaspen05jungle",
+   "category": "tree",
+   "sizeM": [
+    5.034,
+    5.604,
+    10.645
+   ],
+   "originOffsetM": [
+    2.665,
+    2.828,
+    0.228
+   ],
+   "triangles": 229,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbtreeaspenbarkcomp.dds",
+    "gkbtreeaspenbranchcompgreen1dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "gkbtreeaspen05jungle:1.Mat",
+    "gkbtreeaspen05jungle:2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbtreeaspen05jungle_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.15,
+    "heightM": 10.645,
+    "baseOffsetM": [
+     -0.133,
+     -0.228,
+     0.261
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/trees/hodalder01gkb",
+   "node": "es|317ec9bfbd|bmv__landscape_trees_hodalder01gkb",
+   "category": "tree",
+   "sizeM": [
+    10.513,
+    9.675,
+    14.465
+   ],
+   "originOffsetM": [
+    5.777,
+    4.649,
+    0.052
+   ],
+   "triangles": 2177,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "-trunk.dds",
+    "ealderbranchcomp01.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree17v3.Mat",
+    "jungletree17v3_1.Mat",
+    "jungletree17v3_2.Mat",
+    "jungletree17v3_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew17v2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.617,
+    "heightM": 14.465,
+    "baseOffsetM": [
+     0.028,
+     -0.052,
+     0.111
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 1.25,
+     "aM": [
+      -1.257,
+      2.635,
+      0.939
+     ],
+     "bM": [
+      -1.257,
+      3.971,
+      0.939
+     ]
+    },
+    {
+     "radiusM": 0.787,
+     "aM": [
+      -0.044,
+      -0.037,
+      0.147
+     ],
+     "bM": [
+      -0.044,
+      1.299,
+      0.147
+     ]
+    },
+    {
+     "radiusM": 0.68,
+     "aM": [
+      -1.718,
+      5.307,
+      0.225
+     ],
+     "bM": [
+      -1.718,
+      6.644,
+      0.225
+     ]
+    },
+    {
+     "radiusM": 0.657,
+     "aM": [
+      -0.433,
+      5.307,
+      -1.002
+     ],
+     "bM": [
+      -0.433,
+      6.644,
+      -1.002
+     ]
+    },
+    {
+     "radiusM": 0.649,
+     "aM": [
+      -0.562,
+      2.635,
+      -0.67
+     ],
+     "bM": [
+      -0.562,
+      3.971,
+      -0.67
+     ]
+    },
+    {
+     "radiusM": 0.533,
+     "aM": [
+      -1.104,
+      7.98,
+      0.094
+     ],
+     "bM": [
+      -1.104,
+      9.316,
+      0.094
+     ]
+    },
+    {
+     "radiusM": 0.502,
+     "aM": [
+      1.617,
+      7.98,
+      1.561
+     ],
+     "bM": [
+      1.617,
+      9.316,
+      1.561
+     ]
+    },
+    {
+     "radiusM": 0.486,
+     "aM": [
+      -0.119,
+      1.299,
+      0.099
+     ],
+     "bM": [
+      -0.119,
+      2.635,
+      0.099
+     ]
+    },
+    {
+     "radiusM": 0.455,
+     "aM": [
+      1.373,
+      7.98,
+      -2.122
+     ],
+     "bM": [
+      1.373,
+      9.316,
+      -2.122
+     ]
+    },
+    {
+     "radiusM": 0.4,
+     "aM": [
+      -1.257,
+      3.303,
+      0.939
+     ],
+     "bM": [
+      -0.107,
+      4.639,
+      0.078
+     ]
+    },
+    {
+     "radiusM": 0.4,
+     "aM": [
+      -0.562,
+      3.303,
+      -0.67
+     ],
+     "bM": [
+      -0.107,
+      4.639,
+      0.078
+     ]
+    },
+    {
+     "radiusM": 0.4,
+     "aM": [
+      -0.097,
+      2.635,
+      0.135
+     ],
+     "bM": [
+      -0.097,
+      5.307,
+      0.135
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      1.617,
+      8.648,
+      1.561
+     ],
+     "bM": [
+      0.879,
+      9.984,
+      0.419
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      0.879,
+      9.316,
+      0.419
+     ],
+     "bM": [
+      0.879,
+      10.652,
+      0.419
+     ]
+    },
+    {
+     "radiusM": 0.368,
+     "aM": [
+      -2.133,
+      6.644,
+      -0.472
+     ],
+     "bM": [
+      -2.133,
+      7.98,
+      -0.472
+     ]
+    },
+    {
+     "radiusM": 0.368,
+     "aM": [
+      -2.133,
+      7.312,
+      -0.472
+     ],
+     "bM": [
+      -1.104,
+      8.648,
+      0.094
+     ]
+    },
+    {
+     "radiusM": 0.362,
+     "aM": [
+      1.12,
+      5.307,
+      1.183
+     ],
+     "bM": [
+      1.12,
+      6.644,
+      1.183
+     ]
+    },
+    {
+     "radiusM": 0.354,
+     "aM": [
+      0.598,
+      7.98,
+      -1.05
+     ],
+     "bM": [
+      0.598,
+      9.316,
+      -1.05
+     ]
+    },
+    {
+     "radiusM": 0.345,
+     "aM": [
+      0.698,
+      5.307,
+      0.579
+     ],
+     "bM": [
+      0.698,
+      6.644,
+      0.579
+     ]
+    },
+    {
+     "radiusM": 0.343,
+     "aM": [
+      1.125,
+      7.98,
+      -1.627
+     ],
+     "bM": [
+      1.125,
+      9.316,
+      -1.627
+     ]
+    },
+    {
+     "radiusM": 0.328,
+     "aM": [
+      1.194,
+      6.644,
+      -0.576
+     ],
+     "bM": [
+      1.194,
+      7.98,
+      -0.576
+     ]
+    },
+    {
+     "radiusM": 0.328,
+     "aM": [
+      1.194,
+      7.312,
+      -0.576
+     ],
+     "bM": [
+      0.598,
+      8.648,
+      -1.05
+     ]
+    },
+    {
+     "radiusM": 0.307,
+     "aM": [
+      -1.104,
+      8.648,
+      0.094
+     ],
+     "bM": [
+      -1.214,
+      9.984,
+      0.497
+     ]
+    },
+    {
+     "radiusM": 0.307,
+     "aM": [
+      -1.214,
+      9.316,
+      0.497
+     ],
+     "bM": [
+      -1.214,
+      10.652,
+      0.497
+     ]
+    },
+    {
+     "radiusM": 0.287,
+     "aM": [
+      -1.718,
+      5.976,
+      0.225
+     ],
+     "bM": [
+      -1.135,
+      7.312,
+      -0.161
+     ]
+    },
+    {
+     "radiusM": 0.287,
+     "aM": [
+      -0.433,
+      5.976,
+      -1.002
+     ],
+     "bM": [
+      -1.135,
+      7.312,
+      -0.161
+     ]
+    },
+    {
+     "radiusM": 0.287,
+     "aM": [
+      -1.135,
+      6.644,
+      -0.161
+     ],
+     "bM": [
+      -1.135,
+      7.98,
+      -0.161
+     ]
+    },
+    {
+     "radiusM": 0.287,
+     "aM": [
+      -1.135,
+      7.312,
+      -0.161
+     ],
+     "bM": [
+      -1.104,
+      8.648,
+      0.094
+     ]
+    },
+    {
+     "radiusM": 0.286,
+     "aM": [
+      2.265,
+      5.307,
+      -1.046
+     ],
+     "bM": [
+      2.265,
+      6.644,
+      -1.046
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      1.12,
+      5.976,
+      1.183
+     ],
+     "bM": [
+      0.776,
+      7.312,
+      0.919
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      0.698,
+      5.976,
+      0.579
+     ],
+     "bM": [
+      0.776,
+      7.312,
+      0.919
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      0.776,
+      6.644,
+      0.919
+     ],
+     "bM": [
+      0.776,
+      7.98,
+      0.919
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      0.776,
+      7.312,
+      0.919
+     ],
+     "bM": [
+      1.617,
+      8.648,
+      1.561
+     ]
+    },
+    {
+     "radiusM": 0.244,
+     "aM": [
+      0.598,
+      8.648,
+      -1.05
+     ],
+     "bM": [
+      0.032,
+      9.984,
+      -0.608
+     ]
+    },
+    {
+     "radiusM": 0.244,
+     "aM": [
+      0.032,
+      9.316,
+      -0.608
+     ],
+     "bM": [
+      0.032,
+      10.652,
+      -0.608
+     ]
+    },
+    {
+     "radiusM": 0.225,
+     "aM": [
+      -0.442,
+      7.98,
+      0.22
+     ],
+     "bM": [
+      -0.442,
+      9.316,
+      0.22
+     ]
+    },
+    {
+     "radiusM": 0.225,
+     "aM": [
+      -0.442,
+      8.648,
+      0.22
+     ],
+     "bM": [
+      -1.214,
+      9.984,
+      0.497
+     ]
+    },
+    {
+     "radiusM": 0.219,
+     "aM": [
+      -0.004,
+      5.307,
+      0.061
+     ],
+     "bM": [
+      -0.004,
+      6.644,
+      0.061
+     ]
+    },
+    {
+     "radiusM": 0.207,
+     "aM": [
+      -0.004,
+      5.976,
+      0.061
+     ],
+     "bM": [
+      0.066,
+      7.312,
+      -0.019
+     ]
+    },
+    {
+     "radiusM": 0.207,
+     "aM": [
+      0.066,
+      6.644,
+      -0.019
+     ],
+     "bM": [
+      0.066,
+      7.98,
+      -0.019
+     ]
+    },
+    {
+     "radiusM": 0.198,
+     "aM": [
+      -1.831,
+      9.316,
+      0.8
+     ],
+     "bM": [
+      -1.831,
+      10.652,
+      0.8
+     ]
+    },
+    {
+     "radiusM": 0.155,
+     "aM": [
+      0.032,
+      9.984,
+      -0.608
+     ],
+     "bM": [
+      0.133,
+      11.32,
+      -1.211
+     ]
+    },
+    {
+     "radiusM": 0.155,
+     "aM": [
+      0.133,
+      10.652,
+      -1.211
+     ],
+     "bM": [
+      0.133,
+      11.989,
+      -1.211
+     ]
+    },
+    {
+     "radiusM": 0.145,
+     "aM": [
+      0.066,
+      7.312,
+      -0.019
+     ],
+     "bM": [
+      0.012,
+      8.648,
+      0.057
+     ]
+    },
+    {
+     "radiusM": 0.145,
+     "aM": [
+      0.012,
+      7.98,
+      0.057
+     ],
+     "bM": [
+      0.012,
+      9.316,
+      0.057
+     ]
+    },
+    {
+     "radiusM": 0.145,
+     "aM": [
+      0.012,
+      8.648,
+      0.057
+     ],
+     "bM": [
+      0.032,
+      9.984,
+      -0.608
+     ]
+    },
+    {
+     "radiusM": 0.141,
+     "aM": [
+      0.879,
+      9.984,
+      0.419
+     ],
+     "bM": [
+      -0.022,
+      11.32,
+      0.123
+     ]
+    },
+    {
+     "radiusM": 0.141,
+     "aM": [
+      -0.022,
+      10.652,
+      0.123
+     ],
+     "bM": [
+      -0.022,
+      11.989,
+      0.123
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/ztgorsebush02lightyellow",
+   "node": "es|f4082178f7|landscape_trees_ztgorsebush02lightyellow",
+   "category": "shrub",
+   "sizeM": [
+    4.708,
+    4.287,
+    4.5
+   ],
+   "originOffsetM": [
+    2.79,
+    2.066,
+    0.541
+   ],
+   "triangles": 628,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "egorsebranch01lightyellow.dds",
+    "tamrieltreelod.dds",
+    "treeoaktrunk02.dds"
+   ],
+   "materials": [
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0.Mat.004",
+    "ReachCliffTree01:0 - L1_ReachCliffTree01:0_1.Mat.003"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "TreeAspen01_LOD_FLAT.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/flatpalm1",
+   "node": "es|0f6086d9b8|bmv__landscape_trees_flatpalm1",
+   "category": "tree",
+   "sizeM": [
+    11.897,
+    12.593,
+    13.667
+   ],
+   "originOffsetM": [
+    6.106,
+    5.559,
+    0.059
+   ],
+   "triangles": 312,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "bananabark1.dds",
+    "bananabarktop2.dds",
+    "bananabarktop3.dds",
+    "palmleafnew8.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "flatpalm1.Mat",
+    "flatpalm1_1.Mat",
+    "flatpalm1_2.Mat",
+    "flatpalm1_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "flatpalm1_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.267,
+    "heightM": 13.667,
+    "baseOffsetM": [
+     -0.026,
+     -0.059,
+     1.208
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.534,
+     "aM": [
+      -0.039,
+      8.641,
+      0.164
+     ],
+     "bM": [
+      -0.039,
+      10.09,
+      0.164
+     ]
+    },
+    {
+     "radiusM": 0.392,
+     "aM": [
+      -0.007,
+      7.192,
+      0.371
+     ],
+     "bM": [
+      -0.007,
+      8.641,
+      0.371
+     ]
+    },
+    {
+     "radiusM": 0.392,
+     "aM": [
+      -0.007,
+      7.916,
+      0.371
+     ],
+     "bM": [
+      -0.039,
+      9.365,
+      0.164
+     ]
+    },
+    {
+     "radiusM": 0.338,
+     "aM": [
+      -0.048,
+      -0.055,
+      1.334
+     ],
+     "bM": [
+      -0.048,
+      1.394,
+      1.334
+     ]
+    },
+    {
+     "radiusM": 0.325,
+     "aM": [
+      -0.048,
+      0.67,
+      1.334
+     ],
+     "bM": [
+      -0.024,
+      2.119,
+      1.16
+     ]
+    },
+    {
+     "radiusM": 0.325,
+     "aM": [
+      -0.024,
+      1.394,
+      1.16
+     ],
+     "bM": [
+      -0.024,
+      2.844,
+      1.16
+     ]
+    },
+    {
+     "radiusM": 0.293,
+     "aM": [
+      -0.008,
+      4.293,
+      0.823
+     ],
+     "bM": [
+      -0.008,
+      5.742,
+      0.823
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -0.024,
+      2.119,
+      1.16
+     ],
+     "bM": [
+      -0.031,
+      3.568,
+      0.985
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -0.031,
+      2.844,
+      0.985
+     ],
+     "bM": [
+      -0.031,
+      4.293,
+      0.985
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -0.031,
+      3.568,
+      0.985
+     ],
+     "bM": [
+      -0.008,
+      5.018,
+      0.823
+     ]
+    },
+    {
+     "radiusM": 0.279,
+     "aM": [
+      -0.008,
+      5.018,
+      0.823
+     ],
+     "bM": [
+      -0.038,
+      6.467,
+      0.571
+     ]
+    },
+    {
+     "radiusM": 0.279,
+     "aM": [
+      -0.038,
+      5.742,
+      0.571
+     ],
+     "bM": [
+      -0.038,
+      7.192,
+      0.571
+     ]
+    },
+    {
+     "radiusM": 0.279,
+     "aM": [
+      -0.038,
+      6.467,
+      0.571
+     ],
+     "bM": [
+      -0.007,
+      7.916,
+      0.371
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/flatpalm2",
+   "node": "es|3ef551a872|bmv__landscape_trees_flatpalm2",
+   "category": "tree",
+   "sizeM": [
+    9.801,
+    11.987,
+    15.637
+   ],
+   "originOffsetM": [
+    4.691,
+    6.674,
+    0.059
+   ],
+   "triangles": 336,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "bananabark1.dds",
+    "bananabarktop2.dds",
+    "bananabarktop3.dds",
+    "palmleafnew8.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "flatpalm2.Mat",
+    "flatpalm2_1.Mat",
+    "flatpalm2_2.Mat",
+    "flatpalm2_3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "flatpalm2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.267,
+    "heightM": 15.637,
+    "baseOffsetM": [
+     -0.026,
+     -0.059,
+     0.477
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.544,
+     "aM": [
+      -0.016,
+      8.645,
+      0.191
+     ],
+     "bM": [
+      -0.016,
+      10.094,
+      0.191
+     ]
+    },
+    {
+     "radiusM": 0.384,
+     "aM": [
+      -0.041,
+      7.195,
+      0.348
+     ],
+     "bM": [
+      -0.041,
+      8.645,
+      0.348
+     ]
+    },
+    {
+     "radiusM": 0.349,
+     "aM": [
+      -0.02,
+      -0.054,
+      0.438
+     ],
+     "bM": [
+      -0.02,
+      1.396,
+      0.438
+     ]
+    },
+    {
+     "radiusM": 0.311,
+     "aM": [
+      -0.086,
+      1.396,
+      0.525
+     ],
+     "bM": [
+      -0.086,
+      2.846,
+      0.525
+     ]
+    },
+    {
+     "radiusM": 0.286,
+     "aM": [
+      0.024,
+      5.745,
+      0.487
+     ],
+     "bM": [
+      0.024,
+      7.195,
+      0.487
+     ]
+    },
+    {
+     "radiusM": 0.286,
+     "aM": [
+      0.024,
+      6.47,
+      0.487
+     ],
+     "bM": [
+      -0.041,
+      7.92,
+      0.348
+     ]
+    },
+    {
+     "radiusM": 0.263,
+     "aM": [
+      -0.032,
+      2.846,
+      0.614
+     ],
+     "bM": [
+      -0.032,
+      5.745,
+      0.614
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb2",
+   "node": "es|3cbd18a951|__landscape_trees_mangrovereachtree0gkb2",
+   "category": "tree",
+   "sizeM": [
+    8.401,
+    8.062,
+    13.145
+   ],
+   "originOffsetM": [
+    3.468,
+    3.908,
+    3.524
+   ],
+   "triangles": 6392,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark.dds",
+    "gkbbranch1.dds",
+    "tamrieltreelod.dds",
+    "tundradriftwoodbranches01.dds"
+   ],
+   "materials": [
+    "BSX.Mat.003",
+    "BSX_1.Mat.002",
+    "BSX_2.Mat.002",
+    "BSX_3.Mat.002",
+    "BSX_4.Mat.002",
+    "BSX_6.Mat",
+    "L2_ReachTree01:1 - L1_ReachTree01:1.Mat",
+    "ReachTree01:0 - L1_ReachTree01:0.Mat",
+    "ReachTree01:2 - L2_ReachTree01:2 - L1_ReachTree01:2.Mat",
+    "ReachTree01_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "mangrovereachtree0gkb2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 1.975,
+    "heightM": 13.145,
+    "baseOffsetM": [
+     0.831,
+     -3.524,
+     -0.226
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 3.15,
+     "aM": [
+      0.739,
+      3.78,
+      -0.36
+     ],
+     "bM": [
+      0.739,
+      6.689,
+      -0.36
+     ]
+    },
+    {
+     "radiusM": 3.023,
+     "aM": [
+      0.942,
+      6.689,
+      0.52
+     ],
+     "bM": [
+      0.942,
+      8.144,
+      0.52
+     ]
+    },
+    {
+     "radiusM": 2.507,
+     "aM": [
+      0.356,
+      -2.04,
+      0.004
+     ],
+     "bM": [
+      0.356,
+      -0.585,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 1.56,
+     "aM": [
+      1.418,
+      2.325,
+      -1.51
+     ],
+     "bM": [
+      1.418,
+      3.78,
+      -1.51
+     ]
+    },
+    {
+     "radiusM": 1.56,
+     "aM": [
+      1.418,
+      3.052,
+      -1.51
+     ],
+     "bM": [
+      0.739,
+      4.507,
+      -0.36
+     ]
+    },
+    {
+     "radiusM": 0.943,
+     "aM": [
+      0.942,
+      7.417,
+      0.52
+     ],
+     "bM": [
+      1.655,
+      8.871,
+      0.59
+     ]
+    },
+    {
+     "radiusM": 0.943,
+     "aM": [
+      1.655,
+      8.144,
+      0.59
+     ],
+     "bM": [
+      1.655,
+      9.599,
+      0.59
+     ]
+    },
+    {
+     "radiusM": 0.886,
+     "aM": [
+      0.02,
+      8.144,
+      1.205
+     ],
+     "bM": [
+      0.02,
+      9.599,
+      1.205
+     ]
+    },
+    {
+     "radiusM": 0.805,
+     "aM": [
+      -2.031,
+      -3.494,
+      -0.074
+     ],
+     "bM": [
+      -2.031,
+      -2.04,
+      -0.074
+     ]
+    },
+    {
+     "radiusM": 0.805,
+     "aM": [
+      -2.031,
+      -2.767,
+      -0.074
+     ],
+     "bM": [
+      0.356,
+      -1.312,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 0.799,
+     "aM": [
+      0.476,
+      -0.585,
+      -0.959
+     ],
+     "bM": [
+      0.476,
+      0.87,
+      -0.959
+     ]
+    },
+    {
+     "radiusM": 0.724,
+     "aM": [
+      0.249,
+      2.325,
+      0.267
+     ],
+     "bM": [
+      0.249,
+      3.78,
+      0.267
+     ]
+    },
+    {
+     "radiusM": 0.724,
+     "aM": [
+      0.249,
+      3.052,
+      0.267
+     ],
+     "bM": [
+      0.739,
+      4.507,
+      -0.36
+     ]
+    },
+    {
+     "radiusM": 0.604,
+     "aM": [
+      -0.586,
+      -0.585,
+      -0.6
+     ],
+     "bM": [
+      -0.586,
+      0.87,
+      -0.6
+     ]
+    },
+    {
+     "radiusM": 0.51,
+     "aM": [
+      0.476,
+      0.143,
+      -0.959
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.51,
+     "aM": [
+      -0.586,
+      0.143,
+      -0.6
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.51,
+     "aM": [
+      -0.001,
+      0.87,
+      0.03
+     ],
+     "bM": [
+      -0.001,
+      2.325,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.51,
+     "aM": [
+      -0.001,
+      1.597,
+      0.03
+     ],
+     "bM": [
+      0.249,
+      3.052,
+      0.267
+     ]
+    },
+    {
+     "radiusM": 0.457,
+     "aM": [
+      -1.232,
+      8.144,
+      -0.232
+     ],
+     "bM": [
+      -1.232,
+      9.599,
+      -0.232
+     ]
+    },
+    {
+     "radiusM": 0.447,
+     "aM": [
+      1.553,
+      2.325,
+      0.207
+     ],
+     "bM": [
+      1.553,
+      3.78,
+      0.207
+     ]
+    },
+    {
+     "radiusM": 0.447,
+     "aM": [
+      1.553,
+      3.052,
+      0.207
+     ],
+     "bM": [
+      0.739,
+      4.507,
+      -0.36
+     ]
+    },
+    {
+     "radiusM": 0.443,
+     "aM": [
+      -0.162,
+      8.144,
+      -1.767
+     ],
+     "bM": [
+      -0.162,
+      9.599,
+      -1.767
+     ]
+    },
+    {
+     "radiusM": 0.422,
+     "aM": [
+      0.607,
+      8.144,
+      -0.873
+     ],
+     "bM": [
+      0.607,
+      9.599,
+      -0.873
+     ]
+    },
+    {
+     "radiusM": 0.42,
+     "aM": [
+      1.224,
+      -0.585,
+      0.008
+     ],
+     "bM": [
+      1.224,
+      0.87,
+      0.008
+     ]
+    },
+    {
+     "radiusM": 0.42,
+     "aM": [
+      1.224,
+      0.143,
+      0.008
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      -0.381,
+      -0.585,
+      0.013
+     ],
+     "bM": [
+      -0.381,
+      0.87,
+      0.013
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      -0.381,
+      0.143,
+      0.013
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.388,
+     "aM": [
+      0.356,
+      -1.312,
+      0.004
+     ],
+     "bM": [
+      0.542,
+      0.143,
+      0.337
+     ]
+    },
+    {
+     "radiusM": 0.388,
+     "aM": [
+      0.542,
+      -0.585,
+      0.337
+     ],
+     "bM": [
+      0.542,
+      0.87,
+      0.337
+     ]
+    },
+    {
+     "radiusM": 0.388,
+     "aM": [
+      0.542,
+      0.143,
+      0.337
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.381,
+     "aM": [
+      1.601,
+      8.144,
+      3.037
+     ],
+     "bM": [
+      1.601,
+      9.599,
+      3.037
+     ]
+    },
+    {
+     "radiusM": 0.373,
+     "aM": [
+      1.828,
+      2.325,
+      0.859
+     ],
+     "bM": [
+      1.828,
+      3.78,
+      0.859
+     ]
+    },
+    {
+     "radiusM": 0.373,
+     "aM": [
+      1.828,
+      3.052,
+      0.859
+     ],
+     "bM": [
+      0.739,
+      4.507,
+      -0.36
+     ]
+    },
+    {
+     "radiusM": 0.349,
+     "aM": [
+      -0.494,
+      -0.585,
+      1.306
+     ],
+     "bM": [
+      -0.494,
+      0.87,
+      1.306
+     ]
+    },
+    {
+     "radiusM": 0.349,
+     "aM": [
+      -0.494,
+      0.143,
+      1.306
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.346,
+     "aM": [
+      1.916,
+      8.144,
+      2.291
+     ],
+     "bM": [
+      1.916,
+      9.599,
+      2.291
+     ]
+    },
+    {
+     "radiusM": 0.272,
+     "aM": [
+      -0.145,
+      -0.585,
+      0.613
+     ],
+     "bM": [
+      -0.145,
+      0.87,
+      0.613
+     ]
+    },
+    {
+     "radiusM": 0.272,
+     "aM": [
+      -0.145,
+      0.143,
+      0.613
+     ],
+     "bM": [
+      -0.001,
+      1.597,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.197,
+     "aM": [
+      -1.697,
+      8.144,
+      1.419
+     ],
+     "bM": [
+      -1.697,
+      9.599,
+      1.419
+     ]
+    },
+    {
+     "radiusM": 0.19,
+     "aM": [
+      1.206,
+      -3.494,
+      -1.665
+     ],
+     "bM": [
+      1.206,
+      -2.04,
+      -1.665
+     ]
+    },
+    {
+     "radiusM": 0.19,
+     "aM": [
+      1.206,
+      -2.767,
+      -1.665
+     ],
+     "bM": [
+      0.356,
+      -1.312,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 0.178,
+     "aM": [
+      2.007,
+      -3.494,
+      -1.739
+     ],
+     "bM": [
+      2.007,
+      -2.04,
+      -1.739
+     ]
+    },
+    {
+     "radiusM": 0.178,
+     "aM": [
+      2.007,
+      -2.767,
+      -1.739
+     ],
+     "bM": [
+      0.356,
+      -1.312,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 0.144,
+     "aM": [
+      0.853,
+      -3.494,
+      -2.66
+     ],
+     "bM": [
+      0.853,
+      -2.04,
+      -2.66
+     ]
+    },
+    {
+     "radiusM": 0.144,
+     "aM": [
+      0.853,
+      -2.767,
+      -2.66
+     ],
+     "bM": [
+      0.356,
+      -1.312,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 0.14,
+     "aM": [
+      -2.645,
+      -0.585,
+      0.798
+     ],
+     "bM": [
+      -2.645,
+      0.87,
+      0.798
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/mangrovereachtree0gkb8",
+   "node": "es|a25a1bc449|__landscape_trees_mangrovereachtree0gkb8",
+   "category": "tree",
+   "sizeM": [
+    9.873,
+    10.016,
+    8.584
+   ],
+   "originOffsetM": [
+    4.842,
+    4.958,
+    2.468
+   ],
+   "triangles": 4367,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark10.dds",
+    "gkbbranch10.dds",
+    "gkbtundradriftwoodbark01.dds",
+    "tamrieltreelod.dds",
+    "tundradriftwoodbranches01.dds"
+   ],
+   "materials": [
+    "BSX.Mat.004",
+    "BSX_1.Mat.003",
+    "BSX_2.Mat.003",
+    "BSX_3.Mat.003",
+    "BSX_4.Mat.003",
+    "ReachCliffTree02.001.Mat",
+    "ReachCliffTree02:0 - L1_ReachCliffTree02:0.Mat",
+    "ReachCliffTree02:1 - L1_ReachCliffTree02:1.Mat",
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2.Mat",
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2_1.Mat",
+    "ReachCliffTree02:2 - L1_ReachCliffTree02:2_2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "mangrovereachtree0gkb8_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.826,
+    "heightM": 8.584,
+    "baseOffsetM": [
+     -0.005,
+     -2.468,
+     -0.175
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 3.643,
+     "aM": [
+      -0.134,
+      1.792,
+      -0.01
+     ],
+     "bM": [
+      -0.134,
+      4.63,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 3.6,
+     "aM": [
+      0.336,
+      4.63,
+      -0.714
+     ],
+     "bM": [
+      0.336,
+      6.05,
+      -0.714
+     ]
+    },
+    {
+     "radiusM": 2.773,
+     "aM": [
+      0.105,
+      0.372,
+      -1.601
+     ],
+     "bM": [
+      0.105,
+      1.792,
+      -1.601
+     ]
+    },
+    {
+     "radiusM": 2.773,
+     "aM": [
+      0.105,
+      1.082,
+      -1.601
+     ],
+     "bM": [
+      -0.134,
+      2.501,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 1.696,
+     "aM": [
+      -0.428,
+      0.372,
+      1.576
+     ],
+     "bM": [
+      -0.428,
+      1.792,
+      1.576
+     ]
+    },
+    {
+     "radiusM": 1.696,
+     "aM": [
+      -0.428,
+      1.082,
+      1.576
+     ],
+     "bM": [
+      -0.134,
+      2.501,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 1.486,
+     "aM": [
+      0.122,
+      -2.467,
+      -0.243
+     ],
+     "bM": [
+      0.122,
+      -1.047,
+      -0.243
+     ]
+    },
+    {
+     "radiusM": 1.467,
+     "aM": [
+      1.37,
+      0.372,
+      0.787
+     ],
+     "bM": [
+      1.37,
+      1.792,
+      0.787
+     ]
+    },
+    {
+     "radiusM": 1.467,
+     "aM": [
+      1.37,
+      1.082,
+      0.787
+     ],
+     "bM": [
+      -0.134,
+      2.501,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 0.693,
+     "aM": [
+      4.276,
+      0.372,
+      0.581
+     ],
+     "bM": [
+      4.276,
+      1.792,
+      0.581
+     ]
+    },
+    {
+     "radiusM": 0.693,
+     "aM": [
+      4.276,
+      1.082,
+      0.581
+     ],
+     "bM": [
+      -0.134,
+      2.501,
+      -0.01
+     ]
+    },
+    {
+     "radiusM": 0.574,
+     "aM": [
+      0.708,
+      -1.047,
+      -0.579
+     ],
+     "bM": [
+      0.708,
+      0.372,
+      -0.579
+     ]
+    },
+    {
+     "radiusM": 0.574,
+     "aM": [
+      0.708,
+      -0.338,
+      -0.579
+     ],
+     "bM": [
+      0.105,
+      1.082,
+      -1.601
+     ]
+    },
+    {
+     "radiusM": 0.543,
+     "aM": [
+      -0.5,
+      -1.047,
+      -1.754
+     ],
+     "bM": [
+      -0.5,
+      0.372,
+      -1.754
+     ]
+    },
+    {
+     "radiusM": 0.543,
+     "aM": [
+      -0.5,
+      -0.338,
+      -1.754
+     ],
+     "bM": [
+      0.105,
+      1.082,
+      -1.601
+     ]
+    },
+    {
+     "radiusM": 0.531,
+     "aM": [
+      -0.623,
+      -1.047,
+      1.004
+     ],
+     "bM": [
+      -0.623,
+      0.372,
+      1.004
+     ]
+    },
+    {
+     "radiusM": 0.531,
+     "aM": [
+      -0.623,
+      -0.338,
+      1.004
+     ],
+     "bM": [
+      -0.428,
+      1.082,
+      1.576
+     ]
+    },
+    {
+     "radiusM": 0.296,
+     "aM": [
+      -0.304,
+      -1.047,
+      -0.12
+     ],
+     "bM": [
+      -0.304,
+      0.372,
+      -0.12
+     ]
+    },
+    {
+     "radiusM": 0.296,
+     "aM": [
+      -0.304,
+      -0.338,
+      -0.12
+     ],
+     "bM": [
+      0.105,
+      1.082,
+      -1.601
+     ]
+    },
+    {
+     "radiusM": 0.253,
+     "aM": [
+      0.122,
+      -1.757,
+      -0.243
+     ],
+     "bM": [
+      0.219,
+      -0.338,
+      -0.018
+     ]
+    },
+    {
+     "radiusM": 0.253,
+     "aM": [
+      0.219,
+      -1.047,
+      -0.018
+     ],
+     "bM": [
+      0.219,
+      0.372,
+      -0.018
+     ]
+    },
+    {
+     "radiusM": 0.253,
+     "aM": [
+      0.219,
+      -0.338,
+      -0.018
+     ],
+     "bM": [
+      1.37,
+      1.082,
+      0.787
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/datepalm2",
+   "node": "es|10e2dcb431|bmv__landscape_trees_datepalm2",
+   "category": "tree",
+   "sizeM": [
+    13.04,
+    12.759,
+    19.005
+   ],
+   "originOffsetM": [
+    6.12,
+    7.38,
+    -0.22
+   ],
+   "triangles": 604,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "datepalmbark2.dds",
+    "datepalmbark3.dds",
+    "datepalmbark7.dds",
+    "datepalmbark8.dds",
+    "palmfond8.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "datepalm2.Mat",
+    "datepalm2_1.Mat",
+    "datepalm2_2.Mat",
+    "datepalm2_3.Mat",
+    "datepalm2_4.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "datepalm2_LOD_FLAT:0.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.761,
+    "heightM": 19.005,
+    "baseOffsetM": [
+     0.378,
+     0.22,
+     0.82
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 1.577,
+     "aM": [
+      0.323,
+      11.746,
+      0.994
+     ],
+     "bM": [
+      0.323,
+      13.186,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.954,
+     "aM": [
+      0.317,
+      0.224,
+      0.999
+     ],
+     "bM": [
+      0.317,
+      3.104,
+      0.999
+     ]
+    },
+    {
+     "radiusM": 0.758,
+     "aM": [
+      0.266,
+      3.104,
+      0.853
+     ],
+     "bM": [
+      0.266,
+      5.985,
+      0.853
+     ]
+    },
+    {
+     "radiusM": 0.643,
+     "aM": [
+      0.168,
+      8.865,
+      0.975
+     ],
+     "bM": [
+      0.168,
+      10.306,
+      0.975
+     ]
+    },
+    {
+     "radiusM": 0.605,
+     "aM": [
+      0.027,
+      10.306,
+      1.119
+     ],
+     "bM": [
+      0.027,
+      11.746,
+      1.119
+     ]
+    },
+    {
+     "radiusM": 0.605,
+     "aM": [
+      0.027,
+      11.026,
+      1.119
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.538,
+     "aM": [
+      0.307,
+      5.985,
+      0.94
+     ],
+     "bM": [
+      0.307,
+      8.865,
+      0.94
+     ]
+    },
+    {
+     "radiusM": 0.383,
+     "aM": [
+      0.407,
+      10.306,
+      2.411
+     ],
+     "bM": [
+      0.407,
+      11.746,
+      2.411
+     ]
+    },
+    {
+     "radiusM": 0.383,
+     "aM": [
+      0.407,
+      11.026,
+      2.411
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      -1.291,
+      10.306,
+      1.092
+     ],
+     "bM": [
+      -1.291,
+      11.746,
+      1.092
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      -1.291,
+      11.026,
+      1.092
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.373,
+     "aM": [
+      0.229,
+      13.186,
+      2.327
+     ],
+     "bM": [
+      0.229,
+      14.626,
+      2.327
+     ]
+    },
+    {
+     "radiusM": 0.37,
+     "aM": [
+      -1.649,
+      13.186,
+      0.917
+     ],
+     "bM": [
+      -1.649,
+      14.626,
+      0.917
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      1.494,
+      10.306,
+      0.009
+     ],
+     "bM": [
+      1.494,
+      11.746,
+      0.009
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      1.494,
+      11.026,
+      0.009
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.323,
+     "aM": [
+      0.238,
+      13.186,
+      1.001
+     ],
+     "bM": [
+      0.238,
+      14.626,
+      1.001
+     ]
+    },
+    {
+     "radiusM": 0.247,
+     "aM": [
+      1.797,
+      10.306,
+      0.677
+     ],
+     "bM": [
+      1.797,
+      11.746,
+      0.677
+     ]
+    },
+    {
+     "radiusM": 0.247,
+     "aM": [
+      1.797,
+      11.026,
+      0.677
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.216,
+     "aM": [
+      -0.692,
+      13.186,
+      0.908
+     ],
+     "bM": [
+      -0.692,
+      14.626,
+      0.908
+     ]
+    },
+    {
+     "radiusM": 0.215,
+     "aM": [
+      0.579,
+      10.306,
+      0.532
+     ],
+     "bM": [
+      0.579,
+      11.746,
+      0.532
+     ]
+    },
+    {
+     "radiusM": 0.215,
+     "aM": [
+      0.579,
+      11.026,
+      0.532
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.209,
+     "aM": [
+      -1.307,
+      10.306,
+      0.482
+     ],
+     "bM": [
+      -1.307,
+      11.746,
+      0.482
+     ]
+    },
+    {
+     "radiusM": 0.209,
+     "aM": [
+      -1.307,
+      11.026,
+      0.482
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    },
+    {
+     "radiusM": 0.164,
+     "aM": [
+      1.37,
+      13.186,
+      0.387
+     ],
+     "bM": [
+      1.37,
+      14.626,
+      0.387
+     ]
+    },
+    {
+     "radiusM": 0.16,
+     "aM": [
+      1.692,
+      13.186,
+      0.224
+     ],
+     "bM": [
+      1.692,
+      14.626,
+      0.224
+     ]
+    },
+    {
+     "radiusM": 0.14,
+     "aM": [
+      0.999,
+      13.186,
+      0.606
+     ],
+     "bM": [
+      0.999,
+      14.626,
+      0.606
+     ]
+    },
+    {
+     "radiusM": 0.134,
+     "aM": [
+      0.747,
+      10.306,
+      0.951
+     ],
+     "bM": [
+      0.747,
+      11.746,
+      0.951
+     ]
+    },
+    {
+     "radiusM": 0.134,
+     "aM": [
+      0.747,
+      11.026,
+      0.951
+     ],
+     "bM": [
+      0.323,
+      12.466,
+      0.994
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/beachpalm5",
+   "node": "es|fe010fce44|bmv__landscape_trees_beachpalm5",
+   "category": "tree",
+   "sizeM": [
+    9.313,
+    17.179,
+    15.456
+   ],
+   "originOffsetM": [
+    4.587,
+    11.138,
+    0.616
+   ],
+   "triangles": 876,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbpalmbark14.dds",
+    "palmbarknew9.dds",
+    "palmleafnew3dead.dds",
+    "palmleafnew3full2.dds",
+    "palmleafnew3full4.dds",
+    "palmleafnew3sat.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "palmtree5.Mat",
+    "palmtree5_1.Mat",
+    "palmtree5_2.Mat",
+    "palmtree5_3.Mat",
+    "palmtree5_4.Mat",
+    "palmtree5_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "beachpalm4_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.347,
+    "heightM": 15.456,
+    "baseOffsetM": [
+     -0.022,
+     -0.616,
+     -4.271
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.855,
+     "aM": [
+      -0.081,
+      -0.604,
+      -4.978
+     ],
+     "bM": [
+      -0.081,
+      0.777,
+      -4.978
+     ]
+    },
+    {
+     "radiusM": 0.704,
+     "aM": [
+      -0.006,
+      0.777,
+      -3.215
+     ],
+     "bM": [
+      -0.006,
+      2.158,
+      -3.215
+     ]
+    },
+    {
+     "radiusM": 0.611,
+     "aM": [
+      -0.081,
+      0.087,
+      -4.978
+     ],
+     "bM": [
+      -0.025,
+      1.468,
+      -4.189
+     ]
+    },
+    {
+     "radiusM": 0.611,
+     "aM": [
+      -0.025,
+      0.777,
+      -4.189
+     ],
+     "bM": [
+      -0.025,
+      2.158,
+      -4.189
+     ]
+    },
+    {
+     "radiusM": 0.54,
+     "aM": [
+      -0.033,
+      9.064,
+      5.481
+     ],
+     "bM": [
+      -0.033,
+      10.445,
+      5.481
+     ]
+    },
+    {
+     "radiusM": 0.505,
+     "aM": [
+      -0.031,
+      3.54,
+      1.106
+     ],
+     "bM": [
+      -0.031,
+      4.921,
+      1.106
+     ]
+    },
+    {
+     "radiusM": 0.483,
+     "aM": [
+      -0.009,
+      3.54,
+      2.045
+     ],
+     "bM": [
+      -0.009,
+      4.921,
+      2.045
+     ]
+    },
+    {
+     "radiusM": 0.452,
+     "aM": [
+      -0.006,
+      1.468,
+      -3.215
+     ],
+     "bM": [
+      -0.121,
+      2.849,
+      -2.807
+     ]
+    },
+    {
+     "radiusM": 0.452,
+     "aM": [
+      -0.025,
+      1.468,
+      -4.189
+     ],
+     "bM": [
+      -0.121,
+      2.849,
+      -2.807
+     ]
+    },
+    {
+     "radiusM": 0.452,
+     "aM": [
+      -0.121,
+      2.158,
+      -2.807
+     ],
+     "bM": [
+      -0.121,
+      3.54,
+      -2.807
+     ]
+    },
+    {
+     "radiusM": 0.439,
+     "aM": [
+      -0.024,
+      7.683,
+      4.868
+     ],
+     "bM": [
+      -0.024,
+      9.064,
+      4.868
+     ]
+    },
+    {
+     "radiusM": 0.439,
+     "aM": [
+      -0.024,
+      8.373,
+      4.868
+     ],
+     "bM": [
+      -0.033,
+      9.755,
+      5.481
+     ]
+    },
+    {
+     "radiusM": 0.432,
+     "aM": [
+      -0.053,
+      6.302,
+      4.115
+     ],
+     "bM": [
+      -0.053,
+      7.683,
+      4.115
+     ]
+    },
+    {
+     "radiusM": 0.432,
+     "aM": [
+      -0.053,
+      6.992,
+      4.115
+     ],
+     "bM": [
+      -0.024,
+      8.373,
+      4.868
+     ]
+    },
+    {
+     "radiusM": 0.407,
+     "aM": [
+      -0.082,
+      2.158,
+      -0.924
+     ],
+     "bM": [
+      -0.082,
+      3.54,
+      -0.924
+     ]
+    },
+    {
+     "radiusM": 0.396,
+     "aM": [
+      0.061,
+      2.158,
+      0.444
+     ],
+     "bM": [
+      0.061,
+      3.54,
+      0.444
+     ]
+    },
+    {
+     "radiusM": 0.396,
+     "aM": [
+      0.061,
+      2.849,
+      0.444
+     ],
+     "bM": [
+      -0.031,
+      4.23,
+      1.106
+     ]
+    },
+    {
+     "radiusM": 0.395,
+     "aM": [
+      -0.016,
+      2.158,
+      -2.232
+     ],
+     "bM": [
+      -0.016,
+      3.54,
+      -2.232
+     ]
+    },
+    {
+     "radiusM": 0.395,
+     "aM": [
+      0.011,
+      2.158,
+      -1.587
+     ],
+     "bM": [
+      0.011,
+      3.54,
+      -1.587
+     ]
+    },
+    {
+     "radiusM": 0.366,
+     "aM": [
+      -0.074,
+      2.158,
+      -0.155
+     ],
+     "bM": [
+      -0.074,
+      3.54,
+      -0.155
+     ]
+    },
+    {
+     "radiusM": 0.366,
+     "aM": [
+      -0.074,
+      2.849,
+      -0.155
+     ],
+     "bM": [
+      -0.031,
+      4.23,
+      1.106
+     ]
+    },
+    {
+     "radiusM": 0.313,
+     "aM": [
+      -0.032,
+      4.921,
+      3.434
+     ],
+     "bM": [
+      -0.032,
+      6.302,
+      3.434
+     ]
+    },
+    {
+     "radiusM": 0.313,
+     "aM": [
+      -0.032,
+      5.611,
+      3.434
+     ],
+     "bM": [
+      -0.053,
+      6.992,
+      4.115
+     ]
+    },
+    {
+     "radiusM": 0.277,
+     "aM": [
+      -0.009,
+      4.23,
+      2.045
+     ],
+     "bM": [
+      -0.03,
+      5.611,
+      2.425
+     ]
+    },
+    {
+     "radiusM": 0.277,
+     "aM": [
+      -0.03,
+      4.921,
+      2.425
+     ],
+     "bM": [
+      -0.03,
+      6.302,
+      2.425
+     ]
+    },
+    {
+     "radiusM": 0.225,
+     "aM": [
+      0.007,
+      4.921,
+      2.947
+     ],
+     "bM": [
+      0.007,
+      6.302,
+      2.947
+     ]
+    },
+    {
+     "radiusM": 0.225,
+     "aM": [
+      0.007,
+      5.611,
+      2.947
+     ],
+     "bM": [
+      -0.053,
+      6.992,
+      4.115
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/fanpalm5",
+   "node": "es|0676bd852b|bmv__landscape_trees_fanpalm5",
+   "category": "tree",
+   "sizeM": [
+    9.664,
+    19.718,
+    20.372
+   ],
+   "originOffsetM": [
+    5.106,
+    12.25,
+    4.317
+   ],
+   "triangles": 588,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "fanpalm3.dds",
+    "fanpalm4.dds",
+    "fanpalm6.dds",
+    "fanpalm7.dds",
+    "gkbpalmbark14.dds",
+    "palmbarknew14.dds",
+    "palmmiddle3.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "palmtree5.Mat.001",
+    "palmtree5_1.Mat.001",
+    "palmtree5_2.Mat.001",
+    "palmtree5_3.Mat.001",
+    "palmtree5_4.Mat.001",
+    "palmtree5_5.Mat.001",
+    "palmtree5_6.Mat",
+    "palmtree5_7.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "fanpalm4_LOD_FLAT:0.Mat.002"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.254,
+    "heightM": 20.372,
+    "baseOffsetM": [
+     0.094,
+     -4.317,
+     10.05
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.639,
+     "aM": [
+      -0.01,
+      1.491,
+      1.768
+     ],
+     "bM": [
+      -0.01,
+      2.94,
+      1.768
+     ]
+    },
+    {
+     "radiusM": 0.474,
+     "aM": [
+      -0.045,
+      5.838,
+      -0.515
+     ],
+     "bM": [
+      -0.045,
+      7.287,
+      -0.515
+     ]
+    },
+    {
+     "radiusM": 0.462,
+     "aM": [
+      0.158,
+      -4.304,
+      10.954
+     ],
+     "bM": [
+      0.158,
+      -2.855,
+      10.954
+     ]
+    },
+    {
+     "radiusM": 0.431,
+     "aM": [
+      0.129,
+      -4.304,
+      11.693
+     ],
+     "bM": [
+      0.129,
+      -2.855,
+      11.693
+     ]
+    },
+    {
+     "radiusM": 0.386,
+     "aM": [
+      0.087,
+      -2.855,
+      9.035
+     ],
+     "bM": [
+      0.087,
+      -1.406,
+      9.035
+     ]
+    },
+    {
+     "radiusM": 0.383,
+     "aM": [
+      0.058,
+      -2.855,
+      9.831
+     ],
+     "bM": [
+      0.058,
+      -1.406,
+      9.831
+     ]
+    },
+    {
+     "radiusM": 0.381,
+     "aM": [
+      -0.189,
+      -1.406,
+      7.029
+     ],
+     "bM": [
+      -0.189,
+      0.042,
+      7.029
+     ]
+    },
+    {
+     "radiusM": 0.374,
+     "aM": [
+      -0.098,
+      -2.855,
+      8.448
+     ],
+     "bM": [
+      -0.098,
+      -1.406,
+      8.448
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      0.158,
+      -3.58,
+      10.954
+     ],
+     "bM": [
+      0.106,
+      -2.131,
+      10.422
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      0.129,
+      -3.58,
+      11.693
+     ],
+     "bM": [
+      0.106,
+      -2.131,
+      10.422
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      0.106,
+      -2.855,
+      10.422
+     ],
+     "bM": [
+      0.106,
+      -1.406,
+      10.422
+     ]
+    },
+    {
+     "radiusM": 0.361,
+     "aM": [
+      -0.14,
+      -1.406,
+      4.926
+     ],
+     "bM": [
+      -0.14,
+      0.042,
+      4.926
+     ]
+    },
+    {
+     "radiusM": 0.359,
+     "aM": [
+      -0.191,
+      -1.406,
+      5.614
+     ],
+     "bM": [
+      -0.191,
+      0.042,
+      5.614
+     ]
+    },
+    {
+     "radiusM": 0.342,
+     "aM": [
+      -0.024,
+      -2.855,
+      7.745
+     ],
+     "bM": [
+      -0.024,
+      0.042,
+      7.745
+     ]
+    },
+    {
+     "radiusM": 0.339,
+     "aM": [
+      -0.142,
+      -1.406,
+      6.28
+     ],
+     "bM": [
+      -0.142,
+      0.042,
+      6.28
+     ]
+    },
+    {
+     "radiusM": 0.337,
+     "aM": [
+      -0.098,
+      -2.131,
+      8.448
+     ],
+     "bM": [
+      -0.067,
+      -0.682,
+      7.781
+     ]
+    },
+    {
+     "radiusM": 0.307,
+     "aM": [
+      -0.14,
+      -0.682,
+      4.926
+     ],
+     "bM": [
+      -0.219,
+      0.767,
+      3.908
+     ]
+    },
+    {
+     "radiusM": 0.307,
+     "aM": [
+      -0.219,
+      0.042,
+      3.908
+     ],
+     "bM": [
+      -0.219,
+      1.491,
+      3.908
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      -0.196,
+      -1.406,
+      4.23
+     ],
+     "bM": [
+      -0.196,
+      0.042,
+      4.23
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      -0.196,
+      -0.682,
+      4.23
+     ],
+     "bM": [
+      -0.219,
+      0.767,
+      3.908
+     ]
+    },
+    {
+     "radiusM": 0.273,
+     "aM": [
+      -0.04,
+      0.042,
+      3.484
+     ],
+     "bM": [
+      -0.04,
+      1.491,
+      3.484
+     ]
+    },
+    {
+     "radiusM": 0.273,
+     "aM": [
+      0.001,
+      4.389,
+      -0.225
+     ],
+     "bM": [
+      0.001,
+      5.838,
+      -0.225
+     ]
+    },
+    {
+     "radiusM": 0.273,
+     "aM": [
+      0.001,
+      5.114,
+      -0.225
+     ],
+     "bM": [
+      -0.045,
+      6.563,
+      -0.515
+     ]
+    },
+    {
+     "radiusM": 0.255,
+     "aM": [
+      -0.012,
+      2.94,
+      0.586
+     ],
+     "bM": [
+      -0.012,
+      4.389,
+      0.586
+     ]
+    },
+    {
+     "radiusM": 0.249,
+     "aM": [
+      -0.074,
+      -2.855,
+      7.114
+     ],
+     "bM": [
+      -0.074,
+      -1.406,
+      7.114
+     ]
+    },
+    {
+     "radiusM": 0.249,
+     "aM": [
+      -0.074,
+      -2.131,
+      7.114
+     ],
+     "bM": [
+      -0.189,
+      -0.682,
+      7.029
+     ]
+    },
+    {
+     "radiusM": 0.246,
+     "aM": [
+      -0.01,
+      2.216,
+      1.768
+     ],
+     "bM": [
+      -0.025,
+      3.665,
+      0.973
+     ]
+    },
+    {
+     "radiusM": 0.246,
+     "aM": [
+      -0.025,
+      2.94,
+      0.973
+     ],
+     "bM": [
+      -0.025,
+      4.389,
+      0.973
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -0.025,
+      3.665,
+      0.973
+     ],
+     "bM": [
+      -0.057,
+      5.114,
+      0.174
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -0.012,
+      3.665,
+      0.586
+     ],
+     "bM": [
+      -0.057,
+      5.114,
+      0.174
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -0.057,
+      4.389,
+      0.174
+     ],
+     "bM": [
+      -0.057,
+      5.838,
+      0.174
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -0.057,
+      5.114,
+      0.174
+     ],
+     "bM": [
+      -0.045,
+      6.563,
+      -0.515
+     ]
+    },
+    {
+     "radiusM": 0.232,
+     "aM": [
+      -0.076,
+      0.042,
+      3.025
+     ],
+     "bM": [
+      -0.076,
+      1.491,
+      3.025
+     ]
+    },
+    {
+     "radiusM": 0.232,
+     "aM": [
+      -0.076,
+      0.767,
+      3.025
+     ],
+     "bM": [
+      -0.01,
+      2.216,
+      1.768
+     ]
+    },
+    {
+     "radiusM": 0.222,
+     "aM": [
+      -0.034,
+      0.042,
+      2.369
+     ],
+     "bM": [
+      -0.034,
+      1.491,
+      2.369
+     ]
+    },
+    {
+     "radiusM": 0.222,
+     "aM": [
+      -0.034,
+      0.767,
+      2.369
+     ],
+     "bM": [
+      -0.01,
+      2.216,
+      1.768
+     ]
+    },
+    {
+     "radiusM": 0.153,
+     "aM": [
+      0.075,
+      0.042,
+      2.72
+     ],
+     "bM": [
+      0.075,
+      1.491,
+      2.72
+     ]
+    },
+    {
+     "radiusM": 0.153,
+     "aM": [
+      0.075,
+      0.767,
+      2.72
+     ],
+     "bM": [
+      -0.01,
+      2.216,
+      1.768
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbcyrodilcypress1",
+   "node": "es|7952030538|bmv__landscape_trees_gkbcyrodilcypress1",
+   "category": "tree",
+   "sizeM": [
+    12.231,
+    11.911,
+    23.435
+   ],
+   "originOffsetM": [
+    6.282,
+    5.842,
+    0.173
+   ],
+   "triangles": 1822,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "cypressbark1.dds",
+    "grandoak11seq11dark2.dds",
+    "tamrieltreelod.dds.001",
+    "treepineforestbranchcomp.dds",
+    "treepineforestbranchcomp2dark2.dds"
+   ],
+   "materials": [
+    "gkbcyrodilcypress1.Mat",
+    "gkbcyrodilcypress1_1.Mat",
+    "gkbcyrodilcypress1_2.Mat",
+    "gkbcyrodilcypress1_3.Mat",
+    "gkbcyrodilcypress1_4.Mat",
+    "gkbcyrodilcypress1_5.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbcyrodilcypress1_LOD_FLAT:0.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.25,
+    "heightM": 23.435,
+    "baseOffsetM": [
+     0.0,
+     -0.173,
+     0.0
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 1.134,
+     "aM": [
+      -0.561,
+      15.623,
+      0.896
+     ],
+     "bM": [
+      -0.561,
+      17.059,
+      0.896
+     ]
+    },
+    {
+     "radiusM": 0.825,
+     "aM": [
+      0.221,
+      -0.173,
+      0.102
+     ],
+     "bM": [
+      0.221,
+      1.263,
+      0.102
+     ]
+    },
+    {
+     "radiusM": 0.789,
+     "aM": [
+      0.153,
+      1.263,
+      -0.002
+     ],
+     "bM": [
+      0.153,
+      4.135,
+      -0.002
+     ]
+    },
+    {
+     "radiusM": 0.751,
+     "aM": [
+      0.243,
+      8.443,
+      -0.105
+     ],
+     "bM": [
+      0.243,
+      9.879,
+      -0.105
+     ]
+    },
+    {
+     "radiusM": 0.608,
+     "aM": [
+      0.323,
+      4.135,
+      -0.029
+     ],
+     "bM": [
+      0.323,
+      5.571,
+      -0.029
+     ]
+    },
+    {
+     "radiusM": 0.598,
+     "aM": [
+      1.489,
+      11.315,
+      -1.656
+     ],
+     "bM": [
+      1.489,
+      12.751,
+      -1.656
+     ]
+    },
+    {
+     "radiusM": 0.574,
+     "aM": [
+      0.207,
+      5.571,
+      -0.004
+     ],
+     "bM": [
+      0.207,
+      7.007,
+      -0.004
+     ]
+    },
+    {
+     "radiusM": 0.5,
+     "aM": [
+      -1.675,
+      12.751,
+      1.396
+     ],
+     "bM": [
+      -1.675,
+      14.187,
+      1.396
+     ]
+    },
+    {
+     "radiusM": 0.495,
+     "aM": [
+      0.303,
+      7.007,
+      -0.046
+     ],
+     "bM": [
+      0.303,
+      8.443,
+      -0.046
+     ]
+    },
+    {
+     "radiusM": 0.486,
+     "aM": [
+      -0.697,
+      12.751,
+      -0.76
+     ],
+     "bM": [
+      -0.697,
+      14.187,
+      -0.76
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      0.243,
+      9.161,
+      -0.105
+     ],
+     "bM": [
+      -0.032,
+      10.597,
+      0.158
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      -0.032,
+      9.879,
+      0.158
+     ],
+     "bM": [
+      -0.032,
+      11.315,
+      0.158
+     ]
+    },
+    {
+     "radiusM": 0.437,
+     "aM": [
+      0.084,
+      11.315,
+      0.153
+     ],
+     "bM": [
+      0.084,
+      12.751,
+      0.153
+     ]
+    },
+    {
+     "radiusM": 0.425,
+     "aM": [
+      0.702,
+      17.059,
+      -0.791
+     ],
+     "bM": [
+      0.702,
+      18.495,
+      -0.791
+     ]
+    },
+    {
+     "radiusM": 0.401,
+     "aM": [
+      0.83,
+      11.315,
+      0.72
+     ],
+     "bM": [
+      0.83,
+      12.751,
+      0.72
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      0.83,
+      12.033,
+      0.72
+     ],
+     "bM": [
+      -0.014,
+      13.469,
+      0.236
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      -0.014,
+      12.751,
+      0.236
+     ],
+     "bM": [
+      -0.014,
+      14.187,
+      0.236
+     ]
+    },
+    {
+     "radiusM": 0.327,
+     "aM": [
+      2.36,
+      14.187,
+      -0.666
+     ],
+     "bM": [
+      2.36,
+      15.623,
+      -0.666
+     ]
+    },
+    {
+     "radiusM": 0.313,
+     "aM": [
+      0.588,
+      14.187,
+      1.212
+     ],
+     "bM": [
+      0.588,
+      15.623,
+      1.212
+     ]
+    },
+    {
+     "radiusM": 0.313,
+     "aM": [
+      0.588,
+      14.905,
+      1.212
+     ],
+     "bM": [
+      -0.561,
+      16.341,
+      0.896
+     ]
+    },
+    {
+     "radiusM": 0.312,
+     "aM": [
+      -0.587,
+      18.495,
+      -0.451
+     ],
+     "bM": [
+      -0.587,
+      19.931,
+      -0.451
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      -0.697,
+      13.469,
+      -0.76
+     ],
+     "bM": [
+      0.184,
+      14.905,
+      0.103
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      -0.014,
+      13.469,
+      0.236
+     ],
+     "bM": [
+      0.184,
+      14.905,
+      0.103
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      0.184,
+      14.187,
+      0.103
+     ],
+     "bM": [
+      0.184,
+      15.623,
+      0.103
+     ]
+    },
+    {
+     "radiusM": 0.294,
+     "aM": [
+      1.265,
+      17.059,
+      0.518
+     ],
+     "bM": [
+      1.265,
+      18.495,
+      0.518
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      0.311,
+      19.931,
+      0.655
+     ],
+     "bM": [
+      0.311,
+      21.367,
+      0.655
+     ]
+    },
+    {
+     "radiusM": 0.183,
+     "aM": [
+      -0.441,
+      18.495,
+      0.677
+     ],
+     "bM": [
+      -0.441,
+      19.931,
+      0.677
+     ]
+    },
+    {
+     "radiusM": 0.183,
+     "aM": [
+      -0.441,
+      19.213,
+      0.677
+     ],
+     "bM": [
+      0.311,
+      20.649,
+      0.655
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      0.198,
+      15.623,
+      0.06
+     ],
+     "bM": [
+      0.198,
+      19.931,
+      0.06
+     ]
+    },
+    {
+     "radiusM": 0.148,
+     "aM": [
+      0.702,
+      17.777,
+      -0.791
+     ],
+     "bM": [
+      0.163,
+      19.213,
+      0.095
+     ]
+    },
+    {
+     "radiusM": 0.148,
+     "aM": [
+      0.163,
+      19.213,
+      0.095
+     ],
+     "bM": [
+      0.311,
+      20.649,
+      0.655
+     ]
+    },
+    {
+     "radiusM": 0.139,
+     "aM": [
+      -0.561,
+      16.341,
+      0.896
+     ],
+     "bM": [
+      0.23,
+      17.777,
+      0.084
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbcyrodilcypress2",
+   "node": "es|c733333099|bmv__landscape_trees_gkbcyrodilcypress2",
+   "category": "tree",
+   "sizeM": [
+    12.27,
+    11.841,
+    23.435
+   ],
+   "originOffsetM": [
+    5.877,
+    5.884,
+    0.154
+   ],
+   "triangles": 1822,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "cypressbark1.dds",
+    "grandoak11seq11dark2.dds",
+    "tamrieltreelod.dds.001",
+    "treepineforestbranchcomp.dds",
+    "treepineforestbranchcomp2dark2.dds"
+   ],
+   "materials": [
+    "gkbcyrodilcypress2.Mat",
+    "gkbcyrodilcypress2_1.Mat",
+    "gkbcyrodilcypress2_2.Mat",
+    "gkbcyrodilcypress2_3.Mat",
+    "gkbcyrodilcypress2_4.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbcyrodilcypress2_LOD_FLAT:0.Mat.001"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.25,
+    "heightM": 23.435,
+    "baseOffsetM": [
+     0.0,
+     -0.154,
+     0.0
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 0.813,
+     "aM": [
+      -0.093,
+      -0.154,
+      0.058
+     ],
+     "bM": [
+      -0.093,
+      1.282,
+      0.058
+     ]
+    },
+    {
+     "radiusM": 0.774,
+     "aM": [
+      1.314,
+      14.205,
+      0.196
+     ],
+     "bM": [
+      1.314,
+      15.641,
+      0.196
+     ]
+    },
+    {
+     "radiusM": 0.759,
+     "aM": [
+      0.024,
+      1.282,
+      0.052
+     ],
+     "bM": [
+      0.024,
+      2.718,
+      0.052
+     ]
+    },
+    {
+     "radiusM": 0.697,
+     "aM": [
+      0.092,
+      2.718,
+      0.166
+     ],
+     "bM": [
+      0.092,
+      5.59,
+      0.166
+     ]
+    },
+    {
+     "radiusM": 0.621,
+     "aM": [
+      -0.68,
+      17.077,
+      -1.188
+     ],
+     "bM": [
+      -0.68,
+      18.513,
+      -1.188
+     ]
+    },
+    {
+     "radiusM": 0.562,
+     "aM": [
+      -0.373,
+      18.513,
+      1.416
+     ],
+     "bM": [
+      -0.373,
+      19.948,
+      1.416
+     ]
+    },
+    {
+     "radiusM": 0.547,
+     "aM": [
+      -0.911,
+      14.205,
+      1.027
+     ],
+     "bM": [
+      -0.911,
+      15.641,
+      1.027
+     ]
+    },
+    {
+     "radiusM": 0.543,
+     "aM": [
+      0.079,
+      5.59,
+      0.257
+     ],
+     "bM": [
+      0.079,
+      8.461,
+      0.257
+     ]
+    },
+    {
+     "radiusM": 0.504,
+     "aM": [
+      1.0,
+      17.077,
+      -0.88
+     ],
+     "bM": [
+      1.0,
+      18.513,
+      -0.88
+     ]
+    },
+    {
+     "radiusM": 0.453,
+     "aM": [
+      -0.797,
+      17.077,
+      0.587
+     ],
+     "bM": [
+      -0.797,
+      18.513,
+      0.587
+     ]
+    },
+    {
+     "radiusM": 0.453,
+     "aM": [
+      -0.797,
+      17.795,
+      0.587
+     ],
+     "bM": [
+      -0.373,
+      19.23,
+      1.416
+     ]
+    },
+    {
+     "radiusM": 0.447,
+     "aM": [
+      -2.466,
+      12.769,
+      -0.931
+     ],
+     "bM": [
+      -2.466,
+      14.205,
+      -0.931
+     ]
+    },
+    {
+     "radiusM": 0.434,
+     "aM": [
+      -0.036,
+      8.461,
+      0.163
+     ],
+     "bM": [
+      -0.036,
+      9.897,
+      0.163
+     ]
+    },
+    {
+     "radiusM": 0.431,
+     "aM": [
+      -0.373,
+      19.23,
+      1.416
+     ],
+     "bM": [
+      -0.176,
+      20.666,
+      0.192
+     ]
+    },
+    {
+     "radiusM": 0.431,
+     "aM": [
+      -0.176,
+      19.948,
+      0.192
+     ],
+     "bM": [
+      -0.176,
+      21.384,
+      0.192
+     ]
+    },
+    {
+     "radiusM": 0.419,
+     "aM": [
+      -0.036,
+      9.179,
+      0.163
+     ],
+     "bM": [
+      0.072,
+      10.615,
+      -0.034
+     ]
+    },
+    {
+     "radiusM": 0.419,
+     "aM": [
+      0.072,
+      9.897,
+      -0.034
+     ],
+     "bM": [
+      0.072,
+      11.333,
+      -0.034
+     ]
+    },
+    {
+     "radiusM": 0.383,
+     "aM": [
+      -0.425,
+      9.897,
+      0.243
+     ],
+     "bM": [
+      -0.425,
+      11.333,
+      0.243
+     ]
+    },
+    {
+     "radiusM": 0.372,
+     "aM": [
+      -0.425,
+      10.615,
+      0.243
+     ],
+     "bM": [
+      -0.203,
+      12.051,
+      0.291
+     ]
+    },
+    {
+     "radiusM": 0.372,
+     "aM": [
+      -0.203,
+      11.333,
+      0.291
+     ],
+     "bM": [
+      -0.203,
+      12.769,
+      0.291
+     ]
+    },
+    {
+     "radiusM": 0.296,
+     "aM": [
+      -0.203,
+      12.051,
+      0.291
+     ],
+     "bM": [
+      -0.177,
+      13.487,
+      0.105
+     ]
+    },
+    {
+     "radiusM": 0.296,
+     "aM": [
+      -0.177,
+      12.769,
+      0.105
+     ],
+     "bM": [
+      -0.177,
+      14.205,
+      0.105
+     ]
+    },
+    {
+     "radiusM": 0.274,
+     "aM": [
+      -1.11,
+      11.333,
+      -1.166
+     ],
+     "bM": [
+      -1.11,
+      12.769,
+      -1.166
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      0.072,
+      10.615,
+      -0.034
+     ],
+     "bM": [
+      -0.333,
+      12.051,
+      -0.096
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      -0.333,
+      11.333,
+      -0.096
+     ],
+     "bM": [
+      -0.333,
+      12.769,
+      -0.096
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      -0.333,
+      12.051,
+      -0.096
+     ],
+     "bM": [
+      -0.177,
+      13.487,
+      0.105
+     ]
+    },
+    {
+     "radiusM": 0.227,
+     "aM": [
+      -0.674,
+      11.333,
+      -0.671
+     ],
+     "bM": [
+      -0.674,
+      12.769,
+      -0.671
+     ]
+    },
+    {
+     "radiusM": 0.227,
+     "aM": [
+      -0.674,
+      12.051,
+      -0.671
+     ],
+     "bM": [
+      -0.177,
+      13.487,
+      0.105
+     ]
+    },
+    {
+     "radiusM": 0.223,
+     "aM": [
+      1.314,
+      14.923,
+      0.196
+     ],
+     "bM": [
+      -0.051,
+      16.359,
+      0.027
+     ]
+    },
+    {
+     "radiusM": 0.223,
+     "aM": [
+      -0.051,
+      15.641,
+      0.027
+     ],
+     "bM": [
+      -0.051,
+      18.513,
+      0.027
+     ]
+    },
+    {
+     "radiusM": 0.217,
+     "aM": [
+      -0.152,
+      14.205,
+      0.139
+     ],
+     "bM": [
+      -0.152,
+      15.641,
+      0.139
+     ]
+    },
+    {
+     "radiusM": 0.217,
+     "aM": [
+      -0.152,
+      14.923,
+      0.139
+     ],
+     "bM": [
+      -0.051,
+      16.359,
+      0.027
+     ]
+    },
+    {
+     "radiusM": 0.214,
+     "aM": [
+      -0.346,
+      11.333,
+      1.298
+     ],
+     "bM": [
+      -0.346,
+      12.769,
+      1.298
+     ]
+    },
+    {
+     "radiusM": 0.202,
+     "aM": [
+      0.859,
+      9.897,
+      -0.14
+     ],
+     "bM": [
+      0.859,
+      11.333,
+      -0.14
+     ]
+    },
+    {
+     "radiusM": 0.154,
+     "aM": [
+      -0.975,
+      9.897,
+      0.671
+     ],
+     "bM": [
+      -0.975,
+      11.333,
+      0.671
+     ]
+    },
+    {
+     "radiusM": 0.154,
+     "aM": [
+      -0.975,
+      10.615,
+      0.671
+     ],
+     "bM": [
+      -0.203,
+      12.051,
+      0.291
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:vurt_shroom/vurt_shroom_big6",
+   "node": "es|02db7c7e9a|bmv__vurt_shroom_vurt_shroom_big6",
+   "category": "fungus",
+   "sizeM": [
+    10.937,
+    11.706,
+    15.237
+   ],
+   "originOffsetM": [
+    2.974,
+    4.274,
+    4.876
+   ],
+   "triangles": 650,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "vurt_mushbottom.dds",
+    "vurt_shroomstem2.dds",
+    "vurt_shroomtop.dds"
+   ],
+   "materials": [
+    "Tri plant_pmat2.00 0.Mat",
+    "Tri plant_pmat2.00 1.Mat",
+    "plant_pmat1.00.Mat"
+   ]
+  },
+  {
+   "id": "bmv:trdata/mushrooms/tr_oth_tallmush01",
+   "node": "es|f9dc6bec65|bmv__trdata_mushrooms_tr_oth_tallmush01",
+   "category": "fungus",
+   "sizeM": [
+    1.761,
+    1.704,
+    7.977
+   ],
+   "originOffsetM": [
+    1.155,
+    0.48,
+    -0.005
+   ],
+   "triangles": 524,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pc_flora_str_tree_01tr2.dds"
+   ],
+   "materials": [
+    "Circle.001 1.Mat",
+    "Circle.002.Mat"
+   ]
+  },
+  {
+   "id": "bmv:trdata/mushrooms/tr_oth_tallmush05",
+   "node": "es|5b96d9eb08|bmv__trdata_mushrooms_tr_oth_tallmush05",
+   "category": "fungus",
+   "sizeM": [
+    2.385,
+    2.307,
+    8.402
+   ],
+   "originOffsetM": [
+    1.501,
+    0.605,
+    0.085
+   ],
+   "triangles": 523,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "pc_flora_str_tree_01tr2.dds"
+   ],
+   "materials": [
+    "Circle.001 1.Mat.001",
+    "Circle.002.Mat.001"
+   ]
+  },
+  {
+   "id": "bmv:vurt/deadtrees/dead_bc_tree_01",
+   "node": "es|98d5f9c105|bmv__vurt_deadtrees_dead_bc_tree_01",
+   "category": "tree",
+   "sizeM": [
+    11.309,
+    14.158,
+    29.186
+   ],
+   "originOffsetM": [
+    4.33,
+    7.38,
+    0.006
+   ],
+   "triangles": 1767,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "ashlandbark03.dds",
+    "vurt_spmoss021.dds"
+   ],
+   "materials": [
+    "Tri plant_pmat2.00 0.Mat.001",
+    "Tri plant_pmat2.00 1.Mat.001",
+    "plant_pmat2.001 1.Mat",
+    "plant_pmat2.005 1.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 1.544,
+    "heightM": 29.186,
+    "baseOffsetM": [
+     0.076,
+     -0.006,
+     -0.109
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 1.963,
+     "aM": [
+      0.121,
+      0.004,
+      -0.222
+     ],
+     "bM": [
+      0.121,
+      1.623,
+      -0.222
+     ]
+    },
+    {
+     "radiusM": 1.459,
+     "aM": [
+      0.124,
+      1.623,
+      -0.247
+     ],
+     "bM": [
+      0.124,
+      3.242,
+      -0.247
+     ]
+    },
+    {
+     "radiusM": 1.329,
+     "aM": [
+      2.574,
+      22.667,
+      6.618
+     ],
+     "bM": [
+      2.574,
+      24.286,
+      6.618
+     ]
+    },
+    {
+     "radiusM": 1.227,
+     "aM": [
+      4.85,
+      16.192,
+      2.238
+     ],
+     "bM": [
+      4.85,
+      17.811,
+      2.238
+     ]
+    },
+    {
+     "radiusM": 1.106,
+     "aM": [
+      -0.02,
+      8.098,
+      0.229
+     ],
+     "bM": [
+      -0.02,
+      9.717,
+      0.229
+     ]
+    },
+    {
+     "radiusM": 1.014,
+     "aM": [
+      -0.076,
+      3.242,
+      -0.136
+     ],
+     "bM": [
+      -0.076,
+      4.86,
+      -0.136
+     ]
+    },
+    {
+     "radiusM": 0.887,
+     "aM": [
+      -0.092,
+      4.86,
+      0.127
+     ],
+     "bM": [
+      -0.092,
+      6.479,
+      0.127
+     ]
+    },
+    {
+     "radiusM": 0.887,
+     "aM": [
+      -0.18,
+      14.573,
+      0.961
+     ],
+     "bM": [
+      -0.18,
+      16.192,
+      0.961
+     ]
+    },
+    {
+     "radiusM": 0.821,
+     "aM": [
+      -2.716,
+      19.429,
+      4.784
+     ],
+     "bM": [
+      -2.716,
+      21.048,
+      4.784
+     ]
+    },
+    {
+     "radiusM": 0.798,
+     "aM": [
+      -0.293,
+      9.717,
+      0.091
+     ],
+     "bM": [
+      -0.293,
+      11.336,
+      0.091
+     ]
+    },
+    {
+     "radiusM": 0.722,
+     "aM": [
+      -0.21,
+      6.479,
+      0.03
+     ],
+     "bM": [
+      -0.21,
+      8.098,
+      0.03
+     ]
+    },
+    {
+     "radiusM": 0.713,
+     "aM": [
+      -1.149,
+      16.192,
+      0.904
+     ],
+     "bM": [
+      -1.149,
+      17.811,
+      0.904
+     ]
+    },
+    {
+     "radiusM": 0.712,
+     "aM": [
+      1.852,
+      22.667,
+      3.679
+     ],
+     "bM": [
+      1.852,
+      24.286,
+      3.679
+     ]
+    },
+    {
+     "radiusM": 0.683,
+     "aM": [
+      -0.18,
+      15.383,
+      0.961
+     ],
+     "bM": [
+      0.11,
+      17.001,
+      0.34
+     ]
+    },
+    {
+     "radiusM": 0.683,
+     "aM": [
+      0.11,
+      16.192,
+      0.34
+     ],
+     "bM": [
+      0.11,
+      17.811,
+      0.34
+     ]
+    },
+    {
+     "radiusM": 0.676,
+     "aM": [
+      0.983,
+      12.954,
+      0.735
+     ],
+     "bM": [
+      0.983,
+      14.573,
+      0.735
+     ]
+    },
+    {
+     "radiusM": 0.655,
+     "aM": [
+      -1.149,
+      17.001,
+      0.904
+     ],
+     "bM": [
+      -2.139,
+      18.62,
+      1.75
+     ]
+    },
+    {
+     "radiusM": 0.655,
+     "aM": [
+      -2.139,
+      17.811,
+      1.75
+     ],
+     "bM": [
+      -2.139,
+      19.429,
+      1.75
+     ]
+    },
+    {
+     "radiusM": 0.637,
+     "aM": [
+      3.241,
+      25.905,
+      0.311
+     ],
+     "bM": [
+      3.241,
+      27.523,
+      0.311
+     ]
+    },
+    {
+     "radiusM": 0.635,
+     "aM": [
+      -0.2,
+      12.954,
+      0.487
+     ],
+     "bM": [
+      -0.2,
+      14.573,
+      0.487
+     ]
+    },
+    {
+     "radiusM": 0.635,
+     "aM": [
+      -0.2,
+      13.764,
+      0.487
+     ],
+     "bM": [
+      -0.18,
+      15.383,
+      0.961
+     ]
+    },
+    {
+     "radiusM": 0.608,
+     "aM": [
+      -2.984,
+      17.811,
+      2.633
+     ],
+     "bM": [
+      -2.984,
+      19.429,
+      2.633
+     ]
+    },
+    {
+     "radiusM": 0.587,
+     "aM": [
+      -0.192,
+      16.192,
+      2.365
+     ],
+     "bM": [
+      -0.192,
+      17.811,
+      2.365
+     ]
+    },
+    {
+     "radiusM": 0.55,
+     "aM": [
+      1.486,
+      19.429,
+      -6.025
+     ],
+     "bM": [
+      1.486,
+      21.048,
+      -6.025
+     ]
+    },
+    {
+     "radiusM": 0.546,
+     "aM": [
+      -2.984,
+      18.62,
+      2.633
+     ],
+     "bM": [
+      -3.712,
+      20.239,
+      3.299
+     ]
+    },
+    {
+     "radiusM": 0.546,
+     "aM": [
+      -3.712,
+      19.429,
+      3.299
+     ],
+     "bM": [
+      -3.712,
+      21.048,
+      3.299
+     ]
+    },
+    {
+     "radiusM": 0.532,
+     "aM": [
+      3.418,
+      24.286,
+      0.409
+     ],
+     "bM": [
+      3.418,
+      25.905,
+      0.409
+     ]
+    },
+    {
+     "radiusM": 0.516,
+     "aM": [
+      2.622,
+      16.192,
+      0.698
+     ],
+     "bM": [
+      2.622,
+      19.429,
+      0.698
+     ]
+    },
+    {
+     "radiusM": 0.504,
+     "aM": [
+      -0.177,
+      11.336,
+      -0.099
+     ],
+     "bM": [
+      -0.177,
+      12.954,
+      -0.099
+     ]
+    },
+    {
+     "radiusM": 0.504,
+     "aM": [
+      -0.177,
+      12.145,
+      -0.099
+     ],
+     "bM": [
+      -0.2,
+      13.764,
+      0.487
+     ]
+    },
+    {
+     "radiusM": 0.487,
+     "aM": [
+      -4.006,
+      19.429,
+      4.254
+     ],
+     "bM": [
+      -4.006,
+      21.048,
+      4.254
+     ]
+    },
+    {
+     "radiusM": 0.486,
+     "aM": [
+      1.647,
+      17.811,
+      0.553
+     ],
+     "bM": [
+      1.647,
+      19.429,
+      0.553
+     ]
+    },
+    {
+     "radiusM": 0.457,
+     "aM": [
+      1.732,
+      27.523,
+      0.166
+     ],
+     "bM": [
+      1.732,
+      29.142,
+      0.166
+     ]
+    },
+    {
+     "radiusM": 0.452,
+     "aM": [
+      0.428,
+      11.336,
+      -2.074
+     ],
+     "bM": [
+      0.428,
+      12.954,
+      -2.074
+     ]
+    },
+    {
+     "radiusM": 0.428,
+     "aM": [
+      4.85,
+      17.001,
+      2.238
+     ],
+     "bM": [
+      3.41,
+      18.62,
+      1.086
+     ]
+    },
+    {
+     "radiusM": 0.428,
+     "aM": [
+      3.41,
+      17.811,
+      1.086
+     ],
+     "bM": [
+      3.41,
+      19.429,
+      1.086
+     ]
+    },
+    {
+     "radiusM": 0.414,
+     "aM": [
+      -0.618,
+      16.192,
+      3.289
+     ],
+     "bM": [
+      -0.618,
+      17.811,
+      3.289
+     ]
+    },
+    {
+     "radiusM": 0.413,
+     "aM": [
+      -0.178,
+      17.811,
+      -1.621
+     ],
+     "bM": [
+      -0.178,
+      19.429,
+      -1.621
+     ]
+    },
+    {
+     "radiusM": 0.402,
+     "aM": [
+      -0.264,
+      19.429,
+      5.408
+     ],
+     "bM": [
+      -0.264,
+      21.048,
+      5.408
+     ]
+    },
+    {
+     "radiusM": 0.401,
+     "aM": [
+      0.983,
+      13.764,
+      0.735
+     ],
+     "bM": [
+      1.627,
+      15.383,
+      0.779
+     ]
+    },
+    {
+     "radiusM": 0.401,
+     "aM": [
+      1.627,
+      14.573,
+      0.779
+     ],
+     "bM": [
+      1.627,
+      16.192,
+      0.779
+     ]
+    },
+    {
+     "radiusM": 0.401,
+     "aM": [
+      1.627,
+      15.383,
+      0.779
+     ],
+     "bM": [
+      2.622,
+      17.001,
+      0.698
+     ]
+    },
+    {
+     "radiusM": 0.388,
+     "aM": [
+      0.452,
+      17.811,
+      7.008
+     ],
+     "bM": [
+      0.452,
+      19.429,
+      7.008
+     ]
+    },
+    {
+     "radiusM": 0.385,
+     "aM": [
+      0.282,
+      11.336,
+      -1.525
+     ],
+     "bM": [
+      0.282,
+      12.954,
+      -1.525
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      2.211,
+      14.573,
+      0.497
+     ],
+     "bM": [
+      2.211,
+      16.192,
+      0.497
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      2.211,
+      15.383,
+      0.497
+     ],
+     "bM": [
+      2.622,
+      17.001,
+      0.698
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      0.03,
+      17.811,
+      -2.236
+     ],
+     "bM": [
+      0.03,
+      19.429,
+      -2.236
+     ]
+    },
+    {
+     "radiusM": 0.368,
+     "aM": [
+      -0.582,
+      17.811,
+      4.844
+     ],
+     "bM": [
+      -0.582,
+      19.429,
+      4.844
+     ]
+    },
+    {
+     "radiusM": 0.368,
+     "aM": [
+      -0.582,
+      18.62,
+      4.844
+     ],
+     "bM": [
+      -0.264,
+      20.239,
+      5.408
+     ]
+    },
+    {
+     "radiusM": 0.366,
+     "aM": [
+      2.415,
+      24.286,
+      1.634
+     ],
+     "bM": [
+      2.415,
+      25.905,
+      1.634
+     ]
+    },
+    {
+     "radiusM": 0.365,
+     "aM": [
+      3.001,
+      24.286,
+      1.215
+     ],
+     "bM": [
+      3.001,
+      25.905,
+      1.215
+     ]
+    },
+    {
+     "radiusM": 0.364,
+     "aM": [
+      0.495,
+      17.811,
+      -2.772
+     ],
+     "bM": [
+      0.495,
+      19.429,
+      -2.772
+     ]
+    },
+    {
+     "radiusM": 0.363,
+     "aM": [
+      0.133,
+      11.336,
+      -0.744
+     ],
+     "bM": [
+      0.133,
+      12.954,
+      -0.744
+     ]
+    },
+    {
+     "radiusM": 0.363,
+     "aM": [
+      0.133,
+      12.145,
+      -0.744
+     ],
+     "bM": [
+      -0.2,
+      13.764,
+      0.487
+     ]
+    },
+    {
+     "radiusM": 0.362,
+     "aM": [
+      0.848,
+      17.811,
+      -3.377
+     ],
+     "bM": [
+      0.848,
+      19.429,
+      -3.377
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      1.951,
+      22.667,
+      1.975
+     ],
+     "bM": [
+      1.951,
+      24.286,
+      1.975
+     ]
+    },
+    {
+     "radiusM": 0.36,
+     "aM": [
+      1.951,
+      23.476,
+      1.975
+     ],
+     "bM": [
+      2.415,
+      25.095,
+      1.634
+     ]
+    },
+    {
+     "radiusM": 0.356,
+     "aM": [
+      0.11,
+      17.001,
+      0.34
+     ],
+     "bM": [
+      0.978,
+      18.62,
+      1.086
+     ]
+    },
+    {
+     "radiusM": 0.356,
+     "aM": [
+      0.978,
+      17.811,
+      1.086
+     ],
+     "bM": [
+      0.978,
+      19.429,
+      1.086
+     ]
+    },
+    {
+     "radiusM": 0.355,
+     "aM": [
+      0.848,
+      18.62,
+      -3.377
+     ],
+     "bM": [
+      1.121,
+      20.239,
+      -4.326
+     ]
+    },
+    {
+     "radiusM": 0.355,
+     "aM": [
+      1.121,
+      19.429,
+      -4.326
+     ],
+     "bM": [
+      1.121,
+      21.048,
+      -4.326
+     ]
+    },
+    {
+     "radiusM": 0.35,
+     "aM": [
+      1.497,
+      17.811,
+      1.999
+     ],
+     "bM": [
+      1.497,
+      19.429,
+      1.999
+     ]
+    },
+    {
+     "radiusM": 0.345,
+     "aM": [
+      1.003,
+      17.811,
+      -3.91
+     ],
+     "bM": [
+      1.003,
+      19.429,
+      -3.91
+     ]
+    },
+    {
+     "radiusM": 0.345,
+     "aM": [
+      1.003,
+      18.62,
+      -3.91
+     ],
+     "bM": [
+      1.121,
+      20.239,
+      -4.326
+     ]
+    },
+    {
+     "radiusM": 0.329,
+     "aM": [
+      1.451,
+      19.429,
+      -4.9
+     ],
+     "bM": [
+      1.451,
+      21.048,
+      -4.9
+     ]
+    },
+    {
+     "radiusM": 0.327,
+     "aM": [
+      2.609,
+      19.429,
+      3.181
+     ],
+     "bM": [
+      2.609,
+      21.048,
+      3.181
+     ]
+    },
+    {
+     "radiusM": 0.327,
+     "aM": [
+      5.041,
+      21.048,
+      0.914
+     ],
+     "bM": [
+      5.041,
+      22.667,
+      0.914
+     ]
+    },
+    {
+     "radiusM": 0.324,
+     "aM": [
+      -0.618,
+      17.001,
+      3.289
+     ],
+     "bM": [
+      -0.67,
+      18.62,
+      3.755
+     ]
+    },
+    {
+     "radiusM": 0.324,
+     "aM": [
+      -0.67,
+      17.811,
+      3.755
+     ],
+     "bM": [
+      -0.67,
+      19.429,
+      3.755
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      3.41,
+      18.62,
+      1.086
+     ],
+     "bM": [
+      3.962,
+      20.239,
+      0.848
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      4.525,
+      19.429,
+      0.91
+     ],
+     "bM": [
+      4.525,
+      21.048,
+      0.91
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      4.525,
+      20.239,
+      0.91
+     ],
+     "bM": [
+      5.041,
+      21.858,
+      0.914
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      3.962,
+      19.429,
+      0.848
+     ],
+     "bM": [
+      3.962,
+      21.048,
+      0.848
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      3.962,
+      20.239,
+      0.848
+     ],
+     "bM": [
+      5.041,
+      21.858,
+      0.914
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      2.415,
+      25.095,
+      1.634
+     ],
+     "bM": [
+      2.62,
+      26.714,
+      1.803
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      3.001,
+      25.095,
+      1.215
+     ],
+     "bM": [
+      2.62,
+      26.714,
+      1.803
+     ]
+    },
+    {
+     "radiusM": 0.322,
+     "aM": [
+      2.62,
+      25.905,
+      1.803
+     ],
+     "bM": [
+      2.62,
+      27.523,
+      1.803
+     ]
+    },
+    {
+     "radiusM": 0.318,
+     "aM": [
+      1.497,
+      18.62,
+      1.999
+     ],
+     "bM": [
+      1.172,
+      20.239,
+      1.501
+     ]
+    },
+    {
+     "radiusM": 0.318,
+     "aM": [
+      1.647,
+      18.62,
+      0.553
+     ],
+     "bM": [
+      1.172,
+      20.239,
+      1.501
+     ]
+    },
+    {
+     "radiusM": 0.318,
+     "aM": [
+      0.978,
+      18.62,
+      1.086
+     ],
+     "bM": [
+      1.172,
+      20.239,
+      1.501
+     ]
+    },
+    {
+     "radiusM": 0.318,
+     "aM": [
+      1.172,
+      19.429,
+      1.501
+     ],
+     "bM": [
+      1.172,
+      21.048,
+      1.501
+     ]
+    },
+    {
+     "radiusM": 0.315,
+     "aM": [
+      5.591,
+      21.048,
+      1.206
+     ],
+     "bM": [
+      5.591,
+      22.667,
+      1.206
+     ]
+    },
+    {
+     "radiusM": 0.315,
+     "aM": [
+      2.982,
+      22.667,
+      5.075
+     ],
+     "bM": [
+      2.982,
+      24.286,
+      5.075
+     ]
+    },
+    {
+     "radiusM": 0.311,
+     "aM": [
+      3.442,
+      16.192,
+      1.302
+     ],
+     "bM": [
+      3.442,
+      17.811,
+      1.302
+     ]
+    },
+    {
+     "radiusM": 0.311,
+     "aM": [
+      3.442,
+      17.001,
+      1.302
+     ],
+     "bM": [
+      3.41,
+      18.62,
+      1.086
+     ]
+    },
+    {
+     "radiusM": 0.31,
+     "aM": [
+      1.865,
+      17.811,
+      2.5
+     ],
+     "bM": [
+      1.865,
+      19.429,
+      2.5
+     ]
+    },
+    {
+     "radiusM": 0.31,
+     "aM": [
+      1.314,
+      22.667,
+      1.984
+     ],
+     "bM": [
+      1.314,
+      24.286,
+      1.984
+     ]
+    },
+    {
+     "radiusM": 0.31,
+     "aM": [
+      1.314,
+      23.476,
+      1.984
+     ],
+     "bM": [
+      2.415,
+      25.095,
+      1.634
+     ]
+    },
+    {
+     "radiusM": 0.299,
+     "aM": [
+      0.428,
+      12.145,
+      -2.074
+     ],
+     "bM": [
+      0.149,
+      13.764,
+      -2.585
+     ]
+    },
+    {
+     "radiusM": 0.299,
+     "aM": [
+      0.282,
+      12.145,
+      -1.525
+     ],
+     "bM": [
+      0.149,
+      13.764,
+      -2.585
+     ]
+    },
+    {
+     "radiusM": 0.299,
+     "aM": [
+      0.149,
+      12.954,
+      -2.585
+     ],
+     "bM": [
+      0.149,
+      14.573,
+      -2.585
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      2.609,
+      20.239,
+      3.181
+     ],
+     "bM": [
+      2.772,
+      21.858,
+      3.842
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      2.772,
+      21.048,
+      3.842
+     ],
+     "bM": [
+      2.772,
+      22.667,
+      3.842
+     ]
+    },
+    {
+     "radiusM": 0.282,
+     "aM": [
+      -0.135,
+      11.336,
+      0.611
+     ],
+     "bM": [
+      -0.135,
+      12.954,
+      0.611
+     ]
+    },
+    {
+     "radiusM": 0.282,
+     "aM": [
+      -0.135,
+      12.145,
+      0.611
+     ],
+     "bM": [
+      -0.2,
+      13.764,
+      0.487
+     ]
+    },
+    {
+     "radiusM": 0.274,
+     "aM": [
+      -0.713,
+      11.336,
+      0.42
+     ],
+     "bM": [
+      -0.713,
+      12.954,
+      0.42
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:vurt/deadtrees/dead_bc_tree_02",
+   "node": "es|1e7476b629|bmv__vurt_deadtrees_dead_bc_tree_02",
+   "category": "tree",
+   "sizeM": [
+    10.951,
+    9.715,
+    31.804
+   ],
+   "originOffsetM": [
+    5.074,
+    5.813,
+    0.022
+   ],
+   "triangles": 3381,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "ashlandbark03.dds"
+   ],
+   "materials": [
+    "None_BaldCypressN.002 3.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 1.598,
+    "heightM": 31.804,
+    "baseOffsetM": [
+     0.062,
+     -0.022,
+     -0.515
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 2.68,
+     "aM": [
+      0.888,
+      21.169,
+      2.466
+     ],
+     "bM": [
+      0.888,
+      22.935,
+      2.466
+     ]
+    },
+    {
+     "radiusM": 2.223,
+     "aM": [
+      -1.61,
+      17.638,
+      3.331
+     ],
+     "bM": [
+      -1.61,
+      19.403,
+      3.331
+     ]
+    },
+    {
+     "radiusM": 1.96,
+     "aM": [
+      0.076,
+      -0.022,
+      -0.44
+     ],
+     "bM": [
+      0.076,
+      3.51,
+      -0.44
+     ]
+    },
+    {
+     "radiusM": 1.606,
+     "aM": [
+      0.466,
+      24.701,
+      -1.614
+     ],
+     "bM": [
+      0.466,
+      26.467,
+      -1.614
+     ]
+    },
+    {
+     "radiusM": 1.553,
+     "aM": [
+      0.023,
+      3.51,
+      -0.48
+     ],
+     "bM": [
+      0.023,
+      5.276,
+      -0.48
+     ]
+    },
+    {
+     "radiusM": 1.369,
+     "aM": [
+      -2.491,
+      21.169,
+      -0.991
+     ],
+     "bM": [
+      -2.491,
+      22.935,
+      -0.991
+     ]
+    },
+    {
+     "radiusM": 1.356,
+     "aM": [
+      0.466,
+      25.584,
+      -1.614
+     ],
+     "bM": [
+      -0.9,
+      27.35,
+      -1.208
+     ]
+    },
+    {
+     "radiusM": 1.356,
+     "aM": [
+      -0.9,
+      26.467,
+      -1.208
+     ],
+     "bM": [
+      -0.9,
+      28.233,
+      -1.208
+     ]
+    },
+    {
+     "radiusM": 1.292,
+     "aM": [
+      2.472,
+      26.467,
+      1.445
+     ],
+     "bM": [
+      2.472,
+      28.233,
+      1.445
+     ]
+    },
+    {
+     "radiusM": 1.24,
+     "aM": [
+      0.146,
+      17.638,
+      -2.201
+     ],
+     "bM": [
+      0.146,
+      19.403,
+      -2.201
+     ]
+    },
+    {
+     "radiusM": 1.126,
+     "aM": [
+      0.038,
+      5.276,
+      -0.493
+     ],
+     "bM": [
+      0.038,
+      8.808,
+      -0.493
+     ]
+    },
+    {
+     "radiusM": 1.0,
+     "aM": [
+      2.579,
+      28.233,
+      -1.033
+     ],
+     "bM": [
+      2.579,
+      29.999,
+      -1.033
+     ]
+    },
+    {
+     "radiusM": 0.987,
+     "aM": [
+      0.01,
+      10.574,
+      -0.208
+     ],
+     "bM": [
+      0.01,
+      12.34,
+      -0.208
+     ]
+    },
+    {
+     "radiusM": 0.959,
+     "aM": [
+      -0.427,
+      29.999,
+      -1.029
+     ],
+     "bM": [
+      -0.427,
+      31.765,
+      -1.029
+     ]
+    },
+    {
+     "radiusM": 0.932,
+     "aM": [
+      1.999,
+      21.169,
+      -0.236
+     ],
+     "bM": [
+      1.999,
+      22.935,
+      -0.236
+     ]
+    },
+    {
+     "radiusM": 0.906,
+     "aM": [
+      -0.658,
+      28.233,
+      2.059
+     ],
+     "bM": [
+      -0.658,
+      29.999,
+      2.059
+     ]
+    },
+    {
+     "radiusM": 0.844,
+     "aM": [
+      -0.01,
+      14.106,
+      0.009
+     ],
+     "bM": [
+      -0.01,
+      15.872,
+      0.009
+     ]
+    },
+    {
+     "radiusM": 0.8,
+     "aM": [
+      -0.658,
+      29.116,
+      2.059
+     ],
+     "bM": [
+      0.341,
+      30.882,
+      0.747
+     ]
+    },
+    {
+     "radiusM": 0.8,
+     "aM": [
+      0.341,
+      29.999,
+      0.747
+     ],
+     "bM": [
+      0.341,
+      31.765,
+      0.747
+     ]
+    },
+    {
+     "radiusM": 0.769,
+     "aM": [
+      1.616,
+      24.701,
+      1.466
+     ],
+     "bM": [
+      1.616,
+      26.467,
+      1.466
+     ]
+    },
+    {
+     "radiusM": 0.769,
+     "aM": [
+      1.616,
+      25.584,
+      1.466
+     ],
+     "bM": [
+      2.472,
+      27.35,
+      1.445
+     ]
+    },
+    {
+     "radiusM": 0.732,
+     "aM": [
+      -0.117,
+      8.808,
+      -0.159
+     ],
+     "bM": [
+      -0.117,
+      10.574,
+      -0.159
+     ]
+    },
+    {
+     "radiusM": 0.628,
+     "aM": [
+      -0.9,
+      27.35,
+      -1.208
+     ],
+     "bM": [
+      -0.269,
+      29.116,
+      -1.326
+     ]
+    },
+    {
+     "radiusM": 0.628,
+     "aM": [
+      -0.269,
+      28.233,
+      -1.326
+     ],
+     "bM": [
+      -0.269,
+      29.999,
+      -1.326
+     ]
+    },
+    {
+     "radiusM": 0.628,
+     "aM": [
+      -0.269,
+      29.116,
+      -1.326
+     ],
+     "bM": [
+      -0.427,
+      30.882,
+      -1.029
+     ]
+    },
+    {
+     "radiusM": 0.616,
+     "aM": [
+      -2.839,
+      19.403,
+      -2.784
+     ],
+     "bM": [
+      -2.839,
+      21.169,
+      -2.784
+     ]
+    },
+    {
+     "radiusM": 0.616,
+     "aM": [
+      -2.839,
+      20.286,
+      -2.784
+     ],
+     "bM": [
+      -2.491,
+      22.052,
+      -0.991
+     ]
+    },
+    {
+     "radiusM": 0.549,
+     "aM": [
+      -0.01,
+      14.989,
+      0.009
+     ],
+     "bM": [
+      0.309,
+      16.755,
+      0.028
+     ]
+    },
+    {
+     "radiusM": 0.549,
+     "aM": [
+      0.309,
+      15.872,
+      0.028
+     ],
+     "bM": [
+      0.309,
+      17.638,
+      0.028
+     ]
+    },
+    {
+     "radiusM": 0.542,
+     "aM": [
+      -2.211,
+      22.935,
+      1.646
+     ],
+     "bM": [
+      -2.211,
+      24.701,
+      1.646
+     ]
+    },
+    {
+     "radiusM": 0.533,
+     "aM": [
+      0.037,
+      12.34,
+      -0.033
+     ],
+     "bM": [
+      0.037,
+      14.106,
+      -0.033
+     ]
+    },
+    {
+     "radiusM": 0.508,
+     "aM": [
+      0.309,
+      16.755,
+      0.028
+     ],
+     "bM": [
+      0.185,
+      18.52,
+      0.39
+     ]
+    },
+    {
+     "radiusM": 0.508,
+     "aM": [
+      0.185,
+      17.638,
+      0.39
+     ],
+     "bM": [
+      0.185,
+      19.403,
+      0.39
+     ]
+    },
+    {
+     "radiusM": 0.5,
+     "aM": [
+      5.1,
+      15.872,
+      1.139
+     ],
+     "bM": [
+      5.1,
+      17.638,
+      1.139
+     ]
+    },
+    {
+     "radiusM": 0.475,
+     "aM": [
+      3.026,
+      22.935,
+      1.715
+     ],
+     "bM": [
+      3.026,
+      24.701,
+      1.715
+     ]
+    },
+    {
+     "radiusM": 0.475,
+     "aM": [
+      3.026,
+      23.818,
+      1.715
+     ],
+     "bM": [
+      1.616,
+      25.584,
+      1.466
+     ]
+    },
+    {
+     "radiusM": 0.466,
+     "aM": [
+      0.213,
+      21.169,
+      0.212
+     ],
+     "bM": [
+      0.213,
+      22.935,
+      0.212
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      -1.9,
+      19.403,
+      -0.817
+     ],
+     "bM": [
+      -1.9,
+      21.169,
+      -0.817
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      -1.9,
+      20.286,
+      -0.817
+     ],
+     "bM": [
+      -2.491,
+      22.052,
+      -0.991
+     ]
+    },
+    {
+     "radiusM": 0.431,
+     "aM": [
+      0.507,
+      22.935,
+      0.169
+     ],
+     "bM": [
+      0.507,
+      24.701,
+      0.169
+     ]
+    },
+    {
+     "radiusM": 0.43,
+     "aM": [
+      -1.572,
+      15.872,
+      0.087
+     ],
+     "bM": [
+      -1.572,
+      17.638,
+      0.087
+     ]
+    },
+    {
+     "radiusM": 0.409,
+     "aM": [
+      -2.397,
+      15.872,
+      0.739
+     ],
+     "bM": [
+      -2.397,
+      17.638,
+      0.739
+     ]
+    },
+    {
+     "radiusM": 0.385,
+     "aM": [
+      0.198,
+      19.403,
+      0.281
+     ],
+     "bM": [
+      0.198,
+      21.169,
+      0.281
+     ]
+    },
+    {
+     "radiusM": 0.382,
+     "aM": [
+      -2.605,
+      19.403,
+      -1.858
+     ],
+     "bM": [
+      -2.605,
+      21.169,
+      -1.858
+     ]
+    },
+    {
+     "radiusM": 0.382,
+     "aM": [
+      -2.605,
+      20.286,
+      -1.858
+     ],
+     "bM": [
+      -2.491,
+      22.052,
+      -0.991
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      0.507,
+      23.818,
+      0.169
+     ],
+     "bM": [
+      0.39,
+      25.584,
+      0.503
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      0.39,
+      24.701,
+      0.503
+     ],
+     "bM": [
+      0.39,
+      28.233,
+      0.503
+     ]
+    },
+    {
+     "radiusM": 0.373,
+     "aM": [
+      -1.441,
+      24.701,
+      2.874
+     ],
+     "bM": [
+      -1.441,
+      26.467,
+      2.874
+     ]
+    },
+    {
+     "radiusM": 0.37,
+     "aM": [
+      5.1,
+      16.755,
+      1.139
+     ],
+     "bM": [
+      4.256,
+      18.52,
+      1.027
+     ]
+    },
+    {
+     "radiusM": 0.37,
+     "aM": [
+      4.256,
+      17.638,
+      1.027
+     ],
+     "bM": [
+      4.256,
+      19.403,
+      1.027
+     ]
+    },
+    {
+     "radiusM": 0.355,
+     "aM": [
+      -3.348,
+      15.872,
+      1.239
+     ],
+     "bM": [
+      -3.348,
+      17.638,
+      1.239
+     ]
+    },
+    {
+     "radiusM": 0.355,
+     "aM": [
+      -3.348,
+      16.755,
+      1.239
+     ],
+     "bM": [
+      -1.61,
+      18.52,
+      3.331
+     ]
+    },
+    {
+     "radiusM": 0.326,
+     "aM": [
+      2.546,
+      17.638,
+      0.733
+     ],
+     "bM": [
+      2.546,
+      19.403,
+      0.733
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -2.211,
+      23.818,
+      1.646
+     ],
+     "bM": [
+      -1.133,
+      25.584,
+      1.468
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -1.133,
+      24.701,
+      1.468
+     ],
+     "bM": [
+      -1.133,
+      26.467,
+      1.468
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      1.36,
+      15.872,
+      0.172
+     ],
+     "bM": [
+      1.36,
+      17.638,
+      0.172
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      1.36,
+      16.755,
+      0.172
+     ],
+     "bM": [
+      0.185,
+      18.52,
+      0.39
+     ]
+    },
+    {
+     "radiusM": 0.265,
+     "aM": [
+      -3.03,
+      19.403,
+      3.291
+     ],
+     "bM": [
+      -3.03,
+      21.169,
+      3.291
+     ]
+    },
+    {
+     "radiusM": 0.264,
+     "aM": [
+      2.475,
+      22.935,
+      -1.968
+     ],
+     "bM": [
+      2.475,
+      24.701,
+      -1.968
+     ]
+    },
+    {
+     "radiusM": 0.264,
+     "aM": [
+      2.475,
+      23.818,
+      -1.968
+     ],
+     "bM": [
+      0.466,
+      25.584,
+      -1.614
+     ]
+    },
+    {
+     "radiusM": 0.258,
+     "aM": [
+      0.384,
+      28.233,
+      0.505
+     ],
+     "bM": [
+      0.384,
+      29.999,
+      0.505
+     ]
+    },
+    {
+     "radiusM": 0.258,
+     "aM": [
+      0.384,
+      29.116,
+      0.505
+     ],
+     "bM": [
+      0.341,
+      30.882,
+      0.747
+     ]
+    },
+    {
+     "radiusM": 0.246,
+     "aM": [
+      1.686,
+      10.574,
+      0.301
+     ],
+     "bM": [
+      1.686,
+      12.34,
+      0.301
+     ]
+    },
+    {
+     "radiusM": 0.24,
+     "aM": [
+      2.284,
+      10.574,
+      0.198
+     ],
+     "bM": [
+      2.284,
+      12.34,
+      0.198
+     ]
+    },
+    {
+     "radiusM": 0.23,
+     "aM": [
+      -3.117,
+      19.403,
+      -1.027
+     ],
+     "bM": [
+      -3.117,
+      21.169,
+      -1.027
+     ]
+    },
+    {
+     "radiusM": 0.23,
+     "aM": [
+      -3.117,
+      20.286,
+      -1.027
+     ],
+     "bM": [
+      -2.491,
+      22.052,
+      -0.991
+     ]
+    },
+    {
+     "radiusM": 0.214,
+     "aM": [
+      0.96,
+      10.574,
+      0.172
+     ],
+     "bM": [
+      0.96,
+      12.34,
+      0.172
+     ]
+    },
+    {
+     "radiusM": 0.214,
+     "aM": [
+      0.96,
+      11.457,
+      0.172
+     ],
+     "bM": [
+      0.037,
+      13.223,
+      -0.033
+     ]
+    },
+    {
+     "radiusM": 0.213,
+     "aM": [
+      1.377,
+      10.574,
+      0.358
+     ],
+     "bM": [
+      1.377,
+      12.34,
+      0.358
+     ]
+    },
+    {
+     "radiusM": 0.209,
+     "aM": [
+      -0.258,
+      15.872,
+      0.292
+     ],
+     "bM": [
+      -0.258,
+      17.638,
+      0.292
+     ]
+    },
+    {
+     "radiusM": 0.209,
+     "aM": [
+      -0.258,
+      16.755,
+      0.292
+     ],
+     "bM": [
+      0.185,
+      18.52,
+      0.39
+     ]
+    },
+    {
+     "radiusM": 0.205,
+     "aM": [
+      1.57,
+      26.467,
+      -0.138
+     ],
+     "bM": [
+      1.57,
+      28.233,
+      -0.138
+     ]
+    },
+    {
+     "radiusM": 0.205,
+     "aM": [
+      1.57,
+      27.35,
+      -0.138
+     ],
+     "bM": [
+      2.579,
+      29.116,
+      -1.033
+     ]
+    },
+    {
+     "radiusM": 0.189,
+     "aM": [
+      2.406,
+      22.935,
+      -1.167
+     ],
+     "bM": [
+      2.406,
+      24.701,
+      -1.167
+     ]
+    },
+    {
+     "radiusM": 0.189,
+     "aM": [
+      2.406,
+      23.818,
+      -1.167
+     ],
+     "bM": [
+      0.466,
+      25.584,
+      -1.614
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      0.213,
+      22.052,
+      0.212
+     ],
+     "bM": [
+      0.015,
+      23.818,
+      0.265
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      0.015,
+      22.935,
+      0.265
+     ],
+     "bM": [
+      0.015,
+      24.701,
+      0.265
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      0.015,
+      23.818,
+      0.265
+     ],
+     "bM": [
+      0.39,
+      25.584,
+      0.503
+     ]
+    },
+    {
+     "radiusM": 0.164,
+     "aM": [
+      2.48,
+      22.935,
+      -0.384
+     ],
+     "bM": [
+      2.48,
+      24.701,
+      -0.384
+     ]
+    },
+    {
+     "radiusM": 0.156,
+     "aM": [
+      -1.61,
+      18.52,
+      3.331
+     ],
+     "bM": [
+      -1.553,
+      20.286,
+      3.93
+     ]
+    },
+    {
+     "radiusM": 0.156,
+     "aM": [
+      -1.553,
+      19.403,
+      3.93
+     ],
+     "bM": [
+      -1.553,
+      21.169,
+      3.93
+     ]
+    },
+    {
+     "radiusM": 0.156,
+     "aM": [
+      -1.553,
+      20.286,
+      3.93
+     ],
+     "bM": [
+      0.888,
+      22.052,
+      2.466
+     ]
+    },
+    {
+     "radiusM": 0.15,
+     "aM": [
+      1.999,
+      22.052,
+      -0.236
+     ],
+     "bM": [
+      1.978,
+      23.818,
+      -0.584
+     ]
+    },
+    {
+     "radiusM": 0.15,
+     "aM": [
+      1.978,
+      22.935,
+      -0.584
+     ],
+     "bM": [
+      1.978,
+      24.701,
+      -0.584
+     ]
+    },
+    {
+     "radiusM": 0.15,
+     "aM": [
+      1.978,
+      23.818,
+      -0.584
+     ],
+     "bM": [
+      0.466,
+      25.584,
+      -1.614
+     ]
+    },
+    {
+     "radiusM": 0.147,
+     "aM": [
+      -1.46,
+      12.34,
+      -0.249
+     ],
+     "bM": [
+      -1.46,
+      14.106,
+      -0.249
+     ]
+    },
+    {
+     "radiusM": 0.147,
+     "aM": [
+      -1.46,
+      13.223,
+      -0.249
+     ],
+     "bM": [
+      -0.01,
+      14.989,
+      0.009
+     ]
+    },
+    {
+     "radiusM": 0.144,
+     "aM": [
+      -1.016,
+      19.403,
+      -0.373
+     ],
+     "bM": [
+      -1.016,
+      21.169,
+      -0.373
+     ]
+    },
+    {
+     "radiusM": 0.121,
+     "aM": [
+      0.888,
+      22.052,
+      2.466
+     ],
+     "bM": [
+      0.078,
+      23.818,
+      0.591
+     ]
+    },
+    {
+     "radiusM": 0.121,
+     "aM": [
+      0.078,
+      22.935,
+      0.591
+     ],
+     "bM": [
+      0.078,
+      24.701,
+      0.591
+     ]
+    },
+    {
+     "radiusM": 0.121,
+     "aM": [
+      0.078,
+      23.818,
+      0.591
+     ],
+     "bM": [
+      0.39,
+      25.584,
+      0.503
+     ]
+    },
+    {
+     "radiusM": 0.12,
+     "aM": [
+      -2.537,
+      19.403,
+      -1.081
+     ],
+     "bM": [
+      -2.537,
+      21.169,
+      -1.081
+     ]
+    },
+    {
+     "radiusM": 0.12,
+     "aM": [
+      -2.537,
+      20.286,
+      -1.081
+     ],
+     "bM": [
+      -2.491,
+      22.052,
+      -0.991
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:vurt/deadtrees/dead_bc_tree_04",
+   "node": "es|01c048b073|bmv__vurt_deadtrees_dead_bc_tree_04",
+   "category": "tree",
+   "sizeM": [
+    10.956,
+    13.623,
+    14.527
+   ],
+   "originOffsetM": [
+    3.647,
+    7.701,
+    0.209
+   ],
+   "triangles": 1338,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "ashlandbark03.dds"
+   ],
+   "materials": [
+    "plant_pmat2.001.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.786,
+    "heightM": 14.527,
+    "baseOffsetM": [
+     -0.036,
+     -0.209,
+     0.482
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 2.775,
+     "aM": [
+      -1.666,
+      8.487,
+      -0.607
+     ],
+     "bM": [
+      -1.666,
+      9.936,
+      -0.607
+     ]
+    },
+    {
+     "radiusM": 1.384,
+     "aM": [
+      3.147,
+      11.386,
+      2.587
+     ],
+     "bM": [
+      3.147,
+      12.835,
+      2.587
+     ]
+    },
+    {
+     "radiusM": 0.947,
+     "aM": [
+      -0.012,
+      -0.208,
+      0.053
+     ],
+     "bM": [
+      -0.012,
+      2.69,
+      0.053
+     ]
+    },
+    {
+     "radiusM": 0.917,
+     "aM": [
+      -0.174,
+      8.487,
+      5.216
+     ],
+     "bM": [
+      -0.174,
+      9.936,
+      5.216
+     ]
+    },
+    {
+     "radiusM": 0.889,
+     "aM": [
+      0.884,
+      8.487,
+      1.638
+     ],
+     "bM": [
+      0.884,
+      9.936,
+      1.638
+     ]
+    },
+    {
+     "radiusM": 0.84,
+     "aM": [
+      3.617,
+      9.936,
+      0.966
+     ],
+     "bM": [
+      3.617,
+      11.386,
+      0.966
+     ]
+    },
+    {
+     "radiusM": 0.84,
+     "aM": [
+      3.617,
+      10.661,
+      0.966
+     ],
+     "bM": [
+      3.147,
+      12.11,
+      2.587
+     ]
+    },
+    {
+     "radiusM": 0.83,
+     "aM": [
+      0.082,
+      9.936,
+      4.306
+     ],
+     "bM": [
+      0.082,
+      11.386,
+      4.306
+     ]
+    },
+    {
+     "radiusM": 0.818,
+     "aM": [
+      0.062,
+      4.139,
+      0.161
+     ],
+     "bM": [
+      0.062,
+      5.589,
+      0.161
+     ]
+    },
+    {
+     "radiusM": 0.798,
+     "aM": [
+      -0.129,
+      2.69,
+      0.041
+     ],
+     "bM": [
+      -0.129,
+      4.139,
+      0.041
+     ]
+    },
+    {
+     "radiusM": 0.798,
+     "aM": [
+      0.062,
+      4.864,
+      0.161
+     ],
+     "bM": [
+      0.41,
+      6.313,
+      0.376
+     ]
+    },
+    {
+     "radiusM": 0.798,
+     "aM": [
+      0.41,
+      5.589,
+      0.376
+     ],
+     "bM": [
+      0.41,
+      7.038,
+      0.376
+     ]
+    },
+    {
+     "radiusM": 0.747,
+     "aM": [
+      2.383,
+      11.386,
+      4.832
+     ],
+     "bM": [
+      2.383,
+      12.835,
+      4.832
+     ]
+    },
+    {
+     "radiusM": 0.677,
+     "aM": [
+      1.786,
+      7.038,
+      1.781
+     ],
+     "bM": [
+      1.786,
+      8.487,
+      1.781
+     ]
+    },
+    {
+     "radiusM": 0.677,
+     "aM": [
+      1.786,
+      7.763,
+      1.781
+     ],
+     "bM": [
+      0.884,
+      9.212,
+      1.638
+     ]
+    },
+    {
+     "radiusM": 0.607,
+     "aM": [
+      0.666,
+      7.038,
+      1.024
+     ],
+     "bM": [
+      0.666,
+      8.487,
+      1.024
+     ]
+    },
+    {
+     "radiusM": 0.607,
+     "aM": [
+      0.666,
+      7.763,
+      1.024
+     ],
+     "bM": [
+      0.884,
+      9.212,
+      1.638
+     ]
+    },
+    {
+     "radiusM": 0.506,
+     "aM": [
+      0.938,
+      9.936,
+      7.33
+     ],
+     "bM": [
+      0.938,
+      11.386,
+      7.33
+     ]
+    },
+    {
+     "radiusM": 0.502,
+     "aM": [
+      1.871,
+      9.936,
+      3.197
+     ],
+     "bM": [
+      1.871,
+      11.386,
+      3.197
+     ]
+    },
+    {
+     "radiusM": 0.497,
+     "aM": [
+      0.722,
+      9.936,
+      3.449
+     ],
+     "bM": [
+      0.722,
+      11.386,
+      3.449
+     ]
+    },
+    {
+     "radiusM": 0.483,
+     "aM": [
+      0.884,
+      9.212,
+      1.638
+     ],
+     "bM": [
+      1.246,
+      10.661,
+      2.672
+     ]
+    },
+    {
+     "radiusM": 0.483,
+     "aM": [
+      1.246,
+      9.936,
+      2.672
+     ],
+     "bM": [
+      1.246,
+      11.386,
+      2.672
+     ]
+    },
+    {
+     "radiusM": 0.478,
+     "aM": [
+      -2.989,
+      11.386,
+      5.426
+     ],
+     "bM": [
+      -2.989,
+      12.835,
+      5.426
+     ]
+    },
+    {
+     "radiusM": 0.471,
+     "aM": [
+      4.879,
+      8.487,
+      0.445
+     ],
+     "bM": [
+      4.879,
+      9.936,
+      0.445
+     ]
+    },
+    {
+     "radiusM": 0.471,
+     "aM": [
+      4.879,
+      9.212,
+      0.445
+     ],
+     "bM": [
+      3.617,
+      10.661,
+      0.966
+     ]
+    },
+    {
+     "radiusM": 0.465,
+     "aM": [
+      3.192,
+      12.835,
+      2.777
+     ],
+     "bM": [
+      3.192,
+      14.284,
+      2.777
+     ]
+    },
+    {
+     "radiusM": 0.457,
+     "aM": [
+      0.41,
+      6.313,
+      0.376
+     ],
+     "bM": [
+      0.02,
+      7.763,
+      0.444
+     ]
+    },
+    {
+     "radiusM": 0.457,
+     "aM": [
+      0.02,
+      7.038,
+      0.444
+     ],
+     "bM": [
+      0.02,
+      8.487,
+      0.444
+     ]
+    },
+    {
+     "radiusM": 0.457,
+     "aM": [
+      0.02,
+      7.763,
+      0.444
+     ],
+     "bM": [
+      0.884,
+      9.212,
+      1.638
+     ]
+    },
+    {
+     "radiusM": 0.437,
+     "aM": [
+      3.211,
+      7.038,
+      3.157
+     ],
+     "bM": [
+      3.211,
+      8.487,
+      3.157
+     ]
+    },
+    {
+     "radiusM": 0.416,
+     "aM": [
+      1.375,
+      5.589,
+      4.27
+     ],
+     "bM": [
+      1.375,
+      7.038,
+      4.27
+     ]
+    },
+    {
+     "radiusM": 0.398,
+     "aM": [
+      -1.142,
+      7.038,
+      2.428
+     ],
+     "bM": [
+      -1.142,
+      8.487,
+      2.428
+     ]
+    },
+    {
+     "radiusM": 0.374,
+     "aM": [
+      2.671,
+      7.038,
+      2.502
+     ],
+     "bM": [
+      2.671,
+      8.487,
+      2.502
+     ]
+    },
+    {
+     "radiusM": 0.374,
+     "aM": [
+      -0.174,
+      9.212,
+      5.216
+     ],
+     "bM": [
+      0.059,
+      10.661,
+      6.061
+     ]
+    },
+    {
+     "radiusM": 0.374,
+     "aM": [
+      0.059,
+      9.936,
+      6.061
+     ],
+     "bM": [
+      0.059,
+      11.386,
+      6.061
+     ]
+    },
+    {
+     "radiusM": 0.372,
+     "aM": [
+      -2.774,
+      11.386,
+      4.254
+     ],
+     "bM": [
+      -2.774,
+      12.835,
+      4.254
+     ]
+    },
+    {
+     "radiusM": 0.367,
+     "aM": [
+      1.267,
+      7.038,
+      6.998
+     ],
+     "bM": [
+      1.267,
+      8.487,
+      6.998
+     ]
+    },
+    {
+     "radiusM": 0.358,
+     "aM": [
+      3.211,
+      7.763,
+      3.157
+     ],
+     "bM": [
+      4.034,
+      9.212,
+      3.498
+     ]
+    },
+    {
+     "radiusM": 0.358,
+     "aM": [
+      4.034,
+      8.487,
+      3.498
+     ],
+     "bM": [
+      4.034,
+      9.936,
+      3.498
+     ]
+    },
+    {
+     "radiusM": 0.351,
+     "aM": [
+      1.246,
+      10.661,
+      2.672
+     ],
+     "bM": [
+      2.257,
+      12.11,
+      3.474
+     ]
+    },
+    {
+     "radiusM": 0.351,
+     "aM": [
+      1.871,
+      10.661,
+      3.197
+     ],
+     "bM": [
+      2.257,
+      12.11,
+      3.474
+     ]
+    },
+    {
+     "radiusM": 0.351,
+     "aM": [
+      2.257,
+      11.386,
+      3.474
+     ],
+     "bM": [
+      2.257,
+      12.835,
+      3.474
+     ]
+    },
+    {
+     "radiusM": 0.334,
+     "aM": [
+      3.002,
+      8.487,
+      1.017
+     ],
+     "bM": [
+      3.002,
+      9.936,
+      1.017
+     ]
+    },
+    {
+     "radiusM": 0.334,
+     "aM": [
+      3.002,
+      9.212,
+      1.017
+     ],
+     "bM": [
+      3.617,
+      10.661,
+      0.966
+     ]
+    },
+    {
+     "radiusM": 0.328,
+     "aM": [
+      4.606,
+      8.487,
+      3.849
+     ],
+     "bM": [
+      4.606,
+      9.936,
+      3.849
+     ]
+    },
+    {
+     "radiusM": 0.323,
+     "aM": [
+      2.257,
+      12.11,
+      3.474
+     ],
+     "bM": [
+      2.482,
+      13.559,
+      3.266
+     ]
+    },
+    {
+     "radiusM": 0.323,
+     "aM": [
+      2.482,
+      12.835,
+      3.266
+     ],
+     "bM": [
+      2.482,
+      14.284,
+      3.266
+     ]
+    },
+    {
+     "radiusM": 0.303,
+     "aM": [
+      2.383,
+      12.11,
+      4.832
+     ],
+     "bM": [
+      3.294,
+      13.559,
+      4.429
+     ]
+    },
+    {
+     "radiusM": 0.303,
+     "aM": [
+      3.294,
+      12.835,
+      4.429
+     ],
+     "bM": [
+      3.294,
+      14.284,
+      4.429
+     ]
+    },
+    {
+     "radiusM": 0.295,
+     "aM": [
+      5.992,
+      7.038,
+      1.485
+     ],
+     "bM": [
+      5.992,
+      8.487,
+      1.485
+     ]
+    },
+    {
+     "radiusM": 0.292,
+     "aM": [
+      5.085,
+      8.487,
+      4.372
+     ],
+     "bM": [
+      5.085,
+      9.936,
+      4.372
+     ]
+    },
+    {
+     "radiusM": 0.289,
+     "aM": [
+      -2.798,
+      9.936,
+      2.307
+     ],
+     "bM": [
+      -2.798,
+      11.386,
+      2.307
+     ]
+    },
+    {
+     "radiusM": 0.287,
+     "aM": [
+      0.399,
+      5.589,
+      3.845
+     ],
+     "bM": [
+      0.399,
+      7.038,
+      3.845
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      -2.618,
+      11.386,
+      3.686
+     ],
+     "bM": [
+      -2.618,
+      12.835,
+      3.686
+     ]
+    },
+    {
+     "radiusM": 0.262,
+     "aM": [
+      2.923,
+      9.936,
+      5.852
+     ],
+     "bM": [
+      2.923,
+      11.386,
+      5.852
+     ]
+    },
+    {
+     "radiusM": 0.262,
+     "aM": [
+      2.923,
+      10.661,
+      5.852
+     ],
+     "bM": [
+      2.383,
+      12.11,
+      4.832
+     ]
+    },
+    {
+     "radiusM": 0.259,
+     "aM": [
+      -3.292,
+      7.038,
+      -5.383
+     ],
+     "bM": [
+      -3.292,
+      8.487,
+      -5.383
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      -1.666,
+      9.212,
+      -0.607
+     ],
+     "bM": [
+      -2.421,
+      10.661,
+      1.8
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      -2.421,
+      9.936,
+      1.8
+     ],
+     "bM": [
+      -2.421,
+      11.386,
+      1.8
+     ]
+    },
+    {
+     "radiusM": 0.25,
+     "aM": [
+      -0.604,
+      7.038,
+      3.11
+     ],
+     "bM": [
+      -0.604,
+      8.487,
+      3.11
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -2.616,
+      9.936,
+      3.167
+     ],
+     "bM": [
+      -2.616,
+      11.386,
+      3.167
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -2.616,
+      10.661,
+      3.167
+     ],
+     "bM": [
+      -2.618,
+      12.11,
+      3.686
+     ]
+    },
+    {
+     "radiusM": 0.231,
+     "aM": [
+      2.643,
+      11.386,
+      3.549
+     ],
+     "bM": [
+      2.643,
+      12.835,
+      3.549
+     ]
+    },
+    {
+     "radiusM": 0.216,
+     "aM": [
+      -2.785,
+      9.936,
+      2.757
+     ],
+     "bM": [
+      -2.785,
+      11.386,
+      2.757
+     ]
+    },
+    {
+     "radiusM": 0.216,
+     "aM": [
+      -2.785,
+      10.661,
+      2.757
+     ],
+     "bM": [
+      -2.618,
+      12.11,
+      3.686
+     ]
+    },
+    {
+     "radiusM": 0.162,
+     "aM": [
+      5.599,
+      8.487,
+      4.915
+     ],
+     "bM": [
+      5.599,
+      9.936,
+      4.915
+     ]
+    },
+    {
+     "radiusM": 0.162,
+     "aM": [
+      3.73,
+      12.835,
+      5.027
+     ],
+     "bM": [
+      3.73,
+      14.284,
+      5.027
+     ]
+    },
+    {
+     "radiusM": 0.15,
+     "aM": [
+      2.643,
+      12.11,
+      3.549
+     ],
+     "bM": [
+      2.808,
+      13.559,
+      3.631
+     ]
+    },
+    {
+     "radiusM": 0.15,
+     "aM": [
+      2.808,
+      12.835,
+      3.631
+     ],
+     "bM": [
+      2.808,
+      14.284,
+      3.631
+     ]
+    },
+    {
+     "radiusM": 0.136,
+     "aM": [
+      3.262,
+      9.936,
+      6.192
+     ],
+     "bM": [
+      3.262,
+      11.386,
+      6.192
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenewsticktree11",
+   "node": "es|6a48d9eb9b|dscape_trees_gkbjungletreenewsticktree11",
+   "category": "tree",
+   "sizeM": [
+    10.528,
+    11.161,
+    11.342
+   ],
+   "originOffsetM": [
+    5.561,
+    5.247,
+    -0.0
+   ],
+   "triangles": 3023,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbtreeaspenbranchcompredtwig15.dds",
+    "gkbtundradriftwoodbark01.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree11stick.Mat",
+    "jungletree11stick_1.Mat",
+    "jungletree11stick_2.Mat",
+    "jungletree11stick_3.Mat",
+    "jungletree11stick_4.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenewsticktree11_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.151,
+    "heightM": 11.342,
+    "baseOffsetM": [
+     -0.067,
+     0.0,
+     -0.009
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 2.807,
+     "aM": [
+      0.669,
+      4.343,
+      0.161
+     ],
+     "bM": [
+      0.669,
+      5.791,
+      0.161
+     ]
+    },
+    {
+     "radiusM": 1.462,
+     "aM": [
+      0.238,
+      2.895,
+      0.022
+     ],
+     "bM": [
+      0.238,
+      4.343,
+      0.022
+     ]
+    },
+    {
+     "radiusM": 0.825,
+     "aM": [
+      -2.546,
+      4.343,
+      -1.109
+     ],
+     "bM": [
+      -2.546,
+      5.791,
+      -1.109
+     ]
+    },
+    {
+     "radiusM": 0.788,
+     "aM": [
+      -0.971,
+      5.791,
+      1.52
+     ],
+     "bM": [
+      -0.971,
+      7.238,
+      1.52
+     ]
+    },
+    {
+     "radiusM": 0.664,
+     "aM": [
+      -1.622,
+      5.791,
+      2.293
+     ],
+     "bM": [
+      -1.622,
+      7.238,
+      2.293
+     ]
+    },
+    {
+     "radiusM": 0.628,
+     "aM": [
+      1.285,
+      5.791,
+      -2.436
+     ],
+     "bM": [
+      1.285,
+      7.238,
+      -2.436
+     ]
+    },
+    {
+     "radiusM": 0.507,
+     "aM": [
+      0.697,
+      5.791,
+      -1.308
+     ],
+     "bM": [
+      0.697,
+      7.238,
+      -1.308
+     ]
+    },
+    {
+     "radiusM": 0.473,
+     "aM": [
+      -1.406,
+      2.895,
+      -0.59
+     ],
+     "bM": [
+      -1.406,
+      4.343,
+      -0.59
+     ]
+    },
+    {
+     "radiusM": 0.473,
+     "aM": [
+      -1.406,
+      3.619,
+      -0.59
+     ],
+     "bM": [
+      -2.546,
+      5.067,
+      -1.109
+     ]
+    },
+    {
+     "radiusM": 0.363,
+     "aM": [
+      -0.961,
+      5.791,
+      -0.254
+     ],
+     "bM": [
+      -0.961,
+      7.238,
+      -0.254
+     ]
+    },
+    {
+     "radiusM": 0.347,
+     "aM": [
+      0.171,
+      5.791,
+      0.666
+     ],
+     "bM": [
+      0.171,
+      7.238,
+      0.666
+     ]
+    },
+    {
+     "radiusM": 0.341,
+     "aM": [
+      -0.025,
+      0.0,
+      0.019
+     ],
+     "bM": [
+      -0.025,
+      1.448,
+      0.019
+     ]
+    },
+    {
+     "radiusM": 0.335,
+     "aM": [
+      -0.038,
+      5.791,
+      -3.109
+     ],
+     "bM": [
+      -0.038,
+      7.238,
+      -3.109
+     ]
+    },
+    {
+     "radiusM": 0.288,
+     "aM": [
+      -0.676,
+      1.448,
+      -0.366
+     ],
+     "bM": [
+      -0.676,
+      2.895,
+      -0.366
+     ]
+    },
+    {
+     "radiusM": 0.288,
+     "aM": [
+      -0.676,
+      2.172,
+      -0.366
+     ],
+     "bM": [
+      -1.406,
+      3.619,
+      -0.59
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      -2.171,
+      2.895,
+      -1.091
+     ],
+     "bM": [
+      -2.171,
+      4.343,
+      -1.091
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      -2.171,
+      3.619,
+      -1.091
+     ],
+     "bM": [
+      -2.546,
+      5.067,
+      -1.109
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      -0.961,
+      6.515,
+      -0.254
+     ],
+     "bM": [
+      -0.148,
+      7.962,
+      0.358
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      0.171,
+      6.515,
+      0.666
+     ],
+     "bM": [
+      -0.148,
+      7.962,
+      0.358
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      -0.971,
+      6.515,
+      1.52
+     ],
+     "bM": [
+      -1.558,
+      7.962,
+      1.347
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      -0.148,
+      7.238,
+      0.358
+     ],
+     "bM": [
+      -0.148,
+      8.686,
+      0.358
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      -1.558,
+      7.238,
+      1.347
+     ],
+     "bM": [
+      -1.558,
+      8.686,
+      1.347
+     ]
+    },
+    {
+     "radiusM": 0.258,
+     "aM": [
+      0.275,
+      1.448,
+      0.495
+     ],
+     "bM": [
+      0.275,
+      2.895,
+      0.495
+     ]
+    },
+    {
+     "radiusM": 0.258,
+     "aM": [
+      0.275,
+      2.172,
+      0.495
+     ],
+     "bM": [
+      0.238,
+      3.619,
+      0.022
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      -0.025,
+      0.724,
+      0.019
+     ],
+     "bM": [
+      0.078,
+      2.172,
+      0.106
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      0.078,
+      1.448,
+      0.106
+     ],
+     "bM": [
+      0.078,
+      2.895,
+      0.106
+     ]
+    },
+    {
+     "radiusM": 0.251,
+     "aM": [
+      0.078,
+      2.172,
+      0.106
+     ],
+     "bM": [
+      0.238,
+      3.619,
+      0.022
+     ]
+    },
+    {
+     "radiusM": 0.22,
+     "aM": [
+      0.32,
+      7.238,
+      0.045
+     ],
+     "bM": [
+      0.32,
+      8.686,
+      0.045
+     ]
+    },
+    {
+     "radiusM": 0.189,
+     "aM": [
+      -2.297,
+      2.895,
+      -0.229
+     ],
+     "bM": [
+      -2.297,
+      4.343,
+      -0.229
+     ]
+    },
+    {
+     "radiusM": 0.189,
+     "aM": [
+      -2.297,
+      3.619,
+      -0.229
+     ],
+     "bM": [
+      -2.546,
+      5.067,
+      -1.109
+     ]
+    },
+    {
+     "radiusM": 0.188,
+     "aM": [
+      0.874,
+      7.238,
+      0.089
+     ],
+     "bM": [
+      0.874,
+      8.686,
+      0.089
+     ]
+    },
+    {
+     "radiusM": 0.181,
+     "aM": [
+      -0.18,
+      1.448,
+      -0.097
+     ],
+     "bM": [
+      -0.18,
+      2.895,
+      -0.097
+     ]
+    },
+    {
+     "radiusM": 0.181,
+     "aM": [
+      -0.18,
+      2.172,
+      -0.097
+     ],
+     "bM": [
+      0.238,
+      3.619,
+      0.022
+     ]
+    },
+    {
+     "radiusM": 0.165,
+     "aM": [
+      0.455,
+      7.238,
+      1.176
+     ],
+     "bM": [
+      0.455,
+      8.686,
+      1.176
+     ]
+    },
+    {
+     "radiusM": 0.161,
+     "aM": [
+      -1.354,
+      5.791,
+      1.029
+     ],
+     "bM": [
+      -1.354,
+      7.238,
+      1.029
+     ]
+    },
+    {
+     "radiusM": 0.161,
+     "aM": [
+      -1.354,
+      6.515,
+      1.029
+     ],
+     "bM": [
+      -1.558,
+      7.962,
+      1.347
+     ]
+    },
+    {
+     "radiusM": 0.143,
+     "aM": [
+      -1.622,
+      6.515,
+      2.293
+     ],
+     "bM": [
+      -1.883,
+      7.962,
+      1.569
+     ]
+    },
+    {
+     "radiusM": 0.143,
+     "aM": [
+      -1.883,
+      7.238,
+      1.569
+     ],
+     "bM": [
+      -1.883,
+      8.686,
+      1.569
+     ]
+    },
+    {
+     "radiusM": 0.13,
+     "aM": [
+      0.055,
+      1.448,
+      -0.25
+     ],
+     "bM": [
+      0.055,
+      2.895,
+      -0.25
+     ]
+    },
+    {
+     "radiusM": 0.13,
+     "aM": [
+      0.055,
+      2.172,
+      -0.25
+     ],
+     "bM": [
+      0.238,
+      3.619,
+      0.022
+     ]
+    },
+    {
+     "radiusM": 0.125,
+     "aM": [
+      0.697,
+      6.515,
+      -1.308
+     ],
+     "bM": [
+      0.416,
+      7.962,
+      -0.631
+     ]
+    },
+    {
+     "radiusM": 0.125,
+     "aM": [
+      0.416,
+      7.238,
+      -0.631
+     ],
+     "bM": [
+      0.416,
+      8.686,
+      -0.631
+     ]
+    },
+    {
+     "radiusM": 0.122,
+     "aM": [
+      0.669,
+      5.067,
+      0.161
+     ],
+     "bM": [
+      0.651,
+      6.515,
+      -0.062
+     ]
+    },
+    {
+     "radiusM": 0.122,
+     "aM": [
+      0.651,
+      5.791,
+      -0.062
+     ],
+     "bM": [
+      0.651,
+      7.238,
+      -0.062
+     ]
+    },
+    {
+     "radiusM": 0.122,
+     "aM": [
+      0.651,
+      6.515,
+      -0.062
+     ],
+     "bM": [
+      0.874,
+      7.962,
+      0.089
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
+   "node": "es|eb470d17d2|cape_trees_gkbjungletreenewsticktree20v2",
+   "category": "tree",
+   "sizeM": [
+    9.857,
+    8.948,
+    12.056
+   ],
+   "originOffsetM": [
+    5.406,
+    4.835,
+    0.218
+   ],
+   "triangles": 3399,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbtreeaspenbranchcompredtwig15.dds",
+    "gkbtundradriftwoodbark01.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree20stick.Mat",
+    "jungletree20stick_1.Mat",
+    "jungletree20stick_2.Mat",
+    "jungletree20stick_3.Mat",
+    "jungletree20stick_4.Mat",
+    "jungletree20stick_5.Mat",
+    "jungletree20stick_6.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenewsticktree20v2_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.168,
+    "heightM": 12.056,
+    "baseOffsetM": [
+     0.127,
+     -0.218,
+     0.0
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 2.088,
+     "aM": [
+      0.047,
+      5.123,
+      0.262
+     ],
+     "bM": [
+      0.047,
+      6.456,
+      0.262
+     ]
+    },
+    {
+     "radiusM": 2.072,
+     "aM": [
+      0.402,
+      7.788,
+      -0.185
+     ],
+     "bM": [
+      0.402,
+      9.121,
+      -0.185
+     ]
+    },
+    {
+     "radiusM": 1.428,
+     "aM": [
+      1.596,
+      6.456,
+      -0.579
+     ],
+     "bM": [
+      1.596,
+      7.788,
+      -0.579
+     ]
+    },
+    {
+     "radiusM": 1.428,
+     "aM": [
+      1.596,
+      7.122,
+      -0.579
+     ],
+     "bM": [
+      0.402,
+      8.455,
+      -0.185
+     ]
+    },
+    {
+     "radiusM": 0.682,
+     "aM": [
+      -0.058,
+      6.456,
+      0.012
+     ],
+     "bM": [
+      -0.058,
+      7.788,
+      0.012
+     ]
+    },
+    {
+     "radiusM": 0.682,
+     "aM": [
+      -0.058,
+      7.122,
+      0.012
+     ],
+     "bM": [
+      0.402,
+      8.455,
+      -0.185
+     ]
+    },
+    {
+     "radiusM": 0.441,
+     "aM": [
+      1.891,
+      9.121,
+      1.434
+     ],
+     "bM": [
+      1.891,
+      10.453,
+      1.434
+     ]
+    },
+    {
+     "radiusM": 0.359,
+     "aM": [
+      -0.344,
+      9.121,
+      0.336
+     ],
+     "bM": [
+      -0.344,
+      10.453,
+      0.336
+     ]
+    },
+    {
+     "radiusM": 0.316,
+     "aM": [
+      -1.19,
+      9.121,
+      0.577
+     ],
+     "bM": [
+      -1.19,
+      10.453,
+      0.577
+     ]
+    },
+    {
+     "radiusM": 0.304,
+     "aM": [
+      0.059,
+      -0.207,
+      0.004
+     ],
+     "bM": [
+      0.059,
+      1.126,
+      0.004
+     ]
+    },
+    {
+     "radiusM": 0.239,
+     "aM": [
+      -2.032,
+      5.123,
+      0.69
+     ],
+     "bM": [
+      -2.032,
+      6.456,
+      0.69
+     ]
+    },
+    {
+     "radiusM": 0.235,
+     "aM": [
+      -0.034,
+      1.126,
+      0.006
+     ],
+     "bM": [
+      -0.034,
+      3.791,
+      0.006
+     ]
+    },
+    {
+     "radiusM": 0.23,
+     "aM": [
+      0.402,
+      8.455,
+      -0.185
+     ],
+     "bM": [
+      0.364,
+      9.787,
+      -0.06
+     ]
+    },
+    {
+     "radiusM": 0.23,
+     "aM": [
+      0.364,
+      9.121,
+      -0.06
+     ],
+     "bM": [
+      0.364,
+      10.453,
+      -0.06
+     ]
+    },
+    {
+     "radiusM": 0.21,
+     "aM": [
+      1.223,
+      9.121,
+      -1.747
+     ],
+     "bM": [
+      1.223,
+      10.453,
+      -1.747
+     ]
+    },
+    {
+     "radiusM": 0.201,
+     "aM": [
+      1.791,
+      3.791,
+      1.189
+     ],
+     "bM": [
+      1.791,
+      5.123,
+      1.189
+     ]
+    },
+    {
+     "radiusM": 0.201,
+     "aM": [
+      1.791,
+      4.457,
+      1.189
+     ],
+     "bM": [
+      0.047,
+      5.79,
+      0.262
+     ]
+    },
+    {
+     "radiusM": 0.186,
+     "aM": [
+      -0.015,
+      9.121,
+      0.056
+     ],
+     "bM": [
+      -0.015,
+      10.453,
+      0.056
+     ]
+    },
+    {
+     "radiusM": 0.179,
+     "aM": [
+      -2.697,
+      5.123,
+      0.943
+     ],
+     "bM": [
+      -2.697,
+      6.456,
+      0.943
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      -0.019,
+      3.791,
+      -0.038
+     ],
+     "bM": [
+      -0.019,
+      5.123,
+      -0.038
+     ]
+    },
+    {
+     "radiusM": 0.174,
+     "aM": [
+      -0.019,
+      4.457,
+      -0.038
+     ],
+     "bM": [
+      0.047,
+      5.79,
+      0.262
+     ]
+    },
+    {
+     "radiusM": 0.128,
+     "aM": [
+      1.224,
+      9.121,
+      -2.205
+     ],
+     "bM": [
+      1.224,
+      10.453,
+      -2.205
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew10",
+   "node": "es|a3c0fd386b|bmv__landscape_trees_gkbjungletreenew10",
+   "category": "tree",
+   "sizeM": [
+    19.554,
+    23.275,
+    14.782
+   ],
+   "originOffsetM": [
+    9.537,
+    8.25,
+    0.005
+   ],
+   "triangles": 2540,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbbark.dds",
+    "gkbbranch1.dds",
+    "gkbbranch5dark.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletree10.Mat",
+    "jungletree10_3.Mat",
+    "jungletree13.Mat",
+    "jungletree13_1.Mat",
+    "jungletree13_2.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew10_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.3,
+    "heightM": 14.782,
+    "baseOffsetM": [
+     0.146,
+     -0.005,
+     -7.326
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 6.289,
+     "aM": [
+      2.088,
+      7.349,
+      -6.749
+     ],
+     "bM": [
+      2.088,
+      8.82,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 4.667,
+     "aM": [
+      -0.141,
+      11.761,
+      -7.037
+     ],
+     "bM": [
+      -0.141,
+      13.232,
+      -7.037
+     ]
+    },
+    {
+     "radiusM": 4.614,
+     "aM": [
+      0.256,
+      10.29,
+      -8.578
+     ],
+     "bM": [
+      0.256,
+      11.761,
+      -8.578
+     ]
+    },
+    {
+     "radiusM": 3.346,
+     "aM": [
+      -3.302,
+      8.82,
+      -6.999
+     ],
+     "bM": [
+      -3.302,
+      10.29,
+      -6.999
+     ]
+    },
+    {
+     "radiusM": 3.346,
+     "aM": [
+      -3.302,
+      9.555,
+      -6.999
+     ],
+     "bM": [
+      0.256,
+      11.026,
+      -8.578
+     ]
+    },
+    {
+     "radiusM": 2.783,
+     "aM": [
+      -5.804,
+      4.407,
+      -11.729
+     ],
+     "bM": [
+      -5.804,
+      5.878,
+      -11.729
+     ]
+    },
+    {
+     "radiusM": 2.759,
+     "aM": [
+      2.088,
+      8.084,
+      -6.749
+     ],
+     "bM": [
+      0.617,
+      9.555,
+      -8.184
+     ]
+    },
+    {
+     "radiusM": 2.759,
+     "aM": [
+      0.617,
+      8.82,
+      -8.184
+     ],
+     "bM": [
+      0.617,
+      10.29,
+      -8.184
+     ]
+    },
+    {
+     "radiusM": 2.382,
+     "aM": [
+      3.087,
+      5.878,
+      -5.516
+     ],
+     "bM": [
+      3.087,
+      7.349,
+      -5.516
+     ]
+    },
+    {
+     "radiusM": 2.382,
+     "aM": [
+      3.087,
+      6.613,
+      -5.516
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 2.168,
+     "aM": [
+      -1.31,
+      5.878,
+      -7.942
+     ],
+     "bM": [
+      -1.31,
+      7.349,
+      -7.942
+     ]
+    },
+    {
+     "radiusM": 2.168,
+     "aM": [
+      -1.31,
+      6.613,
+      -7.942
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 2.023,
+     "aM": [
+      -5.867,
+      5.878,
+      -7.944
+     ],
+     "bM": [
+      -5.867,
+      7.349,
+      -7.944
+     ]
+    },
+    {
+     "radiusM": 2.023,
+     "aM": [
+      -5.867,
+      6.613,
+      -7.944
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 1.988,
+     "aM": [
+      -4.449,
+      5.878,
+      -9.996
+     ],
+     "bM": [
+      -4.449,
+      7.349,
+      -9.996
+     ]
+    },
+    {
+     "radiusM": 1.988,
+     "aM": [
+      -4.449,
+      6.613,
+      -9.996
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 1.399,
+     "aM": [
+      3.666,
+      8.82,
+      -3.105
+     ],
+     "bM": [
+      3.666,
+      10.29,
+      -3.105
+     ]
+    },
+    {
+     "radiusM": 1.352,
+     "aM": [
+      -8.584,
+      5.878,
+      -7.659
+     ],
+     "bM": [
+      -8.584,
+      7.349,
+      -7.659
+     ]
+    },
+    {
+     "radiusM": 1.282,
+     "aM": [
+      -7.728,
+      5.878,
+      -9.98
+     ],
+     "bM": [
+      -7.728,
+      7.349,
+      -9.98
+     ]
+    },
+    {
+     "radiusM": 1.208,
+     "aM": [
+      7.741,
+      8.82,
+      -3.567
+     ],
+     "bM": [
+      7.741,
+      10.29,
+      -3.567
+     ]
+    },
+    {
+     "radiusM": 1.041,
+     "aM": [
+      0.562,
+      8.82,
+      -1.814
+     ],
+     "bM": [
+      0.562,
+      10.29,
+      -1.814
+     ]
+    },
+    {
+     "radiusM": 0.971,
+     "aM": [
+      -6.098,
+      5.878,
+      -12.726
+     ],
+     "bM": [
+      -6.098,
+      7.349,
+      -12.726
+     ]
+    },
+    {
+     "radiusM": 0.952,
+     "aM": [
+      4.38,
+      5.878,
+      -2.166
+     ],
+     "bM": [
+      4.38,
+      7.349,
+      -2.166
+     ]
+    },
+    {
+     "radiusM": 0.952,
+     "aM": [
+      4.38,
+      6.613,
+      -2.166
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.769,
+     "aM": [
+      -5.804,
+      5.143,
+      -11.729
+     ],
+     "bM": [
+      -6.267,
+      6.613,
+      -11.254
+     ]
+    },
+    {
+     "radiusM": 0.769,
+     "aM": [
+      -6.267,
+      5.878,
+      -11.254
+     ],
+     "bM": [
+      -6.267,
+      7.349,
+      -11.254
+     ]
+    },
+    {
+     "radiusM": 0.765,
+     "aM": [
+      -2.083,
+      8.82,
+      -2.265
+     ],
+     "bM": [
+      -2.083,
+      10.29,
+      -2.265
+     ]
+    },
+    {
+     "radiusM": 0.733,
+     "aM": [
+      4.438,
+      5.878,
+      -3.599
+     ],
+     "bM": [
+      4.438,
+      7.349,
+      -3.599
+     ]
+    },
+    {
+     "radiusM": 0.733,
+     "aM": [
+      4.438,
+      6.613,
+      -3.599
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.648,
+     "aM": [
+      5.161,
+      5.878,
+      -5.962
+     ],
+     "bM": [
+      5.161,
+      7.349,
+      -5.962
+     ]
+    },
+    {
+     "radiusM": 0.648,
+     "aM": [
+      5.161,
+      6.613,
+      -5.962
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.616,
+     "aM": [
+      4.682,
+      5.878,
+      -4.699
+     ],
+     "bM": [
+      4.682,
+      7.349,
+      -4.699
+     ]
+    },
+    {
+     "radiusM": 0.616,
+     "aM": [
+      4.682,
+      6.613,
+      -4.699
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.473,
+     "aM": [
+      5.876,
+      5.878,
+      -3.431
+     ],
+     "bM": [
+      5.876,
+      7.349,
+      -3.431
+     ]
+    },
+    {
+     "radiusM": 0.473,
+     "aM": [
+      5.876,
+      6.613,
+      -3.431
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.423,
+     "aM": [
+      0.03,
+      -0.005,
+      -7.323
+     ],
+     "bM": [
+      0.03,
+      1.466,
+      -7.323
+     ]
+    },
+    {
+     "radiusM": 0.343,
+     "aM": [
+      1.054,
+      13.232,
+      -6.808
+     ],
+     "bM": [
+      1.054,
+      14.703,
+      -6.808
+     ]
+    },
+    {
+     "radiusM": 0.342,
+     "aM": [
+      -0.141,
+      12.496,
+      -7.037
+     ],
+     "bM": [
+      0.662,
+      13.967,
+      -7.351
+     ]
+    },
+    {
+     "radiusM": 0.342,
+     "aM": [
+      0.662,
+      13.232,
+      -7.351
+     ],
+     "bM": [
+      0.662,
+      14.703,
+      -7.351
+     ]
+    },
+    {
+     "radiusM": 0.332,
+     "aM": [
+      7.02,
+      5.878,
+      -3.251
+     ],
+     "bM": [
+      7.02,
+      7.349,
+      -3.251
+     ]
+    },
+    {
+     "radiusM": 0.332,
+     "aM": [
+      7.02,
+      6.613,
+      -3.251
+     ],
+     "bM": [
+      2.088,
+      8.084,
+      -6.749
+     ]
+    },
+    {
+     "radiusM": 0.327,
+     "aM": [
+      0.363,
+      13.232,
+      -7.94
+     ],
+     "bM": [
+      0.363,
+      14.703,
+      -7.94
+     ]
+    },
+    {
+     "radiusM": 0.311,
+     "aM": [
+      0.035,
+      1.466,
+      -7.321
+     ],
+     "bM": [
+      0.035,
+      2.936,
+      -7.321
+     ]
+    },
+    {
+     "radiusM": 0.306,
+     "aM": [
+      1.308,
+      13.232,
+      -6.248
+     ],
+     "bM": [
+      1.308,
+      14.703,
+      -6.248
+     ]
+    },
+    {
+     "radiusM": 0.301,
+     "aM": [
+      -0.007,
+      13.232,
+      -8.592
+     ],
+     "bM": [
+      -0.007,
+      14.703,
+      -8.592
+     ]
+    },
+    {
+     "radiusM": 0.258,
+     "aM": [
+      0.008,
+      2.936,
+      -7.324
+     ],
+     "bM": [
+      0.008,
+      5.878,
+      -7.324
+     ]
+    },
+    {
+     "radiusM": 0.244,
+     "aM": [
+      -0.041,
+      5.143,
+      -7.347
+     ],
+     "bM": [
+      -1.31,
+      6.613,
+      -7.942
+     ]
+    },
+    {
+     "radiusM": 0.215,
+     "aM": [
+      -0.204,
+      13.232,
+      -10.067
+     ],
+     "bM": [
+      -0.204,
+      14.703,
+      -10.067
+     ]
+    },
+    {
+     "radiusM": 0.193,
+     "aM": [
+      -4.305,
+      13.232,
+      -11.299
+     ],
+     "bM": [
+      -4.305,
+      14.703,
+      -11.299
+     ]
+    },
+    {
+     "radiusM": 0.182,
+     "aM": [
+      3.126,
+      4.407,
+      -4.743
+     ],
+     "bM": [
+      3.126,
+      5.878,
+      -4.743
+     ]
+    },
+    {
+     "radiusM": 0.182,
+     "aM": [
+      3.126,
+      5.143,
+      -4.743
+     ],
+     "bM": [
+      3.087,
+      6.613,
+      -5.516
+     ]
+    },
+    {
+     "radiusM": 0.159,
+     "aM": [
+      -4.512,
+      13.232,
+      -11.583
+     ],
+     "bM": [
+      -4.512,
+      14.703,
+      -11.583
+     ]
+    },
+    {
+     "radiusM": 0.119,
+     "aM": [
+      3.905,
+      4.407,
+      -4.285
+     ],
+     "bM": [
+      3.905,
+      5.878,
+      -4.285
+     ]
+    },
+    {
+     "radiusM": 0.119,
+     "aM": [
+      3.905,
+      5.143,
+      -4.285
+     ],
+     "bM": [
+      4.438,
+      6.613,
+      -3.599
+     ]
+    },
+    {
+     "radiusM": 0.117,
+     "aM": [
+      -0.206,
+      13.232,
+      -9.414
+     ],
+     "bM": [
+      -0.206,
+      14.703,
+      -9.414
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:landscape/trees/gkbjungletreenew3",
+   "node": "es|9d558f869c|bmv__landscape_trees_gkbjungletreenew3",
+   "category": "tree",
+   "sizeM": [
+    30.746,
+    34.198,
+    20.113
+   ],
+   "originOffsetM": [
+    14.84,
+    17.375,
+    1.361
+   ],
+   "triangles": 1064,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "gkbjunglebranch3.dds",
+    "gkbsmoothdarkbark20.dds",
+    "gkbsmoothdarkbark22.dds",
+    "gkbtreeaspenbranchcompgreen1.dds",
+    "tamrieltreelod.dds"
+   ],
+   "materials": [
+    "jungletreenew3.001.Mat",
+    "jungletreenew3.003.Mat",
+    "jungletreenew3.005.Mat",
+    "jungletreenew3.007.Mat",
+    "jungletreenew3.Mat"
+   ],
+   "billboard": true,
+   "billboardMaterials": [
+    "gkbjungletreenew3_LOD_FLAT:0.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 2.403,
+    "heightM": 20.113,
+    "baseOffsetM": [
+     -0.031,
+     -1.361,
+     -2.335
+    ]
+   },
+   "collisionSegments": [
+    {
+     "radiusM": 10.934,
+     "aM": [
+      -2.627,
+      8.903,
+      0.794
+     ],
+     "bM": [
+      -2.627,
+      10.367,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 10.375,
+     "aM": [
+      -1.137,
+      10.367,
+      0.327
+     ],
+     "bM": [
+      -1.137,
+      11.831,
+      0.327
+     ]
+    },
+    {
+     "radiusM": 9.833,
+     "aM": [
+      -2.897,
+      11.831,
+      0.602
+     ],
+     "bM": [
+      -2.897,
+      13.294,
+      0.602
+     ]
+    },
+    {
+     "radiusM": 9.415,
+     "aM": [
+      -0.83,
+      13.294,
+      -0.366
+     ],
+     "bM": [
+      -0.83,
+      16.222,
+      -0.366
+     ]
+    },
+    {
+     "radiusM": 4.79,
+     "aM": [
+      0.892,
+      16.222,
+      5.028
+     ],
+     "bM": [
+      0.892,
+      17.686,
+      5.028
+     ]
+    },
+    {
+     "radiusM": 3.997,
+     "aM": [
+      -0.319,
+      7.439,
+      0.621
+     ],
+     "bM": [
+      -0.319,
+      8.903,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 3.997,
+     "aM": [
+      -0.319,
+      8.171,
+      0.621
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 3.492,
+     "aM": [
+      0.303,
+      -1.345,
+      -2.49
+     ],
+     "bM": [
+      0.303,
+      0.119,
+      -2.49
+     ]
+    },
+    {
+     "radiusM": 3.407,
+     "aM": [
+      3.256,
+      7.439,
+      -5.155
+     ],
+     "bM": [
+      3.256,
+      8.903,
+      -5.155
+     ]
+    },
+    {
+     "radiusM": 2.224,
+     "aM": [
+      -2.482,
+      16.222,
+      -3.608
+     ],
+     "bM": [
+      -2.482,
+      17.686,
+      -3.608
+     ]
+    },
+    {
+     "radiusM": 2.208,
+     "aM": [
+      -2.189,
+      7.439,
+      -5.922
+     ],
+     "bM": [
+      -2.189,
+      8.903,
+      -5.922
+     ]
+    },
+    {
+     "radiusM": 2.208,
+     "aM": [
+      -2.189,
+      8.171,
+      -5.922
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 1.962,
+     "aM": [
+      0.303,
+      -0.613,
+      -2.49
+     ],
+     "bM": [
+      -0.912,
+      0.851,
+      -2.339
+     ]
+    },
+    {
+     "radiusM": 1.962,
+     "aM": [
+      -0.912,
+      0.119,
+      -2.339
+     ],
+     "bM": [
+      -0.912,
+      1.583,
+      -2.339
+     ]
+    },
+    {
+     "radiusM": 1.386,
+     "aM": [
+      -1.016,
+      15.49,
+      0.326
+     ],
+     "bM": [
+      -4.372,
+      16.954,
+      -1.896
+     ]
+    },
+    {
+     "radiusM": 1.386,
+     "aM": [
+      -4.372,
+      16.222,
+      -1.896
+     ],
+     "bM": [
+      -4.372,
+      17.686,
+      -1.896
+     ]
+    },
+    {
+     "radiusM": 0.956,
+     "aM": [
+      -0.597,
+      1.583,
+      -2.048
+     ],
+     "bM": [
+      -0.597,
+      3.047,
+      -2.048
+     ]
+    },
+    {
+     "radiusM": 0.955,
+     "aM": [
+      -0.597,
+      2.315,
+      -2.048
+     ],
+     "bM": [
+      -0.89,
+      3.779,
+      -1.47
+     ]
+    },
+    {
+     "radiusM": 0.955,
+     "aM": [
+      -0.89,
+      3.047,
+      -1.47
+     ],
+     "bM": [
+      -0.89,
+      4.511,
+      -1.47
+     ]
+    },
+    {
+     "radiusM": 0.808,
+     "aM": [
+      4.471,
+      16.222,
+      -5.38
+     ],
+     "bM": [
+      4.471,
+      17.686,
+      -5.38
+     ]
+    },
+    {
+     "radiusM": 0.795,
+     "aM": [
+      -0.89,
+      3.779,
+      -1.47
+     ],
+     "bM": [
+      -1.305,
+      5.243,
+      -0.583
+     ]
+    },
+    {
+     "radiusM": 0.795,
+     "aM": [
+      -1.305,
+      4.511,
+      -0.583
+     ],
+     "bM": [
+      -1.305,
+      5.975,
+      -0.583
+     ]
+    },
+    {
+     "radiusM": 0.68,
+     "aM": [
+      1.304,
+      16.222,
+      -5.071
+     ],
+     "bM": [
+      1.304,
+      17.686,
+      -5.071
+     ]
+    },
+    {
+     "radiusM": 0.673,
+     "aM": [
+      -4.177,
+      16.222,
+      -3.092
+     ],
+     "bM": [
+      -4.177,
+      17.686,
+      -3.092
+     ]
+    },
+    {
+     "radiusM": 0.649,
+     "aM": [
+      -6.086,
+      16.222,
+      0.519
+     ],
+     "bM": [
+      -6.086,
+      17.686,
+      0.519
+     ]
+    },
+    {
+     "radiusM": 0.638,
+     "aM": [
+      -0.967,
+      5.975,
+      0.532
+     ],
+     "bM": [
+      -0.967,
+      7.439,
+      0.532
+     ]
+    },
+    {
+     "radiusM": 0.638,
+     "aM": [
+      -0.967,
+      6.707,
+      0.532
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.612,
+     "aM": [
+      2.81,
+      16.222,
+      -5.404
+     ],
+     "bM": [
+      2.81,
+      17.686,
+      -5.404
+     ]
+    },
+    {
+     "radiusM": 0.595,
+     "aM": [
+      -2.632,
+      -1.345,
+      0.265
+     ],
+     "bM": [
+      -2.632,
+      0.119,
+      0.265
+     ]
+    },
+    {
+     "radiusM": 0.594,
+     "aM": [
+      -1.213,
+      5.975,
+      -0.542
+     ],
+     "bM": [
+      -1.213,
+      7.439,
+      -0.542
+     ]
+    },
+    {
+     "radiusM": 0.594,
+     "aM": [
+      -1.213,
+      6.707,
+      -0.542
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.583,
+     "aM": [
+      2.822,
+      5.975,
+      2.585
+     ],
+     "bM": [
+      2.822,
+      7.439,
+      2.585
+     ]
+    },
+    {
+     "radiusM": 0.583,
+     "aM": [
+      2.822,
+      6.707,
+      2.585
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.552,
+     "aM": [
+      1.812,
+      5.975,
+      0.512
+     ],
+     "bM": [
+      1.812,
+      7.439,
+      0.512
+     ]
+    },
+    {
+     "radiusM": 0.552,
+     "aM": [
+      1.812,
+      6.707,
+      0.512
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.542,
+     "aM": [
+      2.637,
+      5.975,
+      1.869
+     ],
+     "bM": [
+      2.637,
+      7.439,
+      1.869
+     ]
+    },
+    {
+     "radiusM": 0.542,
+     "aM": [
+      2.637,
+      6.707,
+      1.869
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.527,
+     "aM": [
+      2.145,
+      5.975,
+      1.26
+     ],
+     "bM": [
+      2.145,
+      7.439,
+      1.26
+     ]
+    },
+    {
+     "radiusM": 0.527,
+     "aM": [
+      2.145,
+      6.707,
+      1.26
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.526,
+     "aM": [
+      -5.749,
+      7.439,
+      -0.384
+     ],
+     "bM": [
+      -5.749,
+      8.903,
+      -0.384
+     ]
+    },
+    {
+     "radiusM": 0.526,
+     "aM": [
+      -5.749,
+      8.171,
+      -0.384
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.52,
+     "aM": [
+      -5.419,
+      7.439,
+      0.263
+     ],
+     "bM": [
+      -5.419,
+      8.903,
+      0.263
+     ]
+    },
+    {
+     "radiusM": 0.52,
+     "aM": [
+      -5.419,
+      8.171,
+      0.263
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.507,
+     "aM": [
+      -0.453,
+      5.975,
+      1.186
+     ],
+     "bM": [
+      -0.453,
+      7.439,
+      1.186
+     ]
+    },
+    {
+     "radiusM": 0.507,
+     "aM": [
+      -0.453,
+      6.707,
+      1.186
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.504,
+     "aM": [
+      -6.41,
+      7.439,
+      -1.571
+     ],
+     "bM": [
+      -6.41,
+      8.903,
+      -1.571
+     ]
+    },
+    {
+     "radiusM": 0.504,
+     "aM": [
+      -6.41,
+      8.171,
+      -1.571
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.497,
+     "aM": [
+      1.575,
+      5.975,
+      -0.119
+     ],
+     "bM": [
+      1.575,
+      7.439,
+      -0.119
+     ]
+    },
+    {
+     "radiusM": 0.497,
+     "aM": [
+      1.575,
+      6.707,
+      -0.119
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.494,
+     "aM": [
+      1.262,
+      5.975,
+      -0.894
+     ],
+     "bM": [
+      1.262,
+      7.439,
+      -0.894
+     ]
+    },
+    {
+     "radiusM": 0.494,
+     "aM": [
+      1.262,
+      6.707,
+      -0.894
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.454,
+     "aM": [
+      -7.368,
+      7.439,
+      -3.505
+     ],
+     "bM": [
+      -7.368,
+      8.903,
+      -3.505
+     ]
+    },
+    {
+     "radiusM": 0.454,
+     "aM": [
+      -7.368,
+      8.171,
+      -3.505
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.454,
+     "aM": [
+      -6.744,
+      7.439,
+      -2.263
+     ],
+     "bM": [
+      -6.744,
+      8.903,
+      -2.263
+     ]
+    },
+    {
+     "radiusM": 0.454,
+     "aM": [
+      -6.744,
+      8.171,
+      -2.263
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      -7.039,
+      7.439,
+      -2.847
+     ],
+     "bM": [
+      -7.039,
+      8.903,
+      -2.847
+     ]
+    },
+    {
+     "radiusM": 0.444,
+     "aM": [
+      -7.039,
+      8.171,
+      -2.847
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.425,
+     "aM": [
+      2.759,
+      5.975,
+      -5.138
+     ],
+     "bM": [
+      2.759,
+      7.439,
+      -5.138
+     ]
+    },
+    {
+     "radiusM": 0.425,
+     "aM": [
+      2.759,
+      6.707,
+      -5.138
+     ],
+     "bM": [
+      3.256,
+      8.171,
+      -5.155
+     ]
+    },
+    {
+     "radiusM": 0.421,
+     "aM": [
+      -5.171,
+      7.439,
+      1.003
+     ],
+     "bM": [
+      -5.171,
+      8.903,
+      1.003
+     ]
+    },
+    {
+     "radiusM": 0.421,
+     "aM": [
+      -5.171,
+      8.171,
+      1.003
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.415,
+     "aM": [
+      4.247,
+      8.903,
+      1.994
+     ],
+     "bM": [
+      4.247,
+      10.367,
+      1.994
+     ]
+    },
+    {
+     "radiusM": 0.415,
+     "aM": [
+      4.247,
+      9.635,
+      1.994
+     ],
+     "bM": [
+      -1.137,
+      11.099,
+      0.327
+     ]
+    },
+    {
+     "radiusM": 0.407,
+     "aM": [
+      1.063,
+      5.975,
+      -1.561
+     ],
+     "bM": [
+      1.063,
+      7.439,
+      -1.561
+     ]
+    },
+    {
+     "radiusM": 0.407,
+     "aM": [
+      1.063,
+      6.707,
+      -1.561
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      -4.931,
+      7.439,
+      1.571
+     ],
+     "bM": [
+      -4.931,
+      8.903,
+      1.571
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      -4.931,
+      8.171,
+      1.571
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.397,
+     "aM": [
+      -1.384,
+      16.222,
+      -6.176
+     ],
+     "bM": [
+      -1.384,
+      17.686,
+      -6.176
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      -4.602,
+      7.439,
+      2.185
+     ],
+     "bM": [
+      -4.602,
+      8.903,
+      2.185
+     ]
+    },
+    {
+     "radiusM": 0.375,
+     "aM": [
+      -4.602,
+      8.171,
+      2.185
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.371,
+     "aM": [
+      0.73,
+      5.975,
+      -2.278
+     ],
+     "bM": [
+      0.73,
+      7.439,
+      -2.278
+     ]
+    },
+    {
+     "radiusM": 0.371,
+     "aM": [
+      0.73,
+      6.707,
+      -2.278
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.367,
+     "aM": [
+      -6.383,
+      16.222,
+      -0.87
+     ],
+     "bM": [
+      -6.383,
+      17.686,
+      -0.87
+     ]
+    },
+    {
+     "radiusM": 0.364,
+     "aM": [
+      -4.395,
+      7.439,
+      2.839
+     ],
+     "bM": [
+      -4.395,
+      8.903,
+      2.839
+     ]
+    },
+    {
+     "radiusM": 0.364,
+     "aM": [
+      -4.395,
+      8.171,
+      2.839
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.338,
+     "aM": [
+      -6.325,
+      7.439,
+      -0.957
+     ],
+     "bM": [
+      -6.325,
+      8.903,
+      -0.957
+     ]
+    },
+    {
+     "radiusM": 0.338,
+     "aM": [
+      -6.325,
+      8.171,
+      -0.957
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.317,
+     "aM": [
+      -7.696,
+      16.222,
+      -0.379
+     ],
+     "bM": [
+      -7.696,
+      17.686,
+      -0.379
+     ]
+    },
+    {
+     "radiusM": 0.304,
+     "aM": [
+      4.089,
+      5.975,
+      -4.491
+     ],
+     "bM": [
+      4.089,
+      7.439,
+      -4.491
+     ]
+    },
+    {
+     "radiusM": 0.304,
+     "aM": [
+      4.089,
+      6.707,
+      -4.491
+     ],
+     "bM": [
+      3.256,
+      8.171,
+      -5.155
+     ]
+    },
+    {
+     "radiusM": 0.296,
+     "aM": [
+      -6.475,
+      16.222,
+      -1.519
+     ],
+     "bM": [
+      -6.475,
+      17.686,
+      -1.519
+     ]
+    },
+    {
+     "radiusM": 0.293,
+     "aM": [
+      0.572,
+      13.294,
+      -9.066
+     ],
+     "bM": [
+      0.572,
+      14.758,
+      -9.066
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      -5.76,
+      7.439,
+      -1.126
+     ],
+     "bM": [
+      -5.76,
+      8.903,
+      -1.126
+     ]
+    },
+    {
+     "radiusM": 0.285,
+     "aM": [
+      -5.76,
+      8.171,
+      -1.126
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.275,
+     "aM": [
+      5.283,
+      5.975,
+      -7.033
+     ],
+     "bM": [
+      5.283,
+      7.439,
+      -7.033
+     ]
+    },
+    {
+     "radiusM": 0.275,
+     "aM": [
+      5.283,
+      6.707,
+      -7.033
+     ],
+     "bM": [
+      3.256,
+      8.171,
+      -5.155
+     ]
+    },
+    {
+     "radiusM": 0.275,
+     "aM": [
+      -11.459,
+      13.294,
+      2.95
+     ],
+     "bM": [
+      -11.459,
+      14.758,
+      2.95
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      -1.398,
+      5.975,
+      -1.196
+     ],
+     "bM": [
+      -1.398,
+      7.439,
+      -1.196
+     ]
+    },
+    {
+     "radiusM": 0.268,
+     "aM": [
+      -1.398,
+      6.707,
+      -1.196
+     ],
+     "bM": [
+      -0.319,
+      8.171,
+      0.621
+     ]
+    },
+    {
+     "radiusM": 0.267,
+     "aM": [
+      -7.762,
+      16.222,
+      -2.794
+     ],
+     "bM": [
+      -7.762,
+      17.686,
+      -2.794
+     ]
+    },
+    {
+     "radiusM": 0.261,
+     "aM": [
+      -1.953,
+      5.975,
+      -4.572
+     ],
+     "bM": [
+      -1.953,
+      7.439,
+      -4.572
+     ]
+    },
+    {
+     "radiusM": 0.261,
+     "aM": [
+      -1.953,
+      6.707,
+      -4.572
+     ],
+     "bM": [
+      -2.189,
+      8.171,
+      -5.922
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      -6.659,
+      7.439,
+      7.611
+     ],
+     "bM": [
+      -6.659,
+      8.903,
+      7.611
+     ]
+    },
+    {
+     "radiusM": 0.254,
+     "aM": [
+      -6.659,
+      8.171,
+      7.611
+     ],
+     "bM": [
+      -2.627,
+      9.635,
+      0.794
+     ]
+    },
+    {
+     "radiusM": 0.245,
+     "aM": [
+      -1.549,
+      -1.345,
+      0.528
+     ],
+     "bM": [
+      -1.549,
+      0.119,
+      0.528
+     ]
+    },
+    {
+     "radiusM": 0.24,
+     "aM": [
+      2.712,
+      5.975,
+      -6.094
+     ],
+     "bM": [
+      2.712,
+      7.439,
+      -6.094
+     ]
+    }
+   ]
+  },
+  {
+   "id": "bmv:plants/trees/banana_tree",
+   "node": "es|0e60e2e583|bmv__plants_trees_banana_tree",
+   "category": "tree",
+   "sizeM": [
+    4.683,
+    3.559,
+    4.602
+   ],
+   "originOffsetM": [
+    2.32,
+    1.851,
+    0.044
+   ],
+   "triangles": 3888,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "trunk-capsule",
+   "droppedShapes": [],
+   "textures": [
+    "banana_tree.dds"
+   ],
+   "materials": [
+    "banana_tree.Mat"
+   ],
+   "collisionFrame": "pivot-yup-v3",
+   "collisionCapsule": {
+    "radiusM": 0.15,
+    "heightM": 4.602,
+    "baseOffsetM": [
+     -0.034,
+     -0.044,
+     0.498
+    ]
+   }
+  },
+  {
+   "id": "bmv:landscape/plants/water lily1",
+   "node": "es|a0cb456b7e|bmv__landscape_plants_water lily1",
+   "category": "plant",
+   "sizeM": [
+    3.896,
+    3.106,
+    8.808
+   ],
+   "originOffsetM": [
+    1.391,
+    1.711,
+    8.639
+   ],
+   "triangles": 2044,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewplake10.dds",
+    "lily1.dds",
+    "lily2.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.005",
+    "Ivy01:0_1.Mat.001",
+    "Ivy01:0_2.Mat"
+   ]
+  },
+  {
+   "id": "bmv:landscape/plants/water lily2",
+   "node": "es|5447814022|bmv__landscape_plants_water lily2",
+   "category": "plant",
+   "sizeM": [
+    3.012,
+    3.132,
+    8.864
+   ],
+   "originOffsetM": [
+    0.946,
+    1.776,
+    8.688
+   ],
+   "triangles": 1456,
+   "lodRatios": [
+    0.35,
+    0.12
+   ],
+   "doubleSided": true,
+   "alphaTest": true,
+   "collision": "none",
+   "droppedShapes": [],
+   "textures": [
+    "ewplake10.dds",
+    "lily1.dds",
+    "lily2.dds"
+   ],
+   "materials": [
+    "Ivy01:0.Mat.006",
+    "Ivy01:0_1.Mat.002",
+    "Ivy01:0_2.Mat.001"
+   ]
   }
  ],
  "outputGlb": "Z:\\home\\analyticalplatform\\workspace\\elder-souls-dev\\elder-souls-argonia\\tooling\\asset-pipeline\\output\\kits\\flora-province-v1.glb",
  "metresPerUnit": 0.014224,
  "texturesMissing": [
+  "textures/landscape/trees/bananabark1_n.dds",
+  "textures/landscape/trees/datepalmbark2_n.dds",
   "textures/landscape/trees/gkbjunglebranch10.dds",
   "textures/landscape/trees/gkbpalmbark22_n.dds",
+  "textures/landscape/trees/tld/bark01_n.dds",
+  "textures/pc_flora_str_tree_01tr2_n.dds",
   "textures/terrain/tamriel/trees/tamrieltreelod_n.dds",
+  "textures/tr_oth_mush_sm2.dds",
+  "textures/tr_oth_mush_sm2_n.dds",
+  "textures/v_bcbark03_n.dds",
   "textures/vurt_amanita3_n.dds",
+  "textures/vurt_bitterbark_n.dds",
+  "textures/vurt_branchybark_n.dds",
   "textures/vurt_mushbottom_n.dds",
-  "textures/vurt_shroomstem_n.dds"
+  "textures/vurt_shroomstem_n.dds",
+  "textures/vurt_shroomtop_n.dds",
+  "textures/vurt_shroomystem_n.dds",
+  "textures/vurt_spmoss021_n.dds"
  ],
  "texturesSubstituted": {
   "textures/terrain/tamriel/trees/tamrieltreelod.dds": "textures/landscape/trees/tamrieltreelodtropical.dds",
   "textures/landscape/dirt02.dds": "textures/texturepack/landscape/dirt02.dds",
   "textures/landscape/dirt02_n.dds": "textures/actors/dwarven centurion/land dreugh/mud/terrains/dirt02_n.dds",
+  "textures/landscape/gkbbranch1.dds": "textures/landscape/trees/gkbbranch1.dds",
   "textures/landscape/grass/coastkelpgrass01.dds": "textures/texturepack/landscape/grass/coastkelpgrass01.dds",
   "textures/landscape/mountains/mountainslab01_n.dds": "textures/rocks/mountainslab01_n.dds",
   "textures/landscape/rocks01.dds": "textures/texturepack/landscape/rocks01.dds",
+  "textures/landscape/trees/tld/bark01.dds": "textures/architecture/citebosmer/arbres/bark0194.dds",
+  "textures/landscape/trees/treeaspenbarkcomp_n.dds": "textures/landscape/4k/treeaspenbarkcomp_n.dds",
+  "textures/landscape/trees/treeoaktrunk_n.dds": "textures/landscape/trees/ethas/treeoaktrunk_n.dds",
+  "textures/landscape/trees/treepineforestbranchcomp.dds": "textures/texturepack/landscape/trees/treepineforestbranchcomp.dds",
   "textures/landscape/trees/tundradriftwoodbark01_n.dds": "textures/landscape/4k/tundradriftwoodbark01_n.dds",
   "textures/landscape/trees/tundradriftwoodbranches01.dds": "textures/texturepack/landscape/trees/tundradriftwoodbranches01.dds",
+  "textures/plants/groundplants1/ewplake10.dds": "textures/landscape/plants/ewplake10.dds",
   "textures/plants/groundplants1/fern2.dds": "textures/landscape/plants/fern2.dds",
   "textures/plants/groundplants1/fern2_n.dds": "textures/landscape/plants/fern2_n.dds",
+  "textures/plants/groundplants1/lily1.dds": "textures/actors/spriggan/cyrodiilian spriggan/lily1.dds",
+  "textures/plants/groundplants1/lily2.dds": "textures/actors/spriggan/cyrodiilian spriggan/lily2.dds",
   "textures/plants/grplants2/leafcol.dds": "textures/landscape/plants/leafcol.dds",
   "textures/plants/grplants2/leafcol_n.dds": "textures/landscape/plants/leafcol_n.dds",
   "textures/plants/tamira/newplants/bamboo.dds": "textures/landscape/tamira/newplants/bamboo.dds",
@@ -17089,10 +30223,12 @@
   "textures/plants/tamira/newplants/tropicalplant01_n.dds": "textures/landscape/tamira/newplants/tropicalplant01_n.dds",
   "textures/plants/tamira/newplants/tropicalshrub01.dds": "textures/landscape/tamira/newplants/tropicalshrub01.dds",
   "textures/plants/tamira/newplants/tropicalshrub01_n.dds": "textures/landscape/tamira/newplants/tropicalshrub01_n.dds",
+  "textures/runs/plants/trees/banana_tree.dds": "textures/plants/trees/banana_tree.dds",
+  "textures/runs/plants/trees/banana_tree_n.dds": "textures/plants/trees/banana_tree_n.dds",
   "textures/vurt_shroomstem.dds": "textures/landscape/plants/vurt_shroomstem2.dds"
  },
  "alphaModes": {
-  "MASK": 205,
+  "MASK": 340,
   "OPAQUE": 6
  }
 }

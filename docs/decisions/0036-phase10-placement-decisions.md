@@ -9,9 +9,10 @@
 >
 > The vegetation pipeline works end to end and is **deployed**: mining →
 > asset registry → kit builder (NIF→GLB) → scatter compiler → instanced
-> renderer in the studio. The owner has seen it and is giving feedback on how
-> it *looks*. Five areas have plants; the rest of the province is bare on
-> purpose (exemplar-first, module 95 §85.4).
+> renderer in the studio. Phase 10 is CLOSED (owner 2026-09-04). **Since
+> 2026-09-07 the whole province has plants** (see the rollout record below);
+> the five exemplar rings are now just the chunks the run-book recompiles
+> for a quick look.
 >
 > ### The loop you will be running
 >
@@ -22,7 +23,10 @@
 > python3 -m worldgen.build_palettes
 > # 1b. T3 groundcover densities are separate: world/sources/flora/groundcover.json
 > #     (runtime ring — no recompile needed, just rebuild/deploy the studio)
-> # 2. recompile the five areas' bundles      (from tooling/world-generation)
+> # 2. recompile the five exemplar areas for a quick check (from
+> #    tooling/world-generation). The DEPLOYED bundles are province-wide:
+> #    drop the --chunk flags (or run scripts/terrain-chain.sh --from
+> #    compile_scatter, ~1 min) before pushing, or the index goes partial.
 > CH=""; for c in 5,12 7,9 11,7 3,3 4,10 7,14; do cx=${c%,*}; cz=${c#*,}
 >   for dx in -1 0 1; do for dz in -1 0 1; do
 >     CH="$CH --chunk $((cx+dx)),$((cz+dz))"; done; done; done
@@ -100,6 +104,46 @@
 >    `meta.json`. The VM container has a 12 GiB memory cap shared by every
 >    open Claude terminal tab; restore half-written rasters from HEAD and
 >    re-run when the box is quiet.
+>
+> ### 2026-09-08 — province-wide rollout recorded; regional variety pass
+>
+> **What happened.** Vegetation scatter left the five exemplar rings and
+> covered the province in commit `1b79517` (2026-09-07, "Carve river
+> channels to their water profile…"), which added bundles for 151 chunks
+> (48 → 199 chunks with plants, 9.3 MB of bundles). It was a **side effect,
+> not a decision**: `scripts/terrain-chain.sh` (created in `98b26b7` the
+> same day, per decision 0025's stage order) ends in `compile_scatter`, and
+> `compile_scatter` with no `--chunk` flag compiles every chunk. No budget or
+> FPS evidence was gathered at the time; the owner saw it on the deployed
+> build and **accepted it (2026-09-08: "we were going to do it anyway")**.
+> It stands as the Phase 15 roll-out step for vegetation done early: module
+> 95 §85.4 step 4 for this system is complete, region packet by region
+> packet no longer applies to flora. Nothing remains exemplar-only in the
+> vegetation layer; the T3 groundcover ring was always province-wide (it is
+> generated at runtime from the land-cover raster).
+>
+> **Regional variety (owner 2026-09-08: "a little samey between regions").**
+> Measured before the change: 39 woody/plant species province-wide; the
+> firm lowland shared 90 % of its woody weight with the jungle, the lake
+> 100 % with the river corridor, the lagoon 100 % with the mangrove forest,
+> and eight regions had only two tree species. The vault holds far more
+> (BM&V `landscape/trees` alone: 936 meshes, 19 % ever used). Widened to
+> **65 species** from pools already credited (no new mods): pine for the
+> border mountains, slender "jungle aspen" stands, gorse and streamside
+> alder for the upland hills, flat palms for the delta, date and coconut
+> palms for the lagoon, tall columnar Cyrodiil cypress for the big rivers,
+> giant fungi and tree ferns for the rootland, a broad rain tree plus dead
+> snags for the interior swamp, stick trees for the fringe marsh, umbrella
+> trees for the floodplain, banana and a broad fan palm for the hammocks,
+> flowering water lilies for the lakes, two more mangrove meshes so the
+> three mangrove coasts are not one tree repeated. Densities, machinery and
+> collider budgets unchanged (delivered counts on the six exemplar chunks within ±10 % of the old palettes; the swamp's authored total rose to hold its count under a broader lead tree). Every
+> region's dominant tree is now its own except the rootland's giant cypress,
+> which is that region's identity by the owner's Q3 choice. Full tables,
+> lore citations, the rejected meshes and the remaining accepted overlaps:
+> [regional-variety-audit-2026-09-08.md](../research/vegetation/regional-variety-audit-2026-09-08.md).
+> Kit rebuilt to 81 assets (34 MB GLB); the province bundles are re-baked by
+> the water agent's chain run, not here.
 >
 > ### Round 10 (2026-09-02) — colliders moulded to the wood geometry; card audit; the FPS drop
 >

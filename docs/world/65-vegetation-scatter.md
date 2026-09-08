@@ -144,13 +144,16 @@ side — instances, draws, triangles, collider counts — from
   hardware, not by a micro-lab (CUT — see above); species selection uses the
   already-catalogued BM&V tree meshes and grass/reed billboard families
   (§74.1b) plus Tropical Skyrim's flora pool (§74.1a). **Phase 10 also
-  authors the flora ecology for the exemplar areas** — per-region
-  ecology-driven species palettes and densities (region grammar §16), pulled
-  forward from Phase 13 (owner split 2026-08-29, decision 0034), informed by
-  mining vanilla/BM&V/Tropical Skyrim placement data (module 95 §86.0b).
+  authors the flora ecology** — per-region ecology-driven species palettes
+  and densities (region grammar §16), pulled forward from Phase 13 (owner
+  split 2026-08-29, decision 0034), informed by mining vanilla/BM&V/Tropical
+  Skyrim placement data (module 95 §86.0b). Delivered province-wide: the
+  terrain chain re-bakes every chunk's bundle (decision 0036, 2026-09-08
+  record), and each region class carries a signature species
+  ([variety audit](../research/vegetation/regional-variety-audit-2026-09-08.md)).
 - **Phase 13** wires seasonal response to `s(t)` through the ecology data;
-  **Phase 15** fills the province palette-by-palette as region packets roll
-  out.
+  **Phase 15** re-tunes palettes as region packets roll out (the flora
+  roll-out itself is done).
 - **Phase 14** locks quality tiers (T3 ring radius/density, T2 visible cap,
   impostor distances as one declarative table) and per-device budgets.
 

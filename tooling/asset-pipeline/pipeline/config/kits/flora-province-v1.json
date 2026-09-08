@@ -287,6 +287,94 @@
     0.2,
     0.06
    ]
+  },
+  {
+   "asset": "bmv:landscape/trees/scottish-pine22"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen02jungle"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen03jungle"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbtreeaspen05jungle"
+  },
+  {
+   "asset": "bmv:landscape/trees/hodalder01gkb"
+  },
+  {
+   "asset": "bmv:landscape/trees/ztgorsebush02lightyellow"
+  },
+  {
+   "asset": "bmv:landscape/trees/flatpalm1"
+  },
+  {
+   "asset": "bmv:landscape/trees/flatpalm2"
+  },
+  {
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb2"
+  },
+  {
+   "asset": "bmv:landscape/trees/mangrovereachtree0gkb8"
+  },
+  {
+   "asset": "bmv:landscape/trees/datepalm2"
+  },
+  {
+   "asset": "bmv:landscape/trees/beachpalm5",
+   "lodFlatFrom": "bmv:landscape/trees/beachpalm4"
+  },
+  {
+   "asset": "bmv:landscape/trees/fanpalm5",
+   "lodFlatFrom": "bmv:landscape/trees/fanpalm4"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbcyrodilcypress1",
+   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbcyrodilcypress2",
+   "lodFlatTexture": "textures/landscape/trees/tamrieltreelod.dds"
+  },
+  {
+   "asset": "bmv:vurt_shroom/vurt_shroom_big6"
+  },
+  {
+   "asset": "bmv:trdata/mushrooms/tr_oth_tallmush01"
+  },
+  {
+   "asset": "bmv:trdata/mushrooms/tr_oth_tallmush05"
+  },
+  {
+   "asset": "bmv:vurt/deadtrees/dead_bc_tree_01"
+  },
+  {
+   "asset": "bmv:vurt/deadtrees/dead_bc_tree_02"
+  },
+  {
+   "asset": "bmv:vurt/deadtrees/dead_bc_tree_04"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenewsticktree11"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenewsticktree20v2"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew10"
+  },
+  {
+   "asset": "bmv:landscape/trees/gkbjungletreenew3"
+  },
+  {
+   "asset": "bmv:plants/trees/banana_tree"
+  },
+  {
+   "asset": "bmv:landscape/plants/water lily1"
+  },
+  {
+   "asset": "bmv:landscape/plants/water lily2"
   }
  ],
  "textureAliases": {

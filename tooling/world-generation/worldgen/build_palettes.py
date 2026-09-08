@@ -23,8 +23,8 @@ a small set of ARCHETYPES that encode the evidence once:
 * **Gallery ribbons** (ecology §6.1): open landscapes carry closed-forest
   ribbons within ~35 m of watercourses with an abrupt outer edge.
 
-Species are the 40 already converted into flora-province-v1 — density and
-structure change here, the asset set does not (kit rebuild not required).
+Species must all be in flora-province-v1 (the kit config lists them; adding
+a species here means adding it there and rebuilding — 0036 run-book step 3).
 
 Run:  python3 -m worldgen.build_palettes     (from tooling/world-generation)
 Then: python3 -m worldgen.compile_scatter --report ... per the 0036 run-book.
@@ -115,6 +115,46 @@ S = {
     "fanpalm_tall_b": "bmv:landscape/trees/fanpalm4",       # 23.6 m clean palm
     "fanpalm_broad": "bmv:landscape/trees/fanpalm6",        # 18.9 m, 21.0 m crown
     "fanpalm_tall": "bmv:landscape/trees/fanpalm3",        # 23.4 m clean palm
+    # REGIONAL VARIETY (2026-09-08, decision 0036 addendum): the province-wide
+    # rollout showed the 40-species set repeating between regions (lowland
+    # shared 90 % of its tree weight with the jungle, the lake 100 % with the
+    # river). Each region now carries a SIGNATURE species drawn from the
+    # measured candidate sheets (output/sheets/*/sheet.md) and the registry;
+    # heights are source-scale metres. Audit: docs/research/vegetation/
+    # regional-variety-audit-2026-09-08.md.
+    "pine_a": "bmv:landscape/trees/scottish-pine22",        # 29.2 m — northern border (Lore:Thornmarsh "more temperate")
+    "hill_aspen_a": "bmv:landscape/trees/gkbtreeaspen02jungle",  # 19.0 m slender broadleaf, 380 tris
+    "hill_aspen_b": "bmv:landscape/trees/gkbtreeaspen03jungle",  # 14.2 m
+    "hill_aspen_small": "bmv:landscape/trees/gkbtreeaspen05jungle",  # 10.6 m
+    "alder": "bmv:landscape/trees/hodalder01gkb",            # 14.5 m streamside alder
+    "gorse": "bmv:landscape/trees/ztgorsebush02lightyellow", # 4.5 m flowering scrub
+    "flatpalm_a": "bmv:landscape/trees/flatpalm1",           # 13.7 m (author eid 00tropicpalm)
+    "flatpalm_b": "bmv:landscape/trees/flatpalm2",           # 15.6 m
+    "mangrove_c": "bmv:landscape/trees/mangrovereachtree0gkb2",  # 12.8 m (01MANGROVE)
+    "mangrove_d": "bmv:landscape/trees/mangrovereachtree0gkb8",  # 8.4 m (01MANGROVE3white)
+    "datepalm": "bmv:landscape/trees/datepalm2",             # 19.0 m (00thickpalm)
+    "coconut_palm": "bmv:landscape/trees/beachpalm5",        # 15.5 m, 17 m crown
+    "fanpalm_wide": "bmv:landscape/trees/fanpalm5",          # 20.4 m, 19.7 m crown
+    "column_cypress_a": "bmv:landscape/trees/gkbcyrodilcypress1",  # 23.4 m columnar (GRtree6)
+    "column_cypress_b": "bmv:landscape/trees/gkbcyrodilcypress2",  # 23.4 m
+    # REJECTED on the 2026-09-08 sheet (output/sheets/regional-variety-2026-09-08):
+    # treefern_huge/tall (BM&V "my_own_made") reference textures by an absolute
+    # "g:/berkians folder/..." path that Wine/Blender cannot resolve — white
+    # fronds; ethas/paradise-b and scottish-pine33 carry crossed LOD cards
+    # inside the L0 mesh. Tropical Skyrim's manfern is the tree fern instead.
+    "shroom_giant": "bmv:vurt_shroom/vurt_shroom_big6",      # 15.2 m fungus (01muckspone2)
+    "tallmush_a": "bmv:trdata/mushrooms/tr_oth_tallmush01",  # 8.0 m
+    "tallmush_b": "bmv:trdata/mushrooms/tr_oth_tallmush05",  # 8.4 m
+    "snag_a": "bmv:vurt/deadtrees/dead_bc_tree_01",          # Bitter Coast dead trees (vurt)
+    "snag_b": "bmv:vurt/deadtrees/dead_bc_tree_02",
+    "snag_c": "bmv:vurt/deadtrees/dead_bc_tree_04",
+    "stick_tree_a": "bmv:landscape/trees/gkbjungletreenewsticktree11",   # 11.3 m thin
+    "stick_tree_b": "bmv:landscape/trees/gkbjungletreenewsticktree20v2", # 12.0 m
+    "umbrella_tree": "bmv:landscape/trees/gkbjungletreenew10",  # 14.8 m, 23 m flat crown
+    "rain_tree": "bmv:landscape/trees/gkbjungletreenew3",       # 23.3 m, 34 m crown (GRTree9)
+    "banana": "bmv:plants/trees/banana_tree",                # 4.6 m
+    "water_lily_a": "bmv:landscape/plants/water lily1",      # flowering pads (water-surface class)
+    "water_lily_b": "bmv:landscape/plants/water lily2",
 }
 
 WADE = 0.35   # M1: terrestrial matrix runs this deep into the water
@@ -269,6 +309,18 @@ def drowned_tree(species: str, per_ha: float, **kw) -> list[dict]:
     return [deep, dry]
 
 
+def dead_snag(species: str, per_ha: float, depth=(0.4, 3.0),
+              scale=(0.8, 1.25)) -> dict:
+    """Standing dead trees in the water — M1's deep drowned mode only (a snag
+    on dry ground reads as a mistake). Sparse singletons; they are silhouettes,
+    not a stratum."""
+    return layer(species, per_ha, tier="T1", role="drowned-tree",
+                 clump_size_median=1, singleton_share=0.85, clump_radius_m=9.0,
+                 water_depth_m=list(depth), depth_peak_m=1.5,
+                 depth_half_width_m=1.0, slope_deg_max=24.0,
+                 scale_range=list(scale), clearance_radius_m=3.0)
+
+
 def aquatic_reeds(per_ha: float, guild: str | None = None, **kw) -> dict:
     """M1: reeds straddle the waterline into the shallows; M3: reed beds
     stand offshore AND fringe the bank — owner round 3: real water edges are
@@ -289,9 +341,10 @@ def aquatic_reeds(per_ha: float, guild: str | None = None, **kw) -> dict:
     return entry
 
 
-def aquatic_lilypads(per_ha: float, guild: str | None = None, **kw) -> dict:
+def aquatic_lilypads(per_ha: float, guild: str | None = None,
+                     species: str = "lilypad", **kw) -> dict:
     """M1/M3: a floating belt over 0.5–2 m of water, 5–20 m off the bank."""
-    entry = layer("lilypad", per_ha, role="aquatic-lilypads",
+    entry = layer(species, per_ha, role="aquatic-lilypads",
                   clump_size_median=8, clump_radius_m=6.0,
                   water_depth_m=[0.4, 2.2], depth_peak_m=1.0,
                   depth_half_width_m=0.8, shore_m=[-22.0, -3.0],
@@ -477,24 +530,39 @@ REGIONS[7] = {
     "layers": [
         landmark_giant("cypress_big", 0.12, depth=(-99.0, 1.0)),
         emergent("cypress_big", 4.0, depth=(-99.0, 1.0)),
-        canopy("cypress_big", 70.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
+        # Weights re-tuned after the 2026-09-08 species swap: the broad rain
+        # tree's clearance stamps out more understory than the cypress it
+        # replaced, so the authored numbers below are higher than the old
+        # ones to deliver the SAME count per chunk (5,12: 6.2 k both ways).
+        canopy("cypress_big", 40.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95), clump_radius_m=16.0),
         canopy("cypress", 55.0, depth=(-99.0, 0.8), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95)),
-        waterline_tree("mangrove_b", 30.0),
-        *drowned_tree("cypress", 22.0),
-        canopy("willow_a", 12.0, depth=(-2.0, 0.5), scale=(0.6, 0.9),
+        # Signature: the broad flat-crowned "rain tree" (34 m crown at unit
+        # scale, here 16-21 m tall) spreading over the pools — it leads the
+        # canopy; the giant cypress is the ROOTLAND's dominant, not this one's.
+        canopy("rain_tree", 40.0, depth=(-99.0, 0.8), riparian=RIPARIAN_WET,
+               scale=(0.8, 1.05), clump_size_median=2, clump_radius_m=18.0,
+               clearance=2.6),
+        waterline_tree("mangrove_b", 24.0),
+        *drowned_tree("cypress", 14.0),
+        # Dead snags standing in the pools: Shadowfen's "dank foliage"
+        # (Lore:Shadowfen) needs decay, not just growth.
+        dead_snag("snag_a", 4.0, scale=(0.5, 0.8)),   # 29 m mesh
+        dead_snag("snag_b", 3.0, scale=(0.5, 0.8)),   # 32 m mesh
+        canopy("willow_a", 18.0, depth=(-2.0, 0.5), scale=(0.6, 0.9),
                slope_max=28.0),
-        understory("trop_plant", 55.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET),
-        understory("fern_big", 65.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
+        understory("trop_plant", 70.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET),
+        understory("fern_big", 110.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
         interior_shrub("bracken", 55.0, depth=(-99.0, 0.4)),
-        gap_thicket("big_shrub", 150.0, depth=(-99.0, 0.3)),
+        gap_thicket("trop_plant", 90.0, depth=(-99.0, 0.3)),
+        gap_thicket("big_shrub", 110.0, depth=(-99.0, 0.3)),
         green_wall("bracken", 100.0, depth=(-99.0, 0.4)),
-        bank_wall("big_shrub", 170.0),
-        layer("vines_a", 30.0, role="liana", clump_size_median=3,
+        bank_wall("fern_big", 170.0),
+        layer("vines_a", 45.0, role="liana", clump_size_median=3,
               clump_radius_m=8.0, water_depth_m=[-99.0, 0.8],
               slope_deg_max=35.0, scale_range=[0.9, 1.5]),
-        epiphyte_moss("moss_a", 45.0),
+        epiphyte_moss("moss_a", 70.0),
         aquatic_reeds(145.0, guild="reed-bed"),
         aquatic_lilypads(70.0, guild="lilypad-pond"),
         drowned_thicket_guild("bracken", 60.0),
@@ -514,9 +582,26 @@ REGIONS[6] = {
         canopy("cypress_big", 110.0, depth=(-99.0, 1.0), riparian=RIPARIAN_WET,
                scale=(0.75, 1.15), clump_radius_m=15.0, clearance=2.2),
         canopy("cypress", 45.0, depth=(-99.0, 0.8), scale=(0.7, 1.0)),
-        understory("trop_plant", 30.0, depth=(-99.0, 0.6), scale=(0.6, 1.0)),
+        understory("manfern", 28.0, depth=(-99.0, 0.6), scale=(0.8, 1.2)),
         interior_shrub("fern_big", 40.0, depth=(-99.0, 0.5)),
-        layer("shroom", 35.0, role="fungal-floor", clump_size_median=4,
+        # Signature: fungus at tree scale. Canon lists lucan mold and mushroom
+        # caves for the dark interior (Online:Shadowfen "Mushroom Cave",
+        # Online:Murkmire "Mushrooms That Nourish"); the 15 m cap is a rare
+        # landmark, the 8 m stalks a thin fungal stratum under the cypress.
+        layer("shroom_giant", 1.2, tier="T1", role="fungal-giant",
+              clump_size_median=1, singleton_share=1.0, clump_radius_m=0.0,
+              water_depth_m=[-2.0, 0.5], slope_deg_max=24.0,
+              patchiness=0.3, glade_response=0.0,
+              scale_range=[0.8, 1.15], clearance_radius_m=7.0),
+        layer("tallmush_a", 12.0, tier="T1", role="fungal-floor",
+              clump_size_median=3, clump_radius_m=6.0,
+              water_depth_m=[-2.0, 0.4], slope_deg_max=28.0,
+              scale_range=[0.8, 1.3], clearance_radius_m=1.2),
+        layer("tallmush_b", 8.0, tier="T1", role="fungal-floor",
+              clump_size_median=3, clump_radius_m=6.0,
+              water_depth_m=[-2.0, 0.4], slope_deg_max=28.0,
+              scale_range=[0.8, 1.3], clearance_radius_m=1.2),
+        layer("shroom", 25.0, role="fungal-floor", clump_size_median=4,
               clump_radius_m=5.0, water_depth_m=[-2.0, 0.3],
               slope_deg_max=30.0, scale_range=[0.7, 1.5]),
         epiphyte_moss("moss_a", 90.0, depth=(-3.0, 0.8)),
@@ -538,16 +623,19 @@ REGIONS[4] = {
     "layers": [
         waterline_tree("mangrove_a", 130.0, scale=(0.8, 1.3),
                        shore_m=[-12.0, 6.0]),
-        waterline_tree("mangrove_b", 90.0, scale=(0.75, 1.2),
+        waterline_tree("mangrove_c", 80.0, scale=(0.75, 1.1),
                        shore_m=[-10.0, 8.0]),
-        layer("mangrove_a", 70.0, tier="T1", role="basin-mangrove",
+        layer("mangrove_c", 70.0, tier="T1", role="basin-mangrove",
               clump_size_median=5, clump_radius_m=9.0,
               water_depth_m=[-1.2, 1.0], shore_m=[5.0, 45.0],
-              scale_range=[0.6, 0.95], clearance_radius_m=1.6),
-        canopy("palm_b", 25.0, depth=(-6.0, -0.2), scale=(0.55, 0.85),
+              scale_range=[0.55, 0.85], clearance_radius_m=1.6),
+        # Signature: the strand palms — thick-trunked date palm and the broad
+        # coconut-crowned beach palm — landward of the mangrove.
+        canopy("datepalm", 25.0, depth=(-6.0, -0.2), scale=(0.7, 1.0),
                slope_max=28.0, clearance=1.5),
-        canopy("fanpalm", 30.0, depth=(-6.0, -0.1), scale=(0.7, 1.2)),
-        understory("trop_shrub", 45.0, depth=(-6.0, 0.2)),
+        canopy("coconut_palm", 30.0, depth=(-6.0, -0.1), scale=(0.8, 1.2),
+               clearance=1.4),
+        understory("trop_plant", 45.0, depth=(-6.0, 0.2)),
         aquatic_reeds(255.0),
         aquatic_kelp("wkelp_tall", 60.0, depth=(0.8, 6.0), peak=2.0),
         aquatic_kelp("kelp_tall", 30.0, depth=(1.2, 7.0), peak=2.5),
@@ -560,11 +648,16 @@ REGIONS[3] = {
             " channels, reeds carry the flats.",
     "layers": [
         waterline_tree("mangrove_b", 90.0, shore_m=[-12.0, 8.0]),
-        layer("mangrove_a", 40.0, tier="T1", role="basin-mangrove",
+        layer("mangrove_b", 40.0, tier="T1", role="basin-mangrove",
               clump_size_median=5, clump_radius_m=9.0,
               water_depth_m=[-1.0, 1.2], shore_m=[5.0, 40.0],
-              scale_range=[0.6, 0.9], clearance_radius_m=1.6),
-        understory("trop_plant", 35.0, depth=(-4.0, 0.5), riparian=RIPARIAN_WET),
+              scale_range=[0.7, 1.05], clearance_radius_m=1.6),
+        # Signature: flat-crowned palms on the dry levees between channels.
+        canopy("flatpalm_a", 22.0, depth=(-6.0, -0.2), scale=(0.8, 1.2),
+               slope_max=25.0, clearance=1.5, clump_radius_m=12.0),
+        canopy("flatpalm_b", 18.0, depth=(-6.0, -0.2), scale=(0.8, 1.2),
+               slope_max=25.0, clearance=1.5, clump_radius_m=12.0),
+        understory("trop_shrub", 35.0, depth=(-4.0, 0.5), riparian=RIPARIAN_WET),
         aquatic_reeds(350.0),
         aquatic_lilypads(60.0),
         aquatic_kelp("wkelp_short", 40.0, depth=(0.6, 4.0), peak=1.4),
@@ -577,14 +670,24 @@ REGIONS[5] = {
             " boost), aquatics in the margins, open channel kept open.",
     "layers": [
         landmark_giant("cypress_big", 0.08, depth=(-99.0, 0.6)),
-        canopy("cypress", 60.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        canopy("cypress", 40.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.6, 0.95)),
-        canopy("cypress_big", 35.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
-               scale=(0.65, 1.0)),
+        # Signature: the tall columnar Cyrodiil cypress, upscaled to 28-35 m,
+        # walling the big navigable rivers (the Onkobra/Panther corridors,
+        # Lore:Black Marsh) — a different silhouette from the swamp cypress.
+        canopy("column_cypress_a", 28.0, depth=(-99.0, 0.6),
+               riparian=RIPARIAN_WET, scale=(1.2, 1.5), clearance=2.2,
+               clump_radius_m=14.0),
+        canopy("column_cypress_b", 22.0, depth=(-99.0, 0.6),
+               riparian=RIPARIAN_WET, scale=(1.2, 1.5), clearance=2.2,
+               clump_radius_m=14.0),
         waterline_tree("willow_a", 20.0, scale=(0.6, 0.9)),
-        understory("trop_plant", 45.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
-        understory("fern_big", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
-        bank_wall("big_shrub", 180.0),
+        understory("trop_plant", 30.0, depth=(-99.0, 0.5), riparian=RIPARIAN_WET),
+        understory("manfern", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET,
+                   scale=(0.7, 1.1)),
+        understory("fern_big", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
+        bank_wall("big_shrub", 100.0),
+        bank_wall("manfern", 80.0),
         aquatic_reeds(190.0),
         aquatic_lilypads(45.0),
         aquatic_kelp("kelp_tall", 45.0, depth=(1.0, 8.0), peak=2.5),
@@ -597,12 +700,20 @@ REGIONS[8] = {
             " Reed flats, scattered trees, thickets only at the water.",
     "layers": [
         landmark_giant("cypress", 0.06, depth=(-3.0, 0.6)),
-        canopy("cypress", 20.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+        canopy("cypress", 9.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
                scale=(0.6, 0.9), clump_radius_m=18.0),
+        # Signature: thin-stemmed "stick trees" in loose stands — the open
+        # marsh the player crosses reads as sparse poles, not a cypress edge.
+        canopy("stick_tree_a", 14.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+               scale=(0.8, 1.2), clump_radius_m=20.0, patchiness=1.2,
+               clearance=1.2),
+        canopy("stick_tree_b", 12.0, depth=(-99.0, 0.6), riparian=RIPARIAN_WET,
+               scale=(0.8, 1.2), clump_radius_m=20.0, patchiness=1.2,
+               clearance=1.2),
         waterline_tree("willow_b", 12.0, scale=(0.6, 0.9)),
         understory("loebush", 40.0, depth=(-99.0, 0.2)),
         understory("fern", 50.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
-        bank_wall("loebush", 125.0),
+        bank_wall("bracken", 125.0),
         aquatic_reeds(320.0, guild="reed-bed"),
         aquatic_lilypads(50.0, guild="lilypad-pond"),
         drowned_thicket_guild("fern", 40.0),
@@ -616,7 +727,14 @@ REGIONS[9] = {
             " The flood takes free-standing trees; the ribbon survives.",
     "layers": [
         gallery("willow_c", 70.0, shore=(0.0, 30.0)),
-        gallery("cypress", 40.0, shore=(0.0, 25.0)),
+        gallery("hill_aspen_small", 40.0, shore=(0.0, 25.0), scale=(0.8, 1.1)),
+        # Signature: rare flat-crowned umbrella trees standing alone in the
+        # grass beyond the ribbon — canon's "fast-growing grasses" plain
+        # (Lore:Black Marsh, The Argonian Account) with a few survivors.
+        canopy("umbrella_tree", 2.5, depth=(-99.0, 0.2), scale=(0.9, 1.3),
+               riparian=RIPARIAN_DRY, clump_size_median=1, singleton_share=0.7,
+               clump_radius_m=12.0, clearance=4.0, slope_max=25.0,
+               patchiness=0.6),
         bank_wall("loebush", 110.0, shore=(0.0, 18.0)),
         understory("fern", 30.0, depth=(-99.0, 0.4), riparian=RIPARIAN_WET),
         layer("algrass", 55.0, role="tall-grass", clump_size_median=8,
@@ -636,11 +754,17 @@ REGIONS[10] = {
     "layers": [
         canopy("palm_c", 45.0, depth=(-8.0, -0.2), scale=(0.55, 0.85),
                slope_max=30.0, clearance=1.5),
-        canopy("fanpalm", 60.0, depth=(-8.0, -0.1), scale=(0.7, 1.2)),
-        understory("bamboo", 80.0, depth=(-6.0, 0.2), scale=(0.9, 1.6),
+        # Signature: the broad-crowned fan palm over the island crest, with
+        # banana clumps under it — dry, fertile ground in the marsh.
+        canopy("fanpalm_wide", 45.0, depth=(-8.0, -0.1), scale=(0.8, 1.15),
+               clearance=1.5),
+        canopy("fanpalm", 15.0, depth=(-8.0, -0.1), scale=(0.7, 1.2)),
+        understory("banana", 40.0, depth=(-6.0, 0.2), scale=(0.9, 1.4),
+                   clump_size_median=6, clump_radius_m=5.0),
+        understory("bamboo", 55.0, depth=(-6.0, 0.2), scale=(0.9, 1.6),
                    clump_size_median=9, clump_radius_m=5.0),
         interior_shrub("bracken", 60.0, depth=(-6.0, 0.3)),
-        gap_thicket("trop_shrub", 120.0, depth=(-6.0, 0.2)),
+        gap_thicket("trop_plant", 120.0, depth=(-6.0, 0.2)),
         aquatic_reeds(145.0),
     ],
 }
@@ -666,19 +790,24 @@ REGIONS[11] = {
         canopy("fig_dome", 5.5, riparian=RIPARIAN_WET,
                scale=(1.5, 1.9), clump_size_median=2, clump_radius_m=22.0,
                clearance=2.8),
-        canopy("jungle_gnarled", 5.0, riparian=RIPARIAN_WET,
+        canopy("jungle_gnarled", 3.0, riparian=RIPARIAN_WET,
                scale=(1.9, 2.4), clump_size_median=3, clump_radius_m=20.0,
                clearance=2.6),
         canopy("fanpalm_tall", 3.0, scale=(1.0, 1.35), clearance=1.2,
                clump_size_median=2, clump_radius_m=12.0),
-        canopy("jungle_tree", 30.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
+        canopy("hill_aspen_a", 22.0, riparian=RIPARIAN_WET, scale=(0.9, 1.25)),
+        canopy("jungle_tree", 10.0, riparian=RIPARIAN_WET, scale=(0.65, 1.0)),
         understory("bamboo", 55.0, scale=(0.9, 1.6), clump_size_median=8,
                    clump_radius_m=5.5),
-        understory("trop_plant", 45.0),
+        understory("manfern", 35.0, scale=(0.7, 1.1)),
+        understory("trop_plant", 15.0),
         interior_shrub("bracken", 50.0),
-        gap_thicket("trop_shrub", 140.0),
-        green_wall("trop_shrub", 90.0),
-        bank_wall("big_shrub", 155.0),
+        gap_thicket("big_shrub", 100.0),
+        gap_thicket("trop_shrub", 45.0),
+        green_wall("fern_big", 90.0),
+        # Bamboo brakes on the water margins (canon bamboo, fauna-hazards § Flora)
+        # where the jungle has big-shrub banks.
+        bank_wall("bamboo", 155.0),
         layer("chickweed", 35.0, role="forb", clump_size_median=7,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.3],
               slope_deg_max=36.0, scale_range=[0.9, 1.5]),
@@ -691,11 +820,16 @@ REGIONS[12] = {
     "note": "Open water: guild-themed aquatics near the shore, deep centre"
             " bare, drowned trees for silhouettes (M1 bimodal, deep mode).",
     "layers": [
-        aquatic_lilypads(90.0, guild="lilypad-pond"),
+        # Signature: flowering water lilies among the pads (BM&V's own
+        # water-lily set; water-surface class in composition-rules.json).
+        aquatic_lilypads(45.0, guild="lilypad-pond"),
+        aquatic_lilypads(30.0, guild="lilypad-pond", species="water_lily_a"),
+        aquatic_lilypads(25.0, guild="lilypad-pond", species="water_lily_b"),
         aquatic_reeds(210.0, guild="reed-bed"),
         aquatic_kelp("kelp_tall", 70.0, depth=(1.0, 9.0), peak=3.0,
                      guild="kelp-forest"),
-        layer("cypress_big", 6.0, tier="T1", role="drowned-tree",
+        dead_snag("snag_c", 3.0, depth=(0.6, 3.5)),
+        layer("cypress_big", 3.0, tier="T1", role="drowned-tree",
               clump_size_median=2, clump_radius_m=12.0,
               water_depth_m=[0.8, 3.5], depth_peak_m=2.2,
               depth_half_width_m=1.2, slope_deg_max=26.0,
@@ -711,20 +845,29 @@ REGIONS[14] = {
             " intertidal (the wall read from the sea), closed low-diversity"
             " interior over prop roots with a near-bare floor, landward"
             " palm/shrub transition. No lilypads — saline. Gaps come from"
-            " the shared glade field at real dieback scale, left bare.",
+            " the shared glade field at real dieback scale, left bare."
+            " Meshes: mangrove a/c/d here, b belongs to the tidal delta, so"
+            " the three mangrove coasts are not one tree repeated.",
     "layers": [
         # Seaward fringe: the wall. Committed to the waterline, standing in
         # 0-1.2 m of water, dense enough for crowns to interlock.
         waterline_tree("mangrove_a", 170.0, scale=(0.8, 1.25),
                        shore_m=[-25.0, 8.0], patchiness=0.6),
-        waterline_tree("mangrove_b", 110.0, scale=(0.75, 1.15),
+        waterline_tree("mangrove_c", 110.0, scale=(0.7, 1.05),
                        shore_m=[-20.0, 10.0], patchiness=0.6),
         # Interior: closed canopy behind the fringe; high patchiness + glade
-        # response give the round/elliptic dieback gaps (10-1000 m^2).
-        layer("mangrove_b", 130.0, tier="T1", role="canopy",
+        # response give the round/elliptic dieback gaps (10-1000 m^2). Two of
+        # the mod's four mangrove meshes so the wall is not one tree repeated.
+        layer("mangrove_a", 70.0, tier="T1", role="canopy",
               clump_size_median=5, clump_radius_m=10.0,
               water_depth_m=[-1.5, 1.0], shore_m=[0.0, 90.0],
               slope_deg_max=14.0, scale_range=[0.65, 1.0],
+              clearance_radius_m=1.6, patchiness=1.2, glade_response=0.9,
+              glade_band=[0.0, 0.88]),
+        layer("mangrove_d", 60.0, tier="T1", role="canopy",
+              clump_size_median=5, clump_radius_m=10.0,
+              water_depth_m=[-1.5, 1.0], shore_m=[0.0, 90.0],
+              slope_deg_max=14.0, scale_range=[0.8, 1.15],
               clearance_radius_m=1.6, patchiness=1.2, glade_response=0.9,
               glade_band=[0.0, 0.88]),
         # Prop-root understory: the root clutter IS the interior.
@@ -753,15 +896,26 @@ REGIONS[2] = {
         # The sculpted uplands are STEEP (median ~29 deg, p90 ~50): montane
         # forest really does cover such slopes (ecology 5a), so the slope
         # tolerance here is high and only crags/scars stay bare.
-        canopy("cedar", 70.0, depth=(-99.0, -0.3), scale=(0.7, 1.0),
+        # Signature: tall slender broadleaf stands (the "jungle aspen"
+        # meshes) — northern Black Marsh is "more temperate" than the
+        # southern swamps (Lore:Thornmarsh) and Blackwood is "dark and woodsy"
+        # (Lore:Blackwood); cedar thins to an accent.
+        canopy("hill_aspen_a", 40.0, depth=(-99.0, -0.3), scale=(0.8, 1.15),
+               slope_max=46.0, riparian=RIPARIAN_DRY, patchiness=1.3,
+               clearance=1.5, slope_half_angle_deg=35.0),
+        canopy("hill_aspen_b", 35.0, depth=(-99.0, -0.3), scale=(0.8, 1.15),
+               slope_max=46.0, riparian=RIPARIAN_DRY, patchiness=1.3,
+               clearance=1.4, slope_half_angle_deg=35.0),
+        canopy("cedar", 22.0, depth=(-99.0, -0.3), scale=(0.7, 1.0),
                slope_max=48.0, riparian=RIPARIAN_DRY, patchiness=1.3,
                clearance=1.5, slope_half_angle_deg=35.0),
-        understory("fall_shrub", 100.0, depth=(-99.0, -0.2),
+        understory("fall_shrub", 70.0, depth=(-99.0, -0.2),
                    riparian=RIPARIAN_DRY, scale=(0.8, 1.3),
                    slope_deg_max=52.0, slope_half_angle_deg=35.0),
-        gap_thicket("fall_shrub", 110.0, depth=(-99.0, -0.2),
+        gap_thicket("fall_shrub", 70.0, depth=(-99.0, -0.2),
                     slope_deg_max=50.0),
-        gallery("willow_a", 50.0, shore=(0.0, 25.0)),
+        gap_thicket("gorse", 60.0, depth=(-99.0, -0.2), slope_deg_max=50.0),
+        gallery("alder", 50.0, shore=(0.0, 25.0), scale=(0.8, 1.1)),
         layer("algrass", 70.0, role="tall-grass", clump_size_median=6,
               clump_radius_m=7.0, water_depth_m=[-99.0, 0.1],
               slope_deg_max=50.0, slope_half_angle_deg=35.0,
@@ -780,7 +934,13 @@ REGIONS[1] = {
         canopy("juniper", 32.0, depth=(-99.0, -0.5), scale=(0.7, 1.1),
                slope_max=50.0, altitude_m=[0.0, 420.0], clearance=1.5,
                riparian=RIPARIAN_DRY, slope_half_angle_deg=35.0),
-        canopy("cedar", 15.0, depth=(-99.0, -0.5), scale=(0.6, 0.9),
+        # Signature: pine on the Morrowind-facing border ranges, in stands,
+        # stopping below the juniper line (Lore:Thornmarsh — the north is
+        # temperate; the mountains are the only cold ground in the province).
+        canopy("pine_a", 30.0, depth=(-99.0, -0.5), scale=(0.75, 1.15),
+               slope_max=45.0, altitude_m=[0.0, 380.0], clearance=1.8,
+               riparian=RIPARIAN_DRY, patchiness=1.4, slope_half_angle_deg=32.0),
+        canopy("cedar", 6.0, depth=(-99.0, -0.5), scale=(0.6, 0.9),
                slope_max=38.0, altitude_m=[0.0, 300.0], clearance=1.6,
                riparian=RIPARIAN_DRY, patchiness=1.3),
         understory("fall_shrub", 45.0, depth=(-99.0, -0.3),
@@ -804,6 +964,8 @@ SALT_BY_SPECIES = {
     # strand / brackish: mix in near the sea
     **{S[k]: SALT_TOLERANT for k in (
         "palm_a", "palm_b", "palm_c", "fanpalm", "mangrove_a", "mangrove_b",
+        "mangrove_c", "mangrove_d", "flatpalm_a", "flatpalm_b", "datepalm",
+        "coconut_palm", "fanpalm_wide",
         "kelp_tall", "wkelp_tall", "wkelp_short", "reeds")},
     # freshwater / interior forest: fade toward the sea
     **{S[k]: SALT_INTOLERANT for k in (
@@ -811,9 +973,15 @@ SALT_BY_SPECIES = {
         "cedar", "shroom", "fern", "fern_big", "manfern", "bracken",
         "bamboo", "jungle_tree", "jungle_tree_hero", "moss_a", "moss_b",
         "anvil_canopy", "anvil_giant", "fig_dome", "jungle_gnarled",
-        "chickweed")},
+        "chickweed", "pine_a", "hill_aspen_a", "hill_aspen_b",
+        "hill_aspen_small", "alder", "gorse", "column_cypress_a",
+        "column_cypress_b", "shroom_giant",
+        "tallmush_a", "tallmush_b", "snag_a", "snag_b", "snag_c",
+        "stick_tree_a", "stick_tree_b", "umbrella_tree", "rain_tree",
+        "banana")},
     # freshwater OBLIGATE: lilypads die in brack
-    S["lilypad"]: dict(coast_boost_gain=-0.85, coast_half_width_m=700.0),
+    **{S[k]: dict(coast_boost_gain=-0.85, coast_half_width_m=700.0)
+       for k in ("lilypad", "water_lily_a", "water_lily_b")},
 }
 
 

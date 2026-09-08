@@ -4,7 +4,7 @@
  "grounding": {
   "ecology": "docs/research/vegetation/tropical-vegetation-ecology-targets.md \u00a77 \u2014 per-landscape strata targets and spatial rules",
   "microSiting": "docs/research/vegetation/mod-vegetation-micro-siting.md \u2014 M1 four water postures, M2 signed riparian, M3 pool guilds, M5 groundcover carries the look",
-  "architecture": "docs/research/vegetation/openworld-vegetation-placement-architecture.md \u2014 macro/meso/micro layering",
+  "architecture": "docs/research/openworld-vegetation-placement-architecture.md \u2014 macro/meso/micro layering",
   "canonFlora": "world/sources/lore/topics/fauna-hazards.md \u00a7 Flora",
   "regionClasses": "tooling/world-generation/worldgen/regions.py"
  },
@@ -55,9 +55,43 @@
      "shore_boost_half_width_m": 18.0
     },
     {
+     "species": "bmv:landscape/trees/scottish-pine22",
+     "tier": "T1",
+     "instances_per_hectare": 30.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      -0.5
+     ],
+     "slope_deg_max": 45.0,
+     "scale_range": [
+      0.75,
+      1.15
+     ],
+     "clearance_radius_m": 1.8,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "altitude_m": [
+      0.0,
+      380.0
+     ],
+     "patchiness": 1.4,
+     "slope_half_angle_deg": 32.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "shore_boost_gain": -0.55,
+     "shore_boost_peak_m": 0.0,
+     "shore_boost_half_width_m": 18.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/cedartree3",
      "tier": "T1",
-     "instances_per_hectare": 15.0,
+     "instances_per_hectare": 6.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -245,16 +279,76 @@
      "align_to_slope": 1.0
     }
    ],
-   "targetInstancesPerHectare": 163.0,
+   "targetInstancesPerHectare": 184.0,
    "note": "The sparse, dry proof (owner 0036 Q3): juniper scrub thinning with altitude, bare rock carrying the view. Trees stop at the high altitude band; scrub climbs a little further."
   },
   "2": {
    "id": "upland-hills",
    "layers": [
     {
+     "species": "bmv:landscape/trees/gkbtreeaspen02jungle",
+     "tier": "T1",
+     "instances_per_hectare": 40.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      -0.3
+     ],
+     "slope_deg_max": 46.0,
+     "scale_range": [
+      0.8,
+      1.15
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.3,
+     "slope_half_angle_deg": 35.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "shore_boost_gain": -0.55,
+     "shore_boost_peak_m": 0.0,
+     "shore_boost_half_width_m": 18.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbtreeaspen03jungle",
+     "tier": "T1",
+     "instances_per_hectare": 35.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      -0.3
+     ],
+     "slope_deg_max": 46.0,
+     "scale_range": [
+      0.8,
+      1.15
+     ],
+     "clearance_radius_m": 1.4,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.3,
+     "slope_half_angle_deg": 35.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "shore_boost_gain": -0.55,
+     "shore_boost_peak_m": 0.0,
+     "shore_boost_half_width_m": 18.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/cedartree3",
      "tier": "T1",
-     "instances_per_hectare": 70.0,
+     "instances_per_hectare": 22.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -284,7 +378,7 @@
     {
      "species": "bmv:landscape/trees/gkbfallforestshrub02",
      "tier": "T2",
-     "instances_per_hectare": 100.0,
+     "instances_per_hectare": 70.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -307,7 +401,7 @@
     {
      "species": "bmv:landscape/trees/gkbfallforestshrub02",
      "tier": "T2",
-     "instances_per_hectare": 110.0,
+     "instances_per_hectare": 70.0,
      "role": "gap-thicket",
      "glade_band": [
       0.62,
@@ -327,7 +421,31 @@
      "slope_deg_max": 50.0
     },
     {
-     "species": "bmv:landscape/trees/treewillow01a",
+     "species": "bmv:landscape/trees/ztgorsebush02lightyellow",
+     "tier": "T2",
+     "instances_per_hectare": 60.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      -0.2
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 50.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/hodalder01gkb",
      "tier": "T1",
      "instances_per_hectare": 50.0,
      "role": "gallery",
@@ -344,8 +462,8 @@
      "slope_deg_max": 34.0,
      "slope_half_angle_deg": 25.0,
      "scale_range": [
-      0.6,
-      1.0
+      0.8,
+      1.1
      ],
      "clearance_radius_m": 1.5,
      "coast_boost_gain": -0.6,
@@ -502,7 +620,7 @@
      "align_to_slope": 1.0
     }
    ],
-   "targetInstancesPerHectare": 439.0,
+   "targetInstancesPerHectare": 456.0,
    "note": "Ecology 5a/5b mix: cedar hill forest in stands (high patchiness), thin-stem scrub between, grass via T3; rivers run OPEN (M2 inverted) but carry gallery ribbons where the land is otherwise bare."
   },
   "3": {
@@ -535,7 +653,7 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
      "tier": "T1",
      "instances_per_hectare": 40.0,
      "role": "basin-mangrove",
@@ -550,15 +668,69 @@
       40.0
      ],
      "scale_range": [
-      0.6,
-      0.9
+      0.7,
+      1.05
      ],
      "clearance_radius_m": 1.6,
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/tropicalplant01",
+     "species": "bmv:landscape/trees/flatpalm1",
+     "tier": "T1",
+     "instances_per_hectare": 22.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -6.0,
+      -0.2
+     ],
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 12.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/flatpalm2",
+     "tier": "T1",
+     "instances_per_hectare": 18.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -6.0,
+      -0.2
+     ],
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 12.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/tropicalshrub01",
      "tier": "T2",
      "instances_per_hectare": 35.0,
      "role": "understory",
@@ -650,7 +822,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 615.0,
+   "targetInstancesPerHectare": 655.0,
    "note": "Reedier, muddier cousin of the lagoon: mangrove lines the channels, reeds carry the flats."
   },
   "4": {
@@ -683,9 +855,9 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
-     "instances_per_hectare": 90.0,
+     "instances_per_hectare": 80.0,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -698,7 +870,7 @@
      "slope_deg_max": 28.0,
      "scale_range": [
       0.75,
-      1.2
+      1.1
      ],
      "clearance_radius_m": 1.6,
      "shore_m": [
@@ -709,7 +881,7 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
      "instances_per_hectare": 70.0,
      "role": "basin-mangrove",
@@ -724,15 +896,15 @@
       45.0
      ],
      "scale_range": [
-      0.6,
-      0.95
+      0.55,
+      0.85
      ],
      "clearance_radius_m": 1.6,
      "coast_boost_gain": 0.5,
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/beachpalm2",
+     "species": "bmv:landscape/trees/datepalm2",
      "tier": "T1",
      "instances_per_hectare": 25.0,
      "role": "canopy",
@@ -742,8 +914,8 @@
      ],
      "slope_deg_max": 28.0,
      "scale_range": [
-      0.55,
-      0.85
+      0.7,
+      1.0
      ],
      "clearance_radius_m": 1.5,
      "clump_size_median": 4,
@@ -759,7 +931,7 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/fanpalm1",
+     "species": "bmv:landscape/trees/beachpalm5",
      "tier": "T1",
      "instances_per_hectare": 30.0,
      "role": "canopy",
@@ -769,10 +941,10 @@
      ],
      "slope_deg_max": 38.0,
      "scale_range": [
-      0.7,
+      0.8,
       1.2
      ],
-     "clearance_radius_m": 1.6,
+     "clearance_radius_m": 1.4,
      "clump_size_median": 4,
      "clump_radius_m": 14.0,
      "patchiness": 1.0,
@@ -786,7 +958,7 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/tropicalshrub01",
+     "species": "bmv:landscape/trees/tropicalplant01",
      "tier": "T2",
      "instances_per_hectare": 45.0,
      "role": "understory",
@@ -870,7 +1042,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 735.0,
+   "targetInstancesPerHectare": 725.0,
    "note": "Ecology type 3: mangrove banding by shore distance (fringe densest at the waterline, basin behind, landward palms), salt pans bare by land cover. T3: salt-marsh grass covers."
   },
   "5": {
@@ -904,7 +1076,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 60.0,
+     "instances_per_hectare": 40.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -932,9 +1104,9 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/trees/cypress1",
+     "species": "bmv:landscape/trees/gkbcyrodilcypress1",
      "tier": "T1",
-     "instances_per_hectare": 35.0,
+     "instances_per_hectare": 28.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -942,10 +1114,40 @@
      ],
      "slope_deg_max": 38.0,
      "scale_range": [
-      0.65,
-      1.0
+      1.2,
+      1.5
      ],
-     "clearance_radius_m": 1.6,
+     "clearance_radius_m": 2.2,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbcyrodilcypress2",
+     "tier": "T1",
+     "instances_per_hectare": 22.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.6
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      1.2,
+      1.5
+     ],
+     "clearance_radius_m": 2.2,
      "clump_size_median": 4,
      "clump_radius_m": 14.0,
      "patchiness": 1.0,
@@ -986,7 +1188,7 @@
     {
      "species": "bmv:landscape/trees/tropicalplant01",
      "tier": "T2",
-     "instances_per_hectare": 45.0,
+     "instances_per_hectare": 30.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -1007,9 +1209,34 @@
      "shore_boost_half_width_m": 25.0
     },
     {
+     "species": "tropical:plants/tropical/manfern",
+     "tier": "T2",
+     "instances_per_hectare": 30.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.4
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/plants/fernlarge03",
      "tier": "T2",
-     "instances_per_hectare": 50.0,
+     "instances_per_hectare": 30.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -1034,7 +1261,7 @@
     {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 180.0,
+     "instances_per_hectare": 100.0,
      "role": "bank-wall",
      "shore_m": [
       0.0,
@@ -1051,6 +1278,29 @@
       0.8,
       1.4
      ]
+    },
+    {
+     "species": "tropical:plants/tropical/manfern",
+     "tier": "T2",
+     "instances_per_hectare": 80.0,
+     "role": "bank-wall",
+     "shore_m": [
+      0.0,
+      15.0
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -1122,7 +1372,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 670.1,
+   "targetInstancesPerHectare": 660.1,
    "note": "A moving-water gallery: cypress walls on the banks (riparian boost), aquatics in the margins, open channel kept open."
   },
   "6": {
@@ -1233,24 +1483,26 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/trees/tropicalplant01",
+     "species": "tropical:plants/tropical/manfern",
      "tier": "T2",
-     "instances_per_hectare": 30.0,
+     "instances_per_hectare": 28.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
       0.6
      ],
      "scale_range": [
-      0.6,
-      1.0
+      0.8,
+      1.2
      ],
      "clump_size_median": 5,
      "clump_radius_m": 8.0,
      "patchiness": 1.1,
      "glade_response": 0.85,
      "slope_deg_max": 40.0,
-     "slope_half_angle_deg": 28.0
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/fernlarge03",
@@ -1276,9 +1528,72 @@
      "coast_half_width_m": 700.0
     },
     {
+     "species": "bmv:vurt_shroom/vurt_shroom_big6",
+     "tier": "T1",
+     "instances_per_hectare": 1.2,
+     "role": "fungal-giant",
+     "clump_size_median": 1,
+     "singleton_share": 1.0,
+     "clump_radius_m": 0.0,
+     "water_depth_m": [
+      -2.0,
+      0.5
+     ],
+     "slope_deg_max": 24.0,
+     "patchiness": 0.3,
+     "glade_response": 0.0,
+     "scale_range": [
+      0.8,
+      1.15
+     ],
+     "clearance_radius_m": 7.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:trdata/mushrooms/tr_oth_tallmush01",
+     "tier": "T1",
+     "instances_per_hectare": 12.0,
+     "role": "fungal-floor",
+     "clump_size_median": 3,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      -2.0,
+      0.4
+     ],
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:trdata/mushrooms/tr_oth_tallmush05",
+     "tier": "T1",
+     "instances_per_hectare": 8.0,
+     "role": "fungal-floor",
+     "clump_size_median": 3,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      -2.0,
+      0.4
+     ],
+     "slope_deg_max": 28.0,
+     "scale_range": [
+      0.8,
+      1.3
+     ],
+     "clearance_radius_m": 1.2,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:vurt_shroom/vurt_shroom_big1",
      "tier": "T2",
-     "instances_per_hectare": 35.0,
+     "instances_per_hectare": 25.0,
      "role": "fungal-floor",
      "clump_size_median": 4,
      "clump_radius_m": 5.0,
@@ -1427,7 +1742,7 @@
      "coast_half_width_m": 700.0
     }
    ],
-   "targetInstancesPerHectare": 670.1,
+   "targetInstancesPerHectare": 679.4,
    "note": "Ecology type 4 (dark deep swamp): few HUGE buttressed trunks, root-dominated ground, almost bare floor (\u00a74.3 \u2014 herbs <5%), moss on everything. Identity from mass and dark, not clutter. T3: MOSS/BC_MOSS covers only."
   },
   "7": {
@@ -1483,7 +1798,7 @@
     {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 70.0,
+     "instances_per_hectare": 40.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -1541,9 +1856,39 @@
      "coast_half_width_m": 700.0
     },
     {
+     "species": "bmv:landscape/trees/gkbjungletreenew3",
+     "tier": "T1",
+     "instances_per_hectare": 40.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.8
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.05
+     ],
+     "clearance_radius_m": 2.6,
+     "clump_size_median": 2,
+     "clump_radius_m": 18.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
      "tier": "T1",
-     "instances_per_hectare": 30.0,
+     "instances_per_hectare": 24.0,
      "role": "waterline-tree",
      "clump_size_median": 5,
      "clump_radius_m": 11.0,
@@ -1565,7 +1910,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 9.9,
+     "instances_per_hectare": 6.3,
      "role": "drowned-tree",
      "clump_size_median": 2,
      "clump_radius_m": 12.0,
@@ -1587,7 +1932,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 12.1,
+     "instances_per_hectare": 7.7,
      "role": "drowned-tree-dry",
      "clump_size_median": 3,
      "clump_radius_m": 13.0,
@@ -1606,9 +1951,55 @@
      "coast_half_width_m": 700.0
     },
     {
+     "species": "bmv:vurt/deadtrees/dead_bc_tree_01",
+     "tier": "T1",
+     "instances_per_hectare": 4.0,
+     "role": "drowned-tree",
+     "clump_size_median": 1,
+     "singleton_share": 0.85,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      0.4,
+      3.0
+     ],
+     "depth_peak_m": 1.5,
+     "depth_half_width_m": 1.0,
+     "slope_deg_max": 24.0,
+     "scale_range": [
+      0.5,
+      0.8
+     ],
+     "clearance_radius_m": 3.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:vurt/deadtrees/dead_bc_tree_02",
+     "tier": "T1",
+     "instances_per_hectare": 3.0,
+     "role": "drowned-tree",
+     "clump_size_median": 1,
+     "singleton_share": 0.85,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      0.4,
+      3.0
+     ],
+     "depth_peak_m": 1.5,
+     "depth_half_width_m": 1.0,
+     "slope_deg_max": 24.0,
+     "scale_range": [
+      0.5,
+      0.8
+     ],
+     "clearance_radius_m": 3.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/treewillow01a",
      "tier": "T1",
-     "instances_per_hectare": 12.0,
+     "instances_per_hectare": 18.0,
      "role": "canopy",
      "water_depth_m": [
       -2.0,
@@ -1635,7 +2026,7 @@
     {
      "species": "bmv:landscape/trees/tropicalplant01",
      "tier": "T2",
-     "instances_per_hectare": 55.0,
+     "instances_per_hectare": 70.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -1658,7 +2049,7 @@
     {
      "species": "bmv:landscape/plants/fernlarge03",
      "tier": "T2",
-     "instances_per_hectare": 65.0,
+     "instances_per_hectare": 110.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -1704,9 +2095,31 @@
      "coast_half_width_m": 700.0
     },
     {
+     "species": "bmv:landscape/trees/tropicalplant01",
+     "tier": "T2",
+     "instances_per_hectare": 90.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.3
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 40.0
+    },
+    {
      "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 150.0,
+     "instances_per_hectare": 110.0,
      "role": "gap-thicket",
      "glade_band": [
       0.62,
@@ -1750,7 +2163,7 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/plants/bigshrub2(colorful)",
+     "species": "bmv:landscape/plants/fernlarge03",
      "tier": "T2",
      "instances_per_hectare": 170.0,
      "role": "bank-wall",
@@ -1768,12 +2181,14 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/trees/hangingvines1",
      "tier": "T2",
-     "instances_per_hectare": 30.0,
+     "instances_per_hectare": 45.0,
      "role": "liana",
      "clump_size_median": 3,
      "clump_radius_m": 8.0,
@@ -1790,7 +2205,7 @@
     {
      "species": "bmv:landscape/plants/florahangingmoss02aaa",
      "tier": "T2",
-     "instances_per_hectare": 45.0,
+     "instances_per_hectare": 70.0,
      "role": "epiphyte",
      "clump_size_median": 5,
      "clump_radius_m": 6.0,
@@ -1904,7 +2319,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 1168.1,
+   "targetInstancesPerHectare": 1327.1,
    "note": "Ecology type 2 (flooded forest) on the reference watershed: wading cypress matrix, waterline mangrove, bimodal drowned cypress, pool guilds. T3: SWAMP_GRASS/MARSH_GRASS covers."
   },
   "8": {
@@ -1938,7 +2353,7 @@
     {
      "species": "bmv:landscape/trees/cypress3",
      "tier": "T1",
-     "instances_per_hectare": 20.0,
+     "instances_per_hectare": 9.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -1953,6 +2368,66 @@
      "clump_size_median": 4,
      "clump_radius_m": 18.0,
      "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenewsticktree11",
+     "tier": "T1",
+     "instances_per_hectare": 14.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.6
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 1.2,
+     "clump_size_median": 4,
+     "clump_radius_m": 20.0,
+     "patchiness": 1.2,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenewsticktree20v2",
+     "tier": "T1",
+     "instances_per_hectare": 12.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.6
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.2
+     ],
+     "clearance_radius_m": 1.2,
+     "clump_size_median": 4,
+     "clump_radius_m": 20.0,
+     "patchiness": 1.2,
      "glade_response": 0.95,
      "glade_band": [
       0.0,
@@ -2033,7 +2508,7 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/plants/esloebush08",
+     "species": "bmv:landscape/plants/braken",
      "tier": "T2",
      "instances_per_hectare": 125.0,
      "role": "bank-wall",
@@ -2051,7 +2526,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/grass/vurt_reeds",
@@ -2131,7 +2608,7 @@
      "coast_half_width_m": 700.0
     }
    ],
-   "targetInstancesPerHectare": 657.1,
+   "targetInstancesPerHectare": 672.1,
    "note": "Canopy 0.3 \u2014 genuinely open (the band the player crosses). Reed flats, scattered trees, thickets only at the water."
   },
   "9": {
@@ -2163,7 +2640,7 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/trees/cypress3",
+     "species": "bmv:landscape/trees/gkbtreeaspen05jungle",
      "tier": "T1",
      "instances_per_hectare": 40.0,
      "role": "gallery",
@@ -2180,10 +2657,41 @@
      "slope_deg_max": 34.0,
      "slope_half_angle_deg": 25.0,
      "scale_range": [
-      0.6,
-      1.0
+      0.8,
+      1.1
      ],
      "clearance_radius_m": 1.5,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/trees/gkbjungletreenew10",
+     "tier": "T1",
+     "instances_per_hectare": 2.5,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.2
+     ],
+     "slope_deg_max": 25.0,
+     "scale_range": [
+      0.9,
+      1.3
+     ],
+     "clearance_radius_m": 4.0,
+     "clump_size_median": 1,
+     "clump_radius_m": 12.0,
+     "singleton_share": 0.7,
+     "patchiness": 0.6,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": -0.55,
+     "shore_boost_peak_m": 0.0,
+     "shore_boost_half_width_m": 18.0,
      "coast_boost_gain": -0.6,
      "coast_half_width_m": 700.0
     },
@@ -2294,7 +2802,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 440.0,
+   "targetInstancesPerHectare": 442.5,
    "note": "Ecology 5c-adjacent: open grass (T3 carries it) + gallery ribbons along the channels with an abrupt outer edge (\u00a76.1). The flood takes free-standing trees; the ribbon survives."
   },
   "10": {
@@ -2328,9 +2836,36 @@
      "coast_half_width_m": 900.0
     },
     {
+     "species": "bmv:landscape/trees/fanpalm5",
+     "tier": "T1",
+     "instances_per_hectare": 45.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -8.0,
+      -0.1
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.8,
+      1.15
+     ],
+     "clearance_radius_m": 1.5,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
      "species": "bmv:landscape/trees/fanpalm1",
      "tier": "T1",
-     "instances_per_hectare": 60.0,
+     "instances_per_hectare": 15.0,
      "role": "canopy",
      "water_depth_m": [
       -8.0,
@@ -2355,9 +2890,31 @@
      "coast_half_width_m": 900.0
     },
     {
+     "species": "bmv:plants/trees/banana_tree",
+     "tier": "T2",
+     "instances_per_hectare": 40.0,
+     "role": "understory",
+     "water_depth_m": [
+      -6.0,
+      0.2
+     ],
+     "scale_range": [
+      0.9,
+      1.4
+     ],
+     "clump_size_median": 6,
+     "clump_radius_m": 5.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/bambooplant",
      "tier": "T2",
-     "instances_per_hectare": 80.0,
+     "instances_per_hectare": 55.0,
      "role": "understory",
      "water_depth_m": [
       -6.0,
@@ -2400,7 +2957,7 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/trees/tropicalshrub01",
+     "species": "bmv:landscape/trees/tropicalplant01",
      "tier": "T2",
      "instances_per_hectare": 120.0,
      "role": "gap-thicket",
@@ -2446,7 +3003,7 @@
      "coast_half_width_m": 900.0
     }
    ],
-   "targetInstancesPerHectare": 510.0,
+   "targetInstancesPerHectare": 525.0,
    "note": "Tree islands: dry crest palms/bamboo over a marsh skirt that wades (M1). The crest/skirt split is the depth gate."
   },
   "11": {
@@ -2538,7 +3095,7 @@
     {
      "species": "bmv:landscape/trees/gkbjungletreenew30v3",
      "tier": "T1",
-     "instances_per_hectare": 5.0,
+     "instances_per_hectare": 3.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2591,9 +3148,39 @@
      "slope_half_angle_deg": 25.0
     },
     {
+     "species": "bmv:landscape/trees/gkbtreeaspen02jungle",
+     "tier": "T1",
+     "instances_per_hectare": 22.0,
+     "role": "canopy",
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "slope_deg_max": 38.0,
+     "scale_range": [
+      0.9,
+      1.25
+     ],
+     "clearance_radius_m": 1.6,
+     "clump_size_median": 4,
+     "clump_radius_m": 14.0,
+     "patchiness": 1.0,
+     "glade_response": 0.95,
+     "glade_band": [
+      0.0,
+      0.9
+     ],
+     "slope_half_angle_deg": 25.0,
+     "shore_boost_gain": 1.35,
+     "shore_boost_peak_m": -2.0,
+     "shore_boost_half_width_m": 25.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/gkbjungletreenew1",
      "tier": "T1",
-     "instances_per_hectare": 30.0,
+     "instances_per_hectare": 10.0,
      "role": "canopy",
      "water_depth_m": [
       -99.0,
@@ -2643,9 +3230,31 @@
      "coast_half_width_m": 700.0
     },
     {
+     "species": "tropical:plants/tropical/manfern",
+     "tier": "T2",
+     "instances_per_hectare": 35.0,
+     "role": "understory",
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "scale_range": [
+      0.7,
+      1.1
+     ],
+     "clump_size_median": 5,
+     "clump_radius_m": 8.0,
+     "patchiness": 1.1,
+     "glade_response": 0.85,
+     "slope_deg_max": 40.0,
+     "slope_half_angle_deg": 28.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/tropicalplant01",
      "tier": "T2",
-     "instances_per_hectare": 45.0,
+     "instances_per_hectare": 15.0,
      "role": "understory",
      "water_depth_m": [
       -99.0,
@@ -2686,9 +3295,9 @@
      "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/trees/tropicalshrub01",
+     "species": "bmv:landscape/plants/bigshrub2(colorful)",
      "tier": "T2",
-     "instances_per_hectare": 140.0,
+     "instances_per_hectare": 100.0,
      "role": "gap-thicket",
      "glade_band": [
       0.62,
@@ -2710,6 +3319,28 @@
     {
      "species": "bmv:landscape/trees/tropicalshrub01",
      "tier": "T2",
+     "instances_per_hectare": 45.0,
+     "role": "gap-thicket",
+     "glade_band": [
+      0.62,
+      1.0
+     ],
+     "glade_response": 0.0,
+     "clump_size_median": 6,
+     "clump_radius_m": 6.5,
+     "water_depth_m": [
+      -99.0,
+      0.35
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "slope_deg_max": 40.0
+    },
+    {
+     "species": "bmv:landscape/plants/fernlarge03",
+     "tier": "T2",
      "instances_per_hectare": 90.0,
      "role": "green-wall",
      "glade_band": [
@@ -2727,10 +3358,12 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
-     "species": "bmv:landscape/plants/bigshrub2(colorful)",
+     "species": "bmv:landscape/trees/bambooplant",
      "tier": "T2",
      "instances_per_hectare": 155.0,
      "role": "bank-wall",
@@ -2748,7 +3381,9 @@
      "scale_range": [
       0.8,
       1.4
-     ]
+     ],
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
     },
     {
      "species": "bmv:landscape/plants/chickweed",
@@ -2789,7 +3424,7 @@
      "coast_half_width_m": 700.0
     }
    ],
-   "targetInstancesPerHectare": 650.0,
+   "targetInstancesPerHectare": 660.0,
    "note": "The drier ground BETWEEN waterways \u2014 still swamp-forest to the eye (owner 0036 Q4 reading), just with dry feet: jungle canopy at ~60% of the jungle target, bamboo brakes, gallery thickening along whatever water crosses it. Round 7: it carries the same tall tropical roof as region 13 at 60% density, so crossing between the two does not step out from under a 35 m canopy into a 12 m one."
   },
   "12": {
@@ -2798,7 +3433,59 @@
     {
      "species": "bmv:landscape/trees/gkblillipad2",
      "tier": "T2",
-     "instances_per_hectare": 90.0,
+     "instances_per_hectare": 45.0,
+     "role": "aquatic-lilypads",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.4,
+      2.2
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -22.0,
+      -3.0
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/plants/water lily1",
+     "tier": "T2",
+     "instances_per_hectare": 30.0,
+     "role": "aquatic-lilypads",
+     "clump_size_median": 8,
+     "clump_radius_m": 6.0,
+     "water_depth_m": [
+      0.4,
+      2.2
+     ],
+     "depth_peak_m": 1.0,
+     "depth_half_width_m": 0.8,
+     "shore_m": [
+      -22.0,
+      -3.0
+     ],
+     "scale_range": [
+      0.8,
+      1.4
+     ],
+     "tilt_deg_max": 0.0,
+     "guild": "lilypad-pond",
+     "coast_boost_gain": -0.85,
+     "coast_half_width_m": 700.0
+    },
+    {
+     "species": "bmv:landscape/plants/water lily2",
+     "tier": "T2",
+     "instances_per_hectare": 25.0,
      "role": "aquatic-lilypads",
      "clump_size_median": 8,
      "clump_radius_m": 6.0,
@@ -2869,9 +3556,32 @@
      "coast_half_width_m": 900.0
     },
     {
+     "species": "bmv:vurt/deadtrees/dead_bc_tree_04",
+     "tier": "T1",
+     "instances_per_hectare": 3.0,
+     "role": "drowned-tree",
+     "clump_size_median": 1,
+     "singleton_share": 0.85,
+     "clump_radius_m": 9.0,
+     "water_depth_m": [
+      0.6,
+      3.5
+     ],
+     "depth_peak_m": 1.5,
+     "depth_half_width_m": 1.0,
+     "slope_deg_max": 24.0,
+     "scale_range": [
+      0.8,
+      1.25
+     ],
+     "clearance_radius_m": 3.0,
+     "coast_boost_gain": -0.6,
+     "coast_half_width_m": 700.0
+    },
+    {
      "species": "bmv:landscape/trees/cypress1",
      "tier": "T1",
-     "instances_per_hectare": 6.0,
+     "instances_per_hectare": 3.0,
      "role": "drowned-tree",
      "clump_size_median": 2,
      "clump_radius_m": 12.0,
@@ -2891,7 +3601,7 @@
      "coast_half_width_m": 700.0
     }
    ],
-   "targetInstancesPerHectare": 376.0,
+   "targetInstancesPerHectare": 386.0,
    "note": "Open water: guild-themed aquatics near the shore, deep centre bare, drowned trees for silhouettes (M1 bimodal, deep mode)."
   },
   "13": {
@@ -3475,7 +4185,7 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb2",
      "tier": "T1",
      "instances_per_hectare": 110.0,
      "role": "waterline-tree",
@@ -3489,8 +4199,8 @@
      "depth_half_width_m": 1.2,
      "slope_deg_max": 28.0,
      "scale_range": [
-      0.75,
-      1.15
+      0.7,
+      1.05
      ],
      "clearance_radius_m": 1.6,
      "shore_m": [
@@ -3502,9 +4212,9 @@
      "coast_half_width_m": 900.0
     },
     {
-     "species": "bmv:landscape/trees/mangrovereachtree0gkb9",
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb3",
      "tier": "T1",
-     "instances_per_hectare": 130.0,
+     "instances_per_hectare": 70.0,
      "role": "canopy",
      "clump_size_median": 5,
      "clump_radius_m": 10.0,
@@ -3520,6 +4230,36 @@
      "scale_range": [
       0.65,
       1.0
+     ],
+     "clearance_radius_m": 1.6,
+     "patchiness": 1.2,
+     "glade_response": 0.9,
+     "glade_band": [
+      0.0,
+      0.88
+     ],
+     "coast_boost_gain": 0.5,
+     "coast_half_width_m": 900.0
+    },
+    {
+     "species": "bmv:landscape/trees/mangrovereachtree0gkb8",
+     "tier": "T1",
+     "instances_per_hectare": 60.0,
+     "role": "canopy",
+     "clump_size_median": 5,
+     "clump_radius_m": 10.0,
+     "water_depth_m": [
+      -1.5,
+      1.0
+     ],
+     "shore_m": [
+      0.0,
+      90.0
+     ],
+     "slope_deg_max": 14.0,
+     "scale_range": [
+      0.8,
+      1.15
      ],
      "clearance_radius_m": 1.6,
      "patchiness": 1.2,
@@ -3678,7 +4418,7 @@
     }
    ],
    "targetInstancesPerHectare": 648.0,
-   "note": "The canon Lilmoth mangrove wall (lore/regions/murkmire.md), built to real mangal structure (research/world-terrain/mangrove-coastal-ecology.md): dense Rhizophora-analogue fringe standing in the intertidal (the wall read from the sea), closed low-diversity interior over prop roots with a near-bare floor, landward palm/shrub transition. No lilypads \u2014 saline. Gaps come from the shared glade field at real dieback scale, left bare."
+   "note": "The canon Lilmoth mangrove wall (lore/regions/murkmire.md), built to real mangal structure (research/mangrove-coastal-ecology.md): dense Rhizophora-analogue fringe standing in the intertidal (the wall read from the sea), closed low-diversity interior over prop roots with a near-bare floor, landward palm/shrub transition. No lilypads \u2014 saline. Gaps come from the shared glade field at real dieback scale, left bare. Meshes: mangrove a/c/d here, b belongs to the tidal delta, so the three mangrove coasts are not one tree repeated."
   }
  },
  "densityScale": 1.0
