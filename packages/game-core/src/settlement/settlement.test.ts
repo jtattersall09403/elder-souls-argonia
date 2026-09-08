@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   anchorPlacement,
+  finalPartTransform,
+  finalPlacementTransform,
   footprintDiagonalM,
   placementGroundAudit,
   settlementGroundAudits,
@@ -23,6 +25,7 @@ import {
   applySettlementSurfaceWithShadow,
   SETTLEMENT_GROUND_ATTRIBUTE,
   reapplySettlementSurface,
+  settlementShadowPairErrors,
 } from "./materials";
 
 const placement: SettlementPlacement = {
@@ -53,6 +56,34 @@ describe("settlement placement contract", () => {
     const anchored = anchorPlacement(placement, (x) => x === 0 ? null : 1);
     expect(anchored.complete).toBe(false);
     expect(placementGroundAudit(placement, anchored).status).toBe("terrain-unavailable");
+  });
+
+  it("uses the same final graded anchor for near instances and far merged vertices", () => {
+    // Treat 7.25 m as the final pad surface after the compiler's grade has
+    // been consumed. The source blueprint's old Y=99 must never survive.
+    const padPlacement = { ...placement, anchor: { ...placement.anchor, groundFit: "pad" as const } };
+    const graded = anchorPlacement(padPlacement, () => 7.25);
+    const final = finalPlacementTransform(padPlacement, graded);
+    const local = new THREE.Matrix4().makeTranslation(2, 1, -3);
+    const part = finalPartTransform(padPlacement, graded, local);
+    const source = new THREE.BoxGeometry(1, 1, 1);
+    const sourceVertex = new THREE.Vector3().fromBufferAttribute(
+      source.getAttribute("position") as THREE.BufferAttribute, 0,
+    );
+    const nearWorld = sourceVertex.clone().applyMatrix4(part);
+    const far = mergeTransformedGeometry(source, [part], [graded.groundLineM])!;
+    const farWorld = new THREE.Vector3().fromBufferAttribute(
+      far.getAttribute("position") as THREE.BufferAttribute, 0,
+    );
+    expect(farWorld.distanceTo(nearWorld)).toBeLessThan(1e-6);
+    expect(new THREE.Vector3().setFromMatrixPosition(final).y).toBeCloseTo(11);
+    expect(far.getAttribute(SETTLEMENT_GROUND_ATTRIBUTE).getX(0)).toBeCloseTo(7.25);
+    far.dispose(); source.dispose();
+  });
+
+  it("refuses a final transform until every streamed ground sample exists", () => {
+    const incomplete = anchorPlacement(placement, () => null);
+    expect(() => finalPlacementTransform(placement, incomplete)).toThrow(/before terrain anchoring/);
   });
 
   it("reports capped slope burial and residual floating per settlement", () => {
@@ -139,6 +170,7 @@ describe("settlement material patch contract", () => {
     expect(depth.displacementMap).toBe(material.displacementMap);
     expect(depth.displacementScale).toBe(1.7);
     expect(depth.userData.esSettlementSurface.uniforms).toBe(uniforms);
+    expect(settlementShadowPairErrors(material, depth)).toEqual([]);
     expect(depth.customProgramCacheKey()).toContain("es-settlement-surface-v1|0|depth");
     const shader = { uniforms: {}, vertexShader: "#include <common>\n#include <begin_vertex>",
       fragmentShader: "#include <common>" };
@@ -146,6 +178,31 @@ describe("settlement material patch contract", () => {
     expect(shader.vertexShader).toContain(SETTLEMENT_GROUND_ATTRIBUTE);
     expect(shader.vertexShader).toContain("esSettlementHeightAboveGround");
     depth.dispose(); material.dispose();
+  });
+
+  it("rebuilds and verifies the colour/depth pair at every LOD swap", () => {
+    const contract = { absoluteTriangleFloor: [120, 80] as const,
+      distancePerFootprintDiagonal: [4, 12] as const, farMergeDistanceM: 900 };
+    const uniforms = { esSettlementRain: { value: 0 }, esSettlementNight: { value: 0 } };
+    const levels = [20, 100, 1000].map((distance) => {
+      const level = architectureLod(distance, 14, 3, contract).level;
+      const colour = new THREE.MeshStandardMaterial({ alphaTest: .3 });
+      colour.name = `lod-${level}`;
+      colour.map = new THREE.Texture();
+      const depth = applySettlementSurfaceWithShadow(colour, uniforms)!;
+      return { level, colour, depth };
+    });
+    expect(levels.map((row) => row.level)).toEqual([0, 1, 2]);
+    for (const row of levels) expect(settlementShadowPairErrors(row.colour, row.depth)).toEqual([]);
+    levels[2].depth.alphaTest = 0;
+    expect(settlementShadowPairErrors(levels[2].colour, levels[2].depth))
+      .toContain("alpha test differs from shadow-depth alpha test");
+    for (const row of levels) { row.depth.dispose(); row.colour.dispose(); }
+  });
+
+  it("refuses an architecture draw that cannot carry a verified depth pair", () => {
+    expect(settlementShadowPairErrors(new THREE.MeshBasicMaterial(), undefined))
+      .toContain("architecture colour material is not a supported physically lit material");
   });
 
   it("validates the dimensions of the texture actually bound for drawing", () => {

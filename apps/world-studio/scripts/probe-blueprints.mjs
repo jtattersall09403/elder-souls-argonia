@@ -95,6 +95,12 @@ try {
           const place = proof?.grounding?.find((row) => row.settlementId === placeId);
           return proof?.status === "loaded" && proof.renderedPlacements > 0
             && proof.draws > 0 && proof.triangles > 0
+            && proof.finalTransformEvidence?.finalAnchoredPlacements === proof.renderedPlacements
+            && proof.finalTransformEvidence?.groundBoundInstances
+              === proof.finalTransformEvidence?.nearInstances
+                + proof.finalTransformEvidence?.farMergedInstances
+            && proof.finalTransformEvidence?.shadowPairedDraws === proof.draws
+            && proof.finalTransformEvidence?.shadowPairFailures?.length === 0
             && place?.placementsAudited > 0;
         }, site.id, { timeout: 180_000 });
         const proof = await page.evaluate((placeId) => {
@@ -104,8 +110,17 @@ try {
         if (!proof.place || proof.place.terrainUnavailable || proof.place.floating || proof.place.overBuried) {
           throw new Error(`${site.id} settlement grounding failed: ${JSON.stringify(proof)}`);
         }
+        const final = proof.state?.finalTransformEvidence;
+        if (!final || final.finalAnchoredPlacements !== proof.state.renderedPlacements
+            || final.groundBoundInstances !== final.nearInstances + final.farMergedInstances
+            || final.shadowPairedDraws !== proof.state.draws
+            || final.shadowPairFailures.length) {
+          throw new Error(`${site.id} final LOD/shadow evidence failed: ${JSON.stringify(final)}`);
+        }
         await page.screenshot({ path: `${out}settlement-${site.slug}.png` });
-        console.log(`wrote artifacts/settlement-${site.slug}.png; ${proof.place.placementsAudited} placements grounded`);
+        console.log(`wrote artifacts/settlement-${site.slug}.png; ${proof.place.placementsAudited} placements grounded; `
+          + `${final.nearInstances} near + ${final.farMergedInstances} far share final transforms; `
+          + `${final.shadowPairedDraws} colour/depth draw pairs`);
       }
     }
   } finally {

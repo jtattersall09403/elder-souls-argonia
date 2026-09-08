@@ -4,6 +4,7 @@ import { GLTFLoader, type GLTF } from "three/examples/jsm/loaders/GLTFLoader.js"
 import * as THREE from "three";
 import {
   anchorPlacement,
+  finalPlacementTransform,
   footprintDiagonalM,
   placementGroundAudit,
   settlementGroundAudits,
@@ -19,6 +20,7 @@ import {
 import {
   applySettlementSurfaceWithShadow,
   SETTLEMENT_GROUND_ATTRIBUTE,
+  settlementShadowPairErrors,
   updateSettlementEnvironment,
   type SettlementMaterialUniforms,
 } from "./materials";
@@ -39,6 +41,12 @@ interface DrawBucket {
   farTransforms: THREE.Matrix4[];
   farGroundLinesM: number[];
 }
+
+const EMPTY_FINAL_TRANSFORM_EVIDENCE = Object.freeze({
+  finalAnchoredPlacements: 0, nearInstances: 0, farMergedInstances: 0,
+  groundBoundInstances: 0, shadowPairedDraws: 0,
+  shadowPairFailures: Object.freeze([] as string[]),
+});
 
 const REBUILD_MOVE_M = 40;
 const MAX_RENDER_DISTANCE_M = 5000;
@@ -61,6 +69,10 @@ function publishSettlementProof(state: SettlementProofState): void {
   (globalThis as SettlementProofHost).__STUDIO_SETTLEMENT_DEBUG__ = Object.freeze({
     ...state,
     grounding: Object.freeze(grounding),
+    finalTransformEvidence: Object.freeze({
+      ...state.finalTransformEvidence,
+      shadowPairFailures: Object.freeze([...state.finalTransformEvidence.shadowPairFailures]),
+    }),
   });
 }
 
@@ -169,7 +181,8 @@ export function SettlementLayer({
 
   useEffect(() => {
     publishSettlementProof({ status: "loading", settlements: 0, placements: 0,
-      renderedPlacements: 0, draws: 0, triangles: 0, grounding: [] });
+      renderedPlacements: 0, draws: 0, triangles: 0, grounding: [],
+      finalTransformEvidence: EMPTY_FINAL_TRANSFORM_EVIDENCE });
   }, [baseUrl]);
 
   useEffect(() => {
@@ -241,6 +254,7 @@ export function SettlementLayer({
       draws: 0,
       triangles: 0,
       grounding: [],
+      finalTransformEvidence: EMPTY_FINAL_TRANSFORM_EVIDENCE,
       error: fatalError.message,
     });
   }, [bundle, fatalError, onSolids]);
@@ -277,12 +291,10 @@ export function SettlementLayer({
       validateLodTriangles(triangles, bundle.lod);
       const choice = architectureLod(distance, footprintDiagonalM(placement), asset.levels.length,
         bundle.lod, quality?.architectureDrawScale ?? 1);
-      const transform = new THREE.Matrix4().compose(
-        new THREE.Vector3(placement.positionM[0], anchored.y, placement.positionM[2]),
-        new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0),
-          THREE.MathUtils.degToRad(placement.yawDeg)),
-        new THREE.Vector3(placement.scale, placement.scale, placement.scale),
-      );
+      // Compute this only after the streamed terrain (including any compiled
+      // pad grade) is final. Both near instances and far merges consume this
+      // exact matrix; LOD choice cannot re-anchor a building.
+      const transform = finalPlacementTransform(placement, anchored);
       asset.levels[choice.level].forEach((part, partIndex) => {
         const key = `${placement.kit}|${placement.assetId}|${choice.level}|${partIndex}`;
         const bucket = buckets.get(key) ?? {
@@ -307,12 +319,20 @@ export function SettlementLayer({
       bundle.lod.colliderPartBudget);
     builtAt.current.coveredRadiusM = collision.coveredRadiusM;
     let triangles = 0; let draws = 0; let farInstances = 0; let farMeshes = 0;
+    let nearInstances = 0; let groundBoundInstances = 0; let shadowPairedDraws = 0;
+    const shadowPairFailures: string[] = [];
     for (const bucket of buckets.values()) {
       const material = bucket.part.material;
       validateMaterialTextureCap(material, bundle.lod.atlasMaxSize);
       const windowMaterial = /window|glow/i.test(material.name);
       materialPatch?.(material);
       const depthMaterial = applySettlementSurfaceWithShadow(material, uniforms, windowMaterial);
+      const pairErrors = settlementShadowPairErrors(material, depthMaterial);
+      if (pairErrors.length) {
+        shadowPairFailures.push(...pairErrors.map((error) =>
+          `${material.name || "<unnamed>"}: ${error}`));
+        throw new Error(`settlement colour/depth material pair failed: ${pairErrors.join("; ")}`);
+      }
       if (bucket.transforms.length) {
         const geometry = bucket.part.geometry.clone();
         geometry.setAttribute(SETTLEMENT_GROUND_ATTRIBUTE, new THREE.InstancedBufferAttribute(
@@ -327,6 +347,9 @@ export function SettlementLayer({
         mesh.userData.esSettlementOwnedGeometry = true;
         group.add(mesh);
         draws += 1;
+        nearInstances += bucket.transforms.length;
+        groundBoundInstances += bucket.transforms.length;
+        if (depthMaterial) shadowPairedDraws += 1;
       }
       const farGeometry = mergeTransformedGeometry(
         bucket.part.geometry, bucket.farTransforms, bucket.farGroundLinesM,
@@ -340,6 +363,8 @@ export function SettlementLayer({
         draws += 1;
         farMeshes += 1;
         farInstances += bucket.farTransforms.length;
+        groundBoundInstances += bucket.farTransforms.length;
+        if (depthMaterial) shadowPairedDraws += 1;
       }
       triangles += bucket.part.triangles * bucket.transforms.length;
       triangles += bucket.part.triangles * bucket.farTransforms.length;
@@ -354,9 +379,18 @@ export function SettlementLayer({
     }
     const grounding = settlementGroundAudits(bundle.settlements, placementGrounding);
     onSolids?.(collision.chosen);
+    const finalTransformEvidence = {
+      finalAnchoredPlacements: placementCount,
+      nearInstances,
+      farMergedInstances: farInstances,
+      groundBoundInstances,
+      shadowPairedDraws,
+      shadowPairFailures,
+    };
     onStats?.({ placements: placementCount, draws, triangles,
       colliderParts: collision.parts, colliderCoveredRadiusM: collision.coveredRadiusM,
-      farMergedMeshes: farMeshes, farMergedInstances: farInstances, grounding });
+      farMergedMeshes: farMeshes, farMergedInstances: farInstances, grounding,
+      finalTransformEvidence });
     const drawScale = quality?.architectureDrawScale ?? 1;
     const allVisibleKitsReady = bundle.placements.every((placement) => {
       const cap = placement.kind === "dressing" ? 350
@@ -373,6 +407,7 @@ export function SettlementLayer({
       draws,
       triangles,
       grounding,
+      finalTransformEvidence,
     });
     return () => {
       const depthMaterials = new Set<THREE.Material>();

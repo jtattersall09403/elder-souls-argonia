@@ -14,7 +14,7 @@ export interface SettlementAnchor {
 export interface SettlementPlacement {
   id: string;
   sourceId: string;
-  kind: "settlement" | "dressing" | "route-structure";
+  kind: "settlement" | "dressing" | "landmark" | "fence" | "dock" | "route-structure";
   assetId: string;
   kit: string;
   positionM: [number, number, number];
@@ -91,6 +91,17 @@ export interface SettlementRenderStats {
   farMergedInstances: number;
   colliderCoveredRadiusM: number;
   grounding: SettlementGroundAudit[];
+  finalTransformEvidence: SettlementFinalTransformEvidence;
+}
+
+/** Machine-readable proof for the final anchored transform and depth pair. */
+export interface SettlementFinalTransformEvidence {
+  finalAnchoredPlacements: number;
+  nearInstances: number;
+  farMergedInstances: number;
+  groundBoundInstances: number;
+  shadowPairedDraws: number;
+  shadowPairFailures: readonly string[];
 }
 
 export type SettlementGroundStatus =
@@ -143,6 +154,7 @@ export type SettlementProofState = Readonly<{
   draws: number;
   triangles: number;
   grounding: readonly ReadonlySettlementGroundAudit[];
+  finalTransformEvidence: Readonly<SettlementFinalTransformEvidence>;
   error?: string;
 }>;
 

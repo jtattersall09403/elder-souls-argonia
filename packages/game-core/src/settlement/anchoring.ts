@@ -5,6 +5,7 @@ import type {
   SettlementPlacementGroundAudit,
   TerrainHeight,
 } from "./types";
+import * as THREE from "three";
 
 export interface AnchoredPlacement {
   y: number;
@@ -68,6 +69,39 @@ export function anchorPlacement(
     pivotToBaseM: pivotToBase,
     complete: true,
   };
+}
+
+/**
+ * The one final world transform for every architecture tier.
+ *
+ * Near instances and far merged geometry must both start here, after streamed
+ * terrain (including compiled pad grades) has supplied the final anchor.  LOD
+ * selection is deliberately absent: changing visual detail may never change
+ * the placement transform.
+ */
+export function finalPlacementTransform(
+  placement: SettlementPlacement,
+  anchored: AnchoredPlacement,
+): THREE.Matrix4 {
+  if (!anchored.complete) {
+    throw new Error(`${placement.id}: final transform requested before terrain anchoring completed`);
+  }
+  return new THREE.Matrix4().compose(
+    new THREE.Vector3(placement.positionM[0], anchored.y, placement.positionM[2]),
+    new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(placement.yawDeg),
+    ),
+    new THREE.Vector3(placement.scale, placement.scale, placement.scale),
+  );
+}
+
+/** Apply the asset part's measured local transform after the final anchor. */
+export function finalPartTransform(
+  placement: SettlementPlacement,
+  anchored: AnchoredPlacement,
+  localMatrix: THREE.Matrix4,
+): THREE.Matrix4 {
+  return finalPlacementTransform(placement, anchored).multiply(localMatrix);
 }
 
 export function placementGroundAudit(

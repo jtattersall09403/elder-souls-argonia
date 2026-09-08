@@ -56,6 +56,38 @@ export function applySettlementSurfaceWithShadow(
   return depth;
 }
 
+/**
+ * Fail-closed evidence that the caster material still matches its colour
+ * material.  This is run on every near and far draw after the chosen LOD's
+ * material has been patched, so an LOD swap cannot silently restore opaque
+ * card shadows or drop displacement from the depth pass.
+ */
+export function settlementShadowPairErrors(
+  material: THREE.Material,
+  depth: THREE.MeshDepthMaterial | undefined,
+): string[] {
+  const colour = material as THREE.MeshStandardMaterial;
+  if (!colour.isMeshStandardMaterial) {
+    return ["architecture colour material is not a supported physically lit material"];
+  }
+  if (!depth) return ["standard colour material has no paired shadow-depth material"];
+  const errors: string[] = [];
+  if (depth.map !== colour.map) errors.push("colour map differs from shadow-depth map");
+  if (depth.alphaMap !== colour.alphaMap) errors.push("alpha map differs from shadow-depth alpha map");
+  if (depth.alphaTest !== colour.alphaTest) errors.push("alpha test differs from shadow-depth alpha test");
+  if (depth.side !== colour.side) errors.push("face side differs from shadow-depth face side");
+  if (depth.displacementMap !== colour.displacementMap) {
+    errors.push("displacement map differs from shadow-depth displacement map");
+  }
+  if (depth.displacementScale !== colour.displacementScale
+      || depth.displacementBias !== colour.displacementBias) {
+    errors.push("displacement values differ from shadow-depth displacement values");
+  }
+  const state = depth.userData?.esSettlementSurface as SettlementSurfaceState | undefined;
+  if (!state?.depthPair) errors.push("shadow-depth material lacks settlement pair identity");
+  return errors;
+}
+
 export function reapplySettlementSurface(material: THREE.Material): void {
   const m = material as THREE.MeshStandardMaterial | THREE.MeshDepthMaterial;
   const state = m.userData?.esSettlementSurface as
