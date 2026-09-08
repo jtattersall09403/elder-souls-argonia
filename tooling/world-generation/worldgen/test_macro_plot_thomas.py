@@ -47,6 +47,63 @@ def test_children_stay_strictly_clumped_even_in_relaxed_placement_stages():
     assert macro_plot.thomas_prior_score(d, candidate("far", 301, 0), prior, True) is None
 
 
+def test_authored_locality_is_a_conditional_parent_without_expanding_child_radius():
+    d = demand("place.hist-heartland.local")
+    d.near_point = (1000.0, 1000.0, 500.0)
+    prior = {"hist-heartland": {"parents": [(0.0, 0.0)], "sigmaM": 100.0,
+                                  "childRadiusM": 300.0}}
+    assert macro_plot.thomas_prior_score(
+        d, candidate("local", 1250, 1000), prior, True) is not None
+    # The nearPoint's own relaxed max is 1,000 m, but the Thomas ceiling stays
+    # authoritative: conditional parents solve the conflict, never an escape.
+    assert macro_plot.thomas_prior_score(
+        d, candidate("outside-kernel", 1301, 1000), prior, True) is None
+
+
+def test_bound_child_becomes_locally_scarce_only_after_parent_is_resolved():
+    d = demand("place.hist-heartland.bound-child")
+    d.bound_to = "place.hist-heartland.parent"
+    assert not macro_plot.has_resolved_locality(d, {})
+    plotted = {d.bound_to: (900.0, 900.0)}
+    assert macro_plot.has_resolved_locality(d, plotted)
+    prior = {"hist-heartland": {"parents": [(0.0, 0.0)], "sigmaM": 100.0,
+                                  "childRadiusM": 300.0}}
+    assert macro_plot.thomas_prior_score(
+        d, candidate("by-parent", 1100, 900), prior, True, plotted) is not None
+    assert macro_plot.thomas_prior_score(
+        d, candidate("past-parent-kernel", 1201, 900), prior, True, plotted) is None
+
+
+def test_reference_site_must_leave_a_real_candidate_in_child_local_domain():
+    child = demand("place.hist-heartland.child")
+    child.near_point = (1000.0, 1000.0, 100.0)
+    child.bound_to = "place.hist-heartland.parent"
+    deps = {child.bound_to: [child]}
+
+    class Survey:
+        @staticmethod
+        def line_of_sight(*_args, **_kwargs):
+            return True
+
+    assert macro_plot.reference_supports_local_dependents(
+        child.bound_to, candidate("parent-near", 1250, 1000), deps,
+        relaxed=False, survey=Survey(), local_candidates={child.id: []})
+    assert not macro_plot.reference_supports_local_dependents(
+        child.bound_to, candidate("parent-strands-child", 1401, 1000), deps,
+        relaxed=False, survey=Survey(), local_candidates={child.id: []})
+
+    child.bound_to = None
+    child.sightline_to = ["place.hist-heartland.lookout"]
+    deps = {child.sightline_to[0]: [child]}
+    assert not macro_plot.reference_supports_local_dependents(
+        child.sightline_to[0], candidate("lookout", 1200, 1000), deps,
+        relaxed=False, survey=Survey(), local_candidates={child.id: []})
+    assert macro_plot.reference_supports_local_dependents(
+        child.sightline_to[0], candidate("lookout", 1200, 1000), deps,
+        relaxed=False, survey=Survey(),
+        local_candidates={child.id: [candidate("visible-child-site", 1050, 1000)]})
+
+
 def test_parent_shortfall_is_a_failure_not_a_quietly_weaker_prior():
     demands = [demand(f"place.hist-heartland.test-{i}") for i in range(17)]
     cands = [candidate("site.a", 0, 0), candidate("site.b", 100, 0)]
@@ -66,7 +123,8 @@ def test_outcome_gate_checks_homeless_radius_and_parent_occupancy(monkeypatch):
     audit, errors = macro_plot.thomas_outcome(
         prior, demands, result, [{"id": "place.hist-heartland.missing"}])
     assert audit["outsideRadius"] == [demands[1].id]
-    assert audit["emptyParents"] == {"hist-heartland": [1]}
+    # An out-of-kernel child cannot make a latent parent look occupied.
+    assert audit["emptyParents"] == {"hist-heartland": [1, 2]}
     assert len(errors) == 3
 
 

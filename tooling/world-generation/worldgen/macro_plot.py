@@ -282,15 +282,79 @@ def build_thomas_prior(demands: list[Demand], cands: list[Candidate], seed: int)
     return out
 
 
-def thomas_prior_score(d: Demand, c: Candidate, prior: dict[str, dict], relaxed: bool) -> float | None:
+def thomas_parent_points(d: Demand, prior: dict[str, dict],
+                         plotted: dict[str, tuple[float, float]] | None = None) -> list[tuple[float, float]]:
+    """Return the latent parents which may generate ``d``.
+
+    The culture-wide points model ordinary clumping.  A hard authored locality
+    is itself a conditional parent: otherwise a perfectly valid ``nearPoint``
+    or ``boundTo`` can lie outside every randomly selected culture kernel and
+    become mathematically impossible.  This does not relax the child radius;
+    it makes the density model conditional on the stronger authored fact.
+    """
+    points = list(prior[d.zone]["parents"])
+    if d.near_point is not None:
+        points.append((d.near_point[0], d.near_point[1]))
+    if d.bound_to and plotted and d.bound_to in plotted:
+        points.append(plotted[d.bound_to])
+    return points
+
+
+def has_resolved_locality(d: Demand, plotted: dict[str, tuple[float, float]]) -> bool:
+    """Whether this demand competes for a small, already knowable domain."""
+    return d.near_point is not None or bool(d.bound_to and d.bound_to in plotted)
+
+
+def reference_supports_local_dependents(
+        reference_id: str, candidate: Candidate, dependents: dict[str, list[Demand]],
+        relaxed: bool, survey: ProvinceSurvey,
+        local_candidates: dict[str, list[Candidate]] | None = None) -> bool:
+    """Look one edge ahead before placing a named reference.
+
+    A child may promise both an authored point and a bind/sightline to another
+    place.  Placing that other place arbitrarily can make the child's two hard
+    facts disjoint.  Reject reference sites which cannot support the child's
+    local domain; this is constraint propagation, not a radius relaxation.
+    """
+    for child in dependents.get(reference_id, []):
+        if child.near_point is None:
+            continue
+        x, z, radius = child.near_point
+        radius *= NEAR_POINT_RELAX if relaxed else 1.0
+        distance = math.hypot(candidate.x - x, candidate.z - z)
+        if child.bound_to == reference_id and distance > radius + child.bound_max:
+            return False
+        if reference_id in child.sightline_to:
+            if distance > radius + SIGHTLINE_MAX_M:
+                return False
+            # Prove that at least one real candidate in the child's authored
+            # disc can see this reference.  Testing only the disc centre is too
+            # strong on broken terrain; testing only distance repeats the old
+            # failure where every actual child site is occluded.
+            child_radius = min(radius, THOMAS_CHILD_RADIUS_M)
+            possible = any(
+                math.hypot(site.x - x, site.z - z) <= child_radius
+                and math.hypot(site.x - candidate.x, site.z - candidate.z) <= SIGHTLINE_MAX_M
+                and survey.line_of_sight(site.x, site.z, candidate.x, candidate.z,
+                                         eye_a=1.7, eye_b=8.0)
+                for site in (local_candidates or {}).get(child.id, [])
+            )
+            if not possible:
+                return False
+    return True
+
+
+def thomas_prior_score(d: Demand, c: Candidate, prior: dict[str, dict], relaxed: bool,
+                       plotted: dict[str, tuple[float, float]] | None = None) -> float | None:
     """Density score for a child candidate, or None outside its strict clump.
 
-    The Gaussian is the Thomas-process kernel. Strict placement keeps children
-    within 300 m; homeless stages may escape the clump so an awkward landform
-    or hard semantic constraint can still be placed honestly.
+    The Gaussian is the Thomas-process kernel. Every stage keeps children
+    within 300 m; authored localities add conditional parents rather than
+    weakening that ceiling.
     """
     cluster = prior[d.zone]
-    distance = min(math.hypot(c.x - px, c.z - pz) for px, pz in cluster["parents"])
+    distance = min(math.hypot(c.x - px, c.z - pz)
+                   for px, pz in thomas_parent_points(d, prior, plotted))
     radius = float(cluster["childRadiusM"])
     if distance > radius:
         return None
@@ -312,17 +376,22 @@ def thomas_outcome(prior: dict[str, dict], demands: list[Demand], result: dict[s
     pinned = {row["id"] for row in load_overrides()}
     occupancy = {zone: [0] * len(row["parents"]) for zone, row in prior.items()}
     outside: list[str] = []
+    all_positions = {rid: (row["candidate"].x, row["candidate"].z)
+                     for rid, row in result.items()}
     for did, assignment in result.items():
         demand = by_id.get(did)
         if demand is None or demand.tier == 0 or did in pinned:
             continue
         cluster = prior[demand.zone]
         candidate = assignment["candidate"]
-        distances = [math.hypot(candidate.x - x, candidate.z - z)
-                     for x, z in cluster["parents"]]
-        nearest = min(range(len(distances)), key=distances.__getitem__)
-        occupancy[demand.zone][nearest] += 1
-        if distances[nearest] > float(cluster["childRadiusM"]) + 1e-6:
+        generic_distances = [math.hypot(candidate.x - x, candidate.z - z)
+                             for x, z in cluster["parents"]]
+        nearest = min(range(len(generic_distances)), key=generic_distances.__getitem__)
+        if generic_distances[nearest] <= float(cluster["childRadiusM"]) + 1e-6:
+            occupancy[demand.zone][nearest] += 1
+        distance = min(math.hypot(candidate.x - x, candidate.z - z)
+                       for x, z in thomas_parent_points(demand, prior, all_positions))
+        if distance > float(cluster["childRadiusM"]) + 1e-6:
             outside.append(did)
     empty = {zone: [i for i, count in enumerate(counts) if count == 0]
              for zone, counts in occupancy.items() if any(count == 0 for count in counts)}
@@ -1100,6 +1169,17 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
 
     homeless: list[dict] = []
 
+    dependents: dict[str, list[Demand]] = {}
+    for d in demands:
+        for ref in set(d.sightline_to + ([d.bound_to] if d.bound_to else [])):
+            dependents.setdefault(ref, []).append(d)
+    local_candidates = {
+        d.id: [c for c in cands
+               if math.hypot(c.x - d.near_point[0], c.z - d.near_point[1])
+               <= min(d.near_point[2] * NEAR_POINT_RELAX, THOMAS_CHILD_RADIUS_M)]
+        for d in demands if d.near_point is not None
+    }
+
     def _refs_of(rid: str) -> list[str]:
         o = by_did.get(rid)
         return (list(o.sightline_to) + ([o.bound_to] if o.bound_to else [])) if o else []
@@ -1112,7 +1192,10 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
         pool_ids = {d.id for d in pool}
         done: set[str] = set()
         best_by_d: dict[str, list] = {}
-        for _round in range(4):
+        # One pass normally empties the pool.  Dependency placements may end a
+        # pass early so newly unlocked local children can compete; the pool
+        # size is a deterministic upper bound on those recomputations.
+        for _round in range(len(pool) + 1):
             pairs = []
             for d in pool:
                 if d.id in done:
@@ -1132,8 +1215,11 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 for c in cands:
                     if c.used_by:
                         continue
+                    if not reference_supports_local_dependents(
+                            d.id, c, dependents, relaxed, s, local_candidates):
+                        continue
                     sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region, meta)
-                    cluster_score = thomas_prior_score(d, c, thomas_prior, relaxed)
+                    cluster_score = thomas_prior_score(d, c, thomas_prior, relaxed, plotted_xy)
                     if cluster_score is None:
                         continue
                     parts["culture-clump"] = cluster_score
@@ -1142,7 +1228,14 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                         pairs.append((sc, d.id, c.id, parts))
             if not pairs:
                 break
-            pairs.sort(key=lambda p: (-p[0], p[1], p[2]))
+            # Hard localities have the smallest candidate domains.  Give them
+            # first refusal within the tier so flexible records cannot consume
+            # their few valid cells or the local hostile-share capacity.  This
+            # is the deterministic minimum-domain rule used by constraint
+            # solvers; score still orders peers with equal scarcity.
+            pairs.sort(key=lambda p: (
+                0 if has_resolved_locality(by_did[p[1]], plotted_xy) else 1,
+                -p[0], p[1], p[2]))
             placed_this_round = _take(pairs, pool, done, best_by_d, relaxed, sep_factor)
             if not placed_this_round:
                 break
@@ -1150,6 +1243,7 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
 
     def _take(pairs, pool, done, best_by_d, relaxed, sep_factor) -> int:
         placed = 0
+        unlocks_locality = {d.bound_to for d in pool if d.id not in done and d.bound_to}
         for sc, did, cid, parts in pairs:
             d = next(x for x in pool if x.id == did)
             c = by_id[cid]
@@ -1174,6 +1268,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             plotted_d[did] = (d, c)
             result[did] = {"candidate": c, "score": sc, "parts": parts,
                            "runners": best_by_d[did], "relaxed": relaxed}
+            # Recompute immediately when this placement reveals the centre of
+            # a bound child's small feasible domain.  Consuming the rest of a
+            # round first lets flexible peers fill that locality before the
+            # child is even eligible to compete.
+            if did in unlocks_locality:
+                break
         return placed
 
     # a record that names another is plotted no earlier than the named record,
@@ -1221,7 +1321,7 @@ def plotted_meta_of(result: dict[str, dict]) -> dict[str, Demand]:
 
 
 def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, Demand],
-              s: ProvinceSurvey) -> int:
+              s: ProvinceSurvey, thomas_prior: dict[str, dict]) -> int:
     """Anti-greedy improvement: for the worst-fitting quarter of plotted
     records, try exchanging sites with nearby records of the same zone; keep a
     swap when both gates still pass and the summed score rises by
@@ -1250,7 +1350,17 @@ def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, De
             meta_o = {k: v for k, v in meta.items() if k not in (a, b)}
             sa, pa = score_pair(da, cb, others, True, s, True, meta_o)
             sb, pb = score_pair(db, ca, others, True, s, True, meta_o)
+            ta = thomas_prior_score(da, cb, thomas_prior, True, others)
+            tb = thomas_prior_score(db, ca, thomas_prior, True, others)
+            if ta is None or tb is None:
+                continue
+            pa["culture-clump"], pb["culture-clump"] = ta, tb
+            sa, sb = sa + ta, sb + tb
             if sa < RELAXED_SCORE or sb < RELAXED_SCORE:
+                continue
+            plotted_d = {k: (by_d[k], result[k]["candidate"])
+                         for k in result if k not in (a, b)}
+            if not separation_ok(da, cb, plotted_d)[0] or not separation_ok(db, ca, plotted_d)[0]:
                 continue
             gain = (sa + sb) - (result[a]["score"] + result[b]["score"])
             if gain >= SWAP_MIN_GAIN and (best is None or gain > best[0]):
@@ -1706,8 +1816,16 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
         seeded, resite, pinned = seed_from_committed(s, demands, files)
     result, unresolved = assign(demands, cands, s, s.anchor_points_m,
                                 preplaced=seeded, thomas_prior=thomas_prior)
-    swap_pass(demands, result, plotted_meta_of(result), s)
+    swap_pass(demands, result, plotted_meta_of(result), s, thomas_prior)
     pin_overrides(result, cands, s)
+    if unresolved:
+        # A quality-improving swap or an authored blueprint pin can release
+        # exactly the scarce local cell a previously homeless record needed.
+        # Re-run assignment with every existing result fixed, so completeness
+        # gets first use of that newly available capacity without moving or
+        # weakening any placement.
+        result, unresolved = assign(demands, cands, s, s.anchor_points_m,
+                                    preplaced=result, thomas_prior=thomas_prior)
     return demands, files, scour, free, result, unresolved, resite, pinned
 
 
