@@ -77,10 +77,25 @@ def test_fit_is_derived_from_the_berth_s_own_water():
     deep = _Survey(4.0, True)
     dry = _Survey(0.0, False)
     need = bp_mod.HULL_CLASS_DEPTH_M["keeled"]
-    assert bp_mod._derive_dock_fit(dock, deep, 5.0, need) == "water-to-dock"
+    # A deep berth is not evidence that the authored point was right: the
+    # ordinary/default direction follows the independent natural water solve.
+    assert bp_mod._derive_dock_fit(dock, deep, 5.0, need) == "to-water"
     assert bp_mod._derive_dock_fit(dock, dry, 5.0, need) == "to-water"
-    # far from any published water end: the berth is the thing that moves
-    assert bp_mod._derive_dock_fit(dock, deep, 500.0, need) == "to-water"
+    fixed = {**dock, "fixedBerthReason": "stone quay cannot be moved"}
+    assert bp_mod._derive_dock_fit(fixed, deep, 5.0, need) == "water-to-dock"
+    assert bp_mod._derive_dock_fit(fixed, deep, 500.0, need) == "to-water"
+
+
+def test_water_to_dock_needs_a_structured_physical_reason():
+    bp = {"id": "place.test", "docks": [{"id": "dock.test", "position": [0.5, 0.5],
+                    "waterBodyId": "water.test", "piledToBed": True,
+                    "hullClass": "canoe", "fit": "water-to-dock"}],
+          "networkTerminals": [{"id": "terminal.test", "kind": "channel",
+                               "routeId": "waterway.test", "dockId": "dock.test",
+                               "entryUV": [0.5, 0.5], "wayId": "boardwalk.test"}]}
+    errors = []
+    bp_mod._validate_docks(bp, errors.append, [], geometry=False)
+    assert any("fixedBerthReason" in e for e in errors)
 
 
 def test_marsh_water_is_credited_the_canoe_minimum_and_no_more():

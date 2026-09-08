@@ -6,6 +6,9 @@ open water. The real fixture (`test_compile_settlement`) exercises the same
 checks over the real province raster.
 """
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -110,6 +113,65 @@ def test_parcel_on_way_still_fails_when_the_way_runs_on_through(survey):
                              kind="boardwalk", endsAt=["parcel.stub.deck"])])
     errs = check_integration(bp, survey)
     assert any("runs THROUGH parcel.stub.deck" in e for e in errs)
+
+
+# --- gate-door-outside + G13 first node (gap-plan B8/B4) -------------------- #
+def _gate_bp(door_facing=90.0, culture="imperial", first_use="market"):
+    return _bp(
+        boundary=box(150, 100, 100),
+        districts=[{"id": "district.stub.core", "cultureKit": culture,
+                    "boundary": box(150, 100, 100)}],
+        parcels=[
+            parcel("parcel.stub.gate", 230, 100, half=8, districtId="district.stub.core",
+                   use="gate", spans="route.stub.threshold"),
+            parcel("parcel.stub.first-node", 170, 100, half=5,
+                   districtId="district.stub.core", use=first_use),
+        ],
+        # The threshold road approaches from the east (outside); the inferred
+        # Argonian spine continues west from the gate and meets the first node.
+        routes=[
+            way("route.stub.threshold", [(270, 100), (230, 100)], width=4.0,
+                kind="road", endsAt=["parcel.stub.gate"]),
+            way("route.stub.spine", [(222, 100), (120, 100)], width=3.0,
+                kind="track"),
+        ],
+        doors=[{"id": "door.stub.gate", "parcelId": "parcel.stub.gate",
+                "thresholdUV": uv(238, 100), "facingDeg": door_facing}],
+    )
+
+
+def test_gate_door_must_face_the_outside_end_of_its_spanned_road(survey):
+    errs = check_integration(_gate_bp(door_facing=270.0), survey)
+    assert any("gate-door-outside" in e and "outside road bearing is 90deg" in e
+               for e in errs)
+
+
+def test_gate_door_may_cant_within_sixty_degrees_of_outside(survey):
+    errs = check_integration(_gate_bp(door_facing=145.0), survey)
+    assert not any("gate-door-outside" in e for e in errs)
+
+
+def test_argonian_stilt_first_spine_node_must_be_commerce_or_hall(survey):
+    errs = check_integration(_gate_bp(culture="argonian-stilt", first_use="dwelling"), survey)
+    assert any("G13 first-node" in e and "route.stub.spine" in e and
+               "parcel.stub.first-node" in e for e in errs)
+
+
+def test_g13_does_not_silently_broaden_to_other_culture_grammars(survey):
+    errs = check_integration(_gate_bp(culture="imperial", first_use="dwelling"), survey)
+    assert not any("G13 first-node" in e for e in errs)
+
+
+def test_lilmoth_only_the_justified_council_bench_boardwalk_is_straight():
+    source = (Path(__file__).resolve().parents[3] / "world" / "sources" /
+              "blueprints" / "place.mercantile-coast.lilmoth.json")
+    bp = json.loads(source.read_text())["blueprint"]
+    straight = {way["id"] for way in bp["boardwalks"]
+                if way.get("routing", "straight") == "straight"}
+    terrain = {way["id"] for way in bp["boardwalks"]
+               if way.get("routing") == "terrain"}
+    assert straight == {"boardwalk.lilmoth.bench-walk"}
+    assert len(terrain) == 9
 
 
 # --- way-overlap ----------------------------------------------------------- #

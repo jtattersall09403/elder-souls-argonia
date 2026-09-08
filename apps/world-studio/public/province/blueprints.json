@@ -4519,12 +4519,12 @@
       "approaches": [
         {
           "firstSeen": "landmark.nine-trunks.trunk-1",
-          "fromDirection": "west, up the pool from the Uxaneet channel",
+          "fromDirection": "south, up the authored poling channel from the Uxaneet water network",
           "fromRouteId": null,
           "id": "approach.nine-trunks.landing",
           "mode": "boat",
           "notes": "The travel service from Uxaneet lands here. The bank stands 2 m above the water at the pier head and the path rises under a metre in 50 m; the arch is hidden from the pier by the bank's mangroves and re-found at the bend.",
-          "sequence": "From the water the nine trunks stand above the reeds like the teeth of a comb, the elder trunk tallest among them; as the boat noses to the pier the bank's mangroves take them one by one; from the pier head the western huts and the wall read together above the bank; the landing path climbs and bends round the water-side trunk, then the arch opens on the left hand.",
+          "sequence": "From the water south of the ring the nine trunks stand above the reeds like the teeth of a comb, the elder trunk tallest among them; as the boat noses to the pier the bank's mangroves take them one by one; from the pier head the southern gap and wall read together above the bank; the landing path climbs north-west to the arch.",
           "wayfinding": "From the pier, climb towards the gap in the trunks; the arch is round the trunk on the right."
         },
         {
@@ -5295,8 +5295,8 @@
         },
         {
           "centreM": [
-            4974.054,
-            3742.388
+            4967.006,
+            3738.943
           ],
           "cultureKit": "argonian-mud",
           "id": "district.nine-trunks.ring",
@@ -5304,40 +5304,44 @@
           "notes": "The ring of nine trunks and the clearing that it encloses: eight huts in eight gaps, the arch in the ninth, the naheesh's house and the minder's deck inside. One kit set; the trunks are landmarks, not buildings.",
           "polygon": [
             [
-              4961.88,
-              3716.029
+              4961.345,
+              3716.138
             ],
             [
-              4914.045,
-              3730.59
+              4959.938,
+              3717.028
             ],
             [
-              4877.016,
-              3808.712
+              4959.577,
+              3717.278
             ],
             [
-              4881.241,
-              3815.035
+              4958.71,
+              3718.075
             ],
             [
-              4989.753,
-              3765.238
+              4948.863,
+              3727.829
             ],
             [
-              4991.636,
-              3763.738
+              4899.242,
+              3781.011
             ],
             [
-              4992.45,
-              3762.36
+              4877.047,
+              3808.757
             ],
             [
-              4999.694,
-              3749.8
+              4881.2,
+              3814.974
             ],
             [
-              5000.002,
-              3749.174
+              4987.802,
+              3780.639
+            ],
+            [
+              5000.038,
+              3748.999
             ],
             [
               5000.494,
@@ -5400,15 +5404,15 @@
           "notes": null,
           "piledToBed": true,
           "positionM": [
-            4907.903,
-            3733.902
+            4992.747,
+            3786.372
           ],
           "waterBodyId": "water.pool.nine-trunks-west",
           "why": {
-            "microGeography": "Piles stand in the pool 2 m below the bank on its eastern shore, where the water is deep enough for a laden pole boat and the reed bed is thin.",
+            "microGeography": "Piles stand at the channel head south of the ring; a short pier makes the last crossing to its bank and the land path climbs north-west to the arch.",
             "playerPurpose": "The arrival point for a player who comes by boat and the travel service to Uxaneet.",
-            "what": "The landing at the head of the pier in the western pool, where the boat from Uxaneet ties up.",
-            "whyHere": "The village is reached by water from Uxaneet as often as by the road. Delegations bring baggage, which comes by boat. No other water within reach of the ring will float a laden hull, so the poling channel that serves the village is drawn to these piles rather than the piles moved out to it (fit `water-to-dock`).",
+            "what": "The landing at the natural head of the authored poling channel south of the nine-trunk ring, where the boat from Uxaneet ties up.",
+            "whyHere": "The village is reached by water from Uxaneet as often as by the road. The dock follows the independently solved channel endpoint (fit `to-water`), rather than moving that waterway to validate a preselected berth.",
             "whyNeighbours": "The pier runs from it to the bank and the landing path climbs from the bank to the arch; the western family's hut, whose household poles the boat, stands in the wall above it."
           }
         }
@@ -5916,12 +5920,12 @@
           "id": "terminal.nine-trunks.landing-channel",
           "kind": "channel",
           "positionM": [
-            4907.903,
-            3733.902
+            4992.747,
+            3786.372
           ],
-          "routeId": "waterway.hist-heartland.nine-trunks.landing",
+          "routeId": "waterway.hist-heartland.nine-trunks",
           "wayId": "boardwalk.nine-trunks.pier",
-          "why": "The poling channel off the heartland water network is drawn up to the western pool and dies at the landing piles; the pier carries the baggage from it up the bank."
+          "why": "The dock and pier meet the independently solved poling channel at its south-side natural head; the land path carries baggage north-west to the ring gate."
         }
       ],
       "parcels": [
@@ -7985,27 +7989,27 @@
           "notes": null,
           "points": [
             [
-              4916.902,
-              3733.902
+              4984.76,
+              3777.417
             ],
             [
-              4907.903,
-              3733.902
+              4992.747,
+              3786.372
             ]
           ],
           "routing": "straight",
           "via": [
             [
-              4916.902,
-              3733.902
+              4984.76,
+              3777.417
             ],
             [
-              4907.903,
-              3733.902
+              4992.747,
+              3786.372
             ]
           ],
           "waterOk": null,
-          "why": "A short piled pier from the bank into the western pool, so a poled boat lands at a deck and not in the reeds.",
+          "why": "A short piled pier from the south bank to the dock at the authored poling channel's natural head, so a boat lands at a deck and not in the reeds.",
           "widthM": 1.8
         },
         {
@@ -8440,7 +8444,9 @@
           "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
           "endsAt": [],
           "fenceClass": "ring-panel",
-          "gapAt": [],
+          "gapAt": [
+            "route.nine-trunks.landing-path"
+          ],
           "group": "fences",
           "id": "fence.nine-trunks.plug-220-l",
           "kind": "fence",
@@ -8730,24 +8736,16 @@
           "notes": null,
           "points": [
             [
-              4916.902,
-              3733.902
+              4984.76,
+              3777.417
             ],
             [
-              4917.403,
-              3735.401
+              4975.645,
+              3768.601
             ],
             [
-              4930.403,
-              3748.401
-            ],
-            [
-              4936.565,
-              3747.955
-            ],
-            [
-              4946.403,
-              3758.401
+              4964.403,
+              3768.401
             ],
             [
               4955.315,
@@ -8757,12 +8755,12 @@
           "routing": "terrain",
           "via": [
             [
-              4916.902,
-              3733.902
+              4984.76,
+              3777.417
             ],
             [
-              4936.565,
-              3747.955
+              4975.645,
+              3768.601
             ],
             [
               4954.261,
@@ -8993,12 +8991,16 @@
               3765.932
             ],
             [
-              4954.403,
-              3766.401
+              4951.403,
+              3760.401
             ],
             [
-              4960.403,
-              3760.401
+              4954.403,
+              3757.401
+            ],
+            [
+              4959.403,
+              3757.401
             ],
             [
               4959.106,
@@ -10959,8 +10961,12 @@
           "notes": null,
           "polygon": [
             [
-              3779.977,
-              6374.153
+              3792.967,
+              6331.389
+            ],
+            [
+              3779.971,
+              6374.197
             ],
             [
               3779.61,
@@ -10979,20 +10985,20 @@
               6436.003
             ],
             [
-              3828.653,
+              3827.896,
               6436.003
             ],
             [
-              3835.197,
-              6420.535
+              3834.03,
+              6428.515
             ],
             [
-              3853.69,
-              6374.982
+              3853.611,
+              6374.912
             ],
             [
-              3796.075,
-              6325.039
+              3797.801,
+              6326.536
             ]
           ],
           "why": "Pusbottom Remembers and the vault heist can turn to a fight in the lanes; the two-metre planks between huts are the tight class."
@@ -11043,16 +11049,16 @@
               6360.986
             ],
             [
-              3860.842,
-              6350.581
+              3860.851,
+              6350.635
             ],
             [
-              3860.624,
-              6350.025
+              3850.963,
+              6323.307
             ],
             [
-              3845.217,
-              6311.174
+              3843.894,
+              6316.239
             ]
           ],
           "why": "Cargo Off the Ledger and A Body in the Lot both end on the deck. The guarded flip puts the patrol here first."
@@ -11303,8 +11309,8 @@
         },
         {
           "centreM": [
-            3824.451,
-            6377.793
+            3820.838,
+            6372.202
           ],
           "cultureKit": "argonian-stilt",
           "id": "district.lilmoth.lighter-quay",
@@ -11312,20 +11318,24 @@
           "notes": "The water’s edge: the deck, the lamp, the licence house, the lighter shed, the divers’ shed and the salvage bench, with the pier and the stair.",
           "polygon": [
             [
-              3794.474,
-              6328.534
+              3796.07,
+              6328.268
             ],
             [
-              3787.94,
-              6372.118
+              3792.71,
+              6331.65
             ],
             [
-              3793.128,
-              6397.02
+              3787.505,
+              6372.25
             ],
             [
-              3800.319,
-              6419.62
+              3787.505,
+              6387.27
+            ],
+            [
+              3800.388,
+              6419.742
             ],
             [
               3809.68,
@@ -19326,7 +19336,7 @@
               6306.735
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3727.965,
@@ -19360,11 +19370,15 @@
               6401.413
             ],
             [
+              3841.505,
+              6403.506
+            ],
+            [
               3852.998,
               6404.004
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3841.001,
@@ -19402,7 +19416,7 @@
               6368.007
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3858.005,
@@ -19433,11 +19447,15 @@
               6350.783
             ],
             [
+              3794.505,
+              6349.506
+            ],
+            [
               3793.105,
               6350.783
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3796.001,
@@ -19468,15 +19486,35 @@
               6396.004
             ],
             [
+              3804.505,
+              6395.506
+            ],
+            [
+              3810.505,
+              6401.506
+            ],
+            [
+              3812.001,
+              6402.006
+            ],
+            [
+              3814.505,
+              6405.506
+            ],
+            [
               3822.0,
               6406.002
+            ],
+            [
+              3823.505,
+              6403.506
             ],
             [
               3829.005,
               6404.004
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3797.004,
@@ -19517,20 +19555,60 @@
               6332.003
             ],
             [
-              3796.002,
-              6350.003
+              3796.505,
+              6333.506
             ],
             [
-              3792.002,
-              6372.003
+              3796.505,
+              6336.506
+            ],
+            [
+              3798.505,
+              6338.506
+            ],
+            [
+              3795.505,
+              6341.506
+            ],
+            [
+              3795.505,
+              6367.506
+            ],
+            [
+              3791.505,
+              6372.506
+            ],
+            [
+              3791.505,
+              6386.506
+            ],
+            [
+              3796.505,
+              6391.506
             ],
             [
               3797.002,
               6396.003
             ],
             [
+              3795.505,
+              6396.506
+            ],
+            [
+              3803.505,
+              6404.506
+            ],
+            [
+              3803.505,
+              6416.506
+            ],
+            [
               3804.002,
               6418.003
+            ],
+            [
+              3811.505,
+              6425.506
             ],
             [
               3812.002,
@@ -19541,12 +19619,36 @@
               6432.003
             ],
             [
+              3830.505,
+              6426.506
+            ],
+            [
+              3830.505,
+              6419.506
+            ],
+            [
               3831.502,
               6419.003
             ],
             [
+              3831.505,
+              6404.506
+            ],
+            [
+              3830.502,
+              6404.003
+            ],
+            [
               3830.502,
               6392.003
+            ],
+            [
+              3836.505,
+              6386.506
+            ],
+            [
+              3839.505,
+              6385.506
             ],
             [
               3846.002,
@@ -19557,7 +19659,7 @@
               6376.129
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3798.002,
@@ -19634,11 +19736,15 @@
               6324.001
             ],
             [
+              3847.505,
+              6325.506
+            ],
+            [
               3847.323,
               6361.297
             ]
           ],
-          "routing": "straight",
+          "routing": "terrain",
           "via": [
             [
               3846.001,

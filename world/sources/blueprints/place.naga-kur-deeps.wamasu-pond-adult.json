@@ -10,6 +10,12 @@
       "pressures": "Boats keep to the pole-marked creek below the pond rather than the shorter line past it; the detour costs two hours and the pole line needs patching every season.",
       "wouldChangeIf": "Killing the animal reopens the direct line and ends the offerings; the tribes disagree about whether that is a gain."
     },
+    "macroEvidence": [
+      {
+        "sourcePaths": ["assetPlan", "contents", "discovery", "eraLayers", "hostility", "notableNpcSlots", "playerPurpose", "questHooks", "relations", "rewardProfile", "season", "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe"],
+        "evidenceRefs": ["district.wamasu-pond-adult.bank", "parcel.wamasu-pond-adult.offering-platform", "landmark.wamasu-pond-adult.cave-mouth", "combat.wamasu-pond-adult.pond", "approach.wamasu-pond-adult.pole-lane", "o.wamasu"]
+      }
+    ],
     "boundary": [
       [
         0.32549,
@@ -1160,7 +1166,8 @@
           "microGeography": "Piled in the dead-end head of the creek at 1 m elevation against the toe of the slope, in water one boat's width wide."
         },
         "hullClass": "canoe",
-        "fit": "water-to-dock"
+        "fit": "water-to-dock",
+        "fixedBerthReason": "The creek ends against an eight-metre escarpment; the load-bearing toe is the only buildable landing within reach of the pond trail."
       }
     ],
     "combatSpaces": [

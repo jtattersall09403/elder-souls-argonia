@@ -35,6 +35,9 @@ rest become required as `workflow` advances):
                   visibleFrom, reachedVia, travelServiceEdges}
   people & power  culture, ownerFaction?, occupants (S-ladder semantic refs),
                   notableNpcSlots
+                  factionPresence? [{factionRef, role}] distinguishes a seat,
+                  chapter, outpost or office from mere territorial ownership;
+                  ownerFaction alone never implies a faction seat (B9a)
   danger/access   *dangerTier, traversalModes, traversalFallback,
                   effortToReach (1–5)
   reward          rewardProfile {kinds, valueTier} (module 20 §12.3b)
@@ -178,6 +181,7 @@ NPC_ROLES = {"named-keeper", "lieutenant", "rank-and-file", "captive", "merchant
 LOOT_ROLES = {"hidden-cache", "grave-goods", "strongroom", "workshop-stock", "shrine-offerings",
               "wreck-cargo", "personal-effects", "ledger-or-document", "unique-item", "provisions"}
 TRAVEL_MODES = {"boat", "ferry", "rootworm", "guide", "lighter", "pilot", "cart", "porter"}
+FACTION_PRESENCE_ROLES = {"seat", "chapter", "outpost", "office", "territory"}
 # --- services[] (promise ledger, 2026-09-05) -------------------------------
 # WHAT THE PLACE PROMISES A PLAYER IT WILL DO FOR THEM. Typed because
 # `rewardProfile.kinds: [services]` said "there are services here" and nothing
@@ -345,6 +349,11 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
     """schemaVersion 2: playerPurpose, hostility, interior, contents,
     rewardProfile.kinds, travelStation. Each check is one line the region
     reviewers can read as a rule."""
+    for i, presence in enumerate(rec.get("factionPresence") or []):
+        if not isinstance(presence, dict) or not str(presence.get("factionRef", "")).startswith("faction."):
+            _fail(errors, rid, f"factionPresence[{i}].factionRef must be a faction id")
+        if not isinstance(presence, dict) or presence.get("role") not in FACTION_PRESENCE_ROLES:
+            _fail(errors, rid, f"factionPresence[{i}].role must be one of {sorted(FACTION_PRESENCE_ROLES)}")
     for i, tr in enumerate(rec.get("terrainRequests") or []):
         if not isinstance(tr, dict) or tr.get("kind") not in TERRAIN_REQUEST_KINDS:
             _fail(errors, rid, f"terrainRequests[{i}].kind must be one of {sorted(TERRAIN_REQUEST_KINDS)}")

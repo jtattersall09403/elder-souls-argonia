@@ -11,6 +11,12 @@
       "pressures": "Labour. Every course needs hands the tribe does not have, so the pens fill from the neighbouring villages; the shelf is also too small for what the shaper has drawn.",
       "wouldChangeIf": "The conduits were cut, or another tribe accepted the invitation to help."
     },
+    "macroEvidence": [
+      {
+        "sourcePaths": ["assetPlan", "contents", "discovery", "eraLayers", "hostility", "notableNpcSlots", "playerPurpose", "questHooks", "relations", "rewardProfile", "season", "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe"],
+        "evidenceRefs": ["district.mazzatun.works", "parcel.mazzatun.conduit-column", "landmark.mazzatun.hist", "combat.mazzatun.yard", "approach.mazzatun.haul-road"]
+      }
+    ],
     "boundary": [
       [
         0.252254471,

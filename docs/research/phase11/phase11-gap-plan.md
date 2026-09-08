@@ -113,7 +113,7 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 | G8 flood band | read the flood-band raster at each footprint; over-water share per district vs the culture band (97 B4) | `blueprint.py` warnings, `site_fields` |
 | G9 dock depth | `docks[].hullClass` + depth sample 100 m off the dock | schema + `compile_settlement` |
 | G11 terrainRequests | Part 6 carve job in the chunk rebuild (joins B2) | `refine_province`/`grade_routes` |
-| G13 first node | integration rule: first `endsAt` on the spine after the spanned parcel is a market/deck/hall | `blueprint_integration` |
+| G13 first node — **DONE 2026-09-08** | `blueprint_integration` infers the Argonian-stilt spine as the track/boardwalk nearest the gate and requires its first geometric building node to be a typed `market`, `shop` or `hall`; `endsAt` remains truthful terminal data, not a false intermediate-node list. The rule is mutation-tested not to broaden to Imperial or other culture grammars | `blueprint_integration` |
 
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
 chain, so with B2.
@@ -167,7 +167,7 @@ root `test:placement` script runs only the blueprint, catalogue, route-grading
 and plot-stat suites (rather than the full world-generation suite); deployment
 requires both it and the normal build job.
 
-### B9 — Everything the prose names is a typed link (owner 2026-09-08)
+### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE
 
 **Cause**: the quest-purpose-without-a-socket finding is one instance of a
 class: prose in `why` blocks, `notes`, purposes and design records names
@@ -176,8 +176,22 @@ factions, landmarks, sockets) that the typed fields do not reference, so
 nothing can check that the thing exists or is delivered (engineering
 standard 12: prose written against the record).
 
-**Mechanism**: a prose-entity check in the blueprint validator and the
-catalogue tests: extract every named entity from the prose surfaces (quest
+**B9a delivered:** `worldgen.place_obligations` classifies every catalogue
+field as delivery, provenance or plot mechanics; the test walks all 800
+records and a new unclassified field is a hard failure. Every semantic leaf
+of a delivery field becomes a stable typed obligation. Existing typed
+resolvers are reused; qualitative `why`/`vibe`/siting promises use compact
+`macroEvidence[]` source-path → real-object links in the five blueprints, so
+the prose is not copied into a second hand-maintained list. The blueprint
+validator rejects missing or dangling evidence at every magnitude. An
+optional typed `factionPresence[]` distinguishes a faction seat/chapter/
+outpost/office from mere `ownerFaction` control. The same module defines and
+tests the Phase 12/13/quest delivery-manifest join (missing, empty, duplicate
+or stale rows fail); those phases emit their manifests when their compilers
+land. The old purpose ledger remains a compatibility view meanwhile.
+
+**B9b still to deliver — referential prose lint:** extract every named entity
+from the prose surfaces (quest
 titles from the quest index, NPC names from `occupants[]`/the cast roster,
 place names from the catalogue, route names from the registry, faction and
 item names from `world/sources/registries/`, service words from
@@ -186,8 +200,8 @@ record: `socketRef`, `occupantRef`, `placeRef`, `routeRef`, `serviceRef`,
 `itemRef`, `factionRef`. HARD where the vocabulary is closed (quests,
 places, routes, services, factions), WARN where it is open (items until
 Phase 13's registers exist). The reverse holds too: a typed ref with no
-mention in the prose is a WARN (the record promises what it does not
-describe). Apply to the five blueprints and the 800 catalogue records;
+mention in the prose is checked for contradiction, not required repetition:
+typed records need not restate every id in prose. Apply to the five blueprints and the 800 catalogue records;
 report counts by entity class. Files: `worldgen/prose_links.py` (new),
 `blueprint.py` hook, `test_catalogue.py`, `lint_prose.py` (shares the
 surface list), docs/text/style-guide.md (one line: name a thing only if
@@ -216,16 +230,19 @@ the record links it). Alongside water: yes.
 - **Pusbottom density.** The owner's Round A question 3 (warren as drawn, about 20 huts/ha, or opened out) has no ruling yet; the redraw keeps the count (15 huts) and only removes the grid.
 - **Nine-Trunks pitch and boundary.** The pitch district is still a hand-drawn box and the boundary a compass circle (B3 covers derivation); the ring itself is now jittered.
 
-- `door-to-way` has no outward rule: a gate lodging whose only way is
-  inside the wall passes. Mechanism: a parcel with `use: gate` must have its
-  door within 60° of the spanned road's OUTSIDE bearing (97 D-approach).
+- **DONE 2026-09-08 — gate door outside.** A parcel with `use: gate` must have
+  its door within 60° of the spanned road's OUTSIDE bearing (97 D-approach).
+  `blueprint_integration` derives the outside endpoint from the place boundary
+  (falling back to the endpoint farthest from the place centre) and reports the
+  door and both bearings. Focused fail/pass tests hold the 60° rule.
 - `compile_society` rewrites `waterways.json` unconditionally (no marker
   like the roads' `routes-repaired-by.json`), and `route_registry.attach`
   re-keys by `(from, to)` so a renamed endpoint pair could mis-attach. Give
   waterways the same natural/published split and marker as roads.
-- Lilmoth: 8 of 10 Argonian reed boardwalks are declared `straight`; module
-  97 Part F says Argonians do not survey. Re-route them `terrain` unless the
-  design record gives the reason (the council bench is the one allowed).
+- **DONE 2026-09-08 — Lilmoth boardwalk routing.** The source held eight
+  `straight` boardwalk rows, including the one allowed surveyed council-bench
+  walk: the other seven changed to `terrain`; with the two already routed,
+  nine of ten now follow the ground and only `bench-walk` stays `straight`.
 - `compile_route_structures.validate`: `riseM` is not cross-checked against
   the mesh (only the derived angle); check it against the bbox on the
   correct axis.

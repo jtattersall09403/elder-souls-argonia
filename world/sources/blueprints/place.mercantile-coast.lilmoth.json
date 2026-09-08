@@ -10,6 +10,67 @@
       "pressures": "Hostile to the An-Xileel successor state and indispensable to a bay that must trade somewhere. It is also built over its own mass grave.",
       "wouldChangeIf": "If the third Hist ever spoke to one faction alone, every institution here would break at once. The rules forbid it."
     },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe"
+        ],
+        "evidenceRefs": [
+          "district.lilmoth.council-crown",
+          "parcel.lilmoth.council-hall",
+          "landmark.lilmoth.third-hist",
+          "combat.lilmoth.quay-deck",
+          "approach.lilmoth.gate-road"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "contents.npcs[n1]"
+        ],
+        "evidenceRefs": [
+          "o.council-factor"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "contents.npcs[n2]"
+        ],
+        "evidenceRefs": [
+          "o.tree-minder"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "contents.npcs[n3]"
+        ],
+        "evidenceRefs": [
+          "o.quay-merchants"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "contents.npcs[n4]"
+        ],
+        "evidenceRefs": [
+          "o.an-xileel-agent"
+        ]
+      }
+    ],
     "boundary": [
       [
         0.482132,
@@ -504,20 +565,24 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.514608965,
-            0.858279707
+            0.51482536,
+            0.858243641
           ],
           [
-            0.513722749,
-            0.864190583
+            0.514369737,
+            0.858702284
           ],
           [
-            0.51442634,
-            0.867567817
+            0.513663809,
+            0.864208521
           ],
           [
-            0.51540156,
-            0.870632795
+            0.513663809,
+            0.866245527
+          ],
+          [
+            0.515411006,
+            0.870649327
           ],
           [
             0.516671231,
@@ -7746,7 +7811,7 @@
         "id": "boardwalk.lilmoth.pusbottom-loop",
         "kind": "boardwalk",
         "widthM": 2.0,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.515087356,
@@ -7811,20 +7876,60 @@
             0.858750168
           ],
           [
-            0.514816115,
-            0.861191341
+            0.514884395,
+            0.858953948
           ],
           [
-            0.514273632,
-            0.864174996
+            0.514884395,
+            0.85936081
+          ],
+          [
+            0.515155636,
+            0.859632051
+          ],
+          [
+            0.514748774,
+            0.860038913
+          ],
+          [
+            0.514748774,
+            0.863565051
+          ],
+          [
+            0.514206292,
+            0.864243154
+          ],
+          [
+            0.514206292,
+            0.866141844
+          ],
+          [
+            0.514884395,
+            0.866819947
           ],
           [
             0.514951736,
             0.867429892
           ],
           [
+            0.514748774,
+            0.867498051
+          ],
+          [
+            0.51583374,
+            0.868583016
+          ],
+          [
+            0.51583374,
+            0.870210464
+          ],
+          [
             0.51590108,
             0.870413547
+          ],
+          [
+            0.516918705,
+            0.87143105
           ],
           [
             0.516986046,
@@ -7835,12 +7940,36 @@
             0.872312237
           ],
           [
+            0.519495498,
+            0.871566671
+          ],
+          [
+            0.519495498,
+            0.870617326
+          ],
+          [
             0.519630649,
             0.870549168
           ],
           [
+            0.519631119,
+            0.868583016
+          ],
+          [
+            0.519495028,
+            0.868514858
+          ],
+          [
             0.519495028,
             0.866887409
+          ],
+          [
+            0.520309222,
+            0.866141844
+          ],
+          [
+            0.520716084,
+            0.866006223
           ],
           [
             0.521597149,
@@ -7856,7 +7985,7 @@
         "id": "boardwalk.lilmoth.pusbottom-cross",
         "kind": "boardwalk",
         "widthM": 2.0,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.514952,
@@ -7882,8 +8011,28 @@
             0.86743
           ],
           [
+            0.515969361,
+            0.86736243
+          ],
+          [
+            0.516783085,
+            0.868176154
+          ],
+          [
+            0.516986,
+            0.868244
+          ],
+          [
+            0.517325567,
+            0.868718637
+          ],
+          [
             0.518342,
             0.868786
+          ],
+          [
+            0.518546154,
+            0.868447395
           ],
           [
             0.519292,
@@ -7895,7 +8044,7 @@
         "id": "boardwalk.lilmoth.quay-lane",
         "kind": "boardwalk",
         "widthM": 2.5,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.521597,
@@ -7914,6 +8063,10 @@
           [
             0.521597,
             0.857665
+          ],
+          [
+            0.52180105,
+            0.857868982
           ],
           [
             0.521776295,
@@ -8035,7 +8188,7 @@
         "id": "boardwalk.lilmoth.lighter-pier",
         "kind": "pier",
         "widthM": 3.0,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.523225,
@@ -8066,7 +8219,7 @@
         "id": "boardwalk.lilmoth.divers-pier",
         "kind": "pier",
         "widthM": 2.0,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.520919,
@@ -8088,6 +8241,10 @@
             0.868163551
           ],
           [
+            0.520987326,
+            0.868447395
+          ],
+          [
             0.522546,
             0.868515
           ]
@@ -8097,7 +8254,7 @@
         "id": "boardwalk.lilmoth.council-landing",
         "kind": "boardwalk",
         "widthM": 1.5,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.505588894,
@@ -8127,7 +8284,7 @@
         "id": "boardwalk.lilmoth.pus-tower-landing",
         "kind": "boardwalk",
         "widthM": 1.5,
-        "routing": "straight",
+        "routing": "terrain",
         "via": [
           [
             0.514816,
@@ -8142,6 +8299,10 @@
           [
             0.514816,
             0.861297163
+          ],
+          [
+            0.514613154,
+            0.861123879
           ],
           [
             0.514423253,
@@ -8554,7 +8715,8 @@
           "microGeography": "The piles stand at the head of the dredged channel in 4 m of water."
         },
         "hullClass": "keeled",
-        "fit": "water-to-dock"
+        "fit": "water-to-dock",
+        "fixedBerthReason": "The built lighter quay is fixed to the load-bearing city shelf and cargo court; moving it offshore would break the crane and warehouse interface."
       },
       {
         "id": "dock.lilmoth.diving-stair",
@@ -8572,7 +8734,8 @@
           "microGeography": "The stair drops from the flat at 0 m to the bed at 2 m."
         },
         "hullClass": "small-draft",
-        "fit": "water-to-dock"
+        "fit": "water-to-dock",
+        "fixedBerthReason": "The diving stair is cut into the drowned-villa edge and is an archaeological access, not a movable timber landing."
       },
       {
         "id": "dock.lilmoth.roadstead-tender",
@@ -8590,7 +8753,8 @@
           "microGeography": "Piles driven into the plateau edge in 10 m of water."
         },
         "hullClass": "keeled",
-        "fit": "water-to-dock"
+        "fit": "water-to-dock",
+        "fixedBerthReason": "The tender mooring is fixed at the edge of the ten-metre roadstead plateau where deep hulls transfer to lighters."
       }
     ],
     "combatSpaces": [
@@ -8765,16 +8929,16 @@
             0.862680897
           ],
           [
-            0.523609831,
-            0.861269753
+            0.523611037,
+            0.861276999
           ],
           [
-            0.52358025,
-            0.861194378
+            0.52227005,
+            0.857570767
           ],
           [
-            0.521490674,
-            0.85592533
+            0.521311258,
+            0.856612295
           ]
         ],
         "clearanceClass": "open",
@@ -8791,8 +8955,12 @@
         ],
         "boundary": [
           [
-            0.512642843,
-            0.864466579
+            0.514404596,
+            0.858666947
+          ],
+          [
+            0.512642007,
+            0.864472522
           ],
           [
             0.512593078,
@@ -8811,20 +8979,20 @@
             0.87285472
           ],
           [
-            0.519244259,
+            0.519141605,
             0.87285472
           ],
           [
-            0.5201318,
-            0.870756896
+            0.51997347,
+            0.871839252
           ],
           [
-            0.522639889,
-            0.864578979
+            0.522629051,
+            0.864569583
           ],
           [
-            0.514826032,
-            0.857805724
+            0.515060195,
+            0.858008703
           ]
         ],
         "clearanceClass": "tight",

@@ -78,6 +78,11 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     interior; flavour alone is dressing, and dressing is
                     unlimited and out of scope. See
                     docs/research/placement-settlements/player-purpose-spectrum.md.
+  macroEvidence[]   the compact macro-to-blueprint review index (B9a):
+                    {sourcePaths:[catalogue JSON paths], evidenceRefs:[object
+                    ids in this blueprint]}. It repeats no catalogue prose;
+                    `worldgen.place_obligations` expands every semantic leaf,
+                    validates the refs, and makes an omitted promise HARD.
   approaches[]      REQUIRED (>=1; >=2 for M3+): how a WALKING player arrives
                     — {id approach.<slug>.<name>, mode (walk|boat|swim),
                     fromRouteId or fromDirection, firstSeen (a landmark or
@@ -176,7 +181,7 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     Parcels may carry `scale` under the same rule; the derived
                     footprint and the compiler honour it)
   docks[]           {id, position, waterBodyId, piledToBed: true, hullClass,
-                    fit?} — a dock is a WATER TERMINAL, not a deck the design
+                    fit?, fixedBerthReason?} — a dock is a WATER TERMINAL, not a deck the design
                     drew near some water (owner review 2026-09-08). Every dock
                     must be answered by a `networkTerminals[]` entry of kind
                     `lane` or `channel` carrying `dockId`, and the serving
@@ -192,11 +197,12 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                                  does for a city);
                                  "to-water" — the berth is moved to where the
                                  published channel already ends.
-                                 Absent, it is DERIVED: water-to-dock when the
-                                 dock's own water passes its hull class and a
-                                 published water end is within 150 m;
-                                 to-water otherwise. The dock's `why` must say
-                                 which was used and why.
+                                 Absent, it is `to-water`: the independent
+                                 natural solve is evidence and the ordinary
+                                 berth follows it. `water-to-dock` additionally
+                                 requires a structured `fixedBerthReason`; prose
+                                 in `why` cannot grant an exception to the
+                                 physical solve it is meant to justify.
   combatSpaces[]    REQUIRED (>=1, each with aroundIds, DERIVED boundary,
                     clearanceClass and a why — 97 D9): open ground where
                     `aroundIds` names the parcel and/or way geometry that makes
@@ -1469,6 +1475,10 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
         if dk.get("fit") is not None and dk.get("fit") not in DOCK_FITS:
             fail(f"dock {did}: fit must be one of {sorted(DOCK_FITS)} — which of the berth and the "
                  f"channel was moved to meet the other")
+        if dk.get("fit") == "water-to-dock" and not str(dk.get("fixedBerthReason") or "").strip():
+            fail(f"dock {did}: fit 'water-to-dock' requires fixedBerthReason — an authored berth "
+                 f"may override the dock-independent natural waterway only for an explicit physical "
+                 f"constraint")
         served = by_dock.get(did) or []
         water_served = [t for t in served if t.get("kind") in ("lane", "channel")]
         if not water_served:
@@ -1544,13 +1554,17 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
 
 
 def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:
-    """water-to-dock when the berth's own water already passes its hull class
-    and a published water end is within DOCK_FIT_SEARCH_M; to-water otherwise."""
+    """Default toward physical evidence, never toward a self-authored berth.
+
+    A fixed berth is an explicit exception and still has to pass depth/reach;
+    every ordinary dock follows the dock-independent natural channel.
+    """
     pos = dk.get("position") or [0, 0]
     extent = float(getattr(survey, "extent_m", fp.PROVINCE_EXTENT_M))
     here = _water_depth_at(survey, float(pos[0]) * extent, float(pos[1]) * extent) if survey else None
     passes = need is None or (here is not None and here + 1e-6 >= need)
-    return "water-to-dock" if (passes and end_m <= DOCK_FIT_SEARCH_M) else "to-water"
+    fixed = bool(str(dk.get("fixedBerthReason") or "").strip())
+    return "water-to-dock" if (fixed and passes and end_m <= DOCK_FIT_SEARCH_M) else "to-water"
 
 
 def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey=None,
@@ -1578,6 +1592,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             fail(f"missing required field '{key}'")
     if known_place_ids is not None and bid not in known_place_ids:
         fail("id not present in the place catalogue — blueprints detail catalogue records")
+    macro_record = catalogue_records().get(bid)
+    if macro_record is not None:
+        from .place_obligations import check_phase11
+        obligation_errors, _ = check_phase11(macro_record, bp)
+        errors += obligation_errors
     if not set(bp.get("causalModel", {})) >= CAUSAL_KEYS:
         fail(f"causalModel must carry {sorted(CAUSAL_KEYS)}")
     if "boundary" in bp and not _polygon_ok(bp["boundary"]):

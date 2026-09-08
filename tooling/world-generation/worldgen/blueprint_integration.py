@@ -15,6 +15,9 @@ checks run inside `compile_settlement` and FAIL the compile:
   parcel-overlap    two parcel footprints may not intersect.
   gate-spans        a parcel with `spans: <way id>` must have that way pass
                     through its footprint (a gate stands ACROSS its road).
+  gate-door-outside a gate's door faces the OUTSIDE end of the road it spans,
+                    within GATE_DOOR_OUTSIDE_TOL_DEG. A lodging door on the
+                    inner side of a wall is not an entrance gate.
   door-to-way       every door threshold must lie within DOOR_REACH_M of a
                     route/boardwalk centreline (of any width) — or the design
                     adds a footpath way that ends at the parcel.
@@ -28,6 +31,9 @@ checks run inside `compile_settlement` and FAIL the compile:
   passage           where a way runs between two building hulls, the clear gap
                     between those hulls must be at least PASSAGE_MIN_M — two
                     character widths (97 C3 / D8), or the player cannot pass.
+  first-node        G13, scoped deliberately to the Argonian-stilt grammar:
+                    infer the main spine as the track/boardwalk nearest a gate,
+                    then require its first building node to be commerce/a hall.
   abuts-snap        (97 C14/E3, owner 2026-09-08: Lilmoth's gate read as "a
                     gate arch, a tower and two wall stubs placed next to each
                     other") a parcel that declares `abuts` must SNAP to its
@@ -119,6 +125,21 @@ TERMINAL_BEARING_RUN_M = 15.0
 # to the road, which — since `yawDeg` is the facing and the hull's long side is
 # on local +x — means its YAW runs parallel to the road's bearing.
 GATE_SQUARE_TOL_DEG = 15.0
+# A gate door may cant towards a verge, but it cannot open onto the inside of
+# the wall. This is the explicit tolerance in gap-plan B8 / 97 D-approach.
+GATE_DOOR_OUTSIDE_TOL_DEG = 60.0
+# G13 is a culture grammar, not a universal settlement law. In Argonian-stilt
+# places the first building close enough to read as a node on the inferred
+# spine must be commerce or a hall. `shop` is the live typed use for Lilmoth's
+# general trader; `deck` is geometry, represented by `use: market`.
+ARGONIAN_STILT_KIT = "argonian-stilt"
+FIRST_NODE_USES = {"market", "shop", "hall"}
+FIRST_NODE_REACH_M = 4.0
+FIRST_NODE_WAY_KINDS = {"track", "boardwalk"}
+NON_NODE_USES = {
+    "gate", "wall", "stair", "entrance", "evidence", "frontage", "haulage",
+    "hoist", "kiln", "quarry", "scaffold", "under-construction",
+}
 # how far out the approach arrow has to start, on the route itself
 # A WATER terminal is a berth, not a continuation. Boats come alongside, so a
 # lane may meet its quay at any angle and three lanes may share one berth —
@@ -277,6 +298,7 @@ def check_integration(bp: dict, survey) -> list[str]:
 
     # gate-spans
     by_way = {w["id"]: (k, w, ln) for k, w, ln in ways}
+    gate_ids: list[str] = []
     for pid, p in parcels.items():
         span = p.get("spans")
         if not span:
@@ -288,6 +310,85 @@ def check_integration(bp: dict, survey) -> list[str]:
         poly = polys.get(pid)
         if poly is None or not ln.intersects(poly):
             errors.append(f"integration: gate {pid} does not stand across {span} — the way must pass through the gate's footprint")
+            continue
+        if p.get("use") != "gate":
+            continue
+        gate_ids.append(pid)
+
+        # B8 / 97 D-approach: choose the road end on the outside of the place.
+        # Prefer an endpoint geometrically outside the place boundary; when the
+        # authored way ends at the gate (both points may be outside/on-edge),
+        # the endpoint farther from the place centre is the outside end.
+        gate_centre = poly.centroid
+        outer = _poly(survey, bp.get("boundary") or [])
+        place_centre = outer.centroid if outer is not None else unary_union(list(polys.values())).centroid
+        endpoints = [Point(ln.coords[0]), Point(ln.coords[-1])]
+        outside = [pt for pt in endpoints if outer is not None and not outer.buffer(0.05).covers(pt)]
+        outside_end = (outside[0] if len(outside) == 1 else
+                       max(endpoints, key=lambda pt: pt.distance(place_centre)))
+        outside_bearing = _bearing((gate_centre.x, gate_centre.y),
+                                   (outside_end.x, outside_end.y))
+        if outside_bearing is None:
+            continue
+        for door in bp.get("doors", []) or []:
+            if door.get("parcelId") != pid or not isinstance(door.get("facingDeg"), (int, float)):
+                continue
+            off = _heading_delta(float(door["facingDeg"]), outside_bearing)
+            if off > GATE_DOOR_OUTSIDE_TOL_DEG:
+                errors.append(
+                    f"integration: gate-door-outside — gate {pid} spans {span}; its outside road bearing is "
+                    f"{outside_bearing:.0f}deg but door {door.get('id')} faces {float(door['facingDeg']):.0f}deg, "
+                    f"{off:.0f}deg away (limit {GATE_DOOR_OUTSIDE_TOL_DEG:.0f}deg). Turn the gate door "
+                    "towards the road outside the wall, not the lodging/yard inside"
+                )
+
+    # G13 / 97 C4 — Argonian-stilt only. `endsAt` names way TERMINALS and cannot
+    # honestly encode a market passed mid-spine. Infer the spine from geometry:
+    # the track/boardwalk nearest any gate (ties prefer the wider way), orient it
+    # away from the gate, then read the first parcel hull within node reach.
+    # The culture guard is intentional and mutation-tested: Mazzatun's works
+    # stair and an Imperial market street follow different first-node grammars.
+    argonian_stilt = any(d.get("cultureKit") == ARGONIAN_STILT_KIT
+                         for d in bp.get("districts", []) or [])
+    gate_polys = [polys[pid] for pid in gate_ids if pid in polys]
+    spine_candidates = [
+        (w, ln) for _key, w, ln in ways
+        if w.get("kind") in FIRST_NODE_WAY_KINDS
+    ]
+    if argonian_stilt and gate_polys and spine_candidates:
+        gates = unary_union(gate_polys)
+        spine, spine_line = min(
+            spine_candidates,
+            key=lambda pair: (pair[1].distance(gates), -float(pair[0].get("widthM", 0.0)),
+                              pair[0].get("id", "")),
+        )
+        coords = list(spine_line.coords)
+        reverse = Point(coords[-1]).distance(gates) < Point(coords[0]).distance(gates)
+        candidates = []
+        for pid, poly in polys.items():
+            if pid in gate_ids or parcels[pid].get("use") in NON_NODE_USES:
+                continue
+            if spine_line.distance(poly) > FIRST_NODE_REACH_M:
+                continue
+            along = spine_line.project(poly.centroid)
+            if reverse:
+                along = spine_line.length - along
+            candidates.append((along, pid, parcels[pid].get("use")))
+        if candidates:
+            _along, first_id, first_use = min(candidates)
+            if first_use not in FIRST_NODE_USES:
+                errors.append(
+                    f"integration: G13 first-node — Argonian-stilt spine inferred as {spine.get('id')} "
+                    f"(the {spine.get('kind')} nearest the gate); its first building node is {first_id} "
+                    f"with use {first_use!r}, not one of {sorted(FIRST_NODE_USES)}. Put commerce/a hall "
+                    "at the first node or move the non-commercial parcel off the spine"
+                )
+        else:
+            errors.append(
+                f"integration: G13 first-node — Argonian-stilt spine inferred as {spine.get('id')} "
+                f"(the {spine.get('kind')} nearest the gate), but it has no building node within "
+                f"{FIRST_NODE_REACH_M:.0f} m"
+            )
 
     # door-to-way
     walk_ways = [ln for k, w, ln in ways if k in ("routes", "boardwalks")]

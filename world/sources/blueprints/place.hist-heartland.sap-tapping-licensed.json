@@ -10,6 +10,12 @@
       "pressures": "The licence is renewed annually and the objection comes most reliably from the tribe whose tree carried the stage last year. Night landings at the same channel are not the crew's work; the crew do not stop them either.",
       "wouldChangeIf": "A licence revoked would empty the stage within a season and make the same channel a poacher's road."
     },
+    "macroEvidence": [
+      {
+        "sourcePaths": ["assetPlan", "contents", "discovery", "eraLayers", "hostility", "notableNpcSlots", "playerPurpose", "questHooks", "relations", "rewardProfile", "season", "sitingPrefs", "status", "traversalModes", "underwaterAccess", "vibe"],
+        "evidenceRefs": ["district.sap-tapping-licensed.stage", "parcel.sap-tapping-licensed.licence-board", "landmark.sap-tapping-licensed.hist", "combat.sap-tapping-licensed.stage-foot", "approach.sap-tapping-licensed.track-from-road"]
+      }
+    ],
     "boundary": [
       [
         0.470333,
@@ -1005,7 +1011,8 @@
           "microGeography": "Piled to the bed at the lip of the channel, past the reed margin, where the water first reaches a canoe's draught."
         },
         "hullClass": "canoe",
-        "fit": "water-to-dock"
+        "fit": "water-to-dock",
+        "fixedBerthReason": "The inspection and loading stage must stand on the firm bank that carries filled sap jars; the surrounding reed margin cannot carry its piles or loads."
       }
     ],
     "combatSpaces": [

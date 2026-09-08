@@ -340,18 +340,17 @@ applies to this phase's packets exactly as to Phase 11's. Interior navmesh
 bakes land with 10b's pipeline — author the geometry now, bake when the
 pipeline exists.
 
-**Both phases CONSUME the purpose ledger.** Every `playerPurpose` entry a
-Phase 11 blueprint carries is a row in
-`world/sources/sites/purpose-ledger.json` (written by
-`worldgen.export_purpose_ledger`, kept byte-current by
-`worldgen/test_export_purpose_ledger.py`), and each row names the phase that
-has to build the thing: Phase 12 for the interiors, fixtures and readables;
-Phase 13 for the loot tables, occupants, services and encounters; the quest
-data for `quest-giver`/`quest-stage`, which also carry the socket and the quest
-id. A row with nothing delivered against it is a hard failure in the phase that
-owns it — the same shape, and the same intent, as an unmet macro promise in
-`worldgen.blueprint_promises`. That is what stops a settlement whose record
-promises a fence, a bed and a quest-giver from shipping as three closed doors.
+**Both phases consume the place-obligation contract.**
+`worldgen.place_obligations` projects every delivery-bearing catalogue detail
+and every blueprint `playerPurpose` into stable typed obligations, preserving
+the originating catalogue path. Provenance and plot mechanics are explicitly
+classified but do not masquerade as content. Phase 12, Phase 13 and quest
+compilers each emit a schema-versioned delivery manifest
+`{obligationId, objectRefs}`; `verify_delivery_manifest` hard-fails missing,
+empty, duplicate and stale/orphan rows. Final assembly joins the expected set
+to all verified manifests before deployment. The committed
+`purpose-ledger.json` remains a Phase-11 compatibility view until those
+consumers replace it; it is not evidence that downstream content exists.
 
 Deliverables:
 
@@ -551,18 +550,11 @@ them on the exemplar areas and a contrast set, roll out per region packet in
 Phase 15. Authoring is semantic (ladder references, §86.0); mine the shipped
 games' data for habitat/encounter patterns where useful (§86.0b).
 
-**Both phases CONSUME the purpose ledger.** Every `playerPurpose` entry a
-Phase 11 blueprint carries is a row in
-`world/sources/sites/purpose-ledger.json` (written by
-`worldgen.export_purpose_ledger`, kept byte-current by
-`worldgen/test_export_purpose_ledger.py`), and each row names the phase that
-has to build the thing: Phase 12 for the interiors, fixtures and readables;
-Phase 13 for the loot tables, occupants, services and encounters; the quest
-data for `quest-giver`/`quest-stage`, which also carry the socket and the quest
-id. A row with nothing delivered against it is a hard failure in the phase that
-owns it — the same shape, and the same intent, as an unmet macro promise in
-`worldgen.blueprint_promises`. That is what stops a settlement whose record
-promises a fence, a bed and a quest-giver from shipping as three closed doors.
+**Both phases consume the place-obligation contract.** See the binding
+contract above: every delivery-bearing catalogue detail and blueprint purpose
+retains its origin and must be answered by the owning phase's verified
+delivery manifest. `purpose-ledger.json` is only the temporary compatibility
+view, never proof that downstream content exists.
 
 Deliverables:
 

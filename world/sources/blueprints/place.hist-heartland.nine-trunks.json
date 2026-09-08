@@ -10,6 +10,44 @@
       "pressures": "Hosting a province's delegations one month a year has made them arrogant the other eleven. Two neighbouring tribes now camp at Greenspring instead, on principle.",
       "wouldChangeIf": "A convocation held elsewhere would halve the village. The falling attendance the Root Talk ground counts publicly is already showing in their rents."
     },
+    "macroEvidence": [
+      {
+        "sourcePaths": [
+          "assetPlan",
+          "contents",
+          "discovery",
+          "eraLayers",
+          "hostility",
+          "notableNpcSlots",
+          "playerPurpose",
+          "questHooks",
+          "relations",
+          "rewardProfile",
+          "season",
+          "sitingPrefs",
+          "status",
+          "traversalModes",
+          "underwaterAccess",
+          "vibe"
+        ],
+        "evidenceRefs": [
+          "district.nine-trunks.ring",
+          "parcel.nine-trunks.pitch-store",
+          "landmark.nine-trunks.trunk-1",
+          "combat.nine-trunks.pitch",
+          "approach.nine-trunks.road-spur"
+        ]
+      },
+      {
+        "sourcePaths": [
+          "contents.npcs[n1]"
+        ],
+        "evidenceRefs": [
+          "parcel.nine-trunks.pitch-store",
+          "o.pitch-taker"
+        ]
+      }
+    ],
     "boundary": [
       [
         0.6744281,
@@ -124,40 +162,44 @@
         "wealth": "middling",
         "boundary": [
           [
-            0.672933195,
-            0.503970212
+            0.672860692,
+            0.503984877
           ],
           [
-            0.666445839,
-            0.505944985
+            0.672669902,
+            0.504105608
           ],
           [
-            0.661423975,
-            0.516539879
+            0.672620959,
+            0.504139597
           ],
           [
-            0.661996987,
-            0.517397439
+            0.672503375,
+            0.504247684
           ],
           [
-            0.676713387,
-            0.510643864
+            0.671167832,
+            0.505570432
           ],
           [
-            0.676968825,
-            0.510440429
+            0.664438274,
+            0.51278301
           ],
           [
-            0.677079209,
-            0.51025359
+            0.661428074,
+            0.516546013
           ],
           [
-            0.678061574,
-            0.508550264
+            0.66199142,
+            0.517389107
           ],
           [
-            0.67810339,
-            0.508465273
+            0.676448819,
+            0.512732668
+          ],
+          [
+            0.678108283,
+            0.508441574
           ],
           [
             0.678170049,
@@ -2223,12 +2265,16 @@
             0.510738
           ],
           [
-            0.671919158,
-            0.510801706
+            0.671512296,
+            0.509987982
           ],
           [
-            0.672732882,
-            0.509987982
+            0.671919158,
+            0.50958112
+          ],
+          [
+            0.672597261,
+            0.50958112
           ],
           [
             0.672557044,
@@ -2400,12 +2446,12 @@
         "routing": "terrain",
         "via": [
           [
-            0.6668333,
-            0.5063941
+            0.676036192,
+            0.512295641
           ],
           [
-            0.6695,
-            0.5083
+            0.6748,
+            0.5111
           ],
           [
             0.6719,
@@ -2418,24 +2464,16 @@
         "why": "The path from the pier head up the bank to the arch: it leaves the water where the bank is low enough to climb with a load.",
         "points": [
           [
-            0.6668333,
-            0.5063941
+            0.676036192,
+            0.512295641
           ],
           [
-            0.666901193,
-            0.506597465
+            0.6748,
+            0.5111
           ],
           [
-            0.668664262,
-            0.508360534
-          ],
-          [
-            0.6695,
-            0.5083
-          ],
-          [
-            0.670834193,
-            0.509716741
+            0.673275365,
+            0.511072947
           ],
           [
             0.672042936,
@@ -2487,26 +2525,26 @@
         "routing": "straight",
         "via": [
           [
-            0.6668333,
-            0.5063941
+            0.676036192,
+            0.512295641
           ],
           [
-            0.6656128,
-            0.5063941
+            0.677119484,
+            0.513510164
           ]
         ],
         "endsAt": [
           "dock.nine-trunks.landing"
         ],
-        "why": "A short piled pier from the bank into the western pool, so a poled boat lands at a deck and not in the reeds.",
+        "why": "A short piled pier from the south bank to the dock at the authored poling channel's natural head, so a boat lands at a deck and not in the reeds.",
         "points": [
           [
-            0.6668333,
-            0.5063941
+            0.676036192,
+            0.512295641
           ],
           [
-            0.6656128,
-            0.5063941
+            0.677119484,
+            0.513510164
           ]
         ]
       }
@@ -3028,6 +3066,9 @@
           ]
         ],
         "assetRef": "mudmother:gv_meshes/argoniannest/argonianfence01",
+        "gapAt": [
+          "route.nine-trunks.landing-path"
+        ],
         "why": "A woven panel between the arch and the road-side trunk, closing the northern shoulder of the gate gap.",
         "points": [
           [
@@ -3531,20 +3572,20 @@
       {
         "id": "dock.nine-trunks.landing",
         "position": [
-          0.6656128,
-          0.5063941
+          0.677119484,
+          0.513510164
         ],
         "waterBodyId": "water.pool.nine-trunks-west",
         "piledToBed": true,
         "why": {
-          "what": "The landing at the head of the pier in the western pool, where the boat from Uxaneet ties up.",
-          "whyHere": "The village is reached by water from Uxaneet as often as by the road. Delegations bring baggage, which comes by boat. No other water within reach of the ring will float a laden hull, so the poling channel that serves the village is drawn to these piles rather than the piles moved out to it (fit `water-to-dock`).",
+          "what": "The landing at the natural head of the authored poling channel south of the nine-trunk ring, where the boat from Uxaneet ties up.",
+          "whyHere": "The village is reached by water from Uxaneet as often as by the road. The dock follows the independently solved channel endpoint (fit `to-water`), rather than moving that waterway to validate a preselected berth.",
           "whyNeighbours": "The pier runs from it to the bank and the landing path climbs from the bank to the arch; the western family's hut, whose household poles the boat, stands in the wall above it.",
           "playerPurpose": "The arrival point for a player who comes by boat and the travel service to Uxaneet.",
-          "microGeography": "Piles stand in the pool 2 m below the bank on its eastern shore, where the water is deep enough for a laden pole boat and the reed bed is thin."
+          "microGeography": "Piles stand at the channel head south of the ring; a short pier makes the last crossing to its bank and the land path climbs north-west to the arch."
         },
         "hullClass": "canoe",
-        "fit": "water-to-dock"
+        "fit": "to-water"
       }
     ],
     "combatSpaces": [
@@ -3927,9 +3968,9 @@
       {
         "id": "approach.nine-trunks.landing",
         "mode": "boat",
-        "fromDirection": "west, up the pool from the Uxaneet channel",
+        "fromDirection": "south, up the authored poling channel from the Uxaneet water network",
         "firstSeen": "landmark.nine-trunks.trunk-1",
-        "sequence": "From the water the nine trunks stand above the reeds like the teeth of a comb, the elder trunk tallest among them; as the boat noses to the pier the bank's mangroves take them one by one; from the pier head the western huts and the wall read together above the bank; the landing path climbs and bends round the water-side trunk, then the arch opens on the left hand.",
+        "sequence": "From the water south of the ring the nine trunks stand above the reeds like the teeth of a comb, the elder trunk tallest among them; as the boat noses to the pier the bank's mangroves take them one by one; from the pier head the southern gap and wall read together above the bank; the landing path climbs north-west to the arch.",
         "wayfinding": "From the pier, climb towards the gap in the trunks; the arch is round the trunk on the right.",
         "notes": "The travel service from Uxaneet lands here. The bank stands 2 m above the water at the pier head and the path rises under a metre in 50 m; the arch is hidden from the pier by the bank's mangroves and re-found at the bend."
       }
@@ -4544,15 +4585,15 @@
       },
       {
         "id": "terminal.nine-trunks.landing-channel",
-        "routeId": "waterway.hist-heartland.nine-trunks.landing",
+        "routeId": "waterway.hist-heartland.nine-trunks",
         "entryUV": [
-          0.6656128,
-          0.5063941
+          0.677119484,
+          0.513510164
         ],
         "wayId": "boardwalk.nine-trunks.pier",
         "kind": "channel",
         "dockId": "dock.nine-trunks.landing",
-        "why": "The poling channel off the heartland water network is drawn up to the western pool and dies at the landing piles; the pier carries the baggage from it up the bank."
+        "why": "The dock and pier meet the independently solved poling channel at its south-side natural head; the land path carries baggage north-west to the ring gate."
       }
     ]
   }

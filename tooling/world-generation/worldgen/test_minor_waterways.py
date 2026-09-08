@@ -7,6 +7,41 @@ import json
 from . import catalogue, compile_minor_waterways as mw
 
 
+class _TargetSurvey:
+    @staticmethod
+    def uv_to_m(u, v):
+        return u * 100.0, v * 100.0
+
+
+def test_natural_target_cannot_be_moved_by_an_authored_dock():
+    rec = {"id": "place.hist.nine-trunks", "positionM": [20.0, 30.0]}
+    dock = {"id": "dock.nine-trunks.landing", "position": [0.9, 0.8],
+            "fit": "water-to-dock", "fixedBerthReason": "immovable stone quay"}
+    assert mw.channel_targets(rec, [dock], _TargetSurvey(), fit_docks=False) == [
+        ("waterway.hist.nine-trunks", (20.0, 30.0), None)]
+    fitted = mw.channel_targets(rec, [dock], _TargetSurvey(), fit_docks=True)
+    assert fitted[0][1] == (90.0, 80.0)
+    assert fitted[0][2] is dock
+
+
+def test_water_to_dock_without_structured_reason_cannot_bias_publication():
+    rec = {"id": "place.hist.nine-trunks", "positionM": [20.0, 30.0]}
+    dock = {"id": "dock.nine-trunks.landing", "position": [0.9, 0.8],
+            "fit": "water-to-dock"}
+    assert mw.channel_targets(rec, [dock], _TargetSurvey(), fit_docks=True) == [
+        ("waterway.hist.nine-trunks", (20.0, 30.0), None)]
+
+
+def test_minor_water_repair_marker_is_content_addressed():
+    natural = {"channels": [{"id": "waterway.a", "px": [[1, 2], [2, 3]]}]}
+    fitted = {"channels": [{"id": "waterway.a", "px": [[4, 5], [2, 3]]}]}
+    marker = mw.repair_marker(natural, fitted)
+    assert marker["naturalSha256"] != marker["publishedSha256"]
+    assert marker == mw.repair_marker(natural, fitted)
+    changed = {"channels": [{"id": "waterway.a", "px": [[1, 3], [2, 3]]}]}
+    assert mw.repair_marker(changed, fitted)["naturalSha256"] != marker["naturalSha256"]
+
+
 def _doc():
     return json.loads(mw.OUT_JSON.read_text())
 
@@ -29,7 +64,11 @@ def test_shape_matches_routes_minor_and_serves_live_plotted_places():
         assert c["kind"] == c["class"] and c["kind"] in {"channel", "river", "crossing"}, c["id"]
         assert len(c["px"]) >= 2 and all(0 <= x < n and 0 <= y < n for x, y in c["px"]), c["id"]
         c0, r0 = c["px"][0]
-        x, z = rec["positionM"]
+        dock = next((d for d in mw.blueprint_docks().get(c["from"], [])
+                     if d.get("id") == c.get("dockId")), None)
+        x, z = ([float(dock["position"][0]) * n * px,
+                 float(dock["position"][1]) * n * px]
+                if dock else rec["positionM"])
         snap = mw.SNAP_M / px + 2          # the path starts at the place's landing
         assert abs(c0 - x / px) <= snap and abs(r0 - z / px) <= snap, c["id"]
         assert 0 < c["lengthKm"] * 1000 <= mw.MAX_CHANNEL_M + px, c["id"]

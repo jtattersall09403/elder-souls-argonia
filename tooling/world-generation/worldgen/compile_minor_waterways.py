@@ -55,6 +55,7 @@ WHAT IT WRITES
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from functools import lru_cache
 from pathlib import Path
@@ -70,6 +71,8 @@ from .site_fields import ProvinceSurvey
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 OUT_JSON = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "waterways-minor.json"
+NATURAL_JSON = OUT_JSON.with_name("waterways-minor-natural.json")
+REPAIR_MARKER = OUT_JSON.with_name("waterways-minor-repaired-by.json")
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
 
 SCHEMA_VERSION = 1
@@ -142,6 +145,27 @@ def dock_fit(dock: dict, s: ProvinceSurvey, depth_grid) -> str:
         # open water floats a poled hull even where it publishes no depth
         here = max(here, bp_mod.MARSH_WATER_CREDIT_M)
     return "water-to-dock" if here + 1e-6 >= need else "to-water"
+
+
+def channel_targets(rec: dict, docks: list[dict], s: ProvinceSurvey,
+                    *, fit_docks: bool) -> list[tuple[str, tuple[float, float], dict | None]]:
+    """Return solve targets without allowing an ordinary dock to author water.
+
+    The natural answer is always based on the macro place anchor.  Only a
+    berth explicitly marked ``water-to-dock`` *and* carrying a structured
+    ``fixedBerthReason`` may replace that physical target in publication.
+    """
+    slug = rec["id"].split(".", 1)[1]
+    if fit_docks:
+        fixed = [d for d in docks
+                 if d.get("fit") == "water-to-dock" and d.get("fixedBerthReason")]
+        if fixed:
+            return [
+                ("waterway." + slug + "." + str(d.get("id", "")).rsplit(".", 1)[-1],
+                 s.uv_to_m(float(d["position"][0]), float(d["position"][1])), d)
+                for d in fixed
+            ]
+    return [("waterway." + slug, tuple(rec["positionM"]), None)]
 
 
 def navigable(s: ProvinceSurvey) -> np.ndarray:
@@ -251,7 +275,7 @@ def classify(s: ProvinceSurvey, path: list[tuple[int, int]], length_m: float, re
     return "river" if corridor >= 0.5 else "channel"
 
 
-def run(write: bool = True) -> dict:
+def _solve(*, fit_docks: bool) -> dict:
     s = ProvinceSurvey()
     files = catalogue.load_region_files()
     cost = cost_surface(s)
@@ -268,16 +292,13 @@ def run(write: bool = True) -> dict:
         reachable = np.isfinite(dist) & nav
         new_cells = np.zeros_like(network)
         for rec in batch:
-            slug = rec["id"].split(".", 1)[1]
-            # One target per BERTH where the blueprint declares them (owner
-            # review 2026-09-08), else the plotted anchor as before.
-            targets: list[tuple[str, tuple[float, float], dict | None]] = []
-            for dock in docks_by_place.get(rec["id"], []):
-                u, v = float(dock["position"][0]), float(dock["position"][1])
-                cid = "waterway." + slug + "." + str(dock.get("id", "")).rsplit(".", 1)[-1]
-                targets.append((cid, s.uv_to_m(u, v), dock))
-            if not targets:
-                targets = [("waterway." + slug, tuple(rec["positionM"]), None)]
+            # The natural solve is deliberately dock-independent.  It records
+            # where the physical water network reaches the place before an
+            # authored berth can bias the answer.  The published solve may
+            # then honour only explicitly-fixed berths.  This prevents a bad
+            # dock from moving the evidence used to validate that same dock.
+            targets = channel_targets(rec, docks_by_place.get(rec["id"], []), s,
+                                      fit_docks=fit_docks)
             for cid, (x, z), dock in targets:
                 row, col = s.grid_px(float(x), float(z))
                 fit = dock_fit(dock, s, depth_grid) if dock else None
@@ -348,11 +369,46 @@ def run(write: bool = True) -> dict:
                     "totalKm": round(sum(t["lengthKm"] for t in channels), 2)},
         "unconnected": unconnected, "channels": channels,
     }
+    return doc
+
+
+def _bytes(doc: dict) -> bytes:
+    return (json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def repair_marker(natural: dict, fitted: dict) -> dict:
+    """Content-address the repair against both immutable inputs and output."""
+    return {
+        "schemaVersion": 1,
+        "kind": "minor-waterways-repair-marker",
+        "naturalSha256": hashlib.sha256(_bytes(natural)).hexdigest(),
+        "publishedSha256": hashlib.sha256(_bytes(fitted)).hexdigest(),
+        "reason": "explicit water-to-dock berths fitted after the dock-independent solve",
+    }
+
+
+def publish(natural: dict, fitted: dict, *, write: bool = True) -> dict:
+    """Publish a berth-fitted solve without losing its independent baseline.
+
+    A repair marker binds the fitted file to the exact natural bytes.  If the
+    physical solve changes, stale fitted geometry is never silently retained.
+    This mirrors the major-road natural/published contract.
+    """
+    doc = fitted
+    marker = repair_marker(natural, doc)
     if write:
-        OUT_JSON.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n",
-                            encoding="utf-8")
+        NATURAL_JSON.write_bytes(_bytes(natural))
+        OUT_JSON.write_bytes(_bytes(doc))
+        REPAIR_MARKER.write_text(json.dumps(marker, ensure_ascii=False, indent=2) + "\n",
+                                 encoding="utf-8")
         write_digest(doc)
     return doc
+
+
+def run(write: bool = True) -> dict:
+    natural = _solve(fit_docks=False)
+    fitted = _solve(fit_docks=True)
+    return publish(natural, fitted, write=write)
 
 
 # --------------------------------------------------------------------------- #
@@ -425,13 +481,12 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--registry", action="store_true",
                     help="also attach geometryId / solved:true to world/sources/routes/registry.json")
     a = ap.parse_args(argv)
-    doc = run(write=False)
+    natural = _solve(fit_docks=False)
+    fitted = _solve(fit_docks=True)
+    doc = publish(natural, fitted, write=not a.dry_run)
     solved: list[dict] = []
-    if not a.dry_run:
-        if a.registry:
-            solved = solve_registry(doc)
-        OUT_JSON.write_text(json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n",
-                            encoding="utf-8")
+    if not a.dry_run and a.registry:
+        solved = solve_registry(doc)
         write_digest(doc, solved)
     sm = doc["summary"]
     print(f"[minor-waterways] {sm['channels']} channels ({sm['totalKm']} km) {sm['byKind']}; "
