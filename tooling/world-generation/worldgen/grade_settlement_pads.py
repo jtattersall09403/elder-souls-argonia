@@ -46,6 +46,12 @@ def _sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def _object_sha(value: object) -> str:
+    """The repository's canonical authored-object identity (no line ending)."""
+    return _sha(json.dumps(value, sort_keys=True, separators=(",", ":"),
+                           ensure_ascii=False).encode("utf-8"))
+
+
 def _points_in_polygon(x: np.ndarray, z: np.ndarray,
                        polygon: list[tuple[float, float]]) -> np.ndarray:
     inside = np.zeros(np.broadcast_shapes(x.shape, z.shape), dtype=bool)
@@ -95,7 +101,7 @@ def pad_specs(documents: list[dict], *, extent_m: float = AUTHORED_UV_EXTENT_M) 
         place_id = blueprint.get("id")
         if not isinstance(place_id, str):
             raise ValueError("blueprint has no id")
-        source_sha = _sha(_canonical(document))
+        source_sha = _object_sha(blueprint)
         for parcel in blueprint.get("parcels", []):
             if parcel.get("groundFit") != "pad":
                 continue

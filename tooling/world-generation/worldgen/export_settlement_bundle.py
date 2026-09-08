@@ -23,12 +23,15 @@ import shutil
 import tempfile
 from pathlib import Path
 
+import numpy as np
+
 from .site_fields import ProvinceSurvey
 from .compile_settlement import (
     blueprint_sha256, _canonical_sha256, compiled_blueprint_objects,
     compiled_terrain_objects,
 )
 from . import catalogue, place_obligations
+from . import grade_settlement_pads
 
 SCHEMA_VERSION = 1
 COLLISION_FRAME = "settlement-pivot-yup-v1"
@@ -185,13 +188,49 @@ def _metres(poly: list, survey: ProvinceSurvey) -> list[list[float]]:
             for p in poly]
 
 
+def validate_applied_pad_grades(receipt: dict | None, blueprints: list[dict],
+                                final_height: np.ndarray | None) -> list[str]:
+    """Bind current pad parcels to the exact final terrain that will ship."""
+    expected = grade_settlement_pads.pad_specs(blueprints)
+    if not expected:
+        return []
+    if not isinstance(receipt, dict):
+        return ["authored pad parcels have no applied terrain receipt"]
+    if final_height is None:
+        return ["authored pad parcels have no final heightfield evidence"]
+    errors: list[str] = []
+    if not grade_settlement_pads.already_applied(receipt, final_height, expected):
+        errors.append("settlement pad receipt does not match current blueprints and final heightfield")
+    actual_rows = receipt.get("pads")
+    if not isinstance(actual_rows, list):
+        return errors + ["settlement pad receipt has no pads list"]
+    expected_identity = [(row["id"], row["sourceBlueprintSha256"]) for row in expected]
+    actual_identity = [(row.get("id"), row.get("sourceBlueprintSha256"))
+                       for row in actual_rows if isinstance(row, dict)]
+    if actual_identity != expected_identity:
+        errors.append("settlement pad receipt does not cover the exact authored pad set")
+    for row in actual_rows:
+        if not isinstance(row, dict):
+            errors.append("settlement pad receipt contains a malformed row")
+        elif row.get("postcondition") != "pass" or row.get("maxHardSurfaceErrorM", 1) > 1e-5:
+            errors.append(f"{row.get('parcelId', 'unknown pad')}: final pad postcondition failed")
+        elif row.get("maxFillM", grade_settlement_pads.MAX_PAD_DELTA_M + 1) \
+                > grade_settlement_pads.MAX_PAD_DELTA_M \
+                or row.get("maxCutM", grade_settlement_pads.MAX_PAD_DELTA_M + 1) \
+                > grade_settlement_pads.MAX_PAD_DELTA_M:
+            errors.append(f"{row.get('parcelId', 'unknown pad')}: pad exceeded the two-metre limit")
+    return errors
+
+
 def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
                  kits_dir: Path = KITS,
                  route_structures_source: Path = ROUTE_STRUCTURES_SOURCE,
                  catalogue_records_by_id: dict[str, dict] | None = None,
-                 terrain_evidence: tuple[dict, dict, dict] | None = None) -> dict:
+                 terrain_evidence: tuple[dict, dict, dict] | None = None,
+                 pad_grade_receipt: dict | None = None,
+                 final_height: np.ndarray | None = None) -> dict:
     survey = ProvinceSurvey()
     if catalogue_records_by_id is None:
         catalogue_records_by_id = {
@@ -205,6 +244,23 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         bp = doc.get("blueprint")
         if bp:
             blueprint_by_id[bp["id"]] = bp
+
+    if any(parcel.get("groundFit") == "pad" for bp in blueprint_by_id.values()
+           for parcel in bp.get("parcels", [])):
+        if pad_grade_receipt is None:
+            try:
+                pad_grade_receipt = _read(grade_settlement_pads.PUBLIC_RECEIPT)
+            except FileNotFoundError:
+                pad_grade_receipt = None
+        if final_height is None:
+            try:
+                final_height = np.load(grade_settlement_pads.DEFAULT_HEIGHTS).astype(np.float32)
+            except FileNotFoundError:
+                final_height = None
+        pad_errors = validate_applied_pad_grades(
+            pad_grade_receipt, [{"blueprint": bp} for bp in blueprint_by_id.values()], final_height)
+        if pad_errors:
+            raise ValueError("settlement pad delivery is incomplete: " + "; ".join(pad_errors))
 
     compiled = []
     kit_names: set[str] = {"route-structures-v1"}
@@ -405,6 +461,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         "phase11ObligationReceipts": sorted(obligation_receipts,
                                               key=lambda receipt: receipt["placeId"]),
         "compiledObjects": sorted(all_compiled_objects, key=lambda row: row["id"]),
+        "settlementPadGrades": pad_grade_receipt,
         "placements": all_placements, "groundTreatments": treatments,
         "navmeshCuts": navmesh, "navmeshLinks": navmesh_links, "doors": doors,
         "stats": {"settlements": len(settlements),

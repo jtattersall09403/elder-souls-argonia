@@ -2,10 +2,12 @@ import json
 import hashlib
 
 import pytest
+import numpy as np
 
 from . import export_settlement_bundle as ex
 from . import compile_settlement as cs
 from . import terrain_requests
+from . import grade_settlement_pads as pad_grades
 
 
 def _write(path, data):
@@ -333,3 +335,27 @@ def test_atomic_writer_replaces_complete_json(tmp_path):
     ex._atomic_json(out, {"schemaVersion": 1, "value": "complete"})
     assert json.loads(out.read_text())["value"] == "complete"
     assert list(tmp_path.glob(".bundle.json.*")) == []
+
+
+def test_pad_delivery_binds_current_blueprint_to_final_height():
+    document = {"schemaVersion": 1, "blueprint": {
+        "id": "place.test.pad", "parcels": [{
+            "id": "parcel.test.pad", "groundFit": "pad", "yawDeg": 12,
+            "footprint": [[0.2, 0.2], [0.3, 0.2], [0.3, 0.3], [0.2, 0.3]],
+        }],
+    }}
+    height = np.linspace(0.0, 0.2, 101, dtype=np.float32)[None, :].repeat(101, 0)
+    specs = pad_grades.pad_specs([document], extent_m=100.0)
+    result, rows = pad_grades.apply_pad_grades(height, specs, metres_per_sample=1.0)
+    receipt = pad_grades.build_receipt(height, result, rows)
+    assert ex.validate_applied_pad_grades(receipt, [document], result) == []
+
+    changed = json.loads(json.dumps(document))
+    changed["blueprint"]["parcels"][0]["yawDeg"] = 30
+    assert any("does not match" in error for error in
+               ex.validate_applied_pad_grades(receipt, [changed], result))
+    moved = result.copy()
+    moved[0, 0] += 0.1
+    assert any("does not match" in error for error in
+               ex.validate_applied_pad_grades(receipt, [document], moved))
+    assert ex.validate_applied_pad_grades(None, [document], result)

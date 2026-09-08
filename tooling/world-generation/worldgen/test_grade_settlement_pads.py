@@ -37,6 +37,7 @@ def test_pad_is_applied_with_bounded_feather_and_receipt():
     receipt = pads.build_receipt(height, result, rows)
     payload = {key: receipt[key] for key in receipt if key != "receiptSha256"}
     assert receipt["receiptSha256"] == pads._sha(pads._canonical(payload))
+    assert rows[0]["sourceBlueprintSha256"] == pads._object_sha(_doc()["blueprint"])
 
 
 def test_pad_grading_is_byte_deterministic_and_receipt_prevents_reapplication():
