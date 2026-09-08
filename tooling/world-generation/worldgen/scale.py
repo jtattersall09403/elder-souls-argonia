@@ -18,15 +18,20 @@ HSCALE = 1.0                    # horizontal world scale (0015; was 3.0, 0006)
 RAW_M = RAW_METRES_PER_SAMPLE * HSCALE            # full-res sample size, world m
 VERTICAL_SCALE_AT_GEOMETRY = 1.0                  # 0015 (was 5.0, 0006 addendum)
 
-# Province UV is an authored coordinate frame, not the last terrain vertex.
-# Its reviewed extent is 4034 raw spacings. This is independently locked by
-# authored hydrology joins: macro pixel i is a cell centre at
-# ``(i + 0.5) * HYDRO_PX_M``; Nine-Trunks pixel 910 is 4992.74496 m and
-# 0.677119484 of this exact extent. The 4033 terrain samples do not define a
-# competing UV frame.
+# Province coordinates have three deliberately different spans. Authored UVs
+# use the historical 4034-spacing frame; terrain meshes physically support
+# 4033 vertices (4032 intervals); and the cell-centred hydrology texture has
+# a 4035-spacing outer edge. Conflating these lets a camera walk beyond the
+# last terrain vertex or makes a texture's coverage redefine authored places.
 SOURCE_GRID_SAMPLES = 4033
-PROVINCE_EXTENT_RAW_SPACINGS = 4034
-PROVINCE_EXTENT_M = PROVINCE_EXTENT_RAW_SPACINGS * RAW_M
+AUTHORED_UV_RAW_SPACINGS = 4034
+AUTHORED_UV_EXTENT_M = AUTHORED_UV_RAW_SPACINGS * RAW_M
+TERRAIN_SUPPORT_EXTENT_M = (SOURCE_GRID_SAMPLES - 1) * RAW_M
+
+# Compatibility alias for authored placement code. New consumers must choose
+# AUTHORED_UV_EXTENT_M or TERRAIN_SUPPORT_EXTENT_M explicitly.
+PROVINCE_EXTENT_RAW_SPACINGS = AUTHORED_UV_RAW_SPACINGS
+PROVINCE_EXTENT_M = AUTHORED_UV_EXTENT_M
 
 # Hydrology, society, routes and climate are 1345 cell-centred texels. Their
 # outer raster edge overshoots the authored frame by one raw spacing (one
@@ -35,16 +40,17 @@ PROVINCE_EXTENT_M = PROVINCE_EXTENT_RAW_SPACINGS * RAW_M
 HYDRO_STEP = 3
 HYDRO_GRID_SAMPLES = 1345
 HYDRO_PX_M = RAW_M * HYDRO_STEP
+HYDRO_RASTER_EDGE_EXTENT_M = HYDRO_GRID_SAMPLES * HYDRO_PX_M
 
 
 def uv_to_metres(value: float) -> float:
-    """Map one normalised province coordinate onto the vertex-lattice span."""
-    return float(value) * PROVINCE_EXTENT_M
+    """Map one normalised authored coordinate onto the authored UV span."""
+    return float(value) * AUTHORED_UV_EXTENT_M
 
 
 def metres_to_uv(value: float) -> float:
     """Inverse of :func:`uv_to_metres`; boundaries 0 and extent map to 0/1."""
-    return float(value) / PROVINCE_EXTENT_M
+    return float(value) / AUTHORED_UV_EXTENT_M
 
 
 def hydro_pixel_center_to_metres(index: float) -> float:

@@ -1,17 +1,22 @@
 import { describe, expect, it } from "vitest";
 import {
-  HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE, PROVINCE_EXTENT_M,
+  AUTHORED_UV_EXTENT_M, HYDRO_GRID_SAMPLES, HYDRO_RASTER_EDGE_EXTENT_M,
+  PROVINCE_EXTENT_M, TERRAIN_SUPPORT_EXTENT_M,
   PROVINCE_EXTENT_RAW_SPACINGS, RAW_METRES_PER_SAMPLE, SOURCE_GRID_SAMPLES,
   hydroPixelCenterToMetres, hydroPixelCenterToUv, metresToHydroPixel,
 } from "./provinceScale";
 
 describe("province cell-centre registration", () => {
-  it("makes the authored extent and macro overshoot explicit", () => {
+  it("keeps authored, terrain-support and raster-edge spans distinct", () => {
     expect(SOURCE_GRID_SAMPLES).toBe(4033);
     expect(HYDRO_GRID_SAMPLES).toBe(1345);
-    expect(PROVINCE_EXTENT_M).toBeCloseTo(PROVINCE_EXTENT_RAW_SPACINGS * RAW_METRES_PER_SAMPLE, 10);
-    expect(HYDRO_GRID_SAMPLES * METRES_PER_HYDRO_SAMPLE - PROVINCE_EXTENT_M)
+    expect(AUTHORED_UV_EXTENT_M).toBeCloseTo(PROVINCE_EXTENT_RAW_SPACINGS * RAW_METRES_PER_SAMPLE, 10);
+    expect(TERRAIN_SUPPORT_EXTENT_M).toBeCloseTo((SOURCE_GRID_SAMPLES - 1) * RAW_METRES_PER_SAMPLE, 10);
+    expect(HYDRO_RASTER_EDGE_EXTENT_M - AUTHORED_UV_EXTENT_M)
       .toBeCloseTo(RAW_METRES_PER_SAMPLE, 10);
+    expect(AUTHORED_UV_EXTENT_M - TERRAIN_SUPPORT_EXTENT_M)
+      .toBeCloseTo(2 * RAW_METRES_PER_SAMPLE, 10);
+    expect(PROVINCE_EXTENT_M).toBe(AUTHORED_UV_EXTENT_M);
   });
 
   it("round-trips pixel centres and locks the Nine-Trunks authored join", () => {

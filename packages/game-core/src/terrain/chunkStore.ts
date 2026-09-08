@@ -23,10 +23,15 @@ export interface ChunkMeta {
 export interface ChunksManifest {
   chunkSamples: number;
   chunkMetres: number;
-  /** Authored province UV span. The last streaming chunk is partial, so grid
-   * × chunkMetres is intentionally larger and must never be used as extent. */
+  /** Physical first-to-last terrain-vertex span and runtime movement bound.
+   * The last streaming chunk is partial, so grid × chunkMetres is larger. */
   sourceGridSamples: number;
   extentM: number;
+  terrainSupportExtentM: number;
+  /** Historical placement frame; use this to convert authored UVs to metres. */
+  authoredUvExtentM: number;
+  /** Outer texture edge, not a placement or movement bound. */
+  hydrologyRasterEdgeExtentM: number;
   verticalScaleAtGeometry: number;
   grid: [number, number];
   chunks: ChunkMeta[];

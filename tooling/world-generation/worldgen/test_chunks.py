@@ -1,6 +1,7 @@
 import numpy as np
 
 from .compile_chunks import CHUNK, chunk_grid
+from .scale import RAW_M, SOURCE_GRID_SAMPLES, TERRAIN_SUPPORT_EXTENT_M
 
 
 def _height(n=600, m=520):
@@ -35,3 +36,10 @@ def test_determinism():
     a = [lods[2] for _, _, lods in chunk_grid(h)]
     b = [lods[2] for _, _, lods in chunk_grid(h)]
     assert all(np.array_equal(x, y) for x, y in zip(a, b))
+
+
+def test_last_chunk_vertex_is_the_published_terrain_support_bound():
+    last_chunk = (SOURCE_GRID_SAMPLES - 1) // CHUNK
+    local_samples = SOURCE_GRID_SAMPLES - last_chunk * CHUNK
+    origin_m = last_chunk * CHUNK * RAW_M
+    assert origin_m + (local_samples - 1) * RAW_M == TERRAIN_SUPPORT_EXTENT_M
