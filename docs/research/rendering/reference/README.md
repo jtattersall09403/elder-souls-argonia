@@ -11,7 +11,7 @@ the pictures those docs are trying to reach.
 
 | File | What it shows | Provenance |
 | --- | --- | --- |
-| `waterfall-target-wide.jpg` | A fall from downstream: narrow bright ribbon feathering at its edges, hugging a vertical face, blown-out impact patch on the pool, low mist drifting off the base and over the water | Owner-supplied frame of Skyrim waterfall footage, 2026-09-08 |
+| `waterfall-target-wide.jpg` | A fall from downstream: narrow bright ribbon feathering at its edges, thrown clear of the face, blown-out impact patch on the pool, low mist drifting off the base and over the water | Owner-supplied frame of Skyrim waterfall footage, 2026-09-08 |
 | `waterfall-target-close.jpg` | The same fall closer and higher: the lip constrained to a notch between rocks, the body brightening downward, and the plunge as the brightest thing in frame | Owner-supplied frame, same session |
 
 What to read off them when comparing our own frames
@@ -19,6 +19,12 @@ What to read off them when comparing our own frames
 
 - The fall is **narrow for its height** and constrained at the lip, not a wide
   curtain hung across the cliff.
+- It is **not** stuck to the rock. It leaves the lip on a ballistic arc set by
+  how fast the river is moving when it gets there, and only looks like it is
+  hugging the face because the rocks either side jut forward of it (owner,
+  2026-09-08). Our sheet is thrown the same way, from the compiled
+  `lipSpeedMS`, so a fall that reads as painted on the cliff means the lip
+  speed is wrong, not that the sheet should be pushed out by hand.
 - Its edges are **feathered**, not cut — the ribbon dissolves sideways into
   spray rather than ending on a hard silhouette.
 - It is the **brightest thing in frame**, near-white against grey rock, and it
