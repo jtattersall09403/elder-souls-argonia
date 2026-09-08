@@ -133,6 +133,8 @@ def main() -> None:
         "gradients": gradients,
         "chunkSamples": manifest["chunkSamples"],
         "chunkMetres": manifest["chunkMetres"],
+        "sourceGridSamples": manifest["sourceGridSamples"],
+        "extentM": manifest["extentM"],
         "verticalScaleAtGeometry": manifest["verticalScaleAtGeometry"],
         "heightsAre": manifest["heightsAre"],
         "encoding": "RG16 PNG: height = minM + ((R<<8)|G) / 65535 * (maxM - minM), per chunk per LOD",

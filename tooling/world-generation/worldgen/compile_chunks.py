@@ -31,7 +31,7 @@ from scipy import ndimage
 
 CHUNK = 256          # samples per chunk edge (LOD0), ~1.4 km at 5.48 m
 LODS = (1, 2, 4)     # decimation factors
-from .scale import RAW_M, VERTICAL_SCALE_AT_GEOMETRY
+from .scale import PROVINCE_EXTENT_M, RAW_M, SOURCE_GRID_SAMPLES, VERTICAL_SCALE_AT_GEOMETRY
 REPO_ROOT = Path(__file__).resolve().parents[3]
 # The asset vault is the sibling checkout (memory: analytical-platform-environment);
 # never an absolute path, so another checkout or CI resolves it the same way.
@@ -91,6 +91,10 @@ def main() -> None:
     manifest = {
         "chunkSamples": CHUNK,
         "chunkMetres": round(CHUNK * RAW_M, 1),
+        # The final chunk is partial.  grid * chunkMetres is therefore a
+        # streaming allocation bound, not the physical province span.
+        "sourceGridSamples": SOURCE_GRID_SAMPLES,
+        "extentM": PROVINCE_EXTENT_M,
         "verticalScaleAtGeometry": VERTICAL_SCALE_AT_GEOMETRY,
         "heightsAre": "true metres, y-up, sea level 0 (0003/0006)",
         "collision": "Rapier heightfield per chunk from lod1 grid (overlap row/col included for stitching)",
