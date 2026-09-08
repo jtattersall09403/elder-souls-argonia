@@ -35,7 +35,8 @@ owns already (because retrofitting them is the expensive version):
     the 8 m spacing floor (97 C5) and the 1.3 m passage (97 C3).
   * WARN-grade module 97 reports, in `warnings` — they never fail a compile:
     the density band (97 C6), the `use` histogram (97 C7), the way width
-    classes (97 C3) and the first-seen line of sight (97 B6/D2): each
+    classes (97 C3), the flood-section audit (97 B4/G8), and the first-seen
+    line of sight (97 B6/D2): each
     approach's `firstSeen` piece must be visible over BARE TERRAIN from the
     approach's first via point, and its height is reported against the region
     palette's canopy height, since canopy is not in the survey.
@@ -96,6 +97,12 @@ FIT_MAX = {"direct": 0.15, "plinth": 0.6, "pad": 2.0, "stilt": float("inf"), "du
 DRESSING_COUNTS = {"dwelling": (3, 6)}
 WORK_USES = {"work", "works", "workshop", "yard", "industry", "quay", "market",
              "kiln", "haulage", "quarry", "hoist"}
+FLOOD_SECTION_WORK_USES = {
+    "work", "works", "workshop", "yard", "industry", "quay", "kiln",
+    "haulage", "quarry", "hoist",
+}
+DRY_SECTION_USES = {"civic", "sacred", "shrine", "ritual"}
+DWELLING_SECTION_USES = {"dwelling", "lodging"}
 
 
 def _seed_int(*parts: str) -> int:
@@ -279,6 +286,202 @@ def _point_in_polygon_uv(u: float, v: float, poly) -> bool:
             if u < xx:
                 inside = not inside
     return inside
+
+
+def _parcel_sample_uvs(parcel: dict) -> list[tuple[float, float]]:
+    """Deterministic footprint evidence: centre, vertices and edge midpoints.
+
+    A centre-only check misses a hut whose piles straddle a waterline. Raster
+    area integration would imply more precision than the authored/measured
+    outline and 3.7--5.5 m fields support, so G8 uses explicit samples.
+    """
+    footprint = parcel.get("footprint") or []
+    raw = [parcel.get("centreUV")]
+    raw.extend(footprint)
+    if len(footprint) >= 2:
+        raw.extend([
+            [(a[0] + b[0]) / 2.0, (a[1] + b[1]) / 2.0]
+            for a, b in zip(footprint, footprint[1:] + footprint[:1])
+        ])
+    out: list[tuple[float, float]] = []
+    seen: set[tuple[float, float]] = set()
+    for uv in raw:
+        if not isinstance(uv, (list, tuple)) or len(uv) != 2:
+            continue
+        point = (float(uv[0]), float(uv[1]))
+        if point not in seen:
+            seen.add(point)
+            out.append(point)
+    return out
+
+
+def _parcel_flood_evidence(parcel: dict, survey: ProvinceSurvey) -> dict:
+    open_count = flood_count = wet_count = 0
+    max_flood = 0
+    samples = _parcel_sample_uvs(parcel)
+    centre_open = False
+    centre_flood = 0
+    centre_wet = False
+    wet_n = int(survey.wet_season.shape[0])
+    wet_px_m = survey.extent_m / wet_n
+    for index, (u, v) in enumerate(samples):
+        x, z = survey.uv_to_m(u, v)
+        row, col = survey.grid_px(x, z)
+        is_open = bool(survey.open_water[row, col])
+        band = int(survey.flood[row, col])
+        wr = min(max(int(z / wet_px_m), 0), wet_n - 1)
+        wc = min(max(int(x / wet_px_m), 0), wet_n - 1)
+        is_wet = bool(survey.wet_season[wr, wc])
+        open_count += int(is_open)
+        flood_count += int(band > 0)
+        wet_count += int(is_wet)
+        max_flood = max(max_flood, band)
+        if index == 0:  # centre is deliberately the first sample
+            centre_open, centre_flood, centre_wet = is_open, band, is_wet
+    count = len(samples)
+    dry = count > 0 and open_count == 0 and flood_count == 0 and wet_count == 0
+    return {
+        "parcelId": parcel.get("id"),
+        "districtId": parcel.get("districtId"),
+        "use": parcel.get("use"),
+        "sampleCount": count,
+        "openWaterSamples": open_count,
+        "floodBandSamples": flood_count,
+        "wetSeasonInundatedSamples": wet_count,
+        "maxFloodBand": max_flood,
+        "centre": {
+            "openWater": centre_open,
+            "floodBand": centre_flood,
+            "wetSeasonInundated": centre_wet,
+        },
+        "overOpenWater": open_count > 0,
+        "touchesFloodSection": open_count > 0 or flood_count > 0 or wet_count > 0,
+        "entireFootprintDryInSurvey": dry,
+    }
+
+
+def flood_band_report(bp: dict, survey: ProvinceSurvey,
+                      kinds: dict[str, str] | None = None) -> tuple[dict, list[str]]:
+    """97 B4 / G8 survey report. All mismatches are deliberately WARN-grade.
+
+    This establishes horizontal section placement only. The available fields
+    do not measure finished-floor height against highest seasonal water, and
+    dry samples alone cannot distinguish a levee from another dry bench; the
+    report states those limits rather than certifying either claim.
+    """
+    kinds = kinds if kinds is not None else pk_mod.kinds_of(bp)
+    evidence = [
+        _parcel_flood_evidence(p, survey) | {"kind": kinds.get(p.get("id"))}
+        for p in sorted(bp.get("parcels", []), key=lambda p: p.get("id", ""))
+    ]
+    by_id = {e["parcelId"]: e for e in evidence}
+    warnings: list[str] = []
+    districts: list[dict] = []
+    bp_id = bp.get("id", "<unknown blueprint>")
+    culture_by_district = {d.get("id"): d.get("cultureKit")
+                           for d in bp.get("districts", [])}
+
+    for district in sorted(bp.get("districts", []), key=lambda d: d.get("id", "")):
+        did = district.get("id")
+        building_ids = [
+            p.get("id") for p in bp.get("parcels", [])
+            if p.get("districtId") == did and kinds.get(p.get("id")) == "building"
+            and not p.get("stacksOn")
+        ]
+        over_ids = [pid for pid in building_ids if by_id[pid]["overOpenWater"]]
+        share = (len(over_ids) / len(building_ids)) if building_ids else None
+        kit = district.get("cultureKit")
+        rule = None
+        conforms = None
+        if kit == "argonian-stilt" and share is not None:
+            rule = {"id": "argonian-stilt-open-water-share", "min": 0.15, "max": 0.30}
+            conforms = 0.15 <= share <= 0.30
+            if not conforms:
+                warnings.append(
+                    f"{bp_id}: 97 B4/G8 — district {did} has {len(over_ids)}/{len(building_ids)} "
+                    f"buildings over open water ({share * 100:.1f}%); argonian-stilt requires 15–30%"
+                )
+        elif kit == "argonian-root":
+            rule = {"id": "argonian-root-no-open-water", "max": 0.0}
+            conforms = not over_ids
+            if not conforms:
+                warnings.append(
+                    f"{bp_id}: 97 B4/G8 — district {did} is argonian-root but buildings "
+                    f"{', '.join(over_ids)} touch open water"
+                )
+        districts.append({
+            "districtId": did,
+            "cultureKit": kit,
+            "buildingCount": len(building_ids),
+            "buildingIds": building_ids,
+            "overOpenWaterBuildingCount": len(over_ids),
+            "overOpenWaterBuildingShare": round(share, 4) if share is not None else None,
+            "overOpenWaterBuildingIds": over_ids,
+            "cultureRule": rule,
+            "conforms": conforms,
+        })
+
+    section_rules: list[dict] = []
+    for parcel in sorted(bp.get("parcels", []), key=lambda p: p.get("id", "")):
+        pid = parcel.get("id")
+        use = str(parcel.get("use") or "").lower()
+        actual = by_id[pid]
+        if use in DRY_SECTION_USES:
+            rule_id = "civic-sacred-dry"
+            conforms = actual["entireFootprintDryInSurvey"]
+            expected = "entire footprint dry in published water, flood-band and wet-season fields"
+        elif (use in DWELLING_SECTION_USES
+              and culture_by_district.get(parcel.get("districtId")) == "argonian-stilt"
+              and parcel.get("groundFit") == "stilt"):
+            # B4's culture rule deliberately puts 15--30% of these buildings
+            # over water. The district share decides how many; an individual
+            # authored stilt home may therefore occupy either side of the line.
+            rule_id = "argonian-stilt-dwelling-water-section"
+            conforms = True
+            expected = "authored stilt dwelling; district 15–30% open-water share controls"
+        elif use in DWELLING_SECTION_USES:
+            rule_id = "dwelling-dry-levee-or-bench"
+            conforms = actual["entireFootprintDryInSurvey"]
+            expected = "dry footprint; survey cannot distinguish levee from another dry bench"
+        elif use in FLOOD_SECTION_WORK_USES:
+            rule_id = "works-quays-flood-section"
+            conforms = actual["touchesFloodSection"]
+            expected = "footprint touches open water, mapped flood band, or wet-season inundation"
+        else:
+            continue
+        section_rules.append({
+            "parcelId": pid,
+            "districtId": parcel.get("districtId"),
+            "use": use,
+            "rule": rule_id,
+            "expected": expected,
+            "conforms": conforms,
+        })
+        if not conforms:
+            warnings.append(
+                f"{bp_id}: 97 B4/G8 — parcel {pid} ({use}) fails {rule_id}; "
+                f"open-water samples {actual['openWaterSamples']}/{actual['sampleCount']}, "
+                f"flood-band samples {actual['floodBandSamples']}/{actual['sampleCount']}, "
+                f"wet-season samples {actual['wetSeasonInundatedSamples']}/{actual['sampleCount']}"
+            )
+
+    report = {
+        "sampling": {
+            "points": "parcel centre + footprint vertices + edge midpoints",
+            "openWater": "ProvinceSurvey.open_water",
+            "floodBand": "ProvinceSurvey.flood; any non-zero band is exposed",
+            "wetSeason": "ProvinceSurvey.wet_season",
+        },
+        "limits": {
+            "floorHeightAboveHighestWaterMeasured": False,
+            "leveeVersusOtherDryBenchDistinguished": False,
+        },
+        "districts": districts,
+        "parcels": evidence,
+        "sectionRules": section_rules,
+        "warningCount": len(warnings),
+    }
+    return report, warnings
 
 
 def _cleared_at(bp: dict, survey, x: float, z: float) -> bool:
@@ -562,6 +765,11 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     # --- 97 B6/D2: does the first-seen object actually read from the approach?
     warns += _first_seen_warnings(bp, survey, shelf)
 
+    # --- 97 B4/G8: horizontal relationship to the final water/flood section.
+    # WARN only: this is design evidence, not a reason to suppress a compile.
+    flood_report, flood_warnings = flood_band_report(bp, survey, kind_of)
+    warns += flood_warnings
+
     # --- clearance masks for the scatter compiler -----------------------
     chunk_m = 462.0  # 16x16 chunks over the 7392 m province (see chunks meta)
     affected: set[tuple[int, int]] = set()
@@ -617,6 +825,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "byParcel": dict(sorted(dressing_report.items())),
             "objects": sum(dressing_report.values()),
         },
+        "floodBandReport": flood_report,
         "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing

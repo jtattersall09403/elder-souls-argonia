@@ -4,6 +4,7 @@ import copy
 import json
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from . import compile_settlement as cs
@@ -157,3 +158,92 @@ def test_only_stilt_door_near_authored_boardwalk_gets_wet_access():
     bp["parcels"][0]["groundFit"] = "stilt"
     door["thresholdUV"] = [2.5, 4.01]
     assert not cs._door_has_boardwalk_access(door, bp, MetreSurvey())
+
+
+class FloodSurvey:
+    """Small aligned fields: each UV tenth is one survey cell."""
+
+    def __init__(self):
+        self.extent_m = 100.0
+        self.grid_n = 10
+        self.grid_px_m = 10.0
+        self.open_water = np.zeros((10, 10), dtype=bool)
+        self.flood = np.zeros((10, 10), dtype=np.uint8)
+        self.wet_season = np.zeros((20, 20), dtype=bool)
+
+    def uv_to_m(self, u, v):
+        return u * self.extent_m, v * self.extent_m
+
+    def grid_px(self, x, z):
+        return min(int(z / 10.0), 9), min(int(x / 10.0), 9)
+
+
+def _flood_parcel(pid, district, use, centre, footprint):
+    return {
+        "id": pid,
+        "districtId": district,
+        "use": use,
+        "kind": "building",
+        "centreUV": centre,
+        "footprint": footprint,
+    }
+
+
+def test_flood_report_samples_real_footprint_and_accepts_stilt_share_and_sections():
+    survey = FloodSurvey()
+    # One corner of `over` reaches cell (8, 8), although its centre stays dry.
+    survey.open_water[8, 8] = True
+    survey.flood[5, 5] = 2
+    bp = {
+        "id": "place.fixture.flood-pass",
+        "districts": [{"id": "stilt", "cultureKit": "argonian-stilt"}],
+        "parcels": [
+            _flood_parcel("civic", "stilt", "civic", [0.15, 0.15],
+                          [[0.14, 0.14], [0.16, 0.14], [0.16, 0.16], [0.14, 0.16]]),
+            _flood_parcel("home", "stilt", "dwelling", [0.35, 0.35],
+                          [[0.34, 0.34], [0.36, 0.34], [0.36, 0.36], [0.34, 0.36]]),
+            _flood_parcel("works", "stilt", "work", [0.55, 0.55],
+                          [[0.54, 0.54], [0.56, 0.54], [0.56, 0.56], [0.54, 0.56]]),
+            _flood_parcel("over", "stilt", "dwelling", [0.75, 0.75],
+                          [[0.74, 0.74], [0.84, 0.74], [0.84, 0.84], [0.74, 0.84]])
+            | {"groundFit": "stilt"},
+        ],
+    }
+    report, warnings = cs.flood_band_report(bp, survey)
+    assert warnings == []
+    district = report["districts"][0]
+    assert district["overOpenWaterBuildingShare"] == 0.25
+    assert district["conforms"] is True
+    over = next(p for p in report["parcels"] if p["parcelId"] == "over")
+    assert over["centre"]["openWater"] is False
+    assert over["overOpenWater"] is True
+    assert over["sampleCount"] == 9  # centre + four vertices + four midpoints
+    assert all(r["conforms"] for r in report["sectionRules"])
+    over_rule = next(r for r in report["sectionRules"] if r["parcelId"] == "over")
+    assert over_rule["rule"] == "argonian-stilt-dwelling-water-section"
+    assert report["limits"]["floorHeightAboveHighestWaterMeasured"] is False
+
+
+def test_flood_report_warns_without_failing_and_holds_root_and_section_rules():
+    survey = FloodSurvey()
+    survey.open_water[2, 2] = True
+    survey.wet_season[12, 12] = True
+    square = lambda u, v: [[u - .01, v - .01], [u + .01, v - .01],
+                           [u + .01, v + .01], [u - .01, v + .01]]
+    bp = {
+        "id": "place.fixture.flood-warn",
+        "districts": [{"id": "root", "cultureKit": "argonian-root"}],
+        "parcels": [
+            _flood_parcel("root-home", "root", "dwelling", [0.25, 0.25], square(.25, .25)),
+            _flood_parcel("wet-shrine", "root", "shrine", [0.625, 0.625], square(.625, .625)),
+            _flood_parcel("dry-work", "root", "work", [0.75, 0.75], square(.75, .75)),
+        ],
+    }
+    report, warnings = cs.flood_band_report(bp, survey)
+    assert report["warningCount"] == 4
+    assert len(warnings) == 4
+    assert any("argonian-root" in warning for warning in warnings)
+    assert any("dwelling-dry-levee-or-bench" in warning for warning in warnings)
+    assert any("civic-sacred-dry" in warning for warning in warnings)
+    assert any("works-quays-flood-section" in warning for warning in warnings)
+    assert report["districts"][0]["conforms"] is False
