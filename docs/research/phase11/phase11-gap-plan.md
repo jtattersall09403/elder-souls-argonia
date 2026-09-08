@@ -92,7 +92,17 @@ changes, re-run.
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
 chain, so with B2.
 
-### B5 — Province plot evenness (owner decision pending)
+### B5 — Province plot re-solve: evenness, and the 28 dots the water rebuild drowned
+
+**Added 2026-09-07 (reconciliation).** The Phase P water rasters now put 28
+committed macro-plot dots in the wrong place: 12 dry places standing in
+1.1–4.6 m of water, 6 submerged places above the 0.8 m gate, 3 binds, 2
+sightlines. They are pinned to their committed dots in
+`macro_plot.RESITE_PINS`, each with a written reason, because moving them
+mid-water-pass would move them twice. This batch re-sites them with the
+evenness re-solve, against the FINAL water rasters, and then deletes the
+pins. The owner accepted the re-solve (2026-09-07); it runs after Round B.
+
 
 Clark–Evans R per zone reproduces (1.44–2.28) but a Monte-Carlo null in the
 same thin masks scores 1.07–1.36, so the true excess is ~1.4, not 1.8, and
@@ -126,7 +136,10 @@ cached pip, ~3 min) and an `npm run test:placement` script. Alongside
 water: yes.
 
 ### B8 — Smaller items (each one brief)
-- **Mazzatun raiders' back way (terrain request).** The lore-grounded path by which the Xit-Xaht bring the taken down off the western ridge into the pens needs a cut step in the rise west of the pens (a 4 m riser on the raster at about 1924, 1316); until the ground is cut the path is out (owner-eye review 2026-09-07).
+
+- **Argonian cart gate** (sourcing gap, 2026-09-07): the only Argonian enclosure piece in the mods we hold clears 1.72 m, a footpath; Argonian places whose spine carries carts (Mazzatun, Lilmoth's estuary wall) use the Redoran or Imperial gate with the record giving the lore reason. Search the wider mod scene (Nexus) for an Argonian/marsh gate ≥ 3.5 m clear; Nexus API with the owner's key; credit + hash.
+- **BM&V newcastle guardhouse** ships with no derivable door (removed from `enclosure-v1`): decide from the plugin door links whether the mod ever used it enterable; if not, it is a mass.
+- **Mazzatun raiders' back way — decided, no terrain request.** The rise west of the pens is a climbable rock face, and climbing is free by default (module 00-core), so the Xit-Xaht bring the taken down it by hand. One walked way onto the shelf, through the gate; the back way is climb-only and no ground is cut (implementation lead 2026-09-07, decision 0041 Taste ledger).
 - **Hut composites' doorway derivation shifted mid-session.** `bamboohut01/02-with-door` now derive a radial doorway; eleven untouched Lilmoth bamboohut02 parcels, the two kiosks and the gate lodging need `blueprint_footprints --doors` / `--orient` re-run once the interiors-index pass lands (their `interiorRef` rows are that pass's).
 - **Pusbottom density.** The owner's Round A question 3 (warren as drawn, about 20 huts/ha, or opened out) has no ruling yet; the redraw keeps the count (15 huts) and only removes the grid.
 - **Nine-Trunks pitch and boundary.** The pitch district is still a hand-drawn box and the boundary a compass circle (B3 covers derivation); the ring itself is now jittered.
@@ -156,6 +169,17 @@ water: yes.
   the water pass's narrative in *Waiting on user*, which duplicates
   `water-handoff.md`. The water agent trims it at close; the Phase 11 row
   was cut in the review.
+- **District boundaries are axis rectangles and three Lilmoth parcels fall
+  outside their own.** `pus-cross-c`, `pus-cross-d` and `salvage-bench` sit
+  across the `pusbottom` / `lighter-quay` seam at x = 3832 m, because the
+  quay's working pieces and the district's huts genuinely interleave there
+  and no straight line separates them. Nothing checks district containment at
+  compile, so it passed. Either redraw the seam as an interlocking polygon
+  pair (the boundary is a free polygon; only Lilmoth's are rectangles) or
+  move the three pieces; then add the containment check to
+  `blueprint_integration` so the next one cannot pass. Found in the
+  2026-09-07 repair round; `hist-court`'s east edge, which was 4 m short of
+  its own tavern, was extended in that round.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 

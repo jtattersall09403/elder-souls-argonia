@@ -76,20 +76,17 @@ show moving caustics; (7) walk and fly modes hold a steady frame rate. Three
 single road cells became shallow fords when pools filled (Stormhold–Thorn,
 Helstrom–Blackrose, Gideon–Stormhold); say if any should be raised.
 
-- **Phase 11 — what to do with the review of 2026-09-07.** Read decision
-  [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
-  (claim ledger, what was fixed, the recommendations on every open call) and
-  the batch plan [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
-  Two things to check in the deployed studio: (a) walk mode — far place
-  names now fade with distance and hide behind hills; (b) "bp ground" — the
-  outlines are depth-tested and never drawn at sea level. **Decisions asked
-  of you** (recommendations in the 0041 section): the plot-evenness
-  re-solve (before Part 8 rollout, not before Round B); the gate tower and
-  Ayleid stair block as solid masses (accept); Argonian records promise a
-  shrine, not a temple (confirm); the hostile floor (make it soft at 55 %,
-  hard at 50 %); the per-place Round A questions in
-  [research/phase11/phase11-part6-round-a.md](research/phase11/phase11-part6-round-a.md).
-  Next session: "Phase 11: deliver gap-filling plan".
+- **Phase 11 — review of 2026-09-07 closed; next: "Phase 11: deliver gap-filling plan".**
+  Both passes are recorded in [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
+  (claim ledger; the second pass: one entrance and a derived front per piece,
+  player purposes on every door, six tool defects fixed, eight principle
+  decisions, gates sourced, Lilmoth re-laid to 0 compile errors) and the
+  batch plan is [research/phase11/phase11-gap-plan.md](research/phase11/phase11-gap-plan.md).
+  All the owner's Round A rulings are applied and in the Taste ledger; the
+  Round A owner-eye review is [research/phase11/phase11-round-a-owner-eye-review.md](research/phase11/phase11-round-a-owner-eye-review.md).
+  Check in the deployed studio when convenient: far names fade and hide
+  behind hills; "bp ground" outlines sit on the ground; each building shows
+  one red door tick and no yaw stub.
 
 - **Combat:** measured reach implementation and validation are complete; deploy for owner review. Phase 10b remains the separate studio-integration step.
 

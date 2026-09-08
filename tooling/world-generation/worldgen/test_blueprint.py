@@ -102,14 +102,15 @@ class _StubLibrary(blueprint_interiors.InteriorLibrary):
 
 @pytest.fixture(autouse=True)
 def default_index(monkeypatch):
-    """Every test runs against an interiors index that DOES derive a doorway for
-    the fixture's piece, on the side the fixture's door sits: the door-on-a-
-    derived-doorway rule (owner 2026-09-05) is exercised on purpose by the tests
-    below, not incidentally by every other one. Tests that want a different
-    index install it over this with `stub_index`."""
+    """Every test runs against an interiors index that DOES derive an entrance
+    for the fixture's piece, on the side the fixture's door sits: the
+    door-on-the-canonical-entrance rule (owner rulings 2026-09-05 / 2026-09-07)
+    is exercised on purpose by the tests below, not incidentally by every other
+    one. Tests that want a different index install it over this with
+    `stub_index`."""
     record = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94,
-              "doorways": [{"sideDeg": (_door_facing() - YAW_DEG) % 360.0, "arcM": 1.3,
-                            "offsetM": [0.0, 3.2], "doorwaySource": "assembly"}]}
+              "entrance": {"sideDeg": (_door_facing() - YAW_DEG) % 360.0, "arcM": 1.3,
+                           "offsetM": [0.0, 3.2], "kind": "assembly"}}
     monkeypatch.setattr(blueprint_interiors, "library",
                         lambda *a, **k: _StubLibrary(record))
 
@@ -328,7 +329,9 @@ def test_parcel_spans_and_interior_are_typed():
     assert any("spans must be a way id" in e for e in errs)
     assert any("interior.kind must be one of" in e for e in errs)
     ok = dict(_bp()["parcels"][0], spans="route.reed-cut-camp.cut-path",
-              interior={"kind": "dwelling"})
+              interior={"kind": "dwelling"},
+              playerPurpose=[{"kind": "bed", "tier": "medium",
+                              "note": "the bed the camp rents to a passing player"}])
     assert blueprint.validate_blueprint(_routed(_bp(parcels=[ok], routes=[_way()])), KNOWN) == []
 
 
@@ -359,18 +362,18 @@ def _door(**over):
     return door
 
 
-SHELL = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94, "doorways": []}
+SHELL = {"interior": "shell", "sizeClass": "large", "planAreaM2": 186.94, "entrance": None}
 MATCHED = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
-           "interiorAssetRef": "pool:arch/hut01_int", "doorways": [{"sideDeg": 180.0, "arcM": 1.3}]}
+           "interiorAssetRef": "pool:arch/hut01_int",
+           "entrance": {"sideDeg": 180.0, "arcM": 1.3, "kind": "opening"}}
 ASSEMBLY = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
             "interiorAssetRef": "pool:arch/hut01_int",
-            "doorways": [{"sideDeg": 180.0, "arcM": 1.3, "offsetM": [0.0, 3.2],
-                          "doorwaySource": "assembly"}]}
+            "entrance": {"sideDeg": 180.0, "arcM": 1.3, "offsetM": [0.0, 3.2],
+                         "kind": "assembly"}}
 RADIAL = {"interior": "matched", "sizeClass": "large", "planAreaM2": 186.94,
           "interiorAssetRef": "pool:arch/hut01_int",
-          "doorways": [{"radial": True, "radiusM": 4.0, "arcM": 1.3,
-                        "doorwaySource": "assembly"}]}
-OPEN = {"interior": "none", "sizeClass": "large", "planAreaM2": 186.94, "doorways": [],
+          "entrance": {"radial": True, "radiusM": 4.0, "arcM": 1.3, "kind": "assembly"}}
+OPEN = {"interior": "none", "sizeClass": "large", "planAreaM2": 186.94, "entrance": None,
         "why": "open to the sky"}
 
 
@@ -411,41 +414,41 @@ def test_size_class_must_match_the_measured_footprint_and_says_the_numbers(stub_
 
 
 def test_a_door_may_not_be_claimed_on_a_blank_wall(stub_index):
-    """The mesh's only doorway is at local 180°; with yaw 40° that is 220° in
+    """The mesh's only entrance is at local 180°; with yaw 40° that is 220° in
     the world, so a door facing 40° is on the back wall."""
     stub_index(MATCHED)
     errs = blueprint.validate_blueprint(_bp(doors=[_door(
         facingDeg=YAW_DEG, interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
-    assert any("sits on no derived doorway" in e for e in errs)
+    assert any("does not sit on the canonical entrance" in e for e in errs)
 
 
-def test_a_door_on_an_assembly_doorway_passes(stub_index):
-    """The doorway a mined kit assembly puts a door part in is the one place a
+def test_a_door_on_an_assembly_entrance_passes(stub_index):
+    """The entrance a mined kit assembly puts a door part in is the one place a
     door may stand (owner ruling 2026-09-05)."""
     stub_index(ASSEMBLY)
     errs = blueprint.validate_blueprint(_bp(doors=[_door(
         facingDeg=(180.0 + YAW_DEG) % 360.0,
         interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))]), KNOWN)
-    # only the doorway rule is under test here: this door looks off the base
+    # only the entrance rule is under test here: this door looks off the base
     # fixture's plank walk, which the door-on-way rule reports separately.
-    assert not any("sits on no derived doorway" in e for e in errs)
+    assert not any("does not sit on the canonical entrance" in e for e in errs)
 
 
-def test_a_piece_with_no_derived_doorway_may_not_carry_a_door(stub_index):
+def test_a_piece_with_no_derived_entrance_may_not_carry_a_door(stub_index):
     stub_index(SHELL)
     errs = blueprint.validate_blueprint(_bp(), KNOWN)
-    message = next(e for e in errs if "no derived doorway" in e)
+    message = next(e for e in errs if "no derived entrance" in e)
     assert "use the composite that ships the door, or record a sourcing gap" in message
 
 
-def test_a_piece_with_an_inside_and_no_doorway_fails_hard(stub_index):
-    """Every enclosed piece in the index now carries a derived doorway, so a
+def test_a_piece_with_an_inside_and_no_entrance_fails_hard(stub_index):
+    """Every enclosed piece in the index now carries a derived entrance, so a
     shell without one means a stale kit and the compile stops (owner ruling
     2026-09-05, restoring the hard gate)."""
     stub_index(SHELL)
     warnings = []
     errs = blueprint.validate_blueprint(_bp(doors=[]), KNOWN, warnings=warnings)
-    assert any("its kit derives no doorway" in e for e in errs)
+    assert any("its kit derives no entrance" in e for e in errs)
     assert not any("record a sourcing gap" in w for w in warnings)
 
 
@@ -455,25 +458,36 @@ def _radial_threshold(radius_m: float):
     return [round(cx + radius_m / blueprint_footprints.PROVINCE_EXTENT_M, 9), cz]
 
 
-def test_a_radial_doorway_passes_on_the_ring_and_fails_off_it(stub_index):
+def test_a_radial_entrance_passes_on_the_ring_and_fails_off_it(stub_index):
     stub_index(RADIAL)
     ok = _door(facingDeg=90.0, thresholdUV=_radial_threshold(4.0),
                interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))
-    assert not any("doorway" in e for e in
+    assert not any("canonical entrance" in e for e in
                    blueprint.validate_blueprint(_bp(doors=[ok]), KNOWN))
     off = _door(facingDeg=90.0, thresholdUV=_radial_threshold(6.5),
                 interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))
     errs = blueprint.validate_blueprint(_bp(doors=[off]), KNOWN)
-    assert any("sits on no derived doorway" in e and "radial ring" in e for e in errs)
+    assert any("does not sit on the canonical entrance" in e and "radial ring" in e for e in errs)
 
 
-def test_the_derived_doorway_ref_is_written_back(stub_index):
+def test_a_legacy_doorway_ref_is_stripped_rather_than_rewritten(stub_index):
+    """There is one entrance now, so there is no index to record: `--doors`
+    checks the door against it and drops the stale field (owner 2026-09-07)."""
     stub_index(ASSEMBLY)
-    bp = _bp(doors=[_door(facingDeg=(180.0 + YAW_DEG) % 360.0,
+    door = _door(facingDeg=(180.0 + YAW_DEG) % 360.0,
+                 interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))
+    door["doorwayRef"] = 3
+    bp = _bp(doors=[door])
+    assert blueprint_footprints.apply_doors_to_blueprint(bp) == []
+    assert "doorwayRef" not in bp["doors"][0]
+
+
+def test_a_door_off_the_entrance_is_reported_by_the_doors_pass(stub_index):
+    stub_index(ASSEMBLY)
+    bp = _bp(doors=[_door(facingDeg=YAW_DEG,
                           interiorClaim=_claim(interiorRef="pool:arch/hut01_int"))])
     problems = blueprint_footprints.apply_doors_to_blueprint(bp)
-    assert problems == []
-    assert bp["doors"][0]["doorwayRef"] == 0
+    assert problems and "canonical entrance" in problems[0]
 
 
 def test_the_report_lists_what_each_parcel_owes(stub_index):
@@ -544,11 +558,57 @@ def test_abuts_must_name_a_parcel_and_say_why():
 
 
 def test_density_band_and_use_mix_are_warnings_not_failures():
-    """97 C6 / C7 — warn-grade, with the number in the message."""
+    """97 C6 / C7 — warn-grade, with the number in the message.
+
+    Measured over the BUILT hull (audit §6.3): the one-hut fixture draws a
+    27 ha boundary round a camp of 0.05 ha, and judging a camp on the ground
+    its approaches cross said nothing about the camp. Spread the same huts over
+    a kilometre and the band bites.
+    """
     errs, warns = blueprint.validate_blueprint_full(_bp(), KNOWN)
     assert errs == []
-    assert any("97 C6" in w for w in warns)
+    assert not any("97 C6" in w for w in warns), warns
     assert all("97 C6" not in e for e in errs)
+
+    spread = _yaw_parcels([0, 20, 45, 70, 100, 130, 165, 200, 240, 300])
+    for i, parcel in enumerate(spread):
+        u = 0.13 + i * 0.02          # ~150 m apart: a scatter, not a place
+        parcel["centreUV"] = [u, 0.13]
+        parcel["footprint"] = _derived(centre_uv=[u, 0.13], yaw=parcel["yawDeg"])
+    errs2, warns2 = blueprint.validate_blueprint_full(
+        _bp(parcels=spread, doors=[],
+            scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10}), KNOWN)
+    assert any("97 C6" in w and "built hull" in w for w in warns2), warns2
+    assert all("97 C6" not in e for e in errs2)
+
+
+def test_density_skips_a_lair_and_counts_no_props(monkeypatch):
+    """97 C6 (decision 2026-09-07): the bands are settlement bands, and a rack
+    or a notice board is dressing rather than a building."""
+    record = {"id": "place.testreg.reed-cut-camp",
+              "classification": {"class": "lair", "magnitude": "M2"}}
+    monkeypatch.setattr(blueprint, "catalogue_records",
+                        lambda: {"place.testreg.reed-cut-camp": record})
+    spread = _yaw_parcels([0, 20, 45, 70, 100, 130, 165, 200, 240, 300])
+    for i, parcel in enumerate(spread):
+        u = 0.13 + i * 0.02
+        parcel["centreUV"] = [u, 0.13]
+        parcel["footprint"] = _derived(centre_uv=[u, 0.13], yaw=parcel["yawDeg"])
+    _errs, warns = blueprint.validate_blueprint_full(
+        _bp(parcels=spread, doors=[],
+            scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10}), KNOWN)
+    assert not any("97 C6" in w for w in warns), warns
+
+
+def test_scale_grounding_counts_buildings_and_structures_not_props():
+    """97 D7 / audit §6.5 — a stacked deck is the same structure seen from
+    higher up, and a prop is dressing; neither is a second building."""
+    hut = _bp()["parcels"][0]
+    deck = dict(hut, id="parcel.reed-cut-camp.deck",
+                stacksOn="parcel.reed-cut-camp.hut")
+    errs = blueprint.validate_blueprint(
+        _bp(parcels=[hut, deck], doors=[]), KNOWN)
+    assert all("buildingsPlanned" not in e for e in errs), errs
 
 
 def test_way_width_classes_are_reported_with_their_numbers():
@@ -776,3 +836,103 @@ def test_cli_accepts_check_and_id(capsys):
     assert blueprint.main(["--check"]) in (0, 1)
     assert blueprint.main(["--id", "no-such-place"]) == 2
     assert "no blueprint matches" in capsys.readouterr().err
+
+
+# --------------------------------------------------------------------------- #
+# A piece with no door still has a front: the side its authors left open (owner
+# ruling + steer 2026-09-07). It must look at the line the player arrives on —
+# HARD for an enclosure edge, WARN for the rest — and an enclosure edge must
+# also face away from what the boundary encloses. Paired fail/pass throughout.
+# --------------------------------------------------------------------------- #
+FRONT_ASSET = "kit:wallgate01"
+
+
+def _front_bp(yaw: float, use: str = "gate", way_pts=None) -> dict:
+    """A square place with one piece on its EAST edge. Away from the middle is
+    due east (90°), and the way runs east of the piece too, so a front of 90°
+    satisfies both contracts and 270° breaks both."""
+    return {
+        "id": "place.testreg.walled",
+        "boundary": [[0.10, 0.10], [0.20, 0.10], [0.20, 0.20], [0.10, 0.20]],
+        "parcels": [{"id": "parcel.walled.gate", "use": use, "assetRef": FRONT_ASSET,
+                     "yawDeg": yaw, "centreUV": [0.20, 0.15]}],
+        "routes": [{"id": "route.walled.gate-road", "kind": "road", "widthM": 4.3,
+                    "points": way_pts or [[0.22, 0.14], [0.22, 0.16]]}],
+    }
+
+
+@pytest.fixture()
+def front_index(monkeypatch):
+    def install(front):
+        record = {"interior": "none", "entrance": None, "front": front}
+        library = _StubLibrary(record)
+        library.by_asset = {FRONT_ASSET: record}
+        monkeypatch.setattr(blueprint_interiors, "library", lambda *a, **k: library)
+    return install
+
+
+def test_a_front_turned_away_from_the_approach_is_reported_with_the_yaw_to_take(front_index):
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    hard, warn = blueprint._front_failures(_front_bp(yaw=270.0))
+    assert any("the way the player arrives on" in m for m in warn)
+    assert any("co-placement" in m for m in warn)
+
+
+def test_a_front_looking_at_the_approach_passes(front_index):
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    assert blueprint._front_failures(_front_bp(yaw=90.0)) == ([], [])
+
+
+def test_an_ordinary_piece_only_warns_while_an_enclosure_edge_fails(front_index):
+    """The approach is advice — how a piece is usually planted, not a law about
+    this plot. What turns a wrong-way piece into a hard failure is being an
+    enclosure edge, and it fails on the enclosure rule."""
+    front_index({"deg": 0.0, "evidence": "asymmetry", "outside": True})
+    hard, warn = blueprint._front_failures(_front_bp(yaw=270.0, use="shrine"))
+    assert hard == [] and len(warn) == 1
+    hard, warn = blueprint._front_failures(_front_bp(yaw=270.0, use="wall"))
+    assert any("a gate or wall faces out" in m for m in hard)
+    assert any("the way the player arrives on" in m for m in warn)
+
+
+def test_a_piece_with_no_derived_front_may_take_any_yaw(front_index):
+    """A symmetric tower: `front: null` is the right answer, not a gap."""
+    front_index(None)
+    assert blueprint._front_failures(_front_bp(yaw=270.0, use="tower")) == ([], [])
+
+
+def test_an_enclosure_edge_must_face_away_from_what_the_boundary_encloses(front_index):
+    """The rule reads the BOUNDARY, so it works for a lair or a shrine ring as
+    well as a town. Here the way is moved inside the boundary, so the approach
+    contract is satisfied and only the enclosure one can fail."""
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    bp = _front_bp(yaw=270.0, way_pts=[[0.18, 0.14], [0.18, 0.16]])
+    hard, _ = blueprint._front_failures(bp)
+    assert any("away from what this place's boundary encloses" in m for m in hard)
+    assert not any("the way the player arrives on" in m for m in hard)
+
+
+def test_the_road_must_come_in_through_the_outside_of_a_gate(front_index):
+    """The gate faces out and stands at its road, but the road it spans runs off
+    WEST, behind it — so the arch is not what the player comes through."""
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    bp = _front_bp(yaw=90.0)
+    bp["parcels"][0]["spans"] = "route.walled.gate-road"
+    bp["routes"][0]["points"] = [[0.20, 0.15], [0.05, 0.15]]
+    hard, _ = blueprint._front_failures(bp)
+    assert any("The road comes in through the outside of a gate" in m for m in hard)
+
+    bp["routes"][0]["points"] = [[0.20, 0.15], [0.35, 0.15]]
+    assert blueprint._front_failures(bp) == ([], [])
+
+
+def test_a_way_that_only_ends_at_the_gate_sets_no_outer_side(front_index):
+    """The road comes up to the arch from inside and stops: there is no outer
+    end to face, so the enclosure rule is the whole contract."""
+    front_index({"deg": 0.0, "evidence": "co-placement", "outside": True})
+    bp = _front_bp(yaw=90.0)
+    bp["parcels"][0]["spans"] = "route.walled.gate-road"
+    bp["routes"][0]["points"] = [[0.20, 0.15], [0.05, 0.15]]
+    assert blueprint._front_failures(bp)[0]           # crossing: the road is behind it
+    bp["routes"][0]["endsAt"] = ["parcel.walled.gate"]
+    assert blueprint._front_failures(bp) == ([], [])

@@ -25,3 +25,32 @@ def test_rules_catch_owner_examples():
     res2.add_text("t", "r", "why.pressures", "Trial-keepers set the route each year and will not explain it.")
     assert "and-closer" in {h.rule for h in res2.hits} or "will-not-say" in {h.rule for h in res2.hits}
     assert soft is not None
+
+
+def test_markdown_is_linted_by_paragraph_not_by_line(tmp_path):
+    """Audit §6.6 — markdown is hard-wrapped, so a line-at-a-time lint read
+    every wrap as a sentence ending on a preposition."""
+    doc = tmp_path / "note.md"
+    doc.write_text(
+        "The haul road climbs the shelf from\n"
+        "the mouth of the cut, and the gate stands across it.\n",
+        encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_markdown(res, doc)
+    assert not any(h.rule == "final-preposition" for h in res.hard_hits())
+
+
+def test_a_code_span_does_not_end_a_sentence_on_a_preposition(tmp_path):
+    doc = tmp_path / "note.md"
+    doc.write_text("The terrace track runs from `route.mazzatun.haul`.\n", encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_markdown(res, doc)
+    assert not any(h.rule == "final-preposition" for h in res.hard_hits())
+
+
+def test_a_real_final_preposition_is_still_caught(tmp_path):
+    doc = tmp_path / "note.md"
+    doc.write_text("The northern water approach is the one they asked for.\n", encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_markdown(res, doc)
+    assert any(h.rule == "final-preposition" for h in res.hard_hits())

@@ -173,49 +173,69 @@ def _parcels(bp: dict, extent_m: float) -> list[dict]:
             "notes": p.get("notes"),
             "polygon": poly,
             "centreM": centre,
-            "doorways": parcel_doorways(p, extent_m),
+            "entrance": parcel_entrance(p, extent_m),
+            "front": parcel_front(p),
         })
     out.sort(key=lambda p: str(p["id"]))
     return out
 
 
-def parcel_doorways(parcel: dict, extent_m: float,
-                    interiors: "bi.InteriorLibrary | None" = None) -> list[dict]:
-    """The DERIVED doorways of a parcel's piece, in world metres — what the
-    studio draws on the building's outline (owner ruling 2026-09-05). A doorway
-    is a measured thing: a door part's offset in a mined assembly, or an opening
-    read off the shell's geometry, never an authored bearing."""
+def parcel_entrance(parcel: dict, extent_m: float,
+                    interiors: "bi.InteriorLibrary | None" = None) -> dict | None:
+    """The ONE canonical entrance of a parcel's piece, in world metres — the
+    single glyph the studio draws (owner ruling 2026-09-07).
+
+    An entrance is a measured thing: the mod's own load door, a door part the
+    authors placed on this shell, the family's own door mesh, or an opening read
+    off the geometry — ranked in the interiors index, never an authored bearing.
+    The losing evidence stays in the index's `provenance` for audit and is not
+    exported: three glyphs were three answers to one question.
+    """
     interiors = interiors if interiors is not None else bi.library()
     record = interiors.get(parcel.get("assetRef")) if isinstance(parcel.get("assetRef"), str) else None
+    way = bi.entrance(record)
+    if way is None:
+        return None
     centre = _point_m(parcel.get("centreUV"), extent_m)
     yaw = float(parcel.get("yawDeg") or 0.0)
-    out = []
-    for dw in bi.doorways(record):
-        radial = bi.is_radial(dw)
-        world = None
-        off = bi.doorway_offset_m(dw, yaw)
-        if centre and off:
-            world = [round(centre[0] + off[0], 3), round(centre[1] + off[1], 3)]
-        entry = {
-            "worldM": world,
-            "bearingDeg": None if radial else round((float(dw["sideDeg"]) + yaw) % 360.0, 1),
-            # older index rows carry no `doorwaySource`: those were all measured
-            # off the shell's own geometry, which is what "geometry" means here.
-            "source": dw.get("doorwaySource") or "geometry",
-            # what KIND of way in it is (an opening, an open front, a hung leaf,
-            # a door part in an assembly) and which interior kit the door on it
-            # teleports the player into — the two things a reviewer asks of a
-            # doorway (owner rulings 2026-09-05).
-            "kind": dw.get("kind"),
-            "interiorRef": interiors.interior_ref(record) if record else None,
-            "arcM": dw.get("arcM"),
-        }
-        if radial:
-            radius = bi.doorway_radius_m(dw)
-            entry["radial"] = True
-            entry["radiusM"] = round(radius, 3) if radius is not None else None
-        out.append(entry)
-    return out
+    radial = bi.is_radial(way)
+    world = None
+    off = bi.entrance_offset_m(way, yaw)
+    if centre and off:
+        world = [round(centre[0] + off[0], 3), round(centre[1] + off[1], 3)]
+    entry = {
+        "worldM": world,
+        "bearingDeg": None if radial else round((float(way["sideDeg"]) + yaw) % 360.0, 1),
+        # which evidence won the ranking: the line the click panel prints, so a
+        # reviewer can see whether the door is the mod's own or a measurement.
+        "kind": way.get("kind"),
+        "interiorRef": interiors.interior_ref(record) if record else None,
+        "arcM": way.get("arcM"),
+    }
+    if radial:
+        radius = bi.entrance_radius_m(way)
+        entry["radial"] = True
+        entry["radiusM"] = round(radius, 3) if radius is not None else None
+    return entry
+
+
+def parcel_front(parcel: dict, interiors: "bi.InteriorLibrary | None" = None) -> dict | None:
+    """The derived front of a parcel's piece — which way round a gate arch, a
+    wall stub or a tower goes when it has no door to say (owner ruling
+    2026-09-07). `deg` is in the piece's own frame; the world bearing is
+    `deg + yawDeg`."""
+    interiors = interiors if interiors is not None else bi.library()
+    record = interiors.get(parcel.get("assetRef")) if isinstance(parcel.get("assetRef"), str) else None
+    front = bi.front(record)
+    if front is None:
+        return None
+    yaw = float(parcel.get("yawDeg") or 0.0)
+    return {
+        "deg": front.get("deg"),
+        "worldDeg": round((float(front["deg"]) + yaw) % 360.0, 1),
+        "evidence": front.get("evidence"),
+        "outside": bool(front.get("outside")),
+    }
 
 
 def _doors(bp: dict, extent_m: float) -> list[dict]:
@@ -226,7 +246,6 @@ def _doors(bp: dict, extent_m: float) -> list[dict]:
             "id": d.get("id"),
             "parcelId": d.get("parcelId"),
             "facingDeg": d.get("facingDeg"),
-            "doorwayRef": d.get("doorwayRef") if isinstance(d.get("doorwayRef"), int) else None,
             "thresholdM": _point_m(d.get("thresholdUV"), extent_m),
             "interiorClaim": {
                 "sizeClass": claim.get("sizeClass"),

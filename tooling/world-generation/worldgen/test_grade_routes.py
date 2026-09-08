@@ -5,6 +5,7 @@ from __future__ import annotations
 import math
 
 import numpy as np
+import pytest
 
 from worldgen import grade_routes as gr
 from worldgen.scale import RAW_M
@@ -179,6 +180,7 @@ MAX_STEEPENED_CELLS = 20000
 MAX_RIM_P95_DEG = 47.0   # the un-benched grader left 47.6
 
 
+@pytest.mark.slow
 def test_province_grading_fills_nothing_deeper_than_the_cap(tmp_path):
     h, graded, ways, stats = _province_grade(tmp_path)
     fill = graded - h
@@ -186,6 +188,7 @@ def test_province_grading_fills_nothing_deeper_than_the_cap(tmp_path):
     assert int((fill > 10.0).sum()) == 0
 
 
+@pytest.mark.slow
 def test_province_grading_leaves_no_unreported_wall(tmp_path):
     """Every face grading leaves steeper than 30 deg is either ground that was
     already that steep, or inside a window the grader reported as over-cap —

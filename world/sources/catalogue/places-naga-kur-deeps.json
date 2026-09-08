@@ -3601,38 +3601,38 @@
       "underwaterAccess": "shallow-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.43245,
-        "v": 0.65481
+        "u": 0.49789,
+        "v": 0.76859
       },
       "positionM": [
-        3188.7,
-        4828.2
+        3671.2,
+        5667.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0257",
-          "score": 4.514,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "siteId": "site.free.any-shallow-marsh-1124",
+          "score": 4.546,
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1127",
+          "siteId": "site.free.roadside-0258",
+          "score": 4.525,
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1123",
           "score": 4.513,
-          "whyLost": "too close to place.naga-kur-deeps.naga-village-settled"
-        },
-        {
-          "siteId": "site.free.roadside-0254",
-          "score": 4.463,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
+          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 113 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 340 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 113.0,
-        "distanceToWaterM": 5.5,
-        "score": 3.471
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 340.0,
+        "distanceToWaterM": 19.8,
+        "score": 3.542
       },
       "hostility": {
         "baseline": "neutral",
@@ -4473,38 +4473,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.49789,
-        "v": 0.76859
+        "u": 0.46517,
+        "v": 0.78421
       },
       "positionM": [
-        3671.2,
-        5667.2
+        3429.9,
+        5782.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0254",
-          "score": 4.05,
+          "siteId": "site.free.any-shallow-marsh-1095",
+          "score": 4.166,
+          "whyLost": "too close to place.mercantile-coast.villa-cellars"
+        },
+        {
+          "siteId": "site.free.roadside-0255",
+          "score": 4.049,
           "whyLost": "too close to place.imperial-penal-south.rose-flooded-passage"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1190",
-          "score": 3.803,
-          "whyLost": "too close to place.naga-kur-deeps.art-and-destroy-site-deeps"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1201",
-          "score": 3.711,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "siteId": "site.free.any-shallow-marsh-1196",
+          "score": 3.715,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 340 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.portage-slipway-narrows-deeps (+0.31).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 158 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 340.0,
-        "distanceToWaterM": 19.8,
-        "score": 3.688
+        "distanceToRouteM": 157.9,
+        "distanceToWaterM": 0.0,
+        "score": 3.797
       },
       "hostility": {
         "baseline": "hostile",
@@ -6106,38 +6106,38 @@
       "underwaterAccess": "deep-dive",
       "localStateVariants": [],
       "position": {
-        "u": 0.33428,
-        "v": 0.70612
+        "u": 0.14836,
+        "v": 0.85709
       },
       "positionM": [
-        2464.8,
-        5206.6
+        1094.0,
+        6319.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1076",
-          "score": 4.011,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "siteId": "site.free.any-shallow-marsh-1072",
+          "score": 3.958,
+          "whyLost": "too close to place.imperial-penal-south.murkwood-verge"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1051",
-          "score": 3.509,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.scour.interior-swamp.island-006",
+          "score": 2.994,
+          "whyLost": "too close to place.naga-kur-deeps.deepmire-refuge"
         },
         {
-          "siteId": "site.scour.lake-standing-water.ford-039",
-          "score": 3.161,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "siteId": "site.scour.interior-swamp.island-007",
+          "score": 2.955,
+          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 633 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.naga-kur-deeps.leviathan-bone-field (+0.40).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 390 m from the nearest route; at the water's edge; no free 'box-canyon' site was left in the zone, so plain ground; won on region, submerged, remote; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 633.5,
-        "distanceToWaterM": 19.8,
-        "score": 4.178
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 389.9,
+        "distanceToWaterM": 0.0,
+        "score": 2.39
       },
       "hostility": {
         "baseline": "hostile",
@@ -14151,17 +14151,17 @@
         {
           "siteId": "site.scour.interior-swamp.cove-039",
           "score": 4.411,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "whyLost": "too close to place.imperial-penal-south.akaviri-works"
         },
         {
           "siteId": "site.scour.interior-swamp.cove-057",
           "score": 4.37,
-          "whyLost": "too close to place.naga-kur-deeps.sithis-temple-mass-sacrifice"
+          "whyLost": "too close to place.mercantile-coast.necropolis-village-murkmire"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1202",
-          "score": 4.128,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.cove-008",
+          "score": 4.354,
+          "whyLost": "too close to place.mercantile-coast.quinrawl-anchorage"
         }
       ],
       "whySiteWon": "cove in fringe marsh (danger band 3), 104 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
@@ -14171,7 +14171,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 104.3,
         "distanceToWaterM": 0.0,
-        "score": 4.147
+        "score": 3.347
       },
       "hostility": {
         "baseline": "hostile",

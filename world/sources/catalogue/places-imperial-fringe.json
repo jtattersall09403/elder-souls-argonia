@@ -5426,38 +5426,38 @@
       "entrance": "gate",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.16919,
-        "v": 0.53805
+        "u": 0.16324,
+        "v": 0.52913
       },
       "positionM": [
-        1247.5,
-        3967.3
+        1203.6,
+        3901.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0207",
-          "score": 2.911,
-          "whyLost": "too close to place.imperial-fringe.slough-point"
+          "siteId": "site.free.any-firm-ground-0861",
+          "score": 3.16,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0542",
-          "score": 2.909,
-          "whyLost": "too close to place.imperial-fringe.slough-point"
+          "siteId": "site.scour.upland-hills.ford-018",
+          "score": 3.132,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0206",
-          "score": 2.903,
-          "whyLost": "too close to place.imperial-fringe.slough-point"
+          "siteId": "site.free.any-firm-ground-0823",
+          "score": 3.13,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 717 m from the nearest route; its choice #3 landform; won on landform, region, parent.",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 646 m from the nearest route; its choice #3 landform; won on landform, sightline, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 716.7,
-        "distanceToWaterM": 93.4,
-        "score": 2.58
+        "distanceToRouteM": 645.5,
+        "distanceToWaterM": 77.9,
+        "score": 3.167
       },
       "hostility": {
         "baseline": "friendly",

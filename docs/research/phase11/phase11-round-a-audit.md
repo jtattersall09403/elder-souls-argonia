@@ -105,30 +105,46 @@ stage now fail on all five for that reason alone. Everything above was verified
 clean immediately before the rule landed; the terminals belong to whoever
 owns that schema change (the blueprints and the rule should move together).
 
-## 6. Tool defects found (not fixed here; tools are out of scope)
+## 6. Tool defects found (fixed in the review of 2026-09-07 — see 0041 § Review 2026-09-07)
 
 1. **97 C5 measures authored centres, not hulls.** Off-pivot pieces
    (`arstairs01`, `arstatuewall01`, `arstairscenter01`, `arsteppeddias01`:
    pivots 8–20 m from their hulls) make centre distance meaningless; moving
    the pens stair west by 2.7 m dragged its hull into the statue wall. The
    check should use the derived footprint centroid (or hull-to-hull gap).
+   **Fixed:** `blueprint_integration` `parcel-gap` measures footprint centroids
+   and reports the hull-to-hull gap beside them.
 2. **`parcel-overlap` tests a `stacksOn` piece's ground hull against every
    neighbour.** A deck at 2.7 m does not touch the ground; it should be exempt
    from ground-hull overlap with anything its base `abuts`, or tested at deck
-   height.
+   height. **Fixed:** `parcel-overlap` exempts a stacked piece from its base,
+   from what that base `abuts`/`worksWith`, and from anything else on it.
 3. **97 C6 density uses the blueprint boundary** (which carries approaches and
    water) and applies settlement bands to lairs and camps (M1 judged on the M2
    band). Measure over the built hull and skip non-settlement classes.
+   **Fixed:** `blueprint.built_hull_area_ha` + `DENSITY_CLASSES`.
 4. **97 D2 compares against the region palette's tallest species** rather
    than the canopy on the ray. It also ignores sightline direction (a downward
    view onto a cleared shelf is flagged).
+   **Fixed:** `compile_settlement._canopy_on_ray_m` samples the canopy along the
+   ray where the survey allows trees; a downward view is not judged on canopy.
 5. **`scaleGrounding` counts stacked parcels as buildings**; the Standing
-   Charge had to declare 3 for two structures.
+   Charge had to declare 3 for two structures. **Fixed:** the count runs over
+   `parcel_kinds.counted_parcels`; the Standing Charge now declares 2.
 6. **The prose linter's `final-preposition` rule fires on hard-wrapped
    markdown lines and on stripped code spans** ("run from `x`" → "run from");
    14 of 24 md hits were of that kind. Lint on paragraphs, not lines.
+   **Fixed:** `lint_prose.lint_markdown` joins hard-wrapped lines into
+   paragraphs and replaces a code span with a neutral word (one hit left across
+   the five records, and it is a real one).
 
-## 7. Principles that needed clarifying (for the owner)
+## 7. Principles that needed clarifying (decided by the implementation lead 2026-09-07; rules in module 97, rows in the 0041 Taste ledger)
+
+Where each ruling landed: 1 → 97 C5b (`worldgen.parcel_kinds`), 2 → C1a
+(`DRESSING_KITS`), 3 → C4, 4 → C10, 5 → C5a (`worksWith`), 6 → D7 and module
+92 §83b, 7 → the works set keeps its gate (the Nordic timber walkway gate is
+the only road-spanning piece the built kits hold, and Part F already admits it
+as works furniture), 8 → C3.
 
 1. **Props versus buildings (C5, C6, C7, C12).** Racks, ovens, carts,
    scaffold bases, hoists and notice boards are authored as parcels, so the

@@ -58,6 +58,7 @@ import sys
 from pathlib import Path
 
 from . import blueprint as bp_mod
+from . import parcel_kinds as pk_mod
 from .site_fields import ProvinceSurvey
 from .blueprint_integration import check_integration
 from .blueprint_promises import check_promises, write_ledger
@@ -111,25 +112,33 @@ class KitShelf:
             for asset in data["assets"]:
                 self.by_asset.setdefault(asset["id"], asset)
 
-    def find(self, culture: str, asset_ref: str) -> dict | None:
+    def find(self, culture: str, asset_ref: str, kind: str = "building") -> dict | None:
         """An exact kit asset id inside the district's kit set (the Part 6
-        geometry-judged pick). None if the set does not contain it."""
-        for kit in CULTURE_KITS.get(culture, []):
+        geometry-judged pick). None if the set does not contain it.
+
+        `kind` carries the 97 C1a dressing rule: a `prop` may also come from
+        the dressing pool, because a notice board in an Argonian quay is
+        clutter, not a second architecture. Without it the resolver refused
+        the works board that the C1 warning had already been taught to admit
+        (review 2026-09-07).
+        """
+        for kit in bp_mod.kits_for_district(culture, kind):
             for asset in self.assets_by_kit.get(kit, []):
                 if asset["id"] == asset_ref:
                     return {"kit": kit, **asset}
         return None
 
-    def pick(self, culture: str, family: str, key: str, asset_ref: str | None = None) -> dict | None:
+    def pick(self, culture: str, family: str, key: str, asset_ref: str | None = None,
+             kind: str = "building") -> dict | None:
         """Deterministically pick an asset matching `family` from the culture's
         kits: an explicit `asset_ref` wins outright; else exact-token match on
         the asset id first, else any asset tall enough to read as a building.
         `key` seeds the choice."""
         if asset_ref:
-            return self.find(culture, asset_ref)
+            return self.find(culture, asset_ref, kind)
         candidates: list[tuple[str, dict]] = []
         fallback: list[tuple[str, dict]] = []
-        for kit in CULTURE_KITS.get(culture, []):
+        for kit in bp_mod.kits_for_district(culture, kind):
             for asset in self.assets_by_kit.get(kit, []):
                 if family.lower() in asset["id"].lower():
                     candidates.append((kit, asset))
@@ -166,6 +175,64 @@ def _canopy_height_m(survey, x: float, z: float, shelf: "KitShelf") -> tuple[flo
     if not sizes:
         return None, f"{entry.get('id')}: no measured canopy species"
     return max(sizes), entry.get("id", klass)
+
+# --- 97 D2, canopy ON THE RAY (audit §6.4) --------------------------------- #
+# The check used to take the tallest canopy species of the region under the
+# TARGET and hold the beacon against it, wherever the trees actually stood. The
+# ray is what hides a beacon, so the canopy is sampled ALONG it, over the
+# stretch where trees can grow: open water carries none, and neither does the
+# place's own hard-cleared ground (97 C13 — the ring is cleared by design, so
+# comparing a shelf-top piece against a forest felled for it is a figure about
+# nothing). A downward view is skipped for the same reason: when the walker's
+# eye is already above the top of the piece, no canopy stands between them.
+CANOPY_RAY_SAMPLES = 24
+CANOPY_RAY_SKIP_END_FRAC = 0.08   # the last stretch is the clearing itself
+
+
+def _point_in_polygon_uv(u: float, v: float, poly) -> bool:
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        x1, y1 = poly[i][0], poly[i][1]
+        x2, y2 = poly[(i + 1) % n][0], poly[(i + 1) % n][1]
+        if (y1 > v) != (y2 > v):
+            xx = x1 + (v - y1) * (x2 - x1) / ((y2 - y1) or 1e-12)
+            if u < xx:
+                inside = not inside
+    return inside
+
+
+def _cleared_at(bp: dict, survey, x: float, z: float) -> bool:
+    """Is this point inside the blueprint's own hard-cleared ground?"""
+    u, v = survey.m_to_uv(x, z)
+    for poly in (bp.get("clearance") or {}).get("hardClear", []) or []:
+        if len(poly) >= 3 and _point_in_polygon_uv(u, v, poly):
+            return True
+    return False
+
+
+def _canopy_on_ray_m(bp: dict, survey, shelf: "KitShelf",
+                     ax: float, az: float, bx: float, bz: float) -> tuple[float | None, str]:
+    """The tallest canopy standing ON the sightline: the maximum over samples
+    where the survey allows trees (dry ground outside the place's own ring)."""
+    best: float | None = None
+    where = "no vegetated ground on the sightline"
+    stop = 1.0 - CANOPY_RAY_SKIP_END_FRAC
+    for i in range(CANOPY_RAY_SAMPLES + 1):
+        t = stop * i / CANOPY_RAY_SAMPLES
+        x, z = ax + (bx - ax) * t, az + (bz - az) * t
+        try:
+            row, col = survey.grid_px(x, z)
+            if bool(survey.open_water[row, col]):
+                continue
+        except Exception:      # noqa: BLE001 — an unreadable sample is not a tree
+            continue
+        if _cleared_at(bp, survey, x, z):
+            continue
+        h, region = _canopy_height_m(survey, x, z, shelf)
+        if h is not None and (best is None or h > best):
+            best, where = h, region
+    return best, where
 
 
 def _first_seen_warnings(bp: dict, survey, shelf: "KitShelf") -> list[str]:
@@ -212,16 +279,23 @@ def _first_seen_warnings(bp: dict, survey, shelf: "KitShelf") -> list[str]:
         dist = math.hypot(bx - ax, bz - az)
         visible = survey.line_of_sight(ax, az, bx, bz, eye_a=EYE_HEIGHT_M,
                                        eye_b=(height if height else EYE_HEIGHT_M))
-        canopy, region = _canopy_height_m(survey, bx, bz, shelf)
+        canopy, region = _canopy_on_ray_m(bp, survey, shelf, ax, az, bx, bz)
+        # 97 D2 is about trees standing BETWEEN the walker and the beacon. A
+        # walker whose eye is already above the top of the piece is looking DOWN
+        # onto it (Mazzatun's shoulder approach onto a cleared shelf), and the
+        # canopy figure says nothing about that view (audit §6.4).
+        eye_h = survey.view_height_at(ax, az) + EYE_HEIGHT_M
+        top_h = survey.view_height_at(bx, bz) + (height if height else EYE_HEIGHT_M)
+        downward = eye_h > top_h
         shown = f"{height:.1f} m" if height else "of unmeasured height (no assetRef in the built kits)"
-        canopy_note = (f"the piece is {shown} and the {region} canopy is {canopy:.1f} m"
-                       if canopy is not None else
-                       f"the piece is {shown} (canopy height unavailable: {region})")
+        canopy_note = (f"the piece is {shown} and the tallest canopy on the sightline is {canopy:.1f} m "
+                       f"({region})" if canopy is not None else
+                       f"the piece is {shown} (no canopy on the sightline: {region})")
         if not visible:
             out.append(f"{bid}: 97 B6/D2 — approach {ap.get('id')}: {seen} is NOT visible over bare terrain "
                        f"from the first waypoint of {ap.get('fromRouteId')}, {dist:.0f} m out; {canopy_note}")
         elif (canopy is not None and height is not None and height < canopy
-              and dist >= CANOPY_COMPARE_MIN_M):
+              and dist >= CANOPY_COMPARE_MIN_M and not downward):
             out.append(f"{bid}: 97 D2 — approach {ap.get('id')}: {seen} clears the ground but not the trees — "
                        f"{canopy_note}, so it does not read from {dist:.0f} m out under a closed canopy")
     return out
@@ -249,6 +323,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     grades: list[dict] = []
 
     culture_of = {d["id"]: d["cultureKit"] for d in bp["districts"]}
+    kind_of = pk_mod.kinds_of(bp)
 
     for parcel in sorted(bp["parcels"], key=lambda p: p["id"]):
         pid = parcel["id"]
@@ -272,7 +347,8 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             )
             continue
 
-        asset = shelf.pick(culture, parcel["buildingFamily"], f"{seed}:{pid}", parcel.get("assetRef"))
+        asset = shelf.pick(culture, parcel["buildingFamily"], f"{seed}:{pid}", parcel.get("assetRef"),
+                           kind_of.get(pid, "building"))
         if asset is None:
             errors.append(f"{pid}: no kit asset for family '{parcel['buildingFamily']}'"
                           + (f" / assetRef '{parcel['assetRef']}'" if parcel.get("assetRef") else "")
@@ -282,7 +358,9 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         base_y = max(heights) - BURY_M
         if parcel.get("stacksOn"):
             base = next((q for q in bp["parcels"] if q["id"] == parcel["stacksOn"]), None)
-            base_asset = shelf.pick(culture, base["buildingFamily"], f"{seed}:{base['id']}", base.get("assetRef")) if base else None
+            base_asset = shelf.pick(culture, base["buildingFamily"], f"{seed}:{base['id']}",
+                                    base.get("assetRef"),
+                                    kind_of.get(base["id"], "building")) if base else None
             if base is not None and base_asset is not None:
                 bx, bz = survey.uv_to_m(*base["centreUV"])
                 base_y = survey.height_at(bx, bz) - BURY_M + base_asset["sizeM"][2] * float(base.get("scale", 1.0))

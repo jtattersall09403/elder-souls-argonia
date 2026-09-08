@@ -23,7 +23,7 @@ The shelf is 68 m east–west by 42 m north–south between 198 and 209 m, falli
 | population | 38–48 | UESP Lore:Xit-Xaht (a tribe that raided its neighbours for slave labour under a Hist it bound); `extrapolation/settlement-register.md` §Mazzatun (stirring, building restarted); the record's occupants (few D3 builders, few taken labourers, one D4 shaper) |
 | households | 9 | six Xit-Xaht households of the work gang and the shaper, three pens |
 | buildingsPlanned | 27 | the parcel count; validator tolerance ±25 % |
-| npcsPlanned | 12 | `occupants[]`: shaper, two builders, carver, three taken labourers, walkway keeper, gate watch plus the record's sap-tenders |
+| npcsPlanned | 12 | `occupants[]`: shaper, two builders, carver, three taken labourers, hoist keeper, gate watch plus the record's sap-tenders |
 
 The Xit-Xaht live underground, in the twisted halls that earned the place its epithet, so the exterior carries no dwellings of theirs; the interior behind the stair-throat is where the thirty of the tribe sleep. The taken labourers, twelve to fifteen, are housed in three mud shells of 30 m². The other twenty-three structures are the works.
 
@@ -56,7 +56,7 @@ The terrace rules, each of them visible in the data:
 
 **Did the road climb?** Yes. The router was given the foot on the east side of the Hist court (2075, 1355; 150 m — moved from the foot of the face, from which the compiler's bare-terrain line of sight showed the rock hiding the conduit head), two hairpin waypoints on the face (2040, 1300 and 2020, 1345) and the gate; it found a 204 m line for a 52 m climb: 14° on average, with thirteen segments over 20° and the worst 3 m stretch at 34°. The terrain raster is stepped at 1 m, so single-metre risers of 2–4 m appear along it; those are cut steps in a haul road, not a fault in the line. The previous draft's Q4 (road or winch) is answered: a road for carts and gangs, with the hoist kept for lifting blocks out of the cut, not for people.
 
-**The shoulder path is gone (owner-eye review, 2026-09-07).** The first draft carried a raiders' back way from the western ridge straight into the pens, skirting the shelf gate. Routed every way the ground allows it kept a rock step of 50° or more at the rise west of the pens (the raster shows a 4 m riser there), so it failed the walking rule (97 D8) and it made the gate a gate beside the way rather than across it. The raiders' way in with the taken is kept as an idea for a cut step in that rise (gap plan B8, a terrain request); until the ground is cut there is one way onto the shelf from the ridge, through the gate.
+**The shoulder path is gone (owner-eye review, 2026-09-07).** The first draft carried a raiders' back way from the western ridge straight into the pens, skirting the shelf gate. Routed every way the ground allows it kept a rock step of 50° or more at the rise west of the pens (the raster shows a 4 m riser there), so it failed the walking rule (97 D8) and it made the gate a gate beside the way rather than across it. The raiders' way in with the taken is that rise itself, climbed: the face is rock a Saxhleel raiding party goes up and down by hand, and climbing is free on it by default (module 00-core), so nothing is cut and nothing is drawn as a way. There is one WALKED way onto the shelf from the ridge, through the gate; the taken come down the face (implementation lead 2026-09-07, decision 0041).
 
 The spine is the haul road, authored in three collinear pieces because the router keeps ways out of parcels: a terrain-routed climb that ends at the gate's outer face, a straight passage through the gate that the gate `spans`, then a terrain-routed yard road from the inner face to the foot of the great stair. `way-overlap` accepts it (the pieces meet end to end). The middle step has one way, the terrace track; the upper step has one, the pen lane.
 
@@ -83,11 +83,10 @@ The kit index (`blueprint_interiors --report`) says which pieces have an inside;
 | `.2` | `pen-a` | `mudhut01` | matched `mudhut01intnew`, small | 188° | pen lane |
 | `.3` | `pen-b` | `mudhut01` | matched `mudhut01intnew`, small | 157° | pen lane |
 | `.4` | `pen-c` | `mudhut01` | matched `mudhut01intnew`, small | 270°, away from the works | pen lane end |
-| `.5` | `haul-gate` | `walkwaycwallgate02` | tileset → `vanilla-farmhouse-int`, medium | 246°, inner face beside the opening | gateway road, 3.6 m |
 
-Three pieces of the last draft had an inside and no door, or a door and no inside; each is resolved by geometry rather than by exception: the stair throat moves from the open spiral stair (no roof, so no interior) to the covered central flight, which has one; the spiral stair becomes the great stair up from the yard; the Ayleid column carrying the conduit (17 m² of inside nobody would enter) becomes a xanmeer `pillar05`; the eastern arched bay changes from `arbridge03` (enclosed) to `arbridge01` (open-sided, as the north bay already was); the statue court moves from `arstatuebase01` (110 m² of inside) to the carved `arstatuewall01`, which is open to the sky. The gate keeps its inside as the gatehouse where the watch sits.
+Three pieces of the last draft had an inside and no door, or a door and no inside; each is resolved by geometry rather than by exception: the stair throat moves from the open spiral stair (no roof, so no interior) to the covered central flight, which has one; the spiral stair becomes the great stair up from the yard; the Ayleid column carrying the conduit (17 m² of inside nobody would enter) becomes a xanmeer `pillar05`; the eastern arched bay changes from `arbridge03` (enclosed) to `arbridge01` (open-sided, as the north bay already was); the statue court moves from `arstatuebase01` (110 m² of inside) to the carved `arstatuewall01`, which is open to the sky. The gate has no inside at all since the enclosure swap of 2026-09-07: the Redoran compound gate carries 2.11 m of headroom under its parapet, which the interiors index reads as the underside of a deck rather than a room, so the watch stands on the terrace behind it.
 
-The record's `entranceCount: 1` is the stair-throat, the one entrance to the S3 interior. The pens and the gatehouse are separate small interiors and are listed as a catalogue change in §12.
+The record's `entranceCount: 1` is the stair-throat, the one entrance to the S3 interior. The three pens are separate small interiors and are listed as a catalogue change in §12.
 
 ## 7. Combat spaces
 
@@ -104,11 +103,11 @@ The record's `entranceCount: 1` is the stair-throat, the one entrance to the S3 
 
 #### `approach.mazzatun.haul-road` (walk, from the east, up the escarpment)
 
-The walker stands on the east side of the Hist court on the gorge floor at 150 m, beside a grey crown that is wrong for a Hist. The conduit-head pillar (`pillar02`, 9.3 m, base at 198 m) reads first: a thin thing on the lip 48 m up and 59 m off (the compiler's line of sight confirms it from this point; from the foot of the face itself the rock hides it), with the amber line running down the face from it to the tree's roots. The sightline to the lip is 41° above level; the road corridor over the face is hard-cleared (the second `hardClear` polygon), because a 15 m cedar at mid-face would otherwise stand across it. The watch column (12.4 m, set 8 m back from the lip) shows beside the pillar from here; the amber and its position over the road are what single the pillar out. The first hairpin at (2040, 1300) turns the walker away and the face hides the lip; the second at (2020, 1345) turns back and the gate wall — 15 m of timber with a walkway, 10 m high — comes across the road with the pillar at its outer end. Through the gate the yard opens: 13 m of road ending at the foot of the great stair, with the cart, the scaffold stair and the block face to the right. At the stair head the carved figures of the statue wall face the climber, the throat door is 10 m to the right beside the amber run; the column stands at the far end of the track. The climb pays at the lip: `socket.mazzatun.hist-overlook` looks back down onto the crown of Tsono-Xuhil.
+The walker stands on the east side of the Hist court on the gorge floor at 150 m, beside a grey crown that is wrong for a Hist. The conduit-head pillar (`pillar02`, 9.3 m, base at 198 m) reads first: a thin thing on the lip 48 m up and 59 m off (the compiler's line of sight confirms it from this point; from the foot of the face itself the rock hides it), with the amber line running down the face from it to the tree's roots. The sightline to the lip is 41° above level; the road corridor over the face is hard-cleared (the second `hardClear` polygon), because a 15 m cedar at mid-face would otherwise stand across it. The watch column (12.4 m, set 8 m back from the lip) shows beside the pillar from here; the amber and its position over the road are what single the pillar out. The first hairpin at (2040, 1300) turns the walker away and the face hides the lip; the second at (2020, 1345) turns back and the gate — 7.3 m of Redoran masonry, 10.1 m to its parapet — comes across the road with the pillar beyond it. Through the gate the yard opens: 13 m of road ending at the foot of the great stair, with the cart, the scaffold stair and the block face to the right. At the stair head the carved figures of the statue wall face the climber, the throat door is 10 m to the right beside the amber run; the column stands at the far end of the track. The climb pays at the lip: `socket.mazzatun.hist-overlook` looks back down onto the crown of Tsono-Xuhil.
 
 #### `approach.mazzatun.shoulder` (walk, from `track.dunmer-north.mazzatun`, the ridge track)
 
-From the ridge shoulder at 240 m the shelf lies 35 m below. The tower reads first: the tallest built thing on the shelf (top at 215 m), standing at the far lip against the void of the gorge with the grey crown behind it; the pens' shells (tops at 212 m) sit under the sightline and the shelf is hard-cleared, so nothing on it competes. The track drops below the western rise and the column is lost; the frontage dais shows at the shelf head and the gate wall behind it, with the column re-found over the wall. The pens stay hidden: they stand on the upper step behind the built riser, and nothing of them but the oven smoke reads from the track. The threshold is `parcel.mazzatun.shelf-gate`, a second timber gate and walkway of the haul gate's pattern, standing 11 m inside the shelf head across `route.mazzatun.terrace-head`: the Xit-Xaht shut both ends of the shelf, the ridge as well as the climb. `terminal.mazzatun.terrace-head` sits on the compiled ridge track at the shelf head (entry on the route 0.0 m, way end 0.0 m, join bearing 19.9° off the track's, gate 0.0° off square); the frontage dais stands outside it and the terrace begins on its inner face, so the ridge track and the terrace read as one way. Beyond the gate the terrace runs to the great stair and the column; the pens are revealed only from the head of the pens stair beside the throat door, so the taken are met after the court, as a reveal (owner 2026-09-07).
+From the ridge shoulder at 240 m the shelf lies 35 m below. The tower reads first: the tallest built thing on the shelf (top at 215 m), standing at the far lip against the void of the gorge with the grey crown behind it; the pens' shells (tops at 212 m) sit under the sightline and the shelf is hard-cleared, so nothing on it competes. The track drops below the western rise and the column is lost; the frontage dais shows at the shelf head and the gate wall behind it, with the column re-found over the wall. The pens stay hidden: they stand on the upper step behind the built riser, and nothing of them but the oven smoke reads from the track. The threshold is `parcel.mazzatun.shelf-gate`, a second Redoran compound gate of the haul gate's pattern, standing 9 m inside the shelf head across `route.mazzatun.terrace-head`: the Xit-Xaht shut both ends of the shelf, the ridge as well as the climb. `terminal.mazzatun.terrace-head` sits on the compiled ridge track at the shelf head (entry on the route 0.0 m, way end 0.0 m, join bearing 0.0° off the track's, gate 12.7° off square, inside the 15° the check allows); the frontage dais stands outside it and the terrace begins on its inner face, so the ridge track and the terrace read as one way. Beyond the gate the terrace runs to the great stair and the column; the pens are revealed only from the head of the pens stair beside the throat door, so the taken are met after the court, as a reveal (owner 2026-09-07).
 
 The haul road keeps its own approach from the gorge floor, but it carries no province route: nothing in the plotted network climbs the escarpment, so that approach is described by direction.
 
@@ -125,7 +124,7 @@ The haul road keeps its own approach from the gorge floor, but it carries no pro
 | 7 | Threshold spanned, not passed | Yes: `haul-gate` spans `route.mazzatun.gateway`, checked by integration |
 | 8 | One spine, wider, no duplicated movement | Yes: the 3 m road; the track and lanes are 1.5–2.2 m; `way-overlap` passes |
 | 9 | Landmark hierarchy, no rival to the beacon | Yes with a caveat: the 12.4 m column shows beside the 9.3 m pillar from the road; the amber distinguishes them (§11, Q6) |
-| 10 | Socket buildings present doors to a way | Yes: throat 3 m from the track, pens on the lane, gatehouse on the gateway; the open pieces stand beside their ways |
+| 10 | Socket buildings present doors to a way | Yes: throat 3 m from the track, pens on the lane, works store on the store path; the gates and the open pieces carry no door and stand on their ways |
 | 11 | No dead end at a blank wall | Yes: the track ends at the dais (the view) and the tower (the station); the lane ends at the rack and the east pen |
 | 12 | Ascent visible from the node below | Yes: the great stair from the gate; the pens stair from the track beside the throat |
 | 13 | Edge reads from inside and out | Yes: gate wall and lip east, fence north and east of the pens, stream lip south; west is the shelf running out, marked by the single block |
@@ -144,15 +143,16 @@ The haul road keeps its own approach from the gorge floor, but it carries no pro
 | `course-w1` | works | `arblock03` | 2.7 × 2.7 | 0.9 | 319.5° | dug-in (1948, 1341.5) |
 | `course-n2` | works | `arquadblock01` | 6.4 × 6.4 | 1.8 | 0° | dug-in (measured Δ 2.27 m) |
 | `course-n1` / `course-e1` | works | `arbridge01` | 12.8 × 7.0 | 8.9 | 0° / 90° | dug-in (e1 at 2015, 1329, a metre nearer the lip) |
-| `gate-frontage` | works | `arsteppeddias01` | 9.3 × 9.3 | 1.2 | 344.1° | dug-in |
+| `gate-frontage` | works | `arsteppeddias01` | 9.3 × 9.3 | 1.2 | 0° | dug-in |
 | `statue-court` | works | `arstatuewall01` | 13.0 × 2.6 | 7.8 | 0° | dug-in |
 | `stair-throat` | works | `arstairscenter01` | 3.6 × 7.3 | 4.8 | 0° | dug-in |
-| `great-stair` | works | `arspiralstairs01` | 9.2 × 9.2 | 3.5 | 353.6° | dug-in |
+| `great-stair` | works | `arspiralstairs01` | 9.2 × 9.2 | 3.5 | 0° | dug-in |
 | `tower` | works | `ararchcolumn02` | 1.9 × 6.3 | 12.4 | 76.5° | dug-in |
 | `conduit-pillar` | works | `pillar02` | 1.7 × 1.7 | 9.3 | 271.4° | pad |
 | `conduit-column` | works | `pillar05` | 1.0 × 1.0 | 3.1 | 271.4° | pad |
 | `half-cut-blocks` | works | `arrubblepile03` | 10.2 × 7.9 | 8.4 | 76° | dug-in |
-| `haul-gate` | staging | `walkwaycwallgate02` | 14.9 × 5.2 | 10.0 | 66° | dug-in |
+| `haul-gate` | staging | `redoranwallgate` (enclosure-v1) | 7.3 × 3.0 | 10.1 | 1.3° | dug-in |
+| `shelf-gate` | staging | `redoranwallgate` (enclosure-v1) | 6.3 × 6.3 | 10.1 | 134.7° | dug-in |
 | `haul-cart` | staging | `handcart01` | 1.3 × 2.2 | 1.4 | 233.7° | pad |
 | `kiln` | staging | `smelter01` | 2.8 × 3.1 | 2.6 | 354° | dug-in, on the stream lip at 1989, 1361.5 (Δ 3.2 m), downwind and downstream of the courses and the pens |
 | `scaffold-a` | staging | `stockadescaffoldbase4sided01` | 3.7 × 3.8 | 2.7 | 320.5° | dug-in, west lobe (1955.5, 1350.5) |
@@ -175,7 +175,7 @@ UESP Lore:Mazzatun, Lore:Xit-Xaht, Lore:Duskfall, Lore:Hist Sap, Online:Tsono-Xu
 5. **Which interior kit for the throat?** The kit index derives `xanmeer-interior-v1` for the Ayleid pieces, so the door claims it; the catalogue record says `root-cavern`. Either the record changes to a xanmeer interior with root dressing, or the throat needs a piece whose derived interior is `dungeon-root-v1`; none of the exterior kits has one.
 6. **Two tall things on the lip.** From the road the 12.4 m column shows beside the 9.3 m pillar. The amber run makes the pillar the followed object, but if a single silhouette is wanted the column should move 15 m west along the terrace, off the lip.
 7. **How visible should the pens be?** Two shells face the works, one faces away; the split is authored in `orientationWhy`. Confirm, or make all three one way.
-8. **Gate piece.** The haul gate is Nordic timber in a works district. Keep it as the works' own gate, or replace it with an Ayleid arch on the middle step, which moves the threshold up one step and shortens the yard?
+8. **Gate piece — answered 2026-09-07, no owner call needed.** Both gates are now the Redoran compound gate from `enclosure-v1` (3.52 m clear), which spans the ways where they already stand; the threshold does not move and the yard keeps its length. The reasoning is in §13.
 
 ## 12. Notes for the catalogue and kit records (not edited from here)
 
@@ -192,15 +192,16 @@ UESP Lore:Mazzatun, Lore:Xit-Xaht, Lore:Duskfall, Lore:Hist Sap, Online:Tsono-Xu
 Each line is a check the compiler or the validator reports and the reason the deviation stands. Anything not listed here was fixed by design in the review (the eleven 97 C5 spacing failures in the yard and the pens, the course-n2 slope fit, the terrace track's width and the haul road's start).
 
 - **97 C7, the `use` mix (0 % dwelling, 81 % work).** Lore: the Xit-Xaht live underground, in the halls behind the stair-throat (Lore:Mazzatun, the twisted halls), so the exterior carries the works and the pens and no dwellings of theirs. The taken labourers' shells are `pen`, outside the histogram's vocabulary, as are the courses (`under-construction`), which is why six parcels cannot be judged.
-- **97 C3, roads at 3.0 m, not 4.3 m.** The spine passes through `walkwaycwallgate02`, whose opening is about 3 m; a haul road cut into a 47° face is as wide as the cut allows; the three road pieces are one line and share the width so no rank inversion occurs. The measured 4.3 m is a road-piece median for flat ground.
+- **97 C3, roads at 3.0 m, not 4.3 m.** The spine passes through `redoranwallgate`, whose measured clear span is 3.52 m; a haul road cut into a 47° face is as wide as the cut allows; the three road pieces are one line and share the width so no rank inversion occurs. The measured 4.3 m is a road-piece median for flat ground.
+- **97 C6, built density 41.1/ha against the M3 band of 7–16/ha.** Twenty-five buildings and structures stand on 0.61 ha of built hull. The band was mined from settlements, and Mazzatun is not one: it is a stone works on a rock shelf 68 m by 42 m, where courses, scaffolds, hoist, kiln, cart and cutting floor stand within arm's reach of the block they are cutting, because that is what a building site is. Spreading them would need ground the escarpment does not have. The three pens and the works store are the only pieces anyone lives behind; on those alone the shelf reads at 6.6/ha. The deviation stands on the type, not on the layout.
 - **97 D2, the tower (12.4 m) against a 16.1 m canopy on the shoulder approach.** The sightline runs downward from the ridge shoulder at 240 m onto a hard-cleared shelf 35 m below; the canopy figure is the region palette's tallest species, which stands beside the walker, not between the walker and the tower. The comparison assumes a level or rising sightline.
 - **Part F, argonian-stone (new Argonian building in stone never appears).** Mazzatun is the lore's one exception: the tribe never stopped building (Lore:Xit-Xaht). §12 asks the kit description to name it.
-- **Part F, neutral-works enclosure (scaffold rails only).** The haul gate is a vanilla timber walkway gate, which is the piece in the built kits that spans a road (97 D3). An Ayleid arch in the stone district would be the honest alternative and would move the gate onto the middle step; owner question 8 below.
+- **Part F, neutral-works enclosure — closed 2026-09-07.** Both gates were `vanilla:architecture/farmhouse/walkway/walkwaycwallgate02`, a Nordic farm sluice gate read as a city gate. `enclosure-v1` now carries six measured gate families, so both are `bmv:architecture/redoran/custom/redoranwallgate` (3.52 m clear at track class, 10.11 m to the parapet), and Part F names the family each kit set may draw on. On culture: Mazzatun is Xit-Xaht, an Argonian tribe, and the only Argonian enclosure piece in the vault clears 1.72 m — a footpath, not the cart way both these gates carry. The Redoran gate is not a compromise but the reading the record already carries: the Xit-Xaht raid their Dunmer neighbours for labour, and the masonry across their road is taken the same way the people are. The Argonian idiom has no cart gate anywhere in the vault, which stays a standing sourcing gap (sourcing log, enclosure section).
 - **97 C5 measured on authored centres.** The two stairs, the statue wall and the dais (`arstairs01 / arstatuewall01 / arstairscenter01 / arsteppeddias01`) have pivots 8–20 m from their hulls; centre-to-centre spacing therefore does not describe their real gaps. For that reason the review moved the pen hut rather than the stair. Reported as a tool defect in the Round A audit.
 
 ## 14. What the integration checks caught in the first v2 draft
 
-Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the gatehouse door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening). The final compile is 29 placements, 0 errors, budget OK.
+Running `compile_settlement` on the first v2 draft returned ten errors; each was a real defect in the layout rather than in the tools: six pads whose measured Δ was over 2 m (now dug in); the kiln placed in the stone district with a vanilla piece (moved to the staging district); the gateway drawn through the gate without ending at it (it now `endsAt` the gate, so the passage may touch it and the gate may span it); the terrace track's buffer clipping the gate wall's north end, because the wall's ends had been reasoned from the wrong sign of its yaw (the via was moved north); the pen lane's buffer clipping the middle pen's corner (the via was moved uphill); and the then gatehouse's door falling on a water pixel of the 5.5 m hydrology raster at the stream lip (the door moved to the north side of the opening, and the gate lost its room altogether in the enclosure swap of 2026-09-07). The final compile is 29 placements, 0 errors, budget OK.
 
 ## Doors and assemblies (stream A2, 2026-09-05)
 
@@ -219,13 +220,17 @@ Mazzatun meets 8 of 8. Three services and four sockets were unmet.
 
 | Promise | Realised by | Piece | Interior |
 |---|---|---|---|
-| `trader` | `parcel.mazzatun.works-store`, new, behind the two western shells | `mudmother:gv_meshes/argoniannest/mudhut01` | `mudhut01intnew` |
+| `trader` | `parcel.mazzatun.works-store`, new, set back on the upper lip north of the pens row | `mudmother:gv_meshes/argoniannest/mudhut01` | `mudhut01intnew` |
 | `lodging` | `parcel.mazzatun.pen-c`, the easternmost shell | as built | `mudhut01intnew` |
 | `shrine` | `parcel.mazzatun.statue-court`, the rite ground | as built | open air |
 
 The store is reached by `route.mazzatun.works-store-path`, a carried-stock path
-up off the pen lane between the two western shells, because the upper step has
-no other open ground and a cart cannot be brought up it. The declared material
+up off the pen lane onto the upper lip, because the pens row itself has no open
+ground and a cart cannot be brought up it. The first draft dropped the store
+into the 15.8 m gap between the first and second shells, which left 1.3 m of
+hull-to-hull clearance on each side — under the 1.3 m two-character passage and
+under the 8 m spacing floor — so on 2026-09-07 it moved 5.5 m north onto the
+lip, where it clears both shells by more than 9 m. The declared material
 ceiling moved from 60 to 70 for the second mud shell.
 
 `lodging` is deliberately not a separate building. The tribe's hook is that it
@@ -238,3 +243,11 @@ The four catalogue sockets were realised under private ids, so each blueprint
 socket now carries a `socketRef` to the catalogue id it delivers:
 `scene.mazzatun.the-conduit-room`, `evidence.mazzatun.the-half-cut-blocks`,
 `station.mazzatun.shaper` and `marks.mazzatun.xit-xaht-mark`.
+
+## Player purposes (owner ruling 2026-09-07)
+
+The three pens are the only interiors, and all three are medium-tier: a witness
+who has begun to remember, a rota that can be learnt by taking a shift in the
+pen the overseers watch hardest, and the floor a working visitor is given to
+sleep on. Nothing here is major. The quest weight of Mazzatun sits in the works and the
+conduit room rather than in the pens.

@@ -242,7 +242,18 @@ town reads as incoherence); *E* (vanilla mixes kits in 29 % of settlements,
 the mod sets in 61–76 % — we follow vanilla); *L* material-culture "three
 kits, never blend"; *O* CLAUDE.md kits rule. **Enforced
 by** `blueprint.KIT_SETS` (one set per district, validator), `assetConstraints`
-bans, the interiors index culture check.
+bans, the interiors index culture check, and `_placement_warnings` 97 C1 (WARN:
+every parcel's `assetRef` is in a kit its district may use).
+
+**C1a. Kit purity is held over what a place is BUILT of: only `structure` and
+`building` parcels are tied to their district's one kit set. The dressing pool
+— the `works-v1` props, which are vanilla clutter and neutral by construction —
+is admitted to every kit set.** A notice board in an Argonian quay is dressing,
+not a second architecture, and a one-piece "district" drawn round a board is a
+plan unit that is not one (Lilmoth's dues-board district is deleted; the board
+lives in the lighter quay). *O* implementation lead 2026-09-07 (audit §7.2).
+**Enforced by** `blueprint.DRESSING_KITS` + `kits_for_district`, read by the
+C1 warning above.
 
 **C2. The plan unit is chosen by culture (the grammars are tabulated in Part
 F).** Argonian stilt: one boardwalk spine along the shelf, decks as nodes,
@@ -263,7 +274,11 @@ on ways (Imperial `straight`, Argonian `terrain`); reviewer against Part F;
 owner rounds (cities always).
 
 **C3. One spine, at most three secondary ways per district, back lanes and
-alleys behind them; four tiers at most; the spine is measurably wider.** The widths
+alleys behind them; four tiers at most; the spine is measurably wider. The
+GATE PIECE sets the width through it: a spine may narrow to the opening for
+the length of the gate and widen again beyond it.** A 4.3 m spine cannot pass
+a 3 m arch, and the arch is measured geometry while the width class is a
+convention (*O* implementation lead 2026-09-07, audit §7.8). The widths
 are road/spine 4.3 m (the measured road-piece median in both Skyrim and BM&V),
 track 2.5 m, footpath 1.2 m, boardwalk and pier at the kit piece's width; no
 passage narrower than two character widths (~1.3 m). Two ways of equal width
@@ -277,7 +292,13 @@ passage is checked (G12 closed).
 **C4. The centre is a shape on the spine, not a plaza: for Argonians the Hist
 court (a tree with cleared ground the settlement bends round); for Imperials
 the rectangular market at the first junction inside the gate; for Dunmer a
-riverside or terrace forecourt.** Commerce sits at the first node inside the
+riverside or terrace forecourt. Where C2 and C4 want the same ground, C2 wins:
+the Hist keeps the highest dry ground, and commerce sits on the spine at the
+first junction inside the threshold on the way to the sacred or authority
+node.** At Lilmoth the high ground is the ground nearest the gate, so the
+market cannot be both "first inside the gate" and "before the Hist"; the market
+is a node on the walked line, not a fixed distance from either (*O*
+implementation lead 2026-09-07, audit §7.3). Commerce sits at the first node inside the
 threshold, on the most integrated line, because configuration draws movement
 before attractors do; the Argonian market is a deck between gate and Hist,
 never at the Hist. *S* (market shape = plan; space syntax natural movement;
@@ -287,21 +308,58 @@ has its Hist; tree-minder arbitrates). **Enforced by** checklist items 6 and
 is a market/deck" check.
 
 **C5. Nearest-neighbour spacing is a legibility constant: p50 13–16 m
-between building centres in every culture and size, p10 not under 8 m; attachments
+between building FOOTPRINT CENTROIDS in every culture and size, p10 not under 8 m; attachments
 (`stacksOn`, a way that `endsAt`) are the only designed contacts.** Culture is
-expressed in density, edge and orientation, not in spacing. *E* (p50 12.2–16.2
+expressed in density, edge and orientation, not in spacing. The measure is the
+derived footprint centroid, never the authored pivot: several Ayleid pieces
+carry pivots 8–20 m from their own hulls, so pivot distance says nothing about
+what a player walks between (audit §6.1). Props are exempt — a rack beside an
+oven is the trade's furniture, not two buildings — though the 1.3 m passage of
+C3 still applies to them. *E* (p50 12.2–16.2
 m across four sets and four size classes; p10 8.0–12.8). **Enforced
-by** `blueprint_integration` `parcel-overlap` and `parcel-gap` (the 8 m floor,
-with the parcel flag `abuts` + `abutsWhy` as the designed-contact exception;
-G14 closed).
+by** `blueprint_integration` `parcel-overlap` and `parcel-gap` (the 8 m floor
+on centroids, with the hull-to-hull gap reported beside it; `abuts` + `abutsWhy`
+as the designed-contact exception; `kind: prop` exempt; G14 closed).
+
+**C5a. `abuts` covers KIT SNAP PAIRS only. A trade contact — a hoist against
+the rock face it works, an oven beside its rack — is declared `worksWith` +
+`worksWithWhy`: it is exempt from the 8 m floor, and it must keep 0.5 m of
+clear ground, because no author ever made those two pieces to touch.** *O*
+implementation lead 2026-09-07 (audit §7.5); CLAUDE.md kits rule. **Enforced
+by** the validator (`worksWith` schema, ids, `worksWithWhy`, never both `abuts`
+and `worksWith` for one pair) and `blueprint_integration` `parcel-gap`
+(`WORKS_WITH_CLEAR_M`, HARD).
+
+**C5b. Every parcel has a derived `kind` — `building` (encloses a room or has
+an entrance), `structure` (deck, scaffold, platform, bridge, gate, wall,
+tower), `prop` (rack, oven, cart, board, trough, cairn) — and the counting
+rules read it.** Props are exempt from the C5 floor, the C6 density band and
+the C7 use histogram, and are counted by C12 as dressing; structures count for
+C6 and not for C7; a `stacksOn` piece adds nothing to any count, because it is
+the same structure seen from higher up. The kind is derived from the interiors
+index and the measured mesh, not from the label (97 E2); a parcel may pin it
+with `kind:` where the derivation reads the mesh wrongly. *O* implementation
+lead 2026-09-07 (audit §7.1: the 8 m floor, the density band and the use
+histogram were reading a drying yard as a village). **Enforced by**
+`worldgen.parcel_kinds` (`parcel_kind`, `counted_parcels`), read by
+`parcel-gap`, `_placement_warnings` C1/C6/C7 and the `scaleGrounding`
+validator.
 
 **C6. Density falls as the place grows: hamlets 15–33 buildings/ha, villages
-7–16/ha, towns and cities 4–11/ha; growth buys radius, not tightness.** Radii:
-M2 ~20–35 m, M3 ~50–75 m, M4 ~75–120 m, M5 100–225 m. *E* (density and radius
+7–16/ha, towns and cities 4–11/ha; growth buys radius, not tightness. The
+measure is taken over the BUILT HULL — the convex hull of the counted parcels,
+buffered by the 15 m vegetation-clearance radius of C13 — and only for records
+classed `settlement`, from four counted parcels up.** Radii:
+M2 ~20–35 m, M3 ~50–75 m, M4 ~75–120 m, M5 100–225 m. A blueprint boundary
+carries the approaches, the water and the clearance ring, so measuring over it
+reported a village as empty ground; and the bands were mined from settlements,
+so a lair or a works camp judged on them is a number about nothing (audit
+§6.3). *E* (density and radius
 by size class); *L* settlement-register (M3 12–35 structures, M4 40–120, M5
-150–400; prefer many M3s to few M4s). **Enforced by** `scaleGrounding` (parcel
-count within ±25 % of `buildingsPlanned`); the density band is reported
-by the compile warnings (G15 closed, warn-grade).
+150–400 total placed objects — see D7). **Enforced by** `scaleGrounding`
+(buildings and structures within ±25 % of `buildingsPlanned`); the density band
+is reported by the compile warnings over `blueprint.built_hull_area_ha`
+(G15 closed, warn-grade).
 
 **C7. The building mix follows the magnitude ladder and lore, not the mined
 family shares.** Every M3+ has its Hist or substitute, an egg-tending place
@@ -309,7 +367,9 @@ family shares.** Every M3+ has its Hist or substitute, an egg-tending place
 specialism and an outsider presence; M5 adds districts, a market, guild or
 office buildings and a foreign quarter. Rough shares by `use`: dwellings 60–70
 %, work 15–25 %, civic and sacred 5–10 %, storage 5–10 % (hamlets run
-storage-heavy: sheds and racks). *E* (the mined family mix is 46–85 %
+storage-heavy: sheds and racks). The histogram counts BUILDINGS: a deck, a
+gate or a scaffold carries no use a household lives by, and a prop is dressing
+(C5b). *E* (the mined family mix is 46–85 %
 unclassified and is therefore not adopted); *L* settlement-register §1,
 material-culture offices. **Enforced by** the catalogue's socket list and
 `scaleGrounding.why`; reviewer; the `use` histogram is reported at compile (G16 closed, warn-grade).
@@ -341,14 +401,19 @@ marker-free game, so ours is total. *E*; *S* (Morrowind's diegetic direction);
 faces its way within 60°, HARD) and doorway match (a door sits only on a
 derived doorway: fixed ±45°, radial on the ring ±0.5 m); checklist item 10.
 
-**C10. Enclosure is cultural and rare: Argonian places have none but pens and
-totem lines — the water, the reed edge and the clearance ring are their edge;
+**C10. Enclosure is cultural and rare: Argonians build no fence or wall piece
+except where the lore cites one (Lilmoth's estuary pole wall) — but a CLOSED
+RING formed by dwellings, trunks and woven panels between them is allowed and
+IS the place's edge (Nine-Trunks); the water, the reed edge and the clearance
+ring are the rest of it;
 Imperial places wall the gate and fence yards and fields; Dunmer compounds
 wall themselves.** *E* (enclosure pieces within 15 m: p50 0 in every set, p90
 2 in Skyrim, 0 in the marsh sets — partly by absence of pieces); *L* (Helstrom
 defended by marsh and grove, not works; totems everywhere). **Enforced
 by** `fences[]` kinds and the reviewer; checklist item 13 (the edge reads
-from inside as well as outside).
+from inside as well as outside). The ring-of-dwellings case is a D-edge, not a
+`fences[]` entry: it is drawn as parcels and read as the edge (*O*
+implementation lead 2026-09-07, audit §7.4).
 
 **C11. Kit purity is per district and a piece is chosen on its measured
 geometry; a piece whose hull is not attributable to its pivot is dropped.**
@@ -428,11 +493,15 @@ in the marsh it is lit.** Under a closed canopy at dusk light is the only cue
 with range; a 9 m beacon under 14 m trees does not exist. One beacon, one or
 two mid-place markers at decision points, no rival to the beacon. *S*
 (signposting ladder: light ~40 %, sound ~15 %; local contrast); *E* (the
-scour: nothing 12 m tall reads at 1.4 km). **Enforced by** checklist items 3
-and 9; the type recipes' cue slot (tall / close / lit / audible). The compiler
-now runs a bare-terrain line of sight from the approach's first waypoint and
-reports the piece's height against the region palette's canopy (G10
-part-closed; the ray itself carries no canopy).
+scour: nothing 12 m tall reads at 1.4 km). The canopy compared against is the
+canopy ON THE RAY, sampled where the survey allows trees (not over open water,
+not on the place's own hard-cleared ground), and a DOWNWARD view — the walker's
+eye already above the top of the piece — is not judged on canopy at all (audit
+§6.4). **Enforced by** checklist items 3
+and 9; the type recipes' cue slot (tall / close / lit / audible); the compiler
+runs a bare-terrain line of sight from the approach's first waypoint and
+reports the piece's height against `compile_settlement._canopy_on_ray_m`
+(G10 part-closed; the ray is still bare terrain for the occlusion test).
 
 **D3. The threshold is spanned, not passed.** A gate, arch or bridge stands
 across its way. *S* (Totten; Bethesda gates); *O* 2026-09-05. **Enforced
@@ -456,9 +525,16 @@ landmark; what it reaches is recorded as a player purpose. *S*. **Enforced
 by** `endsAt` (schema) and checklist item 11 — the "pays" half is a reviewer
 judgement.
 
-**D7. Scale does not lie.** Building count within ±25 % of the lore-derived
-plan; the record names the lore source for the population. *O* 2026-09-05;
-*L*. **Enforced by** `scaleGrounding` validator.
+**D7. Scale does not lie. The Morrowind ratio is the rule, and it is a rule
+about STRUCTURES: Balmora reads as a city on roughly 40 of them, so an M5 is
+50–80 buildings and structures.** The settlement register's M5 band of 150–400
+counts TOTAL PLACED OBJECTS — buildings, structures, props and dressing — and
+the two figures are therefore not in conflict (module 92; *O* implementation
+lead 2026-09-07, audit §7.6). The count is of buildings and structures within
+±25 % of the lore-derived plan; props and stacked pieces do not add to it; the
+record names the lore source for the population. *O* 2026-09-05;
+*L*. **Enforced by** the `scaleGrounding` validator over
+`parcel_kinds.counted_parcels`.
 
 **D8. Metrics are sized against the character: 1.83 m tall, passages ≥ two
 widths (~1.3 m), walking ways ≤30°, no player-climbed slope over 45°, 60° the
@@ -572,13 +648,13 @@ One row per kit set. "Never appears" is a validator or reviewer ban.
 
 | Kit set | Where (zones) | Plan unit | Centre | Spacing p50 / density | Orientation rule | Enclosure | Water relation | Materials | Never appears |
 |---|---|---|---|---|---|---|---|---|---|
-| `argonian-stilt` | Murkmire, deltas, coasts: `mercantile-coast`, `saxhleel-coast`, `pirate-freeholds` (Argonian quarters) | boardwalk spine along the shelf; decks as nodes; dwellings hung off; non-gridded | Hist on the highest dry spot; market a deck between gate and Hist | 14–16 m; M3 8–16/ha, M5 4–10/ha | door to the boardwalk; front to water on the quay line; long axis along the shelf | none; totem lines, the reed edge | 15–30 % of buildings over water; floors above highest water; piles to bed | reed weave, timber piles, bark; canoes and rafts, no keels | wattle-and-daub; stone in new work; fences; keeled hulls as native craft |
-| `argonian-mud` | Shadowfen and the north: `dunmer-north` Argonian villages, `hist-heartland` north edge | compact cluster on the dry point or a ≤2 m mound; huts face the common | open common with the Hist; the clay oven the one masonry | 12–14 m; M2 15–30/ha, M3 10–16/ha | front to the common; long axis along the contour on a slope | pens only; a causeway is the edge | on the dry point; fields and fish-parks flood; causeway access | wattle-and-daub over log skeleton, thatch, mud | stilt platforms over open water; reed-woven walls; stone |
+| `argonian-stilt` | Murkmire, deltas, coasts: `mercantile-coast`, `saxhleel-coast`, `pirate-freeholds` (Argonian quarters) | boardwalk spine along the shelf; decks as nodes; dwellings hung off; non-gridded | Hist on the highest dry spot; market a deck between gate and Hist | 14–16 m; M3 8–16/ha, M5 4–10/ha | door to the boardwalk; front to water on the quay line; long axis along the shelf | `enclosure-v1` Argonian village family (`stonewallarch01` 1.72 m clear, the curved wall and pillar) at a footpath only; otherwise none — totem lines, the reed edge | 15–30 % of buildings over water; floors above highest water; piles to bed | reed weave, timber piles, bark; canoes and rafts, no keels | wattle-and-daub; stone in new work; fences; keeled hulls as native craft |
+| `argonian-mud` | Shadowfen and the north: `dunmer-north` Argonian villages, `hist-heartland` north edge | compact cluster on the dry point or a ≤2 m mound; huts face the common | open common with the Hist; the clay oven the one masonry | 12–14 m; M2 15–30/ha, M3 10–16/ha | front to the common; long axis along the contour on a slope | pens only; `enclosure-v1` Argonian village family where a stone arch is wanted (footpath class); a causeway is the edge | on the dry point; fields and fish-parks flood; causeway access | wattle-and-daub over log skeleton, thatch, mud | stilt platforms over open water; reed-woven walls; stone |
 | `argonian-root` | the interior: `hist-heartland`, `naga-kur-deeps` (deeps variant) | trained around trunks; passerelle runs on the kit's length/rise grammar; vertical | the grove; the tree-minder's hall a bigger version of a house | governed by trunk spacing (~15–25 m); M3 6–12/ha | door to the passerelle; front to its training trunk | none; the grove is the defence | never over open water; boardwalks cross wet ground | living root and limb, lashing, sap resin, bark shingle; deeps: cane, bog-oak, hide, bone, undressed xanmeer block | reed weave; wattle panels; stilt decks over water; quarried stone; nails |
-| `argonian-stone` | xanmeer sites province-wide | stepped terraces on a 3.64 m grid; stone bridges between masses | the summit chamber (the tribe's Hist once) | n/a (monument) | grid on 90°; axis to the cardinal or to the water it managed | the terrace itself | causeways and weirs as relict works | ashlar, vakka stone | any *new* Argonian building in stone; occupation except as reuse (Naga-Kur heterodoxy, tribes as warning-keepers) |
-| `imperial` | `imperial-fringe` (Gideon), `imperial-penal-south` (Blackrose), enclaves | planted grid; straight surveyed streets; plots with street frontage; fringe belt | rectangular market at the T of through roads, first junction inside the gate; keep on the high point, entered last | 12–15 m; M4 6–12/ha, M5 4–10/ha | front to the street; grid axis | walls and gate at the threshold; fenced yards and fields | on the bank or the bluff; visibly subsiding where it meets marsh soil (the lore's sinking Imperial houses) | ashlar, tile, timber frame; the keep set | organic lanes; stilts; reed |
-| `dunmer-hlaalu` | `dunmer-north` (Thorn, Stormhold quarters) | organic lanes; walled compounds; status climbs uphill from the water | a riverside or terrace forecourt; manors up, entered last | 11–14 m; M4 8–14/ha | front to the lane; compound wall to the lane | compound walls | river edge through the middle (the Balmora edge); saltrice grids below | Hlaalu domestic set (no Dres set exists — recorded gap) | Telvanni forms; Argonian kits inside the compound wall |
-| `neutral-works` | any zone, works types | freestanding props; layout says the trade | the working floor | by trade | to the resource (the bank, the pan, the cut) | scaffold rails only | downstream and downwind of dwellings; sluices in compiler-cut channels | vanilla props; `stockadescaffold` grammar | machinery props (none exist); a kiln, saltern or winding gear as a mesh |
+| `argonian-stone` | xanmeer sites province-wide | stepped terraces on a 3.64 m grid; stone bridges between masses | the summit chamber (the tribe's Hist once) | n/a (monument) | grid on 90°; axis to the cardinal or to the water it managed | the terrace itself — the Xanmeer tilesets carry NO authored gate (standing sourcing gap), so a cart way into a xanmeer site takes the nearest measured family in `enclosure-v1` and says so | causeways and weirs as relict works | ashlar, vakka stone | any *new* Argonian building in stone; occupation except as reuse (Naga-Kur heterodoxy, tribes as warning-keepers) |
+| `imperial` | `imperial-fringe` (Gideon), `imperial-penal-south` (Blackrose), enclaves | planted grid; straight surveyed streets; plots with street frontage; fringe belt | rectangular market at the T of through roads, first junction inside the gate; keep on the high point, entered last | 12–15 m; M4 6–12/ha, M5 4–10/ha | front to the street; grid axis | `enclosure-v1` newcastle curtain family (`1024wallgate01` 5.52 m clear, the only gate that passes a 4.3 m spine) plus its Whiterun farm-fence family for yards and fields | on the bank or the bluff; visibly subsiding where it meets marsh soil (the lore's sinking Imperial houses) | ashlar, tile, timber frame; the keep set | organic lanes; stilts; reed |
+| `dunmer-hlaalu` | `dunmer-north` (Thorn, Stormhold quarters) | organic lanes; walled compounds; status climbs uphill from the water | a riverside or terrace forecourt; manors up, entered last | 11–14 m; M4 8–14/ha | front to the lane; compound wall to the lane | `enclosure-v1` Redoran compound family (`redoranwallgate` 3.52 m clear at track class, `redoranwall` on a 3.64 m module) | river edge through the middle (the Balmora edge); saltrice grids below | Hlaalu domestic set (no Dres set exists — recorded gap) | Telvanni forms; Argonian kits inside the compound wall |
+| `neutral-works` | any zone, works types | freestanding props; layout says the trade | the working floor | by trade | to the resource (the bank, the pan, the cut) | scaffold rails, and `enclosure-v1`'s stockade palisade family where a works is shut; a works in another culture's hands takes that culture's family and the record says why | downstream and downwind of dwellings; sluices in compiler-cut channels | vanilla props; `stockadescaffold` grammar | machinery props (none exist); a kiln, saltern or winding gear as a mesh |
 | `neutral-underwater` | drowned quarters, wrecks, reefs | sparse; reads as a plan from above | the hollow a diver can enter | 6–10 structures per drowned district | to the old street plan | none | −1 to −10 m; ridges breaking the surface as the cue | Sirenroot blocks, HTBM totems, pile clusters | new Argonian building; anything not piled or ruined |
 
 ---
@@ -606,8 +682,10 @@ message, so a failure sends the reader to one rule above.
 | G12 | C3/D8 | spine width and 1.3 m passage not checked | integration: spine `widthM` > every other way in the blueprint; min gap between neighbouring footprints along a way ≥ 1.3 m  | **CLOSED** — `blueprint_integration` `passage` (a way between two hulls needs 1.3 m of clear gap, HARD) + width classes in `_placement_warnings` (road 4.3 m, track 2.5, path 1.2, plus no rank inversion, WARN) |
 | G13 | C4 | first-node-is-commerce not checked | checklist item; later an integration rule that the first `endsAt` on the spine after the `spans` parcel is a market/deck/hall `use`  | OPEN (reviewer checklist) |
 | G14 | C5 | 8 m nearest-neighbour floor | integration `parcel-gap` (centre distance ≥ 8 m unless `stacksOn`)  | **CLOSED** — `blueprint_integration` `parcel-gap` (8 m between centres, HARD), with the designed-contact exceptions `stacksOn`, `spans`, enclosure `use` plus the new parcel flag `abuts` + `abutsWhy` |
-| G15 | C6 | density band by magnitude | compiler report: parcels/ha of `boundary` vs the magnitude band; warning outside it  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C6: buildings per hectare of the boundary against the size class's band, with the number |
-| G16 | C7 | `use` mix | compiler report of the `use` histogram per blueprint  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C7: the `use` histogram against the band, once ≥8 parcels are classified |
+| G15 | C6 | density band by magnitude | compiler report: parcels/ha of the BUILT HULL vs the magnitude band; warning outside it  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C6: buildings and structures per hectare of `built_hull_area_ha` (the parcels' convex hull, buffered 15 m) against the size class's band, settlement records only, with the number |
+| G16 | C7 | `use` mix | compiler report of the `use` histogram per blueprint  | **CLOSED (WARN)** — `blueprint._placement_warnings` 97 C7: the `use` histogram of BUILDINGS against the band, once ≥8 are classified |
+| G23 | C1a/C5b | props, structures and buildings were one undifferentiated "parcel", so a works yard was judged as a village | derive a `kind` per parcel from the interiors index and the measured mesh; the counting rules read it | **CLOSED** — `worldgen.parcel_kinds`; C1 kit-set membership is reported (WARN) with the dressing pool admitted everywhere |
+| G24 | C5a | "designed to touch" covered kit snaps only, so a hoist against its rock face had to be mis-declared as a snap | a second flag for trade contacts, with a clearance rather than a join | **CLOSED (HARD)** — `worksWith` + `worksWithWhy` (validator) and `parcel-gap`'s `WORKS_WITH_CLEAR_M` 0.5 m |
 | G17 | C8 | yaw diversity | validator: ≤10 % of a district's parcels within 5° of one yaw  | **CLOSED** — `blueprint.validate_blueprint` 97 C8 (HARD): at most max(2, 10 %) of a district's parcels within ±5° of one bearing, from 8 parcels up, unless the district declares `routing: "straight"` |
 | G18 | C12 | no outdoor dressing pass | `compile_settlement` dressing rule per `use` with count bands and a rotating vocabulary; report counts  | OPEN (no outdoor dressing pass) |
 | G19 | C14/E3 | kit `snapLogic` is prose | per-kit connector table (`connectors.json`: entry/exit faces, lengths, rises, radii, side counts) checked when two pieces touch  | OPEN (needs `connectors.json`) |

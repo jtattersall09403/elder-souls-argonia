@@ -268,7 +268,12 @@ class LocalField:
             if not fp:
                 continue
             poly = [(float(q[0]) * self.extent_m, float(q[1]) * self.extent_m) for q in fp]
-            parcels.append((poly, ENDS_PARCEL_PENALTY if p.get("id") in ends else PARCEL_PENALTY))
+            # bbox is carried alongside the polygon purely to skip the ray cast
+            # for cells that cannot possibly be inside it: an exact prefilter,
+            # never a change to which cells are penalised.
+            bx = [q[0] for q in poly]; bz = [q[1] for q in poly]
+            parcels.append((poly, ENDS_PARCEL_PENALTY if p.get("id") in ends else PARCEL_PENALTY,
+                            (min(bx), min(bz), max(bx), max(bz))))
 
         neighbours: list[list[tuple[float, float]]] = []
         for key in WAY_KEYS:
@@ -280,7 +285,9 @@ class LocalField:
                 via = [(float(q[0]) * self.extent_m, float(q[1]) * self.extent_m)
                        for q in (w.get("via") or [])]
                 if len(via) >= 2:
-                    neighbours.append(via)
+                    nx = [q[0] for q in via]; nz = [q[1] for q in via]
+                    neighbours.append((via, (min(nx) - NEIGHBOUR_M, min(nz) - NEIGHBOUR_M,
+                                             max(nx) + NEIGHBOUR_M, max(nz) + NEIGHBOUR_M)))
 
         self.mult = [[1.0] * self.w for _ in range(self.h)]
         for r in range(self.h):
@@ -293,12 +300,13 @@ class LocalField:
                         m *= DRY_PENALTY_WET_WAY
                 elif water:
                     m *= WATER_PENALTY_DRY_WAY
-                for poly, pen in parcels:
-                    if _point_in_poly(x, z, poly):
+                for poly, pen, (bx0, bz0, bx1, bz1) in parcels:
+                    if bx0 <= x <= bx1 and bz0 <= z <= bz1 and _point_in_poly(x, z, poly):
                         m *= pen
                         break
-                for nb in neighbours:
-                    if _dist_point_polyline((x, z), nb) <= NEIGHBOUR_M:
+                for nb, (nx0, nz0, nx1, nz1) in neighbours:
+                    if (nx0 <= x <= nx1 and nz0 <= z <= nz1
+                            and _dist_point_polyline((x, z), nb) <= NEIGHBOUR_M):
                         m *= NEIGHBOUR_PENALTY
                         break
                 self.mult[r][c] = m
@@ -454,6 +462,34 @@ def _way_class(bp: dict, way: dict) -> str:
     return "routes"
 
 
+_FIELD_CACHE: dict = {}
+_FIELD_CACHE_MAX = 64
+
+
+def local_field(way: dict, bp: dict, survey, cell_m: float = CELL_M) -> "LocalField":
+    """`LocalField(way, bp, survey)`, memoised on the inputs that determine it.
+
+    A field is expensive (a cost multiplier per 1 m cell) and is rebuilt
+    identically every time the same blueprint is validated — which the suites
+    do many times over. The key is the full content the constructor reads, so
+    any edit to the way, the boundary, the parcels or the sibling ways misses
+    the cache; a *different* survey object misses it too. Read-only after
+    construction, so sharing one is safe."""
+    try:
+        key = (id(survey), cell_m, json.dumps(
+            [way, bp.get("boundary"), [(p.get("id"), p.get("footprint")) for p in bp.get("parcels") or []],
+             [[(w.get("id"), w.get("kind"), w.get("via")) for w in bp.get(k) or []] for k in WAY_KEYS]],
+            sort_keys=True, default=str))
+    except (TypeError, ValueError):                     # noqa: BLE001 - uncacheable input
+        return LocalField(way, bp, survey, cell_m)
+    field = _FIELD_CACHE.get(key)
+    if field is None:
+        if len(_FIELD_CACHE) >= _FIELD_CACHE_MAX:
+            _FIELD_CACHE.clear()
+        field = _FIELD_CACHE[key] = LocalField(way, bp, survey, cell_m)
+    return field
+
+
 def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
     """The derived `points` polyline for one way, in province UV."""
     extent_m = _extent_m(survey) if survey is not None else PROVINCE_EXTENT_M
@@ -468,7 +504,7 @@ def route_way(way: dict, bp: dict, survey=None) -> list[list[float]]:
     if routing == "arc":
         pts_m = catmull_rom(via_m)
     elif routing == "terrain" and not is_fence and survey is not None:
-        field = LocalField(way, bp, survey)
+        field = local_field(way, bp, survey)
         pts_m = []
         for a, b in zip(via_m, via_m[1:]):
             cells = field.astar(field.rc(*a), field.rc(*b))

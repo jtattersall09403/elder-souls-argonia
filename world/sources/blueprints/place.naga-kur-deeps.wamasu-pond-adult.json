@@ -48,9 +48,9 @@
       "loreSource": "type-recipes.json#wamasu-pond (slots.population: one to three wamasu; the elevated member is a hunter's abandoned stand; countBand 4-7 lairs of this type), Lore:Wamasu, Lore:Haynekhtnamet.",
       "population": 1,
       "households": 0,
-      "buildingsPlanned": 3,
+      "buildingsPlanned": 2,
       "npcsPlanned": 0,
-      "why": "A beast lair is sized by its creature count and its structure count, not by households: the adult variant of the recipe carries a single resident animal. Its two structures are the abandoned hunter's stand named in the recipe and the offering platform that Lore:Haynekhtnamet licenses. No dwelling, no door, no resident people. The count is three because the stand is authored as two stacked pieces, footing and deck, each of which the validator counts; the ground carries two structures."
+      "why": "A beast lair is sized by its creature count and its structure count, not by households: the adult variant of the recipe carries a single resident animal. Its two structures are the abandoned hunter's stand named in the recipe and the offering platform that Lore:Haynekhtnamet licenses. No dwelling, no door, no resident people. The count is two. The stand's footing and its deck are one structure in two stacked pieces, so the validator counts the structure and not its parts."
     },
     "districts": [
       {
@@ -628,12 +628,16 @@
             0.639587
           ],
           [
-            0.35525874,
-            0.637078222
+            0.357699912,
+            0.637213842
           ],
           [
-            0.35525874,
-            0.633958946
+            0.35322443,
+            0.63273836
+          ],
+          [
+            0.353292,
+            0.631992
           ],
           [
             0.352139464,

@@ -490,3 +490,112 @@ separate authored systems.
 reads as a shell with no doorway. Its entrance is not a repeated authored
 placement anywhere in Black Marsh, so there is nothing to measure; a door will
 have to be chosen by design when the form is first placed.
+
+### 2026-09-07 — road-spanning gates, walls and fences (`enclosure-v1`)
+
+**Owner ruling 2026-09-07:** *"I don't believe there is only one road-spanning
+gate available to us across vanilla + Tropical Skyrim + all the mods we have.
+Just because something isn't in the built kits doesn't mean it isn't available.
+Source and resolve."* He was right. Nothing was downloaded — every piece below
+was already in the vault and already credited; what was missing was that anyone
+had **measured** it.
+
+**Method.** Directory reads of every architecture tree in the registries (never
+a keyword search of mesh files), then two throwaway probe kits
+(`probe-enclosure`, `probe-enclosure2`, 119 pieces) built with
+`pipeline.build_kit`, then an aperture measurement on the built GLBs: for each
+piece, horizontal rays are fired through it along its short axis at 4 cm
+lateral steps and at 0.3 / 1.0 / 1.8 / 2.2 / 3.0 / 4.0 m above its own ground
+plane, and the widest run of rays that passes clean is its **clear span at that
+height**. A gate that only clears its width at ankle height is a shut gate, and
+the numbers say so. Pass marks are module 97 C3: road/spine 4.3 m, track 2.5 m,
+footpath 1.2 m, nothing under 1.3 m for two characters abreast.
+
+#### Candidates, measured
+
+Clear span is the width held from 0.3 m to 2.2 m unless noted.
+
+| Piece | Pool | Clear span | Height | Class | Verdict |
+|---|---|---|---|---|---|
+| `newcastle/wall/1024/1024wallgate01` | bmv | **5.52 m** | 20.03 m | **spine** | **chosen** — the only modular curtain-wall gate in the vault that clears a 4.3 m road |
+| `newcastle/wall/1024/1024arch01` | bmv | **8.96 m** | 17.30 m | **spine** | **chosen** — free-standing triumphal arch, spans a way with no wall |
+| `architecture/whiterun/wrcitywalls/wrwallmaingate01` | vanilla | 15.23 m | 26.09 m | spine | rejected — a unique Whiterun city façade 10.8 × 22.7 m, not a module; its "opening" is the courtyard mouth |
+| `architecture/windhelm/whgate3` | vanilla | 8.09 m | 13.64 m | spine | rejected on culture — Windhelm's grey Nordic masonry, and Tropical ships no retexture for it |
+| `architecture/riften/rtnorthgate01` | vanilla | 4.60 m | 18.19 m | spine | rejected — unique Riften piece 13 × 15 m with its own bridge geometry; nothing joins it |
+| `hlaalu/hammerfell/misc walls/stonewallgatearc001` | hlaalu | 4.53 m | 8.00 m | **spine** | already kitted in `hlaalu-domestic` — the Dunmer/Hammerfell arch, and it passes the spine |
+| `newcastle/wall/1024/1024wallgate02` | bmv | 2.28 m | 20.03 m | track | **chosen** as the postern in the same wall |
+| `redoran/custom/redoranwallgate` | bmv | 3.52 m | 10.11 m | track | **chosen** — the Dunmer compound gate |
+| `ruins/legion/redruingate` | htbm | 3.92 m | 14.30 m | track | **chosen** — the ancient/ruined gate |
+| `dungeons/imperial/exterior/impextwallgate01` (and the Helgen twin) | vanilla | 4.05 m | 8.12 m | track | rejected on culture — vanilla Nordic fort masonry; module 90 §74.1a-bis makes `mwkeep` the province's Imperial language |
+| `mwkeep/exterior/walls/mwimparchwallgate01` | mwkeep | 3.20 m | 13.06 m | track | already kitted in `imperial-keep`; **track class, not a road gate** — this is why the province looked gateless |
+| `hlaalu/hammerfell/trgmlcwallenterb` | hlaalu | 3.16 m | 3.73 m | track | already kitted in `hlaalu-domestic` |
+| `ruins/legion/0mjy_aztecportal` | htbm | 3.13 m | 4.34 m | track | **chosen** — but 0.11 m thick: a frame set into a mass, never free-standing |
+| `ayleidruins/exterior/ararch01 / 02 / 03` | ayleidkit | 2.96 m | 20.79 / 19.29 / 15.06 m | track | **chosen** — a graded set of free-standing arches for a processional way |
+| `architecture/solitude/spatiowallentrance` | vanilla | 4.08 m | 11.39 m | track | rejected — a Solitude-specific wall entrance that only meets Solitude's own curved wall |
+| `hlaalu/winterhold/whcitygate02tgc` | hlaalu | 3.72 m | 21.30 m | track | rejected — one 44 m unique piece, gate and wall fused; nothing modular to run off it |
+| `architecture/farmhouse/walkway/walkwaycwallgate01` | vanilla | 6.69 m | 10.13 m | spine | kept where it is (`works-v1`, read as a sluice gate); see "what to re-place" below |
+| `villages/argonian/stonewallarch01` | htbm | 1.72 m | 5.39 m | footpath | **chosen** — the only enclosure piece authored in an Argonian idiom |
+| `gv_meshes/argoniannest/archwaysticks` | mudmother | 1.57 m | 2.73 m | footpath | already kitted in `settlement-mud-v1` |
+| `clutter/stockade/stockadewallwalkway01` | vanilla | 1.33 m | 2.68 m | footpath | **chosen** as a sally port under the palisade walk |
+| `wrfarmfence/wrfencestrgate01` | vanilla | 1.41 m (1.13 m at waist) | 1.51 m | footpath | **chosen** — the field gate, not a road gate |
+| `clutter/stockade/stockadegate01` | vanilla | 2.28 m at 0.3 m, **0.20 m at 1.0–2.6 m** | 4.23 m | none | **chosen only as a SHUT gate** — the leaf is modelled closed; a player cannot walk through it |
+| `newcastle/wall/512/512wallgate01` | bmv | **0.24 m** | 20.03 m | none | rejected on geometry — same defect, leaf modelled shut |
+| `dungeons/imperial/portculliskit/portimpgate01` | vanilla | 0.28 m | 5.41 m | none | rejected — the portcullis grate itself, an animated part with no frame |
+| `architecture/markarth/mrkfrontwallintgate01` | vanilla | 0.64 m | 9.83 m | none | rejected on geometry — the arch is filled by its own gate mass |
+| `architecture/riften/rtmaingate01`, `walls/rtsouthgate01` | vanilla | 0.00 m | — | none | rejected — door leaf and wall block, not openings |
+| `architecture/solitude/smaingate` | vanilla | 2.60 m at 1.0 m, 0.08 m above | 29.68 m | none | rejected on geometry — the lintel drops below head height across the span |
+| `phitt/stronghold/entrance`, `fort00/01` | bmv | 1.81 m / ≤0.83 m | — | footpath / none | rejected as gates — the stronghold pieces are building shells, not wall runs |
+| `largecastle/1sov castlegatehouse` | bmv | 1.76 m | 7.03 m | footpath | rejected — the passage closes to 0 m above 2.2 m; a low gatehouse tunnel |
+| `xanmeer/exterior/xanmeer_exterior_wall`, `wallstraight` (htbm) | xanmeer, htbm | 0.00 m | — | — | wall modules with no gate anywhere in either set — recorded as a **standing gap**: the Xanmeer tilesets have no authored gate, and one may not be faked from two wall halves |
+
+#### Wall, palisade and fence runs chosen
+
+| Family | Run pieces | Module | Co-placement evidence |
+|---|---|---|---|
+| newcastle curtain wall (imperial/civic) | `1024wall01/02`, corners 2/3/4-way, `1024wallround01`, towers `01a/01b`, `1024wallstair01`, `512wall01a/02`, `512pillar01`, `256wall01/02`, `256wallendcap`, ledge run, `ramp01`, `1024wallslope256`, guardhouse + its door | 14.57 / 7.28 / 3.64 m, 20.03 m tall | none mined (the set's cells are outside the placement mine) — module taken from the measured geometry |
+| Whiterun farm fence (imperial rural) | `wrfencebasestr01`, `wrfencestr01`, `wrfencebaseend01`, `wrfencebasecor01`, `wrfencecor01`, `wrfencebase4way01`, `wrfence4way01`, `wrfencebasesupport01` | footing chains at 3.64 m; rail sits 1.17 m above the footing | vanilla:t0045 (19), t0460/t0461 (6 each), t0287 (8) — the one composite in the kit |
+| Redoran compound (dunmer) | `redoranwall`, `redoranwallcorner`, `redoranwalldivider` | 3.64 m, 8.88 m tall; corner 5.46 m | none mined; measured |
+| Argonian village wall | `stonewallcurve01/02`, `stonewallpillar01` | 4.44 / 5.13 m curved, 2.49 m tall | none mined; measured |
+| stockade palisade (neutral/frontier) | `stockadewallstraight01`, `wallcornerin01`, `wallcornerout01`, `stockadetower01`, `stockadebarricade01`, `stockadepike01` | 6.01 m, 4.19 m tall | vanilla:t0134/t0288 chain the scaffold, not the wall; the wall module is measured |
+
+#### What was built
+
+`enclosure-v1` (55 assets, one composite), tropicalised, with the same
+`clutter/stockade` texture aliases `works-v1` uses. It is deliberately a
+**cross-culture vocabulary kit with per-family snap rules** rather than six
+additions to six settlement kits: enclosure is rare and cultural (module 97
+C10), it is placed by the route/terminal side of the compiler rather than by a
+district, and keeping the six families in one config with an explicit
+never-mix rule is the only place a future agent will look for "what gate goes
+on this way". No family is mixed with another; the rule is written into
+`snapLogic`.
+
+#### Two pieces held out of the kit (2026-09-07)
+
+`bmv:architecture/newcastle/buildings/guardhouse` and its loose
+`newcastle/door/guardhousedoor` were built into the first cut and are now
+removed. The guardhouse is a **building** with a matched interior
+(`guardhouseint`), not an enclosure piece; the interiors probe derives no
+doorway from its shell (the ring at 1.1 m matches the wall all the way round),
+and the door is a separate mesh authored at its own origin, dead centre of the
+guardhouse's plan, so nothing in the geometry says where its author hung it.
+The placement mine holds no newcastle cells, so there is no template to read it
+off either. Composing the two would be guessing, which the kit rule forbids.
+A gatehouse for the newcastle wall is therefore a **sourcing gap**: either mine
+the mod's own cells for the door offset, or take a gatehouse from a set that
+ships one whole.
+
+#### Blueprints re-placed onto the kit
+
+`place.dunmer-north.mazzatun` spanned BOTH its ways with
+`vanilla:architecture/farmhouse/walkway/walkwaycwallgate02`, the Nordic timber
+walkway gate — a farm sluice piece read as a city gate. Both are now
+**`bmv:architecture/redoran/custom/redoranwallgate`** (3.52 m clear at track
+class, 10.11 m to the parapet), which passes the 3 m haul road and the 2.5 m
+ridge track alike. Mazzatun is Xit-Xaht, an **Argonian** tribe, and the kit's
+Argonian family clears 1.72 m — a footpath, not the cart ways these gates
+carry — so the Argonian idiom has no gate for this job anywhere in the vault.
+That stays a standing gap. The Redoran reading is the record's own: the
+Xit-Xaht raid their Dunmer neighbours for labour, and the masonry across the
+road is taken the same way the people are. Reasoning and the old→new pieces are
+in the Mazzatun design record §13.

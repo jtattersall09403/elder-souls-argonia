@@ -1,0 +1,153 @@
+{
+ "id": "probe-enclosure2",
+ "description": "Second sourcing probe for the road-spanning gate pass (owner ruling 2026-09-07): the modular castle-wall, Redoran, Ayleid, Xanmeer, city-gate and rural-arch candidates the first probe did not cover. Not a shipping kit.",
+ "output": "tooling/asset-pipeline/output/kits/probe-enclosure2.glb",
+ "lodRatios": [
+  0.35
+ ],
+ "textureMaxSize": 256,
+ "assets": [
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024arch01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallgate01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallgate02"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wall01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024walltower01a"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/512/512wallgate01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/512/512wall01a"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/256/256wall01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/256/256wallendcap"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/activator/wallgate01"
+  },
+  {
+   "asset": "bmv:architecture/largecastle/1sov castlegatehouse"
+  },
+  {
+   "asset": "bmv:architecture/largecastle/longwall"
+  },
+  {
+   "asset": "bmv:architecture/largecastle/longwalltower"
+  },
+  {
+   "asset": "bmv:architecture/rochester/torbogen"
+  },
+  {
+   "asset": "bmv:architecture/rochester/ruin/mauer01"
+  },
+  {
+   "asset": "bmv:architecture/rochester/ruin/mauer02"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwallgate"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwall"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwallcorner"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwalldivider"
+  },
+  {
+   "asset": "bmv:architecture/phitt/stronghold/fort00"
+  },
+  {
+   "asset": "bmv:architecture/phitt/stronghold/fort01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arentrance01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringouterwall01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arringdivider01"
+  },
+  {
+   "asset": "xanmeer:architecture/xanmeer/exterior/xanmeer_exterior_wall"
+  },
+  {
+   "asset": "xanmeer:architecture/xanmeer/exterior/xanmeer_exterior_gazebo"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal"
+  },
+  {
+   "asset": "vanilla:architecture/solitude/spatiogate01"
+  },
+  {
+   "asset": "vanilla:architecture/solitude/spatiowallentrance"
+  },
+  {
+   "asset": "vanilla:architecture/solitude/spatiowall01"
+  },
+  {
+   "asset": "vanilla:architecture/solitude/smaingate"
+  },
+  {
+   "asset": "vanilla:architecture/riften/rtmaingate01"
+  },
+  {
+   "asset": "vanilla:architecture/riften/rtnorthgate01"
+  },
+  {
+   "asset": "vanilla:architecture/riften/rtirongateframe01"
+  },
+  {
+   "asset": "vanilla:architecture/riften/walls/rtsouthgate01"
+  },
+  {
+   "asset": "vanilla:architecture/windhelm/whgate3"
+  },
+  {
+   "asset": "vanilla:architecture/windhelm/whgate4"
+  },
+  {
+   "asset": "vanilla:architecture/markarth/mrkfrontwallintgate01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/winterhold/whcitygate02tgc"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01"
+  }
+ ],
+ "inspect": true
+}

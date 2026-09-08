@@ -205,6 +205,18 @@
             0.718772007,
             0.601385737
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "bed",
+            "tier": "medium",
+            "note": "A bunk the polers let by the night when the last lighter is unloaded."
+          },
+          {
+            "kind": "rumour",
+            "tier": "minor",
+            "note": "Which of the two toll claims the polers actually pay, and to whom."
+          }
         ]
       },
       {
@@ -345,7 +357,19 @@
             0.59668004
           ]
         ],
-        "stacksOn": "parcel.mire-landing.quay-deck"
+        "stacksOn": "parcel.mire-landing.quay-deck",
+        "playerPurpose": [
+          {
+            "kind": "cache",
+            "tier": "medium",
+            "note": "Poling gear and a short measure of rope stowed under the floor boards."
+          },
+          {
+            "kind": "hiding-place",
+            "tier": "minor",
+            "note": "An empty shell off the quay that breaks the line of sight from the road."
+          }
+        ]
       },
       {
         "id": "parcel.mire-landing.quay-deck",
@@ -623,6 +647,18 @@
             0.712700254,
             0.6013177
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "valuables",
+            "tier": "medium",
+            "note": "Bonded cargo waiting on the tolls, owned and countable against the ledger."
+          },
+          {
+            "kind": "lock-target",
+            "tier": "medium",
+            "note": "The cargo door is locked and the factor carries the only key."
+          }
         ]
       },
       {
@@ -682,6 +718,18 @@
             0.713461545,
             0.604042289
           ]
+        ],
+        "playerPurpose": [
+          {
+            "kind": "quest-giver",
+            "tier": "major",
+            "note": "The Imperial factor, who wants the clan's toll claim tested in writing."
+          },
+          {
+            "kind": "trade",
+            "tier": "medium",
+            "note": "The factor buys and sells against the cargo he is holding on the quay."
+          }
         ]
       }
     ],
@@ -1030,47 +1078,44 @@
         "parcelId": "parcel.mire-landing.hut-1",
         "facingDeg": 319.7,
         "thresholdUV": [
-          0.71900895,
-          0.601020241
+          0.719008352,
+          0.60102
         ],
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
           "owner": "a poler family",
-          "interiorRef": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/bamboohut01_int"
-        },
-        "doorwayRef": 0
+          "interiorRef": "htbm-hut-int"
+        }
       },
       {
         "id": "door.fixture.mire-landing.2",
         "parcelId": "parcel.mire-landing.warehouse",
         "facingDeg": 207.0,
         "thresholdUV": [
-          0.713796069,
-          0.60155368
+          0.713796432,
+          0.601554588
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
           "owner": "the factor",
           "interiorRef": "vanilla-farmhouse-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.fixture.mire-landing.3",
         "parcelId": "parcel.mire-landing.factor-house",
         "facingDeg": 255.7,
         "thresholdUV": [
-          0.713539883,
-          0.605427815
+          0.714011715,
+          0.605307546
         ],
         "interiorClaim": {
           "sizeClass": "large",
           "culture": "imperial",
           "interiorRef": "vanilla-farmhouse-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.fixture.mire-landing.4",
@@ -1085,8 +1130,7 @@
           "culture": "argonian",
           "interiorRef": "vanilla-farmhouse-int",
           "owner": "a reed-cutter"
-        },
-        "doorwayRef": 1
+        }
       }
     ],
     "clearance": {

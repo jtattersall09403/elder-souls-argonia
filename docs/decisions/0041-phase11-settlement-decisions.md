@@ -2363,3 +2363,49 @@ register, and the Xi-Tsei siting rationale moved out of `why.founding` into a ne
 mix and is now a share rule, and `compile_minor_routes` now refuses to start a
 footpath at a land cell further than `SNAP_M` from a water-sited record. Count
 bands re-derived; `npm test`, `npm run typecheck` and the worldgen suite green.
+
+### Batch reconciliation round (2026-09-07)
+
+Four concurrent batches — entrance/front derivation, typed player purposes,
+tool defects, `enclosure-v1` — were reconciled into one green tree. What came
+out of it, as lessons rather than a changelog:
+
+- **The committed plot is not stable under a water rebuild.** The Phase P water
+  rescue filled 298 pools and re-carved the channels, and 28 plotted records now
+  fail their own siting gate: twelve dry places stand in 1.1–4.6 m of standing
+  water, six "submerged" places sit in under the 0.8 m the gate wants, three
+  binds and two sightlines broke. They are pinned in `macro_plot.RESITE_PINS`
+  with a reason each and kept on their committed dot, because moving them
+  mid-water-pass moves them twice and strands the blueprints, routes and quests
+  built on the plot. **They are a backlog for the owner-approved re-plot, not a
+  closed item** — each needs a decision to move the dot or to re-write the
+  record's identity to match the water it now stands in.
+- **A derived rule may not overwrite an authored one silently.** The front pass
+  turned Mazzatun's two gates off square to the roads they span, which the
+  network stitch then rejected; the prose still described the old bearing. A
+  piece that carries BOTH a derived front and a hard geometric contract (a gate
+  stands across its road) must be held to the contract first.
+- **`playerPurpose[].note` is a design-voice record, like `why.playerPurpose`.**
+  The prose linter now scopes it, and exempts it from the canon-marker rule on
+  the same grounds: nobody in the game reads it, so it may name the player.
+- **A kit is not the place for a piece whose door nobody has mined.**
+  `enclosure-v1` shipped the newcastle guardhouse and its loose door; the door
+  is authored at its own origin in the middle of the guardhouse's plan and no
+  cell in the placement mine places the pair, so the composite would have been a
+  guess. Both pieces are out of the kit and the gap is recorded in the sourcing
+  log. `enclosure-v1` is now named per culture in module 97 Part F and admitted
+  to the `imperial`, `dunmer-hlaalu` and `neutral-works` kit sets.
+- **A brief's premise is checked against the record.** The batch brief called
+  Mazzatun "a Dunmer-run stone works"; it is Xit-Xaht, an Argonian tribe. The
+  Redoran gate is still the right piece, because the only Argonian enclosure
+  piece in the vault clears 1.72 m — a footpath, not the cart ways these gates
+  carry — and because the record already says the Xit-Xaht raid their Dunmer
+  neighbours. The reason written into the blueprint is that one, not the
+  brief's.
+
+Mazzatun's compile went from 7 errors to 0 (gates squared and re-placed, the
+works store moved off a 1.3 m slot between two pens, the two stairs declared
+`worksWith`). Lilmoth's design record was reconciled to its JSON (seven
+districts, 61 parcels, 17 sockets, the whole yaw column, the C7 deviation
+closed). `npm test`, `npm run typecheck`, the worldgen suite (453) and the
+asset-pipeline suite (111) are green; `lint_prose --strict` exits 0.

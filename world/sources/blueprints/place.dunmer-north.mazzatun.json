@@ -55,8 +55,8 @@
             1993.3,
             1455.9
           ],
-          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and Δ 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
-          "rejectedBecause": "Δ ≥ 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
+          "why": "The plotted position, 115 m south. Slope 46.9 deg at the point and \u0394 24.0 m across a 30 x 20 m core; nothing above the smallest prop can stand on it.",
+          "rejectedBecause": "\u0394 \u2265 2 m over every candidate footprint. The ladder forbids grading there. Re-sited, not graded."
         },
         {
           "id": "candidate.mazzatun.gorge",
@@ -244,23 +244,27 @@
           ],
           [
             0.279310797,
-            0.183020113
+            0.183155733
           ],
           [
-            0.279039556,
+            0.279175177,
             0.183291354
           ],
           [
-            0.279039556,
+            0.278903935,
+            0.183155733
+          ],
+          [
+            0.278632694,
+            0.183426975
+          ],
+          [
+            0.278632694,
             0.183969457
           ],
           [
             0.278497073,
-            0.183969457
-          ],
-          [
-            0.278090211,
-            0.183562595
+            0.184105078
           ],
           [
             0.277547728,
@@ -315,16 +319,16 @@
             0.183155733
           ],
           [
-            0.272801005,
+            0.272665384,
             0.183155733
           ],
           [
             0.272529763,
-            0.183426975
+            0.183291354
           ],
           [
-            0.271806897,
-            0.183439956
+            0.272049996,
+            0.183335334
           ]
         ]
       },
@@ -349,8 +353,8 @@
         "why": "The passage through the gate itself, square to the wall, which the gate parcel spans; drawn straight because a gate opening is a surveyed thing.",
         "points": [
           [
-            0.271789555,
-            0.183401005
+            0.272046088,
+            0.183333413
           ],
           [
             0.271085403,
@@ -380,8 +384,8 @@
         "why": "The yard road from the inside of the gate to the foot of the great stair: the spine of the yard, along which the carts run.",
         "points": [
           [
-            0.271356879,
-            0.183556214
+            0.271106325,
+            0.18355911
           ],
           [
             0.269628613,
@@ -400,8 +404,8 @@
             0.182502
           ],
           [
-            0.268289,
-            0.182888
+            0.26811318,
+            0.183292441
           ]
         ],
         "endsAt": [
@@ -415,8 +419,8 @@
             0.182501994
           ],
           [
-            0.268094417,
-            0.182766883
+            0.268253923,
+            0.183431717
           ]
         ]
       },
@@ -453,10 +457,6 @@
         ],
         "why": "The terrace track along the works, from the shelf gate at the west end past the great stair head, the statue court and the throat door to the watch column at the lip. It is the way along the middle step. It begins on the gate's inner face so the ridge track runs on without a break.",
         "points": [
-          [
-            0.268608411,
-            0.182808574
-          ],
           [
             0.268551,
             0.182958
@@ -575,12 +575,12 @@
             0.18057894
           ],
           [
-            0.26981735,
-            0.180172078
+            0.26995297,
+            0.180036457
           ],
           [
-            0.271718752,
-            0.180132748
+            0.271743623,
+            0.180102537
           ]
         ]
       },
@@ -594,8 +594,8 @@
             0.180307699
           ],
           [
-            0.268393,
-            0.17943
+            0.268980147,
+            0.179220799
           ]
         ],
         "points": [
@@ -604,8 +604,8 @@
             0.180307699
           ],
           [
-            0.268393,
-            0.179564574
+            0.268748678,
+            0.179042965
           ]
         ],
         "widthM": 1.2,
@@ -855,8 +855,8 @@
           0.267329217,
           0.179532519
         ],
-        "yawDeg": 7.6,
-        "orientationWhy": "The doorway wall, the flat panel on the shell's local southern face, is turned downhill so that the overseers on the works terrace look straight at the door.",
+        "yawDeg": 69.6,
+        "orientationWhy": "Turned to 69.6\u00b0 so the shell's one doorway looks out at 182\u00b0 onto the pen lane, the walk the overseers keep.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers, the westernmost of the three pens.",
@@ -869,111 +869,123 @@
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "witness",
+            "tier": "medium",
+            "note": "The labourer who has begun to remember sleeps here and can name the village he was lifted out of last season."
+          },
+          {
+            "kind": "hiding-place",
+            "tier": "minor",
+            "note": "The shell is dark inside, so the overseers walk past it without a second look."
+          }
+        ],
         "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 188.",
         "footprint": [
           [
-            0.266937854,
-            0.179420098
+            0.267244745,
+            0.179134188
           ],
           [
-            0.266940633,
-            0.179409523
+            0.267255387,
+            0.179131677
           ],
           [
-            0.266974341,
-            0.179300458
+            0.267367511,
+            0.179110236
           ],
           [
-            0.267073294,
-            0.179174102
+            0.267525532,
+            0.179138286
           ],
           [
-            0.267079389,
-            0.179169442
+            0.267532507,
+            0.179141479
           ],
           [
-            0.267243672,
-            0.179076431
+            0.267691757,
+            0.179242867
           ],
           [
-            0.267389754,
-            0.179068558
+            0.26776729,
+            0.179368154
           ],
           [
-            0.267528662,
-            0.179114457
+            0.267791977,
+            0.17951235
           ],
           [
-            0.267662812,
-            0.179247288
+            0.267737675,
+            0.179693158
           ],
           [
-            0.267667472,
-            0.179253382
+            0.267734481,
+            0.179700133
           ],
           [
-            0.267729834,
-            0.179401262
+            0.267633188,
+            0.179824621
           ],
           [
-            0.267733766,
-            0.17951535
+            0.267534301,
+            0.179881654
           ],
           [
-            0.267717444,
-            0.17963768
+            0.267418627,
+            0.179924673
           ],
           [
-            0.267632381,
-            0.179772731
+            0.26725945,
+            0.17991297
           ],
           [
-            0.26757233,
-            0.179833129
+            0.267177928,
+            0.179888303
           ],
           [
-            0.267556914,
-            0.179846123
+            0.267159218,
+            0.179880792
           ],
           [
-            0.267438425,
-            0.179954822
+            0.267007616,
+            0.179827203
           ],
           [
-            0.267420411,
-            0.179956523
+            0.266997657,
+            0.179812096
           ],
           [
-            0.267405445,
-            0.179955894
+            0.266991186,
+            0.179798587
           ],
           [
-            0.267141963,
-            0.179920738
+            0.266898529,
+            0.179549442
           ],
           [
-            0.267127355,
-            0.179917421
+            0.2668946,
+            0.179534986
           ],
           [
-            0.267110418,
-            0.179911056
+            0.266892268,
+            0.179517043
           ],
           [
-            0.267024574,
-            0.179775094
+            0.266972015,
+            0.179377417
           ],
           [
-            0.267013104,
-            0.179758513
+            0.26698127,
+            0.179359505
           ],
           [
-            0.266970989,
-            0.179684482
+            0.267026864,
+            0.179287565
           ],
           [
-            0.266924311,
-            0.179531854
+            0.267139712,
+            0.179174696
           ]
         ]
       },
@@ -987,125 +999,137 @@
           0.269481222,
           0.179729402
         ],
-        "yawDeg": 324.2,
-        "orientationWhy": "Doorway wall downhill as well, swung a little west to follow the fall line of its own patch of the step.",
+        "yawDeg": 30.8,
+        "orientationWhy": "Turned to 30.8\u00b0, its doorway on 143\u00b0 onto the pen lane, so the second shell is entered off the same walk as the first.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The middle pen, a mud shell for four or five taken labourers.",
           "whyHere": "Three pens hold the labour that the resumed building needs; the record's taken labourers are housed here and nowhere else.",
           "whySpot": "The middle of the upper step, where the ground is flattest, so it is a pad and not a cut.",
           "whyNeighbours": "It sits between the first pen and the pens stair, so the gang that files down to the works each shift passes its door.",
-          "playerPurpose": "A second pen interior. It is the shell into which the overseers can see most easily; a player learns the shift routine by watching it.",
+          "playerPurpose": "The overseers watch this pen hardest. A shift spent inside it is how their rota is learnt.",
           "microGeography": "Dug into the middle of the step at about 207 m, 4 m above the works terrace and 4 m from the lane."
         },
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The overseers can see into this pen most easily, so a shift spent inside it teaches their rota."
+          },
+          {
+            "kind": "cache",
+            "tier": "medium",
+            "note": "The taken keep what they have palmed off the cutting floor under the sleeping mud."
+          }
+        ],
         "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 157.",
         "footprint": [
           [
-            0.269119625,
-            0.17991662
+            0.269165794,
+            0.179471898
           ],
           [
-            0.269114378,
-            0.179907027
+            0.269172514,
+            0.179463273
           ],
           [
-            0.269063932,
-            0.179804623
+            0.269246461,
+            0.179376306
           ],
           [
-            0.269049011,
-            0.179644827
+            0.269387189,
+            0.179299149
           ],
           [
-            0.269050237,
-            0.179637254
+            0.269394627,
+            0.179297267
           ],
           [
-            0.269105695,
-            0.179456797
+            0.269582266,
+            0.179276496
           ],
           [
-            0.269206425,
-            0.179350706
+            0.269719638,
+            0.179326808
           ],
           [
-            0.269338889,
-            0.179288613
+            0.269829231,
+            0.179423716
           ],
           [
-            0.269527625,
-            0.179292951
+            0.269900205,
+            0.179598653
           ],
           [
-            0.269535198,
-            0.179294178
+            0.269902087,
+            0.17960609
           ],
           [
-            0.269682115,
-            0.179358775
+            0.269901151,
+            0.179766579
           ],
           [
-            0.26976336,
-            0.179438966
+            0.269859821,
+            0.17987299
           ],
           [
-            0.269835553,
-            0.179539064
+            0.269796628,
+            0.179978998
           ],
           [
-            0.26986654,
-            0.179695633
+            0.269665242,
+            0.180069618
           ],
           [
-            0.269864407,
-            0.179780778
+            0.269586252,
+            0.180101476
           ],
           [
-            0.269862134,
-            0.179800811
+            0.269566964,
+            0.180107346
           ],
           [
-            0.269850729,
-            0.179961201
+            0.269415236,
+            0.180160577
           ],
           [
-            0.269838809,
-            0.179974814
+            0.269398009,
+            0.180155044
           ],
           [
-            0.269827503,
-            0.179984641
+            0.2693845,
+            0.18014857
           ],
           [
-            0.269611909,
-            0.180140132
+            0.269156175,
+            0.180012461
           ],
           [
-            0.269599016,
-            0.180147759
+            0.269144055,
+            0.180003657
           ],
           [
-            0.269582336,
-            0.180154772
+            0.269130994,
+            0.179991135
           ],
           [
-            0.269426546,
-            0.180114967
+            0.269105653,
+            0.179832349
           ],
           [
-            0.26940682,
-            0.180110801
+            0.269101643,
+            0.179812591
           ],
           [
-            0.269325355,
-            0.180085949
+            0.269092097,
+            0.179727956
           ],
           [
-            0.26918657,
-            0.180007125
+            0.269109321,
+            0.179569281
           ]
         ]
       },
@@ -1119,8 +1143,8 @@
           0.272122902,
           0.179968647
         ],
-        "yawDeg": 90.0,
-        "orientationWhy": "Turned across the slope with its doorway wall to the west, behind the rise and out of sight of the works: the shell into which the overseers cannot see.",
+        "yawDeg": 153.0,
+        "orientationWhy": "Turned to 153.0\u00b0, its doorway on 265\u00b0 onto the upper end of the pen lane, where the walk bends behind the rise.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "A mud shell for four or five of the taken labourers. It is the easternmost of the three. The tribe puts working visitors on its floor as well.",
@@ -1133,111 +1157,123 @@
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "bed",
+            "tier": "medium",
+            "note": "A working visitor is given floor space in this pen, which is the tribe's answer to what a guest is."
+          },
+          {
+            "kind": "witness",
+            "tier": "medium",
+            "note": "The pen stands nearest the stair. Anyone inside it hears who is brought down and who is taken out."
+          }
+        ],
         "notes": "Door side: the flat panel on the shell's local south face, turned by the yaw to bearing 270.",
         "footprint": [
           [
-            0.272182575,
-            0.179565854
+            0.272508885,
+            0.179838952
           ],
           [
-            0.272193425,
-            0.17956721
+            0.272512602,
+            0.179849235
           ],
           [
-            0.27230599,
-            0.179586197
+            0.272546788,
+            0.179958151
           ],
           [
-            0.272444323,
-            0.179667569
+            0.272537086,
+            0.180118349
           ],
           [
-            0.272449748,
-            0.179672994
+            0.272534716,
+            0.180125645
           ],
           [
-            0.272563669,
-            0.179823533
+            0.272452304,
+            0.180295493
           ],
           [
-            0.272590793,
-            0.179967291
+            0.272336529,
+            0.180384926
           ],
           [
-            0.272563669,
-            0.180111049
+            0.272196125,
+            0.180426022
           ],
           [
-            0.272449748,
-            0.180261588
+            0.272010275,
+            0.180392861
           ],
           [
-            0.272444323,
-            0.180267013
+            0.272002978,
+            0.18039049
           ],
           [
-            0.27230599,
-            0.180348385
+            0.271867673,
+            0.180304177
           ],
           [
-            0.272193425,
-            0.180367372
+            0.271799652,
+            0.180212501
           ],
           [
-            0.27207001,
-            0.180367372
+            0.271743623,
+            0.180102537
           ],
           [
-            0.271924896,
-            0.180300918
+            0.271736954,
+            0.17994307
           ],
           [
-            0.271857085,
-            0.180249382
+            0.271752087,
+            0.179859254
           ],
           [
-            0.271842167,
-            0.18023582
+            0.271757398,
+            0.179839804
           ],
           [
-            0.271718752,
-            0.180132748
+            0.271793207,
+            0.179683047
           ],
           [
-            0.271714684,
-            0.180115117
+            0.271807069,
+            0.179671418
           ],
           [
-            0.271713328,
-            0.180100199
+            0.271819745,
+            0.179663437
           ],
           [
-            0.271713328,
-            0.179834383
+            0.27205659,
+            0.179542759
           ],
           [
-            0.271714684,
-            0.179819464
+            0.272070498,
+            0.179537194
           ],
           [
-            0.271718752,
-            0.179801834
+            0.272088054,
+            0.179532815
           ],
           [
-            0.271842167,
-            0.179698762
+            0.27223592,
+            0.179595985
           ],
           [
-            0.271857085,
-            0.1796852
+            0.272254777,
+            0.17960312
           ],
           [
-            0.271924896,
-            0.179633664
+            0.272331481,
+            0.179640143
           ],
           [
-            0.27207001,
-            0.17956721
+            0.272456573,
+            0.179739271
           ]
         ],
         "service": "lodging"
@@ -1492,7 +1528,11 @@
             0.269878379,
             0.180960035
           ]
-        ]
+        ],
+        "worksWith": [
+          "parcel.mazzatun.stair-throat"
+        ],
+        "worksWithWhy": "The two stairs are one movement: the throat takes the walker down into the halls and the pens stair takes the same landing up to the shells, so they stand within a few metres by design and no kit snap was ever authored to join them."
       },
       {
         "id": "parcel.mazzatun.course-w1",
@@ -2641,62 +2681,70 @@
           0.271553941,
           0.183435315
         ],
-        "yawDeg": 66.0,
-        "orientationWhy": "The wall runs square across the haul road, so a loaded cart comes through the opening without a turn.",
-        "assetRef": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+        "yawDeg": 1.3,
+        "orientationWhy": "Set to 1.3\u00b0 so the gate's 7.3 m run stands square across the haul road it spans, on the line the timber gate it replaced held; the Redoran piece carries its run 2.2\u00b0 off the old one in its own frame, which the yaw takes up.",
+        "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
-          "what": "A timber gate and wall of 15 m with a walkway on top, across the haul road at the head of the climb.",
+          "what": "A Redoran compound gate of 7.3 m, 10.1 m to the parapet, standing across the haul road at the head of the climb. Its clear opening is 3.5 m, which passes the 3 m road under it.",
           "whyHere": "The taken must be kept in and the neighbours out; the gate is the point at which the escarpment can be closed.",
           "whySpot": "Where the road crests the lip and the shelf is narrowest, between the tower and the stream lip.",
-          "whyNeighbours": "The tower anchors its north end; the cart stands inside it; the conduit passes over its north end.",
-          "playerPurpose": "The threshold of Mazzatun: the road is spanned, not passed. The watch's room under the walkway is the gatehouse interior.",
-          "microGeography": "Dug into the lip between about 197 m and 201 m across the full width of the shelf."
+          "whyNeighbours": "The tower anchors its north side; the cart stands inside it; the conduit passes over its north end.",
+          "playerPurpose": "The threshold of Mazzatun: the road is spanned, not passed, so the player is stopped in the opening and read.",
+          "microGeography": "Dug into the lip between about 197 m and 201 m, its 7.3 m run set across the road with the rock of the tower footing closing the gap to the north."
         },
         "interior": {
           "kind": "none"
         },
         "spans": "route.mazzatun.gateway",
-        "notes": "Gatehouse door on the inner face beside the opening.",
+        "notes": "A compound gate, not a gatehouse: the Redoran piece carries no room, so the watch stands on the terrace behind it.",
         "footprint": [
           [
-            0.271320002,
-            0.182409726
+            0.271062932,
+            0.183312935
           ],
           [
-            0.271354023,
-            0.182422786
+            0.271252009,
+            0.183230406
           ],
           [
-            0.271971837,
-            0.183810417
+            0.271270991,
+            0.183230837
           ],
           [
-            0.272083732,
-            0.184145097
+            0.271845875,
+            0.183243883
           ],
           [
-            0.272110389,
-            0.184268323
+            0.271864857,
+            0.183244313
           ],
           [
-            0.27180065,
-            0.184406228
+            0.272049996,
+            0.183335334
           ],
           [
-            0.271726913,
-            0.184303963
+            0.27204495,
+            0.183557695
           ],
           [
-            0.271553069,
-            0.183996864
+            0.271855873,
+            0.183640224
           ],
           [
-            0.270935256,
-            0.182609233
+            0.271836891,
+            0.183639793
           ],
           [
-            0.270948315,
-            0.182575212
+            0.271262007,
+            0.183626747
+          ],
+          [
+            0.271243025,
+            0.183626317
+          ],
+          [
+            0.271057886,
+            0.183535296
           ]
         ]
       },
@@ -3265,65 +3313,73 @@
         "buildingFamily": "works-staging",
         "groundFit": "dug-in",
         "centreUV": [
-          0.268289,
-          0.182888
+          0.26811318,
+          0.183292441
         ],
-        "yawDeg": 121.9,
-        "orientationWhy": "The wall stands square across the ridge track where it reaches the shelf, so a cart off the shoulder comes through the opening without a turn.",
-        "assetRef": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate02",
+        "yawDeg": 134.7,
+        "orientationWhy": "Set to 134.7\u00b0 so the gate's 7.3 m run stands square across the ridge track it spans. The track leaves the shelf head on 302\u00b0; the Redoran piece carries its run 77.3\u00b0 off its own zero, which the yaw takes up.",
+        "assetRef": "bmv:architecture/redoran/custom/redoranwallgate",
         "why": {
-          "what": "A timber gate and wall across the ridge track at the west head of the shelf, the twin of the haul gate at the east end.",
+          "what": "The twin of the haul gate at the west head of the shelf, the same Redoran gate across the ridge track.",
           "whyHere": "The Xit-Xaht close both ends of the shelf: a works built on taken labour is shut at the ridge as well as at the climb. The ridge is the side from which a neighbour arrives.",
-          "whySpot": "Eleven metres inside the shelf head, where the shoulder narrows between the pens above and the fall to the yard below and a wall of one bay closes the whole width.",
+          "whySpot": "Nine metres inside the shelf head, where the shoulder narrows between the pens above and the fall to the yard below, set on the ridge track's own line so the way runs straight through the opening rather than kinking at it.",
           "whyNeighbours": "The frontage dais stands eleven metres west of it, outside; the pen lane runs behind it; the terrace begins on its inner face.",
           "playerPurpose": "The western threshold: the ridge track is spanned, not passed, so an arriving player is stopped and read before entering the works.",
-          "microGeography": "Dug into the shelf head between about 196 m and 199 m, across the full width of the shoulder."
+          "microGeography": "Dug into the shelf head between about 196 m and 199 m, its 7.3 m run set across the shoulder with the pen riser above closing the rest."
         },
         "interior": {
           "kind": "none"
         },
         "spans": "route.mazzatun.terrace-head",
-        "notes": "No gatehouse room: the walkway over the opening is reached from the terrace side, as at the haul gate.",
+        "notes": "No room here either; the shoulder falls away on both sides of the run.",
         "footprint": [
           [
-            0.269007094,
-            0.1821193
+            0.268539465,
+            0.183019772
           ],
           [
-            0.269015354,
-            0.182154793
+            0.268469515,
+            0.183213856
           ],
           [
-            0.268212682,
-            0.18344434
+            0.26845616,
+            0.183227351
           ],
           [
-            0.267998279,
-            0.183724631
+            0.268051686,
+            0.183636084
           ],
           [
-            0.267911186,
-            0.183815789
+            0.26803833,
+            0.18364958
           ],
           [
-            0.26762334,
-            0.183636622
+            0.26784499,
+            0.183721558
           ],
           [
-            0.267666681,
-            0.183518229
+            0.267686895,
+            0.18356511
           ],
           [
-            0.267823515,
-            0.183202105
+            0.267756845,
+            0.183371026
           ],
           [
-            0.268626187,
-            0.181912558
+            0.2677702,
+            0.183357531
           ],
           [
-            0.26866168,
-            0.181904298
+            0.268174674,
+            0.182948798
+          ],
+          [
+            0.26818803,
+            0.182935302
+          ],
+          [
+            0.26838137,
+            0.182863324
           ]
         ]
       },
@@ -3335,124 +3391,124 @@
         "buildingFamily": "argonian-mud-shell",
         "groundFit": "dug-in",
         "centreUV": [
-          0.268393,
-          0.179155
+          0.268393333,
+          0.178815871
         ],
-        "yawDeg": 0.0,
-        "orientationWhy": "The entrance is turned to the store path, which is the only line up off the pen lane to this part of the step.",
+        "yawDeg": 68.0,
+        "orientationWhy": "Turned to 68.0\u00b0 so the entrance looks along 180\u00b0 to the pen lane, which is the line up off the step to this part of the works.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The works store, where the tribe keeps and sells the tools, cord and dried fish that keep the courses moving.",
           "whyHere": "A building site worked by hand has to hold a stock of hand tools. The Xit-Xaht sell out of that stock to anybody who takes a shift.",
-          "whySpot": "It stands on the upper step behind the two western shells, on the last piece of level ground that the pens do not use.",
+          "whySpot": "Set back off the pens row on the upper lip rather than wedged into the gap between the first and second shells, where the two huts left 1.3 m and nobody could walk between them.",
           "whyNeighbours": "The oven and the drying racks are below it on the lane, which is the source of its dry goods.",
           "playerPurpose": "Where supplies are bought. It also holds the tally of who owes the tribe work.",
           "microGeography": "A shell dug into the back of the step, under the rock and out of the run-off that crosses the lane."
         },
         "footprint": [
           [
-            0.267990207,
-            0.179095327
+            0.268297772,
+            0.178420053
           ],
           [
-            0.267991563,
-            0.179084477
+            0.26830834,
+            0.178417247
           ],
           [
-            0.26801055,
-            0.178971912
+            0.268419821,
+            0.178392683
           ],
           [
-            0.268091922,
-            0.178833579
+            0.268578564,
+            0.17841631
           ],
           [
-            0.268097347,
-            0.178828154
+            0.268585626,
+            0.178419308
           ],
           [
-            0.268247886,
-            0.178714233
+            0.268747645,
+            0.178516209
           ],
           [
-            0.268391644,
-            0.178687109
+            0.268826646,
+            0.178639338
           ],
           [
-            0.268535402,
-            0.178714233
+            0.26885535,
+            0.178782789
           ],
           [
-            0.268685941,
-            0.178828154
+            0.268806117,
+            0.178965042
           ],
           [
-            0.268691366,
-            0.178833579
+            0.268803119,
+            0.178972104
           ],
           [
-            0.268772738,
-            0.178971912
+            0.268705341,
+            0.179099372
           ],
           [
-            0.268791725,
-            0.179084477
+            0.268608086,
+            0.179159144
           ],
           [
-            0.268791725,
-            0.179207892
+            0.268493657,
+            0.179205376
           ],
           [
-            0.268725271,
-            0.179353006
+            0.268334216,
+            0.179198121
           ],
           [
-            0.268673735,
-            0.179420817
+            0.268252037,
+            0.17917574
           ],
           [
-            0.268660173,
-            0.179435735
+            0.268233125,
+            0.179168754
           ],
           [
-            0.268557101,
-            0.17955915
+            0.268080085,
+            0.17911942
           ],
           [
-            0.26853947,
-            0.179563218
+            0.268069708,
+            0.179104597
           ],
           [
-            0.268524552,
-            0.179564574
+            0.268062862,
+            0.179091273
           ],
           [
-            0.268258736,
-            0.179564574
+            0.267963286,
+            0.178844812
           ],
           [
-            0.268243817,
-            0.179563218
+            0.267958955,
+            0.178830472
           ],
           [
-            0.268226187,
-            0.17955915
+            0.267956123,
+            0.178812601
           ],
           [
-            0.268123115,
-            0.179435735
+            0.268031939,
+            0.178670803
           ],
           [
-            0.268109553,
-            0.179420817
+            0.268040691,
+            0.17865264
           ],
           [
-            0.268058017,
-            0.179353006
+            0.268084258,
+            0.178579455
           ],
           [
-            0.267991563,
-            0.179207892
+            0.268193911,
+            0.178463479
           ]
         ]
       }
@@ -3715,66 +3771,62 @@
       {
         "id": "door.dunmer-north.mazzatun.2",
         "parcelId": "parcel.mazzatun.pen-a",
-        "facingDeg": 187.6,
+        "facingDeg": 181.6,
         "thresholdUV": [
-          0.267290564,
-          0.179811953
+          0.267898461,
+          0.180157015
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.dunmer-north.mazzatun.3",
         "parcelId": "parcel.mazzatun.pen-b",
-        "facingDeg": 144.2,
+        "facingDeg": 142.8,
         "thresholdUV": [
-          0.269720806,
-          0.180061593
+          0.270316168,
+          0.179859405
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.dunmer-north.mazzatun.4",
         "parcelId": "parcel.mazzatun.pen-c",
-        "facingDeg": 270.0,
+        "facingDeg": 264.9,
         "thresholdUV": [
-          0.271840811,
-          0.179967291
+          0.271567972,
+          0.180605897
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "interiorRef": "mudmother-hut-int",
           "owner": "the taken labourers"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.dunmer-north.mazzatun.6",
         "parcelId": "parcel.mazzatun.works-store",
-        "facingDeg": 180.0,
+        "facingDeg": 179.9,
         "thresholdUV": [
-          0.268393,
-          0.179564574
+          0.268979792,
+          0.17942423
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "interiorRef": "mudmother-hut-int",
           "owner": "the Xit-Xaht works"
-        },
-        "doorwayRef": 0
+        }
       }
     ],
     "clearance": {
@@ -3937,62 +3989,7 @@
       {
         "slotId": "o.gate-watch",
         "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
-        "ownerFaction": "faction.xit-xaht"
-      },
-      {
-        "slotId": "o.labourer-3",
-        "ladderRef": "modest-d3 sap-driven labourer",
-        "cultureRole": "taken labourer, the one who has begun to remember"
-      },
-      {
-        "slotId": "o.gate-watch",
-        "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
-        "ownerFaction": "faction.xit-xaht"
-      },
-      {
-        "slotId": "o.labourer-3",
-        "ladderRef": "modest-d3 sap-driven labourer",
-        "cultureRole": "taken labourer, the one who has begun to remember"
-      },
-      {
-        "slotId": "o.gate-watch",
-        "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
-        "ownerFaction": "faction.xit-xaht"
-      },
-      {
-        "slotId": "o.labourer-3",
-        "ladderRef": "modest-d3 sap-driven labourer",
-        "cultureRole": "taken labourer, the one who has begun to remember"
-      },
-      {
-        "slotId": "o.gate-watch",
-        "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
-        "ownerFaction": "faction.xit-xaht"
-      },
-      {
-        "slotId": "o.labourer-3",
-        "ladderRef": "modest-d3 sap-driven labourer",
-        "cultureRole": "taken labourer, the one who has begun to remember"
-      },
-      {
-        "slotId": "o.gate-watch",
-        "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
-        "ownerFaction": "faction.xit-xaht"
-      },
-      {
-        "slotId": "o.labourer-3",
-        "ladderRef": "modest-d3 sap-driven labourer",
-        "cultureRole": "taken labourer, the one who has begun to remember"
-      },
-      {
-        "slotId": "o.gate-watch",
-        "ladderRef": "capable-d3 watch",
-        "cultureRole": "the gate watch, who keeps the gatehouse",
+        "cultureRole": "the gate watch, who keeps both ends of the shelf shut",
         "ownerFaction": "faction.xit-xaht"
       },
       {

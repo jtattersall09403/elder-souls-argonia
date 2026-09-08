@@ -1,0 +1,236 @@
+{
+ "id": "enclosure-v1",
+ "description": "The ENCLOSURE vocabulary — every road-spanning gate, gate arch, wall run, palisade and field fence the province can actually stand across a way, packaged in one place so a blueprint's `spans` gate on a network terminal is chosen from measured apertures rather than from whatever happened to be in a settlement kit (owner ruling 2026-09-07: \"I don't believe there is only one road-spanning gate available to us\"). Six families, each authored by different hands and NEVER mixed with another (see snapLogic): BM&V's newcastle modular curtain wall (the only system in the vault whose gate clears the 4.3 m road spine, at 5.52 m, with a matching wall/corner/tower/ledge set on its own 14.57 m module; the set's guardhouse and its loose door are HELD OUT — the guardhouse is a building with a matched interior whose doorway cannot be derived and whose door placement nobody has mined, and a kit may not guess where an author hung a door); the vanilla Whiterun farm fence with its field gate for the rural Imperial fringe; BM&V's Redoran compound wall and gate for the Dunmer north; HTBM's Argonian village stone arch and curved wall for Argonian settlements; HTBM's ruined Legion gate and Aztec portal plus the Ayleid free-standing arches for the ancient/ruined layer; and the vanilla stockade palisade for frontier and pirate works. TROPICALISED: the vanilla-backed pieces take the Tropical Skyrim texture overlay; `clutter/stockade` is not covered by Tropical and uses the same textureAliases redirect works-v1 and settlement-stilt-v1 use. Measured apertures for every piece, and the candidates rejected on geometry, are in docs/research/placement-settlements/settlement-kit-sourcing-log.md.",
+ "culture": "multi",
+ "output": "tooling/asset-pipeline/output/kits/enclosure-v1.glb",
+ "lodRatios": [
+  0.35,
+  0.12
+ ],
+ "textureMaxSize": 512,
+ "textureOverlayPools": [
+  "tropical"
+ ],
+ "textureAliases": {
+  "textures/clutter/stockade/stockadeplanks01.dds": "textures/architecture/farmhouse/woodwall01.dds",
+  "textures/clutter/stockade/stockadeplanks01_n.dds": "textures/architecture/farmhouse/woodwall01_n.dds",
+  "textures/clutter/stockade/stockadewood01.dds": "textures/architecture/farmhouse/woodpost02.dds",
+  "textures/clutter/stockade/stockadewood01_n.dds": "textures/architecture/farmhouse/woodpost02_n.dds"
+ },
+ "snapLogic": {
+  "grid": "None across families. Each family carries its OWN module and is laid out on that module alone; two families never share a run, a corner or a gate.",
+  "newcastle-curtain-wall": "BM&V's newcastle set is a full modular castle wall on a 14.57 m (1024-unit) module, with 7.28 m (512) and 3.64 m (256) infill, corners at 2/3/4 ways, round and square towers, a stair block, a ledge/parapet run and a ramp. `1024wallgate01` is the ROAD gate: a clear 5.52 m x 20 m opening that holds its full width from 0.3 m to 4 m, so a 4.3 m spine passes with 0.6 m each side. `1024wallgate02` is the same block with a 2.28 m postern — a track or footpath entrance, not a road. `1024arch01` is a FREE-STANDING triumphal arch (8.96 m clear, 17.3 m tall): it spans a way on its own, with no wall, and is the piece for a monumental approach. `512wallgate01` is NOT a gate for our purposes and is excluded: its leaf is modelled shut and the clear span measures 0.24 m. No mined co-placement template exists for this family (its author's cells are not in the placement mine), so the module is taken from the geometry: pieces are 14.57/7.28/3.64 m wide and 20.03 m tall, and butt face to face.",
+  "whiterun-farm-fence": "The vanilla rural fence is TWO courses, not one: a `wrfencebase*` footing and a `wrfence*` rail that sits 1.17 m above it (template vanilla:t0287, 8 placements, on the corner pair; the ramp pair t0226 sits at 1.25 m on its slope). The footing chains at 3.64 m (vanilla:t0045, 19 placements) and is capped by `wrfencebaseend01` at each end (t0460/t0461, 6 each). `wrfencestrgate01` is the field gate: 1.41 m clear at the ground, 1.13 m at waist height — a FOOTPATH gate into a yard or field, never a road gate. Its leaf `wrfencestrgate01door01` has no mined offset anywhere in Skyrim, so the two ship as separate placements and the leaf is hung by hand.",
+  "redoran-compound": "BM&V's Redoran wall is a 3.64 m module 8.88 m tall with a 5.46 m corner and a 3.33 m divider; `redoranwallgate` is a 7.28 m block carrying a 3.52 m clear opening 10.11 m tall. That passes a 2.5 m track with room and FAILS a 4.3 m spine — a Dunmer compound gate, not a trunk-road gate. No mined template; the module is measured.",
+  "argonian-village-wall": "HTBM's Argonian village wall is a low curved stone run (`stonewallcurve01`, 4.44 m; `stonewallcurve02`, 5.13 m; both 2.49 m tall) with a 1.51 m pillar and one arch. `stonewallarch01` clears 1.72 m over 4.6 m of width and 5.39 m of height: a FOOTPATH arch — it takes a path or a deck, and a track or road has to pass beside it, not through it. This is the only enclosure piece authored in an Argonian idiom, which is consistent with the rule that Argonian places barely enclose at all (module 97 C10).",
+  "ancient-portals": "The ruined layer. HTBM's `redruingate` is a 13.28 m ruined stone gate with a 3.92 m clear span 14.3 m tall — track class, and the widest ancient piece we hold. `0mjy_aztecportal` is a 4.34 m relief portal only 0.11 m thick: it is a FRAME, set into a mass or a mound, never free-standing. The Ayleid `ararch01/02/03` are free-standing arches, identical 2.96 m clear spans at 20.79/19.29/15.06 m tall — a graded set for a processional way through a ruin.",
+  "stockade-palisade": "The vanilla stockade palisade: `stockadewallstraight01` (6.01 m, 4.19 m tall) with inner and outer corners, a `stockadetower01` and a `stockadewallwalkway01` whose 1.33 m under-passage is a sally port, not a gate. `stockadegate01` is modelled SHUT — 2.28 m of frame at the ground but only 0.20 m clear from 1.0 m to 2.6 m — so it is the piece for a barred or closed gate and never for a way the player walks through. `stockadebarricade01` and `stockadepike01` are the blocking dressing. Texture aliases match works-v1's.",
+  "unitScale": "Bethesda units; 0.0142240 m/unit. Measured extents in enclosure-v1.kit.json; clear apertures in the sourcing log.",
+  "assemblies": "One composite, and only where the source authors' own placements measure it: `composite:farmfence/wr-fence-run-3` is the vanilla footing chained at 3.64 m with an end cap at each end (vanilla:t0045, t0460, t0461). Nothing else is composited — the newcastle, Redoran, Argonian and Ayleid families have no mined co-placement templates, so their runs are laid out by the compiler on the measured module and a composite would be an invention."
+ },
+ "assets": [
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallgate01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallgate02"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024arch01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wall01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wall02"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallcorner2way"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallcorner3way"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallcorner4way"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallround01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024walltower01a"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024walltower01b"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/1024/1024wallstair01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/512/512wall01a"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/512/512wall02"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/512/512pillar01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/256/256wall01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/256/256wall02"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/256/256wallendcap"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/ledge/1024ledge"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/ledge/1024ledgecorner"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/ledge/1024ledgeconnect"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/misc/ramp01"
+  },
+  {
+   "asset": "bmv:architecture/newcastle/wall/slope/1024wallslope256"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebase4way01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfence4way01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasesupport01"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwallgate"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwall"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwallcorner"
+  },
+  {
+   "asset": "bmv:architecture/redoran/custom/redoranwalldivider"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/redruingate"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/legion/0mjy_aztecportal"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallstraight01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallcornerin01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallcornerout01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallwalkway01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadetower01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadegate01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadepike01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch01"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch02"
+  },
+  {
+   "asset": "ayleidkit:igsresources/dungeons/ayleidruins/exterior/ararch03"
+  },
+  {
+   "asset": "composite:farmfence/wr-fence-run-3",
+   "compose": {
+    "note": "The vanilla farm fence footing as Bethesda lays it: two `wrfencebasestr01` spans on the mined 3.64 m module (vanilla:t0045, 19 placements) with `wrfencebaseend01` closing each end (vanilla:t0461 at +3.64 m yawed 180 deg, 6 placements; vanilla:t0460 at -3.64 m, 6 placements). About 7.3 m of field boundary in one placement. The rail course sits 1.17 m above and is placed separately, because the mine measures that offset on the corner pair, not on the straight.",
+    "parts": [
+     {
+      "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01"
+     },
+     {
+      "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01",
+      "offsetM": [
+       0.0,
+       3.64,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
+      "offsetM": [
+       0.0,
+       -3.64,
+       0.0
+      ],
+      "yawDeg": 0,
+      "scale": 1.0
+     },
+     {
+      "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01",
+      "offsetM": [
+       0.0,
+       7.28,
+       0.0
+      ],
+      "yawDeg": 180,
+      "scale": 1.0
+     }
+    ]
+   }
+  }
+ ]
+}

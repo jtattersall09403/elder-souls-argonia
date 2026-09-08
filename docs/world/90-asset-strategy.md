@@ -234,6 +234,7 @@ author intended; never interleave two sets piece-for-piece.
 | `ruin-monumental-v1` | — | xanmeer-ancient | no | ayleidkit, ayleidcc | monumental dressed stone |
 | `underwater-v1` | — | neutral | no | sirenroot, depths | drowned dressing |
 | `works-v1` | 85 | neutral-works | **yes** | vanilla, mudmother | forge/smelter/racks/carts/mine timbers/scaffold/water wheels — the whole works taxonomy branch |
+| `enclosure-v1` | 57 | multi (six never-mixed families) | **yes** | bmv, vanilla, htbm, ayleidkit | the **enclosure vocabulary**: road-spanning gates, gate arches, curtain wall, palisade and field fence. The only 4.3 m-spine gates we hold are `bmv:…/newcastle/wall/1024/1024wallgate01` (5.52 m clear) and its free-standing arch `1024arch01` (8.96 m); `hlaalu:…/stonewallgatearc001` (4.53 m, in `hlaalu-domestic`) is the third. Measured apertures and the rejects are in the sourcing log |
 | `flora-province-v1`, `groundcover-province-v1` | — | — | — | bmv, tropical, vanilla | Phase 10 vegetation |
 
 Not built, still a Part 6 prerequisite: **`settlement-dunmer-v1`** (288 BM&V

@@ -50,6 +50,13 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     contour, fall, water edge, shelter, view)}. REQUIRED on
                     parcels and landmarks; districts and docks carry what /
                     whyHere / whyNeighbours / playerPurpose / microGeography.
+  playerPurpose[]   REQUIRED on every parcel with an interior (owner ruling
+                    2026-09-07): [{kind, tier, note}] from the closed
+                    vocabulary in `player_purpose.py`, with at least one entry
+                    of tier medium or higher. An enterable building earns its
+                    interior; flavour alone is dressing, and dressing is
+                    unlimited and out of scope. See
+                    docs/research/placement-settlements/player-purpose-spectrum.md.
   approaches[]      REQUIRED (>=1; >=2 for M3+): how a WALKING player arrives
                     — {id approach.<slug>.<name>, mode (walk|boat|swim),
                     fromRouteId or fromDirection, firstSeen (a landmark or
@@ -89,12 +96,19 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
   scaleGrounding    REQUIRED: {loreSource, population (int or "a–b"),
                     households, buildingsPlanned, npcsPlanned, why} — the
                     place's size derived from the lore/demographics, with the
-                    parcel count within ±25 % of buildingsPlanned.
+                    count of BUILDINGS AND STRUCTURES (`parcel_kinds`: props
+                    and stacked pieces do not count) within ±25 % of
+                    buildingsPlanned.
   parcels may carry `abuts: [<parcel id>, ...]` + `abutsWhy` — the declared
-                    exception to the 8 m spacing floor (97 C5) for pieces that
-                    were designed to touch (a hut on its deck, a shed against a
-                    wall); an undeclared close pair fails `parcel-gap` at
-                    compile. Districts may carry `routing: "straight"` to
+                    exception to the 8 m spacing floor (97 C5) for pieces the
+                    KIT authored to snap together (a hut on its deck, a shed
+                    against a wall) — or `worksWith` + `worksWithWhy` for a
+                    trade contact with no snap pair (a hoist against the rock
+                    it works), which is exempt from the floor but must keep
+                    half a metre clear; an undeclared close pair fails
+                    `parcel-gap` at compile. A parcel may pin its derived
+                    `kind` ("building" / "structure" / "prop") where the
+                    derivation reads the mesh wrongly. Districts may carry `routing: "straight"` to
                     declare a surveyed grid culture, the one exception to the
                     yaw-diversity rule (97 C2/C8). Parcels may carry
                     `stacksOn: <parcel id>` (a piece that stands ON another
@@ -150,11 +164,8 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     "encounter"|"boss"|"station"|"mark"), position?,
                     parcelId?, ownerQuestTier?}
   doors[]           {id (door.<region>.<slug>.<n>), parcelId, facingDeg,
-                    thresholdUV, doorwayRef (DERIVED — the index of the
-                    doorway in the piece's interiors-index `doorways[]` the
-                    door sits on; written by
-                    `worldgen.blueprint_footprints --doors`),
-                    interiorClaim {sizeClass, culture, interiorRef, owner?}}
+                    thresholdUV, interiorClaim {sizeClass, culture,
+                    interiorRef, owner?}}
                     — Phase 12's fill points AND the interior streaming
                     boundary; reachability validated every compile.
                     `facingDeg` is checked against geometry: the validator
@@ -175,10 +186,13 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                       * a parcel whose assetRef has interior matched/tileset/
                         shell MUST have >=1 door; interior "none" must have
                         none (a door onto a deck opens onto nothing);
-                      * a door must sit on a DERIVED doorway — a door part's
-                        offset in a mined composite assembly, or an opening
-                        measured off the shell; a piece with an inside but no
-                        derived doorway may not carry a door at all (that is a
+                      * a door must sit on the piece's ONE canonical
+                        `entrance` (owner ruling 2026-09-07: the evidence is
+                        ranked in the index — the mod's own load door, then a
+                        door part the authors placed, then the family's door
+                        mesh, then a leaf, an opening, an open front — and only
+                        the winner is exported). A piece with an inside but no
+                        entrance may not carry a door at all (that is a
                         sourcing gap, recorded in
                         docs/research/placement-settlements/settlement-kit-sourcing-log.md);
                       * `interiorClaim.interiorRef` must be the index's
@@ -186,26 +200,44 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                         tileset (the interior kit Phase 12 builds it from);
                       * `interiorClaim.sizeClass` must match the measured plan
                         area — small < 40 m², medium < 120 m², large above;
-                      * where the index derived `doorways`, facingDeg must be
-                        within ±45° of a doorway side rotated by the parcel's
-                        yawDeg, so a door cannot be claimed on a blank wall;
+                      * facingDeg must be within ±45° of the entrance side
+                        rotated by the parcel's yawDeg, so a door cannot be
+                        claimed on a blank wall;
                       * an `interiorRef` that is not a mesh id must NAME AN
                         INTERIOR KIT THAT EXISTS in
                         tooling/asset-pipeline/pipeline/config/kits — the door
                         teleports the player into that kit (owner 2026-09-05);
                       * DOOR ON WAY (hard, owner 2026-09-05: "doors in the right
                         place and facing the right way is really crucial"): the
-                        doorway's world bearing must be within 60° of the way
+                        entrance's world bearing must be within 60° of the way
                         the door opens onto, and the threshold within 4 m of it.
                         A door may carry `facesWay: <way id>` to name that way;
                         otherwise the nearest way is taken. Solve the yaw with
                         `python3 -m worldgen.blueprint_footprints --orient
                         --apply <blueprint>`, which turns the parcel until the
-                        doorway faces its way and rewrites footprint, facingDeg
+                        entrance faces its way and rewrites footprint, facingDeg
                         and thresholdUV. It never rewrites `orientationWhy`:
                         it prints the parcels whose why must be re-read.
-                    `worldgen.blueprint_interiors --report <blueprint>` lists
-                    all of this per parcel.
+
+                    FRONT (owner ruling + steer 2026-09-07). A piece with no
+                    entrance — a gate arch, a wall stub, a tower, a deck, a
+                    shrine — still has a way round: the index derives
+                    `front: {deg, evidence, outside}` from how the piece's own
+                    authors planted it, the side they repeatedly left OPEN
+                    (`pipeline/piece_front.py`). This applies to every plotted
+                    place, not only settlements:
+                      * the front must look at the line the player arrives on —
+                        the nearest way, which is what an approaches[] row names
+                        in its `fromRouteId` — within
+                        FRONT_OUTWARD_TOLERANCE_DEG. WARN, except on a piece
+                        that carries an entrance (where it is HARD, alongside
+                        DOOR ON WAY): a wall flanks its road rather than aiming
+                        at it, so the enclosure rule below is what holds an
+                        enclosure edge;
+                      * a gate, wall or tower must also face AWAY from what the
+                        boundary polygon encloses, and a gate's front must be
+                        the side its spanned way comes in from. Always HARD.
+                    A piece with `front: null` is symmetric and exempt.
   clearance         {hardClear: [polygon...], thinned: [polygon...],
                     kept: [{id, kind ("hist-tree"|"shade"|"reed-bed"|...),
                     position}]} — graded vegetation clearing; masks feed
@@ -267,6 +299,7 @@ from pathlib import Path
 
 from . import blueprint_footprints as fp
 from . import blueprint_interiors as bi
+from . import parcel_kinds as pk
 from . import province_network as pn
 from .catalogue import CATALOGUE_DIR, load_region_files
 
@@ -286,21 +319,58 @@ KIT_SETS = {
     "argonian-mud":       {"culture": "argonian", "kits": ["settlement-mud-v1"]},
     "argonian-root":      {"culture": "argonian", "kits": ["settlement-root-v1", "dungeon-root-v1"]},
     "argonian-stone":     {"culture": "argonian", "kits": ["ruin-monumental-v1", "xanmeer-interior-v1"]},
-    "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int"]},
-    "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int"]},
-    "neutral-works":      {"culture": "neutral",  "kits": ["works-v1"]},
+    "imperial":           {"culture": "imperial", "kits": ["settlement-imperial-v1", "imperial-keep", "vanilla-farmhouse-int", "vanilla-imperial-int", "enclosure-v1"]},
+    "dunmer-hlaalu":      {"culture": "dunmer",   "kits": ["hlaalu-domestic", "vanilla-imperial-int", "enclosure-v1"]},
+    "neutral-works":      {"culture": "neutral",  "kits": ["works-v1", "enclosure-v1"]},
     "neutral-underwater": {"culture": "neutral",  "kits": ["underwater-v1"]},
 }
+# 97 C1, decision 2026-09-07: kit purity is held over what a place is BUILT of.
+# The dressing pool — the works kit's props, which are vanilla clutter and
+# neutral by construction — is admitted to every set, because a notice board in
+# an Argonian quay is dressing, not a second architecture. Only `structure` and
+# `building` parcels are held to their district's one set (`parcel_kinds`).
+# Without this the works board forced a district of one piece (Lilmoth's
+# dues-board, the Licensed Stage board), which is a plan unit that is not one.
+#
+# `enclosure-v1` (2026-09-07) is the province's road-spanning gate, wall and
+# palisade vocabulary. It is a CROSS-CULTURE kit with per-family snap rules
+# (module 97 Part F names the family each set may use), so it is admitted to
+# the sets whose Part F enclosure row points into it, and the family — never
+# the kit — is what a district is held to.
+DRESSING_KITS = ("works-v1",)
 CULTURE_KITS = set(KIT_SETS)
+
+
+@lru_cache(maxsize=1)
+def kit_membership(kits_dir: Path = fp.KITS_DIR) -> dict[str, frozenset[str]]:
+    """`{kit asset id: the kits that carry it}`. A piece may be packaged in
+    more than one kit (the scaffold stair is in the works set and the route
+    structures set), so C1 asks whether it is in ANY kit its district may use."""
+    out: dict[str, set[str]] = {}
+    if not kits_dir.exists():
+        return {}
+    for path in sorted(kits_dir.glob("*.footprints.json")):
+        data = json.loads(path.read_text())
+        kit = data.get("kit", path.name[: -len(".footprints.json")])
+        for asset_id in data.get("assets", {}):
+            out.setdefault(asset_id, set()).add(kit)
+    return {k: frozenset(v) for k, v in out.items()}
+
+
+def kits_for_district(kit_set: str, kind: str = "building") -> tuple[str, ...]:
+    """The kits a parcel of this `kind` may be drawn from in a district built
+    from `kit_set` (97 C1). Props may also come from the dressing pool."""
+    kits = tuple((KIT_SETS.get(kit_set) or {}).get("kits") or ())
+    return kits + DRESSING_KITS if kind == "prop" else kits
 INTERIOR_CULTURES = {"argonian", "imperial", "dunmer"}
 GROUND_FIT = {"direct", "plinth", "pad", "stilt", "dug-in"}
 SOCKET_KINDS = {"scene", "evidence", "container", "npc", "encounter", "boss", "station", "mark"}
 TRAVEL_KINDS = {"ferry", "boat", "root", "water-taxi"}
 MAX_VARIANTS = 3
 DOOR_FACING_TOLERANCE_DEG = 100.0
-# ±45° against a MEASURED doorway side (blueprint_interiors), which is a real
-# direction rather than a hull chord, so it can be tight: a door may sit at the
-# corner of its opening, it may not be claimed on a blank wall.
+# ±45° against the MEASURED canonical entrance (blueprint_interiors), which is a
+# real direction rather than a hull chord, so it can be tight: a door may sit at
+# the corner of its opening, it may not be claimed on a blank wall.
 DOORWAY_TOLERANCE_DEG = bi.DOORWAY_TOLERANCE_DEG
 
 # An `interiorClaim.interiorRef` that is not a mesh asset id names an INTERIOR
@@ -347,8 +417,21 @@ WAY_WIDTH_RANK = ["footpath", "stair", "ramp", "track", "road"]
 PARCEL_GAP_MIN_M = 8.0
 # 97 C3 / D8 — two character widths where a way passes between two hulls.
 PASSAGE_MIN_M = 1.3
-# 97 C6 — buildings per hectare of the boundary, by size class.
+# 97 C6 — buildings and structures per hectare of the BUILT HULL, by size class.
+# Not the boundary: a boundary carries the approaches, the water and the
+# clearance ring, so measuring over it reported a village as empty ground
+# (Round A audit §6.3). The built hull is the convex hull of the counted
+# parcels, buffered by the C13 vegetation-clearance radius (15 m) — the ground
+# the place has actually taken from the marsh, which is also what puts an M3
+# ring of 30 m radius on the module's own ~50 m M3 radius. The bands are
+# SETTLEMENT bands: a lair, a camp or a works site is not judged on them
+# (`DENSITY_CLASSES`).
 DENSITY_BAND = {"M2": (15.0, 33.0), "M3": (7.0, 16.0), "M4": (4.0, 11.0), "M5": (4.0, 11.0)}
+DENSITY_CLASSES = {"settlement"}
+# Below this the band is noise: one hut inside its own 15 m clearance can never
+# reach a hamlet's 15/ha, and saying so tells nobody anything.
+MIN_PARCELS_FOR_DENSITY = 4
+BUILT_HULL_BUFFER_M = 15.0
 # 97 C7 — share of classified parcels by use bucket.
 USE_BAND = {"dwelling": (0.60, 0.70), "work": (0.15, 0.25),
             "civic": (0.05, 0.10), "storage": (0.05, 0.10)}
@@ -466,17 +549,17 @@ def _parcel_centre_m(parcel: dict, extent_m: float = fp.PROVINCE_EXTENT_M):
     return (float(c[0]) * extent_m, float(c[1]) * extent_m)
 
 
-def _match_parcel_doorway(parcel: dict, door: dict, record: dict | None,
-                          extent_m: float = fp.PROVINCE_EXTENT_M):
-    """`(doorway index or None, reason)` for this door on this parcel."""
+def _match_parcel_entrance(parcel: dict, door: dict, record: dict | None,
+                           extent_m: float = fp.PROVINCE_EXTENT_M):
+    """`(ok, reason)` — does this door sit on the piece's canonical entrance?"""
     centre = _parcel_centre_m(parcel, extent_m)
     th = door.get("thresholdUV")
     threshold = (float(th[0]) * extent_m, float(th[1]) * extent_m) \
         if isinstance(th, list) and len(th) == 2 else None
     facing = door.get("facingDeg")
-    return bi.match_doorway(record, float(parcel.get("yawDeg") or 0.0),
-                            float(facing) if isinstance(facing, (int, float)) else None,
-                            threshold, centre)
+    return bi.match_entrance(record, float(parcel.get("yawDeg") or 0.0),
+                             float(facing) if isinstance(facing, (int, float)) else None,
+                             threshold, centre)
 
 
 def size_class(bp: dict) -> str:
@@ -507,6 +590,59 @@ def boundary_area_ha(bp: dict, extent_m: float = fp.PROVINCE_EXTENT_M) -> float:
         x2, y2 = poly[(i + 1) % len(poly)]
         a += x1 * y2 - x2 * y1
     return abs(a) / 2.0 * extent_m * extent_m / 10_000.0
+
+
+def _convex_hull_m(points):
+    """Monotone-chain hull of (x, z) metre points, counter-clockwise."""
+    pts = sorted(set(points))
+    if len(pts) < 3:
+        return pts
+
+    def cross(o, a, b):
+        return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+    lower, upper = [], []
+    for p in pts:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+    for p in reversed(pts):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+    return lower[:-1] + upper[:-1]
+
+
+def built_hull_area_ha(bp: dict, parcels=None, buffer_m: float = BUILT_HULL_BUFFER_M,
+                       extent_m: float = fp.PROVINCE_EXTENT_M) -> float:
+    """Hectares of the BUILT hull: the convex hull of the counted parcels'
+    footprints, buffered by `buffer_m` (97 C6, audit §6.3).
+
+    The buffered area of a CONVEX polygon is exact — `A + P·r + πr²` — so this
+    needs no geometry library and stays deterministic (standard 6).
+    """
+    pts: list[tuple[float, float]] = []
+    for p in (bp.get("parcels", []) or [] if parcels is None else parcels):
+        poly = p.get("footprint")
+        if _polygon_ok(poly):
+            pts += [(float(q[0]) * extent_m, float(q[1]) * extent_m) for q in poly]
+        else:
+            c = _parcel_centre_m(p, extent_m)
+            if c is not None:
+                pts.append(c)
+    hull = _convex_hull_m(pts)
+    if len(hull) < 3:
+        # one or two pieces: the built ground is what the buffer covers
+        return (math.pi * buffer_m * buffer_m) / 10_000.0 if hull else 0.0
+    area = 0.0
+    perim = 0.0
+    for i in range(len(hull)):
+        x1, z1 = hull[i]
+        x2, z2 = hull[(i + 1) % len(hull)]
+        area += x1 * z2 - x2 * z1
+        perim += math.hypot(x2 - x1, z2 - z1)
+    area = abs(area) / 2.0
+    return (area + perim * buffer_m + math.pi * buffer_m * buffer_m) / 10_000.0
 
 
 # --- WARN-grade quality reports (review 2026-09-07) ------------------------ #
@@ -582,26 +718,39 @@ def _placement_warnings(bp: dict) -> list[str]:
     C6 density band, C7 use histogram, C3 way width classes. These are bands
     measured off shipped worlds: a blueprint outside one is usually wrong and
     occasionally right with a reason, which is exactly what a warning is for.
+
+    Counted by derived `kind` (`parcel_kinds`, decision 2026-09-07): props are
+    dressing and are exempt from C6 and C7; structures count for C6, not C7; a
+    `stacksOn` piece is the same building seen from higher up and adds nothing.
     """
     out: list[str] = []
     bid = bp.get("id", "<missing id>")
-    parcels = [p for p in bp.get("parcels", []) or [] if (p.get("use") or "") not in ("fence", "wall")]
+    kinds = pk.kinds_of(bp)
+    built = pk.counted_parcels(bp, kinds)
+    parcels = [p for p in built if (p.get("use") or "") not in ("fence", "wall")]
     cls = size_class(bp)
+    record = catalogue_records().get(bid) or {}
+    record_class = (record.get("classification") or {}).get("class")
 
-    # 97 C6 — density falls as the place grows; growth buys radius, not tightness.
+    # 97 C6 — density falls as the place grows; growth buys radius, not
+    # tightness. Measured over the BUILT hull, and only for settlements: the
+    # bands were mined from settlements, so a lair or a works camp judged on
+    # them is a number about nothing (audit §6.3).
     band = DENSITY_BAND.get(cls)
-    area_ha = boundary_area_ha(bp)
-    if band and area_ha > 0 and parcels:
+    area_ha = built_hull_area_ha(bp, parcels)
+    if (band and area_ha > 0 and len(parcels) >= MIN_PARCELS_FOR_DENSITY
+            and (record_class in DENSITY_CLASSES or not record)):
         density = len(parcels) / area_ha
         if not (band[0] <= density <= band[1]):
-            out.append(f"{bid}: 97 C6 — {len(parcels)} buildings over {area_ha:.2f} ha of boundary is "
-                       f"{density:.1f}/ha; the {cls} band is {band[0]:.0f}–{band[1]:.0f}/ha "
-                       f"(widen or tighten the boundary, or change the building count)")
+            out.append(f"{bid}: 97 C6 — {len(parcels)} buildings and structures over {area_ha:.2f} ha of "
+                       f"built hull is {density:.1f}/ha; the {cls} band is {band[0]:.0f}–{band[1]:.0f}/ha "
+                       f"(spread the pieces or close them up; the hull is the parcels, not the boundary)")
 
-    # 97 C7 — the building mix follows the ladder and the lore.
+    # 97 C7 — the building mix follows the ladder and the lore. Buildings only:
+    # a deck, a gate or a scaffold carries no use a household lives by.
     counts = {k: 0 for k in USE_BAND}
     unclassified = 0
-    for p in parcels:
+    for p in [q for q in parcels if kinds.get(q.get("id")) == "building"]:
         bucket = USE_BUCKET.get((p.get("use") or "").lower())
         if bucket is None:
             unclassified += 1
@@ -618,13 +767,38 @@ def _placement_warnings(bp: dict) -> list[str]:
             out.append(f"{bid}: 97 C7 — {unclassified} of {total + unclassified} parcels carry a `use` "
                        f"outside the histogram's vocabulary, so the mix cannot be judged")
 
+    # 97 C1 — a district is built from ONE kit set; the dressing pool is
+    # admitted everywhere (decision 2026-09-07), so this asks the question of
+    # buildings and structures only. A piece packaged in several kits counts as
+    # in-set if ANY of its kits is one the district may use.
+    membership = kit_membership()
+    kit_of_district = {d.get("id"): d.get("cultureKit") for d in bp.get("districts", []) or []}
+    for p in bp.get("parcels", []) or []:
+        kits = membership.get(p.get("assetRef"))
+        if not kits:
+            continue
+        allowed = kits_for_district(kit_of_district.get(p.get("districtId")) or "",
+                                    kinds.get(p.get("id")) or "building")
+        if allowed and not (kits & set(allowed)):
+            out.append(f"{bid}: 97 C1 — parcel {p.get('id')} is a {kinds.get(p.get('id'))} built from "
+                       f"{p.get('assetRef')} ({'/'.join(sorted(kits))}), but its district is "
+                       f"{kit_of_district.get(p.get('districtId'))} ({', '.join(allowed)}); one plan unit is "
+                       f"one kit set, and only props may come from the dressing pool")
+
     # 97 C3 — width reads as rank: spine 4.3 m, track 2.5 m, footpath 1.2 m.
+    # Except where a piece STANDS ACROSS the way: the gate's opening sets the
+    # width through it, and a spine may narrow to that opening for the gate's
+    # length (decision 2026-09-07). A 4.3 m road cannot pass a 3 m arch, and
+    # the arch is measured geometry while the class width is a convention.
+    spanned_ways = {p.get("spans") for p in bp.get("parcels", []) or [] if p.get("spans")}
     widest = {}
     for w in bp.get("routes", []) or []:
         kind, width = w.get("kind"), w.get("widthM")
         want = WAY_WIDTH_CLASS_M.get(kind)
         if want is None or not isinstance(width, (int, float)):
             continue
+        if w.get("id") in spanned_ways:
+            continue          # the gate piece across it sets the width
         widest[kind] = max(widest.get(kind, 0.0), float(width))
         if float(width) < want:
             out.append(f"{bid}: 97 C3 — route {w.get('id')} is a {kind} {float(width):.1f} m wide; "
@@ -673,11 +847,11 @@ def _nearest_way(bp: dict, point_uv):
 
 
 def _door_way_failures(bp: dict) -> list[str]:
-    """The orientation contract, read off the geometry: a door's derived doorway
+    """The orientation contract, read off the geometry: a door's derived entrance
     must look at the way it opens onto, and its threshold must stand at that way.
 
     Owner ruling 2026-09-05 — "doors in the right place and facing the right way
-    is really crucial": a building is sited so that its doorway faces where the
+    is really crucial": a building is sited so that its entrance faces where the
     player arrives, so a door facing the swamp is a HARD failure, not a note."""
     out: list[str] = []
     bid = bp.get("id", "<missing id>")
@@ -691,13 +865,10 @@ def _door_way_failures(bp: dict) -> list[str]:
         if not parcel or not (isinstance(th, list) and len(th) == 2):
             continue
         record = lib.get(parcel.get("assetRef"))
-        idx, _ = _match_parcel_doorway(parcel, d, record)
-        if idx is None:
+        ok, _ = _match_parcel_entrance(parcel, d, record)
+        bearing = bi.entrance_bearing(record, float(parcel.get("yawDeg") or 0.0))
+        if not ok or bearing is None:
             continue
-        ways = bi.doorways(record)
-        if bi.is_radial(ways[idx]):
-            continue
-        bearing = (float(ways[idx]["sideDeg"]) + float(parcel.get("yawDeg") or 0.0)) % 360.0
         near = _nearest_way(bp, th)
         if near is None:
             out.append(f"door-on-way — {d.get('id')} opens onto no way at all; a door has to give onto a "
@@ -721,12 +892,169 @@ def _door_way_failures(bp: dict) -> list[str]:
         to_way = math.degrees(math.atan2(target[0] - centre[0], -(target[1] - centre[1]))) % 360.0
         off = _angle_delta(bearing, to_way)
         if off > DOOR_ON_WAY_TOLERANCE_DEG:
-            out.append(f"door-on-way — {d.get('id')} sits on a doorway looking {bearing:.0f}°, but the "
+            out.append(f"door-on-way — {d.get('id')} sits on an entrance looking {bearing:.0f}°, but the "
                        f"way it opens onto ({way.get('id')}, {dist_m:.1f} m off) lies "
                        f"{to_way:.0f}° — {off:.0f}° away, over the {DOOR_ON_WAY_TOLERANCE_DEG:.0f}° "
                        f"the ruling allows; run `python3 -m worldgen.blueprint_footprints --orient --apply "
-                       f"<blueprint>` to turn the parcel, or move the door to a doorway that faces the street")
+                       f"<blueprint>` to turn the parcel so its entrance faces the street")
     return out
+
+
+FRONT_OUTWARD_TOLERANCE_DEG = 60.0
+#: Nearer than this and the way runs through the piece's own pivot, so the
+#: bearing to it says nothing.
+FRONT_WAY_MIN_RANGE_M = 1.0
+#: `use` values whose piece is an enclosure edge: it has an inside and an
+#: outside, and the player reads the difference. HARD for these; every other
+#: piece with a derived front is a WARN, because a front is evidence about how
+#: the piece is usually planted, not a law about this one plot.
+FRONT_USES = ("gate", "wall", "tower")
+
+
+def _enclosure_centroid_m(bp: dict, extent_m: float = fp.PROVINCE_EXTENT_M):
+    """The middle of whatever this place's boundary encloses, in world metres.
+
+    ANY plotted place has a boundary — a lair, a shrine, a ruin, a camp, a dock
+    — so the gate/wall rule reads the boundary polygon, not a settlement centre
+    (owner steer 2026-09-07). Parcel centres are the fallback for a record that
+    carries no boundary yet.
+    """
+    poly = bp.get("boundary")
+    if _polygon_ok(poly):
+        return (sum(float(q[0]) for q in poly) / len(poly) * extent_m,
+                sum(float(q[1]) for q in poly) / len(poly) * extent_m)
+    centres = [c for c in (_parcel_centre_m(p, extent_m)
+                           for p in bp.get("parcels") or []) if c]
+    if not centres:
+        return None
+    return (sum(c[0] for c in centres) / len(centres),
+            sum(c[1] for c in centres) / len(centres))
+
+
+def _bearing_between(frm, to) -> float:
+    return math.degrees(math.atan2(to[0] - frm[0], -(to[1] - frm[1]))) % 360.0
+
+
+def _front_failures(bp: dict) -> tuple[list[str], list[str]]:
+    """`(hard, warn)` — is every piece with a derived front planted facing out?
+
+    Owner ruling 2026-09-07, generalised by the owner's steer the same day. A
+    piece with no door has no entrance to orient it, so the interiors index
+    derives a `front` from the source authors' own placements: the side they
+    repeatedly left OPEN (nothing set against it) is the front, the side they
+    put against terrain, water or other statics is the back
+    (`pipeline/piece_front.py`; docs/research/placement-settlements/
+    piece-front-derivation.md).
+
+    Two contracts follow, and they apply to every plotted place, not only
+    settlements:
+
+      * **the approach** — the front looks at the line the player arrives on:
+        the nearest way, which is also what an `approaches[]` row names in its
+        `fromRouteId`. HARD for an enclosure edge (gate, wall, tower), WARN
+        for everything else, because a front is how a piece is usually planted
+        and a plot may have a reason of its own.
+      * **the enclosure** — a gate, a wall or a tower faces AWAY from what the
+        boundary polygon encloses, and a gate's front must be the side its way
+        comes in from. Always HARD: an inside-out gate is broken, not a choice.
+    """
+    hard: list[str] = []
+    warn: list[str] = []
+    lib = bi.library()
+    if not lib:
+        return hard, warn
+    middle = _enclosure_centroid_m(bp)
+    spanned = {w.get("id"): w for w, _pts in _ways(bp)}
+    for parcel in bp.get("parcels") or []:
+        record = lib.get(parcel.get("assetRef"))
+        front = bi.front(record)
+        if front is None:
+            continue                    # symmetric: any yaw goes, by design
+        centre = _parcel_centre_m(parcel)
+        if centre is None:
+            continue
+        is_edge = parcel.get("use") in FRONT_USES
+        # An enclosure edge is held HARD by the enclosure rule below, which is
+        # its own special case of the same contract; the approach rule is a WARN
+        # for it, because a curtain wall FLANKS its road rather than aiming at
+        # it, and the two cannot both be satisfied within 60° when a wall runs
+        # alongside the way through its own gate (Lilmoth's north stub).
+        out = hard if bi.entrance(record) else warn
+        world = (float(front["deg"]) + float(parcel.get("yawDeg") or 0.0)) % 360.0
+        where = (f"parcel {parcel.get('id')} ({parcel.get('use')}) has a derived front "
+                 f"({front['evidence']} evidence, {front['deg']:.0f}° in the piece's own frame) "
+                 f"looking {world:.0f}° after yaw {parcel.get('yawDeg')}°")
+
+        # (1) the front looks at the line the player arrives on. A piece the
+        # way runs THROUGH (a gate arch) is exempt: the nearest point of a way
+        # that passes under the piece is the piece itself, so the bearing to it
+        # says nothing — the spanned-way rule below is what holds that case.
+        near = None if parcel.get("spans") else _nearest_way(
+            bp, [centre[0] / fp.PROVINCE_EXTENT_M, centre[1] / fp.PROVINCE_EXTENT_M])
+        if near is not None:
+            way, (qx, qz), dist_uv = near
+            target = (qx * fp.PROVINCE_EXTENT_M, qz * fp.PROVINCE_EXTENT_M)
+            to_way = _bearing_between(centre, target)
+            off = _angle_delta(world, to_way)
+            # A way nearer than a metre runs over the piece's own pivot (a gate
+            # the road passes through): the bearing to it is noise, and the
+            # enclosure rule below is what says which way round the piece goes.
+            if dist_uv * fp.PROVINCE_EXTENT_M >= FRONT_WAY_MIN_RANGE_M \
+                    and off > FRONT_OUTWARD_TOLERANCE_DEG:
+                out.append(
+                    f"front — {where}, but the way the player arrives on ({way.get('id')}) lies "
+                    f"{to_way:.0f}° — {off:.0f}° away, over the {FRONT_OUTWARD_TOLERANCE_DEG:.0f}° "
+                    f"allowed. The open side of a piece is the side its author left facing the "
+                    f"path; turn the parcel to about {(to_way - float(front['deg'])) % 360.0:.0f}°")
+
+        if not is_edge or not front.get("outside") or middle is None:
+            continue
+
+        # (2) an enclosure edge faces away from what the boundary encloses.
+        #
+        # A gate the way runs through is the exception (2026-09-07): its wall
+        # run is fixed square across its road by the network stitch, so only
+        # two orientations exist — yaw and yaw + 180 — and the spanned-way
+        # checks below are what choose between them. Holding it to the boundary
+        # centroid as well can demand a third orientation that does not exist,
+        # which is a rule asking for a piece nobody made. Reported, not fatal.
+        spans_a_way = parcel.get("use") == "gate" and parcel.get("spans") in spanned
+        outward = _bearing_between(middle, centre)
+        off = _angle_delta(world, outward)
+        if off > FRONT_OUTWARD_TOLERANCE_DEG:
+            (warn if spans_a_way else hard).append(
+                f"front — {where}, but away from what this place's boundary encloses is "
+                f"{outward:.0f}° — {off:.0f}° off, over the {FRONT_OUTWARD_TOLERANCE_DEG:.0f}° "
+                f"allowed. Turn the parcel to about "
+                f"{(outward - float(front['deg'])) % 360.0:.0f}° (owner ruling 2026-09-07: a gate "
+                f"or wall faces out)")
+            continue
+        if parcel.get("use") != "gate":
+            continue
+        way = spanned.get(parcel.get("spans"))
+        if way is None:
+            continue
+        if parcel.get("id") in (way.get("endsAt") or []):
+            # The way stops AT the arch rather than running through it: the road
+            # comes up to the gate from the inside, so there is no outer end to
+            # check and the enclosure rule above is the whole contract.
+            continue
+        pts = way.get("points") or way.get("via") or []
+        if len(pts) < 2:
+            continue
+        # The way runs THROUGH the gate, so its outer end must lie on the front:
+        # the road comes in through the outside of an arch.
+        far = max(((float(q[0]) * fp.PROVINCE_EXTENT_M, float(q[1]) * fp.PROVINCE_EXTENT_M)
+                   for q in pts),
+                  key=lambda q: (q[0] - middle[0]) ** 2 + (q[1] - middle[1]) ** 2)
+        to_road = _bearing_between(centre, far)
+        gap = _angle_delta(world, to_road)
+        if gap > FRONT_OUTWARD_TOLERANCE_DEG:
+            hard.append(
+                f"front — gate {parcel.get('id')} spans {parcel.get('spans')}, whose outer end lies "
+                f"{to_road:.0f}° from the arch, but the gate's front looks {world:.0f}° — "
+                f"{gap:.0f}° off. The road comes in through the outside of a gate, so turn the parcel")
+    return hard, warn
 
 
 def catalogue_ids() -> set[str]:
@@ -766,6 +1094,7 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
 
     def fail(msg: str) -> None:
         errors.append(f"{bid}: {msg}")
+    from .player_purpose import validate_player_purpose as _vpp; errors += _vpp(bp, warnings)
 
     for key in REQUIRED:
         if key not in bp or bp[key] is None:
@@ -911,6 +1240,26 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if not isinstance(p.get("abutsWhy"), str) or len(p["abutsWhy"].strip()) < MIN_WHY_CHARS:
                 fail(f"parcel {p.get('id')}: 97 C5 — abutsWhy is required — one plain sentence saying why "
                      f"these pieces were designed to touch (a deck and its hut, a shed on a wall)")
+        # 97 C5 `worksWith` (decision 2026-09-07): `abuts` covers KIT SNAP PAIRS
+        # only. A hoist against the rock face it works and an oven beside its
+        # rack are trade contacts: no snap was ever authored for them, so they
+        # stand close and clear rather than touching.
+        if "worksWith" in p:
+            ww = p["worksWith"]
+            if not isinstance(ww, list) or not ww or not all(isinstance(x, str) for x in ww):
+                fail(f"parcel {p.get('id')}: 97 C5 — worksWith must list the parcel ids this piece works "
+                     f"against by trade")
+            else:
+                for other in ww:
+                    if other not in {q.get("id") for q in bp.get("parcels", [])}:
+                        fail(f"parcel {p.get('id')}: 97 C5 — worksWith names {other!r}, which is not a "
+                             f"parcel in this blueprint")
+                    if other in (p.get("abuts") or []):
+                        fail(f"parcel {p.get('id')}: 97 C5 — {other!r} is declared both `abuts` (a kit "
+                             f"snap) and `worksWith` (a trade contact); it is one or the other")
+            if not isinstance(p.get("worksWithWhy"), str) or len(p["worksWithWhy"].strip()) < MIN_WHY_CHARS:
+                fail(f"parcel {p.get('id')}: 97 C5 — worksWithWhy is required — one plain sentence saying "
+                     f"what the two pieces do together (the hoist over the cut, the oven by its rack)")
         it = p.get("interior")
         if it is not None and (not isinstance(it, dict) or it.get("kind") not in INTERIOR_KINDS):
             fail(f"parcel {p.get('id')}: interior.kind must be one of {sorted(INTERIOR_KINDS)}")
@@ -1045,9 +1394,18 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
             if k not in sg:
                 fail(f"scaleGrounding.{k} is required (size derived from lore, module 92)")
         bpn = sg.get("buildingsPlanned")
-        n_parcels = len([p for p in bp.get("parcels", []) if (p.get("use") or "") not in ("fence", "wall")])
+        # 97 D7: the plan counts BUILDINGS AND STRUCTURES. A rack, an oven or a
+        # notice board is dressing, and the top of a scaffold is the same
+        # structure seen from higher up — neither is a second building (audit
+        # §6.5; decision 2026-09-07). The Morrowind ratio is the rule here
+        # (Balmora ~40 structures for a city); the settlement register's
+        # 150–400 band counts total placed objects, props included.
+        n_parcels = len([p for p in pk.counted_parcels(bp)
+                         if (p.get("use") or "") not in ("fence", "wall")])
         if isinstance(bpn, int) and bpn > 0 and not (0.75 * bpn <= n_parcels <= 1.25 * bpn):
-            fail(f"scaleGrounding.buildingsPlanned={bpn} but {n_parcels} parcels are authored — the plan and the drawing disagree by more than 25 %")
+            fail(f"scaleGrounding.buildingsPlanned={bpn} but {n_parcels} buildings and structures are "
+                 f"authored (props and stacked pieces do not count) — the plan and the drawing disagree "
+                 f"by more than 25 %")
 
     for key in ("landmarks", "docks"):
         for item in bp.get(key, []):
@@ -1129,23 +1487,21 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                  f"{(d.get('interiorClaim') or {}).get('sizeClass')!r}, but the piece measures {area:.0f} m² — "
                  f"small is under {bi.SIZE_CLASS_SMALL_MAX_M2:.0f} m², medium under "
                  f"{bi.SIZE_CLASS_MEDIUM_MAX_M2:.0f} m², large above that, so it is {measured_class!r}")
-        # A door may only sit on a DERIVED doorway (owner ruling 2026-09-05):
-        # a door part's offset in a mined composite assembly, or an opening
-        # measured off the shell's own geometry. Never a bearing a designer
+        # A door may only sit on the piece's ONE canonical entrance (owner
+        # rulings 2026-09-05 / 2026-09-07): the mod's own load door, else a door
+        # part the authors placed on this shell, else the family's door mesh,
+        # else an opening measured off the geometry. Never a bearing a designer
         # liked the look of.
-        idx, why = _match_parcel_doorway(parcel, d, record)
-        if not bi.doorways(record):
+        ok, why = _match_parcel_entrance(parcel, d, record)
+        if not bi.entrance(record):
             fail(f"door {d.get('id')}: parcel {parcel.get('id')} uses {parcel.get('assetRef')}, which has an "
-                 f"inside but no derived doorway ({why}), so it may not carry a door — use the composite that "
+                 f"inside but no derived entrance ({why}), so it may not carry a door — use the composite that "
                  f"ships the door, or record a sourcing gap")
-        elif idx is None:
-            fail(f"door {d.get('id')}: facingDeg {d.get('facingDeg')}° sits on no derived doorway of "
+        elif not ok:
+            fail(f"door {d.get('id')}: facingDeg {d.get('facingDeg')}° does not sit on the canonical entrance of "
                  f"{parcel.get('assetRef')} after yaw {parcel.get('yawDeg')}° ({why}, tolerance "
                  f"±{DOORWAY_TOLERANCE_DEG:.0f}° / ±{bi.RADIAL_TOLERANCE_M:.1f} m) — a door cannot be claimed "
                  f"on a blank wall; use the composite that ships the door, or record a sourcing gap")
-        elif isinstance(d.get("doorwayRef"), int) and d["doorwayRef"] != idx:
-            fail(f"door {d.get('id')}: doorwayRef is {d['doorwayRef']}, but the door sits on doorway {idx} "
-                 f"({why}) — run `python3 -m worldgen.blueprint_footprints --doors <blueprint>` to derive it")
 
     if interiors:
         linked_shells = bi.linked_shells()
@@ -1171,11 +1527,11 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
                          f"shell may not stand on a placeholder kit (owner ruling 2026-09-07)")
             if record.get("interior") in bi.NEEDS_INTERIOR and not doors_by_parcel.get(p.get("id")):
                 want = interiors.interior_ref(record) or "a Phase 12 interior claim"
-                if not bi.doorways(record):
+                if not bi.entrance(record):
                     # Every piece the index still calls enclosed now carries a
-                    # derived doorway, so this is a kit that was not rebuilt.
+                    # derived entrance, so this is a kit that was not rebuilt.
                     fail(f"parcel {p.get('id')}: {p.get('assetRef')} has an inside "
-                         f"({record.get('interior')}) but its kit derives no doorway — rebuild the "
+                         f"({record.get('interior')}) but its kit derives no entrance — rebuild the "
                          f"interiors index (`python3 -m pipeline.interiors_index` in tooling/asset-pipeline/), "
                          f"use the composite that ships the door, or make the piece a mass "
                          f"(`interior: {{\"kind\": \"none\"}}`)")
@@ -1187,6 +1543,12 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
 
     for msg in _door_way_failures(bp):
         fail(msg)
+
+    front_hard, front_warn = _front_failures(bp)
+    for msg in front_hard:
+        fail(msg)
+    if warnings is not None:
+        warnings += [f"{bid}: {msg}" for msg in front_warn]
 
     cl = bp.get("clearance", {})
     if cl and not {"hardClear", "thinned", "kept"} <= set(cl):
@@ -1227,11 +1589,35 @@ def validate_blueprint_full(bp: dict, known_place_ids: set[str] | None = None,
     return errors, warnings
 
 
+def _dir_signature(blueprint_dir: Path) -> tuple:
+    """(name, mtime_ns, size) per file — the cache key for a validated dir.
+    Any edit to any blueprint moves it, so a stale result can never be served."""
+    return tuple((p.name, p.stat().st_mtime_ns, p.stat().st_size)
+                 for p in sorted(blueprint_dir.glob("*.json")))
+
+
+_VALIDATE_ALL_CACHE: dict = {}
+
+
 def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] | None = None,
                  warnings: list[str] | None = None) -> list[str]:
     errors: list[str] = []
     if not blueprint_dir.exists():
         return errors
+    # Validating the live dir is the same pure computation every time it is
+    # asked for, and the suites ask repeatedly. Memoised on the file
+    # signature + the known ids; the caller gets a fresh list either way, and
+    # the warnings path is recorded alongside so `--check` prints the same
+    # report it always did.
+    key = (str(blueprint_dir), _dir_signature(blueprint_dir),
+           None if known_place_ids is None else frozenset(known_place_ids))
+    hit = _VALIDATE_ALL_CACHE.get(key)
+    if hit is not None:
+        cached_errors, cached_warnings = hit
+        if warnings is not None:
+            warnings += cached_warnings
+        return list(cached_errors)
+    own_warnings: list[str] = []
     for path in sorted(blueprint_dir.glob("*.json")):
         data = json.loads(path.read_text())
         if data.get("schemaVersion") != SCHEMA_VERSION:
@@ -1240,7 +1626,11 @@ def validate_all(blueprint_dir: Path = BLUEPRINT_DIR, known_place_ids: set[str] 
         bp = data.get("blueprint", {})
         if path.stem != bp.get("id"):
             errors.append(f"{path.name}: filename must equal blueprint id ({bp.get('id')})")
-        errors += validate_blueprint(bp, known_place_ids, None, warnings)
+        errors += validate_blueprint(bp, known_place_ids, None, own_warnings)
+    _VALIDATE_ALL_CACHE.clear()
+    _VALIDATE_ALL_CACHE[key] = (list(errors), list(own_warnings))
+    if warnings is not None:
+        warnings += own_warnings
     return errors
 
 

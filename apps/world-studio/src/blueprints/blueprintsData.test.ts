@@ -1,7 +1,7 @@
 /** The Blueprint view's parsing, drawing conventions and URL round-trip. */
 import { describe, expect, it } from "vitest";
 import {
-  doorwayColour, doorwayLabel,
+  entranceLabel, frontLabel,
   AREA_WHY_KEYS, blueprintBounds, compassDeg, encodeBlueprintUrl, findBlueprint,
   groundFitFill, kitFill, loadBlueprints, parseBlueprintUrl, polyPath, scaleBarMetres,
   shortName, toggleIn, wayStyle, WHY_HEADINGS,
@@ -36,12 +36,9 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
       buildingFamily: "argonian-trunk-house", assetRef: "bmv:architecture/housetronc001",
       groundFit: "dug-in", yawDeg: 180, orientationWhy: "door onto the clearing", notes: null,
       spans: null, interior: { kind: "dwelling", assetRef: "bmv:interior/tronc01" }, why: why(),
-      doorways: [
-        { worldM: [116, 220], bearingDeg: 180, source: "assembly", arcM: 1.2,
-          kind: "door-piece", interiorRef: "dungeon-root-v1" },
-        { worldM: null, bearingDeg: null, source: "geometry", arcM: null, radial: true, radiusM: 4,
-          kind: "opening", interiorRef: "dungeon-root-v1" },
-      ],
+      entrance: { worldM: [116, 220], bearingDeg: 180, arcM: 1.2,
+        kind: "door-piece", interiorRef: "dungeon-root-v1" },
+      front: null,
       polygon: [[112, 212], [120, 212], [120, 220], [112, 220]], centreM: [116, 216],
     }],
     ways: [{
@@ -59,7 +56,7 @@ function makeBlueprint(id = "place.hist-heartland.nine-trunks"): Blueprint {
     docks: [{ id: "dock.nine-trunks.landing", waterBodyId: "water.channel.nine-trunks", piledToBed: true, why: why(), notes: null, positionM: [104, 222] }],
     doors: [{
       id: "door.hist-heartland.nine-trunks.1", parcelId: "parcel.nine-trunks.trunk-1", facingDeg: 180,
-      thresholdM: [116, 220], doorwayRef: 0,
+      thresholdM: [116, 220],
       interiorClaim: { sizeClass: "large", culture: "argonian", owner: "the naheesh" },
     }],
     combatSpaces: [{ id: "combat.nine-trunks.clearing", clearanceClass: "open",
@@ -274,35 +271,32 @@ describe("the why block", () => {
   });
 });
 
-describe("derived doorways", () => {
-  it("colours an assembly doorway apart from one measured off the shell", () => {
-    expect(doorwayColour("assembly")).not.toBe(doorwayColour("geometry"));
-    expect(doorwayColour(null)).toBeTruthy();
+describe("the canonical entrance", () => {
+  it("labels a fixed entrance by its bearing and a radial one by its radius", () => {
+    const bp = makeBlueprint();
+    const fixed = bp.parcels[0].entrance!;
+    expect(entranceLabel(fixed)).toContain("180");
+    expect(entranceLabel(fixed)).toContain("door-piece");
+    const ring = { ...fixed, radial: true, radiusM: 4, bearingDeg: null, worldM: null };
+    expect(entranceLabel(ring)).toContain("radial");
+    expect(entranceLabel(ring)).toContain("4.0 m");
   });
 
-  it("labels a fixed doorway by its bearing and a radial one by its radius", () => {
+  it("names the evidence that won and the interior the door leads into", () => {
     const bp = makeBlueprint();
-    const [fixed, ring] = bp.parcels[0].doorways;
-    expect(doorwayLabel(fixed, 0)).toContain("180");
-    expect(doorwayLabel(fixed, 0)).toContain("assembly");
-    expect(doorwayLabel(ring, 1)).toContain("radial");
-    expect(doorwayLabel(ring, 1)).toContain("4.0 m");
+    expect(entranceLabel(bp.parcels[0].entrance!)).toContain("dungeon-root-v1");
   });
 
-  it("names the doorway's kind and the interior kit the door leads into", () => {
+  it("keeps the door pointed at the entrance it stands on", () => {
     const bp = makeBlueprint();
-    const [fixed, ring] = bp.parcels[0].doorways;
-    expect(doorwayLabel(fixed, 0)).toContain("door-piece");
-    expect(doorwayLabel(fixed, 0)).toContain("dungeon-root-v1");
-    expect(doorwayLabel(ring, 1)).toContain("opening");
-    expect(doorwayLabel(ring, 1)).toContain("dungeon-root-v1");
+    expect(bp.parcels[0].entrance!.bearingDeg).toBe(bp.doors[0].facingDeg);
   });
 
-  it("keeps a door pointed at the doorway it sits on", () => {
-    const bp = makeBlueprint();
-    const door = bp.doors[0];
-    expect(door.doorwayRef).toBe(0);
-    expect(bp.parcels[0].doorways[door.doorwayRef!].bearingDeg).toBe(door.facingDeg);
+  it("reads a derived front for a piece with no entrance", () => {
+    const label = frontLabel({ deg: 12, worldDeg: 200, evidence: "co-placement", outside: true });
+    expect(label).toContain("200");
+    expect(label).toContain("co-placement");
+    expect(label).toContain("outside");
   });
 });
 

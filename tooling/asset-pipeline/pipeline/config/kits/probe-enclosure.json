@@ -1,0 +1,228 @@
+{
+ "id": "probe-enclosure",
+ "description": "Throwaway sourcing probe (owner ruling 2026-09-07, road-spanning gates): measures every candidate gate, arch, wall run and fence family across vanilla, mwkeep, Hlaalu/Hammerfell, HTBM, Mud Mother Grove and BM&V phitt so the picks are made on measured aperture geometry, not on labels or on what happened to be in a built kit. Not a shipping kit.",
+ "output": "tooling/asset-pipeline/output/kits/probe-enclosure.glb",
+ "lodRatios": [
+  0.35
+ ],
+ "textureMaxSize": 256,
+ "assets": [
+  {
+   "asset": "vanilla:dungeons/imperial/exterior/impextwallgate01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exterior/impextwall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exterior/impextwalldivider01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exterior/impexttower01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwallgate01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwall01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwall02"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/exteriorhelgen/impexthelgenwalldivider01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/portculliskit/portimpgate01"
+  },
+  {
+   "asset": "vanilla:dungeons/imperial/stablekit/impstablegate01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestrgate01door01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencestr01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasestr01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebaseend01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencebasecor01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrfarmfence/wrfencecor01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrcitywalls/wrwallmaingate01"
+  },
+  {
+   "asset": "vanilla:architecture/whiterun/wrcitywalls/wrwallstr01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadegate01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallstraight01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallcornerin01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallcornerout01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewallwalkway01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadetower01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadewall01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadebarricade/stockadebarricade01"
+  },
+  {
+   "asset": "vanilla:clutter/stockade/stockadepike01"
+  },
+  {
+   "asset": "vanilla:architecture/farmhouse/walkway/walkwaycwallgate01"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallgatearc001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall002"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewall003"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcorner001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallcurve001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/misc walls/stonewallendpillar001"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallentera"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallenterb"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwall"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmlcwallend"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfence"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfenceend"
+  },
+  {
+   "asset": "hlaalu:hlaaluarchitecture/hammerfell/trgmfencepost"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallgate01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwall01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorin01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallcorout01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwallent01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/mwimparchwalltower01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallstraight01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallpost01"
+  },
+  {
+   "asset": "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/stonewalls/mwimparchstonewallcor01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallarch01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallcurve02"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/villages/argonian/stonewallpillar01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallstraight"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallcorner01"
+  },
+  {
+   "asset": "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/wallfree01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/archwaysticks"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfence01"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfence02"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argonianfenceend"
+  },
+  {
+   "asset": "mudmother:gv_meshes/argoniannest/argoniantotem01"
+  },
+  {
+   "asset": "bmv:architecture/phitt/stronghold/entrance"
+  },
+  {
+   "asset": "bmv:architecture/phitt/stronghold/pylon00"
+  },
+  {
+   "asset": "bmv:architecture/phitt/stronghold/pylon02"
+  },
+  {
+   "asset": "bmv:architecture/phitt/fence01"
+  },
+  {
+   "asset": "bmv:architecture/phitt/fencepole"
+  },
+  {
+   "asset": "bmv:architecture/phitt/fenceplank"
+  },
+  {
+   "asset": "bmv:architecture/phitt/fencetop"
+  },
+  {
+   "asset": "bmv:architecture/phitt/velothi/extentrance"
+  }
+ ],
+ "inspect": true
+}

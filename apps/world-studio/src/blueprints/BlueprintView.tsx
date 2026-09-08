@@ -33,7 +33,7 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
-  AREA_WHY_KEYS, blueprintBounds, compassDeg, doorwayColour, doorwayLabel, findBlueprint, groundFitFill, kitFill,
+  AREA_WHY_KEYS, blueprintBounds, compassDeg, entranceLabel, findBlueprint, frontLabel, groundFitFill, kitFill,
   LABEL_PX_PER_M, loadBlueprints, polyPath, scaleBarMetres, shortName, SOCKET_FILL,
   toggleIn, wayStyle, WHY_HEADINGS,
   type Blueprint, type BlueprintBundle, type BlueprintUrlState, type BpApproach,
@@ -130,15 +130,6 @@ function nearestEdgePoint(poly: Poly, p: Pt): Pt {
     if (d < bestD) { bestD = d; best = q; }
   }
   return best;
-}
-
-/** A shallow arc in front of a doorway, so the opening reads as a swing and not
- * just a gap in the wall. `f` is the outward unit heading. */
-function arcPath(at: Pt, f: Pt, r: number): string {
-  const a: Pt = [at[0] - f[1] * r, at[1] + f[0] * r];
-  const b: Pt = [at[0] + f[1] * r, at[1] - f[0] * r];
-  const m: Pt = [at[0] + f[0] * r * 0.55, at[1] + f[1] * r * 0.55];
-  return `M${a[0].toFixed(2)} ${a[1].toFixed(2)} Q${m[0].toFixed(2)} ${m[1].toFixed(2)} ${b[0].toFixed(2)} ${b[1].toFixed(2)}`;
 }
 
 function dist2(a: Pt, b: Pt): number {
@@ -365,18 +356,14 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
     const p = find(bp.parcels);
     if (p) {
       const keys = ["use", "districtId", "buildingFamily", "assetRef", "groundFit", "spans", "interior", "notes", "centreM"];
-      // Every derived doorway, and the door (if any) that sits on it: a door
-      // may only stand on a doorway the kit actually has.
-      const doorways = (p.doorways ?? []).map((dw, i) => {
-        const user = bp.doors.find((d) => d.parcelId === p.id && d.doorwayRef === i);
-        return `${doorwayLabel(dw, i)}${user ? ` — ${shortName(user.id)}` : " — no door"}`;
-      });
-      const orphans = bp.doors
-        .filter((d) => d.parcelId === p.id && d.doorwayRef === null)
-        .map((d) => `${shortName(d.id)} sits on no derived doorway`);
-      const extra: [string, unknown][] = doorways.length || orphans.length
-        ? [["doorways", [...doorways, ...orphans]]]
-        : [["doorways", "none derived — this piece may not carry a door"]];
+      // THE canonical entrance, and the door (if any) standing on it — one
+      // answer to "where is the door" (owner ruling 2026-09-07). A piece with
+      // no entrance shows its derived front instead: which way round it goes.
+      const user = bp.doors.find((d) => d.parcelId === p.id);
+      const extra: [string, unknown][] = p.entrance
+        ? [["entrance", `${entranceLabel(p.entrance)}${user ? ` — ${shortName(user.id)}` : " — no door"}`]]
+        : [["entrance", "none derived — this piece may not carry a door"],
+           ["front", p.front ? frontLabel(p.front) : "none derived — the piece is symmetric"]];
       return rec(p as unknown as Record<string, unknown>, "parcel", keys, {
         fields: [...fieldsOf(p as unknown as Record<string, unknown>, keys), ...extra],
         orientation: {
@@ -393,7 +380,7 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
     if (dr) return rec(dr as unknown as Record<string, unknown>, "door",
       ["parcelId", "facingDeg", "thresholdM"], {
         wantsWhy: false,
-        fields: [...fieldsOf(dr as unknown as Record<string, unknown>, ["parcelId", "facingDeg", "doorwayRef", "thresholdM"]),
+        fields: [...fieldsOf(dr as unknown as Record<string, unknown>, ["parcelId", "facingDeg", "thresholdM"]),
           ...fieldsOf(dr.interiorClaim as unknown as Record<string, unknown>, ["sizeClass", "culture", "owner"])],
       });
     const lm = find(bp.landmarks);
@@ -588,11 +575,10 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
               );
             })}
 
-            {/* parcels: the real footprint, with a yaw stub from the centre */}
+            {/* parcels: the real footprint. No yaw stub — the door tick is the
+                facing, and the stub was clutter (owner 2026-09-07). */}
             {on("parcels") && bp.parcels.map((p) => {
               const c = p.centreM;
-              const yaw = typeof p.yawDeg === "number" ? heading(p.yawDeg) : null;
-              const stub = 6;
               return (
                 <g key={p.id}>
                   {p.polygon && (
@@ -603,10 +589,6 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
                       onMouseLeave={() => setHover(null)}
                       onClick={pickId(p.id)} />
                   )}
-                  {yaw && c && (
-                    <line x1={c[0]} y1={c[1]} x2={c[0] + yaw[0] * stub} y2={c[1] + yaw[1] * stub}
-                      stroke="#1a1f26" strokeWidth={px(1.6)} pointerEvents="none" />
-                  )}
                   {showLabels && c && (
                     <text x={c[0]} y={c[1] - px(7)} fontSize={px(10)} fill="#101418" textAnchor="middle"
                       pointerEvents="none">{shortName(p.id)}</text>
@@ -614,36 +596,6 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
                 </g>
               );
             })}
-
-            {/* doorways: the ways in the KIT actually has, drawn on the outline —
-                a short tick across the opening plus its arc, gold for a doorway
-                taken from a mined assembly, blue-green for one measured off the
-                shell, a dashed ring for a radial way in. */}
-            {on("parcels") && bp.parcels.map((p) => (p.doorways ?? []).map((dw, i) => {
-              const colour = doorwayColour(dw.source);
-              if (dw.radial) {
-                const c = p.centreM;
-                if (!c || !dw.radiusM) return null;
-                return (
-                  <circle key={`${p.id}-dw${i}`} cx={c[0]} cy={c[1]} r={dw.radiusM}
-                    fill="none" stroke={colour} strokeOpacity={0.75}
-                    strokeWidth={Math.max(px(1.2), 0.2)} strokeDasharray={`${px(4)} ${px(3)}`}
-                    pointerEvents="none" />
-                );
-              }
-              if (!dw.worldM || dw.bearingDeg === null) return null;
-              const at = dw.worldM, f = heading(dw.bearingDeg);
-              const half = Math.max((dw.arcM ?? 1.2) / 2, 0.4);
-              return (
-                <g key={`${p.id}-dw${i}`} pointerEvents="none">
-                  <line x1={at[0] - f[1] * half} y1={at[1] + f[0] * half}
-                    x2={at[0] + f[1] * half} y2={at[1] - f[0] * half}
-                    stroke={colour} strokeWidth={Math.max(px(2), 0.35)} strokeLinecap="round" />
-                  <path d={arcPath(at, f, half * 1.6)} fill="none" stroke={colour}
-                    strokeOpacity={0.6} strokeWidth={Math.max(px(1), 0.18)} />
-                </g>
-              );
-            }))}
 
             {/* doors: a tick ON the parcel edge the door sits in, plus its facing */}
             {on("doors") && bp.doors.map((d) => {
@@ -807,13 +759,12 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
               labels appear at {LABEL_PX_PER_M} px per metre{showLabels ? " (on)" : " (zoom in)"}
             </div>
             <div style={{ marginTop: 4, opacity: 0.7, lineHeight: 1.35 }}>
-              <b>Glyphs on a building.</b> Black stub from the centre: which way the
-              piece is turned (its yaw). Coloured tick + arc across the outline: a
-              doorway the kit really has — <span style={{ color: "#f2b134" }}>gold</span> from
-              the kit author's own door part, <span style={{ color: "#5fc9c1" }}>blue-green</span> measured
-              off the shell, <span style={{ color: "#ff9ecb" }}>pink</span> from the mod's plugin
-              door link; a dashed ring means the way in can be turned to any side. Red tick on
-              the edge: the door this plan uses, with its facing.
+              <b>Glyphs on a building.</b> One <span style={{ color: "#e8503f" }}>red</span> tick
+              on the outline, with a short line out of it: the door, standing on the piece's
+              single derived entrance, and the way it faces. Click the building to read which
+              evidence that entrance came from — the mod's own door link, a door part its
+              authors placed, or an opening measured off the mesh — and, for a piece with no
+              door at all (a gate arch, a wall stub), which way round it goes.
             </div>
             <div style={{ marginTop: 4, opacity: 0.55 }}>
               The province map is the same picture as the map screen, at ~5.5 m per pixel —

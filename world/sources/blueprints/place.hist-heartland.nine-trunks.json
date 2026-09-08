@@ -241,124 +241,136 @@
           0.6752078,
           0.5049048
         ],
-        "yawDeg": 15.3,
-        "orientationWhy": "Its long side follows the ring's tangent at 20\u00b0, between the elder trunk and the north-eastern trunk. The door opens inward to the clearing, because no door faces out of the ring.",
+        "yawDeg": 83.4,
+        "orientationWhy": "Turned to 83.4\u00b0 so the doorway looks in at 195\u00b0 onto the ring walk, between the elder trunk and the north-eastern trunk; the door opens inward, because the huts of the ring are entered from the clearing.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "trade",
+            "tier": "medium",
+            "note": "The egg-tenders sell eggs and provisions at the door, the food that can be bought here out of season."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "They keep the count of which delegations came this year and which did not."
+          }
+        ],
         "why": {
           "what": "The eastern family's hut, in the gap east of the elder trunk.",
           "whyHere": "The village holds two tribe families beside its three office-holders; this is the household charged with the nest.",
           "whySpot": "The gap east of the elder trunk is the nearest wall gap to the uxith, on the level northern floor of the ring.",
           "whyNeighbours": "It shares the elder trunk with the naheesh's house and the eastern guest hut with the rented arc.",
-          "playerPurpose": "A family home that a player may enter; the eastern household's talk is about the eggs and the guests.",
+          "playerPurpose": "The egg-tenders, who sell food at the door out of season and keep the count of which delegations came this year.",
           "microGeography": "Ground at 3.8 m, a shallow pad; the hut's back wall takes the fall towards the eastern water."
         },
         "footprint": [
           [
-            0.674835029,
-            0.504740956
+            0.675220782,
+            0.504497817
           ],
           [
-            0.6748392,
-            0.504730848
+            0.675231715,
+            0.504497918
           ],
           [
-            0.674887217,
-            0.504627283
+            0.675345717,
+            0.504503841
           ],
           [
-            0.675002207,
-            0.504515325
+            0.675492486,
+            0.504568774
           ],
           [
-            0.675008871,
-            0.504511524
+            0.675498498,
+            0.50457354
           ],
           [
-            0.675184136,
-            0.504441363
+            0.675628967,
+            0.504709987
           ],
           [
-            0.675329956,
-            0.504453134
+            0.675672435,
+            0.504849675
           ],
           [
-            0.675461461,
-            0.504517231
+            0.675662013,
+            0.504995597
           ],
           [
-            0.675576604,
-            0.504666838
+            0.67556615,
+            0.505158233
           ],
           [
-            0.675580405,
-            0.504673502
+            0.675561384,
+            0.505164245
           ],
           [
-            0.675622391,
-            0.504828404
+            0.675433321,
+            0.505260978
           ],
           [
-            0.675611002,
-            0.504941989
+            0.675323684,
+            0.505292777
           ],
           [
-            0.675578436,
-            0.50506103
+            0.675201087,
+            0.505306962
           ],
           [
-            0.675476046,
-            0.505183466
+            0.675049296,
+            0.505257627
           ],
           [
-            0.675408443,
-            0.505235274
+            0.674976012,
+            0.505214227
           ],
           [
-            0.675391425,
-            0.505246085
+            0.674959634,
+            0.505202469
           ],
           [
-            0.675259441,
-            0.505337927
+            0.67482519,
+            0.505114265
           ],
           [
-            0.675241361,
-            0.5053372
+            0.674819122,
+            0.505097219
           ],
           [
-            0.675226614,
-            0.505334571
+            0.67481606,
+            0.505082556
           ],
           [
-            0.674970219,
-            0.505264429
+            0.674785508,
+            0.504818501
           ],
           [
-            0.674956187,
-            0.505259185
+            0.67478514,
+            0.504803525
           ],
           [
-            0.674940255,
-            0.505250608
+            0.674787156,
+            0.504785544
           ],
           [
-            0.674873402,
-            0.505104369
+            0.674897906,
+            0.50466897
           ],
           [
-            0.674864257,
-            0.505086401
+            0.674911166,
+            0.504653783
           ],
           [
-            0.674832441,
-            0.505007395
+            0.674972604,
+            0.504594795
           ],
           [
-            0.674806634,
-            0.504849889
+            0.675109118,
+            0.504512102
           ]
         ]
       },
@@ -372,12 +384,29 @@
           0.6767732,
           0.5061783
         ],
-        "yawDeg": 56.2,
-        "orientationWhy": "Set square across its gap on the eastern arc, door to the ring walk, so a guest steps from the walk into the hut and the rented arc reads as one row.",
+        "yawDeg": 124.2,
+        "orientationWhy": "Turned to 124.2\u00b0, its doorway on 236\u00b0 onto the ring walk, so a guest steps off the walk into the hut and the rented arc reads as one row.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "bed",
+            "tier": "medium",
+            "note": "Rented to the player by the night whenever the huts stand empty."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The first door tried in Under the Overflow, where the pitch terms are learnt."
+          },
+          {
+            "kind": "rumour",
+            "tier": "minor",
+            "note": "The last delegation left a bundle here. The neighbours still argue over whose it was."
+          }
+        ],
         "why": {
           "what": "The first of three rented huts on the eastern arc, let to a delegation for the convocation month.",
           "whyHere": "The village grew rich on the convocation's overflow; a delegation that pays for a hut rather than a pitch is the top of its trade.",
@@ -388,108 +417,108 @@
         },
         "footprint": [
           [
-            0.676598715,
-            0.505810389
+            0.677048958,
+            0.505878699
           ],
           [
-            0.676608486,
-            0.50580548
+            0.677057169,
+            0.505885919
           ],
           [
-            0.676712588,
-            0.505758639
+            0.677139597,
+            0.505964893
           ],
           [
-            0.676872808,
-            0.505749304
+            0.677208272,
+            0.50610995
           ],
           [
-            0.676880333,
-            0.505750794
+            0.67720971,
+            0.506117486
           ],
           [
-            0.677058744,
-            0.505812516
+            0.677219316,
+            0.506306027
           ],
           [
-            0.677161256,
-            0.505916887
+            0.677160946,
+            0.506440172
           ],
           [
-            0.677218688,
-            0.506051437
+            0.677057708,
+            0.506543826
           ],
           [
-            0.677207765,
-            0.506239906
+            0.676878871,
+            0.5066043
           ],
           [
-            0.677206275,
-            0.506247432
+            0.676871335,
+            0.506605738
           ],
           [
-            0.67713659,
-            0.506392005
+            0.676711184,
+            0.506595285
           ],
           [
-            0.677053612,
-            0.506470403
+            0.676607411,
+            0.506547717
           ],
           [
-            0.676951056,
-            0.506539058
+            0.676505337,
+            0.506478348
           ],
           [
-            0.676793501,
-            0.506564562
+            0.676422669,
+            0.506341819
           ],
           [
-            0.676708482,
-            0.506559459
+            0.676395552,
+            0.506261079
           ],
           [
-            0.676688541,
-            0.506556488
+            0.676390836,
+            0.506241477
           ],
           [
-            0.676528647,
-            0.506539492
+            0.676346697,
+            0.506086859
           ],
           [
-            0.676515458,
-            0.506527105
+            0.676353242,
+            0.50606999
           ],
           [
-            0.676506032,
-            0.506515462
+            0.676360506,
+            0.506056889
           ],
           [
-            0.676358159,
-            0.506294573
+            0.676509917,
+            0.505837037
           ],
           [
-            0.676350987,
-            0.506281421
+            0.676519424,
+            0.505825461
           ],
           [
-            0.67634456,
-            0.506264507
+            0.676532699,
+            0.505813166
           ],
           [
-            0.676389778,
-            0.506110201
+            0.676692708,
+            0.505797287
           ],
           [
-            0.67639463,
-            0.506090632
+            0.676712669,
+            0.505794455
           ],
           [
-            0.67642231,
-            0.506010084
+            0.676797721,
+            0.505789946
           ],
           [
-            0.67650593,
-            0.505874136
+            0.676955095,
+            0.505816549
           ]
         ],
         "service": "lodging"
@@ -504,12 +533,24 @@
           0.6771975,
           0.5080806
         ],
-        "yawDeg": 96.8,
-        "orientationWhy": "Set square across its gap, door to the ring walk, as every hut of the rented arc is.",
+        "yawDeg": 161.2,
+        "orientationWhy": "Turned to 161.2\u00b0, its doorway on 273\u00b0 onto the ring walk, as every hut of the rented arc is.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "witness",
+            "tier": "medium",
+            "note": "Kept swept and unlet for a tribe that no longer comes, which is the fact behind Water Without Ceremony."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The neighbour who sweeps it will name the tribe and where they camp instead."
+          }
+        ],
         "why": {
           "what": "The second rented hut of the eastern arc.",
           "whyHere": "Two of the four delegations which once paid for huts now camp at Greenspring, so this hut stands empty eleven months and is let in the twelfth.",
@@ -520,108 +561,108 @@
         },
         "footprint": [
           [
-            0.677304446,
-            0.507687706
+            0.677598035,
+            0.508007283
           ],
           [
-            0.677315058,
-            0.507690337
+            0.677600247,
+            0.508017991
           ],
           [
-            0.677424584,
-            0.507722518
+            0.677618549,
+            0.508130669
           ],
           [
-            0.677552309,
-            0.507819698
+            0.677586098,
+            0.508287846
           ],
           [
-            0.677557053,
-            0.507825727
+            0.677582711,
+            0.50829473
           ],
           [
-            0.677652349,
-            0.507988695
+            0.677476916,
+            0.508451087
           ],
           [
-            0.677662261,
-            0.508134654
+            0.677349569,
+            0.508523092
           ],
           [
-            0.677618306,
-            0.508274189
+            0.67720474,
+            0.508543743
           ],
           [
-            0.677487361,
-            0.50841018
+            0.677025519,
+            0.508484413
           ],
           [
-            0.677481332,
-            0.508414924
+            0.677018635,
+            0.508481026
           ],
           [
-            0.677334338,
-            0.508479345
+            0.676897024,
+            0.508376297
           ],
           [
-            0.677220316,
-            0.50848487
+            0.676842775,
+            0.508275856
           ],
           [
-            0.677097769,
-            0.508470257
+            0.676803002,
+            0.508159025
           ],
           [
-            0.676961545,
-            0.508387089
+            0.676819146,
+            0.508000237
           ],
           [
-            0.676900313,
-            0.508327886
+            0.676846079,
+            0.507919436
           ],
           [
-            0.676887106,
-            0.508312653
+            0.67685411,
+            0.507900943
           ],
           [
-            0.676776763,
-            0.508195694
+            0.67691191,
+            0.507750896
           ],
           [
-            0.676774811,
-            0.508177705
+            0.676927289,
+            0.507741363
           ],
           [
-            0.67677523,
-            0.508162731
+            0.676940975,
+            0.507735271
           ],
           [
-            0.676806704,
-            0.507898785
+            0.67719261,
+            0.507649608
           ],
           [
-            0.676809817,
-            0.507884132
+            0.677207169,
+            0.507646084
           ],
           [
-            0.676815945,
-            0.507867107
+            0.67722517,
+            0.507644254
           ],
           [
-            0.676950695,
-            0.507779373
+            0.677362515,
+            0.507727868
           ],
           [
-            0.676967115,
-            0.507767673
+            0.677380162,
+            0.50773762
           ],
           [
-            0.67704055,
-            0.507724529
+            0.677450801,
+            0.507785204
           ],
           [
-            0.677192512,
-            0.507675724
+            0.677560475,
+            0.50790116
           ]
         ]
       },
@@ -635,12 +676,24 @@
           0.6762612,
           0.5097704
         ],
-        "yawDeg": 137.8,
-        "orientationWhy": "Set square across its gap, door to the ring walk, closing the rented arc.",
+        "yawDeg": 201.0,
+        "orientationWhy": "Turned to 201.0\u00b0, its doorway on 313\u00b0 onto the ring walk, closing the rented arc.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "bed",
+            "tier": "medium",
+            "note": "The last hut of the arc, let cheaper because it stands nearest the felling ground."
+          },
+          {
+            "kind": "hiding-place",
+            "tier": "minor",
+            "note": "Its shutter faces the felling scene and can be watched from inside."
+          }
+        ],
         "why": {
           "what": "The third rented hut, the last of the eastern arc before the store.",
           "whyHere": "A third rented hut is the measure of the village's confidence; the rent ledger shows that it has not been let in two years.",
@@ -651,108 +704,108 @@
         },
         "footprint": [
           [
-            0.676599675,
-            0.509544041
+            0.676615855,
+            0.509970458
           ],
           [
-            0.676605958,
-            0.50955299
+            0.676610701,
+            0.509980101
           ],
           [
-            0.676667505,
-            0.509649133
+            0.676552635,
+            0.510078385
           ],
           [
-            0.676700145,
-            0.50980627
+            0.676427093,
+            0.510178369
           ],
           [
-            0.67669977,
-            0.509813933
+            0.676420085,
+            0.510181489
           ],
           [
-            0.676664774,
-            0.509999446
+            0.676238719,
+            0.510233896
           ],
           [
-            0.676576497,
-            0.510116105
+            0.676094789,
+            0.5102077
           ],
           [
-            0.676451781,
-            0.510192577
+            0.6759703,
+            0.510130859
           ],
           [
-            0.676263737,
-            0.510209303
+            0.675870585,
+            0.509970556
           ],
           [
-            0.676256075,
-            0.510208928
+            0.675867465,
+            0.509963548
           ],
           [
-            0.676102872,
-            0.51016111
+            0.675841071,
+            0.509805241
           ],
           [
-            0.676013194,
-            0.510090475
+            0.675863685,
+            0.509693348
           ],
           [
-            0.675930294,
-            0.509999049
+            0.675907913,
+            0.509578131
           ],
           [
-            0.675882048,
-            0.509846909
+            0.676021958,
+            0.50946647
           ],
           [
-            0.675874676,
-            0.509762057
+            0.676094372,
+            0.509421633
           ],
           [
-            0.675874702,
-            0.509741896
+            0.676112379,
+            0.509412565
           ],
           [
-            0.675868158,
-            0.509581234
+            0.676252833,
+            0.509334285
           ],
           [
-            0.675878485,
-            0.509566377
+            0.67627075,
+            0.509336805
           ],
           [
-            0.675888626,
-            0.509555352
+            0.676285164,
+            0.509340885
           ],
           [
-            0.676085544,
-            0.509376797
+            0.676533325,
+            0.509436145
           ],
           [
-            0.676097507,
-            0.509367781
+            0.676546766,
+            0.509442758
           ],
           [
-            0.676113301,
-            0.509358952
+            0.676561768,
+            0.509452874
           ],
           [
-            0.676272557,
-            0.509381143
+            0.676613766,
+            0.50960503
           ],
           [
-            0.676292625,
-            0.509383085
+            0.676621081,
+            0.509623817
           ],
           [
-            0.676376352,
-            0.509398701
+            0.676644893,
+            0.509705592
           ],
           [
-            0.676523058,
-            0.509461564
+            0.676654929,
+            0.509864883
           ]
         ]
       },
@@ -766,12 +819,24 @@
           0.6746073,
           0.5105423
         ],
-        "yawDeg": 176.3,
-        "orientationWhy": "Set square across the southern gap, door inward, so the store is filled from the clearing and shows a blank wall to the road.",
+        "yawDeg": 245.9,
+        "orientationWhy": "Turned to 245.9\u00b0, its doorway on 358\u00b0 onto the ring walk, so the store is filled from the clearing and shows a blank wall to the road.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "cache",
+            "tier": "medium",
+            "note": "The guest cache: provisions and reagents held for the delegations, plus the container socket of the rest-shelter reward."
+          },
+          {
+            "kind": "valuables",
+            "tier": "medium",
+            "note": "The stock belongs to the village. The pitch-taker prices anything taken."
+          }
+        ],
         "why": {
           "what": "The store hut, where the village keeps the food and reagents which it holds for its guests.",
           "whyHere": "The type recipe gives every Hist village a food and reagent cache without a guard; here it is a hut, because the village has guests to feed.",
@@ -782,108 +847,108 @@
         },
         "footprint": [
           [
-            0.675013105,
-            0.510575856
+            0.674717301,
+            0.51093435
           ],
           [
-            0.675012451,
-            0.51058677
+            0.674706843,
+            0.510937542
           ],
           [
-            0.675000768,
-            0.510700326
+            0.674596337,
+            0.510966174
           ],
           [
-            0.674928492,
-            0.510843622
+            0.674436835,
+            0.51094838
           ],
           [
-            0.674923429,
-            0.510849385
+            0.674429668,
+            0.510945643
           ],
           [
-            0.674780555,
-            0.510972784
+            0.674264207,
+            0.510854744
           ],
           [
-            0.674638847,
-            0.511009129
+            0.674180747,
+            0.510734592
           ],
           [
-            0.674493639,
-            0.510991338
+            0.674146806,
+            0.51059229
           ],
           [
-            0.674336062,
-            0.510887369
+            0.674189327,
+            0.510408355
           ],
           [
-            0.674330298,
-            0.510882305
+            0.674192064,
+            0.510401188
           ],
           [
-            0.674240169,
-            0.510749512
+            0.674285113,
+            0.510270423
           ],
           [
-            0.674213957,
-            0.510638406
+            0.674380113,
+            0.510207127
           ],
           [
-            0.674205993,
-            0.510515249
+            0.67449277,
+            0.510156733
           ],
           [
-            0.674262944,
-            0.510366149
+            0.674652371,
+            0.51015814
           ],
           [
-            0.674309997,
-            0.510295154
+            0.674735314,
+            0.510177495
           ],
           [
-            0.674322568,
-            0.510279392
+            0.67475447,
+            0.510183783
           ],
           [
-            0.67441746,
-            0.510149583
+            0.674909214,
+            0.510227476
           ],
           [
-            0.674434792,
-            0.510144385
+            0.674920127,
+            0.510241909
           ],
           [
-            0.674449591,
-            0.510142069
+            0.674927457,
+            0.510254973
           ],
           [
-            0.674714854,
-            0.510124915
+            0.675035998,
+            0.510497619
           ],
           [
-            0.674729829,
-            0.510125306
+            0.675040851,
+            0.510511791
           ],
           [
-            0.674747685,
-            0.510128228
+            0.675044337,
+            0.510529546
           ],
           [
-            0.674858506,
-            0.510244734
+            0.674973767,
+            0.510674028
           ],
           [
-            0.674873003,
-            0.510258746
+            0.674965687,
+            0.510692499
           ],
           [
-            0.674928807,
-            0.510323089
+            0.674924831,
+            0.510767232
           ],
           [
-            0.675004487,
-            0.510463613
+            0.674819501,
+            0.510887148
           ]
         ]
       },
@@ -897,12 +962,29 @@
           0.6717169,
           0.5084001
         ],
-        "yawDeg": 256.5,
-        "orientationWhy": "Turned across its gap with the door to the clearing, so the pitch-taker sees the gate from the threshold without looking out of the ring.",
+        "yawDeg": 337.2,
+        "orientationWhy": "Turned to 337.2\u00b0, its doorway on 89\u00b0 onto the ring walk, so the pitch-taker steps out onto the walk that runs to the gate.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "quest-giver",
+            "tier": "major",
+            "note": "Pitch-Rights is given at this door; the household is paid to leave the baggage shut in Under the Overflow."
+          },
+          {
+            "kind": "trade",
+            "tier": "medium",
+            "note": "Pitch-rights are bought here, which is how a party camps at the ring at all."
+          },
+          {
+            "kind": "readable",
+            "tier": "minor",
+            "note": "The pitch ledger names every tribe that has paid and every one that has stopped."
+          }
+        ],
         "why": {
           "what": "The pitch-rights taker's hut, in the first gap west of the gate.",
           "whyHere": "The village's trade is rent; the household which takes it lives beside the gate through which every payer comes.",
@@ -913,108 +995,108 @@
         },
         "footprint": [
           [
-            0.671752906,
-            0.508805695
+            0.671322455,
+            0.508501178
           ],
           [
-            0.671742039,
-            0.508806909
+            0.671319501,
+            0.508490651
           ],
           [
-            0.671628152,
-            0.508814724
+            0.671293384,
+            0.508379523
           ],
           [
-            0.671474645,
-            0.508767893
+            0.671314792,
+            0.508220466
           ],
           [
-            0.671468104,
-            0.508763885
+            0.67131769,
+            0.508213363
           ],
           [
-            0.671322187,
-            0.5086441
+            0.67141232,
+            0.508050007
           ],
           [
-            0.671262253,
-            0.508510646
+            0.671534335,
+            0.507969294
           ],
           [
-            0.671255068,
-            0.508364528
+            0.671677371,
+            0.50793859
           ],
           [
-            0.671330699,
-            0.508191554
+            0.671860293,
+            0.507985274
           ],
           [
-            0.671334708,
-            0.508185013
+            0.671867397,
+            0.507988173
           ],
           [
-            0.671450223,
-            0.508073595
+            0.671996017,
+            0.508084164
           ],
           [
-            0.671555245,
-            0.508028855
+            0.672057141,
+            0.508180576
           ],
           [
-            0.67167525,
-            0.508000045
+            0.672104966,
+            0.508294347
           ],
           [
-            0.671831868,
-            0.508030786
+            0.672099939,
+            0.508453875
           ],
           [
-            0.671909836,
-            0.508065068
+            0.672078707,
+            0.508536357
           ],
           [
-            0.671927508,
-            0.508074773
+            0.672071986,
+            0.508555365
           ],
           [
-            0.672071574,
-            0.508146186
+            0.672024793,
+            0.508709079
           ],
           [
-            0.672079646,
-            0.50816238
+            0.672010117,
+            0.508719662
           ],
           [
-            0.672084448,
-            0.508176569
+            0.671996889,
+            0.508726693
           ],
           [
-            0.672146501,
-            0.508435041
+            0.671751843,
+            0.508829701
           ],
           [
-            0.672148665,
-            0.508449864
+            0.671737565,
+            0.508834232
           ],
           [
-            0.672148825,
-            0.508467958
+            0.671719735,
+            0.508837313
           ],
           [
-            0.672052882,
-            0.508596992
+            0.671576892,
+            0.508763484
           ],
           [
-            0.672041541,
-            0.508613662
+            0.671558608,
+            0.508754987
           ],
           [
-            0.671987636,
-            0.508679604
+            0.671484822,
+            0.508712446
           ],
           [
-            0.671862044,
-            0.508778098
+            0.671367326,
+            0.508604422
           ]
         ]
       },
@@ -1028,12 +1110,24 @@
           0.6718297,
           0.5062943
         ],
-        "yawDeg": 299.3,
-        "orientationWhy": "Set on the tangent at 300\u00b0, between the western and north-western trunks, with the door inward to the clearing; the boat household walks out through the gate like everyone else.",
+        "yawDeg": 4.9,
+        "orientationWhy": "Turned to 4.9\u00b0, its doorway on 117\u00b0 onto the ring walk, between the western and north-western trunks; the boat household walks out through the gate like everyone else.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "service-station",
+            "tier": "major",
+            "note": "The boat household: passage to Uxaneet is asked for at this door."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "They know which of the western channels is polable at this season."
+          }
+        ],
         "why": {
           "what": "The western family's hut, in the gap between the western and north-western trunks.",
           "whyHere": "The second of the two tribe families; the household which works the landing and poles the boat to Uxaneet.",
@@ -1044,108 +1138,108 @@
         },
         "footprint": [
           [
-            0.671580541,
-            0.506616361
+            0.671433476,
+            0.50620044
           ],
           [
-            0.671571743,
-            0.506609868
+            0.671435754,
+            0.506189745
           ],
           [
-            0.67148287,
-            0.506538223
+            0.671464286,
+            0.506079213
           ],
           [
-            0.671402056,
-            0.506399563
+            0.671557177,
+            0.505948337
           ],
           [
-            0.67139998,
-            0.506392177
+            0.671563046,
+            0.505943395
           ],
           [
-            0.671374304,
-            0.506205146
+            0.671722765,
+            0.505842748
           ],
           [
-            0.671421003,
-            0.506066505
+            0.671868315,
+            0.505828003
           ],
           [
-            0.671515009,
-            0.505954412
+            0.67200923,
+            0.505867307
           ],
           [
-            0.671688028,
-            0.505878883
+            0.672149488,
+            0.505993671
           ],
           [
-            0.671695413,
-            0.505876807
+            0.67215443,
+            0.505999539
           ],
           [
-            0.671855872,
-            0.505873542
+            0.672223689,
+            0.506144317
           ],
           [
-            0.671963328,
-            0.505912072
+            0.672232991,
+            0.506258093
           ],
           [
-            0.672070954,
-            0.505972469
+            0.67222245,
+            0.506381057
           ],
           [
-            0.672164983,
-            0.506101438
+            0.672143843,
+            0.506519964
           ],
           [
-            0.672198897,
-            0.506179566
+            0.672086704,
+            0.506583125
           ],
           [
-            0.67220527,
-            0.506198694
+            0.672071917,
+            0.50659683
           ],
           [
-            0.672262455,
-            0.506348976
+            0.67195868,
+            0.50671099
           ],
           [
-            0.672257375,
-            0.506366343
+            0.671940766,
+            0.506713537
           ],
           [
-            0.672251257,
-            0.506380016
+            0.671925787,
+            0.506713614
           ],
           [
-            0.672121171,
-            0.506611826
+            0.671660942,
+            0.506690909
           ],
           [
-            0.672112687,
-            0.506624173
+            0.671646194,
+            0.506688284
           ],
           [
-            0.672100511,
-            0.506637557
+            0.671628975,
+            0.506682724
           ],
           [
-            0.671942443,
-            0.506667045
+            0.671536822,
+            0.506550956
           ],
           [
-            0.671922796,
-            0.506671572
+            0.671524583,
+            0.506534934
           ],
           [
-            0.67183844,
-            0.506683329
+            0.671479028,
+            0.506462969
           ],
           [
-            0.671679369,
-            0.506670266
+            0.671425212,
+            0.506312709
           ]
         ]
       },
@@ -1159,12 +1253,24 @@
           0.6731854,
           0.5049037
         ],
-        "yawDeg": 336.4,
-        "orientationWhy": "Set on the tangent at 340\u00b0, in the gap next to the elder trunk, with the door inward so the minder steps out facing the trunk that is watched.",
+        "yawDeg": 48.1,
+        "orientationWhy": "Turned to 48.1\u00b0, its doorway on 160\u00b0 onto the ring walk, in the gap next to the elder trunk, so the minder steps out facing the trunk that is watched.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "interior": {
           "kind": "dwelling"
         },
+        "playerPurpose": [
+          {
+            "kind": "witness",
+            "tier": "medium",
+            "note": "The minder's testimony in The Child of Two Hist is given inside."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The minder will say which root joins which trunk, which decides the felling claim."
+          }
+        ],
         "why": {
           "what": "The tree-minder's hut, in the gap west of the elder trunk.",
           "whyHere": "Every Hist village keeps a tree-minder; the office lives against the tree which it keeps.",
@@ -1175,108 +1281,108 @@
         },
         "footprint": [
           [
-            0.672792405,
-            0.505010276
+            0.672960817,
+            0.504564045
           ],
           [
-            0.672789304,
-            0.504999791
+            0.672969798,
+            0.504557808
           ],
           [
-            0.672761638,
-            0.504889039
+            0.673066262,
+            0.504496766
           ],
           [
-            0.672780823,
-            0.504729698
+            0.673223568,
+            0.504464949
           ],
           [
-            0.672783622,
-            0.504722555
+            0.673231228,
+            0.504465364
           ],
           [
-            0.672875962,
-            0.504557894
+            0.673416556,
+            0.504501331
           ],
           [
-            0.672996837,
-            0.504475485
+            0.673532751,
+            0.504590217
           ],
           [
-            0.673139431,
-            0.504442787
+            0.673608569,
+            0.504715333
           ],
           [
-            0.673322987,
-            0.504486912
+            0.67362431,
+            0.504903461
           ],
           [
-            0.67333013,
-            0.504489711
+            0.673623896,
+            0.504911121
           ],
           [
-            0.673460079,
-            0.504583897
+            0.673575276,
+            0.505064071
           ],
           [
-            0.673522543,
-            0.504679446
+            0.673504172,
+            0.505153378
           ],
           [
-            0.673571952,
-            0.504792539
+            0.673412313,
+            0.505235799
           ],
           [
-            0.673569152,
-            0.504952121
+            0.673259923,
+            0.505283248
           ],
           [
-            0.673549074,
-            0.505034892
+            0.673175034,
+            0.505290175
           ],
           [
-            0.673542619,
-            0.505053993
+            0.673154872,
+            0.505290044
           ],
           [
-            0.673497577,
-            0.50520835
+            0.672994179,
+            0.505295747
           ],
           [
-            0.67348305,
-            0.505219137
+            0.672979376,
+            0.505285341
           ],
           [
-            0.673469922,
-            0.505226352
+            0.672968404,
+            0.505275143
           ],
           [
-            0.673226338,
-            0.505332771
+            0.672790883,
+            0.505077293
           ],
           [
-            0.673212124,
-            0.505337501
+            0.672781929,
+            0.505065283
           ],
           [
-            0.673194339,
-            0.505340831
+            0.672773183,
+            0.505049443
           ],
           [
-            0.673050479,
-            0.505269003
+            0.672796208,
+            0.504890305
           ],
           [
-            0.673032079,
-            0.505260762
+            0.672798254,
+            0.504870248
           ],
           [
-            0.672957706,
-            0.505219256
+            0.672814309,
+            0.504786603
           ],
           [
-            0.672838713,
-            0.505112883
+            0.672877939,
+            0.504640229
           ]
         ]
       },
@@ -1297,6 +1403,18 @@
           "kind": "hall",
           "assetRef": "dungeon-root-v1"
         },
+        "playerPurpose": [
+          {
+            "kind": "quest-stage",
+            "tier": "major",
+            "note": "The hearing house of The Child of Two Hist and the evidence socket of the identity case."
+          },
+          {
+            "kind": "actionable-information",
+            "tier": "medium",
+            "note": "The Root Talk is carried here, so the house sets what the convocation will hear."
+          }
+        ],
         "why": {
           "what": "The naheesh's house, the round house at the foot of the elder trunk, where the Root Talk is carried and guests are received.",
           "whyHere": "The office-holder who carries the Root Talk to the convocation needs a house in which delegations can be heard; the village's standing rests on it.",
@@ -1813,11 +1931,11 @@
         "buildingFamily": "argonian-mud-shell",
         "groundFit": "pad",
         "centreUV": [
-          0.670359,
-          0.51492
+          0.670058495,
+          0.514851429
         ],
-        "yawDeg": 37.9,
-        "orientationWhy": "The doorway wall is turned to the pitch path, which is the line that every delegation walks between the pitches and the village.",
+        "yawDeg": 105.9,
+        "orientationWhy": "Turned to 105.9\u00b0 so the doorway looks out at 218\u00b0 onto the pitch path, the line every delegation walks between the pitches and the village.",
         "assetRef": "mudmother:gv_meshes/argoniannest/mudhut01",
         "why": {
           "what": "The pitch store, out of which the village sells food, cord and pitch-dues receipts to the delegations.",
@@ -1829,108 +1947,108 @@
         },
         "footprint": [
           [
-            0.670077818,
-            0.514625483
+            0.670226234,
+            0.514480394
           ],
           [
-            0.670085553,
-            0.514617755
+            0.670236297,
+            0.514484671
           ],
           [
-            0.670169683,
-            0.514540595
+            0.670339354,
+            0.514533769
           ],
           [
-            0.670318868,
-            0.514481424
+            0.670450102,
+            0.514649926
           ],
           [
-            0.670326481,
-            0.514480476
+            0.670453833,
+            0.51465663
           ],
           [
-            0.67051525,
-            0.514483056
+            0.670522154,
+            0.514832619
           ],
           [
-            0.670645349,
-            0.514549961
+            0.670508857,
+            0.514978308
           ],
           [
-            0.670742124,
-            0.514659673
+            0.670443387,
+            0.515109135
           ],
           [
-            0.670790931,
-            0.51484204
+            0.670292582,
+            0.515222705
           ],
           [
-            0.67079188,
-            0.514849653
+            0.670285879,
+            0.515226436
           ],
           [
-            0.670771113,
-            0.515008796
+            0.670130546,
+            0.515266797
           ],
           [
-            0.670716948,
-            0.515109282
+            0.670017085,
+            0.515254219
           ],
           [
-            0.670641137,
-            0.515206667
+            0.669898392,
+            0.515220409
           ],
           [
-            0.670499557,
-            0.515280352
+            0.669777036,
+            0.515116742
           ],
           [
-            0.670417236,
-            0.515302203
+            0.669725938,
+            0.5150486
           ],
           [
-            0.670397371,
-            0.515305644
+            0.669715306,
+            0.51503147
           ],
           [
-            0.670240226,
-            0.515339713
+            0.669624851,
+            0.514898531
           ],
           [
-            0.670223815,
-            0.515332093
+            0.669625768,
+            0.51488046
           ],
           [
-            0.67021121,
-            0.515323999
+            0.66962855,
+            0.514865741
           ],
           [
-            0.670001459,
-            0.515160712
+            0.669701373,
+            0.514610095
           ],
           [
-            0.66999052,
-            0.515150478
+            0.669706765,
+            0.514596119
           ],
           [
-            0.669979107,
-            0.515136437
+            0.669715508,
+            0.514580277
           ],
           [
-            0.669973587,
-            0.514975737
+            0.669862438,
+            0.514514959
           ],
           [
-            0.669972049,
-            0.514955634
+            0.669880501,
+            0.514506003
           ],
           [
-            0.669973038,
-            0.514870468
+            0.669959836,
+            0.514475016
           ],
           [
-            0.670009741,
-            0.514715139
+            0.670117604,
+            0.51445086
           ]
         ]
       }
@@ -3485,162 +3603,152 @@
       {
         "id": "door.hist-heartland.nine-trunks.1",
         "parcelId": "parcel.nine-trunks.hut-family-east",
-        "facingDeg": 200.0,
+        "facingDeg": 195.4,
         "thresholdUV": [
-          0.675304445,
-          0.505338615
+          0.67561165,
+          0.505647054
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the eastern tribe family",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.2",
         "parcelId": "parcel.nine-trunks.guest-hut-1",
-        "facingDeg": 240.0,
+        "facingDeg": 236.2,
         "thresholdUV": [
-          0.676649624,
-          0.506466171
+          0.676593908,
+          0.507004066
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "a paying delegation",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.3",
         "parcelId": "parcel.nine-trunks.guest-hut-2",
-        "facingDeg": 280.0,
+        "facingDeg": 273.1,
         "thresholdUV": [
-          0.67695533,
-          0.50819458
+          0.676557353,
+          0.508632186
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "an absent delegation",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.4",
         "parcelId": "parcel.nine-trunks.guest-hut-3",
-        "facingDeg": 320.0,
+        "facingDeg": 312.9,
         "thresholdUV": [
-          0.676078514,
-          0.509715034
+          0.67541631,
+          0.50978441
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "an absent delegation",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.5",
         "parcelId": "parcel.nine-trunks.store-hut",
-        "facingDeg": 0.0,
+        "facingDeg": 357.9,
         "thresholdUV": [
-          0.674429456,
-          0.510316209
+          0.673998942,
+          0.50995584
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the tribe",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.6",
         "parcelId": "parcel.nine-trunks.hut-pitch-taker",
-        "facingDeg": 80.0,
+        "facingDeg": 89.1,
         "thresholdUV": [
-          0.671901341,
-          0.508197251
+          0.672317011,
+          0.507805204
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the pitch-rights taker",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.7",
         "parcelId": "parcel.nine-trunks.hut-family-west",
-        "facingDeg": 120.0,
+        "facingDeg": 116.9,
         "thresholdUV": [
-          0.67220522,
-          0.50646852
+          0.672637567,
+          0.506046539
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the western tribe family",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.8",
         "parcelId": "parcel.nine-trunks.hut-tree-minder",
-        "facingDeg": 160.0,
+        "facingDeg": 160.1,
         "thresholdUV": [
-          0.673549206,
-          0.505339543
+          0.673943914,
+          0.505276114
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "owner": "the tree-minder",
           "interiorRef": "mudmother-hut-int"
-        },
-        "doorwayRef": 0
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.9",
         "parcelId": "parcel.nine-trunks.naheesh-house",
         "facingDeg": 0.5,
         "thresholdUV": [
-          0.674436531,
-          0.505958437
+          0.674436126,
+          0.506015477
         ],
         "interiorClaim": {
           "sizeClass": "medium",
           "culture": "argonian",
           "owner": "the naheesh who carries the Root Talk",
           "interiorRef": "vanilla-farmhouse-int"
-        },
-        "doorwayRef": 2
+        }
       },
       {
         "id": "door.hist-heartland.nine-trunks.10",
         "parcelId": "parcel.nine-trunks.pitch-store",
         "facingDeg": 217.9,
         "thresholdUV": [
-          0.670107405,
-          0.515243189
+          0.670147555,
+          0.515691729
         ],
         "interiorClaim": {
           "sizeClass": "small",
           "culture": "argonian",
           "interiorRef": "mudmother-hut-int",
           "owner": "the pitch-taker"
-        },
-        "doorwayRef": 0
+        }
       }
     ],
     "clearance": {

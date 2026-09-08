@@ -339,3 +339,12 @@ merely untyped.
 `variant.nine-trunks.identity-case`. In that state the village withholds what it
 knows of a delegation's true name. The naheesh house, the identity-case socket
 and the pitch store all change with it.
+
+## Player purposes (owner ruling 2026-09-07)
+
+Nine doors, all typed. Three are major (the pitch-taker who gives Pitch-Rights,
+the boat household that carries passage to Uxaneet, the naheesh's hearing
+house), six medium, none flavour-only: 33 % major, inside the 40 % ceiling for
+a village. The rented huts earn their doors as beds and as evidence rather than
+as three copies of the same room, and the swept unlet hut is now information
+about a tribe that stopped coming rather than an empty prop.

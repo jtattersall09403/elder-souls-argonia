@@ -85,7 +85,7 @@ Descending 100 m to the knoll (16 m to 11.7 m) the live trees hide the water. On
 | 11 | No way ends at a blank wall; dead ends pay | Yes: channel ends at the landing, bank path at the platform, stand path at the ramp; the stand pays with the survey view and the evidence |
 | 12 | Every raised level has its ascent visible from below | Yes: the ramp landmark faces the arriving walker and the path ends at its foot |
 | 13 | The edge reads from inside as well as outside | Yes: the water line, the stake line on the shelf's landward side, the hard-clear ring |
-| 14 | Building count matches population within 25 %, lore source named | Yes: 3 parcels for `buildingsPlanned` 3; population 1 wamasu from the type recipe (lair rule 1) |
+| 14 | Building count matches population within 25 %, lore source named | Yes: 2 structures for `buildingsPlanned` 2 (the stand's stacked deck is not a second structure); population 1 wamasu from the type recipe (lair rule 1) |
 | 15 | Approach cue describable in one clause | Yes: "follow the poles up the creek to the landing, then the path uphill"; "walk toward the bare crown" |
 | 16 | Any forced detour pays | Yes: the 180 m climb from the landing pays with the sky-hole reveal at its last bend; the west-bank descent pays with the cave mouth found on the way |
 
@@ -117,7 +117,7 @@ Ways are authored as `via` and derived by `worldgen.street_router --apply` (terr
 
 **Ground fit.** The stand is `plinth`: terrain delta across its footprint at 2.8 deg is roughly 0.19 m. The offering platform is `direct` at 0.8 deg. The dock is piled in the creek head at 1 m elevation.
 
-**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 4 placements, 0 errors. `buildingsPlanned` is 3 because the validator counts the stacked deck as a parcel; the ground carries two structures.
+**Budget** (declared; the compiler agrees): 420 instances, 14 unique materials, 24 MB textures, 120 colliders. Compile: 4 placements, 0 errors. `buildingsPlanned` is 2: the ground carries two structures, and the stand's stacked deck is part of the stand rather than a third (the validator counts by derived kind since 2026-09-07).
 
 ## Lair rules (what the other 37 beast lairs inherit)
 
@@ -196,3 +196,10 @@ The Standing Charge meets 2 of 2. `quest.provision.canon.wamasu-charged-water`
 is now `socket.wamasu-pond-adult.charged-water`, a scene socket at the hunters'
 stand. The stand is where a player watches the adult charge the water
 without standing in it.
+
+## Player purposes (owner ruling 2026-09-07)
+
+No parcel here carries a door: the stand, the platform and the bank works are
+all dressing, and dressing is out of scope of the enterable-purpose rule. The
+place's returns are its boss, its offerings and its flooded cave mouth, which
+are sockets rather than interiors.

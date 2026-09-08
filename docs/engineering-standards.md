@@ -247,6 +247,8 @@ standard 13, via `git status`).
 ```
 npm test                     # from the repo root — includes repo-standards
 npm test -w @elder-souls/repo-standards     # just these checks
+npm run test:placement       # the worldgen/placement suites (fast default)
+npm run test:placement:slow  # the province-raster tests held out of the default
 ```
 
 Each check names the standard it enforces and prints the offending file and

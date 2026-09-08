@@ -70,6 +70,36 @@ Rerun 2 (then 3) after changing conditioning, thresholds or authored region
 overrides; rerun 3 alone after changing anchors, connections, danger or
 culture rules. Outputs are deterministic (fixed noise seed).
 
+## Tests
+
+```
+npm run test:placement        # from the repo root — the default, fast run
+npm run test:placement:slow   # the held-out province-raster tests
+```
+
+Two tiers. The default run excludes `@pytest.mark.slow`, which is reserved for
+tests that re-grade or re-solve a full 4033x4033 province raster
+(`test_grade_routes.py`'s two province tests). They are real gates and must be
+run before anything that touches grading — they are held out only so the other
+~490 tests stay cheap enough to run on every change. Both scripts use
+`pytest-xdist` (`-n=auto`) when it is installed and fall back to a serial run
+when it is not, so a fresh checkout needs no extra dependency.
+
+The suites lean on three process-lifetime caches, all keyed on the content or
+the file signature of their inputs, so editing a source file invalidates them
+and a stale result can never be served:
+
+- `street_router.default_survey()` — one `ProvinceSurvey` (the rasters) per process.
+- `street_router.local_field()` — the 1 m cost field the A* street router
+  solves over, keyed on the way and the blueprint geometry it is built from.
+  A blueprint's field is otherwise rebuilt from scratch for every way, in
+  every test that validates it.
+- `blueprint.validate_all()` — keyed on the blueprint dir's file signature
+  (name + mtime + size).
+
+`worldgen/conftest.py` warms the survey once per session and documents the
+arrangement. None of it changes what any test asserts.
+
 ## Modules
 
 - `worldgen/esp.py` — minimal Skyrim SE plugin reader (LAND/VHGT decoding).

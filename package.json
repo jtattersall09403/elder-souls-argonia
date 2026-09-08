@@ -16,7 +16,9 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "build": "npm run build --workspaces --if-present",
     "dev": "npm run dev -w @elder-souls/combat-sandbox",
-    "weapons:reach": "node tooling/asset-pipeline/scripts/bake-weapon-reach.mjs"
+    "weapons:reach": "node tooling/asset-pipeline/scripts/bake-weapon-reach.mjs",
+    "test:placement": "cd tooling/world-generation && python3 -m pytest -q $(python3 -c \"import importlib.util;print('-n=auto' if importlib.util.find_spec('xdist') else '')\")",
+    "test:placement:slow": "cd tooling/world-generation && python3 -m pytest -q -m slow $(python3 -c \"import importlib.util;print('-n=auto' if importlib.util.find_spec('xdist') else '')\")"
   },
   "devDependencies": {
     "rolldown": "1.2.5"

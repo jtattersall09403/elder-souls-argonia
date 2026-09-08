@@ -171,11 +171,32 @@ Mined doorways are only ever attached to a piece the geometry already calls a
 building (a matched, tileset or shell interior). A walkway that happened to have
 a door placed at its end is still a walkway.
 
-Where neither pass yields an opening the record carries ``doorways: []`` and a
-``doorwaysWhy`` saying so — a piece can be a genuine shell whose door is a
+Where no pass yields an opening the record carries ``entrance: null`` and an
+``entranceWhy`` saying so — a piece can be a genuine shell whose door is a
 separate mesh (HTBM ships ``bamboohutdoor01`` as its own NIF), whose front is
 open wider than a doorway, or whose walls are modular pieces measured one at a
-time. The validator then checks only that a door exists, not where it points.
+time.
+
+**ONE canonical entrance** (owner ruling 2026-09-07). A shell often carries
+several of the evidences above at once, and the studio was drawing all of them:
+"three different answers for where the door is". So the passes above are now
+RANKED (``ENTRANCE_RANK``) and the record exports exactly one ``entrance``:
+
+    esp-door > assembly > door-piece > leaf > opening > open-front
+
+The losers are kept in ``provenance[]`` for audit — they are never drawn, and a
+blueprint door is matched only against ``entrance``. ``entrance.radial`` is set
+only where the plugin's or the authors' OWN placements put the door on different
+sides across placements; a ray-measured opening is always a fixed side.
+
+**A derived front for a piece with no entrance** (owner ruling 2026-09-07). A
+gate arch, a wall stub, a tower, a deck or a shrine has no door to orient it,
+and Skyrim ships no "front" metadata. ``front: {deg, evidence, outside, why}``
+is derived in ``piece_front.py`` from how the authors themselves placed the
+piece (the bearing away from its mined neighbours), else from which face they
+detailed, else ``null`` for a symmetric piece. The blueprint validator holds
+gate/wall/tower parcels to it: the outside face looks away from the settlement.
+
 
 ``sizeClass`` is the footprint area class the blueprint validator checks a
 door's ``interiorClaim.sizeClass`` against: small < 40 m², medium < 120 m²,
@@ -196,6 +217,7 @@ import json
 import math
 from pathlib import Path
 
+from . import piece_front as pf
 from .measure_footprints import (
     KITS_DIR,
     LOD_SUFFIXES,
@@ -1536,6 +1558,70 @@ def _classify_geometry(asset: dict, kit: str, verts, triangles,
     return record
 
 
+# --------------------------------------------------------------------------- #
+# ONE canonical entrance (owner ruling 2026-09-07)
+# --------------------------------------------------------------------------- #
+#: The evidence ladder for where a piece's door is, best first. A shell can
+#: carry several kinds of evidence at once — the plugin's own load door, a door
+#: part the authors hung on it, a leaf modelled into the mesh, an opening the
+#: ray probe measured, an open front — and drawing all of them gave "three
+#: different answers for where the door is" (owner ruling 2026-09-07). The
+#: index now RANKS them and exports exactly one `entrance`; the losers stay in
+#: `provenance` for audit, and are never drawn or matched against.
+ENTRANCE_RANK: tuple[str, ...] = (
+    "esp-door",     # the mod's own door teleport offset: evidence, not inference
+    "assembly",     # a door part the source authors repeatedly placed on this shell
+    "door-piece",   # the entrance mesh the family authored, fitted to the wall line
+    "leaf",         # a shut door modelled into the shell
+    "opening",      # a hole in the wall, measured by ray
+    "open-front",   # a front wider than a door: a way in, but not a doorway
+)
+
+
+def entrance_kind(entry: dict) -> str:
+    """The evidence kind of a doorway entry, however it was recorded."""
+    return entry.get("kind") or entry.get("doorwaySource") or "opening"
+
+
+def _entrance_sort_key(entry: dict) -> tuple:
+    kind = entrance_kind(entry)
+    rank = ENTRANCE_RANK.index(kind) if kind in ENTRANCE_RANK else len(ENTRANCE_RANK)
+    weight = float(entry.get("placements") or entry.get("count") or 0)
+    return (rank, -weight, float(entry.get("sideDeg", 999.0)))
+
+
+def finalise_entrance(record: dict) -> None:
+    """Collapse a record's doorway evidence into ONE `entrance` + `provenance`.
+
+    Ranked by ``ENTRANCE_RANK``. The winner keeps its own measured fields; a
+    radial winner (the door turned to different sides across the plugin's or
+    the authors' own placements) keeps `radial` and its ring radius, and only
+    the plugin/assembly passes can produce one — a ray-measured opening is
+    always a fixed side.
+    """
+    candidates = [dict(d) for d in (record.pop("doorways", None) or [])]
+    candidates += [dict(d) for d in (record.pop("doorwaysCorroboration", None) or [])]
+    record.pop("doorwaySource", None)
+    why = record.pop("doorwaysWhy", None)
+    for entry in candidates:
+        entry["kind"] = entrance_kind(entry)
+    candidates.sort(key=_entrance_sort_key)
+    if not candidates:
+        record["entrance"] = None
+        record["provenance"] = []
+        record["entranceWhy"] = why or "no door evidence of any kind for this piece"
+        return
+    winner = candidates[0]
+    if winner.get("radial") and winner["kind"] not in ("esp-door", "assembly"):
+        # Only placement evidence can show a door turned to different sides;
+        # geometry measures one opening on one side.
+        winner.pop("radial", None)
+    record["entrance"] = winner
+    record["provenance"] = candidates[1:]
+    if why:
+        record["entranceWhy"] = why
+
+
 def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
               registry_dir: Path = REGISTRY_DIR) -> dict:
     import trimesh
@@ -1548,12 +1634,16 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
     mined_doors = load_assembly_doorways()
     parts_of = composite_parts(kit_name)
 
+    coplacements = pf.load_coplacements()
+
     assets: dict[str, dict] = {}
     bounds: dict[str, tuple] = {}
+    tris_of: dict[str, object] = {}
     for asset in sorted(manifest["assets"], key=lambda a: a["id"]):
         node = _resolve_node(asset, node_names, by_asset_id)
         verts = _asset_vertices(scene, node) if node else None
         triangles = asset_triangles(scene, node) if node else None
+        tris_of[asset["id"]] = triangles
         # A composite has an id of its own that the mine has never seen, so its
         # doors come from its ANCHOR part's mined record, filtered to the door
         # pieces the composite actually carries.
@@ -1583,8 +1673,16 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
                     f"pool ships in the same directory ({pieces}), modelled in the shell's own "
                     f"frame and measured to sit on its wall line to within "
                     f"{max(d['fitM'] for d in doors):.2f} m")
-    for record in assets.values():
+    # ONE canonical entrance per piece, and — for the pieces that have none — a
+    # derived front, so a gate arch or a wall stub still knows which way round
+    # it goes (owner rulings 2026-09-07).
+    for asset_id, record in assets.items():
         record.pop("_probe", None)
+        finalise_entrance(record)
+        if record.get("entrance") is None:
+            source = parts_of.get(asset_id, [asset_id])[0]
+            record["front"] = (pf.derive_front(asset_id, tris_of.get(asset_id), coplacements)
+                               or pf.derive_front(source, None, coplacements))
 
     return {
         "schemaVersion": SCHEMA_VERSION,
@@ -1597,11 +1695,15 @@ def index_kit(kit_name: str, kits_dir: Path = KITS_DIR,
             "doorwayArcM": [DOORWAY_MIN_ARC_M, DOORWAY_MAX_ARC_M],
             "sizeClassMaxM2": {"small": SIZE_CLASS_SMALL_MAX_M2,
                                "medium": SIZE_CLASS_MEDIUM_MAX_M2},
-            "doorwaySources": ["geometry (the shell's own opening, measured by ray)",
-                               "assembly (where the source authors placed a separate "
-                               "door piece; kit-assemblies-mined.json)",
-                               "door-piece (the entrance mesh the family authored for this "
-                               "shell, fitted to its measured wall line)"],
+            "entranceRank": list(ENTRANCE_RANK),
+            "entranceRankWhy": (
+                "one canonical entrance per piece (owner ruling 2026-09-07), ranked from "
+                "the mod's own load door down to an open front; the losing evidence stays "
+                "in `provenance` for audit and is never drawn or matched against"),
+            "frontEvidence": ["co-placement (the bearing away from the neighbours the "
+                              "source authors planted around this piece)",
+                              "asymmetry (the bearing band with the highest triangle "
+                              "density: the detailed, outward face)"],
         },
     }
 
@@ -1625,16 +1727,22 @@ def main() -> int:
         out = write_kit(name, kits_dir)
         data = json.loads(out.read_text())
         tally: dict[str, int] = {}
-        doors = 0
-        from_assembly = 0
+        by_kind: dict[str, int] = {}
+        by_front: dict[str, int] = {}
         for record in data["assets"].values():
             tally[record["interior"]] = tally.get(record["interior"], 0) + 1
-            if record.get("doorways"):
-                doors += 1
-                from_assembly += 1 if record.get("doorwaySource") == "assembly" else 0
+            entrance = record.get("entrance")
+            if entrance:
+                kind = entrance.get("kind") or "?"
+                by_kind[kind] = by_kind.get(kind, 0) + 1
+            front = record.get("front")
+            if front:
+                by_front[front["evidence"]] = by_front.get(front["evidence"], 0) + 1
         summary = ", ".join(f"{k} {tally[k]}" for k in sorted(tally))
-        print(f"interiors_index: {out.name} — {summary}; {doors} with derived doorways "
-              f"({from_assembly} from mined assemblies)")
+        entrances = ", ".join(f"{k} {by_kind[k]}" for k in sorted(by_kind)) or "none"
+        fronts = ", ".join(f"{k} {by_front[k]}" for k in sorted(by_front)) or "none"
+        print(f"interiors_index: {out.name} — {summary}; entrances by evidence: "
+              f"{entrances}; fronts: {fronts}")
     return 0
 
 

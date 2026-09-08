@@ -114,6 +114,17 @@ Available Reddit-linked discussions, fan projects and Black Marsh design discuss
 
 This is a qualitative synthesis. It is not a representative survey. The design aligns well with those themes while retaining source confidence and fixed gameplay requirements.
 
+## 83b. What the settlement register's size bands count
+
+The register's per-magnitude bands (M3 12–35, M4 40–120, M5 150–400) count
+**total placed objects**: buildings, structures, props and dressing together.
+They are not a building count. The count a blueprint is judged on is the
+Morrowind ratio — Balmora reads as a city on roughly 40 buildings and
+structures, so an M5 is 50–80 of them, with the rest of the register's figure
+made up of the props and dressing that make the place look inhabited
+(97 D7 and C5b; implementation-lead decision 2026-09-07, recorded in
+[decision 0041](../decisions/0041-phase11-settlement-decisions.md)).
+
 ## 84. Demographic design implications
 
 - Deep rootlands should be overwhelmingly Saxhleel and culturally local in eras where lore supports that state.

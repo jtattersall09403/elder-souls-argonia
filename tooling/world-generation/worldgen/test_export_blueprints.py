@@ -8,7 +8,7 @@ import pytest
 from .blueprint import BLUEPRINT_DIR
 from .export_blueprints import (
     LAYERS, OUT_PATH, PAD_M, SCHEMA_VERSION, WHY_KEYS_AREA, WHY_KEYS_FULL,
-    build_bundle, context_box, export, parcel_doorways, project, render,
+    build_bundle, context_box, export, parcel_entrance, parcel_front, project, render,
 )
 from .render_blueprint import PROVINCE_EXTENT_M, crop_box
 
@@ -202,44 +202,54 @@ def test_context_box_contains_the_crop_and_is_deterministic():
     assert all(isinstance(v, float) for v in box.values())   # JSON-serialisable
 
 
-# --- derived doorways on the outline (owner ruling 2026-09-05) --------------
+# --- the ONE canonical entrance on the outline (owner ruling 2026-09-07) ----
 
-def test_doorways_are_exported_per_parcel_in_metres():
-    """A doorway is drawn on the building's outline, so it exports as a world
-    point + a world bearing, with the source it was derived from."""
+def test_the_entrance_is_exported_per_parcel_in_metres():
+    """The studio draws one glyph, so the export is one world point + one world
+    bearing, with the evidence kind that won the ranking."""
     parcel = {"id": "parcel.x.hut", "assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 90.0}
-    lib = _StubInteriors({"kit:hut01": {"tileset": "vanilla-farmhouse-int", "doorways": [
-        {"sideDeg": 0.0, "offsetM": [0.0, -3.0], "arcM": 1.2, "doorwaySource": "assembly",
-         "kind": "leaf"},
-        {"radial": True, "radiusM": 4.5, "arcM": 1.0, "doorwaySource": "geometry"},
-    ]}})
-    fixed, radial = parcel_doorways(parcel, PROVINCE_EXTENT_M, lib)
+    lib = _StubInteriors({"kit:hut01": {"tileset": "vanilla-farmhouse-int", "entrance": {
+        "sideDeg": 0.0, "offsetM": [0.0, -3.0], "arcM": 1.2, "kind": "leaf"}}})
+    entrance = parcel_entrance(parcel, PROVINCE_EXTENT_M, lib)
     centre = 0.5 * PROVINCE_EXTENT_M
     # local north, turned 90° clockwise, is due east of the centre
-    assert fixed["bearingDeg"] == 90.0
-    assert fixed["source"] == "assembly"
-    # the click panel names the kind of way in and the interior it leads to
-    assert fixed["kind"] == "leaf"
-    assert fixed["interiorRef"] == "vanilla-farmhouse-int"
-    assert fixed["worldM"] == [round(centre + 3.0, 3), round(centre, 3)]
-    assert radial["radial"] is True and radial["radiusM"] == 4.5
-    assert radial["bearingDeg"] is None
+    assert entrance["bearingDeg"] == 90.0
+    assert entrance["kind"] == "leaf"
+    assert entrance["interiorRef"] == "vanilla-farmhouse-int"
+    assert entrance["worldM"] == [round(centre + 3.0, 3), round(centre, 3)]
 
 
-def test_a_piece_with_no_derived_doorway_exports_an_empty_list():
-    lib = _StubInteriors({"kit:hut01": {"doorways": []}})
-    assert parcel_doorways({"assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 0.0},
-                           PROVINCE_EXTENT_M, lib) == []
+def test_a_radial_entrance_exports_its_ring_and_no_bearing():
+    lib = _StubInteriors({"kit:hut01": {"tileset": "vanilla-farmhouse-int", "entrance": {
+        "radial": True, "radiusM": 4.5, "arcM": 1.0, "kind": "assembly"}}})
+    entrance = parcel_entrance({"assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 0.0},
+                               PROVINCE_EXTENT_M, lib)
+    assert entrance["radial"] is True and entrance["radiusM"] == 4.5
+    assert entrance["bearingDeg"] is None
+
+
+def test_a_piece_with_no_derived_entrance_exports_none():
+    lib = _StubInteriors({"kit:hut01": {"entrance": None}})
+    assert parcel_entrance({"assetRef": "kit:hut01", "centreUV": [0.5, 0.5], "yawDeg": 0.0},
+                           PROVINCE_EXTENT_M, lib) is None
+
+
+def test_a_doorless_pieces_front_exports_in_the_world_frame_too():
+    """`deg` is the piece's own frame; the studio needs it turned by the yaw."""
+    lib = _StubInteriors({"kit:gate01": {"entrance": None, "front": {
+        "deg": 20.0, "evidence": "co-placement", "outside": True}}})
+    front = parcel_front({"assetRef": "kit:gate01", "yawDeg": 100.0}, lib)
+    assert front == {"deg": 20.0, "worldDeg": 120.0, "evidence": "co-placement", "outside": True}
+    assert parcel_front({"assetRef": "kit:hut01", "yawDeg": 0.0},
+                        _StubInteriors({"kit:hut01": {"entrance": None}})) is None
 
 
 @pytest.mark.skipif(not HAVE_FIXTURE, reason="no blueprint committed")
-def test_every_parcel_carries_a_doorways_list_and_doors_carry_their_ref():
+def test_every_parcel_carries_one_entrance_or_none_and_no_door_carries_a_ref():
     doc = json.loads(FIXTURE.read_text(encoding="utf-8"))
     entry = project(doc, PROVINCE_EXTENT_M)
-    doorways = {p["id"]: p["doorways"] for p in entry["parcels"]}
-    assert all(isinstance(v, list) for v in doorways.values())
+    for parcel in entry["parcels"]:
+        assert "entrance" in parcel and "front" in parcel
+        assert parcel["entrance"] is None or isinstance(parcel["entrance"], dict)
     for door in entry["doors"]:
-        assert "doorwayRef" in door
-        ref = door["doorwayRef"]
-        if ref is not None:
-            assert 0 <= ref < len(doorways[door["parcelId"]])
+        assert "doorwayRef" not in door

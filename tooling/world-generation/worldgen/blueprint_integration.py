@@ -18,11 +18,13 @@ checks run inside `compile_settlement` and FAIL the compile:
   door-to-way       every door threshold must lie within DOOR_REACH_M of a
                     route/boardwalk centreline (of any width) — or the design
                     adds a footpath way that ends at the parcel.
-  parcel-gap        two building centres may not sit closer than
+  parcel-gap        two building FOOTPRINT CENTROIDS may not sit closer than
                     PARCEL_GAP_MIN_M (97 C5, the measured p10) unless the pair
                     was DESIGNED to touch: a declared `stacksOn`, a declared
-                    `abuts` (with its `abutsWhy`), a gate that `spans` a way,
-                    or an enclosure piece (a wall or a fence parcel).
+                    `abuts` (with its `abutsWhy`), a declared `worksWith` (a
+                    trade contact, which must instead keep WORKS_WITH_CLEAR_M
+                    of clear ground), a gate that `spans` a way, an enclosure
+                    piece (a wall or a fence parcel), or a prop (dressing).
   passage           where a way runs between two building hulls, the clear gap
                     between those hulls must be at least PASSAGE_MIN_M — two
                     character widths (97 C3 / D8), or the player cannot pass.
@@ -73,6 +75,7 @@ import math
 from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import nearest_points, unary_union
 
+from . import parcel_kinds as pk
 from . import province_network as pn
 from .blueprint import PARCEL_GAP_MIN_M, PASSAGE_MIN_M
 
@@ -81,6 +84,11 @@ OVERLAP_RUN_M = 6.0
 DOOR_REACH_M = 4.0
 THROUGH_AREA_M2 = 2.0      # an attached way may brush the edge it ends at; more than this is running through
 ABUT_EXEMPT_USES = {"wall", "fence", "palisade", "hedge"}   # 97 C10 enclosure
+# 97 C5 `worksWith` (decision 2026-09-07): a trade contact — a hoist against the
+# rock face it works, an oven beside its rack. The kit authored no snap for the
+# pair, so they may stand close, but they may not touch: half a metre of clear
+# ground says "these two work together" without faking a join nobody made.
+WORKS_WITH_CLEAR_M = 0.5
 ROAD_WATER_MAX_M = 12.0     # a ford; anything longer needs a bridge/boardwalk piece
 CHANNEL_DRY_MAX_FRAC = 0.25
 # 97 C-stitch tolerances. Three metres is a road's half-width plus a little:
@@ -214,13 +222,32 @@ def check_integration(bp: dict, survey) -> list[str]:
             if shared.length > OVERLAP_RUN_M:
                 errors.append(f"integration: {ki} {wi['id']} and {wj['id']} run together for {shared.length:.0f} m — one path drawn twice; merge them or make one end at the other")
 
-    # parcel-overlap
+    # parcel-overlap. A `stacksOn` piece stands at deck height, so its GROUND
+    # hull is not where it is: the deck at 2.7 m does not touch the yard its
+    # base abuts (audit §6.2). It is therefore exempt from ground-hull overlap
+    # with its base, with anything its base was designed to touch (`abuts`,
+    # `worksWith`) and with anything else standing on the same base.
     ids = sorted(polys)
     stacked = {(pid, parcels[pid]["stacksOn"]) for pid in parcels if parcels[pid].get("stacksOn")}
+    overlap_exempt: set[tuple[str, str]] = set()
+    for pair in stacked:
+        overlap_exempt |= {pair, (pair[1], pair[0])}
+    for pid, p in parcels.items():
+        base_id = p.get("stacksOn")
+        if not base_id:
+            continue
+        base = parcels.get(base_id) or {}
+        neighbours = set(base.get("abuts") or []) | set(base.get("worksWith") or [])
+        neighbours |= {q for q, qp in parcels.items()
+                       if qp.get("stacksOn") == base_id or base_id in (qp.get("abuts") or [])
+                       or base_id in (qp.get("worksWith") or [])}
+        neighbours.discard(pid)
+        for other in neighbours:
+            overlap_exempt |= {(pid, other), (other, pid)}
     for a in range(len(ids)):
         for b in range(a + 1, len(ids)):
-            if (ids[a], ids[b]) in stacked or (ids[b], ids[a]) in stacked:
-                continue     # a declared stack (scaffold top on its base)
+            if (ids[a], ids[b]) in overlap_exempt:
+                continue     # a declared stack, or what that stack's base touches
             pa, pb = polys[ids[a]], polys[ids[b]]
             if pa.intersects(pb) and pa.intersection(pb).area > 0.25:
                 errors.append(f"integration: parcels {ids[a]} and {ids[b]} overlap ({pa.intersection(pb).area:.1f} m²)")
@@ -251,30 +278,73 @@ def check_integration(bp: dict, survey) -> list[str]:
     # parcel-gap (97 C5): nearest-neighbour spacing is a legibility constant —
     # p50 13–16 m between building centres in every culture and size class, and
     # p10 never under 8 m. Contact is only ever DESIGNED contact.
+    #
+    # Measured between the DERIVED FOOTPRINT CENTROIDS, not the authored
+    # `centreUV` (audit §6.1): several Ayleid pieces carry pivots 8–20 m from
+    # their own hulls, so authored-centre distance says nothing about what a
+    # player sees — moving the pens stair 2.7 m west by its pivot dragged its
+    # hull into the statue wall while the check read a wider gap. The clear
+    # hull-to-hull gap is reported beside it so the message names the ground.
+    #
+    # Props are exempt (decision 2026-09-07): a rack beside an oven is the
+    # trade's furniture, not two buildings 8 m apart. The 1.3 m passage below
+    # still applies to them.
     designed = set(stacked) | {(b, a) for a, b in stacked}
+    trade_contacts: set[tuple[str, str]] = set()
     for pid, p in parcels.items():
         for other in p.get("abuts") or []:
             designed.add((pid, other))
             designed.add((other, pid))
-    centres = {pid: _m(survey, p["centreUV"]) for pid, p in parcels.items() if p.get("centreUV")}
-    gap_ids = sorted(centres)
+        for other in p.get("worksWith") or []:
+            designed.add((pid, other))
+            designed.add((other, pid))
+            trade_contacts.add((pid, other))
+            trade_contacts.add((other, pid))
+    kinds = pk.kinds_of(bp)
+    centroids: dict[str, tuple[float, float]] = {}
+    for pid, p in parcels.items():
+        poly = polys.get(pid)
+        if poly is not None and not poly.is_empty:
+            c = poly.centroid
+            centroids[pid] = (c.x, c.y)
+        elif p.get("centreUV"):
+            centroids[pid] = _m(survey, p["centreUV"])
+    gap_ids = sorted(centroids)
     for a in range(len(gap_ids)):
         for b in range(a + 1, len(gap_ids)):
             ia, ib = gap_ids[a], gap_ids[b]
+            pa, pb = parcels[ia], parcels[ib]
+            hull_gap = None
+            if polys.get(ia) is not None and polys.get(ib) is not None:
+                hull_gap = polys[ia].distance(polys[ib])
+            if (ia, ib) in trade_contacts:
+                # 97 C5 `worksWith`: a trade contact, not a kit snap — the hoist
+                # against the rock it works, the oven beside its rack. No snap
+                # pair exists, so the pieces must stay CLEAR of each other.
+                if hull_gap is not None and hull_gap < WORKS_WITH_CLEAR_M:
+                    errors.append(
+                        f"integration: 97 C5 — {ia} and {ib} declare `worksWith`, which is a trade contact "
+                        f"and not a kit snap, but their hulls are {hull_gap:.2f} m apart; a trade contact "
+                        f"keeps {WORKS_WITH_CLEAR_M:.1f} m clear (declare `abuts` instead if the kit "
+                        f"authored these two to touch)")
+                continue
             if (ia, ib) in designed:
                 continue
-            pa, pb = parcels[ia], parcels[ib]
+            if "prop" in (kinds.get(ia), kinds.get(ib)):
+                continue     # dressing, not a second building (97 C12)
             if (pa.get("use") or "") in ABUT_EXEMPT_USES or (pb.get("use") or "") in ABUT_EXEMPT_USES:
                 continue
             if pa.get("spans") or pb.get("spans"):
                 continue     # a gate stands across its way, hard against what flanks it
-            (ax, az), (bx, bz) = centres[ia], centres[ib]
+            (ax, az), (bx, bz) = centroids[ia], centroids[ib]
             d = math.hypot(ax - bx, az - bz)
             if d < PARCEL_GAP_MIN_M:
+                gap_note = f", {hull_gap:.2f} m hull to hull" if hull_gap is not None else ""
                 errors.append(
-                    f"integration: 97 C5 — parcels {ia} and {ib} stand {d:.1f} m apart, centre to centre; "
-                    f"the floor is {PARCEL_GAP_MIN_M:.0f} m. Move one, or declare the contact with "
-                    f"`abuts` + `abutsWhy` if these pieces were designed to touch")
+                    f"integration: 97 C5 — parcels {ia} and {ib} stand {d:.1f} m apart, footprint centroid "
+                    f"to footprint centroid{gap_note}; the floor is {PARCEL_GAP_MIN_M:.0f} m. Move one, or "
+                    f"declare the contact with `abuts` + `abutsWhy` if these pieces were designed to touch "
+                    f"(or `worksWith` + `worksWithWhy` for a trade contact that keeps its distance)")
 
     # passage (97 C3 / D8): where a way runs between two hulls, a player has to
     # fit — two character widths, ~1.3 m.

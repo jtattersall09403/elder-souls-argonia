@@ -26,16 +26,17 @@ Run (from tooling/world-generation/):
 
 `--orient` closes the loop the owner asked for (2026-09-05): "doors in the
 right place and facing the right way is really crucial". A building is sited so
-that its doorway faces the way the player arrives on, so the tool SOLVES the
-parcel's `yawDeg` from the doorway the door sits on and the way it opens onto,
+that its entrance faces the way the player arrives on, so the tool SOLVES the
+parcel's `yawDeg` from the canonical entrance and the way it opens onto,
 then rewrites the derived `footprint`, `facingDeg` and `thresholdUV`. It never
 touches `orientationWhy`: the reason is the designer's, so the tool only prints
 the parcels whose why now has to be re-read.
 
-`--doors` derives the other half of the same contract (owner ruling
-2026-09-05): each door's `doorwayRef`, the index of the DERIVED doorway it
-sits on in its piece's interiors-index `doorways[]`. It writes footprints too,
-because a doorway is only meaningful against the outline it was measured on.
+`--doors` checks the other half of the same contract: that every door sits on
+its piece's ONE canonical `entrance` (owner ruling 2026-09-07 — the index ranks
+the door evidence and exports a single answer, so there is no index to record
+and any legacy `doorwayRef` is stripped). It writes footprints too, because an
+entrance is only meaningful against the outline it was measured on.
 """
 
 from __future__ import annotations
@@ -172,8 +173,9 @@ def parcel_centre_m(parcel: dict, extent_m: float = PROVINCE_EXTENT_M):
 
 def apply_doors_to_blueprint(bp: dict, interiors: "bi.InteriorLibrary | None" = None,
                              extent_m: float = PROVINCE_EXTENT_M) -> list[str]:
-    """Write each door's derived `doorwayRef`; report the doors that sit on no
-    derived doorway (the validator fails those, this only reports)."""
+    """Report the doors that do not sit on their piece's canonical entrance (the
+    validator fails those, this only reports), and strip any legacy
+    `doorwayRef` — there is one entrance now, so there is no index to keep."""
     interiors = interiors if interiors is not None else bi.library()
     parcels = {p.get("id"): p for p in bp.get("parcels", [])}
     problems: list[str] = []
@@ -187,15 +189,13 @@ def apply_doors_to_blueprint(bp: dict, interiors: "bi.InteriorLibrary | None" = 
         threshold = (float(th[0]) * extent_m, float(th[1]) * extent_m) \
             if isinstance(th, list) and len(th) == 2 else None
         facing = door.get("facingDeg")
-        idx, why = bi.match_doorway(record, float(parcel.get("yawDeg") or 0.0),
+        ok, why = bi.match_entrance(record, float(parcel.get("yawDeg") or 0.0),
                                     float(facing) if isinstance(facing, (int, float)) else None,
                                     threshold, centre)
-        if idx is None:
-            door.pop("doorwayRef", None)
-            problems.append(f"{door.get('id')}: sits on no derived doorway of "
+        door.pop("doorwayRef", None)
+        if not ok:
+            problems.append(f"{door.get('id')}: does not sit on the canonical entrance of "
                             f"{parcel.get('assetRef')} ({why})")
-        else:
-            door["doorwayRef"] = idx
     return problems
 
 
@@ -262,7 +262,8 @@ def way_by_id(bp: dict, way_id: str):
 
 def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
                  lib: FootprintLibrary | None = None,
-                 extent_m: float = PROVINCE_EXTENT_M):
+                 extent_m: float = PROVINCE_EXTENT_M,
+                 facing_deg: float | None = None):
     """Where the player stands to use this doorway: the point at which the
     doorway's line of sight crosses the building's own outline.
 
@@ -278,7 +279,13 @@ def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
         return None
     poly = parcel.get("footprint") or (parcel_footprint(parcel, lib, extent_m) or [])
     side = doorway.get("sideDeg")
-    if poly and side is not None and not bi.is_radial(doorway):
+    # Where the evidence is a PLACEMENT — the plugin's own load door, a door
+    # part the authors stood against the shell, the family's door mesh — the
+    # offset IS the door, and it may stand well off the shell's own outline
+    # (a Telvanni door piece sits 6 m from the hut's pivot). Only a measured
+    # opening in the mesh is a hole in the outline, and only that one is cast.
+    placed = doorway.get("kind") in ("esp-door", "assembly", "door-piece")
+    if poly and side is not None and not bi.is_radial(doorway) and not placed:
         bearing = math.radians((float(side) + float(yaw_deg)) % 360.0)
         dx, dz = math.sin(bearing), -math.cos(bearing)
         cu, cv = centre[0] / extent_m, centre[1] / extent_m
@@ -297,7 +304,16 @@ def threshold_uv(parcel: dict, doorway: dict, yaw_deg: float,
                 hit = t
         if hit is not None:
             return [round(cu + dx * hit, UV_ROUND), round(cv + dz * hit, UV_ROUND)]
-    off = bi.doorway_offset_m(doorway, yaw_deg)
+    if bi.is_radial(doorway) and facing_deg is not None:
+        # A radial entrance says the door stands ON the ring and lets the placer
+        # choose the bearing; the door's own facing IS that bearing, so the
+        # threshold is the ring point it looks out from.
+        radius = bi.entrance_radius_m(doorway)
+        if radius is not None:
+            bearing = math.radians(float(facing_deg) % 360.0)
+            return [round((centre[0] + math.sin(bearing) * radius) / extent_m, UV_ROUND),
+                    round((centre[1] - math.cos(bearing) * radius) / extent_m, UV_ROUND)]
+    off = bi.entrance_offset_m(doorway, yaw_deg)
     if off is None:
         return None
     return [round((centre[0] + off[0]) / extent_m, UV_ROUND),
@@ -360,7 +376,7 @@ def orient_blueprint(bp: dict, parcel_ids: set[str] | None = None,
                      lib: FootprintLibrary | None = None,
                      extent_m: float = PROVINCE_EXTENT_M,
                      exact: bool = False) -> list[dict]:
-    """Solve each doored parcel's yaw from its doorway and the way it opens onto.
+    """Solve each doored parcel's yaw from its entrance and the way it opens onto.
 
     Returns one report row per parcel considered:
     {parcelId, doorId, wayId, oldYawDeg, newYawDeg, deltaDeg, moved, note}.
@@ -381,20 +397,26 @@ def orient_blueprint(bp: dict, parcel_ids: set[str] | None = None,
         seen.add(pid)
         parcel = parcels[pid]
         record = interiors.get(parcel.get("assetRef"))
-        ways = bi.doorways(record)
-        idx = door.get("doorwayRef")
-        if not isinstance(idx, int) or not (0 <= idx < len(ways)):
+        doorway = bi.entrance(record)
+        if doorway is None:
             rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": None,
                          "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
                          "deltaDeg": None, "moved": False,
-                         "note": "no derived doorwayRef — run --doors first"})
+                         "note": "the kit derives no entrance for this piece"})
             continue
-        doorway = ways[idx]
         if bi.is_radial(doorway):
+            # The yaw is free, but the threshold is not: it has to stand on the
+            # ring the authors' own placements measured, on the bearing this
+            # door looks out along.
+            note = "radial entrance — any bearing is a way in, so yaw is free"
+            th = threshold_uv(parcel, doorway, float(parcel.get("yawDeg") or 0.0), lib,
+                              extent_m, facing_deg=door.get("facingDeg"))
+            if th is not None and th != door.get("thresholdUV"):
+                door["thresholdUV"] = th
+                note += "; the threshold was moved onto the ring"
             rows.append({"parcelId": pid, "doorId": door.get("id"), "wayId": None,
                          "oldYawDeg": parcel.get("yawDeg"), "newYawDeg": None,
-                         "deltaDeg": None, "moved": False,
-                         "note": "radial doorway — any bearing is a way in, so yaw is free"})
+                         "deltaDeg": None, "moved": False, "note": note})
             continue
         hint = door.get("facesWay") or parcel.get("facesWay")
         target = way_by_id(bp, hint) if hint else None
@@ -439,6 +461,11 @@ def orient_blueprint(bp: dict, parcel_ids: set[str] | None = None,
             if th is not None:
                 door["thresholdUV"] = th
         else:
+            # The parcel keeps its authored cant, but the threshold is derived:
+            # refresh it, or a door goes on standing where an older rule put it.
+            th = threshold_uv(parcel, doorway, old, lib, extent_m)
+            if th is not None and th != door.get("thresholdUV"):
+                door["thresholdUV"] = th
             row["note"] = ("already faces its way" if delta <= ORIENT_EXACT_EPSILON_DEG
                            else f"within the {ORIENT_TOLERANCE_DEG:.0f}° the ruling allows, "
                                 f"so the authored cant stands")
@@ -451,7 +478,10 @@ def orient_file(path: Path, parcel_ids: set[str] | None = None,
     text = path.read_text()
     data = json.loads(text)
     rows = orient_blueprint(data.get("blueprint", {}), parcel_ids, exact=exact)
-    if apply and any(r["moved"] for r in rows):
+    # A radial entrance never "moves" a parcel but may still have its threshold
+    # pulled onto the ring, so the write is gated on the blueprint changing.
+    changed = json.dumps(data, sort_keys=True) != json.dumps(json.loads(text), sort_keys=True)
+    if apply and changed:
         path.write_text(json.dumps(data, indent=_indent_of(text)) + "\n")
     return rows
 
@@ -483,7 +513,8 @@ def main() -> int:
     ap.add_argument("--apply", action="store_true", help="rewrite footprints in place")
     ap.add_argument("--check", action="store_true", help="report mismatches only")
     ap.add_argument("--doors", action="store_true",
-                    help="also derive each door's doorwayRef (implies --apply)")
+                    help="also check every door against its piece's canonical entrance, "
+                         "stripping any legacy doorwayRef (implies --apply)")
     ap.add_argument("--orient", action="store_true",
                     help="solve each doored parcel's yaw so the doorway faces the way it opens "
                          "onto; reports old vs new, and writes only with --apply")

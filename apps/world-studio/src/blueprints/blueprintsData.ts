@@ -55,24 +55,33 @@ export interface BpDistrict {
   centreM: Pt | null;
 }
 
-/** A DERIVED way into a building: the offset of a door part in a mined kit
- * assembly (`source: "assembly"`) or an opening measured off the shell's own
- * geometry (`source: "geometry"`). A radial doorway is a ring — any bearing is
- * a way in, so it carries `radiusM` and no `bearingDeg`. Doors may only sit on
- * one of these (owner ruling 2026-09-05). */
-export interface BpDoorway {
+/** THE canonical way into a building — one per piece (owner ruling 2026-09-07).
+ * The interiors index ranks every scrap of door evidence it has (the mod's own
+ * load door, a door part the kit's authors placed on this shell, the family's
+ * door mesh, a leaf, a measured opening, an open front) and exports only the
+ * winner; `kind` names which. A radial entrance is a ring — the authors turned
+ * the door to different sides, so it carries `radiusM` and no `bearingDeg`. */
+export interface BpEntrance {
   worldM: Pt | null;
   bearingDeg: number | null;
-  source: string | null;
-  /** What kind of way in it is: an opening, an open front, a hung leaf, a door
-   * part in a mined assembly. */
+  /** Which evidence won: esp-door, assembly, door-piece, leaf, opening, open-front. */
   kind?: string | null;
-  /** The interior the door on this doorway leads to: a matched interior mesh,
-   * or the interior kit Phase 12 builds it from. */
+  /** The interior this entrance leads to: a matched interior mesh, or the
+   * interior kit Phase 12 builds it from. */
   interiorRef?: string | null;
   arcM: number | null;
   radial?: boolean;
   radiusM?: number | null;
+}
+
+/** Which way round a piece with no entrance goes — a gate arch, a wall stub, a
+ * tower. Derived from how the piece's own author placed it. `deg` is in the
+ * piece's frame, `worldDeg` is that turned by the parcel's yaw. */
+export interface BpFront {
+  deg: number;
+  worldDeg: number;
+  evidence: string | null;
+  outside: boolean;
 }
 
 export interface BpParcel {
@@ -87,8 +96,10 @@ export interface BpParcel {
   /** A gate or arch stands ACROSS this way — highlighted when the parcel is picked. */
   spans: string | null;
   interior: { kind: string | null; assetRef?: string | null } | null;
-  /** Derived doorways of the piece, drawn on the outline. */
-  doorways: BpDoorway[];
+  /** THE derived entrance of the piece, drawn as one glyph on the outline. */
+  entrance: BpEntrance | null;
+  /** Which way round the piece goes when it has no entrance. */
+  front: BpFront | null;
   why: BpWhy | null;
   notes: string | null;
   polygon: Poly | null;
@@ -138,8 +149,6 @@ export interface BpDoor {
   id: string;
   parcelId: string | null;
   facingDeg: number | null;
-  /** Index into the parcel's `doorways[]` — which derived doorway this door sits on. */
-  doorwayRef: number | null;
   thresholdM: Pt | null;
   interiorClaim: { sizeClass: string | null; culture: string | null; owner: string | null };
 }
@@ -295,26 +304,21 @@ export function compassDeg(text: string | null): number | null {
 
 export const SOCKET_FILL = "#ffd166";
 
-/** Doorway tick colour by where the opening was derived from: gold for a door
- * part in a mined kit assembly, blue-green for an opening measured off the
- * shell's geometry. The distinction is the point — an assembly doorway is one
- * the kit's own author placed a door in. */
-export const DOORWAY_COLOUR: Record<string, string> = {
-  assembly: "#f2b134", geometry: "#5fc9c1", "esp-door": "#ff9ecb",
-};
-
-export function doorwayColour(source: string | null | undefined): string {
-  return (source && DOORWAY_COLOUR[source]) || "#9aa3ad";
+/** One entrance as a line of text for the click panel — the studio draws a
+ * single glyph (the red door tick), so the EVIDENCE lives here in words rather
+ * than in a second colour of tick. */
+export function entranceLabel(e: BpEntrance): string {
+  const kind = e.kind ?? "measured";
+  const into = e.interiorRef ? ` → ${e.interiorRef}` : "";
+  if (e.radial) return `${kind}, radial ring ${e.radiusM?.toFixed(1) ?? "?"} m out${into}`;
+  const arc = e.arcM ? `, ${e.arcM.toFixed(1)} m wide` : "";
+  return `${kind}, facing ${e.bearingDeg?.toFixed(0) ?? "?"}°${arc}${into}`;
 }
 
-/** One doorway as a line of text for the click panel. */
-export function doorwayLabel(dw: BpDoorway, i: number): string {
-  const src = dw.source ?? "measured";
-  const kind = dw.kind ? `${dw.kind}, ` : "";
-  const into = dw.interiorRef ? ` → ${dw.interiorRef}` : "";
-  if (dw.radial) return `#${i} ${kind}radial ring, ${dw.radiusM?.toFixed(1) ?? "?"} m out (${src})${into}`;
-  const arc = dw.arcM ? `, ${dw.arcM.toFixed(1)} m wide` : "";
-  return `#${i} ${kind}facing ${dw.bearingDeg?.toFixed(0) ?? "?"}°${arc} (${src})${into}`;
+/** The derived front of a doorless piece, for the click panel. */
+export function frontLabel(f: BpFront): string {
+  return `${f.worldDeg.toFixed(0)}° (${f.deg.toFixed(0)}° in the piece's own frame), `
+    + `${f.outside ? "outside face" : "front"}, from ${f.evidence ?? "?"}`;
 }
 
 export function kitFill(kit: string | null): string {

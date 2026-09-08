@@ -568,11 +568,11 @@ def test_no_built_kit_leaves_a_building_without_a_doorway_or_an_interior():
         for asset_id, record in json.loads(path.read_text())["assets"].items():
             if record.get("interior") not in ix.BUILDING_INTERIORS:
                 continue
-            if not record.get("doorways"):
+            if not record.get("entrance"):
                 doorless.append(asset_id)
             if not (record.get("tileset") or record.get("interiorAssetRef")):
                 unlinked.append(asset_id)
-    assert not doorless, f"enclosed pieces with no doorway: {doorless}"
+    assert not doorless, f"enclosed pieces with no entrance: {doorless}"
     assert not unlinked, f"enclosed pieces with no interior kit: {unlinked}"
 
 
@@ -604,6 +604,78 @@ def test_every_manifest_linked_shell_in_a_built_kit_resolves_to_a_built_interior
             tileset = record.get("tileset")
             if tileset not in built:
                 problems.append(f"{kit}/{asset_id}: interior kit {tileset!r} is not built")
-            if not any(d.get("kind") == "esp-door" for d in record.get("doorways") or []):
-                problems.append(f"{kit}/{asset_id}: no esp-door doorway (derived entrance)")
+            if (record.get("entrance") or {}).get("kind") != "esp-door":
+                problems.append(f"{kit}/{asset_id}: the plugin's own load door did not win the "
+                                f"entrance ranking (got "
+                                f"{(record.get('entrance') or {}).get('kind')!r})")
     assert not problems, "\n".join(problems)
+
+
+# --------------------------------------------------------------------------- #
+# ONE canonical entrance, ranked (owner ruling 2026-09-07)
+# --------------------------------------------------------------------------- #
+def _record_with(*kinds) -> dict:
+    """A record carrying one doorway evidence per named kind, worst first, so a
+    ranking that did nothing would leave the worst in front."""
+    made = {
+        "esp-door": {"kind": "esp-door", "sideDeg": 10.0, "placements": 3},
+        "assembly": {"doorwaySource": "assembly", "sideDeg": 20.0, "count": 16},
+        "door-piece": {"kind": "door-piece", "sideDeg": 30.0, "fitM": 0.1},
+        "leaf": {"kind": "leaf", "sideDeg": 40.0, "arcM": 1.1},
+        "opening": {"kind": "opening", "sideDeg": 50.0, "arcM": 1.3},
+        "open-front": {"kind": "open-front", "sideDeg": 60.0, "arcM": 4.0},
+    }
+    return {"interior": "shell", "doorways": [dict(made[k]) for k in kinds]}
+
+
+@pytest.mark.parametrize("kinds, winner", [
+    (("open-front", "opening", "leaf", "door-piece", "assembly", "esp-door"), "esp-door"),
+    (("open-front", "opening", "leaf", "door-piece", "assembly"), "assembly"),
+    (("open-front", "opening", "leaf", "door-piece"), "door-piece"),
+    (("open-front", "opening", "leaf"), "leaf"),
+    (("open-front", "opening"), "opening"),
+    (("open-front",), "open-front"),
+])
+def test_the_best_evidence_wins_the_entrance_whatever_order_it_arrived_in(kinds, winner):
+    record = _record_with(*kinds)
+    ix.finalise_entrance(record)
+    assert record["entrance"]["kind"] == winner
+
+
+def test_the_losing_evidence_is_kept_for_audit_and_never_as_a_second_entrance():
+    """The symptom the ruling fixes: a shell drawn with three different answers
+    for where its door is."""
+    record = _record_with("opening", "leaf", "esp-door")
+    ix.finalise_entrance(record)
+    assert record["entrance"]["kind"] == "esp-door"
+    assert [d["kind"] for d in record["provenance"]] == ["leaf", "opening"]
+    assert "doorways" not in record and "doorwaySource" not in record
+
+
+def test_a_piece_with_no_door_evidence_says_so_rather_than_guessing():
+    record = {"interior": "none", "doorways": [], "doorwaysWhy": "not an enclosure"}
+    ix.finalise_entrance(record)
+    assert record["entrance"] is None
+    assert record["provenance"] == []
+    assert record["entranceWhy"] == "not an enclosure"
+
+
+def test_only_placement_evidence_may_make_an_entrance_radial():
+    """A ray-measured opening is one hole on one side; only the plugin's or the
+    authors' own placements can show a door turned to different sides."""
+    mined = {"interior": "shell", "doorways": [
+        {"doorwaySource": "assembly", "radial": True, "radiusM": 2.5, "count": 9}]}
+    ix.finalise_entrance(mined)
+    assert mined["entrance"]["radial"] is True
+    measured = {"interior": "shell", "doorways": [
+        {"kind": "opening", "radial": True, "radiusM": 2.5, "sideDeg": 90.0, "arcM": 1.2}]}
+    ix.finalise_entrance(measured)
+    assert "radial" not in measured["entrance"]
+
+
+def test_the_most_placed_door_wins_between_equals():
+    record = {"interior": "shell", "doorways": [
+        {"doorwaySource": "assembly", "sideDeg": 10.0, "count": 4},
+        {"doorwaySource": "assembly", "sideDeg": 200.0, "count": 31}]}
+    ix.finalise_entrance(record)
+    assert record["entrance"]["sideDeg"] == 200.0

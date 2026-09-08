@@ -32,12 +32,11 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 | `place.dunmer-north.nine-fords` | track | 2.442 |
 | `place.dunmer-north.murkwater` | track | 2.394 |
 
-
 ## Minor waterways — channels, rivers, ferry crossings (Phase 11 Part 3c)
 
 Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 boat cost surface, land impassable); data in `apps/world-studio/public/province/waterways-minor.json`.
 
-- **169 channels**, 56.15 km in total: channel 105, river 52, crossing 12
+- **169 channels**, 55.57 km in total: channel 104, river 53, crossing 12
 - 43 water-bound places already sit on a lane or navigable river (within 45 m)
 - 12 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
 
@@ -60,18 +59,18 @@ Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 b
 |---|---|---|
 | `place.dunmer-north.murkwater` | channel | 1.818 |
 | `place.dunmer-north.riverwalk` | channel | 1.516 |
-| `place.imperial-fringe.sink-field` | channel | 1.396 |
+| `place.imperial-fringe.sink-field` | channel | 1.393 |
 | `place.hist-heartland.wamasu-pond-nest` | river | 1.371 |
 | `place.hist-heartland.dive-shaft-xanmeer-well` | river | 1.252 |
 | `place.mercantile-coast.oliis-ferry-stage` | channel | 1.238 |
-| `place.hist-heartland.stilt-channel-edge-two-poles` | channel | 1.138 |
 | `place.imperial-fringe.onkobra-ferry` | river | 1.133 |
-| `place.dunmer-north.the-drawdown-flats` | channel | 1.069 |
+| `place.hist-heartland.stilt-channel-edge-two-poles` | channel | 1.131 |
+| `place.dunmer-north.the-drawdown-flats` | channel | 1.079 |
 | `place.saxhleel-coast.portdun-mont` | channel | 0.956 |
 | `place.mercantile-coast.xhon-mehl-shrine` | channel | 0.954 |
 | `place.imperial-fringe.the-drowned-furrow` | channel | 0.928 |
 | `place.hist-heartland.boardwalk-branching-many-ways` | river | 0.906 |
-| `place.dunmer-north.the-drowned-terrace` | channel | 0.858 |
+| `place.dunmer-north.the-drowned-terrace` | channel | 0.867 |
 | `place.mercantile-coast.mudfoot` | channel | 0.833 |
 
 ### Registry entries solved by minor water geometry

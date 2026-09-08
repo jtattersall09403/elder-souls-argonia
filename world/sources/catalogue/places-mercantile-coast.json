@@ -26450,18 +26450,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-038",
-          "score": 3.671,
+          "siteId": "site.free.any-shallow-marsh-1210",
+          "score": 4.101,
           "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.roadside-0587",
-          "score": 2.935,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.lake-standing-water.cove-038",
+          "score": 3.507,
+          "whyLost": "too close to place.mercantile-coast.bramman-screen"
         },
         {
-          "siteId": "site.free.roadside-0589",
-          "score": 2.907,
+          "siteId": "site.scour.interior-swamp.islet-030",
+          "score": 2.801,
           "whyLost": "lost on score"
         }
       ],
@@ -26472,7 +26472,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 263.7,
         "distanceToWaterM": 11.0,
-        "score": 3.284
+        "score": 3.13
       },
       "sitingNote": "Moved off the crowded Alessian-hull neighbourhood (round 4 hostility rebalance) onto the coastal lagoon named by its regionClasses."
     },

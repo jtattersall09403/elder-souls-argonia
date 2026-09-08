@@ -13,14 +13,21 @@ Index record, per kit asset (see the pipeline module for how each is derived):
     interior          "matched" | "tileset" | "shell" | "none"
     interiorAssetRef  the pool's own matched interior mesh (interior=matched)
     tileset           the interior kit Phase 12 builds it from (interior=tileset)
-    doorways          [{sideDeg, offsetM [x,z], arcM, doorwaySource, radial?,
-                      radiusM?}] in the asset's LOCAL frame, north = 0,
-                      clockwise — so a parcel's world-facing doorway bearing is
-                      ``sideDeg + yawDeg``. `doorwaySource` is "assembly" (the
-                      offset of a door part in a mined composite) or "geometry"
-                      (an opening measured off the shell). A radial doorway
-                      carries `radial: true` + `radiusM` and no `sideDeg`: any
+    entrance          THE canonical way in, or null (owner ruling 2026-09-07:
+                      one entrance per piece, ranked from the mod's own load
+                      door down — esp-door > assembly > door-piece > leaf >
+                      opening > open-front). {kind, sideDeg, offsetM [x,z],
+                      arcM?, radial?, radiusM?} in the asset's LOCAL frame,
+                      north = 0, clockwise — so the world bearing is
+                      ``sideDeg + yawDeg``. A radial entrance carries
+                      `radial: true` + `radiusM` and no `sideDeg`: the authors'
+                      own placements turned the door to different sides, so any
                       bearing is a way in, but the door must stand on the ring.
+    provenance        the losing door evidence, for audit only — never drawn,
+                      never matched against.
+    front             {deg, evidence, outside, why} or null, for a piece with
+                      no entrance: which way it goes round, derived from how
+                      its author placed it (`pipeline/piece_front.py`).
     sizeClass         "small" (<40 m²) | "medium" (<120 m²) | "large"
 
 Run (from tooling/world-generation/):
@@ -39,13 +46,13 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 
-# The world facing of a door must be within this of a measured doorway side.
-# Tighter than the footprint-edge check (±100°) because a doorway bearing is a
+# The world facing of a door must be within this of the canonical entrance.
+# Tighter than the footprint-edge check (±100°) because an entrance bearing is a
 # measured direction, not a hull chord: ±45° still allows a door placed at a
 # corner of the opening, but not one claimed on a blank wall.
 DOORWAY_TOLERANCE_DEG = 45.0
 
-# A radial doorway (a ring, no fixed side) takes any bearing, but the door has
+# A radial entrance (a ring, no fixed side) takes any bearing, but the door has
 # to stand ON the ring: the threshold within this of the measured radius.
 RADIAL_TOLERANCE_M = 0.5
 
@@ -127,96 +134,92 @@ def angle_delta(a: float, b: float) -> float:
     return abs((a - b + 180.0) % 360.0 - 180.0)
 
 
-def doorway_bearings(record: dict, yaw_deg: float) -> list[float]:
-    """The measured doorway sides of a piece, turned into world bearings by the
-    parcel's yaw. Local sideDeg and yawDeg share one convention (north = 0,
-    clockwise, x east / z south), so the world bearing is their sum.
-    Radial doorways (a ring of ways in, no fixed side) are not listed here."""
-    return [(float(d["sideDeg"]) + float(yaw_deg)) % 360.0
-            for d in record.get("doorways", []) if "sideDeg" in d and not d.get("radial")]
+def entrance(record: dict | None) -> dict | None:
+    """THE canonical way in of a piece, or None (owner ruling 2026-09-07)."""
+    return (record or {}).get("entrance") or None
 
 
-def doorways(record: dict | None) -> list[dict]:
-    return list((record or {}).get("doorways") or [])
+def front(record: dict | None) -> dict | None:
+    """The derived front of a piece that has no entrance, or None when it is
+    symmetric and any yaw will do."""
+    return (record or {}).get("front") or None
 
 
-def is_radial(doorway: dict) -> bool:
-    return bool(doorway.get("radial")) or "sideDeg" not in doorway
+def is_radial(way: dict | None) -> bool:
+    return bool((way or {}).get("radial")) or "sideDeg" not in (way or {})
+
+
+def entrance_bearing(record: dict | None, yaw_deg: float) -> float | None:
+    """The world bearing of a piece's entrance under a parcel yaw. Local
+    `sideDeg` and `yawDeg` share one convention (north = 0, clockwise, x east /
+    z south), so the world bearing is their sum. A radial entrance has none."""
+    way = entrance(record)
+    if way is None or is_radial(way):
+        return None
+    return (float(way["sideDeg"]) + float(yaw_deg)) % 360.0
 
 
 def rotate_m(x: float, z: float, yaw_deg: float) -> tuple[float, float]:
     """Local (x, z) turned by a compass yaw — the same rotation
-    `blueprint_footprints` uses for the hull, so a doorway lands on the
+    `blueprint_footprints` uses for the hull, so an entrance lands on the
     outline it was measured against."""
     t = math.radians(float(yaw_deg))
     c, s = math.cos(t), math.sin(t)
     return (x * c - z * s, x * s + z * c)
 
 
-def doorway_offset_m(doorway: dict, yaw_deg: float) -> tuple[float, float] | None:
-    """Where the doorway sits relative to the parcel centre, in world metres."""
-    off = doorway.get("offsetM")
+def entrance_offset_m(way: dict, yaw_deg: float) -> tuple[float, float] | None:
+    """Where the entrance sits relative to the parcel centre, in world metres."""
+    off = way.get("offsetM")
     if not (isinstance(off, list) and len(off) >= 2):
         return None
     return rotate_m(float(off[0]), float(off[1]), yaw_deg)
 
 
-def doorway_radius_m(doorway: dict) -> float | None:
-    """The ring radius of a radial doorway — from `radiusM`, else measured off
+def entrance_radius_m(way: dict) -> float | None:
+    """The ring radius of a radial entrance — from `radiusM`, else measured off
     its own offset."""
-    r = doorway.get("radiusM")
+    r = way.get("radiusM")
     if isinstance(r, (int, float)):
         return float(r)
-    off = doorway.get("offsetM")
+    off = way.get("offsetM")
     if isinstance(off, list) and len(off) >= 2:
         return math.hypot(float(off[0]), float(off[1]))
     return None
 
 
-def match_doorway(record: dict | None, yaw_deg: float, facing_deg: float | None,
-                  threshold_m: tuple[float, float] | None = None,
-                  centre_m: tuple[float, float] | None = None,
-                  ) -> tuple[int | None, str]:
-    """Which derived doorway a door sits on: `(index, reason)`.
+def match_entrance(record: dict | None, yaw_deg: float, facing_deg: float | None,
+                   threshold_m: tuple[float, float] | None = None,
+                   centre_m: tuple[float, float] | None = None,
+                   ) -> tuple[bool, str]:
+    """Does a door sit on the piece's canonical entrance: `(ok, reason)`.
 
-    A fixed doorway accepts a facing within ``DOORWAY_TOLERANCE_DEG`` of its
-    world bearing (`sideDeg + yawDeg`). A radial doorway (a rotunda, a ring of
-    posts) accepts any bearing, but the threshold must lie within
-    ``RADIAL_TOLERANCE_M`` of the ring radius measured from the parcel centre.
-    `index` is None when nothing matches; `reason` is the plain-English detail
-    the validator prints.
+    A fixed entrance accepts a facing within ``DOORWAY_TOLERANCE_DEG`` of its
+    world bearing (`sideDeg + yawDeg`). A radial entrance (a rotunda, a door the
+    authors turned to the street) accepts any bearing, but the threshold must
+    lie within ``RADIAL_TOLERANCE_M`` of the ring radius measured from the
+    parcel centre. `reason` is the plain-English detail the validator prints.
     """
-    ways = doorways(record)
-    if not ways:
-        return None, "the kit derives no doorway for this piece"
-    best: tuple[float, int] | None = None
-    radial_notes: list[str] = []
-    for i, dw in enumerate(ways):
-        if is_radial(dw):
-            radius = doorway_radius_m(dw)
-            if radius is None or threshold_m is None or centre_m is None:
-                radial_notes.append(f"#{i} radial (no threshold to measure)")
-                continue
-            got = math.hypot(threshold_m[0] - centre_m[0], threshold_m[1] - centre_m[1])
-            if abs(got - radius) <= RADIAL_TOLERANCE_M:
-                return i, f"#{i} radial ring at {radius:.1f} m"
-            radial_notes.append(f"#{i} radial ring at {radius:.1f} m, "
-                                f"the threshold stands {got:.1f} m out")
-            continue
-        if facing_deg is None:
-            continue
-        off = angle_delta(float(facing_deg), (float(dw["sideDeg"]) + float(yaw_deg)) % 360.0)
-        if best is None or off < best[0]:
-            best = (off, i)
-    if best is not None and best[0] <= DOORWAY_TOLERANCE_DEG:
-        return best[1], f"#{best[1]} at {best[0]:.0f}° off"
-    sides = doorway_bearings(record, yaw_deg)
-    shown = ", ".join(f"{s:.0f}°" for s in sides) if sides else "none fixed"
-    detail = f"nearest fixed doorway is {best[0]:.0f}° off (sides at {shown})" if best \
-        else f"fixed sides at {shown}"
-    if radial_notes:
-        detail += "; " + "; ".join(radial_notes)
-    return None, detail
+    way = entrance(record)
+    if way is None:
+        return False, "the kit derives no entrance for this piece"
+    kind = way.get("kind") or "?"
+    if is_radial(way):
+        radius = entrance_radius_m(way)
+        if radius is None or threshold_m is None or centre_m is None:
+            return False, f"the {kind} entrance is radial and there is no threshold to measure"
+        got = math.hypot(threshold_m[0] - centre_m[0], threshold_m[1] - centre_m[1])
+        if abs(got - radius) <= RADIAL_TOLERANCE_M:
+            return True, f"{kind}, radial ring at {radius:.1f} m"
+        return False, (f"the {kind} entrance is a radial ring at {radius:.1f} m, but the "
+                       f"threshold stands {got:.1f} m out")
+    if facing_deg is None:
+        return False, f"the door has no facingDeg to check against the {kind} entrance"
+    bearing = (float(way["sideDeg"]) + float(yaw_deg)) % 360.0
+    off = angle_delta(float(facing_deg), bearing)
+    if off <= DOORWAY_TOLERANCE_DEG:
+        return True, f"{kind} entrance at {bearing:.0f}°, {off:.0f}° off"
+    return False, f"the {kind} entrance faces {bearing:.0f}°, {off:.0f}° away"
 
 
 # --------------------------------------------------------------------------- #
@@ -246,9 +249,12 @@ def report_lines(bp: dict, lib: InteriorLibrary | None = None) -> list[str]:
             continue
         kind = record.get("interior")
         want = lib.interior_ref(record) or "(a Phase 12 interior claim)"
-        sides = doorway_bearings(record, parcel.get("yawDeg") or 0.0)
-        side_text = (", ".join(f"{s:.0f}°" for s in sides) if sides
-                     else f"none derivable — {record.get('doorwaysWhy', 'not measured')}")
+        yaw = float(parcel.get("yawDeg") or 0.0)
+        way = entrance(record)
+        bearing = entrance_bearing(record, yaw)
+        side_text = (f"{(way or {}).get('kind', '?')} at {bearing:.0f}°" if bearing is not None
+                     else (f"{(way or {}).get('kind', '?')}, radial" if way
+                           else f"none derivable — {record.get('entranceWhy', 'not measured')}"))
         head = (f"  {pid}: {kind} [{record.get('sizeClass')}, "
                 f"{record.get('planAreaM2', 0):.0f} m²] → {want}")
         problems: list[str] = []
@@ -270,14 +276,14 @@ def report_lines(bp: dict, lib: InteriorLibrary | None = None) -> list[str]:
                                     f"{claim.get('sizeClass')!r}, the piece measures "
                                     f"{record.get('planAreaM2', 0):.0f} m² = {record.get('sizeClass')!r}")
                 facing = door.get("facingDeg")
-                if sides and isinstance(facing, (int, float)):
-                    off = min(angle_delta(float(facing), s) for s in sides)
+                if bearing is not None and isinstance(facing, (int, float)):
+                    off = angle_delta(float(facing), bearing)
                     if off > DOORWAY_TOLERANCE_DEG:
                         problems.append(f"{door.get('id')}: facingDeg {float(facing):.0f}° is "
-                                        f"{off:.0f}° off the nearest doorway ({side_text})")
+                                        f"{off:.0f}° off the entrance ({side_text})")
         elif doors:
             problems.append(f"has {len(doors)} door(s) but no interior — {record.get('why', '')}")
-        lines.append(head + f"; doorway sides {side_text}")
+        lines.append(head + f"; entrance {side_text}")
         for problem in problems:
             lines.append(f"      ! {problem}")
         owed += len(problems)

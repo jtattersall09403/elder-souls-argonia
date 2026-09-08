@@ -429,3 +429,64 @@ def test_a_missing_province_network_raises_rather_than_passing(monkeypatch):
 
 def _boom(*_a, **_k):
     raise RuntimeError("province network: no bundles")
+
+
+# --- 97 C5 measured on the HULL, not the pivot (audit §6.1) ---------------- #
+
+def test_parcel_gap_measures_the_footprint_centroid_not_the_authored_centre(survey):
+    """An off-pivot piece (the Ayleid stair's pivot stands 20 m from its hull)
+    used to pass on centre distance while its hull sat in its neighbour."""
+    far_pivot = parcel("parcel.stub.stair", 100, 100, half=2.0, centreUV=uv(130, 100))
+    bp = _bp(parcels=[far_pivot, _p("parcel.stub.wall-piece", 104, 100)])
+    errs = check_integration(bp, survey)
+    assert any("97 C5" in e and "centroid" in e for e in errs), errs
+
+
+def test_parcel_gap_reports_the_hull_gap_beside_the_centroid_distance(survey):
+    bp = _bp(parcels=[_p("parcel.stub.hut-a", 100, 100), _p("parcel.stub.hut-b", 105, 100)])
+    errs = [e for e in check_integration(bp, survey) if "97 C5" in e]
+    assert errs and "hull to hull" in errs[0]
+
+
+def test_parcel_gap_exempts_a_prop(survey):
+    """97 C12 (decision 2026-09-07): a notice board beside a hut is dressing."""
+    board = _p("parcel.stub.board", 104, 100, kind="prop")
+    bp = _bp(parcels=[_p("parcel.stub.hut", 100, 100), board])
+    assert not any("97 C5" in e for e in check_integration(bp, survey))
+
+
+# --- 97 C5 `worksWith`: a trade contact, not a kit snap -------------------- #
+
+def test_works_with_is_exempt_from_the_eight_metre_floor(survey):
+    bp = _bp(parcels=[_p("parcel.stub.hoist", 100, 100,
+                         worksWith=["parcel.stub.cut-face"]),
+                      _p("parcel.stub.cut-face", 106, 100)])
+    assert not any("97 C5" in e and "the floor is" in e for e in check_integration(bp, survey))
+
+
+def test_works_with_must_keep_half_a_metre_clear(survey):
+    """No kit authored the pair to snap, so they may not touch."""
+    bp = _bp(parcels=[_p("parcel.stub.oven", 100, 100, worksWith=["parcel.stub.rack"]),
+                      _p("parcel.stub.rack", 104.2, 100)])
+    errs = check_integration(bp, survey)
+    assert any("worksWith" in e and "clear" in e for e in errs), errs
+
+
+# --- parcel-overlap and the piece standing at deck height (audit §6.2) ----- #
+
+def test_parcel_overlap_exempts_a_stacked_piece_from_what_its_base_touches(survey):
+    """The deck at 2.7 m does not touch the yard its base was built against."""
+    bp = _bp(parcels=[
+        parcel("parcel.stub.base", 100, 100, half=6.0, centreUV=uv(100, 100),
+               abuts=["parcel.stub.yard"]),
+        parcel("parcel.stub.deck", 100, 100, half=8.0, centreUV=uv(100, 100),
+               stacksOn="parcel.stub.base"),
+        parcel("parcel.stub.yard", 111, 100, half=5.0, centreUV=uv(111, 100)),
+    ])
+    assert not any("overlap" in e for e in check_integration(bp, survey))
+
+
+def test_parcel_overlap_still_fails_for_two_pieces_on_the_ground(survey):
+    bp = _bp(parcels=[parcel("parcel.stub.a", 100, 100, half=6.0, centreUV=uv(100, 100)),
+                      parcel("parcel.stub.b", 104, 100, half=6.0, centreUV=uv(104, 100))])
+    assert any("overlap" in e for e in check_integration(bp, survey))

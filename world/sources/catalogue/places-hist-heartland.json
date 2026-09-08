@@ -18347,18 +18347,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0841",
-          "score": 4.265,
+          "siteId": "site.free.any-firm-ground-0839",
+          "score": 4.26,
           "whyLost": "too close to place.hist-heartland.root-talk-ground"
         },
         {
-          "siteId": "site.free.any-firm-ground-0916",
-          "score": 4.215,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-0877",
+          "score": 4.217,
+          "whyLost": "too close to place.hist-heartland.root-talk-ground"
         },
         {
-          "siteId": "site.free.any-firm-ground-1007",
-          "score": 3.996,
+          "siteId": "site.free.any-firm-ground-0913",
+          "score": 4.216,
           "whyLost": "lost on score"
         }
       ],
@@ -18429,8 +18429,7 @@
       },
       "plotOverride": {
         "source": "blueprint",
-        "why": "Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle.",
-        "candidateId": "candidate.sap-tapping-licensed.a-north-bank"
+        "why": "Pinned by the Part 6 meso siting (world/sources/blueprints/place.hist-heartland.sap-tapping-licensed.json): Slope 1.12 deg, 3.09 m above the water table, flood band 0, 16.3 m to a shore whose channel measures 0.9 m deep 16 m to the NNW (bearing 330). Within 250 m this is the water along which a loaded canoe can be poled. Height delta across a 20 m box is 3.9 m but only 1.6 m across the 18 m the pieces actually occupy. Canopy closure 0.92, open-space radius p50 6.7 m, so the camp is unseen from the land side until roughly 30 m. Route 615 m to the Helstrom-Blackrose road, reached by one track from the south-east; every other approach is water, reed margin or unbroken jungle."
       }
     },
     {

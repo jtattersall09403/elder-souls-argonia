@@ -55,9 +55,10 @@ Type recipe `sap-tapping-camp`: population 2–5, an elevated member
 on the stage, a mule line. A licence is one stage on one tree for one season
 (`hist-placement.md` §75); one stage needs a tapper on the deck and two hands
 on the ground. The blueprint's `scaleGrounding` is therefore three people, one
-household, three NPCs and **six pieces**: stage, stair, mule line, cart, hut
-and licence board (seven parcels, because the stage's deck is a stacked
-parcel of its own). Nothing here is permanent enough to be called a building;
+household and **three built things**: the stage, its stair and the hut. The
+mule line, the cart and the licence board are dressing, and the stage's deck
+is part of the stage rather than a fourth thing (97 C5b), so seven parcels
+carry a `buildingsPlanned` of three. Nothing here is permanent enough to be called a building;
 the count is what a season leaves standing.
 
 ## The design
@@ -115,9 +116,11 @@ in 1.4 m of water at (3478.5, 4373.0), past the reed margin. The channel way
 runs to it from the north-west over published water. The reed margin is kept,
 not cleared.
 
-**Clearance is minimal.** Hard clearing covers four boxes — the stage and its
-stair, the hut, the mule line with the cart and the board —
-against the outlines the pieces occupy. A single thinned polygon of 648 m²
+**Clearance is minimal.** Hard clearing covers five boxes against the outlines
+the pieces occupy: the stage and its stair, the stock, the hut, the mule line
+with the cart and the board. The hut's box runs 5 m past its south
+wall, because the doorway is on that wall and a threshold on uncleared ground
+is a door the reeds close. A single thinned polygon of 648 m²
 covers the rest of the camp; everything outside it stays at the region's
 density. The Hist, the reed margin and two shade trees are listed as kept.
 
@@ -225,7 +228,7 @@ from it to the stage foot.
 | 11 | No way ends at a blank wall | yes — track at the stair, spur at the door, walk at the dock, channel at the dock |
 | 12 | Every raised level has visible ascent | yes — the stair is in frame from the last bend |
 | 13 | Edge reads as an edge | yes — water and reeds north-west, closed jungle on the other three sides, the thinned ring between them |
-| 14 | Building count matches population | yes — six pieces, three people, one household; source is the recipe |
+| 14 | Building count matches population | yes — three built things and three props, three people, one household; source is the recipe |
 | 15 | Approach cue in one clause | yes — "follow the one track to the great tree"; "pole up the channel to the board at the water's edge" |
 | 16 | Any forced detour pays | yes — the plank walk over the reeds ends at the board and the canoe |
 
@@ -289,7 +292,7 @@ and the Taste ledger); the answers are in the blueprint.
 
 ## Deviations from module 97 (Round A review, 2026-09-05)
 
-- **97 C6, 34.6 buildings/ha against the M2 band 15–33/ha.** An M1 camp judged on the M2 band, over a 0.20 ha boundary, with a stacked deck counted as a building; the six pieces stand where the tree, the water and the track put them.
+- **97 C6 no longer applies here.** The band is a settlement band and this is a works camp, so the compiler does not judge it (the old 34.6/ha reading came from an M1 camp held against the M2 band over a boundary that carried the approaches). The pieces stand where the tree, the water and the track put them.
 - **97 D3, no threshold spanned.** A camp has no gate; the threshold is the track dying at the stair and the dock at the water (checklist item 7).
 - **97 B6, the canoe approach unmeasured.** It has no route with waypoints, so the compiler cannot run the line of sight; the checklist carries it (the Hist at 53.6 m over a 42.4 m canopy).
 - **97 C12, a camp of three with no hearth.** The dressing pass (97 G18) does not exist; when it does, a fire and 4–8 pieces round it belong here.
@@ -321,3 +324,10 @@ The `trade-access` reward is met by a `market` service
 on `parcel.sap-tapping-licensed.stage-deck`. The stage sells its graded sap
 from that deck, under the licence nailed up beside it. A deck is an open-air counter
 rather than a shop, so the parcel claims no door and no interior.
+
+## Player purposes (owner ruling 2026-09-07)
+
+One interior, the crew's hut, and it is medium-tier: a crew who sleep through
+the night landing MR04 stages and one who wakes, a graded stock kept off the
+stage where the licence does not count it, and a season's tally that does not
+match what has left by canoe.

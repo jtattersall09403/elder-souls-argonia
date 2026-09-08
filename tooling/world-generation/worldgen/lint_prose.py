@@ -34,9 +34,9 @@ Two severities:
 
 The linter reads prose FIELDS of live catalogue records, the quest rows, the
 text catalogue and the settlement blueprints (causal model, orientation
-reasons, notes), (the same set the
-text-review brief names) and, with `--md`, the prose cells and paragraphs of
-markdown files. It never edits anything.
+reasons, why blocks, notes and the typed player-purpose notes) — the same set
+the text-review brief names — and, with `--md`, the prose cells and paragraphs
+of markdown files. It never edits anything.
 """
 
 from __future__ import annotations
@@ -173,7 +173,17 @@ GENERALISER_RECORD_MAX = 2
 GLOBAL_DENSITY_MAX = {"generaliser": 4.0, "the-only": 0.8, "never": 2.5, "none-of": 0.3, "zinger-tail": 0.8}
 # Design-voice fields: not player-visible, so the provenance/session-voice rule does not apply.
 DESIGN_FIELDS = {"questHooks.opportunity"} | {f"{k}.why.playerPurpose" for k in ("districts", "parcels", "landmarks", "docks")}
+# The typed `playerPurpose[].note` is the same design-voice record as the
+# `why.playerPurpose` sentence beside it, one resolution down: it is what
+# Phase 12/13 read to build the thing behind the door, and nobody in the game
+# ever reads it. So it names the player, and the canon-marker rule (which
+# guards the in-world voice) does not apply — the rest of the register does.
+DESIGN_FIELD_PREFIXES = tuple(f"{k}.playerPurpose." for k in ("districts", "parcels", "landmarks", "docks"))
 DESIGN_EXEMPT_RULES = {"canon-marker"}
+
+
+def is_design_field(fld: str) -> bool:
+    return fld in DESIGN_FIELDS or fld.startswith(DESIGN_FIELD_PREFIXES)
 
 
 @dataclass
@@ -202,7 +212,7 @@ class LintResult:
         self.words += n
         self.by_scope_words[scope] += n
         for rule in RULES:
-            if fld in DESIGN_FIELDS and rule.id in DESIGN_EXEMPT_RULES:
+            if rule.id in DESIGN_EXEMPT_RULES and is_design_field(fld):
                 continue
             if rule.fields and fld not in rule.fields:
                 continue
@@ -415,13 +425,20 @@ def lint_blueprints(res: LintResult) -> None:
             for item in bp.get(key) or []:
                 if not isinstance(item, dict):
                     continue
-                for fld in ("notes", "orientationWhy", "why", "rejectedBecause", "ambience", "abutsWhy", "sequence", "wayfinding"):
+                for fld in ("notes", "orientationWhy", "why", "rejectedBecause", "ambience", "abutsWhy", "worksWithWhy", "sequence", "wayfinding"):
                     if isinstance(item.get(fld), str):
                         res.add_text(scope, item.get("id", bid), f"{key}.{fld}", item[fld])
                 if isinstance(item.get("why"), dict):        # the v2 why block
                     for k, v in item["why"].items():
                         if isinstance(v, str):
                             res.add_text(scope, item.get("id", bid), f"{key}.why.{k}", v)
+                # A typed player purpose carries a written note (the sentence
+                # naming the concrete thing behind the door). Same class as a
+                # why field: it is a world record a reviewer reads.
+                for e in item.get("playerPurpose") or []:
+                    if isinstance(e, dict) and isinstance(e.get("note"), str):
+                        res.add_text(scope, item.get("id", bid),
+                                     f"{key}.playerPurpose.{e.get('kind', '?')}.note", e["note"])
         for c in (bp.get("siting") or {}).get("candidates") or []:
             for fld in ("why", "rejectedBecause"):
                 if isinstance(c.get(fld), str):
@@ -440,24 +457,52 @@ def lint_text_catalogue(res: LintResult) -> None:
         res.add_text("text-catalogue", m.group(1), "text", m.group(2).replace('\\"', '"'))
 
 
+# A code span is a name, not prose: it is replaced by one neutral word so the
+# sentence still ends on whatever it ended on (audit §6.6).
+CODE_SPAN_WORD = "code"
 _MD_SKIP = re.compile(r"^\s*(?:#|\||>|```|-\s*\[|\d+\.\s)|^\s*$")
 
 
 def lint_markdown(res: LintResult, path: Path, table_cells: bool = True) -> None:
-    """Prose paragraphs and (optionally) table cells of a markdown file.
-    Headings, links-only lines and code fences are skipped; code spans and
-    links are stripped so ids and paths never trip the vocabulary rules."""
-    scope = str(path.relative_to(catalogue.REPO_ROOT)) if path.is_absolute() else str(path)
+    """Prose PARAGRAPHS and (optionally) table cells of a markdown file.
+
+    Paragraphs, not lines (Round A audit §6.6): markdown is hard-wrapped, so a
+    line-at-a-time lint read every wrap as a sentence end and reported "the road
+    runs from" as a sentence ending on a preposition — 14 of 24 hits on the
+    exemplar records were of that kind. Lines are joined until a blank line, a
+    heading, a table, a fence or the next list item, and the paragraph is linted
+    as one text.
+
+    Headings and links-only lines are skipped. A code span is replaced by a
+    neutral word rather than deleted, for the same reason: deleting it left
+    "run from `x`" as "run from".
+    """
+    try:
+        scope = str(path.relative_to(catalogue.REPO_ROOT)) if path.is_absolute() else str(path)
+    except ValueError:
+        scope = str(path)      # a file outside the repo (a scratch review copy)
+    para: list[str] = []
+    start = 0
+
+    def flush() -> None:
+        nonlocal para, start
+        text = " ".join(para).strip()
+        para = []
+        if len(text.split()) >= 4:
+            res.add_text(scope, f"{scope}:{start}", "para", text)
+
     in_code = False
     for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         if line.strip().startswith("```"):
+            flush()
             in_code = not in_code
             continue
         if in_code:
             continue
-        clean = re.sub(r"`[^`]*`", "", line)
+        clean = re.sub(r"`[^`]*`", CODE_SPAN_WORD, line)
         clean = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", clean)
         if line.lstrip().startswith("|"):
+            flush()
             if not table_cells or re.match(r"^\s*\|\s*-", line):
                 continue
             for i, cell in enumerate(clean.strip().strip("|").split("|")):
@@ -466,10 +511,18 @@ def lint_markdown(res: LintResult, path: Path, table_cells: bool = True) -> None
                     res.add_text(scope, f"{scope}:{n}", f"cell{i}", cell)
             continue
         if _MD_SKIP.match(line) and not line.lstrip().startswith("-"):
+            flush()
             continue
         text = clean.lstrip("-* ").strip()
-        if len(text.split()) >= 4:
-            res.add_text(scope, f"{scope}:{n}", "para", text)
+        if not text:
+            flush()
+            continue
+        if line.lstrip().startswith(("-", "*")) and para:
+            flush()          # a new bullet is a new paragraph
+        if not para:
+            start = n
+        para.append(text)
+    flush()
 
 
 def render_report(res: LintResult, title: str) -> str:

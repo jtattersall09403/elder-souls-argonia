@@ -106,3 +106,15 @@ def test_out_accepts_a_file_path_and_defaults_to_the_tree(tmp_path):
     assert out == tmp_path / "one.json" and out_dir == tmp_path
     assert cs.resolve_out(None, "place.stub.camp") == (
         cs.OUT_DIR / "place.stub.camp.settlement.json", cs.OUT_DIR)
+
+
+def test_dressing_prop_resolves_outside_the_district_kit_set(shelf):
+    """97 C1a: a prop may come from the dressing pool, so the works notice
+    board resolves in an Argonian quay. The resolver used to read the kit set
+    directly and refused it, while the C1 warning already admitted it
+    (review 2026-09-07, Lilmoth's dues board)."""
+    board = next((a for a in shelf.assets_by_kit.get("works-v1", [])
+                  if "board" in a["id"].lower()), None)
+    assert board is not None, "the works kit ships no board to test with"
+    assert shelf.find("argonian-stilt", board["id"], "prop") is not None
+    assert shelf.find("argonian-stilt", board["id"], "building") is None
