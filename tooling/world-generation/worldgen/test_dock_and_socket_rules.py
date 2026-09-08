@@ -6,6 +6,8 @@ meet."""
 
 from __future__ import annotations
 
+from types import SimpleNamespace
+
 import numpy as np
 
 from . import blueprint as bp_mod
@@ -103,3 +105,45 @@ def test_marsh_water_is_credited_the_canoe_minimum_and_no_more():
     assert bp_mod._water_depth_at(marsh, 1.0, 1.0) == bp_mod.HULL_CLASS_DEPTH_M["canoe"]
     dry = _Survey(0.0, False)
     assert bp_mod._water_depth_at(dry, 1.0, 1.0) == 0.0
+
+
+def _channel_blueprint(route_id: str = "waterway.test") -> dict:
+    return {
+        "id": "place.test",
+        "docks": [{"id": "dock.test", "position": [0.5, 0.5],
+                   "waterBodyId": "water.test", "piledToBed": True,
+                   "hullClass": "keeled", "fit": "to-water"}],
+        "networkTerminals": [{"id": "terminal.test", "kind": "channel",
+                              "routeId": route_id, "dockId": "dock.test",
+                              "entryUV": [0.5, 0.5], "wayId": "boardwalk.test"}],
+    }
+
+
+def test_only_the_declared_serving_route_can_certify_dock_reach(monkeypatch):
+    routes = {
+        "waterway.test": SimpleNamespace(points_m=[(90.0, 90.0), (95.0, 95.0)]),
+        "waterway.unrelated": SimpleNamespace(points_m=[(50.0, 50.0), (55.0, 50.0)]),
+    }
+    monkeypatch.setattr(bp_mod, "_water_routes", lambda: routes)
+    errors: list[str] = []
+    bp_mod._validate_docks(_channel_blueprint(), errors.append, [],
+                           survey=_Survey(4.0, True))
+    assert any("declared serving route" in error and "unrelated" in error for error in errors)
+
+
+class _BarSurvey(_Survey):
+    def sample(self, x, z):
+        depth = 2.0 if 70.0 <= x <= 80.0 else 4.0
+        return {"hydrology": {"waterDepthM": depth}}
+
+
+def test_hull_depth_is_continuous_not_the_deepest_sample(monkeypatch):
+    # Only the two route vertices are deep; the densely sampled segment
+    # crosses a 2 m bar that a 3 m keeled hull cannot clear.
+    routes = {"waterway.test": SimpleNamespace(points_m=[(50.0, 50.0), (150.0, 50.0)])}
+    monkeypatch.setattr(bp_mod, "_water_routes", lambda: routes)
+    errors: list[str] = []
+    bp_mod._validate_docks(_channel_blueprint(), errors.append, [],
+                           survey=_BarSurvey(4.0, True))
+    assert any("needs 3.0 m continuously" in error and "falls to 2.00 m" in error
+               for error in errors)

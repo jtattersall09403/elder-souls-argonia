@@ -286,7 +286,7 @@ def _solve(*, fit_docks: bool) -> dict:
     w, px_m = s.grid_n, s.grid_px_m
     channels: list[dict] = []
     unconnected: list[dict] = []
-    on_network = 0
+    on_network: dict[str, dict] = {}
     for bi, batch in enumerate(demand(files), start=1):
         dist, prev = multi_source_field(cost, network, px_m)
         reachable = np.isfinite(dist) & nav
@@ -322,7 +322,10 @@ def _solve(*, fit_docks: bool) -> dict:
                 for c, r in path:
                     new_cells[r, c] = True
                 if length_m <= ARRIVAL_M and dock is None:
-                    on_network += 1
+                    on_network[rec["id"]] = {
+                        "id": rec["id"], "batch": bi,
+                        "why": f"already within {ARRIVAL_M:.0f} m of the published network",
+                    }
                     continue
                 kind = classify(s, path, length_m, rec)
                 channel = {
@@ -349,7 +352,10 @@ def _solve(*, fit_docks: bool) -> dict:
                 if len(path) < 2:
                     # the berth already stands on the network: nothing to draw,
                     # but it IS served (blueprint.py measures to the lane).
-                    on_network += 1
+                    on_network[rec["id"]] = {
+                        "id": rec["id"], "batch": bi,
+                        "why": "declared berth already stands on the published network",
+                    }
                     continue
                 channels.append(channel)
         network |= new_cells
@@ -362,11 +368,12 @@ def _solve(*, fit_docks: bool) -> dict:
         "costs": {"note": "worldgen.routes.boat_cost_surface; land impassable"},
         "arrivalM": ARRIVAL_M, "maxChannelM": MAX_CHANNEL_M, "snapM": SNAP_M,
         "crossingM": CROSSING_M,
-        "summary": {"channels": len(channels), "onNetworkAlready": on_network,
+        "summary": {"channels": len(channels), "onNetworkAlready": len(on_network),
                     "unconnected": len(unconnected),
                     "byKind": {k: sum(1 for t in channels if t["kind"] == k)
                                for k in ("channel", "river", "crossing")},
                     "totalKm": round(sum(t["lengthKm"] for t in channels), 2)},
+        "onNetwork": [on_network[key] for key in sorted(on_network)],
         "unconnected": unconnected, "channels": channels,
     }
     return doc

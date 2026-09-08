@@ -540,6 +540,7 @@ TERMINAL_KINDS = {"road", "track", "footpath", "boardwalk", "lane", "channel"}
 # sampled DOCK_DEPTH_SAMPLE_M off the dock along the route that serves it.
 HULL_CLASS_DEPTH_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
 DOCK_DEPTH_SAMPLE_M = 100.0
+DOCK_DEPTH_SAMPLE_STEP_M = 5.0
 DOCK_TERMINAL_TOLERANCE_M = 10.0    # dock -> published water end
 DOCK_FIT_SEARCH_M = 150.0           # how far a channel may be re-ended to a berth
 DOCK_FITS = {"to-water", "water-to-dock"}
@@ -1334,20 +1335,28 @@ def _water_routes() -> dict:
 
 
 def _approach_points(points, from_end: str, distance_m: float) -> list[tuple[float, float]]:
-    """The vertices of the first `distance_m` of a polyline from one end, plus
-    the point at exactly that distance — the water a hull crosses on its way in
-    to the berth."""
+    """Densely sample the first ``distance_m`` of a route from one end.
+
+    Route vertices are an authoring representation, not a depth sampling
+    guarantee: a long segment can cross a shallow bar between its endpoints.
+    The fixed maximum step makes continuous-clearance checks independent of
+    how finely a route happened to be digitised.
+    """
     pts = list(points) if from_end == "head" else list(reversed(points))
     out = [pts[0]] if pts else []
     walked = 0.0
     for a, b in zip(pts, pts[1:]):
         seg = math.dist(a, b)
+        remaining = min(seg, max(0.0, distance_m - walked))
+        steps = max(1, math.ceil(remaining / DOCK_DEPTH_SAMPLE_STEP_M))
+        for step in range(1, steps + 1):
+            along = min(remaining, step * remaining / steps)
+            t = along / seg if seg else 0.0
+            out.append((a[0] + (b[0] - a[0]) * t,
+                        a[1] + (b[1] - a[1]) * t))
         if walked + seg >= distance_m:
-            t = (distance_m - walked) / seg if seg else 0.0
-            out.append((a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t))
             break
         walked += seg
-        out.append(b)
     return out
 
 
@@ -1496,57 +1505,50 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
             if off > DOCK_TERMINAL_TOLERANCE_M:
                 fail(f"dock {did}: lane-terminals.json puts the berth {off:.1f} m from the dock "
                      f"position — the two files must name the same point")
-        if not geometry or not (isinstance(pos, list) and len(pos) == 2) or not routes or survey is None:
+        if not geometry or not (isinstance(pos, list) and len(pos) == 2) or survey is None:
             continue
 
         dx, dz = float(pos[0]) * extent, float(pos[1]) * extent
-        # the published water end nearest the berth, and the route it ends
-        best = None
-        for rid, r in routes.items():
-            for end, idx in (("head", 0), ("tail", -1)):
-                if not r.points_m:
-                    continue
-                d = math.dist((dx, dz), r.points_m[idx])
-                if best is None or d < best[0]:
-                    best = (d, rid, end)
-        end_m, end_route, end_which = best
-        # a berth may also lie ON a published lane (Lilmoth's roadstead): the
-        # water reaches it either way, and that is what the rule is about.
-        on_route = min((math.dist((dx, dz), p) for r in routes.values() for p in r.points_m),
-                       default=float("inf"))
-        reach_m = min(end_m, on_route)
-        if reach_m > DOCK_TERMINAL_TOLERANCE_M:
-            fail(f"dock {did}: the nearest published waterway reaches {reach_m:.0f} m away "
-                 f"(nearest end {end_m:.0f} m, on {end_route}) — a dock must sit on the water that "
-                 f"serves it (tolerance {DOCK_TERMINAL_TOLERANCE_M:.0f} m). Either move the berth to "
-                 f"the channel (fit 'to-water') or re-end the channel at the berth (fit "
-                 f"'water-to-dock', then re-run worldgen.compile_minor_waterways)")
-
         need = HULL_CLASS_DEPTH_M.get(hull)
-        serving = None
+        serving_rows: list[tuple[dict, object, float]] = []
         for t in water_served:
-            serving = routes.get(t.get("routeId")) or serving
-        if serving is None:
-            serving = routes.get(end_route)
-        # 97 B5 measures the water the hull actually uses: the DEEPEST line
-        # over the first DOCK_DEPTH_SAMPLE_M of the serving route. A marsh
-        # channel's published depth is a per-cell surface sample, so a poled
-        # hull needs a deep line through the reed plain, not a deep plain; the
-        # dock Nine-Trunks used to carry had 0.24 m anywhere within 100 m and
-        # fails this outright.
-        depth = None
-        if serving is not None and serving.points_m:
+            rid = t.get("routeId")
+            serving = routes.get(rid)
+            if serving is None or not serving.points_m:
+                fail(f"dock {did}: terminal {t.get('id')} names serving route {rid!r}, but that "
+                     f"route is absent from the published water network")
+                continue
+            end_m = min(math.dist((dx, dz), serving.points_m[0]),
+                        math.dist((dx, dz), serving.points_m[-1]))
+            on_route = min(math.dist((dx, dz), point) for point in serving.points_m)
+            # A lane may pass through a berth; a compiled minor channel is a
+            # true terminal and therefore must end there.
+            reach_m = min(end_m, on_route) if t.get("kind") == "lane" else end_m
+            if reach_m > DOCK_TERMINAL_TOLERANCE_M:
+                fail(f"dock {did}: declared serving route {rid!r} reaches {reach_m:.0f} m away "
+                     f"(nearest end {end_m:.0f} m) — an unrelated nearby waterway cannot certify "
+                     f"this berth (tolerance {DOCK_TERMINAL_TOLERANCE_M:.0f} m)")
+            serving_rows.append((t, serving, end_m))
+
+        depths: list[float] = []
+        for t, serving, _end_m in serving_rows:
             which = "head" if math.dist((dx, dz), serving.points_m[0]) <= \
                 math.dist((dx, dz), serving.points_m[-1]) else "tail"
             samples = [_water_depth_at(survey, x, z)
                        for x, z in _approach_points(serving.points_m, which, DOCK_DEPTH_SAMPLE_M)]
             samples = [v for v in samples if v is not None]
             if samples:
-                depth = max(samples)
-        if need is not None and depth is not None and depth + 1e-6 < need:
-            fail(f"dock {did}: hullClass {hull!r} needs {need:.1f} m of water, but the serving "
-                 f"route carries {depth:.2f} m {DOCK_DEPTH_SAMPLE_M:.0f} m off the berth (97 B5/G9)")
-        fit = dk.get("fit") or _derive_dock_fit(dk, survey, end_m, need)
+                depth = min(samples)
+                depths.append(depth)
+                if need is not None and depth + 1e-6 < need:
+                    fail(f"dock {did}: hullClass {hull!r} needs {need:.1f} m continuously, but "
+                         f"serving route {t.get('routeId')!r} falls to {depth:.2f} m within "
+                         f"{DOCK_DEPTH_SAMPLE_M:.0f} m of the berth (97 B5/G9)")
+        reach_m = min((min(math.dist((dx, dz), r.points_m[0]),
+                           math.dist((dx, dz), r.points_m[-1]))
+                       for _t, r, _end in serving_rows), default=float("inf"))
+        depth = min(depths) if depths else None
+        fit = dk.get("fit") or _derive_dock_fit(dk, survey, reach_m, need)
         if warnings is not None:
             warnings.append(f"{bid}: dock {did} fit {fit} — water reaches {reach_m:.1f} m from the "
                             f"berth, {depth if depth is None else round(depth, 2)} m deep "

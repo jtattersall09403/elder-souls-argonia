@@ -78,14 +78,24 @@ def test_boat_stations_are_channelled_or_explained():
     """Every boat/ferry/lighter/pilot station is on the water network, has a
     channel, or is named in `unconnected` — none is silently dropped."""
     doc = _doc()
-    served = {c["from"] for c in doc["channels"]} | {u["id"] for u in doc["unconnected"]}
+    channelled = {c["from"] for c in doc["channels"]}
+    unconnected = {u["id"] for u in doc["unconnected"]}
+    on_network = {u["id"] for u in doc["onNetwork"]}
+    assert len(on_network) == len(doc["onNetwork"])
+    assert doc["summary"]["onNetworkAlready"] == len(on_network)
+    assert not (channelled & unconnected or channelled & on_network or unconnected & on_network)
+    served = channelled | unconnected | on_network
     stations = [r["id"] for r in _plotted().values()
                 if set((r.get("travelStation") or {}).get("modes") or []) & mw.BOAT_MODES]
     assert stations, "no boat stations in the catalogue?"
-    unexplained = [s for s in stations if s not in served]
-    # the rest sit on a lane already; the digest counts them
-    assert len(unexplained) + len([s for s in stations if s in served]) == len(stations)
+    assert not (set(stations) - served), "boat stations silently absent from the coverage ledger"
     assert any(c["from"] in stations for c in doc["channels"]), "no station got a channel"
+
+    # The stronger invariant covers every water-bound plotted record, not just
+    # travel stations. An aggregate count cannot prove that a particular id
+    # did not disappear between demand and publication.
+    expected = {r["id"] for batch in mw.demand(catalogue.load_region_files()) for r in batch}
+    assert served == expected
 
 
 def test_recompile_is_deterministic():
