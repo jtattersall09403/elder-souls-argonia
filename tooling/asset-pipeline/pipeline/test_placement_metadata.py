@@ -10,6 +10,7 @@ from .placement_metadata import (
     coverage_findings,
     load_inventory,
     normalize_asset_id,
+    refresh_built_manifests,
     validate_asset_placement,
     validate_policy_inventory,
 )
@@ -43,6 +44,7 @@ def test_build_metadata_combines_measured_contact_with_authored_policy():
         "slopeBuryPerM": 0.08,
         "evidence": {
             "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+            "policyId": "pad",
             "fitPolicy": (
                 "authored placement-policies.json policy pad: Reviewed graded-pad "
                 "policy matching authored blueprint groundFit and the Phase 11 "
@@ -58,6 +60,18 @@ def test_build_metadata_refuses_to_invent_a_ground_contact_measurement():
         apply_placement_metadata(
             {"assets": [_asset(originOffsetM=None)]}, "settlement-mud-v1",
         )
+
+
+def test_policy_refresh_reuses_measured_manifest_without_rebuilding_geometry(tmp_path):
+    manifest = tmp_path / "settlement-mud-v1.kit.json"
+    document = {"kit": "settlement-mud-v1", "assets": [_asset()]}
+    manifest.write_text(json.dumps(document))
+
+    assert refresh_built_manifests(tmp_path) == [manifest]
+    refreshed = json.loads(manifest.read_text())
+    assert refreshed["assets"][0]["sizeM"] == document["assets"][0]["sizeM"]
+    assert refreshed["assets"][0]["placement"]["groundContactOffsetM"] == 0.539
+    assert validate_asset_placement(refreshed["assets"][0]) == []
 
 
 def test_vet_fails_absent_and_stale_placement_metadata(tmp_path):

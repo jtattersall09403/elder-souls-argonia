@@ -27,6 +27,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 CONFIG_DIR = Path(__file__).resolve().parent / "config"
 KIT_CONFIG_DIR = CONFIG_DIR / "kits"
 PLACEMENT_CONFIG = CONFIG_DIR / "placement-policies.json"
+BUILT_KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 ANCHOR_MODES = {"streamed-origin", "streamed-perimeter"}
 PLACEMENT_FIELDS = {
     "schemaVersion", "anchorMode", "groundContactOffsetM", "buryM",
@@ -165,6 +166,7 @@ def apply_placement_metadata(
             "slopeBuryPerM": policy["slopeBuryPerM"],
             "evidence": {
                 "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+                "policyId": policy_id,
                 "fitPolicy": (
                     f"authored placement-policies.json policy {policy_id}: "
                     f"{policy['evidence']}"
@@ -172,6 +174,32 @@ def apply_placement_metadata(
             },
         }
     return manifest
+
+
+def refresh_built_manifests(
+    output_dir: Path = BUILT_KITS_DIR,
+    inventory: dict[str, Any] | None = None,
+) -> list[Path]:
+    """Refresh policy-only metadata without rebuilding unchanged geometry.
+
+    The ground contact measurement already lives in each built manifest as
+    ``originOffsetM``.  Re-running Blender merely to copy a reviewed placement
+    policy beside that measurement is expensive and cannot improve the data.
+    Validate every candidate in memory first, then replace the manifests only
+    when the whole batch is sound.
+    """
+    inventory = inventory or load_inventory()
+    pending: list[tuple[Path, dict[str, Any]]] = []
+    for path in sorted(output_dir.glob("*.kit.json")):
+        document = _read_json(path)
+        kit_id = document.get("kit")
+        if not isinstance(kit_id, str) or not kit_id:
+            raise ValueError(f"{path}: built manifest has no kit identity")
+        apply_placement_metadata(document, kit_id, inventory)
+        pending.append((path, document))
+    for path, document in pending:
+        path.write_text(json.dumps(document, indent=1) + "\n", encoding="utf-8")
+    return [path for path, _document in pending]
 
 
 def validate_asset_placement(asset: dict[str, Any]) -> list[str]:
@@ -206,6 +234,7 @@ def validate_asset_placement(asset: dict[str, Any]) -> list[str]:
     evidence = placement.get("evidence")
     if (not isinstance(evidence, dict)
             or not isinstance(evidence.get("groundContactOffsetM"), str)
+            or not isinstance(evidence.get("policyId"), str)
             or not isinstance(evidence.get("fitPolicy"), str)):
         findings.append(f"{asset_id}: placement evidence must name measurement and authored policy")
     return findings
@@ -340,8 +369,17 @@ def _print_rows(title: str, rows: dict[str, set[str]]) -> None:
 
 def main(argv: Iterable[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Check asset placement metadata coverage")
-    parser.parse_args(list(argv) if argv is not None else None)
+    parser.add_argument(
+        "--refresh-built-manifests",
+        action="store_true",
+        help="copy reviewed placement policy onto existing measured kit manifests",
+    )
+    args = parser.parse_args(list(argv) if argv is not None else None)
     inventory = load_inventory()
+    if args.refresh_built_manifests:
+        refreshed = refresh_built_manifests(inventory=inventory)
+        print(f"refreshed placement metadata in {len(refreshed)} built kit manifests")
+        return 0
     inventory_findings = validate_policy_inventory(inventory)
     report = collect_used_asset_coverage(inventory=inventory)
     print(f"used physical asset identities: {len(report.used)}")
