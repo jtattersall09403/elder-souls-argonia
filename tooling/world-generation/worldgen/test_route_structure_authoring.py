@@ -13,7 +13,10 @@ agent, through the `text-review` skill. Nothing in the pipeline may invent it.
 
 import json
 
+import numpy as np
+
 from .grade_routes import STRUCTURES_PATH
+from .author_route_structures import _kind, _window_rise
 
 
 def test_no_shipped_route_structure_is_unauthored():
@@ -36,3 +39,14 @@ def test_no_shipped_route_structure_is_unauthored():
     assert not bad, (f"{len(bad)} unauthored route structures on {ways} ways — "
                      "add the sentence to WHY (and the region to FAMILY_BY_REGION) "
                      "in worldgen/author_route_structures.py:\n  " + "\n  ".join(bad))
+
+
+def test_structure_kind_uses_exact_window_endpoints():
+    """A steep endpoint between samples must not be hidden by sample snapping."""
+    chain = np.array([0.0, 10.0, 20.0, 30.0])
+    heights = np.array([0.0, 0.0, 2.0, 6.0])
+
+    rise = _window_rise(chain, heights, 8.0, 28.0)
+
+    assert rise == 5.2
+    assert _kind(20.0, rise, worst_deg=10.0, way_kind="trail") == "stair"

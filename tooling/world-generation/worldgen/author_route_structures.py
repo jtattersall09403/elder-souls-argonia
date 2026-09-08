@@ -263,10 +263,8 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
     ds = np.maximum(np.hypot(*np.diff(pts, axis=0).T) * RAW_M, 1e-6)
     chain = np.concatenate([[0.0], np.cumsum(ds)])
     z = sample_bilinear(heights, pts[:, 0], pts[:, 1])
-    i0 = min(int(np.searchsorted(chain, st["fromM"])), len(z) - 1)
-    i1 = min(int(np.searchsorted(chain, st["toM"])), len(z) - 1)
     out = dict(st)
-    out["riseM"] = round(float(z[i1] - z[i0]), 2)
+    out["riseM"] = _window_rise(chain, z, st["fromM"], st["toM"])
     out["kind"] = _kind(st["toM"] - st["fromM"], out["riseM"], st["worstDeg"],
                         GRADIENT_CAP_KIND[st["wayId"]])
     fam = _family(st["wayId"])
@@ -276,6 +274,20 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
     out["why"] = _why(st["wayId"])          # the sentence is authored here, not stored
     out.pop("unauthored", None)
     return _mark(out)
+
+
+def _window_rise(chain: np.ndarray, z: np.ndarray,
+                 from_m: float, to_m: float) -> float:
+    """Measure a window at its exact authored endpoints.
+
+    The structure compiler interpolates the route profile at ``fromM`` and
+    ``toM``.  Authoring must make its kind decision from those same heights;
+    snapping forward to the next route sample can hide enough rise to approve
+    a lip-step that the compiler then correctly rejects.
+    """
+    start_z = float(np.interp(from_m, chain, z))
+    end_z = float(np.interp(to_m, chain, z))
+    return round(end_z - start_z, 2)
 
 
 def _family(way_id: str) -> str | None:
@@ -337,9 +349,7 @@ def merged_stretches(way: dict, stretches: list[dict], cap: float,
     chain = np.concatenate([[0.0], np.cumsum(ds)])
     z = sample_bilinear(heights, pts[:, 0], pts[:, 1])
     for w in out:
-        i0 = int(np.searchsorted(chain, w["fromM"]))
-        i1 = min(int(np.searchsorted(chain, w["toM"])), len(z) - 1)
-        w["riseM"] = round(float(z[i1] - z[i0]), 2)
+        w["riseM"] = _window_rise(chain, z, w["fromM"], w["toM"])
     return out
 
 
