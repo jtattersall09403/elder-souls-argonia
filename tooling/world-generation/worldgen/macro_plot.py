@@ -76,16 +76,10 @@ MARSH_REGIONS = {"interior swamp", "rootland deep marsh", "mangrove forest",
 WATER_REGIONS = {"ocean", "lake & standing water", "deep river corridor"}
 FREE_LANDFORMS = ("any-firm-ground", "any-shallow-marsh", "any-channel-bank")
 
-# Minimum separation between two plotted places, by magnitude (settlements)
-# or by density layer (everything else). Between a pair, the larger applies.
-# Sized to the zones as the culture raster actually draws them (0.8–9 km² of
-# land each): imperial-penal-south holds 21 places on 0.94 km², so a pitch much
-# above ~200 m is unachievable there and the strict pass would fail wholesale.
-SEPARATION_M = {"M5": 800.0, "M4": 450.0, "M3": 300.0, "M2": 220.0, "M1": 150.0,
-                "landmark": 200.0, "destination": 160.0, "fine-tempo": 110.0}
 SAME_TYPE_MIN_M = 300.0          # "never two of the same template in sight" — marsh sightlines are short
 SAME_TYPE_LANDMARK_MIN_M = 700.0
 RELATED_MIN_M = 60.0             # parent/child pairs may sit together
+COLLISION_MIN_M = 30.0           # distinct map dots may not occupy one footprint
 FREE_SPACING_M = 140.0           # free-ground lattice pitch
 ACCEPT_SCORE = 0.9               # below this a pair is not an honest fit
 RELAXED_SCORE = 0.35
@@ -148,6 +142,24 @@ SWAP_CANDIDATES = 24
 SWAP_MIN_GAIN = 0.25
 PLACE_ID = re.compile(r"place\.[a-z0-9-]+\.[a-z0-9-]+")
 
+# A Thomas process has separated latent parents and children clustered around
+# them. The mask geometry differs sharply by culture, so parent pitch and
+# clump width are authored per culture rather than smuggled in through one
+# province-wide spacing number. `childRadiusM` is the accepted owner ceiling.
+THOMAS_CULTURES = {
+    "dunmer-north": {"parentFloorM": 600.0, "sigmaM": 150.0},
+    "hist-heartland": {"parentFloorM": 650.0, "sigmaM": 170.0},
+    "imperial-fringe": {"parentFloorM": 550.0, "sigmaM": 130.0},
+    "imperial-penal-south": {"parentFloorM": 400.0, "sigmaM": 110.0},
+    "mercantile-coast": {"parentFloorM": 500.0, "sigmaM": 120.0},
+    "naga-kur-deeps": {"parentFloorM": 700.0, "sigmaM": 180.0},
+    "pirate-freeholds": {"parentFloorM": 400.0, "sigmaM": 110.0},
+    "saxhleel-coast": {"parentFloorM": 500.0, "sigmaM": 140.0},
+}
+THOMAS_CHILD_RADIUS_M = 300.0
+THOMAS_CHILDREN_PER_PARENT = 8
+THOMAS_WEIGHT = 1.2
+
 
 # --------------------------------------------------------------------------- #
 # data
@@ -200,11 +212,6 @@ class Demand:
     stance: str = "neutral"                                  # hostility.baseline (v2)
     owner: str | None = None                                 # hostility.owner (v2)
 
-    @property
-    def separation(self) -> float:
-        return SEPARATION_M.get(self.magnitude or "", SEPARATION_M[self.layer])
-
-
 HINT_PATTERNS = [
     ("submerged", re.compile(r"\b(fully )?submerged|underwater|below (the )?water|beneath the water|drowned\b", re.I)),
     ("on_route", re.compile(r"\bon (the|a) (road|route|lane)|astride|road junction|at a crossing|crossroad|junction of", re.I)),
@@ -235,6 +242,56 @@ KM_PATTERN = re.compile(r"within (\d+(?:\.\d+)?) ?km", re.I)
 
 def _hash01(*parts: str) -> float:
     return (zlib.crc32("|".join(parts).encode()) & 0xFFFFFFFF) / 0xFFFFFFFF
+
+
+def build_thomas_prior(demands: list[Demand], cands: list[Candidate], seed: int) -> dict[str, dict]:
+    """Choose deterministic latent parent sites in each culture mask.
+
+    Parents are candidate ground, ordered by a stable seeded hash and admitted
+    only when they clear that culture's parent floor. Roughly eight catalogue
+    records share a parent. They consume no candidate and are not places; they
+    are solely a density prior for the subsequent assignment.
+    """
+    counts: dict[str, int] = {}
+    for d in demands:
+        counts[d.zone] = counts.get(d.zone, 0) + 1
+    out: dict[str, dict] = {}
+    for zone, count in sorted(counts.items()):
+        cfg = THOMAS_CULTURES.get(zone)
+        if cfg is None:
+            raise ValueError(f"no Thomas-process culture parameters for {zone!r}")
+        target = max(1, math.ceil(count / THOMAS_CHILDREN_PER_PARENT))
+        eligible = sorted((c for c in cands if c.zone == zone),
+                          key=lambda c: (_hash01(str(seed), zone, c.id), c.id))
+        parents: list[tuple[float, float]] = []
+        floor = float(cfg["parentFloorM"])
+        for c in eligible:
+            if all(math.hypot(c.x - px, c.z - pz) >= floor for px, pz in parents):
+                parents.append((c.x, c.z))
+                if len(parents) == target:
+                    break
+        if not parents:
+            raise ValueError(f"culture {zone!r} has demand but no candidate ground for a Thomas parent")
+        out[zone] = {**cfg, "childRadiusM": THOMAS_CHILD_RADIUS_M,
+                     "targetParents": target, "parents": parents}
+    return out
+
+
+def thomas_prior_score(d: Demand, c: Candidate, prior: dict[str, dict], relaxed: bool) -> float | None:
+    """Density score for a child candidate, or None outside its strict clump.
+
+    The Gaussian is the Thomas-process kernel. Strict placement keeps children
+    within 300 m; homeless stages may escape the clump so an awkward landform
+    or hard semantic constraint can still be placed honestly.
+    """
+    cluster = prior[d.zone]
+    distance = min(math.hypot(c.x - px, c.z - pz) for px, pz in cluster["parents"])
+    radius = float(cluster["childRadiusM"])
+    if distance > radius and not relaxed:
+        return None
+    sigma = float(cluster["sigmaM"])
+    gaussian = math.exp(-0.5 * (distance / sigma) ** 2)
+    return THOMAS_WEIGHT * gaussian if distance <= radius else -min(THOMAS_WEIGHT, (distance - radius) / radius)
 
 
 # --------------------------------------------------------------------------- #
@@ -702,36 +759,26 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     return sum(parts.values()), parts
 
 
-def density_multiplier(c: Candidate) -> float:
-    """Spacing grows away from the cities and in perilous ground, so the
-    hinterlands are thick and the wilds are thin (plan: density follows the
-    civilisation gradient; plot review finding 3)."""
-    m = 1.0 + 0.8 * min(1.0, max(0.0, (c.anchor_m - 600.0) / 900.0))
-    if c.danger >= 4:
-        m += 0.4
-    return m
-
-
 def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Candidate]],
                   factor: float = 1.0) -> tuple[bool, str | None]:
-    mult = density_multiplier(c)
+    """Protect physical collisions and authored repetition rules, not evenness.
+
+    The former general 100–800 m hard floor necessarily produced regular
+    spacing. Density now comes from `thomas_prior_score`; this predicate keeps
+    only relationships that mean something in the authored world.
+    """
     for oid, (od, oc) in plotted_d.items():
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
         related = oid in d.parents or d.id in od.parents or oid in d.sightline_to or oid == d.bound_to
         if related:
             need = RELATED_MIN_M
-        elif d.cls == "settlement" and od.cls == "settlement":
-            need = max(d.separation, od.separation)      # settlements keep each other at arm's length
         else:
-            # a city's hinterland is FULL of small places: a shrine or camp
-            # takes only its own spacing against a settlement, never the city's
-            need = max(100.0, min(d.separation, od.separation))
+            need = COLLISION_MIN_M
             if od.type == d.type:
                 need = max(need, SAME_TYPE_LANDMARK_MIN_M if d.layer == "landmark" and od.layer == "landmark"
                            else SAME_TYPE_MIN_M)
                 if c.route_m <= 300.0 and oc.route_m <= 300.0:
                     need = max(need, ROUTE_REPEAT_MIN_M)   # the same beat twice along one road
-            need *= mult
         if dist < need * factor:
             return False, oid
     return True, None
@@ -969,13 +1016,16 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
 
 def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
            anchors: dict[str, tuple[float, float]],
-           preplaced: dict[str, dict] | None = None) -> tuple[dict[str, dict], list[dict]]:
+           preplaced: dict[str, dict] | None = None,
+           thomas_prior: dict[str, dict] | None = None) -> tuple[dict[str, dict], list[dict]]:
     """Tier by tier, best-pair-first. Returns {record id: assignment} and the
     homeless batch (with the reason each record could not be honestly placed)."""
     plotted_xy: dict[str, tuple[float, float]] = {}
     plotted_d: dict[str, tuple[Demand, Candidate]] = {}
     result: dict[str, dict] = {}
     by_id = {c.id: c for c in cands}
+    if thomas_prior is None:
+        thomas_prior = build_thomas_prior(demands, cands, DEFAULT_SEED)
 
     # 1. the owner-approved anchors, exactly where they are
     for d in demands:
@@ -1039,6 +1089,11 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                     if c.used_by:
                         continue
                     sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region, meta)
+                    cluster_score = thomas_prior_score(d, c, thomas_prior, relaxed)
+                    if cluster_score is None:
+                        continue
+                    parts["culture-clump"] = cluster_score
+                    sc += cluster_score
                     if sc >= min_score:
                         pairs.append((sc, d.id, c.id, parts))
             if not pairs:
@@ -1599,12 +1654,14 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
     attach_zone_distances(s, cands)
     attach_water_depth(s, cands)
     attach_anchor_ids(s, cands)
+    thomas_prior = build_thomas_prior(demands, cands, seed)
     seeded: dict[str, dict] = {}
     resite: list[dict] = []
     pinned: list[dict] = []
     if not resolve_all:
         seeded, resite, pinned = seed_from_committed(s, demands, files)
-    result, unresolved = assign(demands, cands, s, s.anchor_points_m, preplaced=seeded)
+    result, unresolved = assign(demands, cands, s, s.anchor_points_m,
+                                preplaced=seeded, thomas_prior=thomas_prior)
     swap_pass(demands, result, plotted_meta_of(result), s)
     pin_overrides(result, cands, s)
     return demands, files, scour, free, result, unresolved, resite, pinned
@@ -1624,9 +1681,25 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
         "reSited": sorted(resite, key=lambda h: h["id"]),
         "pinnedInvalid": sorted(pinned, key=lambda h: h["id"]),
     }
+    prior = build_thomas_prior(demands, scour + free, seed)
+    rep["clusteringPrior"] = {
+        "model": "culture-specific Thomas process",
+        "childrenPerParent": THOMAS_CHILDREN_PER_PARENT,
+        "childRadiusM": THOMAS_CHILD_RADIUS_M,
+        "weight": THOMAS_WEIGHT,
+        "byZone": {
+            zone: {
+                "parentFloorM": row["parentFloorM"], "sigmaM": row["sigmaM"],
+                "targetParents": row["targetParents"], "actualParents": len(row["parents"]),
+                "parentsM": [[round(x, 1), round(z, 1)] for x, z in row["parents"]],
+            }
+            for zone, row in prior.items()
+        },
+    }
     rep["clarkEvans"] = plot_stats.clark_evans(
         positions_by_zone({did: r["candidate"] for did, r in result.items()}, demands),
-        plot_stats.zone_land_area_m2(s))
+        plot_stats.zone_land_area_m2(s), plot_stats.zone_land_masks(s), s.grid_px_m,
+        seed=seed)
     if write:
         for rf in files.values():
             catalogue.dump_json(rf.path, {"schemaVersion": catalogue.PLACES_SCHEMA_VERSION, "region": rf.region,
@@ -1723,7 +1796,9 @@ def report_only() -> dict:
                  for rf in files.values() for rec in rf.places
                  if rec["id"] in live and isinstance(rec.get("positionM"), list)}
     stats = plot_stats.clark_evans(positions_by_zone(positions, demands),
-                                   plot_stats.zone_land_area_m2(s))
+                                   plot_stats.zone_land_area_m2(s),
+                                   plot_stats.zone_land_masks(s), s.grid_px_m,
+                                   seed=DEFAULT_SEED)
     rep = json.loads(REPORT_JSON.read_text(encoding="utf-8"))
     rep["clarkEvans"] = stats
     REPORT_JSON.write_text(json.dumps(rep, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
