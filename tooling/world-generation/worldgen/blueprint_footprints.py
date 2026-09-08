@@ -32,6 +32,13 @@ then rewrites the derived `footprint`, `facingDeg` and `thresholdUV`. It never
 touches `orientationWhy`: the reason is the designer's, so the tool only prints
 the parcels whose why now has to be re-read.
 
+`--areas` derives every district boundary from that district's parcel hulls
+and the ways ending at them, and every combat-space boundary from its typed
+`aroundIds`. Both are buffered by four metres and clipped to the place
+boundary. Area boundaries are therefore generated evidence, not boxes drawn
+by eye; the validator rejects drift just as it rejects a hand-edited parcel
+footprint.
+
 `--doors` checks the other half of the same contract: that every door sits on
 its piece's ONE canonical `entrance` (owner ruling 2026-09-07 — the index ranks
 the door evidence and exports a single answer, so there is no index to record
@@ -47,6 +54,9 @@ import math
 import sys
 from pathlib import Path
 
+from shapely.geometry import LineString, Point, Polygon
+from shapely.ops import unary_union
+
 from . import blueprint_interiors as bi
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -59,6 +69,8 @@ KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 PROVINCE_EXTENT_M = 7373.50656
 UV_ROUND = 9
 DERIVED_TOLERANCE_UV = 1e-6
+AREA_BUFFER_M = 4.0
+WAY_KEYS = ("routes", "canals", "boardwalks", "fences")
 
 
 class FootprintLibrary:
@@ -161,6 +173,134 @@ def apply_to_blueprint(bp: dict, lib: FootprintLibrary | None = None,
             continue
         parcel["footprint"] = derived
     return problems
+
+
+def _polygon(points):
+    if not isinstance(points, list) or len(points) < 3:
+        return None
+    try:
+        poly = Polygon([(float(p[0]), float(p[1])) for p in points])
+    except (TypeError, ValueError, IndexError):
+        return None
+    if poly.is_empty or not poly.is_valid:
+        return None
+    return poly
+
+
+def _way_line(way: dict):
+    points = way.get("points") or way.get("via") or []
+    if not isinstance(points, list) or len(points) < 2:
+        return None
+    try:
+        return LineString([(float(p[0]), float(p[1])) for p in points])
+    except (TypeError, ValueError, IndexError):
+        return None
+
+
+def _area_polygon(geometries, outer, extent_m: float):
+    geometries = [g for g in geometries if g is not None and not g.is_empty]
+    if not geometries:
+        return None
+    # Convex hull is intentional: a district/combat room is the usable area
+    # around its named pieces, not the union's holes and narrow corridors.
+    # Mitred corners keep the generated JSON compact and preserve the authored
+    # plan language: a rectangular hull remains four corners, not a 60-point
+    # approximation of four tiny round arcs.
+    area = unary_union(geometries).convex_hull.buffer(
+        AREA_BUFFER_M / extent_m, join_style="mitre")
+    if outer is not None:
+        area = area.intersection(outer)
+    if area.is_empty:
+        return None
+    if area.geom_type == "MultiPolygon":
+        area = max(area.geoms, key=lambda p: p.area)
+    if area.geom_type != "Polygon":
+        return None
+    return [[round(float(u), UV_ROUND), round(float(v), UV_ROUND)]
+            for u, v in list(area.exterior.coords)[:-1]]
+
+
+def derived_area_boundaries(bp: dict,
+                            extent_m: float = PROVINCE_EXTENT_M) -> tuple[dict[str, list], list[str]]:
+    """Return canonical boundaries keyed by district/combat id.
+
+    District membership is typed on parcels and, for parcel-less waterfronts,
+    on docks/ways. A way also belongs when its ``endsAt`` names a member.
+    Combat-space membership is deliberately explicit in ``aroundIds`` and may
+    name parcels or ways; prose and an old box are not used as geometry.
+    """
+    problems: list[str] = []
+    outer = _polygon(bp.get("boundary"))
+    parcels = {p.get("id"): p for p in bp.get("parcels", []) if p.get("id")}
+    parcel_geoms = {pid: _polygon(p.get("footprint")) for pid, p in parcels.items()}
+    ways = {}
+    for key in WAY_KEYS:
+        for way in bp.get(key, []) or []:
+            if way.get("id"):
+                ways[way["id"]] = way
+    way_geoms = {wid: _way_line(way) for wid, way in ways.items()}
+    docks = {d.get("id"): d for d in bp.get("docks", []) if d.get("id")}
+    dock_geoms = {}
+    for dock_id, dock in docks.items():
+        pos = dock.get("position")
+        dock_geoms[dock_id] = (Point(float(pos[0]), float(pos[1]))
+                               if isinstance(pos, list) and len(pos) == 2 else None)
+
+    out: dict[str, list] = {}
+    for district in bp.get("districts", []) or []:
+        did = district.get("id")
+        member_ids = {pid for pid, p in parcels.items() if p.get("districtId") == did}
+        member_docks = {dock_id for dock_id, dock in docks.items()
+                        if dock.get("districtId") == did}
+        geoms = [parcel_geoms[pid] for pid in member_ids]
+        geoms += [dock_geoms[dock_id] for dock_id in member_docks]
+        geoms += [way_geoms[wid] for wid, way in ways.items()
+                  if (way.get("districtId") == did
+                      or (member_ids | member_docks).intersection(way.get("endsAt") or []))]
+        boundary = _area_polygon(geoms, outer, extent_m)
+        if boundary is None:
+            problems.append(f"district {did}: cannot derive boundary — it has no parcel hulls")
+        else:
+            out[did] = boundary
+
+    known = {**parcel_geoms, **way_geoms}
+    for space in bp.get("combatSpaces", []) or []:
+        sid = space.get("id")
+        refs = space.get("aroundIds")
+        if not isinstance(refs, list) or not refs or not all(isinstance(r, str) for r in refs):
+            problems.append(f"combatSpace {sid}: aroundIds must name one or more parcels/ways")
+            continue
+        missing = [r for r in refs if r not in known]
+        if missing:
+            problems.append(f"combatSpace {sid}: aroundIds names unknown refs {missing}")
+            continue
+        boundary = _area_polygon([known[r] for r in refs], outer, extent_m)
+        if boundary is None:
+            problems.append(f"combatSpace {sid}: cannot derive boundary from aroundIds")
+        else:
+            out[sid] = boundary
+    return out, problems
+
+
+def apply_area_boundaries(bp: dict,
+                          extent_m: float = PROVINCE_EXTENT_M) -> list[str]:
+    """Rewrite district/combat boundaries from their typed source geometry."""
+    boundaries, problems = derived_area_boundaries(bp, extent_m)
+    for district in bp.get("districts", []) or []:
+        if district.get("id") in boundaries:
+            district["boundary"] = boundaries[district["id"]]
+    for space in bp.get("combatSpaces", []) or []:
+        if space.get("id") in boundaries:
+            space["boundary"] = boundaries[space["id"]]
+    return problems
+
+
+def area_polygons_match(a, b, tolerance: float = DERIVED_TOLERANCE_UV) -> bool:
+    """Geometric equality independent of ring start point or winding."""
+    pa, pb = _polygon(a), _polygon(b)
+    if pa is None or pb is None:
+        return False
+    return pa.symmetric_difference(pb).area <= tolerance * tolerance
 
 
 def parcel_centre_m(parcel: dict, extent_m: float = PROVINCE_EXTENT_M):
@@ -482,7 +622,7 @@ def orient_file(path: Path, parcel_ids: set[str] | None = None,
     # pulled onto the ring, so the write is gated on the blueprint changing.
     changed = json.dumps(data, sort_keys=True) != json.dumps(json.loads(text), sort_keys=True)
     if apply and changed:
-        path.write_text(json.dumps(data, indent=_indent_of(text)) + "\n")
+        path.write_text(json.dumps(data, indent=_indent_of(text), ensure_ascii=False) + "\n")
     return rows
 
 
@@ -497,14 +637,16 @@ def _indent_of(text: str) -> int:
 
 
 def apply_to_file(path: Path, lib: FootprintLibrary | None = None,
-                  doors: bool = False) -> list[str]:
+                  doors: bool = False, areas: bool = False) -> list[str]:
     text = path.read_text()
     data = json.loads(text)
     bp = data.get("blueprint", {})
     problems = apply_to_blueprint(bp, lib)
+    if areas:
+        problems += apply_area_boundaries(bp)
     if doors:
         problems += apply_doors_to_blueprint(bp)
-    path.write_text(json.dumps(data, indent=_indent_of(text)) + "\n")
+    path.write_text(json.dumps(data, indent=_indent_of(text), ensure_ascii=False) + "\n")
     return problems
 
 
@@ -515,6 +657,8 @@ def main() -> int:
     ap.add_argument("--doors", action="store_true",
                     help="also check every door against its piece's canonical entrance, "
                          "stripping any legacy doorwayRef (implies --apply)")
+    ap.add_argument("--areas", action="store_true",
+                    help="also derive district and combat-space boundaries (implies --apply)")
     ap.add_argument("--orient", action="store_true",
                     help="solve each doored parcel's yaw so the doorway faces the way it opens "
                          "onto; reports old vs new, and writes only with --apply")
@@ -526,6 +670,8 @@ def main() -> int:
     ap.add_argument("paths", nargs="+")
     args = ap.parse_args()
     if args.doors:
+        args.apply = True
+    if args.areas:
         args.apply = True
     if not args.orient and args.apply == args.check:
         ap.error("choose exactly one of --apply / --check / --doors")
@@ -567,7 +713,7 @@ def main() -> int:
         data = json.loads(path.read_text())
         bp = data.get("blueprint", {})
         if args.apply:
-            problems = apply_to_file(path, lib, doors=args.doors)
+            problems = apply_to_file(path, lib, doors=args.doors, areas=args.areas)
             for p in problems:
                 print(f"blueprint_footprints: {path.name}: {p}", file=sys.stderr)
             failures += len(problems)

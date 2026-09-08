@@ -60,6 +60,7 @@ def _bp(**over):
                            "population": "2-4", "households": 1, "buildingsPlanned": 1, "npcsPlanned": 2,
                            "why": "One family works this cut, so one hut is all the camp needs."},
         "combatSpaces": [{"id": "combat.reed-cut-camp.cut-head", "clearanceClass": "open",
+                          "aroundIds": ["parcel.reed-cut-camp.hut"],
                           "boundary": [[0.128, 0.128], [0.133, 0.128], [0.133, 0.133]],
                           "why": "The cutters fight bog-lurkers at the head of the cut, and it is the one open ground."}],
         "siting": {"dossier": "world/sources/sites/fixture-reed-cut-camp.md",
@@ -75,6 +76,9 @@ def _bp(**over):
                    "maxTextureMB": 32, "maxColliders": 120},
     }
     bp.update(over)
+    # District/combat polygons are generated records. Keep the generic fixture
+    # canonical after any per-test parcel/way override.
+    blueprint_footprints.apply_area_boundaries(bp)
     return bp
 
 
@@ -315,12 +319,15 @@ def test_fence_needs_its_kit_piece_and_combat_space_needs_a_why():
     fence = _way(id="fence.reed-cut-camp.reed-screen", kind="hedge", endsAt=[])
     errs = blueprint.validate_blueprint(_bp(fences=[fence]), KNOWN)
     assert any("assetRef (the kit's fence/wall piece) is required" in e for e in errs)
-    space = {"id": "combat.reed-cut-camp.cut", "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]],
+    space = {"id": "combat.reed-cut-camp.cut", "aroundIds": ["parcel.reed-cut-camp.hut"],
+             "boundary": [[0.1, 0.1], [0.2, 0.1], [0.2, 0.2]],
              "clearanceClass": "open"}
     errs = blueprint.validate_blueprint(_bp(combatSpaces=[space]), KNOWN)
     assert any("why is required" in e for e in errs)
     space["why"] = "A raid on the camp is the tier-1 hostility flip, and this is the only open ground."
-    assert blueprint.validate_blueprint(_bp(combatSpaces=[space]), KNOWN) == []
+    good = _bp(combatSpaces=[space])
+    blueprint_footprints.apply_area_boundaries(good)
+    assert blueprint.validate_blueprint(good, KNOWN) == []
 
 
 def test_parcel_spans_and_interior_are_typed():
@@ -518,6 +525,29 @@ def test_a_combat_space_is_required_with_its_clearance_and_why():
     assert any("boundary" in e and "combat" in e for e in errs)
 
 
+def test_area_boundaries_are_derived_compact_and_cannot_be_hand_edited():
+    bp = _bp()
+    district = bp["districts"][0]
+    assert len(district["boundary"]) <= 8  # mitred buffer, not ~64 arc vertices
+    district["boundary"][0][0] += 0.001
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    assert any("boundary is not the derived polygon" in e for e in errs)
+
+
+def test_combat_space_around_ids_are_typed_geometry_refs():
+    bp = _bp()
+    bp["combatSpaces"][0]["aroundIds"] = ["parcel.reed-cut-camp.missing"]
+    errs = blueprint.validate_blueprint(bp, KNOWN)
+    assert any("aroundIds names unknown refs" in e for e in errs)
+
+
+def test_area_derivation_clips_to_the_place_boundary():
+    bp = _bp()
+    blueprint_footprints.apply_area_boundaries(bp)
+    outer = blueprint_footprints._polygon(bp["boundary"])
+    assert outer.covers(blueprint_footprints._polygon(bp["districts"][0]["boundary"]))
+
+
 def _yaw_parcels(yaws):
     base = _bp()["parcels"][0]
     out = []
@@ -576,7 +606,8 @@ def test_density_band_and_use_mix_are_warnings_not_failures():
         parcel["centreUV"] = [u, 0.13]
         parcel["footprint"] = _derived(centre_uv=[u, 0.13], yaw=parcel["yawDeg"])
     errs2, warns2 = blueprint.validate_blueprint_full(
-        _bp(parcels=spread, doors=[],
+        _bp(boundary=[[0.1, 0.1], [0.4, 0.1], [0.4, 0.2], [0.1, 0.2]],
+            parcels=spread, doors=[],
             scaleGrounding={**_bp()["scaleGrounding"], "buildingsPlanned": 10}), KNOWN)
     assert any("97 C6" in w and "built hull" in w for w in warns2), warns2
     assert all("97 C6" not in e for e in errs2)

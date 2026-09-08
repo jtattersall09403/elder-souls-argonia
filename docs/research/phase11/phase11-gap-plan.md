@@ -79,7 +79,7 @@ changes, re-run.
   agent owns the rasters it reads. Coordinate: run once the water agent has
   committed and is not mid-solve.
 
-### B3 — Derived area boundaries (districts, combat spaces)
+### B3 — Derived area boundaries (districts, combat spaces) — DONE 2026-09-08
 
 - **Cause**: parcel footprints are derived from the kit meshes and
   validator-enforced; district polygons and combat-space boundaries are
@@ -95,6 +95,14 @@ changes, re-run.
   validator), five blueprints re-derived, `export_blueprints`, studio view
   unchanged.
 - **Alongside water?** Yes.
+
+Delivered: `blueprint_footprints --areas` now derives both area classes from
+typed parcel/way membership, buffers them 4 m, clips them to the place, and
+keeps the rings compact. `aroundIds[]` makes every combat room's source
+geometry explicit; parcel-less waterfront districts type their dock/way
+membership. The validator rejects drift and unknown references, while the
+integration pass independently rejects any parcel outside its district. All
+five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 
 ### B4 — Module 97 §G still-open mechanisms
 
@@ -180,6 +188,18 @@ surface list), docs/text/style-guide.md (one line: name a thing only if
 the record links it). Alongside water: yes.
 
 ### B8 — Smaller items (each one brief)
+
+- **Nine-Trunks dock fitted to the wrong side of the village (owner,
+  2026-09-08):** G9 validated the channel only *after* `water-to-dock` had
+  rerouted it to the already-authored berth. That makes a wrong berth
+  self-validating and erased the earlier authored dotted waterway whose head
+  is south of the ring. Preserve a dock-independent natural minor-waterway
+  solve; default the berth to that endpoint; require an explicit physical
+  reason before a channel may instead be moved to a fixed berth; and make the
+  dock-fit apply step move the dock, its terminal pier and the land-access path
+  together. Refit Nine-Trunks at the south channel head. Alongside water: code
+  and blueprint data yes; regenerate the final published waterway after the
+  water hand-off.
 
 - **Doors on the tidal flat vs the final water** (2026-09-08): the door reachability test reads water depth; the water agent's in-flight rasters put four Pusbottom thresholds (doors 22/23/25/30) in >0.5 m of water although the committed rasters do not. When the water pass commits, re-compile all five and, where the flat is really deeper now, raise the huts' piles/threshold or move them 2–4 m landward (the solver in the Lilmoth repair record). Belongs with B2/B5 (final water first).
 

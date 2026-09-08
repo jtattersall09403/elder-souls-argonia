@@ -61,6 +61,25 @@ def _bp(**over):
     return bp
 
 
+def test_district_containment_rejects_a_member_parcel_outside_its_district(survey):
+    bp = _bp(
+        districts=[{"id": "district.stub.core", "boundary": box(100, 100, 30)}],
+        parcels=[parcel("parcel.stub.hut", 180, 100,
+                        districtId="district.stub.core")],
+    )
+    errs = check_integration(bp, survey)
+    assert any("district-containment" in e and "parcel.stub.hut" in e for e in errs)
+
+
+def test_district_containment_accepts_a_member_parcel_inside(survey):
+    bp = _bp(
+        districts=[{"id": "district.stub.core", "boundary": box(100, 100, 30)}],
+        parcels=[parcel("parcel.stub.hut", 100, 100,
+                        districtId="district.stub.core")],
+    )
+    assert check_integration(bp, survey) == []
+
+
 # --- parcel-on-way --------------------------------------------------------- #
 
 def test_parcel_on_way_fails_when_a_road_runs_through_a_building(survey):

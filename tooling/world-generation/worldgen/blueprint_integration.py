@@ -192,6 +192,19 @@ def check_integration(bp: dict, survey) -> list[str]:
     parcels = {p["id"]: p for p in bp.get("parcels", []) if p.get("footprint")}
     polys = {pid: _poly(survey, p["footprint"]) for pid, p in parcels.items()}
     polys = {k: v for k, v in polys.items() if v is not None}
+    districts = {d.get("id"): _poly(survey, d.get("boundary") or [])
+                 for d in bp.get("districts", []) or []}
+    # B3/B8: clipping a derived district to the place boundary must not hide a
+    # parcel already planted outside its own district. This is a direct
+    # containment invariant, independent of how the boundary was generated.
+    for pid, poly in polys.items():
+        did = parcels[pid].get("districtId")
+        if not districts and did is None:
+            continue  # small integration fixtures predating district schema
+        district = districts.get(did)
+        if district is None or not district.buffer(0.05).covers(poly):
+            errors.append(f"integration: district-containment — parcel {pid} falls outside "
+                          f"its district {did}; move the parcel or correct its district membership")
     ways: list[tuple[str, dict, LineString]] = []
     for key in ("routes", "boardwalks", "canals"):
         for w in bp.get(key, []) or []:

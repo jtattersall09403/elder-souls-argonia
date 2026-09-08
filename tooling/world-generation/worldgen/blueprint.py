@@ -22,10 +22,15 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
   causalModel       {founding, siteAdvantages, occupantsMotive, pressures,
                     wouldChangeIf} — long form of the catalogue's `why`
   boundary          polygon [[u,v], ...] in province UV
-  districts[]       {id, kind, boundary, cultureKit (a KIT SET id — see
+  districts[]       {id, kind, boundary (DERIVED from the convex hull of the
+                    district's parcel footprints plus ways ending at them,
+                    buffered 4 m and clipped to the place boundary),
+                    cultureKit (a KIT SET id — see
                     KIT_SETS below; one set per district, never blended;
                     the set's culture carries the two-culture rule),
-                    wealth, notes}
+                    wealth, notes}. Parcel-less waterfronts type membership
+                    with `districtId` on their dock and serving way; this gives
+                    the derivation geometry instead of preserving an empty box.
   routes[]/canals[]/boardwalks[]/fences[]   WAYS. Authored as `via` (the
                     waypoints [[u,v],...] the designer chose, with a why) and
                     `routing` ("terrain" — the street router finds the least-
@@ -192,8 +197,13 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                                  published water end is within 150 m;
                                  to-water otherwise. The dock's `why` must say
                                  which was used and why.
-  combatSpaces[]    REQUIRED (>=1, each with boundary, clearanceClass and a
-                    why — 97 D9): open ground where
+  combatSpaces[]    REQUIRED (>=1, each with aroundIds, DERIVED boundary,
+                    clearanceClass and a why — 97 D9): open ground where
+                    `aroundIds` names the parcel and/or way geometry that makes
+                    the combat room. Its boundary is their convex hull,
+                    buffered 4 m and clipped to the place boundary; run
+                    `worldgen.blueprint_footprints --areas` after changing the
+                    referenced layout. Hand-drawn combat boxes are invalid.
                     a fight CAN happen (a quest, a hostility flip, a night
                     attack) and where critical-animation clearance is checked;
                     a safe city still has them, each with its why.
@@ -1734,6 +1744,8 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         check_why(f"landmark {lm.get('id')}", lm.get("why"), WHY_KEYS_FULL)
     for dk in bp.get("docks", []):
         check_why(f"dock {dk.get('id')}", dk.get("why"), WHY_KEYS_AREA)
+        if dk.get("districtId") is not None and dk.get("districtId") not in district_ids:
+            fail(f"dock {dk.get('id')}: unknown districtId {dk.get('districtId')}")
     # A fixture compiled --skip-catalogue (known_place_ids is None) has no
     # published water network to stitch to: schema checks only.
     _validate_docks(bp, fail, warnings, survey, geometry=known_place_ids is not None)
@@ -1752,9 +1764,25 @@ def validate_blueprint(bp: dict, known_place_ids: set[str] | None = None, survey
         if not isinstance(cs.get("clearanceClass"), str) or not cs.get("clearanceClass"):
             fail(f"combatSpace {cs.get('id')}: 97 D9 — clearanceClass is required (the room the animations need)")
 
+    # B3 (gap plan): districts and combat rooms are derived from the geometry
+    # they contain, like parcel footprints. This check deliberately runs after
+    # parcel and combat schema checks so a malformed source gets one useful
+    # derivation error rather than an exception.
+    area_boundaries, area_problems = fp.derived_area_boundaries(bp)
+    for problem in area_problems:
+        fail(f"B3 derived-area — {problem}")
+    for area in [*(bp.get("districts", []) or []), *combat_spaces]:
+        aid = area.get("id")
+        derived = area_boundaries.get(aid)
+        if derived is not None and not fp.area_polygons_match(area.get("boundary"), derived):
+            fail(f"{aid}: boundary is not the derived polygon — run "
+                 f"'python3 -m worldgen.blueprint_footprints --areas {bid}.json'")
+
     for key in WAY_KEYS:
         for w in bp.get(key, []):
             wid = w.get("id")
+            if w.get("districtId") is not None and w.get("districtId") not in district_ids:
+                fail(f"{key} {wid}: unknown districtId {w.get('districtId')}")
             if w.get("kind") not in WAY_KINDS[key]:
                 fail(f"{key} {wid}: kind must be one of {sorted(WAY_KINDS[key])}")
             if not isinstance(w.get("widthM"), (int, float)) or w["widthM"] <= 0:
