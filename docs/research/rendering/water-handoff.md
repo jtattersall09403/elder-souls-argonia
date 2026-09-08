@@ -5,7 +5,13 @@ Read after `CLAUDE.md` and [decision 0047](../../decisions/0047-water-one-physic
 file is the resume document: **everything a fresh agent needs to pick the
 round up after a cut-off.** Keep it short and current.
 
-## State at the last update (2026-09-08, mid-afternoon UTC)
+**Keep-current rule (owner 2026-09-08).** The lead commits and pushes after every
+agent report or landed step and refreshes the state table below in the same
+commit; delivery agents append to the "Resume log" sections in
+[water-quality.md](water-quality.md) after each fix. A fresh agent must be able to
+continue from the repo alone at any moment, with nothing to be explained.
+
+## State at the last update (2026-09-08, mid-afternoon UTC; refreshed with every push)
 
 Committed on `main` (all gates green at each commit unless stated):
 
