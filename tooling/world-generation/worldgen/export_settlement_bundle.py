@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import shutil
 import tempfile
@@ -44,13 +45,31 @@ KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
 OUT = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "settlements.json"
 PUBLIC_KITS = REPO_ROOT / "apps" / "world-studio" / "public" / "kits"
 
-# Ground-fit-specific measured bury. A stilt/root piece is pinned at the
-# terrain line; masonry gets the deeper seat that hides a planar base. The
-# slope term is applied by the runtime from streamed perimeter samples.
-BURY_BY_FIT = {"direct": 0.08, "plinth": 0.25, "pad": 0.18,
-               "stilt": 0.12, "dug-in": 0.35}
-BURY_CAP_BY_FIT = {"direct": 0.25, "plinth": 0.90, "pad": 0.50,
-                   "stilt": 0.25, "dug-in": 0.75}
+GROUND_FITS = {"direct", "plinth", "pad", "stilt", "dug-in"}
+POLICY_GROUND_FIT = {
+    "direct": "direct", "plinth": "plinth", "pad": "pad",
+    "stilt": "stilt", "dug-in": "dug-in",
+    "interior-zero": "direct", "water-zero": "direct",
+    "route-structure": "direct",
+}
+# A piece can be deliberately used in more than one authored ground treatment.
+# This is the explicit reviewed exception shelf; without a row, the manifest's
+# asset policy and the compiler's authored groundFit must agree exactly.
+COMPATIBLE_ASSET_GROUND_FITS = {
+    "ayleidkit:igsresources/dungeons/ayleidruins/exterior/arquadblock01":
+        {"direct", "dug-in"},
+    "htbm:here there be monsters - curse of cipactli/architecture/ruins/xanmeer/pillar02":
+        {"direct", "pad"},
+    "mudmother:gv_meshes/argoniannest/argonianplatform": {"direct", "pad"},
+    "mudmother:gv_meshes/argoniannest/fishracksmall": {"direct", "pad"},
+    "mudmother:gv_meshes/argoniannest/mudhut01": {"pad", "plinth", "dug-in"},
+    "mwkeep:tesak1243/mwimperialarchitecture/architecture/keep/exterior/walls/"
+    "mwimparchwall01destroyed01": {"direct", "pad"},
+    "vanilla:clutter/carts/handcart01": {"pad", "plinth"},
+    "vanilla:clutter/stockade/stockadescaffoldbase3sided01": {"stilt", "plinth"},
+    "vanilla:clutter/stockade/stockadescaffoldstairs01": {"direct", "stilt"},
+    "vanilla:clutter/stockade/stockadescaffoldtop3sided01": {"stilt", "plinth"},
+}
 
 
 def _read(path: Path) -> dict:
@@ -73,9 +92,80 @@ def _atomic_json(path: Path, data: dict) -> None:
             os.unlink(name)
 
 
-def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[str, dict]]:
+def _is_number(value: object) -> bool:
+    return (isinstance(value, (int, float)) and not isinstance(value, bool)
+            and math.isfinite(value))
+
+
+def _validated_asset_placement(kit: str, asset: dict) -> tuple[dict, str]:
+    """Validate one measured manifest record and return its runtime anchor data."""
+    asset_id = asset.get("id", "?")
+    record = asset.get("placement")
+    if not isinstance(record, dict):
+        raise ValueError(f"{kit}/{asset_id}: manifest has no placement metadata")
+    required = {"schemaVersion", "anchorMode", "groundContactOffsetM", "buryM",
+                "buryCapM", "slopeBuryPerM", "evidence"}
+    missing = required - set(record)
+    if missing:
+        raise ValueError(f"{kit}/{asset_id}: placement metadata missing {sorted(missing)}")
+    if record["schemaVersion"] != 1:
+        raise ValueError(f"{kit}/{asset_id}: unsupported placement metadata schema")
+    if record["anchorMode"] not in {"streamed-origin", "streamed-perimeter"}:
+        raise ValueError(f"{kit}/{asset_id}: invalid manifest anchorMode")
+    for key in ("groundContactOffsetM", "buryM", "buryCapM", "slopeBuryPerM"):
+        if not _is_number(record[key]):
+            raise ValueError(f"{kit}/{asset_id}: manifest placement {key} is not finite")
+    if any(record[key] < 0 for key in ("buryM", "buryCapM", "slopeBuryPerM")):
+        raise ValueError(f"{kit}/{asset_id}: manifest placement burial cannot be negative")
+    if record["buryM"] > record["buryCapM"]:
+        raise ValueError(f"{kit}/{asset_id}: manifest buryM exceeds buryCapM")
+    origin = asset.get("originOffsetM")
+    if (not isinstance(origin, list) or len(origin) != 3
+            or not all(_is_number(value) for value in origin)):
+        raise ValueError(f"{kit}/{asset_id}: manifest has no measured originOffsetM")
+    if not math.isclose(record["groundContactOffsetM"], origin[2], abs_tol=1e-6):
+        raise ValueError(
+            f"{kit}/{asset_id}: groundContactOffsetM disagrees with measured originOffsetM[2]"
+        )
+    evidence = record["evidence"]
+    if not isinstance(evidence, dict):
+        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed")
+    measured = evidence.get("groundContactOffsetM")
+    policy_id = evidence.get("policyId")
+    fit_policy = evidence.get("fitPolicy")
+    fit_prefix = f"authored placement-policies.json policy {policy_id}:"
+    if not isinstance(measured, str) or not measured.strip() \
+            or not isinstance(policy_id, str) or policy_id not in POLICY_GROUND_FIT \
+            or not isinstance(fit_policy, str) or not fit_policy.startswith(fit_prefix):
+        raise ValueError(f"{kit}/{asset_id}: manifest placement evidence is malformed")
+    return {
+        "schemaVersion": record["schemaVersion"],
+        "mode": record["anchorMode"],
+        "originOffsetM": [origin[0], origin[1], record["groundContactOffsetM"]],
+        "groundContactOffsetM": record["groundContactOffsetM"],
+        "buryM": record["buryM"],
+        "buryCapM": record["buryCapM"],
+        "slopeBuryPerM": record["slopeBuryPerM"],
+        "evidence": evidence,
+    }, policy_id
+
+
+def _validate_ground_fit(asset_id: str, ground_fit: str, policy_id: str) -> None:
+    if ground_fit not in GROUND_FITS:
+        raise ValueError(f"{asset_id}: unknown authored groundFit {ground_fit!r}")
+    compatible = COMPATIBLE_ASSET_GROUND_FITS.get(asset_id)
+    if compatible is not None and ground_fit in compatible:
+        return
+    if ground_fit != POLICY_GROUND_FIT[policy_id]:
+        raise ValueError(
+            f"{asset_id}: authored groundFit {ground_fit!r} contradicts "
+            f"reviewed manifest policy {policy_id!r}"
+        )
+
+
+def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[tuple[str, str], dict]]:
     kits: dict[str, dict] = {}
-    assets: dict[str, dict] = {}
+    assets: dict[tuple[str, str], dict] = {}
     for name in sorted(names):
         path = kits_dir / f"{name}.kit.json"
         if not path.exists():
@@ -87,8 +177,36 @@ def _kit_assets(names: set[str], kits_dir: Path) -> tuple[dict, dict[str, dict]]
             "manifest": f"kits/{name}.kit.json",
         }
         for asset in manifest.get("assets", []):
-            assets.setdefault(asset["id"], {"kit": name, **asset})
+            anchor, policy_id = _validated_asset_placement(name, asset)
+            key = (name, asset["id"])
+            if key in assets:
+                raise ValueError(f"{name}: duplicate manifest asset id {asset['id']!r}")
+            assets[key] = {"kit": name, **asset,
+                           "_runtimeAnchor": anchor, "_placementPolicyId": policy_id}
     return kits, assets
+
+
+def _bounds_footprint(
+    asset: dict, position: list, yaw_deg: float, scale: float,
+) -> list[list[float]]:
+    """World-space measured bbox footprint for perimeter policies without an authored hull."""
+    size = asset.get("sizeM")
+    origin = asset.get("originOffsetM")
+    if (not isinstance(size, list) or len(size) != 3
+            or not all(_is_number(value) and value > 0 for value in size)):
+        raise ValueError(f"{asset['kit']}/{asset['id']}: perimeter anchor needs measured sizeM")
+    x0, z0 = -origin[0] * scale, -origin[1] * scale
+    x1, z1 = (size[0] - origin[0]) * scale, (size[1] - origin[1]) * scale
+    angle = math.radians(yaw_deg)
+    c, s = math.cos(angle), math.sin(angle)
+    return [[round(position[0] + x * c - z * s, 3),
+             round(position[2] + x * s + z * c, 3)]
+            for x, z in ((x0, z0), (x1, z0), (x1, z1), (x0, z1))]
+
+
+def _anchor_contract(asset: dict, ground_fit: str) -> dict:
+    _validate_ground_fit(asset["id"], ground_fit, asset["_placementPolicyId"])
+    return {**asset["_runtimeAnchor"], "groundFit": ground_fit}
 
 
 def _route_file_name(way_id: str) -> str:
@@ -372,7 +490,7 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
         for raw in doc.get("placements", []):
             if not raw.get("kit"):  # dock-placeholder is debug data, not geometry
                 continue
-            asset = assets.get(raw["assetId"])
+            asset = assets.get((raw["kit"], raw["assetId"]))
             if asset is None:
                 raise ValueError(f"{raw['id']}: asset absent from {raw['kit']} manifest")
             fit = raw.get("groundFit", "direct")
@@ -381,25 +499,23 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "dressing" if "dressingFor" in raw else "parcel")
             is_dressing = object_kind == "dressing"
             footprint = [] if is_dressing else _metres(parcel.get("footprint", []), survey)
+            if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter" and not footprint:
+                footprint = _bounds_footprint(
+                    asset, raw["positionM"], raw.get("yawDeg", 0), raw.get("scale", 1),
+                )
             placement = {
                 "id": raw["id"], "sourceId": doc["id"],
                 "kind": "settlement" if object_kind == "parcel" else object_kind,
                 "assetId": raw["assetId"], "kit": raw["kit"],
                 "positionM": raw["positionM"], "yawDeg": raw.get("yawDeg", 0),
                 "scale": raw.get("scale", 1), "footprintM": footprint,
-                "anchor": {
-                    "mode": "streamed-perimeter" if footprint else "streamed-origin",
-                    "groundFit": fit,
-                    "originOffsetM": asset.get("originOffsetM", [0, 0, 0]),
-                    "buryM": BURY_BY_FIT[fit], "buryCapM": BURY_CAP_BY_FIT[fit],
-                    "slopeBuryPerM": 0.08,
-                },
+                "anchor": _anchor_contract(asset, fit),
                 "collision": _collision_contract(asset, disabled=is_dressing),
                 "provenance": raw["provenance"],
             }
             ids.append(placement["id"])
             all_placements.append(placement)
-            if footprint:
+            if footprint and not is_dressing:
                 treatments.append({
                     "id": f"treatment.{placement['id']}", "footprintM": footprint,
                     "contactAoWidthM": 1.5, "baseSkirtWidthM": 0.9,
@@ -433,17 +549,20 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     route_count = 0
     for doc in route_docs:
         for raw in doc.get("placements", []):
-            asset = assets.get(raw["assetId"])
+            asset = assets.get(("route-structures-v1", raw["assetId"]))
             if asset is None:
                 raise ValueError(f"{raw['id']}: route asset absent from manifest")
+            footprint = []
+            if asset["_runtimeAnchor"]["mode"] == "streamed-perimeter":
+                footprint = _bounds_footprint(
+                    asset, raw["posM"], raw.get("yawDeg", 0), 1,
+                )
             all_placements.append({
                 "id": raw["id"], "sourceId": doc["wayId"], "kind": "route-structure",
                 "assetId": raw["assetId"], "kit": "route-structures-v1",
                 "positionM": raw["posM"], "yawDeg": raw.get("yawDeg", 0), "scale": 1,
-                "footprintM": [],
-                "anchor": {"mode": "streamed-origin", "groundFit": "direct",
-                           "originOffsetM": asset.get("originOffsetM", [0, 0, 0]),
-                           "buryM": 0.06, "buryCapM": 0.15, "slopeBuryPerM": 0.0},
+                "footprintM": footprint,
+                "anchor": _anchor_contract(asset, "direct"),
                 "collision": _collision_contract(asset),
                 "provenance": raw["provenance"],
             })

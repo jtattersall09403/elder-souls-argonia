@@ -38,7 +38,7 @@
       "evidence": "Reviewed dug-in ruin policy matching authored blueprint groundFit and the Phase 11 settlement grounding contract."
     },
     "route-structure": {
-      "anchorMode": "streamed-perimeter",
+      "anchorMode": "streamed-origin",
       "buryM": 0.06,
       "buryCapM": 0.15,
       "slopeBuryPerM": 0.0,

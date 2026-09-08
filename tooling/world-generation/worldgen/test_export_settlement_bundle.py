@@ -21,6 +21,23 @@ def _route_source(root, structures):
     return path
 
 
+def _manifest_placement(policy, *, mode="streamed-origin", contact=1,
+                        bury=.31, cap=.72, slope=.04):
+    return {
+        "schemaVersion": 1,
+        "anchorMode": mode,
+        "groundContactOffsetM": contact,
+        "buryM": bury,
+        "buryCapM": cap,
+        "slopeBuryPerM": slope,
+        "evidence": {
+            "groundContactOffsetM": "measured transformed LOD0 bounds: originOffsetM[2]",
+            "policyId": policy,
+            "fitPolicy": f"authored placement-policies.json policy {policy}: test evidence",
+        },
+    }
+
+
 class _MetreSurvey:
     @staticmethod
     def uv_to_m(u, v):
@@ -84,20 +101,123 @@ def test_bundle_joins_compiler_geometry_and_routes(tmp_path, monkeypatch):
              "yawDeg": 90, "provenance": {"sourceStructureId": "structure.a.1"}}
     _write(tmp_path / "routes/a.json", {"wayId": "route.a", "structures": [structure],
                                          "placements": [route]})
-    for kit, asset in (("kit-a", "asset.house"), ("route-structures-v1", "asset.bridge")):
+    manifests = (
+        ("kit-a", "asset.house", _manifest_placement(
+            "plinth", mode="streamed-origin", bury=.41, cap=.67, slope=.03)),
+        ("route-structures-v1", "asset.bridge", _manifest_placement(
+            "route-structure", mode="streamed-perimeter", bury=.09, cap=.21, slope=.02)),
+    )
+    for kit, asset, placement_policy in manifests:
         _write(tmp_path / f"kits/{kit}.kit.json", {"kit": kit, "assets": [{
             "id": asset, "sizeM": [4, 6, 8], "originOffsetM": [2, 3, 1],
-            "triangles": 500, "collision": "mesh"}]})
+            "triangles": 500, "collision": "mesh", "placement": placement_policy}]})
     bundle = ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
                              tmp_path / "kits", _route_source(tmp_path, [structure]))
     assert bundle["stats"] == {"settlements": 1, "settlementPlacements": 1,
                                "routeStructurePlacements": 1}
     house = next(p for p in bundle["placements"] if p["kind"] == "settlement")
     assert house["footprintM"][0] == [10.0, 20.0]
-    assert house["anchor"]["mode"] == "streamed-perimeter"
+    assert house["anchor"]["mode"] == "streamed-origin"
+    assert house["anchor"]["groundContactOffsetM"] == 1
+    assert house["anchor"]["originOffsetM"] == [2, 3, 1]
+    assert (house["anchor"]["buryM"], house["anchor"]["buryCapM"],
+            house["anchor"]["slopeBuryPerM"]) == (.41, .67, .03)
+    assert house["anchor"]["evidence"]["fitPolicy"].startswith(
+        "authored placement-policies.json policy plinth:")
     assert house["collision"]["frame"] == ex.COLLISION_FRAME
+    route_placement = next(p for p in bundle["placements"] if p["kind"] == "route-structure")
+    assert route_placement["anchor"]["mode"] == "streamed-perimeter"
+    assert route_placement["anchor"]["buryM"] == .09
+    assert len(route_placement["footprintM"]) == 4
     assert len(bundle["groundTreatments"]) == len(bundle["navmeshCuts"]) == 1
     assert bundle["settlements"][0]["floodBandReport"] == {"warningCount": 0}
+
+
+@pytest.mark.parametrize("mutation, expected", [
+    (lambda asset: asset.pop("placement"), "no placement metadata"),
+    (lambda asset: asset["placement"].pop("buryCapM"), "metadata missing"),
+    (lambda asset: asset["placement"].update({"groundContactOffsetM": 2}),
+     "disagrees with measured"),
+    (lambda asset: asset["placement"].update({"buryM": 2}), "exceeds buryCapM"),
+    (lambda asset: asset["placement"].update({"anchorMode": "guessed"}),
+     "invalid manifest anchorMode"),
+    (lambda asset: asset["placement"].update({"evidence": {}}),
+     "placement evidence is malformed"),
+])
+def test_manifest_placement_contract_fails_closed(mutation, expected):
+    asset = {
+        "id": "asset.house", "originOffsetM": [2, 3, 1],
+        "placement": _manifest_placement("plinth"),
+    }
+    mutation(asset)
+    with pytest.raises(ValueError, match=expected):
+        ex._validated_asset_placement("kit-a", asset)
+
+
+def test_ground_fit_must_match_policy_or_an_explicit_asset_compatibility_rule():
+    asset = {
+        "id": "asset.house", "originOffsetM": [2, 3, 1],
+        "placement": _manifest_placement("plinth"),
+    }
+    anchor, policy_id = ex._validated_asset_placement("kit-a", asset)
+    runtime_asset = {**asset, "_runtimeAnchor": anchor,
+                     "_placementPolicyId": policy_id}
+    with pytest.raises(ValueError, match="contradicts reviewed manifest policy"):
+        ex._anchor_contract(runtime_asset, "pad")
+
+    compatible = {
+        **runtime_asset,
+        "id": "mudmother:gv_meshes/argoniannest/fishracksmall",
+        "placement": _manifest_placement("direct"),
+    }
+    anchor, policy_id = ex._validated_asset_placement("kit-a", compatible)
+    compatible.update(_runtimeAnchor=anchor, _placementPolicyId=policy_id)
+    assert ex._anchor_contract(compatible, "pad")["groundFit"] == "pad"
+
+
+def test_same_asset_id_in_two_kits_keeps_each_manifest_policy(tmp_path):
+    for kit, bury in (("kit-a", .11), ("kit-b", .22)):
+        _write(tmp_path / f"{kit}.kit.json", {"kit": kit, "assets": [{
+            "id": "asset.shared", "originOffsetM": [1, 1, .5],
+            "placement": _manifest_placement(
+                "direct", contact=.5, bury=bury, cap=.3, slope=0),
+        }]})
+
+    _kits, assets = ex._kit_assets({"kit-a", "kit-b"}, tmp_path)
+    assert assets[("kit-a", "asset.shared")]["_runtimeAnchor"]["buryM"] == .11
+    assert assets[("kit-b", "asset.shared")]["_runtimeAnchor"]["buryM"] == .22
+
+
+def test_every_current_multi_fit_use_has_an_explicit_compatibility_rule():
+    inventory = json.loads((
+        ex.REPO_ROOT / "tooling/asset-pipeline/pipeline/config/placement-policies.json"
+    ).read_text())
+    # Route compilation measures one ground point per chained piece; a full
+    # deck sample would contradict the route policy's intentionally small cap.
+    assert inventory["policies"]["route-structure"]["anchorMode"] == "streamed-origin"
+    uses = []
+
+    def walk(value, path=()):
+        if isinstance(value, dict):
+            ref = value.get("assetRef")
+            if isinstance(ref, str) and (not path or path[-1] != "interior"):
+                uses.append((ref, value.get("groundFit", "direct")))
+            for key, child in value.items():
+                walk(child, path + (key,))
+        elif isinstance(value, list):
+            for child in value:
+                walk(child, path)
+
+    for path in sorted((ex.REPO_ROOT / "world/sources/blueprints").glob("place.*.json")):
+        walk(json.loads(path.read_text()).get("blueprint", {}))
+    route_source = json.loads(ex.ROUTE_STRUCTURES_SOURCE.read_text())
+    uses.extend((row["pieceRef"], "direct") for row in route_source["structures"])
+
+    for asset_id, fit in uses:
+        key = asset_id.strip().replace("\\", "/").casefold()
+        policy = inventory["assetPolicies"].get(key)
+        if policy is not None:  # unresolved physical refs fail the separate coverage gate
+            ex._validate_ground_fit(key, fit, policy)
 
 
 def test_refuses_compiler_errors(tmp_path, monkeypatch):
