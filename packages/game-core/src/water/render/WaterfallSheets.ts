@@ -4,7 +4,8 @@ import type { WaterRuntime } from "./types";
 import { WATER_LAYER } from "./waterMaterial";
 import type { ChannelStrip } from "./ChannelStrips";
 import { WHITEWATER_GLSL, STREAK_LAYERS, streakSpeedGain } from "./whitewaterStreaks";
-import { PlungeBase } from "./PlungeBase";
+import { PlungeBase, plungeBaseRadiusM } from "./PlungeBase";
+import { WaterfallMist, type WaterfallMistDiagnostics } from "./WaterfallMist";
 
 /**
  * Waterfall sheets for the compiled cascade lips (decision 0047; research
@@ -38,8 +39,12 @@ import { PlungeBase } from "./PlungeBase";
  * `CREST_FOAM_M` past the lip), two mirrored side strips whose width and
  * texture pinch in toward the top (Taiji), and the plunge base kit
  * (`PlungeBase`: 12–19 flat quads on the pool, Bethesda's `CurrentPlane`
- * set). Shading is unlit aerated white x1.0 in free fall, x0.75 on a chute
- * reach, streaks scrolled down each piece's own arc in metres.
+ * set) and the mist kit (`WaterfallMist`: 4–8 mist cards, 10–40 ground-mist
+ * discs, a skirt at the foot). Shading is unlit aerated white x1.0 in free
+ * fall, x0.75 on a chute reach, streaks scrolled down each piece's own arc in
+ * metres; the base and mist use the same irradiance and tone mapping, so a
+ * fall, its pool foam and its mist expose as one thing. Seen from under the
+ * pool, the sheet fades out at the surface (never an opaque slab in the water).
  */
 
 export type Cascade = NonNullable<WaterMeta["cascades"]>[number];
@@ -56,8 +61,18 @@ export const CREST_BACK_M = 2.5;
 /** Foam is boosted to ~1 over this much arc past the lip: Bethesda's 5.1 m
  * crest strip sits at lip + 0.5 m (vault audit §5), so ~3 m past the lip. */
 export const CREST_FOAM_M = 3;
-/** One sheet never spans more than this much fall (UV scroll + overdraw). */
-export const MAX_SEGMENT_DROP_M = 60;
+/** The sheet dissolves into the pool over its last metres of ARC (not a
+ * fraction of the fall): the plunge join is measured 2 m up the sheet, and a
+ * 15 % dissolve on a 20 m fall left that point one third opaque against dark
+ * rock while the pool foam past the foot was solid white (42 % step). */
+export const SHEET_FOOT_DISSOLVE_M = 0.8;
+/** Aerated water is opaque: the alpha floor rises with the whiteness so a
+ * plunging body is never a 55 % veil over the cliff (fit band, 0047 addendum). */
+export const SHEET_AERATED_OPACITY = 0.9;
+/** The impact zone: over the last metres of arc the body goes fully white and
+ * opaque, the way the vanilla skirt's foam covers the bottom 3.5 m — the pool
+ * foam past the foot is solid white, and the join must not step. */
+export const SHEET_FOOT_FOAM_M = 3.5;
 /** Front/back layer separation — the thickness illusion. */
 export const SHEET_THICKNESS_M = 0.25;
 /**
@@ -145,8 +160,6 @@ export interface FallPathPoint {
 export interface FallPath {
   id: string;
   points: FallPathPoint[];
-  /** Contiguous slices, each spanning at most `MAX_SEGMENT_DROP_M` of fall. */
-  segments: FallPathPoint[][];
   /** True only when the water is in the air by ≥ `FREE_FLIGHT_MIN_AIR_M`
    * over a contiguous ≥ `FREE_FLIGHT_MIN_SPAN_M` of arc. A ramp is false and
    * is drawn as a chute strip, never as a fall body. */
@@ -315,25 +328,10 @@ export function traceWaterfallSheet(fall: Cascade, options: { stepM?: number } =
   }
 
   const dropM = fall.lip.y - points[points.length - 1].y;
-  const segments: FallPathPoint[][] = [];
-  let current: FallPathPoint[] = [points[0]];
-  let segTop = points[0].y;
-  for (let i = 1; i < points.length; i++) {
-    current.push(points[i]);
-    if (segTop - points[i].y >= MAX_SEGMENT_DROP_M && i < points.length - 1) {
-      segments.push(current);
-      current = [points[i]];
-      segTop = points[i].y;
-    }
-  }
-  if (current.length >= 2) segments.push(current);
-  else if (segments.length === 0) segments.push(points);
-
   const freeSpanM = freeFlightSpanM(points);
   return {
     id: fall.id,
     points,
-    segments,
     freeFlight: freeSpanM >= FREE_FLIGHT_MIN_SPAN_M,
     freeSpanM,
     dropM,
@@ -449,10 +447,11 @@ function piecePhaseS(id: string, k: number, lateral: number): number {
 export interface WaterfallSheetGeometry {
   geometry: THREE.BufferGeometry;
   fallCount: number;
-  segmentCount: number;
   /** Piece copies (vertical spans x lateral copies) over every fall. */
   pieceCount: number;
-  /** Mirrored side strips (two per segment). */
+  /** Per-fall piece and triangle counts (the budget the probe reports). */
+  perFall: Record<string, { pieces: number; triangles: number }>;
+  /** Mirrored side strips (two per fall). */
   sideStripCount: number;
   vertexCount: number;
   triangleCount: number;
@@ -483,7 +482,7 @@ export function buildWaterfallSheetGeometry(
   const pieceUv: number[] = [];  // the piece's own 0..1 rectangle
   const fade: number[] = [];     // cross-fade across piece overlaps
   const index: number[] = [];
-  let segmentCount = 0;
+  const perFall: WaterfallSheetGeometry["perFall"] = {};
   let pieceCount = 0;
   let sideStripCount = 0;
   let skippedQuads = 0;
@@ -492,6 +491,8 @@ export function buildWaterfallSheetGeometry(
     const totalDrop = Math.max(path.dropM, 0.01);
     const pts = path.points;
     if (pts.length < 2) continue;
+    const trisBefore = index.length / 3;
+    const piecesBefore = pieceCount;
     // arc length from the crest wrap start (metres) drives every UV
     const along: number[] = [0];
     for (let i = 1; i < pts.length; i++) {
@@ -549,7 +550,6 @@ export function buildWaterfallSheetGeometry(
     const family = sheetPieceFamily(path.dropM);
     const spans = sheetPieceSpans(lengthM, family.heightM);
     const lateral = sheetLateralOffsets(path.widthM, family.widthM);
-    segmentCount += spans.length;
     for (let k = 0; k < spans.length; k++) {
       const span = spans[k];
       let first = 0;
@@ -613,6 +613,7 @@ export function buildWaterfallSheetGeometry(
       }
       pushQuads(base, 0, pts.length - 1);
     }
+    perFall[path.id] = { pieces: pieceCount - piecesBefore, triangles: index.length / 3 - trisBefore };
   }
 
   const geometry = new THREE.BufferGeometry();
@@ -632,8 +633,8 @@ export function buildWaterfallSheetGeometry(
   return {
     geometry,
     fallCount: paths.length,
-    segmentCount,
     pieceCount,
+    perFall,
     sideStripCount,
     vertexCount: position.length / 3,
     triangleCount: index.length / 3,
@@ -686,6 +687,10 @@ export interface SheetSampleInput {
   /** |dot(face normal, view)|: 1 face-on, 0 edge-on. */
   facing?: number;
   opacity?: number;
+  /** Metres of path left below this point (the foot dissolve); omitted = far from the foot. */
+  remainM?: number;
+  /** Whiteness 0..1 (the shader's `white`); omitted = derived from the aeration. */
+  white?: number;
 }
 
 /** Aeration (0..1): how white the water is here. */
@@ -717,8 +722,12 @@ export function sheetAlpha(i: SheetSampleInput): number {
   const profile = sheetWidthProfile(i.u);
   const noise = clamp01(i.noise ?? 0.5);
   const l = Math.min(Math.max(Math.round(i.layer), 0), SHEET_LAYER_ALPHA.length - 1);
-  let alpha = (i.opacity ?? 1) * profile * (0.55 + 0.45 * noise) * SHEET_LAYER_ALPHA[l];
-  alpha *= 1 - smoothstep(0.85, 1, i.frac);
+  const remainM = i.remainM ?? SHEET_FOOT_FOAM_M;
+  const foot = 1 - smoothstep(SHEET_FOOT_DISSOLVE_M, SHEET_FOOT_FOAM_M, remainM);
+  const white = Math.max(clamp01(i.white ?? sheetAeration(i) * (0.45 + 0.75 * noise) * (0.7 + 0.3 * profile)), foot);
+  let alpha = (i.opacity ?? 1) * profile * Math.max(0.55 + 0.45 * noise, SHEET_AERATED_OPACITY * white, foot)
+    * SHEET_LAYER_ALPHA[l];
+  alpha *= smoothstep(0, SHEET_FOOT_DISSOLVE_M, remainM);
   // faces seen edge-on fade out (no hard silhouette cut)
   alpha *= smoothstep(SHEET_FACING_FADE.start, SHEET_FACING_FADE.full, i.facing ?? 1);
   // Soft particle, but only where there IS air behind the sheet. Water running
@@ -822,6 +831,8 @@ uniform float uCamNear;
 uniform float uCamFar;
 uniform vec2 uResolution;
 uniform float uOpacity;
+uniform float uUnderwater;
+uniform float uSurfaceY;
 #include <common>
 ${WHITEWATER_GLSL}
 ${SHEET_PROFILE_GLSL}
@@ -854,6 +865,10 @@ void main() {
   float crest = esSheetCrest(arc);
   float white = clamp(aeration * (0.45 + 0.75 * streak) * mix(0.7, 1.0, profile), 0.0, 1.0);
   white = max(white, crest * (0.75 + 0.25 * foam));
+  // the impact zone: solid white over the last metres of arc (arc / frac = the whole path)
+  float remainM = arc * (1.0 / max(vFrac, 1e-3) - 1.0);
+  float foot = 1.0 - smoothstep(${SHEET_FOOT_DISSOLVE_M.toFixed(2)}, ${SHEET_FOOT_FOAM_M.toFixed(2)}, remainM);
+  white = max(white, foot);
   // Unlit aerated shading (research §2.4): emissive white x1.0 in free fall,
   // x0.75 on a chute reach; no normal term, no refraction, no shore terms.
   // The sky + sun irradiance scales it so the HDR frame exposes it like foam.
@@ -868,16 +883,22 @@ void main() {
   vec3 color = albedo * (uAmbient + uSunLight * light);
 
   float noise = clamp(streak + churn * 0.6, 0.0, 1.0);
-  float alpha = uOpacity * profile * (0.55 + 0.45 * noise) * esSheetLayerAlpha(vLayer);
-  // dissolve into the plunge over the last 15 % of the fall, and cross-fade
+  // aerated water is opaque: the floor rises with the whiteness
+  float alpha = uOpacity * profile * max(max(0.55 + 0.45 * noise, ${SHEET_AERATED_OPACITY.toFixed(2)} * white), foot)
+    * esSheetLayerAlpha(vLayer);
+  // dissolve into the plunge over the last metres of arc, and cross-fade
   // across each piece overlap (a third of a piece) so the stack reads as one
-  alpha *= 1.0 - smoothstep(0.85, 1.0, vFrac);
+  alpha *= smoothstep(0.0, ${SHEET_FOOT_DISSOLVE_M.toFixed(2)}, remainM);
   alpha *= vEndFade;
   // view-angle falloff (measured 0.42/0.09): edge-on faces fade instead of
   // showing the silhouette as a hard cut
   vec3 faceN = normalize(cross(dFdx(vWorldPos), dFdy(vWorldPos)));
   float facing = abs(dot(faceN, normalize(cameraPosition - vWorldPos)));
   alpha *= smoothstep(${SHEET_FACING_FADE.start.toFixed(2)}, ${SHEET_FACING_FADE.full.toFixed(2)}, facing);
+  // Seen from under the pool (the \`below\` handling): the sheet fades out at
+  // the surface and nothing of it is drawn in the water — the plunging water
+  // under the surface is the bubble pass's job, never an opaque slab.
+  if (uUnderwater > 0.5) alpha *= smoothstep(uSurfaceY - 0.3, uSurfaceY + 1.0, vWorldPos.y);
   // Soft particle — but ONLY where there is air behind the sheet. Water running
   // on the bed sits GROUND_CLEARANCE_M above the terrain; fading it against
   // that terrain erased the middle of every chute and left its overhanging
@@ -909,19 +930,19 @@ export interface WaterfallSheetUniforms {
   uCamFar: { value: number };
   uResolution: { value: THREE.Vector2 };
   uOpacity: { value: number };
+  /** 1 when the camera is under the pool; `uSurfaceY` is the surface there (scaled y). */
+  uUnderwater: { value: number };
+  uSurfaceY: { value: number };
   /** Sourced sheet streak texture (FX kit); null = procedural fallback. */
   uStreakTex: { value: THREE.Texture | null };
-  /** Per-layer slots for the rest of the kit, bound when the export lands. */
-  uSkirtTex: { value: THREE.Texture | null };
-  uMistTex: { value: THREE.Texture | null };
-  uRingTex: { value: THREE.Texture | null };
 }
 
 /**
  * The FX texture kit (`apps/world-studio/public/kits/waterfall-fx-textures/`,
  * exported separately): each slot is optional and the procedural field
  * stands in for a missing one. `sheet` feeds the falling body, `ring` the
- * plunge base, `skirt`/`mist` the base skirt and mist cards to come.
+ * plunge base quads, `mist` the mist cards + ground-mist discs, `skirt` the
+ * skirt column at the foot, `foam` the field water's dissolve tile.
  */
 export interface WaterfallTextureSet {
   sheet?: THREE.Texture | null;
@@ -984,20 +1005,97 @@ export interface WaterfallDiagnostics {
   baseQuads: number;
   baseQuadsPerFall: { min: number; max: number };
   baseTriangles: number;
+  /** Mist kit totals (cards, discs, skirts, triangles). */
+  mist: Omit<WaterfallMistDiagnostics, "perFall">;
+  /** Per-fall budget: sheet + base + mist triangles, and the piece family. */
+  perFall: Record<string, FallBudget>;
+  /** World-space marks the numeric probe projects (unscaled metres). */
+  sites: Record<string, FallSiteMarks>;
+}
+
+export interface FallBudget {
+  dropM: number;
+  widthM: number;
+  familyM: number;
+  pieces: number;
+  sheetTriangles: number;
+  baseQuads: number;
+  baseTriangles: number;
+  mistCards: number;
+  groundMist: number;
+  mistTriangles: number;
+  totalTriangles: number;
+}
+
+export interface FallSiteMarks {
+  lip: [number, number, number];
+  /** On the sheet, 2 m of arc past the lip. */
+  lipPlus2M: [number, number, number];
+  foot: [number, number, number];
+  /** On the sheet, 2 m of arc before the foot. */
+  footMinus2M: [number, number, number];
+  plunge: [number, number, number];
+  direction: [number, number];
+  /** Sheet body samples at 15 / 35 / 50 / 65 / 85 % of the arc lip → foot. */
+  samples: [number, number, number][];
+  basinRadiusM: number;
+}
+
+/** A path point at a given arc length from the lip (linear between points). */
+function pointAtArc(points: readonly FallPathPoint[], lipIndex: number, arcM: number): [number, number, number] {
+  const sign = arcM >= 0 ? 1 : -1;
+  let remaining = Math.abs(arcM);
+  let i = lipIndex;
+  while (i + sign >= 0 && i + sign < points.length) {
+    const a = points[i];
+    const b = points[i + sign];
+    const len = Math.hypot(b.x - a.x, b.y - a.y, b.z - a.z);
+    if (len >= remaining) {
+      const t = len > 0 ? remaining / len : 0;
+      return [a.x + (b.x - a.x) * t, a.y + (b.y - a.y) * t, a.z + (b.z - a.z) * t];
+    }
+    remaining -= len;
+    i += sign;
+  }
+  const p = points[i];
+  return [p.x, p.y, p.z];
+}
+
+/** Probe marks for a traced fall (pure). */
+export function fallSiteMarks(path: FallPath): FallSiteMarks {
+  const pts = path.points;
+  const lipIndex = Math.max(pts.findIndex((p) => p.s >= 0), 0);
+  const last = pts.length - 1;
+  let arc = 0;
+  for (let i = lipIndex + 1; i <= last; i++) arc += Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y, pts[i].z - pts[i - 1].z);
+  const c = path.cascade;
+  const dl = Math.hypot(c.direction.x, c.direction.z) || 1;
+  return {
+    lip: [pts[lipIndex].x, pts[lipIndex].y, pts[lipIndex].z],
+    lipPlus2M: pointAtArc(pts, lipIndex, Math.min(2, arc)),
+    foot: [pts[last].x, pts[last].y, pts[last].z],
+    footMinus2M: pointAtArc(pts, last, -Math.min(2, arc)),
+    plunge: [c.plunge.x, c.plunge.y, c.plunge.z],
+    direction: [c.direction.x / dl, c.direction.z / dl],
+    samples: [0.15, 0.35, 0.5, 0.65, 0.85].map((f) => pointAtArc(pts, lipIndex, arc * f)),
+    basinRadiusM: plungeBaseRadiusM(path.widthM, path.dropM),
+  };
 }
 
 /**
- * Load-time sheet stack: one mesh + one base mesh (a child), two materials,
- * no per-frame path work. `update` only feeds time, light, season lift and
- * the pipeline's scene depth. Pass the compiled `channels` so the sheets
- * align to the strips' `lip`/`plunge` ends; read `chuteStrips` back into the
- * strip mesh.
+ * Load-time sheet stack: one sheet mesh + the base and mist meshes (children),
+ * three materials, no per-frame path work. `update` only feeds time, light,
+ * season lift, the foam field and the pipeline's scene depth. Pass the
+ * compiled `channels` so the sheets align to the strips' `lip`/`plunge` ends;
+ * read `chuteStrips` back into the strip mesh.
  */
 export class WaterfallSheets {
   readonly mesh: THREE.Mesh;
   readonly material: THREE.ShaderMaterial;
   readonly uniforms: WaterfallSheetUniforms;
   readonly base: PlungeBase;
+  readonly mist: WaterfallMist;
+  private underwater = false;
   readonly diagnostics: WaterfallDiagnostics;
   readonly paths: FallPath[];
   /** Ramps, as strip records — merge into `buildChannelStripGeometry`. */
@@ -1023,10 +1121,9 @@ export class WaterfallSheets {
       uCamFar: { value: 60000 },
       uResolution: { value: new THREE.Vector2(1, 1) },
       uOpacity: { value: 1 },
+      uUnderwater: { value: 0 },
+      uSurfaceY: { value: 0 },
       uStreakTex: { value: tex.sheet ?? null },
-      uSkirtTex: { value: tex.skirt ?? null },
-      uMistTex: { value: tex.mist ?? null },
-      uRingTex: { value: tex.ring ?? null },
     };
     this.material = new THREE.ShaderMaterial({
       uniforms: this.uniforms as unknown as Record<string, THREE.IUniform>,
@@ -1044,10 +1141,30 @@ export class WaterfallSheets {
     this.mesh.layers.set(WATER_LAYER);
     this.mesh.frustumCulled = false;
     this.mesh.renderOrder = 3;
-    this.base = new PlungeBase(built.paths.filter((p) => p.freeFlight), applyAerial,
-      { streakTexture: tex.ring ?? null });
+    const falls = built.paths.filter((p) => p.freeFlight);
+    this.base = new PlungeBase(falls, applyAerial, { streakTexture: tex.ring ?? null });
     this.mesh.add(this.base.mesh);
-    const perFall = Object.values(this.base.quadsPerFall);
+    const mistSites = falls.map((p) => ({ id: p.id, plunge: p.cascade.plunge, direction: p.cascade.direction,
+      widthM: p.widthM, dropM: p.dropM }));
+    this.mist = new WaterfallMist(mistSites, applyAerial, { mist: tex.mist ?? null, skirt: tex.skirt ?? null });
+    this.mesh.add(this.mist.mesh);
+    const perFallQuads = Object.values(this.base.quadsPerFall);
+    const perFall: Record<string, FallBudget> = {};
+    const sites: Record<string, FallSiteMarks> = {};
+    for (const p of falls) {
+      const sheet = built.perFall[p.id] ?? { pieces: 0, triangles: 0 };
+      const quads = this.base.quadsPerFall[p.id] ?? 0;
+      const mist = this.mist.diagnostics.perFall[p.id] ?? { cards: 0, discs: 0, skirts: 0, triangles: 0 };
+      perFall[p.id] = {
+        dropM: p.dropM, widthM: p.widthM, familyM: sheetPieceFamily(p.dropM).heightM,
+        pieces: sheet.pieces, sheetTriangles: sheet.triangles,
+        baseQuads: quads, baseTriangles: quads * 2,
+        mistCards: mist.cards, groundMist: mist.discs, mistTriangles: mist.triangles,
+        totalTriangles: sheet.triangles + quads * 2 + mist.triangles,
+      };
+      sites[p.id] = fallSiteMarks(p);
+    }
+    const { perFall: _mistPerFall, ...mistTotals } = this.mist.diagnostics;
     this.diagnostics = {
       count: built.fallCount,
       pieces: built.pieceCount,
@@ -1056,8 +1173,11 @@ export class WaterfallSheets {
       chuteStrips: built.chutes.length,
       sideStrips: built.sideStripCount,
       baseQuads: this.base.quadCount,
-      baseQuadsPerFall: { min: perFall.length ? Math.min(...perFall) : 0, max: perFall.length ? Math.max(...perFall) : 0 },
+      baseQuadsPerFall: { min: perFallQuads.length ? Math.min(...perFallQuads) : 0, max: perFallQuads.length ? Math.max(...perFallQuads) : 0 },
       baseTriangles: this.base.triangleCount,
+      mist: mistTotals,
+      perFall,
+      sites,
     };
   }
 
@@ -1073,33 +1193,54 @@ export class WaterfallSheets {
       this.material.customProgramCacheKey = () => `es-waterfall-sheet${texture ? "-tex" : ""}`;
       this.material.needsUpdate = true;
     }
-    if ("skirt" in textures) this.uniforms.uSkirtTex.value = textures.skirt ?? null;
-    if ("mist" in textures) this.uniforms.uMistTex.value = textures.mist ?? null;
-    if ("ring" in textures) {
-      this.uniforms.uRingTex.value = textures.ring ?? null;
-      this.base.setStreakTexture(textures.ring ?? null);
+    if ("skirt" in textures || "mist" in textures) {
+      const mist: { mist?: THREE.Texture | null; skirt?: THREE.Texture | null } = {};
+      if ("skirt" in textures) mist.skirt = textures.skirt ?? null;
+      if ("mist" in textures) mist.mist = textures.mist ?? null;
+      this.mist.setTextures(mist);
     }
+    if ("ring" in textures) this.base.setStreakTexture(textures.ring ?? null);
   }
 
-  update(runtime: WaterRuntime, timeS: number, verticalScale: number, seasonLiftM = 0): void {
+  /** Per frame: time, light, season lift and (for the ground mist) the foam field. */
+  update(runtime: WaterRuntime, timeS: number, verticalScale: number, seasonLiftM = 0,
+    foam?: { texture: THREE.Texture | null; info: THREE.Vector4 }): void {
     this.uniforms.uTime.value = timeS;
     this.uniforms.uVerticalScale.value = verticalScale;
     this.uniforms.uAmbient.value.copy(runtime.ambient.value);
     this.uniforms.uSunLight.value.copy(runtime.sunLight.value);
     this.uniforms.uSunDir.value.copy(runtime.sunDirection.value);
     this.base.update(runtime, timeS, verticalScale, seasonLiftM);
+    this.mist.update(runtime, timeS, verticalScale, seasonLiftM, foam);
+  }
+
+  /**
+   * Submerged camera (`surfaceY` = the pool surface at the camera, scaled y):
+   * the sheet and mist fade out at the surface, and the soft-depth fade is
+   * off — under water the water layer draws INTO the scene target, so reading
+   * its own depth there would be a feedback loop. Call before `setDepth`.
+   */
+  setUnderwater(underwater: boolean, surfaceY: number): void {
+    this.underwater = underwater;
+    this.uniforms.uUnderwater.value = underwater ? 1 : 0;
+    this.uniforms.uSurfaceY.value = surfaceY;
+    if (underwater) this.uniforms.uHasDepth.value = 0;
+    this.mist.setUnderwater(underwater, surfaceY);
   }
 
   setDepth(texture: THREE.Texture | null, near: number, far: number, width: number, height: number): void {
+    const depth = this.underwater ? null : texture;
     this.uniforms.uSceneDepth.value = texture;
-    this.uniforms.uHasDepth.value = texture && near > 0 && far > near ? 1 : 0;
+    this.uniforms.uHasDepth.value = depth && near > 0 && far > near ? 1 : 0;
     this.uniforms.uCamNear.value = near;
     this.uniforms.uCamFar.value = far;
     this.uniforms.uResolution.value.set(width, height);
-    this.base.setDepth(texture, near, far, width, height);
+    this.base.setDepth(depth, near, far, width, height);
+    this.mist.setDepth(texture, near, far, width, height);
   }
 
   dispose(): void {
+    this.mist.dispose();
     this.base.dispose();
     this.mesh.geometry.dispose();
     this.material.dispose();

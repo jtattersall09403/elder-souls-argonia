@@ -7,7 +7,7 @@ import { ALL_WATER_LAYERS, type WaterAssets, type WaterRuntime } from "./types";
 import { WaterEffects } from "./WaterEffects";
 import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
-import { buildChannelStripGeometry } from "./ChannelStrips";
+import { buildChannelStripGeometry, stripBoulderCandidates } from "./ChannelStrips";
 import { WaterfallSheets } from "./WaterfallSheets";
 import { plungeBaseRadiusM } from "./PlungeBase";
 import { FoamField } from "./FoamField";
@@ -141,7 +141,7 @@ export interface WaterSurfaceHandle {
   falls: WaterfallSheets | null;
   /** Persistent foam energy field; the pipeline steps it before the water pass. */
   foam: FoamField | null;
-  stripDiagnostics: { count: number; triangles: number };
+  stripDiagnostics: { count: number; triangles: number; boulderCandidates: number };
 }
 
 export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExtentM, ripple, contactBodies, onReady }: {
@@ -197,7 +197,11 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     mesh.layers.set(WATER_LAYER);
     mesh.frustumCulled = false;
     mesh.receiveShadow = true;
-    return { mesh, materials, triangles: built.triangleCount, count: built.stripCount };
+    // the boulder rule the scatter compiler will consume (1 rock / 160 m² of
+    // bed, seeded by strip id) — surfaced as a count so the job can be sized
+    let boulderCandidates = 0;
+    for (const strip of channels) boulderCandidates += stripBoulderCandidates(strip).length;
+    return { mesh, materials, triangles: built.triangleCount, count: built.stripCount, boulderCandidates };
   }, [assets, csm, uniforms, tier, runtime.applyAerial, falls]);
   useEffect(() => () => {
     if (!strips) return;
@@ -253,10 +257,11 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh, falls.base.mesh] : [])];
+      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh, falls.base.mesh, falls.mist.mesh] : [])];
       onReadyRef.current?.({
         uniforms, mesh, meshes, materials, effects, bubbles, falls, foam,
-        stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
+        stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0,
+          boulderCandidates: strips?.boulderCandidates ?? 0 },
         setUnderwater(underwater: boolean) {
           mesh.material = underwater ? materials.below : materials.above;
           if (strips) strips.mesh.material = underwater ? strips.materials.below : strips.materials.above;
@@ -440,9 +445,10 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         (strength / 3.0) * dt);
     }
     uniforms.uPlungeCount.value = plunges;
-    // the plunge base rides the pool, which the season floods: same lift the
-    // field applies at full season response
-    falls?.update(runtime, nowS, verticalScale, offsets.season);
+    // the plunge base and mist ride the pool, which the season floods: same
+    // lift the field applies at full season response; the ground mist reads
+    // the foam field under it
+    falls?.update(runtime, nowS, verticalScale, offsets.season, { texture: foam.texture, info: foam.info });
     effects.setIllumination(runtime.ambient.value, runtime.sunLight.value,
       runtime.sunDirection.value.y, gl.toneMappingExposure);
     effects.setView(undefined, verticalScale);

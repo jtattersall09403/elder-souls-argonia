@@ -198,6 +198,7 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
   // CSM sun/moon (no glints, no shadows; owner round 1, defect 1). Enable
   // the water layer on every light, re-checked as lights come and go.
   const lightPatchTimer = useRef(0);
+  const viewProj = useRef(new THREE.Matrix4());
 
   useFrame(({ gl: renderer, scene, camera }, delta) => {
     const h = handle();
@@ -232,6 +233,9 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.uniforms.uProjMatrix.value.copy(cam.projectionMatrix);
       h.setUnderwater(underwater);
       h.effects.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
+      // sheets + mist: fade at the surface when submerged, and no soft-depth
+      // read while the water layer draws into the scene target (feedback)
+      h.falls?.setUnderwater(underwater, camSample.surfaceHeight * verticalScale);
       h.falls?.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
     }
 
@@ -331,9 +335,13 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       effects: h?.effects.diagnostics,
       bubbles: h?.bubbles?.diagnostics,
       bubblePass: bubblePass.diagnostics,
-      strips: h ? { count: h.stripDiagnostics.count, triangles: h.stripDiagnostics.triangles } : undefined,
+      strips: h ? h.stripDiagnostics : undefined,
       falls: h?.falls?.diagnostics,
       layers: runtime.waterLayers?.() ?? ALL_WATER_LAYERS,
+      camera: {
+        viewProj: viewProj.current.multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse).toArray(),
+        width: size.x, height: size.y, verticalScale,
+      },
     });
   }, 1);
 

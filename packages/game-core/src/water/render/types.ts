@@ -6,7 +6,7 @@ import type { Vec3 } from "@elder-souls/contracts";
 import type { WaterEffectsDiagnostics } from "./WaterEffects";
 import type { UnderwaterBubbleDiagnostics } from "./UnderwaterBubbles";
 import type { UnderwaterBubblePassDiagnostics } from "./UnderwaterBubblePass";
-import type { WaterfallTextureSet } from "./WaterfallSheets";
+import type { WaterfallDiagnostics, WaterfallTextureSet } from "./WaterfallSheets";
 
 export interface WaterAssets {
   data: WaterData;
@@ -78,14 +78,17 @@ export interface WaterDebugState {
   effects?: WaterEffectsDiagnostics;
   bubbles?: UnderwaterBubbleDiagnostics;
   bubblePass?: UnderwaterBubblePassDiagnostics;
-  /** Compiled steep-stream strip meshes (decision 0046 item 4). */
-  strips?: { count: number; triangles: number };
-  /** Compiled waterfall sheets (`WaterfallDiagnostics`): every sheet is free
-   * flight — ramps are `chuteStrips` in the strip mesh; base quads per fall. */
-  falls?: { count: number; triangles: number; freeFlightCount: number; chuteStrips?: number;
-    sideStrips?: number; pieces?: number; baseQuads?: number; baseQuadsPerFall?: { min: number; max: number } };
+  /** Compiled steep-stream strip meshes (decision 0046 item 4); the boulder
+   * candidates are `stripBoulderCandidates` over every ribbon (a scatter job). */
+  strips?: { count: number; triangles: number; boulderCandidates?: number };
+  /** Compiled waterfall sheets: every sheet is free flight — ramps are
+   * `chuteStrips` in the strip mesh; base quads, mist kit and per-fall budget. */
+  falls?: WaterfallDiagnostics;
   /** Which water layers are currently drawing (dev toggle). */
   layers?: WaterLayerSet;
+  /** The frame's camera, so a probe can project world marks to pixels:
+   * projection × view (column-major, 16), drawing-buffer size, vertical scale. */
+  camera?: { viewProj: number[]; width: number; height: number; verticalScale: number };
 }
 
 /* ------------------------------------------------------------------ *

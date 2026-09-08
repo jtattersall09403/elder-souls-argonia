@@ -4,11 +4,11 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import {
   CREST_BACK_M, CREST_FOAM_M, FREE_FLIGHT_MIN_AIR_M, FREE_FLIGHT_MIN_SPAN_M, GRAVITY_MPS2, GROUND_CLEARANCE_M,
-  MAX_CHUTE_SPEED_MS, MAX_SEGMENT_DROP_M, MAX_TRACE_RUN_M, MAX_TRACE_STEPS, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
+  MAX_CHUTE_SPEED_MS, MAX_TRACE_RUN_M, MAX_TRACE_STEPS, MIN_LIP_SPEED_MS, MIN_QUAD_LENGTH_M, SHEET_DEPTH_FADE_M, SHEET_EMISSIVE,
   SHEET_FACING_FADE, SHEET_LAYERS, SHEET_PIECE_FAMILIES, SHEET_PIECE_OVERLAP, SIDE_STRIP_LAYER, WATERFALL_TEXTURE_ROLES,
   alignCascadeToStrips, buildWaterfallSheetGeometry, chuteStripFromPath, freeFlightSpanM, loadWaterfallTextures,
   sheetAeration, sheetAlpha, sheetCrestBoost, sheetEmissive, sheetLateralOffsets, sheetPieceFamily, sheetPieceSpans,
-  sheetWidthProfile, sideStripPinchedU, traceCascades, traceWaterfallSheet, type Cascade,
+  sheetWidthProfile, sideStripPinchedU, traceCascades, traceWaterfallSheet, fallSiteMarks, type Cascade,
 } from "./WaterfallSheets";
 import { Texture } from "three";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadeEmitterKit, cascadePathEmitters } from "./WaterCascadeSources";
@@ -136,15 +136,27 @@ describe("waterfall sheet paths", () => {
     expect(alignCascadeToStrips(fall, undefined)).toBe(fall);
   });
 
-  it("splits a 200 m drop into segments no taller than the limit", () => {
-    const path = traceWaterfallSheet(cascade({
-      lip: { x: 0, y: 200, z: 0 }, plunge: { x: 12, y: 0, z: 0 }, dropM: 200,
-      profile: cliffProfile(45, 200, -5), lipSpeedMS: 1.5,
-    }));
-    expect(path.segments.length).toBeGreaterThanOrEqual(4);
-    for (const seg of path.segments) {
-      expect(seg[0].y - seg[seg.length - 1].y).toBeLessThan(MAX_SEGMENT_DROP_M + 5);
-    }
+  it("marks the lip, 2 m past it, the foot, 2 m before it and body samples for the probe", () => {
+    const path = traceWaterfallSheet(cascade({ profile: cliffProfile(40, 20, 0) }));
+    const m = fallSiteMarks(path);
+    expect(m.lip).toEqual([0, 20, 0]);
+    const d = (a: number[], b: number[]) => Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+    // 2 m of arc past the lip, on the sheet (below the lip, downstream)
+    expect(d(m.lipPlus2M, m.lip)).toBeGreaterThan(1.7); // chord of a 2 m arc
+    expect(d(m.lipPlus2M, m.lip)).toBeLessThanOrEqual(2 + 1e-6);
+    expect(m.lipPlus2M[1]).toBeLessThan(20);
+    expect(m.lipPlus2M[0]).toBeGreaterThan(0);
+    const last = path.points[path.points.length - 1];
+    expect(m.foot).toEqual([last.x, last.y, last.z]);
+    expect(d(m.footMinus2M, m.foot)).toBeGreaterThan(1.7);
+    expect(d(m.footMinus2M, m.foot)).toBeLessThanOrEqual(2 + 1e-6);
+    expect(m.footMinus2M[1]).toBeGreaterThan(m.foot[1]);
+    expect(m.plunge).toEqual([8, 0, 0]);
+    expect(m.direction).toEqual([1, 0]);
+    // body samples descend monotonically from the lip toward the foot
+    expect(m.samples).toHaveLength(5);
+    for (let i = 1; i < m.samples.length; i++) expect(m.samples[i][1]).toBeLessThan(m.samples[i - 1][1]);
+    expect(m.basinRadiusM).toBeGreaterThan(0);
   });
 
   it("skips cascades below the minimum drop and builds three body layers plus two side strips", () => {
@@ -162,7 +174,7 @@ describe("waterfall sheet paths", () => {
     expect(layers.count).toBe(perBodyLayer * SHEET_LAYERS.length + 4 * built.paths[0].points.length);
     // a 20 m drop is one 29 m-family piece; a fall narrower than the piece is one lateral copy
     expect(built.pieceCount).toBe(1);
-    expect(built.segmentCount).toBe(1);
+    expect(built.perFall["fall-test"]).toEqual({ pieces: 1, triangles: built.triangleCount });
     // the core layer is narrower and brighter than the front sheet
     const tint = built.geometry.getAttribute("aTint");
     expect(extent(tint).max).toBeGreaterThan(1);
@@ -253,7 +265,6 @@ describe("piece-stacked body (owner steer: stack vanilla-sized sheets, not one r
       profile: cliffProfile(60, 80, 0) });
     const built = buildWaterfallSheetGeometry([fall]);
     const lateral = sheetLateralOffsets(15, sheetPieceFamily(80).widthM).offsets.length;
-    expect(built.segmentCount).toBe(2);
     expect(built.pieceCount).toBe(2 * lateral);
     const piece = built.geometry.getAttribute("aPiece");
     const pieceUv = built.geometry.getAttribute("aPieceUv");
