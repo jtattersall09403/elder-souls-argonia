@@ -59,14 +59,42 @@ stills. The current key sites are listed in [water-handoff.md](water-handoff.md)
 [waterfalls](waterfalls-realtime.md). GPU Gems explains
 [analytic-wave steepness](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-1-effective-water-simulation-physical-models)
 and [water caustics](https://developer.nvidia.com/gpugems/gpugems/part-i-natural-effects/chapter-2-rendering-water-caustics).
-Dan Greenheck's Water Pro V3 (persistent crest foam, spray emitters, wakes,
-rain) is a comparison target only; its code was never inspected.
+Dan Greenheck's Water Pro is a comparison target only, licence-incompatible and
+never inspected; its techniques and our gaps against them are in
+[water-pro-greenheck-study.md](water-pro-greenheck-study.md).
 
 ## Water compiler runbook
 
-Run `python3 -m worldgen.compile_water` from `tooling/world-generation`
-(~16 s, deterministic: a rerun on unchanged inputs reproduces the shipped
-PNGs byte for byte). Inputs are `DEFAULT_HEIGHTS` in `worldgen/compile_chunks.py`
-and `hydrology-pass1.npz` beside it in the vault; it never writes either.
-Outputs go to `apps/world-studio/public/province/water/`. Then run
-`python3 -m pytest worldgen/test_water.py worldgen/test_water_invariants.py -q`.
+The compile is decision [0047](../../decisions/0047-water-one-physical-model.md):
+one physical model on the real 4033² terrain, one channel definition shared
+with the carve. Run from `tooling/world-generation`:
+
+1. `./scripts/terrain-chain.sh --from refine_province` when the terrain or
+   `worldgen/channels.py` changed (refine carves the trenches and writes
+   `province-refined/channels-pass1.npz`; ~12 min to the end of the chain).
+   The chain's first stage (`sculpt_province`) is NOT reproducible against
+   the August sculpt the hydrology was solved on (see polish backlog); do not
+   re-sculpt without re-running `compile_hydrology` and everything after it.
+2. `python3 -m worldgen.compile_water` alone when only the compiler changed
+   (~45 s, deterministic; needs `scikit-image` for the priority flood).
+   It prints the `stats` census: `hoveringEdges` must be 0, `boundHitReaches`
+   and `dryCoarseRiverCells` should be 0, `lostStations` lists coarse routes
+   the water cannot follow, `forcedBasins` the hollows a river turned into a
+   lake, `compileSeconds` < 180.
+3. `python3 -m pytest -q worldgen/test_water.py worldgen/test_water_invariants.py`
+   (< 60 s). The invariants file is the gate; each test is one owner defect:
+   no wet cell with a lower dry neighbour; every standing body flat (< 2 cm)
+   and under its rim; texel i == refined sample 2i+1 (signed depth matches W −
+   ground on ≥ 99.9 %); strip points inside their trench; every cascade a
+   cliff (≥ 3 m at ≥ 45°) with a ≥ 1 m plunge pool; every coarse river cell
+   wet on its centreline; strip-owned texels wet, fall-owned texels under a
+   cascade; join points on the field surface; season table band around fresh
+   water and not around the sea; and the owner's sites as numbers
+   (4570/3870 dry; 1470/4130 a flat lake ≥ 20 m deep; 2660/900 wet ≥ 0.8 m;
+   380/1440 one flat body ≥ 500 m²; 1510/5300 no puddle under 40 m²;
+   2530/320 nothing over 5 m deep outside a basin; 1590/4250 no hovering edge).
+
+Outputs (`apps/world-studio/public/province/water/`, schema v2): see the
+module docstring of `worldgen/compile_water.py` for the encodings. The B
+channel of `water-surface.png` is SIGNED depth (`depthMinM` −6, `depthSpanM`
+30.6): wet ⇔ depth > 0, table cells in (−2, 0], buried ≤ −2.5.
