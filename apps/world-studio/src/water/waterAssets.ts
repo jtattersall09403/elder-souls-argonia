@@ -1,4 +1,5 @@
 import { loadWaterAssets } from "@elder-souls/game-core/water/render/loadWaterAssets";
+import { WATERFALL_TEXTURE_ROLES, type WaterfallTextureSlot } from "@elder-souls/game-core/water/render/WaterfallSheets";
 import { worldClock } from "../sky/timeState";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
 import { groundHeightM } from "../vegetation/terrainHeight";
@@ -45,17 +46,38 @@ export function waterGroundHeight(x: number, z: number): number | null {
   return groundHeightFn?.(x, z) ?? chunkGround?.(x, z) ?? null;
 }
 
+/** The vanilla waterfall FX kit: URLs by shader slot, read from the kit's
+ * manifest by role (decision 0047 addendum: textures + stack rules inside our
+ * shader, never mounted as meshes). Missing manifest = procedural fallback. */
+const WATERFALL_KIT = "kits/waterfall-fx-textures";
+async function waterfallTextureUrls(base: string): Promise<Partial<Record<WaterfallTextureSlot, string>>> {
+  try {
+    const res = await fetch(`${base}${WATERFALL_KIT}/manifest.json`);
+    if (!res.ok) return {};
+    const manifest = (await res.json()) as { textures?: { role: string; file: string }[] };
+    const urls: Partial<Record<WaterfallTextureSlot, string>> = {};
+    for (const [slot, role] of Object.entries(WATERFALL_TEXTURE_ROLES) as [WaterfallTextureSlot, string][]) {
+      const entry = manifest.textures?.find((t) => t.role === role);
+      if (entry) urls[slot] = `${base}${WATERFALL_KIT}/${entry.file}`;
+    }
+    return urls;
+  } catch {
+    return {};
+  }
+}
+
 const cache = new Map<string, Promise<WaterAssets>>();
 export function sharedWaterAssets(base: string): Promise<WaterAssets> {
   const cached = cache.get(base);
   if (cached) return cached;
   ensureChunkGround(base);
-  const pending = loadWaterAssets({
+  const pending = waterfallTextureUrls(base).then((waterfallTextureUrls) => loadWaterAssets({
     baseUrl: base,
     groundHeight: waterGroundHeight,
     seasonScalar: effectiveSeasonScalar,
     waveTimeS: waterTimeS,
-  }).then((assets) => {
+    waterfallTextureUrls,
+  })).then((assets) => {
     // the terrain wet band samples the same rasters
     primeWetnessUniforms(assets);
     return assets;

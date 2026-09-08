@@ -150,10 +150,22 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     () => buildWaterGeometry({ ...GRIDS[tier.name], halfExtent: farExtentM ?? GRIDS[tier.name].halfExtent }),
     [tier.name, farExtentM],
   );
-  // Steep reaches (decision 0046 item 4): explicit ribbons in the SAME shader,
-  // built once. The field discards under them via the compiled owner mask.
+  // Waterfall sheets first: they are traced against the compiled channels so
+  // a sheet starts exactly where a strip ends at its `lip`, and every ramp
+  // that never leaves the ground comes back as a chute strip record.
+  const falls = useMemo(() => {
+    const cascades = assets.meta.cascades ?? [];
+    return cascades.length
+      ? new WaterfallSheets(cascades, runtime.applyAerial,
+        { channels: assets.meta.channels ?? [], textures: assets.waterfallTextures })
+      : null;
+  }, [assets, runtime.applyAerial]);
+  useEffect(() => () => falls?.dispose(), [falls]);
+  // Steep reaches (decision 0046 item 4) plus the ramps above: explicit
+  // ribbons in the SAME shader (ES_STRIP whitewater), built once. The field
+  // discards under them via the compiled owner mask.
   const strips = useMemo(() => {
-    const channels = assets.meta.channels ?? [];
+    const channels = [...(assets.meta.channels ?? []), ...(falls?.chuteStrips ?? [])];
     if (!channels.length) return null;
     const built = buildChannelStripGeometry(channels);
     if (!built.triangleCount) return null;
@@ -167,18 +179,13 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     mesh.frustumCulled = false;
     mesh.receiveShadow = true;
     return { mesh, materials, triangles: built.triangleCount, count: built.stripCount };
-  }, [assets, csm, uniforms, tier, runtime.applyAerial]);
+  }, [assets, csm, uniforms, tier, runtime.applyAerial, falls]);
   useEffect(() => () => {
     if (!strips) return;
     strips.mesh.geometry.dispose();
     strips.materials.above.dispose();
     strips.materials.below.dispose();
   }, [strips]);
-  const falls = useMemo(() => {
-    const cascades = assets.meta.cascades ?? [];
-    return cascades.length ? new WaterfallSheets(cascades, runtime.applyAerial) : null;
-  }, [assets, runtime.applyAerial]);
-  useEffect(() => () => falls?.dispose(), [falls]);
   const meshRef = useRef<THREE.Mesh>(null);
   const effects = useMemo(() => new WaterEffects({
     maxParticles: tier.name === "high" ? 768 : 256,
@@ -212,7 +219,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     const mesh = meshRef.current;
     if (mesh) {
       mesh.layers.set(WATER_LAYER);
-      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh] : [])];
+      const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh, falls.base.mesh] : [])];
       onReadyRef.current?.({
         uniforms, mesh, meshes, materials, effects, bubbles, falls,
         stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
@@ -362,7 +369,9 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       );
     }
     uniforms.uPlungeCount.value = plunges;
-    falls?.update(runtime, nowS, verticalScale);
+    // the plunge base rides the pool, which the season floods: same lift the
+    // field applies at full season response
+    falls?.update(runtime, nowS, verticalScale, offsets.season);
     effects.setIllumination(runtime.ambient.value, runtime.sunLight.value,
       runtime.sunDirection.value.y, gl.toneMappingExposure);
     effects.setView(undefined, verticalScale);

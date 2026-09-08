@@ -3,9 +3,10 @@ import * as THREE from "three";
 import {
   BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_MAX_SLOPE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
   STRIP_AERATION_GLSL, STRIP_WHITE, createWaterMaterial, createWaterUniforms,
-  stripAeration, stripAlbedo, stripBankProfile, stripStreakPhase, WATER_TIERS,
+  stripAeration, stripAlbedo, stripBankProfile, stripStreakGain, stripStreakPhase, stripWhitewaterBlend, WATER_TIERS,
 } from "./waterMaterial";
-import { STRIP_BANK_M } from "./ChannelStrips";
+import { STRIP_BANK_FADE_START, STRIP_BANK_M } from "./ChannelStrips";
+import { STREAK_LAYERS } from "./whitewaterStreaks";
 import { BURIED_DEPTH_M } from "../waterData";
 import type { WaterAssets } from "./types";
 
@@ -206,25 +207,41 @@ describe("whitewater strips (decision 0047 item 4)", () => {
     const { shader, material } = compile("strip");
     const vert = code(shader.vertexShader);
     expect(vert).toContain("#define ES_STRIP 1");
-    for (const attribute of ["aStill", "aBedDepth", "aFlow", "aSeason", "aDrop", "aSide", "aSideM", "aArc", "aScroll"]) {
+    for (const attribute of ["aStill", "aBedDepth", "aFlow", "aSeason", "aDrop", "aSide", "aSideM", "aArc", "aScroll", "aEdge"]) {
       expect(vert).toContain(`attribute ${attribute === "aFlow" ? "vec2" : "float"} ${attribute};`);
     }
-    expect(vert).toContain("vEsStrip = vec3(aSideM, aArc, aScroll);");
+    expect(vert).toContain("vEsStrip = vec4(aSideM, aArc, aScroll, aEdge);");
     expect(vert).toContain("float esStill = esSurf.x + uLevelSeason * aSeason;");
     expect(material.polygonOffset).toBe(true);
     expect(material.customProgramCacheKey!()).toContain("strip");
   });
 
-  it("aeration follows the 0047 law and is monotone in slope and speed", () => {
+  it("aeration follows the slope x speed blend (research §4.2.2) and is monotone in both", () => {
+    // w = smoothstep(0.06, 0.30, slope) · smoothstep(0.8, 3.0, speed)
+    expect(stripWhitewaterBlend(0.02, 5)).toBe(0);
+    expect(stripWhitewaterBlend(0.5, 0.5)).toBe(0);
+    expect(stripWhitewaterBlend(0.3, 3)).toBe(1);
+    expect(stripWhitewaterBlend(0.18, 1.9)).toBeCloseTo(0.25, 6);
     expect(stripAeration(0, 0)).toBeCloseTo(0.25, 6);
     expect(stripAeration(0.6, 4)).toBeCloseTo(1.0, 6);
     expect(stripAeration(0.3, 1)).toBeGreaterThan(stripAeration(0.1, 1));
     expect(stripAeration(0.3, 3)).toBeGreaterThan(stripAeration(0.3, 1));
-    // bank coverage is a separate profile: 1 over the water, 0 at the mesh edge
-    expect(stripBankProfile(0)).toBe(1);
-    expect(stripBankProfile(1)).toBe(0);
-    expect(stripBankProfile(0.86)).toBeGreaterThan(0.3);
-    expect(stripBankProfile(0.86)).toBeLessThan(0.7);
+    // the 0047 classifier's steep floor (0.035) alone does not make whitewater
+    expect(stripAeration(0.035, 4)).toBeLessThan(0.3);
+    // bank coverage: full over the COMPILED width, dissolved across the margin
+    // only, monotone and never above 1 (it can never paint a bright line)
+    const edge = (1.5 + STRIP_BANK_M) / 1.5;
+    expect(stripBankProfile(0, edge)).toBe(1);
+    expect(stripBankProfile(STRIP_BANK_FADE_START, edge)).toBe(1);
+    expect(stripBankProfile(1, edge)).toBeGreaterThan(0.3);
+    expect(stripBankProfile(edge, edge)).toBe(0);
+    let prev = 1;
+    for (let s = 0; s <= edge + 0.1; s += 0.01) {
+      const v = stripBankProfile(s, edge);
+      expect(v).toBeLessThanOrEqual(prev + 1e-12);
+      expect(v).toBeLessThanOrEqual(1);
+      prev = v;
+    }
   });
 
   it("albedo mixes toward aerated white and is never the silt-tan brown", () => {
@@ -244,14 +261,23 @@ describe("whitewater strips (decision 0047 item 4)", () => {
     expect(stripAlbedo(1, 1, 0, 0)[0]).toBeGreaterThan(stripAlbedo(0.25, 0, 0, 0)[0]);
   });
 
-  it("scrolls streaks along the ribbon's own arc, downstream, at a uniform rate", () => {
+  it("scrolls three streak layers along the ribbon's own arc, downstream, body at the ribbon speed", () => {
     // a feature at arc 10 at t=0 sits at arc 10 + 2.5 x 4 at t=4 (scroll 2.5 m/s)
     expect(stripStreakPhase(10, 2.5, 0)).toBeCloseTo(stripStreakPhase(20, 2.5, 4), 9);
     expect(stripStreakPhase(20, 2.5, 4)).toBeLessThan(stripStreakPhase(20, 2.5, 0));
+    // foam layer 2.7x the body, accent 0.24x: the measured spread, never one belt
+    const rate = (layer: number) => (stripStreakPhase(0, 2.5, 0, layer) - stripStreakPhase(0, 2.5, 1, layer));
+    expect(rate(0)).toBeCloseTo(2.5, 9);
+    expect(rate(1) / rate(2)).toBeGreaterThanOrEqual(6.7 * (STREAK_LAYERS[1].tileM / STREAK_LAYERS[2].tileM));
+    expect(stripStreakGain(2.5) * STREAK_LAYERS[0].rateMS).toBeCloseTo(2.5, 9);
     const frag = code(compile("strip").shader.fragmentShader);
-    expect(frag).toContain("float esArcPh1 = vEsStrip.y - vEsStrip.z * uTransportTime;");
-    expect(frag).toContain("esFbm(vec2(vEsStrip.x * 0.9, esArcPh1 * 0.35), 3)");
+    expect(frag).toContain("float esStreak = esWhitewater(esStripU, vEsStrip.y, uTransportTime, esStripGain(vEsStrip.z), 0.5, esStripFoam);");
+    expect(frag).toContain("float vv = arcM / tile - (rate * gain * t) / tile;");
     expect(frag).toContain("float esAer = esStripAeration(vEsFlow.z, esSpeed);");
+    expect(frag).toContain("esWhite *= mix(0.15, 1.0, esBlend);");
+    expect(frag).toContain("float esBank = esStripBank(vEsSide, vEsStrip.w);");
+    // never world position x time on a ribbon
+    expect(frag).not.toContain("vEsWorldPos.xz * 0.085 - esDrift * uTransportTime");
     expect(frag).toContain(`vec3(${STRIP_WHITE.map((v) => v.toFixed(2)).join(", ")})`);
     expect(frag).toContain("vec3 esT = vec3(1.0 - esAer);");
     expect(frag).toContain("roughnessFactor = mix(0.5, 0.9, esWhite);");

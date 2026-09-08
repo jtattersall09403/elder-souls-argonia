@@ -1,4 +1,6 @@
 import * as THREE from "three";
+import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
+import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
 import { FLOW_WAVE_MIN_SPEED_MS, WAVES, flowWaveGlsl, gerstnerGlsl, surfGlsl } from "@elder-souls/game-core/water/index";
 import { OPEN_SEA_DEPTH_M, buriedThresholdM } from "../waterData";
@@ -323,21 +325,29 @@ function smoothstep01(e0: number, e1: number, x: number): number {
   return t * t * (3 - 2 * t);
 }
 
-/** Coverage across the ribbon: 1 over the water, 0 at the mesh edge. */
-export function stripBankProfile(side: number): number {
-  return 1 - smoothstep01(0.72, 1.0, Math.abs(side));
+/**
+ * Coverage across the ribbon: 1 over the compiled water width (|side| ≤
+ * `STRIP_BANK_FADE_START`), dissolving to 0 at the mesh edge `edge` =
+ * (halfWidth + bank) / halfWidth (the `aEdge` attribute). Monotone, ≤ 1, and
+ * multiplied into nothing bright: the bank fade can never paint a line.
+ */
+export function stripBankProfile(side: number, edge = 1.4): number {
+  return 1 - smoothstep01(STRIP_BANK_FADE_START, Math.max(edge, STRIP_BANK_FADE_START + 1e-3), Math.abs(side));
 }
 
 /**
- * Whitewater (aeration) fraction, 0.25..1.
+ * Whitewater blend `w = smoothstep(0.06, 0.30, slope) · smoothstep(0.8, 3.0,
+ * speed)` (research §4.2.2 — our threshold, tuned to the 0047 classifier's
+ * 0.035 steep floor): below it the ribbon is a clear film, above it the
+ * aerated path. Aeration = 0.25 + 0.75 · w.
  * @param dropPerM metres of fall per metre of run (the `aDrop` attribute).
  * @param speedMS  local water speed.
  */
+export function stripWhitewaterBlend(dropPerM: number, speedMS: number): number {
+  return smoothstep01(0.06, 0.30, dropPerM) * smoothstep01(0.8, 3.0, speedMS);
+}
 export function stripAeration(dropPerM: number, speedMS: number): number {
-  const raw = 0.25
-    + 0.6 * smoothstep01(0.03, 0.30, dropPerM)
-    + 0.25 * smoothstep01(0.5, 2.5, speedMS);
-  return Math.min(Math.max(raw, 0), 1);
+  return Math.min(Math.max(0.25 + 0.75 * stripWhitewaterBlend(dropPerM, speedMS), 0), 1);
 }
 
 /** Aerated-water tint the strip albedo is mixed toward. */
@@ -345,9 +355,16 @@ export const STRIP_WHITE = [0.85, 0.88, 0.90] as const;
 
 /** Streak phase along the ribbon: arc metres minus the ribbon's uniform
  * scroll speed x transport time. A feature at arc `a` at time `t` is at
- * `a + scroll·dt` at `t + dt` — downstream. TS twin of the strip fragment. */
-export function stripStreakPhase(arcM: number, scrollMS: number, timeS: number): number {
-  return arcM - scrollMS * timeS;
+ * `a + scroll·dt` at `t + dt` — downstream. The body layer (0) scrolls at
+ * exactly the ribbon speed; the foam and accent layers at the measured
+ * 2x / 0.3x of it (whitewaterStreaks.ts). TS twin of the strip fragment. */
+export function stripStreakPhase(arcM: number, scrollMS: number, timeS: number, layer = 0): number {
+  const L = STREAK_LAYERS[Math.min(Math.max(layer, 0), STREAK_LAYERS.length - 1)];
+  return arcM - (scrollMS * L.rateMS / STREAK_LAYERS[0].rateMS) * timeS;
+}
+/** Strip scroll gain: the body layer's 1.7 m/s rate x gain = the ribbon speed. */
+export function stripStreakGain(scrollMS: number): number {
+  return Math.min(Math.max(scrollMS / STREAK_LAYERS[0].rateMS, 0.3), 2);
 }
 
 /**
@@ -369,15 +386,20 @@ export function stripAlbedo(aeration: number, streak: number, salinity: number, 
 }
 
 export const STRIP_AERATION_GLSL = /* glsl */ `
-float esStripBank(float side){
-  return 1.0 - smoothstep(0.72, 1.0, abs(side));
+float esStripBank(float side, float edge){
+  // KEEP IN LOCKSTEP with stripBankProfile(): full over the compiled width,
+  // dissolved across the bank margin only
+  return 1.0 - smoothstep(${STRIP_BANK_FADE_START.toFixed(2)}, max(edge, ${(STRIP_BANK_FADE_START + 1e-3).toFixed(3)}), abs(side));
 }
-// KEEP IN LOCKSTEP with stripAeration().
+// KEEP IN LOCKSTEP with stripWhitewaterBlend() / stripAeration().
+float esStripBlend(float dropPerM, float speedMS){
+  return smoothstep(0.06, 0.30, dropPerM) * smoothstep(0.8, 3.0, speedMS);
+}
 float esStripAeration(float dropPerM, float speedMS){
-  float raw = 0.25
-    + 0.6 * smoothstep(0.03, 0.30, dropPerM)
-    + 0.25 * smoothstep(0.5, 2.5, speedMS);
-  return clamp(raw, 0.0, 1.0);
+  return clamp(0.25 + 0.75 * esStripBlend(dropPerM, speedMS), 0.0, 1.0);
+}
+float esStripGain(float scrollMS){
+  return clamp(scrollMS / ${STREAK_LAYERS[0].rateMS.toFixed(2)}, 0.3, 2.0);
 }
 `;
 
@@ -488,7 +510,12 @@ function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean)
       // the impact point the foam grew FROM sits upstream of this pixel
       float q = length(wp - P.xy - flow * 0.6) / r;
       float disc = 1.0 - smoothstep(0.35, 2.0, q);
-      float ring = smoothstep(0.55, 1.0, q) * (1.0 - smoothstep(1.0, 1.7, q));
+      // the expanding ring: fxrapidsringheavy's jetPuffs curve, eased 0 -> 1
+      // over 2.67 s (ease-in), fading as it spreads; phase per source
+      float ph = fract(uTransportTime / 2.67 + P.x * 0.013 + P.y * 0.007);
+      float e = ph * ph;
+      float rr = 0.45 + 1.15 * e;
+      float ring = (1.0 - smoothstep(0.0, 0.16, abs(q - rr))) * (1.0 - e);
       f += P.w * (disc + ring * 0.6);
     }
     return min(f, 0.75);
@@ -579,8 +606,9 @@ attribute float aSide;
 attribute float aSideM;
 attribute float aArc;
 attribute float aScroll;
+attribute float aEdge;
 varying float vEsSide;
-varying vec3 vEsStrip;
+varying vec4 vEsStrip;
 #endif
 uniform float uVerticalScale;
 varying vec4 vEsData;
@@ -599,7 +627,7 @@ ${flowWaveGlsl()}`,
 vec3 esRestW = (modelMatrix * vec4(position, 1.0)).xyz;
 #ifdef ES_STRIP
 vEsSide = aSide;
-vEsStrip = vec3(aSideM, aArc, aScroll);
+vEsStrip = vec4(aSideM, aArc, aScroll, aEdge);
 vec2 esSurf = vec2(aStill, max(aBedDepth, 0.0));
 #else
 vec2 esSurf = esSurfaceAt(esRestW.xz);
@@ -729,9 +757,9 @@ vec3 transformed = vec3(
 ${strip ? "#define ES_STRIP 1" : ""}
 #ifdef ES_STRIP
 varying float vEsSide;
-varying vec3 vEsStrip;
+varying vec4 vEsStrip;
 #endif
-${strip ? STRIP_AERATION_GLSL : ""}
+${strip ? STRIP_AERATION_GLSL + WHITEWATER_GLSL : ""}
 ${NOISE_GLSL}
 ${surfGlsl()}
 ${SAMPLER_GLSL}
@@ -870,16 +898,19 @@ vec3 nonPerturbedNormal = normal;`,
 // ---- whitewater strip (decision 0047 item 4) ---------------------------
 float esSal = vEsKlass.y;
 float esTan = vEsKlass.z;
+float esBlend = esStripBlend(vEsFlow.z, esSpeed);
 float esAer = esStripAeration(vEsFlow.z, esSpeed);
-// two streak-noise scales scrolled along the ribbon's OWN arc by its uniform
-// scroll speed x transport time — a constant spatial gradient, so no shear,
-// and the motion is always down the ribbon's axis (TS twin: stripStreakPhase)
-float esArcPh1 = vEsStrip.y - vEsStrip.z * uTransportTime;
-float esArcPh2 = vEsStrip.y - vEsStrip.z * 1.3 * uTransportTime;
-float esSt1 = esFbm(vec2(vEsStrip.x * 0.9, esArcPh1 * 0.35), 3);
-float esSt2 = esFbm(vec2(vEsStrip.x * 0.3 + 7.0, esArcPh2 * 0.12), 2);
-float esStreak = clamp(esSt1 * (0.55 + 0.9 * esSt2) * 1.4, 0.0, 1.0);
+// three streak layers scrolled along the ribbon's OWN arc (vEsStrip.y, metres)
+// by its uniform speed x transport time: body at the ribbon speed, foam at
+// 2x, accent at 0.3x (the measured 6.7x spread), plus the 0.03 UV/s U drift
+// and the 8.33 s U-scale breathing — never world position x time, never a
+// fixed world drift (TS twins: stripStreakPhase, stripStreakGain, streakUv)
+float esStripU = clamp(0.5 + 0.5 * vEsSide / max(vEsStrip.w, 1.0), 0.0, 1.0);
+float esStripFoam;
+float esStreak = esWhitewater(esStripU, vEsStrip.y, uTransportTime, esStripGain(vEsStrip.z), 0.5, esStripFoam);
 float esWhite = clamp(esAer * (0.35 + 0.65 * esStreak), 0.0, 1.0);
+// below the slope x speed threshold the film stays clear (no white streaks)
+esWhite *= mix(0.15, 1.0, esBlend);
 // clear / tannin tint only — NEVER the silt-tan river albedo, no Beer–Lambert
 // brown (TS twin: stripAlbedo)
 vec3 esAlbClear = mix(vec3(0.035, 0.115, 0.10), vec3(0.05, 0.14, 0.155), esSal);
@@ -887,7 +918,7 @@ vec3 esAlb = mix(esAlbClear, vec3(0.045, 0.065, 0.022), clamp(esTan, 0.0, 1.0));
 vec3 esT = vec3(1.0 - esAer);           // transmission: entrained air, not depth
 vec2 esRUV = esScreenUV;                // no refraction on whitewater
 float esFoam = esWhite;
-float esBank = esStripBank(vEsSide);
+float esBank = esStripBank(vEsSide, vEsStrip.w);
 diffuseColor.rgb = mix(esAlb, vec3(${STRIP_WHITE.map((v) => v.toFixed(2)).join(", ")}), esWhite);
 roughnessFactor = mix(0.5, 0.9, esWhite);
 #include <emissivemap_fragment>`

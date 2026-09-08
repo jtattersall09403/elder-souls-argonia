@@ -22,7 +22,14 @@ import type { WaterMeta } from "../waterData";
  * Decision 0047: the ribbon carries its own UV — `aSideM` (signed across
  * metres) and `aArc` (cumulative metres, the compiler's `arcM` when present)
  * — plus `aScroll`, the chain's mean speed, so the whitewater streaks scroll
- * along the ribbon's own axis at one uniform rate per ribbon.
+ * along the ribbon's own axis at one uniform rate per ribbon, and `aEdge`,
+ * the mesh-edge ratio `(halfWidth + bank) / halfWidth`, so the bank fade
+ * spans exactly the margin beyond the COMPILED width (the water is drawn at
+ * its full compiled width; only the 0.6 m overlap dissolves).
+ *
+ * Boulders in the bed are a scatter-compiler job; `stripBoulderCandidates`
+ * below is the deterministic density rule it consumes (research
+ * `waterfalls-realtime.md` §3.6: `fxrapidsrocks01` = 1 boulder / 160 m²).
  */
 
 export type ChannelStrip = NonNullable<WaterMeta["channels"]>[number];
@@ -34,6 +41,8 @@ export const STRIP_STEP_M = 2;
 export const STRIP_BANK_M = 0.6;
 /** Never let a bad record produce a zero-area or knife-edge ribbon. */
 const MIN_HALF_WIDTH_M = 0.35;
+/** Across-ratio where the bank fade begins (1 = the compiled water edge). */
+export const STRIP_BANK_FADE_START = 0.85;
 
 export interface ChannelStripGeometry {
   geometry: THREE.BufferGeometry;
@@ -141,6 +150,9 @@ export function buildChannelStripGeometry(
   const aSideM = new Float32Array(vertexCount);
   const aArc = new Float32Array(vertexCount);
   const aScroll = new Float32Array(vertexCount);
+  // mesh-edge ratio: |aSide| at the outer vertex, so the fragment knows where
+  // the bank margin ends without guessing a per-fragment half width
+  const aEdge = new Float32Array(vertexCount);
   const index = new Uint32Array(triangleCount * 3);
 
   let v = 0;
@@ -169,6 +181,7 @@ export function buildChannelStripGeometry(
         aSideM[v] = side * half;
         aArc[v] = st.arcM;
         aScroll[v] = scroll;
+        aEdge[v] = half / Math.max(st.halfWidthM, 1e-3);
         v++;
       }
     }
@@ -190,7 +203,92 @@ export function buildChannelStripGeometry(
   geometry.setAttribute("aSideM", new THREE.BufferAttribute(aSideM, 1));
   geometry.setAttribute("aArc", new THREE.BufferAttribute(aArc, 1));
   geometry.setAttribute("aScroll", new THREE.BufferAttribute(aScroll, 1));
+  geometry.setAttribute("aEdge", new THREE.BufferAttribute(aEdge, 1));
   geometry.setIndex(new THREE.BufferAttribute(index, 1));
   geometry.computeBoundingSphere();
   return { geometry, stationCount, vertexCount, triangleCount, stripCount: chains.length };
+}
+
+/* ------------------------------------------------------------------ *
+ * Boulder candidates along a strip (for the scatter compiler).
+ * ------------------------------------------------------------------ */
+
+/** Bethesda's own calibration: 6 boulders in a 24 x 40 m rapids patch. */
+export const BOULDER_BED_M2_PER_ROCK = 160;
+/** Rock radius range (m) that reads as an individual obstacle in a channel. */
+export const BOULDER_RADIUS_M = { min: 0.6, max: 2.5 } as const;
+
+export interface BoulderCandidate {
+  /** Stable id: `${stripId}:rock-${n}`. */
+  id: string;
+  x: number; z: number;
+  /** Bed height under the rock (the strip's `bedY`). */
+  y: number;
+  radiusM: number;
+  /** Arc metres along the chain and signed across offset (m) from the centreline. */
+  arcM: number;
+  sideM: number;
+  /** Unit downstream tangent at the rock — the foam-stamp axis (pillow
+   * ~0.5 r upstream, tail ~3 r downstream, baked at compile time). */
+  tx: number; tz: number;
+}
+
+/** Deterministic 32-bit hash of a string (FNV-1a). */
+function hashString(text: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    h ^= text.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  return h >>> 0;
+}
+
+function lcg(state: number): () => number {
+  let s = state || 1;
+  return () => {
+    s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+    return s / 4294967296;
+  };
+}
+
+/**
+ * Boulder candidate positions along one strip: one per
+ * `BOULDER_BED_M2_PER_ROCK` of wetted bed (Σ 2·halfWidth·ds), seeded by the
+ * strip id so the same data always yields the same rocks. Rocks sit inside
+ * 80 % of the compiled half width, never on the join stations (the field
+ * overlap), radii 0.6–2.5 m biased small. The scatter compiler owns whether a
+ * candidate survives (kit availability, slope, other scatter).
+ */
+export function stripBoulderCandidates(
+  strip: ChannelStrip,
+  options: { stepM?: number; bedM2PerRock?: number } = {},
+): BoulderCandidate[] {
+  const stations = resampleStrip(strip.points ?? [], options.stepM ?? STRIP_STEP_M);
+  if (stations.length < 3) return [];
+  const perRock = options.bedM2PerRock ?? BOULDER_BED_M2_PER_ROCK;
+  const random = lcg(hashString(strip.id));
+  const out: BoulderCandidate[] = [];
+  let area = 0;
+  // start half a quota in so the first rock is not glued to the head join
+  let quota = perRock * (0.5 + random() * 0.5);
+  for (let i = 1; i < stations.length - 1; i++) {
+    const a = stations[i - 1];
+    const b = stations[i];
+    const ds = Math.hypot(b.x - a.x, b.z - a.z);
+    area += 2 * b.halfWidthM * ds;
+    if (area < quota) continue;
+    area -= quota;
+    quota = perRock;
+    const sideM = (random() * 2 - 1) * 0.8 * b.halfWidthM;
+    const r = BOULDER_RADIUS_M.min + Math.pow(random(), 1.6) * (BOULDER_RADIUS_M.max - BOULDER_RADIUS_M.min);
+    const nx = -b.tz;
+    const nz = b.tx;
+    out.push({
+      id: `${strip.id}:rock-${out.length}`,
+      x: b.x + nx * sideM, z: b.z + nz * sideM, y: b.bedY,
+      radiusM: Math.min(r, Math.max(b.halfWidthM * 0.9, BOULDER_RADIUS_M.min)),
+      arcM: b.arcM, sideM, tx: b.tx, tz: b.tz,
+    });
+  }
+  return out;
 }

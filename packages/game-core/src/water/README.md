@@ -37,11 +37,24 @@ along the piece's own arc in metres. `uStreakTex` + `#define ES_STREAK_TEX`
 is the slot for the sourced FX texture; procedural value noise is the shipped
 fallback. Pieces:
 
-- **Fall body** (`WaterfallSheets.ts`): the ballistic tracer's ribbon, three
-  body layers + two mirrored side strips pinched at the lip, crest wrap 2.5 m
-  back over the lip with foam boosted 3 m past it, unlit white ×1.0 (free
-  fall) / ×0.75 (bed contact), edge-on fade cos 0.26→0.09, soft depth fade
-  0.57 m (sheets) / 1.07 m (side strips) only where there is air behind.
+- **Fall body** (`WaterfallSheets.ts`): the ballistic tracer's path cut into
+  vanilla-sized PIECES (families 7.5 / 29 / 44 / 58 m by drop, stacked at 2/3
+  of a piece height so neighbours overlap by a third, lateral copies half a
+  piece apart for wide falls; each copy has its own 0..1 `aPieceUv`
+  rectangle, scroll phase and overlap cross-fade), three body layers per
+  piece + two mirrored side strips pinched at the lip, crest wrap 2.5 m back
+  over the lip with foam boosted 3 m past it, unlit white ×1.0 (free fall) /
+  ×0.75 (bed contact), edge-on fade cos 0.26→0.09, soft depth fade 0.57 m
+  (sheets) / 1.07 m (side strips) only where there is air behind.
+- **Textures**: the vanilla FX kit `apps/world-studio/public/kits/
+  waterfall-fx-textures/` (manifest roles) binds by slot — `sheet` =
+  `sheet-main`, `ring` = `plunge-ring`, `skirt` = `mist-cloud-strip`, `mist` =
+  `mist-cloud` (`WATERFALL_TEXTURE_ROLES`). The app composes the URLs from
+  the manifest (`loadWaterAssets({ waterfallTextureUrls })` →
+  `assets.waterfallTextures`); the shader samples the coverage from ALPHA
+  (the textures are greyscale) and any missing slot keeps the procedural
+  field. Textures + stack rules live inside our shader, lit by our rig —
+  never mounted as meshes (0047 addendum).
 - **Classification guard**: a path is a fall only with ≥ 0.5 m of air over a
   contiguous ≥ 3 m; every other cascade is a *ramp* and comes back as
   `chuteStrips` for the ES_STRIP ribbon mesh (`WaterSurface` merges them into

@@ -34,18 +34,32 @@ export interface CascadeEmitter {
   fallFrom?: Vec3;
 }
 
-/** Mist emitters spaced down the sheet, between the lip and the plunge. */
-export const CASCADE_MID_EMITTERS = [0.35, 0.6, 0.85] as const;
 /** Only the nearest few falls get the full kit; the rest keep the plunge. */
 export const CASCADE_PATH_LIMIT = 2;
+/** Drops at which the emitter kit grows (research §2.5, measured budgets:
+ * one or two emitters per piece, four only for a hero splash). */
+export const CASCADE_KIT_DROPS_M = { two: 20, four: 60 } as const;
 
 /**
- * The spray/mist kit ALONG a fall, not only under it (owner refinement, and
- * the standard reference recipe: spray at the lip, emitters down the run whose
- * rate grows with the distance fallen and the local speed, a heavy mist cloud
- * and surface splash at the bottom). Mid-air emitters carry a `sheetContact`
- * so the particle stack spawns them on the falling sheet rather than rejecting
- * them as being above the water surface. Every rate scales with width and drop.
+ * The emitter kit for a drop: the plunge cloud alone under 20 m, cloud + one
+ * mid-sheet emitter to 60 m, and lip + two mid + cloud for the biggest. The
+ * base read is geometry (`PlungeBase`), so this is the accent budget, not the
+ * base; total particle rates fall relative to the old five-emitter kit.
+ */
+export function cascadeEmitterKit(dropM: number): { lip: boolean; mids: readonly number[] } {
+  if (dropM >= CASCADE_KIT_DROPS_M.four) return { lip: true, mids: [0.35, 0.75] };
+  if (dropM >= CASCADE_KIT_DROPS_M.two) return { lip: false, mids: [0.6] };
+  return { lip: false, mids: [] };
+}
+
+/**
+ * The spray/mist kit ALONG a fall, not only under it (the standard reference
+ * recipe: spray at the lip, emitters down the run whose rate grows with the
+ * distance fallen and the local speed, a mist cloud and surface splash at the
+ * bottom) — sized by `cascadeEmitterKit`. Mid-air emitters carry a
+ * `sheetContact` so the particle stack spawns them on the falling sheet
+ * rather than rejecting them as being above the water surface. Every rate
+ * scales with width and drop.
  */
 export function cascadePathEmitters(
   fall: Cascade,
@@ -66,8 +80,9 @@ export function cascadePathEmitters(
   const normal = { x: -dx, y: 0.35, z: -dz };
   const emitters: CascadeEmitter[] = [];
 
+  const kit = cascadeEmitterKit(dropM);
   const lip = stations[1] ?? stations[0];
-  emitters.push({
+  if (kit.lip) emitters.push({
     id: `${fall.id}:lip`, mist: 0.25, ratePerSecond: 1.1 * widthScale, fallFrom: fall.lip,
     event: { kind: 'splash', actorId: `${fall.id}:lip`,
       position: { x: lip.x, y: lip.y, z: lip.z },
@@ -76,7 +91,7 @@ export function cascadePathEmitters(
       sheetContact: { waterBodyId: water.waterBodyId, normal } },
   });
 
-  for (const at of CASCADE_MID_EMITTERS) {
+  for (const at of kit.mids) {
     // Spaced by HEIGHT fallen, not by station index: the trace steps by path
     // length, so index fractions would bunch every emitter near the plunge.
     const target = fall.lip.y - dropM * at;

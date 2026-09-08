@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { WaterData, decodeDepthByte, type WaterMeta } from "../waterData";
 import { WaterWorld } from "../waterWorld";
 import type { WaterAssets } from "./types";
+import { loadWaterfallTextures, type WaterfallTextureSlot } from "./WaterfallSheets";
 
 /**
  * Loads + decodes the compiled water rasters (worldgen/compile_water.py,
@@ -23,6 +24,9 @@ export interface LoadWaterAssetsOptions {
   groundHeight?: (x: number, z: number) => number | null;
   seasonScalar: () => number;
   waveTimeS?: () => number;
+  /** Waterfall FX texture URLs by shader slot (the app composes them from the
+   * kit manifest via `WATERFALL_TEXTURE_ROLES`); missing = procedural. */
+  waterfallTextureUrls?: Partial<Record<WaterfallTextureSlot, string>>;
 }
 
 async function fetchImageData(url: string): Promise<ImageData> {
@@ -82,9 +86,10 @@ export function decodeWaterRasters(meta: WaterMeta, surfaceRgba: Uint8ClampedArr
 export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<WaterAssets> {
   const base = options.baseUrl;
   const waterBase = `${base}${options.waterPath ?? "province/water"}/`;
-  const [meta, floodStates] = await Promise.all([
+  const [meta, floodStates, waterfallTextures] = await Promise.all([
     fetch(`${waterBase}water-meta.json`).then((r) => r.json() as Promise<WaterMeta>),
     fetch(`${base}province/refined/flood-states.json`).then((r) => r.json()).catch(() => null),
+    options.waterfallTextureUrls ? loadWaterfallTextures(options.waterfallTextureUrls) : Promise.resolve(undefined),
   ]);
   const ownerFile = meta.surface.ownerFile;
   const [surfImg, flowImg, klassImg, shoreImg, ownerImg] = await Promise.all([
@@ -134,5 +139,6 @@ export async function loadWaterAssets(options: LoadWaterAssetsOptions): Promise<
     ownerTex: ownerImg ? dataTexture(ownerImg, THREE.NearestFilter) : null,
     tidalAmplitudeM,
     seasonalAmplitudeM,
+    waterfallTextures,
   };
 }

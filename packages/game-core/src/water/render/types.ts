@@ -6,6 +6,7 @@ import type { Vec3 } from "@elder-souls/contracts";
 import type { WaterEffectsDiagnostics } from "./WaterEffects";
 import type { UnderwaterBubbleDiagnostics } from "./UnderwaterBubbles";
 import type { UnderwaterBubblePassDiagnostics } from "./UnderwaterBubblePass";
+import type { WaterfallTextureSet } from "./WaterfallSheets";
 
 export interface WaterAssets {
   data: WaterData;
@@ -25,6 +26,9 @@ export interface WaterAssets {
   ownerTex: THREE.DataTexture | null;
   tidalAmplitudeM: number;
   seasonalAmplitudeM: number;
+  /** The vanilla waterfall FX textures (kit `waterfall-fx-textures`), by
+   * shader slot; absent or null slots keep the procedural streak field. */
+  waterfallTextures?: WaterfallTextureSet;
 }
 
 export interface LocalWaterSurfaceState {
@@ -76,8 +80,10 @@ export interface WaterDebugState {
   bubblePass?: UnderwaterBubblePassDiagnostics;
   /** Compiled steep-stream strip meshes (decision 0046 item 4). */
   strips?: { count: number; triangles: number };
-  /** Compiled waterfall sheets; `freeFlightCount` excludes pure rapids. */
-  falls?: { count: number; triangles: number; freeFlightCount: number };
+  /** Compiled waterfall sheets (`WaterfallDiagnostics`): every sheet is free
+   * flight — ramps are `chuteStrips` in the strip mesh; base quads per fall. */
+  falls?: { count: number; triangles: number; freeFlightCount: number; chuteStrips?: number;
+    sideStrips?: number; pieces?: number; baseQuads?: number; baseQuadsPerFall?: { min: number; max: number } };
   /** Which water layers are currently drawing (dev toggle). */
   layers?: WaterLayerSet;
 }

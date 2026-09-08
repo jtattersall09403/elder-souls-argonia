@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  STRIP_BANK_M, STRIP_STEP_M, buildChannelStripGeometry, resampleStrip,
-  type ChannelStrip,
+  BOULDER_BED_M2_PER_ROCK, BOULDER_RADIUS_M, STRIP_BANK_M, STRIP_STEP_M, buildChannelStripGeometry, resampleStrip,
+  stripBoulderCandidates, type ChannelStrip,
 } from "./ChannelStrips";
 
 const point = (x: number, y: number, kind: ChannelStrip["points"][number]["kind"]) => ({
@@ -110,5 +110,49 @@ describe("across-width coordinate", () => {
     for (const v of values) expect(Math.abs(v)).toBeCloseTo(expected, 5);
     expect(Math.abs(expected)).toBeGreaterThan(1); // the margin is OUTSIDE the water
     expect(values.filter((v) => v < 0)).toHaveLength(side.count / 2);
+    // aEdge carries that same mesh-edge ratio so the bank fade spans exactly the margin
+    const edge = built.geometry.getAttribute("aEdge");
+    for (let i = 0; i < edge.count; i++) expect(edge.getX(i)).toBeCloseTo(expected, 5);
+  });
+});
+
+describe("boulder candidates for the scatter compiler (research §3.6: 1 per 160 m² of bed)", () => {
+  /** 400 m long, 4 m wide (halfWidth 2) => 1600 m² of bed => ~10 rocks. */
+  const long: ChannelStrip = { id: "strip-long", band: 2, points: [
+    { ...point(0, 60, "join"), halfWidthM: 2 },
+    { ...point(200, 40, "steep"), halfWidthM: 2 },
+    { ...point(400, 20, "join"), halfWidthM: 2 },
+  ] };
+
+  it("yields about one rock per 160 m² of wetted bed, inside the channel, deterministically", () => {
+    const rocks = stripBoulderCandidates(long);
+    const bedM2 = 400 * 4;
+    expect(rocks.length).toBeGreaterThanOrEqual(Math.floor(bedM2 / BOULDER_BED_M2_PER_ROCK) - 1);
+    expect(rocks.length).toBeLessThanOrEqual(Math.ceil(bedM2 / BOULDER_BED_M2_PER_ROCK) + 1);
+    for (const r of rocks) {
+      expect(Math.abs(r.sideM)).toBeLessThanOrEqual(0.8 * 2 + 1e-9);
+      expect(Math.abs(r.z)).toBeLessThanOrEqual(0.8 * 2 + 1e-9);   // chain runs along x at z = 0
+      expect(r.radiusM).toBeGreaterThanOrEqual(BOULDER_RADIUS_M.min);
+      expect(r.radiusM).toBeLessThanOrEqual(BOULDER_RADIUS_M.max);
+      expect(r.arcM).toBeGreaterThan(0);
+      expect(r.arcM).toBeLessThan(400);
+      expect(Math.hypot(r.tx, r.tz)).toBeCloseTo(1, 6);
+      expect(r.tx).toBeGreaterThan(0);   // downstream
+      expect(r.y).toBeCloseTo(60 - r.x * 0.1 - 0.8, 1);   // on the bed
+    }
+    expect(rocks.map((r) => r.id)).toEqual(rocks.map((_, i) => `strip-long:rock-${i}`));
+    expect(stripBoulderCandidates(long)).toEqual(rocks);
+    expect(stripBoulderCandidates({ ...long, id: "strip-other" })).not.toEqual(rocks);
+    // spacing follows the quota: consecutive rocks are ~40 m apart on a 4 m bed
+    for (let i = 1; i < rocks.length; i++) {
+      expect(rocks[i].arcM - rocks[i - 1].arcM).toBeGreaterThan(BOULDER_BED_M2_PER_ROCK / 4 - STRIP_STEP_M - 1e-6);
+    }
+  });
+
+  it("scales with width and yields nothing for a degenerate chain", () => {
+    const wide: ChannelStrip = { ...long, points: long.points.map((p) => ({ ...p, halfWidthM: 4 })) };
+    expect(stripBoulderCandidates(wide).length).toBeGreaterThan(stripBoulderCandidates(long).length * 1.5);
+    expect(stripBoulderCandidates({ id: "x", band: 1, points: [point(0, 1, "join")] })).toEqual([]);
+    expect(stripBoulderCandidates(chain).length).toBeLessThanOrEqual(1);   // 20 m x 3 m = 60 m²
   });
 });

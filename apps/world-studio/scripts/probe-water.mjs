@@ -152,6 +152,14 @@ try {
       if (s.falls) {
         if (dbg.falls && dbg.falls.count >= 1 && dbg.falls.triangles >= 50) ok(`sheets drawn: ${dbg.falls.count} falls, ${dbg.falls.triangles} tris, ${dbg.falls.freeFlightCount} free-flight`);
         else fail(`sheets not drawn: ${JSON.stringify(dbg.falls)}`);
+        // fall geometry kit: every sheet is free flight (ramps went to the strip
+        // mesh), each fall has 12-19 base quads, side strips exist
+        if (dbg.falls && dbg.falls.baseQuadsPerFall) {
+          const q = dbg.falls.baseQuadsPerFall;
+          if (dbg.falls.freeFlightCount === dbg.falls.count && q.min >= 12 && q.max <= 19 && dbg.falls.sideStrips >= 2)
+            ok(`fall kit: ${dbg.falls.chuteStrips} ramps as chute strips, base quads ${q.min}-${q.max}/fall (${dbg.falls.baseQuads} total), ${dbg.falls.sideStrips} side strips`);
+          else fail(`fall kit out of spec: ${JSON.stringify(dbg.falls)}`);
+        }
       }
       if (s.seasonMin !== undefined) {
         if (dbg.seasonOffsetM >= s.seasonMin) ok(`wet-season rise ${dbg.seasonOffsetM.toFixed(2)} m`);
