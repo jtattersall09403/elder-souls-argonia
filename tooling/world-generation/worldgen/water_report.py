@@ -103,18 +103,21 @@ class ShippedWater:
                 best = (c["id"], d, float(c["dropM"]))
         return best
 
-    def cliff_face_m(self, cascade: dict, min_slope: float = 2.75) -> float:
-        """Largest contiguous drop along a cascade's own profile at or above
-        `min_slope` (default 70 deg) — how much of it is really a cliff."""
-        p = np.asarray(cascade["profile"], dtype=float)
-        step = float(cascade["profileStepM"])
-        best = cur = 0.0
-        for s in -np.diff(p) / step:
-            if s >= min_slope:
-                cur += s * step
-            else:
-                best, cur = max(best, cur), 0.0
-        return max(best, cur)
+    @staticmethod
+    def cliff_angle_deg(cascade: dict) -> float:
+        """How steep a cascade really is: its drop over the horizontal run
+        from lip to plunge, in degrees.
+
+        Measured on the cascade's own geometry rather than per sample of the
+        exported profile — that profile is resampled at 1 m from a bilinearly
+        sampled 1.83 m terrain grid, so it smears a genuine one-cell cliff
+        across two or three samples and reads it as a ramp. This is also the
+        line the renderer throws the sheet along.
+        """
+        dx = cascade["plunge"]["x"] - cascade["lip"]["x"]
+        dz = cascade["plunge"]["z"] - cascade["lip"]["z"]
+        run = float(np.hypot(dx, dz))
+        return float(np.degrees(np.arctan(cascade["dropM"] / max(run, 1e-6))))
 
     def puddles_under(self, x: float, z: float, radius_m: float, area_m2: float) -> int:
         """Count of separate wet patches smaller than `area_m2` around a point
@@ -149,12 +152,15 @@ def main(argv: list[str]) -> int:
               f"{'wet' if r['wet'] else 'dry':3} depth {r['depthM']:6.2f} m  "
               f"surface {r['surfaceM']:7.2f} m  ground {r['groundM']:7.2f} m  "
               f"flow {r['flowMS']:4.2f} m/s  shore {r['shoreM']:5.1f} m  season {r['season']:4.2f}")
-    print("\n# every cascade, and how much of it is really a cliff (>= 70 deg)")
+    print("\n# every cascade: is it a cliff (>= 70 deg from lip to plunge) and how deep is its pool")
     for c in sorted(s.meta.get("cascades", []), key=lambda c: -c["dropM"]):
-        face = s.cliff_face_m(c)
-        print(f"{c['id']:9} drop {c['dropM']:6.1f} m  cliff face {face:6.1f} m  "
+        angle = s.cliff_angle_deg(c)
+        sl, mask = s.disc(c["plunge"]["x"], c["plunge"]["z"], 40.0)
+        wet = mask & s.wet2[sl]
+        pool = float(s.depth2[sl][wet].max()) if wet.any() else 0.0
+        print(f"{c['id']:9} drop {c['dropM']:6.1f} m  {angle:5.1f} deg  pool {pool:5.2f} m  "
               f"lip {c['lip']['x']:.0f}/{c['lip']['z']:.0f}"
-              f"{'   <-- RAMP, not a cliff' if face < 3.0 else ''}")
+              f"{'   <-- RAMP, not a cliff' if angle < 70.0 else ''}")
     return 0
 
 
