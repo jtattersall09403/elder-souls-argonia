@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
 import * as THREE from "three";
+import * as THREE_NS from "three";
+import { WAVES, waveBands } from "../waves";
+import { SHORE_FROTH } from "./shoreFroth";
+import { FOAM_TEX } from "./waterMaterial";
 import {
   BURIED_GUARD, CONTACT_FOAM_M, EDGE_FADE_M, FIELD_MAX_SLOPE, FLECK, FOAM_CYCLE_S, OWNER_DILATE_M,
   STRIP_AERATION_GLSL, STRIP_WHITE, createWaterMaterial, createWaterUniforms,
@@ -140,7 +144,7 @@ describe("flowing water (decision 0047 item 6)", () => {
     expect(frag).toContain("float esAdv = min(esSpeed, 2.5) * esCycle;");
     // detail ripple follows esDrift on flowing water; the fixed drift is still-water only
     expect(frag).toContain("vec2 esQ1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 2.3 + 17.0;");
-    expect(frag).toMatch(/else \{\s*esGF = esDetailGrad\(vEsWorldPos\.xz \* 2\.3 \+ 17\.0, vec2\(0\.11, 0\.07\) \* uWaveTime\)/);
+    expect(frag).toMatch(/else \{\s*esGF = esDetailGrad\(vEsWorldPos\.xz \* 2\.3 \+ 17\.0, vec2\(0\.11, 0\.07\) \* uTransportTime\)/);
     // barcode guards stay
     expect(frag).not.toContain("dot(vEsWorldPos.xz, esFDirN)");
     expect(frag).toContain("esG -= esFDirN * dot(esG, esFDirN) * (1.0 - 1.0 / esStretch);");
@@ -301,5 +305,130 @@ describe("whitewater strips (decision 0047 item 4)", () => {
     expect(frag).toContain("#define ES_SSR 1");
     expect(frag).toContain("esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy)");
     expect(code(compile("field", assets, WATER_TIERS.low).shader.fragmentShader)).not.toContain("#define ES_SSR");
+  });
+});
+
+describe("Water Pro transfers (Greenheck study §3.1, §6)", () => {
+  const field = compile("field");
+  const vert = code(field.shader.vertexShader);
+  const frag = code(field.shader.fragmentShader);
+  const below = (() => {
+    const uniforms = createWaterUniforms(assets);
+    const material = createWaterMaterial("below", { csm: null, applyAerial: () => {}, assets, uniforms, tier: WATER_TIERS.high });
+    const shader = stubShader();
+    material.onBeforeCompile!(shader as unknown as THREE.WebGLProgramParametersWithUniforms, {} as THREE.WebGLRenderer);
+    return code(shader.fragmentShader);
+  })();
+
+  it("vertex: JONSWAP bands with per-band fetch and the class standing ratio, relaxed distance fade", () => {
+    expect(vert).toContain("esWaveSampleEx(esRestW.xz, esWaveAmp, esShore, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime)");
+    expect(vert).not.toContain("esWaveSample(esRestW.xz");
+    expect(vert).toContain("exp(-esCamDist * 0.0003)");
+    expect(vert).toContain("float esStandingRatio(float classIndex, float shoreDist)");
+    expect(vert.match(/esWaveBand\(pos/g)?.length).toBe(WAVES.bands);
+    for (const b of waveBands()) expect(vert).toContain(`clamp(shoreDist / ${b.fetchM}`);
+  });
+
+  it("the wave clock only ever feeds periodic functions (the 8192 s fold is pop-free)", () => {
+    // every remaining uWaveTime use is inside a snapped-frequency closed form
+    // (waves.ts) — no drift, no sin of an unsnapped rate, no shimmer scroll
+    for (const src of [vert, frag, below]) {
+      expect(src).not.toMatch(/vec2\(0\.11, 0\.07\) \* uWaveTime/);
+      expect(src).not.toMatch(/sin\(uWaveTime \* 0\.17\)/);
+      expect(src).not.toMatch(/uWaveTime \* 2\.6/);
+      expect(src).not.toMatch(/vec2\(0\.2\) \* uWaveTime/);
+    }
+    const waveUses = frag.match(/uWaveTime/g) ?? [];
+    // surf closed forms (esSurfFoam/esSwash) and uniform declaration only
+    for (const line of frag.split("\n").filter((l) => l.includes("uWaveTime"))) {
+      expect(/uniform float uWaveTime|esSurfFoam\(|esSwash\(|esShoreSwell\(|esSurfGroup\(|float t\b|, t\)|\bt\b/.test(line)).toBe(true);
+    }
+    expect(waveUses.length).toBeGreaterThan(0);
+  });
+
+  it("foam: the persistent field sits in front of the UNCHANGED dissolve, after the instantaneous floor", () => {
+    const iField = frag.indexOf("esFoamE = max(esFoamE, min(esFoamFieldAt(vEsWorldPos.xz), 0.95));");
+    const iFloor = frag.indexOf("esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);");
+    const iCap = frag.indexOf("esFoamE = min(esFoamE, 0.85);");
+    const iThr = frag.indexOf("float esFThr = 1.0 - esFoamE;");
+    expect(iFloor).toBeGreaterThan(0);
+    expect(iCap).toBeGreaterThan(iFloor);
+    expect(iField).toBeGreaterThan(iCap);
+    expect(iThr).toBeGreaterThan(iField);
+    expect(frag).toContain("smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)");
+    expect(frag).toContain("float esFoamFieldAt(vec2 wp)");
+    expect(field.uniforms.uFoamFieldInfo.value.w).toBe(0);
+    // the strip does not sample the field (its whitewater is its own look)
+    expect(code(compile("strip").shader.fragmentShader)).not.toContain("esFoamFieldAt(");
+  });
+
+  it("foam: shoreline depth-range froth behind the 12 cm contact line, turbidity-damped with the rest", () => {
+    const iFroth = frag.indexOf("esFoamE += esShoreFroth(esTv,");
+    const iMurk = frag.indexOf("esFoamE *= (1.0 - 0.75 * esMurk);");
+    expect(iFroth).toBeGreaterThan(0);
+    expect(iMurk).toBeGreaterThan(iFroth);
+    expect(frag).toContain(`smoothstep(0.0, ${SHORE_FROTH.rangeM.toFixed(2)}, d)`);
+    expect(frag).toContain(`smoothstep(0.0, ${CONTACT_FOAM_M.toFixed(2)}, esTv`);
+  });
+
+  it("foam texture: the vanilla foam tile is the dissolve/breakup/fleck family when bound, fbm otherwise", () => {
+    expect(frag).not.toContain("#define ES_FOAM_TEX");
+    expect(frag).toContain("float esFoamMask(vec2 wp){ return esFbm(wp * 0.55, 3); }");
+    expect(frag).toContain("esFTex = mix(esFoamMask(esFP1), esFoamMask(esFP2), esPhB);");
+    expect(frag).toContain("float esFk = mix(esFoamFleck(esFk1), esFoamFleck(esFk2), esPhB);");
+    expect(frag).toContain("float esFoamShade = 0.72 + 0.36 * esFoamMask(vEsWorldPos.xz * 6.7);");
+    const withTex = { ...assets, waterfallTextures: { foam: new THREE_NS.Texture() } } as WaterAssets;
+    const t = compile("field", withTex);
+    const tf = code(t.shader.fragmentShader);
+    expect(tf).toContain("#define ES_FOAM_TEX 1");
+    expect(t.uniforms.uFoamTex.value).toBe(withTex.waterfallTextures!.foam);
+    expect(t.material.customProgramCacheKey()).toContain("-ftex");
+    expect(field.material.customProgramCacheKey()).not.toContain("-ftex");
+    // the remap puts the texture on the fbm's moments (FOAM_TEX, measured)
+    expect(tf).toContain(`${FOAM_TEX.fbmMean.toFixed(3)} + (a - ${FOAM_TEX.mean.toFixed(3)}) * ${(FOAM_TEX.fbmStd / FOAM_TEX.std).toFixed(4)}`);
+    expect(tf).toContain(`smoothstep(${FOAM_TEX.fleck.lo.toFixed(3)}, ${FOAM_TEX.fleck.hi.toFixed(3)}, esFk)`);
+    expect(FOAM_TEX.fleck.lo).toBeLessThan(FOAM_TEX.fleck.hi);
+  });
+
+  it("sparkle after the specular and outside the roughness LOD; crest scatter gated on exposure", () => {
+    const iRough = frag.indexOf("roughnessFactor = mix(");
+    const iSpark = frag.indexOf("float esSpark = esSparkle(esNW, esView, uWaterSunDir, esDist, esExpo)");
+    const iTransmit = frag.indexOf("outgoingLight = outgoingLight - reflectedLight.indirectSpecular + esSpecEnv + esTransmit;");
+    expect(iSpark).toBeGreaterThan(iTransmit);
+    expect(iSpark).toBeGreaterThan(0);
+    // the sparkle line carries no esFarFade / roughness factor
+    const sparkLine = frag.split("\n").find((l) => l.includes("float esSpark ="))!;
+    expect(sparkLine).not.toContain("esFarFade");
+    expect(sparkLine).not.toContain("roughness");
+    expect(frag).toContain("float esSssW = esCrestSss(esView, uWaterSunDir, esCrestMesh, esExpo);");
+    expect(frag).toContain("float esCrestMesh = esCrest;");
+    expect(frag).toContain("outgoingLight += uWaterSunLight * (esSpark + esSssW * esSssTint) * (1.0 - esFoam);");
+    expect(iRough).toBeGreaterThan(0);
+  });
+
+  it("horizon: blends toward the sampled sky before the aerial term, never double-fogged", () => {
+    const iHz = frag.indexOf("float esHz = esHorizonBlend(esDist);");
+    const iOpaque = frag.indexOf("#include <opaque_fragment>");
+    expect(iHz).toBeGreaterThan(0);
+    expect(iHz).toBeLessThan(iOpaque);
+    expect(frag).toContain("textureCubeUV(envMap, normalize(esSkyDir), 0.4).rgb * envMapIntensity");
+    expect(frag).toContain("outgoingLight = mix(outgoingLight, esSkyCol, esHz);");
+    expect(frag).not.toContain("esAerialPerspective(");
+  });
+
+  it("rain rings replace the two-phase shimmer on the field, on real time; the strip has none", () => {
+    expect(frag).toContain("esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);");
+    expect(frag).toContain("vec2 esRainRings(vec2 wp, float t, float intensity, float dist)");
+    expect(code(compile("strip").shader.fragmentShader)).not.toContain("esRainRings(");
+  });
+
+  it("meniscus: normal tilt in both variants and a rim in both lighting stages", () => {
+    for (const src of [frag, below]) {
+      expect(src).toContain("float esMen = esMeniscusBand((vEsWorldPos.y - cameraPosition.y) / max(uVerticalScale, 1e-3), esDist);");
+      expect(src).toContain("esNW = esMeniscusNormal(esNW, normalize(cameraPosition - vEsWorldPos), esMen);");
+      expect(src).toContain("uWaterAmbient * 10.0 * esMeniscusRim(esMen)");
+    }
+    // the tilt happens BEFORE the underside flip
+    expect(below.indexOf("esMeniscusNormal(")).toBeLessThan(below.indexOf("esNW = -esNW;"));
   });
 });

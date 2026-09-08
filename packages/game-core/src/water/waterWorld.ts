@@ -11,8 +11,8 @@ import { WaterInteractionStream } from "./interactionStream";
 import { WaterDisplacementRegistry } from "./displacementRegistry";
 import type { LocalWaterPatch } from "./LocalWaterPatch";
 import type { WaterData } from "./waterData";
-import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, getWindWaveScale, shoreSwellAt, surfaceWaveAt, swashAt,
-  waveExposure, type WaveSample } from "./waves";
+import { FLOW_WAVE_MIN_SPEED_MS, fetchExposure, flowWaveAt, getWindWaveScale, shoreSwellAt, standingWaveRatio,
+  surfaceWaveAt, swashAt, waveExposure, type WaveSample } from "./waves";
 
 export interface WaterWorldOptions {
   /** FloodBasin amplitudes (province `refined/flood-states.json`). */
@@ -90,7 +90,10 @@ export class WaterWorld implements WorldWaterQuery {
 
     const exposure = waveExposure(s.shoreDistM, depth, s.turbidity) * getWindWaveScale();
     const waveTime = this.opts.waveTimeS?.() ?? epochMinutes * 60;
-    const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch);
+    // per-band fetch limit + class standing ratio: the vertex stage's
+    // esWaveSampleEx call, argument for argument
+    const w = surfaceWaveAt(position.x, position.z, waveTime, exposure, this.scratch,
+      s.shoreDistM, standingWaveRatio(s.className, s.shoreDistM));
     // Shore surf (round 7) — mirrors the vertex shader exactly: fetch is
     // sampled ~30 m seaward via the shore-distance gradient, then the
     // asymmetric swash + shoaling swell ride on the still level.

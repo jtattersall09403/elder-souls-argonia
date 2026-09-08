@@ -235,8 +235,10 @@ gl_FragDepth = texture2D(uSceneDepthB, vMapUv).x;`,
       h.falls?.setDepth(rt.depthTexture as THREE.Texture, cam.near, cam.far, size.x, size.y);
     }
 
-    // ---- pass 0: advance the interactive ripple patch (2 tiny passes) ----
+    // ---- pass 0: advance the interactive ripple patch (2 tiny passes) and
+    // the persistent foam energy field (one pass; advected by the flow) ----
     ripple?.step(renderer, camPos.x, camPos.z, delta);
+    h?.foam?.update(renderer, camPos.x, camPos.z, runtime.transportDeltaS?.() ?? delta);
 
     // ---- pass 1: opaques (+ underside when submerged) → RT, linear HDR ----
     const prevTone = renderer.toneMapping;

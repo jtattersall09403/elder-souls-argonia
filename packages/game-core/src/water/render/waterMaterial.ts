@@ -2,11 +2,17 @@ import * as THREE from "three";
 import { WHITEWATER_GLSL, STREAK_LAYERS } from "./whitewaterStreaks";
 import { STRIP_BANK_FADE_START } from "./ChannelStrips";
 import type { CSM } from "three/examples/jsm/csm/CSM.js";
-import { FLOW_WAVE_MIN_SPEED_MS, WAVES, flowWaveGlsl, gerstnerGlsl, surfGlsl } from "@elder-souls/game-core/water/index";
+import { FLOW_WAVE_MIN_SPEED_MS, WAVES, flowWaveGlsl, gerstnerGlsl, standingRatioGlsl, surfGlsl } from "@elder-souls/game-core/water/index";
 import { OPEN_SEA_DEPTH_M, buriedThresholdM } from "../waterData";
 
 import type { WaterAssets } from "./types";
 import { RIPPLE_PATCH_M } from "./RippleSim";
+import { FOAM_FIELD_GLSL, createFoamFieldUniforms, type FoamFieldUniforms } from "./FoamField";
+import { RAIN_RINGS_GLSL } from "./rainRings";
+import { SPARKLE_SSS_GLSL } from "./sparkleSss";
+import { HORIZON_BLEND_GLSL } from "./horizonBlend";
+import { MENISCUS_GLSL } from "./meniscus";
+import { SHORE_FROTH_GLSL } from "./shoreFroth";
 
 /**
  * The Phase 8b water material (decision 0025, reworked in owner round 2):
@@ -78,7 +84,7 @@ export const MAX_CONTACT_BODIES = 8;
 /** Nearest cascade plunge points fed to the field shader for pool foam. */
 export const MAX_PLUNGE_SOURCES = 16;
 
-export interface WaterUniforms {
+export interface WaterUniforms extends FoamFieldUniforms {
   uWaveTime: { value: number };
   /** Transport clock (s): current advection, unscaled by wind or preview rate. */
   uTransportTime: { value: number };
@@ -128,6 +134,14 @@ export interface WaterUniforms {
   /** x, z, radius (m), strength — nearest waterfall plunge pools. */
   uPlunges: { value: THREE.Vector4[] };
   uPlungeCount: { value: number };
+  /** Vanilla foam tile (kit slot `foam`, alpha = coverage) or null → fbm. */
+  uFoamTex: { value: THREE.Texture | null };
+  /** Sun direction (unit, world), sun radiance and sky ambient for the
+   * sparkle, crest scatter and meniscus rim — copied from the runtime each
+   * frame (the aerial patch owns `uSunDirW`; never redeclared here). */
+  uWaterSunDir: { value: THREE.Vector3 };
+  uWaterSunLight: { value: THREE.Vector3 };
+  uWaterAmbient: { value: THREE.Vector3 };
 }
 
 export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
@@ -171,11 +185,17 @@ export function createWaterUniforms(assets: WaterAssets): WaterUniforms {
     uSurfExtentM: { value: m.surface.size * m.surface.metresPerPixel },
     uPlunges: { value: Array.from({ length: MAX_PLUNGE_SOURCES }, () => new THREE.Vector4()) },
     uPlungeCount: { value: 0 },
+    ...createFoamFieldUniforms(),
+    uFoamTex: { value: assets.waterfallTextures?.foam ?? null },
+    uWaterSunDir: { value: new THREE.Vector3(0, 1, 0) },
+    uWaterSunLight: { value: new THREE.Vector3(0, 0, 0) },
+    uWaterAmbient: { value: new THREE.Vector3(0, 0, 0) },
   };
 }
 
-/** Noise helpers (adapted from WaterThreeJS, MIT). */
-const NOISE_GLSL = /* glsl */ `
+/** Noise helpers (adapted from WaterThreeJS, MIT). Shared with the foam
+ * field pass (`FoamField`), which decodes the same rasters. */
+export const NOISE_GLSL = /* glsl */ `
   float esHash21(vec2 p){
     p = fract(p * vec2(123.34, 456.21));
     p += dot(p, p + 45.32);
@@ -423,6 +443,20 @@ const FLOW_WAVE_MIN_GLSL = FLOW_WAVE_MIN_SPEED_MS.toFixed(2);
  * lo..hi — tuned so the dual-phase mix covers ≈ 3–6 % of a river (the test
  * ports esFbm and measures it). */
 export const FLECK = { scale: 1.7, lo: 0.515, hi: 0.545 } as const;
+/**
+ * Vanilla foam tile as the FIELD foam's dissolve/breakup (study §3.1 (3)):
+ * `foamtile01` (kit `waterfall-fx-textures`, slot `foam`), 256², coverage in
+ * ALPHA. Measured 2026-09-08 over the whole tile: alpha mean 0.152, std
+ * 0.195; the shader's 3-octave `esFbm` at the 0.55 cycles/m foam scale has
+ * mean 0.436, std 0.130. The sample is remapped onto the fbm's moments so
+ * the dissolve threshold (`esFThr = 1 − esFoamE`) covers the same area at the
+ * same energy as the procedural path — the owner-reviewed density holds,
+ * only the structure changes. `tileM` is the world size of one tile.
+ * `fleck` thresholds the dual-phase texture mean for the river flecks
+ * (measured 4.2 % coverage on the same tile with the dual-phase mean, 2026-09-08).
+ */
+export const FOAM_TEX = { tileM: 3.0, mean: 0.152, std: 0.195, fbmMean: 0.436, fbmStd: 0.130,
+  fleck: { lo: 0.44, hi: 0.50 } } as const;
 
 /**
  * How far the field's owner-mask hole is grown, in metres. Smaller than the
@@ -448,6 +482,30 @@ bool esOwnedNearby(vec2 wpos){
   }
   return false;
 }
+`;
+
+/**
+ * The foam dissolve/breakup mask in world metres: the vanilla foam tile when
+ * the kit slot is bound (remapped onto the fbm's moments, see FOAM_TEX), the
+ * procedural fbm otherwise. `esFoamMask` is the 3-octave dissolve field,
+ * `esFoamMask2` the 2-octave fleck/streak field — both dual-phase advected by
+ * the caller exactly as before.
+ */
+const FOAM_MASK_GLSL = /* glsl */ `
+uniform sampler2D uFoamTex;
+#ifdef ES_FOAM_TEX
+float esFoamTexAt(vec2 wp){
+  float a = texture2D(uFoamTex, wp / ${FOAM_TEX.tileM.toFixed(2)}).a;
+  return ${FOAM_TEX.fbmMean.toFixed(3)} + (a - ${FOAM_TEX.mean.toFixed(3)}) * ${(FOAM_TEX.fbmStd / FOAM_TEX.std).toFixed(4)};
+}
+float esFoamMask(vec2 wp){ return esFoamTexAt(wp); }
+float esFoamMask2(vec2 wp){ return esFoamTexAt(wp * 0.7 + 2.0); }
+float esFoamFleck(vec2 wp){ return texture2D(uFoamTex, wp / ${FOAM_TEX.tileM.toFixed(2)}).a; }
+#else
+float esFoamMask(vec2 wp){ return esFbm(wp * 0.55, 3); }
+float esFoamMask2(vec2 wp){ return esFbm(wp * 0.55, 2); }
+float esFoamFleck(vec2 wp){ return esFbm(wp * ${FLECK.scale.toFixed(2)} + 5.0, 2); }
+#endif
 `;
 
 function fragmentPrelude(tier: WaterTier, variant: WaterVariant, strip: boolean): string {
@@ -567,6 +625,8 @@ export function createWaterMaterial(
 ): THREE.MeshPhysicalMaterial {
   const { csm, applyAerial, uniforms, tier } = ctx;
   const strip = mode === "strip";
+  const foamTex = !!ctx.assets.waterfallTextures?.foam;
+  const classes = ctx.assets.meta.klass.classes;
   const material = new THREE.MeshPhysicalMaterial({
     roughness: 0.08,
     metalness: 0.0,
@@ -618,6 +678,7 @@ varying vec3 vEsNormalW;
 varying vec3 vEsSurf;
 ${SAMPLER_GLSL}
 ${gerstnerGlsl(tier.waveBands)}
+${standingRatioGlsl(classes)}
 ${surfGlsl()}
 ${flowWaveGlsl()}`,
       )
@@ -690,10 +751,15 @@ float esExposure = 0.05;
 float esExposure = esWaveExposure(esShore, esVDepth, esTurbV);
 #endif
 float esCamDist = distance(cameraPosition.xz, esRestW.xz);
-float esWaveAmp = esExposure * uWindWave * exp(-esCamDist * 0.0006);
+// distance fade relaxed 0.0006 -> 0.0003 (Water Pro transfer): the 100-160 m
+// JONSWAP swell is what makes the far sea read as sea, and the far grid
+// carries it (cells there are tens of metres, the swell a hundred)
+float esWaveAmp = esExposure * uWindWave * exp(-esCamDist * 0.0003);
 EsWave esW;
 if (esWaveAmp > 0.002) {
-  esW = esWaveSample(esRestW.xz, esWaveAmp, uWaveTime);
+  // per-band fetch (long swell needs long fetch) + the class standing ratio
+  // (lakes/marsh bob, coast marches) — CPU twin: waterWorld.sample
+  esW = esWaveSampleEx(esRestW.xz, esWaveAmp, esShore, esStandingRatio(esKl.r * 255.0, esShore), uWaveTime);
 } else {
   esW.disp = vec3(0.0);
   esW.normal = vec3(0.0, 1.0, 0.0);
@@ -765,6 +831,12 @@ ${surfGlsl()}
 ${SAMPLER_GLSL}
 ${prelude}
 ${strip ? "" : OWNER_MASK_GLSL}
+${strip ? "" : FOAM_FIELD_GLSL + RAIN_RINGS_GLSL + SPARKLE_SSS_GLSL + HORIZON_BLEND_GLSL + SHORE_FROTH_GLSL + FOAM_MASK_GLSL}
+${MENISCUS_GLSL}
+${foamTex && !strip ? "#define ES_FOAM_TEX 1" : ""}
+uniform vec3 uWaterSunDir;
+uniform vec3 uWaterSunLight;
+uniform vec3 uWaterAmbient;
 uniform float uVerticalScale;`,
       )
       .replace(
@@ -854,7 +926,8 @@ if (esDetFade > 0.02) {
     vec2 esQ2 = (vEsWorldPos.xz - esDrift * esPh2 * esCycle) * 2.3 + 17.0;
     esGF = mix(esDetailGrad(esQ1, vec2(0.0)), esDetailGrad(esQ2, vec2(0.0)), esPhB) * esDetFade * 0.5;
   } else {
-    esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uWaveTime) * esDetFade * 0.5;
+    // transport clock: uWaveTime folds every 8192 s and this drift is not periodic
+    esGF = esDetailGrad(vEsWorldPos.xz * 2.3 + 17.0, vec2(0.11, 0.07) * uTransportTime) * esDetFade * 0.5;
   }
 }
 vec2 esRip = vec2(0.0);
@@ -873,20 +946,21 @@ float esRipCrest = 0.0;
   }
 }
 #endif
-// rain agitation (round 2): the sim patch only reaches ~64 m — beyond it a
-// fast time-jittered high-frequency perturbation makes rain read on ALL
-// visible water. Two decorrelated phases so it shimmers rather than scrolls;
-// fades with distance like the other detail so the far shimmer stays clean.
+// rain (study §3.1 (6)): analytic cell-hashed drop rings on ALL visible
+// water — discrete expanding rings, no buffers, faded by ~100 m; the 64 m
+// ripple-sim stamps stay for the near field. Real time, not the wave clock.
 vec2 esRainG = vec2(0.0);
-if (uRainRipple > 0.02) {
-  esRainG = (esDetailGrad(vEsWorldPos.xz * 2.9, vec2(0.41, 0.33) * uWaveTime * 2.6)
-           + esDetailGrad(vEsWorldPos.xz * 5.3 + 31.0, vec2(-0.29, 0.47) * uWaveTime * 2.6))
-          * uRainRipple * 0.09 * (0.25 + 0.75 * esFarFade);
-}
+${strip ? "" : /* glsl */ `
+if (uRainRipple > 0.02) esRainG = esRainRings(vEsWorldPos.xz, uTransportTime, uRainRipple, esDist);`}
 vec3 esNW = normalize(vec3(
   esNBase.x - (esG.x + esGF.x) * esDetStrength - esRip.x - esRainG.x,
   esNBase.y,
   esNBase.z - (esG.y + esGF.y) * esDetStrength - esRip.y - esRainG.y));
+// waterline meniscus (study §3.1 (8)): within +-0.4 m of the camera height
+// and arm's reach, the normal tilts toward the camera; the rim is added in
+// the lighting stage. Both variants: the half-in-half-out swimming shot.
+float esMen = esMeniscusBand((vEsWorldPos.y - cameraPosition.y) / max(uVerticalScale, 1e-3), esDist);
+if (esMen > 0.0) esNW = esMeniscusNormal(esNW, normalize(cameraPosition - vEsWorldPos), esMen);
 ${variant === "below" ? "esNW = -esNW;" : ""}
 vec3 normal = normalize((viewMatrix * vec4(esNW, 0.0)).xyz);
 vec3 nonPerturbedNormal = normal;`,
@@ -988,6 +1062,7 @@ float esFoamE;
 // distance. A screen-resolution, world-anchored fbm crest keeps the density
 // PIXEL-driven; it is advected on the transport clock and scaled by wind.
 float esCrest = (vEsWorldPos.y / max(uVerticalScale, 1e-3)) - vEsData.x;
+float esCrestMesh = esCrest;   // the real crest, for the backlit scatter
 float esCrestFade = 1.0 - smoothstep(1200.0, 2400.0, esDist);
 {
   vec2 esCP = vEsWorldPos.xz * 0.085 - esDrift * uTransportTime * 0.05;
@@ -1002,19 +1077,32 @@ esFoamE += esCascade * 0.55;
 // 5. player/crate/splash rings + sim crests + plunge pools
 esFoamE += esContactFoam(vEsWorldPos.xz) + esRipCrest * 0.5;
 esFoamE += esPlungeFoam(vEsWorldPos.xz, vEsFlow.xy);
-// murky water barely foams white; cap below saturation so the threshold
-// texture ALWAYS breaks the foam up (max coverage ~0.65, research Q3)
-esFoamE = min(esFoamE, 0.85) * (1.0 - 0.75 * esMurk);
+// 5b. shoreline depth-range froth (study §4 (2)): a wider, lower,
+// noise-broken band over ~1.8 m of vertical depth behind the contact line
+esFoamE += esShoreFroth(esTv, esFbm(vEsWorldPos.xz * 0.9 + 7.0, 2), vEsSurf.x);
+// cap below saturation so the threshold texture ALWAYS breaks the foam up
+// (max coverage ~0.65, research Q3) ...
+esFoamE = min(esFoamE, 0.85);
+// 5c. ...then the PERSISTENT foam energy field (study §3.1 (1)): the
+// instantaneous terms above are the floor, the field carries memory — crest
+// foam trailing off the back of a wave, surf lingering on the sand, plunge
+// and contact foam drifting downstream on the compiled flow. Same dissolve
+// below, so the field's edge is seamless.
+esFoamE = max(esFoamE, min(esFoamFieldAt(vEsWorldPos.xz), 0.95));
+// murky water barely foams white
+esFoamE *= (1.0 - 0.75 * esMurk);
 // foam advection: DUAL-PHASE, like the normals. Scroll distance per cycle
 // = speed x cycle (Valve's one true speed knob). Never any velocity × absolute
 // time: an OSCILLATING velocity × t swings hundreds of metres per frame
 // (round-5 barcode); a SPATIALLY-VARYING velocity × t shears neighbouring
 // pixels apart until the noise shreds into stripes (round-6 barcode).
+// The mask is ONE foam family: the vanilla foam tile when bound (ES_FOAM_TEX,
+// remapped onto the fbm moments — FOAM_TEX), the procedural fbm otherwise.
 float esFTex;
 {
-  vec2 esFP1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * 0.55;
-  vec2 esFP2 = (vEsWorldPos.xz - esDrift * esPh2 * esCycle) * 0.55;
-  esFTex = mix(esFbm(esFP1, 3), esFbm(esFP2, 3), esPhB);
+  vec2 esFP1 = vEsWorldPos.xz - esDrift * esPh1 * esCycle;
+  vec2 esFP2 = vEsWorldPos.xz - esDrift * esPh2 * esCycle;
+  esFTex = mix(esFoamMask(esFP1), esFoamMask(esFP2), esPhB);
 }
 // flowing water reads as CURRENT: foam stretches into streaks along the
 // flow and slides downstream (owner round 6 — rivers must look like rivers);
@@ -1024,11 +1112,11 @@ if (esFlowing) {
   // direction: far from origin, tiny bend-angle changes become huge texture
   // jumps/barcodes. Stretch a world-anchored pattern using LOCAL offsets.
   float esAdv = min(esSpeed, 2.5) * esCycle;   // metres per cycle — bounded
-  vec2 esSP1 = (vEsWorldPos.xz - esFDirN * esAdv * esPh1) * 0.55;
-  vec2 esSP2 = (vEsWorldPos.xz - esFDirN * esAdv * esPh2) * 0.55;
-  vec2 esSmear = esFDirN * 0.85;
-  float esStreak1 = (esFbm(esSP1 - esSmear, 2) + esFbm(esSP1, 2) + esFbm(esSP1 + esSmear, 2)) / 3.0;
-  float esStreak2 = (esFbm(esSP2 - esSmear, 2) + esFbm(esSP2, 2) + esFbm(esSP2 + esSmear, 2)) / 3.0;
+  vec2 esSP1 = vEsWorldPos.xz - esFDirN * esAdv * esPh1;
+  vec2 esSP2 = vEsWorldPos.xz - esFDirN * esAdv * esPh2;
+  vec2 esSmear = esFDirN * 1.55;
+  float esStreak1 = (esFoamMask2(esSP1 - esSmear) + esFoamMask2(esSP1) + esFoamMask2(esSP1 + esSmear)) / 3.0;
+  float esStreak2 = (esFoamMask2(esSP2 - esSmear) + esFoamMask2(esSP2) + esFoamMask2(esSP2 + esSmear)) / 3.0;
   float esStreak = mix(esStreak1, esStreak2, esPhB);
   esFTex = mix(esFTex, esStreak, smoothstep(0.2, 1.0, esSpeed));
   esFoamE += smoothstep(0.6, 1.6, esSpeed) * 0.3;
@@ -1036,20 +1124,26 @@ if (esFlowing) {
 float esFThr = 1.0 - esFoamE;
 float esFoam = smoothstep(esFThr - 0.18, esFThr + 0.26, esFTex)
              * smoothstep(0.0, 0.10, esFoamE);
+// breakup jitter on the TRANSPORT clock (the wave clock folds; a sin of it
+// would pop at the fold unless snapped — real time needs no snapping)
 esFoam = clamp(esFoam, 0.0, 1.0)
-       * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uWaveTime * 0.17), cos(uWaveTime * 0.15)) * 0.8, 3))
+       * (0.5 + 0.5 * esFbm(vEsWorldPos.xz * 1.9 + vec2(sin(uTransportTime * 0.17), cos(uTransportTime * 0.15)) * 0.8, 3))
        * (0.25 + 0.75 * esFarFade) * 0.9;
 // 6. sparse drifting foam flecks on flowing river water (decision 0047 item
 // 6): a few percent coverage, dual-phase advected 1:1 with the current so a
 // slow lowland river visibly moves. TS twin of the threshold: riverFleck().
 if (esFlowing && vEsKlass.w > 2.5 && vEsKlass.w < 3.5) {
-  vec2 esFk1 = (vEsWorldPos.xz - esDrift * esPh1 * esCycle) * ${FLECK.scale.toFixed(2)} + 5.0;
-  vec2 esFk2 = (vEsWorldPos.xz - esDrift * esPh2 * esCycle) * ${FLECK.scale.toFixed(2)} + 5.0;
-  float esFk = mix(esFbm(esFk1, 2), esFbm(esFk2, 2), esPhB);
+  vec2 esFk1 = vEsWorldPos.xz - esDrift * esPh1 * esCycle;
+  vec2 esFk2 = vEsWorldPos.xz - esDrift * esPh2 * esCycle;
+  float esFk = mix(esFoamFleck(esFk1), esFoamFleck(esFk2), esPhB);
+#ifdef ES_FOAM_TEX
+  float esFleck = smoothstep(${FOAM_TEX.fleck.lo.toFixed(3)}, ${FOAM_TEX.fleck.hi.toFixed(3)}, esFk) * (0.25 + 0.75 * esFarFade);
+#else
   float esFleck = smoothstep(${FLECK.lo.toFixed(3)}, ${FLECK.hi.toFixed(3)}, esFk) * (0.25 + 0.75 * esFarFade);
+#endif
   esFoam = max(esFoam, esFleck * 0.7 * (1.0 - 0.6 * esMurk));
 }
-float esFoamShade = 0.72 + 0.36 * esFbm(vEsWorldPos.xz * 3.7, 3);
+float esFoamShade = 0.72 + 0.36 * esFoamMask(vEsWorldPos.xz * 6.7);
 // foam is off-white ALBEDO + high roughness, never near-1.0 white — full
 // white kills all lighting shape and reads as crust (research Q3)
 diffuseColor.rgb = mix(esAlb * (1.0 - esT), vec3(0.80, 0.84, 0.86) * esFoamShade, esFoam);
@@ -1100,7 +1194,32 @@ outgoingLight = outgoingLight - reflectedLight.indirectSpecular + esSpecEnv + es
 // view-angle dependence in the waterline; foam may stand on the line itself
 float esEdgeSoft = smoothstep(0.0, ${EDGE_FADE_M.toFixed(2)}, esTv);
 float esCover = max(esEdgeSoft, esFoam);
+// ---- Water Pro transfers (study §3.1 (4), (5), (7), (8)) ---------------
+// sparkle: a dedicated sun glint with its own 8-500 m window, added AFTER
+// the specular and deliberately outside the roughness distance-LOD above
+float esSpark = esSparkle(esNW, esView, uWaterSunDir, esDist, esExpo) * esFresT;
+// crest scatter: backlit crests glow with the water's transmission tint,
+// gated on wave exposure (still marsh water never glows) and sun elevation
+vec3 esSssTint = mix(vec3(0.10, 0.45, 0.40), vec3(0.14, 0.11, 0.04), esMurk);
+float esSssW = esCrestSss(esView, uWaterSunDir, esCrestMesh, esExpo);
+outgoingLight += uWaterSunLight * (esSpark + esSssW * esSssTint) * (1.0 - esFoam);
+// meniscus rim across the waterline band at the camera
+outgoingLight += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
 outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCover);
+// horizon: the far sea converges on the sky it reflects over 1.5-3.5 km, so
+// the water/sky join has no seam. Before the aerial term (tonemapping_fragment)
+// — the fog then acts once on a colour that already agrees with the sky.
+#ifdef USE_ENVMAP
+{
+  float esHz = esHorizonBlend(esDist);
+  if (esHz > 0.0) {
+    vec3 esSkyDir = reflect(-esView, vec3(0.0, 1.0, 0.0));
+    esSkyDir.y = max(esSkyDir.y, 0.02);
+    vec3 esSkyCol = textureCubeUV(envMap, normalize(esSkyDir), 0.4).rgb * envMapIntensity;
+    outgoingLight = mix(outgoingLight, esSkyCol, esHz);
+  }
+}
+#endif
 #include <opaque_fragment>`
           : /* glsl */ `
 // Snell's window: refract the up-ray through the surface into the sky.
@@ -1118,11 +1237,13 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCov
     esSky = textureCubeUV(envMap, esRefr, 0.08).rgb * envMapIntensity * 1.15;
   }
   #endif
-  float esShimmer = smoothstep(0.5, 0.92, esFbm(vEsWorldPos.xz * 0.5 + vec2(0.2) * uWaveTime, 4));
+  float esShimmer = smoothstep(0.5, 0.92, esFbm(vEsWorldPos.xz * 0.5 + vec2(0.2) * uTransportTime, 4));
   vec3 esCol = (dot(esRefr, esRefr) < 1e-4)
     ? esGlow * 1.6
     : mix(esGlow * 1.4, esSky, 1.0 - esFresU);
   esCol += esGlow * esShimmer * 0.8;
+  // meniscus rim from below: the same band, the same highlight
+  esCol += uWaterAmbient * 10.0 * esMeniscusRim(esMen);
   outgoingLight = esCol;
 }
 #include <opaque_fragment>`,
@@ -1130,6 +1251,6 @@ outgoingLight = mix(texture2D(uSceneColor, esScreenUV).rgb, outgoingLight, esCov
   };
 
   applyAerial(material);
-  material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}-${mode}`;
+  material.customProgramCacheKey = () => `es-water-${variant}-${tier.name}-${mode}${foamTex ? "-ftex" : ""}`;
   return material;
 }

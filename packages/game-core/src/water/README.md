@@ -105,14 +105,14 @@ a pop. Technique sources: [water-pro-greenheck-study.md](../../../../docs/resear
 | File | What it owns |
 | --- | --- |
 | `loadWaterAssets.ts` | Fetches + decodes `province/water/` into `WaterData`, `WaterWorld` and textures (`decodeWaterRasters` is the pure, tested decode). |
-| `waterMaterial.ts` | The water shader patch (terrain-cut shoreline with vertical fade, surf, whitecaps, foam, flecks, SSR, refraction, ripples) + tiers/layers, the buried/cliff/owner guards, and the `ES_STRIP` whitewater variant. Twins: `stripAeration`, `stripAlbedo`, `stripStreakPhase`, `FLECK`. |
+| `waterMaterial.ts` | The water shader patch (terrain-cut shoreline with vertical fade, surf, whitecaps, foam, flecks, SSR, refraction, ripples) + tiers/layers, the buried/cliff/owner guards, and the `ES_STRIP` whitewater variant. Composes the study terms: the foam field sample ahead of the dissolve, the depth-range froth, rain rings, sparkle + crest scatter after the specular, the horizon blend before the aerial term, the meniscus in both variants; `ES_FOAM_TEX` swaps the fbm foam mask for the vanilla `foamtile01` (kit slot `foam`, remapped onto the fbm moments — `FOAM_TEX`). Twins: `stripAeration`, `stripAlbedo`, `stripStreakPhase`, `FLECK`. |
 | `ChannelStrips.ts` | Ribbon meshes along the compiled `channels[]` (and the ramps `WaterfallSheets` hands back) — per-vertex hydraulics plus the ribbon UV (`aSideM`, `aArc`, `aScroll`, `aEdge`); `stripBoulderCandidates` for the scatter compiler. |
 | `whitewaterStreaks.ts` | The shared three-layer streak field (measured rates, U drift, breathe) — GLSL + TS twins, `uStreakTex` slot. |
 | `PlungeBase.ts` | 12–19 flat foam quads per fall on the receiving pool (Bethesda's `CurrentPlane` set), one merged draw. |
 | `waterProbe.ts` | `createWaterProbe`: the numeric dev hook the studio exposes as `window.__STUDIO_WATER_PROBE__` for `apps/world-studio/scripts/probe-water.mjs`. |
 | `WaterfallSheets.ts` | Ballistic sheet tracer + fall/ramp classification, strip alignment, the sheet mesh (body layers, side strips, crest wrap) and its unlit whitewater material; owns the `PlungeBase`. |
-| `WaterSurface.tsx` | The camera-following province grid, contact bodies, ripple stamping, particle stack. |
-| `WaterPipeline.tsx` | The three-pass frame (opaques→HDR RT, tone-mapped blit with underwater fog/god rays/bubbles, water+precip+overlay). |
+| `WaterSurface.tsx` | The camera-following province grid, contact bodies (swept-path stamps into ripple sim + foam field every 0.12 s), splash/plunge deposits into the field, the field's construction by tier, particle stack. |
+| `WaterPipeline.tsx` | The three-pass frame (opaques→HDR RT, tone-mapped blit with underwater fog/god rays/bubbles, water+precip+overlay); steps the ripple sim and the foam field first. |
 | `RippleSim.ts` (+ `rippleAdvection`, `rippleIsolation`) | Body-isolating interactive ripple patch; `addPath` stamps a swept footprint. |
 | `FoamField.ts` | Persistent foam ENERGY field (512²/256² by tier, 512 m, camera-snapped): advected by the compiled flow, fed by crest fold, windward faces, the surf band and swept injections, decaying 0.5 s at sea → 3 s sheltered; `FOAM_FIELD_GLSL` samples it in the fragment ahead of the unchanged dissolve. |
 | `shoreFroth.ts`, `rainRings.ts`, `sparkleSss.ts`, `horizonBlend.ts`, `meniscus.ts` | Small GLSL + TS-twin terms from the Greenheck study: the 1.8 m depth-range froth band, analytic cell-hashed rain rings, the sun-glint window and backlit crest scatter, the far-sea → sky convergence, the waterline meniscus. |

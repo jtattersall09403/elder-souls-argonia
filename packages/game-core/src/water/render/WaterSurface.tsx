@@ -9,11 +9,15 @@ import { UnderwaterBubbles } from "./UnderwaterBubbles";
 import { CASCADE_PATH_LIMIT, WaterCascadeSources, cascadePathEmitters } from "./WaterCascadeSources";
 import { buildChannelStripGeometry } from "./ChannelStrips";
 import { WaterfallSheets } from "./WaterfallSheets";
+import { plungeBaseRadiusM } from "./PlungeBase";
+import { FoamField } from "./FoamField";
 import { WaterFlowContacts } from "../flowContacts";
 import {
   WATER_LAYER,
   MAX_CONTACT_BODIES,
   MAX_PLUNGE_SOURCES,
+  NOISE_GLSL,
+  SAMPLER_GLSL,
   createWaterMaterial,
   createWaterUniforms,
   type WaterTier,
@@ -103,11 +107,24 @@ function buildWaterGeometry(spec: GridSpec): THREE.BufferGeometry {
 
 /** Churn sources for contact foam: id → world pos/radius/strength/ttl. */
 export interface ContactBody {
+  /** Stable id so the swept-path stamp can follow the body between frames
+   * (absent: the body's index in the list stands in). */
+  id?: string;
   x: number;
   z: number;
   radius: number;
   strength: number;
 }
+
+/** Wading/contact stamps land every this many seconds — along the path
+ * travelled since the last stamp (a swept footprint), into both the ripple
+ * sim and the foam field (study §1.4, §6 "Interaction"). */
+export const CONTACT_STAMP_S = 0.12;
+/** A body that jumped farther than this since its last stamp teleported:
+ * the path is not swept. */
+export const CONTACT_TELEPORT_M = 6;
+/** Foam field texels a side by tier (study §1.3: 256/512 by tier). */
+export const FOAM_FIELD_SIZE: Record<"low" | "high", number> = { high: 512, low: 256 };
 
 export interface WaterSurfaceHandle {
   uniforms: WaterUniforms;
@@ -122,6 +139,8 @@ export interface WaterSurfaceHandle {
   effects: WaterEffects;
   bubbles: UnderwaterBubbles;
   falls: WaterfallSheets | null;
+  /** Persistent foam energy field; the pipeline steps it before the water pass. */
+  foam: FoamField | null;
   stripDiagnostics: { count: number; triangles: number };
 }
 
@@ -196,17 +215,32 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
   useEffect(() => () => bubbles.dispose(), [bubbles]);
   const cascadeSources = useMemo(() => new WaterCascadeSources(assets.meta.cascades ?? []), [assets]);
   const flowContacts = useMemo(() => new WaterFlowContacts(), [assets]);
+  // Persistent foam energy field (study §3.1 (1)): decodes the same rasters
+  // with the same GLSL and the same uniform objects as the surface, so the
+  // fold it injects on is the crest the surface renders.
+  const foam = useMemo(() => new FoamField({
+    size: FOAM_FIELD_SIZE[tier.name],
+    samplerGlsl: SAMPLER_GLSL,
+    noiseGlsl: NOISE_GLSL,
+    uniforms: uniforms as unknown as Record<string, THREE.IUniform>,
+    waveBands: tier.waveBands,
+    classes: assets.meta.klass.classes,
+  }), [tier, uniforms, assets]);
+  useEffect(() => () => foam.dispose(), [foam]);
   useEffect(() => {
     const visibility = () => {
       effects.setSuspended(document.hidden); bubbles.setSuspended(document.hidden);
-      ripple?.suspend(); splashes.current.length = 0;
+      ripple?.suspend(); foam.suspend(); splashes.current.length = 0; stamps.current.clear();
     };
     visibility(); document.addEventListener("visibilitychange", visibility);
     return () => document.removeEventListener("visibilitychange", visibility);
-  }, [effects, bubbles, ripple]);
+  }, [effects, bubbles, ripple, foam]);
   /** Splash events become decaying, spreading foam rings (world-time secs). */
   const splashes = useRef<{ x: number; z: number; radius: number; strength: number; bornS: number }[]>([]);
   const stampTimer = useRef(0);
+  /** Last stamped position per contact body (swept-path stamping). */
+  const stamps = useRef(new Map<string, { x: number; z: number; seen: number }>());
+  const stampFrame = useRef(0);
 
   // onReady rides a ref: an inline callback from a parent that re-renders
   // per HUD tick must NEVER re-trigger this effect — round 1's perf collapse
@@ -221,7 +255,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
       mesh.layers.set(WATER_LAYER);
       const meshes = [mesh, ...(strips ? [strips.mesh] : []), ...(falls ? [falls.mesh, falls.base.mesh] : [])];
       onReadyRef.current?.({
-        uniforms, mesh, meshes, materials, effects, bubbles, falls,
+        uniforms, mesh, meshes, materials, effects, bubbles, falls, foam,
         stripDiagnostics: { count: strips?.count ?? 0, triangles: strips?.triangles ?? 0 },
         setUnderwater(underwater: boolean) {
           mesh.material = underwater ? materials.below : materials.above;
@@ -229,7 +263,7 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         },
       });
     }
-  }, [materials, uniforms, effects, bubbles, strips, falls]);
+  }, [materials, uniforms, effects, bubbles, strips, falls, foam]);
   useEffect(() => () => {
     materials.above.dispose();
     materials.below.dispose();
@@ -269,6 +303,13 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     uniforms.uLevelSeason.value = offsets.season;
     runtime.onLevels(offsets.tide, offsets.season, getWindWaveScale());
     uniforms.uVerticalScale.value = verticalScale;
+    // sun/sky feeds for the sparkle, crest scatter and meniscus rim
+    uniforms.uWaterSunDir.value.copy(runtime.sunDirection.value);
+    uniforms.uWaterSunLight.value.copy(runtime.sunLight.value);
+    uniforms.uWaterAmbient.value.copy(runtime.ambient.value);
+    // the foam field the pipeline stepped last frame
+    uniforms.uFoamField.value = foam.texture;
+    uniforms.uFoamFieldInfo.value.copy(foam.info);
     // interaction events → spreading foam rings + real sim ripples
     const nowS = runtime.transportTimeS?.() ?? runtime.waveTimeS();
     const dt = runtime.transportDeltaS?.() ?? delta;
@@ -289,6 +330,9 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
           (e.radius ?? 0.8) * 0.9,
           Math.min((e.magnitude ?? 40) / 300, 0.5) * (e.kind === "wake" ? 0.4 : 1),
         );
+        // a splash DEPOSITS foam energy that then drifts on the current
+        foam.inject(e.position.x, e.position.z, (e.radius ?? 0.8) * 1.4,
+          Math.min((e.magnitude ?? 40) / 60, 1.2) * 0.7);
       }
     }
     // Rain stamps small impulses into the ripple patch (research §3: the sim
@@ -313,12 +357,32 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
         );
       }
     }
-    // wading churn stamps small continuous drops
+    // wading churn: every CONTACT_STAMP_S, stamp along the path each body
+    // travelled since its last stamp — into the ripple sim (a swept trail,
+    // never a dotted line) and the foam field (a wake that persists and
+    // drifts). A body unseen for a stamp, or one that teleported, restarts.
     stampTimer.current -= dt;
     if (stampTimer.current <= 0) {
-      stampTimer.current = 0.12;
-      for (const b of contactBodies?.() ?? []) {
-        if (b.strength > 0.05) ripple?.addDrop(b.x, b.z, 0.45, 0.045 * b.strength);
+      stampTimer.current = CONTACT_STAMP_S;
+      stampFrame.current++;
+      const list = contactBodies?.() ?? [];
+      for (let i = 0; i < list.length; i++) {
+        const b = list[i];
+        const key = b.id ?? `#${i}`;
+        const prev = stamps.current.get(key);
+        if (b.strength > 0.05) {
+          const swept = prev && prev.seen === stampFrame.current - 1
+            && Math.hypot(b.x - prev.x, b.z - prev.z) < CONTACT_TELEPORT_M;
+          const x0 = swept ? prev!.x : b.x;
+          const z0 = swept ? prev!.z : b.z;
+          ripple?.addPath(x0, z0, b.x, b.z, 0.45, 0.045 * b.strength);
+          foam.injectPath(x0, z0, b.x, b.z, Math.max(b.radius, 0.5), 0.06 * b.strength);
+        }
+        if (prev) { prev.x = b.x; prev.z = b.z; prev.seen = stampFrame.current; }
+        else stamps.current.set(key, { x: b.x, z: b.z, seen: stampFrame.current });
+      }
+      if (stamps.current.size > 64) {
+        for (const [k, v] of stamps.current) if (v.seen < stampFrame.current - 8) stamps.current.delete(k);
       }
     }
     splashes.current = splashes.current.filter((s) => nowS - s.bornS < 2.0).slice(-MAX_CONTACT_BODIES);
@@ -362,11 +426,18 @@ export function WaterSurfaceMesh({ runtime, assets, tier, verticalScale, farExte
     }
     let plunges = 0;
     for (const fall of cascadeSources.nearby(focus, 300, MAX_PLUNGE_SOURCES)) {
+      const strength = Math.min(0.7, 0.18 + fall.dropM * 0.03);
       uniforms.uPlunges.value[plunges++].set(
         fall.plunge.x, fall.plunge.z,
         Math.max(1.5, Math.min(16, fall.widthM)),
-        Math.min(0.7, 0.18 + fall.dropM * 0.03),
+        strength,
       );
+      // the plunge base also DEPOSITS into the field at a rate whose
+      // equilibrium (rate x the pool's ~3 s decay) is the base's own
+      // strength, so the pool looks fed and its foam drifts out on the
+      // current; the instantaneous disc/ring above stays as the floor
+      foam.inject(fall.plunge.x, fall.plunge.z, plungeBaseRadiusM(fall.widthM, fall.dropM) * 0.8,
+        (strength / 3.0) * dt);
     }
     uniforms.uPlungeCount.value = plunges;
     // the plunge base rides the pool, which the season floods: same lift the

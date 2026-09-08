@@ -185,7 +185,7 @@ try {
           // The compiled depth saturates at the encoding cap (v1 25.5 m, v2
           // 24.6 m): a deeper basin is registered when the real depth is at
           // least the cap, not when it equals it.
-          const cap = probe.depthMinM + probe.depthSpanM - 0.13;
+          const cap = probe.depthMinM + probe.depthSpanM - 0.5; // bilinear across texels clamped at the cap can read up to ~0.5 m under it
           const saturated = c.rawDepthM >= cap;
           const gap = saturated ? Math.max(0, cap - c.physicalDepthM) : Math.abs(c.physicalDepthM - c.depthM);
           const label = saturated ? `depth saturated at the ${cap.toFixed(1)} m cap, physical ${c.physicalDepthM.toFixed(2)} m` : `|still − ground − depth| = ${gap.toFixed(2)} m`;
