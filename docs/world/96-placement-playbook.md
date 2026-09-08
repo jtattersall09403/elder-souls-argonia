@@ -63,6 +63,7 @@ sourcing rule); the register only records outcomes.
 
 | Round | Lesson | Where it now lives |
 |---|---|---|
+| Water round 2 (2026-09-08) | Effect meshes (waterfalls, rapids, mist) are not kit content: they are authored for another renderer and `check_credits` has no registry rows for them. A fall is our path-traced geometry carrying the vanilla *textures* and Bethesda's measured stack rules; rock dressing along strips and lips is a scatter job with candidate positions exported by the runtime | decision 0047 addendum; `ChannelStrips.stripBoulderCandidates`; `waterfall-fx-textures` manifest |
 | Review 2026-09-07 | A check that swallows its own failure is a check that is off; a canal needs a bound, a door needs a sightline; the claims in a round record are measured, not repeated | `canal-bound`, `door-sightline`, raise-on-failure in `_water_at` / `check_network_stitch` |
 | Part 6 | The macro plot places by landform *class*; four of five plots could not carry the place as recorded (no standing water for a pond, a 47° hillside, 4.3 m of relief across a ring, no navigable water). The meso pass exists to measure; expect 60–150 m moves and write them back | `apply_sitings`; 0041 § Part 6 delivery record |
 | Part 6 | Kits only combine pieces designed to combine, so a district is ONE kit set | `blueprint.KIT_SETS` |
