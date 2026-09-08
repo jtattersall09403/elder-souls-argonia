@@ -59,9 +59,9 @@ def test_live_catalogue_is_exhaustively_planned():
               for request in record.get("terrainRequests") or []]
     plan, errors = tr.build_plan(records)
     assert not errors
-    # The current authored baseline: 53 placed records make 65 requests.
-    assert len({place_id for place_id, _ in source}) == 53
-    assert len(source) == len(plan["requests"]) == len(plan["operations"]) == 65
+    # The current authored baseline includes Lilmoth's typed lighter-quay cut.
+    assert len({place_id for place_id, _ in source}) == 54
+    assert len(source) == len(plan["requests"]) == len(plan["operations"]) == 66
     assert {row["placeId"] for row in plan["requests"]} == {place_id for place_id, _ in source}
     assert {row["requestId"] for row in plan["operations"]} == {row["id"] for row in plan["requests"]}
 
