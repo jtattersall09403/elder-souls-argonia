@@ -254,3 +254,22 @@ npm run test:placement:slow  # the province-raster tests held out of the default
 Each check names the standard it enforces and prints the offending file and
 line. If a check is wrong, fix the check — do not add an exemption without
 saying why in the allowlist file.
+
+`npm test` and `npm run typecheck` fan the per-workspace scripts out in
+parallel (`tooling/repo-standards/run-workspaces.mjs`, one lane per core;
+`--jobs N` or `WORKSPACE_JOBS=N` to throttle). Output is buffered per
+workspace and printed when that workspace finishes, and every failing
+workspace is listed at the end rather than only the first.
+
+Typechecking is incremental: each workspace's tsconfig sets `incremental`
+with a `tsBuildInfoFile` under its own `node_modules/.cache/`, so a warm
+rerun re-uses the previous program. CI is always cold — `npm ci` wipes
+`node_modules`, and with it the cache — so the pipeline still gets a clean
+full check.
+
+Keep the typecheck scripts on `tsc --noEmit`, **not** `tsc -b`. Build mode's
+up-to-date check only looks at a project's own root files, so with a build-info
+file present it skips the whole project when the change was in a sibling
+workspace's `src/` — a real cross-package type error passes. Measured, not
+theorised: a deliberate error in `packages/world-time/src` was reported by
+`tsc --noEmit` in world-studio and silently skipped by `tsc -b`.
