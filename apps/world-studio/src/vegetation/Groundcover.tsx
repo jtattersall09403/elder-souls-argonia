@@ -19,6 +19,7 @@ import * as THREE from "three";
 import { buildFloraKit, type FloraKit, type KitManifest } from "./floraKit";
 import type { QualitySettings } from "@elder-souls/game-core/core/quality";
 import { sharedChunkStore, type ChunksManifest } from "../character/chunkStore";
+import { PROVINCE_EXTENT_M } from "../provinceScale";
 import {
   applyWindSway,
   updateWindSway,
@@ -151,7 +152,6 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
   if (!controlPromise || controlBase !== baseUrl) {
     controlBase = baseUrl;
     controlPromise = (async () => {
-      const meta = await (await fetch(`${baseUrl}province/refined/meta.json`)).json();
       const res = await fetch(`${baseUrl}province/refined/ground-control.png`);
       const bitmap = await createImageBitmap(await res.blob(), {
         premultiplyAlpha: "none",
@@ -169,11 +169,10 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
       // meta.metresPerPixel describes the half-res height raster — using it
       // directly sampled the wrong quadrant (mountain rock under the jungle,
       // no groundcover anywhere south-east of the map centre).
-      const extentM = (meta.metresPerPixel as number) * (meta.imageWidth as number);
       return {
         ids,
         size: canvas.width,
-        metresPerTexel: extentM / canvas.width,
+        metresPerTexel: PROVINCE_EXTENT_M / (canvas.width - 1),
       };
     })();
   }
@@ -181,8 +180,8 @@ function sharedControlRaster(baseUrl: string): Promise<ControlRaster> {
 }
 
 function coverAt(control: ControlRaster, x: number, z: number): number {
-  const tx = Math.max(0, Math.min(control.size - 1, Math.floor(x / control.metresPerTexel)));
-  const tz = Math.max(0, Math.min(control.size - 1, Math.floor(z / control.metresPerTexel)));
+  const tx = Math.max(0, Math.min(control.size - 1, Math.round(x / control.metresPerTexel)));
+  const tz = Math.max(0, Math.min(control.size - 1, Math.round(z / control.metresPerTexel)));
   return control.ids[tz * control.size + tx];
 }
 

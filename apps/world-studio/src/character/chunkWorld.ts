@@ -73,7 +73,7 @@ export class ChunkWorld implements EnvironmentQuery {
       for (let i = 0; i < ids.length; i++) ids[i] = px[i * 4];
       this.controlIds = ids;
       this.controlSize = size;
-      this.controlMetresPerTexel = (this.grid[0] * this.cellMetres) / size;
+      this.controlMetresPerTexel = this.manifest.extentM / (size - 1);
     } catch {
       /* material identification degrades gracefully to undefined */
     }
@@ -105,8 +105,8 @@ export class ChunkWorld implements EnvironmentQuery {
 
   groundMaterialAt(x: number, z: number): string | undefined {
     if (!this.controlIds) return undefined;
-    const tx = Math.max(0, Math.min(this.controlSize - 1, Math.floor(x / this.controlMetresPerTexel)));
-    const tz = Math.max(0, Math.min(this.controlSize - 1, Math.floor(z / this.controlMetresPerTexel)));
+    const tx = Math.max(0, Math.min(this.controlSize - 1, Math.round(x / this.controlMetresPerTexel)));
+    const tz = Math.max(0, Math.min(this.controlSize - 1, Math.round(z / this.controlMetresPerTexel)));
     return this.materialNames.get(this.controlIds[tz * this.controlSize + tx]);
   }
 

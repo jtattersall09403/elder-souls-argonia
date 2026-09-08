@@ -38,6 +38,7 @@ import { CityMarkers } from "../CityMarkers";
 import { Vegetation } from "../vegetation/Vegetation";
 import { Groundcover } from "../vegetation/Groundcover";
 import { SettlementLayer } from "@elder-souls/game-core/settlement/SettlementLayer";
+import { PROVINCE_EXTENT_M } from "../provinceScale";
 import type { SettlementSolid } from "@elder-souls/game-core/settlement/types";
 import { SettlementColliders } from "./SettlementColliders";
 import { lastWeatherSample } from "../weather/weatherState";
@@ -288,7 +289,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
     floraSolidsRef.current = solids;
   }, []);
 
-  const extentM = manifest ? manifest.grid[0] * manifest.chunkMetres : 22460;
+  const extentM = manifest?.extentM ?? PROVINCE_EXTENT_M;
 
   if (error) {
     return (

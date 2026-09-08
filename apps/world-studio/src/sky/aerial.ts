@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { PROVINCE_EXTENT_M } from "../provinceScale";
 
 /**
  * Aerial perspective (module 55 §97): ONE height-modulated exponential
@@ -74,7 +75,7 @@ export function createAerialUniforms(): AerialUniforms {
     uHazeSunLight: { value: new THREE.Vector3(0, 0, 0) },
     uHazeAmbient: { value: new THREE.Vector3(0, 0, 0) },
     uClimateAir: { value: null },
-    uProvinceExtentM: { value: 7373 },
+    uProvinceExtentM: { value: PROVINCE_EXTENT_M },
     uBetaR: { value: new THREE.Vector3(6.5e-6, 1.5e-5, 3.5e-5) },
     uBetaM: { value: 9e-5 },
     uBoundaryLayerM: { value: 60 },

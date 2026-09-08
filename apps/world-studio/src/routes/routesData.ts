@@ -16,10 +16,11 @@
 import type {
   MinorTrack, MinorTracksBundle, RegisteredRoute, RouteGeometry, RoutesIndexBundle,
 } from "@elder-souls/contracts";
+import { HYDRO_GRID_SAMPLES, METRES_PER_HYDRO_SAMPLE } from "../provinceScale";
 
 export type { MinorTrack, RegisteredRoute, RouteGeometry, RoutesIndexBundle } from "@elder-souls/contracts";
 
-export const HYDRO_GRID_PX = 1345;
+export const HYDRO_GRID_PX = HYDRO_GRID_SAMPLES;
 
 /** What the details panel shows for one clicked line, whichever bundle it came from. */
 export interface RouteSelection {
@@ -70,7 +71,7 @@ export async function loadMinorWaterways(baseUrl: string): Promise<MinorTrack[]>
 }
 
 /** Path length in km from the pixel grid, for geometries that carry no lengthKm. */
-export function pixelLengthKm(px: [number, number][], metresPerPixel = 5.48352): number {
+export function pixelLengthKm(px: [number, number][], metresPerPixel = METRES_PER_HYDRO_SAMPLE): number {
   let m = 0;
   for (let i = 1; i < px.length; i++) {
     m += Math.hypot(px[i][0] - px[i - 1][0], px[i][1] - px[i - 1][1]) * metresPerPixel;
@@ -137,7 +138,7 @@ export interface RouteStructure {
   pointsM: [number, number][];
 }
 
-export const METRES_PER_HYDRO_PX = 5.48352;
+export const METRES_PER_HYDRO_PX = METRES_PER_HYDRO_SAMPLE;
 
 export async function loadRouteStructures(baseUrl: string): Promise<RouteStructure[]> {
   const d = await getJson<{ structures?: RouteStructure[] }>(

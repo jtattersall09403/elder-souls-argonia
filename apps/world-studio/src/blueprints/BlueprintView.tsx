@@ -258,7 +258,7 @@ export function BlueprintView({ baseUrl, initial, onUrlState, onClose }: Bluepri
   const context = useMemo(() => {
     if (!bp || !bundle || !overlay) return null;
     const ext = bundle.provinceExtentM;
-    const perPx = ext / HYDRO_GRID_PX;
+    const perPx = ext / (HYDRO_GRID_PX - 1);
     const b = bp.contextM;
     const inside = (p: Pt) => p[0] >= b.x0 && p[0] <= b.x1 && p[1] >= b.z0 && p[1] <= b.z1;
     const dots = overlay.dots

@@ -19,6 +19,7 @@ import type {
   PlottedPlaceQuestLink,
   PlottedPlacesBundle,
 } from "@elder-souls/contracts";
+import { HYDRO_GRID_SAMPLES } from "../provinceScale";
 
 export type {
   PlottedPlace, PlottedPlacesBundle, MinorTrack, MinorTracksBundle,
@@ -27,7 +28,7 @@ export type {
 } from "@elder-souls/contracts";
 
 /** Pixel side of the hydrology grid that routes.json / routes-minor.json index. */
-export const HYDRO_GRID_PX = 1345;
+export const HYDRO_GRID_PX = HYDRO_GRID_SAMPLES;
 
 export async function loadPlaces(baseUrl: string): Promise<PlottedPlacesBundle> {
   const r = await fetch(`${baseUrl}province/places.json`);
