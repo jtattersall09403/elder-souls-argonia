@@ -62,7 +62,9 @@ from . import blueprint as bp_mod
 from . import parcel_kinds as pk_mod
 from .site_fields import ProvinceSurvey
 from .blueprint_integration import check_integration
-from .blueprint_promises import check_promises, write_ledger
+from .blueprint_promises import check_promises, load_record, write_ledger
+from . import place_obligations
+from . import terrain_requests
 
 SCHEMA_VERSION = 1
 GENERATOR_ID = "compile_settlement"
@@ -119,6 +121,81 @@ def blueprint_sha256(bp: dict) -> str:
     canonical = json.dumps(bp, sort_keys=True, separators=(",", ":"),
                            ensure_ascii=False).encode("utf-8")
     return hashlib.sha256(canonical).hexdigest()
+
+
+def _canonical_sha256(value: object) -> str:
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":"),
+                         ensure_ascii=False).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def phase11_obligation_receipt(bp: dict, record: dict) -> tuple[dict, list[str]]:
+    """Bind this compile to every Phase-11-owned macro obligation.
+
+    Most rows point at the exact blueprint objects already checked by the
+    blueprint and integration validators. Terrain requests instead point at
+    their concrete, policy-validated terrain operation: a boardwalk near a
+    promised cut is design evidence, but it is not the compiled cut.
+    """
+    obligations, errors = place_obligations.build_obligations(record, bp)
+    owned = [row for row in obligations if row.deliveryOwner == "phase-11-compiled"]
+    source_registry, registry_errors = place_obligations.blueprint_object_registry(bp)
+    errors += registry_errors
+
+    terrain_plan, terrain_errors = terrain_requests.build_plan([record])
+    errors += terrain_errors
+    terrain_operations: dict[str, list[dict]] = {}
+    if not terrain_errors:
+        for operation in terrain_plan.get("operations", []):
+            request = next((row for row in terrain_plan.get("requests", [])
+                            if row["id"] == operation["requestId"]), None)
+            if request is not None:
+                terrain_operations.setdefault(request["kind"], []).append(operation)
+
+    registry: dict[str, dict] = {}
+    deliveries = []
+    for obligation in owned:
+        refs = list(obligation.phase11Evidence)
+        if obligation.sourcePath.startswith("terrainRequests["):
+            kind = obligation.sourcePath.split("[", 1)[1].split("]", 1)[0]
+            operations = terrain_operations.get(kind, [])
+            refs = [operation["id"] for operation in operations]
+            for operation in operations:
+                registry.setdefault(operation["id"], {
+                    "kind": "terrain-operation", "placeId": record["id"],
+                    "sourceObjectSha256": _canonical_sha256(operation),
+                    "deliversObligationIds": [],
+                })
+        for ref in refs:
+            if ref not in registry:
+                source = source_registry.get(ref)
+                if source is None:
+                    errors.append(f"{record['id']}: phase-11 obligation {obligation.id} "
+                                  f"uses unknown compiled source object {ref!r}")
+                    continue
+                registry[ref] = {
+                    **source,
+                    "sourceObjectSha256": _canonical_sha256(source),
+                    "deliversObligationIds": [],
+                }
+            registry[ref]["deliversObligationIds"].append(obligation.id)
+        deliveries.append({"obligationId": obligation.id, "objectRefs": refs})
+
+    for entry in registry.values():
+        entry["deliversObligationIds"] = sorted(set(entry["deliversObligationIds"]))
+    manifest = {
+        "schemaVersion": place_obligations.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries",
+        "owner": "phase-11-compiled",
+        "obligationsSha256": place_obligations.owner_obligations_sha256(
+            obligations, "phase-11-compiled"),
+        "objectRegistrySha256": place_obligations.compiled_object_registry_sha256(registry),
+        "deliveries": sorted(deliveries, key=lambda row: row["obligationId"]),
+    }
+    errors += place_obligations.verify_delivery_manifest(
+        obligations, manifest, "phase-11-compiled", object_registry=registry)
+    payload = {"placeId": record["id"], "objectRegistry": registry, "manifest": manifest}
+    return {**payload, "receiptSha256": _canonical_sha256(payload)}, list(dict.fromkeys(errors))
 
 
 def dressing_count(seed: str, parcel: dict) -> int:
@@ -779,6 +856,12 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
     errors += promise_errors
     warns += promise_warnings
 
+    macro_record = load_record(bp_id)
+    obligation_receipt = None
+    if macro_record is not None:
+        obligation_receipt, obligation_errors = phase11_obligation_receipt(bp, macro_record)
+        errors += obligation_errors
+
     # --- 97 B6/D2: does the first-seen object actually read from the approach?
     warns += _first_seen_warnings(bp, survey, shelf)
 
@@ -844,6 +927,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         },
         "floodBandReport": flood_report,
         "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
+        "phase11ObligationReceipt": obligation_receipt,
         "errors": errors,
         # WARN grade (module 97 §G): reported, never failing
         "warnings": warns,

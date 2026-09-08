@@ -8,6 +8,7 @@ import numpy as np
 import pytest
 
 from . import compile_settlement as cs
+from . import place_obligations
 from .site_fields import ProvinceSurvey
 
 FIXTURE = Path(__file__).parent / "testdata" / "place.fixture.mire-landing.json"
@@ -82,6 +83,42 @@ def test_deterministic(survey, shelf):
     changed = _corrected(_blueprint())
     changed["seed"] = f"{changed['seed']}.changed"
     assert cs.blueprint_sha256(changed) != a["sourceBlueprintSha256"]
+
+
+def test_phase11_receipt_names_validated_objects_and_compiled_terrain_operation():
+    record = {
+        "id": "place.test.receipt", "position": {"u": 0.5, "v": 0.5},
+        "culture": "argonian",
+        "terrainRequests": [{
+            "kind": "cut", "radiusM": 30,
+            "delivery": {"feature": "landing-cut", "depthClass": "navigable"},
+            "note": "The landing needs a real cut.",
+        }],
+    }
+    bp = {
+        "id": record["id"],
+        "districts": [{"id": "district.receipt.landing"}],
+        "routes": [{"id": "route.receipt.landing"}],
+        "macroEvidence": [{
+            "sourcePaths": ["terrainRequests"],
+            "evidenceRefs": ["route.receipt.landing"],
+        }],
+    }
+    receipt, errors = cs.phase11_obligation_receipt(bp, record)
+    assert errors == []
+    assert receipt["receiptSha256"] == cs._canonical_sha256({
+        key: receipt[key] for key in ("placeId", "objectRegistry", "manifest")
+    })
+    obligations, _ = place_obligations.build_obligations(record, bp)
+    by_id = {row.id: row for row in obligations}
+    terrain_refs = {
+        ref for delivery in receipt["manifest"]["deliveries"]
+        if by_id[delivery["obligationId"]].sourcePath.startswith("terrainRequests[")
+        for ref in delivery["objectRefs"]
+    }
+    assert terrain_refs
+    assert all(receipt["objectRegistry"][ref]["kind"] == "terrain-operation"
+               for ref in terrain_refs)
 
 
 def test_budget_enforced(survey, shelf):

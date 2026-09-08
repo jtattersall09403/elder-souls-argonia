@@ -24,7 +24,8 @@ import tempfile
 from pathlib import Path
 
 from .site_fields import ProvinceSurvey
-from .compile_settlement import blueprint_sha256
+from .compile_settlement import blueprint_sha256, _canonical_sha256
+from . import catalogue, place_obligations
 
 SCHEMA_VERSION = 1
 COLLISION_FRAME = "settlement-pivot-yup-v1"
@@ -185,8 +186,15 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                  structures_dir: Path = DEFAULT_STRUCTURES,
                  blueprints_dir: Path = BLUEPRINTS,
                  kits_dir: Path = KITS,
-                 route_structures_source: Path = ROUTE_STRUCTURES_SOURCE) -> dict:
+                 route_structures_source: Path = ROUTE_STRUCTURES_SOURCE,
+                 catalogue_records_by_id: dict[str, dict] | None = None) -> dict:
     survey = ProvinceSurvey()
+    if catalogue_records_by_id is None:
+        catalogue_records_by_id = {
+            record["id"]: record
+            for region_file in catalogue.load_region_files()
+            for record in region_file.places
+        }
     blueprint_by_id = {}
     for path in sorted(blueprints_dir.glob("place.*.json")):
         doc = _read(path)
@@ -240,12 +248,34 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
     kits, assets = _kit_assets(kit_names, kits_dir)
 
     settlements = []
+    obligation_receipts = []
     all_placements = []
     treatments = []
     navmesh = []
     navmesh_links = []
     doors = []
     for doc, bp in compiled:
+        record = catalogue_records_by_id.get(doc["id"])
+        if record is not None:
+            obligations, obligation_errors = place_obligations.build_obligations(record, bp)
+            if obligation_errors:
+                raise ValueError(f"{doc['id']} current macro obligations are invalid: "
+                                 + "; ".join(obligation_errors))
+            receipt = doc.get("phase11ObligationReceipt")
+            if not isinstance(receipt, dict):
+                raise ValueError(f"{doc['id']} has no phase-11-compiled obligation receipt")
+            payload = {key: receipt.get(key) for key in ("placeId", "objectRegistry", "manifest")}
+            if receipt.get("receiptSha256") != _canonical_sha256(payload):
+                raise ValueError(f"{doc['id']} phase-11-compiled obligation receipt is stale or corrupt")
+            if payload["placeId"] != doc["id"] or not isinstance(payload["objectRegistry"], dict):
+                raise ValueError(f"{doc['id']} phase-11-compiled obligation receipt has invalid identity")
+            delivery_errors = place_obligations.verify_delivery_manifest(
+                obligations, payload["manifest"], "phase-11-compiled",
+                object_registry=payload["objectRegistry"])
+            if delivery_errors:
+                raise ValueError(f"{doc['id']} phase-11-compiled obligations are not delivered: "
+                                 + "; ".join(delivery_errors))
+            obligation_receipts.append(receipt)
         parcels = {p["id"]: p for p in bp.get("parcels", [])}
         ids = []
         for raw in doc.get("placements", []):
@@ -334,6 +364,8 @@ def build_bundle(settlements_dir: Path = DEFAULT_SETTLEMENTS,
                 "farMergeDistanceM": 900, "atlasMaxSize": 4096,
                 "colliderRadiusM": 180, "colliderPartBudget": 256},
         "kits": kits, "settlements": settlements,
+        "phase11ObligationReceipts": sorted(obligation_receipts,
+                                              key=lambda receipt: receipt["placeId"]),
         "placements": all_placements, "groundTreatments": treatments,
         "navmeshCuts": navmesh, "navmeshLinks": navmesh_links, "doors": doors,
         "stats": {"settlements": len(settlements),

@@ -3,6 +3,7 @@ import json
 import pytest
 
 from . import export_settlement_bundle as ex
+from . import compile_settlement as cs
 
 
 def _write(path, data):
@@ -168,6 +169,76 @@ def test_measured_manifest_box_is_exported_as_the_collision_proxy():
     })
     assert contract["proxySource"] == "measured-manifest-box"
     assert contract["parts"] == [{"halfExtentsM": [1, 2, 3], "offsetM": [4, 5, 6]}]
+
+
+def _obligation_bundle_fixture(tmp_path):
+    record = {
+        "id": "place.test.receipt", "position": {"u": 0.5, "v": 0.5},
+        "terrainRequests": [{
+            "kind": "cut", "radiusM": 30,
+            "delivery": {"feature": "landing-cut", "depthClass": "navigable"},
+            "note": "The landing needs a real cut.",
+        }],
+    }
+    bp = {
+        "id": record["id"], "boundary": [[0, 0], [1, 0], [1, 1]],
+        "routes": [{"id": "route.receipt.landing"}],
+        "macroEvidence": [{"sourcePaths": ["terrainRequests"],
+                            "evidenceRefs": ["route.receipt.landing"]}],
+    }
+    receipt, errors = cs.phase11_obligation_receipt(bp, record)
+    assert errors == []
+    _write(tmp_path / "bp/place.test.receipt.json", {"blueprint": bp})
+    settlement_path = tmp_path / "sett/place.test.receipt.settlement.json"
+    _write(settlement_path, {
+        "id": record["id"], "sourceBlueprintSha256": ex.blueprint_sha256(bp),
+        "errors": [], "warnings": [], "floodBandReport": {"warningCount": 0},
+        "placements": [], "doors": [], "budgetReport": {},
+        "phase11ObligationReceipt": receipt,
+    })
+    _write(tmp_path / "kits/route-structures-v1.kit.json",
+           {"kit": "route-structures-v1", "assets": []})
+    source = _route_source(tmp_path, [])
+    return record, settlement_path, source
+
+
+def test_bundle_verifies_and_carries_phase11_compiled_receipt(tmp_path, monkeypatch):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: type("Survey", (), {
+        "uv_to_m": staticmethod(lambda u, v: (u * 100, v * 100))})())
+    record, _settlement, source = _obligation_bundle_fixture(tmp_path)
+    bundle = ex.build_bundle(
+        tmp_path / "sett", tmp_path / "routes", tmp_path / "bp", tmp_path / "kits",
+        source, catalogue_records_by_id={record["id"]: record})
+    assert [row["placeId"] for row in bundle["phase11ObligationReceipts"]] == [record["id"]]
+
+
+@pytest.mark.parametrize("mutation, expected", [
+    ("missing", "no phase-11-compiled obligation receipt"),
+    ("stale", "exact current requirements"),
+    ("wrong-kind", "expected one of"),
+])
+def test_bundle_fails_closed_on_bad_phase11_compiled_receipt(
+        tmp_path, monkeypatch, mutation, expected):
+    monkeypatch.setattr(ex, "ProvinceSurvey", lambda: object())
+    record, settlement_path, source = _obligation_bundle_fixture(tmp_path)
+    document = json.loads(settlement_path.read_text())
+    if mutation == "missing":
+        document.pop("phase11ObligationReceipt")
+    elif mutation == "stale":
+        record["terrainRequests"][0]["delivery"]["depthClass"] = "swimming"
+    else:
+        receipt = document["phase11ObligationReceipt"]
+        ref = next(iter(receipt["objectRegistry"]))
+        receipt["objectRegistry"][ref]["kind"] = "parcel"
+        receipt["manifest"]["objectRegistrySha256"] = (
+            ex.place_obligations.compiled_object_registry_sha256(receipt["objectRegistry"]))
+        payload = {key: receipt[key] for key in ("placeId", "objectRegistry", "manifest")}
+        receipt["receiptSha256"] = cs._canonical_sha256(payload)
+    _write(settlement_path, document)
+    with pytest.raises(ValueError, match=expected):
+        ex.build_bundle(tmp_path / "sett", tmp_path / "routes", tmp_path / "bp",
+                        tmp_path / "kits", source,
+                        catalogue_records_by_id={record["id"]: record})
 
 
 def test_atomic_writer_replaces_complete_json(tmp_path):
