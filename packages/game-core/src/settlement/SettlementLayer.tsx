@@ -179,6 +179,7 @@ export function SettlementLayer({
   }, [gltfs]);
 
   useFrame(() => {
+    if (fatalError) return;
     const env = environment?.();
     if (env) updateSettlementEnvironment(uniforms, env.rainIntensity, env.minuteOfDay);
     const at = builtAt.current; const focus = focusRef.current;
@@ -193,8 +194,12 @@ export function SettlementLayer({
   });
 
   useEffect(() => {
+    if (fatalError) onSolids?.([]);
+  }, [fatalError, onSolids]);
+
+  useEffect(() => {
     const group = root.current;
-    if (!group || !bundle) return;
+    if (!group || !bundle || fatalError) return;
     group.clear();
     const focus = focusRef.current;
     builtAt.current = { ...focus, coveredRadiusM: 0 };
@@ -291,13 +296,13 @@ export function SettlementLayer({
       }
     };
   }, [bundle, kits, revision, groundAt, quality?.architectureDrawScale,
-      focusRef, materialPatch, onSolids, onStats, uniforms]);
+      focusRef, materialPatch, onSolids, onStats, uniforms, fatalError]);
 
   // A conspicuous runtime sentinel makes missing settlement data visible in
   // both production and development even when the host has no ErrorBoundary.
   // It contains no substitute world geometry: publication has failed closed.
   if (fatalError) return (
-    <group name="settlement-layer-failed"
+    <group key="settlement-layer-failed" name="settlement-layer-failed"
       position={[focusRef.current.x, 30, focusRef.current.z]}
       userData={{ error: fatalError.message }}>
       <mesh>
@@ -306,5 +311,5 @@ export function SettlementLayer({
       </mesh>
     </group>
   );
-  return <group ref={root} name="settlement-layer" />;
+  return <group key="settlement-layer" ref={root} name="settlement-layer" />;
 }
