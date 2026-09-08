@@ -192,6 +192,14 @@ def carve_to_profile(h, npz, save_path=None):
             body_level[np.isin(bodies.body, ids)] = -np.inf
     h, stats = channels.carve(h, sol, protect=collar, body_level=body_level)
     h, n_islands = sw.lower_islands(h, bodies)
+    # Authored minor waterways are carved, not solved: they are not in the
+    # hydrology graph, so nothing else would ever cut them. Geometry and the
+    # promise come from world/sources/routes/authored-minor-waterways.json via
+    # hydrology_intent (pre-water intent, never a published raster).
+    from . import authored_waterways
+    h, authored_stats = authored_waterways.carve_authored(
+        h, bodies.level_with_sea, bodies.wet | bodies.sea, RAW_M,
+        stations=(sol.y, sol.x, sol.L), log=print)
     # self-consistency report: the compiler floods THIS terrain and keeps the
     # profile above; a lake the trench breached, or a hollow the levee made
     # under a channel, shows here as a pooled station whose flood level moved
@@ -207,6 +215,7 @@ def carve_to_profile(h, npz, save_path=None):
     print(f"post-carve check: {int(moved.sum())} pooled stations whose flood level moved > 0.1 m, "
           f"{int((~np.isfinite(lvl2)).sum())} with no body under them")
     stats["islandsLowered"] = n_islands
+    stats["authoredWaterways"] = authored_stats
     stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
     stats["bodies"] = bodies.census
     if save_path is not None:
