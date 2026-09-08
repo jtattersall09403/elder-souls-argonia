@@ -441,3 +441,30 @@ longest wave is 34 m**, **foam with no memory or texture**, **no backlit crest
 glow or controlled glitter**, and **an HDRI-grade sky feeding the reflection**.
 Items 1–7 in §3 are all small-to-medium, all fit `onBeforeCompile`, and none
 requires a line of his code.
+
+## 6. Applied across OUR water types (lead's synthesis, 2026-09-08)
+
+Water Pro is one ocean at one level; we have nine kinds of water and a
+world clock. Read per type, the transfers are broader than §3's list, and
+several answer items in the owner's round-2 review directly.
+
+| Our water | What transfers, and why it matters here |
+|---|---|
+| **Open sea, Topal Bay** | Spectrum: JONSWAP amplitudes around a 90–120 m peak, frequency-dependent spread, true phase speed (our longest wave is 34 m, which reads as a lake). Persistent crest foam with windward injection, a foam texture and wind-stretch. Backlit crest scatter. A sparkle term with its own 10–500 m window, outside the roughness LOD. Horizon fog converging to the sampled sky. Sea passed the owner's review, so these land behind the CPU twin and tests, and the owner re-checks the bay. |
+| **Beach and surf** | Shoreline foam as a *depth range* (≈2 m) in addition to the 12 cm contact line; surf foam deposited into the persistent field so it lingers on the sand and drains back rather than vanishing with the crest (the owner's "foam like a real beach"). Spray probes firing on wave-onto-rock impact once rocks are scattered in the surf zone. |
+| **Estuary, mangrove, tidal creeks** | `standingWaveRatio` for sheltered water (bob, don't march). One colour model above and below the surface: check our underwater fog reads the same silt/tannin as the surface so crossing the waterline never changes the water. |
+| **Lakes, tarns, basins, oxbows** | Standing waves instead of a dead plate; sparkle at low sun; analytic rain rings; wading trails persist through the foam field. No crest scatter (no crests). |
+| **Marsh, blackwater, greenwater** | Constituent colour: his algae / silt / stain map onto our silt / tannin **plus a missing algae term** — greenwater swamps are in our quality matrix and we have no green constituent; compile it from class, low flow and warmth. Wide depth-range froth on marsh margins. Rain rings province-wide replace the shimmer. |
+| **Lowland rivers** | The single biggest transfer: a foam field that is **advected by the compiled flow** (his is stationary; ours samples itself upstream each frame), fed by rapids, plunges, banks and contacts — foam lines that drift downstream and persist, exactly the owner's "foam drifts downstream" item. Sparkle and rain rings apply. |
+| **Steep streams, rapids** | Aeration as a *deposit* with a decay time carried downstream (his wake-foam rule: inject where steepness exceeds a threshold, persist, advect) instead of a value recomputed from slope each frame; foam tails behind boulders once the strip rock scatter lands. |
+| **Waterfalls** | The plunge is a strong injection into the field, carried out by the flow, so the pool looks *fed*; spray probes at the lip and on the impact quads; mist billboards with bottom-fade so no cut edge shows at the waterline. |
+| **Underwater and swimming** | Waterline meniscus at the near clip (rim highlight, normal tilt) — swimming is core to our game and he barely needs it. Sun shafts fading as the sun nears the horizon and off when behind the camera. Colour continuity across the waterline. |
+| **Interaction, later boats** | Swept-path injection (stamp along the distance travelled, not a point per tick) for the sprinting player now and hulls later; symmetric impact-speed spray probes; a dispersive iWave wake field and five-point buoyancy queued against the sailing phase; masking for dry boat interiors. |
+| **Weather and clock** | Rain streaks tilted by wind; rain rings analytic and buffer-free; fold the wave clock modulo 8192 s and snap frequencies so hours of play never degrade float phase precision. |
+| **Dressing** | His demos have rocks, a ship, a buoy and a seabed for the water to break on and refract. Ours is judged on empty coast. Rock scatter in surf zones and stream beds is a Phase 10 scatter job and belongs in the polish backlog. |
+
+**Delivery order this round:** foam field with flow advection and surf/plunge/
+contact injection; shoreline depth-range foam; spectrum and standing waves
+behind the CPU twin; sparkle, crest scatter, horizon blend; rain rings;
+meniscus; time fold; algae constituent on the compiler side; then the
+sailing-phase items are queued with their mechanism.
