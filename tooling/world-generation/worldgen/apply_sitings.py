@@ -59,6 +59,11 @@ CHAIN = ["worldgen.compile_minor_routes", "worldgen.compile_minor_waterways",
          "worldgen.export_blueprints"]
 
 
+def replot_command() -> list[str]:
+    """The owner-authorised B5 solve must not seed from committed positions."""
+    return [sys.executable, "-m", "worldgen.macro_plot", "--resolve-all"]
+
+
 def apply_incremental(s: ProvinceSurvey, overrides: list[dict]) -> list[str]:
     """Move only the sited records: position, plotFacts (re-measured at the
     new point), whySiteWon, plotOverride. Returns neighbour warnings."""
@@ -151,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
                                           "overrides": overrides}, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"wrote {OVERRIDES_PATH.relative_to(catalogue.REPO_ROOT)} ({len(overrides)} pinned)")
     if a.replot:
-        r = subprocess.run([sys.executable, "-m", "worldgen.macro_plot"], cwd=Path(__file__).resolve().parents[1])
+        r = subprocess.run(replot_command(), cwd=Path(__file__).resolve().parents[1])
         if r.returncode != 0:
             return r.returncode
     else:
