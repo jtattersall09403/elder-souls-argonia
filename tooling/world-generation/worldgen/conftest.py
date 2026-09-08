@@ -1,10 +1,12 @@
-"""Shared, session-lifetime fixtures for the worldgen suites.
+"""Shared, demand-driven fixtures for the worldgen suites.
 
-The placement suites all stand on the same two expensive things: the province
+Some placement suites stand on the same two expensive things: the province
 survey (rasters loaded off disk) and the derived geometry of the five live
 blueprints (A* street routing over a per-cell cost field, footprint
 derivation). Both are pure functions of files on disk, so both are computed
-once per process and shared, rather than once per test.
+once per process and shared when first requested, rather than once per test.
+Small schema and synthetic-geometry selections never request the province and
+therefore no longer pay to load it.
 
 Where the caching lives (all of it content- or signature-keyed, so an edit to
 a source file invalidates it and nothing stale is ever served):
@@ -16,7 +18,7 @@ a source file invalidates it and nothing stale is ever served):
   (name + mtime + size).
 
 Nothing here changes what any test asserts; it only stops the same work being
-redone. See ../README.md § Tests for the fast/slow split.
+done eagerly or redone. See ../README.md § Tests for the fast/slow split.
 """
 from __future__ import annotations
 
@@ -25,14 +27,9 @@ import pytest
 
 @pytest.fixture(scope="session")
 def survey():
-    """The province survey, or None when the rasters are not in this checkout."""
+    """The process-wide province survey, loaded only when a test requests it."""
     from worldgen.street_router import default_survey
-    return default_survey()
-
-
-@pytest.fixture(scope="session", autouse=True)
-def _warm_survey():
-    """Load the rasters once, before the first test that needs them, so the
-    cost never lands on (and is never attributed to) an arbitrary test."""
-    from worldgen.street_router import default_survey
-    default_survey()
+    loaded = default_survey()
+    if loaded is None:
+        pytest.fail("the committed province survey rasters are unavailable")
+    return loaded

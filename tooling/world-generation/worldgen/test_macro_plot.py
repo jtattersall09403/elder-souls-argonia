@@ -1,8 +1,9 @@
 """Macro plot invariants (Phase 11 Part 3, decision 0041).
 
-Fast tests read the committed catalogue; the one slow test re-solves the plot
-(~25 s) and proves the committed positions are what the solver produces —
-the determinism standard (6) applied to the plot.
+Fast tests read the committed catalogue; the slower checks share one province
+survey while re-solving the plot and checking navigable water. The solve proves
+the committed positions are what the solver produces — the determinism
+standard (6) applied to the plot.
 """
 
 from __future__ import annotations
@@ -13,7 +14,6 @@ import math
 import pytest
 
 from . import catalogue, macro_plot
-from .site_fields import ProvinceSurvey
 
 ANCHORS = json.loads(macro_plot.REPO_ROOT.joinpath("world/sources/anchors/settlement-anchors.json").read_text())
 
@@ -78,13 +78,13 @@ def test_places_stay_within_spill_distance_of_their_zone():
         assert z["plotted"] == z["live"], zone
 
 
-def test_the_solve_keeps_every_committed_cell():
+def test_the_solve_keeps_every_committed_cell(survey):
     """A normal run must prove every committed cell remains valid and stable.
 
     The owner-approved full re-plot has removed the temporary water-rescue
     exemptions, so any invalid committed site is now a hard failure.
-    Slow (~25 s)."""
-    _d, _f, _sc, _fr, result, unresolved, resite, pinned = macro_plot.solve(ProvinceSurvey())
+    Slow; shares the process-wide province survey with the water-role gate."""
+    _d, _f, _sc, _fr, result, unresolved, resite, pinned = macro_plot.solve(survey)
     assert not unresolved
     assert not resite, (
         "records the current fields invalidate — re-run the full plot and record the moves: "
@@ -96,12 +96,12 @@ def test_the_solve_keeps_every_committed_cell():
         assert committed[did] == [round(c.x, 1), round(c.z, 1)], did
 
 
-def test_navigable_roles_sit_on_navigable_water():
+def test_navigable_roles_sit_on_navigable_water(survey):
     """97 A8 / G5: a record whose prose claims navigable water (`navigable`
     hint) must plot where the published depth within 150 m clears its hull
     class. There are no exemptions after the owner-approved full re-plot.
     Slow: loads the survey."""
-    bad = macro_plot.navigable_violations(ProvinceSurvey())
+    bad = macro_plot.navigable_violations(survey)
     assert not bad, (
         "97 A8/G5 — navigable roles on water too shallow for their hull class: "
         + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)" for v in bad)
