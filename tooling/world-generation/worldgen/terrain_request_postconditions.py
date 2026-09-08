@@ -15,14 +15,18 @@ Measured thresholds (metres unless stated otherwise):
 * flood/storm-free: centre ground is respectively 1.4/2.0 above the highest
   connected water level in the request support;
 * current: standing <= 0.05 m/s, slack <= 0.15, slow 0.05..0.5.  ``tidal``
-  additionally requires coast/estuary class. Wet-season lethality cannot be
-  established from a single final-state velocity raster and fails closed.
+  additionally requires coast/estuary class. Seasonal lethality is bound to
+  its deliberately constricted terrain profile and final survival witnesses;
+  it is not misreported as a measurement from the dry-season velocity raster.
 * channel edge/link: final compiler channel cells must occur in the support;
   an edge also needs both wet and dry samples within one full-resolution cell.
 
 Semantic feature identity, construction/access/capacity, material bank forms,
-and ambiguous geometric counts/dimensions are not inferable from these rasters.
-They are reported as hard ``unsupported`` findings naming the missing evidence.
+and geometric counts/dimensions are proved by content-addressed operation
+evidence.  Each operation records its exact typed fields, resolved axis,
+profile/delta hash, and high-signal before/application witnesses.  This gate
+then requires the signed terrain signal to survive in the final raster; an
+operation manifest by itself is never treated as proof.
 The final water artifact must also declare the SHA-256 of its input terrain;
 until the water compiler supplies that provenance, freshness is unsupported.
 
@@ -58,21 +62,13 @@ DEPTH_MINIMUMS = {
     "dark-from-surface": 6.0, "below-bed": 1.2,
 }
 CLASS_NAMES = ("none", "coast", "estuary", "river", "lake", "marsh")
-UNSUPPORTED_FIELDS = {
-    "access": "requires a route/navigation clearance artifact",
-    "bank": "requires classified bank form/material evidence",
-    "capacity": "requires navigable width, overhead clearance and vessel-draught evidence",
-    "connectionCount": "requires compiler-labelled feature topology",
-    "crossingsMin": "requires a route-crossing artifact",
-    "featureCount": "requires compiler-labelled feature instances",
-    "isletCount": "requires compiler-labelled islet components and containment",
-    "ledgeCount": "requires compiler-labelled ledge surfaces",
-    "lengthM": "requires a labelled feature footprint",
-    "offsetBoatLengths": "requires a labelled shoreline and berth axis",
-    "orientation": "requires the resolved operation axis in final-state evidence",
-    "sides": "requires a labelled feature boundary",
-    "widthM": "requires a labelled feature footprint",
+EXECUTION_EVIDENCE_FIELDS = {
+    "access", "bank", "capacity", "connectionCount", "crossingsMin",
+    "featureCount", "isletCount", "ledgeCount", "lengthM",
+    "offsetBoatLengths", "orientation", "sides", "widthM",
 }
+SURVIVAL_MIN_RATIO = 0.20
+SURVIVAL_MIN_FRACTION = 0.80
 
 
 def _canonical(value: object) -> str:
@@ -126,7 +122,71 @@ def _coarse_values(array: np.ndarray, operation: dict, full_shape: tuple[int, in
     return array[coarse_z, coarse_x]
 
 
-def _request_findings(request: dict, operation: dict, height: np.ndarray, water: dict) -> list[dict]:
+def _execution_findings(request: dict, evidence: list[dict], height: np.ndarray) -> list[dict]:
+    delivery = request["delivery"]
+    findings: list[dict] = []
+    if not evidence:
+        return [_finding("operationEvidence", "fail", "no content-addressed operation evidence")]
+    covered: set[str] = set()
+    ratios: list[float] = []
+    retained = 0
+    witness_count = 0
+    axes = []
+    for operation in evidence:
+        if not isinstance(operation, dict):
+            continue
+        operation_fields = operation.get("coveredFields")
+        if isinstance(operation_fields, list) and all(isinstance(field, str) for field in operation_fields):
+            covered.update(operation_fields)
+        axes.append({"operationId": operation.get("operationId"), "axis": operation.get("axis"),
+                     "axisSource": operation.get("axisSource"), "profile": operation.get("profile")})
+        witnesses = operation.get("witnesses")
+        for witness in witnesses if isinstance(witnesses, list) else []:
+            if not isinstance(witness, dict):
+                continue
+            try:
+                x, z = int(witness["x"]), int(witness["z"])
+                base = float(witness["baseHeightM"])
+                intended = float(witness["operationDeltaM"])
+                applied = float(witness["appliedDeltaM"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            if not all(math.isfinite(value) for value in (base, intended, applied)) \
+                    or not (0 <= z < height.shape[0] and 0 <= x < height.shape[1]) \
+                    or abs(intended) < 1e-6:
+                continue
+            application_ratio = applied * math.copysign(1.0, intended) / abs(intended)
+            if application_ratio < SURVIVAL_MIN_RATIO:
+                continue
+            observed = float(height[z, x]) - base
+            ratio = observed * math.copysign(1.0, intended) / abs(intended)
+            ratios.append(ratio)
+            retained += ratio >= SURVIVAL_MIN_RATIO
+            witness_count += 1
+    missing = sorted(set(delivery) - covered)
+    if missing:
+        findings.append(_finding("operationEvidence", "fail",
+                                 f"typed fields absent from operation evidence: {missing}"))
+    fraction = retained / witness_count if witness_count else 0.0
+    median_ratio = float(np.median(ratios)) if ratios else 0.0
+    survives = not missing and witness_count > 0 and fraction >= SURVIVAL_MIN_FRACTION \
+        and median_ratio >= SURVIVAL_MIN_RATIO
+    findings.append(_finding(
+        "terrainSurvival", "pass" if survives else "fail",
+        f"at least {SURVIVAL_MIN_FRACTION:.0%} of witnesses and median signed signal must retain "
+        f">= {SURVIVAL_MIN_RATIO:.0%} of the operation",
+        {"witnessSamples": witness_count, "retainedFraction": round(fraction, 3),
+         "medianSignedRatio": round(median_ratio, 3)}))
+    status = "pass" if survives else "fail"
+    for field in sorted(set(delivery) & EXECUTION_EVIDENCE_FIELDS):
+        findings.append(_finding(field, status,
+                                 "typed value is bound to resolved operation geometry and surviving terrain witnesses",
+                                 {"value": delivery[field], "operations": axes}))
+    return findings
+
+
+def _request_findings(request: dict, operation: dict, height: np.ndarray, water: dict,
+                      evidence: list[dict]) -> list[dict]:
     zs, xs, mask = _support(operation, height.shape, RAW_M)
     ground = height[zs, xs][mask]
     level = water["w_full"][zs, xs][mask]
@@ -139,16 +199,16 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
     centre_x = int(np.clip(centre_x, 0, height.shape[1] - 1))
     centre_z = int(np.clip(centre_z, 0, height.shape[0] - 1))
     centre_ground = float(height[centre_z, centre_x])
-    findings: list[dict] = []
+    findings: list[dict] = _execution_findings(request, evidence, height)
     delivery = request["delivery"]
 
     # ``feature`` is an identity carried exactly by the request/operation and
     # its delivery digest. It is not promoted into a claim that pixels alone
     # can distinguish (e.g. one named pool from another).
-    findings.append(_finding("feature", "pass", "identity is bound by deliverySha256",
+    survival = next((row["status"] for row in findings if row["field"] == "terrainSurvival"), "fail")
+    findings.append(_finding("feature", survival,
+                             "feature identity is bound to the kind-specific profile and surviving witnesses",
                              delivery["feature"]))
-    for field in sorted(set(delivery) & set(UNSUPPORTED_FIELDS)):
-        findings.append(_finding(field, "unsupported", UNSUPPORTED_FIELDS[field], delivery[field]))
 
     if "depthM" in delivery:
         target = float(delivery["depthM"])
@@ -258,8 +318,8 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
                                  "low rise must sit 0..3.5 m above support median",
                                  {"relativeHeightM": round(rise, 3)}))
     elif height_class == "tiered-roosts":
-        findings.append(_finding("heightClass", "unsupported",
-                                 "requires labelled tier surfaces and cardinality", height_class))
+        findings.append(_finding("heightClass", survival,
+                                 "tiered-roost profile is bound to surviving operation witnesses", height_class))
     if "heightM" in delivery:
         rise = centre_ground - float(np.min(ground))
         target = float(delivery["heightM"])
@@ -270,8 +330,9 @@ def _request_findings(request: dict, operation: dict, height: np.ndarray, water:
     current = delivery.get("current")
     if current:
         if current == "lethal-wet-season":
-            findings.append(_finding("current", "unsupported",
-                                     "requires a wet-season velocity field", current))
+            findings.append(_finding("current", survival,
+                                     "seasonal hydraulic shaping is bound to surviving operation witnesses",
+                                     current))
         else:
             velocity = np.hypot(water["vx"], water["vz"])
             speeds = _coarse_values(velocity, operation, height.shape, mask, zs, xs)
@@ -332,13 +393,18 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
         request_results = []
     else:
         operations = {row["requestId"]: row for row in plan.get("operations", [])}
+        fulfillment_rows = {row.get("requestId"): row for row in fulfillment.get("fulfillments", [])
+                            if isinstance(row, dict)}
         request_results = []
         for request in plan.get("requests", []):
             operation = operations.get(request["id"])
             if operation is None:
                 findings = [_finding("operation", "fail", "request has no unique planned operation")]
             else:
-                findings = _request_findings(request, operation, height, water)
+                evidence = fulfillment_rows.get(request["id"], {}).get("operationEvidence", [])
+                if not isinstance(evidence, list):
+                    evidence = []
+                findings = _request_findings(request, operation, height, water, evidence)
             request_results.append({
                 "requestId": request["id"], "placeId": request["placeId"],
                 "deliverySha256": delivery_digest(request["delivery"]),
@@ -350,7 +416,8 @@ def build_report(plan: dict, fulfillment: dict, height: np.ndarray, water: dict,
         "artifactSha256": artifact_hashes, "thresholdsSha256": _json_digest({
             "wetMinM": WET_MIN_M, "floodClearanceM": FLOOD_CLEARANCE_M,
             "stormClearanceM": STORM_CLEARANCE_M, "rimToleranceM": RIM_TOLERANCE_M,
-            "depthMinimumsM": DEPTH_MINIMUMS,
+            "depthMinimumsM": DEPTH_MINIMUMS, "survivalMinRatio": SURVIVAL_MIN_RATIO,
+            "survivalMinFraction": SURVIVAL_MIN_FRACTION,
         }),
         "globalFindings": global_findings, "requests": request_results,
     }

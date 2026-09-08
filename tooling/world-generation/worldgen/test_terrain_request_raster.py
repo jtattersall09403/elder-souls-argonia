@@ -181,6 +181,8 @@ def test_flow_and_nearest_water_axes_are_resolved_from_supplied_fields():
     ("featureCount", 1, 3),
     ("bank", "hard", "shelving"),
     ("current", "swift", "slack"),
+    ("access", "climb-only", "swimming"),
+    ("sides", 2, 3),
 ])
 def test_typed_delivery_mutations_change_raster_and_fulfillment(field: str, left: object, right: object):
     record = _record("pool", 0, radius=8.0)

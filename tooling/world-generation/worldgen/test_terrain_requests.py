@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import copy
+import hashlib
+import json
 
 from . import terrain_requests as tr
 
@@ -20,6 +22,21 @@ def _record(place_id: str = "place.test.landform", requests: list[dict] | None =
 
 
 def _good_manifest(plan: dict) -> dict:
+    evidence_by_request = {}
+    for row in plan["requests"]:
+        operation = next(item for item in plan["operations"] if item["requestId"] == row["id"])
+        evidence = {
+            "operationId": operation["id"],
+            "deliverySha256": tr.delivery_digest(row["delivery"]),
+            "deltaSha256": "d" * 64, "axis": [1.0, 0.0], "axisSource": "fixture",
+            "profile": operation["profile"], "action": operation["action"],
+            "coveredFields": sorted(row["delivery"]),
+            "witnesses": [{"x": 0, "z": 0, "baseHeightM": 0.0,
+                           "appliedDeltaM": -1.0, "operationDeltaM": -1.0}],
+        }
+        payload = json.dumps(evidence, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        evidence["evidenceSha256"] = hashlib.sha256(payload.encode()).hexdigest()
+        evidence_by_request[row["id"]] = evidence
     return {
         "schemaVersion": tr.FULFILLMENT_SCHEMA_VERSION,
         "kind": "terrain-request-fulfillments",
@@ -27,7 +44,9 @@ def _good_manifest(plan: dict) -> dict:
         "planDigest": plan["planDigest"],
         "fulfillments": [
             {"requestId": row["id"], "operationIds": row["operationIds"],
-             "evidenceRefs": [f"heightfield-region.{row['id']}"],
+             "evidenceRefs": [f"terrain-operation-evidence.{row['operationIds'][0]}.sha256."
+                              f"{evidence_by_request[row['id']]['evidenceSha256']}"],
+             "operationEvidence": [evidence_by_request[row["id"]]],
              "deliverySha256": tr.delivery_digest(row["delivery"])}
             for row in plan["requests"]
         ],

@@ -45,6 +45,29 @@ def _digest(value: object) -> str:
     return hashlib.sha256(_canonical(value).encode("utf-8")).hexdigest()
 
 
+WITNESS_SAMPLES = 64
+
+
+def _witness_candidates(delta: np.ndarray, x0: int, z0: int) -> list[tuple[int, int, float]]:
+    """Return up to 64 spatially distributed, high-signal terrain samples.
+
+    Selecting only the 64 largest values clusters witnesses on the feature's
+    centre and lets a later stage erase an end, side, or repeated lobe without
+    detection.  Row-major spatial strata cover the whole affected footprint;
+    the strongest sample in each stratum avoids fragile near-zero boundaries.
+    """
+    affected = np.flatnonzero(np.abs(delta).ravel() > 1e-9)
+    if not affected.size:
+        return []
+    rows: list[tuple[int, int, float]] = []
+    for stratum in np.array_split(affected, min(WITNESS_SAMPLES, int(affected.size))):
+        magnitudes = np.abs(delta).ravel()[stratum]
+        flat_index = int(stratum[int(np.argmax(magnitudes))])
+        z, x = np.unravel_index(flat_index, delta.shape)
+        rows.append((z0 + int(z), x0 + int(x), float(delta[z, x])))
+    return sorted(rows, key=lambda row: (-abs(row[2]), row[0], row[1]))
+
+
 def _smoothstep01(value: np.ndarray) -> np.ndarray:
     value = np.clip(value, 0.0, 1.0)
     return value * value * (3.0 - 2.0 * value)
@@ -159,8 +182,11 @@ def _profile_weight(profile: str, x: np.ndarray, z: np.ndarray, parameters: dict
     capacity_scale = {"person-only": 0.12, "stream": 0.18, "poled-skiff": 0.28,
                       "laden-landing": 0.32, "punt": 0.38, "sub-house": 0.42,
                       "sea-going-hull": 0.58}.get(delivery.get("capacity"), 1.0)
+    access_scale = {"climb-only": 0.16, "causeway-only": 0.22,
+                    "one-landing": 0.28, "boat-landing": 0.34,
+                    "poling": 0.42, "swimming": 0.52}.get(delivery.get("access"), 1.0)
     width_scale = min(1.0, float(delivery.get("widthM", 2.0 * radius_m)) / (2.0 * radius_m)) \
-        * capacity_scale
+        * capacity_scale * access_scale
     bank_scale = {"hard": 0.72, "root-walled": 0.72, "rock-nose": 0.78,
                   "firm": 0.86, "steep": 0.82, "natural": 1.0, "shelving": 1.18}.get(
                       delivery.get("bank"), 1.0)
@@ -248,7 +274,7 @@ def _profile_weight(profile: str, x: np.ndarray, z: np.ndarray, parameters: dict
     weight *= _plateau(r, inner)
     along_count = max(int(delivery.get(name, 1)) for name in ("crossingsMin", "ledgeCount"))
     across_count = max(int(delivery.get(name, 1)) for name in
-                       ("featureCount", "isletCount", "connectionCount"))
+                       ("featureCount", "isletCount", "connectionCount", "sides"))
     # Crossings/ledges repeat along the resolved axis; distinct channels,
     # islets and connected features repeat across it. Zero-valued joins make
     # cardinality geometric rather than a metadata-only promise.
@@ -392,7 +418,7 @@ def apply_plan(
 
     total_delta = np.zeros(height.shape, dtype=np.float64)
     stats: list[dict[str, Any]] = []
-    evidence_by_operation: dict[str, str] = {}
+    witness_candidates: dict[str, list[tuple[int, int, float]]] = {}
     for operation in sorted(plan["operations"], key=lambda row: row["id"]):
         (axis_x, axis_z), axis_source = _resolve_axis(operation, height, mps, flow, wet)
         center_x, center_z = map(float, operation["centerM"])
@@ -413,8 +439,7 @@ def apply_plan(
         total_delta[z0:z1 + 1, x0:x1 + 1] += delta
         affected = np.abs(delta) > 1e-9
         delta_hash = hashlib.sha256(np.ascontiguousarray(delta, dtype="<f4").tobytes()).hexdigest()
-        evidence_ref = f"terrain-raster.{operation['id']}.sha256.{delta_hash}"
-        evidence_by_operation[operation["id"]] = evidence_ref
+        witness_candidates[operation["id"]] = _witness_candidates(delta, x0, z0)
         values = delta[affected]
         stats.append({
             "operationId": operation["id"],
@@ -437,6 +462,31 @@ def apply_plan(
     result += total_delta.astype(result.dtype, copy=False)
     if not np.all(np.isfinite(result)):
         raise TerrainRequestRasterError("terrain operations produced non-finite heights")
+    evidence_by_operation = {}
+    stats_by_operation = {row["operationId"]: row for row in stats}
+    for operation in plan["operations"]:
+        operation_id = operation["id"]
+        witnesses = []
+        for z, x, individual_delta in witness_candidates[operation_id]:
+            witnesses.append({
+                "x": x, "z": z,
+                "baseHeightM": round(float(height[z, x]), 6),
+                "appliedDeltaM": round(float(result[z, x] - height[z, x]), 6),
+                "operationDeltaM": round(individual_delta, 6),
+            })
+        evidence = {
+            "operationId": operation_id,
+            "deliverySha256": _digest(operation["parameters"]["delivery"]),
+            "deltaSha256": stats_by_operation[operation_id]["deltaSha256"],
+            "axis": stats_by_operation[operation_id]["axis"],
+            "axisSource": stats_by_operation[operation_id]["axisSource"],
+            "profile": operation["profile"],
+            "action": operation["action"],
+            "coveredFields": sorted(operation["parameters"]["delivery"]),
+            "witnesses": witnesses,
+        }
+        evidence["evidenceSha256"] = _digest(evidence)
+        evidence_by_operation[operation_id] = evidence
     manifest = {
         "schemaVersion": tr.FULFILLMENT_SCHEMA_VERSION,
         "kind": "terrain-request-fulfillments",
@@ -446,8 +496,11 @@ def apply_plan(
             {
                 "requestId": request["id"],
                 "operationIds": request["operationIds"],
-                "evidenceRefs": [evidence_by_operation[operation_id]
+                "evidenceRefs": [f"terrain-operation-evidence.{operation_id}.sha256."
+                                 f"{evidence_by_operation[operation_id]['evidenceSha256']}"
                                  for operation_id in request["operationIds"]],
+                "operationEvidence": [evidence_by_operation[operation_id]
+                                      for operation_id in request["operationIds"]],
                 "deliverySha256": tr.delivery_digest(request["delivery"]),
             }
             for request in plan["requests"]

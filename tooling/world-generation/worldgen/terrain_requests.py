@@ -379,13 +379,39 @@ def verify_fulfillment_manifest(plan: dict, manifest: dict) -> list[str]:
         errors.append(f"stale fulfillment for {request_id}")
     for request_id in sorted(set(expected) & set(actual)):
         row = actual[request_id]
+        request = next(item for item in plan["requests"] if item["id"] == request_id)
         operation_ids = row.get("operationIds")
         if not isinstance(operation_ids, list) or tuple(operation_ids) != expected[request_id]:
             errors.append(f"{request_id}: operationIds do not exactly cover the plan")
         evidence = row.get("evidenceRefs")
         if not isinstance(evidence, list) or not evidence or any(not isinstance(x, str) or not x for x in evidence):
             errors.append(f"{request_id}: evidenceRefs must name produced terrain artifacts")
-        request = next(item for item in plan["requests"] if item["id"] == request_id)
+        operation_evidence = row.get("operationEvidence")
+        if not isinstance(operation_evidence, list) or len(operation_evidence) != len(expected[request_id]):
+            errors.append(f"{request_id}: operationEvidence must cover every operation exactly once")
+        else:
+            evidence_ids = [item.get("operationId") for item in operation_evidence
+                            if isinstance(item, dict)]
+            if len(evidence_ids) != len(operation_evidence) or tuple(evidence_ids) != expected[request_id]:
+                errors.append(f"{request_id}: operationEvidence ids do not exactly cover the plan")
+            for index, item in enumerate(operation_evidence):
+                if not isinstance(item, dict):
+                    continue
+                claimed_digest = item.get("evidenceSha256")
+                payload = {key: value for key, value in item.items() if key != "evidenceSha256"}
+                actual_digest = hashlib.sha256(_canonical(payload).encode("utf-8")).hexdigest()
+                if claimed_digest != actual_digest:
+                    errors.append(f"{request_id}: operationEvidence[{index}] digest does not match")
+                expected_ref = f"terrain-operation-evidence.{item.get('operationId')}.sha256.{claimed_digest}"
+                if not isinstance(evidence, list) or index >= len(evidence) or evidence[index] != expected_ref:
+                    errors.append(f"{request_id}: operationEvidence[{index}] is not bound by evidenceRefs")
+                if item.get("deliverySha256") != delivery_digest(request["delivery"]):
+                    errors.append(f"{request_id}: operationEvidence[{index}] delivery digest is stale")
+                if item.get("coveredFields") != sorted(request["delivery"]):
+                    errors.append(f"{request_id}: operationEvidence[{index}] does not cover every delivery field")
+                witnesses = item.get("witnesses")
+                if not isinstance(witnesses, list) or not witnesses:
+                    errors.append(f"{request_id}: operationEvidence[{index}] has no terrain witnesses")
         if row.get("deliverySha256") != delivery_digest(request["delivery"]):
             errors.append(f"{request_id}: deliverySha256 does not match the typed terrain contract")
     return errors
