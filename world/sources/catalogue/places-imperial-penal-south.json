@@ -186,39 +186,24 @@
         ]
       },
       "position": {
-        "u": 0.1967,
-        "v": 0.81173
+        "u": 0.26512,
+        "v": 0.82288
       },
       "positionM": [
-        1450.4,
-        5985.3
+        1954.9,
+        6067.5
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 4.729,
-          "whyLost": "too close to place.naga-kur-deeps.raft-village-lashed"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.island-005",
-          "score": 4.354,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.summit-043",
-          "score": 4.018,
-          "whyLost": "too close to place.imperial-penal-south.rockspring"
-        }
-      ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 452 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on bound, region, hinterland; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
+      "candidatesConsidered": [],
+      "whySiteWon": "island in fringe marsh (danger band 3), 383 m from the nearest route; at the water's edge; its choice #4 landform; won on bound, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "island",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 452.2,
+        "distanceToRouteM": 383.3,
         "distanceToWaterM": 0.0,
-        "score": 3.705
-      }
+        "score": 4.424
+      },
+      "scourSiteId": "site.scour.fringe-marsh.island-012"
     },
     {
       "id": "place.imperial-penal-south.basin-air-grotto",
@@ -1235,44 +1220,32 @@
         ]
       },
       "position": {
-        "u": 0.27553,
-        "v": 0.93294
+        "u": 0.38262,
+        "v": 0.83358
       },
       "positionM": [
-        2031.6,
-        6879.1
+        2821.3,
+        6146.4
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1101",
-          "score": 2.499,
-          "whyLost": "too close to place.naga-kur-deeps.umbriel-stripped-undead"
-        },
-        {
-          "siteId": "site.free.roadside-0257",
-          "score": 2.478,
-          "whyLost": "too close to place.naga-kur-deeps.drowning-narrows-tidal-gate"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1025",
-          "score": 2.099,
-          "whyLost": "too close to place.naga-kur-deeps.maturity-trial-kaju-kill"
-        }
-      ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 236 m from the nearest route; no free 'sinkhole' site was left in the zone, so plain ground; won on route, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 33 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, culture-clump, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 235.8,
-        "distanceToWaterM": 49.0,
-        "score": 2.049
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 0.0,
+        "score": 2.631
       },
       "terrainRequests": [
         {
           "kind": "sinkhole",
           "radiusM": 45,
-          "delivery": {"feature":"stream-swallowing-collapse","ledgeCount":1,"capacity":"stream"},
+          "delivery": {
+            "feature": "stream-swallowing-collapse",
+            "ledgeCount": 1,
+            "capacity": "stream"
+          },
           "note": "A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole."
         }
       ]
@@ -2071,39 +2044,39 @@
         }
       ],
       "position": {
-        "u": 0.38263,
-        "v": 0.81395
+        "u": 0.26884,
+        "v": 0.87568
       },
       "positionM": [
-        2821.3,
-        6001.7
+        1982.3,
+        6456.8
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-034",
+      "scourSiteId": "site.scour.fringe-marsh.island-003",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 2.869,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.islet-038",
-          "score": 2.844,
+          "siteId": "site.free.open-water-0622",
+          "score": 2.823,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.island-002",
-          "score": 2.163,
+          "siteId": "site.scour.fringe-marsh.island-008",
+          "score": 2.813,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.island-000",
+          "score": 2.809,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 104 m from the nearest route; at the water's edge; won on region, submerged, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.drawdown-flat (+0.46).",
+      "whySiteWon": "island in fringe marsh (danger band 2), 39 m from the nearest route; at the water's edge; its first-choice landform; won on landform, submerged, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 104.2,
-        "distanceToWaterM": 0.0,
-        "score": 2.098
+        "landform": "island",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 12.3,
+        "score": 2.917
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2338,39 +2311,23 @@
         }
       ],
       "position": {
-        "u": 0.32016,
-        "v": 0.88906
+        "u": 0.27553,
+        "v": 0.8489
       },
       "positionM": [
-        2360.7,
-        6555.5
+        2031.6,
+        6259.4
       ],
-      "scourSiteId": "site.scour.firm-lowland.flood-high-000",
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-shallow-marsh-1233",
-          "score": 2.682,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0576",
-          "score": 2.498,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.fringe-marsh.island-013",
-          "score": 2.453,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "flood high in firm lowland (danger band 2), 140 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, route; landform wishes taken from the type recipe (record had none).",
+      "scourSiteId": "site.scour.fringe-marsh.island-013",
+      "candidatesConsidered": [],
+      "whySiteWon": "island in fringe marsh (danger band 2), 177 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "firm lowland",
+        "landform": "island",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 139.8,
-        "distanceToWaterM": 5.5,
-        "score": 2.777
+        "distanceToRouteM": 177.0,
+        "distanceToWaterM": 12.3,
+        "score": 2.791
       },
       "hostility": {
         "baseline": "guarded",
@@ -2661,38 +2618,38 @@
         ]
       },
       "position": {
-        "u": 0.36738,
-        "v": 0.83395
+        "u": 0.26512,
+        "v": 0.92654
       },
       "positionM": [
-        2708.9,
-        6149.1
+        1954.9,
+        6831.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 2.139,
-          "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
+          "siteId": "site.scour.firm-lowland.summit-030",
+          "score": 3.084,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1246",
-          "score": 2.107,
-          "whyLost": "too close to place.imperial-penal-south.voriplasm-vault"
+          "siteId": "site.scour.firm-lowland.headland-008",
+          "score": 3.057,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 2.063,
-          "whyLost": "too close to place.naga-kur-deeps.raft-village-lashed"
+          "siteId": "site.free.roadside-0797",
+          "score": 2.953,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 30 m from the nearest route; at the water's edge; no free 'cliff-bench' site was left in the zone, so plain ground; won on route, hinterland, danger; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.drawdown-flat (+1.29).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 33 m from the nearest route; its choice #4 landform; won on route, culture-clump, landform; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 29.5,
-        "distanceToWaterM": 5.5,
-        "score": 1.397
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 38.4,
+        "score": 3.243
       }
     },
     {
@@ -3025,39 +2982,39 @@
         }
       ],
       "position": {
-        "u": 0.26289,
-        "v": 0.82958
+        "u": 0.26363,
+        "v": 0.85411
       },
       "positionM": [
-        1938.4,
-        6116.9
+        1943.9,
+        6297.8
       ],
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-052",
+      "scourSiteId": "site.scour.lake-standing-water.ford-009",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.ford-009",
-          "score": 3.711,
+          "siteId": "site.scour.lake-standing-water.cove-017",
+          "score": 4.014,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1247",
-          "score": 3.269,
+          "siteId": "site.free.any-shallow-marsh-1270",
+          "score": 3.545,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1248",
-          "score": 3.051,
+          "siteId": "site.free.any-firm-ground-1271",
+          "score": 3.207,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "water narrows in fringe marsh (danger band 3), 344 m from the nearest route; at the water's edge; its first-choice landform; won on landform, nearPoint, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "ford in lake & standing water (danger band 3), 190 m from the nearest route; at the water's edge; its choice #5 landform; won on culture-clump, nearPoint, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "water-narrows",
-        "regionClass": "fringe marsh",
+        "landform": "ford",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 343.5,
+        "distanceToRouteM": 190.0,
         "distanceToWaterM": 0.0,
-        "score": 4.162
+        "score": 4.91
       },
       "hostility": {
         "baseline": "neutral",
@@ -3630,38 +3587,38 @@
         }
       ],
       "position": {
-        "u": 0.24355,
-        "v": 0.95228
+        "u": 0.25545,
+        "v": 0.93592
       },
       "positionM": [
-        1795.9,
-        7021.6
+        1883.6,
+        6901.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0026",
-          "score": 3.318,
+          "siteId": "site.free.any-firm-ground-1333",
+          "score": 4.215,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1339",
-          "score": 3.315,
+          "siteId": "site.free.roadside-0030",
+          "score": 3.938,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1335",
-          "score": 3.314,
+          "siteId": "site.free.any-firm-ground-1330",
+          "score": 3.935,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 113 m from the nearest route; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 93.2,
-        "distanceToWaterM": 5.5,
-        "score": 3.318
+        "distanceToRouteM": 113.0,
+        "distanceToWaterM": 46.9,
+        "score": 4.382
       },
       "hostility": {
         "baseline": "wary",
@@ -3763,7 +3720,14 @@
         {
           "kind": "cut",
           "radiusM": 90,
-          "delivery": {"feature":"screened-back-channels","featureCount":2,"waterRelation":"channel-linked","depthClass":"navigable","capacity":"poled-skiff","access":"poling"},
+          "delivery": {
+            "feature": "screened-back-channels",
+            "featureCount": 2,
+            "waterRelation": "channel-linked",
+            "depthClass": "navigable",
+            "capacity": "poled-skiff",
+            "access": "poling"
+          },
           "note": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
         }
       ],
@@ -4296,38 +4260,38 @@
         ]
       },
       "position": {
-        "u": 0.28223,
-        "v": 0.80354
+        "u": 0.29561,
+        "v": 0.88981
       },
       "positionM": [
-        2081.0,
-        5924.9
+        2179.7,
+        6561.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1248",
-          "score": 3.41,
-          "whyLost": "too close to place.imperial-penal-south.intact-fort"
-        },
-        {
-          "siteId": "site.free.roadside-0027",
-          "score": 3.406,
+          "siteId": "site.free.any-firm-ground-1271",
+          "score": 3.594,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1279",
-          "score": 3.403,
+          "siteId": "site.free.any-firm-ground-1243",
+          "score": 3.544,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-1313",
+          "score": 3.544,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 482 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.saltrice-village (+1.04).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 192 m from the nearest route; its choice #4 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "seasonal floodplain",
-        "dangerBand": 3,
-        "distanceToRouteM": 482.5,
-        "distanceToWaterM": 5.5,
-        "score": 2.65
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 191.5,
+        "distanceToWaterM": 55.9,
+        "score": 3.636
       }
     },
     {
@@ -4808,38 +4772,38 @@
         }
       ],
       "position": {
-        "u": 0.3328,
-        "v": 0.82362
+        "u": 0.38634,
+        "v": 0.80652
       },
       "positionM": [
-        2453.9,
-        6073.0
+        2848.7,
+        5946.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.islet-036",
-          "score": 3.525,
-          "whyLost": "too close to place.imperial-penal-south.blasphemer-urn-vault"
+          "siteId": "site.free.open-water-0584",
+          "score": 4.134,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 3.007,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.open-water-0585",
+          "score": 3.843,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1247",
-          "score": 2.523,
-          "whyLost": "too close to place.imperial-penal-south.bramman-head"
+          "siteId": "site.free.open-water-0583",
+          "score": 3.797,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in lake & standing water (danger band 3), 172 m from the nearest route; at the water's edge; its choice #3 landform; won on route, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.blackrose-drowned-hist (+0.46).",
+      "whySiteWon": "islet in lake & standing water (danger band 4), 159 m from the nearest route; at the water's edge; its choice #3 landform; won on route, nearPoint, landform; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "islet",
         "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 172.1,
+        "dangerBand": 4,
+        "distanceToRouteM": 159.1,
         "distanceToWaterM": 0.0,
-        "score": 3.588
+        "score": 4.371
       },
       "hostility": {
         "baseline": "hostile",
@@ -4917,7 +4881,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.islet-033",
+      "scourSiteId": "site.scour.lake-standing-water.islet-036",
       "sitingNote": "Pulled 150 m west onto zone ground (the old position read mercantile-coast on the culture raster) and the arm's compass corrected: it lies north-east of the city, not south."
     },
     {
@@ -5116,40 +5080,39 @@
         ]
       },
       "position": {
-        "u": 0.29115,
-        "v": 0.94113
+        "u": 0.32387,
+        "v": 0.86006
       },
       "positionM": [
-        2146.8,
-        6939.4
+        2388.1,
+        6341.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0441",
-          "score": 3.187,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.open-water-0569",
+          "score": 4.174,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0571",
-          "score": 3.184,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.open-water-0580",
+          "score": 4.038,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0440",
-          "score": 2.791,
+          "siteId": "site.scour.firm-lowland.island-009",
+          "score": 3.472,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "headland in firm lowland (danger band 2), 176 m from the nearest route; at the water's edge; won on bound, region, submerged; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in lake & standing water (danger band 2), 5 m from the nearest route; at the water's edge; won on bound, culture-clump, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "headland",
-        "regionClass": "firm lowland",
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
         "dangerBand": 2,
-        "distanceToRouteM": 175.5,
-        "distanceToWaterM": 17.3,
-        "score": 3.078
-      },
-      "scourSiteId": "site.scour.firm-lowland.headland-030"
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 0.0,
+        "score": 4.357
+      }
     },
     {
       "id": "place.imperial-penal-south.feeder-portage",
@@ -5283,38 +5246,38 @@
       "underwaterAccess": "surface-swim",
       "ownerFaction": "faction.drag-windlass-crew",
       "position": {
-        "u": 0.35585,
-        "v": 0.84965
+        "u": 0.26289,
+        "v": 0.82958
       },
       "positionM": [
-        2623.9,
-        6264.9
+        1938.4,
+        6116.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.water-narrows-019",
-          "score": 4.632,
-          "whyLost": "too close to place.mercantile-coast.chasepoint"
+          "siteId": "site.free.roadside-0032",
+          "score": 4.536,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1233",
-          "score": 4.316,
-          "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
+          "siteId": "site.free.any-firm-ground-1347",
+          "score": 4.455,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1316",
-          "score": 4.311,
-          "whyLost": "too close to place.imperial-penal-south.ledgered-blackguards"
+          "siteId": "site.free.roadside-0033",
+          "score": 4.359,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 17 m from the nearest route; at the water's edge; no free 'waterfall' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "water narrows in fringe marsh (danger band 3), 344 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, route, region; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.flu-mass-grave (+1.22).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "water-narrows",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 17.3,
-        "distanceToWaterM": 5.5,
-        "score": 4.155
+        "dangerBand": 3,
+        "distanceToRouteM": 343.5,
+        "distanceToWaterM": 0.0,
+        "score": 4.392
       },
       "hostility": {
         "baseline": "neutral",
@@ -5377,7 +5340,8 @@
             "provenance": null
           }
         ]
-      }
+      },
+      "scourSiteId": "site.scour.fringe-marsh.water-narrows-052"
     },
     {
       "id": "place.imperial-penal-south.feeder-whitewater",
@@ -5700,38 +5664,38 @@
         ]
       },
       "position": {
-        "u": 0.35139,
-        "v": 0.90543
+        "u": 0.23389,
+        "v": 0.94038
       },
       "positionM": [
-        2591.0,
-        6676.2
+        1724.6,
+        6933.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 3.806,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-1333",
+          "score": 4.502,
+          "whyLost": "taken by place.imperial-penal-south.vampiric-cloud-ground"
         },
         {
-          "siteId": "site.free.any-firm-ground-1339",
-          "score": 3.613,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.headland-010",
+          "score": 3.608,
+          "whyLost": "too close to place.imperial-penal-south.rebellion-earthworks"
         },
         {
-          "siteId": "site.free.any-firm-ground-1246",
-          "score": 3.612,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.summit-039",
+          "score": 3.604,
+          "whyLost": "taken by place.imperial-penal-south.rebellion-earthworks"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 348 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 186 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.feeder-portage (+1.22).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 348.3,
-        "distanceToWaterM": 44.2,
-        "score": 3.833
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 186.4,
+        "distanceToWaterM": 12.3,
+        "score": 3.908
       }
     },
     {
@@ -5877,40 +5841,39 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.26884,
-        "v": 0.87568
+        "u": 0.24838,
+        "v": 0.91994
       },
       "positionM": [
-        1982.3,
-        6456.8
+        1831.4,
+        6783.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.island-002",
-          "score": 3.484,
+          "siteId": "site.free.any-firm-ground-1347",
+          "score": 3.885,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.island-008",
-          "score": 3.468,
+          "siteId": "site.free.roadside-0032",
+          "score": 3.29,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0573",
-          "score": 3.316,
+          "siteId": "site.free.roadside-0029",
+          "score": 3.27,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "island in fringe marsh (danger band 2), 39 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, route; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, bound, landform; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "island",
+        "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 38.8,
-        "distanceToWaterM": 12.3,
-        "score": 3.493
+        "dangerBand": 3,
+        "distanceToRouteM": 32.9,
+        "distanceToWaterM": 11.0,
+        "score": 4.513
       },
-      "scourSiteId": "site.scour.fringe-marsh.island-003",
       "hostility": {
         "baseline": "neutral",
         "owner": null,
@@ -5983,7 +5946,9 @@
         {
           "kind": "narrows",
           "radiusM": 60,
-          "delivery": {"feature":"narrows"},
+          "delivery": {
+            "feature": "narrows"
+          },
           "note": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
         }
       ],
@@ -6815,40 +6780,40 @@
         ]
       },
       "position": {
-        "u": 0.28669,
-        "v": 0.83925
+        "u": 0.28223,
+        "v": 0.87048
       },
       "positionM": [
-        2113.9,
-        6188.2
+        2081.0,
+        6418.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-014",
-          "score": 3.362,
+          "siteId": "site.scour.fringe-marsh.ford-020",
+          "score": 3.483,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.summit-024",
-          "score": 3.27,
+          "siteId": "site.free.roadside-0055",
+          "score": 3.451,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 2.691,
+          "siteId": "site.free.open-water-0627",
+          "score": 3.433,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in fringe marsh (danger band 2), 241 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in fringe marsh (danger band 2), 11 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "ford",
+        "landform": "flood-high",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 241.3,
-        "distanceToWaterM": 0.0,
-        "score": 3.44
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 34.7,
+        "score": 3.563
       },
-      "scourSiteId": "site.scour.fringe-marsh.ford-020"
+      "scourSiteId": "site.scour.fringe-marsh.flood-high-014"
     },
     {
       "id": "place.imperial-penal-south.kothringi-ruin-basin",
@@ -6986,38 +6951,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.23537,
-        "v": 0.80354
+        "u": 0.20339,
+        "v": 0.79462
       },
       "positionM": [
-        1735.5,
-        5924.9
+        1499.7,
+        5859.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 3.597,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1103",
-          "score": 2.938,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
-        },
-        {
           "siteId": "site.scour.firm-lowland.headland-032",
-          "score": 1.976,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
+          "score": 2.01,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.lake-standing-water.cove-066",
+          "score": 1.897,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.deep-river-corridor.land-bridge-036",
+          "score": 1.263,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in deep river corridor (danger band 3), 604 m from the nearest route; at the water's edge; won on nearPoint, hinterland, danger; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 3), 392 m from the nearest route; its choice #2 landform; won on landform, nearPoint, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "land-bridge",
-        "regionClass": "deep river corridor",
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 604.4,
-        "distanceToWaterM": 0.0,
-        "score": 1.045
+        "distanceToRouteM": 391.8,
+        "distanceToWaterM": 27.4,
+        "score": 3.665
       },
       "hostility": {
         "baseline": "hostile",
@@ -7083,7 +7048,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.deep-river-corridor.land-bridge-036",
+      "scourSiteId": "site.scour.firm-lowland.flood-high-018",
       "sitingNote": "Moved into the empty marsh quarter north-west of the lake (352 m off any route, danger band 4). Four other fights stood within 250 m of it on the western feeder; a Flu-emptied Kothringi town reads better with empty ground around it."
     },
     {
@@ -7302,40 +7267,29 @@
         ]
       },
       "position": {
-        "u": 0.34693,
-        "v": 0.95005
+        "u": 0.22382,
+        "v": 0.90938
       },
       "positionM": [
-        2558.1,
-        7005.2
+        1650.3,
+        6705.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0021",
-          "score": 3.855,
-          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1354",
-          "score": 3.85,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1321",
-          "score": 3.847,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.open-water-0657",
+          "score": 2.843,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in mangrove forest (danger band 0), 110 m from the nearest route; at the water's edge; won on region, hinterland, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 35 m from the nearest route; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "ford",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 0,
-        "distanceToRouteM": 109.8,
-        "distanceToWaterM": 5.5,
-        "score": 2.104
+        "distanceToRouteM": 35.1,
+        "distanceToWaterM": 32.0,
+        "score": 3.399
       },
-      "scourSiteId": "site.scour.mangrove-forest.ford-017",
       "services": [
         "ferry",
         "lodging",
@@ -7538,39 +7492,38 @@
         ]
       },
       "position": {
-        "u": 0.31867,
-        "v": 0.80727
+        "u": 0.24727,
+        "v": 0.80131
       },
       "positionM": [
-        2349.7,
-        5952.4
+        1823.3,
+        5908.5
       ],
-      "scourSiteId": "site.scour.lake-standing-water.cove-031",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 3.752,
+          "siteId": "site.free.open-water-0565",
+          "score": 3.574,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.mangrove-forest.isthmus-012",
-          "score": 3.589,
+          "siteId": "site.free.open-water-0580",
+          "score": 3.029,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.isthmus-024",
-          "score": 3.019,
+          "siteId": "site.free.open-water-0579",
+          "score": 3.01,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 326 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in deep river corridor (danger band 3), 665 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
+        "landform": "open-water",
+        "regionClass": "deep river corridor",
         "dangerBand": 3,
-        "distanceToRouteM": 326.5,
+        "distanceToRouteM": 664.6,
         "distanceToWaterM": 0.0,
-        "score": 4.628
+        "score": 3.659
       },
       "services": []
     },
@@ -7773,39 +7726,38 @@
         ]
       },
       "position": {
-        "u": 0.21678,
-        "v": 0.88387
+        "u": 0.25471,
+        "v": 0.79388
       },
       "positionM": [
-        1598.4,
-        6517.2
+        1878.1,
+        5853.7
       ],
-      "scourSiteId": "site.scour.tidal-delta.river-mouth-000",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-034",
-          "score": 3.205,
+          "siteId": "site.free.open-water-0565",
+          "score": 2.866,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-031",
-          "score": 3.2,
+          "siteId": "site.free.open-water-0580",
+          "score": 2.836,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 3.07,
+          "siteId": "site.free.open-water-0579",
+          "score": 2.802,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "river mouth in tidal delta (danger band 3), 137 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, submerged; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 663 m from the nearest route; at the water's edge; won on region, submerged, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "river-mouth",
-        "regionClass": "tidal delta",
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 137.2,
+        "distanceToRouteM": 663.3,
         "distanceToWaterM": 0.0,
-        "score": 3.375
+        "score": 2.972
       }
     },
     {
@@ -7999,38 +7951,38 @@
         ]
       },
       "position": {
-        "u": 0.30602,
-        "v": 0.84817
+        "u": 0.34068,
+        "v": 0.90721
       },
       "positionM": [
-        2256.5,
-        6254.0
+        2512.0,
+        6689.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0436",
-          "score": 3.903,
-          "whyLost": "too close to place.imperial-penal-south.rose-supply-town"
-        },
-        {
-          "siteId": "site.free.roadside-0036",
-          "score": 3.895,
+          "siteId": "site.free.any-firm-ground-1294",
+          "score": 6.08,
           "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
         },
         {
-          "siteId": "site.free.any-firm-ground-1298",
-          "score": 3.581,
+          "siteId": "site.free.any-firm-ground-1295",
+          "score": 5.873,
+          "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
+        },
+        {
+          "siteId": "site.free.roadside-0747",
+          "score": 5.768,
           "whyLost": "too close to place.naga-kur-deeps.ferry-stage-guide-hire"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 2), 113 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, nearPoint, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 12 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, nearPoint, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
+        "landform": "any-firm-ground",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 112.5,
+        "distanceToRouteM": 12.3,
         "distanceToWaterM": 23.3,
-        "score": 3.345
+        "score": 5.009
       },
       "sitingNote": "Bound to the Blackrose–Lilmoth boat lane. The record used to claim it was where the north road ended, at a nine-hundred-metre narrows; neither is on the ground here, so those claims were cut rather than the stage itself."
     },
@@ -8489,38 +8441,38 @@
         }
       ],
       "position": {
-        "u": 0.25471,
-        "v": 0.77529
+        "u": 0.23389,
+        "v": 0.77604
       },
       "positionM": [
-        1878.1,
-        5716.6
+        1724.6,
+        5722.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.islet-026",
-          "score": 3.064,
-          "whyLost": "too close to place.naga-kur-deeps.wild-hist-rogue-deeps"
+          "siteId": "site.free.open-water-0521",
+          "score": 3.296,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-066",
-          "score": 3.031,
-          "whyLost": "too close to place.imperial-penal-south.kothringi-ruin-basin"
+          "siteId": "site.free.open-water-0540",
+          "score": 2.895,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.islet-020",
-          "score": 2.857,
-          "whyLost": "too close to place.naga-kur-deeps.bereaved-hist-less-since"
+          "siteId": "site.scour.interior-swamp.island-006",
+          "score": 2.845,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "isthmus in lake & standing water (danger band 4), 633 m from the nearest route; at the water's edge; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lilmothiit-quarry (+0.75).",
+      "whySiteWon": "cove in lake & standing water (danger band 4), 491 m from the nearest route; at the water's edge; its choice #5 landform; won on culture-clump, region, submerged; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "isthmus",
+        "landform": "cove",
         "regionClass": "lake & standing water",
         "dangerBand": 4,
-        "distanceToRouteM": 633.0,
+        "distanceToRouteM": 491.1,
         "distanceToWaterM": 0.0,
-        "score": 2.142
+        "score": 4.231
       },
       "hostility": {
         "baseline": "hostile",
@@ -8588,7 +8540,7 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.isthmus-033",
+      "scourSiteId": "site.scour.lake-standing-water.cove-066",
       "sitingNote": "In the lake's western arm, which the culture raster reads as mercantile-coast hinterland. The xanmeer predates both cultures and is left on its own water rather than dragged inland."
     },
     {
@@ -8816,40 +8768,40 @@
         ]
       },
       "position": {
-        "u": 0.21084,
-        "v": 0.81842
+        "u": 0.25546,
+        "v": 0.86156
       },
       "positionM": [
-        1554.6,
-        6034.6
+        1883.6,
+        6352.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-017",
-          "score": 3.592,
+          "siteId": "site.free.any-shallow-marsh-1311",
+          "score": 2.391,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-052",
-          "score": 3.572,
+          "siteId": "site.scour.fringe-marsh.island-012",
+          "score": 2.165,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.lake-standing-water.cove-028",
-          "score": 3.532,
+          "siteId": "site.scour.fringe-marsh.island-008",
+          "score": 2.124,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 557 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.longmont (+0.51).",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 153 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "cove",
         "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 556.8,
+        "distanceToRouteM": 152.8,
         "distanceToWaterM": 0.0,
-        "score": 3.657
+        "score": 4.792
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-005",
+      "scourSiteId": "site.scour.lake-standing-water.cove-017",
       "sitingNote": "On the lake's western edge, where the culture raster reads mercantile-coast: a book-keeping smuggler crew belongs on the seam between the city's water and the coast's, not inside either. Region list widened to include the standing water beneath it."
     },
     {
@@ -8995,38 +8947,33 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.25249,
-        "v": 0.81842
+        "u": 0.25025,
+        "v": 0.72992
       },
       "positionM": [
-        1861.7,
-        6034.6
+        1845.2,
+        5382.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1025",
-          "score": 2.693,
-          "whyLost": "too close to place.naga-kur-deeps.maturity-trial-kaju-kill"
+          "siteId": "site.scour.firm-lowland.headland-032",
+          "score": 1.847,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1103",
-          "score": 2.073,
-          "whyLost": "too close to place.naga-kur-deeps.root-whisper-village"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 1.859,
-          "whyLost": "too close to place.naga-kur-deeps.raft-village-lashed"
+          "siteId": "site.free.open-water-0523",
+          "score": 1.41,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in lake & standing water (danger band 3), 452 m from the nearest route; at the water's edge; won on nearPoint, region, danger; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-submerged-xanmeer (+0.75).",
+      "whySiteWon": "firm ground in firm lowland (danger band 4), 437 m from the nearest route; no free 'ravine' site was left in the zone, so plain ground; won on culture-clump, nearPoint, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "ford",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 451.7,
-        "distanceToWaterM": 0.0,
-        "score": 1.69
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 4,
+        "distanceToRouteM": 436.8,
+        "distanceToWaterM": 38.8,
+        "score": 2.507
       },
       "hostility": {
         "baseline": "hostile",
@@ -9085,7 +9032,6 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.ford-023",
       "sitingNote": "Moved 500 m north into the empty quarter (330 m off any route). The robbed substratum was one of five fights in a 250 m radius; a picked-over lost city should not be a roadside stop."
     },
     {
@@ -9393,38 +9339,38 @@
         }
       ],
       "position": {
-        "u": 0.27999,
-        "v": 0.90394
+        "u": 0.26289,
+        "v": 0.83924
       },
       "positionM": [
-        2064.5,
-        6665.2
+        1938.4,
+        6188.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0436",
-          "score": 2.95,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0029",
+          "score": 2.845,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1253",
-          "score": 2.947,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0032",
+          "score": 2.828,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1274",
-          "score": 2.943,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0031",
+          "score": 2.818,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in lake & standing water (danger band 3), 176 m from the nearest route; at the water's edge; its choice #4 landform; won on landform, region, parent; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.ledgered-blackguards (+0.51).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 422 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "lake & standing water",
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 175.6,
+        "distanceToRouteM": 421.7,
         "distanceToWaterM": 0.0,
-        "score": 2.79
+        "score": 2.957
       },
       "hostility": {
         "baseline": "wary",
@@ -9519,7 +9465,6 @@
           "place.imperial-penal-south.lake-boardwalk-village"
         ]
       },
-      "scourSiteId": "site.scour.lake-standing-water.cove-004",
       "services": [
         "ferry",
         "lodging",
@@ -9716,39 +9661,40 @@
         ]
       },
       "position": {
-        "u": 0.34031,
-        "v": 0.86832
+        "u": 0.31643,
+        "v": 0.90319
       },
       "positionM": [
-        2509.3,
-        6402.6
+        2333.2,
+        6659.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0440",
-          "score": 4.106,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.scour.firm-lowland.headland-010",
+          "score": 5.23,
+          "whyLost": "too close to place.imperial-penal-south.rebellion-earthworks"
         },
         {
-          "siteId": "site.scour.fringe-marsh.headland-025",
-          "score": 4.106,
-          "whyLost": "too close to place.imperial-penal-south.blackrose-prison"
+          "siteId": "site.free.roadside-0030",
+          "score": 4.157,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0441",
-          "score": 4.103,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1330",
+          "score": 4.111,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 1), 88 m from the nearest route; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "headland in fringe marsh (danger band 2), 233 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
-        "dangerBand": 1,
-        "distanceToRouteM": 88.4,
-        "distanceToWaterM": 29.5,
-        "score": 4.089
-      }
+        "landform": "headland",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 232.6,
+        "distanceToWaterM": 7.8,
+        "score": 4.226
+      },
+      "scourSiteId": "site.scour.fringe-marsh.headland-025"
     },
     {
       "id": "place.imperial-penal-south.marsh-giant-ground-basin",
@@ -9921,38 +9867,38 @@
         ]
       },
       "position": {
-        "u": 0.22124,
-        "v": 0.7671
+        "u": 0.21678,
+        "v": 0.74926
       },
       "positionM": [
-        1631.3,
-        5656.3
+        1598.4,
+        5524.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1075",
-          "score": 3.073,
-          "whyLost": "too close to place.naga-kur-deeps.necropolis-nightbound"
+          "siteId": "site.free.any-shallow-marsh-1174",
+          "score": 2.467,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1076",
-          "score": 3.026,
-          "whyLost": "taken by place.imperial-penal-south.wisp-lure-basin"
+          "siteId": "site.free.any-shallow-marsh-1175",
+          "score": 2.285,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1052",
-          "score": 2.849,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.free.any-shallow-marsh-1148",
+          "score": 1.983,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 380 m from the nearest route; its choice #3 landform; won on landform, region, route; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 313 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "interior swamp",
         "dangerBand": 4,
-        "distanceToRouteM": 379.9,
-        "distanceToWaterM": 32.9,
-        "score": 2.232
+        "distanceToRouteM": 313.0,
+        "distanceToWaterM": 0.0,
+        "score": 2.535
       },
       "sitingNote": "Kept on the Murkwood side of the lake (culture raster: naga-kur-deeps) because the range is defined by having no settlement in it. Given the wallow-mouth den the 'trodden ground' implies, so the lair can be entered."
     },
@@ -10108,38 +10054,38 @@
         }
       ],
       "position": {
-        "u": 0.26289,
-        "v": 0.70612
+        "u": 0.22124,
+        "v": 0.7671
       },
       "positionM": [
-        1938.4,
-        5206.6
+        1631.3,
+        5656.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1053",
-          "score": 2.503,
-          "whyLost": "too close to place.hist-heartland.cult-raid-camp-unbound"
+          "siteId": "site.free.any-shallow-marsh-1175",
+          "score": 1.725,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1052",
-          "score": 2.462,
-          "whyLost": "too close to place.naga-kur-deeps.harmed-hist-enslaved"
+          "siteId": "site.scour.interior-swamp.flood-high-029",
+          "score": 1.594,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.interior-swamp.flood-high-038",
-          "score": 2.443,
-          "whyLost": "too close to place.naga-kur-deeps.refugee-camp-raid"
+          "siteId": "site.free.any-shallow-marsh-1174",
+          "score": 1.441,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in rootland deep marsh (danger band 5), 361 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on region, danger, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.wisp-lure-basin (+0.39).",
+      "whySiteWon": "shallow marsh in interior swamp (danger band 4), 375 m from the nearest route; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on culture-clump, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "rootland deep marsh",
-        "dangerBand": 5,
-        "distanceToRouteM": 360.6,
-        "distanceToWaterM": 11.0,
-        "score": 2.36
+        "regionClass": "interior swamp",
+        "dangerBand": 4,
+        "distanceToRouteM": 374.8,
+        "distanceToWaterM": 32.9,
+        "score": 1.828
       },
       "hostility": {
         "baseline": "hostile",
@@ -10382,48 +10328,52 @@
         ]
       },
       "position": {
-        "u": 0.28743,
-        "v": 0.87494
+        "u": 0.37965,
+        "v": 0.87568
       },
       "positionM": [
-        2119.4,
-        6451.4
+        2799.3,
+        6456.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1337",
-          "score": 4.624,
-          "whyLost": "too close to place.imperial-penal-south.ledgered-blackguards"
+          "siteId": "site.free.open-water-0592",
+          "score": 4.253,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.land-bridge-030",
-          "score": 3.807,
-          "whyLost": "too close to place.imperial-penal-south.ledgered-blackguards"
+          "siteId": "site.scour.lake-standing-water.cove-034",
+          "score": 4.166,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.river-mouth-009",
-          "score": 3.755,
-          "whyLost": "too close to place.imperial-penal-south.necromantic-dig"
+          "siteId": "site.free.open-water-0602",
+          "score": 3.979,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "water narrows in fringe marsh (danger band 2), 23 m from the nearest route; at the water's edge; won on route, bound, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "open water in fringe marsh (danger band 3), 153 m from the nearest route; at the water's edge; won on route, bound, region; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "water-narrows",
+        "landform": "open-water",
         "regionClass": "fringe marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 22.6,
+        "dangerBand": 3,
+        "distanceToRouteM": 152.9,
         "distanceToWaterM": 0.0,
-        "score": 2.407
+        "score": 4.264
       },
       "terrainRequests": [
         {
           "kind": "sinkhole",
           "radiusM": 40,
-          "delivery": {"feature":"karst-dive-shaft","widthM":9,"depthClass":"below-bed","waterRelation":"below-lake-bed"},
+          "delivery": {
+            "feature": "karst-dive-shaft",
+            "widthM": 9,
+            "depthClass": "below-bed",
+            "waterRelation": "below-lake-bed"
+          },
           "note": "A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here."
         }
-      ],
-      "scourSiteId": "site.scour.fringe-marsh.water-narrows-007"
+      ]
     },
     {
       "id": "place.imperial-penal-south.necromantic-dig",
@@ -10640,48 +10590,53 @@
         ]
       },
       "position": {
-        "u": 0.29412,
-        "v": 0.92551
+        "u": 0.32016,
+        "v": 0.88906
       },
       "positionM": [
-        2168.7,
-        6824.2
+        2360.7,
+        6555.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1337",
-          "score": 3.851,
+          "siteId": "site.free.roadside-0056",
+          "score": 3.208,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.isthmus-025",
-          "score": 3.525,
+          "siteId": "site.free.any-firm-ground-1293",
+          "score": 2.819,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.land-bridge-030",
-          "score": 3.518,
+          "siteId": "site.scour.firm-lowland.summit-024",
+          "score": 2.556,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 291 m from the nearest route; no free 'flood-high' site was left in the zone, so plain ground; won on bound, nearPoint, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "flood high in firm lowland (danger band 2), 140 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, nearPoint; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 290.6,
-        "distanceToWaterM": 39.9,
-        "score": 3.857
+        "landform": "flood-high",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 139.8,
+        "distanceToWaterM": 5.5,
+        "score": 3.957
       },
       "terrainRequests": [
         {
           "kind": "dry-rise",
           "radiusM": 35,
-          "delivery": {"feature":"spoil-hidden-dry-rise","heightClass":"flood-free","waterRelation":"above-flood"},
+          "delivery": {
+            "feature": "spoil-hidden-dry-rise",
+            "heightClass": "flood-free",
+            "waterRelation": "above-flood"
+          },
           "note": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
         }
       ],
-      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use."
+      "sitingNote": "Pulled off the causeway water (64 m) onto quiet ground 135 m from any route, since the dig depends on ground the carters do not use.",
+      "scourSiteId": "site.scour.firm-lowland.flood-high-000"
     },
     {
       "id": "place.imperial-penal-south.onkobra-clay-kiln",
@@ -11148,38 +11103,38 @@
         ]
       },
       "position": {
-        "u": 0.36775,
-        "v": 0.86006
+        "u": 0.23314,
+        "v": 0.927
       },
       "positionM": [
-        2711.6,
-        6341.7
+        1719.1,
+        6835.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1255",
-          "score": 4.222,
-          "whyLost": "too close to place.mercantile-coast.hist-less-fringe"
+          "siteId": "site.free.any-firm-ground-1347",
+          "score": 4.127,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1281",
-          "score": 4.209,
-          "whyLost": "too close to place.mercantile-coast.oliis-air-station"
+          "siteId": "site.free.roadside-0027",
+          "score": 3.882,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0436",
-          "score": 3.982,
-          "whyLost": "too close to place.mercantile-coast.oliis-air-station"
+          "siteId": "site.scour.fringe-marsh.flood-high-035",
+          "score": 3.758,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 2), 44 m from the nearest route; its first-choice landform; won on landform, route, bound; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 132 m from the nearest route; its first-choice landform; won on landform, route, bound; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 43.9,
-        "distanceToWaterM": 38.8,
-        "score": 3.807
+        "distanceToRouteM": 131.8,
+        "distanceToWaterM": 56.5,
+        "score": 4.329
       },
       "sitingNote": "The line runs east of Blackrose toward the coast hinterland, so the culture raster reads mercantile-coast on its far side. The record depends on that: the villages beyond the stones still call themselves outside. Kept in place; the 'southern' wording was corrected and the line given its surviving gate."
     },
@@ -11332,38 +11287,38 @@
         }
       ],
       "position": {
-        "u": 0.21827,
-        "v": 0.82288
+        "u": 0.21976,
+        "v": 0.85932
       },
       "positionM": [
-        1609.4,
-        6067.5
+        1620.4,
+        6336.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1206",
-          "score": 4.701,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.scour.fringe-marsh.island-012",
+          "score": 5.038,
+          "whyLost": "taken by place.imperial-penal-south.akaviri-works"
         },
         {
-          "siteId": "site.free.any-firm-ground-1273",
-          "score": 4.688,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.any-firm-ground-1243",
+          "score": 4.761,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 4.503,
+          "siteId": "site.free.any-firm-ground-1200",
+          "score": 4.739,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 513 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 3), 319 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 512.9,
-        "distanceToWaterM": 24.5,
-        "score": 4.671
+        "distanceToRouteM": 319.0,
+        "distanceToWaterM": 19.8,
+        "score": 4.766
       },
       "hostility": {
         "baseline": "wary",
@@ -11723,38 +11678,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.unclaimed",
       "position": {
-        "u": 0.36626,
+        "u": 0.37742,
         "v": 0.92625
       },
       "positionM": [
-        2700.6,
+        2782.9,
         6829.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1319",
-          "score": 3.822,
-          "whyLost": "taken by place.imperial-penal-south.flu-mass-grave"
+          "siteId": "site.free.any-firm-ground-1333",
+          "score": 4.514,
+          "whyLost": "taken by place.imperial-penal-south.vampiric-cloud-ground"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 3.802,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.scour.firm-lowland.headland-010",
+          "score": 3.606,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1246",
-          "score": 3.621,
-          "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
+          "siteId": "site.free.any-firm-ground-1268",
+          "score": 2.067,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 285 m from the nearest route; its choice #3 landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "summit in firm lowland (danger band 2), 252 m from the nearest route; won on culture-clump, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "summit",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 285.1,
-        "distanceToWaterM": 65.8,
-        "score": 3.604
+        "distanceToRouteM": 252.1,
+        "distanceToWaterM": 59.3,
+        "score": 3.607
       },
       "hostility": {
         "baseline": "wary",
@@ -11828,7 +11783,8 @@
           }
         ]
       },
-      "sitingNote": "Converted from a hostile claim-gang delve to a wary licensed dig (round 4 hostility rebalance): it was one of sixteen fights inside 250 m of the city's roads, at D1, where the province is already twice Morrowind's fight density."
+      "sitingNote": "Converted from a hostile claim-gang delve to a wary licensed dig (round 4 hostility rebalance): it was one of sixteen fights inside 250 m of the city's roads, at D1, where the province is already twice Morrowind's fight density.",
+      "scourSiteId": "site.scour.firm-lowland.summit-039"
     },
     {
       "id": "place.imperial-penal-south.rebellion-memorial",
@@ -12295,38 +12251,38 @@
         }
       ],
       "position": {
-        "u": 0.21827,
-        "v": 0.83925
+        "u": 0.26037,
+        "v": 0.90795
       },
       "positionM": [
-        1609.4,
-        6188.2
+        1919.8,
+        6694.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-014",
-          "score": 4.39,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1275",
-          "score": 3.817,
+          "siteId": "site.free.any-firm-ground-1268",
+          "score": 3.274,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1276",
-          "score": 3.81,
+          "siteId": "site.free.any-shallow-marsh-1224",
+          "score": 2.799,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.fringe-marsh.headland-026",
+          "score": 2.73,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in firm lowland (danger band 2), 411 m from the nearest route; its first-choice landform; won on landform, bound, region; placed from the homeless batch at stage 'spacing-1/2'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 89 m from the nearest route; at the water's edge; no free 'flood-high' site was left in the zone, so plain ground; won on bound, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 411.3,
-        "distanceToWaterM": 66.0,
-        "score": 3.919
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 89.3,
+        "distanceToWaterM": 0.0,
+        "score": 3.464
       },
       "hostility": {
         "baseline": "friendly",
@@ -12385,7 +12341,6 @@
           }
         ]
       },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-010",
       "services": []
     },
     {
@@ -12563,38 +12518,38 @@
         ]
       },
       "position": {
-        "u": 0.37444,
-        "v": 0.90022
+        "u": 0.31541,
+        "v": 0.87122
       },
       "positionM": [
-        2761.0,
-        6637.8
+        2325.7,
+        6423.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1351",
-          "score": 3.616,
+          "siteId": "site.free.any-firm-ground-1345",
+          "score": 4.214,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1229",
-          "score": 3.611,
+          "siteId": "site.free.any-firm-ground-1333",
+          "score": 4.167,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1206",
-          "score": 3.603,
+          "siteId": "site.free.roadside-0030",
+          "score": 3.877,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 334 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 1), 30 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 334.5,
-        "distanceToWaterM": 17.3,
-        "score": 3.62
+        "regionClass": "firm lowland",
+        "dangerBand": 1,
+        "distanceToRouteM": 29.5,
+        "distanceToWaterM": 15.5,
+        "score": 4.294
       }
     },
     {
@@ -12751,38 +12706,22 @@
         }
       ],
       "position": {
-        "u": 0.33057,
-        "v": 0.89874
+        "u": 0.24728,
+        "v": 0.84371
       },
       "positionM": [
-        2437.4,
-        6626.8
+        1823.3,
+        6221.1
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-1317",
-          "score": 3.732,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0029",
-          "score": 3.719,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1297",
-          "score": 3.711,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 229 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region.",
+      "candidatesConsidered": [],
+      "whySiteWon": "island in firm lowland (danger band 2), 297 m from the nearest route; won on bound, region, culture-clump.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "island",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 229.1,
-        "distanceToWaterM": 5.5,
-        "score": 3.743
+        "distanceToRouteM": 297.4,
+        "distanceToWaterM": 42.8,
+        "score": 2.772
       },
       "hostility": {
         "baseline": "hostile",
@@ -12861,7 +12800,8 @@
           }
         ]
       },
-      "approachDanger": "D2"
+      "approachDanger": "D2",
+      "scourSiteId": "site.scour.firm-lowland.island-009"
     },
     {
       "aliases": [],
@@ -13087,40 +13027,39 @@
         ]
       },
       "position": {
-        "u": 0.33801,
-        "v": 0.91435
+        "u": 0.25768,
+        "v": 0.81991
       },
       "positionM": [
-        2492.3,
-        6742.0
+        1900.0,
+        6045.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1298",
-          "score": 3.427,
-          "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
+          "siteId": "site.scour.fringe-marsh.headland-026",
+          "score": 3.074,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0032",
-          "score": 3.412,
-          "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
+          "siteId": "site.scour.deep-river-corridor.land-bridge-036",
+          "score": 1.921,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0573",
-          "score": 3.403,
-          "whyLost": "too close to place.imperial-penal-south.scandal-holding-pit"
+          "siteId": "site.scour.lake-standing-water.islet-021",
+          "score": 1.767,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in mangrove forest (danger band 0), 356 m from the nearest route; at the water's edge; won on bound, hinterland, parent; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 522 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on bound, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 356.4,
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 3,
+        "distanceToRouteM": 521.7,
         "distanceToWaterM": 0.0,
-        "score": 0.355
-      },
-      "scourSiteId": "site.scour.mangrove-forest.cove-036"
+        "score": 3.639
+      }
     },
     {
       "id": "place.imperial-penal-south.rose-supply-town",
@@ -13282,39 +13221,38 @@
         }
       ],
       "position": {
-        "u": 0.37964,
-        "v": 0.84296
+        "u": 0.25025,
+        "v": 0.92774
       },
       "positionM": [
-        2799.3,
-        6215.6
+        1845.2,
+        6840.7
       ],
-      "scourSiteId": "site.scour.fringe-marsh.ford-030",
       "candidatesConsidered": [
         {
+          "siteId": "site.free.any-firm-ground-1346",
+          "score": 3.736,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.scour.fringe-marsh.ford-047",
-          "score": 3.422,
+          "score": 3.483,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.flood-high-035",
-          "score": 3.25,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-1253",
-          "score": 2.768,
+          "siteId": "site.free.roadside-0030",
+          "score": 3.401,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in fringe marsh (danger band 2), 61 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, route, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 71 m from the nearest route; at the water's edge; no free 'ridge-end' site was left in the zone, so plain ground; won on culture-clump, route, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "ford",
-        "regionClass": "fringe marsh",
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 60.6,
-        "distanceToWaterM": 0.0,
-        "score": 3.489
+        "distanceToRouteM": 71.5,
+        "distanceToWaterM": 21.9,
+        "score": 3.914
       },
       "hostility": {
         "baseline": "friendly",
@@ -13617,33 +13555,38 @@
         ]
       },
       "position": {
-        "u": 0.29561,
-        "v": 0.88981
+        "u": 0.25917,
+        "v": 0.95346
       },
       "positionM": [
-        2179.7,
-        6561.0
+        1911.0,
+        7030.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1246",
-          "score": 1.715,
-          "whyLost": "too close to place.imperial-penal-south.lake-drowned-village"
+          "siteId": "site.free.roadside-0030",
+          "score": 3.36,
+          "whyLost": "taken by place.imperial-penal-south.blasphemer-urn-vault"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1233",
-          "score": 1.153,
-          "whyLost": "too close to place.imperial-penal-south.blackrose-drowned-hist"
+          "siteId": "site.scour.firm-lowland.summit-030",
+          "score": 2.751,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.scour.firm-lowland.headland-008",
+          "score": 2.746,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 132 m from the nearest route; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.cordon-cellars (+1.04).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 88 m from the nearest route; at the water's edge; no free 'any-shallow-marsh' site was left in the zone, so plain ground; won on route, region, hinterland; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 131.6,
-        "distanceToWaterM": 55.9,
-        "score": 2.809
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 5.5,
+        "score": 3.069
       },
       "ownerFaction": null,
       "relationsReserved": {
@@ -13844,38 +13787,38 @@
         ]
       },
       "position": {
-        "u": 0.32305,
-        "v": 0.8466
+        "u": 0.37071,
+        "v": 0.86011
       },
       "positionM": [
-        2382.0,
-        6242.4
+        2733.4,
+        6342.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1248",
-          "score": 4.179,
-          "whyLost": "too close to place.imperial-penal-south.intact-fort"
-        },
-        {
-          "siteId": "site.free.roadside-0029",
-          "score": 4.178,
+          "siteId": "site.free.any-firm-ground-1330",
+          "score": 4.587,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1297",
-          "score": 4.177,
+          "siteId": "site.free.any-firm-ground-1275",
+          "score": 4.55,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0059",
+          "score": 4.516,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 85 m from the nearest route; its choice #3 landform; won on route, landform, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "firm ground in fringe marsh (danger band 2), 35 m from the nearest route; at the water's edge; its choice #3 landform; won on route, landform, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 85.3,
-        "distanceToWaterM": 31.0,
-        "score": 4.179
+        "distanceToRouteM": 34.7,
+        "distanceToWaterM": 17.3,
+        "score": 4.609
       },
       "sitingNote": "Converted from a hostile clearable delve to a guarded cellar under a working counting-house (round 4 hostility rebalance). Its purpose is a stealth challenge and an exposed ledger; the typed flip to hostile on exposure carries the fight; the quay it sits under is not a dungeon."
     },
@@ -14043,38 +13986,38 @@
         }
       ],
       "position": {
-        "u": 0.27553,
-        "v": 0.91882
+        "u": 0.24504,
+        "v": 0.87643
       },
       "positionM": [
-        2031.6,
-        6774.9
+        1806.8,
+        6462.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.fringe-marsh.ford-047",
-          "score": 3.723,
-          "whyLost": "too close to place.imperial-penal-south.flu-quarantine-village"
+          "siteId": "site.free.roadside-0023",
+          "score": 3.275,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1335",
-          "score": 3.019,
-          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
+          "siteId": "site.free.any-shallow-marsh-1310",
+          "score": 3.269,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1336",
-          "score": 3.008,
-          "whyLost": "too close to place.imperial-penal-south.chainbreaker-shelter"
+          "siteId": "site.free.roadside-0024",
+          "score": 3.233,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "isthmus in fringe marsh (danger band 3), 280 m from the nearest route; at the water's edge; its choice #4 landform; won on nearPoint, landform, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 173 m from the nearest route; at the water's edge; no free 'ford' site was left in the zone, so plain ground; won on nearPoint, region, culture-clump; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "isthmus",
+        "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
-        "dangerBand": 3,
-        "distanceToRouteM": 279.9,
-        "distanceToWaterM": 0.0,
-        "score": 3.006
+        "dangerBand": 2,
+        "distanceToRouteM": 173.4,
+        "distanceToWaterM": 22.6,
+        "score": 3.325
       },
       "hostility": {
         "baseline": "friendly",
@@ -14162,7 +14105,6 @@
         ]
       },
       "sitingNote": "Bound to the western confluence at (1607, 6520) where the Bramman and three-gate channels meet. Its identity is a toll the western freight must pass; the claim was narrowed from the whole basin to those waters. The record was moved onto the junction it names (round 4 network-role pass).",
-      "scourSiteId": "site.scour.fringe-marsh.isthmus-025",
       "services": [
         "council",
         "ferry",
@@ -14312,38 +14254,38 @@
         }
       ],
       "position": {
-        "u": 0.26363,
-        "v": 0.85411
+        "u": 0.36626,
+        "v": 0.92625
       },
       "positionM": [
-        1943.9,
-        6297.8
+        2700.6,
+        6829.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.flood-high-010",
-          "score": 2.704,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.scour.firm-lowland.summit-039",
+          "score": 2.512,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1246",
-          "score": 2.593,
-          "whyLost": "too close to place.imperial-penal-south.prison-born-refuge"
+          "siteId": "site.scour.firm-lowland.headland-010",
+          "score": 2.51,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.flood-high-018",
-          "score": 2.354,
-          "whyLost": "too close to place.imperial-penal-south.longmont"
+          "siteId": "site.free.any-firm-ground-1268",
+          "score": 1.007,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ford in lake & standing water (danger band 3), 190 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, hinterland, parent; placed from the homeless batch at stage 'relaxed-score'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.lake-submerged-xanmeer (+0.36).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 183 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "ford",
-        "regionClass": "lake & standing water",
-        "dangerBand": 3,
-        "distanceToRouteM": 190.0,
-        "distanceToWaterM": 0.0,
-        "score": 0.828
+        "landform": "any-firm-ground",
+        "regionClass": "firm lowland",
+        "dangerBand": 2,
+        "distanceToRouteM": 182.5,
+        "distanceToWaterM": 65.8,
+        "score": 3.5
       },
       "hostility": {
         "baseline": "hostile",
@@ -14413,8 +14355,7 @@
             "provenance": "Welloc's own order, in the field chest"
           }
         ]
-      },
-      "scourSiteId": "site.scour.lake-standing-water.ford-009"
+      }
     },
     {
       "id": "place.imperial-penal-south.voriplasm-vault",
@@ -14609,39 +14550,40 @@
         ]
       },
       "position": {
-        "u": 0.21976,
-        "v": 0.85932
+        "u": 0.2495,
+        "v": 0.9322
       },
       "positionM": [
-        1620.4,
-        6336.2
+        1839.7,
+        6873.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1230",
-          "score": 3.414,
+          "siteId": "site.scour.firm-lowland.headland-008",
+          "score": 4.367,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.headland-026",
-          "score": 3.058,
+          "siteId": "site.free.any-shallow-marsh-1224",
+          "score": 3.237,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.fringe-marsh.island-012",
-          "score": 2.932,
+          "siteId": "site.free.any-firm-ground-1330",
+          "score": 3.19,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 295 m from the nearest route; at the water's edge; no free 'sinkhole' site was left in the zone, so plain ground; won on route, bound, region; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "summit in firm lowland (danger band 3), 240 m from the nearest route; won on culture-clump, route, bound; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "landform": "summit",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 294.7,
-        "distanceToWaterM": 19.8,
-        "score": 3.787
-      }
+        "distanceToRouteM": 240.3,
+        "distanceToWaterM": 54.8,
+        "score": 4.404
+      },
+      "scourSiteId": "site.scour.firm-lowland.summit-030"
     },
     {
       "id": "place.imperial-penal-south.west-market-town",
@@ -14810,38 +14752,38 @@
         }
       ],
       "position": {
-        "u": 0.39787,
-        "v": 0.84066
+        "u": 0.37964,
+        "v": 0.84296
       },
       "positionM": [
-        2933.7,
-        6198.6
+        2799.3,
+        6215.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0437",
-          "score": 4.15,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0061",
+          "score": 4.609,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0034",
-          "score": 4.137,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0060",
+          "score": 4.479,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0436",
-          "score": 4.136,
-          "whyLost": "too close to place.imperial-penal-south.blackrose"
+          "siteId": "site.free.roadside-0747",
+          "score": 4.479,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 40 m from the nearest route; at the water's edge; no free 'confluence' site was left in the zone, so plain ground; won on nearPoint, route, region; placed from the homeless batch at stage 'spacing-3/4'; landform wishes taken from the type recipe (record had none).",
+      "whySiteWon": "ford in fringe marsh (danger band 2), 61 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, nearPoint; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "ford",
         "regionClass": "fringe marsh",
         "dangerBand": 2,
-        "distanceToRouteM": 39.5,
+        "distanceToRouteM": 60.6,
         "distanceToWaterM": 0.0,
-        "score": 3.786
+        "score": 5.156
       },
       "hostility": {
         "baseline": "friendly",
@@ -14947,7 +14889,8 @@
         "tavern",
         "temple",
         "trader"
-      ]
+      ],
+      "scourSiteId": "site.scour.fringe-marsh.ford-030"
     },
     {
       "id": "place.imperial-penal-south.wisp-lure-basin",
@@ -15109,38 +15052,38 @@
         ]
       },
       "position": {
-        "u": 0.2733,
-        "v": 0.81916
+        "u": 0.22422,
+        "v": 0.73736
       },
       "positionM": [
-        2015.2,
-        6040.1
+        1653.3,
+        5436.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1075",
-          "score": 3.54,
+          "siteId": "site.free.any-shallow-marsh-1124",
+          "score": 3.08,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1051",
-          "score": 3.364,
+          "siteId": "site.free.any-shallow-marsh-1174",
+          "score": 2.974,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1052",
-          "score": 3.35,
+          "siteId": "site.free.any-shallow-marsh-1175",
+          "score": 2.811,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in interior swamp (danger band 3), 395 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none); site exchanged in the swap pass with place.imperial-penal-south.murkwood-verge (+0.39).",
+      "whySiteWon": "open water in lake & standing water (danger band 4), 341 m from the nearest route; at the water's edge; won on route, region, danger; placed from the homeless batch at stage 'neighbour-zone'; landform wishes taken from the type recipe (record had none).",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "interior swamp",
-        "dangerBand": 3,
-        "distanceToRouteM": 394.9,
-        "distanceToWaterM": 16.5,
-        "score": 2.384
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
+        "dangerBand": 4,
+        "distanceToRouteM": 341.2,
+        "distanceToWaterM": 0.0,
+        "score": 3.137
       },
       "sitingNote": "Left on the Murkwood frontier where the culture raster reads naga-kur-deeps: the lure works only where there is no reason to walk. The prose claim that it sat on the Rose approach was cut, since the nearest track is 266 m away."
     },

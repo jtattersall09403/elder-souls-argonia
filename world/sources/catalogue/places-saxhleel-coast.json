@@ -713,38 +713,38 @@
         ]
       },
       "position": {
-        "u": 0.68827,
-        "v": 0.59829
+        "u": 0.7013,
+        "v": 0.62468
       },
       "positionM": [
-        5075.0,
-        4411.5
+        5171.0,
+        4606.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0511",
-          "score": 2.773,
-          "whyLost": "too close to place.saxhleel-coast.archon"
+          "siteId": "site.free.roadside-0831",
+          "score": 3.469,
+          "whyLost": "too close to place.saxhleel-coast.archon-lighthouse"
         },
         {
-          "siteId": "site.free.roadside-0301",
-          "score": 2.43,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.roadside-0534",
+          "score": 3.344,
+          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
         },
         {
-          "siteId": "site.free.roadside-0510",
-          "score": 2.395,
-          "whyLost": "too close to place.saxhleel-coast.east-estuary-rootworm-station"
+          "siteId": "site.free.open-water-0464",
+          "score": 3.024,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 2), 67 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, hinterland, parent; placed from the homeless batch at stage 'region-relaxed'.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 20 m from the nearest route; at the water's edge; no free 'natural-harbour' site was left in the zone, so plain ground; won on culture-clump, bound, hinterland; placed from the homeless batch at stage 'region-relaxed'.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
+        "landform": "any-shallow-marsh",
+        "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 66.9,
+        "distanceToRouteM": 19.8,
         "distanceToWaterM": 16.5,
-        "score": 2.017
+        "score": 3.125
       },
       "sitingNote": "Bound to Archon: the Company's bonded stores ARE the Archon quay; the free-siting pass had put them 275 m inland in jungle. The D1 tier is the city apron's, not the surrounding marsh band the danger raster reads here."
     },
@@ -948,38 +948,28 @@
         ]
       },
       "position": {
-        "u": 0.6972,
-        "v": 0.48525
+        "u": 0.65927,
+        "v": 0.56631
       },
       "positionM": [
-        5140.8,
-        3578.0
+        4861.1,
+        4175.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0308",
-          "score": 2.853,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 2.851,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0305",
-          "score": 2.817,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033",
+          "score": 3.426,
+          "whyLost": "taken by place.saxhleel-coast.quarantine-village-lagoon"
         }
       ],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 402 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, hinterland, landform; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+0.74).",
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 5 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on culture-clump, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+0.84).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "tidal delta",
-        "dangerBand": 3,
-        "distanceToRouteM": 401.6,
-        "distanceToWaterM": 24.5,
-        "score": 2.74
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 5.5,
+        "score": 4.078
       }
     },
     {
@@ -1138,38 +1128,38 @@
         "raised (the branch cut or grown out of reach, and the harbour suddenly arguing about whose tree it is)"
       ],
       "position": {
-        "u": 0.67712,
-        "v": 0.61093
+        "u": 0.68902,
+        "v": 0.62134
       },
       "positionM": [
-        4992.7,
-        4504.7
+        5080.5,
+        4581.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0957",
-          "score": 4.328,
+          "siteId": "site.free.any-firm-ground-0984",
+          "score": 5.31,
+          "whyLost": "taken by place.saxhleel-coast.archon-sacked-quarter"
+        },
+        {
+          "siteId": "site.free.roadside-0536",
+          "score": 4.929,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1014",
-          "score": 4.32,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0301",
-          "score": 4.32,
+          "siteId": "site.free.any-firm-ground-0952",
+          "score": 4.693,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 2), 51 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, parent.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 16 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, bound.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 2,
-        "distanceToRouteM": 50.6,
+        "distanceToRouteM": 16.5,
         "distanceToWaterM": 0.0,
-        "score": 4.343
+        "score": 5.245
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -1421,44 +1411,33 @@
         "tierOwnership": "MQ14 · tier-0"
       },
       "position": {
-        "u": 0.68894,
-        "v": 0.6363
+        "u": 0.70092,
+        "v": 0.63501
       },
       "positionM": [
-        5079.9,
-        4691.7
+        5168.2,
+        4682.3
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0515",
-          "score": 4.441,
-          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
-        },
-        {
-          "siteId": "site.free.roadside-0514",
-          "score": 4.417,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0510",
-          "score": 4.416,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 88 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on bound, sightline, region.",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 27 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on culture-clump, bound, sightline.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
-        "distanceToRouteM": 88.4,
-        "distanceToWaterM": 17.3,
-        "score": 4.429
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 22.6,
+        "score": 5.562
       },
       "terrainRequests": [
         {
           "kind": "islet",
           "radiusM": 45,
-          "delivery": {"feature":"lighthouse-foundation-islet","isletCount":1,"waterRelation":"above-storm-water","heightClass":"storm-free"},
+          "delivery": {
+            "feature": "lighthouse-foundation-islet",
+            "isletCount": 1,
+            "waterRelation": "above-storm-water",
+            "heightClass": "storm-free"
+          },
           "note": "A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower."
         }
       ]
@@ -1839,38 +1818,38 @@
         ]
       },
       "position": {
-        "u": 0.71802,
-        "v": 0.59531
+        "u": 0.68976,
+        "v": 0.63399
       },
       "positionM": [
-        5294.3,
-        4389.6
+        5086.0,
+        4674.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0925",
-          "score": 4.067,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-0953",
+          "score": 4.978,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0957",
-          "score": 4.062,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.roadside-0536",
+          "score": 4.464,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0926",
-          "score": 4.056,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-0952",
+          "score": 4.447,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 2), 82 m from the nearest route; no free 'any-firm-ground' site was left in the zone, so plain ground; won on bound, hinterland, danger.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 75 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, bound.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
         "dangerBand": 2,
-        "distanceToRouteM": 81.5,
-        "distanceToWaterM": 33.4,
-        "score": 3.16
+        "distanceToRouteM": 74.6,
+        "distanceToWaterM": 19.8,
+        "score": 5.043
       }
     },
     {
@@ -2027,38 +2006,38 @@
         "answering (the order gone, one lamp lit, and a name expected)"
       ],
       "position": {
-        "u": 0.6563,
-        "v": 0.65332
+        "u": 0.65882,
+        "v": 0.59874
       },
       "positionM": [
-        4839.2,
-        4817.3
+        4857.8,
+        4414.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1043",
-          "score": 3.604,
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 3.524,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1042",
-          "score": 3.59,
+          "siteId": "site.free.any-firm-ground-0920",
+          "score": 3.51,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0887",
-          "score": 3.556,
+          "siteId": "site.free.any-firm-ground-1038",
+          "score": 3.332,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 3), 313 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, region, parent.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 93 m from the nearest route; at the water's edge; no free 'enclosed-clearing' site was left in the zone, so plain ground; won on bound, region, parent; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 3,
-        "distanceToRouteM": 312.6,
-        "distanceToWaterM": 12.3,
-        "score": 3.623
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 16.5,
+        "score": 3.769
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -2350,38 +2329,22 @@
         "tierOwnership": "SX18 · tier-3; SX21 · tier-3; SX35 · tier-3"
       },
       "position": {
-        "u": 0.69431,
-        "v": 0.66931
+        "u": 0.69014,
+        "v": 0.61353
       },
       "positionM": [
-        5119.5,
-        4935.2
+        5088.8,
+        4523.8
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0957",
-          "score": 2.747,
-          "whyLost": "too close to place.saxhleel-coast.archon-lighthouse"
-        },
-        {
-          "siteId": "site.free.roadside-0512",
-          "score": 2.724,
-          "whyLost": "too close to place.saxhleel-coast.archon"
-        },
-        {
-          "siteId": "site.free.roadside-0298",
-          "score": 2.723,
-          "whyLost": "too close to place.saxhleel-coast.archon"
-        }
-      ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 33 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, parent, hinterland; placed from the homeless batch at stage 'region-relaxed'.",
+      "candidatesConsidered": [],
+      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 39 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on bound, parent, culture-clump.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
-        "dangerBand": 0,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 27.4,
-        "score": 2.624
+        "regionClass": "coastal lagoon & salt marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 49.0,
+        "score": 4.813
       },
       "sitingNote": "Bound to Archon: 'the yard at the province's principal legal port' has to be at that port. D1 is the guarded waterfront's tier, not the mangrove band around it.",
       "services": []
@@ -3105,38 +3068,38 @@
       },
       "sitingNote": "Promoted from the reserve 2026-09-04 to fill an off-route D4 gap at (4343, 4184): more fights off the road, fewer on it (owner).",
       "position": {
-        "u": 0.64804,
-        "v": 0.53292
+        "u": 0.6035,
+        "v": 0.55664
       },
       "positionM": [
-        4778.3,
-        3929.5
+        4449.9,
+        4104.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0847",
-          "score": 1.075,
+          "siteId": "site.free.any-firm-ground-0881",
+          "score": 1.811,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0920",
-          "score": 1.073,
+          "siteId": "site.free.any-firm-ground-0880",
+          "score": 1.779,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0848",
-          "score": 1.07,
+          "siteId": "site.free.any-firm-ground-0882",
+          "score": 1.341,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 88 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on nearPoint, hinterland, landform; site exchanged in the swap pass with place.saxhleel-coast.sealed-xanmeer-wall (+0.54).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 389 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on nearPoint, culture-clump, hinterland.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 88.4,
-        "distanceToWaterM": 0.0,
-        "score": 1.13
+        "distanceToRouteM": 389.3,
+        "distanceToWaterM": 27.4,
+        "score": 1.832
       }
     },
     {
@@ -4205,38 +4168,38 @@
         "claimed (somebody has begun filling the niches, and it is not Velothi work)"
       ],
       "position": {
-        "u": 0.62283,
-        "v": 0.71728
+        "u": 0.573,
+        "v": 0.63845
       },
       "positionM": [
-        4592.4,
-        5288.9
+        4225.1,
+        4707.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1007",
-          "score": 2.384,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.any-firm-ground-1035",
+          "score": 2.925,
+          "whyLost": "taken by place.saxhleel-coast.sealed-xanmeer-wall"
         },
         {
-          "siteId": "site.scour.tropical-jungle.water-narrows-040",
-          "score": 1.855,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.any-firm-ground-1005",
+          "score": 2.851,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 1.469,
+          "siteId": "site.free.any-firm-ground-0883",
+          "score": 2.769,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 362 m from the nearest route; at the water's edge; no free 'headland' site was left in the zone, so plain ground; won on region, danger, parent; site exchanged in the swap pass with place.saxhleel-coast.mangrove-air-pocket (+1.71).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 775 m from the nearest route; no free 'headland' site was left in the zone, so plain ground; won on culture-clump, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 361.9,
-        "distanceToWaterM": 0.0,
-        "score": 2.088
+        "distanceToRouteM": 775.5,
+        "distanceToWaterM": 36.8,
+        "score": 2.864
       },
       "hostility": {
         "baseline": "hostile",
@@ -4969,38 +4932,38 @@
         ]
       },
       "position": {
-        "u": 0.70687,
-        "v": 0.52913
+        "u": 0.72992,
+        "v": 0.5202
       },
       "positionM": [
-        5212.1,
-        3901.5
+        5382.1,
+        3835.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0503",
-          "score": 4.891,
-          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+          "siteId": "site.free.any-firm-ground-0849",
+          "score": 5.043,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0816",
-          "score": 4.879,
-          "whyLost": "too close to place.saxhleel-coast.wall-hist-village"
+          "siteId": "site.free.any-firm-ground-0815",
+          "score": 5.035,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1119",
-          "score": 4.866,
-          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+          "siteId": "site.free.any-shallow-marsh-0785",
+          "score": 4.909,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 297 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, bound, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 263 m from the nearest route; at the water's edge; no free 'any-firm-ground' site was left in the zone, so plain ground; won on route, bound, culture-clump; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 297.4,
-        "distanceToWaterM": 22.6,
-        "score": 3.839
+        "distanceToRouteM": 263.2,
+        "distanceToWaterM": 16.5,
+        "score": 5.083
       },
       "sitingNote": "Bound to Archon: 'a short walk outside the city' is the whole record; the free pass had drifted it 750 m north into hist-heartland culture ground.",
       "services": []
@@ -5900,38 +5863,38 @@
       "entrance": "none",
       "underwaterAccess": "deep-dive",
       "position": {
-        "u": 0.65927,
-        "v": 0.56631
+        "u": 0.66894,
+        "v": 0.58118
       },
       "positionM": [
-        4861.1,
-        4175.7
+        4932.4,
+        4285.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0512",
-          "score": 4.278,
+          "siteId": "site.free.open-water-0439",
+          "score": 4.365,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0299",
-          "score": 4.271,
+          "siteId": "site.free.roadside-0540",
+          "score": 4.362,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0308",
-          "score": 4.26,
+          "siteId": "site.free.any-shallow-marsh-0850",
+          "score": 4.256,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in coastal lagoon & salt marsh (danger band 2), 23 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, bound, region.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 0), 11 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on route, culture-clump, bound.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
-        "regionClass": "coastal lagoon & salt marsh",
-        "dangerBand": 2,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 5.5,
-        "score": 4.317
+        "regionClass": "mangrove forest",
+        "dangerBand": 0,
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 12.3,
+        "score": 4.69
       },
       "hostility": {
         "baseline": "hostile",
@@ -6496,38 +6459,38 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Nine Fathom",
       "position": {
-        "u": 0.7567,
-        "v": 0.5559
+        "u": 0.70612,
+        "v": 0.56185
       },
       "positionM": [
-        5579.5,
-        4098.9
+        5206.6,
+        4142.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 3.595,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.any-shallow-marsh-0755",
+          "score": 3.001,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1120",
-          "score": 2.86,
-          "whyLost": "taken by place.saxhleel-coast.oliis-coast-lay-by"
+          "siteId": "site.scour.mangrove-forest.islet-031",
+          "score": 2.936,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0853",
-          "score": 2.673,
-          "whyLost": "taken by place.saxhleel-coast.outer-reef"
+          "siteId": "site.free.any-firm-ground-0883",
+          "score": 2.096,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region; site exchanged in the swap pass with place.saxhleel-coast.dusk-bird-colony (+1.14).",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 304 m from the nearest route; no free 'natural-harbour' site was left in the zone, so plain ground; won on route, region, hinterland.",
       "plotFacts": {
-        "landform": "islet",
+        "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
-        "dangerBand": 2,
-        "distanceToRouteM": 60.3,
-        "distanceToWaterM": 24.5,
-        "score": 2.702
+        "dangerBand": 3,
+        "distanceToRouteM": 303.6,
+        "distanceToWaterM": 38.8,
+        "score": 3.027
       },
       "hostility": {
         "baseline": "hostile",
@@ -6577,8 +6540,7 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      },
-      "scourSiteId": "site.scour.mangrove-forest.islet-031"
+      }
     },
     {
       "id": "place.saxhleel-coast.delta-boatwright",
@@ -7334,29 +7296,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.mangrove-forest.island-040",
-          "score": 2.448,
+          "siteId": "site.scour.mangrove-forest.islet-031",
+          "score": 2.785,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 2.385,
+          "siteId": "site.free.any-shallow-marsh-0816",
+          "score": 2.424,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0517",
-          "score": 2.232,
+          "siteId": "site.free.any-shallow-marsh-1065",
+          "score": 2.297,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "island in mangrove forest (danger band 2), 85 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.deep-bank (+1.14).",
+      "whySiteWon": "island in mangrove forest (danger band 2), 85 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland.",
       "plotFacts": {
         "landform": "island",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 85.3,
         "distanceToWaterM": 12.3,
-        "score": 2.448
+        "score": 2.83
       },
       "hostility": {
         "baseline": "hostile",
@@ -7574,38 +7536,38 @@
         "stopped (the boarding stage barred and the hole cold)"
       ],
       "position": {
-        "u": 0.67935,
-        "v": 0.65555
+        "u": 0.67816,
+        "v": 0.62551
       },
       "positionM": [
-        5009.2,
-        4833.7
+        5000.4,
+        4612.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0926",
-          "score": 3.308,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-0952",
+          "score": 3.65,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0301",
-          "score": 3.305,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-1010",
+          "score": 3.57,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0302",
-          "score": 3.304,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-0922",
+          "score": 3.554,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 2), 143 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, region.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 2), 93 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, culture-clump.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 2,
-        "distanceToRouteM": 142.7,
-        "distanceToWaterM": 12.3,
-        "score": 3.301
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 5.5,
+        "score": 3.913
       },
       "hostility": {
         "baseline": "guarded",
@@ -8150,38 +8112,38 @@
       "underwaterAccess": "none",
       "name": "Carves-All-Winter",
       "position": {
-        "u": 0.62878,
-        "v": 0.62357
+        "u": 0.63176,
+        "v": 0.7143
       },
       "positionM": [
-        4636.3,
-        4597.9
+        4658.3,
+        5266.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1117",
-          "score": 4.728,
-          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
+          "siteId": "site.free.any-firm-ground-0882",
+          "score": 3.364,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0515",
-          "score": 3.649,
-          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
+          "siteId": "site.free.any-firm-ground-0918",
+          "score": 3.192,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0512",
-          "score": 3.648,
-          "whyLost": "too close to place.saxhleel-coast.archon"
+          "siteId": "site.free.any-firm-ground-1036",
+          "score": 2.985,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 376 m from the nearest route; its choice #3 landform; won on bound, landform, hinterland.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 302 m from the nearest route; at the water's edge; its choice #3 landform; won on route, bound, landform.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 376.1,
-        "distanceToWaterM": 70.2,
-        "score": 2.905
+        "distanceToRouteM": 301.6,
+        "distanceToWaterM": 5.5,
+        "score": 3.414
       },
       "hostility": {
         "baseline": "wary",
@@ -8691,38 +8653,28 @@
       "entrance": "underwater-entry",
       "underwaterAccess": "deep-dive",
       "position": {
-        "u": 0.58565,
-        "v": 0.69571
+        "u": 0.6377,
+        "v": 0.67192
       },
       "positionM": [
-        4318.3,
-        5129.8
+        4702.1,
+        4954.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0512",
-          "score": 4.646,
-          "whyLost": "too close to place.saxhleel-coast.archon"
-        },
-        {
-          "siteId": "site.scour.tropical-jungle.river-mouth-005",
-          "score": 4.279,
-          "whyLost": "too close to place.saxhleel-coast.archon-shadowscale-sanctuary"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-1041",
-          "score": 3.587,
-          "whyLost": "too close to place.saxhleel-coast.owing-hiring-camp"
+          "siteId": "site.free.any-firm-ground-1036",
+          "score": 3.195,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 645 m from the nearest route; at the water's edge; no free 'islet' site was left in the zone, so plain ground; won on bound, sightline, submerged.",
+      "whySiteWon": "river mouth in tropical jungle (danger band 4), 372 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, bound, sightline.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "river-mouth",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 644.6,
-        "distanceToWaterM": 21.9,
-        "score": 3.545
+        "distanceToRouteM": 372.3,
+        "distanceToWaterM": 0.0,
+        "score": 3.97
       },
       "hostility": {
         "baseline": "hostile",
@@ -8805,7 +8757,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.tropical-jungle.river-mouth-005"
     },
     {
       "id": "place.saxhleel-coast.gull-stack",
@@ -9923,38 +9876,38 @@
         "tierOwnership": "SX08 · tier-3"
       },
       "position": {
-        "u": 0.63399,
-        "v": 0.59383
+        "u": 0.57747,
+        "v": 0.58118
       },
       "positionM": [
-        4674.7,
-        4378.6
+        4258.0,
+        4285.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0955",
-          "score": 4.171,
-          "whyLost": "too close to place.saxhleel-coast.archon-harbour-hist"
+          "siteId": "site.free.any-firm-ground-0882",
+          "score": 4.17,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0812",
-          "score": 4.085,
-          "whyLost": "too close to place.hist-heartland.insular-hereditary-watch"
+          "siteId": "site.free.any-firm-ground-0919",
+          "score": 4.15,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0848",
-          "score": 4.061,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.free.any-firm-ground-1035",
+          "score": 4.084,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 227 m from the nearest route; its first-choice landform; won on landform, route, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 604 m from the nearest route; its first-choice landform; won on culture-clump, landform, nearPoint; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 227.5,
-        "distanceToWaterM": 59.1,
-        "score": 4.059
+        "distanceToRouteM": 604.1,
+        "distanceToWaterM": 77.9,
+        "score": 4.483
       }
     },
     {
@@ -10701,39 +10654,38 @@
         "air lost (a settle has vented the chambers; the dive is one breath now)"
       ],
       "position": {
-        "u": 0.56036,
-        "v": 0.66597
+        "u": 0.60796,
+        "v": 0.65481
       },
       "positionM": [
-        4131.8,
-        4910.5
+        4482.8,
+        4828.2
       ],
-      "scourSiteId": "site.scour.tropical-jungle.cove-043",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.tropical-jungle.islet-003",
-          "score": 3.149,
-          "whyLost": "too close to place.hist-heartland.hist-agaceph-needle"
+          "siteId": "site.scour.lake-standing-water.cove-015",
+          "score": 2.806,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.tropical-jungle.island-041",
-          "score": 2.873,
-          "whyLost": "too close to place.saxhleel-coast.owing-hiring-camp"
+          "siteId": "site.free.any-firm-ground-1007",
+          "score": 2.628,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1063",
-          "score": 2.858,
-          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
+          "siteId": "site.free.any-firm-ground-0846",
+          "score": 2.437,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cove in tropical jungle (danger band 4), 884 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "open water in tropical jungle (danger band 4), 626 m from the nearest route; at the water's edge; won on region, remote, submerged; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "cove",
+        "landform": "open-water",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 883.9,
-        "distanceToWaterM": 5.5,
-        "score": 2.727
+        "distanceToRouteM": 626.3,
+        "distanceToWaterM": 0.0,
+        "score": 2.822
       },
       "hostility": {
         "baseline": "hostile",
@@ -10918,38 +10870,38 @@
       "name": "One-Chest",
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): air-pocket-station was over band (4/3-3) and air-pocket-grotto under (2/4-4); this record's own content - a submerged entrance, a hoard too heavy to swim out with, no surface expression - is the grotto recipe, not the staffed way-station one.",
       "position": {
-        "u": 0.6035,
-        "v": 0.55664
+        "u": 0.6972,
+        "v": 0.53805
       },
       "positionM": [
-        4449.9,
-        4104.4
+        5140.8,
+        3967.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.lake-standing-water.cove-015",
-          "score": 3.7,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.free.open-water-0430",
+          "score": 3.086,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0305",
-          "score": 3.102,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
+          "siteId": "site.free.any-firm-ground-1036",
+          "score": 2.333,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0311",
-          "score": 3.096,
-          "whyLost": "too close to place.hist-heartland.beast-offering-flood-staying"
+          "siteId": "site.free.open-water-0469",
+          "score": 2.233,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 367 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on region, submerged, hinterland.",
+      "whySiteWon": "cove in lake & standing water (danger band 3), 225 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "tropical jungle",
-        "dangerBand": 4,
-        "distanceToRouteM": 367.4,
-        "distanceToWaterM": 11.0,
-        "score": 2.338
+        "landform": "cove",
+        "regionClass": "lake & standing water",
+        "dangerBand": 3,
+        "distanceToRouteM": 224.9,
+        "distanceToWaterM": 0.0,
+        "score": 4.017
       },
       "hostility": {
         "baseline": "hostile",
@@ -11022,7 +10974,8 @@
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
       },
-      "sitingNote": "Held off-route by constraint rather than a nearPoint: the published off-route gap list has no point inside the Saxhleel coast zone."
+      "sitingNote": "Held off-route by constraint rather than a nearPoint: the published off-route gap list has no point inside the Saxhleel coast zone.",
+      "scourSiteId": "site.scour.lake-standing-water.cove-040"
     },
     {
       "id": "place.saxhleel-coast.mangrove-cut-village",
@@ -11305,38 +11258,38 @@
       "underwaterAccess": "deep-dive",
       "name": "Black-Cut Teeth",
       "position": {
-        "u": 0.77231,
-        "v": 0.45327
+        "u": 0.71876,
+        "v": 0.50013
       },
       "positionM": [
-        5694.6,
-        3342.2
+        5299.8,
+        3687.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0726",
-          "score": 3.787,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-0816",
+          "score": 4.086,
+          "whyLost": "too close to place.saxhleel-coast.outer-reef"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0690",
-          "score": 3.776,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-0847",
+          "score": 4.006,
+          "whyLost": "too close to place.saxhleel-coast.outer-reef"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0691",
-          "score": 3.744,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-shallow-marsh-0755",
+          "score": 3.453,
+          "whyLost": "too close to place.saxhleel-coast.outer-reef"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 17 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, bound, region.",
+      "whySiteWon": "isthmus in mangrove forest (danger band 0), 340 m from the nearest route; won on bound, route, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "isthmus",
         "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 17.3,
-        "distanceToWaterM": 29.5,
-        "score": 4.033
+        "dangerBand": 0,
+        "distanceToRouteM": 340.0,
+        "distanceToWaterM": 41.8,
+        "score": 2.449
       },
       "hostility": {
         "baseline": "neutral",
@@ -11393,7 +11346,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.mangrove-forest.isthmus-058"
     },
     {
       "id": "place.saxhleel-coast.mangrove-wall-village",
@@ -11960,38 +11914,38 @@
         ]
       },
       "position": {
-        "u": 0.6972,
-        "v": 0.72695
+        "u": 0.6641,
+        "v": 0.74516
       },
       "positionM": [
-        5140.8,
-        5360.1
+        4896.7,
+        5494.4
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.scour.mangrove-forest.cove-061",
+          "score": 5.929,
+          "whyLost": "too close to place.saxhleel-coast.tide-run-delta"
+        },
+        {
+          "siteId": "site.free.roadside-0825",
+          "score": 4.705,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 4.562,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0308",
-          "score": 4.52,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0515",
-          "score": 4.517,
-          "whyLost": "too close to place.saxhleel-coast.archon-sacked-quarter"
+          "score": 4.681,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 187 m from the nearest route; at the water's edge; its choice #3 landform; won on bound, landform, region.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 35 m from the nearest route; at the water's edge; its choice #3 landform; won on bound, landform, culture-clump.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 186.5,
-        "distanceToWaterM": 11.0,
-        "score": 4.384
+        "distanceToRouteM": 34.7,
+        "distanceToWaterM": 16.5,
+        "score": 4.832
       },
       "sitingNote": "The audit's 'names the Lilmoth-Archon lane but sits 281 m off it' is the record working as written: its hard constraint is no sightline from that lane. Bound to Archon instead, because the customs desk is what makes the lay-by the last stop."
     },
@@ -12101,38 +12055,38 @@
       "underwaterAccess": "argonian-only-depth",
       "name": "Lost-The-Ospreye",
       "position": {
-        "u": 0.70612,
-        "v": 0.56185
+        "u": 0.7567,
+        "v": 0.5559
       },
       "positionM": [
-        5206.6,
-        4142.8
+        5579.5,
+        4098.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 3.955,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.any-shallow-marsh-0850",
+          "score": 3.375,
+          "whyLost": "taken by place.saxhleel-coast.deep-bank"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1120",
-          "score": 3.247,
-          "whyLost": "taken by place.saxhleel-coast.oliis-coast-lay-by"
+          "siteId": "site.free.any-shallow-marsh-0755",
+          "score": 3.318,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0508",
-          "score": 2.967,
+          "siteId": "site.free.any-firm-ground-0883",
+          "score": 2.453,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 318 m from the nearest route; no free 'islet' site was left in the zone, so plain ground; won on route, region, hinterland.",
+      "whySiteWon": "islet in mangrove forest (danger band 2), 60 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
+        "landform": "islet",
         "regionClass": "mangrove forest",
-        "dangerBand": 3,
-        "distanceToRouteM": 317.9,
-        "distanceToWaterM": 38.8,
-        "score": 3.023
+        "dangerBand": 2,
+        "distanceToRouteM": 60.3,
+        "distanceToWaterM": 24.5,
+        "score": 3.362
       },
       "hostility": {
         "baseline": "hostile",
@@ -12189,7 +12143,8 @@
           "place.saxhleel-coast.estuary-ferry-stage",
           "place.saxhleel-coast.jungle-ferry-stage"
         ]
-      }
+      },
+      "scourSiteId": "site.scour.mangrove-forest.islet-031"
     },
     {
       "id": "place.saxhleel-coast.owing-hiring-camp",
@@ -12368,38 +12323,38 @@
         "loot": []
       },
       "position": {
-        "u": 0.69199,
-        "v": 0.55293
+        "u": 0.65138,
+        "v": 0.57494
       },
       "positionM": [
-        5102.4,
-        4077.0
+        4803.0,
+        4239.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1117",
-          "score": 4.562,
-          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
+          "siteId": "site.free.any-firm-ground-1088",
+          "score": 4.722,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0988",
-          "score": 4.525,
-          "whyLost": "too close to place.saxhleel-coast.archon-shadowscale-sanctuary"
+          "siteId": "site.free.any-firm-ground-0882",
+          "score": 4.675,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0885",
-          "score": 4.47,
-          "whyLost": "too close to place.saxhleel-coast.banner-stack"
+          "siteId": "site.free.any-firm-ground-0918",
+          "score": 4.5,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in fringe marsh (danger band 3), 214 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.wall-hist-village (+0.62).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 86 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, route; site exchanged in the swap pass with place.saxhleel-coast.seafalls (+1.06).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "fringe marsh",
+        "regionClass": "tropical jungle",
         "dangerBand": 3,
-        "distanceToRouteM": 213.9,
-        "distanceToWaterM": 44.2,
-        "score": 4.879
+        "distanceToRouteM": 85.8,
+        "distanceToWaterM": 17.3,
+        "score": 6.071
       },
       "sitingNote": "Held at D3 although the danger raster reads band 4 here: the camp sits on cleared concession margin and the band-4 reading belongs to the jungle around it, not to the queue."
     },
@@ -12635,38 +12590,38 @@
         ]
       },
       "position": {
-        "u": 0.65704,
-        "v": 0.74554
+        "u": 0.65815,
+        "v": 0.7578
       },
       "positionM": [
-        4844.7,
-        5497.2
+        4852.8,
+        5587.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0755",
-          "score": 5.712,
+          "siteId": "site.scour.mangrove-forest.cove-061",
+          "score": 6.687,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0508",
-          "score": 5.62,
+          "siteId": "site.free.any-shallow-marsh-1140",
+          "score": 6.471,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0502",
-          "score": 5.618,
+          "siteId": "site.free.roadside-0831",
+          "score": 6.406,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 66 m from the nearest route; its choice #2 landform; won on landform, bound, sightline.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 27 m from the nearest route; its choice #2 landform; won on culture-clump, landform, bound.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 66.0,
-        "distanceToWaterM": 66.0,
-        "score": 5.72
+        "distanceToRouteM": 27.4,
+        "distanceToWaterM": 33.4,
+        "score": 6.696
       }
     },
     {
@@ -12865,40 +12820,29 @@
         ]
       },
       "position": {
-        "u": 0.70836,
-        "v": 0.48004
+        "u": 0.67266,
+        "v": 0.56631
       },
       "positionM": [
-        5223.1,
-        3539.6
+        4959.8,
+        4175.7
       ],
       "candidatesConsidered": [
         {
           "siteId": "site.scour.ocean.natural-harbour-012",
-          "score": 2.352,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-shallow-marsh-0688",
-          "score": 2.201,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0308",
-          "score": 1.948,
-          "whyLost": "lost on score"
+          "score": 2.961,
+          "whyLost": "too close to place.mercantile-coast.oliis-reef-harvest"
         }
       ],
-      "whySiteWon": "cove in ocean (danger band 0), 434 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'spacing-1/2'.",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 2), 78 m from the nearest route; at the water's edge; no free 'cove' site was left in the zone, so plain ground; won on hinterland, culture-clump, parent; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.saxhleel-coast.shell-beast-shallows (+1.34).",
       "plotFacts": {
-        "landform": "cove",
-        "regionClass": "ocean",
-        "dangerBand": 0,
-        "distanceToRouteM": 433.5,
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
+        "dangerBand": 2,
+        "distanceToRouteM": 77.5,
         "distanceToWaterM": 0.0,
-        "score": 3.469
-      },
-      "scourSiteId": "site.scour.ocean.cove-006"
+        "score": 2.547
+      }
     },
     {
       "id": "place.saxhleel-coast.portdun-mont",
@@ -13050,29 +12994,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1069",
-          "score": 3.166,
+          "siteId": "site.free.roadside-0541",
+          "score": 4.262,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0506",
-          "score": 3.154,
+          "siteId": "site.free.any-firm-ground-0884",
+          "score": 4.021,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0306",
-          "score": 3.151,
+          "siteId": "site.free.any-firm-ground-1064",
+          "score": 3.985,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in mangrove forest (danger band 2), 229 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "flood high in mangrove forest (danger band 2), 229 m from the nearest route; at the water's edge; its first-choice landform; won on landform, culture-clump, region.",
       "plotFacts": {
         "landform": "flood-high",
         "regionClass": "mangrove forest",
         "dangerBand": 2,
         "distanceToRouteM": 228.8,
         "distanceToWaterM": 12.3,
-        "score": 3.943
+        "score": 4.712
       },
       "hostility": {
         "baseline": "friendly",
@@ -13149,12 +13093,13 @@
           "place.saxhleel-coast.seafalls"
         ]
       },
-      "scourSiteId": "site.scour.mangrove-forest.flood-high-030",
       "terrainRequests": [
         {
           "kind": "cliff-bench",
           "radiusM": 60,
-          "delivery": {"feature":"village-cliff-shelf"},
+          "delivery": {
+            "feature": "village-cliff-shelf"
+          },
           "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
         }
       ],
@@ -13168,7 +13113,8 @@
       },
       "services": [
         "ferry"
-      ]
+      ],
+      "scourSiteId": "site.scour.mangrove-forest.flood-high-030"
     },
     {
       "id": "place.saxhleel-coast.portdun-privateer-anchorage",
@@ -13575,40 +13521,35 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0850",
-          "score": 3.352,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.free.roadside-0305",
-          "score": 3.312,
-          "whyLost": "too close to place.saxhleel-coast.quay-tradehouse"
-        },
-        {
-          "siteId": "site.scour.lake-standing-water.cove-015",
-          "score": 2.491,
+          "siteId": "site.free.open-water-0418",
+          "score": 3.593,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "land bridge in coastal lagoon & salt marsh (danger band 2), 163 m from the nearest route; at the water's edge; won on bound, region, hinterland.",
+      "whySiteWon": "land bridge in coastal lagoon & salt marsh (danger band 2), 163 m from the nearest route; at the water's edge; won on culture-clump, bound, region.",
       "plotFacts": {
         "landform": "land-bridge",
         "regionClass": "coastal lagoon & salt marsh",
         "dangerBand": 2,
         "distanceToRouteM": 162.9,
         "distanceToWaterM": 12.3,
-        "score": 2.823
+        "score": 3.923
       },
       "terrainRequests": [
         {
           "kind": "islet",
           "radiusM": 70,
-          "delivery": {"feature":"cordon-islet","isletCount":1,"waterRelation":"ringed-by-water","access":"one-landing"},
+          "delivery": {
+            "feature": "cordon-islet",
+            "isletCount": 1,
+            "waterRelation": "ringed-by-water",
+            "access": "one-landing"
+          },
           "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
         }
       ],
-      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033",
-      "services": []
+      "services": [],
+      "scourSiteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033"
     },
     {
       "id": "place.saxhleel-coast.quay-flooded-cellar",
@@ -13894,39 +13835,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.league-of-open-water",
       "position": {
-        "u": 0.65034,
-        "v": 0.56631
+        "u": 0.65525,
+        "v": 0.57895
       },
       "positionM": [
-        4795.3,
-        4175.7
+        4831.5,
+        4268.9
       ],
-      "scourSiteId": "site.scour.tidal-delta.river-mouth-002",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0315",
-          "score": 3.999,
+          "siteId": "site.free.any-firm-ground-0884",
+          "score": 3.603,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0518",
-          "score": 3.98,
+          "siteId": "site.free.any-firm-ground-0921",
+          "score": 3.199,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0753",
-          "score": 3.684,
+          "siteId": "site.free.roadside-0539",
+          "score": 3.184,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "river mouth in tidal delta (danger band 2), 62 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 74 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, route.",
       "plotFacts": {
-        "landform": "river-mouth",
-        "regionClass": "tidal delta",
-        "dangerBand": 2,
-        "distanceToRouteM": 62.5,
-        "distanceToWaterM": 0.0,
-        "score": 4.463
+        "landform": "any-firm-ground",
+        "regionClass": "tropical jungle",
+        "dangerBand": 3,
+        "distanceToRouteM": 73.6,
+        "distanceToWaterM": 5.5,
+        "score": 3.849
       },
       "hostility": {
         "baseline": "friendly",
@@ -14459,39 +14399,38 @@
         "unrunnable (the board painted low, the porters' rates doubled, the reach jammed)"
       ],
       "position": {
-        "u": 0.6615,
-        "v": 0.61911
+        "u": 0.58118,
+        "v": 0.65332
       },
       "positionM": [
-        4877.6,
-        4565.0
+        4285.4,
+        4817.3
       ],
-      "scourSiteId": "site.scour.tropical-jungle.water-narrows-009",
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0956",
-          "score": 2.39,
+          "siteId": "site.free.any-firm-ground-1064",
+          "score": 2.653,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0925",
-          "score": 2.388,
+          "siteId": "site.free.roadside-0828",
+          "score": 2.354,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0302",
-          "score": 2.387,
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 2.278,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "water narrows in tropical jungle (danger band 2), 172 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 785 m from the nearest route; no free 'waterfall' site was left in the zone, so plain ground; won on culture-clump, region, landform; site exchanged in the swap pass with place.saxhleel-coast.owing-hiring-camp (+1.06).",
       "plotFacts": {
-        "landform": "water-narrows",
+        "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
-        "dangerBand": 2,
-        "distanceToRouteM": 171.7,
-        "distanceToWaterM": 0.0,
-        "score": 3.061
+        "dangerBand": 4,
+        "distanceToRouteM": 785.4,
+        "distanceToWaterM": 27.4,
+        "score": 2.864
       },
       "hostility": {
         "baseline": "neutral",
@@ -15345,37 +15284,37 @@
       "reconciliationNote": "Retyped 2026-09-02 (Phase 11 repair, coverage critique S3): sealed-xanmeer was over band (7/4-4) and climbable-ruin-roof under (2/4-4). The record was already about a meer sealed from the INSIDE, i.e. a ruin with no door: under the entrance-decoupling ruling its way in is the terrace climb and a roof hatch, which is the climbable-ruin-roof recipe exactly.",
       "position": {
         "u": 0.59903,
-        "v": 0.60498
+        "v": 0.66745
       },
       "positionM": [
         4417.0,
-        4460.8
+        4921.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1007",
-          "score": 3.611,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.any-firm-ground-0979",
+          "score": 3.358,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1037",
-          "score": 3.282,
-          "whyLost": "too close to place.mercantile-coast.insular-jungle-village"
+          "siteId": "site.free.any-firm-ground-1005",
+          "score": 3.324,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1063",
-          "score": 3.192,
-          "whyLost": "too close to place.mercantile-coast.teeth-of-sithis"
+          "siteId": "site.free.any-firm-ground-1034",
+          "score": 3.305,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 4), 498 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.saxhleel-coast.banner-stack (+0.54).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 4), 626 m from the nearest route; its first-choice landform; won on landform, culture-clump, region; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 4,
-        "distanceToRouteM": 497.9,
-        "distanceToWaterM": 17.3,
-        "score": 2.71
+        "distanceToRouteM": 626.4,
+        "distanceToWaterM": 34.7,
+        "score": 3.407
       },
       "hostility": {
         "baseline": "hostile",
@@ -15564,29 +15503,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-0660",
-          "score": 4.188,
-          "whyLost": "too close to place.saxhleel-coast.tide-street-village"
+          "siteId": "site.free.roadside-0547",
+          "score": 2.027,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-0755",
-          "score": 3.317,
-          "whyLost": "too close to place.hist-heartland.artisan-chime-makers"
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 1.837,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0508",
-          "score": 3.177,
-          "whyLost": "too close to place.saxhleel-coast.terrace-village-ridge"
+          "siteId": "site.free.roadside-0539",
+          "score": 1.774,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 275 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.archon-glowgill-byre (+0.74).",
+      "whySiteWon": "shallow marsh in tidal delta (danger band 3), 283 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.saxhleel-coast.archon-glowgill-byre (+0.84).",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "tidal delta",
         "dangerBand": 3,
-        "distanceToRouteM": 275.3,
+        "distanceToRouteM": 283.1,
         "distanceToWaterM": 5.5,
-        "score": 3.146
+        "score": 3.308
       },
       "hostility": {
         "baseline": "hostile",
@@ -16595,38 +16534,38 @@
       "underwaterAccess": "none",
       "name": "Climbs-The-Long-Back",
       "position": {
-        "u": 0.68306,
-        "v": 0.69124
+        "u": 0.64886,
+        "v": 0.69199
       },
       "positionM": [
-        5036.5,
-        5096.9
+        4784.4,
+        5102.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1069",
-          "score": 3.492,
+          "siteId": "site.free.any-firm-ground-1037",
+          "score": 3.849,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1042",
-          "score": 3.425,
+          "siteId": "site.free.any-firm-ground-1063",
+          "score": 3.596,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0812",
-          "score": 3.149,
+          "siteId": "site.free.any-firm-ground-1006",
+          "score": 3.304,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 3), 32 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, region.",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 219 m from the nearest route; at the water's edge; its choice #2 landform; won on route, landform, culture-clump.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 3,
-        "distanceToRouteM": 32.0,
+        "distanceToRouteM": 219.3,
         "distanceToWaterM": 5.5,
-        "score": 3.5
+        "score": 4.31
       },
       "hostility": {
         "baseline": "hostile",
@@ -16710,7 +16649,11 @@
         {
           "kind": "terrace",
           "radiusM": 50,
-          "delivery": {"feature":"subsidence-slope-terrace","bank":"firm","orientation":"downslope"},
+          "delivery": {
+            "feature": "subsidence-slope-terrace",
+            "bank": "firm",
+            "orientation": "downslope"
+          },
           "note": "A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground."
         }
       ]
@@ -16981,38 +16924,38 @@
         "shut (the board not chalked, and whoever went out on yesterday's timing still out there)"
       ],
       "position": {
-        "u": 0.66754,
-        "v": 0.71914
+        "u": 0.66774,
+        "v": 0.69749
       },
       "positionM": [
-        4922.1,
-        5302.6
+        4923.6,
+        5143.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1143",
-          "score": 3.165,
-          "whyLost": "too close to place.mercantile-coast.bramman-screen"
-        },
-        {
-          "siteId": "site.free.roadside-0505",
-          "score": 3.157,
+          "siteId": "site.free.roadside-0822",
+          "score": 4.25,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-shallow-marsh-1120",
-          "score": 3.155,
+          "siteId": "site.scour.coastal-lagoon-salt-marsh.land-bridge-033",
+          "score": 4.087,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-shallow-marsh-1140",
+          "score": 3.841,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 33 m from the nearest route; at the water's edge; its choice #3 landform; won on landform, region, hinterland.",
+      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 93 m from the nearest route; at the water's edge; its choice #3 landform; won on culture-clump, landform, region.",
       "plotFacts": {
         "landform": "any-shallow-marsh",
         "regionClass": "mangrove forest",
         "dangerBand": 3,
-        "distanceToRouteM": 32.9,
-        "distanceToWaterM": 5.5,
-        "score": 3.158
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 19.8,
+        "score": 4.333
       },
       "hostility": {
         "baseline": "neutral",
@@ -17409,33 +17352,38 @@
         ]
       },
       "position": {
-        "u": 0.7657,
-        "v": 0.47224
+        "u": 0.70464,
+        "v": 0.54326
       },
       "positionM": [
-        5645.9,
-        3482.0
+        5195.6,
+        4005.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-shallow-marsh-1120",
-          "score": 3.093,
+          "siteId": "site.scour.mangrove-forest.islet-031",
+          "score": 1.51,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.mangrove-forest.river-mouth-015",
-          "score": 2.937,
+          "siteId": "site.scour.tropical-jungle.river-mouth-005",
+          "score": 1.494,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.open-water-0469",
+          "score": 1.08,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "shallow marsh in mangrove forest (danger band 3), 38 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, submerged.",
+      "whySiteWon": "open water in lake & standing water (danger band 3), 273 m from the nearest route; at the water's edge; won on submerged, hinterland, culture-clump.",
       "plotFacts": {
-        "landform": "any-shallow-marsh",
-        "regionClass": "mangrove forest",
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 38.4,
-        "distanceToWaterM": 17.3,
-        "score": 3.967
+        "distanceToRouteM": 272.7,
+        "distanceToWaterM": 0.0,
+        "score": 1.554
       }
     },
     {
@@ -17566,38 +17514,38 @@
         "argued (a second mound started beside it by people who count the year differently)"
       ],
       "position": {
-        "u": 0.65109,
-        "v": 0.50681
+        "u": 0.66225,
+        "v": 0.70687
       },
       "positionM": [
-        4800.8,
-        3737.0
+        4883.1,
+        5212.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0315",
-          "score": 3.553,
+          "siteId": "site.free.roadside-0824",
+          "score": 4.381,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0753",
-          "score": 3.54,
+          "siteId": "site.free.roadside-0822",
+          "score": 3.831,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0503",
-          "score": 3.537,
+          "siteId": "site.free.any-firm-ground-1115",
+          "score": 3.823,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "flood high in firm lowland (danger band 3), 56 m from the nearest route; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "shallow marsh in fringe marsh (danger band 3), 80 m from the nearest route; its choice #2 landform; won on route, culture-clump, landform.",
       "plotFacts": {
-        "landform": "flood-high",
-        "regionClass": "firm lowland",
+        "landform": "any-shallow-marsh",
+        "regionClass": "fringe marsh",
         "dangerBand": 3,
-        "distanceToRouteM": 56.5,
-        "distanceToWaterM": 32.0,
-        "score": 4.077
+        "distanceToRouteM": 79.8,
+        "distanceToWaterM": 29.5,
+        "score": 5.013
       },
       "hostility": {
         "baseline": "sanctuary",
@@ -17664,8 +17612,7 @@
         "reachedVia": [
           "place.saxhleel-coast.coast-road-tradehouse"
         ]
-      },
-      "scourSiteId": "site.scour.firm-lowland.flood-high-022"
+      }
     },
     {
       "id": "place.saxhleel-coast.village-tradehouse-south",
@@ -18256,38 +18203,38 @@
       "name": "Still-Water Sleeping-Tree",
       "ownerFaction": null,
       "position": {
-        "u": 0.63473,
-        "v": 0.65481
+        "u": 0.66225,
+        "v": 0.58342
       },
       "positionM": [
-        4680.2,
-        4828.2
+        4883.1,
+        4301.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-1007",
-          "score": 2.414,
-          "whyLost": "too close to place.hist-heartland.root-gallery-cult-warren"
+          "siteId": "site.free.roadside-0541",
+          "score": 3.548,
+          "whyLost": "taken by place.saxhleel-coast.quay-tradehouse"
         },
         {
-          "siteId": "site.free.roadside-0304",
-          "score": 2.4,
-          "whyLost": "too close to place.saxhleel-coast.seafalls"
+          "siteId": "site.free.any-firm-ground-1064",
+          "score": 3.206,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-1118",
-          "score": 2.398,
-          "whyLost": "too close to place.saxhleel-coast.archon-glowgill-byre"
+          "siteId": "site.free.any-firm-ground-1006",
+          "score": 3.198,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in tropical jungle (danger band 3), 472 m from the nearest route; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.saxhleel-coast.owing-hiring-camp (+0.62).",
+      "whySiteWon": "firm ground in tropical jungle (danger band 3), 16 m from the nearest route; its choice #2 landform; won on culture-clump, landform, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "tropical jungle",
         "dangerBand": 3,
-        "distanceToRouteM": 471.6,
-        "distanceToWaterM": 27.4,
-        "score": 2.381
+        "distanceToRouteM": 16.5,
+        "distanceToWaterM": 42.8,
+        "score": 3.298
       },
       "hostility": {
         "baseline": "hostile",

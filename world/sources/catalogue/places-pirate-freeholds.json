@@ -614,38 +614,38 @@
         "stalled (racks full and nobody carrying; the next leg has refused the bundles)"
       ],
       "position": {
-        "u": 0.50682,
-        "v": 0.16101
+        "u": 0.47818,
+        "v": 0.15618
       },
       "positionM": [
-        3737.0,
-        1187.2
+        3525.8,
+        1151.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0606",
-          "score": 3.81,
-          "whyLost": "taken by place.pirate-freeholds.corimont-crosstrees"
+          "siteId": "site.free.roadside-0093",
+          "score": 4.166,
+          "whyLost": "taken by place.pirate-freeholds.kothringi-river-ruin"
         },
         {
           "siteId": "site.free.any-firm-ground-0205",
-          "score": 3.803,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "score": 4.108,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0050",
-          "score": 3.802,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0096",
+          "score": 4.101,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 73 m from the nearest route; its first-choice landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; its first-choice landform; won on landform, culture-clump, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 73.2,
-        "distanceToWaterM": 27.4,
-        "score": 3.795
+        "dangerBand": 3,
+        "distanceToRouteM": 36.8,
+        "distanceToWaterM": 39.9,
+        "score": 4.116
       },
       "hostility": {
         "baseline": "neutral",
@@ -867,38 +867,38 @@
       },
       "promotedWhy": "The freehold's signature works and the friendly rest/service the new delves need within 600 m (research §5.3 rule 2).",
       "position": {
-        "u": 0.5768,
-        "v": 0.14903
+        "u": 0.53537,
+        "v": 0.13453
       },
       "positionM": [
-        4253.0,
-        1098.9
+        3947.6,
+        991.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0180",
-          "score": 3.244,
+          "siteId": "site.free.roadside-0173",
+          "score": 3.853,
           "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0108",
-          "score": 3.241,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0927",
+          "score": 3.851,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0567",
-          "score": 3.234,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.any-firm-ground-0207",
+          "score": 3.837,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 86 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on region, hinterland, parent.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 11 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on culture-clump, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 85.7,
-        "distanceToWaterM": 35.1,
-        "score": 2.983
+        "dangerBand": 2,
+        "distanceToRouteM": 11.0,
+        "distanceToWaterM": 33.4,
+        "score": 3.443
       },
       "questHooks": {
         "provisions": [],
@@ -1157,41 +1157,40 @@
         ]
       },
       "position": {
-        "u": 0.59754,
-        "v": 0.17589
+        "u": 0.57107,
+        "v": 0.17782
       },
       "positionM": [
-        4406.0,
-        1296.9
+        4210.8,
+        1311.1
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0109",
-          "score": 3.667,
+          "siteId": "site.free.roadside-0929",
+          "score": 4.361,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0609",
-          "score": 3.657,
+          "siteId": "site.free.roadside-0176",
+          "score": 4.23,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0110",
-          "score": 3.633,
+          "siteId": "site.scour.firm-lowland.box-canyon-056",
+          "score": 4.184,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "gorge in firm lowland (danger band 3), 66 m from the nearest route; at the water's edge; won on nearPoint, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.reach-wreck (+0.54).",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 51 m from the nearest route; at the water's edge; no free 'any-channel-bank' site was left in the zone, so plain ground; won on nearPoint, culture-clump, region.",
       "plotFacts": {
-        "landform": "gorge",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 65.8,
-        "distanceToWaterM": 5.5,
-        "score": 3.293
+        "distanceToRouteM": 50.6,
+        "distanceToWaterM": 16.5,
+        "score": 4.47
       },
-      "sitingNote": "Moved in round 4: an anchorage plotted 543 m from any lane at 161 m elevation in the border mountains, on dunmer-north culture ground. Bound to the lower reach inside the freeholds, a bend below the chartered lay-by and out of the port's sight.",
-      "scourSiteId": "site.scour.firm-lowland.gorge-058"
+      "sitingNote": "Moved in round 4: an anchorage plotted 543 m from any lane at 161 m elevation in the border mountains, on dunmer-north culture ground. Bound to the lower reach inside the freeholds, a bend below the chartered lay-by and out of the port's sight."
     },
     {
       "id": "place.pirate-freeholds.chasecreek",
@@ -1348,24 +1347,24 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0610",
-          "score": 4.115,
+          "siteId": "site.free.roadside-0176",
+          "score": 4.567,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0109",
-          "score": 4.112,
+          "siteId": "site.free.roadside-0930",
+          "score": 4.45,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 158 m from the nearest route; its first-choice landform; won on landform, nearPoint, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 244 m from the nearest route; its first-choice landform; won on landform, nearPoint, culture-clump.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 158.3,
-        "distanceToWaterM": 117.7,
-        "score": 4.162
+        "distanceToRouteM": 243.5,
+        "distanceToWaterM": 115.3,
+        "score": 4.954
       },
       "hostility": {
         "baseline": "friendly",
@@ -1428,7 +1427,12 @@
         {
           "kind": "cut",
           "radiusM": 80,
-          "delivery": {"feature":"screened-hull-creek","waterRelation":"channel-linked","depthClass":"navigable","capacity":"sea-going-hull"},
+          "delivery": {
+            "feature": "screened-hull-creek",
+            "waterRelation": "channel-linked",
+            "depthClass": "navigable",
+            "capacity": "sea-going-hull"
+          },
           "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
         }
       ],
@@ -1949,38 +1953,38 @@
         "loot": []
       },
       "position": {
-        "u": 0.53322,
-        "v": 0.13876
+        "u": 0.54445,
+        "v": 0.1451
       },
       "positionM": [
-        3931.7,
-        1023.2
+        4014.5,
+        1069.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0050",
-          "score": 4.69,
+          "siteId": "site.free.roadside-0927",
+          "score": 5.868,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0108",
-          "score": 4.689,
+          "siteId": "site.free.roadside-0173",
+          "score": 5.856,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0205",
-          "score": 4.688,
+          "siteId": "site.free.any-firm-ground-0207",
+          "score": 5.852,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 72 m from the nearest route; its first-choice landform; won on landform, bound, nearPoint.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 16 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, bound.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 72.1,
-        "distanceToWaterM": 39.5,
-        "score": 4.695
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 15.5,
+        "score": 5.891
       },
       "sitingNote": "Network-role bind (round 4): the record IS the free port's own masthead lookout, so it must stand on the port's ground. Previously plotted 361 m out, which also put its D1 tier on band-3 ground; bound to Alten Corimont inside the port ring."
     },
@@ -2591,38 +2595,22 @@
       },
       "promotedWhy": "Owner feedback / opening-hours research §6.1: the Owing institution the player is processed into in MQ01 must exist as a live place.",
       "position": {
-        "u": 0.55375,
-        "v": 0.12003
+        "u": 0.52951,
+        "v": 0.10559
       },
       "positionM": [
-        4083.1,
-        885.0
+        3904.3,
+        778.6
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.roadside-0564",
-          "score": 2.239,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0060",
-          "score": 2.239,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0109",
-          "score": 2.237,
-          "whyLost": "lost on score"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 71 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.corimont-tradehouse (+0.97).",
+      "candidatesConsidered": [],
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 16 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 71.5,
-        "distanceToWaterM": 35.1,
-        "score": 2.725
+        "dangerBand": 2,
+        "distanceToRouteM": 15.5,
+        "distanceToWaterM": 7.8,
+        "score": 3.56
       }
     },
     {
@@ -2770,38 +2758,28 @@
         "planted (something is in the circle; half the camp will not look at it)"
       ],
       "position": {
-        "u": 0.46963,
-        "v": 0.19447
+        "u": 0.46621,
+        "v": 0.13081
       },
       "positionM": [
-        3462.8,
-        1433.9
+        3437.6,
+        964.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0062",
-          "score": 3.244,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0103",
-          "score": 3.236,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0178",
-          "score": 3.236,
+          "siteId": "site.free.any-firm-ground-0179",
+          "score": 3.468,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 412 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, parent.",
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 20 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, culture-clump.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "seasonal floodplain",
         "dangerBand": 3,
-        "distanceToRouteM": 412.0,
-        "distanceToWaterM": 15.5,
-        "score": 3.245
+        "distanceToRouteM": 19.8,
+        "distanceToWaterM": 5.5,
+        "score": 3.841
       },
       "hostility": {
         "baseline": "wary",
@@ -3058,38 +3036,38 @@
         ]
       },
       "position": {
-        "u": 0.55887,
-        "v": 0.23389
+        "u": 0.54876,
+        "v": 0.15551
       },
       "positionM": [
-        4120.9,
-        1724.6
+        4046.3,
+        1146.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0203",
-          "score": 3.724,
-          "whyLost": "too close to place.pirate-freeholds.kothringi-river-ruin"
+          "siteId": "site.free.roadside-0173",
+          "score": 5.893,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0110",
-          "score": 3.563,
-          "whyLost": "too close to place.hist-heartland.officeholder-grave-singer-house"
+          "siteId": "site.scour.firm-lowland.isthmus-052",
+          "score": 4.777,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0178",
-          "score": 2.75,
+          "siteId": "site.scour.firm-lowland.cliff-bench-046",
+          "score": 4.486,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 4), 307 m from the nearest route; its choice #2 landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.rockpoint (+0.49).",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 51 m from the nearest route; at the water's edge; its choice #2 landform; won on route, culture-clump, landform.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 4,
-        "distanceToRouteM": 306.9,
-        "distanceToWaterM": 41.8,
-        "score": 2.623
+        "dangerBand": 2,
+        "distanceToRouteM": 50.6,
+        "distanceToWaterM": 12.3,
+        "score": 5.632
       }
     },
     {
@@ -3223,38 +3201,22 @@
       "entrance": "door",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.49707,
-        "v": 0.08374
+        "u": 0.48004,
+        "v": 0.1268
       },
       "positionM": [
-        3665.2,
-        617.5
+        3539.6,
+        934.9
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0204",
-          "score": 3.618,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0566",
-          "score": 3.618,
-          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
-        },
-        {
-          "siteId": "site.free.roadside-0606",
-          "score": 3.614,
-          "whyLost": "taken by place.pirate-freeholds.corimont-crosstrees"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.corimont-hiring-yard (+0.97).",
+      "candidatesConsidered": [],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 76 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region; site exchanged in the swap pass with place.pirate-freeholds.dres-holding-pens (+2.23).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 77.5,
-        "distanceToWaterM": 43.9,
-        "score": 3.851
+        "distanceToRouteM": 76.2,
+        "distanceToWaterM": 21.9,
+        "score": 4.106
       },
       "hostility": {
         "baseline": "friendly",
@@ -3469,38 +3431,38 @@
         "in use again (the ramp regraded, the rails sound, nobody in Corimont saying so)"
       ],
       "position": {
-        "u": 0.50905,
-        "v": 0.1967
+        "u": 0.55621,
+        "v": 0.12605
       },
       "positionM": [
-        3753.5,
-        1450.4
+        4101.2,
+        929.5
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0279",
-          "score": 3.193,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0093",
+          "score": 3.88,
+          "whyLost": "taken by place.pirate-freeholds.kothringi-river-ruin"
         },
         {
-          "siteId": "site.free.roadside-0563",
-          "score": 3.191,
-          "whyLost": "lost on score"
+          "siteId": "site.free.roadside-0089",
+          "score": 3.862,
+          "whyLost": "taken by place.pirate-freeholds.bone-repatriation-waystation"
         },
         {
-          "siteId": "site.free.any-firm-ground-0280",
-          "score": 3.187,
-          "whyLost": "lost on score"
+          "siteId": "site.free.any-firm-ground-0205",
+          "score": 3.845,
+          "whyLost": "too close to place.pirate-freeholds.kothringi-river-ruin"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 183 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in seasonal floodplain (danger band 3), 88 m from the nearest route; at the water's edge; its choice #2 landform; won on landform, region, hinterland; site exchanged in the swap pass with place.pirate-freeholds.corimont-tradehouse (+2.23).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "seasonal floodplain",
         "dangerBand": 3,
-        "distanceToRouteM": 183.3,
-        "distanceToWaterM": 16.5,
-        "score": 3.197
+        "distanceToRouteM": 87.7,
+        "distanceToWaterM": 5.5,
+        "score": 4.088
       },
       "hostility": {
         "baseline": "hostile",
@@ -3734,38 +3696,38 @@
       "underwaterAccess": "none",
       "name": "Andrano Hold",
       "position": {
-        "u": 0.5797,
-        "v": 0.08143
+        "u": 0.63919,
+        "v": 0.12234
       },
       "positionM": [
-        4274.4,
-        600.4
+        4713.1,
+        902.0
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.ridge-end-042",
-          "score": 2.937,
-          "whyLost": "too close to place.pirate-freeholds.rim-smugglers-ledge-north"
-        },
-        {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.931,
-          "whyLost": "too close to place.dunmer-north.crystalgate"
-        },
-        {
           "siteId": "site.scour.border-mountains.saddle-041",
-          "score": 2.826,
-          "whyLost": "taken by place.pirate-freeholds.rim-smugglers-ledge-north"
+          "score": 3.296,
+          "whyLost": "taken by place.pirate-freeholds.half-chartered-anchorage"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0158",
+          "score": 2.507,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0232",
+          "score": 2.408,
+          "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 371 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.half-chartered-anchorage (+1.01).",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 543 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.rim-smugglers-ledge-north (+0.75).",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 370.7,
-        "distanceToWaterM": 49.0,
-        "score": 2.962
+        "distanceToRouteM": 543.1,
+        "distanceToWaterM": 42.8,
+        "score": 2.599
       },
       "hostility": {
         "baseline": "friendly",
@@ -4111,29 +4073,29 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0203",
-          "score": 3.362,
-          "whyLost": "too close to place.pirate-freeholds.kothringi-river-ruin"
+          "siteId": "site.free.roadside-0173",
+          "score": 5.574,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0110",
-          "score": 2.967,
-          "whyLost": "too close to place.hist-heartland.officeholder-grave-singer-house"
+          "siteId": "site.free.roadside-0928",
+          "score": 5.322,
+          "whyLost": "taken by place.pirate-freeholds.corimont-low-store"
         },
         {
-          "siteId": "site.free.any-firm-ground-0277",
-          "score": 2.28,
-          "whyLost": "lost on score"
+          "siteId": "site.scour.firm-lowland.isthmus-052",
+          "score": 4.277,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         }
       ],
-      "whySiteWon": "firm ground in upland hills (danger band 3), 224 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
+      "whySiteWon": "firm ground in upland hills (danger band 3), 227 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 223.8,
+        "distanceToRouteM": 227.0,
         "distanceToWaterM": 19.8,
-        "score": 2.964
+        "score": 3.155
       },
       "hostility": {
         "baseline": "hostile",
@@ -4676,38 +4638,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.marsh-charter",
       "position": {
-        "u": 0.52921,
-        "v": 0.16257
+        "u": 0.51546,
+        "v": 0.1558
       },
       "positionM": [
-        3902.1,
-        1198.7
+        3800.7,
+        1148.8
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0050",
-          "score": 3.913,
+          "siteId": "site.free.roadside-0895",
+          "score": 5.0,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0227",
-          "score": 3.911,
+          "siteId": "site.free.any-firm-ground-0230",
+          "score": 4.985,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0570",
-          "score": 3.907,
+          "siteId": "site.free.any-firm-ground-0206",
+          "score": 4.965,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 71 m from the nearest route; its first-choice landform; won on landform, bound, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 23 m from the nearest route; its first-choice landform; won on culture-clump, landform, bound.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 71.3,
-        "distanceToWaterM": 38.4,
-        "score": 3.917
+        "distanceToRouteM": 23.3,
+        "distanceToWaterM": 39.5,
+        "score": 5.039
       },
       "hostility": {
         "baseline": "friendly",
@@ -4946,38 +4908,38 @@
       },
       "promotedWhy": "Hostility balance: the trunk road needs one honest ambush, sited well clear of the start.",
       "position": {
-        "u": 0.53954,
-        "v": 0.04351
+        "u": 0.51619,
+        "v": 0.07057
       },
       "positionM": [
-        3978.3,
-        320.8
+        3806.1,
+        520.4
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0098",
-          "score": 3.398,
-          "whyLost": "too close to place.dunmer-north.crystalgate"
+          "siteId": "site.free.any-firm-ground-0071",
+          "score": 3.342,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0099",
-          "score": 3.07,
-          "whyLost": "too close to place.pirate-freeholds.half-chartered-anchorage"
+          "siteId": "site.free.any-firm-ground-0072",
+          "score": 2.979,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0048",
-          "score": 2.783,
+          "siteId": "site.free.any-firm-ground-0047",
+          "score": 2.583,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 338 m from the nearest route; its first-choice landform; won on landform, nearPoint, route; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 93 m from the nearest route; its first-choice landform; won on landform, route, culture-clump; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "border mountains",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 337.5,
-        "distanceToWaterM": 71.5,
-        "score": 2.979
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 27.4,
+        "score": 4.218
       },
       "questHooks": {
         "provisions": [],
@@ -5292,38 +5254,38 @@
       "entrance": "none",
       "underwaterAccess": "none",
       "position": {
-        "u": 0.515,
-        "v": 0.14911
+        "u": 0.52392,
+        "v": 0.16026
       },
       "positionM": [
-        3797.3,
-        1099.4
+        3863.1,
+        1181.7
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0053",
-          "score": 3.713,
-          "whyLost": "too close to place.pirate-freeholds.freehold-market"
-        },
-        {
-          "siteId": "site.free.roadside-0603",
-          "score": 3.707,
+          "siteId": "site.free.roadside-0927",
+          "score": 4.494,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0570",
-          "score": 3.697,
+          "siteId": "site.free.roadside-0173",
+          "score": 4.468,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0229",
+          "score": 4.466,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 51 m from the nearest route; at the water's edge; its first-choice landform; won on landform, bound, sightline; placed from the homeless batch at stage 'spacing-1/2'.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 43 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, bound; placed from the homeless batch at stage 'neighbour-zone'.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 2,
-        "distanceToRouteM": 50.6,
-        "distanceToWaterM": 19.8,
-        "score": 3.711
+        "distanceToRouteM": 42.8,
+        "distanceToWaterM": 7.8,
+        "score": 4.796
       },
       "hostility": {
         "baseline": "friendly",
@@ -5965,39 +5927,40 @@
         ]
       },
       "position": {
-        "u": 0.58342,
-        "v": 0.1201
+        "u": 0.44286,
+        "v": 0.16622
       },
       "positionM": [
-        4301.8,
-        885.6
+        3265.4,
+        1225.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0178",
-          "score": 3.182,
-          "whyLost": "too close to place.pirate-freeholds.kothringi-river-ruin"
+          "siteId": "site.free.any-firm-ground-0179",
+          "score": 3.419,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
-          "siteId": "site.free.any-firm-ground-0277",
-          "score": 3.178,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
+          "siteId": "site.free.roadside-0929",
+          "score": 3.244,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         },
         {
-          "siteId": "site.free.roadside-0104",
-          "score": 3.16,
-          "whyLost": "too close to place.pirate-freeholds.reoccupied-fort"
+          "siteId": "site.free.any-firm-ground-0232",
+          "score": 2.092,
+          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
         }
       ],
-      "whySiteWon": "firm ground in border mountains (danger band 3), 271 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on hinterland, parent, landform; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+1.01).",
+      "whySiteWon": "isthmus in firm lowland (danger band 3), 546 m from the nearest route; at the water's edge; won on region, hinterland, parent; site exchanged in the swap pass with place.pirate-freeholds.trunk-road-tradehouse (+0.80).",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "border mountains",
+        "landform": "isthmus",
+        "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 271.4,
-        "distanceToWaterM": 32.0,
-        "score": 2.126
-      }
+        "distanceToRouteM": 545.6,
+        "distanceToWaterM": 11.0,
+        "score": 2.638
+      },
+      "scourSiteId": "site.scour.firm-lowland.isthmus-029"
     },
     {
       "id": "place.pirate-freeholds.kothringi-river-ruin",
@@ -6188,46 +6151,45 @@
       },
       "promotedWhy": "Dungeon balance: a standard delve with lore payoff on the water, and the region's Knahaten Flu layer.",
       "position": {
-        "u": 0.4912,
-        "v": 0.13795
+        "u": 0.4782,
+        "v": 0.1428
       },
       "positionM": [
-        3621.9,
-        1017.2
+        3526.0,
+        1052.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.firm-lowland.oxbow-016",
-          "score": 4.384,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0089",
+          "score": 4.23,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.firm-lowland.cliff-bench-062",
-          "score": 4.17,
-          "whyLost": "too close to place.pirate-freeholds.chasecreek"
+          "siteId": "site.free.any-firm-ground-0205",
+          "score": 4.204,
+          "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.seasonal-floodplain.cliff-bench-002",
-          "score": 4.169,
+          "siteId": "site.free.roadside-0096",
+          "score": 4.194,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "cliff bench in firm lowland (danger band 3), 241 m from the nearest route; its choice #3 landform; won on bound, landform, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 5 m from the nearest route; at the water's edge; no free 'oxbow' site was left in the zone, so plain ground; won on bound, culture-clump, region.",
       "plotFacts": {
-        "landform": "cliff-bench",
+        "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 240.8,
-        "distanceToWaterM": 41.8,
-        "score": 4.169
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 12.3,
+        "score": 4.252
       },
       "questHooks": {
         "provisions": [],
         "tags": [],
         "opportunity": "the best river frontage in the zone stands empty; claiming it means finding a crew who will land",
         "tierOwnership": "LP09 · tier-3"
-      },
-      "scourSiteId": "site.scour.firm-lowland.cliff-bench-069"
+      }
     },
     {
       "id": "place.pirate-freeholds.lake-drawdown-flat",
@@ -6654,40 +6616,25 @@
         ]
       },
       "position": {
-        "u": 0.51872,
-        "v": 0.13052
+        "u": 0.53879,
+        "v": 0.14837
       },
       "positionM": [
-        3824.8,
-        962.4
+        3972.8,
+        1094.0
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.free.any-firm-ground-0204",
-          "score": 3.404,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0603",
-          "score": 3.392,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
-          "siteId": "site.free.roadside-0049",
-          "score": 3.373,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 146 m from the nearest route; no free 'any-channel-bank' site was left in the zone, so plain ground; won on bound, sightline, region; placed from the homeless batch at stage 'neighbour-zone'.",
+      "candidatesConsidered": [],
+      "whySiteWon": "oxbow in firm lowland (danger band 3), 6 m from the nearest route; at the water's edge; its choice #2 landform; won on culture-clump, landform, bound.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "oxbow",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 145.7,
-        "distanceToWaterM": 50.6,
-        "score": 3.03
+        "distanceToRouteM": 5.5,
+        "distanceToWaterM": 0.0,
+        "score": 4.994
       },
-      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered."
+      "sitingNote": "Where a new character is processed onto the roll. Held at D1 against a danger raster that reads band 3 here, because the opening ring's first 250 m has to be survivable (docs/research/quests-and-cast/opening-hours-and-start-area.md §5, Ring A); the raster needs the ring carved into it at Part 6 rather than the record retiered.",
+      "scourSiteId": "site.scour.firm-lowland.oxbow-016"
     },
     {
       "id": "place.pirate-freeholds.opening-work-camp",
@@ -6937,38 +6884,38 @@
         ]
       },
       "position": {
-        "u": 0.53142,
-        "v": 0.12568
+        "u": 0.5429,
+        "v": 0.15098
       },
       "positionM": [
-        3918.5,
-        926.7
+        4003.0,
+        1113.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0204",
-          "score": 3.639,
-          "whyLost": "too close to place.pirate-freeholds.bone-repatriation-waystation"
+          "siteId": "site.free.roadside-0927",
+          "score": 5.207,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0603",
-          "score": 3.626,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0173",
+          "score": 5.185,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         },
         {
-          "siteId": "site.free.roadside-0049",
-          "score": 3.616,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.any-firm-ground-0207",
+          "score": 5.175,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 78 m from the nearest route; its first-choice landform; won on landform, bound, sightline; placed from the homeless batch at stage 'spacing-3/4'.",
+      "whySiteWon": "firm ground in firm lowland (danger band 2), 39 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, bound.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 77.5,
-        "distanceToWaterM": 45.2,
-        "score": 3.294
+        "dangerBand": 2,
+        "distanceToRouteM": 38.8,
+        "distanceToWaterM": 7.8,
+        "score": 5.15
       },
       "sitingNote": "Held at D1 with the barge for the same Ring A reason; see place.pirate-freeholds.opening-work-barge."
     },
@@ -7486,28 +7433,22 @@
       },
       "promotedWhy": "Dungeon balance: the region's only underwater-entrance delve (research §2 sub-target).",
       "position": {
-        "u": 0.57069,
-        "v": 0.17745
+        "u": 0.56631,
+        "v": 0.16844
       },
       "positionM": [
-        4208.0,
-        1308.4
+        4175.7,
+        1242.0
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.box-canyon-056",
-          "score": 2.537,
-          "whyLost": "too close to place.pirate-freeholds.channel-pirate-anchorage"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 23 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on route, region, submerged; site exchanged in the swap pass with place.pirate-freeholds.channel-pirate-anchorage (+0.54).",
+      "candidatesConsidered": [],
+      "whySiteWon": "open water in lake & standing water (danger band 3), 47 m from the nearest route; at the water's edge; won on route, region, submerged.",
       "plotFacts": {
-        "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "landform": "open-water",
+        "regionClass": "lake & standing water",
         "dangerBand": 3,
-        "distanceToRouteM": 22.6,
-        "distanceToWaterM": 11.0,
-        "score": 3.48
+        "distanceToRouteM": 46.5,
+        "distanceToWaterM": 0.0,
+        "score": 3.635
       },
       "questHooks": {
         "provisions": [],
@@ -7772,38 +7713,38 @@
       },
       "promotedWhy": "Region ask: a pirate freehold with no armed ground. Gorrey's outfit is the land-side counterweight to the anchorages, and carries the province's first Gothic trespass ring.",
       "position": {
-        "u": 0.52012,
-        "v": 0.10977
+        "u": 0.53776,
+        "v": 0.09288
       },
       "positionM": [
-        3835.1,
-        809.4
+        3965.2,
+        684.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0105",
-          "score": 4.484,
+          "siteId": "site.free.roadside-0161",
+          "score": 4.121,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0062",
-          "score": 3.389,
+          "siteId": "site.free.roadside-0887",
+          "score": 4.093,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.roadside-0561",
-          "score": 3.388,
+          "siteId": "site.free.roadside-0162",
+          "score": 3.887,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 85 m from the nearest route; its choice #2 landform; won on landform, nearPoint, region.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 93 m from the nearest route; its choice #2 landform; won on landform, nearPoint, culture-clump.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 85.3,
-        "distanceToWaterM": 66.0,
-        "score": 4.491
+        "distanceToRouteM": 93.1,
+        "distanceToWaterM": 32.0,
+        "score": 4.186
       }
     },
     {
@@ -8579,38 +8520,38 @@
       "underwaterAccess": "none",
       "name": "Nine Sockets",
       "position": {
-        "u": 0.53062,
-        "v": 0.07474
+        "u": 0.56185,
+        "v": 0.11861
       },
       "positionM": [
-        3912.5,
-        551.1
+        4142.8,
+        874.6
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.upland-hills.ravine-060",
-          "score": 4.017,
+          "siteId": "site.scour.firm-lowland.cliff-bench-046",
+          "score": 4.054,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0277",
-          "score": 3.451,
+          "siteId": "site.free.roadside-0889",
+          "score": 4.015,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0203",
-          "score": 3.448,
+          "siteId": "site.free.roadside-0929",
+          "score": 3.973,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ravine in upland hills (danger band 3), 135 m from the nearest route; its first-choice landform; won on landform, route, bound.",
+      "whySiteWon": "ravine in upland hills (danger band 3), 133 m from the nearest route; its first-choice landform; won on landform, route, bound.",
       "plotFacts": {
         "landform": "ravine",
         "regionClass": "upland hills",
         "dangerBand": 3,
-        "distanceToRouteM": 135.4,
-        "distanceToWaterM": 62.0,
-        "score": 4.024
+        "distanceToRouteM": 132.6,
+        "distanceToWaterM": 74.6,
+        "score": 4.143
       },
       "hostility": {
         "baseline": "hostile",
@@ -8692,11 +8633,14 @@
         {
           "kind": "gorge",
           "radiusM": 60,
-          "delivery": {"feature":"flood-high-ravine-wall","waterRelation":"above-flood"},
+          "delivery": {
+            "feature": "flood-high-ravine-wall",
+            "waterRelation": "above-flood"
+          },
           "note": "the ravine wall the chamber is cut into, above the flood and below the snow"
         }
       ],
-      "scourSiteId": "site.scour.upland-hills.ravine-066"
+      "scourSiteId": "site.scour.upland-hills.ravine-060"
     },
     {
       "id": "place.pirate-freeholds.rim-knapping-floor",
@@ -8991,18 +8935,18 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.saddle-041",
-          "score": 3.111,
-          "whyLost": "taken by place.pirate-freeholds.rim-smugglers-ledge-north"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0230",
-          "score": 2.267,
+          "siteId": "site.free.any-firm-ground-0158",
+          "score": 2.564,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0154",
-          "score": 2.261,
+          "siteId": "site.free.any-firm-ground-0232",
+          "score": 2.452,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.any-firm-ground-0156",
+          "score": 2.386,
           "whyLost": "lost on score"
         }
       ],
@@ -9013,7 +8957,7 @@
         "dangerBand": 3,
         "distanceToRouteM": 191.9,
         "distanceToWaterM": 64.2,
-        "score": 2.988
+        "score": 3.121
       },
       "hostility": {
         "baseline": "neutral",
@@ -9731,39 +9675,38 @@
       "underwaterAccess": "none",
       "ownerFaction": "faction.salt-teeth",
       "position": {
-        "u": 0.59978,
-        "v": 0.10672
+        "u": 0.58342,
+        "v": 0.1201
       },
       "positionM": [
-        4422.5,
-        786.9
+        4301.8,
+        885.6
       ],
-      "scourSiteId": "site.scour.border-mountains.saddle-041",
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 2.89,
+          "siteId": "site.free.any-firm-ground-0232",
+          "score": 2.471,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-042",
-          "score": 2.876,
+          "siteId": "site.free.any-firm-ground-0156",
+          "score": 2.397,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.free.any-firm-ground-0126",
-          "score": 2.274,
+          "siteId": "site.scour.upland-hills.ravine-060",
+          "score": 1.958,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its choice #2 landform; won on landform, region, hinterland.",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 275 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on region, hinterland, danger; site exchanged in the swap pass with place.pirate-freeholds.dunmer-frontier-holding (+0.75).",
       "plotFacts": {
-        "landform": "saddle",
+        "landform": "any-firm-ground",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 424.3,
-        "distanceToWaterM": 28.0,
-        "score": 3.149
+        "distanceToRouteM": 275.3,
+        "distanceToWaterM": 32.0,
+        "score": 2.953
       },
       "hostility": {
         "baseline": "hostile",
@@ -9946,38 +9889,28 @@
       "underwaterAccess": "none",
       "name": "Exile's Roof",
       "position": {
-        "u": 0.61911,
-        "v": 0.08813
+        "u": 0.59978,
+        "v": 0.10672
       },
       "positionM": [
-        4565.0,
-        649.8
+        4422.5,
+        786.9
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.any-firm-ground-0098",
-          "score": 1.89,
-          "whyLost": "too close to place.dunmer-north.crystalgate"
-        },
-        {
-          "siteId": "site.scour.border-mountains.summit-004",
-          "score": 1.67,
-          "whyLost": "too close to place.dunmer-north.crystalgate"
-        },
-        {
-          "siteId": "site.scour.border-mountains.saddle-021",
-          "score": 1.594,
+          "siteId": "site.scour.border-mountains.ridge-end-026",
+          "score": 0.647,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "summit in border mountains (danger band 3), 604 m from the nearest route; its first-choice landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "saddle in border mountains (danger band 3), 424 m from the nearest route; its choice #2 landform; won on landform, region, remote; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.half-chartered-anchorage (+1.48).",
       "plotFacts": {
-        "landform": "summit",
+        "landform": "saddle",
         "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 604.1,
-        "distanceToWaterM": 81.5,
-        "score": 1.612
+        "distanceToRouteM": 424.3,
+        "distanceToWaterM": 28.0,
+        "score": 2.594
       },
       "hostility": {
         "baseline": "hostile",
@@ -10050,7 +9983,7 @@
         "tierOwnership": null
       },
       "sitingNote": "Above the snowline on the border wall, so the culture raster reads dunmer-north over it. The hermitage is reached from the Corimont pass and belongs to the freeholds' side of the rim.",
-      "scourSiteId": "site.scour.border-mountains.summit-005"
+      "scourSiteId": "site.scour.border-mountains.saddle-041"
     },
     {
       "id": "place.pirate-freeholds.rim-vista-ledge",
@@ -10701,31 +10634,15 @@
         3583.5,
         1428.5
       ],
-      "candidatesConsidered": [
-        {
-          "siteId": "site.scour.firm-lowland.cliff-bench-057",
-          "score": 3.395,
-          "whyLost": "too close to place.pirate-freeholds.corimont-hist-less-camp"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.summit-015",
-          "score": 2.654,
-          "whyLost": "too close to place.pirate-freeholds.chasecreek"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.cliff-bench-062",
-          "score": 2.56,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        }
-      ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 306 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on nearPoint, region, danger; placed from the homeless batch at stage 'spacing-3/4'; site exchanged in the swap pass with place.pirate-freeholds.corimont-low-store (+0.49).",
+      "candidatesConsidered": [],
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 217 m from the nearest route; no free 'cliff-bench' site was left in the zone, so plain ground; won on nearPoint, region, danger.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
         "dangerBand": 3,
-        "distanceToRouteM": 305.8,
+        "distanceToRouteM": 216.9,
         "distanceToWaterM": 33.4,
-        "score": 2.854
+        "score": 2.692
       },
       "hostility": {
         "baseline": "neutral",
@@ -11284,38 +11201,38 @@
         "tierOwnership": "LQ28 · tier-3"
       },
       "position": {
-        "u": 0.45848,
-        "v": 0.14762
+        "u": 0.5849,
+        "v": 0.11044
       },
       "positionM": [
-        3380.6,
-        1088.5
+        4312.8,
+        814.3
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0050",
-          "score": 4.419,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
+          "siteId": "site.free.roadside-0926",
+          "score": 4.857,
+          "whyLost": "too close to place.pirate-freeholds.corimont-tradehouse"
         },
         {
-          "siteId": "site.free.roadside-0108",
-          "score": 4.41,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0174",
+          "score": 4.791,
+          "whyLost": "taken by place.pirate-freeholds.careening-hard"
         },
         {
-          "siteId": "site.free.roadside-0057",
-          "score": 4.409,
-          "whyLost": "too close to place.pirate-freeholds.upriver-hist-village"
+          "siteId": "site.free.roadside-0927",
+          "score": 4.789,
+          "whyLost": "too close to place.pirate-freeholds.corimont-crosstrees"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 436 m from the nearest route; its first-choice landform; won on landform, region, hinterland; placed from the homeless batch at stage 'neighbour-zone'.",
+      "whySiteWon": "firm ground in border mountains (danger band 3), 311 m from the nearest route; at the water's edge; its first-choice landform; won on landform, route, hinterland; placed from the homeless batch at stage 'neighbour-zone'; site exchanged in the swap pass with place.pirate-freeholds.rim-smugglers-ledge-north (+1.07).",
       "plotFacts": {
         "landform": "any-firm-ground",
-        "regionClass": "firm lowland",
+        "regionClass": "border mountains",
         "dangerBand": 3,
-        "distanceToRouteM": 435.6,
-        "distanceToWaterM": 32.0,
-        "score": 3.175
+        "distanceToRouteM": 311.2,
+        "distanceToWaterM": 7.8,
+        "score": 2.972
       },
       "services": []
     },
@@ -11466,38 +11383,28 @@
         "free (the board painted out and the span left unrepaired)"
       ],
       "position": {
-        "u": 0.53472,
-        "v": 0.18522
+        "u": 0.53211,
+        "v": 0.18406
       },
       "positionM": [
-        3942.8,
-        1365.7
+        3923.5,
+        1357.2
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.free.roadside-0053",
-          "score": 3.511,
-          "whyLost": "too close to place.pirate-freeholds.alten-corimont"
-        },
-        {
           "siteId": "site.scour.firm-lowland.cliff-bench-078",
-          "score": 3.034,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.scour.firm-lowland.isthmus-042",
-          "score": 2.996,
+          "score": 3.925,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 3), 37 m from the nearest route; at the water's edge; no free 'water-narrows' site was left in the zone, so plain ground; won on nearPoint, region, hinterland.",
+      "whySiteWon": "isthmus in firm lowland (danger band 2), 17 m from the nearest route; at the water's edge; won on culture-clump, nearPoint, region.",
       "plotFacts": {
-        "landform": "any-firm-ground",
+        "landform": "isthmus",
         "regionClass": "firm lowland",
-        "dangerBand": 3,
-        "distanceToRouteM": 36.8,
-        "distanceToWaterM": 7.8,
-        "score": 3.187
+        "dangerBand": 2,
+        "distanceToRouteM": 17.3,
+        "distanceToWaterM": 11.0,
+        "score": 4.058
       },
       "hostility": {
         "baseline": "neutral",
@@ -11544,10 +11451,14 @@
         {
           "kind": "narrows",
           "radiusM": 40,
-          "delivery": {"feature":"hard-banked-road-narrows","bank":"hard"},
+          "delivery": {
+            "feature": "hard-banked-road-narrows",
+            "bank": "hard"
+          },
           "note": "the hard-banked pinch the span crosses, the narrowest water on the Corimont road"
         }
-      ]
+      ],
+      "scourSiteId": "site.scour.firm-lowland.isthmus-042"
     },
     {
       "id": "place.pirate-freeholds.upper-toll-bridge",
@@ -12102,38 +12013,38 @@
         ]
       },
       "position": {
-        "u": 0.54838,
-        "v": 0.15514
+        "u": 0.46412,
+        "v": 0.14836
       },
       "positionM": [
-        4043.5,
-        1143.9
+        3422.2,
+        1094.0
       ],
       "candidatesConsidered": [
         {
+          "siteId": "site.free.roadside-0093",
+          "score": 3.362,
+          "whyLost": "lost on score"
+        },
+        {
+          "siteId": "site.free.roadside-0089",
+          "score": 3.32,
+          "whyLost": "lost on score"
+        },
+        {
           "siteId": "site.free.any-firm-ground-0205",
-          "score": 3.008,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0108",
-          "score": 3.005,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.roadside-0566",
-          "score": 3.004,
+          "score": 3.313,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "firm ground in firm lowland (danger band 2), 43 m from the nearest route; at the water's edge; its first-choice landform; won on landform, region, danger.",
+      "whySiteWon": "firm ground in firm lowland (danger band 3), 63 m from the nearest route; at the water's edge; its first-choice landform; won on culture-clump, landform, region.",
       "plotFacts": {
         "landform": "any-firm-ground",
         "regionClass": "firm lowland",
-        "dangerBand": 2,
-        "distanceToRouteM": 42.8,
+        "dangerBand": 3,
+        "distanceToRouteM": 62.5,
         "distanceToWaterM": 17.3,
-        "score": 3.013
+        "score": 3.867
       },
       "services": [
         "lodging",
@@ -12300,29 +12211,24 @@
       ],
       "candidatesConsidered": [
         {
-          "siteId": "site.scour.border-mountains.ridge-end-064",
-          "score": 4.978,
+          "siteId": "site.free.any-firm-ground-0101",
+          "score": 4.09,
           "whyLost": "lost on score"
         },
         {
-          "siteId": "site.scour.border-mountains.ridge-end-026",
-          "score": 4.902,
-          "whyLost": "lost on score"
-        },
-        {
-          "siteId": "site.free.any-firm-ground-0099",
-          "score": 4.717,
+          "siteId": "site.scour.upland-hills.ravine-060",
+          "score": 3.536,
           "whyLost": "lost on score"
         }
       ],
-      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its first-choice landform; won on landform, nearPoint, sightline; placed from the homeless batch at stage 'spacing-1/2'.",
+      "whySiteWon": "ridge end in border mountains (danger band 3), 341 m from the nearest route; its first-choice landform; won on culture-clump, landform, nearPoint.",
       "plotFacts": {
         "landform": "ridge-end",
         "regionClass": "border mountains",
         "dangerBand": 3,
         "distanceToRouteM": 341.2,
         "distanceToWaterM": 59.1,
-        "score": 5.305
+        "score": 6.005
       },
       "hostility": {
         "baseline": "wary",

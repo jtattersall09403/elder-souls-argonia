@@ -6,48 +6,58 @@ Places only (roaming creatures and encounter sockets are Phase 13 and add to eve
 
 | band | land km² | places | /km² | hostile | hostile /km² | flips→hostile | settlements | route km (road/boat/track/channel) | fights met | m between fights | short of Morrowind (area) |
 |---|---:|---:|---:|---:|---:|---:|---:|---|---:|---:|---:|
-| D1 | 0.2 | 13 | 66.2 | 1 | **5.1** | 6 | 6 | 4.7/0.4/0/0 | 62 | 83 | 2 |
-| D2 | 2.62 | 113 | 43.1 | 45 | **17.2** | 13 | 21 | 15.6/2.2/6.7/0 | 100 | 245 | 0 |
-| D3 | 14.83 | 289 | 19.5 | 168 | **11.3** | 8 | 52 | 13.8/3.4/44.0/0 | 205 | 299 | 55 |
-| D4 | 5.41 | 92 | 17.0 | 63 | **11.6** | 7 | 11 | 10.0/1.9/3.2/0 | 56 | 269 | 19 |
-| D5 | 3.51 | 60 | 17.1 | 43 | **12.2** | 4 | 7 | 9.0/1.5/0.1/0 | 36 | 293 | 10 |
+| D1 | 0.2 | 16 | 81.7 | 3 | **15.3** | 6 | 6 | 4.9/0.4/0/0 | 61 | 88 | 0 |
+| D2 | 2.56 | 122 | 47.7 | 55 | **21.5** | 15 | 15 | 15.6/2.2/5.1/0 | 108 | 212 | 0 |
+| D3 | 14.74 | 262 | 17.8 | 151 | **10.2** | 6 | 58 | 13.3/3.4/34.9/0 | 231 | 223 | 71 |
+| D4 | 5.32 | 104 | 19.6 | 71 | **13.3** | 4 | 11 | 11.0/1.9/6.7/0 | 85 | 230 | 9 |
+| D5 | 3.41 | 65 | 19.0 | 41 | **12.0** | 7 | 8 | 8.7/1.5/0.7/0 | 52 | 208 | 11 |
 
 ## Sparse ground (D3–D5)
 
 Share of sampled land cells with no hostile place within 350 m, and the gap points a new hostile record can be bound to with `sitingPrefs.nearPoint {x, z, maxM}` (metres; the plot does the siting).
 
-- D3: 2% of 95969 sampled cells
-- D4: 3% of 44147 sampled cells
-- D5: 3% of 28857 sampled cells
+- D3: 8% of 95412 sampled cells
+- D4: 11% of 43398 sampled cells
+- D5: 22% of 28128 sampled cells
 
 | band | x m | z m | nearest fight m |
 |---|---:|---:|---:|
-| D3 | 345 | 718 | 497 |
-| D3 | 5341 | 515 | 453 |
-| D3 | 2407 | 1519 | 420 |
-| D3 | 373 | 4666 | 414 |
-| D3 | 576 | 3625 | 400 |
-| D3 | 784 | 2429 | 370 |
-| D3 | 1760 | 2259 | 370 |
-| D3 | 2374 | 2950 | 369 |
-| D3 | 1053 | 1239 | 367 |
-| D3 | 3356 | 768 | 365 |
-| D3 | 2144 | 411 | 357 |
-| D3 | 2490 | 7013 | 351 |
-| D4 | 2435 | 3400 | 497 |
-| D4 | 2802 | 1530 | 437 |
-| D4 | 2391 | 2692 | 382 |
-| D4 | 1766 | 2259 | 371 |
-| D4 | 3723 | 2117 | 353 |
-| D5 | 2380 | 3444 | 476 |
-| D5 | 2747 | 1546 | 427 |
-| D5 | 5401 | 373 | 408 |
-| D5 | 3701 | 2199 | 396 |
-| D5 | 3400 | 3652 | 387 |
-| D5 | 411 | 532 | 378 |
-| D5 | 554 | 3548 | 378 |
-| D5 | 2407 | 2649 | 377 |
-| D5 | 1003 | 1256 | 364 |
+| D3 | 576 | 7002 | 744 |
+| D3 | 4639 | 2879 | 609 |
+| D3 | 916 | 773 | 583 |
+| D3 | 1530 | 3822 | 473 |
+| D3 | 4288 | 345 | 461 |
+| D3 | 3164 | 5193 | 444 |
+| D3 | 5834 | 2303 | 443 |
+| D3 | 345 | 4645 | 442 |
+| D3 | 2012 | 910 | 431 |
+| D3 | 1141 | 4716 | 426 |
+| D3 | 345 | 1788 | 423 |
+| D3 | 6673 | 960 | 419 |
+| D4 | 4272 | 2681 | 732 |
+| D4 | 3334 | 2040 | 529 |
+| D4 | 3449 | 5100 | 529 |
+| D4 | 2851 | 3860 | 502 |
+| D4 | 4266 | 1793 | 480 |
+| D4 | 2747 | 3049 | 480 |
+| D4 | 1519 | 3833 | 465 |
+| D4 | 4831 | 3109 | 451 |
+| D4 | 3926 | 3296 | 445 |
+| D4 | 2182 | 4080 | 401 |
+| D4 | 384 | 4442 | 392 |
+| D4 | 6498 | 993 | 390 |
+| D5 | 4277 | 2681 | 728 |
+| D5 | 2824 | 3093 | 563 |
+| D5 | 3307 | 2139 | 562 |
+| D5 | 2895 | 3827 | 516 |
+| D5 | 3992 | 3323 | 493 |
+| D5 | 1519 | 3822 | 472 |
+| D5 | 828 | 685 | 470 |
+| D5 | 4288 | 1760 | 456 |
+| D5 | 3038 | 5226 | 455 |
+| D5 | 2215 | 4074 | 413 |
+| D5 | 2001 | 795 | 409 |
+| D5 | 4211 | 400 | 376 |
 
 ## Rebalance lists (owner 2026-09-04: fewer fights on routes, more off them)
 
@@ -55,108 +65,128 @@ Share of sampled land cells with no hostile place within 350 m, and the gap poin
 
 | record | band | region | route m | other fights within 250 m |
 |---|---|---|---:|---:|
-| `place.dunmer-north.boom-keepers-lodge` | D3 | dunmer-north | 47 | 4 |
-| `place.dunmer-north.the-silyanorn-crown` | D2 | dunmer-north | 97 | 4 |
-| `place.imperial-fringe.the-back-kiln` | D2 | imperial-fringe | 30 | 4 |
-| `place.imperial-fringe.the-buried-spears` | D2 | imperial-fringe | 91 | 4 |
-| `place.imperial-fringe.whispers-house-of-the-low-fen` | D3 | imperial-fringe | 23 | 4 |
-| `place.dunmer-north.buried-blades` | D2 | dunmer-north | 184 | 3 |
-| `place.dunmer-north.hackwing-wall` | D3 | dunmer-north | 212 | 3 |
-| `place.dunmer-north.the-charge-pond` | D3 | dunmer-north | 180 | 3 |
-| `place.dunmer-north.the-guar-ground` | D3 | dunmer-north | 58 | 3 |
-| `place.dunmer-north.the-opened-terrace` | D3 | dunmer-north | 79 | 3 |
-| `place.dunmer-north.the-outer-silyanorn` | D3 | dunmer-north | 197 | 3 |
-| `place.hist-heartland.climbable-ruin-roof-terrace` | D4 | hist-heartland | 64 | 3 |
-| `place.hist-heartland.urn-vault-blasphemers` | D4 | hist-heartland | 4 | 3 |
-| `place.hist-heartland.waterfall-chamber-root-fall` | D4 | hist-heartland | 183 | 3 |
-| `place.imperial-fringe.castle-giovesse` | D3 | imperial-fringe | 64 | 3 |
-| `place.imperial-fringe.giovesse-lines` | D3 | imperial-fringe | 36 | 3 |
-| `place.imperial-fringe.ninefold-station` | D3 | imperial-fringe | 46 | 3 |
-| `place.imperial-fringe.the-broke-column` | D3 | imperial-fringe | 79 | 3 |
-| `place.imperial-fringe.the-cold-lights` | D3 | imperial-fringe | 44 | 3 |
-| `place.imperial-fringe.the-quiet-pit` | D3 | imperial-fringe | 44 | 3 |
-| `place.imperial-fringe.the-second-empire-locks` | D3 | imperial-fringe | 204 | 3 |
-| `place.imperial-fringe.the-turned-out` | D3 | imperial-fringe | 237 | 3 |
-| `place.imperial-fringe.xi-tsei-massacre-ground` | D3 | imperial-fringe | 136 | 3 |
-| `place.imperial-penal-south.flu-quarantine-village` | D2 | imperial-penal-south | 299 | 3 |
-| `place.imperial-penal-south.natural-dive-shaft` | D2 | imperial-penal-south | 232 | 3 |
-| `place.imperial-penal-south.saltrice-village` | D2 | imperial-penal-south | 194 | 3 |
-| `place.mercantile-coast.alessian-hull` | D3 | mercantile-coast | 94 | 3 |
-| `place.naga-kur-deeps.naga-highway-camp-active-south` | D4 | naga-kur-deeps | 3 | 3 |
-| `place.naga-kur-deeps.poacher-camp-egg` | D4 | naga-kur-deeps | 221 | 3 |
-| `place.naga-kur-deeps.raft-village-lashed` | D4 | naga-kur-deeps | 68 | 3 |
-| `place.pirate-freeholds.flu-cairn-field` | D3 | pirate-freeholds | 163 | 3 |
-| `place.pirate-freeholds.rim-keystone-chamber` | D3 | pirate-freeholds | 146 | 3 |
-| `place.dunmer-north.the-first-count` | D2 | dunmer-north | 88 | 2 |
-| `place.dunmer-north.the-north-holding-pit` | D2 | dunmer-north | 201 | 2 |
-| `place.dunmer-north.the-permit-dig` | D2 | dunmer-north | 90 | 2 |
-| `place.dunmer-north.the-salt-and-shell` | D2 | dunmer-north | 204 | 2 |
-| `place.dunmer-north.the-shoal-bank` | D2 | dunmer-north | 182 | 2 |
-| `place.dunmer-north.the-sump-hamlet` | D3 | dunmer-north | 54 | 2 |
-| `place.dunmer-north.the-two-hundred-roofs` | D3 | dunmer-north | 185 | 2 |
-| `place.hist-heartland.bubble-spire-collapsed` | D4 | hist-heartland | 9 | 2 |
-| `place.hist-heartland.miregaunt-ward-approach` | D5 | hist-heartland | 217 | 2 |
-| `place.hist-heartland.root-gallery-collapsed-nine` | D5 | hist-heartland | 81 | 2 |
-| `place.imperial-fringe.onkobra-kwama-mine` | D2 | imperial-fringe | 219 | 2 |
-| `place.imperial-fringe.the-marble-field` | D3 | imperial-fringe | 170 | 2 |
-| `place.imperial-fringe.the-second-hearth` | D3 | imperial-fringe | 24 | 2 |
-| `place.imperial-penal-south.basin-sinkhole` | D3 | imperial-penal-south | 65 | 2 |
-| `place.imperial-penal-south.blackrose-prison` | D2 | imperial-penal-south | 71 | 2 |
-| `place.imperial-penal-south.drawdown-flat` | D3 | imperial-penal-south | 182 | 2 |
-| `place.imperial-penal-south.drowned-gallery` | D2 | imperial-penal-south | 146 | 2 |
-| `place.imperial-penal-south.intact-fort` | D2 | imperial-penal-south | 262 | 2 |
-| `place.imperial-penal-south.necromantic-dig` | D3 | imperial-penal-south | 36 | 2 |
-| `place.imperial-penal-south.rose-flooded-passage` | D2 | imperial-penal-south | 105 | 2 |
-| `place.mercantile-coast.bog-blight-ground-murkmire` | D3 | mercantile-coast | 98 | 2 |
-| `place.mercantile-coast.inhabited-meer-murkmire` | D3 | mercantile-coast | 158 | 2 |
-| `place.mercantile-coast.naga-village-oliis` | D3 | mercantile-coast | 75 | 2 |
-| `place.mercantile-coast.slaughter-memorial` | D1 | mercantile-coast | 58 | 2 |
-| `place.naga-kur-deeps.horwalli-waterworks-deeps` | D5 | naga-kur-deeps | 30 | 2 |
-| `place.pirate-freeholds.channel-pirate-anchorage` | D3 | pirate-freeholds | 67 | 2 |
-| `place.pirate-freeholds.freehold-naga-camp` | D3 | pirate-freeholds | 28 | 2 |
-| `place.pirate-freeholds.rim-smugglers-ledge-north` | D3 | pirate-freeholds | 88 | 2 |
+| `place.hist-heartland.pilgrim-camp-hist-tsoko` | D2 | hist-heartland | 25 | 9 |
+| `place.hist-heartland.beast-keeper-lizard-steed` | D3 | hist-heartland | 35 | 8 |
+| `place.hist-heartland.drawdown-flat-exposed` | D3 | hist-heartland | 81 | 8 |
+| `place.dunmer-north.andalen-plantation` | D2 | dunmer-north | 77 | 7 |
+| `place.dunmer-north.the-drover-camp` | D2 | dunmer-north | 86 | 7 |
+| `place.hist-heartland.air-pocket-station-basin` | D3 | hist-heartland | 251 | 7 |
+| `place.hist-heartland.bioluminescent-glowfen` | D4 | hist-heartland | 65 | 7 |
+| `place.hist-heartland.duskfall-unmade-site` | D2 | hist-heartland | 239 | 7 |
+| `place.hist-heartland.sinkhole-mouth-basin` | D3 | hist-heartland | 8 | 7 |
+| `place.hist-heartland.submerged-xanmeer-topmost` | D4 | hist-heartland | 60 | 7 |
+| `place.hist-heartland.voriplasm-chamber-sealed` | D4 | hist-heartland | 47 | 7 |
+| `place.hist-heartland.waiting-vigil-village` | D3 | hist-heartland | 41 | 7 |
+| `place.imperial-fringe.the-cold-lights` | D4 | imperial-fringe | 18 | 7 |
+| `place.imperial-fringe.the-quiet-pit` | D4 | imperial-fringe | 10 | 7 |
+| `place.dunmer-north.greylight-village` | D3 | dunmer-north | 103 | 6 |
+| `place.dunmer-north.hatching-pools` | D3 | dunmer-north | 4 | 6 |
+| `place.dunmer-north.the-empty-socket` | D3 | dunmer-north | 47 | 6 |
+| `place.hist-heartland.blackguard-hideout-raw` | D5 | hist-heartland | 56 | 6 |
+| `place.hist-heartland.canopy-crossing-rope-basin` | D5 | hist-heartland | 67 | 6 |
+| `place.hist-heartland.daril-fermentary-interior` | D5 | hist-heartland | 44 | 6 |
+| `place.hist-heartland.root-gallery-helstrom-underway` | D5 | hist-heartland | 3 | 6 |
+| `place.hist-heartland.rootworm-burrow-live` | D3 | hist-heartland | 24 | 6 |
+| `place.hist-heartland.standing-curiosity-unexplained` | D4 | hist-heartland | 36 | 6 |
+| `place.hist-heartland.wisp-lure-basin` | D5 | hist-heartland | 20 | 6 |
+| `place.imperial-fringe.silver-mouth` | D3 | imperial-fringe | 9 | 6 |
+| `place.dunmer-north.the-charge-pond` | D3 | dunmer-north | 98 | 5 |
+| `place.dunmer-north.the-first-count` | D1 | dunmer-north | 37 | 5 |
+| `place.dunmer-north.the-salt-and-shell` | D1 | dunmer-north | 38 | 5 |
+| `place.dunmer-north.waits-for-the-promise` | D3 | dunmer-north | 74 | 5 |
+| `place.dunmer-north.zuuk` | D3 | dunmer-north | 97 | 5 |
+| `place.hist-heartland.bog-blight-ground-stakes` | D4 | hist-heartland | 36 | 5 |
+| `place.hist-heartland.broken-xanmeer-subsumed` | D5 | hist-heartland | 25 | 5 |
+| `place.hist-heartland.climbable-ruin-roof-terrace` | D5 | hist-heartland | 71 | 5 |
+| `place.hist-heartland.collapsing-pinnacle-interior` | D5 | hist-heartland | 82 | 5 |
+| `place.hist-heartland.cult-raid-camp-unbound` | D4 | hist-heartland | 80 | 5 |
+| `place.hist-heartland.dream-wallow-starblossom` | D5 | hist-heartland | 40 | 5 |
+| `place.hist-heartland.maturity-trial-chukka-sei` | D3 | hist-heartland | 16 | 5 |
+| `place.hist-heartland.necropolis-dead-tenders` | D3 | hist-heartland | 34 | 5 |
+| `place.hist-heartland.pilgrim-camp-sap-road` | D3 | hist-heartland | 59 | 5 |
+| `place.hist-heartland.rootworm-burrow-dead` | D3 | hist-heartland | 17 | 5 |
+| `place.hist-heartland.sealed-xanmeer-living` | D4 | hist-heartland | 230 | 5 |
+| `place.hist-heartland.treasure-hunters-live-camp` | D4 | hist-heartland | 90 | 5 |
+| `place.hist-heartland.waterfall-chamber-root-fall` | D2 | hist-heartland | 81 | 5 |
+| `place.imperial-fringe.collections-dig` | D3 | imperial-fringe | 84 | 5 |
+| `place.imperial-fringe.the-kept-terrace` | D4 | imperial-fringe | 10 | 5 |
+| `place.imperial-fringe.the-sunk-lane` | D4 | imperial-fringe | 126 | 5 |
+| `place.naga-kur-deeps.bog-blight-ground-old-cordon` | D5 | naga-kur-deeps | 237 | 5 |
+| `place.dunmer-north.ten-thousand-nests` | D3 | dunmer-north | 136 | 4 |
+| `place.dunmer-north.the-borrowed-tomb` | D3 | dunmer-north | 138 | 4 |
+| `place.dunmer-north.the-north-cut` | D2 | dunmer-north | 20 | 4 |
+| `place.dunmer-north.the-quiet-landing` | D2 | dunmer-north | 9 | 4 |
+| `place.dunmer-north.the-salt-ledge` | D2 | dunmer-north | 142 | 4 |
+| `place.hist-heartland.barsaebic-sub-city` | D3 | hist-heartland | 204 | 4 |
+| `place.hist-heartland.dive-shaft-xanmeer-well` | D4 | hist-heartland | 234 | 4 |
+| `place.hist-heartland.marsh-giant-ground-basin` | D4 | hist-heartland | 78 | 4 |
+| `place.imperial-fringe.fenmarch-village` | D3 | imperial-fringe | 34 | 4 |
+| `place.imperial-fringe.gideon-rootworm-terminus` | D2 | imperial-fringe | 25 | 4 |
+| `place.imperial-fringe.glenbridge-sermon-xanmeer` | D3 | imperial-fringe | 76 | 4 |
+| `place.imperial-fringe.guar-holding-of-the-nine-bells` | D4 | imperial-fringe | 28 | 4 |
+| `place.imperial-fringe.takes-the-field` | D4 | imperial-fringe | 55 | 4 |
 
 **Off-route gaps** — land at least 320 m from every route and 350 m from every fight. The only places new or moved hostile records may go.
 
 | band | x m | z m | nearest fight m |
 |---|---:|---:|---:|
-| D3 | 345 | 729 | 488 |
-| D3 | 2692 | 1524 | 393 |
-| D3 | 1058 | 1239 | 368 |
-| D3 | 784 | 2435 | 365 |
-| D3 | 2139 | 411 | 357 |
-| D4 | 2435 | 3394 | 494 |
-| D4 | 2808 | 1530 | 436 |
-| D5 | 2374 | 3444 | 478 |
-| D5 | 2747 | 1541 | 425 |
-| D5 | 3745 | 3668 | 379 |
+| D3 | 4650 | 2879 | 611 |
+| D3 | 927 | 773 | 580 |
+| D3 | 4294 | 345 | 460 |
+| D3 | 1223 | 3844 | 452 |
+| D3 | 351 | 4639 | 440 |
+| D3 | 2012 | 905 | 430 |
+| D3 | 351 | 1788 | 425 |
+| D3 | 1130 | 4716 | 417 |
+| D3 | 795 | 2440 | 389 |
+| D3 | 2829 | 1256 | 357 |
+| D4 | 4332 | 2714 | 723 |
+| D4 | 3323 | 2034 | 525 |
+| D4 | 3526 | 5149 | 466 |
+| D4 | 4096 | 1711 | 414 |
+| D4 | 4853 | 3197 | 411 |
+| D4 | 395 | 4617 | 392 |
+| D4 | 4030 | 3926 | 378 |
+| D4 | 1568 | 3685 | 368 |
+| D4 | 921 | 4102 | 366 |
+| D4 | 2851 | 1283 | 355 |
+| D5 | 4277 | 2681 | 728 |
+| D5 | 3307 | 2139 | 562 |
+| D5 | 877 | 729 | 531 |
+| D5 | 3559 | 5171 | 442 |
+| D5 | 2462 | 3970 | 433 |
+| D5 | 2018 | 801 | 406 |
+| D5 | 4151 | 356 | 377 |
+| D5 | 2802 | 5144 | 357 |
+| D5 | 812 | 2479 | 357 |
+| D5 | 647 | 4162 | 355 |
 
 ## Routes with the longest gaps
 
 | route | kind | km | fights met | m between fights |
 |---|---|---:|---:|---:|
-| `track.dunmer-north.the-field-gate-garrison` | track | 4.7 | 8 | 588 |
-| `track.dunmer-north.tearmouth` | track | 2.55 | 5 | 510 |
-| `track.dunmer-north.saltmarch-village` | track | 2.7 | 6 | 450 |
-| `track.imperial-fringe.swampmoth-town` | track | 5.85 | 13 | 450 |
-| `track.imperial-fringe.the-stone-talkers-watch` | track | 3.35 | 8 | 419 |
-| `track.dunmer-north.the-veterans-ridge` | track | 2.05 | 5 | 410 |
-| `track.dunmer-north.nine-fords` | track | 2.45 | 6 | 408 |
-| `track.dunmer-north.murkwater` | track | 2.4 | 6 | 400 |
-| `track.dunmer-north.crystalgate` | track | 5.8 | 15 | 387 |
-| `track.dunmer-north.riverwalk` | track | 1.9 | 5 | 380 |
-| `route.boat.soulrest-lilmoth` | boat | 4.55 | 12 | 379 |
-| `track.pirate-freeholds.dunmer-frontier-holding` | track | 5.9 | 16 | 369 |
-| `track.imperial-fringe.stonewastes` | track | 2.9 | 8 | 362 |
-| `track.dunmer-north.mazzatun` | track | 3.2 | 9 | 356 |
-| `route.boat.archon-thorn` | boat | 4.9 | 14 | 350 |
-| `track.imperial-fringe.glenbridge` | track | 2.1 | 6 | 350 |
-| `track.dunmer-north.greylight-village` | track | 1.65 | 5 | 330 |
-| `route.road.stormhold-thorn` | road | 12.65 | 41 | 309 |
-| `track.pirate-freeholds.veterans-holding` | track | 3.85 | 13 | 296 |
-| `route.road.alten-corimont-stormhold` | road | 3.5 | 12 | 292 |
-| `route.road.gideon-blackwood-road` | road | 3.45 | 12 | 288 |
-| `route.boat.lilmoth-archon` | boat | 2.45 | 9 | 272 |
-| `route.road.thorn-tear-road` | road | 2.05 | 8 | 256 |
-| `route.road.gideon-soulrest` | road | 7.1 | 28 | 254 |
-| `route.road.archon-gideon` | road | 7.85 | 31 | 253 |
+| `track.dunmer-north.the-veterans-ridge` | track | 3.25 | 3 | 1083 |
+| `track.dunmer-north.crystalgate` | track | 2.6 | 3 | 867 |
+| `track.dunmer-north.branchmont` | track | 3.7 | 5 | 740 |
+| `track.dunmer-north.stands-on-the-island` | track | 3.2 | 5 | 640 |
+| `track.dunmer-north.the-field-gate-garrison` | track | 2.7 | 5 | 540 |
+| `track.imperial-fringe.swampmoth-town` | track | 4.95 | 15 | 330 |
+| `route.boat.soulrest-lilmoth` | boat | 4.55 | 14 | 325 |
+| `route.boat.archon-thorn` | boat | 4.9 | 16 | 306 |
+| `track.dunmer-north.tearmouth` | track | 2.45 | 9 | 272 |
+| `track.dunmer-north.hatching-pools` | track | 2.7 | 10 | 270 |
+| `track.dunmer-north.saltmarch-village` | track | 2.95 | 11 | 268 |
+| `track.dunmer-north.mazzatun` | track | 3.35 | 13 | 258 |
+| `track.pirate-freeholds.veterans-holding` | track | 3.85 | 15 | 257 |
+| `route.road.alten-corimont-stormhold` | road | 3.3 | 13 | 254 |
+| `route.road.soulrest-blackrose` | road | 3.55 | 14 | 254 |
+| `route.road.stormhold-thorn` | road | 12.95 | 51 | 254 |
+| `route.road.gideon-soulrest` | road | 6.95 | 28 | 248 |
+| `route.road.gideon-blackwood-road` | road | 3.45 | 14 | 246 |
+| `track.imperial-fringe.stonewastes` | track | 1.2 | 5 | 240 |
+| `track.imperial-fringe.the-stone-talkers-watch` | track | 3.05 | 13 | 235 |
+| `route.road.helstrom-blackrose` | road | 7.2 | 32 | 225 |
+| `track.hist-heartland.heretic-stone-restarted` | track | 2.7 | 12 | 225 |
+| `route.road.archon-gideon` | road | 8.05 | 37 | 218 |
+| `track.hist-heartland.nightbound-lightless` | track | 1.4 | 7 | 200 |
+| `track.pirate-freeholds.dunmer-frontier-holding` | track | 2.7 | 14 | 193 |

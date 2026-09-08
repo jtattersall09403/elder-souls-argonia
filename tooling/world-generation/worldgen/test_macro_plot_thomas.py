@@ -47,6 +47,35 @@ def test_children_stay_strictly_clumped_even_in_relaxed_placement_stages():
     assert macro_plot.thomas_prior_score(d, candidate("far", 301, 0), prior, True) is None
 
 
+def test_relaxation_never_weakens_distinct_footprint_clearance():
+    child = demand("place.hist-heartland.child")
+    other = demand("place.hist-heartland.other", type_="other")
+    occupied = {other.id: (other, candidate("occupied", 0, 0))}
+    ok, blocker = macro_plot.separation_ok(
+        child, candidate("overlap", 29.9, 0), occupied, factor=0.5)
+    assert not ok
+    assert blocker == other.id
+
+
+def test_typed_depth_class_is_an_executable_navigation_promise():
+    d = demand("place.hist-heartland.future-channel")
+    d.record = {"terrainRequests": [{
+        "kind": "pool", "radiusM": 40,
+        "delivery": {"feature": "dive-pool", "depthClass": "diving"},
+        "note": "fixture",
+    }]}
+    assert macro_plot.promised_navigable_depth_m(d) >= 3.0
+
+
+def test_underwater_infill_cannot_become_a_culture_parent():
+    demands = [demand("place.hist-heartland.a")]
+    land = candidate("land", 0, 0)
+    water = candidate("water", 1000, 0)
+    water.kind = "free-water"
+    prior = macro_plot.build_thomas_prior(demands, [water, land], seed=42)
+    assert prior["hist-heartland"]["parents"] == [(land.x, land.z)]
+
+
 def test_authored_locality_is_a_conditional_parent_without_expanding_child_radius():
     d = demand("place.hist-heartland.local")
     d.near_point = (1000.0, 1000.0, 500.0)
@@ -87,7 +116,8 @@ def test_reference_site_must_leave_a_real_candidate_in_child_local_domain():
 
     assert macro_plot.reference_supports_local_dependents(
         child.bound_to, candidate("parent-near", 1250, 1000), deps,
-        relaxed=False, survey=Survey(), local_candidates={child.id: []})
+        relaxed=False, survey=Survey(),
+        local_candidates={child.id: [candidate("child-site", 1000, 1000)]})
     assert not macro_plot.reference_supports_local_dependents(
         child.bound_to, candidate("parent-strands-child", 1401, 1000), deps,
         relaxed=False, survey=Survey(), local_candidates={child.id: []})

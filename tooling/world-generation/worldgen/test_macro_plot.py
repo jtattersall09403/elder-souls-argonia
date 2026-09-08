@@ -79,24 +79,17 @@ def test_places_stay_within_spill_distance_of_their_zone():
 
 
 def test_the_solve_keeps_every_committed_cell():
-    """The committed plot is the SEED (2026-09-07): a run re-sites only the
-    records whose committed cell is no longer valid under the current fields.
-    The 28 the Phase P water rescue invalidated are PINNED to their committed
-    dot in `macro_plot.RESITE_PINS` with a reason each, to be decided at the
-    owner-approved re-plot; anything else going wrong is a new break and fails
-    here. Slow (~25 s)."""
+    """A normal run must prove every committed cell remains valid and stable.
+
+    The owner-approved full re-plot has removed the temporary water-rescue
+    exemptions, so any invalid committed site is now a hard failure.
+    Slow (~25 s)."""
     _d, _f, _sc, _fr, result, unresolved, resite, pinned = macro_plot.solve(ProvinceSurvey())
     assert not unresolved
     assert not resite, (
-        "records the current fields invalidate and nothing pins — re-run the plot "
-        "and record the moves, or pin them in macro_plot.RESITE_PINS with a reason: "
+        "records the current fields invalidate — re-run the full plot and record the moves: "
         + "; ".join(f"{h['id']} ({h['reason']})" for h in resite))
-    # Stale pins are printed, not asserted: the water pass is still republishing
-    # the depth field, so a pin can come and go between runs. They are cleared
-    # wholesale at the re-plot.
-    stale = sorted(set(macro_plot.RESITE_PINS) - {h["id"] for h in pinned})
-    if stale:
-        print("resite pins that no longer fire: " + ", ".join(stale))
+    assert not pinned
     committed = {rec["id"]: rec["positionM"] for _z, rec in _live()}
     for did, r in result.items():
         c = r["candidate"]
@@ -106,14 +99,10 @@ def test_the_solve_keeps_every_committed_cell():
 def test_navigable_roles_sit_on_navigable_water():
     """97 A8 / G5: a record whose prose claims navigable water (`navigable`
     hint) must plot where the published depth within 150 m clears its hull
-    class. Violations are PINNED in `macro_plot.NAVIGABLE_EXCEPTIONS` with a
-    reason rather than moved — moving a plotted record is `apply_sitings`'
-    job. Slow: loads the survey."""
+    class. There are no exemptions after the owner-approved full re-plot.
+    Slow: loads the survey."""
     bad = macro_plot.navigable_violations(ProvinceSurvey())
-    unpinned = [v for v in bad if v["id"] not in macro_plot.NAVIGABLE_EXCEPTIONS]
-    assert not unpinned, (
+    assert not bad, (
         "97 A8/G5 — navigable roles on water too shallow for their hull class: "
-        + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)" for v in unpinned)
+        + "; ".join(f"{v['id']} ({v['hullClass']}: {v['depthM']} m < {v['needM']} m)" for v in bad)
     )
-    stale = sorted(set(macro_plot.NAVIGABLE_EXCEPTIONS) - {v["id"] for v in bad})
-    assert not stale, f"pinned navigable exceptions that no longer violate — delete them: {stale}"

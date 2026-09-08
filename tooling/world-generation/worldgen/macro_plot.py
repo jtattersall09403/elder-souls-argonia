@@ -81,6 +81,7 @@ SAME_TYPE_LANDMARK_MIN_M = 700.0
 RELATED_MIN_M = 60.0             # parent/child pairs may sit together
 COLLISION_MIN_M = 30.0           # distinct map dots may not occupy one footprint
 FREE_SPACING_M = 140.0           # free-ground lattice pitch
+SUBMERGED_SPACING_M = 60.0       # underwater POIs need distinct candidate footprints too
 ACCEPT_SCORE = 0.9               # below this a pair is not an honest fit
 RELAXED_SCORE = 0.35
 ZONE_SPILL_M = 350.0             # a place may sit this far outside its culture zone when its own zone has no ground left
@@ -160,6 +161,19 @@ THOMAS_CHILD_RADIUS_M = 300.0
 THOMAS_CHILDREN_PER_PARENT = 8
 THOMAS_WEIGHT = 1.2
 
+# A navigable identity is a hard physical claim.  The reach is the place's own
+# waterfront rather than its landward map dot; hull classes match B5.
+HULL_CLASS_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
+NAVIGABLE_HULL_CLASS = {
+    "port-town": "keeled", "legal-harbour-city": "keeled", "neutral-free-port": "keeled",
+    "shipyard": "keeled", "head-of-navigation": "keeled", "foreign-trading-station": "keeled",
+    "ferry-stage": "small-draft", "customs-town": "small-draft", "tradehouse": "small-draft",
+    "bonded-warehouse": "small-draft", "pirate-anchorage": "small-draft",
+    "salvage-divers-yard": "small-draft", "monsoon-barrier": "small-draft",
+}
+NAVIGABLE_DEFAULT_CLASS = "canoe"
+NAVIGABLE_REACH_M = 150.0
+
 
 # --------------------------------------------------------------------------- #
 # data
@@ -186,6 +200,7 @@ class Candidate:
     anchor_id: str | None = None                            # nearest anchor (for the ring rules)
     used_by: str | None = None
     zone_dist: dict = field(default_factory=dict)   # metres to each culture zone (filled by attach_zone_distances)
+    navigable_depth_m: float = 0.0          # deepest published water within NAVIGABLE_REACH_M
 
 
 @dataclass
@@ -261,7 +276,9 @@ def build_thomas_prior(demands: list[Demand], cands: list[Candidate], seed: int)
         if cfg is None:
             raise ValueError(f"no Thomas-process culture parameters for {zone!r}")
         target = max(1, math.ceil(count / THOMAS_CHILDREN_PER_PARENT))
-        eligible = sorted((c for c in cands if c.zone == zone),
+        # Underwater infill exists to give submerged children physical room;
+        # it must not move the culture-wide parent process off inhabited land.
+        eligible = sorted((c for c in cands if c.zone == zone and c.kind != "free-water"),
                           key=lambda c: (_hash01(str(seed), zone, c.id), c.id))
         parents: list[tuple[float, float]] = []
         floor = float(cfg["parentFloorM"])
@@ -308,7 +325,8 @@ def has_resolved_locality(d: Demand, plotted: dict[str, tuple[float, float]]) ->
 def reference_supports_local_dependents(
         reference_id: str, candidate: Candidate, dependents: dict[str, list[Demand]],
         relaxed: bool, survey: ProvinceSurvey,
-        local_candidates: dict[str, list[Candidate]] | None = None) -> bool:
+        local_candidates: dict[str, list[Candidate]] | None = None,
+        plotted: dict[str, tuple[float, float]] | None = None) -> bool:
     """Look one edge ahead before placing a named reference.
 
     A child may promise both an authored point and a bind/sightline to another
@@ -317,30 +335,25 @@ def reference_supports_local_dependents(
     local domain; this is constraint propagation, not a radius relaxation.
     """
     for child in dependents.get(reference_id, []):
-        if child.near_point is None:
-            continue
-        x, z, radius = child.near_point
-        radius *= NEAR_POINT_RELAX if relaxed else 1.0
-        distance = math.hypot(candidate.x - x, candidate.z - z)
-        if child.bound_to == reference_id and distance > radius + child.bound_max:
+        if plotted and child.id in plotted:
+            cx, cz = plotted[child.id]
+            sites = [Candidate(
+                id=f"fixed.{child.id}", kind="fixed", landform="fixed", x=cx, z=cz,
+                region="", danger=0, zone=child.zone, route_m=0, water_m=0,
+                depth_m=0, slope=0, prominence=0, visibility=0, concealment=0,
+                water_relation=0, anchor_m=0)]
+        else:
+            sites = (local_candidates or {}).get(child.id, [])
+        if child.bound_to == reference_id and not any(
+                math.hypot(site.x - candidate.x, site.z - candidate.z) <= child.bound_max
+                for site in sites):
             return False
-        if reference_id in child.sightline_to:
-            if distance > radius + SIGHTLINE_MAX_M:
-                return False
-            # Prove that at least one real candidate in the child's authored
-            # disc can see this reference.  Testing only the disc centre is too
-            # strong on broken terrain; testing only distance repeats the old
-            # failure where every actual child site is occluded.
-            child_radius = min(radius, THOMAS_CHILD_RADIUS_M)
-            possible = any(
-                math.hypot(site.x - x, site.z - z) <= child_radius
-                and math.hypot(site.x - candidate.x, site.z - candidate.z) <= SIGHTLINE_MAX_M
+        if reference_id in child.sightline_to and not any(
+                math.hypot(site.x - candidate.x, site.z - candidate.z) <= SIGHTLINE_MAX_M
                 and survey.line_of_sight(site.x, site.z, candidate.x, candidate.z,
                                          eye_a=1.7, eye_b=8.0)
-                for site in (local_candidates or {}).get(child.id, [])
-            )
-            if not possible:
-                return False
+                for site in sites):
+            return False
     return True
 
 
@@ -588,6 +601,50 @@ def free_ground(s: ProvinceSurvey, seed: int, spacing_m: float = FREE_SPACING_M)
     return out
 
 
+def free_submerged(s: ProvinceSurvey, seed: int, zones: set[str],
+                   spacing_m: float = SUBMERGED_SPACING_M) -> list[Candidate]:
+    """Supply distinct underwater footprints, not just sparse scour landmarks.
+
+    The land lattice deliberately omits open water.  Without its water-side
+    counterpart, two related submerged records can have only two scour points
+    a few metres apart and become impossible under the immutable 30 m physical
+    clearance.  This deterministic lattice is considered only by water-suited
+    demands (ordinary records fail ``water_identity_ok`` at these points).
+    """
+    rng = np.random.default_rng([seed, zlib.crc32(b"free-submerged")])
+    anchors = s.anchor_points_m
+    pitch = spacing_m / s.grid_px_m
+    rows = np.arange(pitch / 2, s.grid_n - 1, pitch)
+    out: list[Candidate] = []
+    k = 0
+    for r0 in rows:
+        for c0 in rows:
+            row = int(min(s.grid_n - 1, max(0, round(r0 + (rng.random() - 0.5) * pitch * 0.5))))
+            col = int(min(s.grid_n - 1, max(0, round(c0 + (rng.random() - 0.5) * pitch * 0.5))))
+            zone = s.culture_names.get(int(s.culture[row, col]))
+            if zone not in zones:
+                continue
+            x = (col + 0.5) * s.grid_px_m
+            z = (row + 0.5) * s.grid_px_m
+            depth = _point_depth_m(s, x, z)
+            if depth + 1e-9 < SUBMERGED_MIN_DEPTH_M:
+                continue
+            rname = REGION_CLASSES[int(s.region_grid[row, col])][0]
+            k += 1
+            out.append(Candidate(
+                id=f"site.free.open-water-{k:04d}", kind="free-water",
+                landform="open-water", x=x, z=z, region=rname,
+                danger=int(s.danger[row, col]), zone=zone,
+                route_m=float(s.dist_to_route_m[row, col]), water_m=0.0,
+                depth_m=depth, slope=float(s.slope_grid[row, col]),
+                prominence=0.0, visibility=0.0, concealment=0.0,
+                water_relation=1.0,
+                anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
+                anchor_id=min(anchors, key=lambda name: math.hypot(
+                    x - anchors[name][0], z - anchors[name][1]))))
+    return out
+
+
 def _classify_free(s: ProvinceSurvey, row: int, col: int) -> str | None:
     rname = REGION_CLASSES[int(s.region_grid[row, col])][0]
     if rname in WATER_REGIONS or not s.land[row, col]:
@@ -656,15 +713,35 @@ def roadside_ground(s: ProvinceSurvey, seed: int) -> list[Candidate]:
 
 def attach_water_depth(s: ProvinceSurvey, cands: list[Candidate]) -> None:
     """Deepest published water within ~15 m of the candidate, so 'submerged'
-    can demand real depth rather than nearness to a shoreline."""
+    can demand real depth rather than nearness to a shoreline. Also measure
+    the full waterfront reach used by hull-class validation."""
     from scipy import ndimage
     deep = ndimage.maximum_filter(s.water_depth_m, size=9)
     n = s.water_depth_m.shape[0]
     px = s.extent_m / n
+    nav_deep = ndimage.maximum_filter(
+        s.water_depth_m, size=int(round(2 * NAVIGABLE_REACH_M / px)) + 1)
     for c in cands:
         row = min(n - 1, max(0, int(c.z / px)))
         col = min(n - 1, max(0, int(c.x / px)))
         c.depth_m = max(c.depth_m, float(deep[row, col]))
+        c.navigable_depth_m = float(nav_deep[row, col])
+
+
+def measure_candidate_water(s: ProvinceSurvey, c: Candidate) -> None:
+    """Single-candidate equivalent used by fixed anchors and blueprint pins."""
+    n = s.water_depth_m.shape[0]
+    px = s.extent_m / n
+    row = min(n - 1, max(0, int(c.z / px)))
+    col = min(n - 1, max(0, int(c.x / px)))
+    local_radius = 4
+    nav_radius = int(round(NAVIGABLE_REACH_M / px))
+    local = s.water_depth_m[max(0, row - local_radius):min(n, row + local_radius + 1),
+                            max(0, col - local_radius):min(n, col + local_radius + 1)]
+    nav = s.water_depth_m[max(0, row - nav_radius):min(n, row + nav_radius + 1),
+                          max(0, col - nav_radius):min(n, col + nav_radius + 1)]
+    c.depth_m = max(c.depth_m, float(local.max(initial=0.0)))
+    c.navigable_depth_m = float(nav.max(initial=0.0))
 
 
 def attach_anchor_ids(s: ProvinceSurvey, cands: list[Candidate]) -> None:
@@ -721,10 +798,49 @@ def ring_fit(d: Demand, c: Candidate, relaxed: bool) -> float | None:
     return 0.0
 
 
+def navigable_need_m(d: Demand) -> float:
+    hull = NAVIGABLE_HULL_CLASS.get(d.type, NAVIGABLE_DEFAULT_CLASS)
+    return HULL_CLASS_M[hull]
+
+
+def promised_navigable_depth_m(d: Demand) -> float:
+    """Deepest typed, executable carve promised at this place.
+
+    ``depthClass`` is resolved through the terrain compiler's closed policy,
+    rather than treated as decorative prose. Raise requests and untyped notes
+    cannot excuse shallow published water.
+    """
+    from . import terrain_requests
+    promised = 0.0
+    for request in d.record.get("terrainRequests") or []:
+        spec = terrain_requests.KIND_SPECS.get(request.get("kind"))
+        delivery = request.get("delivery")
+        if spec is None or spec.action != "carve" or not isinstance(delivery, dict):
+            continue
+        if delivery.get("depthM") is None and delivery.get("depthClass") is None:
+            continue
+        promised = max(promised, terrain_requests.delivery_delta(spec, delivery))
+    return promised
+
+
+def water_identity_ok(d: Demand, c: Candidate, survey: ProvinceSurvey) -> bool:
+    if d.hints.get("submerged"):
+        return c.depth_m + 1e-9 >= SUBMERGED_MIN_DEPTH_M
+    if _point_depth_m(survey, c.x, c.z) > OPEN_WATER_ALLOWANCE_M:
+        return False
+    if d.hints.get("navigable"):
+        need = navigable_need_m(d)
+        return (c.navigable_depth_m + 1e-9 >= need
+                or promised_navigable_depth_m(d) + 1e-9 >= need)
+    return True
+
+
 def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                relaxed: bool = False, survey: ProvinceSurvey | None = None,
                relax_region: bool = False, plotted_meta: dict[str, "Demand"] | None = None) -> tuple[float, dict[str, float]]:
     parts: dict[str, float] = {}
+    if survey is not None and not water_identity_ok(d, c, survey):
+        return -9.0, {"water-identity": -9.0}
     # named constraints are HARD: "within sight of X" needs a real line of sight,
     # "inside / part of X" needs to be at X. (Plot review 2026-09-03, finding 1.)
     for ref in d.sightline_to:
@@ -734,6 +850,10 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
                 return -9.0, {"sightline": -9.0}
             if survey is not None and not survey.line_of_sight(c.x, c.z, rx, rz, eye_a=1.7, eye_b=8.0):
                 return -9.0, {"sightline": -9.0}
+            other = plotted_meta.get(ref) if plotted_meta is not None else None
+            if other is not None and d.id in other.sightline_to and survey is not None \
+                    and not survey.line_of_sight(rx, rz, c.x, c.z, eye_a=1.7, eye_b=8.0):
+                return -9.0, {"mutual-sightline": -9.0}
             parts["sightline"] = 0.6
     if d.bound_to and d.bound_to in plotted:
         bx, bz = plotted[d.bound_to]
@@ -766,7 +886,7 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     if c.landform in d.landforms:
         rank = d.landforms.index(c.landform)
         parts["landform"] = 1.0 - 0.12 * rank
-    elif c.kind == "free":
+    elif c.kind in {"free", "free-water"}:
         # a record that wants a specific landform but is offered plain ground;
         # fine-tempo places care more about being on the way than about the landform
         parts["landform"] = (0.4 if d.layer == "fine-tempo" else 0.15) if not relaxed else 0.4
@@ -845,8 +965,6 @@ def score_pair(d: Demand, c: Candidate, plotted: dict[str, tuple[float, float]],
     if d.hints.get("commanding"):
         parts["commanding"] = 0.4 * c.visibility + 0.2 * c.prominence
     if d.hints.get("submerged"):
-        if c.depth_m < (0.4 if relaxed else 0.8):
-            return -9.0, {"submerged": -9.0}
         parts["submerged"] = 0.6
     if d.hints.get("navigable"):
         parts["navigable"] = 0.4 * c.water_relation
@@ -883,16 +1001,23 @@ def separation_ok(d: Demand, c: Candidate, plotted_d: dict[str, tuple[Demand, Ca
     for oid, (od, oc) in plotted_d.items():
         dist = math.hypot(c.x - oc.x, c.z - oc.z)
         related = oid in d.parents or d.id in od.parents or oid in d.sightline_to or oid == d.bound_to
-        if related:
-            need = RELATED_MIN_M
-        else:
-            need = COLLISION_MIN_M
+        # Every map dot represents a distinct footprint. Related records may
+        # cluster, but they have the same immutable collision floor as any
+        # other pair; their relationship is not a reason to demand extra empty
+        # ground or to permit overlap.
+        physical_need = COLLISION_MIN_M
+        semantic_need = 0.0
+        if not related:
             if od.type == d.type:
-                need = max(need, SAME_TYPE_LANDMARK_MIN_M if d.layer == "landmark" and od.layer == "landmark"
-                           else SAME_TYPE_MIN_M)
+                semantic_need = (SAME_TYPE_LANDMARK_MIN_M
+                                 if d.layer == "landmark" and od.layer == "landmark"
+                                 else SAME_TYPE_MIN_M)
                 if c.route_m <= 300.0 and oc.route_m <= 300.0:
-                    need = max(need, ROUTE_REPEAT_MIN_M)   # the same beat twice along one road
-        if dist < need * factor:
+                    semantic_need = max(semantic_need, ROUTE_REPEAT_MIN_M)
+        # Relaxation applies only to authored repetition. Distinct footprints
+        # and related dots retain their physical clearance at every stage.
+        need = max(physical_need, semantic_need * factor)
+        if dist < need:
             return False, oid
     return True, None
 
@@ -906,7 +1031,7 @@ def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candida
     row, col = s.grid_px(x, z)
     anchors = s.anchor_points_m
     wm = float(s.dist_to_water_m[row, col])
-    return Candidate(
+    candidate = Candidate(
         id=f"pinned.{rid.rsplit('.', 1)[-1]}", kind="pinned", landform="pinned (Part 6 meso siting)", x=x, z=z,
         region=REGION_CLASSES[int(s.region_grid[row, col])][0], danger=int(s.danger[row, col]),
         zone=s.culture_names.get(int(s.culture[row, col])),
@@ -915,6 +1040,8 @@ def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candida
         water_relation=max(0.0, 1.0 - wm / 300.0),
         anchor_m=min(math.hypot(x - ax, z - az) for ax, az in anchors.values()),
         anchor_id=min(anchors, key=lambda k: math.hypot(x - anchors[k][0], z - anchors[k][1])))
+    measure_candidate_water(s, candidate)
+    return candidate
 
 
 # --------------------------------------------------------------------------- #
@@ -929,9 +1056,8 @@ def pinned_candidate(s: ProvinceSurvey, rid: str, x: float, z: float) -> Candida
 # VALID under the current fields, and only the invalid ones are re-sited.
 # `--resolve-all` restores the from-scratch solve for that owner step.
 COMMITTED_SEED_KIND = "committed"
-SUBMERGED_MIN_DEPTH_M = 0.4      # score_pair's RELAXED `submerged` gate: the
-                                 # committed plot contains relaxed placements,
-                                 # so the seed must judge by the same bar
+SUBMERGED_MIN_DEPTH_M = 0.8      # physical identity: no relaxation stage may
+                                 # turn a submerged place into a shallow one
 # Standing water a DRY record tolerates at its own dot. Measured at the dot,
 # not over a reach: a marsh village is meant to have water beside it, but a
 # metre of it on the dot means the dot is now channel, not bank.
@@ -1034,57 +1160,13 @@ def committed_invalid_reason(d: Demand, c: Candidate, plotted: dict[str, tuple[f
     return None
 
 
-# Records whose committed cell the CURRENT fields invalidate, and which we
-# deliberately keep on their committed dot anyway until the owner-approved
-# re-plot (decision 0041). Every entry here is fallout of the Phase P water
-# rescue (2026-09-07): pools were filled, channels re-carved to the water
-# profile and the depth raster republished, so ground that was bank when the
-# plot was solved now reads as open water (and two sightlines and three binds
-# no longer clear the new terrain). Moving these dots now would move them
-# twice — the water pass is still running — and would strand the blueprints,
-# routes and quests already built on the committed plot.
-#
-# So this is a BACKLOG, not an excuse: each id is a place that needs a real
-# decision at the re-plot (move the dot, or re-write the record's identity to
-# match the water it now stands in). A record that goes wrong for a NEW reason
-# is not pinned and fails the test.
-RESITE_PINS: dict[str, str] = {
-    "place.dunmer-north.breathes-underneath": "pond fill (Phase P water rescue) put 1.6 m of standing water on the dot",
-    "place.dunmer-north.loriasel-caverns": "pond fill put 1.9 m of standing water on the dot",
-    "place.dunmer-north.the-charge-pond": "pond fill put 1.9 m of standing water on the dot",
-    "place.dunmer-north.the-tear-wreck": "pond fill put 1.5 m of standing water on the dot",
-    "place.dunmer-north.the-whispers-dig": "pond fill put 1.8 m of standing water on the dot",
-    "place.hist-heartland.beast-keeper-lizard-steed": "pond fill put 1.7 m of standing water on the dot",
-    "place.hist-heartland.dream-wallow-sap-pool": "pond fill put 2.8 m of standing water on the dot",
-    "place.hist-heartland.miregaunt-ward-approach": "bind to sealed-xanmeer-living broken by the re-carved channel between them",
-    "place.hist-heartland.nightbound-lightless": "pond fill put 1.9 m of standing water on the dot",
-    "place.hist-heartland.porter-relay-poling": "pond fill put 1.9 m of standing water on the dot",
-    "place.hist-heartland.sap-tapping-licensed": "sightline to harmed-hist-tapped blocked by the re-carved channel bank",
-    "place.hist-heartland.waterfall-chamber-root-fall": "pond fill put 1.1 m of standing water on the dot",
-    "place.hist-heartland.xal-meeruth-station": "channel re-carve put 4.3 m of water on the dot",
-    "place.imperial-fringe.glenbridge": "sightline to glenbridge-sermon-xanmeer blocked by the re-carved channel bank",
-    "place.imperial-penal-south.ledgered-blackguards": "pond fill put 3.0 m of standing water on the dot",
-    "place.imperial-penal-south.longmont": "pond fill put 1.5 m of standing water on the dot",
-    "place.imperial-penal-south.prison-born-refuge": "bind to longmont broken by longmont's own flooding",
-    "place.imperial-penal-south.rose-outworks": "pond fill put 2.3 m of standing water on the dot",
-    "place.mercantile-coast.alten-meerhleel": "channel re-carve put 4.6 m of water on the dot",
-    "place.mercantile-coast.lighter-flotilla": "pond fill put 1.3 m of standing water on the dot",
-    "place.mercantile-coast.whitebone-reef": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
-    "place.naga-kur-deeps.drifting-village-wet-mooring": "bind to leviathan-bone-field broken by the republished depth field",
-    "place.naga-kur-deeps.drowned-village-lake-deeps": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
-    "place.naga-kur-deeps.flooded-passage-tunnel-deeps": "submerged record: the republished depth reads 0.4 m, under the 0.8 m gate",
-    "place.naga-kur-deeps.legendary-deep-feather-serpent": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
-    "place.naga-kur-deeps.wreck-submerged-barge": "submerged record: the republished depth reads 0.0 m, under the 0.8 m gate",
-    "place.pirate-freeholds.channel-pirate-anchorage": "pond fill put 1.3 m of standing water on the dot",
-    "place.saxhleel-coast.mangrove-air-pocket": "submerged record: the republished depth reads 0.5 m, under the 0.8 m gate",
-}
-
-
 def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
                         files: dict[str, catalogue.RegionFile]) -> tuple[dict[str, dict], list[dict], list[dict]]:
     """{record id: pre-placed result} for every live record whose committed
-    cell is still valid, the list of records that must be re-sited, and the
-    list of invalidated records PINNED to their committed dot (`RESITE_PINS`)."""
+    cell is still valid, and the list of records that must be re-sited.
+
+    The third return value is retained as an empty compatibility field for the
+    report schema; invalid committed sites are never exempted."""
     committed = {rec["id"]: rec for rf in files.values() for rec in rf.places}
     # a record pinned by a Part 6 blueprint siting is never re-judged here:
     # `pin_overrides` is the authority for those dots (owner ruling, 0041)
@@ -1116,10 +1198,8 @@ def seed_from_committed(s: ProvinceSurvey, demands: list[Demand],
             else committed_invalid_reason(d, c, plotted, s)
         if why is not None:
             entry = {"id": d.id, "reason": why, "fromM": [round(c.x, 1), round(c.z, 1)]}
-            if d.id not in RESITE_PINS:
-                resite.append(entry)
-                continue
-            pinned.append({**entry, "pin": RESITE_PINS[d.id]})
+            resite.append(entry)
+            continue
         c.used_by = d.id
         seeded[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
                         "seeded": True, "demand": d,
@@ -1150,6 +1230,7 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                           danger=int(s.danger[s.grid_px(ax, az)]), zone=d.zone,
                           route_m=0.0, water_m=0.0, depth_m=0.0, slope=0.0, prominence=0.0,
                           visibility=0.0, concealment=0.0, water_relation=1.0, anchor_m=0.0)
+            measure_candidate_water(s, c)
             plotted_xy[d.id] = (ax, az)
             plotted_d[d.id] = (d, c)
             result[d.id] = {"candidate": c, "score": None, "parts": {}, "runners": [],
@@ -1171,14 +1252,33 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
 
     dependents: dict[str, list[Demand]] = {}
     for d in demands:
+        needs_reservation = (d.near_point is not None or d.hints.get("submerged")
+                             or d.hints.get("navigable") or d.id in (preplaced or {}))
+        if not needs_reservation:
+            continue
         for ref in set(d.sightline_to + ([d.bound_to] if d.bound_to else [])):
             dependents.setdefault(ref, []).append(d)
-    local_candidates = {
-        d.id: [c for c in cands
-               if math.hypot(c.x - d.near_point[0], c.z - d.near_point[1])
-               <= min(d.near_point[2] * NEAR_POINT_RELAX, THOMAS_CHILD_RADIUS_M)]
-        for d in demands if d.near_point is not None
-    }
+    dependent_ids = {d.id for rows in dependents.values() for d in rows}
+    local_candidates = {}
+    for d in demands:
+        if d.id not in dependent_ids:
+            continue
+        sites = [c for c in cands if water_identity_ok(d, c, s)]
+        if d.near_point is not None:
+            x, z, radius = d.near_point
+            sites = [c for c in sites if math.hypot(c.x - x, c.z - z)
+                     <= min(radius * NEAR_POINT_RELAX, THOMAS_CHILD_RADIUS_M)]
+        local_candidates[d.id] = sites
+    reserved_by: dict[str, set[str]] = {}
+    for d in demands:
+        if d.near_point is None:
+            continue
+        x, z, radius = d.near_point
+        for c in cands:
+            if math.hypot(c.x - x, c.z - z) <= min(
+                    radius * NEAR_POINT_RELAX, THOMAS_CHILD_RADIUS_M) \
+                    and water_identity_ok(d, c, s):
+                reserved_by.setdefault(c.id, set()).add(d.id)
 
     def _refs_of(rid: str) -> list[str]:
         o = by_did.get(rid)
@@ -1206,17 +1306,21 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                 # is gated against it
                 # ...and a named record that fell into the homeless batch is
                 # waited for too (2026-09-04: the Vellum Estate went homeless and
-                # its survey was plotted 2 km away before it existed); only the
-                # final stage places without the reference.
-                if not final and any(r in by_did and r not in plotted_xy
-                                     and not (d.id in _refs_of(r) and d.id < r) for r in refs):
+                # its survey was plotted 2 km away before it existed). Relaxation
+                # cannot erase a hard relationship to an unresolved reference.
+                if any(r in by_did and r not in plotted_xy
+                       and not (d.id in _refs_of(r) and d.id < r) for r in refs):
                     continue
                 meta = {oid: od for oid, (od, _oc) in plotted_d.items()}
                 for c in cands:
                     if c.used_by:
                         continue
+                    owners = reserved_by.get(c.id, set())
+                    if d.id not in owners and any(owner not in result and owner not in done
+                                                  for owner in owners):
+                        continue
                     if not reference_supports_local_dependents(
-                            d.id, c, dependents, relaxed, s, local_candidates):
+                            d.id, c, dependents, relaxed, s, local_candidates, plotted_xy):
                         continue
                     sc, parts = score_pair(d, c, plotted_xy, relaxed, s, relax_region, meta)
                     cluster_score = thomas_prior_score(d, c, thomas_prior, relaxed, plotted_xy)
@@ -1228,14 +1332,15 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
                         pairs.append((sc, d.id, c.id, parts))
             if not pairs:
                 break
-            # Hard localities have the smallest candidate domains.  Give them
-            # first refusal within the tier so flexible records cannot consume
-            # their few valid cells or the local hostile-share capacity.  This
-            # is the deterministic minimum-domain rule used by constraint
-            # solvers; score still orders peers with equal scarcity.
+            # Give genuinely scarce domains first refusal so flexible records
+            # cannot consume their few valid cells. This is deterministic
+            # minimum-remaining-values ordering; score orders equal domains.
+            domain_size: dict[str, int] = {}
+            for _score, demand_id, _candidate_id, _parts in pairs:
+                domain_size[demand_id] = domain_size.get(demand_id, 0) + 1
             pairs.sort(key=lambda p: (
                 0 if has_resolved_locality(by_did[p[1]], plotted_xy) else 1,
-                -p[0], p[1], p[2]))
+                domain_size[p[1]], -p[0], p[1], p[2]))
             placed_this_round = _take(pairs, pool, done, best_by_d, relaxed, sep_factor)
             if not placed_this_round:
                 break
@@ -1285,6 +1390,12 @@ def assign(demands: list[Demand], cands: list[Candidate], s: ProvinceSurvey,
             for ref in list(d.sightline_to) + ([d.bound_to] if d.bound_to else []):
                 if ref in eff_tier and eff_tier[ref] > eff_tier[d.id]:
                     eff_tier[d.id] = eff_tier[ref]
+                elif d.bound_to == ref and (d.hints.get("submerged") or d.hints.get("navigable")) \
+                        and ref in eff_tier and eff_tier[ref] < eff_tier[d.id]:
+                    # A water-bound child has a small physical domain around
+                    # its parent. Solve it in the parent's tier so intervening
+                    # flexible tiers cannot consume that waterfront.
+                    eff_tier[d.id] = eff_tier[ref]
     for tier in range(0, 5):
         pool = [d for d in demands if eff_tier[d.id] == tier and d.id not in result]
         left = run_tier(pool, relaxed=False, sep_factor=1.0, min_score=ACCEPT_SCORE)
@@ -1330,9 +1441,11 @@ def swap_pass(demands: list[Demand], result: dict[str, dict], meta: dict[str, De
     by_d = {d.id: d for d in demands}
     for rid, r in result.items():
         r.setdefault("demand", by_d[rid])
+    referenced = {ref for d in demands for ref in d.sightline_to + ([d.bound_to] if d.bound_to else [])}
     movable = [rid for rid, r in result.items() if r.get("score") is not None and by_d[rid].tier > 0
                and r["candidate"].kind not in ("anchor", "pinned", COMMITTED_SEED_KIND)
                and not r.get("seeded")
+               and rid not in referenced
                and not by_d[rid].bound_to and not by_d[rid].sightline_to]
     movable.sort(key=lambda rid: (result[rid]["score"], rid))
     worst = movable[: max(1, len(movable) // 4)]
@@ -1480,6 +1593,33 @@ def pin_overrides(result: dict[str, dict], cands: list[Candidate], s: ProvinceSu
         r["why"] = f"Pinned by the Part 6 meso siting ({o.get('source', 'blueprint')}): {o.get('why', '').rstrip('.')}."
         n += 1
     return n
+
+
+def preplace_overrides(demands: list[Demand], cands: list[Candidate],
+                       s: ProvinceSurvey) -> dict[str, dict]:
+    """Place blueprint pins before a deliberate resolve-all.
+
+    A whole-province replot must let collision, sightline and bind constraints
+    see authored fixed sitings. Seeded mode keeps its stability-preserving
+    post-solve application.
+    """
+    live = {d.id for d in demands}
+    out: dict[str, dict] = {}
+    for override in load_overrides():
+        rid = override["id"]
+        if rid not in live:
+            continue
+        x, z = s.uv_to_m(float(override["u"]), float(override["v"]))
+        c = pinned_candidate(s, rid, x, z)
+        c.used_by = rid
+        cands.append(c)
+        out[rid] = {
+            "candidate": c, "score": None, "parts": {}, "runners": [],
+            "why": (f"Pinned by the Part 6 meso siting "
+                    f"({override.get('source', 'blueprint')}): "
+                    f"{override.get('why', '').rstrip('.')}."),
+        }
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -1803,7 +1943,9 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
     recipes = load_recipes()
     demands, files = build_demand(recipes)
     scour = load_scour(s)
-    free = free_ground(s, seed) + roadside_ground(s, seed)
+    submerged_zones = {d.zone for d in demands if d.hints.get("submerged")}
+    free = (free_ground(s, seed) + roadside_ground(s, seed)
+            + free_submerged(s, seed, submerged_zones))
     cands = scour + free
     attach_zone_distances(s, cands)
     attach_water_depth(s, cands)
@@ -1814,10 +1956,13 @@ def solve(s: ProvinceSurvey, seed: int = DEFAULT_SEED, resolve_all: bool = False
     pinned: list[dict] = []
     if not resolve_all:
         seeded, resite, pinned = seed_from_committed(s, demands, files)
+    else:
+        seeded = preplace_overrides(demands, cands, s)
     result, unresolved = assign(demands, cands, s, s.anchor_points_m,
                                 preplaced=seeded, thomas_prior=thomas_prior)
     swap_pass(demands, result, plotted_meta_of(result), s, thomas_prior)
-    pin_overrides(result, cands, s)
+    if not resolve_all:
+        pin_overrides(result, cands, s)
     if unresolved:
         # A quality-improving swap or an authored blueprint pin can release
         # exactly the scarce local cell a previously homeless record needed.
@@ -1893,30 +2038,6 @@ def run(seed: int = DEFAULT_SEED, write: bool = True, report_only_to: Path | Non
 # identity IS a seagoing hull tying up (a port, a harbour city, a shipyard, the
 # head of navigation — the point where keels stop). Lilmoth is deliberately
 # canoe-class: its living is lighters BECAUSE hulls cannot berth (B5).
-HULL_CLASS_M = {"canoe": 0.6, "small-draft": 1.2, "keeled": 3.0}
-NAVIGABLE_HULL_CLASS = {
-    "port-town": "keeled", "legal-harbour-city": "keeled", "neutral-free-port": "keeled",
-    "shipyard": "keeled", "head-of-navigation": "keeled", "foreign-trading-station": "keeled",
-    "ferry-stage": "small-draft", "customs-town": "small-draft", "tradehouse": "small-draft",
-    "bonded-warehouse": "small-draft", "pirate-anchorage": "small-draft",
-    "salvage-divers-yard": "small-draft", "monsoon-barrier": "small-draft",
-}
-NAVIGABLE_DEFAULT_CLASS = "canoe"
-# a place's own waterfront: the deepest published water within this reach of the
-# dot. A port town's centre stands on land; its quay does not.
-NAVIGABLE_REACH_M = 150.0
-# Pinned violations (97 G5, 2026-09-05). Recorded, not moved: moving a plotted
-# record is `worldgen.apply_sitings`' job against a blueprint, never a
-# validation pass. Each line is the measured depth and what has to happen.
-NAVIGABLE_EXCEPTIONS = {
-    "place.hist-heartland.alten-markmont": "0.0 m within 150 m — the plot put a foreign trading station on dry ground; needs a re-plot or a re-write of its 'landing' identity",
-    "place.imperial-fringe.onkobra-ferry": "0.0 m within 150 m — a ferry stage whose Onkobra crossing the depth raster reads as marsh, not channel; re-plot onto the channel or re-class the crossing as a ford",
-    "place.imperial-fringe.rufios-landing": "0.0 m within 150 m — a ravine lair whose prose says 'deep water'; the honest fix is the prose, not the ground",
-    "place.pirate-freeholds.half-chartered-anchorage": "0.0 m within 150 m — an anchorage on dry ground; re-plot or re-write",
-    "place.saxhleel-coast.seafalls": "2.1 m within 150 m against 3.0 m for the head of navigation — arguably correct (a head of navigation is where the keels STOP), but the ladder cannot tell that from the type alone",
-}
-
-
 def navigable_violations(s: ProvinceSurvey) -> list[dict]:
     """97 A8/G5 over the COMMITTED plot: every record whose prose claims
     navigable water but whose deepest water within `NAVIGABLE_REACH_M` is under
@@ -1941,9 +2062,11 @@ def navigable_violations(s: ProvinceSurvey) -> list[dict]:
         depth = float(deep[row, col])
         hull = NAVIGABLE_HULL_CLASS.get(d.type, NAVIGABLE_DEFAULT_CLASS)
         need = HULL_CLASS_M[hull]
-        if depth + 1e-9 < need:
+        promised = promised_navigable_depth_m(d)
+        if depth + 1e-9 < need and promised + 1e-9 < need:
             out.append({"id": d.id, "type": d.type, "hullClass": hull,
-                        "needM": need, "depthM": round(depth, 2)})
+                        "needM": need, "depthM": round(depth, 2),
+                        "promisedDepthM": round(promised, 2)})
     return out
 
 
@@ -1982,7 +2105,7 @@ def main(argv: list[str] | None = None) -> None:
     ap.add_argument("--report-dir", type=Path, default=REPO_ROOT / "output" / "macro-plot")
     ap.add_argument("--validate", action="store_true",
                     help="97 G5: check every navigable-hint record against its hull class over the "
-                         "COMMITTED plot; exits non-zero on an unpinned violation")
+                         "COMMITTED plot; exits non-zero on any violation")
     ap.add_argument("--resolve-all", action="store_true",
                     help="owner's deliberate re-plot (decision 0041): solve from scratch instead of "
                          "seeding from the committed plot")
@@ -1993,13 +2116,11 @@ def main(argv: list[str] | None = None) -> None:
     if a.validate:
         bad = navigable_violations(ProvinceSurvey())
         for v in bad:
-            pin = NAVIGABLE_EXCEPTIONS.get(v["id"])
             print(f"[macro-plot] 97 A8/G5 {v['id']} ({v['type']}, {v['hullClass']}): "
                   f"{v['depthM']} m within {NAVIGABLE_REACH_M:.0f} m, needs {v['needM']} m"
-                  f"{' — PINNED: ' + pin if pin else ''}")
-        unpinned = [v for v in bad if v["id"] not in NAVIGABLE_EXCEPTIONS]
-        print(f"[macro-plot] {len(bad)} navigable-depth violations, {len(unpinned)} unpinned")
-        raise SystemExit(1 if unpinned else 0)
+                  )
+        print(f"[macro-plot] {len(bad)} navigable-depth violations")
+        raise SystemExit(1 if bad else 0)
     if a.report_only:
         stats = report_only()
         print(f"[macro-plot] Clark-Evans median R {stats['median']}; "
