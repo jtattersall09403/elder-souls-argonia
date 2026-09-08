@@ -67,6 +67,7 @@ from scipy import ndimage
 from . import blueprint as bp_mod
 from . import catalogue
 from .compile_minor_routes import OUT_MD, StepGraph, trace
+from .hydrology_intent import load_authored_minor_waterways
 from .routes import boat_cost_surface
 from .site_fields import ProvinceSurvey
 
@@ -292,6 +293,7 @@ class SolveContext:
     seed: np.ndarray
     depth: np.ndarray
     docks: dict[str, list[dict]]
+    authored: dict[str, dict]
     graph: StepGraph
 
 
@@ -300,6 +302,9 @@ def solve_context() -> SolveContext:
     files = catalogue.load_region_files()
     cost = cost_surface(s)
     nav = navigable(s)
+    authored_rows, authored_errors = load_authored_minor_waterways()
+    if authored_errors:
+        raise ValueError("invalid authored minor waterways: " + "; ".join(authored_errors))
     return SolveContext(
         survey=s,
         files=files,
@@ -307,8 +312,58 @@ def solve_context() -> SolveContext:
         seed=seed_network(s),
         depth=centre_depth_grid(s),
         docks=blueprint_docks(),
+        authored={row["id"]: row for row in authored_rows},
         graph=StepGraph(cost, s.grid_px_m),
     )
+
+
+def _authored_path(s: ProvinceSurvey, authored: dict) -> list[tuple[int, int]]:
+    """Raster cells for an authored centreline, from its berth to the network."""
+    points = list(reversed(authored["pointsM"]))
+    cells: list[tuple[int, int]] = []
+    for a, b in zip(points, points[1:]):
+        ar, ac = s.grid_px(float(a[0]), float(a[1]))
+        br, bc = s.grid_px(float(b[0]), float(b[1]))
+        steps = max(abs(br - ar), abs(bc - ac), 1)
+        for i in range(steps + 1):
+            cell = (int(round(ac + (bc - ac) * i / steps)),
+                    int(round(ar + (br - ar) * i / steps)))
+            if not cells or cells[-1] != cell:
+                cells.append(cell)
+    return cells
+
+
+def _authored_dock(authored: dict, docks: list[dict], s: ProvinceSurvey) -> dict:
+    terminal = tuple(float(v) for v in authored["terminalM"])
+    matches = [dock for dock in docks
+               if isinstance(dock.get("position"), list) and len(dock["position"]) == 2
+               and np.hypot(*(np.asarray(s.uv_to_m(*dock["position"])) - terminal)) <= 0.05]
+    if len(matches) != 1:
+        raise ValueError(f"{authored['id']}: authored terminal must match exactly one blueprint "
+                         f"dock; found {len(matches)}")
+    return matches[0]
+
+
+def _authored_channel(authored: dict, rec: dict, batch: int,
+                      s: ProvinceSurvey, docks: list[dict]) -> tuple[dict, list[tuple[int, int]]]:
+    """Publish the source centreline instead of inventing a second A* route."""
+    dock = _authored_dock(authored, docks, s)
+    path = _authored_path(s, authored)
+    points = [list(map(float, point)) for point in reversed(authored["pointsM"])]
+    length_m = sum(np.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
+    terminal = [round(float(v), 3) for v in authored["terminalM"]]
+    return ({
+        "id": authored["id"], "kind": "channel", "class": "channel",
+        "from": rec["id"], "to": "network", "batch": batch,
+        "lengthKm": round(float(length_m) / 1000.0, 3),
+        "px": [[int(c), int(r)] for c, r in path],
+        # Exact metre geometry is authoritative. `px` remains for the studio's
+        # map layer and network raster, but may not move the authored line.
+        "pointsM": points,
+        "dockId": dock["id"], "fit": dock.get("fit") or "to-water",
+        "endsAtM": terminal, "terminalId": authored.get("terminalId"),
+        "authoredGeometryDigest": authored["contentDigest"],
+    }, path)
 
 
 def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
@@ -336,6 +391,14 @@ def _solve(*, fit_docks: bool, context: SolveContext | None = None) -> dict:
             targets = channel_targets(rec, docks_by_place.get(rec["id"], []), s,
                                       fit_docks=fit_docks)
             for cid, (x, z), dock in targets:
+                authored = context.authored.get(cid)
+                if authored is not None:
+                    channel, path = _authored_channel(
+                        authored, rec, bi, s, docks_by_place.get(rec["id"], []))
+                    for c, r in path:
+                        new_cells[r, c] = True
+                    channels.append(channel)
+                    continue
                 row, col = s.grid_px(float(x), float(z))
                 fit = dock_fit(dock, s, depth_grid) if dock else None
                 need = HULL_DEPTH_M.get((dock or {}).get("hullClass"), 0.0) if fit == "to-water" else 0.0

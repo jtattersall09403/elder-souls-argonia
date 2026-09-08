@@ -126,9 +126,12 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
     minor_water = province / "waterways-minor.json"
     if minor_water.exists():
         for ch in json.loads(minor_water.read_text())["channels"]:
-            pts = _px_to_m(ch["px"], px_m)
+            exact_points = ch.get("pointsM")
+            pts = (tuple((float(point[0]), float(point[1])) for point in exact_points)
+                   if isinstance(exact_points, list) and len(exact_points) >= 2
+                   else _px_to_m(ch["px"], px_m))
             end = ch.get("endsAtM")
-            if isinstance(end, list) and len(end) == 2 and pts:
+            if not exact_points and isinstance(end, list) and len(end) == 2 and pts:
                 # the channel was solved to a blueprint BERTH (`dockId`): px[0]
                 # is only the raster cell the dock falls in, so put the exact
                 # berth back on the head of the line — the same treatment a

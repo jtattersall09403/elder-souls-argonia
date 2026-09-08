@@ -42,6 +42,35 @@ def test_minor_water_repair_marker_is_content_addressed():
     assert mw.repair_marker(changed, fitted)["naturalSha256"] != marker["naturalSha256"]
 
 
+def test_authored_waterway_is_published_at_its_exact_terminal_and_line():
+    class Survey:
+        grid_px_m = 5.0
+
+        @staticmethod
+        def grid_px(x, z):
+            return int(z // 5), int(x // 5)
+
+        @staticmethod
+        def uv_to_m(u, v):
+            return u * 100.0, v * 100.0
+
+    authored = {
+        "id": "waterway.test.place", "pointsM": [[80.0, 70.0], [60.0, 50.0]],
+        "terminalM": [60.0, 50.0], "terminalId": "terminal.test.dock",
+        "contentDigest": "abc123",
+    }
+    rec = {"id": "place.test.place"}
+    dock = {"id": "dock.test.place", "position": [0.6, 0.5], "fit": "to-water"}
+
+    channel, path = mw._authored_channel(authored, rec, 2, Survey(), [dock])
+
+    assert channel["pointsM"] == [[60.0, 50.0], [80.0, 70.0]]
+    assert channel["pointsM"][0] == channel["endsAtM"] == authored["terminalM"]
+    assert channel["dockId"] == dock["id"]
+    assert channel["authoredGeometryDigest"] == "abc123"
+    assert path[0] == (12, 10) and path[-1] == (16, 14)
+
+
 def _doc():
     return json.loads(mw.OUT_JSON.read_text())
 
