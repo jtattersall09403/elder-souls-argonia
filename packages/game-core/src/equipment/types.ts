@@ -120,8 +120,6 @@ export type WeaponStats = {
 export type RangedStats = BowPhysics & {
   /** Seconds from string at rest to full draw, before player stats. */
   drawSeconds: number;
-  /** Seconds spent nocking the next arrow before a draw can begin. */
-  nockSeconds: number;
   /** Seconds of follow-through after a release. */
   releaseRecoverySeconds: number;
   /** Stamina per second while drawing and while holding at draw. */
@@ -133,9 +131,12 @@ export type RangedStats = BowPhysics & {
   minimumReleaseFraction: number;
 };
 
+/** Actor-level time to take an arrow from the quiver and fit it to the string. */
+export const BASE_BOW_NOCK_SECONDS = 1.7;
+
 /** Nock-to-nock seconds for one aimed shot at full draw, excluding aiming. */
 export function shotCycleSeconds(ranged: RangedStats) {
-  return ranged.nockSeconds + ranged.drawSeconds + ranged.releaseRecoverySeconds;
+  return BASE_BOW_NOCK_SECONDS + ranged.drawSeconds + ranged.releaseRecoverySeconds;
 }
 
 export type ShieldStats = {

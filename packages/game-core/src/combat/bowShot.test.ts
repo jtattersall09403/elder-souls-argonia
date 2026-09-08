@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { WEAPON_CLASSES } from "../equipment/weaponClasses";
-import type { RangedStats } from "../equipment/types";
+import { BASE_BOW_NOCK_SECONDS, type RangedStats } from "../equipment/types";
 import { NEUTRAL_RANGED_MODIFIERS } from "./ballistics";
 import {
   AIM_RAISE_SECONDS,
@@ -95,14 +95,26 @@ describe("nocking belongs to the draw command", () => {
     expect(recovered.phase).toBe("ready");
     expect(nockedArrowVisible(recovered)).toBe(false);
   });
+
+  it("takes the same time with every bow class", () => {
+    const ready = run(IDLE_BOW_CYCLE, (_, frame) => frame === 0 ? TAP : NOTHING, 600).cycle;
+    const shortbow = WEAPON_CLASSES.shortbow.ranged!;
+    const warbow = WEAPON_CLASSES.warbow.ranged!;
+    const started = { ...ready, phase: "nocking" as const, phaseTime: 0 };
+    const before = BASE_BOW_NOCK_SECONDS - 0.01;
+    expect(advanceBowCycle(started, HOLDING, shortbow, 100, before).cycle.phase).toBe("nocking");
+    expect(advanceBowCycle(started, HOLDING, warbow, 100, before).cycle.phase).toBe("nocking");
+    expect(advanceBowCycle(started, HOLDING, shortbow, 100, BASE_BOW_NOCK_SECONDS).cycle.phase).toBe("drawing");
+    expect(advanceBowCycle(started, HOLDING, warbow, 100, BASE_BOW_NOCK_SECONDS).cycle.phase).toBe("drawing");
+  });
 });
 
 describe("drawing", () => {
   /** Raise, wait out the nock, then hold the button for `holdSeconds`. */
   function drawFor(holdSeconds: number, stamina = 1000) {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    return run(ready, (_, frame) => (frame < (holdSeconds + BOW.nockSeconds + 1 / 60) * 60 ? HOLDING : NOTHING),
-      Math.round((holdSeconds + BOW.nockSeconds) * 60) + 3, stamina);
+    return run(ready, (_, frame) => (frame < (holdSeconds + BASE_BOW_NOCK_SECONDS + 1 / 60) * 60 ? HOLDING : NOTHING),
+      Math.round((holdSeconds + BASE_BOW_NOCK_SECONDS) * 60) + 3, stamina);
   }
 
   it("reaches full draw in the bow's own draw time and no sooner", () => {
@@ -143,7 +155,7 @@ describe("drawing", () => {
 describe("the cycle after a shot", () => {
   it("makes the archer nock again before the next draw", () => {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    const holdFrames = Math.round((BOW.nockSeconds + BOW.drawSeconds + 0.2) * 60);
+    const holdFrames = Math.round((BASE_BOW_NOCK_SECONDS + BOW.drawSeconds + 0.2) * 60);
     const shot = run(ready, (_, frame) => (frame < holdFrames ? HOLDING : NOTHING), holdFrames + 2);
     expect(shot.shots).toHaveLength(1);
     expect(shot.cycle.phase).toBe("loosed");
@@ -151,7 +163,7 @@ describe("the cycle after a shot", () => {
     // Holding the button straight through the follow-through must not fire
     // again the instant the arrow is on the string.
     const straightOn = run(shot.cycle, HOLDING,
-      Math.round((BOW.releaseRecoverySeconds + BOW.nockSeconds + BOW.drawSeconds) * 60));
+      Math.round((BOW.releaseRecoverySeconds + BASE_BOW_NOCK_SECONDS + BOW.drawSeconds) * 60));
     expect(straightOn.shots).toHaveLength(0);
   });
 
@@ -175,16 +187,16 @@ describe("the cycle after a shot", () => {
     }
     expect(fired).toBe(true);
     // Raise, nock, draw: within the longbow's 4-6 s band plus the raise.
-    expect(seconds).toBeGreaterThan(BOW.nockSeconds + BOW.drawSeconds);
-    expect(seconds).toBeLessThan(BOW.nockSeconds + BOW.drawSeconds + AIM_RAISE_SECONDS + 0.4);
+    expect(seconds).toBeGreaterThan(BASE_BOW_NOCK_SECONDS + BOW.drawSeconds);
+    expect(seconds).toBeLessThan(BASE_BOW_NOCK_SECONDS + BOW.drawSeconds + AIM_RAISE_SECONDS + 0.4);
   });
 });
 
 describe("player-stat hooks", () => {
   function drawWith(modifiers: typeof NEUTRAL_RANGED_MODIFIERS, holdSeconds: number) {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
-    return run(ready, (_, frame) => (frame < (holdSeconds + BOW.nockSeconds + 1 / 60) * 60 ? HOLDING : NOTHING),
-      Math.round((holdSeconds + BOW.nockSeconds) * 60) + 3, 1000, modifiers);
+    return run(ready, (_, frame) => (frame < (holdSeconds + BASE_BOW_NOCK_SECONDS + 1 / 60) * 60 ? HOLDING : NOTHING),
+      Math.round((holdSeconds + BASE_BOW_NOCK_SECONDS) * 60) + 3, 1000, modifiers);
   }
 
   it("lets a faster archer reach full draw sooner", () => {
@@ -193,22 +205,20 @@ describe("player-stat hooks", () => {
     expect(quick.shots[0].drawFraction).toBeGreaterThan(normal.shots[0].drawFraction);
   });
 
-  it("lets a faster archer finish nocking sooner without changing the bow's base time", () => {
-    const authoredNockSeconds = BOW.nockSeconds;
+  it("lets a faster archer finish the shared nocking motion sooner", () => {
     const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
     const started = advanceBowCycle(ready, HOLDING, BOW, 1000, 0).cycle;
-    const normal = advanceBowCycle(started, HOLDING, BOW, 1000, BOW.nockSeconds * 0.6);
+    const normal = advanceBowCycle(started, HOLDING, BOW, 1000, BASE_BOW_NOCK_SECONDS * 0.6);
     const quick = advanceBowCycle(
       started,
       HOLDING,
       BOW,
       1000,
-      BOW.nockSeconds * 0.6,
+      BASE_BOW_NOCK_SECONDS * 0.6,
       { ...NEUTRAL_RANGED_MODIFIERS, nockSpeed: 2 },
     );
     expect(normal.cycle.phase).toBe("nocking");
     expect(quick.cycle.phase).toBe("drawing");
-    expect(BOW.nockSeconds).toBe(authoredNockSeconds);
   });
 
   it("caps a weak archer short of full draw however long they hold", () => {
@@ -246,8 +256,9 @@ describe("death outranks the aim", () => {
 
 describe("the shaft comes out of the quiver", () => {
   it("shows nothing on the string until the hand has been back for it", () => {
-    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.1 })).toBe(false);
-    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: 0.5 })).toBe(true);
+    const pickupTime = BASE_BOW_NOCK_SECONDS * NOCK_REVEAL_FRACTION;
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: pickupTime - 0.01 })).toBe(false);
+    expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "nocking", phaseTime: pickupTime })).toBe(true);
     expect(nockedArrowVisible({ ...IDLE_BOW_CYCLE, phase: "ready" })).toBe(false);
     expect(nockedArrowVisible({
       ...IDLE_BOW_CYCLE, phase: "drawing", drawFraction: NOCK_REVEAL_FRACTION * 0.5,
@@ -272,10 +283,14 @@ describe("moving with the bow up", () => {
   } as const;
 
   it("keeps the nock pose and arrow reveal aligned at different nocking speeds", () => {
-    const cycle = { ...IDLE_BOW_CYCLE, phase: "nocking" as const, phaseTime: BOW.nockSeconds * 0.2 / 2 };
-    expect(nockedArrowVisible(cycle, BOW.nockSeconds, 2)).toBe(true);
-    expect(bowPose(cycle, PROFILE, "still", BOW.nockSeconds, 2).clipTime)
-      .toBeCloseTo(NOCK_SOURCE_END_SECONDS * 0.2, 6);
+    const cycle = {
+      ...IDLE_BOW_CYCLE,
+      phase: "nocking" as const,
+      phaseTime: BASE_BOW_NOCK_SECONDS * NOCK_REVEAL_FRACTION / 2,
+    };
+    expect(nockedArrowVisible(cycle, 2)).toBe(true);
+    expect(bowPose(cycle, PROFILE, "still", 2).clipTime)
+      .toBeCloseTo(NOCK_SOURCE_END_SECONDS * NOCK_REVEAL_FRACTION, 6);
   });
 
   it("strides on the drawn set while the bow is raised", () => {

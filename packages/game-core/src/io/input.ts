@@ -272,10 +272,10 @@ export class InputController {
 
     this.current.set("light", active("light") || (!this.desktopMeleeInput && this.mouse.has(0))
       || this.desktopLightPulse || button(SWITCH_GAMEPAD.R_LIGHT));
-    this.current.set("heavy", active("heavy") || this.keys.has("KeyR")
+    this.current.set("heavy", active("heavy")
       || this.desktopPrimaryGesture === "heavy" || button(SWITCH_GAMEPAD.ZR_HEAVY));
     this.current.set("guard", active("guard") || this.mouse.has(2) || button(SWITCH_GAMEPAD.L_GUARD));
-    this.current.set("parry", active("parry") || this.keys.has("KeyF") || this.mouse.has(1)
+    this.current.set("parry", active("parry")
       || this.desktopPrimaryGesture === "parry" || button(SWITCH_GAMEPAD.ZL_PARRY));
     this.current.set("dodge", active("dodge") || this.keys.has("Space") || button(SWITCH_GAMEPAD.B_BOTTOM_DODGE));
     this.current.set("lockOn", active("lockOn") || this.keys.has("KeyQ") || button(SWITCH_GAMEPAD.R_STICK_LOCK));

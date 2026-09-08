@@ -94,6 +94,14 @@ describe("desktop melee mouse gestures", () => {
     expect(controller.pressed("light")).toBe(false);
   });
 
+  it("leaves the former middle-mouse parry binding free", () => {
+    const controller = new InputController();
+    controller.setDesktopMeleeInput(true);
+    controller.setDesktopMouseButton(1, true, 1000);
+    controller.update(1000);
+    expect(controller.held("parry")).toBe(false);
+  });
+
   it("keeps direct primary press and hold for bows", () => {
     const controller = new InputController();
     controller.setDesktopMeleeInput(false);

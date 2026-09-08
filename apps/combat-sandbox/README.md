@@ -27,9 +27,9 @@ The Pages build is published from `main`. Desktop and mobile browsers load the s
 | Move | WASD or arrow keys | Left virtual stick | Left stick |
 | Camera | Drag the right side | Drag the right side | Right stick |
 | Light attack | Release Mouse 1 before 0.3 s | R button | R |
-| Heavy attack | Hold Mouse 1 for 0.3 s (or R key) | ZR button | ZR |
+| Heavy attack | Hold Mouse 1 for 0.3 s | ZR button | ZR |
 | Guard | Mouse 2 | L button | L |
-| Parry | Hold Mouse 2, then press Mouse 1 (or F/Mouse 3) | ZL button | ZL |
+| Parry | Hold Mouse 2, then press Mouse 1 | ZL button | ZL |
 | Dodge | Tap Space | Tap B | Tap B |
 | Sprint | Hold Space while moving | Hold B while moving | Hold B while moving |
 | Jump | Left or right Shift | A button | A button |

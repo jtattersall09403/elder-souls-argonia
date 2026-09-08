@@ -29,7 +29,7 @@ import {
 import { enemyGuardTacticalDuration, resolveEnemyGuardVisualStep } from "@elder-souls/game-core/combat/enemyGuard";
 import { createHitShake, sampleHitShake, type HitShakeImpulse, type HitShakeKind } from "@elder-souls/game-core/fx/cameraShake";
 import { isHeavyAttack, resolveHit } from "@elder-souls/game-core/combat/resolveHit";
-import { createFighter, resetFighter, type EnemyMode, type Fighter, type FighterState } from "@elder-souls/game-core/combat/fighter";
+import { createFighter, resetFighter, type EnemyMode, type Fighter } from "@elder-souls/game-core/combat/fighter";
 import { CombatEventBus } from "@elder-souls/game-core/combat/events";
 import {
   ACTION_DURATIONS,
@@ -175,6 +175,7 @@ import {
 } from "@elder-souls/game-core/validation/visualFrameMarker";
 import { createActorVisualProbe, type ActorVisualProbe } from "@elder-souls/game-core/validation/actorVisualMetrics";
 import { OverlapCounter } from "@elder-souls/game-core/combat/overlaps";
+import { canBackstabState } from "@elder-souls/game-core/combat/backstab";
 import { FirstPersonBow, HAS_SKELETAL_HURTBOX, PlayerBody, SkeletalHurtbox, SkyrimFighter, useStanceCapsule, type FirstPersonBowState, type HurtboxBone } from "@elder-souls/character";
 import { Arena } from "./Arena";
 
@@ -836,14 +837,6 @@ function createEnemyRuntime(
 }
 
 /**
- * Enemy states in which a rear light press opens a backstab. One set, used by
- * both the initiation check and the debug zone indicator, so they cannot drift.
- */
-const BACKSTAB_ELIGIBLE_STATES: ReadonlySet<FighterState> = new Set<FighterState>([
-  "watching", "approach", "strafe", "recover", "heal",
-]);
-
-/**
  * Debug-only ground sector showing where a backstab can be initiated from:
  * the annular rear cone `isBackstabPosition` tests, drawn from the same
  * exported constants. Green while standing in it against an eligible enemy.
@@ -884,7 +877,7 @@ function BackstabZoneIndicator({ runtime, player }: { runtime: EnemyRuntime; pla
       ? { x: handle.currPos.x - runtime.position.x, z: handle.currPos.z - runtime.position.z }
       : null;
     const inZone = Boolean(offset)
-      && BACKSTAB_ELIGIBLE_STATES.has(f.state)
+      && canBackstabState(f.state)
       && isBackstabPosition(
         { x: Math.sin(f.yaw), z: Math.cos(f.yaw) },
         offset!,
@@ -2407,10 +2400,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           ? playerNockWorld.current
           : tmp.current.aimRayFallback.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z);
         const sight = bowSight({ nock: nockOrigin, point, actor: playerPos,
-          cameraYaw: cameraYaw.current,
-          ranged, arrow: playerQuiver?.arrow.physics,
-          surface: Boolean(crosshairHit || skin),
-          gravityScale: useGameStore.getState().arrowGravityScale });
+          cameraYaw: cameraYaw.current });
         const converged = sight.direction;
         playerAimDirection.current.set(converged.x, converged.y, converged.z);
         tmp.current.aimDirection.copy(playerAimDirection.current);
@@ -2425,7 +2415,6 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       if (bowStep.shot) playerBowRelease.current += 1;
       playerNockVisible.current = nockedArrowVisible(
         bowStep.cycle,
-        ranged.nockSeconds,
         rangedModifiers.nockSpeed,
       );
       {
@@ -2474,7 +2463,6 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           bowStep.cycle,
           bowAnimations,
           bowTravelFor(intent.move, moveMagnitude),
-          ranged.nockSeconds,
           rangedModifiers.nockSpeed,
         );
         if (pose.animation !== playerAnimationCommand.current.state) {
@@ -2541,7 +2529,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
           bestRiposte = dist;
           riposteVictim = e;
         }
-        const behind = BACKSTAB_ELIGIBLE_STATES.has(e.fighter.state)
+        const behind = canBackstabState(e.fighter.state)
           && isBackstabPosition(
             { x: Math.sin(e.fighter.yaw), z: Math.cos(e.fighter.yaw) },
             { x: playerPos.x - e.position.x, z: playerPos.z - e.position.z },

@@ -201,7 +201,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
       // ~65 lbf. A bow a hunter carries all day and can draw from a crouch.
       peakDrawForceN: 289, powerStrokeMeters: 0.52, drawCurve: "recurve",
       peakEfficiency: 0.94, virtualMassKg: 0.022,
-      drawSeconds: 1.5, nockSeconds: 1.2, releaseRecoverySeconds: 0.5,
+      drawSeconds: 1.5, releaseRecoverySeconds: 0.5,
       drawStaminaPerSecond: 9, minimumReleaseFraction: 0.18,
     },
   },
@@ -216,7 +216,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
       // ~105 lbf, the middle of the surviving Mary Rose range.
       peakDrawForceN: 467, powerStrokeMeters: 0.58, drawCurve: "linear",
       peakEfficiency: 0.95, virtualMassKg: 0.031,
-      drawSeconds: 2.4, nockSeconds: 1.7, releaseRecoverySeconds: 0.7,
+      drawSeconds: 2.4, releaseRecoverySeconds: 0.7,
       drawStaminaPerSecond: 14, minimumReleaseFraction: 0.2,
     },
   },
@@ -232,7 +232,7 @@ export const WEAPON_CLASSES: Readonly<Record<WeaponClass, WeaponClassProfile>> =
       // calibrated against. With a 96 g war shaft it throws 53 m/s.
       peakDrawForceN: 667, powerStrokeMeters: 0.6, drawCurve: "linear",
       peakEfficiency: 0.95, virtualMassKg: 0.0391,
-      drawSeconds: 3.4, nockSeconds: 2.2, releaseRecoverySeconds: 0.9,
+      drawSeconds: 3.4, releaseRecoverySeconds: 0.9,
       drawStaminaPerSecond: 21, minimumReleaseFraction: 0.22,
     },
   },

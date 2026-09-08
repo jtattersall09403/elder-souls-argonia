@@ -6,7 +6,11 @@ import {
 } from "./ballistics";
 import { clipPlaybackDuration } from "../anim/animationManifest";
 import type { AnimationState } from "../core/types";
-import type { BowAnimationProfile, RangedStats } from "../equipment/types";
+import {
+  BASE_BOW_NOCK_SECONDS,
+  type BowAnimationProfile,
+  type RangedStats,
+} from "../equipment/types";
 
 /**
  * The shooting cycle: raise, nock, draw, hold, loose.
@@ -137,7 +141,7 @@ export function advanceBowCycle(
     }
 
     case "nocking": {
-      const nockDuration = ranged.nockSeconds / Math.max(modifiers.nockSpeed, 1e-3);
+      const nockDuration = BASE_BOW_NOCK_SECONDS / Math.max(modifiers.nockSpeed, 1e-3);
       if (phaseTime < nockDuration) {
         return { ...step, cycle: { ...cycle, phaseTime, drawArmed: armed(cycle, input) } };
       }
@@ -233,7 +237,6 @@ export function bowPose(
   bow: BowAnimationProfile,
   /** Which way the archer is walking, if at all. */
   travel: BowTravel = STANDING,
-  nockSeconds = 1.7,
   nockSpeed = 1,
 ): {
   animation: AnimationState;
@@ -255,7 +258,7 @@ export function bowPose(
   }
   switch (cycle.phase) {
     case "nocking":
-      return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime * Math.max(nockSpeed, 1e-3) / nockSeconds) * NOCK_SOURCE_END_SECONDS };
+      return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime * Math.max(nockSpeed, 1e-3) / BASE_BOW_NOCK_SECONDS) * NOCK_SOURCE_END_SECONDS };
     case "ready":
       return { animation: bow.idle, clipTime: null };
     case "drawing":
@@ -290,24 +293,24 @@ export function bowLocomotionClip(
  * How far into the draw the shaft has been pulled clear of the quiver.
  *
  * The vanilla `bow_drawlight` clip spends its first third reaching over the
- * shoulder; before that the hand is nowhere near the string, and an arrow
- * shown there hangs in mid-air. Measured against the clip: the hand arrives at
- * the string at ~0.35 of the draw.
+ * shoulder; before that the hand has not reached the quiver, and a visible
+ * arrow hangs in mid-air. The pickup happens at about 0.35 of this segment.
  */
-export const NOCK_REVEAL_FRACTION = 0.18;
+export const NOCK_REVEAL_FRACTION = 0.35;
 export const NOCK_SOURCE_END_SECONDS = 0.95;
 
 /**
  * Whether a shaft should be visible on the string.
  *
- * Only during the pull, and only once the hand has been to the quiver and
- * back. A bow held ready shows an empty string, as Skyrim's does — the arrow
- * the owner saw in the idle hand was this returning true for `ready`.
+ * Only during the pull, and only once the hand has reached the quiver and
+ * begun drawing the shaft out. A bow held ready shows an empty string, as
+ * Skyrim's does — the arrow the owner saw in the idle hand was this returning
+ * true for `ready`.
  */
-export function nockedArrowVisible(cycle: BowCycle, nockSeconds = 1.7, nockSpeed = 1) {
+export function nockedArrowVisible(cycle: BowCycle, nockSpeed = 1) {
   return cycle.phase === "drawing"
     || (cycle.phase === "nocking"
-      && cycle.phaseTime >= nockSeconds / Math.max(nockSpeed, 1e-3) * NOCK_REVEAL_FRACTION);
+      && cycle.phaseTime >= BASE_BOW_NOCK_SECONDS / Math.max(nockSpeed, 1e-3) * NOCK_REVEAL_FRACTION);
 }
 
 /** How the archer is moving, as the locomotion set names it. */
