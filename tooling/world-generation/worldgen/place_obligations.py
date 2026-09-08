@@ -43,7 +43,7 @@ PHASE11_EXEMPLAR_PLACE_IDS = frozenset({
 # catalogue and make a newly introduced field fail until its owner classifies
 # it here.
 PROVENANCE_FIELDS = {
-    "aliases", "confidence", "id", "name", "namingRule", "provenance", "sources",
+    "aliases", "confidence", "id", "name", "namingRule", "proseRefs", "provenance", "sources",
 }
 PLOT_FIELDS = {
     "candidatesConsidered", "complexityBudget", "complexityJustification",

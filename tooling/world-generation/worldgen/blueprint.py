@@ -83,6 +83,12 @@ Blueprint fields (module 40 §30 + the 0041 forward-compat contracts):
                     ids in this blueprint]}. It repeats no catalogue prose;
                     `worldgen.place_obligations` expands every semantic leaf,
                     validates the refs, and makes an omitted promise HARD.
+  proseRefs[]       optional exact name bindings (B9b): {sourcePath, exactly
+                    one typed questRef / occupantRef / placeRef / routeRef /
+                    serviceRef / itemRef / factionRef / socketRef}. A row says
+                    which registered thing one prose field names; it does not
+                    assert a relation, local service, presence or delivery.
+                    `worldgen.prose_links` rejects stale and misplaced rows.
   approaches[]      REQUIRED (>=1; >=2 for M3+): how a WALKING player arrives
                     — {id approach.<slug>.<name>, mode (walk|boat|swim),
                     fromRouteId or fromDirection, firstSeen (a landmark or

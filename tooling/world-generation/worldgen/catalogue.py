@@ -23,6 +23,11 @@ rest become required as `workflow` advances):
                   (active|ruined|abandoned|seasonal|drowned|contested|cut)
   provenance      *provenance (canon-named|lore-implied|quest-required|
                   geography-derived|density-fill), *sources [..], *confidence
+  prose links     proseRefs? [{sourcePath, exactly one typed questRef /
+                  occupantRef / placeRef / routeRef / serviceRef / itemRef /
+                  factionRef / socketRef}]. This identifies a name in one
+                  exact prose field; it makes no relationship or delivery
+                  claim. `worldgen.prose_links` validates both ends.
   why             *why {founding, siteAdvantages, occupantsMotive, pressures,
                   wouldChangeIf} — short form at derivation
   siting          *sitingPrefs {regionClasses, hardConstraints, preferences,

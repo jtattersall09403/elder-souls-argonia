@@ -35,6 +35,7 @@ def test_every_catalogue_field_has_exactly_one_contract_policy():
 def test_provenance_and_plot_mechanics_do_not_emit_obligations():
     rec = {"id": "place.test.small", "name": "Small", "sources": ["source"],
            "provenance": "lore-implied", "confidence": "high",
+           "proseRefs": [{"sourcePath": "why.pressures", "placeRef": "place.test.other"}],
            "position": {"u": 0.2, "v": 0.3}, "workflow": "authored"}
     bp = {"id": rec["id"]}
     rows, errors = po.build_obligations(rec, bp)

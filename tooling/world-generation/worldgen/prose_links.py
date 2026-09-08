@@ -12,6 +12,8 @@ Run from ``tooling/world-generation``::
 
 from __future__ import annotations
 
+import argparse
+import copy
 import json
 import re
 import sys
@@ -36,6 +38,7 @@ REF_FIELD = {
     "route": "routeRef", "service": "serviceRef", "item": "itemRef",
     "faction": "factionRef", "socket": "socketRef",
 }
+REF_KIND = {field: kind for kind, field in REF_FIELD.items()}
 SEVERITY = {kind: ("warn" if kind == "item" else "hard") for kind in REF_FIELD}
 
 
@@ -55,6 +58,7 @@ class Finding:
     entity_id: str
     name: str
     message: str
+    rule: str = "missing-ref"
 
     @property
     def key(self) -> str:
@@ -190,7 +194,11 @@ def _entity_index(entities: list[Entity] | tuple[Entity, ...]) -> EntityIndex:
 def typed_refs(record: dict, entities: list[Entity] | tuple[Entity, ...],
                index: EntityIndex | None = None) -> dict[str, set[str]]:
     index = index or _entity_index(entities)
-    refs = {kind: set(_values(record, field)) for kind, field in REF_FIELD.items()}
+    # proseRefs are deliberately field-local.  Letting the recursive generic
+    # scan see them would allow a link for why.founding to satisfy the same
+    # name in vibe.materials, defeating the sourcePath contract.
+    native_record = {key: value for key, value in record.items() if key != "proseRefs"}
+    refs = {kind: set(_values(native_record, field)) for kind, field in REF_FIELD.items()}
 
     def add(value) -> None:
         """Add a value only after its structural field established typing."""
@@ -258,6 +266,99 @@ def typed_refs(record: dict, entities: list[Entity] | tuple[Entity, ...],
                          for token in re.findall(r"\b[A-Z]{2}\d{2}\b", ownership)
                          if token.casefold() in index.quest_codes)
     return refs
+
+
+def _invalid_prose_ref(record_id: str, field: str, message: str,
+                       entity_class: str = "prose-ref",
+                       entity_id: str = "<invalid>") -> Finding:
+    return Finding(
+        "hard", record_id, field, entity_class, entity_id, entity_id,
+        message, "invalid-prose-ref",
+    )
+
+
+def _prose_ref_index(record: dict, prose: list[tuple[str, str]],
+                     index: EntityIndex) -> tuple[dict[str, dict[str, set[str]]], list[Finding]]:
+    """Validate and index exact prose-field reference annotations.
+
+    A proseRef says only which registered entity a name denotes.  It does not
+    turn a passing mention into a relation, local service, faction presence or
+    delivered item.  Each row therefore binds one canonical typed reference to
+    one prose sourcePath, and becomes invalid if either side changes.
+    """
+    rows = record.get("proseRefs")
+    if rows is None:
+        return {}, []
+    record_id = str(record.get("id") or "<record>")
+    if not isinstance(rows, list):
+        return {}, [_invalid_prose_ref(
+            record_id, "proseRefs", "proseRefs must be a list of sourcePath-bound typed references")]
+
+    prose_by_field = dict(prose)
+    entity_tuple = index.entities
+    out: dict[str, dict[str, set[str]]] = {}
+    findings: list[Finding] = []
+    seen: set[tuple[str, str, str]] = set()
+    mentions_by_field: dict[str, set[tuple[str, str]]] = {}
+    allowed = {"sourcePath", *REF_KIND}
+    for i, row in enumerate(rows):
+        row_field = f"proseRefs[{i}]"
+        if not isinstance(row, dict):
+            findings.append(_invalid_prose_ref(
+                record_id, row_field, f"{row_field} must be an object"))
+            continue
+        extra = sorted(set(row) - allowed)
+        if extra:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field, f"{row_field} has unknown fields {extra}"))
+            continue
+        source_path = row.get("sourcePath")
+        typed_fields = [field for field in REF_KIND if field in row]
+        if not isinstance(source_path, str) or not source_path:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field, f"{row_field}.sourcePath must name one prose field"))
+            continue
+        if source_path not in prose_by_field:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field,
+                f"{row_field}.sourcePath {source_path!r} does not resolve to current prose"))
+            continue
+        if len(typed_fields) != 1:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field,
+                f"{row_field} must carry exactly one of {sorted(REF_KIND)}"))
+            continue
+        typed_field = typed_fields[0]
+        kind = REF_KIND[typed_field]
+        entity_id = row[typed_field]
+        if not isinstance(entity_id, str) or entity_id not in index.known_by_kind[kind]:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field,
+                f"{row_field}.{typed_field} {entity_id!r} does not resolve in the {kind} vocabulary",
+                kind, str(entity_id)))
+            continue
+        key = (source_path, kind, entity_id)
+        if key in seen:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field,
+                f"{row_field} duplicates {source_path} -> {typed_field} {entity_id!r}",
+                kind, entity_id))
+            continue
+        seen.add(key)
+        if source_path not in mentions_by_field:
+            mentions_by_field[source_path] = {
+                (entity.kind, entity.id)
+                for entity, _offset in _mentioned_entities(prose_by_field[source_path], entity_tuple)
+            }
+        mentions = mentions_by_field[source_path]
+        if (kind, entity_id) not in mentions:
+            findings.append(_invalid_prose_ref(
+                record_id, row_field,
+                f"{row_field} points at {source_path!r}, but that field does not name {entity_id!r}",
+                kind, entity_id))
+            continue
+        out.setdefault(source_path, {}).setdefault(kind, set()).add(entity_id)
+    return out, findings
 
 
 @lru_cache(maxsize=8)
@@ -341,8 +442,10 @@ def check_record(record: dict, prose: list[tuple[str, str]], entities: list[Enti
                  index: EntityIndex | None = None) -> Result:
     index = index or _entity_index(entities)
     record_id = str(record.get("id") or "<record>")
+    prose = list(prose)
     refs = typed_refs(record, entities, index)
-    findings: list[Finding] = []
+    prose_refs, prose_ref_findings = _prose_ref_index(record, prose, index)
+    findings: list[Finding] = list(prose_ref_findings)
     mentions = Counter()
     entity_tuple = tuple(entities)
     seen_missing: set[tuple[str, str, str]] = set()
@@ -377,7 +480,8 @@ def check_record(record: dict, prose: list[tuple[str, str]], entities: list[Enti
             continue
         seen_mentions.add(mention_key)
         mentions[entity.kind] += 1
-        if entity.id not in refs[entity.kind]:
+        field_refs = prose_refs.get(field, {}).get(entity.kind, set())
+        if entity.id not in refs[entity.kind] and entity.id not in field_refs:
             missing_key = (field, entity.kind, entity.id)
             if missing_key in seen_missing:
                 continue
@@ -386,17 +490,20 @@ def check_record(record: dict, prose: list[tuple[str, str]], entities: list[Enti
             findings.append(Finding(
                 severity, record_id, field, entity.kind, entity.id, entity.name,
                 f"names {entity.name!r} but carries no {REF_FIELD[entity.kind]} {entity.id!r}",
+                "missing-ref",
             ))
     # Reverse direction: absence from prose is fine. A declared generic ref is
     # nevertheless contradictory when it cannot resolve in its closed domain.
+    native_record = {key: value for key, value in record.items() if key != "proseRefs"}
     for kind, field in REF_FIELD.items():
         if kind == "item":  # Phase 13's item register is deliberately open.
             continue
-        for ref in sorted(set(_values(record, field))):
+        for ref in sorted(set(_values(native_record, field))):
             if ref not in index.known_by_kind[kind]:
                 findings.append(Finding(
                     "hard", record_id, field, kind, ref, ref,
                     f"{field} {ref!r} does not resolve in the {kind} vocabulary",
+                    "unknown-ref",
                 ))
     return Result(findings, mentions, 1)
 
@@ -497,7 +604,146 @@ def debt_document(result: Result) -> dict:
     }
 
 
-def main() -> int:
+def migrate_record_prose_refs(record: dict, prose: list[tuple[str, str]],
+                              entities: list[Entity],
+                              index: EntityIndex | None = None) -> tuple[dict, int]:
+    """Return a copy with deterministic, field-local rows for every missing ref.
+
+    The migration consumes only checker findings produced by the high-precision
+    matcher.  It never guesses a relation, service delivery, faction presence,
+    occupant role or item location.  Existing malformed proseRefs stop the
+    migration so an authored contradiction cannot be papered over.
+    """
+    index = index or _entity_index(entities)
+    prose = list(prose)
+    result = check_record(record, prose, entities, index)
+    invalid = [finding for finding in result.findings
+               if finding.rule == "invalid-prose-ref"]
+    if invalid:
+        raise ValueError("; ".join(finding.message for finding in invalid))
+
+    rows = copy.deepcopy(record.get("proseRefs") or [])
+    existing = {
+        (row["sourcePath"], REF_KIND[field], row[field])
+        for row in rows
+        for field in REF_KIND
+        if field in row
+    }
+    additions = 0
+    for finding in result.findings:
+        if finding.rule != "missing-ref":
+            continue
+        key = (finding.field, finding.entity_class, finding.entity_id)
+        if key in existing:
+            continue
+        rows.append({
+            "sourcePath": finding.field,
+            REF_FIELD[finding.entity_class]: finding.entity_id,
+        })
+        existing.add(key)
+        additions += 1
+
+    def row_key(row: dict) -> tuple[str, str, str]:
+        typed_field = next(field for field in REF_KIND if field in row)
+        return str(row["sourcePath"]), typed_field, str(row[typed_field])
+
+    migrated = copy.deepcopy(record)
+    if rows:
+        migrated["proseRefs"] = sorted(rows, key=row_key)
+    return migrated, additions
+
+
+@dataclass(frozen=True)
+class MigrationFile:
+    path: Path
+    document: dict
+    additions: int
+
+
+def build_migration_plan() -> list[MigrationFile]:
+    """Build the complete catalogue/blueprint migration without writing it."""
+    catalogue_docs = [
+        (path, json.loads(path.read_text(encoding="utf-8")))
+        for path in sorted(catalogue.CATALOGUE_DIR.glob("places-*.json"))
+    ]
+    blueprint_docs = [
+        (path, json.loads(path.read_text(encoding="utf-8")))
+        for path in sorted(BLUEPRINTS.glob("place.*.json"))
+    ]
+    records = [
+        record for _path, document in catalogue_docs
+        for record in document.get("places") or []
+        if record.get("status") not in {"cut", "deferred"}
+    ]
+    blueprints = [document.get("blueprint", {}) for _path, document in blueprint_docs]
+    entities = load_entities(records, blueprints)
+    index = _entity_index(entities)
+    plan: list[MigrationFile] = []
+
+    for path, original in catalogue_docs:
+        document = copy.deepcopy(original)
+        additions = 0
+        migrated_places = []
+        for record in document.get("places") or []:
+            if record.get("status") in {"cut", "deferred"}:
+                migrated_places.append(record)
+                continue
+            migrated, count = migrate_record_prose_refs(
+                record, list(lint_prose.iter_catalogue_prose(record)), entities, index)
+            migrated_places.append(migrated)
+            additions += count
+        document["places"] = migrated_places
+        if additions:
+            plan.append(MigrationFile(path, document, additions))
+
+    for path, original in blueprint_docs:
+        document = copy.deepcopy(original)
+        blueprint = document.get("blueprint", {})
+        migrated, additions = migrate_record_prose_refs(
+            blueprint, _blueprint_prose(blueprint), entities, index)
+        if additions:
+            document["blueprint"] = migrated
+            plan.append(MigrationFile(path, document, additions))
+    return plan
+
+
+def migrate_repository(*, apply: bool = False) -> tuple[list[MigrationFile], int]:
+    """Plan, and optionally apply, the deterministic live-source migration."""
+    plan = build_migration_plan()
+    if apply:
+        # The entire plan is validated before the first file is replaced.
+        for change in plan:
+            catalogue.dump_json(change.path, change.document)
+    return plan, sum(change.additions for change in plan)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--migrate-prose-refs", action="store_true",
+        help="plan exact sourcePath-bound links for all current HARD and WARN findings",
+    )
+    parser.add_argument(
+        "--apply", action="store_true",
+        help="write a --migrate-prose-refs plan after every source has validated",
+    )
+    args = parser.parse_args(argv)
+    if args.apply and not args.migrate_prose_refs:
+        parser.error("--apply requires --migrate-prose-refs")
+    if args.migrate_prose_refs:
+        try:
+            plan, additions = migrate_repository(apply=args.apply)
+        except ValueError as exc:
+            print(f"proseRefs migration refused: {exc}", file=sys.stderr)
+            return 1
+        verb = "added" if args.apply else "would add"
+        print(f"{verb} {additions} exact proseRefs across {len(plan)} files")
+        for change in plan:
+            print(f"{change.path.relative_to(catalogue.REPO_ROOT)}: {change.additions}")
+        if not args.apply:
+            print("dry run only; pass --apply to write the validated plan")
+        return 0
+
     result = check_all()
     print(f"{result.records} records; " + ", ".join(
         f"{kind} {counts['mentions']} mentions/{counts['hard']} hard/{counts['warn']} warn"
