@@ -1,0 +1,154 @@
+"""Focused execution tests for the G11 typed terrain-request raster engine."""
+
+from __future__ import annotations
+
+import copy
+import hashlib
+import json
+
+import numpy as np
+import pytest
+
+from . import terrain_request_raster as raster
+from . import terrain_requests as tr
+
+
+EXTENT = 40.0
+MPS = 1.0
+
+
+def _record(kind: str, index: int, *, u: float = 0.5, v: float = 0.5,
+            radius: float = 8.0) -> dict:
+    return {
+        "id": f"place.test.{index:02d}.{kind}",
+        "position": {"u": u, "v": v},
+        "terrainRequests": [{"kind": kind, "radiusM": radius, "note": f"Test {kind}."}],
+    }
+
+
+def _plan(records: list[dict]) -> dict:
+    plan, errors = tr.build_plan(records, extent_m=EXTENT)
+    assert not errors
+    return plan
+
+
+def _height() -> np.ndarray:
+    z, x = np.mgrid[0:41, 0:41]
+    return (100.0 + x * 0.12 - z * 0.21 + np.sin(x / 5.0) * 0.03).astype(np.float32)
+
+
+def _rehash_plan(plan: dict) -> None:
+    payload = {key: plan[key] for key in
+               ("extentM", "sourceDigest", "policyDigest", "requests", "operations")}
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    plan["planDigest"] = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def test_all_fifteen_profiles_execute_with_distinct_signed_footprints_and_exact_manifest():
+    records = [_record(kind, index) for index, kind in enumerate(sorted(tr.KIND_SPECS))]
+    plan = _plan(records)
+    wet = np.zeros((41, 41), dtype=bool)
+    wet[:, 3] = True
+    flow = np.zeros((41, 41, 2), dtype=np.float32)
+    flow[..., 1] = 1.0
+
+    result, manifest, stats = raster.apply_plan(
+        _height(), plan, MPS, flow_vectors=flow, wet_mask=wet)
+
+    assert result.shape == (41, 41)
+    assert np.all(np.isfinite(result))
+    assert len(stats) == len(tr.KIND_SPECS) == 15
+    assert len({row["profile"] for row in stats}) == 15
+    assert len({row["deltaSha256"] for row in stats}) == 15
+    assert all(row["affectedSamples"] > 0 and row["meanAbsDeltaM"] > 0 for row in stats)
+    for row in stats:
+        if row["action"] == "carve":
+            assert row["minDeltaM"] < 0 and row["maxDeltaM"] <= 0
+        else:
+            assert row["maxDeltaM"] > 0 and row["minDeltaM"] >= 0
+    assert not tr.verify_fulfillment_manifest(plan, manifest)
+    assert {row["requestId"] for row in manifest["fulfillments"]} == {
+        row["id"] for row in plan["requests"]
+    }
+    sources = {row["axisSource"] for row in stats}
+    assert {"none", "local-gradient", "local-contour", "local-flow",
+            "nearest-water-path"} <= sources
+
+
+def test_edge_operation_is_clipped_and_never_wraps_to_opposite_edge():
+    plan = _plan([_record("dry-rise", 0, u=0.0, v=0.0, radius=10.0)])
+    source = np.zeros((41, 41), dtype=np.float32)
+    result, _manifest, stats = raster.apply_plan(source, plan, MPS)
+
+    assert stats[0]["sampleBounds"] == {"minX": 0, "minZ": 0, "maxX": 10, "maxZ": 10}
+    assert result[0, 0] > 0
+    assert np.all(result[11:, :] == 0)
+    assert np.all(result[:, 11:] == 0)
+    assert result[-1, -1] == 0
+
+
+def test_application_is_deterministic_does_not_mutate_inputs_and_falls_back_without_fields():
+    plan = _plan([_record("ford", 0), _record("cut", 1), _record("narrows", 2)])
+    source = _height()
+    untouched = source.copy()
+
+    first, first_manifest, first_stats = raster.apply_plan(source, plan, MPS)
+    second, second_manifest, second_stats = raster.apply_plan(source, plan, MPS)
+
+    np.testing.assert_array_equal(source, untouched)
+    np.testing.assert_array_equal(first, second)
+    assert first_manifest == second_manifest
+    assert first_stats == second_stats
+    assert {row["axisSource"] for row in first_stats} == {"local-gradient-fallback"}
+
+
+@pytest.mark.parametrize("mutation, expected", [
+    ("missing", "missing planned operations"),
+    ("stale", "stale unreferenced operations"),
+])
+def test_missing_and_stale_operations_fail_before_raster_application(mutation: str, expected: str):
+    plan = _plan([_record("knoll", 0)])
+    if mutation == "missing":
+        plan["operations"] = []
+    else:
+        stale = copy.deepcopy(plan["operations"][0])
+        stale["id"] = "terrain-op.stale"
+        plan["operations"].append(stale)
+    _rehash_plan(plan)
+    source = _height()
+    untouched = source.copy()
+
+    with pytest.raises(raster.TerrainRequestRasterError, match=expected):
+        raster.apply_plan(source, plan, MPS)
+    np.testing.assert_array_equal(source, untouched)
+
+
+def test_changed_operation_document_and_bad_raster_contracts_fail_closed():
+    plan = _plan([_record("pool", 0)])
+    stale_policy = copy.deepcopy(plan)
+    stale_policy["operations"][0]["parameters"]["deltaM"] += 1.0
+    with pytest.raises(raster.TerrainRequestRasterError, match="planDigest"):
+        raster.apply_plan(_height(), stale_policy, MPS)
+
+    with pytest.raises(raster.TerrainRequestRasterError, match="lattice extent"):
+        raster.apply_plan(np.zeros((40, 41), dtype=np.float32), plan, MPS)
+    with pytest.raises(raster.TerrainRequestRasterError, match="flow_vectors"):
+        raster.apply_plan(_height(), plan, MPS, flow_vectors=np.zeros((41, 41, 3)))
+    with pytest.raises(raster.TerrainRequestRasterError, match="wet_mask"):
+        raster.apply_plan(_height(), plan, MPS, wet_mask=np.zeros((41, 41), dtype=np.uint8))
+
+
+def test_flow_and_nearest_water_axes_are_resolved_from_supplied_fields():
+    plan = _plan([_record("ford", 0), _record("cut", 1)])
+    flow = np.zeros((41, 41, 2), dtype=np.float32)
+    flow[..., 1] = 4.0
+    wet = np.zeros((41, 41), dtype=bool)
+    wet[20, 4] = True
+
+    _result, _manifest, stats = raster.apply_plan(
+        _height(), plan, MPS, flow_vectors=flow, wet_mask=wet)
+    by_profile = {row["profile"]: row for row in stats}
+    assert by_profile["channel-bed-sill"]["axis"] == [0.0, 1.0]
+    assert by_profile["channel-bed-sill"]["axisSource"] == "local-flow"
+    assert by_profile["channel-link"]["axis"] == [-1.0, 0.0]
+    assert by_profile["channel-link"]["axisSource"] == "nearest-water-path"
