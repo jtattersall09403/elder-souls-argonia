@@ -37,6 +37,7 @@ from typing import Iterable
 from .bsa import BSAArchive
 from .build import BUILD_DIR, TOOLCHAIN, _expand, _referenced_textures, to_windows
 from .models import ROOT
+from .placement_metadata import apply_placement_metadata
 
 KIT_SCRIPT = Path(__file__).resolve().parent / "blender" / "build_kit.py"
 CONFIG = Path(__file__).resolve().parent / "config" / "kits"
@@ -675,6 +676,7 @@ def build(kit_id: str, vault: Path) -> dict:
     summary["texturesMissing"] = notes["texturesMissing"]
     summary["texturesSubstituted"] = notes["texturesSubstituted"]
     summary["alphaModes"] = set_alpha_modes(output_glb, summary)
+    apply_placement_metadata(summary, kit["id"])
     manifest_path = output_glb.with_suffix(".kit.json")
     manifest_path.write_text(json.dumps(summary, indent=1) + "\n")
     # Post-pass: mould tree collision to the real wood geometry (oriented

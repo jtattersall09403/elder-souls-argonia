@@ -26,6 +26,8 @@ import struct
 import sys
 from pathlib import Path
 
+from .placement_metadata import validate_asset_placement
+
 
 def _vet_glb_materials(glb_path: Path) -> list[str]:
     """Flag levels whose materials will render as untextured/solid slabs.
@@ -90,6 +92,7 @@ def vet(manifest_path: str) -> list[str]:
     if glb.exists():
         findings += _vet_glb_materials(glb)
     for asset in manifest["assets"]:
+        findings += validate_asset_placement(asset)
         sx, sy, sz = asset["sizeM"]
         ox, oy, oz = asset.get("originOffsetM", [0.0, 0.0, 0.0])
         # oz = origin height above the model's bottom (originOffsetM = -bboxMin)

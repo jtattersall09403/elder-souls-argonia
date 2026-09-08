@@ -25,9 +25,21 @@ python3 -m pipeline.validate --character dunmer-combat   # structural GLB check
 
 python3 -m pipeline.build_kit --kit settlement-mud-v1    # -> output/kits/<kit>.glb
 python3 -m pipeline.vet_kit   output/kits/settlement-mud-v1.kit.json
+python3 -m pipeline.placement_metadata                    # used-asset coverage gate
 
 python3 -m pipeline.vault_inventory                      # -> world/sources/assets/vault-inventory.md
 ```
+
+Every kit manifest asset carries a required `placement` object. The builder
+measures only `groundContactOffsetM` from the final transformed LOD0 bounds;
+`anchorMode`, burial, cap, and slope allowance come from the reviewed
+`pipeline/config/placement-policies.json` inventory. `vet_kit` rejects absent,
+invalid, or stale metadata. The coverage gate derives its asset set from all
+five authored place blueprints, authored route structures, and any available
+compiled settlement/route outputs. It fails unresolved physical references or
+a used kit asset without an asset-level policy, while reporting explicitly
+expanded family references separately. This keeps a new blueprint promise from
+quietly falling through a fixed historical asset-count list.
 
 Kit asset roots are named `es|<10 hex of sha1(asset id)>|<last 40 chars of the
 id>` — short enough to survive Blender's 63-character object-name limit, unique
