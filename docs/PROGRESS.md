@@ -55,7 +55,7 @@ first, then open only the master-plan sections the active phase needs.
 | 10c — stats and progression implementation (module 76; decision 0019) | todo | Implements workstream S in `packages/game-core` incl. the semantic-authoring compiler (ladder refs → numbers; extended to loot/traps). After 10b, **before packet freeze and Phase 13** — content in 11/12 authors semantically without it (0019 4th amendment; 0034) |
 | 13 — fauna ecology, encounters, fixed loot (exemplar-first; flora half moved to Phase 10 by 0034) | todo | |
 | 12b — province soundscape (module 57; polish tier — 0023, hardened by 0034) | todo | runs in the P window **after 13** (authors creature calls/ambience *from* the ecology data); must land before 14 locks budgets; may pull earlier |
-| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | **Water round 2, 2026-09-08 ([0047](decisions/0047-water-one-physical-model.md))**: owner review of the 2026-09-07 rescue failed most inland sites; root causes measured (levels painted by masks not floods, half-texel raster misregistration, season lift gated on dry-season data, coarse-cell carving, slopes declared waterfalls). Delivering: `worldgen/channels.py` + full-res flood compile + signed-depth raster, whitewater strips / cliff-only falls / terrain-cut shorelines / visible river flow in the renderer, invariant tests + one-session probe, vegetation rollout record, **terrain-chain speed-up (incremental stage skipping + parallel chunk stages; runs after the current chain completes)**, Water Pro transfers (0047 study §6), waterfall rework on vanilla textures + stack rules (0047 addendum). Sea, caustics, underwater, interaction and the deep basin passed and are kept. Remaining water rows in [polish-backlog.md](polish-backlog.md) |
+| P — general polish pass (rolling backlog, added 2026-08-28) | in progress | **Water round 2, 2026-09-08 ([0047](decisions/0047-water-one-physical-model.md))**: owner review of the 2026-09-07 rescue failed most inland sites; root causes measured (levels painted by masks not floods, half-texel raster misregistration, season lift gated on dry-season data, coarse-cell carving, slopes declared waterfalls). Delivering: `worldgen/channels.py` + full-res flood compile + signed-depth raster, whitewater strips / cliff-only falls / terrain-cut shorelines / visible river flow in the renderer, invariant tests + one-session probe, vegetation rollout record, **terrain-chain speed-up (incremental stage skipping + parallel chunk stages; runs after the current chain completes)**, Water Pro transfers (0047 study §6), waterfall rework on vanilla textures + stack rules (0047 addendum). Sea, caustics, underwater, interaction and the deep basin passed and are kept. **Delivered 2026-09-08 evening** — every item measured in the [evidence ledger](research/rendering/water-round2-evidence.md): a sea-draining river reaches the sea, a fall may land in a body, a fall must be a cliff (16 cascades, all 74–88°, two ramps demoted to strips), plunge pools scoured by their own drop, hovering edges 32 → 1 (pinned), the two gates that could not fail on their own defect rewritten, the probe teleports (17 sites in 31 min), route structures fully authored (38 sentences), and the prose linter's two blind surfaces closed. Remaining water rows in [polish-backlog.md](polish-backlog.md); the authored local-hydrology contract is the next water piece |
 | 14 — streaming and deployment | todo | |
 | 15 — rollout by region packet (recast from "expansion by watershed" by 0034) | todo | opens by drafting the packet roadmap for owner sign-off |
 
@@ -63,10 +63,39 @@ first, then open only the master-plan sections the active phase needs.
 
 Measured weapon reach is ready for deployed playtest (0040, round 13). Bow corrections remain delivered.
 
-**Water round 2 (2026-09-08) is in progress; resumable.** If the session was cut off,
-a fresh agent starts at [water-handoff.md](research/rendering/water-handoff.md) (state table,
-how to resume the compiler, the fit pass, the close-out order, the owner's item list). Nothing
-for the owner to check until the close-out lands.
+**Water round 2 (2026-09-08) — ready for your review.** Every number behind
+the list below is in the [evidence ledger](research/rendering/water-round2-evidence.md);
+a fresh agent picks up from [water-handoff.md](research/rendering/water-handoff.md).
+Open each link in the deployed studio
+(`https://jtattersall09403.github.io/elder-souls-argonia/studio/`) and tell me
+what looks wrong — one line per bullet is plenty.
+
+- **The waterfalls are the big change.** Two of the twenty "waterfalls" were
+  really long 51° hillsides wearing a curtain of water, including the biggest
+  one in the province. Those are steep white-water streams now, and all
+  sixteen that remain are genuine cliffs. Look at the gorge fall from its
+  foot: [x=2.53 z=0.32](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=2.53&z=0.32&t=12:00)
+- **Waterfalls now land in a real pool.** The 131 m gorge fall was landing in
+  1.4 m of water, because the check only ever asked for 1 m. Its pool is 7.9 m
+  deep now, and every pool is sized by the fall above it. Same link as above —
+  swim into it.
+- **A new waterfall into the sea, on the west coast.** A river used to stop
+  35 m up on a cliff with the sea below it. [x=0.16 z=4.61](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=orbit&x=0.16&z=4.61&t=12:00)
+- **The two sites you said were slopes, not falls.** No waterfall is drawn
+  within 500 m of either now. [x=1.827 z=2.093](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=fly&x=1.827&z=2.093&alt=54&yaw=270&pitch=4&t=12:00)
+  and [x=1.816 z=1.810](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=fly&x=1.816&z=1.810&alt=84&yaw=311&pitch=3&t=12:00)
+- **The marsh season.** Dry at the start, then add `&wet=1` for the wet season
+  and `&wet=-1` for a drought, and watch the water spread and drain rather
+  than a flat plate rising: [x=1.50 z=5.28](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=1.50&z=5.28&t=09:00)
+- **The lowland river** — flat to both banks, moving, with foam drifting
+  downstream: [x=1.85 z=4.89](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=1.85&z=4.89&t=12:00)
+- **The beach.** Your coordinate is genuinely 40 cm out into the sea — the
+  sand starts 20 m east. Try [x=6.12 z=1.638](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=character&x=6.12&z=1.638&t=12:00)
+  and tell me whether that reads as a beach.
+- **The sea is worth a fresh look even though it passed last time** — the wave
+  model was replaced during this round. Calm and storm:
+  [x=6.16 z=5.07](https://jtattersall09403.github.io/elder-souls-argonia/studio/?view=fly3d&cam=orbit&x=6.16&z=5.07&t=12:00)
+  and the same link with `&w=storm`.
 
 - **Phase 11 — review of 2026-09-07 closed; next: "Phase 11: deliver gap-filling plan".**
   Both passes are recorded in [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
