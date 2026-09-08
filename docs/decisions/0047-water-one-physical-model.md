@@ -122,6 +122,43 @@ Delivery: PROGRESS.md Phase P row; handoff in
 [research/rendering/water-handoff.md](../research/rendering/water-handoff.md);
 probe and runbook in [water-quality.md](../research/rendering/water-quality.md).
 
+## Addendum 2026-09-08 (evening) — four rules the model was missing
+
+Delivered after the round-2 compile was otherwise green. Each was found by
+measuring the shipped data, not by reading the code; the numbers and the
+owner-facing evidence are in
+[water-round2-evidence.md](../research/rendering/water-round2-evidence.md).
+
+1. **A river that drains to the sea reaches the sea.** `build_reaches` stopped
+   a chain at the last cell that was itself a river cell, so the one outlet
+   whose coast is a cliff left its clifftop level hanging over the shore. A
+   sea-draining terminus standing more than `FALL_DROP_M` above sea level is
+   extended down `flow_to` to the first ocean cell.
+2. **A fall may land in a standing body.** The plunge station alone may be
+   pooled — that is what a plunge pool is. A pooled lip is the sill/weir case
+   and a pooled interior is drop under standing water; both stay refused.
+3. **A fall is a cliff, not a long ramp.** A run was grown from segments at
+   27° and accepted on a 50° *mean*, so a whole 51° mountainside qualified and
+   the province's largest waterfall was a 226 m sheet thrown down a slope. The
+   run is built from the face angle itself (`FALL_FACE_SLOPE`, 70°). Sixteen
+   cascades survive, every one 74–88° measured lip to plunge.
+4. **A plunge pool is scoured by the fall above it** — `PLUNGE_MIN_DEPTH_M` +
+   0.06 m per metre of drop, capped at 8 m. The 131 m gorge fall was landing
+   in 1.44 m of water because every bowl was dug 1.5 m whatever fell into it.
+
+Two gates were rewritten because they could not fail on the defect they
+existed for (3 and 4 above passed them). A third rule fell out of the same
+measurements: **a brink is not a hole** — the hovering check now knows the
+corridor each sheet is drawn over, including the bowl it digs and the head
+above its lip, and the cells it excuses are counted as `brinkEdgeCells` rather
+than hidden.
+
+`refine_province` also carves the **authored** minor waterways
+(`worldgen/authored_waterways.py`): a line nothing in the hydrology graph
+would ever cut, joined to the water it is authored to meet. Publishing that
+line instead of a routed one is the placement side's half of the contract and
+is not done.
+
 ## Addendum 2026-09-08 — vanilla waterfall assets: merge, do not mount
 
 The vault audit ([waterfall-assets-vault-audit.md](../research/rendering/waterfall-assets-vault-audit.md))
