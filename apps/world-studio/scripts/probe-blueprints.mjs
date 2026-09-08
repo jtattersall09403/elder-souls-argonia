@@ -10,6 +10,7 @@ import { chromium } from "playwright";
 
 const slugs = (process.argv[2] ?? "nine-trunks").split(",").filter(Boolean);
 const zoomClicks = Number(process.argv[3] ?? 0);
+const probeSettlements = process.env.PHASE11_SETTLEMENT_PROBE === "1";
 const out = new URL("../artifacts/", import.meta.url).pathname;
 mkdirSync(out, { recursive: true });
 const PORT = Number(process.env.STUDIO_PORT ?? 4323);
@@ -69,6 +70,43 @@ try {
       const newErrors = errors.slice(errorsBefore);
       console.log(`wrote artifacts/blueprint-${slug}.png; page errors: ${newErrors.length}`);
       for (const e of newErrors.slice(0, 5)) console.log("  " + e);
+    }
+    if (probeSettlements) {
+      // Reuse the same browser and page for the heavier 3D proof. The running
+      // scene then teleports between places, avoiding a second shader/terrain
+      // startup while still proving the actual SettlementLayer drew each one.
+      const sites = [
+        { id: "place.mercantile-coast.lilmoth", slug: "lilmoth", x: 3.6108, z: 6.3847 },
+        { id: "place.hist-heartland.nine-trunks", slug: "nine-trunks", x: 4.9729, z: 3.7559 },
+      ];
+      await page.goto(`${BASE}?view=fly3d&cam=orbit&x=${sites[0].x}&z=${sites[0].z}&hud=0`,
+        { waitUntil: "domcontentloaded" });
+      for (const [index, site] of sites.entries()) {
+        if (index) {
+          await page.evaluate((next) => {
+            if (!window.__STUDIO_GOTO__) throw new Error("studio teleport hook is unavailable");
+            return window.__STUDIO_GOTO__({
+              view: "fly3d", cam: "orbit", x: next.x, z: next.z, frames: 6, timeoutMs: 180_000,
+            });
+          }, site);
+        }
+        await page.waitForFunction((placeId) => {
+          const proof = window.__STUDIO_SETTLEMENT_DEBUG__;
+          const place = proof?.grounding?.find((row) => row.settlementId === placeId);
+          return proof?.status === "loaded" && proof.renderedPlacements > 0
+            && proof.draws > 0 && proof.triangles > 0
+            && place?.placementsAudited > 0;
+        }, site.id, { timeout: 180_000 });
+        const proof = await page.evaluate((placeId) => {
+          const state = window.__STUDIO_SETTLEMENT_DEBUG__;
+          return { state, place: state?.grounding?.find((row) => row.settlementId === placeId) };
+        }, site.id);
+        if (!proof.place || proof.place.terrainUnavailable || proof.place.floating || proof.place.overBuried) {
+          throw new Error(`${site.id} settlement grounding failed: ${JSON.stringify(proof)}`);
+        }
+        await page.screenshot({ path: `${out}settlement-${site.slug}.png` });
+        console.log(`wrote artifacts/settlement-${site.slug}.png; ${proof.place.placementsAudited} placements grounded`);
+      }
     }
   } finally {
     await browser.close();

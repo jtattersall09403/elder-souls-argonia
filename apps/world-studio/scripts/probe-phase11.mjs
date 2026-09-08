@@ -72,7 +72,7 @@ const started = Date.now();
 try {
   await waitFor(base, server, () => serverLog);
   await run(process.execPath, [path.join(studioDir, "scripts/probe-blueprints.mjs"), exemplars.join(",")], {
-    env: sharedEnv,
+    env: { ...sharedEnv, PHASE11_SETTLEMENT_PROBE: "1" },
   });
   if (withWater) {
     await run(process.execPath, [path.join(studioDir, "scripts/probe-water.mjs")], {
