@@ -23,7 +23,8 @@ Usage:
 Writes:
 - full arrays -> <vault>/water-pass1.npz (4033 grid: w_full, wet_full,
   owner_full, body_full (+ body_levels/body_sheet), sea_full; 2017 grid: w2, depth2 (signed), shore2, season2, wet2;
-  1345 grid: cls, turb, tannin, salinity, vx, vz)
+  1345 grid: cls, turb, tannin, salinity, vx, vz; source_height_sha256
+  binds the solve to the exact full-resolution terrain array)
 - browser data -> apps/world-studio/public/province/water/  (schema v2)
     water-surface.png  2017² RGB: R,G = W 16-bit (minM/maxM);
                        B = round((clamp(W − ground, −6, 24.6) + 6) / 0.12)
@@ -37,6 +38,7 @@ Writes:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
 from pathlib import Path
@@ -592,11 +594,14 @@ def main() -> None:
         r["stats"][f"{key}CellsDeepBy"] = {"sea": int((deep & sea).sum()),
                                            "lake": int((deep & body & ~sea).sum()),
                                            "river": int((deep & ~body & ~sea).sum())}
-    write_outputs(r, vault)
+    source_height_sha256 = hashlib.sha256(
+        np.ascontiguousarray(refined).tobytes()
+    ).hexdigest()
+    write_outputs(r, vault, source_height_sha256=source_height_sha256)
     print(json.dumps(r["stats"], indent=1))
 
 
-def write_outputs(r: dict, vault: Path) -> None:
+def write_outputs(r: dict, vault: Path, *, source_height_sha256: str) -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(
         vault / "water-pass1.npz",
@@ -608,6 +613,7 @@ def write_outputs(r: dict, vault: Path) -> None:
         shore2=r["shore2"], season2=r["season2"], wet2=r["wet2"],
         cls=r["cls"], turb=r["turb"], tannin=r["tannin"], salinity=r["salinity"],
         vx=r["vx"], vz=r["vz"],
+        source_height_sha256=np.asarray(source_height_sha256),
     )
     w2 = r["w2"]
     min_w, max_w = float(w2.min()), float(w2.max())
@@ -632,6 +638,7 @@ def write_outputs(r: dict, vault: Path) -> None:
     n3 = r["cls"].shape[0]
     meta = {
         "schemaVersion": SCHEMA_VERSION,
+        "sourceHeightSha256": source_height_sha256,
         "surface": {
             "file": "water-surface.png", "size": int(n2), "metresPerPixel": RAW_M * WEB_STEP,
             "minM": min_w, "maxM": max_w,
