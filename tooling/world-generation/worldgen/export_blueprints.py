@@ -44,7 +44,8 @@ from pathlib import Path
 
 from . import blueprint_interiors as bi
 from .blueprint import BLUEPRINT_DIR
-from .render_blueprint import PROVINCE_EXTENT_M, crop_box
+from .render_blueprint import crop_box
+from .scale import PROVINCE_EXTENT_M
 from .site_fields import REPO_ROOT
 
 SCHEMA_VERSION = 2

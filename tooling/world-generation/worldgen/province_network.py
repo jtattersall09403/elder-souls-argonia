@@ -38,6 +38,8 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
+from .scale import HYDRO_PX_M
+
 REPO_ROOT = Path(__file__).resolve().parents[3]
 PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 REGISTRY_PATH = REPO_ROOT / "world" / "sources" / "routes" / "registry.json"
@@ -97,7 +99,7 @@ def load_network(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH)
     classes = _registry_classes(registry_path)
     out: dict[str, NetworkRoute] = {}
     minor_path = province / "routes-minor.json"
-    px_m = 5.48352
+    px_m = HYDRO_PX_M
     if minor_path.exists():
         px_m = float(json.loads(minor_path.read_text())["grid"]["metresPerPixel"])
 

@@ -25,7 +25,7 @@ from dataclasses import dataclass
 from typing import Iterable
 
 from . import catalogue
-from .blueprint_footprints import PROVINCE_EXTENT_M
+from .scale import PROVINCE_EXTENT_M
 
 SCHEMA_VERSION = 1
 FULFILLMENT_SCHEMA_VERSION = 1

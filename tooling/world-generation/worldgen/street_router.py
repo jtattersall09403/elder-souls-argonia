@@ -115,7 +115,8 @@ import math
 import sys
 from pathlib import Path
 
-from .blueprint_footprints import PROVINCE_EXTENT_M, UV_ROUND, _indent_of
+from .blueprint_footprints import UV_ROUND, _indent_of
+from .scale import PROVINCE_EXTENT_M
 
 WAY_KEYS = ("routes", "canals", "boardwalks", "fences")
 WET_KINDS = {"boardwalk", "pier", "canal", "channel"}

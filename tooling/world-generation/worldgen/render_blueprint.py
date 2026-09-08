@@ -46,6 +46,7 @@ from matplotlib.lines import Line2D       # noqa: E402
 from matplotlib.patches import Patch, Polygon as MplPolygon  # noqa: E402
 
 from .blueprint import SCHEMA_VERSION, validate_blueprint  # noqa: E402
+from .scale import PROVINCE_EXTENT_M                       # noqa: E402
 from .site_fields import PROVINCE, REPO_ROOT               # noqa: E402
 
 DEFAULT_OUT = REPO_ROOT / "tooling" / "world-generation" / "output" / "blueprint-maps"
@@ -72,7 +73,6 @@ WAY_STYLE = {
 }
 PAD_M = 60.0
 MIN_SPAN_M = 150.0
-PROVINCE_EXTENT_M = 7373.51   # module 00-core §8 (×3 world scale, decision 0006)
 
 
 # --------------------------------------------------------------------------- #
@@ -195,7 +195,7 @@ def render(bp: dict, out_path: Path, *, terrain: bool = True, pad_m: float = PAD
         # crop's heights/depths.
         from .compile_scatter import ProvinceFields
         fields = ProvinceFields(PROVINCE)
-        extent_m = extent_m or float(fields.height_m.shape[0] * fields.px_m)
+        extent_m = extent_m or PROVINCE_EXTENT_M
         crop = TerrainCrop(crop_m or crop_box(bp, extent_m, pad_m), fields)
     extent_m = extent_m or PROVINCE_EXTENT_M
     box = crop_m or crop_box(bp, extent_m, pad_m)

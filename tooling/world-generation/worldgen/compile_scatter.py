@@ -27,7 +27,7 @@ from scipy import ndimage
 from .composition import Composition
 from .regions import REGION_CLASSES
 from .routes_raster import corridor_masks
-from .scale import RAW_M
+from .scale import PROVINCE_EXTENT_M, RAW_M
 from .scatter import (ROUTE_CLEAR, ROUTE_THIN, Fields, Palette, clark_evans,
                       encode, scatter_chunk)
 
@@ -115,7 +115,10 @@ class ProvinceFields:
         self.corridor = (trunk.astype(np.uint8) * ROUTE_CLEAR
                          | ground.astype(np.uint8) * ROUTE_THIN)
 
-        self.extent_m = self.height_m.shape[0] * self.px_m
+        # The height raster is a vertex lattice: N samples span N - 1
+        # intervals.  Use the source-derived shared extent rather than adding
+        # a phantom texel beyond the east/south boundary.
+        self.extent_m = PROVINCE_EXTENT_M
         # ground-control ships at FULL resolution (double the refined height
         # raster) — sampling it with px_m read the wrong quadrant entirely.
         self.control_px_m = self.extent_m / control.shape[0]

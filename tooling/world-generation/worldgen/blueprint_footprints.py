@@ -58,15 +58,10 @@ from shapely.geometry import LineString, Point, Polygon
 from shapely.ops import unary_union
 
 from . import blueprint_interiors as bi
+from .scale import PROVINCE_EXTENT_M
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
 KITS_DIR = REPO_ROOT / "tooling" / "asset-pipeline" / "output" / "kits"
-# ProvinceSurvey().extent_m — the single province square (module 00-core §8,
-# ×3 world scale, decision 0006). Held as a constant so the validator does not
-# have to load the raster stack for a schema check. It is the SAME number
-# render_blueprint holds; if the province is ever rescaled, both move together
-# and every blueprint needs --apply re-running.
-PROVINCE_EXTENT_M = 7373.50656
 UV_ROUND = 9
 DERIVED_TOLERANCE_UV = 1e-6
 AREA_BUFFER_M = 4.0
