@@ -772,11 +772,11 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
   },
   "bow-lock-on-shot": {
     id: "bow-lock-on-shot",
-    label: "Bow: lock on, draw and hit the target",
+    label: "Bow: lock on, move the crosshair, and hold at full draw",
     warmup: 0.5,
     // A longbow is 1.7 s to nock and 2.4 s to full draw, and the scene has to
     // show the follow-through as well.
-    duration: 8.2,
+    duration: 7.2,
     player: {
       position: [0, Y, 6],
       yaw: Math.PI,
@@ -786,9 +786,11 @@ export const VISUAL_SCENARIOS: Record<VisualScenarioId, VisualScenario> = {
     enemy: { ...FACING_ENEMY, holdInitialState: true },
     cues: [
       { from: 0.02, to: 0.12, actions: ["lockOn"] },
-      // Tap to raise, release, then hold all the way to full draw and let go.
+      // Tap to raise, then keep the string held while moving the mouse-equivalent
+      // camera input away from the initially centred target.
       { from: 0.15, to: 0.24, actions: ["light"] },
-      { from: 0.6, to: 5.2, actions: ["light"] },
+      { from: 0.6, to: 8.0, actions: ["light"] },
+      { from: 3.1, to: 4.5, camera: [-18, 0] },
     ],
   },
   "bow-aim-tracking": {

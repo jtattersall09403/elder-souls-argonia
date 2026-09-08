@@ -29,5 +29,7 @@
     0.1,
     0.08,
     0.07
-  ]
+  ],
+  "heightScale": 1.005,
+  "skinTintMode": "colorize"
 }

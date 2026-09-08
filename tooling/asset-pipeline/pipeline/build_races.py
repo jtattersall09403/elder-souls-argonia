@@ -176,6 +176,10 @@ def build(
             # second rig built per body — the first-person arms — can be
             # matched to the race without a table in game code.
             "body": _race_config(race_id).get("body", "male"),
+            # Skyrim's RACE record changes the whole actor's stature. The
+            # runtime scales about the foot-rooted actor origin, so this alters
+            # silhouette without lifting or burying the feet.
+            "heightScale": _race_config(race_id).get("heightScale", 1.0),
             # A race is a *tint*, not a texture set: the same body art coloured
             # differently, which is how the game itself does it. The tints are
             # applied at runtime, so a character creator can move them without
@@ -183,6 +187,7 @@ def build(
             # which meshes they apply to.
             "appearance": {
                 "skinTint": _race_config(race_id).get("skinTint", [1, 1, 1]),
+                "skinTintMode": _race_config(race_id).get("skinTintMode", "multiply"),
                 "hairTint": _race_config(race_id).get("hairTint", [1, 1, 1]),
                 "skinMeshes": summaries[race_id].get("skinMeshes", []),
                 "hairMeshes": summaries[race_id].get("hairMeshes", []),

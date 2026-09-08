@@ -10,6 +10,7 @@ import { clone } from "three/examples/jsm/utils/SkeletonUtils.js";
 import { CHARACTER_SCALE, sanitizeBoneName } from "@elder-souls/game-core/anim/animationManifest";
 import { FIRST_PERSON_BOW_MANIFEST, firstPersonBowAsset, type FirstPersonBowClip } from "@elder-souls/game-core/anim/firstPersonBowManifest";
 import { DEFAULT_RACE, raceById, type RaceId } from "@elder-souls/game-core/actors/races";
+import { applyAppearance } from "@elder-souls/game-core/actors/appearance";
 import type { WeaponVisualProfile } from "@elder-souls/game-core/core/types";
 
 /**
@@ -90,23 +91,18 @@ export function FirstPersonBow({
   const gltf = useGLTF(assetUrl(firstPersonBowAsset(race.body)));
   const model = useMemo(() => {
     const instance = clone(gltf.scene);
-    const tint = new THREE.Color(race.appearance.skinTint[0], race.appearance.skinTint[1], race.appearance.skinTint[2]);
+    const skinMeshes: string[] = [];
     instance.traverse((object) => {
       if (object instanceof THREE.Mesh) {
         object.castShadow = false;
         object.receiveShadow = false;
         object.frustumCulled = false;
-        // Every mesh on this rig is skin, so the race's tint applies to all of
-        // it — multiplied over the diffuse, as `applyAppearance` does for the
-        // body. Materials are cloned so the tint does not leak between races.
-        const tinted = (material: THREE.Material) => {
-          const own = material.clone();
-          if (own instanceof THREE.MeshStandardMaterial) own.color.multiply(tint);
-          return own;
-        };
-        object.material = Array.isArray(object.material) ? object.material.map(tinted) : tinted(object.material);
+        skinMeshes.push(object.name);
+        const own = (material: THREE.Material) => material.clone();
+        object.material = Array.isArray(object.material) ? object.material.map(own) : own(object.material);
       }
     });
+    applyAppearance(instance, { ...race.appearance, skinMeshes, hairMeshes: [] });
     return instance;
   }, [gltf.scene, race]);
   const mixer = useMemo(() => new THREE.AnimationMixer(model), [model]);
@@ -138,16 +134,16 @@ export function FirstPersonBow({
     const local = new THREE.Vector3();
     cameraBone.getWorldPosition(local);
     model.worldToLocal(local);
-    return local.y * CHARACTER_SCALE;
-  }, [cameraBone, model]);
+    return local.y * CHARACTER_SCALE * race.heightScale;
+  }, [cameraBone, model, race.heightScale]);
 
   useLayoutEffect(() => {
     if (pivot.current) pivot.current.position.set(0, cameraHeight, 0);
     if (inner.current) {
       inner.current.position.set(0, -cameraHeight, 0);
-      inner.current.scale.setScalar(CHARACTER_SCALE);
+      inner.current.scale.setScalar(CHARACTER_SCALE * race.heightScale);
     }
-  }, [cameraHeight]);
+  }, [cameraHeight, race.heightScale]);
 
   const current = useRef<FirstPersonBowClip | null>(null);
   const seenRelease = useRef(bowDraw.release.current);

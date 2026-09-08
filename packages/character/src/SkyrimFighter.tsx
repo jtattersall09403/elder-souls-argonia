@@ -44,7 +44,7 @@ import { VISUAL_FRAME_PHASE_PRIORITY } from "@elder-souls/game-core/validation/v
 import { applyAppearance, clearAppearance } from "@elder-souls/game-core/actors/appearance";
 import { headMeshes } from "@elder-souls/game-core/actors/headMeshes";
 import { releaseMeshHiding, setMeshHidden } from "@elder-souls/game-core/actors/meshVisibility";
-import { DEFAULT_RACE, raceById, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
+import { DEFAULT_RACE, raceById, type Appearance, type RaceDefinition, type RaceId } from "@elder-souls/game-core/actors/races";
 import type { ArmourDefinition } from "@elder-souls/game-core/equipment/armour";
 import type { MountedArmour } from "@elder-souls/game-core/actors/armourMounting";
 import { ArmourAttachments } from "./ArmourAttachments";
@@ -260,6 +260,7 @@ function PosedActor({
   firstPerson = false,
   hidden = false,
   raceId = DEFAULT_RACE,
+  appearance,
   modelOffsetY = CHARACTER_MODEL_OFFSET,
   validationTint,
   visualProbe,
@@ -341,6 +342,8 @@ function PosedActor({
   hidden?: boolean;
   /** Which body to mount on the shared rig. */
   raceId?: RaceId;
+  /** Per-character overrides used by character creation and distinct NPCs. */
+  appearance?: Appearance;
   modelOffsetY?: number;
   /** High-contrast actor identity used only by production-path visual scenarios. */
   validationTint?: THREE.ColorRepresentation;
@@ -357,6 +360,7 @@ function PosedActor({
   visualSupportYRef?: MutableRefObject<number>;
 }) {
   const race = raceById(raceId);
+  const resolvedAppearance = appearance ?? race.appearance;
   // The pack list is fixed for this component's lifetime (the wrapper keys on
   // it), so this array-form load has a stable length even though its contents
   // are computed.
@@ -563,9 +567,9 @@ function PosedActor({
   // Colour the body. Before the enemy tint below, which is a *validation*
   // overlay on top of whatever the character actually looks like.
   useLayoutEffect(() => {
-    const touched = applyAppearance(model, race.appearance);
+    const touched = applyAppearance(model, resolvedAppearance);
     return () => clearAppearance(touched);
-  }, [model, race.appearance]);
+  }, [model, resolvedAppearance]);
 
   // Every mesh casts/receives shadows regardless of side. This must not be
   // folded into the enemy-tint effect below (that one is enemy-only), or the
@@ -596,7 +600,7 @@ function PosedActor({
         standard.color.lerp(tint, strength);
       }
     });
-  }, [enemy, model, validationTint]);
+  }, [enemy, model, resolvedAppearance, validationTint]);
 
   // The two sockets the sword can rigidly mount on: the hand (drawn) and the
   // hip sheath (stowed). Each keeps its own counter-scale + corrective
@@ -1218,7 +1222,7 @@ function PosedActor({
   }, visualProbe ? VISUAL_FRAME_PHASE_PRIORITY.actorPoseAndProbe : 0);
 
   return (
-    <group ref={root} position={[0, modelOffsetY, 0]} scale={CHARACTER_SCALE} dispose={null} visible={!hidden}>
+    <group ref={root} position={[0, modelOffsetY, 0]} scale={CHARACTER_SCALE * race.heightScale} dispose={null} visible={!hidden}>
       <primitive object={model} />
       {offHandProfile && (
         <Suspense fallback={null}>

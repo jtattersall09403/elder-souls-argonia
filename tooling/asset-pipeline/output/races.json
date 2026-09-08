@@ -41,12 +41,14 @@
         ]
       },
       "body": "male",
+      "heightScale": 1.0,
       "appearance": {
         "skinTint": [
           0.55,
           0.5,
           0.51
         ],
+        "skinTintMode": "colorize",
         "hairTint": [
           0.09,
           0.09,
@@ -119,9 +121,11 @@
         ],
         "hairMeshes": [
           "Hair12"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.03
     },
     "imperial": {
       "label": "Imperial",
@@ -178,9 +182,11 @@
         ],
         "hairMeshes": [
           "Hair04"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.0
     },
     "breton": {
       "label": "Breton",
@@ -237,9 +243,11 @@
         ],
         "hairMeshes": [
           "Hair09"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.0
     },
     "redguard": {
       "label": "Redguard",
@@ -296,9 +304,11 @@
         ],
         "hairMeshes": [
           "MaleRedGuardHair02"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.005
     },
     "altmer": {
       "label": "Altmer",
@@ -355,9 +365,11 @@
         ],
         "hairMeshes": [
           "Hair14"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.08
     },
     "bosmer": {
       "label": "Bosmer",
@@ -414,9 +426,11 @@
         ],
         "hairMeshes": [
           "Hair07"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 0.98
     },
     "orsimer": {
       "label": "Orsimer",
@@ -472,9 +486,11 @@
         ],
         "hairMeshes": [
           "MaleOrcHair04"
-        ]
+        ],
+        "skinTintMode": "colorize"
       },
-      "body": "male"
+      "body": "male",
+      "heightScale": 1.045
     },
     "khajiit": {
       "label": "Khajiit",
@@ -534,9 +550,11 @@
         ],
         "hairMeshes": [
           "KhajiitMaleHair02"
-        ]
+        ],
+        "skinTintMode": "multiply"
       },
-      "body": "male-khajiit"
+      "body": "male-khajiit",
+      "heightScale": 1.0
     },
     "argonian": {
       "label": "Argonian",
@@ -594,9 +612,11 @@
         ],
         "hairMeshes": [
           "ArgonianMaleHorns03"
-        ]
+        ],
+        "skinTintMode": "multiply"
       },
-      "body": "male-argonian"
+      "body": "male-argonian",
+      "heightScale": 1.01
     }
   }
 }

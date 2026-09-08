@@ -20,7 +20,27 @@ export type TintedMaterial = {
   material: THREE.MeshStandardMaterial;
   /** The colour the asset shipped with, restored when the tint is removed. */
   original: THREE.Color;
+  originalOnBeforeCompile: THREE.MeshStandardMaterial["onBeforeCompile"];
+  originalProgramCacheKey: THREE.MeshStandardMaterial["customProgramCacheKey"];
 };
+
+const SKIN_SHADER_MARKER = "// elder-souls skin tone";
+
+function colorizeSkin(material: THREE.MeshStandardMaterial, tint: Appearance["skinTint"]) {
+  const target = new THREE.Color().setRGB(tint[0], tint[1], tint[2], THREE.SRGBColorSpace);
+  const previousCompile = material.onBeforeCompile;
+  const previousKey = material.customProgramCacheKey;
+  material.color.set(0xffffff);
+  material.onBeforeCompile = (shader, renderer) => {
+    previousCompile.call(material, shader, renderer);
+    shader.uniforms.esSkinTone = { value: target };
+    shader.fragmentShader = shader.fragmentShader
+      .replace("void main() {", `uniform vec3 esSkinTone;\n${SKIN_SHADER_MARKER}\nvoid main() {`)
+      .replace("#include <map_fragment>", `#include <map_fragment>\n${SKIN_SHADER_MARKER}\nfloat esSkinLuma = dot(diffuseColor.rgb, vec3(0.2126, 0.7152, 0.0722));\nfloat esSkinDetail = clamp(0.82 + (esSkinLuma - 0.075) * 3.2, 0.52, 1.18);\ndiffuseColor.rgb = esSkinTone * esSkinDetail * diffuse;`);
+  };
+  material.customProgramCacheKey = () => `${previousKey.call(material)}|elder-souls-skin-v1`;
+  material.needsUpdate = true;
+}
 
 /** Apply an appearance to a loaded body. Returns what it touched. */
 export function applyAppearance(
@@ -39,10 +59,20 @@ export function applyAppearance(
     if (!tint) return;
     for (const material of materialsOf(object)) {
       if (!(material instanceof THREE.MeshStandardMaterial)) continue;
-      touched.push({ material, original: material.color.clone() });
-      // Multiplied, not replaced: the diffuse still carries every fold, pore
-      // and shadow the artist painted, and the tint decides its colour.
-      material.color.multiply(new THREE.Color(tint[0], tint[1], tint[2]));
+      touched.push({
+        material,
+        original: material.color.clone(),
+        originalOnBeforeCompile: material.onBeforeCompile,
+        originalProgramCacheKey: material.customProgramCacheKey,
+      });
+      if (skin.has(name) && appearance.skinTintMode === "colorize") {
+        // Skyrim's shared body diffuse is dark baked albedo. A glTF base-colour
+        // multiply can only darken it, so reconstruct the selected skin tone
+        // from its luminance detail instead of treating it as white paint.
+        colorizeSkin(material, appearance.skinTint);
+      } else {
+        material.color.multiply(new THREE.Color(tint[0], tint[1], tint[2]));
+      }
     }
   });
   return touched;
@@ -50,7 +80,12 @@ export function applyAppearance(
 
 /** Undo `applyAppearance`, leaving the materials as the asset shipped them. */
 export function clearAppearance(touched: readonly TintedMaterial[]) {
-  for (const entry of touched) entry.material.color.copy(entry.original);
+  for (const entry of touched) {
+    entry.material.color.copy(entry.original);
+    entry.material.onBeforeCompile = entry.originalOnBeforeCompile;
+    entry.material.customProgramCacheKey = entry.originalProgramCacheKey;
+    entry.material.needsUpdate = true;
+  }
 }
 
 function materialsOf(mesh: THREE.Mesh) {

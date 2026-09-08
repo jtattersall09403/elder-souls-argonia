@@ -1,5 +1,5 @@
 import { expect, it } from "vitest";
-import { bowSight } from "./bowSight";
+import { BOW_SIGHT_ELEVATION_RADIANS, bowSight } from "./bowSight";
 import { DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
 import { useGameStore } from "../core/store";
 
@@ -20,12 +20,14 @@ it("faces a locked target from the actor centre independently of the drawing han
     expect(Math.abs(sight.yaw)).toBe(Math.PI);
   }
 });
-it("launches directly through the crosshair without compensating for gravity", () => {
+it("launches at a fixed thirty degrees above the crosshair", () => {
   const nock = { x: 0, y: 1.5, z: 0 };
   const point = { x: 0, y: 1.5, z: 20 };
   const sight = bowSight({ nock, point, actor, cameraYaw: 0 });
-  expect(sight.direction).toEqual({ x: 0, y: 0, z: 1 });
-  expect(sight.pitch).toBe(0);
+  expect(sight.direction.x).toBeCloseTo(0, 8);
+  expect(sight.direction.y).toBeCloseTo(0.5, 8);
+  expect(sight.direction.z).toBeCloseTo(Math.sqrt(3) / 2, 8);
+  expect(sight.pitch).toBeCloseTo(BOW_SIGHT_ELEVATION_RADIANS, 8);
 });
 it("shares the accepted 2x gravity default between gameplay and the store", () => {
   expect(DEFAULT_ARROW_GRAVITY_SCALE).toBe(2);

@@ -298,7 +298,8 @@ const AIM_PITCH_LIMIT = 1.15;
  *
  * Matches `cameraRelativeDirection`'s convention — the camera sits at
  * `(+sin yaw, +cos yaw)` behind the player and looks the other way — so the
- * arrow leaves along exactly the axis the crosshair is on.
+ * This produces the direct crosshair ray. `bowSight` separately raises the
+ * physical and visible launch axis by the configured thirty degrees.
  */
 /**
  * Whether a shot came from somewhere the defender's guard is covering.
@@ -2367,8 +2368,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       // side of it and lower — so a shot fired *parallel* to the camera runs
       // beside the sight line forever, low and to the left by exactly that
       // offset. Both are now aimed at the point the ray hits, and the body and
-      // spine are turned onto the same point, so the bow visibly points where
-      // the shot goes. See `combat/aimConvergence.ts`.
+      // `bowSight` then applies the fixed upward launch attitude. Body, spine,
+      // nocked shaft and released arrow all consume that same direction.
       if (isAiming(bowStep.cycle)) {
         camera.getWorldDirection(tmp.current.aimLook);
         const rayOrigin = camera.position;
@@ -2421,7 +2422,9 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const view = firstPersonState.current;
         view.rootPosition.set(playerPos.x, playerPos.y - CHARACTER_BODY_CENTER_HEIGHT, playerPos.z);
         view.yaw = cameraYaw.current + Math.PI;
-        view.pitch = aimPitch.current;
+        // Camera/crosshair pitch stays direct; the arms follow the elevated
+        // launch vector shared by the visible shaft and the released arrow.
+        view.pitch = playerAimSpinePitch.current;
         view.drawFraction = bowStep.cycle.phase === "drawing" ? bowStep.cycle.drawFraction : 0;
         view.drawing = bowStep.cycle.phase === "drawing";
         view.move.x = intent.move.x;
@@ -3884,8 +3887,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const shoulder = bowShoulderPosition({ x: playerPos.x, y: playerPos.y + PLAYER_EYE_OFFSET_Y, z: playerPos.z }, tmp.current.aimDirection);
         tmp.current.flat.set(shoulder.x, shoulder.y, shoulder.z);
       }
-      // The crosshair ray starts here. Published so the shot can be aimed at
-      // what the crosshair is actually on rather than at a parallel line.
+      // The direct crosshair ray starts here. `bowSight` converges from the
+      // nock to its point, then raises the shared visible/physical launch axis.
       aimCameraOrigin.current.copy(tmp.current.flat);
       tmp.current.desiredCamera.lerp(tmp.current.flat, blend);
       // Sighted from the camera, not from the eye, so screen centre is the shot
@@ -3893,9 +3896,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       tmp.current.desiredLook
         .copy(tmp.current.flat)
         .addScaledVector(tmp.current.aimDirection, AIM_LOOK_DISTANCE_METERS);
-      if (lockTargetActive && lockTarget) {
-        tmp.current.desiredLook.copy(lockTarget.position).y += ARCHER_AIM_ABOVE_CENTRE;
-      }
+      // Target acquisition already centred yaw and pitch once. Keeping this
+      // on the camera ray makes subsequent locked-on mouse motion persistent.
     } else {
       const camDistance = lockedOn.current ? 6.7 : 5.8;
       // Sky look-up: below posPitch the camera BODY stays at shoulder height

@@ -31,6 +31,8 @@ export type RaceDefinition = {
   meshBipedSlots: Readonly<Record<string, readonly number[]>>;
   /** How this race is coloured. See `Appearance`. */
   appearance: Appearance;
+  /** Canonical Skyrim male race height multiplier. Rendering stays foot-rooted. */
+  heightScale: number;
   /** The body the race is built on (`male`, `male-argonian`, `male-khajiit`). */
   body: string;
 };
@@ -38,10 +40,9 @@ export type RaceDefinition = {
 /**
  * What makes one character look different from another.
  *
- * Deliberately a *tint over shared art* rather than a texture set, which is how
- * Skyrim itself does it: every humanoid race uses the same body, the same
- * diffuse, and differs by head morph, eyes, hair and a colour. Ten races that
- * way cost one body's worth of download instead of ten.
+ * Humanoids share diffuse art and receive a skin tone while retaining its
+ * detail; beast races retain their authored colour texture. Head morph, eyes,
+ * hair and tone remain independent inputs, ready for a character creator.
  *
  * Applied at runtime, not baked. That is what a character creator needs — a
  * slider has to move a colour without rebuilding an asset — and it is also the
@@ -49,8 +50,10 @@ export type RaceDefinition = {
  * not a shape the glTF exporter can write, so a baked one silently ships white.
  */
 export type Appearance = {
-  /** Multiplied over the skin diffuse. */
+  /** Target skin colour in sRGB. */
   skinTint: readonly [number, number, number];
+  /** Shared humanoid diffuse is colourized; race-specific beast art is multiplied. */
+  skinTintMode?: "colorize" | "multiply";
   /** Multiplied over hair, horns and beards. */
   hairTint: readonly [number, number, number];
   /** Meshes the skin tint applies to. */
@@ -73,11 +76,13 @@ type BuiltRace = {
   sha256: string;
   meshBipedSlots?: Record<string, number[]>;
   body?: string;
+  heightScale?: number;
   appearance?: {
     skinTint: [number, number, number];
     hairTint: [number, number, number];
     skinMeshes: string[];
     hairMeshes: string[];
+    skinTintMode?: "colorize" | "multiply";
   };
 };
 
@@ -93,6 +98,7 @@ export const RACES: Readonly<Record<RaceId, RaceDefinition>> = Object.fromEntrie
     meshBipedSlots: race.meshBipedSlots ?? {},
     appearance: race.appearance ?? NEUTRAL_APPEARANCE,
     body: race.body ?? "male",
+    heightScale: race.heightScale ?? 1,
   }]),
 );
 

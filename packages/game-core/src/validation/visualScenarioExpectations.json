@@ -3326,8 +3326,7 @@
     "playerAnimations": [
       "BOW_IDLE",
       "BOW_DRAW",
-      "BOW_DRAWN",
-      "BOW_RELEASE"
+      "BOW_DRAWN"
     ],
     "enemyActions": [],
     "enemyAnimations": [],
@@ -3341,16 +3340,12 @@
       "player": [
         "BOW_IDLE",
         "BOW_DRAW",
-        "BOW_DRAWN",
-        "BOW_RELEASE",
-        "BOW_IDLE"
+        "BOW_DRAWN"
       ]
     },
     "evidenceAnimations": {
       "player": [
-        "BOW_DRAW",
-        "BOW_DRAWN",
-        "BOW_RELEASE"
+        "BOW_DRAWN"
       ]
     },
     "motionChecks": [
@@ -3377,7 +3372,11 @@
       }
     ],
     "transitionMotionChecks": [],
-    "enemyHealthLessThan": 150
+    "facing": {
+      "actor": "player",
+      "followsCameraWithinRadians": 0.15,
+      "note": "While lock-on owns target-relative movement, held bow aim and the visible launch pose follow mouse-driven camera yaw after initial centring."
+    }
   },
   "bow-aim-idle": {
     "playerActions": [

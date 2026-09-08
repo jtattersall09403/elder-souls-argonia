@@ -55,6 +55,24 @@ describe("colouring a character", () => {
     expect(colourOf(model, "Body").r).toBeCloseTo(0.25, 5);
   });
 
+  it("colourizes the dark shared humanoid diffuse to a selectable skin tone", () => {
+    const model = body(["Body"]);
+    const material = (model.children[0] as THREE.Mesh).material as THREE.MeshStandardMaterial;
+    const originalHook = material.onBeforeCompile;
+    const touched = applyAppearance(model, { ...appearance, skinTintMode: "colorize" });
+    const shader = {
+      uniforms: {} as Record<string, { value: unknown }>,
+      fragmentShader: "void main() {\n#include <map_fragment>\n}",
+    };
+    material.onBeforeCompile(shader as never, {} as never);
+    expect(shader.fragmentShader).toContain("esSkinTone");
+    expect(shader.fragmentShader).toContain("esSkinDetail");
+    expect(shader.uniforms.esSkinTone).toBeDefined();
+    expect(material.color.getHex()).toBe(0xffffff);
+    clearAppearance(touched);
+    expect(material.onBeforeCompile).toBe(originalHook);
+  });
+
   it("restores exactly what the asset shipped", () => {
     const model = body(["Body", "Hair"]);
     const before = colourOf(model, "Body").clone();

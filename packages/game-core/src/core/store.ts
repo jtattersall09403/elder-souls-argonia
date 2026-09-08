@@ -48,8 +48,8 @@ export const initialSnapshot: GameSnapshot = {
   aimZoom: 0,
   /**
    * Angle between the crosshair ray and the line the shot actually leaves on,
-   * degrees. Zero at the convergence point; the residual is parallax from the
-   * offset between the camera and the string hand. Debug panel only.
+   * degrees. Includes the deliberate thirty-degree launch elevation plus the
+   * small parallax from camera/string-hand convergence. Debug panel only.
    */
   aimErrorDegrees: 0,
   playerMaxHealth: COMBAT_TUNING.maxHealth,
