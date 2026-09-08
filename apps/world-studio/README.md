@@ -64,6 +64,12 @@ chunks are RG16 PNGs + `chunks-web-manifest.json` written by
 
 - `npm test` — data-contract tests (anchors, chunk manifest coverage) + the
   light-rig unit tests (`src/sky/lightRig.test.ts`).
+- `npm run probe:phase11` — builds once, starts one production-preview server,
+  captures all five live exemplar blueprints in one browser/app load, then
+  runs the complete water probe against the same build. Use `-- --prebuilt`
+  only when that exact build has already succeeded; `-- --without-water` is
+  the fast blueprint-only diagnosis. `PHASE11_WATER_SITE=<comma-list>` narrows
+  the water half for diagnosis without changing the normal close-out suite.
 - `node scripts/probe-sky.mjs` (from `apps/combat-sandbox`) — fixed-instant
   sky/light probe: pins the named region presets at exact WorldInstants,
   asserts sun altitude/day phase/moon phase/exposure via

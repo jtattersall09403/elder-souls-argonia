@@ -9,6 +9,7 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run",
     "typecheck": "tsc --noEmit --pretty false",
+    "probe:phase11": "node scripts/probe-phase11.mjs",
     "assets": "node ../../packages/character-assets/verify.mjs",
     "predev": "npm run assets",
     "prebuild": "npm run assets"
