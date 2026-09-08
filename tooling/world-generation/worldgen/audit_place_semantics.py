@@ -231,13 +231,13 @@ def load_routes(province: Path = PROVINCE) -> list[RouteLine]:
         return names.get(eid, eid.replace("-", " ")).lower()
 
     for r in json.loads((province / "routes.json").read_text())["routes"]:
-        pts = [(p[0] * px_m, p[1] * px_m) for p in r["px"]]
+        pts = [((p[0] + 0.5) * px_m, (p[1] + 0.5) * px_m) for p in r["px"]]
         out.append(RouteLine(f"{r['from']}->{r['to']}", "road", True,
                              (endpoint_name(r["from"]), endpoint_name(r["to"])), pts))
     wpath = province / "waterways.json"
     if wpath.exists():
         for lane in json.loads(wpath.read_text())["lanes"]:
-            pts = [(p[0] * px_m, p[1] * px_m) for p in lane["px"]]
+            pts = [((p[0] + 0.5) * px_m, (p[1] + 0.5) * px_m) for p in lane["px"]]
             out.append(RouteLine(f"{lane['from']}~{lane['to']}", "boat", True,
                                  (endpoint_name(lane["from"]), endpoint_name(lane["to"])), pts))
     mpath = province / "routes-minor.json"
@@ -245,7 +245,7 @@ def load_routes(province: Path = PROVINCE) -> list[RouteLine]:
         mdoc = json.loads(mpath.read_text())
         mpx = float(mdoc["grid"]["metresPerPixel"])
         for t in mdoc["tracks"]:
-            pts = [(p[0] * mpx, p[1] * mpx) for p in t["px"]]
+            pts = [((p[0] + 0.5) * mpx, (p[1] + 0.5) * mpx) for p in t["px"]]
             out.append(RouteLine(t["id"], t["kind"], False, (), pts))
     return out
 

@@ -236,7 +236,7 @@ class ProvinceSurvey:
         roads_path = natural_roads if natural_roads.exists() else self.province / "routes.json"
         roads = json.loads(roads_path.read_text())["routes"]
         for r in roads:
-            pts = np.asarray(r["px"], dtype=np.float32) * self.grid_px_m
+            pts = (np.asarray(r["px"], dtype=np.float32) + 0.5) * self.grid_px_m
             out.append(Route("road", r["from"], r["to"], float(r["lengthKm"]),
                              pts if pts.size else np.zeros((0, 2), np.float32)))
         # the same seam for boat lanes: `waterways-natural.json` is the
@@ -249,7 +249,7 @@ class ProvinceSurvey:
         lengths = {(w["from"], w["to"]): w["lengthKm"]
                    for w in self.society_meta.get("waterRoutes", [])}
         for lane in lanes:
-            pts = np.asarray(lane["px"], dtype=np.float32) * self.grid_px_m
+            pts = (np.asarray(lane["px"], dtype=np.float32) + 0.5) * self.grid_px_m
             out.append(Route("boat", lane["from"], lane["to"],
                              float(lengths.get((lane["from"], lane["to"]), 0.0)), pts))
         return out

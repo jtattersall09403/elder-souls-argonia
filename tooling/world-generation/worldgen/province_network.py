@@ -87,9 +87,8 @@ def _registry_classes(registry_path: Path = REGISTRY_PATH) -> dict[str, str]:
 
 
 def _px_to_m(px, px_m: float) -> tuple[tuple[float, float], ...]:
-    # px rows/cols are [col, row] in the bundles; world x = col * px_m (east),
-    # world z = row * px_m (south) — the same convention as ProvinceSurvey.
-    return tuple((float(c) * px_m, float(r) * px_m) for c, r in px)
+    # px rows/cols are cell ids [col, row], so geometry sits at cell centres.
+    return tuple(((float(c) + 0.5) * px_m, (float(r) + 0.5) * px_m) for c, r in px)
 
 
 @lru_cache(maxsize=4)

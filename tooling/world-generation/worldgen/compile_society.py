@@ -43,7 +43,7 @@ WATER_EDGES = [
     ("alten-corimont", "helstrom"),
 ]
 
-from .scale import HSCALE as SCALE, RAW_METRES_PER_SAMPLE
+from .scale import HSCALE as SCALE, PROVINCE_EXTENT_M, RAW_METRES_PER_SAMPLE
 
 STEP = 3
 
@@ -256,8 +256,8 @@ def main() -> None:
                 for key, city in (("startsAtM", source), ("endsAtM", t)):
                     if city in terminals:
                         u, v = lane_terminal_uv[city]
-                        lane[key] = [round(u * w * metres_per_px, 3),
-                                     round(v * h * metres_per_px, 3)]
+                        lane[key] = [round(u * PROVINCE_EXTENT_M, 3),
+                                     round(v * PROVINCE_EXTENT_M, 3)]
                 paths.append(lane)
         return paths, stats
 

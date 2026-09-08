@@ -34,3 +34,8 @@ def test_nine_trunks_authored_waterway_round_trip():
     metres = hydro_pixel_center_to_metres(910)
     assert metres == pytest.approx(4992.74496, abs=1e-9)
     assert metres_to_uv(metres) == pytest.approx(0.6771194843827467, abs=1e-12)
+
+    from .province_network import _px_to_m
+    network_point = _px_to_m([[910, 690]], HYDRO_PX_M)[0]
+    assert network_point[0] == pytest.approx(4992.74496, abs=1e-9)
+    assert network_point[1] == pytest.approx(3786.37056, abs=1e-9)
