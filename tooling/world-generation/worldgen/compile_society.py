@@ -102,6 +102,60 @@ def publish_roads(routes_out: list[dict], province: Path = PREVIEW_DIR) -> bool:
     return True
 
 
+def _canonical_bytes(doc: dict) -> bytes:
+    return (json.dumps(doc, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
+
+
+def _sha256(doc: dict) -> str:
+    return hashlib.sha256(_canonical_bytes(doc)).hexdigest()
+
+
+def waterway_marker(natural: dict, fitted: dict, fit_inputs: dict) -> dict:
+    """Bind a fitted major-lane baseline to every input that can move it."""
+    return {
+        "schemaVersion": 1,
+        "kind": "major-waterways-repair-marker",
+        "naturalSha256": _sha256(natural),
+        "fitInputsSha256": _sha256(fit_inputs),
+        "publishedSha256": _sha256(fitted),
+        "reason": "declared major-lane terminals fitted after the anchor-to-anchor solve",
+    }
+
+
+def publish_waterways(natural_paths: list[dict], fitted_paths: list[dict],
+                      fit_inputs: dict, province: Path = PREVIEW_DIR) -> bool:
+    """Publish fitted lanes without silently overwriting a later repair.
+
+    The marker records the independent natural solve and all berth-fit inputs.
+    When both are unchanged, the current published bytes win: they may contain
+    a reviewed terrain/water repair made after this compiler's fitted baseline.
+    A changed solve or fit input invalidates that repair and republishes.
+    """
+    natural_doc = {"lanes": natural_paths}
+    fitted_doc = {"lanes": fitted_paths}
+    natural = province / "waterways-natural.json"
+    published = province / "waterways.json"
+    marker_path = province / "waterways-repaired-by.json"
+    marker = waterway_marker(natural_doc, fitted_doc, fit_inputs)
+    natural.write_bytes(_canonical_bytes(natural_doc))
+    old = json.loads(marker_path.read_text()) if marker_path.exists() else {}
+    same_inputs = (old.get("naturalSha256") == marker["naturalSha256"] and
+                   old.get("fitInputsSha256") == marker["fitInputsSha256"])
+    if published.exists() and same_inputs:
+        print("waterways: natural lanes and fit inputs unchanged - keeping the "
+              "reviewed waterways.json publication")
+        return False
+    published.write_bytes(_canonical_bytes(fitted_doc))
+    marker_path.write_text(json.dumps(marker, ensure_ascii=False, indent=2) + "\n",
+                           encoding="utf-8")
+    if old:
+        print("waterways: natural lanes or fit inputs CHANGED - waterways.json "
+              "republished and its repair baseline renewed")
+    else:
+        print("waterways: fitted waterways.json published with a content-addressed baseline")
+    return True
+
+
 def main() -> None:
     npz = np.load(Path(sys.argv[1]))
     z = npz["conditioned"]
@@ -215,11 +269,26 @@ def main() -> None:
     # `waterways.json` — ending at the declared berths — is what the world
     # carries. With no terminals declared the two files are identical.
     natural_paths, _natural_stats = solve_lanes(anchors_px, {}, mark_masks=False)
-    (PREVIEW_DIR / "waterways-natural.json").write_text(json.dumps({"lanes": natural_paths}))
     lane_px = {a: lane_terminals.get(a, px) for a, px in anchors_px.items()}
     waterway_paths, lane_stats = solve_lanes(lane_px, lane_terminals, mark_masks=True)
     water_routes.extend(lane_stats)
-    (PREVIEW_DIR / "waterways.json").write_text(json.dumps({"lanes": waterway_paths}))
+    # Establish identity on the fresh natural solve by endpoint pair once.
+    # The fitted publication then inherits those ids; it never independently
+    # re-keys by endpoint pair, which protects later geometry repairs.
+    from . import route_registry as _route_registry
+    registry_routes = _route_registry.load()
+    _route_registry._stamp_entries(natural_paths, "boat", registry_routes,
+                                   allow_registry_pair=True)
+    lane_identities = _route_registry._identity_pairs(natural_paths, registry_routes)
+    _route_registry._stamp_entries(waterway_paths, "boat", registry_routes,
+                                   pair_fallback=lane_identities)
+    publish_waterways(natural_paths, waterway_paths, {
+        "laneTerminals": {city: list(uv) for city, uv in sorted(lane_terminal_uv.items())},
+        "waterEdges": WATER_EDGES,
+        "rasterSize": [w, h],
+        "metresPerPixel": metres_per_px,
+        "boatPortage": BOAT_PORTAGE,
+    })
 
     # Rootworm transit (speculative pass 1, AGENT_AUTHORED — plan §19).
     root_file = json.loads((ANCHORS_PATH.parent / "root-transit.json").read_text())

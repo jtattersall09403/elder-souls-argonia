@@ -31,6 +31,7 @@ PROVINCE = REPO_ROOT / "apps" / "world-studio" / "public" / "province"
 ROADS_PATH = PROVINCE / "routes.json"
 NATURAL_ROADS_PATH = PROVINCE / "routes-natural.json"
 LANES_PATH = PROVINCE / "waterways.json"
+NATURAL_LANES_PATH = PROVINCE / "waterways-natural.json"
 # Minor geometry (Part 3b/3c): a registry entry may instead be solved by a
 # single derived minor path, named by `geometryId`.
 MINOR_PATHS = ((PROVINCE / "routes-minor.json", "tracks"),
@@ -157,30 +158,76 @@ def validate(routes: list[dict] | None = None) -> list[str]:
     return errors
 
 
-def attach() -> None:
+def _stamp_entries(entries: list[dict], mode: str, routes: list[dict], *,
+                   pair_fallback: dict[tuple[str, str], dict] | None = None,
+                   allow_registry_pair: bool = False) -> None:
+    """Stamp geometry without allowing an existing identity to drift.
+
+    An existing id is authoritative, even when a repair changed its endpoint
+    labels.  Pair lookup is only legitimate for fresh natural solver output;
+    a fresh published document may inherit the identity established by that
+    natural document, but may not independently re-derive it from registry
+    endpoints.
+    """
+    same = [r for r in routes if r["mode"] == mode]
+    by_id = {r["id"]: r for r in routes}
+    registry_pairs = ({(r["from"], r["to"]): r for r in same} |
+                      {(r["to"], r["from"]): r for r in same})
+    for entry in entries:
+        rid = entry.get("id")
+        if rid:
+            r = by_id.get(rid)
+            if r is None:
+                raise ValueError(f"{mode} geometry carries unknown stable id {rid!r}")
+            if r["mode"] != mode:
+                raise ValueError(f"{rid}: geometry mode {mode!r} disagrees with registry "
+                                 f"mode {r['mode']!r}")
+        else:
+            pair = (entry["from"], entry["to"])
+            r = (pair_fallback or {}).get(pair)
+            if r is None and allow_registry_pair:
+                r = registry_pairs.get(pair)
+            if r is None:
+                raise ValueError(f"unstamped {mode} geometry {pair} has no stable natural identity")
+        stamped = {"id": r["id"], "name": r["name"], "class": r["class"]}
+        rest = {k: v for k, v in entry.items() if k not in stamped}
+        entry.clear()
+        entry.update(stamped)
+        entry.update(rest)
+
+
+def _identity_pairs(entries: list[dict], routes: list[dict]) -> dict[tuple[str, str], dict]:
+    by_id = {r["id"]: r for r in routes}
+    out: dict[tuple[str, str], dict] = {}
+    for entry in entries:
+        if entry.get("id") in by_id:
+            r = by_id[entry["id"]]
+            pair = (entry["from"], entry["to"])
+            out[pair] = r
+            out[pair[::-1]] = r
+    return out
+
+
+def attach(province: Path = PROVINCE, registry_path: Path = REGISTRY_PATH) -> None:
     """Stamp id / name / class onto routes.json and waterways.json in place
     (deterministic, idempotent). Consumers (studio, road painting, fast travel)
     read the id from the geometry and never re-derive it from the pair."""
-    routes = load()
-    for path, key, mode in ((ROADS_PATH, "routes", "road"),
-                            (NATURAL_ROADS_PATH, "routes", "road"),
-                            (LANES_PATH, "lanes", "boat")):
-        if not path.exists():
-            continue
-        same = [r for r in routes if r["mode"] == mode]
-        by_pair = {(r["from"], r["to"]): r for r in same} | {(r["to"], r["from"]): r for r in same}
-        data = json.loads(path.read_text())
-        for entry in data[key]:
-            r = by_pair.get((entry["from"], entry["to"]))
-            if r:
-                stamped = {"id": r["id"], "name": r["name"], "class": r["class"]}
-                # keep id/name/class first, then the compiler's own keys
-                rest = {k: v for k, v in entry.items() if k not in stamped}
-                entry.clear()
-                entry.update(stamped)
-                entry.update(rest)
-        # same encoding compile_society uses, so a re-run then --attach is byte-stable
-        path.write_text(json.dumps(data), encoding="utf-8")
+    routes = load(registry_path)
+    for natural_name, published_name, key, mode in (
+            ("routes-natural.json", "routes.json", "routes", "road"),
+            ("waterways-natural.json", "waterways.json", "lanes", "boat")):
+        natural_path = province / natural_name
+        published_path = province / published_name
+        identities: dict[tuple[str, str], dict] = {}
+        if natural_path.exists():
+            data = json.loads(natural_path.read_text())
+            _stamp_entries(data[key], mode, routes, allow_registry_pair=True)
+            identities = _identity_pairs(data[key], routes)
+            natural_path.write_text(json.dumps(data), encoding="utf-8")
+        if published_path.exists():
+            data = json.loads(published_path.read_text())
+            _stamp_entries(data[key], mode, routes, pair_fallback=identities)
+            published_path.write_text(json.dumps(data), encoding="utf-8")
 
 
 def main(argv: list[str] | None = None) -> int:
