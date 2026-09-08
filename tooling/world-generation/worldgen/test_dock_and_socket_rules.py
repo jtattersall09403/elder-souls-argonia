@@ -147,3 +147,14 @@ def test_hull_depth_is_continuous_not_the_deepest_sample(monkeypatch):
                            survey=_BarSurvey(4.0, True))
     assert any("needs 3.0 m continuously" in error and "falls to 2.00 m" in error
                for error in errors)
+
+
+def test_passing_dock_evidence_is_not_labelled_a_warning(monkeypatch):
+    routes = {"waterway.test": SimpleNamespace(points_m=[(50.0, 50.0), (150.0, 50.0)])}
+    monkeypatch.setattr(bp_mod, "_water_routes", lambda: routes)
+    errors: list[str] = []
+    warnings: list[str] = []
+    bp_mod._validate_docks(_channel_blueprint(), errors.append, warnings,
+                           survey=_Survey(4.0, True))
+    assert errors == []
+    assert warnings == []

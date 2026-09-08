@@ -761,7 +761,6 @@ def _normalise_why(text: str) -> str:
 
 
 def _why_quality_warnings(bp: dict) -> list[str]:
-    bid = bp.get("id", "<missing id>")
     texts = _why_texts(bp, bid)
     warnings: list[str] = []
     short = [(where, t) for where, t in texts if len(t.strip()) < WHY_QUALITY_MIN_CHARS]
@@ -1465,12 +1464,12 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
     province publishes actually reaches it — its end within
     DOCK_TERMINAL_TOLERANCE_M, carrying the hull class's depth
     DOCK_DEPTH_SAMPLE_M along the serving route. Which of the two was moved to
-    meet the other is `fit`, derived when it is not declared, and always
-    reported."""
+    meet the other is `fit`, derived when it is not declared. Passing evidence
+    remains in the authored dock and compiled route; warnings are reserved for
+    findings that need action."""
     docks = bp.get("docks") or []
     if not docks:
         return
-    bid = bp.get("id", "<missing id>")
     terminals = bp.get("networkTerminals") or []
     by_dock: dict[str, list[dict]] = {}
     for t in terminals:
@@ -1538,7 +1537,6 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
                      f"this berth (tolerance {DOCK_TERMINAL_TOLERANCE_M:.0f} m)")
             serving_rows.append((t, serving, end_m))
 
-        depths: list[float] = []
         for t, serving, _end_m in serving_rows:
             which = "head" if math.dist((dx, dz), serving.points_m[0]) <= \
                 math.dist((dx, dz), serving.points_m[-1]) else "tail"
@@ -1547,20 +1545,10 @@ def _validate_docks(bp: dict, fail, warnings: list[str] | None, survey=None, geo
             samples = [v for v in samples if v is not None]
             if samples:
                 depth = min(samples)
-                depths.append(depth)
                 if need is not None and depth + 1e-6 < need:
                     fail(f"dock {did}: hullClass {hull!r} needs {need:.1f} m continuously, but "
                          f"serving route {t.get('routeId')!r} falls to {depth:.2f} m within "
                          f"{DOCK_DEPTH_SAMPLE_M:.0f} m of the berth (97 B5/G9)")
-        reach_m = min((min(math.dist((dx, dz), r.points_m[0]),
-                           math.dist((dx, dz), r.points_m[-1]))
-                       for _t, r, _end in serving_rows), default=float("inf"))
-        depth = min(depths) if depths else None
-        fit = dk.get("fit") or _derive_dock_fit(dk, survey, reach_m, need)
-        if warnings is not None:
-            warnings.append(f"{bid}: dock {did} fit {fit} — water reaches {reach_m:.1f} m from the "
-                            f"berth, {depth if depth is None else round(depth, 2)} m deep "
-                            f"{DOCK_DEPTH_SAMPLE_M:.0f} m out, hull {hull}")
 
 
 def _derive_dock_fit(dk: dict, survey, end_m: float, need: float | None) -> str:

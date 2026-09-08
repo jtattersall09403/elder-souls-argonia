@@ -64,6 +64,7 @@ from .site_fields import ProvinceSurvey
 from .blueprint_integration import check_integration
 from .blueprint_promises import check_promises, load_record, write_ledger
 from . import place_obligations
+from . import player_purpose as pp_mod
 from . import terrain_requests
 
 SCHEMA_VERSION = 1
@@ -1250,6 +1251,7 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
             "objects": sum(dressing_report.values()),
         },
         "floodBandReport": flood_report,
+        "purposeSummary": pp_mod.purpose_summary(bp),
         "promiseLedger": [vars(pr) | {"met": pr.met} for pr in ledger],
         "phase11ObligationReceipt": obligation_receipt,
         "errors": errors,

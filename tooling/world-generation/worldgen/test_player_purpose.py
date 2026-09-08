@@ -70,14 +70,14 @@ def test_distribution_warns_when_every_door_is_a_quest():
     warnings: list[str] = []
     pp.validate_player_purpose(_bp(parcels), warnings)
     assert any("major-tier" in w for w in warnings)
-    assert any(w.startswith("purposeSummary") for w in warnings)
+    assert pp.summary_line(_bp(parcels)).startswith("purposeSummary")
 
 
 def test_small_places_are_not_distribution_checked():
     warnings: list[str] = []
     pp.validate_player_purpose(_bp([_parcel("parcel.test.a", purposes=[
         {"kind": "quest-stage", "tier": "major", "note": "the conduit-room scene plays inside"}])]), warnings)
-    assert len(warnings) == 1
+    assert warnings == []
 
 
 def test_authored_blueprints_satisfy_the_rule():

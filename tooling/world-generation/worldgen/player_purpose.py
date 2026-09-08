@@ -151,8 +151,11 @@ def summary_line(bp: dict) -> str:
 
 
 def validate_player_purpose(bp: dict, warnings: list[str] | None = None) -> list[str]:
-    """HARD errors for the purpose rule; appends the summary and the
-    distribution WARNs to `warnings` when a list is given."""
+    """HARD errors for the purpose rule and actionable distribution WARNs.
+
+    The always-useful summary is compiled as structured evidence; a passing
+    count is not a warning.
+    """
     errors: list[str] = []
     bid = bp.get("id", "<missing id>")
     ent = enterables(bp)
@@ -186,7 +189,6 @@ def validate_player_purpose(bp: dict, warnings: list[str] | None = None) -> list
                           f"should be dressing with interior.kind 'none'")
 
     if warnings is not None:
-        warnings.append(summary_line(bp))
         if len(ent) >= MIN_ENTERABLES_FOR_DISTRIBUTION:
             s = purpose_summary(bp)
             if s["substantialShare"] < MIN_SUBSTANTIAL_SHARE:
