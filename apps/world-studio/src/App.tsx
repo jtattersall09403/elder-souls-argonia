@@ -24,6 +24,7 @@ import {
 import { getLatitudeOverrideDeg, setLatitudeOverrideDeg } from "./sky/WorldSky";
 import { setWetSeasonOverride, sharedWaterAssets, type WaterAssets } from "./water/waterAssets";
 import { getWeatherOverride, parseWeatherParam, setWeatherOverride } from "./weather/weatherState";
+import { SettlementNavigationHandoff } from "./navigation/settlementNavigationHandoff";
 
 /** One probe site for `window.__STUDIO_GOTO__` (x/z in km, as the URL uses;
  * `t` the HH:MM clock string; `wet` +1 wet season, -1 dry, 0/absent calendar). */
@@ -701,6 +702,8 @@ export function App() {
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10, padding: 16 }}>
       {characterOverlay}
       {flyOverlay}
+      <SettlementNavigationHandoff baseUrl={import.meta.env.BASE_URL}
+        visible={view !== "map" && !hudHidden} />
       {blueprintOverlay}
       {view !== "map" && !hudHidden && <TimePanel onChanged={onTimeChanged} onPreset={onLightPreset} />}
       <h1 style={{ font: "600 18px system-ui", margin: 0 }}>Argonia province preview — Phase 2 source ingest</h1>

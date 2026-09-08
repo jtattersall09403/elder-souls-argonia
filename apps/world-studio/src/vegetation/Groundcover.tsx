@@ -43,6 +43,10 @@ const MAX_INSTANCES = 60_000;
  * grass should not render drowned under a metre of marsh. */
 const WATER_SPECIES_MAX_DEPTH_M = 1.5;
 const LAND_SPECIES_MAX_DEPTH_M = 0.5;
+/** Foundation scatter is a small, local treatment, not part of the province
+ * flora budget. The cap is only a corrupt-data guard for overlapping exports. */
+const MAX_FOUNDATION_SCATTER = 3_000;
+const FOUNDATION_SCATTER_CELL_M = 0.65;
 
 interface SpeciesRule {
   asset: string;
@@ -120,10 +124,100 @@ interface ControlRaster {
 
 type Footprint = [number, number][];
 
+interface FoundationTreatment {
+  id: string;
+  footprintM: Footprint;
+  foundationScatterBandM: [number, number];
+}
+
+export interface FoundationScatterPoint {
+  x: number;
+  z: number;
+  yaw: number;
+  scale: number;
+  keep: number;
+}
+
 function pointSegmentDistance(x: number, z: number, a: [number, number], b: [number, number]): number {
   const dx = b[0] - a[0]; const dz = b[1] - a[1];
   const t = Math.max(0, Math.min(1, ((x - a[0]) * dx + (z - a[1]) * dz) / (dx * dx + dz * dz || 1)));
   return Math.hypot(x - (a[0] + dx * t), z - (a[1] + dz * t));
+}
+
+function insideFootprint(x: number, z: number, poly: Footprint): boolean {
+  let inside = false;
+  for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+    const a = poly[i]; const b = poly[j];
+    if ((a[1] > z) !== (b[1] > z)
+        && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0]) inside = !inside;
+  }
+  return inside;
+}
+
+function distanceToFootprint(x: number, z: number, poly: Footprint): number {
+  let distance = Number.POSITIVE_INFINITY;
+  for (let i = 0; i < poly.length; i++) {
+    distance = Math.min(distance, pointSegmentDistance(x, z, poly[i], poly[(i + 1) % poly.length]));
+  }
+  return distance;
+}
+
+/** Signed-footprint treatment from checklist item 21. Inside is always zero;
+ * outside peaks at the band's inner edge and falls smoothly to zero. */
+export function foundationScatterWeight(
+  x: number, z: number, treatment: FoundationTreatment,
+): number {
+  const [rawInner, rawOuter] = treatment.foundationScatterBandM;
+  const inner = Math.max(0, rawInner);
+  const outer = Math.max(inner, rawOuter);
+  if (treatment.footprintM.length < 3 || outer <= inner
+      || insideFootprint(x, z, treatment.footprintM)) return 0;
+  const distance = distanceToFootprint(x, z, treatment.footprintM);
+  if (distance < inner || distance >= outer) return 0;
+  const t = 1 - (distance - inner) / (outer - inner);
+  return t * t * (3 - 2 * t);
+}
+
+function hashString(value: string): number {
+  let h = 0x811c9dc5;
+  for (let i = 0; i < value.length; i++) {
+    h ^= value.charCodeAt(i);
+    h = Math.imul(h, 0x01000193);
+  }
+  return h >>> 0;
+}
+
+/** Deterministic, world-grid-aligned rubble points. A treatment rebuild after
+ * walking away and back produces byte-for-byte the same transforms. */
+export function foundationScatterPoints(treatment: FoundationTreatment): FoundationScatterPoint[] {
+  if (treatment.footprintM.length < 3) return [];
+  const outer = treatment.foundationScatterBandM[1];
+  if (!Number.isFinite(outer) || outer <= Math.max(0, treatment.foundationScatterBandM[0])) return [];
+  const xs = treatment.footprintM.map((p) => p[0]);
+  const zs = treatment.footprintM.map((p) => p[1]);
+  const minX = Math.floor((Math.min(...xs) - outer) / FOUNDATION_SCATTER_CELL_M);
+  const maxX = Math.ceil((Math.max(...xs) + outer) / FOUNDATION_SCATTER_CELL_M);
+  const minZ = Math.floor((Math.min(...zs) - outer) / FOUNDATION_SCATTER_CELL_M);
+  const maxZ = Math.ceil((Math.max(...zs) + outer) / FOUNDATION_SCATTER_CELL_M);
+  const seed = hashString(treatment.id);
+  const points: FoundationScatterPoint[] = [];
+  for (let iz = minZ; iz <= maxZ; iz++) {
+    for (let ix = minX; ix <= maxX; ix++) {
+      const x = (ix + 0.5) * FOUNDATION_SCATTER_CELL_M
+        + (u01(hash32(ix, iz, seed, 0)) - 0.5) * FOUNDATION_SCATTER_CELL_M * 0.55;
+      const z = (iz + 0.5) * FOUNDATION_SCATTER_CELL_M
+        + (u01(hash32(ix, iz, seed, 1)) - 0.5) * FOUNDATION_SCATTER_CELL_M * 0.55;
+      const weight = foundationScatterWeight(x, z, treatment);
+      if (weight <= 0 || u01(hash32(ix, iz, seed, 2)) >= weight * 0.42) continue;
+      points.push({
+        x, z,
+        yaw: u01(hash32(ix, iz, seed, 3)) * Math.PI * 2,
+        scale: 0.55 + u01(hash32(ix, iz, seed, 4)) * 1.15,
+        keep: u01(hash32(ix, iz, seed, 5)),
+      });
+    }
+  }
+  return points;
 }
 
 /** Reject by origin PLUS species radius: a fern rooted outside a floor may
@@ -132,14 +226,11 @@ export function excludedByFootprints(
   x: number, z: number, radiusM: number, footprints: readonly Footprint[],
 ): boolean {
   for (const poly of footprints) {
-    let inside = false;
     for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
       const a = poly[i]; const b = poly[j];
-      if ((a[1] > z) !== (b[1] > z)
-          && x < ((b[0] - a[0]) * (z - a[1])) / (b[1] - a[1]) + a[0]) inside = !inside;
       if (pointSegmentDistance(x, z, a, b) <= radiusM) return true;
     }
-    if (inside) return true;
+    if (insideFootprint(x, z, poly)) return true;
   }
   return false;
 }
@@ -197,6 +288,8 @@ export interface GroundcoverStats {
   /** 1 unless the authored densities exceeded MAX_INSTANCES; then the
    * proportional thinning factor actually applied. */
   densityScale: number;
+  /** Deterministic foundation rubble in the exported signed-distance bands. */
+  foundationScatterInstances: number;
 }
 
 export function Groundcover({
@@ -221,10 +314,12 @@ export function Groundcover({
   const [control, setControl] = useState<ControlRaster | null>(null);
   const [chunks, setChunks] = useState<ChunksManifest | null>(null);
   const [exclusions, setExclusions] = useState<Footprint[]>([]);
+  const [foundationTreatments, setFoundationTreatments] = useState<FoundationTreatment[]>([]);
   const radii = useRef(new Map<string, number>());
   const water = useRef<WaterData | null>(null);
   const store = sharedChunkStore(baseUrl);
   const meshes = useRef<THREE.InstancedMesh[]>([]);
+  const foundationScatterMesh = useRef<THREE.InstancedMesh | null>(null);
   const requested = useRef(new Set<string>());
   const focusTile = useRef<[number, number]>([Number.NaN, Number.NaN]);
   const [revision, setRevision] = useState(0);
@@ -244,8 +339,13 @@ export function Groundcover({
       .catch(() => undefined);
     fetch(`${baseUrl}province/settlements.json`)
       .then((r) => r.ok ? r.json() : Promise.reject(new Error("no settlements")))
-      .then((b: { groundTreatments?: { footprintM: Footprint }[] }) => {
-        if (!cancelled) setExclusions((b.groundTreatments ?? []).map((t) => t.footprintM));
+      .then((b: { groundTreatments?: FoundationTreatment[] }) => {
+        if (!cancelled) {
+          const treatments = (b.groundTreatments ?? []).filter((t) =>
+            Array.isArray(t.footprintM) && Array.isArray(t.foundationScatterBandM));
+          setExclusions(treatments.map((t) => t.footprintM));
+          setFoundationTreatments(treatments);
+        }
       })
       .catch(() => undefined);
     sharedControlRaster(baseUrl)
@@ -272,6 +372,16 @@ export function Groundcover({
   useEffect(() => {
     if (manifest) setKit(buildFloraKit(gltf, manifest));
   }, [gltf, manifest]);
+
+  useEffect(() => () => {
+    const mesh = foundationScatterMesh.current;
+    if (!mesh) return;
+    mesh.removeFromParent();
+    mesh.geometry.dispose();
+    (mesh.material as THREE.Material).dispose();
+    mesh.dispose();
+    foundationScatterMesh.current = null;
+  }, []);
 
   // The easy half of the wind work: groundcover casts no shadows, so there is
   // no depth-material twin to keep in step (see Vegetation.tsx).
@@ -314,6 +424,13 @@ export function Groundcover({
       mesh.dispose();
     }
     meshes.current = [];
+    if (foundationScatterMesh.current) {
+      group.remove(foundationScatterMesh.current);
+      foundationScatterMesh.current.geometry.dispose();
+      (foundationScatterMesh.current.material as THREE.Material).dispose();
+      foundationScatterMesh.current.dispose();
+      foundationScatterMesh.current = null;
+    }
 
     const focus = focusRef.current;
     const waterData = water.current;
@@ -447,18 +564,58 @@ export function Groundcover({
       }
     }
 
+    // The compiler-authored foundation band is separate from ordinary flora:
+    // grass/fern exclusion still accounts for the full species radius, while
+    // these small rubble pieces occupy only the explicitly exported outside
+    // band and never appear beneath a building floor.
+    const scatter = foundationTreatments
+      .flatMap(foundationScatterPoints)
+      .filter((p) => Math.hypot(focus.x - p.x, focus.z - p.z) <= ringRadiusM)
+      .filter((p) => !waterData || waterData.depthProxy(p.x, p.z) <= LAND_SPECIES_MAX_DEPTH_M);
+    const groundedScatter = scatter.flatMap((point) => {
+      const heightM = groundHeightM(store, chunks, point.x, point.z);
+      return heightM === null ? [] : [{ point, heightM }];
+    });
+    const scatterScale = groundedScatter.length > MAX_FOUNDATION_SCATTER
+      ? MAX_FOUNDATION_SCATTER / groundedScatter.length : 1;
+    const visibleScatter = groundedScatter.filter(({ point }) => point.keep < scatterScale);
+    if (visibleScatter.length) {
+      const geometry = new THREE.DodecahedronGeometry(0.13, 0);
+      const material = new THREE.MeshStandardMaterial({ color: 0x5b5142, roughness: 1 });
+      material.userData.esAerial = true;
+      const mesh = new THREE.InstancedMesh(geometry, material, visibleScatter.length);
+      for (let i = 0; i < visibleScatter.length; i++) {
+        const { point: p, heightM } = visibleScatter[i];
+        position.set(p.x, heightM * verticalScale + 0.06 * p.scale, p.z);
+        quaternion.setFromAxisAngle(up, p.yaw);
+        scale.set(p.scale * 1.35, p.scale * 0.55, p.scale);
+        mesh.setMatrixAt(i, matrix.compose(position, quaternion, scale));
+      }
+      mesh.instanceMatrix.needsUpdate = true;
+      mesh.computeBoundingSphere();
+      mesh.castShadow = false;
+      mesh.receiveShadow = true;
+      mesh.name = "foundation-scatter";
+      group.add(mesh);
+      foundationScatterMesh.current = mesh;
+      triangles += (geometry.getIndex()?.count ?? geometry.attributes.position.count)
+        / 3 * visibleScatter.length;
+    }
+
     const stats: GroundcoverStats = {
       instances,
-      draws: meshes.current.length,
+      draws: meshes.current.length + (foundationScatterMesh.current ? 1 : 0),
       triangles: Math.round(triangles),
       tiles,
       densityScale,
+      foundationScatterInstances: visibleScatter.length,
     };
     onStats?.(stats);
     // Same convention as __STUDIO_VEGETATION_DEBUG__: probes read numbers.
     (window as unknown as { __STUDIO_GROUNDCOVER_DEBUG__?: GroundcoverStats })
       .__STUDIO_GROUNDCOVER_DEBUG__ = stats;
-  }, [kit, control, chunks, exclusions, revision, verticalScale, onStats, focusRef, store, ringRadiusM, maxInstances]);
+  }, [kit, control, chunks, exclusions, foundationTreatments, revision, verticalScale,
+      onStats, focusRef, store, ringRadiusM, maxInstances]);
 
   return <group ref={root} name="groundcover" />;
 }
