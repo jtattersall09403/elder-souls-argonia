@@ -12,20 +12,23 @@ def _record(place_id: str = "place.test.landform", requests: list[dict] | None =
         "id": place_id,
         "position": {"u": 0.25, "v": 0.75},
         "terrainRequests": requests if requests is not None else [
-            {"kind": "sinkhole", "radiusM": 40, "note": "A required collapse."}
+            {"kind": "sinkhole", "radiusM": 40,
+             "delivery": {"feature": "collapse-throat", "depthM": 12},
+             "note": "A required collapse."}
         ],
     }
 
 
 def _good_manifest(plan: dict) -> dict:
     return {
-        "schemaVersion": 1,
+        "schemaVersion": tr.FULFILLMENT_SCHEMA_VERSION,
         "kind": "terrain-request-fulfillments",
         "sourceDigest": plan["sourceDigest"],
         "planDigest": plan["planDigest"],
         "fulfillments": [
             {"requestId": row["id"], "operationIds": row["operationIds"],
-             "evidenceRefs": [f"heightfield-region.{row['id']}"]}
+             "evidenceRefs": [f"heightfield-region.{row['id']}"],
+             "deliverySha256": tr.delivery_digest(row["delivery"])}
             for row in plan["requests"]
         ],
     }
@@ -54,9 +57,10 @@ def test_plan_has_explicit_stable_bounded_operations_and_typed_defaults():
     assert operation["centerM"] == [250.0, 750.0]
     assert operation["boundsM"] == {"minXM": 210.0, "minZM": 710.0,
                                     "maxXM": 290.0, "maxZM": 790.0}
-    assert operation["parameters"]["deltaM"] == tr.KIND_SPECS["sinkhole"].deltaM
+    assert operation["parameters"]["deltaM"] == 12.0
     # IDs depend on semantic content, not array order.
-    second = {"kind": "cave-mouth", "radiusM": 20, "note": "An aperture."}
+    second = {"kind": "cave-mouth", "radiusM": 20,
+              "delivery": {"feature": "aperture"}, "note": "An aperture."}
     forward, _ = tr.build_plan([_record(requests=_record()["terrainRequests"] + [second])])
     reverse, _ = tr.build_plan([_record(requests=[second] + _record()["terrainRequests"])])
     assert tr.serialise(forward) == tr.serialise(reverse)
@@ -71,10 +75,10 @@ def test_every_catalogue_kind_has_exactly_one_implementation_policy():
 
 def test_unknown_kind_missing_geometry_and_duplicate_are_rejected():
     requests = [
-        {"kind": "volcano", "radiusM": 20, "note": "No."},
-        {"kind": "pool", "note": "No radius."},
-        {"kind": "sinkhole", "radiusM": 40, "note": "Same."},
-        {"kind": "sinkhole", "radiusM": 40, "note": "Same."},
+        {"kind": "volcano", "radiusM": 20, "delivery": {"feature": "cone"}, "note": "No."},
+        {"kind": "pool", "delivery": {"feature": "pool"}, "note": "No radius."},
+        {"kind": "sinkhole", "radiusM": 40, "delivery": {"feature": "hole"}, "note": "Same."},
+        {"kind": "sinkhole", "radiusM": 40, "delivery": {"feature": "hole"}, "note": "Same."},
     ]
     record = _record(requests=requests)
     record.pop("position")
@@ -87,14 +91,14 @@ def test_unknown_kind_missing_geometry_and_duplicate_are_rejected():
 
 def test_opposing_landforms_at_one_anchor_are_rejected_but_layered_work_is_not():
     opposing = _record(requests=[
-        {"kind": "dry-rise", "radiusM": 40, "note": "Raise it."},
-        {"kind": "sinkhole", "radiusM": 40, "note": "Lower it."},
+        {"kind": "dry-rise", "radiusM": 40, "delivery": {"feature": "rise"}, "note": "Raise it."},
+        {"kind": "sinkhole", "radiusM": 40, "delivery": {"feature": "hole"}, "note": "Lower it."},
     ])
     _plan, errors = tr.build_plan([opposing])
     assert any("contradictory" in error for error in errors)
     layered = _record(requests=[
-        {"kind": "narrows", "radiusM": 40, "note": "Pinch the banks."},
-        {"kind": "pool", "radiusM": 80, "note": "Deep water beside the crossing."},
+        {"kind": "narrows", "radiusM": 40, "delivery": {"feature": "pinch"}, "note": "Pinch the banks."},
+        {"kind": "pool", "radiusM": 80, "delivery": {"feature": "pool"}, "note": "Deep water beside the crossing."},
     ])
     _plan, errors = tr.build_plan([layered])
     assert not errors
@@ -113,7 +117,8 @@ def test_fulfillment_manifest_must_cover_exact_source_and_operations_with_eviden
 
     stale = copy.deepcopy(good)
     stale["fulfillments"].append({"requestId": "terrain-request.stale", "operationIds": [],
-                                  "evidenceRefs": ["heightfield-region.stale"]})
+                                  "evidenceRefs": ["heightfield-region.stale"],
+                                  "deliverySha256": "stale"})
     assert any("stale fulfillment" in error
                for error in tr.verify_fulfillment_manifest(plan, stale))
 
@@ -123,6 +128,11 @@ def test_fulfillment_manifest_must_cover_exact_source_and_operations_with_eviden
     failures = tr.verify_fulfillment_manifest(plan, partial)
     assert any("operationIds" in error for error in failures)
     assert any("evidenceRefs" in error for error in failures)
+
+    wrong_contract = copy.deepcopy(good)
+    wrong_contract["fulfillments"][0]["deliverySha256"] = "stale-contract"
+    assert any("deliverySha256" in error
+               for error in tr.verify_fulfillment_manifest(plan, wrong_contract))
 
 
 def test_manifest_is_invalidated_when_source_request_changes():
@@ -134,6 +144,26 @@ def test_manifest_is_invalidated_when_source_request_changes():
     assert not errors
     assert any("sourceDigest" in error
                for error in tr.verify_fulfillment_manifest(changed_plan, manifest))
+
+
+def test_delivery_contract_is_typed_content_addressed_and_not_inferred_from_note():
+    missing = _record()
+    missing["terrainRequests"][0].pop("delivery")
+    _plan, errors = tr.build_plan([missing])
+    assert any("delivery" in error for error in errors)
+
+    invalid = _record()
+    invalid["terrainRequests"][0]["delivery"] = {"feature": "hole", "depthM": "deep"}
+    _plan, errors = tr.build_plan([invalid])
+    assert any("depthM" in error for error in errors)
+
+    original, _ = tr.build_plan([_record()])
+    changed = _record()
+    changed["terrainRequests"][0]["delivery"]["depthM"] = 13
+    changed_plan, errors = tr.build_plan([changed])
+    assert not errors
+    assert changed_plan["operations"][0]["parameters"]["deltaM"] == 13
+    assert changed_plan["planDigest"] != original["planDigest"]
 
 
 def test_manifest_is_bound_to_the_exact_operation_policy():

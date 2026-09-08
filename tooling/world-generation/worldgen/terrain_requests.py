@@ -1,8 +1,8 @@
 """Compile catalogue ``terrainRequests`` into a deterministic terrain-work plan.
 
-The catalogue describes *why* a landform is needed, but the terrain chain needs
-typed instructions which do not depend on interpreting that prose.  This module
-is the boundary between those concerns: every request is resolved at its placed
+The catalogue describes *why* a landform is needed in ``note`` and describes
+what must physically be delivered in its typed ``delivery`` contract. This
+module never interprets the note: every request is resolved at its placed
 catalogue position and expanded through the closed ``KIND_SPECS`` vocabulary.
 
 The resulting operations deliberately stop short of editing a raster.  A later
@@ -27,8 +27,28 @@ from typing import Iterable
 from . import catalogue
 from .scale import PROVINCE_EXTENT_M
 
-SCHEMA_VERSION = 1
-FULFILLMENT_SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
+FULFILLMENT_SCHEMA_VERSION = 2
+
+DELIVERY_FIELDS = {
+    "feature", "featureCount", "depthM", "heightM", "widthM", "lengthM",
+    "orientation", "bank", "current", "crossingsMin", "isletCount",
+    "ledgeCount", "connectionCount", "sides", "waterRelation", "access",
+    "depthClass", "heightClass", "capacity", "offsetBoatLengths",
+}
+ORIENTATIONS = {"north", "north-east", "east", "south-east", "south", "south-west", "west",
+                "north-west", "downslope", "contour", "flow", "waterward"}
+BANK_FORMS = {"natural", "firm", "hard", "shelving", "steep", "root-walled", "rock-nose"}
+CURRENT_CLASSES = {"standing", "slack", "slow", "flowing", "swift", "lethal-wet-season", "tidal"}
+WATER_RELATIONS = {
+    "above-flood", "above-storm-water", "below-lake-bed", "channel-edge", "channel-linked",
+    "flooded-to-rim", "open-water", "ringed-by-water", "standing-water", "underwater-entry",
+    "water-over-threshold", "waterward-outlet",
+}
+ACCESS_FORMS = {"boat-landing", "causeway-only", "climb-only", "one-landing", "poling", "swimming"}
+DEPTH_CLASSES = {"shallow", "navigable", "swimming", "diving", "dark-from-surface", "below-bed"}
+HEIGHT_CLASSES = {"low", "flood-free", "storm-free", "tiered-roosts"}
+CAPACITIES = {"person-only", "stream", "poled-skiff", "punt", "sea-going-hull", "laden-landing", "sub-house"}
 
 
 @dataclass(frozen=True)
@@ -102,6 +122,23 @@ def _digest(value: object, length: int = 12) -> str:
     return hashlib.sha256(_canonical(value).encode("utf-8")).hexdigest()[:length]
 
 
+def delivery_digest(delivery: dict) -> str:
+    return hashlib.sha256(_canonical(delivery).encode("utf-8")).hexdigest()
+
+
+def delivery_delta(spec: KindSpec, delivery: dict) -> float:
+    explicit = delivery.get("depthM" if spec.action == "carve" else "heightM")
+    if explicit is not None:
+        return float(explicit)
+    depth_factor = {"shallow": 0.5, "navigable": 0.85, "swimming": 1.15,
+                    "diving": 1.5, "dark-from-surface": 2.0, "below-bed": 2.0}
+    height_factor = {"low": 0.7, "flood-free": 1.2, "storm-free": 1.5,
+                     "tiered-roosts": 1.5}
+    factor = (depth_factor if spec.action == "carve" else height_factor).get(
+        delivery.get("depthClass" if spec.action == "carve" else "heightClass"), 1.0)
+    return spec.deltaM * factor
+
+
 def _request_id(place_id: str, request: dict) -> str:
     return f"terrain-request.{place_id.removeprefix('place.')}.{request['kind']}.{_digest(request)}"
 
@@ -142,7 +179,45 @@ def _request_errors(record: dict, index: int, request: object) -> list[str]:
     note = request.get("note")
     if not isinstance(note, str) or not note.strip():
         errors.append(f"{prefix}.note must be non-empty fulfillment evidence")
-    extra = sorted(set(request) - {"kind", "radiusM", "note"})
+    delivery = request.get("delivery")
+    if not isinstance(delivery, dict) or not delivery:
+        errors.append(f"{prefix}.delivery must be a non-empty typed terrain contract")
+    else:
+        unknown = sorted(set(delivery) - DELIVERY_FIELDS)
+        if unknown:
+            errors.append(f"{prefix}.delivery has unknown fields {unknown}")
+        feature = delivery.get("feature")
+        if not isinstance(feature, str) or not feature or any(
+                char not in "abcdefghijklmnopqrstuvwxyz0123456789-" for char in feature):
+            errors.append(f"{prefix}.delivery.feature must be a non-empty kebab-case stable value")
+        for field in ("featureCount", "crossingsMin", "isletCount", "ledgeCount", "connectionCount", "sides"):
+            value = delivery.get(field)
+            if value is not None and (isinstance(value, bool) or not isinstance(value, int) or value <= 0):
+                errors.append(f"{prefix}.delivery.{field} must be a positive integer")
+        for field in ("depthM", "heightM", "widthM", "lengthM", "offsetBoatLengths"):
+            value = delivery.get(field)
+            if value is not None and (isinstance(value, bool) or not isinstance(value, (int, float))
+                                      or not math.isfinite(value) or value <= 0):
+                errors.append(f"{prefix}.delivery.{field} must be a finite positive number")
+        if delivery.get("depthM") is not None and delivery.get("heightM") is not None:
+            errors.append(f"{prefix}.delivery cannot specify both depthM and heightM")
+        if delivery.get("orientation") not in ORIENTATIONS | {None}:
+            errors.append(f"{prefix}.delivery.orientation must be one of {sorted(ORIENTATIONS)}")
+        if delivery.get("bank") not in BANK_FORMS | {None}:
+            errors.append(f"{prefix}.delivery.bank must be one of {sorted(BANK_FORMS)}")
+        if delivery.get("current") not in CURRENT_CLASSES | {None}:
+            errors.append(f"{prefix}.delivery.current must be one of {sorted(CURRENT_CLASSES)}")
+        if delivery.get("waterRelation") not in WATER_RELATIONS | {None}:
+            errors.append(f"{prefix}.delivery.waterRelation must be one of {sorted(WATER_RELATIONS)}")
+        if delivery.get("access") not in ACCESS_FORMS | {None}:
+            errors.append(f"{prefix}.delivery.access must be one of {sorted(ACCESS_FORMS)}")
+        if delivery.get("depthClass") not in DEPTH_CLASSES | {None}:
+            errors.append(f"{prefix}.delivery.depthClass must be one of {sorted(DEPTH_CLASSES)}")
+        if delivery.get("heightClass") not in HEIGHT_CLASSES | {None}:
+            errors.append(f"{prefix}.delivery.heightClass must be one of {sorted(HEIGHT_CLASSES)}")
+        if delivery.get("capacity") not in CAPACITIES | {None}:
+            errors.append(f"{prefix}.delivery.capacity must be one of {sorted(CAPACITIES)}")
+    extra = sorted(set(request) - {"kind", "radiusM", "delivery", "note"})
     if extra:
         errors.append(f"{prefix} has unknown fields {extra}")
     return errors
@@ -226,13 +301,15 @@ def build_plan(records: Iterable[dict], extent_m: float = PROVINCE_EXTENT_M) -> 
                 "placeId": place_id,
                 "sourcePath": source_path,
                 "kind": request["kind"],
+                "delivery": request["delivery"],
                 "authoredNote": request["note"].strip(),
                 "operationIds": [operation_id],
             })
             parameters = {
-                "deltaM": spec.deltaM,
+                "deltaM": delivery_delta(spec, request["delivery"]),
                 "falloffFraction": spec.falloffFraction,
                 **dict(spec.parameters),
+                "delivery": request["delivery"],
             }
             operations.append({
                 "id": operation_id,
@@ -308,6 +385,9 @@ def verify_fulfillment_manifest(plan: dict, manifest: dict) -> list[str]:
         evidence = row.get("evidenceRefs")
         if not isinstance(evidence, list) or not evidence or any(not isinstance(x, str) or not x for x in evidence):
             errors.append(f"{request_id}: evidenceRefs must name produced terrain artifacts")
+        request = next(item for item in plan["requests"] if item["id"] == request_id)
+        if row.get("deliverySha256") != delivery_digest(request["delivery"]):
+            errors.append(f"{request_id}: deliverySha256 does not match the typed terrain contract")
     return errors
 
 

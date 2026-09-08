@@ -357,6 +357,8 @@ def _validate_v2_blocks(rec: dict, rid: str, errors: list[str]) -> None:
     for i, tr in enumerate(rec.get("terrainRequests") or []):
         if not isinstance(tr, dict) or tr.get("kind") not in TERRAIN_REQUEST_KINDS:
             _fail(errors, rid, f"terrainRequests[{i}].kind must be one of {sorted(TERRAIN_REQUEST_KINDS)}")
+        elif not isinstance(tr.get("delivery"), dict) or not tr["delivery"]:
+            _fail(errors, rid, f"terrainRequests[{i}].delivery must be a non-empty typed terrain contract")
         elif not isinstance(tr.get("note"), str) or not tr["note"].strip():
             _fail(errors, rid, f"terrainRequests[{i}].note must say what the ground must do for the place")
     pp = rec.get("playerPurpose")

@@ -245,6 +245,7 @@
         {
           "kind": "pool",
           "radiusM": 50,
+          "delivery": {"feature":"root-chamber-dive-pool","depthM":6,"current":"standing","waterRelation":"standing-water","access":"swimming"},
           "note": "the flooded shortcut needs six metres of standing water over the root chamber, or the dive is not a dive"
         }
       ]
@@ -2583,6 +2584,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 90,
+          "delivery": {"feature":"three-sided-water-rise","waterRelation":"ringed-by-water","access":"poling","sides":3,"heightClass":"flood-free"},
           "note": "the tribe's seat stands on a rise with black water round three sides of it and one poling approach"
         }
       ],
@@ -3929,11 +3931,13 @@
         {
           "kind": "narrows",
           "radiusM": 30,
+          "delivery": {"feature":"root-wall-outflow","bank":"root-walled","sides":2},
           "note": "the whole zone's outflow has to squeeze through here, so the channel must pinch between two root walls"
         },
         {
           "kind": "narrows",
           "radiusM": 60,
+          "delivery": {"feature":"single-root-wall-outlet","bank":"root-walled","current":"tidal","connectionCount":1},
           "note": "the single outlet of the inner swamp, pinched between two root walls — the tidal gate the place is named for"
         }
       ]
@@ -5236,6 +5240,7 @@
         {
           "kind": "cut",
           "radiusM": 90,
+          "delivery": {"feature":"cut","lengthM":60,"waterRelation":"channel-linked"},
           "note": "the sixty-metre channel between the caged tree and the bank its tribe camps on; without it there is no standoff"
         }
       ]
@@ -5654,6 +5659,7 @@
         {
           "kind": "cut",
           "radiusM": 60,
+          "delivery": {"feature":"joinable-paired-channels","featureCount":2,"connectionCount":2,"waterRelation":"channel-linked"},
           "note": "two channels close enough that cut stone could join them, which is the reason why the works were built here"
         }
       ]
@@ -8586,6 +8592,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 80,
+          "delivery": {"feature":"flood-free-trading-rise","bank":"steep","waterRelation":"above-flood","heightClass":"flood-free","capacity":"laden-landing"},
           "note": "firm ground above the flood for a hold that trades, with a bank steep enough for a laden landing"
         }
       ],
@@ -11384,6 +11391,7 @@
         {
           "kind": "sinkhole",
           "radiusM": 40,
+          "delivery": {"feature":"sinkhole","waterRelation":"flooded-to-rim"},
           "note": "the place IS the hole: a round collapse in the root layer, flooded to within a metre of its rim"
         }
       ]
@@ -13047,6 +13055,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 60,
+          "delivery": {"feature":"dry-rise"},
           "note": "the rice ground four villages still argue over sat on a rise, and the houses on it are standing yet"
         }
       ]

@@ -1272,6 +1272,7 @@
         {
           "kind": "sinkhole",
           "radiusM": 45,
+          "delivery": {"feature":"stream-swallowing-collapse","ledgeCount":1,"capacity":"stream"},
           "note": "A collapse throat wide enough to swallow a stream, with an undercut ledge below the rim; the record's whole identity is the hole."
         }
       ]
@@ -3762,6 +3763,7 @@
         {
           "kind": "cut",
           "radiusM": 90,
+          "delivery": {"feature":"screened-back-channels","featureCount":2,"waterRelation":"channel-linked","depthClass":"navigable","capacity":"poled-skiff","access":"poling"},
           "note": "Two back channels reaching the shelter's doors, deep enough for a poled skiff and screened from the toll line."
         }
       ],
@@ -5981,6 +5983,7 @@
         {
           "kind": "narrows",
           "radiusM": 60,
+          "delivery": {"feature":"narrows"},
           "note": "The last land narrows on the southern approach, where a cordon could be held with a fence and one gate."
         }
       ],
@@ -10416,6 +10419,7 @@
         {
           "kind": "sinkhole",
           "radiusM": 40,
+          "delivery": {"feature":"karst-dive-shaft","widthM":9,"depthClass":"below-bed","waterRelation":"below-lake-bed"},
           "note": "A karst shaft nine metres across dropping well below the lake bed — the record's entire identity; the plot found no natural sinkhole here."
         }
       ],
@@ -10673,6 +10677,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 35,
+          "delivery": {"feature":"spoil-hidden-dry-rise","heightClass":"flood-free","waterRelation":"above-flood"},
           "note": "A low spoil-hidden rise above the marsh water table, enough to keep a shored shaft dry."
         }
       ],

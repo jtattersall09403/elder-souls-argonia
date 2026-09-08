@@ -16,10 +16,25 @@ from typing import Any
 import numpy as np
 
 from . import terrain_requests as tr
+from .scale import RAW_M, SOURCE_GRID_SAMPLES, TERRAIN_SUPPORT_EXTENT_M
 
 
 class TerrainRequestRasterError(ValueError):
     """The plan or raster cannot be executed without guessing."""
+
+
+def _validate_raster_registration(shape: tuple[int, int], mps: float,
+                                  authored_extent_m: float) -> None:
+    """Distinguish production terrain support from the authored UV frame."""
+    tolerance = max(1e-6, mps * 1e-6)
+    raster_extents = ((shape[1] - 1) * mps, (shape[0] - 1) * mps)
+    production = shape == (SOURCE_GRID_SAMPLES, SOURCE_GRID_SAMPLES) \
+        and abs(mps - RAW_M) <= tolerance
+    expected = TERRAIN_SUPPORT_EXTENT_M if production else authored_extent_m
+    if any(abs(value - expected) > tolerance for value in raster_extents):
+        label = "terrain support" if production else "plan coordinate extent"
+        raise TerrainRequestRasterError(
+            f"raster support {raster_extents} does not match {label} {expected}")
 
 
 def _canonical(value: object) -> str:
@@ -93,6 +108,23 @@ def _resolve_axis(
     cz = int(np.clip(round(float(operation["centerM"][1]) / mps), 0, height.shape[0] - 1))
     downslope = _local_downslope(height, cx, cz, mps)
     resolver = operation["axisResolver"]
+    orientation = operation["parameters"]["delivery"].get("orientation")
+    bearings = {
+        "east": (1.0, 0.0), "south-east": (math.sqrt(0.5), math.sqrt(0.5)),
+        "south": (0.0, 1.0), "south-west": (-math.sqrt(0.5), math.sqrt(0.5)),
+        "west": (-1.0, 0.0), "north-west": (-math.sqrt(0.5), -math.sqrt(0.5)),
+        "north": (0.0, -1.0), "north-east": (math.sqrt(0.5), -math.sqrt(0.5)),
+    }
+    if orientation in bearings:
+        return bearings[orientation], "authored-orientation"
+    if orientation == "downslope":
+        return downslope, "authored-downslope"
+    if orientation == "contour":
+        return (-downslope[1], downslope[0]), "authored-contour"
+    if orientation == "flow":
+        resolver = "local-flow"
+    elif orientation == "waterward":
+        resolver = "nearest-water-path"
     if resolver == "none":
         return (1.0, 0.0), "none"
     if resolver == "local-gradient":
@@ -118,6 +150,27 @@ def _resolve_axis(
 
 def _profile_weight(profile: str, x: np.ndarray, z: np.ndarray, parameters: dict) -> np.ndarray:
     """Evaluate one compact-support profile in radius-normalised coordinates."""
+    delivery = parameters["delivery"]
+    # Authored dimensions are full feature dimensions within the request's
+    # compact support. Shorter requested features contract rather than bleed
+    # beyond radius; categorical hydraulic constraints change cross-section.
+    radius_m = float(parameters["radiusM"])
+    length_scale = min(1.0, float(delivery.get("lengthM", 2.0 * radius_m)) / (2.0 * radius_m))
+    capacity_scale = {"person-only": 0.12, "stream": 0.18, "poled-skiff": 0.28,
+                      "laden-landing": 0.32, "punt": 0.38, "sub-house": 0.42,
+                      "sea-going-hull": 0.58}.get(delivery.get("capacity"), 1.0)
+    width_scale = min(1.0, float(delivery.get("widthM", 2.0 * radius_m)) / (2.0 * radius_m)) \
+        * capacity_scale
+    bank_scale = {"hard": 0.72, "root-walled": 0.72, "rock-nose": 0.78,
+                  "firm": 0.86, "steep": 0.82, "natural": 1.0, "shelving": 1.18}.get(
+                      delivery.get("bank"), 1.0)
+    current_scale = {"lethal-wet-season": 0.65, "swift": 0.75, "flowing": 0.9,
+                     "tidal": 0.95, "slow": 1.1, "slack": 1.2,
+                     "standing": 1.25}.get(delivery.get("current"), 1.0)
+    offset = float(delivery.get("offsetBoatLengths", 0.0)) * 8.0 / radius_m
+    length_scale = min(length_scale, max(1e-6, 1.0 - abs(offset)))
+    x = (x - offset) / max(length_scale, 1e-6)
+    z = z / max(width_scale * bank_scale * current_scale, 1e-6)
     r = np.hypot(x, z)
     inside = r <= 1.0
     falloff = float(parameters["falloffFraction"])
@@ -193,6 +246,18 @@ def _profile_weight(profile: str, x: np.ndarray, z: np.ndarray, parameters: dict
     # parameters shape the authored feature inside it; this envelope guarantees
     # every operation meets unchanged terrain continuously at its radius.
     weight *= _plateau(r, inner)
+    along_count = max(int(delivery.get(name, 1)) for name in ("crossingsMin", "ledgeCount"))
+    across_count = max(int(delivery.get(name, 1)) for name in
+                       ("featureCount", "isletCount", "connectionCount"))
+    # Crossings/ledges repeat along the resolved axis; distinct channels,
+    # islets and connected features repeat across it. Zero-valued joins make
+    # cardinality geometric rather than a metadata-only promise.
+    if along_count > 1:
+        phase = (x + 1.0) * 0.5 * along_count
+        weight *= np.sin(np.pi * np.clip(np.mod(phase, 1.0), 0.0, 1.0)) ** 2
+    if across_count > 1:
+        phase = (z + 1.0) * 0.5 * across_count
+        weight *= np.sin(np.pi * np.clip(np.mod(phase, 1.0), 0.0, 1.0)) ** 2
     return np.where(inside, np.clip(weight, 0.0, 1.0), 0.0)
 
 
@@ -256,8 +321,14 @@ def _validate_plan(plan: dict) -> None:
             if spec is None:
                 errors.append(f"{operation.get('id')}: request kind is missing or unknown")
                 continue
-            expected_parameters = {"deltaM": spec.deltaM, "falloffFraction": spec.falloffFraction,
-                                   **dict(spec.parameters)}
+            request = next((row for row in requests if isinstance(row, dict)
+                            and row.get("id") == operation.get("requestId")), {})
+            delivery = request.get("delivery", {})
+            expected_parameters = {
+                "deltaM": tr.delivery_delta(spec, delivery),
+                "falloffFraction": spec.falloffFraction, **dict(spec.parameters),
+                "delivery": delivery,
+            }
             if (operation.get("action"), operation.get("profile"), operation.get("axisResolver")) != \
                     (spec.action, spec.profile, spec.axisResolver):
                 errors.append(f"{operation.get('id')}: operation policy does not match kind {kind!r}")
@@ -310,16 +381,7 @@ def apply_plan(
         raise TerrainRequestRasterError("metres_per_sample must be finite and positive")
     mps = float(metres_per_sample)
     extent = float(plan["extentM"])
-    raster_extents = ((height.shape[1] - 1) * mps, (height.shape[0] - 1) * mps)
-    tolerance = max(1e-6, mps * 1e-6)
-    # Production's authored UV frame extends two raw spacings beyond the last
-    # 4033 terrain vertex. Synthetic/test rasters commonly end exactly at the
-    # coordinate extent. Reject every other registration instead of silently
-    # scaling operations to an unrelated raster.
-    if any(min(abs(extent - value), abs(extent - value - 2.0 * mps)) > tolerance
-           for value in raster_extents):
-        raise TerrainRequestRasterError(
-            f"raster support {raster_extents} does not match plan coordinate extent {extent}")
+    _validate_raster_registration(height.shape, mps, extent)
 
     flow = None if flow_vectors is None else np.asarray(flow_vectors)
     if flow is not None and (flow.shape != height.shape + (2,) or not np.all(np.isfinite(flow))):
@@ -344,7 +406,8 @@ def apply_plan(
         dx, dz = np.meshgrid(world_x, world_z)
         along = (dx * axis_x + dz * axis_z) / radius
         across = (-dx * axis_z + dz * axis_x) / radius
-        weight = _profile_weight(operation["profile"], along, across, operation["parameters"])
+        profile_parameters = {**operation["parameters"], "radiusM": radius}
+        weight = _profile_weight(operation["profile"], along, across, profile_parameters)
         sign = -1.0 if operation["action"] == "carve" else 1.0
         delta = sign * float(operation["parameters"]["deltaM"]) * weight
         total_delta[z0:z1 + 1, x0:x1 + 1] += delta
@@ -360,6 +423,8 @@ def apply_plan(
             "action": operation["action"],
             "axis": [round(axis_x, 9), round(axis_z, 9)],
             "axisSource": axis_source,
+            "delivery": operation["parameters"]["delivery"],
+            "deliverySha256": _digest(operation["parameters"]["delivery"]),
             "sampleBounds": {"minX": x0, "minZ": z0, "maxX": x1, "maxZ": z1},
             "affectedSamples": int(np.count_nonzero(affected)),
             "minDeltaM": float(np.min(values)) if values.size else 0.0,
@@ -383,6 +448,7 @@ def apply_plan(
                 "operationIds": request["operationIds"],
                 "evidenceRefs": [evidence_by_operation[operation_id]
                                  for operation_id in request["operationIds"]],
+                "deliverySha256": tr.delivery_digest(request["delivery"]),
             }
             for request in plan["requests"]
         ],

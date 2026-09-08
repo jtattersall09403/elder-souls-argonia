@@ -1458,6 +1458,7 @@
         {
           "kind": "islet",
           "radiusM": 45,
+          "delivery": {"feature":"lighthouse-foundation-islet","isletCount":1,"waterRelation":"above-storm-water","heightClass":"storm-free"},
           "note": "A lighthouse needs a foundation above storm water; the plot landed it on shallow marsh, so Part 6 raises a hard islet under the tower."
         }
       ]
@@ -13153,6 +13154,7 @@
         {
           "kind": "cliff-bench",
           "radiusM": 60,
+          "delivery": {"feature":"village-cliff-shelf"},
           "note": "The village type is a cliff-shelf village; the plot found flood-high ground, so Part 6 cuts the shelf the houses stand on."
         }
       ],
@@ -13601,6 +13603,7 @@
         {
           "kind": "islet",
           "radiusM": 70,
+          "delivery": {"feature":"cordon-islet","isletCount":1,"waterRelation":"ringed-by-water","access":"one-landing"},
           "note": "The cordon only means anything if the village is an island with one landing; the plot found fringe marsh, so Part 6 raises the islet the record's identity depends on."
         }
       ],
@@ -16707,6 +16710,7 @@
         {
           "kind": "terrace",
           "radiusM": 50,
+          "delivery": {"feature":"subsidence-slope-terrace","bank":"firm","orientation":"downslope"},
           "note": "A subsidence hamlet needs the slope it subsided down; the plot found flat firm ground."
         }
       ]

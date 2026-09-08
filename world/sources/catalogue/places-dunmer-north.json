@@ -4666,6 +4666,7 @@
         {
           "kind": "cliff-bench",
           "radiusM": 80,
+          "delivery": {"feature":"tiered-channel-wall","ledgeCount":3,"orientation":"south","waterRelation":"channel-edge","heightClass":"tiered-roosts"},
           "note": "a ledged south-facing wall standing directly over the channel, high enough for tiered roosts"
         }
       ]
@@ -7976,6 +7977,7 @@
         {
           "kind": "ford",
           "radiusM": 220,
+          "delivery": {"feature":"braided-ford","crossingsMin":3},
           "note": "a braided reach with several gravel-bottomed crossings, so that losing one still leaves a way over"
         }
       ],
@@ -13870,6 +13872,7 @@
         {
           "kind": "narrows",
           "radiusM": 70,
+          "delivery": {"feature":"causeway-span-narrows","access":"causeway-only"},
           "note": "the channel pinches to its narrowest at the causeway's last span, which is why the span ends here"
         }
       ],
@@ -15264,6 +15267,7 @@
         {
           "kind": "pool",
           "radiusM": 55,
+          "delivery": {"feature":"pool","depthM":3,"current":"standing","waterRelation":"standing-water"},
           "note": "still water fed from below, three metres deep, ringed with dead standing timber"
         }
       ]
@@ -16007,6 +16011,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 60,
+          "delivery": {"feature":"dry-rise","waterRelation":"above-flood"},
           "note": "the hammock crown the terrace stands on: the one ground on the island that the flood does not reach"
         }
       ],
@@ -17010,6 +17015,7 @@
         {
           "kind": "pool",
           "radiusM": 60,
+          "delivery": {"feature":"off-bank-dive-pool","depthClass":"diving","orientation":"waterward","offsetBoatLengths":2},
           "note": "deep water two boat-lengths off the bank, so the divers can go down from the landing itself"
         }
       ],
@@ -26306,6 +26312,7 @@
         {
           "kind": "cliff-bench",
           "radiusM": 45,
+          "delivery": {"feature":"ravine-wall-ledge","ledgeCount":1,"capacity":"person-only"},
           "note": "a benched ledge line on the ravine wall, wide enough for a person and not a beast"
         }
       ],
@@ -27042,6 +27049,7 @@
         {
           "kind": "dry-rise",
           "radiusM": 50,
+          "delivery": {"feature":"dry-rise","access":"causeway-only"},
           "note": "a rise in the reedbeds reached by one causeway, which is what made shutting possible"
         }
       ],
@@ -27492,6 +27500,7 @@
         {
           "kind": "hollow",
           "radiusM": 60,
+          "delivery": {"feature":"settlement-floor-hollow","orientation":"downslope","waterRelation":"waterward-outlet"},
           "note": "the ground under the hamlet has dropped: tilted houses on a settling floor, a cracked spring head at the low side"
         }
       ],
@@ -28033,11 +28042,13 @@
         {
           "kind": "gorge",
           "radiusM": 90,
+          "delivery": {"feature":"waterfall-ravine-step"},
           "note": "the ravine step under Stormhold that carries the fall"
         },
         {
           "kind": "cave-mouth",
           "radiusM": 25,
+          "delivery": {"feature":"undercut-curtain-chamber","ledgeCount":1,"access":"climb-only"},
           "note": "the undercut chamber behind the sheet, reached along one ledge"
         }
       ],
@@ -29566,6 +29577,7 @@
         {
           "kind": "islet",
           "radiusM": 140,
+          "delivery": {"feature":"delta-islet-cluster","isletCount":3,"waterRelation":"open-water","capacity":"sub-house"},
           "note": "a cluster of low delta islets in open water, none of them big enough for a house"
         }
       ]
@@ -30277,6 +30289,7 @@
         {
           "kind": "narrows",
           "radiusM": 60,
+          "delivery": {"feature":"rock-narrows","sides":2},
           "note": "a rock narrows with abutment ground on both banks, which is why the road crosses here"
         }
       ],
@@ -30528,6 +30541,7 @@
         {
           "kind": "cut",
           "radiusM": 45,
+          "delivery": {"feature":"channel-arm","waterRelation":"channel-linked","access":"boat-landing"},
           "note": "a channel arm reaching the village's landing steps, which the boat crews still use"
         }
       ]

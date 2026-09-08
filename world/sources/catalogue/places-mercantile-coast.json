@@ -2003,11 +2003,13 @@
         {
           "kind": "narrows",
           "radiusM": 80,
+          "delivery": {"feature":"rope-ferry-narrows"},
           "note": "The channel must pinch here, or a rope ferry cannot be strung across it."
         },
         {
           "kind": "narrows",
           "radiusM": 150,
+          "delivery": {"feature":"ferry-turn-narrows","bank":"firm","current":"slack","sides":2},
           "note": "A ferry crossing needs a narrows with firm banks either side and slack water at the turn."
         }
       ],
@@ -7328,16 +7330,19 @@
         {
           "kind": "narrows",
           "radiusM": 70,
+          "delivery": {"feature":"tidal-draught-sill","capacity":"sea-going-hull"},
           "note": "The channel narrows at the sill, which is what stops a sea-going hull."
         },
         {
           "kind": "ford",
           "radiusM": 45,
+          "delivery": {"feature":"gravel-draught-sill","depthClass":"shallow","access":"poling"},
           "note": "A gravel sill across the bed: deep water below it, poling water above it."
         },
         {
           "kind": "ford",
           "radiusM": 120,
+          "delivery": {"feature":"gravel-draught-sill","depthClass":"shallow","capacity":"sea-going-hull","access":"poling"},
           "note": "A gravel sill across the channel: sea-going draught below it, poling water above it."
         }
       ],
@@ -7741,11 +7746,13 @@
         {
           "kind": "terrace",
           "radiusM": 160,
+          "delivery": {"feature":"paddy-terraces","featureCount":3,"waterRelation":"above-flood","heightClass":"flood-free"},
           "note": "Stepped paddy terraces above the flood line."
         },
         {
           "kind": "levee",
           "radiusM": 120,
+          "delivery": {"feature":"controllable-flood-levee"},
           "note": "A bank the estate cuts to let the flood in and shut it out again."
         }
       ],
@@ -12569,6 +12576,7 @@
         {
           "kind": "islet",
           "radiusM": 140,
+          "delivery": {"feature":"breaking-shoal-bar","isletCount":1,"waterRelation":"open-water"},
           "note": "A breaking shoal bar standing off the strand, with a beach behind it that nothing overlooks."
         }
       ]
@@ -15311,11 +15319,13 @@
         {
           "kind": "sinkhole",
           "radiusM": 45,
+          "delivery": {"feature":"bay-floor-sinkhole","depthM":40},
           "note": "A drowned bay-floor sinkhole forty metres deep; the hole is the place."
         },
         {
           "kind": "pool",
           "radiusM": 110,
+          "delivery": {"feature":"dark-saltwater-pool","depthClass":"dark-from-surface","current":"standing","waterRelation":"open-water"},
           "note": "Standing salt water over the hole, deep enough that the bottom is dark from the surface."
         }
       ]
@@ -15553,11 +15563,13 @@
         {
           "kind": "narrows",
           "radiusM": 90,
+          "delivery": {"feature":"estuary-ferry-narrows"},
           "note": "The estuary must pinch at the crossing, or the ferry has nothing to aim for."
         },
         {
           "kind": "narrows",
           "radiusM": 200,
+          "delivery": {"feature":"estuary-road-ferry-narrows"},
           "note": "The estuary must pinch here, or the coast road has no crossing to be farmed out."
         }
       ],
@@ -18838,6 +18850,7 @@
         {
           "kind": "knoll",
           "radiusM": 60,
+          "delivery": {"feature":"water-ringed-knoll","current":"standing","waterRelation":"ringed-by-water","heightClass":"low"},
           "note": "A low rise the meer stands on, ringed by standing water on every side."
         }
       ]
@@ -27085,11 +27098,13 @@
         {
           "kind": "islet",
           "radiusM": 90,
+          "delivery": {"feature":"rock-stacks","featureCount":2,"isletCount":2,"bank":"steep","waterRelation":"open-water","sides":3},
           "note": "Two rock stacks standing out of salt water, sheer on three sides."
         },
         {
           "kind": "cliff-bench",
           "radiusM": 40,
+          "delivery": {"feature":"landing-ledge","ledgeCount":1,"access":"boat-landing"},
           "note": "One ledge low enough to land a boat crew on."
         }
       ],
@@ -27640,6 +27655,7 @@
         {
           "kind": "pool",
           "radiusM": 80,
+          "delivery": {"feature":"submerged-threshold-pool","depthClass":"swimming","current":"standing","waterRelation":"underwater-entry"},
           "note": "The shrine door is an underwater entry: it needs standing water over the threshold, not a wet margin."
         }
       ]

@@ -6059,6 +6059,7 @@
         {
           "kind": "narrows",
           "radiusM": 50,
+          "delivery": {"feature":"narrows","current":"lethal-wet-season"},
           "note": "the hazard is the pinch: the channel must close to a width the wet-season flow can run lethal through"
         }
       ]
@@ -7122,6 +7123,7 @@
         {
           "kind": "spring",
           "radiusM": 40,
+          "delivery": {"feature":"drinkable-spring-head","waterRelation":"channel-edge"},
           "note": "The village exists because water rises here drinkable; the ground must give a spring head above the channel."
         }
       ],
@@ -24117,6 +24119,7 @@
         {
           "kind": "gorge",
           "radiusM": 40,
+          "delivery": {"feature":"waterfall-curtain-chamber"},
           "note": "the root-layer spring needs a drop to fall down and a chamber behind the curtain; the region has no natural relief"
         }
       ],

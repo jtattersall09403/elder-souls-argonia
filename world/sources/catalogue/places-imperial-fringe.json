@@ -6971,11 +6971,13 @@
         {
           "kind": "narrows",
           "radiusM": 40.0,
+          "delivery": {"feature":"paired-rock-noses","featureCount":2,"bank":"rock-nose","sides":2},
           "note": "the single stone span needs a rock nose on each bank"
         },
         {
           "kind": "narrows",
           "radiusM": 60.0,
+          "delivery": {"feature":"narrows","bank":"rock-nose","sides":2},
           "note": "the Onkobra's narrowest reach: rock abutments both banks and a single span's width of water, or there is no arch to toll"
         }
       ]
@@ -7228,6 +7230,7 @@
         {
           "kind": "narrows",
           "radiusM": 60.0,
+          "delivery": {"feature":"river-choke","capacity":"sea-going-hull"},
           "note": "the river choke the lodge stands over: every boat going upstream passes within hail of the door"
         }
       ]
@@ -10475,11 +10478,13 @@
         {
           "kind": "narrows",
           "radiusM": 60.0,
+          "delivery": {"feature":"double-bend-ferry-narrows","current":"slack","access":"poling"},
           "note": "a slack double bend narrow enough to pole across"
         },
         {
           "kind": "pool",
           "radiusM": 80.0,
+          "delivery": {"feature":"double-bend-ferry-pool","featureCount":2,"bank":"shelving","current":"slack","sides":2,"capacity":"punt"},
           "note": "a slack double bend on the lower river, wide and deep enough that the crossing needs a punt, with both banks shelving"
         }
       ],
@@ -12131,11 +12136,13 @@
         {
           "kind": "narrows",
           "radiusM": 40.0,
+          "delivery": {"feature":"pile-driving-reach","depthClass":"shallow","current":"slow"},
           "note": "shallow slow water the villagers can drive piles into"
         },
         {
           "kind": "narrows",
           "radiusM": 50.0,
+          "delivery": {"feature":"timber-bridge-reach","depthM":1.5,"current":"slow"},
           "note": "a slow shallow reach at least 1.5 m deep for the timber bridge to span and the reed beds to line"
         }
       ]
@@ -18640,6 +18647,7 @@
         {
           "kind": "pool",
           "radiusM": 45.0,
+          "delivery": {"feature":"flooded-house-basin","depthClass":"swimming","current":"standing","waterRelation":"water-over-threshold","access":"swimming"},
           "note": "the flood that never went back down: standing water over the house floor, deep enough to swim the rooms and enter under the sill"
         }
       ],
@@ -19837,6 +19845,7 @@
         {
           "kind": "cut",
           "radiusM": 60.0,
+          "delivery": {"feature":"yard-wall-channel-junction","waterRelation":"channel-linked","depthClass":"navigable","access":"boat-landing"},
           "note": "the channel junction and the steading's own landing: navigable water up to the yard wall"
         }
       ],
@@ -24791,6 +24800,7 @@
         {
           "kind": "gorge",
           "radiusM": 120.0,
+          "delivery": {"feature":"gorge-wall-bedding-shelf"},
           "note": "the settlement is a bedding shelf on a gorge wall; without the gorge there is no street"
         }
       ],
@@ -28423,6 +28433,7 @@
         {
           "kind": "cliff-bench",
           "radiusM": 30.0,
+          "delivery": {"feature":"elevated-cliff-bench","heightM":40,"access":"climb-only"},
           "note": "a bench forty metres up a wall, reachable by climbing and no path"
         }
       ]

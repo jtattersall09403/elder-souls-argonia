@@ -1428,6 +1428,7 @@
         {
           "kind": "cut",
           "radiusM": 80,
+          "delivery": {"feature":"screened-hull-creek","waterRelation":"channel-linked","depthClass":"navigable","capacity":"sea-going-hull"},
           "note": "the creek mouth behind the rise, deep enough to lie a hull in and screened from the main channel"
         }
       ],
@@ -8691,6 +8692,7 @@
         {
           "kind": "gorge",
           "radiusM": 60,
+          "delivery": {"feature":"flood-high-ravine-wall","waterRelation":"above-flood"},
           "note": "the ravine wall the chamber is cut into, above the flood and below the snow"
         }
       ],
@@ -11542,6 +11544,7 @@
         {
           "kind": "narrows",
           "radiusM": 40,
+          "delivery": {"feature":"hard-banked-road-narrows","bank":"hard"},
           "note": "the hard-banked pinch the span crosses, the narrowest water on the Corimont road"
         }
       ]
