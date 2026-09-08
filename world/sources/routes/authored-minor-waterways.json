@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "authored-minor-waterways",
+  "waterways": [
+    {
+      "id": "waterway.hist-heartland.nine-trunks",
+      "pointsM": [
+        [5032.418, 3893.211],
+        [5025.045, 3856.344],
+        [5010.298, 3819.476],
+        [4992.745, 3786.371]
+      ],
+      "terminalM": [4992.745, 3786.371],
+      "terminalId": "terminal.nine-trunks.landing-channel",
+      "connectsTo": ["network.minor-waterways.hist-heartland"],
+      "source": "Authored natural poling-channel centreline ending at dock.nine-trunks.landing; absolute pre-water source, independent of published route and water rasters."
+    }
+  ]
+}

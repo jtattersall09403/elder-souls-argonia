@@ -124,7 +124,7 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 | G19 connectors — **DONE 2026-09-08** | per-kit `connectors.json` measured from authored co-placement or bounds; every `abuts` join is held to 0.15 m / 5° and an unmeasured kit is visible WARN debt | `pipeline.measure_connectors`, `blueprint_integration` |
 | G8 flood band — **CODE/REPORT DONE 2026-09-08; final-water review pending** | compiled settlements now carry centre/vertex/edge samples, per-district open-water share and WARN-grade section/culture checks; final rasters decide the reviewed values | `compile_settlement.py` `floodBandReport` |
 | G9 dock depth — **DONE 2026-09-08** | `docks[].hullClass` requires its published serving water at the berth and the class depth over the first 100 m; `fit` states which side may move | `blueprint._validate_docks`, `compile_minor_waterways` |
-| G11 terrainRequests — **65/65 typed plan + all 15 raster profiles DONE; chain integration pending** | content-addressed carve/raise operations execute deterministically with typed gradient/contour/flow/water axes, clipped bounds and per-operation raster hashes; an exact fulfillment manifest rejects missing, stale or unevidenced work. Integrate after B5 fixes request positions, before the B2 rebuild | `terrain_requests.py`, `terrain_request_raster.py`, then `refine_province` |
+| G11 terrainRequests — **66/66 typed plan + all 15 raster profiles DONE; chain integration pending** | content-addressed carve/raise operations execute deterministically with typed gradient/contour/flow/water axes, clipped bounds and per-operation raster hashes; an exact fulfillment manifest rejects missing, stale or unevidenced work. Integrate after B5 fixes request positions, before the B2 rebuild | `terrain_requests.py`, `terrain_request_raster.py`, then `refine_province` |
 | G13 first node — **DONE 2026-09-08** | `blueprint_integration` infers the Argonian-stilt spine as the track/boardwalk nearest the gate and requires its first geometric building node to be a typed `market`, `shop` or `hall`; `endsAt` remains truthful terminal data, not a false intermediate-node list. The rule is mutation-tested not to broaden to Imperial or other culture grammars | `blueprint_integration` |
 
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
@@ -209,9 +209,10 @@ the five blueprints, while cached repeat validation is the optimized path.
 The broader measured Phase 11 selection reached 205 passes and one expected
 pre-handoff failure. The five blueprint views now share one build, preview,
 browser and place-picker pass, completing cleanly in 8.6–9.3 s (at least 73%
-faster than five separate runs). The combined Phase 11 probe can reuse that
-same server for the complete water scenario set, so the joint workload pays
-startup only once. The retired blueprint-ground probe was removed rather than
+faster than five separate runs). The combined Phase 11 probe reuses that same
+build and preview server for the complete water scenario set; the two probe
+families still use separate browser processes so their distinct assertion
+harnesses remain isolated. The retired blueprint-ground probe was removed rather than
 kept as dead coverage. The placement gate now also names the final terrain-
 promise postconditions, macro replot and minor-route suites explicitly, so the
 speed work cannot hide those delivery checks.
@@ -283,7 +284,11 @@ the record links it). Alongside water: yes.
   landing path and terminal now sit at the authored south channel head;
   `compile_minor_waterways` preserves a dock-independent natural solve and
   permits a fixed berth only with `fixedBerthReason`. Published regeneration
-  remains blocked on the concurrent water hand-off.
+  is now an explicit item in `rendering/water-handoff.md`: the water compiler
+  owns carving and labelling the authored local reach, while Phase 11 retains
+  the independent exact-terminal, continuous-wetness and first-100-metre
+  depth acceptance gates. This division prevents either workstream from
+  marking the shared outcome complete on its own.
 
 - **DONE 2026-09-08 — doors on the tidal flat vs the final water.** Four
   Pusbottom thresholds are intentionally on stilt decks. The terrain compiler

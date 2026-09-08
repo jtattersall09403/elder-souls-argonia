@@ -48,6 +48,24 @@ continue from the repo alone at any moment, with nothing to be explained.
 
 ### Open on the compiler at this update (2026-09-08 evening)
 
+- **Phase 11 authored local hydrology is now part of the water compiler
+  hand-off.** The plot/blueprint side owns the promise and the exact authored
+  geometry; the water compiler owns making it real water. Start from
+  `worldgen/hydrology_intent.py` and
+  `world/sources/routes/authored-minor-waterways.json`: connect each typed
+  water-bearing terrain request and authored local centreline to a named
+  physical reach *before* the final water publication. Do not let
+  `compile_minor_waterways` invent this geometry from the already-published
+  water, because that recreates the circular validation that hid the
+  Nine-Trunks defect. Acceptance is deliberately end-to-end: the authored
+  line is carved and wet continuously, receives the promised water class and
+  depth, joins a named natural reach, and retains its exact terminal after the
+  final grading pass. Nine-Trunks is the regression witness: its centreline
+  must end exactly at `[4992.745, 3786.371]`, the berth and landing path must
+  meet that terminal south of the nine-tree ring, and the first 100 m from the
+  berth must remain continuously at least 0.6 m deep. The Phase 11 blueprint
+  and terrain-postcondition gates remain the independent consumer-side proof.
+
 - **Hanging river terminus — fixed.** `build_reaches` stopped a river at its
   last *river* cell, so the one outlet whose coast is a 35 m cliff (reach 111,
   world 166 E / 4619 S) left its clifftop level over cells hanging above the
