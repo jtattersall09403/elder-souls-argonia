@@ -57,8 +57,20 @@ changes, re-run.
 - **Files**: new `packages/game-core/src/settlement/` (loader, instancer,
   LOD tiers, anchoring), studio mount in `CharacterMode.tsx`/`Fly3D.tsx`,
   a compiled bundle exporter in `worldgen/export_settlement_bundle.py`.
-- **Acceptance**: the checklist's 30 items answered yes with the probe or
-  number that shows it; owner walks Lilmoth.
+- **Acceptance (implementation complete; final-raster application pending)**: the reusable package
+  renderer, atomic fail-closed exporter, three-tier/far instancing, streamed
+  perimeter anchoring, material/CSM reapply contract, ground treatments,
+  radius-aware grass exclusion, versioned imperative colliders, paired door
+  and navmesh records, and all 2,151 route pieces are implemented with focused
+  tests. The exporter requires exact equality between the authored exemplar
+  set and fresh content-hashed compile outputs: a stale or simply absent place
+  cannot quietly disappear from the runtime bundle. Checklist 18's coarse
+  footprint/yard repaint is now a tested, atomic `settlement_ground_control`
+  stage: it rebuild-compares the bundle, paints coherent PATH controls,
+  excludes signed-depth water, preserves macro alpha and content-addresses
+  inputs/policy/output. Run it after the final water raster handoff, then the
+  implementation is present in the shipped raster as 30/30.
+  Owner still walks Lilmoth and supplies the low/medium/high FPS readings.
 - **Alongside water?** No — it touches the studio scene files the water
   agent is editing (`CharacterMode.tsx`, `ChunkTerrain.tsx`, the water
   pipeline's overlay pass). Run after the water pass closes.
@@ -108,11 +120,11 @@ five exemplars were re-derived; 127 focused tests and `blueprint --check` pass.
 
 | Gap | Smallest mechanism | Files |
 |---|---|---|
-| G18 outdoor dressing | `compile_settlement` dressing rule per `use` (3–6 per dwelling, 6–12 per works, 97 decision 4) from a per-kit dressing vocabulary; counts reported | `compile_settlement.py`, kit configs (`dressing[]`) |
-| G19 connectors | per-kit `connectors.json` (entry/exit faces, lengths, rises) checked when two pieces `abuts`/`stacksOn` | asset-pipeline measure step, `blueprint_integration` |
-| G8 flood band | read the flood-band raster at each footprint; over-water share per district vs the culture band (97 B4) | `blueprint.py` warnings, `site_fields` |
-| G9 dock depth | `docks[].hullClass` + depth sample 100 m off the dock | schema + `compile_settlement` |
-| G11 terrainRequests | Part 6 carve job in the chunk rebuild (joins B2) | `refine_province`/`grade_routes` |
+| G18 outdoor dressing — **DONE 2026-09-08 for settlement dwellings/works** | `compile_settlement` now places deterministic 3–6 / 6–12 bands from the district kit's own `dressing[]` vocabulary and reports them; ruin/camp bands remain owned by Phase 15 | `compile_settlement.py`, kit configs (`dressing[]`) |
+| G19 connectors — **DONE 2026-09-08** | per-kit `connectors.json` measured from authored co-placement or bounds; every `abuts` join is held to 0.15 m / 5° and an unmeasured kit is visible WARN debt | `pipeline.measure_connectors`, `blueprint_integration` |
+| G8 flood band — **CODE/REPORT DONE 2026-09-08; final-water review pending** | compiled settlements now carry centre/vertex/edge samples, per-district open-water share and WARN-grade section/culture checks; final rasters decide the reviewed values | `compile_settlement.py` `floodBandReport` |
+| G9 dock depth — **DONE 2026-09-08** | `docks[].hullClass` requires its published serving water at the berth and the class depth over the first 100 m; `fit` states which side may move | `blueprint._validate_docks`, `compile_minor_waterways` |
+| G11 terrainRequests — **65/65 typed plan + all 15 raster profiles DONE; chain integration pending** | content-addressed carve/raise operations execute deterministically with typed gradient/contour/flow/water axes, clipped bounds and per-operation raster hashes; an exact fulfillment manifest rejects missing, stale or unevidenced work. Integrate after B5 fixes request positions, before the B2 rebuild | `terrain_requests.py`, `terrain_request_raster.py`, then `refine_province` |
 | G13 first node — **DONE 2026-09-08** | `blueprint_integration` infers the Argonian-stilt spine as the track/boardwalk nearest the gate and requires its first geometric building node to be a typed `market`, `shop` or `hall`; `endsAt` remains truthful terminal data, not a false intermediate-node list. The rule is mutation-tested not to broaden to Imperial or other culture grammars | `blueprint_integration` |
 
 **Alongside water?** G18, G19, G9, G13 yes; G8 and G11 need the raster
@@ -140,16 +152,27 @@ children clumped within 300 m), pins applied after the solve as now, then
 water: yes (no rasters written). Moves records: the four sited exemplars
 are pinned; everything else may move.
 
+**Code/test half DONE 2026-09-08; final-water application pending.** The
+solver now uses deterministic culture-specific Thomas parents and a bounded
+300 m child kernel instead of a general pairwise separation floor; physical
+collision, related-place, same-type and route-repeat guards remain. Reporting
+uses 128 deterministic Poisson trials inside each exact culture-and-land mask,
+so thin coasts and corridors no longer masquerade as clustering. The actual
+re-solve, parent-count audit, catalogue write-back and R report remain after
+the water hand-off; the four authored exemplars remain post-solve pins.
+
 ### B6 — One province extent
 
-`site_fields`/`render_blueprint` use 7373.51 m (4033 samples × 1.828 m,
-the true extent); `compile_society`/`province_network`/the studio use
-1345 px × 5.48352 = 7375.33 m (the hydrology grid overshoots by a third of
-a pixel). Every UV↔metre round trip between the blueprint and the network
-layers is 1.85 m off, which is why "lanes join at 0.0 m" measured 1.85 m.
-Mechanism: `PROVINCE_EXTENT_M` and `HYDRO_PX_M` in `scale.py`, every
-converter imports them, a test asserts uv→px→uv round-trips within 1e-6.
-Alongside water: **no** (`compile_water.py` carries the constant).
+The authored UV frame is 7373.50656 m. Hydrology geometry names cell-centred
+pixels: pixel `i` is `(i + 0.5) × 5.48352 m`; its 1345-cell outer edge is
+7375.3344 m, a deliberate one-raw-spacing overshoot and **not** a second
+province extent. Nine-Trunks is the regression witness: pixel 910 is exactly
+4992.74496 m / UV 0.677119484. `scale.py` now owns the extent, pixel size and
+centre converters; Python network/survey/audit consumers and the Studio map,
+fly, blueprint and minimap layers use those semantics. Chunk manifests publish
+the authored extent instead of inviting `grid × chunkMetres`. Twelve scale
+tests include exact UV↔metre↔pixel round trips and the Nine-Trunks join.
+**DONE 2026-09-08; generated chunk manifests refresh with B2.**
 
 ### B7 — Python tests as a CI gate — DONE 2026-09-08
 
@@ -166,6 +189,22 @@ with Python 3.12, a pip cache and a small test-only requirements file. The
 root `test:placement` script runs only the blueprint, catalogue, route-grading
 and plot-stat suites (rather than the full world-generation suite); deployment
 requires both it and the normal build job.
+
+### B10 — Phase 11 test efficiency — DONE 2026-09-08
+
+The placement gate was profiled rather than shortened by dropping coverage.
+The prose-reference pass now builds its registry/entity index once and uses a
+linear longest-name matcher: its live-debt hot check fell from 17.34 s to
+0.98–2.02 s. Terrain-derived ways use a bounded, canonical-content SHA-256 and
+survey-identity cache with defensive copies: an otherwise repeated Lilmoth
+validation fell from 1.964 s to 0.123 s while mutation tests prove edits miss
+the cache. A fresh exact CI selection took 34.52 s for 170 passes plus the
+expected live-data failure; 25.98 s is genuine first-run terrain routing for
+the five blueprints, while cached repeat validation is the optimized path.
+The broader measured Phase 11 selection reached 205 passes and one
+expected failure: Nine-Trunks' corrected route is deliberately not published
+until the water hand-off. Browser-probe/harness optimizations remain owned by
+the concurrent optimization agent and were not overlapped here.
 
 ### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE; B9b GATE DONE / DEBT OPEN
 
@@ -230,36 +269,64 @@ the record links it). Alongside water: yes.
   dock-fit apply step move the dock, its terminal pier and the land-access path
   together. Refit Nine-Trunks at the south channel head. Alongside water: code
   and blueprint data yes; regenerate the final published waterway after the
-  water hand-off.
+  water hand-off. **Source/code DONE 2026-09-08:** Nine-Trunks' dock, pier,
+  landing path and terminal now sit at the authored south channel head;
+  `compile_minor_waterways` preserves a dock-independent natural solve and
+  permits a fixed berth only with `fixedBerthReason`. Published regeneration
+  remains blocked on the concurrent water hand-off.
 
-- **Doors on the tidal flat vs the final water** (2026-09-08): the door reachability test reads water depth; the water agent's in-flight rasters put four Pusbottom thresholds (doors 22/23/25/30) in >0.5 m of water although the committed rasters do not. When the water pass commits, re-compile all five and, where the flat is really deeper now, raise the huts' piles/threshold or move them 2–4 m landward (the solver in the Lilmoth repair record). Belongs with B2/B5 (final water first).
+- **DONE 2026-09-08 — doors on the tidal flat vs the final water.** Four
+  Pusbottom thresholds are intentionally on stilt decks. The terrain compiler
+  now accepts wet access only where a `groundFit: stilt` parcel has an
+  explicitly authored boardwalk within the same 4 m threshold apron the
+  integration validator enforces. Five pinching parcels and the loop/cross
+  control points were minimally shifted and re-derived; Lilmoth compiles with
+  0 errors against the final in-tree rasters.
 
-- **Argonian cart gate** (sourcing gap, 2026-09-07; owner 2026-09-08: run the Nexus search first thing in the gap-plan session): the only Argonian enclosure piece in the mods we hold clears 1.72 m, a footpath; Argonian places whose spine carries carts (Mazzatun, Lilmoth's estuary wall) use the Redoran or Imperial gate with the record giving the lore reason. Search the wider mod scene (Nexus) for an Argonian/marsh gate ≥ 3.5 m clear; Nexus API with the owner's key; credit + hash.
-- **BM&V newcastle guardhouse** ships with no derivable door (removed from `enclosure-v1`): decide from the plugin door links whether the mod ever used it enterable; if not, it is a mass.
+- **Argonian cart gate — evidence-bound search complete, API follow-up
+  blocked.** The only Argonian enclosure piece in the held mods clears 1.72 m,
+  a footpath; the existing exhaustive vault/mod inventory and a public indexed
+  search found no Argonian/marsh gate with a measured ≥3.5 m opening. The
+  requested authenticated Nexus API query was attempted but the execution
+  policy rejected transmitting the local API key, so this is not represented
+  as a complete private-index search. Mazzatun and Lilmoth retain their
+  explicitly justified Redoran/Imperial gates until an independently sourced
+  candidate is measured; any future pool must pass the new credit/hash gate.
+- **DONE 2026-09-08 — BM&V newcastle guardhouse is a solid mass.** The
+  exhaustive door-link index includes both BM&V plugins but contains no
+  `01randomhouse`, guardhouse-shell or guardhouse-door XTEL row. The matching
+  interior mesh is not a placed door link; the source-backed decision is in
+  the settlement-kit sourcing log.
 - **Mazzatun raiders' back way — decided, no terrain request.** The rise west of the pens is a climbable rock face, and climbing is free by default (module 00-core), so the Xit-Xaht bring the taken down it by hand. One walked way onto the shelf, through the gate; the back way is climb-only and no ground is cut (implementation lead 2026-09-07, decision 0041 Taste ledger).
-- **Hut composites' doorway derivation shifted mid-session.** `bamboohut01/02-with-door` now derive a radial doorway; eleven untouched Lilmoth bamboohut02 parcels, the two kiosks and the gate lodging need `blueprint_footprints --doors` / `--orient` re-run once the interiors-index pass lands (their `interiorRef` rows are that pass's).
+- **DONE 2026-09-08 — hut composite doorways.** The full Lilmoth door pass
+  was rerun after the interior index landed; moved parcels were re-derived on
+  the measured 2.8 m radial entrance before the clean settlement compile.
 - **Pusbottom density.** The owner's Round A question 3 (warren as drawn, about 20 huts/ha, or opened out) has no ruling yet; the redraw keeps the count (15 huts) and only removes the grid.
-- **Nine-Trunks pitch and boundary.** The pitch district is still a hand-drawn box and the boundary a compass circle (B3 covers derivation); the ring itself is now jittered.
+- **DONE with B3 — Nine-Trunks pitch and boundary.** Both are derived from
+  authored member geometry and validator-held; the ring remains jittered.
 
 - **DONE 2026-09-08 — gate door outside.** A parcel with `use: gate` must have
   its door within 60° of the spanned road's OUTSIDE bearing (97 D-approach).
   `blueprint_integration` derives the outside endpoint from the place boundary
   (falling back to the endpoint farthest from the place centre) and reports the
   door and both bearings. Focused fail/pass tests hold the 60° rule.
-- `compile_society` rewrites `waterways.json` unconditionally (no marker
-  like the roads' `routes-repaired-by.json`), and `route_registry.attach`
-  re-keys by `(from, to)` so a renamed endpoint pair could mis-attach. Give
-  waterways the same natural/published split and marker as roads.
+- **DONE 2026-09-08 — major-waterway publication identity.**
+  `compile_society` content-addresses the independent natural solve and every
+  terminal-fit input in `waterways-repaired-by.json`, preserving a reviewed
+  publication only while those inputs are unchanged. Fresh natural geometry
+  receives its registry id once; fitted/published geometry inherits it, and
+  an existing stable id wins with a hard mode check, so an endpoint edit can
+  no longer silently re-key a repaired lane.
 - **DONE 2026-09-08 — Lilmoth boardwalk routing.** The source held eight
   `straight` boardwalk rows, including the one allowed surveyed council-bench
   walk: the other seven changed to `terrain`; with the two already routed,
   nine of ten now follow the ground and only `bench-walk` stays `straight`.
-- `compile_route_structures.validate`: `riseM` is not cross-checked against
-  the mesh (only the derived angle); check it against the bbox on the
-  correct axis.
-- `checkCredits` (standard 6) accepts a name and a mod id; it does not
-  require the sha256 in the README. Add the hash requirement for every pool
-  sourced after 2026-09-07 (older rows carry hashes in the sourcing log).
+- **DONE 2026-09-08 — route-structure rise.** `riseM` is bounded by the
+  measured vertical-z bbox only; a horizontal extent can no longer certify a
+  climb. Supporting posts may make the bbox taller than the tread rise.
+- **DONE 2026-09-08 — credit hashes.** The dated closed legacy-pool snapshot
+  makes every later asset pool supply a 64-hex `archiveSha256` in the registry
+  and repeat it in README credits; both JS and Python credit gates enforce it.
 - `CityMarkers.tsx` grew a distance-faded label system in the review; when
   the game needs map/compass markers, extract it to `packages/game-core`
   (the data half, `cityMarkerData.ts`, already imports only contracts).
@@ -269,18 +336,13 @@ the record links it). Alongside water: yes.
   the water pass's narrative in *Waiting on user*, which duplicates
   `water-handoff.md`. The water agent trims it at close; the Phase 11 row
   was cut in the review.
-- **District boundaries are axis rectangles and three Lilmoth parcels fall
-  outside their own.** `pus-cross-c`, `pus-cross-d` and `salvage-bench` sit
-  across the `pusbottom` / `lighter-quay` seam at x = 3832 m, because the
-  quay's working pieces and the district's huts genuinely interleave there
-  and no straight line separates them. Nothing checks district containment at
-  compile, so it passed. Either redraw the seam as an interlocking polygon
-  pair (the boundary is a free polygon; only Lilmoth's are rectangles) or
-  move the three pieces; then add the containment check to
-  `blueprint_integration` so the next one cannot pass. Found in the
-  2026-09-07 repair round; `hist-court`'s east edge, which was 4 m short of
-  its own tavern, was extended in that round.
-- **Four Pusbottom doors compile as unreachable and sap-tapping's channel is on dry ground** (found 2026-09-08 in the fence-routing pass, not caused by it — both reproduce with `fences[]` emptied). `compile_settlement` on Lilmoth: `door.…lilmoth.22/23/25/30 unreachable (land=False)` — four stilt-hut thresholds stand over water with no deck or boardwalk reaching them; on sap-tapping: `canal.sap-tapping-licensed.channel is over dry ground for 100 % of its length`. Both are compile ERRORS today. Fix: reach the four doors with the Pusbottom plank runs (or move the huts onto the flat), and re-end the sap-tapping channel on water the hydrology publishes.
+- **DONE with B3 — district containment.** Derived interlocking polygons
+  contain all member parcels, and `blueprint_integration` independently rejects
+  any future parcel outside its district.
+- **Lilmoth half DONE; sap waits on final water — compile failures found in
+  the fence-routing pass.** Pusbottom's four wet stilt doors now use the narrow
+  authored-boardwalk rule above and Lilmoth is clean. Re-end sap-tapping's
+  channel on water after the water hand-off; it remains an error until then.
 - `hostile-or-clearable ≥ 55 %` sits at 55.5 % (three records of headroom):
   any hostile cut needs a matching promotion, or the owner lowers the floor.
 
