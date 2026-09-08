@@ -61,6 +61,7 @@ STAGES=(
   "compile_chunks"
   "export_web_chunks"
   "compile_water"
+  "terrain_request_postconditions"
   "rebake_landcover"
   "compile_scatter"
 )
