@@ -228,10 +228,13 @@ export type GameSnapshot = {
    * Gravity multiplier on arrows in flight. 1 is real gravity, which the
    * round-9 probe measured on the live body (`scripts/probe-arrow-flight.mjs`);
    * Skyrim-style arrows drop harder than that. A comparison knob for the owner
-   * only: the archers' elevation solver assumes 1, so they miss at any other
-   * value.
+   * only; player and enemy elevation solvers use the same selected value.
    */
   arrowGravityScale: number;
+  /** Sandbox multiplier over each bow's authored nocking duration. */
+  bowNockSpeedMultiplier: number;
+  /** Sandbox multiplier over each bow's force-derived draw duration. */
+  bowDrawSpeedMultiplier: number;
   /**
    * How a raised bow is viewed. `eye`: the third-person body's eye view (the
    * original); `firstPerson`: Skyrim's first-person arms rig on the camera;

@@ -66,7 +66,7 @@ import {
   angleBetweenDegrees,
   directionTo,
 } from "@elder-souls/game-core/combat/aimConvergence";
-import { launchSpeed, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
+import { launchSpeed, NEUTRAL_RANGED_MODIFIERS, resolveArrowImpact } from "@elder-souls/game-core/combat/ballistics";
 import { hitZoneForBone } from "@elder-souls/game-core/combat/hitZones";
 import { nearestHurtboxBone, stickArrow, isActorCapsuleName } from "@elder-souls/game-core/combat/stuckArrows";
 import { traceArrowSurface } from "@elder-souls/game-core/combat/arrowSurface";
@@ -1216,6 +1216,8 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
   // where the archer is actually looking.
   const bowCycle = useRef<BowCycle>(IDLE_BOW_CYCLE);
   const aimPitch = useRef(0);
+  /** Locked target last used to initialise bow aim; null means centre again. */
+  const bowAimCentredTarget = useRef<number | null>(null);
   /** 0 = wide, 1 = fully zoomed. Reset whenever the bow comes down. */
   const aimZoom = useRef(0);
   /** Last frame's aim-camera position: the crosshair ray starts here. */
@@ -2139,6 +2141,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // enemies. A modal screen that leaves the fight running is a screen a
     // player cannot safely open.
     if (inventoryOpen) {
+      input.setDesktopMeleeInput(!playerWeapon.stats.ranged);
       input.update();
       // Anything pressed while the screen is up (including the B that closes
       // it) must not produce a press OR release edge after the game resumes.
@@ -2152,6 +2155,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     const visualActorsReady = playerVisualProbe.current.current !== null
       && (!visualScenario?.enemy.enabled || activeEnemies.every(e => e.visualProbe.current !== null));
     visualDriver.current?.apply(visualActorsReady ? frameDelta : 0, input);
+    input.setDesktopMeleeInput(!playerWeapon.stats.ranged);
     input.update();
     const intent = inputToIntent(input);
     let delta = frameDelta;
@@ -2331,6 +2335,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // player stayed up, kept moving and kept shooting, and could not die.
     const playerDead = playerAction.current === "dead" || playerHealth.current <= 0;
     if (ranged && bowAnimations && equipped.current) {
+      const rangedModifiers = {
+        ...NEUTRAL_RANGED_MODIFIERS,
+        nockSpeed: useGameStore.getState().bowNockSpeedMultiplier,
+        drawSpeed: useGameStore.getState().bowDrawSpeedMultiplier,
+      };
       const raised = isAiming(bowCycle.current);
       const bowStep = advanceBowCycle(
         bowCycle.current,
@@ -2345,6 +2354,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         ranged,
         playerStamina.current,
         delta,
+        rangedModifiers,
       );
       bowCycle.current = bowStep.cycle;
       if (bowStep.staminaSpent > 0) {
@@ -2393,16 +2403,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         const skin = traceActorArrow(rayOrigin, tmp.current.aimLook,
           crosshairHit?.timeOfImpact ?? AIM_CONVERGENCE_FAR_METERS, PLAYER_HURTBOX_NAME);
         if (skin) point = skin.point;
-        if (lockTarget && lockTarget.fighter.health > 0) {
-          point = { x: lockTarget.position.x, y: lockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE, z: lockTarget.position.z };
-        }
         const nockOrigin = playerNockWorld.current.lengthSq() > 1e-8
           ? playerNockWorld.current
           : tmp.current.aimRayFallback.set(playerPos.x, playerPos.y + PLAYER_EYE_OFFSET_Y, playerPos.z);
         const sight = bowSight({ nock: nockOrigin, point, actor: playerPos,
-          cameraYaw: cameraYaw.current, lockedTarget: lockTarget?.position,
+          cameraYaw: cameraYaw.current,
           ranged, arrow: playerQuiver?.arrow.physics,
-          surface: Boolean(crosshairHit || skin || lockTarget),
+          surface: Boolean(crosshairHit || skin),
           gravityScale: useGameStore.getState().arrowGravityScale });
         const converged = sight.direction;
         playerAimDirection.current.set(converged.x, converged.y, converged.z);
@@ -2416,7 +2423,11 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerBowDrawFraction.current = bowStep.cycle.phase === "drawing" ? Math.max(1e-6, bowStep.cycle.drawFraction)
         : 0;
       if (bowStep.shot) playerBowRelease.current += 1;
-      playerNockVisible.current = nockedArrowVisible(bowStep.cycle);
+      playerNockVisible.current = nockedArrowVisible(
+        bowStep.cycle,
+        ranged.nockSeconds,
+        rangedModifiers.nockSpeed,
+      );
       {
         const view = firstPersonState.current;
         view.rootPosition.set(playerPos.x, playerPos.y - CHARACTER_BODY_CENTER_HEIGHT, playerPos.z);
@@ -2459,7 +2470,13 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
         // its feet — which is precisely the bug this closes.
         if (playerAction.current === "aim") finishPlayerAction();
       } else if (isAiming(bowStep.cycle)) {
-        const pose = bowPose(bowStep.cycle, bowAnimations, bowTravelFor(intent.move, moveMagnitude), ranged.nockSeconds);
+        const pose = bowPose(
+          bowStep.cycle,
+          bowAnimations,
+          bowTravelFor(intent.move, moveMagnitude),
+          ranged.nockSeconds,
+          rangedModifiers.nockSpeed,
+        );
         if (pose.animation !== playerAnimationCommand.current.state) {
           startPlayerAction("aim", pose.animation);
         }
@@ -2490,6 +2507,7 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
       playerNockVisible.current = false;
       if (playerAction.current === "aim") finishPlayerAction();
     }
+    if (!isAiming(bowCycle.current)) bowAimCentredTarget.current = null;
 
     const canStartAction = playerAction.current === "idle" || playerAction.current === "guard";
     if (canStartAction && intent.equipPressed) {
@@ -2943,7 +2961,12 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     // foot (`footAnchoredLoopVelocity`), so the controller's joystick is left
     // alone and the facing is driven directly. Off (debug switch): the fixed
     // locked-on / crouch speeds with the clip's cadence scaled to follow.
-    const clipDriven = lockedSpeedFollowsClip && movementAllowed && handle.isOnGround
+    // A single sourced stride can own pure forward/back/lateral travel. With
+    // two keyboard axes held, keep the complete input vector in the movement
+    // controller rather than replacing it with the dominant clip's one-axis
+    // ground track.
+    const diagonalMovement = Math.abs(intent.move.x) > 0.08 && Math.abs(intent.move.y) > 0.08;
+    const clipDriven = lockedSpeedFollowsClip && !diagonalMovement && movementAllowed && handle.isOnGround
       && (lockedClip !== null || crouchMoving || (aiming && moveMagnitude > 0.12));
     const lockOnMoveScale = clipDriven ? 0 : aiming
       // The drawn stride's own measured ground speed, not a hand-set number:
@@ -3705,20 +3728,35 @@ function Battle({ visualScenario }: { visualScenario: VisualScenario | null }) {
     }
     if (lockTargetActive && lockTarget) {
       const yaws = lockOnYaws(playerPos, lockTarget.position);
-      cameraYaw.current = yaws.cameraYaw;
       if (isAiming(bowCycle.current)) {
-        // Lock-on drives the yaw; without this the pitch stays wherever free aim
-        // left it, so the first-person view swung onto the target and then looked
-        // over or under them. Elevate onto the target's chest instead.
-        const flatRange = Math.hypot(
-          lockTarget.position.x - playerPos.x,
-          lockTarget.position.z - playerPos.z,
-        );
+        // Lock-on initialises bow aim, then leaves the crosshair under direct
+        // camera control. Re-centre only for a newly acquired/switched target.
+        if (bowAimCentredTarget.current !== lockTarget.id) {
+          cameraYaw.current = yaws.cameraYaw;
+          const flatRange = Math.hypot(
+            lockTarget.position.x - playerPos.x,
+            lockTarget.position.z - playerPos.z,
+          );
+          aimPitch.current = THREE.MathUtils.clamp(
+            Math.atan2(
+              lockTarget.position.y + ARCHER_AIM_ABOVE_CENTRE - (playerPos.y + PLAYER_EYE_OFFSET_Y),
+              Math.max(flatRange, 0.001),
+            ),
+            -AIM_PITCH_LIMIT,
+            AIM_PITCH_LIMIT,
+          );
+          bowAimCentredTarget.current = lockTarget.id;
+        }
+        const zoomedTurn = aimFieldOfView(aimZoom.current) / AIM_FIELD_OF_VIEW;
+        cameraYaw.current -= intent.camera.x * delta * 2.35 * zoomedTurn;
         aimPitch.current = THREE.MathUtils.clamp(
-          Math.atan2(lockTarget.position.y - (playerPos.y + PLAYER_EYE_OFFSET_Y), Math.max(flatRange, 0.001)),
+          aimPitch.current - intent.camera.y * delta * 1.7 * zoomedTurn,
           -AIM_PITCH_LIMIT,
           AIM_PITCH_LIMIT,
         );
+      } else {
+        cameraYaw.current = yaws.cameraYaw;
+        bowAimCentredTarget.current = null;
       }
       tmp.current.quaternion.setFromAxisAngle(UP, yaws.playerFacingYaw);
       if (!playerAttack.current && playerAction.current !== "roll" && playerAction.current !== "backstep") {

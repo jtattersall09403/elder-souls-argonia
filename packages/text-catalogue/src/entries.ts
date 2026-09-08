@@ -74,6 +74,8 @@ export const COMBAT_SANDBOX_TEXT: readonly TextEntry[] = [
   { id: "text.sandbox.archer-opponent", surface: "ui", text: "Archer opponent" },
   { id: "text.sandbox.combat-ready", surface: "ui", text: "Combat test ready" },
   { id: "text.sandbox.arrow-gravity", surface: "ui", text: "Arrow gravity" },
+  { id: "text.sandbox.bow-nock-speed", surface: "ui", text: "Bow nocking speed" },
+  { id: "text.sandbox.bow-draw-speed", surface: "ui", text: "Bow draw speed" },
 ];
 
 export const EQUIPMENT_TEXT: readonly TextEntry[] = [

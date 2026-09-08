@@ -5,7 +5,7 @@ import { BallCollider, RigidBody, useBeforePhysicsStep, useRapier, type RapierRi
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { assetUrl } from "./assetBase";
-import { ARROW_LIFETIME_SECONDS, ARROW_SHAFT_LENGTH_METERS, aerodynamicDrag, flightAttitude } from "@elder-souls/game-core/combat/arrowFlight";
+import { ARROW_LIFETIME_SECONDS, ARROW_SHAFT_LENGTH_METERS, advanceArrowVelocity, aerodynamicDrag, flightAttitude } from "@elder-souls/game-core/combat/arrowFlight";
 import type { LiveArrow } from "@elder-souls/game-core/combat/arrowStore";
 import type { ArrowDefinition } from "@elder-souls/game-core/equipment/arrows";
 import type { ArrowSurfaceHit } from "@elder-souls/game-core/combat/arrowSurface";
@@ -26,7 +26,7 @@ export type ArrowTrace = (origin: THREE.Vector3, direction: THREE.Vector3, dista
 export type FlightSample = { t: number; wallTime: number; y: number; vx: number; vy: number; vz: number;
   massKg: number; gravityScale: number; linearDamping: number; dragY: number };
 
-/** Shared runtime: Rapier integrates mass/gravity/drag; swept tips resolve contacts.
+/** Shared runtime: ballistics advances velocity, Rapier moves it, and swept tips resolve contacts.
  * Sensor-only bodies cannot bounce on the shooter's capsule or other arrows.
  * A centred mass also prevents an imposed attitude moving an offset COM at apex.
  */
@@ -90,7 +90,7 @@ function Arrow({ live, retire, onHit, traceActor, gravityScale, onSample }: {
     flightTime.current += dt;
     if (live.shooter === "probe") onSample?.({ t: flightTime.current, wallTime: performance.now() / 1000, y: position.y,
       vx: velocity.x, vy: velocity.y, vz: velocity.z, massKg: rigid.mass(),
-      gravityScale: rigid.gravityScale(), linearDamping: rigid.linearDamping(), dragY: drag.y });
+      gravityScale, linearDamping: rigid.linearDamping(), dragY: drag.y });
     const attitude = flightAttitude(velocity);
     if (attitude) {
       scratch.direction.set(attitude.x, attitude.y, attitude.z);
@@ -133,12 +133,14 @@ function Arrow({ live, retire, onHit, traceActor, gravityScale, onSample }: {
       }
     }
     previousTip.current = scratch.tip.clone();
-    rigid.resetForces(true);
-    rigid.addForce(drag, true);
+    // Flight acceleration is owned by the shared ballistics step. Rapier moves
+    // the body and resolves collision, but its world-gravity flag stays off so
+    // gravity cannot be lost, duplicated, or coupled to another force path.
+    rigid.setLinvel(advanceArrowVelocity(velocity, live.arrow.physics, gravityScale, dt), true);
   });
 
   return <RigidBody ref={body} colliders={false} position={live.origin as [number, number, number]}
-    gravityScale={gravityScale} lockRotations canSleep={false} name="arrow">
+    gravityScale={0} lockRotations canSleep={false} name="arrow">
     <BallCollider args={[0.005]} mass={live.arrow.physics.massKg} sensor />
     <primitive object={model} dispose={null} />
   </RigidBody>;

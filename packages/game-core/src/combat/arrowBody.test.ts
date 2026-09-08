@@ -1,25 +1,28 @@
 import RAPIER from "@dimforge/rapier3d-compat";
 import { describe, expect, it } from "vitest";
 
-import { aerodynamicDrag, DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
+import { advanceArrowVelocity, DEFAULT_ARROW_GRAVITY_SCALE } from "./arrowFlight";
 import { integrateTrajectory } from "./ballistics";
 import { defineArrow } from "../equipment/arrows";
 
-/** The current centred sensor body: collisions do not alter free flight. */
-describe("an arrow body under the solver's gravity", () => {
+/** The production centred sensor body: collisions do not alter free flight. */
+describe("an arrow body under explicit ballistics acceleration", () => {
   it.each([1, DEFAULT_ARROW_GRAVITY_SCALE])("falls at the selected %sx gravity with the production sensor collider", async gravityScale => {
     await RAPIER.init();
     const world = new RAPIER.World({ x: 0, y: -9.81, z: 0 });
     world.timestep = 1 / 60;
-    const arrow = defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics;
+    const arrow = { ...defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics, dragCoefficient: 0 };
 
     const body = world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 20, 0).setGravityScale(gravityScale).setCcdEnabled(true).lockRotations().setCanSleep(false),
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 20, 0).setGravityScale(0).setCcdEnabled(true).lockRotations().setCanSleep(false),
     );
     world.createCollider(RAPIER.ColliderDesc.ball(0.005).setMass(arrow.massKg).setSensor(true), body);
     body.setLinvel({ x: 0, y: 0, z: 50 }, true);
     expect(body.mass()).toBeCloseTo(arrow.massKg, 6);
-    for (let step = 0; step < 60; step += 1) world.step();
+    for (let step = 0; step < 60; step += 1) {
+      body.setLinvel(advanceArrowVelocity(body.linvel(), arrow, gravityScale, world.timestep), true);
+      world.step();
+    }
     const t = 1;
     const expectedDrop = 0.5 * 9.81 * gravityScale * t * t;
     const drop = 20 - body.translation().y;
@@ -38,7 +41,7 @@ describe("an arrow body under the solver's gravity", () => {
     const arrow = defineArrow("iron-war-arrow", "war", "iron", "a", "b").physics;
 
     const body = world.createRigidBody(
-      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 0, 0).setCcdEnabled(true).lockRotations().setCanSleep(false),
+      RAPIER.RigidBodyDesc.dynamic().setTranslation(0, 0, 0).setGravityScale(0).setCcdEnabled(true).lockRotations().setCanSleep(false),
     );
     world.createCollider(RAPIER.ColliderDesc.ball(0.005).setMass(arrow.massKg).setSensor(true), body);
 
@@ -47,10 +50,7 @@ describe("an arrow body under the solver's gravity", () => {
     body.setLinvel({ x: 0, y: speed * Math.sin(angle), z: speed * Math.cos(angle) }, true);
     const seconds = 2;
     for (let step = 0; step < seconds * 60; step += 1) {
-      const velocity = body.linvel();
-      const drag = aerodynamicDrag(velocity, arrow);
-      body.resetForces(true);
-      body.addForce(drag, true);
+      body.setLinvel(advanceArrowVelocity(body.linvel(), arrow, 1, world.timestep), true);
       world.step();
     }
     const solved = integrateTrajectory(speed, angle, arrow, {
@@ -66,6 +66,7 @@ describe("an arrow body under the solver's gravity", () => {
     expect(Math.hypot(velocity.x, velocity.y, velocity.z)).toBeCloseTo(reference.speed, 0);
     world.free();
   });
+
 });
 
 

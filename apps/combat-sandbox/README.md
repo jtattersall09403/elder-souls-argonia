@@ -26,16 +26,16 @@ The Pages build is published from `main`. Desktop and mobile browsers load the s
 | --- | --- | --- | --- |
 | Move | WASD or arrow keys | Left virtual stick | Left stick |
 | Camera | Drag the right side | Drag the right side | Right stick |
-| Light attack | Mouse 1 | R button | R |
-| Heavy attack | R key | ZR button | ZR |
+| Light attack | Release Mouse 1 before 0.3 s | R button | R |
+| Heavy attack | Hold Mouse 1 for 0.3 s (or R key) | ZR button | ZR |
 | Guard | Mouse 2 | L button | L |
-| Parry | F or Mouse 3 | ZL button | ZL |
+| Parry | Hold Mouse 2, then press Mouse 1 (or F/Mouse 3) | ZL button | ZL |
 | Dodge | Tap Space | Tap B | Tap B |
 | Sprint | Hold Space while moving | Hold B while moving | Hold B while moving |
-| Jump | J | A button | Left-stick click (L3) |
+| Jump | Left or right Shift | A button | A button |
 | Lock on/off | Q | R3 button | Right-stick click (R3) |
 | Use Estus | H | X button | X |
-| Equip/unequip sword | E | → button | D-pad right |
+| Equip/unequip weapon | Tab | → button | D-pad right |
 | Backstab | Light attack close behind enemy | R close behind enemy | R close behind enemy |
 | Riposte | Light attack after a successful parry | R after a successful parry | R after a successful parry |
 

@@ -1,10 +1,11 @@
-import { AIR_DENSITY, frontalAreaM2, type ArrowPhysics } from "./ballistics";
+import { AIR_DENSITY, GRAVITY, frontalAreaM2, type ArrowPhysics } from "./ballistics";
 
 /**
  * An arrow in the air.
  *
- * The physics engine owns the flight as a rigid body under gravity and
- * **drag** — the same `½ ρ Cd A v²` the offline trajectory integrator and the
+ * The shared flight step owns gravity and **drag**, while the physics engine
+ * moves the rigid body and resolves collision. Drag is the same
+ * `½ ρ Cd A v²` the offline trajectory integrator and the
  * calibration research use (`docs/research/archery-ballistics.md`), so a shot
  * loses speed downrange and arcs the way a real one does, and damage at impact
  * follows from the speed that is left. What is gone is the *attitude* model
@@ -35,6 +36,31 @@ export function aerodynamicDrag(velocity: Vec3, arrow: ArrowPhysics, airDensity 
   const magnitude = 0.5 * airDensity * arrow.dragCoefficient * frontalAreaM2(arrow) * speed * speed;
   const scale = -magnitude / speed;
   return { x: velocity.x * scale, y: velocity.y * scale, z: velocity.z * scale };
+}
+
+/**
+ * Advance an arrow's velocity by one flight step.
+ *
+ * Gravity is written here as an acceleration rather than delegated to a
+ * renderer or rigid-body setting. That keeps the two parts of flight explicit:
+ * aerodynamic drag opposes the complete velocity vector, while gravity adds a
+ * constant downward `9.81 * gravityScale` m/s every second regardless of the
+ * arrow's horizontal motion or current pitch.
+ */
+export function advanceArrowVelocity(
+  velocity: Vec3,
+  arrow: ArrowPhysics,
+  gravityScale: number,
+  deltaSeconds: number,
+): Vec3 {
+  const dt = Math.max(0, deltaSeconds);
+  const scale = Number.isFinite(gravityScale) ? Math.max(0, gravityScale) : 0;
+  const drag = aerodynamicDrag(velocity, arrow);
+  return {
+    x: velocity.x + drag.x / arrow.massKg * dt,
+    y: velocity.y + (drag.y / arrow.massKg - GRAVITY * scale) * dt,
+    z: velocity.z + drag.z / arrow.massKg * dt,
+  };
 }
 
 /**

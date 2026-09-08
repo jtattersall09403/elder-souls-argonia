@@ -4,6 +4,7 @@ import { defineArrow } from "../equipment/arrows";
 import { AIR_DENSITY, dragDeceleration } from "./ballistics";
 import {
   ARROW_SHAFT_LENGTH_METERS,
+  advanceArrowVelocity,
   aerodynamicDrag,
   arrowMassSplit,
   flightAttitude,
@@ -29,6 +30,26 @@ describe("drag in flight", () => {
     const sea = aerodynamicDrag({ x: 0, y: 0, z: 40 }, arrow, AIR_DENSITY);
     const thin = aerodynamicDrag({ x: 0, y: 0, z: 40 }, arrow, AIR_DENSITY / 2);
     expect(thin.z / sea.z).toBeCloseTo(0.5, 6);
+  });
+});
+
+describe("explicit flight acceleration", () => {
+  it("adds constant downward gravity independently of horizontal motion", () => {
+    const withoutAir = { ...arrow, dragCoefficient: 0 };
+    const next = advanceArrowVelocity({ x: 40, y: 7, z: -12 }, withoutAir, 1, 0.25);
+    expect(next.x).toBe(40);
+    expect(next.z).toBe(-12);
+    expect(next.y).toBeCloseTo(7 - 9.81 * 0.25, 9);
+  });
+
+  it("applies the gameplay gravity multiplier as acceleration", () => {
+    const withoutAir = { ...arrow, dragCoefficient: 0 };
+    let velocity = { x: 30, y: 0, z: 0 };
+    for (let frame = 0; frame < 60; frame += 1) {
+      velocity = advanceArrowVelocity(velocity, withoutAir, 2, 1 / 60);
+    }
+    expect(velocity.x).toBe(30);
+    expect(velocity.y).toBeCloseTo(-19.62, 9);
   });
 });
 

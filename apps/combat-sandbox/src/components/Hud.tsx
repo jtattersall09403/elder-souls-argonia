@@ -405,6 +405,28 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           />
         </label>
         <label className="enemy-picker">
+          {text(CATALOGUE, "text.sandbox.bow-nock-speed")}: {state.bowNockSpeedMultiplier.toFixed(2)}&times;
+          <input
+            type="range"
+            min={0.1}
+            max={5}
+            step={0.1}
+            value={state.bowNockSpeedMultiplier}
+            onChange={(event) => state.patch({ bowNockSpeedMultiplier: Number(event.target.value) })}
+          />
+        </label>
+        <label className="enemy-picker">
+          {text(CATALOGUE, "text.sandbox.bow-draw-speed")}: {state.bowDrawSpeedMultiplier.toFixed(2)}&times;
+          <input
+            type="range"
+            min={0.1}
+            max={5}
+            step={0.1}
+            value={state.bowDrawSpeedMultiplier}
+            onChange={(event) => state.patch({ bowDrawSpeedMultiplier: Number(event.target.value) })}
+          />
+        </label>
+        <label className="enemy-picker">
           Bow view:
           <select
             value={state.aimView}
@@ -444,10 +466,10 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
           <div className="control-columns">
             <dl>
               <dt>Move / camera</dt><dd>WASD / drag</dd>
-              <dt>Light / heavy</dt><dd>Mouse 1 / R</dd>
-              <dt>Guard / parry</dt><dd>Mouse 2 / F</dd>
+              <dt>Light / heavy</dt><dd>Mouse 1 tap / hold 0.3 s</dd>
+              <dt>Guard / parry</dt><dd>Mouse 2 / Mouse 2 + Mouse 1</dd>
               <dt>Dodge / sprint</dt><dd>Space tap / hold</dd>
-              <dt>Jump</dt><dd>J</dd>
+              <dt>Jump</dt><dd>Either Shift</dd>
               <dt>Crouch</dt><dd>C</dd>
               <dt>Lock / heal / equip</dt><dd>Q / H / Tab</dd>
               <dt>Inventory</dt><dd>I (Esc closes)</dd>
@@ -471,7 +493,7 @@ export function Hud({ visualScenario = null }: { visualScenario?: VisualScenario
               <dt>Switch target</dt><dd>Right stick ←/→</dd>
             </dl>
           </div>
-          <p>GameSir mapping uses Nintendo-layout button positions. Release dodge quickly to roll; hold while moving to sprint. Press R or ZR again during the current swing to chain without recovering between attacks. An attack pressed during a roll comes out as the roll ends. Parry during the enemy windup, then light attack at close range. Circle behind the enemy and use a light attack at close range to backstab. With a bow drawn, tap light to raise it into first person, hold light to draw — the longer the pull, the harder the shot, and holding at full draw bleeds stamina — and release to loose. Guard lowers the bow; with it raised, scroll (or hold ZR/ZL) to zoom, and the view turns more slowly the further in you are. Crouch is a toggle: it halves your pace and drops you into a sneak, and you stand back up automatically to sprint or jump.</p>
+          <p>GameSir mapping uses Nintendo-layout button positions. Release dodge quickly to roll; hold while moving to sprint. On desktop, release Mouse 1 before 0.3 seconds for a light attack, or hold it to trigger a heavy attack; hold Mouse 2 and press Mouse 1 to parry. Press R or ZR again during the current swing to chain without recovering between attacks. An attack pressed during a roll comes out as the roll ends. Parry during the enemy windup, then light attack at close range. Circle behind the enemy and use a light attack at close range to backstab. With a bow drawn, tap light to raise it into first person, hold light to draw — the longer the pull, the harder the shot, and holding at full draw bleeds stamina — and release to loose. Guard lowers the bow; with it raised, scroll (or hold ZR/ZL) to zoom, and the view turns more slowly the further in you are. Crouch is a toggle: it halves your pace and drops you into a sneak, and you stand back up automatically to sprint or jump.</p>
         </aside>
       )}
 

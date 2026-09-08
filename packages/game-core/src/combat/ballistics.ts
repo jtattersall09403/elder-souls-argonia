@@ -412,6 +412,8 @@ export function resolveArrowImpact(
  * multiplier should have gone.
  */
 export type RangedModifiers = {
+  /** Multiplies the rate of taking an arrow from the quiver and nocking it. */
+  nockSpeed: number;
   /** Multiplies draw rate: a stronger archer reaches full draw sooner. */
   drawSpeed: number;
   /**
@@ -428,6 +430,7 @@ export type RangedModifiers = {
 };
 
 export const NEUTRAL_RANGED_MODIFIERS: RangedModifiers = {
+  nockSpeed: 1,
   drawSpeed: 1,
   drawStrength: 1,
   sway: 1,

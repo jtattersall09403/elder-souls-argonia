@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { analogueMoveSpeed, cameraRelativeDirection, InputController, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection, SWITCH_GAMEPAD } from "./input";
+import { analogueMoveSpeed, cameraRelativeDirection, DESKTOP_HEAVY_HOLD_SECONDS, InputController, PLAYER_SPRINT_SPEED, PLAYER_WALK_SPEED, resolveAttackDirection, SWITCH_GAMEPAD } from "./input";
 
 describe("movement translation", () => {
   it("maps stick forward away from a camera behind the player", () => {
@@ -50,6 +50,59 @@ describe("modal suppression", () => {
     controller.setVirtual("dodge", true);
     controller.update(); // a fresh press works again
     expect(controller.pressed("dodge")).toBe(true);
+  });
+});
+
+describe("desktop melee mouse gestures", () => {
+  it("releases a short primary click as one light attack", () => {
+    const controller = new InputController();
+    controller.setDesktopMeleeInput(true);
+    controller.setDesktopMouseButton(0, true, 1000);
+    controller.update(1100);
+    expect(controller.held("light")).toBe(false);
+    controller.setDesktopMouseButton(0, false, 1150);
+    controller.update(1150);
+    expect(controller.pressed("light")).toBe(true);
+    controller.update(1166);
+    expect(controller.held("light")).toBe(false);
+  });
+
+  it("triggers heavy at 0.3 seconds while primary is still held", () => {
+    const controller = new InputController();
+    controller.setDesktopMeleeInput(true);
+    controller.setDesktopMouseButton(0, true, 1000);
+    controller.update(1000 + DESKTOP_HEAVY_HOLD_SECONDS * 1000);
+    expect(controller.pressed("heavy")).toBe(true);
+    expect(controller.held("light")).toBe(false);
+    controller.setDesktopMouseButton(0, false, 1400);
+    controller.update(1400);
+    expect(controller.pressed("light")).toBe(false);
+  });
+
+  it("turns right-held then primary into parry without a delayed light", () => {
+    const controller = new InputController();
+    controller.setDesktopMeleeInput(true);
+    controller.setDesktopMouseButton(2, true, 1000);
+    controller.update(1000);
+    expect(controller.held("guard")).toBe(true);
+    controller.setDesktopMouseButton(0, true, 1010);
+    controller.update(1010);
+    expect(controller.pressed("parry")).toBe(true);
+    expect(controller.held("light")).toBe(false);
+    controller.setDesktopMouseButton(0, false, 1050);
+    controller.update(1050);
+    expect(controller.pressed("light")).toBe(false);
+  });
+
+  it("keeps direct primary press and hold for bows", () => {
+    const controller = new InputController();
+    controller.setDesktopMeleeInput(false);
+    controller.setDesktopMouseButton(0, true, 1000);
+    controller.update(1000);
+    expect(controller.pressed("light")).toBe(true);
+    controller.update(1400);
+    expect(controller.held("light")).toBe(true);
+    expect(controller.held("heavy")).toBe(false);
   });
 });
 

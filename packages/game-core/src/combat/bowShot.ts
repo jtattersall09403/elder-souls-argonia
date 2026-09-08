@@ -137,7 +137,8 @@ export function advanceBowCycle(
     }
 
     case "nocking": {
-      if (phaseTime < ranged.nockSeconds) {
+      const nockDuration = ranged.nockSeconds / Math.max(modifiers.nockSpeed, 1e-3);
+      if (phaseTime < nockDuration) {
         return { ...step, cycle: { ...cycle, phaseTime, drawArmed: armed(cycle, input) } };
       }
       return {
@@ -233,6 +234,7 @@ export function bowPose(
   /** Which way the archer is walking, if at all. */
   travel: BowTravel = STANDING,
   nockSeconds = 1.7,
+  nockSpeed = 1,
 ): {
   animation: AnimationState;
   /** Clip seconds to hold, or null to let the clip run on its own clock. */
@@ -253,7 +255,7 @@ export function bowPose(
   }
   switch (cycle.phase) {
     case "nocking":
-      return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime / nockSeconds) * NOCK_SOURCE_END_SECONDS };
+      return { animation: bow.draw, clipTime: Math.min(1, cycle.phaseTime * Math.max(nockSpeed, 1e-3) / nockSeconds) * NOCK_SOURCE_END_SECONDS };
     case "ready":
       return { animation: bow.idle, clipTime: null };
     case "drawing":
@@ -302,9 +304,10 @@ export const NOCK_SOURCE_END_SECONDS = 0.95;
  * back. A bow held ready shows an empty string, as Skyrim's does — the arrow
  * the owner saw in the idle hand was this returning true for `ready`.
  */
-export function nockedArrowVisible(cycle: BowCycle) {
+export function nockedArrowVisible(cycle: BowCycle, nockSeconds = 1.7, nockSpeed = 1) {
   return cycle.phase === "drawing"
-    || (cycle.phase === "nocking" && cycle.phaseTime >= 0.3);
+    || (cycle.phase === "nocking"
+      && cycle.phaseTime >= nockSeconds / Math.max(nockSpeed, 1e-3) * NOCK_REVEAL_FRACTION);
 }
 
 /** How the archer is moving, as the locomotion set names it. */

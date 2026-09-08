@@ -50,6 +50,12 @@ const DEAD_ZONE = 0.16;
 // Matches the touch camera-drag zone's feel (see Hud.tsx's CameraZone): both
 // paths funnel into the same addTouchCamera accumulator.
 const MOUSE_LOOK_SENSITIVITY = 0.18;
+/** Desktop melee: a held primary attack becomes heavy at this point. */
+export const DESKTOP_HEAVY_HOLD_SECONDS = 0.3;
+
+function inputNowMs() {
+  return typeof performance === "undefined" ? Date.now() : performance.now();
+}
 
 function deadZone(value: number) {
   const sign = Math.sign(value);
@@ -64,6 +70,10 @@ export class InputController {
 
   private keys = new Set<string>();
   private mouse = new Set<number>();
+  private desktopMeleeInput = false;
+  private desktopPrimaryStartedAtMs: number | null = null;
+  private desktopPrimaryGesture: "pending" | "heavy" | "parry" | null = null;
+  private desktopLightPulse = false;
   private virtual = new Set<InputAction>();
   private previous = new Map<InputAction, boolean>();
   private current = new Map<InputAction, boolean>();
@@ -87,9 +97,9 @@ export class InputController {
     // interface's, not a swing: only the world takes mouse buttons.
     const mouseDown = (event: MouseEvent) => {
       if (isUiTarget(event.target)) return;
-      this.mouse.add(event.button);
+      this.setDesktopMouseButton(event.button, true, event.timeStamp);
     };
-    const mouseUp = (event: MouseEvent) => this.mouse.delete(event.button);
+    const mouseUp = (event: MouseEvent) => this.setDesktopMouseButton(event.button, false, event.timeStamp);
     // Mouse-look only while the pointer is locked (click the canvas to engage),
     // so moving the mouse to reach UI/menus doesn't spin the camera.
     const mouseMove = (event: MouseEvent) => {
@@ -108,6 +118,9 @@ export class InputController {
       this.mouse.clear();
       this.virtual.clear();
       this.wheel = 0;
+      this.desktopPrimaryStartedAtMs = null;
+      this.desktopPrimaryGesture = null;
+      this.desktopLightPulse = false;
     };
     window.addEventListener("keydown", down, { passive: false });
     window.addEventListener("keyup", up);
@@ -144,6 +157,9 @@ export class InputController {
     this.touchMove = { x: 0, y: 0 };
     this.touchCamera = { x: 0, y: 0 };
     this.wheel = 0;
+    this.desktopPrimaryStartedAtMs = null;
+    this.desktopPrimaryGesture = null;
+    this.desktopLightPulse = false;
   }
 
   /**
@@ -176,6 +192,38 @@ export class InputController {
     else this.virtual.delete(action);
   }
 
+  /**
+   * Select release/hold mouse gestures for melee. Bows keep direct primary
+   * input so their tap-to-raise and hold-to-draw cycle is unchanged.
+   */
+  setDesktopMeleeInput(enabled: boolean) {
+    if (enabled === this.desktopMeleeInput) return;
+    this.desktopMeleeInput = enabled;
+    this.desktopPrimaryStartedAtMs = null;
+    this.desktopPrimaryGesture = null;
+    this.desktopLightPulse = false;
+  }
+
+  /** Device event seam, public so the timing rules can be tested without DOM. */
+  setDesktopMouseButton(button: number, pressed: boolean, nowMs = inputNowMs()) {
+    if (pressed) {
+      if (this.mouse.has(button)) return;
+      this.mouse.add(button);
+      if (button === 0 && this.desktopMeleeInput) {
+        this.desktopPrimaryStartedAtMs = nowMs;
+        this.desktopPrimaryGesture = this.mouse.has(2) ? "parry" : "pending";
+      }
+      return;
+    }
+    if (!this.mouse.has(button)) return;
+    this.mouse.delete(button);
+    if (button === 0 && this.desktopMeleeInput) {
+      if (this.desktopPrimaryGesture === "pending") this.desktopLightPulse = true;
+      this.desktopPrimaryStartedAtMs = null;
+      this.desktopPrimaryGesture = null;
+    }
+  }
+
   setTouchMovement(value: Vec2) {
     this.touchMove = value;
   }
@@ -185,7 +233,7 @@ export class InputController {
     this.touchCamera.y += value.y;
   }
 
-  update() {
+  update(nowMs = inputNowMs()) {
     for (const action of this.current.keys()) this.previous.set(action, this.current.get(action) ?? false);
 
     const pads = typeof navigator !== "undefined" && navigator.getGamepads ? navigator.getGamepads() : [];
@@ -215,20 +263,32 @@ export class InputController {
     const button = (index: number) => Boolean(pad?.buttons[index]?.pressed);
     const active = (action: InputAction) => this.virtual.has(action);
 
-    this.current.set("light", active("light") || this.mouse.has(0) || button(SWITCH_GAMEPAD.R_LIGHT));
-    this.current.set("heavy", active("heavy") || this.keys.has("KeyR") || button(SWITCH_GAMEPAD.ZR_HEAVY));
+    if (this.desktopMeleeInput
+      && this.desktopPrimaryGesture === "pending"
+      && this.desktopPrimaryStartedAtMs !== null
+      && nowMs - this.desktopPrimaryStartedAtMs >= DESKTOP_HEAVY_HOLD_SECONDS * 1000) {
+      this.desktopPrimaryGesture = "heavy";
+    }
+
+    this.current.set("light", active("light") || (!this.desktopMeleeInput && this.mouse.has(0))
+      || this.desktopLightPulse || button(SWITCH_GAMEPAD.R_LIGHT));
+    this.current.set("heavy", active("heavy") || this.keys.has("KeyR")
+      || this.desktopPrimaryGesture === "heavy" || button(SWITCH_GAMEPAD.ZR_HEAVY));
     this.current.set("guard", active("guard") || this.mouse.has(2) || button(SWITCH_GAMEPAD.L_GUARD));
-    this.current.set("parry", active("parry") || this.keys.has("KeyF") || this.mouse.has(1) || button(SWITCH_GAMEPAD.ZL_PARRY));
+    this.current.set("parry", active("parry") || this.keys.has("KeyF") || this.mouse.has(1)
+      || this.desktopPrimaryGesture === "parry" || button(SWITCH_GAMEPAD.ZL_PARRY));
     this.current.set("dodge", active("dodge") || this.keys.has("Space") || button(SWITCH_GAMEPAD.B_BOTTOM_DODGE));
     this.current.set("lockOn", active("lockOn") || this.keys.has("KeyQ") || button(SWITCH_GAMEPAD.R_STICK_LOCK));
     this.current.set("heal", active("heal") || this.keys.has("KeyH") || button(SWITCH_GAMEPAD.X_TOP_ITEM));
     this.current.set("equip", active("equip") || this.keys.has("Tab") || button(SWITCH_GAMEPAD.DPAD_RIGHT_EQUIP));
-    this.current.set("jump", active("jump") || this.keys.has("KeyJ") || button(SWITCH_GAMEPAD.A_RIGHT_JUMP));
+    this.current.set("jump", active("jump") || this.keys.has("ShiftLeft") || this.keys.has("ShiftRight")
+      || button(SWITCH_GAMEPAD.A_RIGHT_JUMP));
     this.current.set("zoomIn", active("zoomIn") || button(SWITCH_GAMEPAD.ZR_HEAVY));
     this.current.set("zoomOut", active("zoomOut") || button(SWITCH_GAMEPAD.ZL_PARRY));
     this.current.set("crouch", active("crouch") || this.keys.has("KeyC") || button(SWITCH_GAMEPAD.L_STICK_CROUCH));
-    // When locked on, the right stick is free for target switching; the frame
-    // ignores camera input in that mode. `pressed` turns a stick push into one edge.
+    // When locked on, the right stick switches targets for melee. A raised bow
+    // also reads it as aim input after the initial centring; `pressed` still
+    // turns a stick push into one target-switch edge.
     const rightStickX = pad ? deadZone(pad.axes[2] ?? 0) : 0;
     this.current.set("targetLeft", active("targetLeft") || this.keys.has("Comma") || rightStickX < -0.55);
     this.current.set("targetRight", active("targetRight") || this.keys.has("Period") || rightStickX > 0.55);
@@ -238,6 +298,7 @@ export class InputController {
       if (this.current.get(action)) this.current.set(action, false);
       else this.suppressed.delete(action);
     }
+    this.desktopLightPulse = false;
   }
 
   held(action: InputAction) {

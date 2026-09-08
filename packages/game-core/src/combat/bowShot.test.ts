@@ -12,6 +12,7 @@ import {
   isAiming,
   nockedArrowVisible,
   NOCK_REVEAL_FRACTION,
+  NOCK_SOURCE_END_SECONDS,
   type BowCycle,
   type BowInput,
 } from "./bowShot";
@@ -192,6 +193,24 @@ describe("player-stat hooks", () => {
     expect(quick.shots[0].drawFraction).toBeGreaterThan(normal.shots[0].drawFraction);
   });
 
+  it("lets a faster archer finish nocking sooner without changing the bow's base time", () => {
+    const authoredNockSeconds = BOW.nockSeconds;
+    const ready = run(IDLE_BOW_CYCLE, (_, frame) => (frame === 0 ? TAP : NOTHING), 400).cycle;
+    const started = advanceBowCycle(ready, HOLDING, BOW, 1000, 0).cycle;
+    const normal = advanceBowCycle(started, HOLDING, BOW, 1000, BOW.nockSeconds * 0.6);
+    const quick = advanceBowCycle(
+      started,
+      HOLDING,
+      BOW,
+      1000,
+      BOW.nockSeconds * 0.6,
+      { ...NEUTRAL_RANGED_MODIFIERS, nockSpeed: 2 },
+    );
+    expect(normal.cycle.phase).toBe("nocking");
+    expect(quick.cycle.phase).toBe("drawing");
+    expect(BOW.nockSeconds).toBe(authoredNockSeconds);
+  });
+
   it("caps a weak archer short of full draw however long they hold", () => {
     const weak = drawWith({ ...NEUTRAL_RANGED_MODIFIERS, drawStrength: 0.6 }, BOW.drawSeconds * 3);
     expect(weak.shots[0].drawFraction).toBeCloseTo(0.6, 5);
@@ -251,6 +270,13 @@ describe("moving with the bow up", () => {
       strafeLeft: "BOW_DRAWN_STRAFE_LEFT", strafeRight: "BOW_DRAWN_STRAFE_RIGHT",
     },
   } as const;
+
+  it("keeps the nock pose and arrow reveal aligned at different nocking speeds", () => {
+    const cycle = { ...IDLE_BOW_CYCLE, phase: "nocking" as const, phaseTime: BOW.nockSeconds * 0.2 / 2 };
+    expect(nockedArrowVisible(cycle, BOW.nockSeconds, 2)).toBe(true);
+    expect(bowPose(cycle, PROFILE, "still", BOW.nockSeconds, 2).clipTime)
+      .toBeCloseTo(NOCK_SOURCE_END_SECONDS * 0.2, 6);
+  });
 
   it("strides on the drawn set while the bow is raised", () => {
     const ready: BowCycle = { ...IDLE_BOW_CYCLE, phase: "ready" };
