@@ -4,6 +4,8 @@
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.cache/tsc.tsbuildinfo",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,

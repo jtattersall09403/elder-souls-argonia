@@ -9,7 +9,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit --pretty false"
   },
   "devDependencies": {
     "typescript": "^6.0.3"

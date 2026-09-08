@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "tsc -b --pretty false && vite build",
-    "typecheck": "tsc -b --pretty false"
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
     "@elder-souls/contracts": "^0.1.0"

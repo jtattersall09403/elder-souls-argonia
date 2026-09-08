@@ -40,6 +40,10 @@ jobs:
       # A clean runner clone is also the proof that nothing depends on
       # sibling-repository paths or the local asset vault.
       - run: npm ci
+      # Both gates fan out across the workspaces in parallel. `npm ci` has just
+      # replaced node_modules, so the incremental typecheck build-info caches
+      # under each workspace's node_modules/.cache are gone: CI always runs the
+      # full, cold check.
       - run: npm test
       - run: npm run typecheck
       # Every asset pool we ship from must be credited in the root README, in

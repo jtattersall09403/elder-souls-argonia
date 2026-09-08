@@ -8,10 +8,10 @@
     "predev": "npm run assets",
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run assets",
-    "build": "tsc -b && vite build",
+    "build": "npm run typecheck && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "test": "vitest run --passWithNoTests",
-    "typecheck": "tsc -b --pretty false",
+    "typecheck": "tsc --noEmit --pretty false -p tsconfig.app.json && tsc --noEmit --pretty false -p tsconfig.node.json",
     "visual:install": "playwright install chromium",
     "visual:check": "npm run build && node scripts/capture-visual-scenarios.mjs --prebuilt --tiny --no-video",
     "visual:record": "npm run build && node scripts/capture-visual-scenarios.mjs --prebuilt"
