@@ -34,6 +34,9 @@
 # grader sees THIS run's channels and lakes (every wet sample is a crossing it
 # leaves alone, no fill into open water) and the `water/natural` snapshot is
 # this run's pre-grading water; then last, on the graded ground that ships.
+# `grade_settlement_pads` runs after the final route grade: parcel integration
+# keeps roads out of building footprints, then pads become part of the exact
+# surface consumed by chunks, final water and terrain postconditions.
 set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 
@@ -58,6 +61,7 @@ STAGES=(
   "grade_routes"
   "author_route_structures"
   "grade_routes"
+  "grade_settlement_pads"
   "compile_chunks"
   "export_web_chunks"
   "compile_water"
