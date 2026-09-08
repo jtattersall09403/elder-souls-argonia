@@ -152,14 +152,19 @@ children clumped within 300 m), pins applied after the solve as now, then
 water: yes (no rasters written). Moves records: the four sited exemplars
 are pinned; everything else may move.
 
-**Code/test half DONE 2026-09-08; final-water application pending.** The
-solver now uses deterministic culture-specific Thomas parents and a bounded
-300 m child kernel instead of a general pairwise separation floor; physical
-collision, related-place, same-type and route-repeat guards remain. Reporting
-uses 128 deterministic Poisson trials inside each exact culture-and-land mask,
-so thin coasts and corridors no longer masquerade as clustering. The actual
-re-solve, parent-count audit, catalogue write-back and R report remain after
-the water hand-off; the four authored exemplars remain post-solve pins.
+**DONE 2026-09-08; final-raster recheck remains in B2.** The solver uses
+deterministic culture-specific Thomas parents and a bounded 300 m child kernel
+instead of a general pairwise separation floor. An immutable 30 m physical
+collision floor remains, while related-place, same-type and route-repeat
+guards apply only where their authored meanings require them. Hard locality
+constraints propagate through dependency groups before placement; scarce
+domains are reserved first; submerged places draw from a deterministic deep-
+water candidate field and can no longer pass on shallow water. Navigable roles
+must meet their hull depth within 150 m unless they carry a typed terrain-cut
+promise that will create it. The full owner-approved solve placed 580/580
+records with no collisions, no invalid sites, no navigability exceptions and
+no resiting pins. It wrote the catalogue and the edge-corrected Clark–Evans
+report (median R 0.839). The four authored exemplars remain blueprint-pinned.
 
 ### B6 — One province extent
 
@@ -201,10 +206,15 @@ validation fell from 1.964 s to 0.123 s while mutation tests prove edits miss
 the cache. A fresh exact CI selection took 34.52 s for 170 passes plus the
 expected live-data failure; 25.98 s is genuine first-run terrain routing for
 the five blueprints, while cached repeat validation is the optimized path.
-The broader measured Phase 11 selection reached 205 passes and one
-expected failure: Nine-Trunks' corrected route is deliberately not published
-until the water hand-off. Browser-probe/harness optimizations remain owned by
-the concurrent optimization agent and were not overlapped here.
+The broader measured Phase 11 selection reached 205 passes and one expected
+pre-handoff failure. The five blueprint views now share one build, preview,
+browser and place-picker pass, completing cleanly in 8.6–9.3 s (at least 73%
+faster than five separate runs). The combined Phase 11 probe can reuse that
+same server for the complete water scenario set, so the joint workload pays
+startup only once. The retired blueprint-ground probe was removed rather than
+kept as dead coverage. The placement gate now also names the final terrain-
+promise postconditions, macro replot and minor-route suites explicitly, so the
+speed work cannot hide those delivery checks.
 
 ### B9 — Macro promise to final delivery contract (owner 2026-09-08) — B9a DONE; B9b GATE DONE / DEBT OPEN
 

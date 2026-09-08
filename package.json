@@ -17,7 +17,7 @@
     "build": "npm run build --workspaces --if-present",
     "dev": "npm run dev -w @elder-souls/combat-sandbox",
     "weapons:reach": "node tooling/asset-pipeline/scripts/bake-weapon-reach.mjs",
-    "test:placement": "cd tooling/world-generation && python3 -m pytest -q worldgen/test_blueprint*.py worldgen/test_catalogue.py worldgen/test_grade_routes.py worldgen/test_plot_stats.py worldgen/test_place_obligations.py worldgen/test_terrain_requests.py worldgen/test_terrain_request_raster.py worldgen/test_settlement_ground_control.py worldgen/test_scale.py worldgen/test_minor_waterways.py worldgen/test_dock_and_socket_rules.py worldgen/test_major_waterway_identity.py",
+    "test:placement": "cd tooling/world-generation && python3 -m pytest -q worldgen/test_blueprint*.py worldgen/test_catalogue.py worldgen/test_grade_routes.py worldgen/test_plot_stats.py worldgen/test_place_obligations.py worldgen/test_terrain_requests.py worldgen/test_terrain_request_raster.py worldgen/test_terrain_request_postconditions.py worldgen/test_apply_sitings.py worldgen/test_macro_plot.py worldgen/test_macro_plot_thomas.py worldgen/test_settlement_ground_control.py worldgen/test_scale.py worldgen/test_minor_routes.py worldgen/test_minor_waterways.py worldgen/test_dock_and_socket_rules.py worldgen/test_major_waterway_identity.py",
     "test:placement:slow": "cd tooling/world-generation && python3 -m pytest -q -m slow $(python3 -c \"import importlib.util;print('-n=auto' if importlib.util.find_spec('xdist') else '')\")"
   },
   "devDependencies": {
