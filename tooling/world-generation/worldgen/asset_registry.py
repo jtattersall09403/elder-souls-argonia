@@ -67,6 +67,9 @@ class Pool:
     label: str
     source: str
     credit: str
+    #: SHA-256 of the downloaded source archive. Required by the repository
+    #: credit gate for every pool added after the 2026-09-07 legacy snapshot.
+    archive_sha256: str | None = None
     #: Either a manifest file listing paths, or a directory to walk.
     manifest: str | None = None
     directory: str | None = None
@@ -452,6 +455,7 @@ def build(vault: Path = DEFAULT_VAULT) -> dict:
             "label": pool.label,
             "source": pool.source,
             "credit": pool.credit,
+            **({"archiveSha256": pool.archive_sha256} if pool.archive_sha256 else {}),
             "meshesSeen": len(set(paths)),
             "registered": len(rows),
             "skippedNonContent": dict(skipped),

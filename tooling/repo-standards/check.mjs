@@ -286,10 +286,13 @@ function checkSchemaVersions() {
 
 function checkCredits() {
   const summaryPath = "world/sources/assets/registry-summary.json";
+  const policyPath = "world/sources/assets/credit-hash-policy.json";
   if (!existsSync(join(ROOT, summaryPath))) return;
   const readme = readFileSync(join(ROOT, "README.md"), "utf8");
   const haystack = readme.toLowerCase();
   const summary = readJson(summaryPath);
+  const policy = readJson(policyPath);
+  const legacyPools = new Set(policy.legacyPools ?? []);
 
   for (const [pool, info] of Object.entries(summary.pools ?? {})) {
     const url =
@@ -320,6 +323,29 @@ function checkCredits() {
           `root README § Credits and third-party sources. Source + hash + credit ` +
           `land in the same change as the asset.`,
       );
+
+    // The dated legacy set is deliberately closed. Any pool not in that
+    // snapshot was sourced after the cutover and must put the archive digest
+    // in both the registry summary and the human-readable credit line.
+    if (!legacyPools.has(pool)) {
+      const digest = typeof info.archiveSha256 === "string" ? info.archiveSha256.toLowerCase() : "";
+      if (!/^[0-9a-f]{64}$/.test(digest))
+        fail(
+          10,
+          summaryPath,
+          0,
+          `asset pool \`${pool}\` was added after ${policy.cutoff}; record its 64-hex ` +
+            `archiveSha256 in asset_registry.POOLS and rebuild the registry`,
+        );
+      else if (!haystack.includes(digest))
+        fail(
+          10,
+          "README.md",
+          0,
+          `asset pool \`${pool}\` was added after ${policy.cutoff}, but its archive ` +
+            `SHA-256 is absent from README § Credits and third-party sources`,
+        );
+    }
   }
 }
 

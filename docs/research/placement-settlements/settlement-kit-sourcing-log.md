@@ -585,6 +585,18 @@ A gatehouse for the newcastle wall is therefore a **sourcing gap**: either mine
 the mod's own cells for the door offset, or take a gatehouse from a set that
 ships one whole.
 
+**Plugin-link decision (2026-09-08): solid mass.** The exhaustive
+`worldgen.mine_door_links` output includes both `Black Marsh.esm` and `Black
+Marsh North.esp` (and records their archive hashes), but its `shells` table has
+no `01randomhouse`, `newcastle/buildings/guardhouse`, or
+`newcastle/door/guardhousedoor` row. In other words, neither shipped plugin
+ever supplies the exterior-door `XTEL` link needed to locate that loose leaf
+on this shell. The similarly named `guardhouseint` mesh is evidence that an
+interior model exists, not evidence of an enterable placed assembly. We keep
+the shell available only as a non-enterable building mass and keep both it and
+the loose door out of `enclosure-v1`; a future enterable use needs a new,
+source-backed door placement rather than a guessed composite.
+
 #### Blueprints re-placed onto the kit
 
 `place.dunmer-north.mazzatun` spanned BOTH its ways with

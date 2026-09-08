@@ -105,7 +105,10 @@ wrapper must be flattened, or Blender cannot resolve the NIFs' texture paths
 and every material exports untextured); add a `Pool` row to
 `worldgen/asset_registry.py`, a `dir_pools` line to `pipeline/build_kit.py`, a
 marker to `worldgen/check_credits.py`, and the credit line to the root README
-in the same change.
+in the same change. Pools added after the 2026-09-07 provenance cutover also
+set `Pool.archive_sha256` to the downloaded archive's 64-hex digest and print
+that same digest in the README credit line; the closed legacy-pool snapshot in
+`world/sources/assets/credit-hash-policy.json` makes omission a failing check.
 
 Animation changes are not complete at GLB export. Before selecting, trimming,
 retiming, or conditioning a clip, follow the production integration playbook at

@@ -1,0 +1,29 @@
+{
+ "schemaVersion": 1,
+ "cutoff": "2026-09-07",
+ "legacyPools": [
+  "ayleidcc",
+  "ayleidkit",
+  "bmv",
+  "boatsanim",
+  "canoe",
+  "darkwater",
+  "depths",
+  "ferries",
+  "ferryraft",
+  "histtree",
+  "hlaalu",
+  "htbm",
+  "impships",
+  "mudmother",
+  "mwkeep",
+  "rowboats",
+  "sailboats",
+  "sbot",
+  "sirenroot",
+  "tropical",
+  "vanilla",
+  "xalfek",
+  "xanmeer"
+ ]
+}

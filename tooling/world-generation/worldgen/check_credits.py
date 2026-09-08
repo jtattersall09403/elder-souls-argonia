@@ -28,6 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parents[3]
 README = REPO_ROOT / "README.md"
 REGISTRY_DIR = REPO_ROOT / "world" / "sources" / "assets"
 KITS = REPO_ROOT / "tooling" / "asset-pipeline" / "pipeline" / "config" / "kits"
+HASH_POLICY = REGISTRY_DIR / "credit-hash-policy.json"
 
 #: The distinctive phrase to look for per pool. Matching a whole credit line
 #: would fail on punctuation; matching the project's name is what a reader
@@ -77,6 +78,8 @@ def check() -> list[str]:
     if not summary_path.exists():
         return [f"{summary_path} missing — run `worldgen.asset_registry build`"]
     pools = json.loads(summary_path.read_text())["pools"]
+    policy = json.loads(HASH_POLICY.read_text())
+    legacy_pools = set(policy["legacyPools"])
 
     known_ids: set[str] = set()
     for pool, entry in sorted(pools.items()):
@@ -94,6 +97,18 @@ def check() -> list[str]:
                 f"{entry['registered']} assets but '{marker}' does not appear "
                 "in the README's credits section"
             )
+        if pool not in legacy_pools:
+            digest = str(entry.get("archiveSha256") or "").lower()
+            if not re.fullmatch(r"[0-9a-f]{64}", digest):
+                problems.append(
+                    f"pool '{pool}' was added after {policy['cutoff']} but has no "
+                    "64-hex archiveSha256 in the registry summary"
+                )
+            elif digest not in credits.lower():
+                problems.append(
+                    f"pool '{pool}' was added after {policy['cutoff']} but archive "
+                    f"SHA-256 {digest} is absent from the README credits section"
+                )
         path = REGISTRY_DIR / f"registry-{pool}.jsonl"
         if path.exists():
             with path.open() as fh:
