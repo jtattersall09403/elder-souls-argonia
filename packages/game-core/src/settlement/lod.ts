@@ -54,9 +54,22 @@ export function validateMaterialTextureCap(material: THREE.Material, maxSize: nu
 export function mergeTransformedGeometry(
   geometry: THREE.BufferGeometry,
   transforms: readonly THREE.Matrix4[],
+  groundLinesM?: readonly number[],
 ): THREE.BufferGeometry | null {
   if (!transforms.length) return null;
-  const copies = transforms.map((matrix) => geometry.clone().applyMatrix4(matrix));
+  if (groundLinesM && groundLinesM.length !== transforms.length) {
+    throw new Error("settlement far-tier ground-line count does not match transforms");
+  }
+  const copies = transforms.map((matrix, index) => {
+    const copy = geometry.clone().applyMatrix4(matrix);
+    if (groundLinesM) {
+      const count = copy.getAttribute("position").count;
+      copy.setAttribute("esSettlementGroundY", new THREE.Float32BufferAttribute(
+        new Float32Array(count).fill(groundLinesM[index]), 1,
+      ));
+    }
+    return copy;
+  });
   const merged = mergeGeometries(copies, false);
   copies.forEach((copy) => copy.dispose());
   if (!merged) throw new Error("settlement far-tier geometry could not be merged");

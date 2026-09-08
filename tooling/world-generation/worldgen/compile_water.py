@@ -170,6 +170,58 @@ def _terrain_sampler(refined: np.ndarray, mpp: float):
     return at
 
 
+def sheet_corridor(sol, shape, pad_m: float = 2.0) -> np.ndarray:
+    """Mask of the ground each cascade's SHEET is drawn over: the corridor
+    from every lip to its plunge, across the fall's width.
+
+    This is not the same as the `owner == 255` fall footprint, which is the
+    ground the fall's *water level* stands over — on the face itself that
+    level is the plunge's and lies far below the rock, so the footprint
+    covers almost none of the cliff, and the lip and plunge stations at the
+    two ends own the rest. The corridor is what the renderer actually paints,
+    and it is where water may legitimately have lower dry rock beside it: at
+    a brink the water does not end, it falls.
+    """
+    mask = np.zeros(shape, dtype=bool)
+    lips = np.flatnonzero(sol.lip)
+    plunges = np.flatnonzero(sol.plunge)
+    for k in lips:
+        after = plunges[(plunges > k) & (sol.reach[plunges] == sol.reach[k])]
+        if not len(after):
+            continue
+        j = int(after[0])
+        r = max(float(sol.width[k]) * 0.5, float(sol.width[j]) * 0.5) / sol.mpp + pad_m / sol.mpp
+        y0, y1 = sol.y[k], sol.y[j]
+        x0, x1 = sol.x[k], sol.x[j]
+        lo_y, hi_y = int(min(y0, y1) - r - 1), int(max(y0, y1) + r + 2)
+        lo_x, hi_x = int(min(x0, x1) - r - 1), int(max(x0, x1) + r + 2)
+        lo_y, lo_x = max(lo_y, 0), max(lo_x, 0)
+        hi_y, hi_x = min(hi_y, shape[0]), min(hi_x, shape[1])
+        if hi_y <= lo_y or hi_x <= lo_x:
+            continue
+        # the bowl the fall digs is part of the fall: `carve` scours it out to
+        # a full width from the plunge, and its rim is the fall's own rim
+        bowl_r = float(sol.width[j]) / sol.mpp
+        lo_y = max(int(min(y0, y1 - bowl_r) - r - 1), 0)
+        hi_y = min(int(max(y0, y1 + bowl_r) + r + 2), shape[0])
+        lo_x = max(int(min(x0, x1 - bowl_r) - r - 1), 0)
+        hi_x = min(int(max(x0, x1 + bowl_r) + r + 2), shape[1])
+        if hi_y <= lo_y or hi_x <= lo_x:
+            continue
+        yy, xx = np.mgrid[lo_y:hi_y, lo_x:hi_x]
+        vy, vx = y1 - y0, x1 - x0
+        L2 = float(vy * vy + vx * vx) or 1.0
+        t = np.clip(((yy - y0) * vy + (xx - x0) * vx) / L2, 0.0, 1.0)
+        d = np.hypot(yy - (y0 + t * vy), xx - (x0 + t * vx))
+        # the brink above the lip is the fall's head: the water crossing it is
+        # already going over, so the rock a step below it is where it is going
+        head_r = float(sol.width[k]) / sol.mpp
+        mask[lo_y:hi_y, lo_x:hi_x] |= ((d <= r)
+                                       | (np.hypot(yy - y1, xx - x1) <= bowl_r)
+                                       | (np.hypot(yy - y0, xx - x0) <= head_r))
+    return mask
+
+
 def hovering_edges(W, wet, assigned, g, fall_foot, min_drop: float = 0.05,
                    max_drop: float = ch.CANYON_MAX_M, cliff_out: list | None = None) -> np.ndarray:
     """Mask of wet cells with a 4-neighbour that is dry, unassigned (no level
@@ -354,7 +406,11 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
     # station's level as its table and is not a hole; fall footprints are
     # bridged by the sheet.
     cliff_edge: list = []
-    hover = int(hovering_edges(W, wet, assigned, g, fall_foot, cliff_out=cliff_edge).sum())
+    # a brink is not a hole: the sheet carries the water down the corridor
+    corridor = sheet_corridor(sol, g.shape)
+    hover = int(hovering_edges(W, wet, assigned, g, fall_foot | corridor,
+                               cliff_out=cliff_edge).sum())
+    brink_cells = int((hovering_edges(W, wet, assigned, g, fall_foot).sum()) - hover)
     iy = np.clip(np.round(sol.y).astype(int), 0, n - 1)
     ix = np.clip(np.round(sol.x).astype(int), 0, n - 1)
     st_wet = np.isfinite(W[iy, ix]) & (W[iy, ix] >= g[iy, ix] - 0.01)   # water reaches the bed
@@ -531,6 +587,7 @@ def compute(refined: np.ndarray, npz, sol: ch.ChannelSolution, step: int = STEP,
         "compileSeconds": round(time.perf_counter() - t0, 1),
         "hoveringEdges": hover,
         "cliffEdgeCells": int(cliff_edge[0]),
+        "brinkEdgeCells": int(brink_cells),
         "boundHitCells": int(bound_hit.sum()),
         "boundHitReaches": int(len(bound_reaches)),
         "dryStations": int((live & ~st_wet).sum()),

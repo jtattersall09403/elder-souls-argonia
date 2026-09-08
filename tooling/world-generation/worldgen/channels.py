@@ -24,7 +24,8 @@ Long profile L(s), per station:
              whole network upstream-first; a tributary's end is pinned to its
              trunk's start (with a short ramp back) so junctions share a level
   falls    = the terrain along the centreline drops >= FALL_DROP_M at a mean
-             slope >= FALL_SLOPE with the steep part contiguous; L STEPS
+             slope >= FALL_SLOPE with the face contiguous at >= FALL_FACE_SLOPE
+             (a gentler ramp is a chute strip, never a sheet); L STEPS
              there (lip level to the lip, plunge level after) — never a ramp
   steep    = |dL/ds| >= STEEP_SLOPE over a SLOPE_WINDOW_M window (fall steps
              removed), in runs >= STEEP_MIN_M — these become strip meshes
@@ -77,14 +78,27 @@ STEEP_SLOPE = 0.035
 STEEP_MIN_M = 10.0
 SLOPE_WINDOW_M = 10.0
 FALL_DROP_M = 3.0
+SEA_REACH_MAX_CELLS = 30                 # a sea-draining terminus is extended to
+                                         # the ocean over at most this many coarse cells
 FALL_SLOPE = 1.2                         # mean slope over the steep part (~50 deg; a 45 deg
                                          # borderline is a chute strip, not a sheet)
-FALL_RUN_SLOPE = 0.5                     # a station is part of the steep part above this
+FALL_FACE_SLOPE = 2.75                   # the face must be steeper than the falling water's
+                                         # trajectory (~70 deg) for the sheet to leave the rock;
+                                         # gentler and the water runs ON it — a chute, not a
+                                         # curtain. Measured 2026-09-08 on the 20 shipped
+                                         # cascades: 18 accumulate 5.6-132 m at >= 70 deg,
+                                         # fall-7 and fall-17 accumulate 0.0 m (uniform ~51 deg
+                                         # ramps) — a clean gap, not a tuned knob.
 FALL_MIN_STEP_M = 2.5                    # the L step must keep at least this
 CANYON_MAX_M = 8.0                       # never cut deeper than this below the floor
 BACKWATER_MAX_M = 1.0                    # a lake may back water up this far over the approach
 LOST_EXIT_M = 1.0                        # a lost stretch ends this far below its crest
 PLUNGE_MIN_DEPTH_M = 1.5
+PLUNGE_SCOUR_PER_DROP = 0.06             # scour grows with head: bowl depth = min + this x the
+PLUNGE_MAX_DEPTH_M = 8.0                 # fall's drop, capped. Measured 2026-09-08: the 131 m
+                                         # gorge fall (fall-3, plunge 2524/317) had a 1.44 m max
+                                         # pool over 63 wet cells (median 0.72) — the channel's
+                                         # own centre depth, whatever the fall above it.
 PLUNGE_FLOOR_ABOVE_M = 2.5               # the basin only deepens ground this close above its level
 # --- flow speed ---------------------------------------------------------------
 SPEED_FLOOR = {1: 0.45, 2: 0.60, 3: 0.75}   # m/s, so lowland rivers visibly move
@@ -98,17 +112,29 @@ KIND_FIELD, KIND_STEEP, KIND_FALL, KIND_LOST = 0, 1, 2, 3
 # graph → reaches
 # ---------------------------------------------------------------------------
 
-def build_reaches(rivers: np.ndarray, flow_to: np.ndarray) -> list[np.ndarray]:
+def build_reaches(rivers: np.ndarray, flow_to: np.ndarray,
+                  ocean: np.ndarray | None = None,
+                  coarse_ground: np.ndarray | None = None) -> list[np.ndarray]:
     """Split the coarse river graph into reaches: maximal downstream paths
     whose interior cells have exactly one river cell upstream. A reach starts
     at a source or a junction and ends at (and includes) the next junction or
     the outlet, so junction cells are shared by every reach meeting there.
+
+    A terminal chain whose last river cell stands well above sea level is
+    extended down `flow_to` past that cell to the first ocean cell (included)
+    — a river that meets the coast at a cliff falls into the sea, and without
+    the extension its last station holds the clifftop level over cells that
+    hang above the shore. The extension cells are not river cells: `solve`
+    gives them the last river cell's band and accumulation.
+
     Returns flat coarse indices per reach, deterministically ordered."""
     riv = rivers.reshape(-1) > 0
     ft = flow_to.reshape(-1)
     ds = np.where(riv & (ft >= 0) & riv[np.maximum(ft, 0)], ft, -1)
     indeg = np.bincount(ds[ds >= 0], minlength=riv.size)
     heads = np.flatnonzero(riv & (indeg != 1))
+    oc = ocean.reshape(-1) if ocean is not None else None
+    cg = coarse_ground.reshape(-1) if coarse_ground is not None else None
     reaches = []
     for h in heads:
         chain = [int(h)]
@@ -121,6 +147,20 @@ def build_reaches(rivers: np.ndarray, flow_to: np.ndarray) -> list[np.ndarray]:
             cur = nxt
             if indeg[nxt] != 1:
                 break
+        last = chain[-1]
+        if (oc is not None and cg is not None and int(ds[last]) < 0
+                and not bool(oc[last]) and float(cg[last]) >= FALL_DROP_M):
+            ext, cur, seen = [], last, set(chain)
+            for _ in range(SEA_REACH_MAX_CELLS):
+                nxt = int(ft[cur])
+                if nxt < 0 or nxt in seen:
+                    break
+                ext.append(nxt)
+                seen.add(nxt)
+                cur = nxt
+                if bool(oc[nxt]):
+                    chain = chain + ext           # reached the sea: keep it
+                    break
         if len(chain) >= 2:
             reaches.append(np.asarray(chain, dtype=np.int64))
     return reaches
@@ -239,7 +279,12 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
     rivers, flow_to, accum = npz["rivers"], npz["flow_to"], npz["accum_km2"]
     hc, wc = rivers.shape
     n_full = terrain.shape[0]
-    reaches = build_reaches(rivers, flow_to)
+    ocean = npz["ocean"] if "ocean" in getattr(npz, "files", npz) else None
+    half0 = (step - 1) / 2.0
+    gy = np.clip(np.round(np.arange(hc) * step + half0).astype(int), 0, terrain.shape[0] - 1)
+    gx = np.clip(np.round(np.arange(wc) * step + half0).astype(int), 0, terrain.shape[1] - 1)
+    coarse_ground = terrain[gy[:, None], gx[None, :]]
+    reaches = build_reaches(rivers, flow_to, ocean, coarse_ground)
     spacing = 1.0                                  # samples (~mpp metres)
     cols = {k: [] for k in ("x", "y", "arc", "reach", "band", "accum")}
     starts, ends = [], []
@@ -258,8 +303,18 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
         count += len(s)
         cols["x"].append(pts[:, 0]); cols["y"].append(pts[:, 1])
         cols["arc"].append(s * mpp); cols["reach"].append(np.full(len(s), r))
-        cols["band"].append(rivers.reshape(-1)[chain][vi])
-        cols["accum"].append(accum.reshape(-1)[chain][vi])
+        # a coast extension carries no band or accumulation of its own: clamp
+        # the attribute index to the last river cell, or the extension reads
+        # band 0 (centre depth 0) and the carve breaks
+        bch = rivers.reshape(-1)[chain].copy()
+        ach = accum.reshape(-1)[chain].copy()
+        nz = np.flatnonzero(bch > 0)
+        if len(nz):
+            j = int(nz[-1])
+            bch[j + 1:] = bch[j]
+            ach[j + 1:] = ach[j]
+        cols["band"].append(bch[vi])
+        cols["accum"].append(ach[vi])
         ends.append(count)
     if not reaches:
         raise ValueError("no river cells in the hydrology solve")
@@ -344,7 +399,6 @@ def solve(terrain: np.ndarray, npz, pool_level: np.ndarray | None = None,
                                              bank_low + DITCH_ALLOW_M)).astype(np.float32)
     # reaches that drain to the sea: their profile never drops under 0 (an
     # open channel cannot run below the sea it flows into and climb back)
-    ocean = npz["ocean"] if "ocean" in getattr(npz, "files", npz) else None
     to_sea = _reaches_to_sea(reaches, flow_to, ocean)
     ford = np.zeros(n_st, dtype=bool)
     if roads is not None:
@@ -427,7 +481,7 @@ def _downstream_reaches(reaches, rivers, flow_to) -> np.ndarray:
 
 def _fall_runs(profile: np.ndarray, arc: np.ndarray) -> list[tuple[int, int]]:
     """(lip index, plunge index) pairs: contiguous runs where the profile
-    falls at >= FALL_RUN_SLOPE per station, totalling >= FALL_DROP_M at a
+    falls at >= FALL_FACE_SLOPE per station, totalling >= FALL_DROP_M at a
     mean slope >= FALL_SLOPE."""
     n = len(profile)
     if n < 2:
@@ -435,7 +489,7 @@ def _fall_runs(profile: np.ndarray, arc: np.ndarray) -> list[tuple[int, int]]:
     ds = np.diff(arc)
     ds[ds <= 0] = 1e-6
     slope = -np.diff(profile) / ds
-    steep = slope >= FALL_RUN_SLOPE
+    steep = slope >= FALL_FACE_SLOPE
     runs = []
     k = 0
     while k < n - 1:
@@ -567,6 +621,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     L = base.copy()
     lip = np.zeros(n_st, dtype=bool)
     plunge = np.zeros(n_st, dtype=bool)
+    fall_drop = np.zeros(n_st, dtype=np.float32)   # on the plunge station: its fall's drop
     kind = np.zeros(n_st, dtype=np.uint8)
     pooled = np.isfinite(sol.pool) & (sol.pool >= sol.natural - POOL_TOL_M)
     lost = np.zeros(n_st, dtype=bool)
@@ -604,11 +659,17 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
         runs = _fall_runs(sol.floor[sl], sol.arc[sl])
         a0 = sl.start
         for a, b in runs:
-            if v[a] - v[b] >= FALL_MIN_STEP_M and not pooled[sl][a:b + 1].any():
+            # the plunge station alone may be pooled — a body at the foot of a
+            # cliff is the plunge pool — but a pooled lip means the water above
+            # is already a lake (the sill/weir case, handled separately) and a
+            # pooled interior means part of the drop is under standing water,
+            # which is not a fall
+            if v[a] - v[b] >= FALL_MIN_STEP_M and not pooled[sl][a:b].any():
                 # the fall lands at the level the channel continues at (the
                 # next station's, a lake's or the sea's): a step right after
                 # the plunge would leave the pool hanging over the reach below
                 foot = v[b + 1] if b + 1 < len(v) else v[b]
+                fall_drop[a0 + b] = float(v[a] - min(v[b], foot))
                 v[a + 1:b + 1] = min(v[b], foot)
                 lip[a0 + a] = True
                 plunge[a0 + b] = True
@@ -669,6 +730,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
             L[sl] = np.maximum(L[sl] - lower, np.where(pooled[sl], sol.pool[sl], -np.inf))
         else:
             L[sl.stop - 1] = target
+            fall_drop[sl.stop - 1] = float(delta)
             lip[sl.stop - 2] = True
             plunge[sl.stop - 1] = True
             kind[sl.stop - 1] = KIND_FALL
@@ -683,6 +745,7 @@ def long_profile(sol: ChannelSolution, pool: np.ndarray | None = None) -> Channe
     pooled = pooled & ~captured
     sol.L = L.astype(np.float32)
     sol.lip, sol.plunge, sol.pooled, sol.lost, sol.captured = lip, plunge, pooled, lost, captured
+    sol.fall_drop = fall_drop
     # a SHORE station: its section dips into a body (so it takes the body's
     # level) but its own centre stands above the water — it still needs a
     # trench, or the river runs dry along the lakeshore
@@ -913,8 +976,36 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     any_inside = np.zeros(h.shape, dtype=bool)
     footprint = np.zeros(h.shape, dtype=bool)     # every station's width, falls included
     in_level = np.full(h.shape, -np.inf, dtype=np.float32)   # highest channel level over a cell
+    # THE BRINK STOPS THE NOTCH. Since a fall run starts at the true cliff top
+    # (FALL_FACE_SLOPE), the stations just above a lip are `steep`, and their
+    # chute notch was being cut into the face BELOW the lip — a slot gouged
+    # down the rock the sheet then falls past (measured 2026-09-08: 25 of 29
+    # hovering edges had a dry neighbour cut by 1.7-11.7 m on a cascade face,
+    # median 4.94 m). The face belongs to the fall and the sheet covers it, so
+    # a station within the lip's own half-width upstream of it never cuts
+    # ground lying below the lip's level: the trench STOPS at the brink.
+    # The guard is the lip's own BED, not its level, so the chute's notch runs
+    # continuously down to the lip and stops there; and it is cleared wherever
+    # a station BELOW the lip digs the same cell, or the plunge bowl and the
+    # lip's own notch would be blocked too (a near-vertical fall puts its
+    # plunge 1.8-5.5 m from its lip, well inside the lip's own half-width).
+    guard_lvl = np.full(sol.n, -np.inf, dtype=np.float32)
+    guard_bed = np.full(sol.n, -np.inf, dtype=np.float32)
+    for k in np.flatnonzero(sol.lip):
+        sl_r = sol.stations_of(int(sol.reach[k]))
+        reach_arc = sol.arc[sl_r]
+        span = float(sol.width[k]) * 0.5 + sol.mpp
+        near = (reach_arc <= float(sol.arc[k])) & (reach_arc >= float(sol.arc[k]) - span)
+        idx = np.flatnonzero(near) + sl_r.start
+        bed_k = float(sol.L[k]) - float(depth[k]) * float(sol.ramp[k])
+        guard_lvl[idx] = np.maximum(guard_lvl[idx], float(sol.L[k]))
+        guard_bed[idx] = np.maximum(guard_bed[idx], bed_k)
+    brink_floor = np.full(h.shape, -np.inf, dtype=np.float32)
+    plunge_zone = np.zeros(h.shape, dtype=bool)
     for b, nb, d, inside, lvl in fld["bands"]:
         ok = inside & active[nb]
+        brink_floor = np.where(ok, np.maximum(brink_floor, guard_bed[nb]), brink_floor)
+        plunge_zone |= inside & sol.plunge[nb]
         in_level = np.where(ok, np.maximum(in_level, lvl), in_level)
         r = np.maximum(sol.width[nb] * 0.5, 1e-3)
         t = np.clip(d / r, 0.0, 1.0)
@@ -931,6 +1022,15 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     h = np.where(any_inside, np.minimum(h, cut), h)
     h = np.where(np.isfinite(weir), np.maximum(h, weir), h)
     del cut, weir
+    # the bowl at the foot is the fall's own, not its face: a near-vertical
+    # fall lands 1.8-5.5 m from its lip, well inside the lip's half-width, and
+    # the bowl dig below only touches ground within PLUNGE_FLOOR_ABOVE_M of
+    # the landing — so a guarded cell there is never dug and the ribbon ends
+    # up buried (9 strip points, measured 2026-09-08)
+    brink_guard = np.isfinite(brink_floor) & ~plunge_zone
+    brink_keep = np.minimum(before, brink_floor)          # never below the lip's bed,
+    h = np.where(brink_guard, np.maximum(h, brink_keep), h)   # never below what was there
+    del plunge_zone
     # the brink: cells beside a lip that still stand at lip height but are
     # nearest to the first station down the face get the lip's notch too
     # (the face itself, already below the lip's bed, is left alone)
@@ -950,7 +1050,12 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
     n_basins = 0
     bowl_cells = np.zeros(h.shape, dtype=bool)
     for k in np.flatnonzero(sol.plunge):
-        P = float(sol.L[k]); w = float(sol.width[k]); dp = max(float(depth[k]), PLUNGE_MIN_DEPTH_M)
+        P = float(sol.L[k]); w = float(sol.width[k])
+        # the bowl is sized by the fall that digs it, never shallower than the
+        # channel's own centre depth
+        fd = float(getattr(sol, "fall_drop", np.zeros(sol.n))[k])
+        dp = max(float(depth[k]), PLUNGE_MIN_DEPTH_M,
+                 min(PLUNGE_MIN_DEPTH_M + PLUNGE_SCOUR_PER_DROP * fd, PLUNGE_MAX_DEPTH_M))
         rr = int(np.ceil(w / sol.mpp)) + 1
         cy, cx = int(round(float(sol.y[k]))), int(round(float(sol.x[k])))
         y0, y1 = max(cy - rr, 0), min(cy + rr + 1, h.shape[0])
@@ -1011,7 +1116,8 @@ def carve(terrain: np.ndarray, sol: ChannelSolution,
         del no_raise
     target = np.clip(target, np.minimum(lo, h), np.maximum(hi, h))
     h = np.where(ring, target, h).astype(np.float32)
-    del target, crest, t2, L, lo, hi
+    h = np.where(brink_guard, np.maximum(h, brink_keep), h).astype(np.float32)
+    del target, crest, t2, L, lo, hi, brink_guard, brink_keep, brink_floor
     delta = h - before
     low = delta[delta < -0.01]
     stats = {

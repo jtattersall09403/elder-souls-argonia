@@ -177,6 +177,78 @@ def test_hovering_edge_only_exempts_the_cell_that_is_down_the_cliff():
     assert cliff == [1]
 
 
+def test_a_river_meeting_a_cliff_coast_is_extended_into_the_sea():
+    """A sea-draining reach whose last river cell sits on a clifftop is
+    walked on down flow_to to the ocean, so the profile falls to sea level
+    instead of hanging the clifftop level over the shore."""
+    nc = 40
+    cliff_row = nc - 8
+    h = _valley(nc, cliff=(cliff_row, 38.0))    # 38 m coastal cliff
+    h[(cliff_row + 1) * STEP:, :] = -4.0        # the sea below it
+    path = _straight(nc, r1=cliff_row)          # river cells stop at the clifftop
+    npz = _graph(nc, [path], [2])
+    ocean = np.zeros((nc, nc), dtype=bool)
+    ocean[cliff_row + 1:, :] = True
+    # the coarse flow keeps going past the last river cell, into the sea
+    ft = npz["flow_to"]
+    col = nc // 2
+    for r in range(cliff_row, nc - 1):
+        ft[r * nc + col] = (r + 1) * nc + col
+    npz["ocean"] = ocean
+
+    plain = ch.build_reaches(npz["rivers"], ft)
+    extended = ch.build_reaches(npz["rivers"], ft, ocean,
+                                h[np.arange(nc) * STEP + 1][:, np.arange(nc) * STEP + 1])
+    assert len(plain[0]) < len(extended[0])
+    assert ocean.reshape(-1)[extended[0][-1]]
+
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    sl = sol.stations_of(0)
+    assert (sol.band[sl] > 0).all(), "extension stations inherit the river band"
+    assert sol.L[sl][-1] <= 0.05, "the profile reaches sea level"
+    assert (sol.kind[sl] == ch.KIND_FALL).any(), "the cliff is a fall"
+    assert sol.lip.sum() >= 1 and sol.plunge.sum() >= 1
+
+
+def _ramped_cliff(nc, r_cliff, drop, ramp):
+    """A V-valley with a cliff whose face spans `ramp` full-res samples, so the
+    fall run has interior stations between its lip and its plunge."""
+    h = _valley(nc)
+    n = nc * STEP
+    zz = np.mgrid[0:n, 0:n][0].astype(np.float32)
+    return (h - drop * np.clip((zz - (r_cliff * STEP + 1)) / ramp, 0, 1)).astype(np.float32)
+
+
+def test_a_waterfall_may_land_in_a_standing_body_but_not_wade_through_one():
+    """A body at the foot of a cliff IS the plunge pool, so a pooled plunge
+    station does not refuse the fall; a pooled INTERIOR station means part of
+    the drop is under standing water, which is not a fall."""
+    nc = 40
+    h = _ramped_cliff(nc, 20, 30.0, 4)      # face steeper than FALL_FACE_SLOPE
+    npz = _graph(nc, [_straight(nc)], [2])
+
+    dry = ch.solve(h, npz, step=STEP, mpp=MPP)
+    a, b = ch.falls(dry)[0]                      # lip and plunge on dry ground
+    py, iy = int(round(dry.y[b])), int(round(dry.y[b - 1]))
+    assert iy < py, "the interior station sits above the plunge"
+
+    def pooled_from(row0, row1=None):
+        lev = np.full(h.shape, np.nan, np.float32)
+        sl = slice(row0, row1)
+        lev[sl, :] = float(h[sl, :].min()) + 3.0
+        return ch.solve(h, npz, pool_level=lev, step=STEP, mpp=MPP)
+
+    landing = pooled_from(py)                    # the lake starts at the plunge
+    assert landing.pooled[b] and not landing.pooled[a:b].any()
+    assert landing.lip[a] and landing.plunge[b]
+    assert (landing.kind[a + 1:b + 1] == ch.KIND_FALL).all()
+
+    wading = pooled_from(iy, iy + 1)             # standing water part-way down
+    assert wading.pooled[a:b].any()
+    assert not wading.lip.any() and not wading.plunge.any()
+    assert (wading.kind == ch.KIND_FALL).sum() == 0
+
+
 def test_a_river_trapped_in_a_hollow_makes_a_lake():
     nc = 40
     h = _valley(nc)

@@ -62,6 +62,13 @@ FAMILY_BY_REGION = {
     "dunmer-north": "dunmer-stone",
     "hist-heartland": "root-timber",
     "pirate-freeholds": "scaffold-timber",
+    # The mercantile coast builds on piles, not stone (placement principles
+    # §677 puts it under `argonian-stilt`: boardwalk spine, timber piles,
+    # stone explicitly not its material), and `root-timber` is the only
+    # authored free-standing piled walkway in FAMILIES. It therefore serves
+    # two regions for now; it splits cleanly if the coast ever gets its own
+    # quay-timber kit.
+    "mercantile-coast": "root-timber",
 }
 ROAD_FAMILY = "stone-civic"
 
@@ -142,18 +149,111 @@ WHY = {
    "One sill of rock sits in the road close to the Gideon end. It is low enough for a span to clear it.",
  "route.road.stormhold-thorn":
    "Two kilometres out of Stormhold the road meets a knee-high ledge in the reed flat and takes it in three paces. A bench long enough for the trunk cap would spread its fill across the flat, so the ledge is climbed on a short ramped terrace.",
+ # Written 2026-09-08 against the survivors the 0047 re-carve produced, and
+ # reviewed by a separate agent under the style guide. Each one is about the
+ # place and its landform rather than a measured stretch, so a re-grade that
+ # moves the stretch does not make the sentence false.
+ "track.dunmer-north.cut-in-the-wall":
+   "The cuttings are the ravine wall. The way to them runs on the face at the wall's own gradient, because a bench cut wide enough here would take the front off a house.",
+ "track.dunmer-north.hissmir":
+   "The approach comes down off the firm ground onto the water head. Hissmir has to stay reachable by people arriving without a guide, so the drop is built rather than dug into a bank that the wet season would take back.",
+ "track.dunmer-north.hutan-tzel":
+   "The village stands on the rock shelf that no flood has reached. The way onto it steps up the shelf edge. Cutting that edge down would remove the ground on which the village stands.",
+ "track.dunmer-north.names-the-year":
+   "The naming ground is one flat meadow and the path comes up onto it off the low bank at its edge. The bank is stepped rather than cut back into the meadow.",
+ "track.dunmer-north.the-ash-holding":
+   "The compound went down into its own cellars in a single wet season. The path crosses the lip of that collapse, which will move again if anyone cuts it.",
+ "track.dunmer-north.the-first-count":
+   "The cut goes down three levels and the dead are in its sides. The path takes the terrace lip in one step rather than opening the burial.",
+ "track.dunmer-north.the-northern-rest":
+   "The rest house sits below the causeway and the path drops to it off the causeway bank. That bank carries the road, so the drop is stepped rather than cut.",
+ "track.dunmer-north.the-two-gate-bridge":
+   "The span sits on rock abutments with a gate house on each. The last paces at either end come up onto the abutment in one step, because cutting it would take the footing of the gate house above.",
+ "track.dunmer-north.the-white-pans":
+   "The pans lie below the rock bar and the path comes down over it. The bar keeps the sea off the salt, so it is stepped over and not breached.",
+ "track.dunmer-north.wolk-market":
+   "The market stands on firm ground above two months of flood each year. Where the track meets that ground the track is stepped up rather than notched into the bank.",
+ "track.hist-heartland.tended-xanmeer-pilgrim-way":
+   "The pilgrims sweep the terraces. No other repair is done. Where the way crosses a terrace lip it goes over on timber, because the lip is xanmeer masonry.",
+ "track.imperial-fringe.fort-swampmoth":
+   "The fort holds the ridge end above the road. The last drop to its gate is the ridge's own face, left as it stands.",
+ "track.imperial-fringe.giovesse-lines":
+   "The lines are banks and ditches that still hold the shape in which they were cut. Farmers quarry them for road metal. The path goes over them at their steepest rather than through their fill.",
+ "track.imperial-fringe.mile-house-of-the-eagle":
+   "The mile house takes the last drained ground before the plain. Its yard wall stands on that lip, so the road comes up in one step.",
+ "track.imperial-fringe.slough-point":
+   "The station weighs goods between the cart and the boat, so it stands on the bank at the head of the reach. The way down to the water crosses that bank on deck. A cut through the bank would let the reach into the weighing yard.",
+ "track.imperial-fringe.the-drowned-mule":
+   "The house is the last firm ground before the road drowns. The path off it comes down to the water's edge on built steps, since the flood takes that bank first.",
+ "track.imperial-fringe.the-hollow-pass-station":
+   "The station is down in the hollow and the path to it comes over the saddle's lip. Cutting the lip would open the hollow to the wind. Shelter from three sides of wind is why the station stands here.",
+ "track.imperial-fringe.the-pass-shelter":
+   "The shelter has rock at its back and nothing draining above it. The path reaches it over that same rock, since a cut here would bring the pass's water down onto the shelter's dry wall.",
+ "track.imperial-fringe.the-ravine-doors":
+   "The two shelves are the streets and the bedding plane carries them. The way between them is built against the wall, because cutting the plane would drop the upper street onto the lower one.",
+ "track.pirate-freeholds.trunk-road-tradehouse":
+   "Mile Twelve sits on a bend of firm ground above the gorge. The trunk reaches it along the gorge shoulder, where anything cut goes over the edge instead of leaving a bench.",
+ "track.dunmer-north.branchmont":
+   "Branchmont's saltrice ground is flooded and drained by its own sluices. The field banks carry the dry line to the crossing. The track goes up and over them; a cut would let one field into the next.",
+ "track.dunmer-north.cut-and-stack":
+   "The cutters take the peat in strips and leave baulks standing between them, because the workings have burnt underground twice. The way down off the bank keeps to a face that the cutters have already opened.",
+ "track.dunmer-north.silyanorn-diggings":
+   "The diggings are the ravine wall below Stormhold, with the crystal in Ayleid galleries that open straight out of the face. Stone and crystal come down from the terraces on built stair and hoist. Cutting a road into the face would take the roofs off the galleries and put the ravine's water into them.",
+ "track.dunmer-north.stands-on-the-island":
+   "The hammock is an acre of soil inside a ring of trees. The marsh around it is too soft for walking and too shallow for a boat. The way comes up onto the soil at the landing stage, where the ground begins.",
+ "track.dunmer-north.tearmouth":
+   "Tearmouth is the head of deep-draught navigation and its stone quay stands the full height of the bank. The approach runs level along the top and drops to the wharf in one pitch against the quay wall. That wall holds the keels alongside.",
+ "track.dunmer-north.the-ash-causeway":
+   "The causeway is Dres stone laid along a buried gravel ridge. The ridge is the firm ground under four kilometres of sink. Where the footpath leaves the causeway it steps down off the bank rather than breaking an edge that both ends pay to keep.",
+ "track.dunmer-north.the-fish-boon-ground":
+   "The feast ground is a gravel flat that the river scours afresh each year. The flat is left clear. The path drops to it over the old weir footing, which the flood has not moved.",
+ "track.dunmer-north.the-north-border-post":
+   "The post takes the first level ground below the pass, where traffic off the road is stopped and counted. The slope above it stands steep to the gate, so the path steps off it in one drop.",
+ "track.dunmer-north.the-salt-and-shell":
+   "The tradehouse stands above its own cellar at the crossroads. The cellar is deeper than the house is tall. The path comes down to the beast lines in one step rather than through the ground into which the cellar is cut.",
+ "track.imperial-fringe.bone-road-waystation":
+   "The bones are carried by hand from stage to stage, not by cart. This stage is a day's carry from the marsh edge. The long drop to it is built the whole way, because bearers with a burden on their shoulders cannot take a slope on trust.",
+ "track.imperial-fringe.moonmarch-ground":
+   "The ground is the dry flat below the break in the rim. The keepers leave it unbuilt, with post holes from every march still in the turf. The path comes through the break itself, at the break's own gradient.",
+ "track.imperial-fringe.reedcutters-toll":
+   "The bridge is village timber on driven piles and its deck is kept low, so the road comes down to it through the reed beds on more of the same. The banks here are reed and mud, too soft for a cut.",
+ "track.imperial-fringe.westfield-village":
+   "Westfield lies on the western apron of the saddle and its fields are held dry by sluices and drains. The track steps down through them along the field banks, which stand higher than the crop ground on either side.",
+ "track.mercantile-coast.ixtaxh-xanmeer":
+   "Only the top chamber of the xanmeer still stands above the silt. The divers go down its outer face, which is masonry and vertical. Every doorway is below that line.",
+ "track.mercantile-coast.lighter-flotilla":
+   "The lighter crews live afloat at their moorings. Their ground is the bank where the shore boat lands. The tide undercuts that bank twice a day, so the way down it is built out over the face rather than dug into it.",
+ "track.mercantile-coast.moonmarch":
+   "The Khajiit landing sits outside Lilmoth's tariff line and takes its goods straight off the water. The path up from it climbs the low headland in one rise. That headland shelters the mooring.",
+ "track.pirate-freeholds.chasecreek":
+   "Chasecreek is a rise of firm ground with a creek behind it. Boats lie in the creek out of sight of the channel. The path climbs the rise whole, because a notch in the bank would show the masts from the water.",
+ "track.pirate-freeholds.rockpoint":
+   "Rockpoint has one land approach and the bank there was steepened by hand to hold it. The stone footings of the old landing are still in the slope. The way up goes over them.",
 }
 
 
-def _why(way_id: str) -> str:
-    """The authored sentence for a way. A way that reaches here without one is
-    a defect, not a default: someone has to look at the ground and write it."""
-    try:
-        return WHY[way_id]
-    except KeyError:
-        raise KeyError(
-            f"no authored `why` for {way_id}: grading has produced a new "
-            "survivor, so add its sentence to WHY in this module") from None
+def _why(way_id: str) -> str | None:
+    """The authored sentence for a way, or None when nobody has written it.
+
+    A way that reaches here without one is a defect, not a default: someone has
+    to look at the ground and write it. The miss does not stop the rebuild —
+    `author` emits the record marked `unauthored`, prints the whole set with
+    each way's measured shape, and the test gate keeps it red until the
+    sentences are written."""
+    return WHY.get(way_id)
+
+
+def _mark(rec: dict) -> dict:
+    """Flag a record the authoring tables do not yet cover.
+
+    An unauthored survivor is still EMITTED with its measured window: the
+    grader needs the exclusion window or its second pass cuts the hillside the
+    structure was meant to stand on (that is what broke 1944 E / 211 S). The
+    debt is carried on the record and gated by
+    `test_route_structure_authoring.py`, not by stopping the rebuild."""
+    if rec["why"] is None or rec["family"] is None:
+        rec["unauthored"] = True
+    return rec
 
 
 def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
@@ -169,16 +269,21 @@ def _refresh(st: dict, ways_by_id: dict, heights: np.ndarray) -> dict:
     out["riseM"] = round(float(z[i1] - z[i0]), 2)
     out["kind"] = _kind(st["toM"] - st["fromM"], out["riseM"], st["worstDeg"],
                         GRADIENT_CAP_KIND[st["wayId"]])
-    out["pieceRef"] = FAMILIES[st["family"]][KIND_ROLE[out["kind"]]]["asset"]
+    fam = _family(st["wayId"])
+    out["family"] = fam
+    out["pieceRef"] = (FAMILIES[fam][KIND_ROLE[out["kind"]]]["asset"]
+                       if fam is not None else None)
     out["why"] = _why(st["wayId"])          # the sentence is authored here, not stored
-    return out
+    out.pop("unauthored", None)
+    return _mark(out)
 
 
-def _family(way_id: str) -> str:
+def _family(way_id: str) -> str | None:
+    """The family that builds there, or None when the region has no entry —
+    a guess would be a culture invented for a track. Emitted unauthored."""
     if way_id.startswith("route.road."):
         return ROAD_FAMILY
-    region = way_id.split(".")[1]
-    return FAMILY_BY_REGION[region]
+    return FAMILY_BY_REGION.get(way_id.split(".")[1])
 
 
 def _kind(length_m: float, rise_m: float, worst_deg: float, way_kind: str) -> str:
@@ -256,7 +361,19 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
     # describes, not of the order the passes happened to run in.
     GRADIENT_CAP_KIND.update({e["wayId"]: e["kind"] for e in stretch_doc["ways"]})
     GRADIENT_CAP_KIND.update({w["id"]: w["kind"] for w in ways_by_id.values()})
-    structures = [_refresh(s, ways_by_id, heights) for s in (prior or [])]
+    # A stored structure whose way no longer exists cannot be built: re-routing
+    # on re-carved terrain produces a different set of minor tracks. Drop it,
+    # loudly — never silently.
+    kept, dropped = [], []
+    for s in (prior or []):
+        (kept if s["wayId"] in ways_by_id else dropped).append(s)
+    for s in dropped:
+        print(f"dropped stored structure {s['id']}: way {s['wayId']} "
+              "no longer exists in the current route set")
+    if dropped:
+        print(f"{len(dropped)} stored structures dropped "
+              f"({len({s['wayId'] for s in dropped})} missing ways)")
+    structures = [_refresh(s, ways_by_id, heights) for s in kept]
     taken: dict[str, list[tuple[float, float]]] = {}
     counts: dict[str, int] = {}
     for s in structures:
@@ -277,7 +394,7 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
             counts[wid] = n = counts.get(wid, 0) + 1
             length = w["toM"] - w["fromM"]
             kind = _kind(length, w["riseM"], w["worstDeg"], entry["kind"])
-            structures.append({
+            structures.append(_mark({
                 "id": f"structure.{slug}.{n}",
                 "wayId": wid,
                 "kind": kind,
@@ -287,11 +404,23 @@ def author(stretch_doc: dict, ways_by_id: dict, heights: np.ndarray,
                 "riseM": w["riseM"],
                 "worstDeg": w["worstDeg"],
                 "capDeg": cap,
-                "pieceRef": FAMILIES[fam][KIND_ROLE[kind]]["asset"],
+                "pieceRef": (FAMILIES[fam][KIND_ROLE[kind]]["asset"]
+                             if fam is not None else None),
                 "why": _why(wid),
                 "sourcing": "kit",
-            })
+            }))
     structures.sort(key=lambda s: (s["wayId"], s["fromM"]))
+    unauthored = [s for s in structures if s.get("unauthored")]
+    if unauthored:
+        print(f"{len(unauthored)} structures on "
+              f"{len({s['wayId'] for s in unauthored})} ways are UNAUTHORED "
+              "(emitted with their measured window so the grader excludes "
+              "them; gated by test_route_structure_authoring):")
+        for s in unauthored:
+            miss = ("no family for its region" if s["family"] is None
+                    else "no authored `why`")
+            print(f"  {s['id']}: {miss}; length {s['toM'] - s['fromM']:.1f} m, "
+                  f"rise {s['riseM']:.2f} m, worst gradient {s['worstDeg']:.2f} deg")
     return {"schemaVersion": SCHEMA_VERSION,
             "_": "Authored geometry over the route stretches terrain grading "
                  "cannot fix. Generated by `python3 -m worldgen.author_route_"

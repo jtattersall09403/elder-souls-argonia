@@ -90,7 +90,61 @@ export interface SettlementRenderStats {
   farMergedMeshes: number;
   farMergedInstances: number;
   colliderCoveredRadiusM: number;
+  grounding: SettlementGroundAudit[];
 }
+
+export type SettlementGroundStatus =
+  | "grounded"
+  | "floating"
+  | "over-buried"
+  | "floating-and-over-buried"
+  | "terrain-unavailable";
+
+/** Measured from the streamed terrain used for this exact runtime placement. */
+export interface SettlementPlacementGroundAudit {
+  placementId: string;
+  settlementId: string;
+  status: SettlementGroundStatus;
+  terrainMinM: number | null;
+  terrainMaxM: number | null;
+  groundLineM: number | null;
+  pivotToBaseM: number;
+  configuredBuryM: number;
+  requestedBuryM: number | null;
+  appliedBuryM: number | null;
+  buryCapM: number;
+  gapM: number | null;
+  overBuryM: number | null;
+}
+
+export interface SettlementGroundAudit {
+  settlementId: string;
+  placementsExpected: number;
+  placementsAudited: number;
+  terrainUnavailable: number;
+  floating: number;
+  overBuried: number;
+  maxGapM: number;
+  maxOverBuryM: number;
+  placements: SettlementPlacementGroundAudit[];
+}
+
+export type ReadonlySettlementGroundAudit = Readonly<
+  Omit<SettlementGroundAudit, "placements"> & {
+    placements: readonly Readonly<SettlementPlacementGroundAudit>[];
+  }
+>;
+
+export type SettlementProofState = Readonly<{
+  status: "loading" | "loaded" | "failed";
+  settlements: number;
+  placements: number;
+  renderedPlacements: number;
+  draws: number;
+  triangles: number;
+  grounding: readonly ReadonlySettlementGroundAudit[];
+  error?: string;
+}>;
 
 export interface SettlementLayerProps {
   baseUrl: string;

@@ -23,7 +23,9 @@ Load-bearing contracts:
   geometry per material, while nearer repeats remain instanced. Loaded colour
   texture dimensions—not a Boolean manifest claim—must fit the atlas cap;
 - every reference re-grounds from streamed terrain. Buildings sample every
-  footprint vertex; route/dressing pieces sample their origin;
+  footprint vertex; route/dressing pieces sample their origin. The measured
+  ground line, requested/applied burial, class-cap excess and residual gap are
+  retained per placement and rolled up per settlement in `onStats`;
 - settlement collision accepts only `settlement-pivot-yup-v1`, prefers
   measured manifest boxes where present, and otherwise derives visible-part
   boxes from loaded geometry. A moving ring spends an explicit proxy-part
@@ -32,8 +34,15 @@ Load-bearing contracts:
 - a failed bundle or kit load produces a conspicuous magenta failure sentinel;
   it cannot silently degrade into a settlement-free landscape;
 - materials carry aerial, rain wetness and all-tier window emission state in
-  `userData`; `WorldSky` reapplies the hook after CSM;
+  `userData`; `WorldSky` reapplies the hook after CSM. Rain height is measured
+  from each instance's streamed ground line, and the same call creates an
+  alpha/displacement-matched `customDepthMaterial` for its shadow;
 - footprint ground treatments are also the single grass exclusion input.
+
+Browser acceptance may read the immutable `globalThis.__STUDIO_SETTLEMENT_DEBUG__`
+snapshot. It reports `loading`/`loaded`/`failed`, bundle and rendered placement
+counts, draw/triangle counts and the per-settlement grounding audit; it exposes
+no controls or mutable renderer objects.
 
 The authored/compiled boundary stays explicit: navmesh cuts, paired door
 arrival markers and variants are bundle data for later gameplay systems; this
