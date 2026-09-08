@@ -36,7 +36,7 @@ Derived from the macro plot by `worldgen.compile_minor_routes`; data in `apps/wo
 
 Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 boat cost surface, land impassable); data in `apps/world-studio/public/province/waterways-minor.json`.
 
-- **173 channels**, 59.22 km in total: channel 110, river 51, crossing 12
+- **173 channels**, 59.48 km in total: channel 109, river 52, crossing 12
 - 44 water-bound places already sit on a lane or navigable river (within 45 m)
 - 10 water-bound places have **no boat path** (reached on foot, by root or by guide — a design fact to check, not a failure):
 
@@ -55,13 +55,13 @@ Derived from the macro plot by `worldgen.compile_minor_waterways` (the Phase 4 b
 
 | place | class | km |
 |---|---|---|
-| `place.dunmer-north.murkwater` | channel | 1.818 |
-| `place.dunmer-north.riverwalk` | channel | 1.509 |
+| `place.dunmer-north.murkwater` | channel | 1.82 |
+| `place.dunmer-north.riverwalk` | channel | 1.511 |
 | `place.imperial-fringe.sink-field` | channel | 1.378 |
-| `place.hist-heartland.wamasu-pond-nest` | river | 1.364 |
-| `place.hist-heartland.dive-shaft-xanmeer-well` | river | 1.246 |
-| `place.mercantile-coast.oliis-ferry-stage` | channel | 1.238 |
-| `place.hist-heartland.stilt-channel-edge-two-poles` | channel | 1.134 |
+| `place.hist-heartland.wamasu-pond-nest` | river | 1.372 |
+| `place.hist-heartland.dive-shaft-xanmeer-well` | river | 1.253 |
+| `place.mercantile-coast.oliis-ferry-stage` | channel | 1.249 |
+| `place.hist-heartland.stilt-channel-edge-two-poles` | channel | 1.142 |
 | `place.imperial-fringe.onkobra-ferry` | river | 1.102 |
 | `place.dunmer-north.the-drawdown-flats` | channel | 1.026 |
 | `place.saxhleel-coast.portdun-mont` | channel | 0.956 |
