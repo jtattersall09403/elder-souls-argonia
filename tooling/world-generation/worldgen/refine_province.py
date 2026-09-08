@@ -50,8 +50,6 @@ TERRACE_FRAC = 0.45
 # The channel proper is cut by worldgen.channels (decision 0047): one smooth
 # centreline and monotone long profile per reach, shared with compile_water.
 CHANNEL_NOISE_FADE_M = 90.0 * TUNE   # detail noise fades within ~2 channel widths
-CARVE_ROUNDS = 4                     # carve -> flood -> profile fixed point (0047)
-CARVE_DRIFT_TOL_M = 0.05
 BLACKROSE_UV = (0.32, 0.87)
 LAKE_RADII_M = (470.0 * TUNE, 360.0 * TUNE)
 LAKE_BED_M = -4.0
@@ -123,10 +121,11 @@ def carve_to_profile(h, npz, save_path=None):
     (and accepts the hollows a river cannot leave); `channels.carve` cuts the
     parabolic bed to L − D inside the water width, builds the shoulder to
     L + 0.3 and digs the plunge basins. Islets under 12 samples inside a body
-    are sunk so pools do not read as speckle. The carve is iterated to a fixed
-    point against the bodies and profile found on the CARVED terrain (what the
-    compiler floods), and the final solution is saved next to the heights so
-    compile_water fills exactly the trench that was cut.
+    are sunk so pools do not read as speckle. The solution is saved next to the
+    heights and compile_water keeps ITS profile (it re-floods the bodies on the
+    shipped terrain but never re-solves L): a depression the carve itself made
+    (a levee's backswamp, a trench pool) is a body, never a lake that lifts
+    the river. A post-carve flood reports pooled stations whose level moved.
 
     Runs LAST, after the fluvial continuum and the shoreline smoothing.
     """
@@ -139,34 +138,28 @@ def carve_to_profile(h, npz, save_path=None):
     bodies = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
     sol = channels.solve(h, npz, step=STEP, mpp=RAW_M, roads=placement["major_roads"])
     pool_report = sw.pool_channels(sol, bodies, log=print)
-    h0 = h
-    rounds = []
-    for rnd in range(CARVE_ROUNDS):
-        # never cut the rim of a standing body (a ring cut 6 m + w/2 out from
-        # a channel that skirts a pool would lower its spill: protect ~16 m)
-        # and never raise its bed or its rim (a levee across an outlet dams it)
-        collar = ndimage.binary_dilation(bodies.wet, iterations=9) & ~bodies.wet
-        rim = ndimage.binary_dilation(bodies.wet, iterations=2)
-        h, stats = channels.carve(h0, sol, protect=collar, no_raise=rim)
-        h, n_islands = sw.lower_islands(h, bodies)
-        # the compiler floods THIS terrain: the bodies and the profile it will
-        # find must be the ones the trench was cut to, so re-solve on the
-        # carved ground and carve again from the pre-carve terrain until the
-        # profile stands still (a lake the trench captured drains; a hollow the
-        # river cannot leave becomes a lake)
-        bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
-        sol2 = sol.copy()
-        pool_report = sw.pool_channels(sol2, bodies2, log=print)
-        drift = float(np.abs(sol2.L - sol.L).max())
-        flips = int((sol2.pooled != sol.pooled).sum())
-        rounds.append({"round": rnd, "profileDriftM": round(drift, 3), "pooledFlips": flips,
-                       "bodies": int(bodies2.n)})
-        print(f"carve round {rnd}: profile drift {drift:.3f} m, pooled flips {flips}, bodies {bodies2.n}")
-        bodies, sol = bodies2, sol2
-        if drift <= CARVE_DRIFT_TOL_M:
-            break
+    # never cut the rim of a standing body or the sea (a ring cut 6 m + w/2
+    # out from a channel that skirts a pool would lower its spill: protect
+    # ~16 m) and never raise a bed or a rim (a levee across an outlet dams it)
+    water = bodies.wet | bodies.sea
+    collar = ndimage.binary_dilation(water, iterations=9) & ~water
+    h, stats = channels.carve(h, sol, protect=collar, body_level=bodies.level_with_sea)
+    h, n_islands = sw.lower_islands(h, bodies)
+    # self-consistency report: the compiler floods THIS terrain and keeps the
+    # profile above; a lake the trench breached, or a hollow the levee made
+    # under a channel, shows here as a pooled station whose flood level moved
+    bodies2 = sw.solve_bodies(h, npz, step=STEP, mpp=RAW_M, placement=placement)
+    pooled = sol.pooled & ~sol.shore
+    iy = np.clip(np.round(sol.y[pooled]).astype(int), 0, h.shape[0] - 1)
+    ix = np.clip(np.round(sol.x[pooled]).astype(int), 0, h.shape[1] - 1)
+    lvl2 = np.nan_to_num(bodies2.level_with_sea[iy, ix], nan=-np.inf, neginf=-np.inf)
+    moved = np.abs(lvl2 - sol.pool[pooled]) > 0.1
+    stats["pooledLevelMoved"] = int(moved.sum())
+    stats["pooledLevelMovedMaxM"] = round(float(np.abs(lvl2 - sol.pool[pooled])[np.isfinite(lvl2)].max()), 3) if np.isfinite(lvl2).any() else 0.0
+    stats["pooledLevelLost"] = int((~np.isfinite(lvl2)).sum())
+    print(f"post-carve check: {int(moved.sum())} pooled stations whose flood level moved > 0.1 m, "
+          f"{int((~np.isfinite(lvl2)).sum())} with no body under them")
     stats["islandsLowered"] = n_islands
-    stats["carveRounds"] = rounds
     stats.update({k: v for k, v in pool_report.items() if not k.endswith("Sites")})
     stats["bodies"] = bodies.census
     if save_path is not None:

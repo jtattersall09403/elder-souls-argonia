@@ -1,10 +1,10 @@
-"""Phase 8b water-compile tests (decision 0025).
+"""Water compile tests (decision 0047).
 
-Part 1: pure unit tests on a synthetic valley world (run in CI, no vault).
-Part 2: standing probes over the real vault outputs — every water body's
-surface sits above its bed, river surfaces descend monotonically to their
-receiving basin, the burial rule really buries dry ground, and the shipped
-browser rasters decode back to the vault arrays.
+Part 1: fast synthetic worlds for `channels` — the carve and the long profile
+on a V-valley with a bump, a cliff, a cross-slope and a tributary junction.
+Part 2: a synthetic province run through `compile_water.compute` (no vault).
+Part 3: province-level probes on the shipped rasters (skipped without the
+vault); the per-defect invariants live in test_water_invariants.py.
 """
 
 import json
@@ -13,421 +13,300 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from . import channels as ch
+from . import standing_water as sw
 from .compile_chunks import DEFAULT_HEIGHTS
-from .compile_water import (BURY_M, CLASSES, FLOW_MAX, POOL_FLOOR_SLOPE,
-                            SEASON_AMPLITUDE_M, SHORE_MAX_M, bowl_accepts,
-                            compute, pool_headroom)
-from .export_web_chunks import decode_rg16
-from .hydrology import compute as hydro_compute
-from .regions import compute_regions
+from .compile_water import CLASSES, FLOW_MAX, compute, decode_surface
+from .scale import RAW_M
 
 VAULT = DEFAULT_HEIGHTS.parent.parent
 REPO_ROOT = Path(__file__).resolve().parents[3]
 WATER_DIR = REPO_ROOT / "apps" / "world-studio" / "public" / "province" / "water"
-
 needs_vault = pytest.mark.skipif(
     not ((VAULT / "water-pass1.npz").exists() and (WATER_DIR / "water-meta.json").exists()),
     reason="vault water-pass1 or shipped water rasters unavailable")
 
+STEP = 3
+MPP = RAW_M
+
 
 # ---------------------------------------------------------------------------
-# Part 1 — synthetic world
+# Part 1 — channels on synthetic terrain
 # ---------------------------------------------------------------------------
 
-def _world(n=90):
-    """Tilted plane draining south into an ocean, with a valley river and a
-    perched lake basin high in the north-east."""
-    z = np.zeros((n, n), dtype=np.float32)
-    for y in range(n):
-        z[y, :] = 40.0 - 36.0 * (y / (n - 1))
-    z[:, n // 2] -= 4.0                # river valley
-    z[-6:, :] = -6.0                   # ocean strip
-    z[8:16, n - 20 : n - 8] -= 9.0     # perched closed basin -> lake
-    return z
+def _graph(nc, paths, bands, accum=2.0):
+    """Coarse river graph from downstream cell paths [(r, c), ...]."""
+    rivers = np.zeros((nc, nc), dtype=np.uint8)
+    flow_to = np.full(nc * nc, -1, dtype=np.int32)
+    acc = np.zeros((nc, nc), dtype=np.float32)
+    for path, band in zip(paths, bands):
+        for (r0, c0), (r1, c1) in zip(path, path[1:]):
+            rivers[r0, c0] = band
+            flow_to[r0 * nc + c0] = r1 * nc + c1
+            acc[r0, c0] = accum
+        rivers[path[-1]] = band
+        acc[path[-1]] = accum
+    return {"rivers": rivers, "flow_to": flow_to, "accum_km2": acc}
 
+
+def _valley(nc=40, slope=0.02, cross=0.0, bump=None, cliff=None):
+    """Full-res terrain: a V-valley along column nc//2 draining +z (rows),
+    falling `slope`; optional cross-slope (rises with x), a bump on the
+    thalweg (row, height) or a cliff (row, drop)."""
+    n = nc * STEP
+    zz, xx = np.mgrid[0:n, 0:n].astype(np.float32)
+    cx = (nc // 2) * STEP + 1
+    h = 50.0 - slope * zz * MPP + 0.08 * np.abs(xx - cx) * MPP + cross * (xx - cx) * MPP
+    if bump is not None:
+        r, amp = bump
+        h += amp * np.exp(-((zz - (r * STEP + 1)) ** 2) / (2 * 1.5 ** 2))
+    if cliff is not None:
+        r, drop = cliff
+        h -= drop * (zz > r * STEP + 1)
+    return h.astype(np.float32)
+
+
+def _straight(nc, r0=2, r1=None, col=None):
+    col = nc // 2 if col is None else col
+    r1 = nc - 3 if r1 is None else r1
+    return [(r, col) for r in range(r0, r1 + 1)]
+
+
+def _bed_along(h, sol, sl):
+    return ch._sample(h, sol.y[sl], sol.x[sl])
+
+
+def test_valley_with_a_bump_is_notched_and_the_profile_is_monotone():
+    nc = 40
+    h = _valley(nc, bump=(20, 1.5))
+    npz = _graph(nc, [_straight(nc)], [2])
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    sl = sol.stations_of(0)
+    assert (np.diff(sol.L[sl]) <= 1e-5).all()
+    assert not sol.lost.any() and not sol.lip.any()
+    bumped = np.abs(sol.y[sl] - (20 * STEP + 1)) < 2
+    assert (sol.natural[sl][bumped] - sol.L[sl][bumped]).max() > 0.5   # the bump is under water
+    out, stats = ch.carve(h, sol)
+    bed = _bed_along(out, sol, sl)
+    assert (np.diff(bed) <= 0.05).all(), "carved bed still climbs over the bump"
+    assert (bed <= sol.L[sl] - 0.9).all()                                # ~D under the level
+    assert (out <= h + 1.6).all()                                       # shoulder raise capped
+
+
+def test_a_cliff_is_one_fall_step_with_a_plunge_basin():
+    nc = 40
+    h = _valley(nc, cliff=(20, 10.0))
+    npz = _graph(nc, [_straight(nc)], [2])
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    assert sol.lip.sum() == 1 and sol.plunge.sum() == 1
+    a, b = ch.falls(sol)[0]
+    assert sol.L[a] - sol.L[b] >= 9.0
+    sl = sol.stations_of(0)
+    L = sol.L[sl]
+    # a STEP: constant to the lip, constant (lower) right after it
+    assert abs(L[a - sl.start] - L[a - sl.start - 3]) < 0.4
+    assert abs(L[b - sl.start] - L[b - sl.start + 3]) < 0.4
+    out, stats = ch.carve(h, sol)
+    assert stats["plungeBasins"] == 1
+    py, px = int(round(sol.y[b])), int(round(sol.x[b]))
+    assert out[py, px] <= sol.L[b] - 1.5 + 1e-3
+    # steep reaches around a 10 m cliff are still classified from L slope, not the step
+    assert (sol.kind[sl] == ch.KIND_STEEP).sum() == 0
+
+
+def test_cross_slope_channel_is_sealed_by_a_bounded_levee():
+    nc = 40
+    h = _valley(nc, cross=0.25)          # 14 deg cross-slope, the valley still a V
+    npz = _graph(nc, [_straight(nc)], [1])
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    sl = sol.stations_of(0)
+    out, _ = ch.carve(h, sol)
+    assert (out - h).max() <= 1.5 + 1e-4
+    # every station is enclosed: on both sides a crest CELL at the water's
+    # edge stands >= L + 0.1 (the flood spreads cell to cell)
+    ring = np.array([0.7, 1.5, 3.0]) / MPP
+    for k in range(sl.start + 5, sl.stop - 5, 7):
+        r = sol.width[k] * 0.5 / MPP
+        for sgn in (1, -1):
+            ys = sol.y[k] + sgn * sol.tx[k] * (r + ring)
+            xs = sol.x[k] - sgn * sol.ty[k] * (r + ring)
+            cells = out[np.round(ys).astype(int), np.round(xs).astype(int)]
+            assert cells.max() >= sol.L[k] + 0.1
+
+
+def test_tributary_shares_the_trunk_level_at_the_junction():
+    nc = 40
+    h = _valley(nc)
+    trunk = _straight(nc)
+    trib = [(15, c) for c in range(5, nc // 2)] + [(15, nc // 2)]
+    npz = _graph(nc, [trunk, trib], [2, 1])
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    assert len(sol.reach_start) == 3          # trunk above J, tributary, trunk below J
+    down = sol.down_reach
+    for r in range(3):
+        d = down[r]
+        if d < 0:
+            continue
+        end = sol.L[sol.reach_end[r] - 1]
+        start = sol.L[sol.reach_start[d]]
+        assert abs(float(end) - float(start)) < 1e-3
+    for r in range(3):
+        assert (np.diff(sol.L[sol.stations_of(r)]) <= 1e-5).all()
+
+
+def test_a_river_trapped_in_a_hollow_makes_a_lake():
+    nc = 40
+    h = _valley(nc)
+    n = nc * STEP
+    zz = np.arange(n, dtype=np.float32)[:, None]
+    h = h - 4.0 * np.exp(-((zz - 60) ** 2) / (2 * 6.0 ** 2)) * np.ones((1, n), np.float32)
+    h[75:78, :] += 6.0                         # a dam across the whole valley
+    npz = _graph(nc, [_straight(nc)], [2])
+    npz.update(ocean=np.zeros((nc, nc), bool), regions=np.zeros((nc, nc), np.uint8),
+               wetlands=np.zeros((nc, nc), bool), flood=np.zeros((nc, nc), np.uint8),
+               lakes=np.zeros((nc, nc), bool))
+    bodies = sw.solve_bodies(h, npz, step=STEP, mpp=MPP, with_placement=False)
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    rep = sw.pool_channels(sol, bodies, log=lambda *a: None)
+    assert bodies.n >= 1
+    assert sol.pooled.sum() > 5
+    assert rep["cutBelowFloorMaxM"] <= ch.CANYON_MAX_M + 1e-3
+    sl = sol.stations_of(0)
+    assert (np.diff(sol.L[sl][~sol.lost[sl]]) <= 1e-5).all()
+
+
+# ---------------------------------------------------------------------------
+# Part 2 — a synthetic province through compute()
+# ---------------------------------------------------------------------------
 
 @pytest.fixture(scope="module")
 def synth():
-    z = _world()
-    res = hydro_compute(z, metres_per_px=60.0)
-    reg = compute_regions(z, res, 60.0)
-    npz = {
-        "ocean": res.ocean, "filled": res.filled.astype(np.float32),
-        "rivers": res.rivers, "lakes": res.lakes, "wetlands": res.wetlands,
-        "tidal": res.tidal, "salinity": res.salinity.astype(np.float32),
-        "hand": reg.hand, "flood": reg.flood, "regions": reg.regions,
-        "flow_to": res.flow_to.astype(np.int32),
-        "accum_km2": res.accum_km2.astype(np.float32),
-    }
-    refined = np.repeat(np.repeat(z, 2, axis=0), 2, axis=1)  # fake 2x grid
-    return z, npz, compute(z, refined, npz)
+    nc = 48
+    n = nc * STEP
+    zz, xx = np.mgrid[0:n, 0:n].astype(np.float32)
+    cx = (nc // 2) * STEP + 1
+    h = 30.0 - 0.2 * zz + 0.06 * np.abs(xx - cx) * MPP
+    h[-12:, :] = -6.0                                   # sea strip
+    h[20:36, 100:130] -= 12.0                           # a perched closed basin
+    h = h.astype(np.float32)
+    path = _straight(nc, r0=2, r1=nc - 5)
+    npz = _graph(nc, [path], [2], accum=3.0)
+    ocean = np.zeros((nc, nc), bool)
+    ocean[-4:, :] = True
+    reg = np.full((nc, nc), 6, np.uint8)
+    npz.update(ocean=ocean, regions=reg, wetlands=np.zeros((nc, nc), bool),
+               flood=np.zeros((nc, nc), np.uint8), lakes=np.zeros((nc, nc), bool),
+               salinity=np.where(ocean, 1.0, 0.0).astype(np.float32))
+    bodies = sw.solve_bodies(h, npz, step=STEP, mpp=MPP, with_placement=False)
+    sol = ch.solve(h, npz, step=STEP, mpp=MPP)
+    sw.pool_channels(sol, bodies, log=lambda *a: None)
+    carved, _ = ch.carve(h, sol)
+    r = compute(carved, npz, sol, step=STEP, mpp=MPP, with_placement=False, log=lambda *a: None)
+    return carved, npz, r
 
 
-def test_sea_surface_is_zero_and_dry_land_buried(synth):
-    z, npz, r = synth
-    assert np.allclose(r["w1"][npz["ocean"]], 0.0)
-    interior_dry = (~r["wet"]) & (~r["ext"])
-    assert np.allclose(r["w1"][interior_dry], z[interior_dry] - BURY_M)
+def test_synth_sea_is_zero_and_dry_land_buried(synth):
+    h, npz, r = synth
+    assert np.allclose(r["W"][r["bodies"].sea], 0.0)
+    buried = (r["W"] < h - 2.5) & ~r["wet"]
+    assert buried.mean() > 0.3
 
 
-def test_perched_lake_gets_a_level_surface_above_sea(synth):
-    z, npz, r = synth
-    lake = npz["lakes"] & (z > 1.0)
-    if not lake.any():
-        pytest.skip("synthetic solve produced no perched lake")
-    w = r["w1"][lake]
-    assert w.max() > 1.0                       # genuinely above sea level
-    assert w.std() < 0.35                      # one near-level surface
-    assert (w >= z[lake] - 0.6).all()          # covers its bed
+def test_synth_perched_basin_is_a_flat_lake_above_the_sea(synth):
+    h, npz, r = synth
+    b = r["bodies"]
+    assert b.n >= 1
+    big = int(np.argmax(b.areas)) + 1
+    vals = r["W"][b.body == big]
+    assert vals.max() - vals.min() < 1e-3 and vals.max() > 1.0
 
 
-def test_river_surface_monotone_downstream(synth):
-    z, npz, r = synth
-    flow = npz["flow_to"].reshape(-1)
-    w = r["w1"].reshape(-1)
-    riv = (npz["rivers"] > 0).reshape(-1)
-    idx = np.flatnonzero(riv)
-    j = flow[idx]
-    ok = (j >= 0) & riv[j.clip(0)]
-    assert ok.any()
-    assert (w[j[ok]] <= w[idx[ok]] + 1e-4).all()
-
-
-def test_flow_points_downstream_and_within_bounds(synth):
-    z, npz, r = synth
+def test_synth_river_is_wet_monotone_and_flows_downstream(synth):
+    h, npz, r = synth
+    assert r["stats"]["hoveringEdges"] == 0
+    assert r["stats"]["dryCoarseRiverCells"] == 0
     riv = npz["rivers"] > 0
-    speed = np.hypot(r["vx"], r["vz"])
-    assert speed[riv].max() <= FLOW_MAX
-    # the synthetic river drains south (+z): net flow must be southward
-    assert r["vz"][riv].mean() > 0.05
+    assert r["vz"][riv].mean() > 0.3
+    assert np.hypot(r["vx"], r["vz"]).max() <= FLOW_MAX + 1e-6
 
 
-def test_depth_proxy_positive_over_water_zero_on_dry(synth):
-    z, npz, r = synth
-    assert r["depth2"].min() >= 0.0
-    assert r["depth2"].max() > 1.0
-    # buried zone contributes no visible water
-    assert np.allclose(r["depth2"][r["nodata2"]], 0.0)
-
-
-def test_classes_assigned_over_water(synth):
-    z, npz, r = synth
-    assert (r["cls"][r["wetr"]] > 0).all()
-    assert (r["cls"][(~r["wetr"]) & (~r["ext"])] == 0).all()
+def test_synth_signed_depth_and_classes(synth):
+    h, npz, r = synth
+    d = r["depth2"]
+    assert d.max() > 1.0 and d.min() < -2.5
+    assert (r["wet2"] == (r["depth_q"] > 50)).all()
+    wet3 = r["cls"] > 0
+    assert wet3.any() and (r["cls"][npz["ocean"]] == CLASSES.index("coast")).mean() > 0.9
 
 
 # ---------------------------------------------------------------------------
-# Part 1b — pool acceptance on the depression's own geometry (round 8)
-# ---------------------------------------------------------------------------
-
-def _components(ground, mpp=4.0):
-    """Label the depressions of a tiny world and return the acceptance inputs."""
-    from scipy import ndimage as ndi
-    from .hydrology import fill_depressions
-    ocean = ground < -1e6                       # no sea in these test worlds
-    filled = fill_depressions(ground, ocean)
-    depth_fill = filled - ground
-    gy, gx = np.gradient(ground, mpp)
-    slope = np.hypot(gy, gx)
-    lbl, n = ndi.label(depth_fill > 0.02)
-    idx = np.arange(1, n + 1)
-    relief = ndi.maximum(depth_fill, lbl, idx)
-    areas = np.bincount(lbl.ravel())[1:]
-    return depth_fill, lbl, idx, slope, relief, areas, filled
-
-
-def _bowl_world(n=40, rim_h=12.0):
-    """A flat floor inside a steep rim: mean slope is dominated by the rim."""
-    z = np.full((n, n), rim_h, dtype=np.float32)
-    z[8:32, 8:32] = 0.0                        # the floor, dead flat
-    z[10:30, 10:30] = -0.6                     # ...with a shallow dish in it
-    return z
-
-
-def test_steep_rimmed_flat_floored_bowl_is_accepted():
-    z = _bowl_world()
-    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
-    assert len(idx) == 1
-    mean_slope = float(np.mean(slope[lbl == 1]))
-    assert mean_slope > POOL_FLOOR_SLOPE, "test world must fail the old blanket test"
-    assert bool(bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)[0])
-
-
-def test_tilted_plateau_without_relief_is_not_accepted():
-    n = 40
-    z = np.tile(np.linspace(0.0, 8.0, n, dtype=np.float32), (n, 1))
-    z[20, 5:35] -= 0.03                        # a scratch, not a basin
-    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
-    if not len(idx):
-        return                                  # nothing even ponded: fine
-    acc = bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)
-    assert not acc.any(), f"tilted plateau accepted, relief={relief}"
-
-
-def test_vast_shallow_sheet_exceeds_the_area_cap():
-    n = 120
-    z = np.zeros((n, n), dtype=np.float32)
-    z[1:-1, 1:-1] = -0.30                       # 118^2 px, a 0.3 m lip
-    depth_fill, lbl, idx, slope, relief, areas, _ = _components(z)
-    acc = bowl_accepts(depth_fill, lbl, idx, slope, relief, areas)
-    assert not acc.any(), "a shallow sheet the size of a plateau must be rejected"
-
-
-def test_season_response_is_capped_to_the_pools_headroom():
-    z = _bowl_world(rim_h=0.9)                  # rim 0.9 m over the floor
-    depth_fill, lbl, idx, slope, relief, areas, filled = _components(z)
-    level = np.asarray([float(filled[lbl == 1].max())]) - 0.05
-    rim, headroom = pool_headroom(z, lbl, idx, level)
-    response = headroom / SEASON_AMPLITUDE_M
-    assert 0.0 < float(headroom[0]) < SEASON_AMPLITUDE_M
-    assert float(response[0]) == pytest.approx(float(headroom[0]) / SEASON_AMPLITUDE_M)
-    # the invariant the runtime relies on: level + response * amplitude <= rim
-    assert float(level[0] + response[0] * SEASON_AMPLITUDE_M) <= float(rim[0]) + 1e-4
-
-
-# ---------------------------------------------------------------------------
-# Part 2 — standing probes on the real province
+# Part 3 — province probes on the shipped rasters
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(scope="module")
 def province():
     npz = np.load(VAULT / "water-pass1.npz")
-    hydro = np.load(VAULT / "hydrology-pass1.npz")
     meta = json.loads((WATER_DIR / "water-meta.json").read_text())
-    return npz, hydro, meta
-
-
-@needs_vault
-def test_province_river_surfaces_cover_their_carved_beds(province):
-    from .compile_water import CARVE_DEPTH
-    npz, hydro, meta = province
-    z = hydro["conditioned"]
-    for band, depth in CARVE_DEPTH.items():
-        m = hydro["rivers"] == band
-        if not m.any():
-            continue
-        above = (npz["w1"] > z - depth + 0.05)[m].mean()
-        assert above > 0.97, f"band {band}: only {above:.3f} above bed"
-
-
-@needs_vault
-def test_province_monotone_river_descent(province):
-    npz, hydro, meta = province
-    flow = hydro["flow_to"].reshape(-1)
-    w = npz["w1"].reshape(-1)
-    riv = (hydro["rivers"] > 0).reshape(-1)
-    idx = np.flatnonzero(riv)
-    j = flow[idx]
-    ok = (j >= 0) & riv[j.clip(0)]
-    bad = (w[j[ok]] > w[idx[ok]] + 1e-3).mean()
-    assert bad < 0.001
+    return npz, meta
 
 
 @needs_vault
 def test_province_visible_water_fraction_sane(province):
-    npz, hydro, meta = province
+    npz, meta = province
     frac = meta["stats"]["visibleWaterFrac2017"]
-    # sea alone is ~32-36% of the grid; with lakes/rivers a bit more —
-    # a collapse (buried everything) or an explosion (flooded the land)
-    # both fail here.
     assert 0.30 < frac < 0.50
 
 
 @needs_vault
-def test_shipped_surface_raster_decodes_to_vault(province):
+def test_shipped_rasters_decode_to_vault_and_ride_no_alpha(province):
     from PIL import Image
-    npz, hydro, meta = province
+    npz, meta = province
+    assert meta["schemaVersion"] == 2
     m = meta["surface"]
-    rgb = np.asarray(Image.open(WATER_DIR / m["file"]).convert("RGB"))
-    w = decode_rg16(Image.fromarray(rgb), m["minM"], m["maxM"])
-    err = np.abs(w - npz["w2"])
-    assert err.max() < (m["maxM"] - m["minM"]) / 65535 * 2 + 1e-3
-    depth = rgb[..., 2].astype(np.float32) * 0.1
-    assert np.abs(depth - np.clip(npz["depth2"], 0, 25.5)).max() < 0.11
-    shore_rgb = np.asarray(Image.open(WATER_DIR / m["shoreFile"]).convert("RGB"))
-    shore = shore_rgb[..., 0].astype(np.float32) / 255.0 * m["shoreMaxM"]
-    assert np.abs(shore - np.clip(npz["shore2"], 0, m["shoreMaxM"])).max() < m["shoreMaxM"] / 255 + 1e-2
-
-
-@needs_vault
-def test_no_buried_surface_above_local_water(province):
-    """Owner round 2, defect 'vertical water sheets': near any water, the
-    buried surface must sit clearly BELOW the local water level so distant
-    triangles can never bridge a gully above the waterline."""
-    from scipy import ndimage as ndi
-    npz, hydro, meta = province
-    w2 = npz["w2"]
-    depth2 = npz["depth2"]
-    wet2 = depth2 > 0.01
-    fringe = npz["fringe"]
-    dist, (jy, jx) = ndi.distance_transform_edt(~wet2, return_indices=True)
-    # the low-bank fringe deliberately sits AT the local level (flood headroom)
-    near_buried = (~wet2) & (~fringe) & (dist > 0) & (dist <= 8)
-    wn = w2[jy, jx]
-    viol = (w2[near_buried] > wn[near_buried] + 0.10).mean()
-    assert viol < 0.005, f"{viol:.3f} of near-shore dry cells sit ABOVE local water"
-
-
-@needs_vault
-def test_pools_fill_level(province):
-    """Standing pools are LEVEL surfaces (water finds its level): within a
-    connected wet component off the sea/rivers, W varies by centimetres."""
-    from scipy import ndimage as ndi
-    npz, hydro, meta = province
-    w2 = npz["w2"]
-    depth2 = npz["depth2"]
-    wet2 = depth2 > 0.05
-    riv2 = npz["riv2"]
-    lbl, n = ndi.label(wet2 & (np.abs(w2) > 0.3) & ~riv2)  # off-sea, off-river
-    if not n:
-        pytest.skip("no off-sea bodies")
-    sizes = np.bincount(lbl.ravel())
-    checked = 0
-    for i in np.argsort(sizes[1:])[::-1][:12] + 1:
-        vals = w2[lbl == i]
-        if len(vals) < 80:
-            continue
-        checked += 1
-        spread = np.percentile(vals, 95) - np.percentile(vals, 5)
-        assert spread < 0.6, f"body {i}: spread {spread:.2f} m"
-    assert checked >= 1
-
-
-@needs_vault
-def test_shipped_flow_and_class_rasters_decode(province):
-    """RGB only — data must NEVER ride a PNG alpha channel (browser canvas
-    premultiply destroyed salinity/flow in rounds 0-2: the tide bug)."""
-    from PIL import Image
-    npz, hydro, meta = province
-    flow_img = Image.open(WATER_DIR / meta["flow"]["file"])
-    klass_img = Image.open(WATER_DIR / meta["klass"]["file"])
-    shore_img = Image.open(WATER_DIR / meta["surface"]["shoreFile"])
-    assert flow_img.mode == "RGB" and klass_img.mode == "RGB" and shore_img.mode == "RGB"
-    flow = np.asarray(flow_img.convert("RGB"), dtype=np.float32)
+    img = Image.open(WATER_DIR / m["file"])
+    assert img.mode == "RGB"
+    w, depth = decode_surface(np.asarray(img), meta)
+    assert np.abs(w - npz["w2"]).max() < (m["maxM"] - m["minM"]) / 65535 * 2 + 1e-3
+    expect = np.clip(npz["depth2"], m["depthMinM"], m["depthMinM"] + m["depthSpanM"])
+    assert np.abs(depth - expect).max() < m["depthSpanM"] / 255 * 0.51 + 1e-3
+    for name in ("water-flow.png", "water-class.png", "water-shore.png"):
+        assert Image.open(WATER_DIR / name).mode == "RGB"
+    klass = np.asarray(Image.open(WATER_DIR / "water-class.png").convert("RGB"))
+    assert set(np.unique(klass[..., 0])).issubset(set(range(len(CLASSES))))
+    mpp = meta["klass"]["metresPerPixel"]
+    assert klass[int(5070 / mpp), int(6160 / mpp), 2] > 200      # salinity survives at the bay
+    shore = np.asarray(Image.open(WATER_DIR / "water-shore.png").convert("RGB"))
+    assert shore[..., 2].max() > 120                               # blackwater tannin exists
+    flow = np.asarray(Image.open(WATER_DIR / "water-flow.png").convert("RGB"), dtype=np.float32)
     vx = (flow[..., 0] / 255.0 - 0.5) * 2.0 * FLOW_MAX
     assert np.abs(vx - npz["vx"]).max() < FLOW_MAX / 255 * 2 + 1e-3
-    klass = np.asarray(klass_img.convert("RGB"))
-    assert set(np.unique(klass[..., 0])).issubset(set(range(len(CLASSES))))
-    # salinity must survive at the open bay (the exact tide-bug symptom)
-    mpp = meta["klass"]["metresPerPixel"]
-    assert klass[int(5070 / mpp), int(6160 / mpp), 2] > 200
-    # tannin distinguishes blackwater marsh from silt rivers
-    shore_rgb = np.asarray(shore_img.convert("RGB"))
-    assert shore_rgb[..., 2].max() > 120
-
-
-# ---------------------------------------------------------------------------
-# Part 3 — steep-strip / cascade classification (decision 0046 item 4)
-# ---------------------------------------------------------------------------
-
-def _straight_chain(levels, seg=10.0):
-    """n stations in a straight downstream line at the given surface levels."""
-    n = len(levels)
-    w_st = np.asarray(levels, dtype=np.float32)
-    dsk = np.arange(1, n + 1, dtype=np.int64)
-    dsk[-1] = -1
-    seg_dist = np.full(n, seg, dtype=np.float32)
-    pooled = np.zeros(n, dtype=bool)
-    return w_st, dsk, seg_dist, pooled
-
-
-def test_classify_splits_field_steep_and_fall():
-    from .compile_water import classify_stations, FALL_DROP_M, STEEP_SLOPE
-    # segment drops: 0.05 (field), 0.5 (steep), 3.0 (fall), 0.05 (field)
-    w, dsk, seg, pooled = _straight_chain([20.0, 19.95, 19.45, 16.45, 16.40])
-    kind, slope, drop = classify_stations(w, dsk, seg, pooled)
-    assert list(kind) == [0, 1, 2, 0, 0]
-    assert slope[1] == pytest.approx(0.05)
-    assert drop[2] >= FALL_DROP_M
-    assert slope[0] < STEEP_SLOPE
-
-
-def test_pooled_stations_are_never_steep():
-    from .compile_water import classify_stations
-    w, dsk, seg, pooled = _straight_chain([20.0, 15.0, 14.9])
-    pooled[0] = True
-    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
-    assert kind[0] == 0
-
-
-def test_six_station_chain_with_a_cliff_gives_one_strip_and_one_cascade():
-    """Stations 1..4 steep with a 3 m cliff at station 3; 0 and 5 are field,
-    so they become the two `join` points the renderer needs."""
-    from .compile_water import classify_stations, build_chains
-    levels = [30.0, 29.98, 29.4, 28.8, 25.8, 25.2, 25.18]
-    w, dsk, seg, pooled = _straight_chain(levels)
-    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
-    assert list(kind) == [0, 1, 1, 2, 1, 0, 0]
-    chains, up_any = build_chains(kind, dsk, w, pooled)
-    assert len(chains) == 1
-    assert chains[0] == [1, 2, 3, 4]
-    assert up_any[chains[0][0]] == 0          # the upstream join station
-    assert dsk[chains[0][-1]] == 5            # the downstream join station
-
-
-def test_single_field_gap_is_bridged_but_two_are_not():
-    from .compile_water import classify_stations, build_chains
-    #        0     1(steep) 2(gap) 3(steep) 4(steep) 5
-    w, dsk, seg, pooled = _straight_chain(
-        [30.0, 29.98, 29.4, 29.39, 28.9, 28.4, 28.38])
-    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
-    assert list(kind) == [0, 1, 0, 1, 1, 0, 0]
-    chains, _u = build_chains(kind, dsk, w, pooled)
-    assert chains == [[1, 2, 3, 4]]
-    # two consecutive field stations break the chain below the minimum length
-    w2, dsk2, seg2, pooled2 = _straight_chain(
-        [30.0, 29.98, 29.4, 29.39, 29.38, 28.9, 28.4, 28.38])
-    kind2, _s2, _d2 = classify_stations(w2, dsk2, seg2, pooled2)
-    assert list(kind2) == [0, 1, 0, 0, 1, 1, 0, 0]
-    assert build_chains(kind2, dsk2, w2, pooled2)[0] == []  # [4,5] is too short
-
-
-def test_short_chains_are_dropped():
-    from .compile_water import classify_stations, build_chains
-    w, dsk, seg, pooled = _straight_chain([30.0, 29.98, 29.4, 29.38, 29.36])
-    kind, _s, _d = classify_stations(w, dsk, seg, pooled)
-    assert kind[1] == 1
-    assert build_chains(kind, dsk, w, pooled)[0] == []
 
 
 @needs_vault
-def test_compiled_meta_carries_channels_and_cascades():
-    meta = json.loads((WATER_DIR / "water-meta.json").read_text())
+def test_compiled_meta_carries_strips_and_cascades(province):
+    npz, meta = province
     assert meta["surface"]["ownerFile"] == "water-owner.png"
     assert meta["stats"]["stripCount"] == len(meta["channels"])
     assert meta["stats"]["cascadeCount"] == len(meta["cascades"])
-    for ch in meta["channels"]:
-        kinds = [p["kind"] for p in ch["points"]]
-        assert kinds[0] == "join" or kinds[-1] == "join"
-        assert any(k in ("steep", "fall") for k in kinds)
+    assert meta["stats"]["compileSeconds"] < 180
+    for chn in meta["channels"]:
+        kinds = [p["kind"] for p in chn["points"]]
+        assert kinds[0] in ("join", "plunge") and kinds[-1] in ("join", "lip")
+        assert "steep" in kinds
+        arcs = [p["arcM"] for p in chn["points"]]
+        assert arcs[0] == 0.0 and all(b >= a for a, b in zip(arcs, arcs[1:]))
+        assert all(p["speedMS"] >= 0.45 for p in chn["points"])
+    for c in meta["cascades"]:
+        assert c["profileStepM"] == 1.0 and c["profileStartM"] == -3.0
+        assert abs(np.hypot(c["direction"]["x"], c["direction"]["z"]) - 1.0) < 1e-3
 
 
-# ---------------------------------------------------------------------------
-# Part 4 — plunge-pool depression rule and the road-depth cap (round 10)
-# ---------------------------------------------------------------------------
-
-def test_plunge_pool_only_where_the_base_sits_in_a_depression():
-    from .compile_water import (PLUNGE_MIN_RELIEF_M, plunge_footprint_ok)
-    d = np.zeros((8, 8), dtype=np.float32)
-    assert not plunge_footprint_ok(d).any()          # bare slope: no pool
-    d[3, 3] = PLUNGE_MIN_RELIEF_M + 0.2              # one cell is not a bowl
-    assert not plunge_footprint_ok(d).any()
-    d[3:5, 3:5] = PLUNGE_MIN_RELIEF_M + 0.2          # a real 2x2 depression
-    assert plunge_footprint_ok(d).any()
-    # ...and a depression shallower than the threshold still fails
-    shallow = np.full((8, 8), PLUNGE_MIN_RELIEF_M - 0.01, dtype=np.float32)
-    assert not plunge_footprint_ok(shallow).any()
-
-
-def test_road_cap_holds_a_rescued_pool_off_the_road():
-    from .compile_water import ROAD_MAX_DEPTH_M, road_cap_levels
-    ground = np.full((6, 6), 10.0, dtype=np.float32)
-    ground[2, 2] = 8.0                     # the road runs through a dip
-    roads = np.zeros((6, 6), dtype=bool)
-    roads[2, 2] = True
-    lbl = np.ones((6, 6), dtype=np.int32)
-    cap = road_cap_levels(ground, roads, lbl, np.array([1]))
-    assert cap[0] == pytest.approx(8.0 + ROAD_MAX_DEPTH_M)
-    # no road in the component -> no cap at all
-    assert not np.isfinite(road_cap_levels(
-        ground, np.zeros_like(roads), lbl, np.array([1]))[0])
+@needs_vault
+def test_lowland_rivers_have_a_speed_floor(province):
+    npz, hydro_meta = province
+    hydro = np.load(VAULT / "hydrology-pass1.npz")
+    speed = np.hypot(npz["vx"], npz["vz"])
+    for band, floor in ((1, 0.45), (2, 0.6), (3, 0.75)):
+        m = hydro["rivers"] == band
+        if m.any():
+            assert np.percentile(speed[m], 50) >= floor * 0.8, band
