@@ -47,6 +47,11 @@ def test_all_five_live_blueprints_bind_every_macro_obligation(bp):
     errors, rows = po.check_phase11(_records()[bp["id"]], bp)
     assert rows
     assert not errors
+    registry, registry_errors = po.blueprint_object_registry(bp)
+    assert not registry_errors
+    assert not [ref for row in rows for ref in row.phase11Evidence if ref not in registry]
+    assert not [ref for row in rows for ref in row.phase11Evidence
+                if ref.startswith("blueprint.")]
 
 
 def test_qualitative_promise_cannot_disappear_behind_a_green_legacy_ledger():
@@ -107,36 +112,105 @@ def test_obligation_ids_are_stable_when_source_arrays_are_reordered():
 
 def test_interchange_document_is_byte_deterministic():
     blueprints = list(_blueprints())
-    a, errors = po.obligation_document(_records(), blueprints)
+    expected = {bp["id"] for bp in blueprints}
+    assert expected == po.PHASE11_EXEMPLAR_PLACE_IDS
+    a, errors = po.obligation_document(_records(), blueprints,
+                                        expected_place_ids=expected)
     assert not errors
-    b, errors = po.obligation_document(_records(), reversed(blueprints))
+    b, errors = po.obligation_document(_records(), reversed(blueprints),
+                                        expected_place_ids=expected)
     assert not errors
     assert po.serialise(a) == po.serialise(b)
+    assert not po.verify_phase11_document(a, expected_place_ids=expected)
+
+
+def test_export_rejects_a_whole_missing_or_unexpected_place():
+    blueprints = list(_blueprints())
+    expected = po.PHASE11_EXEMPLAR_PLACE_IDS
+    _document, errors = po.obligation_document(
+        _records(), blueprints[1:], expected_place_ids=expected)
+    assert any("missing expected blueprint places" in error for error in errors)
+    _document, errors = po.obligation_document(
+        _records(), blueprints, expected_place_ids=set(expected) - {blueprints[0]["id"]})
+    assert any("unexpected blueprint places" in error for error in errors)
+
+
+def test_exported_phase11_manifest_rejects_bogus_or_cross_place_evidence():
+    document, errors = po.live_phase11_document()
+    assert not errors
+    mutant = copy.deepcopy(document)
+    mutant["rows"][0]["phase11Evidence"] = ["parcel.does-not-exist"]
+    assert any("unknown evidence ref" in error for error in
+               po.verify_phase11_document(mutant,
+                                          expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS))
+    mutant = copy.deepcopy(document)
+    row = mutant["rows"][0]
+    cross_place = next(entry["id"] for entry in mutant["objectRegistry"]
+                       if entry["placeId"] != row["placeId"])
+    row["phase11Evidence"] = [cross_place]
+    assert any("cross-place evidence" in error for error in
+               po.verify_phase11_document(mutant,
+                                          expected_place_ids=po.PHASE11_EXEMPLAR_PLACE_IDS))
 
 
 def test_downstream_manifest_gate_rejects_missing_stale_and_empty_delivery():
     obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
                                  {"value": "n1"}, ("parcel.x",), "phase-13")]
     digest = po.owner_obligations_sha256(obligations, "phase-13")
-    assert po.verify_delivery_manifest(obligations, {"schemaVersion": 1,
+    registry = {"npc.one": {"kind": "npc", "placeId": "place.x"}}
+    registry_digest = po.compiled_object_registry_sha256(registry)
+    assert po.verify_delivery_manifest(obligations, {"schemaVersion": po.MANIFEST_SCHEMA_VERSION,
                                        "kind": "place-obligation-deliveries", "owner": "phase-13",
                                        "obligationsSha256": digest,
+                                       "objectRegistrySha256": registry_digest,
                                        "deliveries": []},
-                                       "phase-13")
-    assert po.verify_delivery_manifest(obligations, {"schemaVersion": 1,
+                                       "phase-13", object_registry=registry)
+    assert po.verify_delivery_manifest(obligations, {"schemaVersion": po.MANIFEST_SCHEMA_VERSION,
                                        "kind": "place-obligation-deliveries", "owner": "phase-13",
-                                       "obligationsSha256": digest, "deliveries": [
+                                       "obligationsSha256": digest,
+                                       "objectRegistrySha256": registry_digest, "deliveries": [
         {"obligationId": "o.one", "objectRefs": []},
         {"obligationId": "o.stale", "objectRefs": ["npc.stale"]},
-    ]}, "phase-13")
-    good = {"schemaVersion": 1, "kind": "place-obligation-deliveries", "owner": "phase-13",
-            "obligationsSha256": digest, "deliveries": [
+    ]}, "phase-13", object_registry=registry)
+    good = {"schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+            "kind": "place-obligation-deliveries", "owner": "phase-13",
+            "obligationsSha256": digest, "objectRegistrySha256": registry_digest,
+            "deliveries": [
         {"obligationId": "o.one", "objectRefs": ["npc.one"]},
     ]}
-    assert not po.verify_delivery_manifest(obligations, good, "phase-13")
+    assert not po.verify_delivery_manifest(obligations, good, "phase-13",
+                                           object_registry=registry)
     changed = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
                              {"value": "a changed promise"}, ("parcel.x",), "phase-13")]
     assert any("exact current requirements" in error
-               for error in po.verify_delivery_manifest(changed, good, "phase-13"))
-    assert po.verify_final_delivery(obligations, [])
-    assert not po.verify_final_delivery(obligations, [good])
+               for error in po.verify_delivery_manifest(changed, good, "phase-13",
+                                                        object_registry=registry))
+    assert po.verify_final_delivery(obligations, [], object_registry=registry)
+    assert not po.verify_final_delivery(obligations, [good], object_registry=registry)
+
+
+def test_delivery_manifest_resolves_typed_refs_in_compiled_registry():
+    obligations = [po.Obligation("o.one", "place.x", "contents.npcs[n1]", "contents",
+                                 {"value": "n1"}, ("parcel.x",), "phase-13")]
+    registry = {"npc.one": {"kind": "npc", "placeId": "place.x"}}
+    manifest = {
+        "schemaVersion": po.MANIFEST_SCHEMA_VERSION,
+        "kind": "place-obligation-deliveries", "owner": "phase-13",
+        "obligationsSha256": po.owner_obligations_sha256(obligations, "phase-13"),
+        "objectRegistrySha256": po.compiled_object_registry_sha256(registry),
+        "deliveries": [{"obligationId": "o.one", "objectRefs": ["npc.bogus"]}],
+    }
+    assert any("unknown compiled object ref" in error for error in
+               po.verify_delivery_manifest(obligations, manifest, "phase-13",
+                                           object_registry=registry))
+    cross_registry = {"npc.one": {"kind": "npc", "placeId": "place.other"}}
+    manifest["deliveries"][0]["objectRefs"] = ["npc.one"]
+    manifest["objectRegistrySha256"] = po.compiled_object_registry_sha256(cross_registry)
+    assert any("cross-place object ref" in error for error in
+               po.verify_delivery_manifest(obligations, manifest, "phase-13",
+                                           object_registry=cross_registry))
+    malformed = {"npc.one": {"placeId": "place.x"}}
+    manifest["objectRegistrySha256"] = po.compiled_object_registry_sha256(malformed)
+    assert any("no concrete kind" in error for error in
+               po.verify_delivery_manifest(obligations, manifest, "phase-13",
+                                           object_registry=malformed))
