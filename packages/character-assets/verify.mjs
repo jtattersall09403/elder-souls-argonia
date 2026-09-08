@@ -2,6 +2,17 @@ import { createHash } from "node:crypto";
 import { open, readFile } from "node:fs/promises";
 
 const publicUrl = (path) => new URL(`./files/${path}`, import.meta.url);
+const binaryCache = new Map();
+const jsonCache = new Map();
+
+async function readBinary(path) {
+  let pending = binaryCache.get(path);
+  if (!pending) {
+    pending = readFile(publicUrl(path));
+    binaryCache.set(path, pending);
+  }
+  return pending;
+}
 
 async function assertBinaryGltf(path) {
   let handle;
@@ -30,23 +41,108 @@ async function assertMatchingGltf(path, expectedSha) {
   if (typeof expectedSha !== "string" || !/^[a-f0-9]{64}$/.test(expectedSha)) {
     throw new Error(`files/${path} has no valid recorded sha256`);
   }
-  const actual = createHash("sha256").update(await readFile(publicUrl(path))).digest("hex");
+  const actual = createHash("sha256").update(await readBinary(path)).digest("hex");
   if (actual !== expectedSha) {
     throw new Error(`files/${path} does not match its manifest: expected ${expectedSha}, got ${actual}`);
   }
 }
 
+/** Parsed JSON chunk from a binary glTF. */
+async function readGltfJson(path) {
+  let pending = jsonCache.get(path);
+  if (!pending) {
+    pending = readBinary(path).then((buffer) => {
+      const chunkLength = buffer.readUInt32LE(12);
+      return JSON.parse(buffer.subarray(20, 20 + chunkLength).toString("utf8"));
+    });
+    jsonCache.set(path, pending);
+  }
+  return pending;
+}
+
+async function embeddedImageHash(path, json, imageIndex) {
+  const buffer = await readBinary(path);
+  const jsonLength = buffer.readUInt32LE(12);
+  const binaryStart = 20 + jsonLength + 8;
+  const image = json.images?.[imageIndex];
+  const view = json.bufferViews?.[image?.bufferView];
+  if (!view) throw new Error(`files/${path} image ${imageIndex} is not embedded`);
+  const start = binaryStart + (view.byteOffset ?? 0);
+  return createHash("sha256").update(buffer.subarray(start, start + view.byteLength)).digest("hex");
+}
+
 /** Node names and skin joint names out of a GLB's JSON chunk. */
 async function readGltfNames(path) {
-  const buffer = await readFile(publicUrl(path));
-  const chunkLength = buffer.readUInt32LE(12);
-  const json = JSON.parse(buffer.subarray(20, 20 + chunkLength).toString("utf8"));
+  const json = await readGltfJson(path);
   const nodes = (json.nodes ?? []).map((node) => node.name);
   const joints = new Set();
   for (const skin of json.skins ?? []) {
     for (const index of skin.joints) joints.add(nodes[index]);
   }
   return { nodes: new Set(nodes), joints };
+}
+
+function meshBounds(json, node) {
+  const primitives = json.meshes?.[node.mesh]?.primitives ?? [];
+  const bounds = primitives.map((primitive) => (
+    json.accessors?.[primitive.attributes?.POSITION]
+  )).filter((accessor) => accessor?.min && accessor?.max);
+  if (bounds.length === 0) throw new Error(`${node.name} has no position bounds`);
+  return {
+    min: [0, 1, 2].map((axis) => Math.min(...bounds.map((accessor) => accessor.min[axis]))),
+    max: [0, 1, 2].map((axis) => Math.max(...bounds.map((accessor) => accessor.max[axis]))),
+  };
+}
+
+function boundsCentre(bounds) {
+  return bounds.min.map((value, axis) => (value + bounds.max[axis]) / 2);
+}
+
+/**
+ * FaceGen exports contain both armature-space and head-local shapes. A bad
+ * conversion can still be a valid, correctly hashed GLB while placing its
+ * skull above the neck and leaving the eyes and mouth behind. Prove the final
+ * shipped geometry is one assembled face for every race.
+ */
+async function assertAssembledFace(id, path) {
+  const json = await readGltfJson(path);
+  const meshNodes = (json.nodes ?? []).filter((node) => node.mesh !== undefined);
+  const one = (label, predicate) => {
+    const matches = meshNodes.filter(predicate);
+    if (matches.length !== 1) {
+      throw new Error(`Race ${id} must ship one ${label} mesh; found ${matches.map((node) => node.name).join(", ") || "none"}`);
+    }
+    return matches[0];
+  };
+  const bodyNode = one("body", (node) => node.name?.includes("UnderwearBody"));
+  const body = meshBounds(json, bodyNode);
+  const head = meshBounds(json, one("FaceGen head", (node) => node.name?.includes("Head") && !node.name.includes("Hair")));
+  const eyes = meshBounds(json, one("FaceGen eyes", (node) => node.name?.includes("Eyes")));
+  const mouth = meshBounds(json, one("FaceGen mouth", (node) => node.name?.includes("Mouth")));
+
+  if (head.min[1] > body.max[1] + 0.02) {
+    throw new Error(`Race ${id} FaceGen head floats ${Number(head.min[1] - body.max[1]).toFixed(3)} rig units above its body`);
+  }
+  for (const node of meshNodes.filter((candidate) => candidate.name?.startsWith("Marks"))) {
+    for (const primitive of json.meshes?.[node.mesh]?.primitives ?? []) {
+      const material = json.materials?.[primitive.material];
+      if (!material || material.alphaMode === undefined || material.alphaMode === "OPAQUE") {
+        throw new Error(`Race ${id} FaceGen overlay ${node.name} is opaque`);
+      }
+    }
+  }
+  for (const [label, feature] of [["eyes", eyes], ["mouth", mouth]]) {
+    const centre = boundsCentre(feature);
+    const outside = centre.some((value, axis) => value < head.min[axis] - 0.1 || value > head.max[axis] + 0.1);
+    if (outside) {
+      throw new Error(`Race ${id} ${label} centre lies outside its FaceGen head`);
+    }
+  }
+  const primitive = json.meshes?.[bodyNode.mesh]?.primitives?.[0];
+  const textureIndex = json.materials?.[primitive?.material]?.pbrMetallicRoughness?.baseColorTexture?.index;
+  const imageIndex = json.textures?.[textureIndex]?.source;
+  if (imageIndex === undefined) throw new Error(`Race ${id} body has no embedded diffuse`);
+  return embeddedImageHash(path, json, imageIndex);
 }
 
 async function assertReadable(path) {
@@ -97,9 +193,16 @@ if (unpacked.length > 0) {
 }
 const races = Object.entries(roster.races ?? {});
 if (races.length === 0) throw new Error("Race roster declares no races");
+const bodyTextureHashes = new Map();
 for (const [id, race] of races) {
   if (typeof race.asset !== "string") throw new Error(`Race ${id} is missing its asset path`);
   await assertMatchingGltf(race.asset, race.sha256);
+  bodyTextureHashes.set(id, await assertAssembledFace(id, race.asset));
+}
+for (const beast of ["khajiit", "argonian"]) {
+  if (bodyTextureHashes.get(beast) === bodyTextureHashes.get("nord")) {
+    throw new Error(`Race ${beast} still ships the generic human body diffuse`);
+  }
 }
 
 // Every bone any race body offers. Armour is rebound onto these by name.

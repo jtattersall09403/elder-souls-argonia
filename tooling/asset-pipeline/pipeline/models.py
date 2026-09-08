@@ -124,6 +124,8 @@ class BuildPlan:
     #: Multiplied into every skin base colour. Skyrim tints rather than
     #: shipping a diffuse per race, and so do we.
     skin_tint: tuple[float, float, float]
+    #: Source NPC NAM7 weight, used to blend Skyrim's _0/_1 body meshes.
+    body_weight: float
     #: GLBs this build should emit. A rig carries the shared motion, a race
     #: carries only its own skin, and both is the single-file legacy shape.
     #: An export may also name ``actions``, restricting it to one pack's clips.
@@ -164,6 +166,7 @@ class BuildPlan:
             "mesh_dir": self.mesh_dir,
             "texture_substitutions": self.texture_substitutions,
             "skin_tint": list(self.skin_tint),
+            "body_weight": self.body_weight,
             "exports": [dict(export) for export in self.exports],
             "animation_packs": dict(self.animation_packs),
             "sockets": self.sockets,
@@ -354,6 +357,16 @@ def parse_skin_tint(raw: object) -> tuple[float, float, float]:
     return tuple(float(v) for v in raw)  # type: ignore[return-value]
 
 
+def parse_body_weight(raw: object) -> float:
+    """Validate Skyrim's NPC NAM7 body weight (0..100)."""
+    if raw is None:
+        return 100.0
+    if (isinstance(raw, bool) or not isinstance(raw, (int, float))
+            or not math.isfinite(raw) or raw < 0 or raw > 100):
+        raise ValueError("bodyWeight must be a finite number between 0 and 100")
+    return float(raw)
+
+
 def facegen_mesh_path(raw: object) -> str | None:
     """Resolve an exported Skyrim FaceGen head from its owning source record.
 
@@ -410,11 +423,19 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
     mesh_dir = body["meshDir"]
     facegen_path = facegen_mesh_path(race.get("faceGen"))
     replaced_by_facegen = {"eyes", "mouth"} if facegen_path else set()
-    meshes = [
-        MeshSpec("support-head" if facegen_path and m["name"] == "head" else m["name"],
-                 data_root / mesh_dir / m["file"])
-        for m in body["meshes"] if m["name"] not in replaced_by_facegen
-    ]
+    body_weight = parse_body_weight(race.get("bodyWeight"))
+    meshes = []
+    for mesh in body["meshes"]:
+        if mesh["name"] in replaced_by_facegen:
+            continue
+        role = "support-head" if facegen_path and mesh["name"] == "head" else mesh["name"]
+        path = data_root / mesh_dir / mesh["file"]
+        meshes.append(MeshSpec(role, path))
+        # Skyrim morphs the body, hands and feet between matching _0 and _1
+        # NIFs using TESNPC NAM7. FaceGen has already generated the head at that
+        # same weight, so retaining only the _1 body opens a visible neck seam.
+        if body_weight < 100 and role in {"body", "hands", "feet"} and mesh["file"].endswith("_1.nif"):
+            meshes.append(MeshSpec(f"{role}-weight-zero", path.with_name(mesh["file"][:-6] + "_0.nif")))
     if facegen_path:
         meshes.append(MeshSpec("facegen", data_root / facegen_path))
     # Hair, horns and beards are the race's, not the body's: they are skinned to
@@ -620,6 +641,7 @@ def resolve_character(character_id: str, overrides: dict | None = None) -> Build
         mesh_dir=mesh_dir,
         texture_substitutions=dict(race.get("textureSubstitutions", {})),
         skin_tint=parse_skin_tint(race.get("skinTint")),
+        body_weight=body_weight,
         exports=tuple(char.get("exports", ())),
         animation_packs=animation_packs,
         meshes=meshes,

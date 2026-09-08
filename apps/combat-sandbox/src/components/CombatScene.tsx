@@ -989,7 +989,6 @@ function EnemyActor({ runtime, reticleVisible, validation }: { runtime: EnemyRun
           speedMultiplierRef={runtime.animationSpeed}
           modelOffsetY={CHARACTER_MODEL_OFFSET}
           equipped
-          enemy
           weaponRef={runtime.weapon}
           offHandRef={runtime.offHand}
           targetAnchorRef={runtime.targetAnchor}

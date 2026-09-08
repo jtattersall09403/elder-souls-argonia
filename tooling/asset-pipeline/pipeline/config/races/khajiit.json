@@ -8,7 +8,7 @@
     0.8313726187,
     0.8313726187
   ],
-  "notes": "Default appearance is Skyrim's own generated FaceGen NIF for the named Skyrim.esm NPC. Body tint is that NPC's QNAM value; hair tint is its HCLF colour record with Skyrim's /128 shader normalisation. No hand-picked head parts, texture substitution, colour grade or brightness adjustment is used.",
+  "notes": "Default appearance uses the named Skyrim.esm NPC's generated FaceGen NIF and FaceTint. The shared mesh receives Skyrim's race-specific beast texture set plus that NPC's QNAM tint and NAM7 weight; hair uses HCLF. No custom colour grade, brightness change or enemy recolour is applied.",
   "hairTint": [
     0.703125,
     0.7421875,
@@ -19,5 +19,14 @@
     "plugin": "Skyrim.esm",
     "formId": "00013298",
     "editorId": "Mazaka"
+  },
+  "bodyWeight": 50,
+  "textureSubstitutions": {
+    "textures/actors/character/male/malebody_1.dds": "textures/actors/character/khajiitmale/bodymale.dds",
+    "textures/actors/character/male/malebody_1_msn.dds": "textures/actors/character/khajiitmale/bodymale_msn.dds",
+    "textures/actors/character/male/malebody_1_s.dds": "textures/actors/character/khajiitmale/bodymale_s.dds",
+    "textures/actors/character/male/malehands_1.dds": "textures/actors/character/khajiitmale/handsmale.dds",
+    "textures/actors/character/male/malehands_1_msn.dds": "textures/actors/character/khajiitmale/handsmale_msn.dds",
+    "textures/actors/character/male/malehands_1_s.dds": "textures/actors/character/khajiitmale/handsmale_s.dds"
   }
 }

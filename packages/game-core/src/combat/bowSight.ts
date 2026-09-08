@@ -1,7 +1,7 @@
 import { aimAngles, directionTo, type Vec3 } from "./aimConvergence";
 
 /** Deliberate elevation above the crosshair ray, kept as one tunable value. */
-export const BOW_SIGHT_ELEVATION_RADIANS = 0;
+export const BOW_SIGHT_ELEVATION_RADIANS = 5 * Math.PI / 180;
 
 /** Point the shaft at the line to the crosshair, plus the configured elevation.
  * This is a fixed launch attitude rather than a range-dependent ballistic

@@ -195,6 +195,15 @@ def build(
                 "hairMeshes": summaries[race_id].get("hairMeshes", []),
             },
         }
+    # Keep the public roster stable regardless of whether the reference rig was
+    # rebuilt or reused. UI display order should not change as a side effect of
+    # choosing the fast body-only build path.
+    canonical_order = [reference] + [race for race in roster["races"] if race != reference]
+    manifest["races"] = {
+        race: manifest["races"][race]
+        for race in canonical_order
+        if race in manifest["races"]
+    }
     roster_path.parent.mkdir(parents=True, exist_ok=True)
     roster_path.write_text(json.dumps(manifest, indent=2))
     print(f"[races] roster -> {roster_path}")
