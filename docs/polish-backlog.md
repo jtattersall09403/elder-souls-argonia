@@ -213,12 +213,3 @@ owner raised in one pass. Not triaged/sized yet — treat as raw backlog.
   terrain; scatter boulders tight against every compiled cascade lip/side
   (`water-meta.json` `cascades[]`) in the Phase 10 scatter compiler. Varden
   recipe, research/rendering/waterfalls-realtime.md §6.
-- **Flat grey field plate at some chute feet.** At the foot of steep chutes
-  (e.g. `fall-78`, camera `view=fly3d&cam=fly&x=1.827&z=2.093&alt=54&yaw=270&pitch=4`)
-  the province field surface draws a small flat plate; per-layer attribution
-  (`apps/world-studio/scripts/probe-water-chute.mjs`) proves it is the field,
-  not the sheet or strip. Likely the compiler's plunge-pool-at-every-cascade
-  rule creating a pool where there is no depression, or a 1–2 texel pool whose
-  level plane extends over sloping ground; fix in `compile_water.py` (require
-  relief for a plunge pool) and re-check with the chute probe.
-
