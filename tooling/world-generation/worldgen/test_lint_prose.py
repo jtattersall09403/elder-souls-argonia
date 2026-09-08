@@ -48,6 +48,40 @@ def test_a_code_span_does_not_end_a_sentence_on_a_preposition(tmp_path):
     assert not any(h.rule == "final-preposition" for h in res.hard_hits())
 
 
+def test_blockquoted_prose_is_linted(tmp_path):
+    """Defect 2026-09-08: `> ` lines were skipped, so prose inside a quote
+    never reached the gate."""
+    doc = tmp_path / "brief.md"
+    doc.write_text(
+        "> The village is nestled under the scarp, and it is a testament to the\n"
+        "> masons who cut it.\n",
+        encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_markdown(res, doc)
+    rules = {h.rule for h in res.hard_hits()}
+    assert {"register-vocab", "comma-and"} <= rules, rules
+
+
+def test_attributed_quoted_source_material_is_exempt(tmp_path):
+    """Exempt by what it is (someone else's words, attributed), not by '>'."""
+    doc = tmp_path / "brief.md"
+    doc.write_text(
+        "> UESP: the city is nestled in the marsh, and it is a testament to the Hist.\n",
+        encoding="utf-8")
+    res = lint_prose.LintResult()
+    lint_prose.lint_markdown(res, doc)
+    assert not res.hard_hits(), [h.rule for h in res.hard_hits()]
+
+
+def test_route_structure_prose_surface_cannot_be_empty():
+    """Defect 2026-09-08: the authored route-structure sentences ship inside
+    route-structures.json and were outside --strict."""
+    res = lint_prose.LintResult()
+    lint_prose.lint_route_structures(res)
+    assert res.texts >= 30, res.texts
+    assert res.by_scope_words["route-structures"] > 500
+
+
 def test_a_real_final_preposition_is_still_caught(tmp_path):
     doc = tmp_path / "note.md"
     doc.write_text("The northern water approach is the one they asked for.\n", encoding="utf-8")

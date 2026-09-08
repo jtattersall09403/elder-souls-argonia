@@ -398,16 +398,44 @@ ROUTE_STRUCTURES = (catalogue.REPO_ROOT / "world" / "sources" / "routes"
 
 
 def lint_route_structures(res: LintResult) -> None:
-    """The `why` on each authored route structure (Phase 11 stream B): a world
-    record's stated reason, held to the same register as a place record's."""
+    """Every authored route-structure sentence (Phase 11 stream B): a world
+    record's stated reason, held to the same register as a place record's.
+
+    Two sources, because neither alone is the whole surface and either alone
+    can silently lint nothing:
+    * `author_route_structures.WHY` — the authored dict. It is a module, so it
+      is present wherever the gate runs, and it holds sentences for ways the
+      last compile did not emit (an author edits WHY before recompiling).
+    * the compiled `route-structures.json` — what actually ships, in case a
+      sentence reached the file by some other route than WHY.
+    Sentences already linted from WHY are not linted twice (the file copies
+    them verbatim), so the density figures stay honest.
+
+    A missing or empty surface is a FAILURE, not a clean run: the module must
+    import and WHY must be non-empty, or this raises.
+    """
+    from . import author_route_structures as ars      # local: keeps import cost off other runs
+
+    why = getattr(ars, "WHY", None)
+    if not isinstance(why, dict) or not why:
+        raise RuntimeError("author_route_structures.WHY is missing or empty — "
+                           "the route-structure prose surface cannot lint nothing and pass")
+    seen_text: set[str] = set()
+    for way_id, text in sorted(why.items()):
+        if not isinstance(text, str) or not text.strip():
+            raise RuntimeError(f"author_route_structures.WHY[{way_id!r}] is not prose")
+        seen_text.add(re.sub(r"\s+", " ", text.strip()))
+        res.add_text("route-structures", way_id, "why", text)
     if not ROUTE_STRUCTURES.exists():
         return
-    seen: set[str] = set()
+    seen_way: set[str] = set()
     for s in json.loads(ROUTE_STRUCTURES.read_text(encoding="utf-8")).get("structures", []):
         # one sentence per way, carried by each of its structures: lint it once
-        if s["wayId"] in seen or not isinstance(s.get("why"), str):
+        if s["wayId"] in seen_way or not isinstance(s.get("why"), str):
             continue
-        seen.add(s["wayId"])
+        seen_way.add(s["wayId"])
+        if re.sub(r"\s+", " ", s["why"].strip()) in seen_text:
+            continue
         res.add_text("route-structures", s["wayId"], "why", s["why"])
 
 
@@ -467,7 +495,21 @@ def lint_text_catalogue(res: LintResult) -> None:
 # A code span is a name, not prose: it is replaced by one neutral word so the
 # sentence still ends on whatever it ended on (audit §6.6).
 CODE_SPAN_WORD = "code"
-_MD_SKIP = re.compile(r"^\s*(?:#|\||>|```|-\s*\[|\d+\.\s)|^\s*$")
+# Blockquotes are NOT skipped (defect found 2026-09-08: a planted blockquote
+# carrying "nestled", "testament to" and an and-comma reported zero hits). The
+# old rule skipped them by punctuation, so any brief or record whose prose sat
+# in a quote escaped the gate. Our own prose is our own prose wherever it is
+# indented. What IS exempt is quoted *source material* — words we did not
+# write and must not rewrite (a UESP passage, a mod author's description, an
+# owner instruction reproduced verbatim) — recognised by an explicit
+# attribution on the quote, not by the ">" itself.
+_MD_SKIP = re.compile(r"^\s*(?:#|\||```|-\s*\[|\d+\.\s)|^\s*$")
+_MD_QUOTE = re.compile(r"^\s*>\s?")
+# An attributed quotation of someone else's words: the first quoted line names
+# its source. Everything else in a blockquote is ours and is linted.
+_QUOTED_SOURCE = re.compile(
+    r"^\s*(?:\*\*)?(?:source|quoted?(?: from)?|citation|cited|verbatim|uesp|owner|from)\b\s*[:—-]",
+    re.I)
 
 
 def lint_markdown(res: LintResult, path: Path, table_cells: bool = True) -> None:
@@ -499,6 +541,8 @@ def lint_markdown(res: LintResult, path: Path, table_cells: bool = True) -> None
             res.add_text(scope, f"{scope}:{start}", "para", text)
 
     in_code = False
+    in_quote = False          # inside a blockquote block
+    quote_exempt = False      # …that quotes attributed source material
     for n, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
         if line.strip().startswith("```"):
             flush()
@@ -506,6 +550,18 @@ def lint_markdown(res: LintResult, path: Path, table_cells: bool = True) -> None
             continue
         if in_code:
             continue
+        if _MD_QUOTE.match(line):
+            if not in_quote:
+                flush()                      # the quote is its own paragraph
+                in_quote = True
+                quote_exempt = bool(_QUOTED_SOURCE.match(_MD_QUOTE.sub("", line)))
+            if quote_exempt:
+                continue
+            line = _MD_QUOTE.sub("", line)   # lint the quoted prose as prose
+        elif in_quote:
+            flush()
+            in_quote = False
+            quote_exempt = False
         clean = re.sub(r"`[^`]*`", CODE_SPAN_WORD, line)
         clean = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", clean)
         if line.lstrip().startswith("|"):
