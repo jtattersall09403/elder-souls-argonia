@@ -152,17 +152,37 @@ def fill_depressions(z: np.ndarray, ocean: np.ndarray) -> np.ndarray:
 
 
 def _bfs_distance(mask: np.ndarray, sources: np.ndarray) -> np.ndarray:
-    """Chebyshev BFS steps within mask from sources; inf where unreached."""
-    dist = np.full(mask.shape, np.inf, dtype=np.float64)
-    frontier = sources & mask
+    """Chebyshev BFS steps within mask from sources; inf where unreached.
+
+    The frontier is carried as cell INDICES, not as a full-province boolean
+    dilated once per step. A marsh flat is thousands of steps across, and
+    dilating the whole province for each of them made this the single most
+    expensive thing the sculpt did (72 of its 187 seconds, in ~3900 whole-array
+    dilations). Expanding only the cells actually on the frontier costs eight
+    neighbour lookups per cell over the whole search instead of one province
+    per step. The BFS level sets are the same either way, so the distances are
+    identical to the byte.
+    """
+    h, w = mask.shape
+    dist = np.full(mask.size, np.inf, dtype=np.float64)
+    blocked = ~mask.reshape(-1).copy()       # outside the mask: never entered
+    frontier = np.flatnonzero((sources & mask).reshape(-1))
     dist[frontier] = 0
+    blocked[frontier] = True                 # doubles as "already reached"
     step = 0
-    structure = np.ones((3, 3), dtype=bool)
-    while frontier.any():
+    while frontier.size:
         step += 1
-        frontier = ndimage.binary_dilation(frontier, structure=structure) & mask & np.isinf(dist)
+        ys, xs = np.divmod(frontier, w)
+        around = []
+        for dy, dx in NEIGHBOR_OFFSETS:
+            ny, nx = ys + dy, xs + dx
+            inside = (ny >= 0) & (ny < h) & (nx >= 0) & (nx < w)
+            around.append(ny[inside] * w + nx[inside])
+        nxt = np.unique(np.concatenate(around))
+        frontier = nxt[~blocked[nxt]]
+        blocked[frontier] = True
         dist[frontier] = step
-    return dist
+    return dist.reshape(mask.shape)
 
 
 def resolve_flats(filled: np.ndarray, ocean: np.ndarray, eps: float = 1e-5) -> np.ndarray:

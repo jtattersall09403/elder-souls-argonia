@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import json
 import sys
+from multiprocessing import Pool, cpu_count
 from pathlib import Path
 
 import numpy as np
@@ -71,10 +72,40 @@ def export_gradients(mps: float) -> dict:
             "size": list(heights.shape)}
 
 
+def _encode_one(job: tuple[str, str, str]) -> tuple[str, float, float, int]:
+    """Encode one chunk LOD to its PNG. Pure per-file work — the whole export
+    is a few hundred independent zlib compressions, so it runs across the
+    cores in a worker pool. Each worker touches its own file only, and the
+    manifest is assembled from the results in the manifest's own order, so
+    the output is exactly what the serial loop produced.
+    """
+    src, out_path, name = job
+    heights = np.load(src)
+    min_m = float(heights.min())
+    max_m = float(heights.max())
+    encode_rg16(heights, min_m, max_m).save(out_path, optimize=True)
+    return name, min_m, max_m, Path(out_path).stat().st_size
+
+
 def main() -> None:
     chunks_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_HEIGHTS.parent / "chunks"
     manifest = json.loads((chunks_dir / "chunks-manifest.json").read_text())
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    jobs = []
+    for entry in manifest["chunks"]:
+        for lod, meta in entry["lods"].items():
+            name = f"chunk_{entry['cx']}_{entry['cy']}_lod{lod}.png"
+            jobs.append((str(chunks_dir / meta["file"]), str(OUT_DIR / name), name))
+    # The province-wide gradient texture is one 4k PNG and takes longer than
+    # all the chunk tiles together, so it goes into the pool first and encodes
+    # alongside them rather than after.
+    mps = manifest["chunks"][0]["lods"]["1"]["metresPerSample"]
+    with Pool(min(cpu_count(), len(jobs) + 1)) as pool:
+        pending_gradients = pool.apply_async(export_gradients, (mps,))
+        encoded = {name: (lo, hi, size)
+                   for name, lo, hi, size in pool.imap(_encode_one, jobs, chunksize=8)}
+        gradients = pending_gradients.get()
 
     web_chunks = []
     total_bytes = 0
@@ -86,12 +117,9 @@ def main() -> None:
             "lods": {},
         }
         for lod, meta in entry["lods"].items():
-            heights = np.load(chunks_dir / meta["file"])
-            min_m = float(heights.min())
-            max_m = float(heights.max())
             name = f"chunk_{entry['cx']}_{entry['cy']}_lod{lod}.png"
-            encode_rg16(heights, min_m, max_m).save(OUT_DIR / name, optimize=True)
-            total_bytes += (OUT_DIR / name).stat().st_size
+            min_m, max_m, size = encoded[name]
+            total_bytes += size
             web_entry["lods"][lod] = {
                 "file": name,
                 "shape": meta["shape"],
@@ -100,9 +128,6 @@ def main() -> None:
                 "maxM": round(max_m, 3),
             }
         web_chunks.append(web_entry)
-
-    first_lod = manifest["chunks"][0]["lods"]["1"]
-    gradients = export_gradients(first_lod["metresPerSample"])
 
     web_manifest = {
         "gradients": gradients,

@@ -37,9 +37,31 @@ starting checklist for the Phase P water re-review) (deployed studio:
    Archon jungle), wade/jump/crate interactions, performance.
 7. Terrain-feel re-review (6b note) — combine with this closing pass.
 
-**Rebuild chain** (after ANY worldgen change; ~10 min, from
-`tooling/world-generation/`, vault path in `compile_chunks.DEFAULT_HEIGHTS`):
-The order below is executable as `tooling/world-generation/scripts/terrain-chain.sh` (`--from <stage>` to resume), which is where the chain order now lives — change it there.
+**Rebuild chain** (after ANY worldgen change; from `tooling/world-generation/`,
+vault path in `compile_chunks.DEFAULT_HEIGHTS`, overridable with
+`ES_VAULT_ROOT`): The order below is executable as
+`tooling/world-generation/scripts/terrain-chain.sh` (`--from <stage>` to
+resume), which is where the chain order now lives — change it there.
+
+*Timing and incrementality (2026-09-08).* A full forced rebuild is about
+**5.5 minutes** (was ~13); a re-run with nothing changed is **under 10
+seconds**. Every stage runs through `worldgen.chain_stages`, which prints its
+own elapsed seconds, closes with a per-stage table, and skips a stage whose
+code (its module plus every worldgen module it imports) and whose observed
+input and output files are all unchanged since the last run — the book is
+`chain-stamps.json` in the vault heightfield directory. `--force` rebuilds
+regardless. Speed came from removing work, never from changing results: the
+minor-route solver builds its step graph once and hands it to
+`scipy.sparse.csgraph` (225 s → 12 s), the per-chunk exporters and the scatter
+compiler run across the cores, and the heavy province blurs go through
+`worldgen.fastfilter` (the same `scipy.ndimage` call, split into bands across
+threads). Every one of those was verified byte-for-byte against the code it
+replaced. **The chain is not idempotent**: `sculpt_province` reads
+`routes.json`, which `reroute_majors` rewrites five stages later, so two
+consecutive forced runs produce different terrain. The stamp check therefore
+ignores files whose last writer is a *later* stage — it reproduces the
+single-pass behaviour the chain has always had. Closing that feedback loop
+(or declaring the roads an input the sculpt must not read) is an open job.
 `refine_province <vault>/heightfield-f32.npy <vault>/hydrology-pass1.npz`
 → `reroute_majors` → `compile_minor_routes` → **`grade_routes`** →
 `author_route_structures` → `grade_routes` again →

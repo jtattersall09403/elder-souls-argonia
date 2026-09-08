@@ -17,6 +17,7 @@ import json
 import math
 from collections import Counter
 from dataclasses import replace
+from multiprocessing import Pool, cpu_count
 from pathlib import Path
 
 import numpy as np
@@ -228,6 +229,63 @@ def compile_chunk(fields_source: ProvinceFields, palette: Palette,
     return present, instances, encode(instances, order), counts
 
 
+# Set once in the parent before the worker pool forks, so every worker
+# inherits the (large, read-only) rasters instead of pickling them per chunk.
+_WORK: dict = {}
+
+
+def _compile_one(cell: tuple[int, int]):
+    """One chunk's whole contribution, summarised in the worker.
+
+    Chunks are independent — each is scattered from its own chunk-id-derived
+    seed over shared read-only rasters — so the province compiles across the
+    cores. Only the summary (its index record, its counters and its encoded
+    bundle) crosses back, never the instance list, and the parent folds the
+    results in the order it asked for them, so the totals and the report add
+    up exactly as the serial loop's did.
+    """
+    source, palette, composition, seed, report = (
+        _WORK["source"], _WORK["palette"], _WORK["composition"],
+        _WORK["seed"], _WORK["report"])
+    cx, cz = cell
+    present, instances, blob, counts = compile_chunk(
+        source, palette, cx, cz, seed, composition)
+    if not instances:
+        return None
+    tiers = Counter(i.tier for i in instances)
+    species = Counter(i.species for i in instances)
+    region = source.modal_region(cx, cz)
+    record = {
+        "chunk": [cx, cz],
+        "region": region,
+        "regionName": REGION_CLASSES[region][0],
+        "regionsPresent": sorted(present),
+        "instances": len(instances),
+        "tiers": dict(tiers),
+        "perHectare": round(len(instances) / (CHUNK_M * CHUNK_M / 10_000), 1),
+    }
+    class_counts: Counter = Counter()
+    class_area: Counter = Counter()
+    if report:
+        fields = _WORK["fields_for_report"]
+        class_counts.update(fields.region(i.x, i.z) for i in instances)
+        window = source._region_window(cx, cz)
+        for value, count in zip(*np.unique(window, return_counts=True)):
+            class_area[int(value)] += int(count)
+        by_species: dict[str, list[tuple[float, float]]] = {}
+        for instance in instances:
+            by_species.setdefault(instance.species, []).append((instance.x, instance.z))
+        values = [
+            r for points in by_species.values() if len(points) >= 40
+            for r in [clark_evans(points[:1200], CHUNK_M * CHUNK_M)] if r
+        ]
+        if values:
+            values.sort()
+            record["clarkEvansR"] = round(values[len(values) // 2], 3)
+        record["variation"] = variation_probe(instances, CHUNK_M)
+    return record, blob, tiers, species, counts, class_counts, class_area
+
+
 def variation_probe(instances, size_m: float, cell_m: float = 58.0) -> dict:
     """Does the compiled scatter vary as much as the source does?
 
@@ -317,57 +375,29 @@ def main() -> None:
     species_totals: Counter = Counter()
     class_counts: Counter = Counter()
     class_area_px: Counter = Counter()
-    fields_for_report = source.as_fields()
-    composition = Composition.load()
+    _WORK.update(source=source, palette=palette, composition=Composition.load(),
+                 seed=args.seed, report=args.report,
+                 fields_for_report=source.as_fields())
     per_chunk = []
-    for cx, cz in wanted:
-        present, instances, blob, counts = compile_chunk(
-            source, palette, cx, cz, args.seed, composition)
-        if not instances:
-            continue
-        tiers = Counter(i.tier for i in instances)
-        totals.update(tiers)
-        totals.update(counts)
-        totals["chunks"] += 1
-        species_totals.update(i.species for i in instances)
-        if args.report:
+    with Pool(min(cpu_count(), len(wanted))) as pool:
+        results = pool.imap(_compile_one, wanted, chunksize=1)
+        for (cx, cz), result in zip(wanted, results):
+            if result is None:
+                continue
+            record, blob, tiers, species, counts, class_hits, class_area = result
+            totals.update(tiers)
+            totals.update(counts)
+            totals["chunks"] += 1
+            species_totals.update(species)
             # Delivered density per REGION CLASS at the instance, against the
             # class's own area — the per-modal-chunk numbers mix classes and
             # understate every dense class that shares its chunks.
-            class_counts.update(
-                fields_for_report.region(i.x, i.z) for i in instances)
-            window = source._region_window(cx, cz)
-            for value, count in zip(*np.unique(window, return_counts=True)):
-                class_area_px[int(value)] += int(count)
-        region = source.modal_region(cx, cz)
-        record = {
-            "chunk": [cx, cz],
-            "region": region,
-            "regionName": REGION_CLASSES[region][0],
-            "regionsPresent": sorted(present),
-            "instances": len(instances),
-            "tiers": dict(tiers),
-            "perHectare": round(len(instances) / (CHUNK_M * CHUNK_M / 10_000), 1),
-        }
-        if args.report:
-            # Per *species*, to compare like with like: the mined 0.45 is a
-            # per-species figure, and pooling every layer's points would
-            # measure the palette's overlap rather than its clumping.
-            by_species: dict[str, list[tuple[float, float]]] = {}
-            for instance in instances:
-                by_species.setdefault(instance.species, []).append((instance.x, instance.z))
-            values = [
-                r for points in by_species.values() if len(points) >= 40
-                for r in [clark_evans(points[:1200], CHUNK_M * CHUNK_M)] if r
-            ]
-            if values:
-                values.sort()
-                record["clarkEvansR"] = round(values[len(values) // 2], 3)
-            record["variation"] = variation_probe(instances, CHUNK_M)
-        per_chunk.append(record)
-        if out_dir:
-            (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").write_bytes(blob)
-            index[f"{cx}_{cz}"] = record
+            class_counts.update(class_hits)
+            class_area_px.update(class_area)
+            per_chunk.append(record)
+            if out_dir:
+                (out_dir / f"chunk_{cx}_{cz}_vegetation.bin").write_bytes(blob)
+                index[f"{cx}_{cz}"] = record
 
     if out_dir:
         (out_dir / "vegetation-index.json").write_text(

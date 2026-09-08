@@ -78,7 +78,6 @@ WHAT IT WRITES
 from __future__ import annotations
 
 import argparse
-import heapq
 import json
 from pathlib import Path
 
@@ -206,34 +205,94 @@ def multi_source_field(cost: np.ndarray, seeds: np.ndarray, px_m: float,
     path switchbacks up a spur instead of climbing it head-on. The 5.48 m grid
     is fine enough to hold a switchback: at 12 deg a step may gain 1.17 m.
     """
-    h, w = cost.shape
-    dist = np.full((h, w), np.inf)
-    prev = np.full((h, w), -1, dtype=np.int64)
-    heap: list[tuple[float, int, int]] = []
-    for row, col in zip(*np.nonzero(seeds)):
-        dist[row, col] = 0.0
-        heap.append((0.0, int(row), int(col)))
-    heapq.heapify(heap)
-    graded = height is not None and cap_deg is not None
-    while heap:
-        d, y, x = heapq.heappop(heap)
-        if d > dist[y, x]:
-            continue
-        cyx = cost[y, x]
-        zyx = float(height[y, x]) if graded else 0.0
+    return StepGraph(cost, px_m, height, cap_deg).field(seeds)
+
+
+class StepGraph:
+    """The step costs of the 8-connected grid, solved as a sparse graph.
+
+    Every step's cost depends only on the two cells it joins — the mean of
+    their per-metre costs over the run, times the gradient factor of the
+    height they differ by — so the whole search space is a STATIC weighted
+    graph. Building it once and handing it to `scipy.sparse.csgraph.dijkstra`
+    does in seconds what the per-step Python loop it replaced did in minutes
+    (the loop called `grade_factor` ~58 million times per run), and the four
+    batches now share one build instead of re-deriving every step's cost.
+
+    The step cost is symmetric (the gradient factor takes |dz|), so only four
+    of the eight offsets are stored and the solve runs undirected.
+
+    Results are IDENTICAL to the heap loop's, not merely equivalent:
+
+    * `dist` is the shortest-path distance, which the same float64 recurrence
+      fixes regardless of the order nodes settle in;
+    * `prev` is rebuilt with the heap's own tie-break rather than taken from
+      scipy. The old loop only overwrote a predecessor on a STRICTLY smaller
+      distance, so a cell's predecessor is whichever of its exactly-minimal
+      neighbours popped first — that is, smallest `(dist, row, col)`. Since
+      every step cost is positive, all of them settle before the cell does,
+      and `_predecessors` picks the same one by that key.
+    """
+
+    def __init__(self, cost: np.ndarray, px_m: float,
+                 height: np.ndarray | None = None, cap_deg: float | None = None):
+        from scipy import sparse
+        self.shape = cost.shape
+        h, w = self.shape
+        self.n = h * w
+        graded = height is not None and cap_deg is not None
+        z = np.asarray(height, dtype=np.float64) if graded else None
+        # One weight plane per offset, indexed by the SOURCE cell; inf where
+        # the neighbour falls off the grid.
+        self.weights: dict[tuple[int, int], np.ndarray] = {}
+        rows, cols, data = [], [], []
+        flat = np.arange(self.n, dtype=np.int32).reshape(h, w)
         for dy, dx in NEIGHBOR_OFFSETS:
-            ny, nx = y + dy, x + dx
-            if 0 <= ny < h and 0 <= nx < w:
-                run = (1.4142135623730951 if dy and dx else 1.0) * px_m
-                step = run * 0.5 * (cyx + cost[ny, nx])
-                if graded:
-                    step *= float(grade_factor(float(height[ny, nx]) - zyx, run, cap_deg))
-                nd = d + step
-                if nd < dist[ny, nx]:
-                    dist[ny, nx] = nd
-                    prev[ny, nx] = y * w + x
-                    heapq.heappush(heap, (nd, ny, nx))
-    return dist, prev
+            src = (slice(max(0, -dy), h - max(0, dy)), slice(max(0, -dx), w - max(0, dx)))
+            dst = (slice(max(0, dy), h - max(0, -dy)), slice(max(0, dx), w - max(0, -dx)))
+            run = (1.4142135623730951 if dy and dx else 1.0) * px_m
+            step = run * 0.5 * (cost[src] + cost[dst])
+            if graded:
+                step = step * grade_factor(z[dst] - z[src], run, cap_deg)
+            plane = np.full(self.shape, np.inf)
+            plane[src] = step
+            self.weights[(dy, dx)] = plane
+            if (dy, dx) < (0, 0):      # one of each opposite pair; solved undirected
+                continue
+            rows.append(flat[src].ravel())
+            cols.append(flat[dst].ravel())
+            data.append(step.ravel())
+        self._graph = sparse.csr_matrix(
+            (np.concatenate(data), (np.concatenate(rows), np.concatenate(cols))),
+            shape=(self.n, self.n))
+
+    def field(self, seeds: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+        from scipy.sparse import csgraph
+        sources = np.flatnonzero(np.asarray(seeds).ravel())
+        if sources.size == 0:
+            return np.full(self.shape, np.inf), np.full(self.shape, -1, dtype=np.int64)
+        dist = csgraph.dijkstra(self._graph, directed=False, indices=sources,
+                                min_only=True).reshape(self.shape)
+        return dist, self._predecessors(dist)
+
+    def _predecessors(self, dist: np.ndarray) -> np.ndarray:
+        h, w = self.shape
+        best_d = np.full(self.shape, np.inf)
+        best_u = np.full(self.shape, np.iinfo(np.int64).max, dtype=np.int64)
+        rowcol = np.arange(self.n, dtype=np.int64).reshape(h, w)
+        for (dy, dx), plane in self.weights.items():
+            # cell (y, x) reached from (y - dy, x - dx)
+            src = (slice(max(0, -dy), h - max(0, dy)), slice(max(0, -dx), w - max(0, dx)))
+            dst = (slice(max(0, dy), h - max(0, -dy)), slice(max(0, dx), w - max(0, -dx)))
+            with np.errstate(invalid="ignore"):
+                hit = ((dist[src] + plane[src]) == dist[dst]) & np.isfinite(dist[dst])
+            cand_d = np.where(hit, dist[src], np.inf)
+            cand_u = np.where(hit, rowcol[src], np.iinfo(np.int64).max)
+            view_d, view_u = best_d[dst], best_u[dst]
+            better = (cand_d < view_d) | ((cand_d == view_d) & (cand_u < view_u))
+            best_d[dst] = np.where(better, cand_d, view_d)
+            best_u[dst] = np.where(better, cand_u, view_u)
+        return np.where(best_u == np.iinfo(np.int64).max, -1, best_u)
 
 
 def trace(prev: np.ndarray, row: int, col: int, w: int) -> list[tuple[int, int]]:
@@ -312,8 +371,10 @@ def run(write: bool = True) -> dict:
     on_road = 0
     terminals = blueprint_terminals()
     batches = demand(files, set(terminals))
+    # One graph for all four batches: only the seeds change between them.
+    graph = StepGraph(cost, px_m, height, ROUTING_CAP_DEG)
     for bi, batch in enumerate(batches, start=1):
-        dist, prev = multi_source_field(cost, network, px_m, height, ROUTING_CAP_DEG)
+        dist, prev = graph.field(network)
         new_cells = np.zeros_like(network)
         for rec in batch:
             x, z = rec["positionM"]

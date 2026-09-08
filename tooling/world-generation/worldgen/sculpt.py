@@ -38,6 +38,7 @@ import numpy as np
 from scipy import ndimage
 
 from .condition import condition, interiorness
+from .fastfilter import gaussian
 from .hydrology import d8_flow, fill_depressions, ocean_mask, resolve_flats
 from .scale import RAW_M
 
@@ -95,7 +96,7 @@ ANCHORS_JSON = REPO_ROOT / "world" / "sources" / "anchors" / "settlement-anchors
 
 
 def _noise(shape, sigma, rng):
-    n = ndimage.gaussian_filter(rng.standard_normal(shape, dtype=np.float32), sigma)
+    n = gaussian(rng.standard_normal(shape, dtype=np.float32), sigma)
     return (n / max(n.std(), 1e-9)).astype(np.float32)
 
 
@@ -219,7 +220,7 @@ def bench(z, envelope_full, rng):
     gy, gx = np.gradient(z, RAW_M)
     slope = np.hypot(gx, gy).astype(np.float32)
     del gy, gx
-    slope = ndimage.gaussian_filter(slope, 3.0)
+    slope = gaussian(slope, 3.0)
     strata_on = 0.5 + 0.5 * _noise(z.shape, 90.0, rng)   # patchy, not everywhere
     w = (_smoothstep(BENCH_MIN_Z, BENCH_MIN_Z + 60.0, z)
          * _smoothstep(BENCH_MIN_SLOPE, BENCH_MIN_SLOPE + 0.25, slope)
@@ -244,7 +245,7 @@ def naturalness(z, envelope_full, rng, log=print):
     # LANDFORM slope (sigma 8 px ~ 15 m), not texture slope: fine steps and
     # noise read as "steep" at texel scale, which made bumpy ground protect
     # itself from its own de-terracing.
-    gy, gx = np.gradient(ndimage.gaussian_filter(z, 8.0), RAW_M)
+    gy, gx = np.gradient(gaussian(z, 8.0), RAW_M)
     slope0 = np.hypot(gy, gx).astype(np.float32)
     del gy, gx
     coast_ok = _smoothstep(COAST_GUARD_M * 0.5, COAST_GUARD_M, np.abs(z))
@@ -263,8 +264,8 @@ def naturalness(z, envelope_full, rng, log=print):
     # marsh zone ramps over ~2x the distance: a 3 m wall smoothed over ~20 m
     # is a 14% grade that broke the wetland classifier's slope limit and
     # fragmented the approved marsh — over ~35 m it stays classifier-wet
-    target = ndimage.gaussian_filter(z, 6.0)
-    target_marsh = ndimage.gaussian_filter(z, 11.0)
+    target = gaussian(z, 6.0)
+    target_marsh = gaussian(z, 11.0)
     marsh_zone = _smoothstep(10.0, 6.0, z)
     target = target + marsh_zone * (target_marsh - target)
     del target_marsh, marsh_zone
@@ -272,7 +273,7 @@ def naturalness(z, envelope_full, rng, log=print):
     log(f"  naturalness: plateau zone {float((plateau > 0.5).mean()) * 100:.1f}% of map")
     del plateau, target
     for _ in range(DETERRACE_ITERS):
-        sm = ndimage.gaussian_filter(z, 2.0)
+        sm = gaussian(z, 2.0)
         resid = z - sm
         steplike = 1.0 - _smoothstep(DETERRACE_STEP_M, DETERRACE_KEEP_M, np.abs(resid))
         z = (z - DETERRACE_RATE * w_flat * steplike * resid).astype(np.float32)

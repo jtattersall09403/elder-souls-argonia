@@ -5,6 +5,42 @@ ships to the browser; runtime consumables are written into
 `apps/world-studio/public/province/` (preview rasters, overlay PNGs, meta
 JSONs) and cached full-resolution arrays stay in the vault next to the esp.
 
+## The rebuild chain (start here after any worldgen change)
+
+```bash
+./scripts/terrain-chain.sh            # whole chain, skipping what is unchanged
+./scripts/terrain-chain.sh --force    # rebuild every stage
+./scripts/terrain-chain.sh --from compile_water
+./scripts/terrain-chain.sh --list
+```
+
+The script is the one place the stage ORDER lives (decision 0025 points at
+it). A full forced rebuild is about 5.5 minutes; a re-run with nothing changed
+is under 10 seconds, because `worldgen/chain_stages.py` fingerprints each
+stage's code (its module and every worldgen module it imports, walked from the
+source) and the files it actually read and wrote, and prints
+`skip (unchanged)` when all of them still match. The book is
+`chain-stamps.json` in the vault heightfield directory; it is never committed.
+Each stage prints its own seconds and the run closes with a table.
+
+`ES_VAULT_ROOT` points the whole chain at another copy of the vault's
+`argonia-heightfield` directory — a scratch copy for benchmarking, or a second
+worktree building at the same time. Everything downstream follows it through
+`compile_chunks.HEIGHTFIELD_DIR`. (A git worktree cannot see the sibling asset
+vault at all without it, since the vault is resolved relative to the checkout.)
+
+Two things to know before trusting a rebuild:
+
+- **The chain is not idempotent.** `sculpt_province` reads `routes.json`,
+  which `reroute_majors` rewrites five stages later, so two consecutive forced
+  runs produce different terrain. The skip check deliberately ignores files
+  whose last writer is a later stage, which reproduces the single-pass
+  behaviour the chain has always had rather than chasing a fixed point.
+- **`author_route_structures` stops the chain** whenever grading produces a
+  road survivor with no authored `why` sentence. That is by design (the
+  sentence is an authoring job, not a default), but it means the chain cannot
+  complete on terrain that has moved until someone writes it.
+
 ## Pipeline (run from this directory)
 
 ```bash
@@ -102,6 +138,12 @@ arrangement. None of it changes what any test asserts.
 
 ## Modules
 
+- `worldgen/chain_stages.py` — the rebuild chain's stage runner: per-stage
+  timing, and the code/input/output fingerprints behind `skip (unchanged)`.
+- `worldgen/fastfilter.py` — `gaussian`, a drop-in `ndimage.gaussian_filter`
+  for 2D rasters that splits the separable passes into bands across threads.
+  Byte-identical (`test_fastfilter.py`); 3.5-4x at the sigmas the sculpt and
+  the land-cover bake use.
 - `worldgen/esp.py` — minimal Skyrim SE plugin reader (LAND/VHGT decoding).
 - `worldgen/esp_landtex.py` — report a plugin's landscape-texture painting
   (LTEX usage counts; used to mine the BM&V worldspace, module 90 §74.1b).
