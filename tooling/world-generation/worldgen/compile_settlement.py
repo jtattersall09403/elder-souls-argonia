@@ -71,6 +71,7 @@ PAD_FALLOFF_RATIO = 2.5
 PAD_RESIDUAL_TILT_DEG = 0.7
 DOOR_MAX_SLOPE_DEG = 30.0
 DOOR_SLOPE_SAMPLE_M = 2.0     # half-width of the threshold gradient sample
+DOOR_BOARDWALK_REACH_M = 4.0  # same threshold apron accepted by integration
 EYE_HEIGHT_M = 1.83           # the character (97 D8)
 # Below this the player is already inside the clearing and the canopy between
 # them and the beacon is the settlement's own cleared ring, so the canopy
@@ -109,6 +110,38 @@ def dressing_count(seed: str, parcel: dict) -> int:
         return 0
     lo, hi = bounds
     return lo + _seed_int(seed, parcel.get("id", ""), "dressing-count") % (hi - lo + 1)
+
+
+def _point_segment_distance(px: float, pz: float, ax: float, az: float,
+                            bx: float, bz: float) -> float:
+    dx, dz = bx - ax, bz - az
+    denom = dx * dx + dz * dz
+    if denom <= 1e-12:
+        return math.hypot(px - ax, pz - az)
+    t = max(0.0, min(1.0, ((px - ax) * dx + (pz - az) * dz) / denom))
+    return math.hypot(px - (ax + t * dx), pz - (az + t * dz))
+
+
+def _door_has_boardwalk_access(door: dict, bp: dict, survey: ProvinceSurvey) -> bool:
+    """A stilt threshold may open onto its explicitly authored wet access.
+
+    The integration contract already permits a four-metre threshold apron to
+    a route/boardwalk. The terrain reachability pass used to ignore that
+    geometry and therefore declared every over-water stilt door unreachable,
+    even when the blueprint supplied the boardwalk. Keep the exception narrow:
+    only a `stilt` parcel and only a named boardwalk within the same apron.
+    """
+    parcel = next((p for p in bp.get("parcels", [])
+                   if p.get("id") == door.get("parcelId")), None)
+    if not parcel or parcel.get("groundFit") != "stilt":
+        return False
+    px, pz = survey.uv_to_m(*door["thresholdUV"])
+    for way in bp.get("boardwalks", []) or []:
+        points = [survey.uv_to_m(*uv) for uv in way.get("points", [])]
+        for (ax, az), (bx, bz) in zip(points, points[1:]):
+            if _point_segment_distance(px, pz, ax, az, bx, bz) <= DOOR_BOARDWALK_REACH_M:
+                return True
+    return False
 
 
 class KitShelf:
@@ -494,13 +527,15 @@ def compile_blueprint(bp: dict, survey: ProvinceSurvey, shelf: KitShelf,
         graded = any(g["parcelId"] == door["parcelId"] for g in grades)
         ok_slope = graded or slope <= DOOR_MAX_SLOPE_DEG
         cleared = _point_in_any(door["thresholdUV"], bp["clearance"].get("hardClear", []))
-        reachable = on_land and ok_slope and cleared
+        boardwalk_access = _door_has_boardwalk_access(door, bp, survey)
+        reachable = cleared and ((on_land and ok_slope) or boardwalk_access)
         if not reachable:
             errors.append(
                 f"{door['id']}: unreachable (land={on_land}, slopeOk={ok_slope} "
-                f"[{slope:.0f}°], inHardClear={cleared})"
+                f"[{slope:.0f}°], boardwalkAccess={boardwalk_access}, inHardClear={cleared})"
             )
-        doors_out.append({**door, "reachable": reachable})
+        doors_out.append({**door, "reachable": reachable,
+                          "access": "boardwalk" if boardwalk_access else "land"})
 
     # --- layer integration (owner 2026-09-05): ways vs buildings, gates across
     # roads, doors onto ways, ways in the right medium ------------------------

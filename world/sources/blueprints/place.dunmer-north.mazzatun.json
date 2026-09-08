@@ -4422,10 +4422,10 @@
       "tierOwnership": "LV28 tier-3; LV29 tier-3; LV30 tier-3; LV26 anchored on the sibling Hist record; tier-0 protected"
     },
     "budget": {
-      "maxInstances": 80,
+      "maxInstances": 96,
       "maxUniqueMaterials": 70,
       "maxTextureMB": 128,
-      "maxColliders": 80
+      "maxColliders": 96
     },
     "networkTerminals": [
       {

@@ -134,3 +134,22 @@ def test_use_drives_dressing_count_in_the_decided_band(use, bounds):
 
 def test_non_dwelling_non_works_parcel_gets_no_automatic_dressing():
     assert cs.dressing_count("fixed-seed", {"id": "parcel.x", "use": "gate"}) == 0
+
+
+def test_only_stilt_door_near_authored_boardwalk_gets_wet_access():
+    class MetreSurvey:
+        @staticmethod
+        def uv_to_m(u, v):
+            return u, v
+
+    door = {"parcelId": "hut", "thresholdUV": [2.5, 3.0]}
+    bp = {
+        "parcels": [{"id": "hut", "groundFit": "stilt"}],
+        "boardwalks": [{"points": [[0.0, 0.0], [5.0, 0.0]]}],
+    }
+    assert cs._door_has_boardwalk_access(door, bp, MetreSurvey())
+    bp["parcels"][0]["groundFit"] = "direct"
+    assert not cs._door_has_boardwalk_access(door, bp, MetreSurvey())
+    bp["parcels"][0]["groundFit"] = "stilt"
+    door["thresholdUV"] = [2.5, 4.01]
+    assert not cs._door_has_boardwalk_access(door, bp, MetreSurvey())
