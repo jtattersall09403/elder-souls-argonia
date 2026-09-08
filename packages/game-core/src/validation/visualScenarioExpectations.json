@@ -3354,8 +3354,7 @@
         "animations": [
           "BOW_IDLE",
           "BOW_DRAW",
-          "BOW_DRAWN",
-          "BOW_RELEASE"
+          "BOW_DRAWN"
         ],
         "bones": [
           "upperArmL",
