@@ -18,6 +18,7 @@ import {
   CHARACTER_MODEL_OFFSET,
 } from "@elder-souls/game-core/physics/characterPhysics";
 import { resolveCapabilityProfile } from "@elder-souls/game-core/physics/capabilityProfiles";
+import { spawnBodyY } from "./spawnHeight";
 import { useEquippedLoadout, useWornArmour } from "@elder-souls/game-core/inventory/store";
 import { RACE_IDS, type RaceId } from "@elder-souls/game-core/actors/races";
 import { sharedChunkStore, type ChunksManifest } from "./chunkStore";
@@ -268,7 +269,7 @@ export function CharacterMode({ spawnKm, raceId, profileId, matSet, tintStrength
         if (cancelled) return;
         const ground = world.groundHeight(x, z) ?? 50;
         supportYRef.current = ground;
-        setSpawn({ x, y: Math.max(ground, 0) + CHARACTER_BODY_CENTER_HEIGHT + 0.4, z });
+        setSpawn({ x, y: spawnBodyY(ground), z });
         focusRef.current = { x, z };
         setManifest(m);
       } catch (e) {
