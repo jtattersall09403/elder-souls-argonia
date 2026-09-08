@@ -63,8 +63,10 @@ first, then open only the master-plan sections the active phase needs.
 
 Measured weapon reach is ready for deployed playtest (0040, round 13). Bow corrections remain delivered.
 
-**Water round 2 (2026-09-08) is in progress** — nothing to check until it lands; the
-checklist will be rewritten against the new data ([0047](decisions/0047-water-one-physical-model.md)).
+**Water round 2 (2026-09-08) is in progress; resumable.** If the session was cut off,
+a fresh agent starts at [water-handoff.md](research/rendering/water-handoff.md) (state table,
+how to resume the compiler, the fit pass, the close-out order, the owner's item list). Nothing
+for the owner to check until the close-out lands.
 
 - **Phase 11 — review of 2026-09-07 closed; next: "Phase 11: deliver gap-filling plan".**
   Both passes are recorded in [0041 § Review 2026-09-07](decisions/0041-phase11-settlement-decisions.md)
